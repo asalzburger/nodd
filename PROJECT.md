@@ -341,6 +341,12 @@ The repository synchronizes work between human discussions, ChatGPT, local Codex
 
 ## Session and token logging
 
+Ongoing curated logging is enabled at the user's request. See the
+[session journal and commands](logs/README.md) and
+[ADR-004 draft](docs/decisions/ADR-004-session-logging-and-traceability.md).
+The implementation records available evidence and explicitly reports missing
+usage data; it does not automatically capture every interactive client event.
+
 For auditable AI-assisted work, store curated records rather than raw private transcripts or rollout files. A record may include:
 
 - date, client, model, and session identifier where exposed;

@@ -168,6 +168,16 @@ At the end of a task, report:
 
 For significant AI-assisted sessions, prepare a curated session record when requested. Record prompts, outcomes, commands, changed files, commit/branch, and token counts only when the client exposes exact counts. Never invent token usage, and do not commit raw private model state or chain-of-thought.
 
+The user has requested ongoing logging for this project. For each significant
+task, create or update a paired session record using [the logging workflow](logs/README.md).
+Record selected user-visible requests, corrections, outcomes, relevant commands,
+actual checks, starting revision and changed files. Keep missing measurements
+explicit. Before completing the task, run
+`python3 tools/session_logging/session_log.py validate` and report any failures.
+Use a new project session ID for a new bounded task, even in the same client
+thread; never duplicate token observations across records. This workflow does
+not authorize collecting private client state or granting human sign-off.
+
 ## Stop conditions
 
 Stop and ask for human direction when:

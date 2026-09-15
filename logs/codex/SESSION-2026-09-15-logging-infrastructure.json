@@ -1,0 +1,128 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-09-15-logging-infrastructure",
+  "title": "Implement the project session journal",
+  "recorded_at": "2026-09-15T14:58:50Z",
+  "started_at": null,
+  "ended_at": "2026-09-15T15:00:26Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact conversation start time, client version, thread/turn IDs and model identity are unavailable; ended_at marks observed task closure.",
+    "Exact token counters, invocation counts, durations and costs are unavailable; no zero usage is inferred.",
+    "Selected user-visible conversation and commands only; no raw client state collected.",
+    "Initial interrupted attempt was curated retrospectively during implementation; no automatic interactive telemetry."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "4a63b336d2bced28fb7a2b36f6c5b4948757b5de",
+    "branch": "main",
+    "initial_changes": [
+      ".gitignore"
+    ],
+    "result_commits": [],
+    "changed_files": [
+      "AGENTS.md",
+      "PROJECT.md",
+      "docs/README.md",
+      "docs/decisions/ADR-004-session-logging-and-traceability.md",
+      "docs/decisions/README.md",
+      "logs/README.md",
+      "logs/TEMPLATE.md",
+      "logs/codex/SESSION-2026-09-15-logging-infrastructure.json",
+      "logs/codex/SESSION-2026-09-15-logging-infrastructure.md",
+      "logs/codex/SESSION-2026-09-15-project-bootstrap.json",
+      "logs/codex/SESSION-2026-09-15-project-bootstrap.md",
+      "tools/session_logging/session.schema.json",
+      "tools/session_logging/session_log.py",
+      "tools/session_logging/test_session_log.py"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [],
+    "related_ids": [
+      "ADR-004"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-09-15-logging-infrastructure.md",
+  "activities": [
+    {
+      "kind": "tool",
+      "name": "exec_command",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Visible shell commands for inspection, file creation and verification."
+    },
+    {
+      "kind": "tool",
+      "name": "apply_patch",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Visible edits to project guidance and the logging CLI."
+    },
+    {
+      "kind": "tool",
+      "name": "clock.curr_time",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Observed UTC time during this implementation; not the conversation start time."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "gh issue list --limit 20 --json number,title",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Network connection failed. Escalated retry interrupted; user confirmed no competing work and requested local continuation."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Initial 14 tests passed on Python 3.14.6."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Final 15 tests passed on Python 3.14.6, including repository-relative Markdown links and CLI integration."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Both initial session records validated."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py summary",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Markdown report generated; both sessions have unknown token usage and explicit coverage."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py summary --format json --milestone M0",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "JSON report generated for M0; unknown token sums remain null."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors in tracked changes."
+    }
+  ]
+}
