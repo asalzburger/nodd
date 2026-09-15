@@ -14,8 +14,9 @@ The documents below establish proposals and recording formats. Their presence do
 - [Human sign-off template](signoff/TEMPLATE.md)
 - [M0 baseline specification](validation/M0-baseline-specification.md)
 - [Validation report template](validation/REPORT_TEMPLATE.md)
+- [Project session journal](../logs/README.md)
 
-The public source catalogue is planned at `reference/manifest.yaml`; it has not yet been populated. Normative source claims require catalogue entries and precise locators.
+The [source catalogue](../reference/README.md) now records the initial PDF acquisitions in `reference/manifest.yaml`. Bibliographic verification and canonical public URLs remain pending. Normative source claims require verified catalogue entries and precise locators.
 
 ## Design lifecycle
 
@@ -28,8 +29,9 @@ Only identified humans may authorize sign-off and acceptance. Approval records m
 - [ADR-001: upstream baseline](decisions/ADR-001-upstream-baseline.md): repository, revision, import strategy, and licensing.
 - [ADR-002: review and sign-off](decisions/ADR-002-review-and-signoff-policy.md): reviewer assignments, minimum reviews, and enforcement.
 - [ADR-003: validation and artifacts](decisions/ADR-003-validation-and-artifact-policy.md): gates, tolerances, supported tools, and artifact storage.
+- [ADR-004: session logging](decisions/ADR-004-session-logging-and-traceability.md): curated records, accounting, and Git traceability. Infrastructure implementation was explicitly requested by the user.
 
-All three ADRs are drafts. Their proposals do not override existing repository instructions.
+All four ADRs are drafts. Their proposals do not override existing repository instructions.
 
 ## M0 completion evidence
 

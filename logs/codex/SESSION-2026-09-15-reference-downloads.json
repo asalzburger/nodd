@@ -1,0 +1,106 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-09-15-reference-downloads",
+  "title": "Inspect and follow reference download instructions",
+  "recorded_at": "2026-09-15T15:04:02Z",
+  "started_at": null,
+  "ended_at": "2026-09-15T15:09:13Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Conversation start time, client version, model, thread IDs, exact token counts and tool invocation totals are unavailable.",
+    "Curated visible conversation only. PDF verification covers headers, byte counts and hashes; bibliographic identity and structural validity remain unverified."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "4a63b336d2bced28fb7a2b36f6c5b4948757b5de",
+    "branch": "adr-004",
+    "initial_changes": [
+      ".gitignore",
+      "AGENTS.md",
+      "PROJECT.md",
+      "docs/README.md",
+      "docs/decisions/ADR-004-session-logging-and-traceability.md",
+      "docs/decisions/README.md",
+      "logs/README.md",
+      "logs/TEMPLATE.md",
+      "logs/codex/SESSION-2026-09-15-logging-infrastructure.json",
+      "logs/codex/SESSION-2026-09-15-logging-infrastructure.md",
+      "logs/codex/SESSION-2026-09-15-project-bootstrap.json",
+      "logs/codex/SESSION-2026-09-15-project-bootstrap.md",
+      "reference/pdfs/sources.md",
+      "tools/session_logging/session.schema.json",
+      "tools/session_logging/session_log.py",
+      "tools/session_logging/test_session_log.py"
+    ],
+    "result_commits": [],
+    "changed_files": [
+      ".gitignore",
+      "docs/README.md",
+      "reference/README.md",
+      "reference/manifest.yaml",
+      "reference/downloads-2026-09-15.json",
+      "tools/reference_downloads/download.py",
+      "tools/reference_downloads/test_download.py",
+      "logs/codex/SESSION-2026-09-15-reference-downloads.json",
+      "logs/codex/SESSION-2026-09-15-reference-downloads.md"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [],
+    "related_ids": [
+      "ADR-004"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-09-15-reference-downloads.md",
+  "activities": [
+    {
+      "kind": "tool",
+      "name": "exec_command",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Visible repository commands and approved CERNBox download execution; selected details in narrative."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 - (initial urllib recipe probe)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Sandbox DNS resolution failed; approved retry succeeded with HTTP 200 and PDF header."
+    },
+    {
+      "command": "python3 tools/reference_downloads/download.py --receipt reference/downloads-2026-09-15.json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All 13 supplied files downloaded, total 740976436 bytes; receipt records SHA-256 and sizes."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/reference_downloads -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "4 tests passed."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "15 tests passed."
+    },
+    {
+      "command": "python3 - (verification script retained in paired narrative)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Verified manifest hashes, sizes, Git ignore and absence from index for all 13 PDFs."
+    }
+  ]
+}
