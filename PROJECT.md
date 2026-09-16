@@ -2,39 +2,101 @@
 
 ## Project statement
 
-**nODD** develops a more realistic, auditable, and publicly reproducible evolution of the OpenDataDetector (ODD). It retains ODD's value as an experiment-independent detector for full simulation and reconstruction studies while moving its tracker, timing systems, supports, services, and material description closer to credible modern collider-detector engineering.
+**nODD** develops a more realistic, auditable, and publicly reproducible evolution of the OpenDataDetector (ODD). It retains ODD's value as an experiment-independent detector for full simulation and reconstruction studies with a coherent full-detector design: tracking, timing, electromagnetic and hadronic calorimetry, muon detection, magnets, supports, services, and the interfaces between them.
 
 The intended result is not an ATLAS or CMS replica. It is a plausible open reference detector whose important choices can be traced to public evidence, explicit inference, or a documented nODD design decision and whose components are reviewed and signed off by relevant human experts.
 
+## Current work
+
+On 2026-09-16 the user directed that development-plan stage A be considered done,
+using the established ODD/ColliderML baseline, and authorized stage B: coherent
+full-detector architecture. See the [progression record and role proposal](docs/DEVELOPMENT_PLAN.md).
+This moves architecture work forward without claiming that previously unexecuted
+local checks passed or changing design/ADR sign-off states. Exact comparison
+configuration provenance remains a software responsibility before it is used.
+
+## Objectives and intended successor
+
+The human-directed objective is to evolve ODD into a **new DD4hep-based detector**
+through justified modification, replacement or rewriting of its components and
+implementation. ODD is the starting point and retained comparison baseline, not
+an immutable geometry or code architecture.
+
+The result should remain a recognizable successor in the **TrackML → ODD → nODD**
+chain: a public, experiment-independent detector for reproducible simulation,
+reconstruction and algorithm research, with an ODD-like overall detector concept.
+Continuity concerns its role and broad features; individual dimensions,
+materials, technologies, factories and interfaces may change through reviewed
+designs. Every retained component needs justification as well as every new one.
+
+Every subsystem must receive credible technical foundations: sensors and active
+media, readout electronics, modules/chambers/calorimeter assemblies, supports,
+cooling, power, cables and routing, magnets/fields, and their shared interfaces.
+An RD53-class chip and pixel module are the first example of this method, not the
+project's sole realism target.
+
+The theme is **a detector that could plausibly have been built**, assessed through
+its physical consistency, simulation and performance. At this stage this means
+credible component usage, space/material/service accounting and explicit operating
+assumptions. It does not certify complete technical buildability, manufacturing,
+structural or thermal engineering, installation procedures, or CAD-level design.
+Unverified engineering assumptions must remain visible in the final results.
+
+The final deliverable includes a **Technical Design Report (TDR)** describing the
+whole detector, evidence and decisions, implementation, validation, performance,
+approximations and unresolved engineering questions. Its chapters should develop
+alongside the designs and simulations and be finalized against a reproducible
+release. **nODD is a working title**; final detector and TDR naming will be decided
+later without changing stable source/design identifiers.
+
+The [development plan](docs/DEVELOPMENT_PLAN.md) translates these objectives into
+work packages, review gates, subsystem priorities and proposed specialist-agent
+roles. Its scheduling and technical proposals remain subject to review.
+
 ## Motivation
 
-ODD evolved beyond the simplified TrackML detector by using a DD4hep-based full-simulation description. It remains less realistic than contemporary HL-LHC detector designs in several areas, including module construction, electronics, supports, powering, cooling, services, material distribution, global layout, and dedicated forward timing.
+ODD evolved beyond the simplified TrackML detector by using a DD4hep-based full-simulation description. The [full-detector realism assessment](docs/validation/ODD-realism-assessment.md) identifies substantial existing tracker, calorimeter and muon structure, alongside gaps in component provenance, material/service accounting, magnet integration, precision timing and validated operating response. Its usefulness as an HL-LHC reference must be established per observable and configuration; source inspection alone does not establish quantitative accuracy.
 
-nODD will close those gaps without importing unnecessary CAD complexity or collaboration-confidential information. It will provide reusable DD4hep components, an evidence-backed design history, quantitative validation, and a human approval chain.
+nODD will assess and address these gaps across the whole detector, using the selected upstream baseline to establish what is already represented and what needs improvement. The objective is realistic use of components in a detector at simulation-relevant accuracy. CAD fidelity, manufacturing drawings and construction-ready engineering are not project deliverables.
 
-## Initial scope
+The intended output is a reviewed detector specification that supports automatic generation of reusable DD4hep C++ factories and compact XML, followed by quantitative Geant4 and reconstruction validation. The generator architecture and numerical accuracy targets remain to be discussed and approved. Public evidence, documented approximations and human review govern both the specification and its implementation.
 
-The first programme focuses on:
+## Full-detector scope
 
-- silicon tracking modules, beginning with a realistic RD53-class pixel-module vertical slice;
-- local mechanical support;
-- cooling and thermal interfaces;
-- powering, data flexes, cables, connectors, and service routing;
-- realistic material definitions and effective-material policies;
-- barrel and forward tracker layout, including deliberate pseudorapidity coverage;
-- a dedicated high-granularity forward timing subsystem based on public LGAD-era designs;
-- DD4hep/Geant4 simulation compatibility;
-- ACTS geometry conversion, material mapping, navigation, and reconstruction-facing validation;
-- governance, provenance, expert review, and sign-off infrastructure.
+The programme covers the following systems as parts of a common detector design.
+Their technologies, dimensions and performance targets remain subject to evidence,
+design review and sign-off; this scope does not select an experiment's layout.
 
-Initially out of scope unless added through an accepted design decision:
+| System | Design scope |
+| --- | --- |
+| Interaction region | Beam pipe, nearby passive material, apertures, forward clearances and shielding where relevant to transport and backgrounds |
+| Inner tracking | Pixel, strip and other reviewed tracking technologies; sensors, readout, modules, repeated structures, barrel/endcap layout and acceptance |
+| Timing | Dedicated timing layers or subsystems, placement and coverage, sensor/module construction, services and response assumptions |
+| Electromagnetic calorimetry | Technology and absorber/active medium, cells or sampling layers, segmentation, modules, barrel/endcap transitions and readout representation |
+| Hadronic calorimetry | Absorber/active medium, sampling structure, depth, segmentation, modules, containment, dead regions and interfaces |
+| Muon system | Detection technology, chamber or module construction, station layout, readout segmentation, acceptance and integration with magnet/yoke structures |
+| Magnets and return structures | Coils, cryostats, return yokes and their passive material; field definitions/maps and consistency between simulation and reconstruction |
+| Common mechanics and services | Supports, mounting, cooling, power, data, gas where applicable, service corridors and transitions between subsystems |
+| Integrated detector | Shared envelopes, clearances, segmentation/identifier conventions, material accounting, sensitive behavior and reconstruction interfaces |
 
-- exact reproduction of ATLAS, CMS, or another experiment;
-- transistor-level ASIC detail or arbitrary CAD detail with no simulation relevance;
-- use of confidential collaboration information as the normative public specification;
-- wholesale redesign of calorimeter or muon systems;
-- production-quality digitization for every technology in the first milestones;
-- performance tuning that is not grounded in a reviewed detector design.
+An RD53-class pixel-module vertical slice remains the first concrete component
+case for developing the workflow. It is one representative application of a
+method that must also accommodate calorimeter sampling assemblies, muon chambers
+and passive structures. It does not define the limits of the project or settle
+the full-detector architecture.
+
+Out of scope unless explicitly added through a reviewed design decision:
+
+- exact reproduction of ATLAS, CMS or another experiment;
+- manufacturing tolerances, transistor-level electronics and CAD detail without simulation relevance;
+- confidential information as the sole normative basis of a public specification;
+- accelerator design, civil engineering and complete facility systems beyond detector interfaces needed for simulation;
+- production-quality digitization, trigger/DAQ emulation or full reconstruction for every technology in the first milestones;
+- performance tuning without a reviewed physical rationale.
+
+During M0, work remains limited to governance, literature, baseline
+characterization and reproducible infrastructure. Expanding the programme does
+not authorize production detector changes before design sign-off.
 
 ## Definition of realism
 
@@ -42,21 +104,25 @@ Realism is assessed independently across these dimensions:
 
 | Dimension | Project expectation |
 | --- | --- |
-| Active sensor | Credible technology, dimensions, thickness, pitch, segmentation, and sensitive response |
-| Readout | Realistic ASIC footprint, thickness, material, tiling, and power class |
-| Module | Sensor, ASIC, bump/interface, adhesive, flex/hybrid, passives, and mounting representation |
-| Mechanics | Credible carbon structures, foams, facesheets, glues, rings, staves, disks, and fixtures |
-| Thermal | Cooling pipe, plate, or channel geometry; coolant; and thermal-interface material |
-| Power and data | Credible local conversion or serial-powering elements, bus tapes, cables, fibres, and connectors |
-| Services | Explicit routing and transition regions with defensible effective representations |
-| Layout | Intentional barrel/endcap topology, orientations, clearances, transitions, and technology regions |
-| Acceptance | Quantified pseudorapidity and azimuthal coverage and sensitive measurements per trajectory |
-| Timing | A physical timing subsystem with credible sensor/module geometry, not only timestamps on hits |
-| Material | Reproducible mass, radiation-length, and interaction-length distributions |
-| Simulation | Geometry and response compatible with repeatable DD4hep/Geant4 studies |
-| Reconstruction | Stable conversion and navigation behavior in ACTS-compatible workflows |
+| Active elements | Credible silicon sensors, scintillators, gas gaps or other reviewed media, with dimensions and sensitive response appropriate to their use |
+| Readout | Physical footprint, placement, segmentation, channel mapping and power class; electronics detail only where it affects simulation or integration |
+| Assemblies | Tracker/timing modules, calorimeter cells or sampling assemblies, and muon chambers, including relevant interfaces and passive layers |
+| Calorimetry | Absorber/active fractions, longitudinal and transverse segmentation, depth, cracks, dead material and shower-containment implications |
+| Muon detection | Station/chamber geometry, active gaps, passive walls, segmentation and trajectories through intervening material and fields |
+| Magnets and fields | Coils, cryostats and yokes represented consistently with the chosen field model and subsystem layout |
+| Mechanics | Credible support cylinders, staves, disks, frames, calorimeter housings, chamber supports and shared load-bearing structures at simulation-relevant detail |
+| Thermal and fluids | Cooling routes, coolant, thermal interfaces and relevant gas/fluid volumes; operating assumptions that constrain component placement and services |
+| Power and data | Physically credible distribution, cables, fibres, connectors and service transitions, including documented effective representations |
+| Layout and interfaces | Intentional envelopes, barrel/endcap topology, orientations, overlaps, clearances, cracks, transitions and service corridors |
+| Acceptance | Quantified tracking/timing/muon coverage and calorimeter angular coverage, with explicit definitions of gaps and dead regions |
+| Timing | Physical sensor and assembly geometry with explicit timing-response assumptions |
+| Material | Reproducible composition, density, mass, radiation-length and interaction-length distributions across the detector |
+| Simulation | Repeatable DD4hep/Geant4 transport and sensitive-hit behavior, with response/digitization assumptions stated separately |
+| Reconstruction | ACTS-compatible tracking geometry and material/navigation interfaces where applicable; explicit calorimeter, timing and muon hit/cell interfaces for the selected downstream tools |
 
-A detail is modeled explicitly when it materially affects geometry, clearance, material, services, thermal/electrical architecture, sensitive response, reconstruction, or validation. Otherwise it may be omitted or represented effectively, with the approximation documented.
+A detail is modeled explicitly when it materially affects geometry, clearance, material, services, thermal/electrical architecture, sensitive response, reconstruction, or validation. Otherwise it may be omitted or represented effectively, with the approximation documented. For example, a service bundle may use an envelope and effective composition when the relevant material distribution is preserved; calorimeter sampling layers may need explicit treatment to preserve shower development. The required fidelity is decided per physical observable, not by a uniform level of geometric detail.
+
+“Good accuracy” must become measurable criteria for each component and the integrated detector. Geometry construction success alone does not establish adequate material, acceptance or response. Accuracy targets and uncertainties must be agreed before acceptance; no numerical tolerances are selected by this project statement.
 
 ## Guiding principles
 
@@ -65,8 +131,8 @@ A detail is modeled explicitly when it materially affects geometry, clearance, m
 3. **Facts are not choices.** Every important claim is labeled as a sourced fact, an inference, or an nODD design choice.
 4. **Design before production code.** Significant detector choices are reviewed before integration.
 5. **Human authority.** AI assists research and implementation but cannot sign off a design.
-6. **Vertical slices before global redesign.** Prove the complete workflow on one pixel module before scaling it across a tracker.
-7. **Quantitative validation.** Geometry, material, acceptance, identifiers, simulation, and conversion are tested against explicit criteria.
+6. **Representative components within a coherent architecture.** Establish shared detector interfaces early, then prove the workflow on small assemblies for each subsystem before scaling to full integration.
+7. **Quantitative validation.** Geometry, material, fields, acceptance, identifiers, transport, response and reconstruction interfaces are tested against explicit criteria.
 8. **Minimal faithful complexity.** Include engineering detail that changes relevant physics or software behavior; omit decorative complexity.
 9. **Reproducibility.** Record versions, configurations, seeds, commands, tolerances, and reference data.
 10. **Traceable change.** Intentional deviations from accepted baselines require a reviewed design amendment or ADR.
@@ -85,19 +151,39 @@ Public ATLAS and CMS designs provide important technology and engineering eviden
 
 ## Component hierarchy
 
-The working hierarchy is:
+The working hierarchy spans all detector technologies:
 
-1. materials;
-2. sensor and readout primitives;
-3. module elements such as bumps, adhesive, flex, passives, and thermal interfaces;
-4. complete module families;
-5. local support, cooling, power, and data services;
-6. repeated structures such as staves, rings, and disks;
-7. subdetector layouts;
-8. global tracker and timing integration;
-9. full-detector simulation and reconstruction integration.
+1. material definitions and physical operating assumptions;
+2. primitive active/passive elements: sensors, absorbers, scintillator tiles, gas gaps, conductors and structural layers;
+3. readout, segmentation, identifiers and local interfaces;
+4. representative assemblies: tracker/timing modules, calorimeter sampling units or crystals, muon chambers, coil/yoke elements;
+5. local support, cooling, power, data and other relevant services;
+6. repeated structures: staves, rings, disks, calorimeter towers/sectors, chamber stations and support frames;
+7. complete subsystems and their envelopes;
+8. integration of tracking, timing, calorimetry, magnets, muons and shared services;
+9. full-detector simulation and downstream reconstruction/validation.
 
 Each level should be independently constructible and testable where practical.
+Top-level envelope, field and service-interface requirements must constrain local
+assemblies from the start; component development and system design inform each other.
+
+## Detector specification and code generation
+
+The intended workflow is:
+
+`Public evidence -> reviewed detector specification -> generated DD4hep factories and XML -> Geant4 and reconstruction validation`
+
+The specification should capture component composition, parameters and units,
+placement/repetition, materials, sensitive regions, readout/identifiers, field
+references, interfaces, provenance and explicit approximations. Generation should
+preserve traceability to the reviewed inputs, be deterministic and record its
+version and configuration. Generated output must remain inspectable and testable.
+
+The schema, parameter language, template strategy, ownership of generated versus
+handwritten code, and regeneration/review workflow are open design decisions.
+Automatic generation does not replace scientific review or authorize unsigned
+geometry. Validation must check the resulting physical detector as well as the
+consistency of generated code with its input specification.
 
 ## Design lifecycle and states
 
@@ -143,6 +229,10 @@ components/
   supports/
   services/
   timing/
+  calorimeter/
+  muon/
+  magnets/
+  interaction_region/
 xml/
 factory/
 validation/
@@ -150,12 +240,16 @@ validation/
   material/
   acceptance/
   simulation/
+  response/
+  fields/
   acts/
   reference/
 tools/
   detector_summary/
   material_scan/
   session_logging/
+  reference_reading/
+  generation/              # future; architecture to be agreed
 logs/
   design/
   codex/
@@ -175,7 +269,10 @@ Each `DES-*` proposal should be concise and reviewable, normally containing:
 - inferences and uncertainties;
 - proposed nODD choices;
 - dimensions, materials, interfaces, and identifiers;
-- material-budget and acceptance implications;
+- material-budget, acceptance, field and response implications as applicable;
+- subsystem envelope, service and reconstruction interfaces;
+- explicit/effective representations and the physical quantities they preserve;
+- specification-to-code mapping and generation provenance when used;
 - alternatives considered;
 - risks and open questions;
 - validation plan;
@@ -208,15 +305,18 @@ Before changing the imported detector, produce a reproducible ODD baseline conta
 
 - detector build and overlap results;
 - `r-z` and transverse layout views;
-- volume, placement, module, and sensitive-element counts;
-- sensitive area and detector extents;
+- volume, placement, assembly, sensitive-element and readout-cell counts by subsystem;
+- active area/volume, subsystem extents, barrel/endcap transitions and shared clearances;
 - crossings and coverage versus `eta` and `phi`;
 - material scans in `X/X0` and interaction lengths;
 - subsystem masses and material composition where extractable;
 - segmentation and identifier summaries;
-- Geant4 smoke tests;
-- ACTS conversion, navigation, and material-mapping checks;
-- representative single-particle or reconstruction metrics when feasible.
+- field configuration, magnet/yoke representation and transport/reconstruction consistency;
+- Geant4 smoke tests and sensitive-hit output by subsystem;
+- ACTS tracking conversion, navigation and material-mapping checks where applicable, plus the selected interfaces for other subsystems;
+- representative single-particle metrics for tracking, calorimetry, timing and muons where feasible, separating transport, sensitive response, digitization and reconstruction assumptions.
+
+The baseline must inventory all available upstream subsystems, including missing or provisional representations and untested interfaces. Mark inapplicable or unavailable checks with reasons; a tracker-only report cannot establish a full-detector baseline.
 
 The baseline must record the upstream ODD revision and all relevant tool versions and configurations. It is a regression reference, not an immutable performance target.
 
@@ -232,8 +332,15 @@ Every component or subsystem defines quantitative acceptance criteria in its des
 - acceptance and crossings;
 - identifier stability;
 - Geant4 execution;
-- ACTS conversion and navigation;
+- field configuration and consistency across transport/reconstruction;
+- calorimeter sampling/material structure, energy-deposition profiles, containment and leakage where relevant;
+- muon active-gap crossings, station coverage and response assumptions;
+- timing response assumptions and coverage;
+- ACTS conversion/navigation where applicable and other selected hit/cell interfaces;
+- specification-to-generated-output consistency and reproducibility;
 - comparison with approved reference outputs.
+
+Subsystem checks must include relevant interfaces: material before and between calorimeters, services passing through neighboring systems, muon trajectories through yokes, and field boundaries. Performance metrics such as energy or timing resolution require an explicit response/digitization model; geometry alone does not establish them.
 
 Reference results may change only with an explained, reviewed, and traceable design change.
 
@@ -252,48 +359,61 @@ Reference results may change only with an explained, reviewed, and traceable des
 
 **Constraint:** no production detector design changes during M0.
 
-### M1 — Realistic pixel-module vertical slice
+### M1 — Full-detector architecture and first component case
 
-- `DES-001`: sensor, RD53-class readout, bump/interface, adhesive, flex/hybrid, passives, and powering assumptions.
-- `DES-002`: local support, thermal interface, cooling, and mechanical attachment.
-- Obtain expert review and human sign-off.
-- Implement reusable DD4hep component prototypes.
-- Validate a single module.
-- Build and validate a small stave or ring demonstrator.
-- Record material, geometry, response, and ACTS conversion evidence.
+- Define detector-wide requirements, coverage, subsystem roles and envelope/interface constraints.
+- Compare coherent technology and magnet-layout options using public references.
+- Draft shared material, identifier, field and service conventions.
+- Use the RD53-class pixel module as the first component case: proposed `DES-001` for module/readout and `DES-002` for local support/cooling.
+- Develop a reviewed specification-to-code workflow; generator architecture remains an explicit decision.
+- Obtain the required review/sign-off before production implementation; isolate any authorized unsigned prototypes.
 
-### M2 — Pixel module families and local structures
+### M2 — Representative subsystem assemblies
 
-- Define credible inner/outer and barrel/forward module families.
-- Implement reviewed staves, rings, disks, supports, cooling, and local services.
-- Validate transitions, clearances, material, and acceptance.
+- Exercise the same evidence, specification, implementation and validation workflow on tracker/timing modules, calorimeter assemblies and muon chambers.
+- Include realistic local supports and services and document effective material choices.
+- Demonstrate reusable DD4hep factory/XML generation against reviewed input when the generation approach is approved.
+- Validate each representative assembly before scaling to a subsystem.
 
-### M3 — Outer tracker technology
+### M3 — Tracking and timing systems
 
-- Compare credible strip, macro-pixel/strip, and hybrid reference concepts.
-- Select technologies through a signed-off design/ADR.
-- Implement and validate module families and their support/service structures.
+- Define pixel and outer-tracker families, technologies, layouts and barrel/forward coverage.
+- Define timing technology, location, segmentation and response assumptions through reviewed choices.
+- Integrate reviewed modules, repeated structures, supports and services within shared detector envelopes.
+- Validate material, acceptance, timing assumptions and tracking/reconstruction interfaces.
 
-### M4 — Global tracker layout
+### M4 — Electromagnetic and hadronic calorimetry
 
-- Define requirements for coverage, measurement count, lever arm, occupancy, transitions, services, and material.
-- Propose and review the barrel/endcap layout.
-- Integrate signed-off components and validate the complete tracker.
+- Select technology, absorber/active structure, segmentation, depth and barrel/endcap organization through review.
+- Integrate readout representation, housings, supports, services, cracks and transition regions.
+- Validate geometry/material, sensitive cells and shower-development/containment observables with explicit simulation settings.
+- Define downstream cell/hit interfaces and any digitization assumptions needed for the chosen validation scope.
 
-### M5 — Forward timing
+### M5 — Muon system and magnet integration
 
-- Define coverage, sensor technology, segmentation, module construction, support, cooling, and services.
-- Implement a physical high-granularity timing subsystem.
-- Validate geometry, material, acceptance, timing response assumptions, and integration clearances.
+- Select chamber technologies, station layout, acceptance, segmentation and local services through review.
+- Implement reviewed coil, cryostat, return-yoke and shielding representations as needed by the common architecture.
+- Validate station coverage, material, field consistency and representative muon transport/response.
+- Check interfaces to calorimeters, supports and service routes.
 
-### M6 — Detector-level validation and release
+### M6 — Full-detector integration
 
-- Complete global geometry, material, simulation, and reconstruction-facing validation.
-- Review deviations, limitations, and known approximations.
-- Publish reproducible reference outputs and release documentation.
-- Obtain human acceptance for the maintained detector baseline.
+- Assemble reviewed tracking, timing, calorimeter, muon, magnet and interaction-region descriptions.
+- Validate shared envelopes, clearances, field boundaries, service routes and material accounting without omissions or double counting.
+- Exercise the selected Geant4 and downstream reconstruction chain across subsystem boundaries.
+- Review differences from the upstream baseline and establish explained regression references.
 
-Milestone numbering after M1 is provisional and may be refined through project planning without weakening the design and sign-off gates.
+### M7 — Detector validation and release
+
+- Complete the agreed geometry, material, field, acceptance, response and reconstruction checks.
+- Verify repeatable generation/builds from reviewed specifications and retained tool/input versions.
+- Finalize and publish the whole-detector TDR, evidence, known approximations, applicability limits and release documentation against the reproducible release; agree the final detector name.
+- Obtain identified human acceptance for the maintained full-detector baseline.
+
+This roadmap supersedes the earlier tracker-centred M1–M6 outline. Milestones
+after M0 are provisional planning stages, not approvals or rigid serial scheduling.
+Calorimeter, muon and magnet requirements enter architecture work in M1 even if
+implementation follows later. Existing design/source IDs retain their meanings.
 
 ## Initial literature set
 
@@ -301,16 +421,23 @@ The initial source catalogue should include at least:
 
 | Topic | Core document |
 | --- | --- |
+| Whole-detector context | ATLAS and CMS 2008 JINST overviews, `SRC-ATLAS-JINST-2008` and `SRC-CMS-JINST-2008`, read alongside later upgrades |
+| ATLAS calorimeters | LAr Phase-II TDR `ATLAS-TDR-027`; Tile Phase-II TDR `ATLAS-TDR-028` |
+| CMS calorimeters | Barrel Phase-2 TDR `CMS-TDR-015`; endcap Phase-2 TDR `CMS-TDR-019` |
+| Muon systems | ATLAS Phase-II TDR `ATLAS-TDR-026`; CMS Phase-2 TDR `CMS-TDR-016` |
+| Magnets and common interfaces | Whole-detector descriptions and relevant public subsystem/construction references; catalogue additional sources as needed |
 | ATLAS pixels | ITk Pixel TDR, `CERN-LHCC-2017-021` / `ATLAS-TDR-030` |
 | ATLAS strips | ITk Strip TDR, `CERN-LHCC-2017-005` / `ATLAS-TDR-025` |
 | CMS tracker | Phase-2 Tracker TDR, `CERN-LHCC-2017-009` / `CMS-TDR-014` |
 | ATLAS timing | HGTD TDR, `CERN-LHCC-2020-007` / `ATLAS-TDR-031` |
 | CMS timing | MTD TDR, `CERN-LHCC-2019-003` / `CMS-TDR-020` |
 | Pixel readout | RD53A manual, `CERN-RD53-PUB-17-001`, plus later public ITkPixV2/CROC production material |
-| Framework | Current DD4hep manuals and release documentation |
-| Reconstruction | Current ACTS documentation and ODD integration material |
+| Framework and simulation | DD4hep/DDG4/DDRec and Geant4 documentation matched to the selected versions |
+| Reconstruction | ACTS documentation and ODD integration material, plus interfaces for selected calorimeter/timing/muon workflows |
 | Baseline | OpenDataDetector repository, documentation, publications, and pinned revision |
 | Historical basis | TrackML detector and dataset publications |
+
+The [source catalogue](reference/manifest.yaml), [reading guides](reference/guides/README.md) and [ODD resource register](reference/guides/ODD-resources.md) record availability and verification state. A listed source is not proof of a verified parameter.
 
 Later production, qualification, and integration papers should be added component by component. When later evidence supersedes a TDR value, record both and explain which version governs nODD.
 
@@ -367,22 +494,26 @@ The following should be resolved during M0/M1 through design proposals or ADRs:
 
 - upstream ODD version and import strategy: fork, subtree, submodule, or curated import;
 - naming and versioning policy for nODD releases;
-- target tracker and timing pseudorapidity coverage;
-- initial pixel module family and RD53-class abstraction;
+- physics/use-case requirements and coverage for tracking, timing, calorimetry and muons;
+- subsystem technologies, envelopes, barrel/endcap transitions and shared service routes;
+- magnet/return-yoke concept, field representation and transport/reconstruction consistency;
+- initial pixel module family and RD53-class abstraction, and representative assemblies for other subsystems;
+- calorimeter sampling/segmentation and muon chamber/station abstractions;
+- detector specification schema, generation architecture and generated-code review policy;
 - acceptable use and validation of effective materials;
 - validation tolerances and reference-artifact storage;
-- DD4hep, Geant4, and ACTS supported-version matrix;
+- DD4hep, Geant4, ACTS and other selected downstream tools in a supported-version matrix;
+- response/digitization scope and measurable accuracy criteria for each subsystem and their interfaces;
 - expert-reviewer map and minimum sign-off requirements;
 - public licensing and citation policy;
 - CI platform, storage limits, and handling of large validation outputs.
 
 ## Immediate next steps
 
-1. Review and approve this operating model.
-2. Add the realism charter and document templates.
-3. Populate `reference/manifest.yaml` with the core public literature.
-4. Choose and pin the upstream ODD baseline.
-5. Write the M0 baseline-characterization specification.
-6. Implement baseline tooling without changing detector geometry.
-7. Review the baseline report, tag M0, and begin `DES-001`.
-
+1. Review this full-detector scope and assign subsystem/interface reviewers.
+2. Continue mapping the public literature and pinned ODD study source across all subsystems.
+3. Choose and record the actual upstream baseline, entry points, required assets and supported environment through ADR-001/003.
+4. Refine the M0 baseline specification for the selected full detector, with explicit applicability and missing checks.
+5. Implement and run baseline characterization without changing detector geometry.
+6. Review baseline evidence and complete M0 governance before advancing the milestone.
+7. Draft the full-detector architecture/interface requirements and first component designs; discuss the generation approach before implementing it.

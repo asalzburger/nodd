@@ -9,7 +9,7 @@
 
 ## Context and evidence
 
-[PROJECT.md](../../PROJECT.md) requires selection and pinning of an ODD baseline before characterization. This draft records import options; it does not select a repository, revision, or strategy. No upstream source or licensing claim has yet been verified or entered in `reference/manifest.yaml`.
+[PROJECT.md](../../PROJECT.md) requires selection and pinning of an ODD baseline before characterization. This draft records import options; it does not select a repository, revision, or strategy. An initial [resource inspection](../../reference/guides/ODD-resources.md) now identifies the public ODD repository and its MPL-2.0 license, with source ID SRC-ODD-UPSTREAM. The recorded study revision is not a selected baseline.
 
 ## Options
 
@@ -37,7 +37,7 @@ The import strategy and exact baseline remain unresolved. A tag or branch name a
 | Release/tag, if applicable | TBD |
 | Source catalogue ID | TBD |
 | Import strategy and reproducible commands | TBD |
-| License files and redistribution obligations | Unverified |
+| License files and redistribution obligations | Study checkout LICENSE: MPL-2.0; selected import obligations pending review |
 | Selected detector entry point and required assets | TBD |
 | Local modifications | To be inventoried at import |
 | DD4hep / Geant4 / ACTS versions | TBD; coordinate with ADR-003 |

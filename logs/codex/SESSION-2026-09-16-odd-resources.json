@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-09-16-odd-resources",
+  "title": "OpenDataDetector resource discovery and reading intake",
+  "recorded_at": "2026-09-16T12:10:55Z",
+  "started_at": null,
+  "ended_at": "2026-09-16T12:43:25Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact conversation start, client version, model identity and token counts unavailable.",
+    "Resource discovery and selected reading only; no build or scientific baseline validation."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "2f1cd77357568412780f53fef387693e23326330",
+    "branch": "main",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      "reference/manifest.yaml",
+      "reference/README.md",
+      "reference/guides/README.md",
+      "reference/guides/ODD-resources.md",
+      "reference/odd-study-snapshot-2026-09-16.json",
+      "reference/downloads-2026-09-16-odd-attempt1.json",
+      "reference/downloads-2026-09-16-odd.json",
+      "reference/downloads-2026-09-16-trackml-attempt1.json",
+      "reference/downloads-2026-09-16-trackml.json",
+      "docs/decisions/ADR-001-upstream-baseline.md",
+      "docs/validation/odd-resource-intake.json",
+      "docs/validation/odd-resource-intake.md",
+      "logs/codex/SESSION-2026-09-16-odd-resources.json",
+      "logs/codex/SESSION-2026-09-16-odd-resources.md"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [],
+    "related_ids": [
+      "ADR-001",
+      "ADR-003",
+      "ADR-005",
+      "M0-BASELINE"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-09-16-odd-resources.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "git clone --depth 1 https://gitlab.cern.ch/acts/OpenDataDetector.git reference/cache/upstream/OpenDataDetector",
+      "status": "FAIL",
+      "exit_code": 128,
+      "result": "Sandbox DNS failure; approved retry succeeded."
+    },
+    {
+      "command": "Public PDF intake using existing reference_downloads.download helper",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Approved retries downloaded 3 presentations and TrackML throughput PDF; failed sandbox attempt receipts retained."
+    },
+    {
+      "command": "Cached reading retrieval/page coverage and manifest/snapshot SHA-256 assertions",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "4 retrieval checks, 107-page coverage, 77 upstream hashes, all local manifest PDF hashes and unique IDs passed."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p 'test_*.py' -q",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "15 tests passed, including repository documentation links."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 12 session records."
+    }
+  ]
+}

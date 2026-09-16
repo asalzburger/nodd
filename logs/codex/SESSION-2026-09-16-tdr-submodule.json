@@ -1,0 +1,113 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-09-16-tdr-submodule",
+  "title": "Register existing TDR checkout as a submodule",
+  "recorded_at": "2026-09-16T14:11:46Z",
+  "started_at": null,
+  "ended_at": "2026-09-16T14:13:46Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact token counts, client version and conversation start unavailable.",
+    "Local conversion verified; fresh authenticated clone and LaTeX build not run."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "2f1cd77357568412780f53fef387693e23326330",
+    "branch": "main",
+    "initial_changes": [
+      "PROJECT.md",
+      "docs/DEVELOPMENT_PLAN.md",
+      "docs/README.md",
+      "docs/charter/REALISM_CHARTER.md",
+      "docs/decisions/ADR-001-upstream-baseline.md",
+      "docs/tdr/",
+      "docs/validation/ODD-realism-assessment.md",
+      "docs/validation/odd-realism-evidence.json",
+      "docs/validation/odd-resource-intake.json",
+      "docs/validation/odd-resource-intake.md",
+      "logs/codex/SESSION-2026-09-16-development-plan.json",
+      "logs/codex/SESSION-2026-09-16-development-plan.md",
+      "logs/codex/SESSION-2026-09-16-full-detector-scope.json",
+      "logs/codex/SESSION-2026-09-16-full-detector-scope.md",
+      "logs/codex/SESSION-2026-09-16-odd-realism.json",
+      "logs/codex/SESSION-2026-09-16-odd-realism.md",
+      "logs/codex/SESSION-2026-09-16-odd-resources.json",
+      "logs/codex/SESSION-2026-09-16-odd-resources.md",
+      "logs/codex/SESSION-2026-09-16-tdr-checkout.json",
+      "logs/codex/SESSION-2026-09-16-tdr-checkout.md",
+      "logs/codex/SESSION-2026-09-16-tdr-clone.json",
+      "logs/codex/SESSION-2026-09-16-tdr-clone.md",
+      "reference/README.md",
+      "reference/downloads-2026-09-16-odd-attempt1.json",
+      "reference/downloads-2026-09-16-odd.json",
+      "reference/downloads-2026-09-16-trackml-attempt1.json",
+      "reference/downloads-2026-09-16-trackml.json",
+      "reference/guides/ODD-resources.md",
+      "reference/guides/README.md",
+      "reference/manifest.yaml",
+      "reference/odd-study-snapshot-2026-09-16.json"
+    ],
+    "result_commits": [],
+    "changed_files": [
+      ".gitmodules",
+      "docs/tdr",
+      "logs/codex/SESSION-2026-09-16-tdr-submodule.json",
+      "logs/codex/SESSION-2026-09-16-tdr-submodule.md"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [],
+    "related_ids": [
+      "PLAN-NODD-001",
+      "ADR-004"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-09-16-tdr-submodule.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "git submodule add <user-provided Overleaf remote> docs/tdr",
+      "status": "FAIL",
+      "exit_code": 128,
+      "result": "Sandbox prevented Git index lock; approved retry succeeded."
+    },
+    {
+      "command": "git submodule add <user-provided Overleaf remote> docs/tdr (approved retry)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Registered existing checkout; .gitmodules and gitlink staged."
+    },
+    {
+      "command": "git submodule absorbgitdirs docs/tdr",
+      "status": "FAIL",
+      "exit_code": 128,
+      "result": "Sandbox prevented creating parent metadata directory; approved retry succeeded."
+    },
+    {
+      "command": "git submodule absorbgitdirs docs/tdr (approved retry)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Git metadata migrated to .git/modules/docs/tdr; working files retained."
+    },
+    {
+      "command": "git submodule status docs/tdr; git ls-files --stage .gitmodules docs/tdr; git -C docs/tdr status --short; git -C docs/tdr rev-parse HEAD",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Submodule gitlink mode 160000 pins 7783ea3e3235c0fe9da641db3d303a6f211b3073; checkout clean and remains on main."
+    },
+    {
+      "command": "git diff --check; git diff --cached --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Working and staged changes have no whitespace errors."
+    }
+  ]
+}

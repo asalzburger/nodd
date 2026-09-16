@@ -1,0 +1,101 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-09-16-odd-realism",
+  "title": "Assess full-detector ODD realism and HL-LHC applicability",
+  "recorded_at": "2026-09-16T13:03:07Z",
+  "started_at": null,
+  "ended_at": "2026-09-16T13:09:02Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact conversation start, client version, model identity and token usage unavailable.",
+    "Static source assessment only: no DD4hep/Geant4/ACTS runtime or detector acceptance checks.",
+    "Public GitLab web rendering returned 403; previously acquired clean public checkout and hashes supplied the source."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "2f1cd77357568412780f53fef387693e23326330",
+    "branch": "main",
+    "initial_changes": [
+      "PROJECT.md",
+      "docs/decisions/ADR-001-upstream-baseline.md",
+      "docs/validation/odd-resource-intake.json",
+      "docs/validation/odd-resource-intake.md",
+      "logs/codex/SESSION-2026-09-16-full-detector-scope.json",
+      "logs/codex/SESSION-2026-09-16-full-detector-scope.md",
+      "logs/codex/SESSION-2026-09-16-odd-resources.json",
+      "logs/codex/SESSION-2026-09-16-odd-resources.md",
+      "reference/README.md",
+      "reference/downloads-2026-09-16-odd-attempt1.json",
+      "reference/downloads-2026-09-16-odd.json",
+      "reference/downloads-2026-09-16-trackml-attempt1.json",
+      "reference/downloads-2026-09-16-trackml.json",
+      "reference/guides/ODD-resources.md",
+      "reference/guides/README.md",
+      "reference/manifest.yaml",
+      "reference/odd-study-snapshot-2026-09-16.json"
+    ],
+    "result_commits": [],
+    "changed_files": [
+      "PROJECT.md",
+      "docs/validation/ODD-realism-assessment.md",
+      "docs/validation/odd-realism-evidence.json",
+      "reference/manifest.yaml",
+      "reference/guides/ODD-resources.md",
+      "logs/codex/SESSION-2026-09-16-odd-realism.json",
+      "logs/codex/SESSION-2026-09-16-odd-realism.md"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [],
+    "related_ids": [
+      "M0-ODD-REALISM",
+      "M0-BASELINE",
+      "ADR-001",
+      "ADR-003",
+      "ADR-004",
+      "ADR-005"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-09-16-odd-realism.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "git -C reference/cache/upstream/OpenDataDetector rev-parse HEAD; git -C reference/cache/upstream/OpenDataDetector status --short",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Clean study checkout c167363f3d4ad1540a577af99071283caf54f3a6."
+    },
+    {
+      "command": "Python standard-library SHA-256 verification, XML ElementTree parsing and XML/JSON static inventory extraction",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "77 retained file hashes verified; 20 XML files parsed; 6 subsystem inventories and 9 digitization entries recorded. Does not evaluate DD4hep expressions or construct geometry."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p 'test_*.py' -q",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "15 tests passed, including documentation links."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 14 session records."
+    }
+  ]
+}

@@ -12,6 +12,22 @@ nODD is an experiment-independent, publicly reproducible reference detector for 
 
 Realism includes sensors, readout, module assembly, mechanical support, cooling, power and data services, layout, timing, material, sensitive response, and reconstruction compatibility. Each dimension needs explicit assumptions and quantitative validation appropriate to its scope.
 
+## Successor and final report
+
+ODD is the starting point for a new DD4hep detector. Components and code may be
+modified, replaced or rewritten through reviewed designs, while preserving the
+broad role and recognizable features of the TrackML → ODD successor chain.
+Every subsystem, including passive material, electronics, services and magnetic
+fields, needs a credible technical basis; a retained upstream value is not
+automatically a validated hardware choice.
+
+The intended result could plausibly have been built when judged from simulation
+and performance. This is not a certification of detailed engineering buildability
+or CAD completeness. Record the assumptions and deferred engineering studies.
+A whole-detector TDR is a final deliverable, developed alongside implementation
+and evidence. nODD remains a working title. See the
+[development plan](../DEVELOPMENT_PLAN.md) for the proposed work and review gates.
+
 ## Modeling principles
 
 Include a detail when it affects clearance, material, services, thermal or electrical architecture, sensitive response, reconstruction, or validation. Decorative CAD complexity alone is insufficient justification.

@@ -2,11 +2,14 @@
 
 ## Current phase
 
-**M0 — Baseline and Governance.** Production detector changes are prohibited until M0 is explicitly completed. The repository is the canonical record; see [repository instructions](../AGENTS.md) and [project scope](../PROJECT.md).
+**Active work: stage B — full-detector architecture.** The user closed stage A for progression on 2026-09-16, relying on ODD/ColliderML evidence; see the [plan](DEVELOPMENT_PLAN.md). Outstanding governance and design sign-off requirements remain applicable before production changes. The repository is the canonical record; see [repository instructions](../AGENTS.md) and [project scope](../PROJECT.md).
 
 The documents below establish proposals and recording formats. Their presence does not constitute human approval or completion of M0.
 
 ## Index
+
+- [Full-detector development plan and TDR programme](DEVELOPMENT_PLAN.md)
+- [ODD realism assessment](validation/ODD-realism-assessment.md)
 
 - [Realism charter](charter/REALISM_CHARTER.md)
 - [Design proposal template](design/TEMPLATE.md)
