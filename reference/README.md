@@ -70,3 +70,10 @@ identified from their title pages and extracted into reusable caches. Their
 [reading maps](guides/README.md) distinguish the original detector configurations
 from later upgrades. See the [intake report](../docs/validation/overview-reading.md)
 for source checks, receipts and coverage limits.
+
+## OpenDataDetector resources
+
+The [ODD resource register](guides/ODD-resources.md) maps the public source,
+releases, documentation, presentations and related datasets. It records a
+revision-specific ignored study checkout and downloaded reading PDFs. This is
+source discovery; selection/import of the nODD baseline remains under ADR-001.

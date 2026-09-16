@@ -5,6 +5,7 @@ Each guide is tied to the PDF SHA-256 in the [catalogue](../manifest.yaml).
 Use [the extraction commands](../../tools/reference_reading/README.md) to retrieve
 and render the cited pages. Recheck the guide if the source hash changes.
 
+- [OpenDataDetector resources](ODD-resources.md): source code, versions, manuals, talks and simulation/reconstruction routes.
 - [ATLAS overview, 2008](SRC-ATLAS-JINST-2008.md): whole-detector architecture.
 - [CMS overview, 2008](SRC-CMS-JINST-2008.md): whole-detector architecture.
 - [ATLAS Pixel TDR](SRC-ATLAS-TDR-030.md): detector context and component chapters.
