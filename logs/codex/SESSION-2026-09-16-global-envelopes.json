@@ -1,0 +1,147 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-09-16-global-envelopes",
+  "title": "Stage B global detector envelopes and interfaces proposal",
+  "recorded_at": "2026-09-16T15:30:38Z",
+  "started_at": null,
+  "ended_at": null,
+  "status": "open",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact conversation start, client version, token usage and total tool-call counts unavailable.",
+    "Six specialist contributions are curated here; no raw private agent state retained.",
+    "Analytic envelope diagnostics only; no DD4hep, Geant4, ACTS, field solution or performance acceptance run."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "b5247808858e0391d600d66a970f83259a19b425",
+    "branch": "design/global-envelopes",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      "docs/README.md",
+      "docs/decisions/ADR-006-global-envelope-and-field-hypotheses.md",
+      "docs/decisions/README.md",
+      "docs/design/DES-003-envelopes.json",
+      "docs/design/DES-003-global-envelopes.md",
+      "docs/design/figures/DES-003-envelope-rz.png",
+      "docs/design/figures/DES-003-envelope-rz.svg",
+      "docs/design/inputs/DES-003-calorimeter-envelope-input.md",
+      "docs/design/inputs/DES-003-muon-envelope-input.md",
+      "docs/design/inputs/DES-003-physics-input.md",
+      "docs/design/inputs/DES-003-software-validation-input.md",
+      "docs/design/inputs/DES-003-system-architecture-input.md",
+      "docs/design/inputs/DES-003-tracker-envelope-input.md",
+      "docs/validation/DES-003-envelope-diagnostics.json",
+      "logs/codex/SESSION-2026-09-16-global-envelopes.json",
+      "logs/codex/SESSION-2026-09-16-global-envelopes.md",
+      "reference/manifest.yaml",
+      "tools/envelope_study/README.md",
+      "tools/envelope_study/requirements.txt",
+      "tools/envelope_study/study.py",
+      "tools/envelope_study/test_study.py"
+    ]
+  },
+  "work": {
+    "milestone": "Stage B \u2014 architecture proposal; no production implementation",
+    "components": [
+      "tracker",
+      "calorimeters",
+      "muons",
+      "magnet",
+      "services",
+      "envelope validation"
+    ],
+    "related_ids": [
+      "DES-003",
+      "ADR-006",
+      "PLAN-NODD-001"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-09-16-global-envelopes.md",
+  "activities": [
+    {
+      "kind": "tool",
+      "name": "collaboration",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Six specialist roles: tracker, calorimeter, muon, System Architect, Physics and Performance Validation, Software Engineer; contributions in docs/design/inputs."
+    },
+    {
+      "kind": "tool",
+      "name": "web search and local PDF/source reading",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Public primary literature, PDG tables/review, framework documentation and pinned ODD source inspected; locators and catalogue retained."
+    },
+    {
+      "kind": "tool",
+      "name": "shell and git",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Isolated plotting venv, analytic diagnostics, tests and Git publication; commands in paired narrative."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p 'test_*.py' -q",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "15 tests passed."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/reference_downloads -p 'test_*.py' -q",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "4 tests passed."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/envelope_study -p 'test_*.py' -q",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "8 tests passed after final provenance edit."
+    },
+    {
+      "command": "reference/cache/venv/bin/python -B -m unittest discover -s tools/reference_reading -p 'test_*.py' -q",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "7 tests passed, confirmed by coordinator."
+    },
+    {
+      "command": "Envelope study generation; command retained in report and README",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "9 allocations, 10 rays, no positive-area intersections; SVG/PNG generated and visually inspected."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "22 records validated."
+    },
+    {
+      "command": "Source manifest and local-source hash/path checks",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Source reviewer verified 4 local PDFs and unique IDs; coordinator confirmed all input source IDs registered."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors."
+    }
+  ]
+}

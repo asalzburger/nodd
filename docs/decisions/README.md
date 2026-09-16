@@ -25,3 +25,4 @@ Preserve historical decisions and evidence. A replacement ADR must link the prio
 | [ADR-003](ADR-003-validation-and-artifact-policy.md) | Validation and artifact policy | DRAFT | TBD |
 | [ADR-004](ADR-004-session-logging-and-traceability.md) | Session logging and project traceability | DRAFT | TBD |
 | [ADR-005](ADR-005-reference-reading-pilot.md) | Reusable reference reading pilot | DRAFT | TBD |
+| [ADR-006](ADR-006-global-envelope-and-field-hypotheses.md) | Global envelope and field hypotheses | DRAFT | TBD |

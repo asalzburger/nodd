@@ -9,6 +9,8 @@ The documents below establish proposals and recording formats. Their presence do
 ## Index
 
 - [Full-detector development plan and TDR programme](DEVELOPMENT_PLAN.md)
+- [DES-003: global envelope proposal, r–z drawing and review questions](design/DES-003-global-envelopes.md)
+- [Envelope study tool and reproduction commands](../tools/envelope_study/README.md)
 - [ODD realism assessment](validation/ODD-realism-assessment.md)
 
 - [Realism charter](charter/REALISM_CHARTER.md)
@@ -19,7 +21,11 @@ The documents below establish proposals and recording formats. Their presence do
 - [Validation report template](validation/REPORT_TEMPLATE.md)
 - [Project session journal](../logs/README.md)
 
-The [source catalogue](../reference/README.md) now records the initial PDF acquisitions in `reference/manifest.yaml`. Five documents—the ATLAS Pixel TDR, CMS Tracker TDR, RD53A manual and ATLAS/CMS JINST overviews—now have verified identity metadata and reading guides; other entries remain pending. Normative source claims require verified catalogue entries and precise locators.
+The [source catalogue](../reference/README.md) records acquisitions and verification
+state in `reference/manifest.yaml`. Reading guides cover the initial tracker,
+readout and whole-detector papers; DES-003 adds selected calorimeter/muon TDR
+passages and PDG evidence. Identity verification or selected-page reading does
+not imply a complete document review. Normative claims require precise locators.
 
 ## Design lifecycle
 
@@ -36,7 +42,7 @@ Only identified humans may authorize sign-off and acceptance. Approval records m
 
 - [ADR-005: reference reading](decisions/ADR-005-reference-reading-pilot.md): local extraction caches and source reading maps.
 
-All five ADRs are drafts. Their proposals do not override existing repository instructions.
+The registered ADRs remain drafts. Their proposals do not override existing repository instructions.
 
 ## M0 completion evidence
 
