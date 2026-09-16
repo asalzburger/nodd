@@ -4,8 +4,8 @@
   "title": "Stage B global detector envelopes and interfaces proposal",
   "recorded_at": "2026-09-16T15:30:38Z",
   "started_at": null,
-  "ended_at": null,
-  "status": "open",
+  "ended_at": "2026-09-16T15:53:27Z",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
@@ -22,7 +22,9 @@
     "start_commit": "b5247808858e0391d600d66a970f83259a19b425",
     "branch": "design/global-envelopes",
     "initial_changes": [],
-    "result_commits": [],
+    "result_commits": [
+      "e42a235acee6e10ec76bdf9ca4410c932afbcfaf"
+    ],
     "changed_files": [
       "docs/README.md",
       "docs/decisions/ADR-006-global-envelope-and-field-hypotheses.md",
@@ -60,7 +62,8 @@
     "related_ids": [
       "DES-003",
       "ADR-006",
-      "PLAN-NODD-001"
+      "PLAN-NODD-001",
+      "PR-4"
     ]
   },
   "narrative": "logs/codex/SESSION-2026-09-16-global-envelopes.md",
@@ -142,6 +145,24 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "No whitespace errors."
+    },
+    {
+      "command": "git diff --cached --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Passed after normalizing generated SVG trailing whitespace."
+    },
+    {
+      "command": "git push -u origin design/global-envelopes",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Branch published and upstream tracking configured."
+    },
+    {
+      "command": "gh pr create --repo asalzburger/nodd --base main --head design/global-envelopes --title <proposal title> --body-file /tmp/nodd-global-envelopes-pr.md",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Created https://github.com/asalzburger/nodd/pull/4."
     }
   ]
 }

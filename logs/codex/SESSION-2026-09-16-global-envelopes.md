@@ -79,3 +79,9 @@ return field, timing allocation, muon requirements, material ownership and
 transition/service corridors. Assign human reviewers before design sign-off.
 Then define active surfaces/material scenarios and run the staged validation
 programme. Merging this draft alone does not authorize production implementation.
+
+## Publication
+
+[PR #4](https://github.com/asalzburger/nodd/pull/4) publishes the first proposal
+on `design/global-envelopes`. The paired JSON records the proposal commit; this
+publication record is a subsequent traceability commit. Human sign-off is pending.

@@ -4,7 +4,7 @@
 - Created / updated: 2026-09-16.
 - Authors: AI-assisted project coordinator, System Architect, subsystem technicians, software engineer and Physics and Performance Validation.
 - Human owner / technical reviewers / approving humans: TBD; no sign-off.
-- Review issue: not separately created; the proposal PR is the initial discussion venue.
+- Review issue: not separately created; [PR #4](https://github.com/asalzburger/nodd/pull/4) is the initial discussion venue.
 - Related decisions: [ADR-001](../decisions/ADR-001-upstream-baseline.md), [ADR-003](../decisions/ADR-003-validation-and-artifact-policy.md), [ADR-006](../decisions/ADR-006-global-envelope-and-field-hypotheses.md), all DRAFT.
 - Implementation PR / sign-off record: pending; none authorized here.
 - Governing context: [PROJECT](../../PROJECT.md), [development plan, stage B](../DEVELOPMENT_PLAN.md).
