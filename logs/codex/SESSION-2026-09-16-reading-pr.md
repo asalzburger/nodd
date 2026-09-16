@@ -28,7 +28,10 @@ PR for the branch. Fetched origin successfully before publication.
 
 ## Publication
 
-Commit and PR publication are in progress; this record will be closed after
-GitHub confirms creation. Token usage and client/model details are unavailable.
+Committed the reviewed changes as `ec6413d` and pushed the branch to origin.
+Created [PR #2](https://github.com/asalzburger/nodd/pull/2) against `main`; it remains
+open for human review. This publication record is added in a follow-up commit.
+Session validation passed for all 11 records. Token usage and client/model details
+are unavailable.
 The preceding task records preserve per-task changed files and provenance; this
 record captures preparation and publication, not a second reading of the papers.
