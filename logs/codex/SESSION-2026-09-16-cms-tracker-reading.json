@@ -1,0 +1,133 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-09-16-cms-tracker-reading",
+  "title": "CMS Tracker TDR reading and RD53 context map",
+  "recorded_at": "2026-09-16T07:44:48Z",
+  "started_at": null,
+  "ended_at": "2026-09-16T07:51:24Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact conversation start, client version, model identity and token counters are unavailable.",
+    "Selected RD53/module reading and whole-document mapping only; no cover-to-cover scientific review."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "671bb0e81bf432dfc797bd47c4f5b94e374ebd85",
+    "branch": "m0/reference-reading-pilot",
+    "initial_changes": [
+      ".gitignore",
+      "docs/README.md",
+      "docs/decisions/ADR-005-reference-reading-pilot.md",
+      "docs/decisions/README.md",
+      "docs/validation/reference-reading-pilot-pr.md",
+      "docs/validation/reference-reading-pilot.json",
+      "docs/validation/reference-reading-pilot.md",
+      "logs/codex/SESSION-2026-09-15-reading-pilot.json",
+      "logs/codex/SESSION-2026-09-15-reading-pilot.md",
+      "logs/codex/SESSION-2026-09-15-reference-reading-plan.json",
+      "logs/codex/SESSION-2026-09-15-reference-reading-plan.md",
+      "reference/README.md",
+      "reference/guides/README.md",
+      "reference/guides/SRC-ATLAS-TDR-030.md",
+      "reference/guides/SRC-RD53A.md",
+      "reference/manifest.yaml",
+      "tools/reference_reading/README.md",
+      "tools/reference_reading/check_pilot.py",
+      "tools/reference_reading/read.py",
+      "tools/reference_reading/requirements.txt",
+      "tools/reference_reading/test_read.py"
+    ],
+    "result_commits": [],
+    "changed_files": [
+      "docs/decisions/ADR-005-reference-reading-pilot.md",
+      "docs/validation/cms-tracker-reading.json",
+      "docs/validation/cms-tracker-reading.md",
+      "docs/validation/reference-reading-pilot-pr.md",
+      "reference/README.md",
+      "reference/guides/README.md",
+      "reference/guides/SRC-CMS-TDR-014.md",
+      "reference/manifest.yaml",
+      "logs/codex/SESSION-2026-09-16-cms-tracker-reading.json",
+      "logs/codex/SESSION-2026-09-16-cms-tracker-reading.md"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [],
+    "related_ids": [
+      "ADR-005",
+      "ADR-004",
+      "M0-CMS-TRACKER-READING",
+      "SRC-CMS-TDR-014"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-09-16-cms-tracker-reading.md",
+  "activities": [
+    {
+      "kind": "tool",
+      "name": "exec_command",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Extraction, cached page reading, metadata and document updates; commands in narrative."
+    },
+    {
+      "kind": "tool",
+      "name": "web.run",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "CDS search and direct-open attempts; direct access encountered bot challenge."
+    },
+    {
+      "kind": "tool",
+      "name": "view_image",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Inspected CMS PDF pages 1, 74, 82 and 251."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "reference/cache/venv/bin/python tools/reference_reading/read.py extract SRC-CMS-TDR-014",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "353 pages extracted; second run verified cache reuse."
+    },
+    {
+      "command": "CMS retrieval/page-coverage assertions documented in docs/validation/cms-tracker-reading.md",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "4 known-answer retrieval checks and contiguous 353-page coverage passed."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "15 tests passed, including repository documentation links."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 7 session records."
+    }
+  ]
+}

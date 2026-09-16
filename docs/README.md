@@ -16,7 +16,7 @@ The documents below establish proposals and recording formats. Their presence do
 - [Validation report template](validation/REPORT_TEMPLATE.md)
 - [Project session journal](../logs/README.md)
 
-The [source catalogue](../reference/README.md) now records the initial PDF acquisitions in `reference/manifest.yaml`. Bibliographic verification and canonical public URLs remain pending. Normative source claims require verified catalogue entries and precise locators.
+The [source catalogue](../reference/README.md) now records the initial PDF acquisitions in `reference/manifest.yaml`. Five documents—the ATLAS Pixel TDR, CMS Tracker TDR, RD53A manual and ATLAS/CMS JINST overviews—now have verified identity metadata and reading guides; other entries remain pending. Normative source claims require verified catalogue entries and precise locators.
 
 ## Design lifecycle
 
@@ -31,7 +31,9 @@ Only identified humans may authorize sign-off and acceptance. Approval records m
 - [ADR-003: validation and artifacts](decisions/ADR-003-validation-and-artifact-policy.md): gates, tolerances, supported tools, and artifact storage.
 - [ADR-004: session logging](decisions/ADR-004-session-logging-and-traceability.md): curated records, accounting, and Git traceability. Infrastructure implementation was explicitly requested by the user.
 
-All four ADRs are drafts. Their proposals do not override existing repository instructions.
+- [ADR-005: reference reading](decisions/ADR-005-reference-reading-pilot.md): local extraction caches and source reading maps.
+
+All five ADRs are drafts. Their proposals do not override existing repository instructions.
 
 ## M0 completion evidence
 

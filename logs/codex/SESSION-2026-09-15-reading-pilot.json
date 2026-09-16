@@ -1,0 +1,143 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-09-15-reading-pilot",
+  "title": "ATLAS Pixel and RD53A extraction pilot",
+  "recorded_at": "2026-09-15T15:27:09Z",
+  "started_at": null,
+  "ended_at": "2026-09-15T15:40:15Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact session start, client version, model identity, thread/turn IDs and token counters are unavailable.",
+    "Broad mapping and sampled reading only; no full scientific review or detector fact adoption."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "671bb0e81bf432dfc797bd47c4f5b94e374ebd85",
+    "branch": "m0/reference-reading-pilot",
+    "initial_changes": [
+      "logs/codex/SESSION-2026-09-15-reference-reading-plan.json",
+      "logs/codex/SESSION-2026-09-15-reference-reading-plan.md"
+    ],
+    "result_commits": [],
+    "changed_files": [
+      ".gitignore",
+      "docs/README.md",
+      "docs/decisions/ADR-005-reference-reading-pilot.md",
+      "docs/decisions/README.md",
+      "docs/validation/reference-reading-pilot-pr.md",
+      "docs/validation/reference-reading-pilot.json",
+      "docs/validation/reference-reading-pilot.md",
+      "logs/codex/SESSION-2026-09-15-reading-pilot.json",
+      "logs/codex/SESSION-2026-09-15-reading-pilot.md",
+      "reference/README.md",
+      "reference/guides/README.md",
+      "reference/guides/SRC-ATLAS-TDR-030.md",
+      "reference/guides/SRC-RD53A.md",
+      "reference/manifest.yaml",
+      "tools/reference_reading/README.md",
+      "tools/reference_reading/check_pilot.py",
+      "tools/reference_reading/read.py",
+      "tools/reference_reading/requirements.txt",
+      "tools/reference_reading/test_read.py"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [],
+    "related_ids": [
+      "ADR-005",
+      "ADR-004",
+      "M0-READING-PILOT"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-09-15-reading-pilot.md",
+  "activities": [
+    {
+      "kind": "tool",
+      "name": "exec_command",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Visible shell runs; exact selected commands retained in narrative."
+    },
+    {
+      "kind": "tool",
+      "name": "web.run",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Public package documentation and source identity checks."
+    },
+    {
+      "kind": "tool",
+      "name": "view_image",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "14 selected PDF page renders inspected; page lists retained in report."
+    },
+    {
+      "kind": "tool",
+      "name": "apply_patch",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Visible edits to extraction and tests."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "git switch -c m0/reference-reading-pilot",
+      "status": "FAIL",
+      "exit_code": 128,
+      "result": "Sandbox blocked initial Git metadata write; approved retry succeeded."
+    },
+    {
+      "command": "uv --cache-dir /tmp/nodd-uv-cache pip install --python reference/cache/venv/bin/python -r tools/reference_reading/requirements.txt",
+      "status": "FAIL",
+      "exit_code": 2,
+      "result": "Initial sandbox DNS failure; approved retry installed pinned dependency."
+    },
+    {
+      "command": "reference/cache/venv/bin/python -B -m unittest discover -s tools/reference_reading -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "7 tests passed."
+    },
+    {
+      "command": "reference/cache/venv/bin/python tools/reference_reading/check_pilot.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Four retrieval checks, contiguous page coverage and RD53A footer mapping passed."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "15 tests passed, including document links."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/reference_downloads -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "4 tests passed."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors."
+    }
+  ]
+}
