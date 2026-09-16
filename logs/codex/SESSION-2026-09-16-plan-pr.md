@@ -38,9 +38,14 @@ fresh authenticated TDR clone or LaTeX build was performed.
 
 ## Publication tracking
 
-Commit and PR identifiers will be added after successful publication. Starting
-branch is recorded as main in JSON; publication branch is planning/full-detector-roadmap.
-The final log update will preserve the actual outcome and leave no open template.
+Published [PR #3](https://github.com/asalzburger/nodd/pull/3), “Define full-detector
+roadmap, agent roles and ODD realism assessment”, from
+`planning/full-detector-roadmap` to `main`. Main content commit: `98c3fa4e761ed2a024c5db6a021923c23e255e2e`.
+The parent index staging initially required an approved filesystem retry; commit,
+branch push and PR creation then succeeded. This final log closure is a separate
+follow-up commit, located by Git history rather than a self-referential hash.
+Starting branch remains recorded as main in JSON. The branch is left on the PR
+branch; no merge or stage B branch was created.
 
 ## Follow-up
 
