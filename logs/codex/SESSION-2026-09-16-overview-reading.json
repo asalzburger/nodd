@@ -1,0 +1,124 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-09-16-overview-reading",
+  "title": "Acquire and map ATLAS CMS overview papers",
+  "recorded_at": "2026-09-16T09:31:08Z",
+  "started_at": null,
+  "ended_at": "2026-09-16T09:34:52Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact conversation start, client version, model identity and token usage are unavailable.",
+    "Chapter mapping and sampled reading only; not full scientific review."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "671bb0e81bf432dfc797bd47c4f5b94e374ebd85",
+    "branch": "m0/reference-reading-pilot",
+    "initial_changes": [
+      ".gitignore",
+      "docs/README.md",
+      "docs/decisions/ADR-005-reference-reading-pilot.md",
+      "docs/decisions/README.md",
+      "docs/validation/cms-tracker-reading.json",
+      "docs/validation/cms-tracker-reading.md",
+      "docs/validation/literature-coverage.md",
+      "docs/validation/reference-reading-pilot-pr.md",
+      "docs/validation/reference-reading-pilot.json",
+      "docs/validation/reference-reading-pilot.md",
+      "logs/codex/SESSION-2026-09-15-reading-pilot.json",
+      "logs/codex/SESSION-2026-09-15-reading-pilot.md",
+      "logs/codex/SESSION-2026-09-15-reference-reading-plan.json",
+      "logs/codex/SESSION-2026-09-15-reference-reading-plan.md",
+      "logs/codex/SESSION-2026-09-16-cms-tracker-reading.json",
+      "logs/codex/SESSION-2026-09-16-cms-tracker-reading.md",
+      "logs/codex/SESSION-2026-09-16-resource-coverage.json",
+      "logs/codex/SESSION-2026-09-16-resource-coverage.md",
+      "logs/codex/SESSION-2026-09-16-simulation-scope.json",
+      "logs/codex/SESSION-2026-09-16-simulation-scope.md",
+      "reference/README.md",
+      "reference/guides/README.md",
+      "reference/guides/SRC-ATLAS-TDR-030.md",
+      "reference/guides/SRC-CMS-TDR-014.md",
+      "reference/guides/SRC-RD53A.md",
+      "reference/manifest.yaml",
+      "reference/pdfs/sources.md",
+      "tools/reference_reading/README.md",
+      "tools/reference_reading/check_pilot.py",
+      "tools/reference_reading/read.py",
+      "tools/reference_reading/requirements.txt",
+      "tools/reference_reading/test_read.py"
+    ],
+    "result_commits": [],
+    "changed_files": [
+      "reference/manifest.yaml",
+      "reference/README.md",
+      "reference/guides/README.md",
+      "reference/guides/SRC-ATLAS-JINST-2008.md",
+      "reference/guides/SRC-CMS-JINST-2008.md",
+      "reference/downloads-2026-09-16-overviews-attempt1.json",
+      "reference/downloads-2026-09-16-overviews.json",
+      "docs/decisions/ADR-005-reference-reading-pilot.md",
+      "docs/validation/literature-coverage.md",
+      "docs/validation/overview-reading.md",
+      "docs/validation/overview-reading.json",
+      "logs/codex/SESSION-2026-09-16-overview-reading.json",
+      "logs/codex/SESSION-2026-09-16-overview-reading.md"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [],
+    "related_ids": [
+      "ADR-005",
+      "SRC-ATLAS-JINST-2008",
+      "SRC-CMS-JINST-2008"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-09-16-overview-reading.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 tools/reference_downloads/download.py --only ATLAS CMS --receipt reference/downloads-2026-09-16-overviews-attempt1.json",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Sandboxed download attempts failed; retained receipt."
+    },
+    {
+      "command": "python3 tools/reference_downloads/download.py --only ATLAS CMS --receipt reference/downloads-2026-09-16-overviews.json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Approved retry acquired both PDFs; hashes recorded."
+    },
+    {
+      "command": "Overview extraction and retrieval assertions in docs/validation/overview-reading.md",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "437 and 361 pages extracted; four retrieval checks and contiguous page coverage passed."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p 'test_*.py' -q",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "15 tests passed, including documentation links."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 10 session records."
+    }
+  ]
+}

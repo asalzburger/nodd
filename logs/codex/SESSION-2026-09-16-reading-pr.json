@@ -1,0 +1,130 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-09-16-reading-pr",
+  "title": "Prepare reference-reading pull request",
+  "recorded_at": "2026-09-16T11:04:12Z",
+  "started_at": null,
+  "ended_at": "2026-09-16T11:09:27Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact token counts, client version and model identity are unavailable."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "671bb0e81bf432dfc797bd47c4f5b94e374ebd85",
+    "branch": "m0/reference-reading-pilot",
+    "initial_changes": [
+      ".gitignore",
+      "docs/README.md",
+      "docs/decisions/ADR-005-reference-reading-pilot.md",
+      "docs/decisions/README.md",
+      "docs/validation/cms-tracker-reading.json",
+      "docs/validation/cms-tracker-reading.md",
+      "docs/validation/literature-coverage.md",
+      "docs/validation/overview-reading.json",
+      "docs/validation/overview-reading.md",
+      "docs/validation/reference-reading-pilot-pr.md",
+      "docs/validation/reference-reading-pilot.json",
+      "docs/validation/reference-reading-pilot.md",
+      "logs/codex/SESSION-2026-09-15-reading-pilot.json",
+      "logs/codex/SESSION-2026-09-15-reading-pilot.md",
+      "logs/codex/SESSION-2026-09-15-reference-reading-plan.json",
+      "logs/codex/SESSION-2026-09-15-reference-reading-plan.md",
+      "logs/codex/SESSION-2026-09-16-cms-tracker-reading.json",
+      "logs/codex/SESSION-2026-09-16-cms-tracker-reading.md",
+      "logs/codex/SESSION-2026-09-16-overview-reading.json",
+      "logs/codex/SESSION-2026-09-16-overview-reading.md",
+      "logs/codex/SESSION-2026-09-16-resource-coverage.json",
+      "logs/codex/SESSION-2026-09-16-resource-coverage.md",
+      "logs/codex/SESSION-2026-09-16-simulation-scope.json",
+      "logs/codex/SESSION-2026-09-16-simulation-scope.md",
+      "reference/README.md",
+      "reference/downloads-2026-09-16-overviews-attempt1.json",
+      "reference/downloads-2026-09-16-overviews.json",
+      "reference/guides/README.md",
+      "reference/guides/SRC-ATLAS-JINST-2008.md",
+      "reference/guides/SRC-ATLAS-TDR-030.md",
+      "reference/guides/SRC-CMS-JINST-2008.md",
+      "reference/guides/SRC-CMS-TDR-014.md",
+      "reference/guides/SRC-RD53A.md",
+      "reference/manifest.yaml",
+      "reference/pdfs/sources.md",
+      "tools/reference_reading/README.md",
+      "tools/reference_reading/check_pilot.py",
+      "tools/reference_reading/read.py",
+      "tools/reference_reading/requirements.txt",
+      "tools/reference_reading/test_read.py"
+    ],
+    "result_commits": [
+      "ec6413d52a297d1cf86352657152723e73675361"
+    ],
+    "changed_files": [
+      "docs/README.md",
+      "docs/validation/reference-reading-pilot-pr.md",
+      "tools/reference_reading/README.md",
+      "logs/codex/SESSION-2026-09-16-reading-pr.json",
+      "logs/codex/SESSION-2026-09-16-reading-pr.md"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [],
+    "related_ids": [
+      "ADR-004",
+      "ADR-005"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-09-16-reading-pr.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "reference/cache/venv/bin/python -B -m unittest discover -s tools/reference_reading -p 'test_*.py' -q",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "7 tests passed."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p 'test_*.py' -q",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "15 tests passed."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/reference_downloads -p 'test_*.py' -q",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "4 tests passed."
+    },
+    {
+      "command": "reference/cache/venv/bin/python tools/reference_reading/check_pilot.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "4 retrieval checks, page coverage and RD53A footer checks passed."
+    },
+    {
+      "command": "Replayed retrieval_checks and contiguous page coverage from CMS/overview validation JSON through read.load_cache and read.search",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "8 additional retrieval checks passed across 3 documents."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Passed."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 11 session records before publication."
+    }
+  ]
+}
