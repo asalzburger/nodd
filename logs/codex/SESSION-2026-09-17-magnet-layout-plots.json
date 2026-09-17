@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-09-17-magnet-layout-plots",
+  "title": "Global solenoid layout drawings and PR executive summaries",
+  "recorded_at": "2026-09-17T14:35:16Z",
+  "started_at": null,
+  "ended_at": null,
+  "status": "open",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Actual conversation start time, client identity details and token usage have not been recorded."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "be231e0d012a4c69ee5254ca9207ba7d2a563159",
+    "branch": "research/magnetic-configurations",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      ".github/pull_request_template.md",
+      "AGENTS.md",
+      "docs/design/DES-004-magnetic-configurations.md",
+      "docs/design/figures/DES-004-mag-01-system-rz.png",
+      "docs/design/figures/DES-004-mag-01-system-rz.svg",
+      "docs/design/figures/DES-004-mag-03-system-rz.png",
+      "docs/design/figures/DES-004-mag-03-system-rz.svg",
+      "docs/design/figures/DES-004-solenoid-options-system-rz.png",
+      "docs/design/figures/DES-004-solenoid-options-system-rz.svg",
+      "docs/validation/DES-004-system-layouts.json",
+      "logs/codex/SESSION-2026-09-17-magnet-layout-plots.json",
+      "logs/codex/SESSION-2026-09-17-magnet-layout-plots.md",
+      "project/tracking.json",
+      "tools/magnetic_study/README.md",
+      "tools/magnetic_study/layouts.json",
+      "tools/magnetic_study/layouts.py"
+    ]
+  },
+  "work": {
+    "milestone": "Stage B \u2014 magnetic research",
+    "components": [
+      "magnet",
+      "global envelopes",
+      "publication",
+      "dashboard"
+    ],
+    "related_ids": [
+      "DES-004",
+      "DES-003",
+      "PR-6"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-09-17-magnet-layout-plots.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "MPLCONFIGDIR=/tmp/nodd-mpl XDG_CACHE_HOME=/tmp/nodd-cache reference/cache/envelope-venv/bin/python -B tools/magnetic_study/layouts.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Two allocations passed rectangle overlap and current-sheet containment checks; three PNG/SVG drawings generated; combined image visually inspected."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/envelope_study -p test_*.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "11 tests passed."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p test_*.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "15 tests passed, including documentation links."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "11 tasks, 8 documents, 4 review rounds validated."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py build --output _site/magnetic-preview",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Preview built."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors."
+    }
+  ]
+}

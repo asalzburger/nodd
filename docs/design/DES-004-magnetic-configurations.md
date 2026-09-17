@@ -200,6 +200,31 @@ retains more forward axial field but at larger size/current; the table cannot
 rank tracking resolution, resources or standalone muon performance. The last
 point is a tracker-host corner, not an eta-4 track endpoint.
 
+### Global system layouts
+
+The following full-system r–z comparison uses identical axes and colours. MAG-01
+retains E1-R2. MAG-03 applies only the previously proposed outer-coil reservation
+and muon barrel inner-radius change from 4.35 to 4.95 m. The unused inner-coil
+allocation is dotted; the previous muon boundary is dashed red. Central calorimeters
+and detached forward calorimeters retain their baseline locations. All allocations
+remain **NODD DESIGN CHOICE — unsigned**; no yoke, toroid or material is implied.
+
+![Global system layouts: inner and outer solenoid options](figures/DES-004-solenoid-options-system-rz.png)
+
+Individual exports: [MAG-01 PNG](figures/DES-004-mag-01-system-rz.png) /
+[SVG](figures/DES-004-mag-01-system-rz.svg),
+[MAG-03 PNG](figures/DES-004-mag-03-system-rz.png) /
+[SVG](figures/DES-004-mag-03-system-rz.svg), and
+[comparison SVG](figures/DES-004-solenoid-options-system-rz.svg).
+The [layout record](../validation/DES-004-system-layouts.json) retains actual
+coordinates, amendment inputs, tool hashes and rectangle checks. Both candidate
+allocations have zero positive rectangle intersections, and each ideal current
+sheet lies inside its coil reservation. This does not establish service capacity,
+engineering fit or active coverage; drawings omit unresolved global supports,
+shielding and service routes.
+
+### Vacuum field components
+
 ![MAG-01 vacuum field components](figures/DES-004-mag-01-field.png)
 ![MAG-03 vacuum field components](figures/DES-004-mag-03-field.png)
 

@@ -1,3 +1,8 @@
+## Executive summary
+
+Summarize the purpose, main result, practical consequences, validation status and
+next review decision. Keep this current as the PR evolves.
+
 ## Change
 
 Describe the problem, resulting behavior and governing design/ADR/issue.

@@ -64,3 +64,17 @@ bytes by hashes; its enclosing Git revision is the retained artifact revision.
 Tracking ACTS is distributed as **`pyacts`**, imported as `acts`. Public PyPI
 `acts` is a different project. See the [actual setup and verification record](../../docs/validation/DES-004-acts-setup.md)
 for the pinned distribution, platform, reproduction commands and executed checks.
+
+## Global system layouts
+
+```sh
+MPLCONFIGDIR=/tmp/nodd-mpl XDG_CACHE_HOME=/tmp/nodd-cache reference/cache/envelope-venv/bin/python -B tools/magnetic_study/layouts.py
+```
+
+`layouts.json` applies only the DES-004 architect's documented amendments to the
+unchanged DES-003 allocation input; current-sheet dimensions come from
+`candidates.json`. The script reuses envelope validation/intersection checks,
+checks sheet containment, and produces two individual and one matched-scale
+comparison drawing in PNG/SVG. The retained `DES-004-system-layouts.json` records
+coordinates, source hashes, versions and actual checks. No physical material or
+station geometry is generated. Plot extents, colours and labels are display choices.
