@@ -9,6 +9,17 @@
   [validation policy](decisions/ADR-003-validation-and-artifact-policy.md),
   [logging policy](decisions/ADR-004-session-logging-and-traceability.md)
 
+## Implementation and publication authorization
+
+The user requested implementation on 2026-09-17, then requested a chore PR for
+GitHub Pages publication and a mandatory dashboard-update rule on the same date.
+Infrastructure chores are excluded from project progress. The implementation,
+maintenance policy and deployment instructions are in the
+[build guide](../tools/dashboard/README.md) and
+[tracking workflow](../project/README.md). This records explicit infrastructure
+authorization; it does not grant detector design sign-off or change this proposal's
+formal DRAFT state.
+
 ## Purpose and proposed approach
 
 Provide one dashboard answering: where is the programme going, what is happening

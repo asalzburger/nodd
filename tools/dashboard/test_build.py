@@ -169,6 +169,18 @@ class DashboardTests(unittest.TestCase):
         self.assertIn('Formal sign-off is not established.',data['tracking']['documents'][0]['warnings'][0])
         self.assertFalse(data['reviews']['rounds'][0]['approval_supported'])
 
+    def test_chore_entries_cannot_enter_progress(self):
+        self.task['category']='chore'
+        with self.assertRaisesRegex(build.Invalid,'Chore tasks'):
+            self.normalize()
+        self.task['category']='project'
+        pr=self.pr(title='chore: synthetic maintenance')
+        with self.assertRaisesRegex(build.Invalid,'Chore PRs'):
+            self.normalize()
+        pr.update(title='Synthetic project work',category='chore')
+        with self.assertRaisesRegex(build.Invalid,'Chore PRs'):
+            self.normalize()
+
     def test_invalid_pr_metadata_rejected(self):
         pr=self.pr(state='closed')
         with self.assertRaisesRegex(build.Invalid,'Unmerged PR'):

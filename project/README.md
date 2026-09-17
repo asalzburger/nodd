@@ -4,13 +4,28 @@ The dashboard is a read-only view of Git records. Start with the
 [dashboard proposal](../docs/DASHBOARD_PLAN.md) and
 [build and preview instructions](../tools/dashboard/README.md).
 The user's 2026-09-17 implementation request authorizes this infrastructure;
-it does not grant detector design sign-off or publication authorization.
+it does not grant detector design sign-off. On 2026-09-17 the user additionally
+requested a chore PR for GitHub Pages deployment and ongoing dashboard updates.
 
 `tracking.json` owns operational work state. `reviews.json` owns review requests
 and round history. The adjacent JSON schemas document required fields; the builder
 validates their supported subset and additional semantic constraints. Documents
 own their declared lifecycle, formal sign-off records own human approval evidence,
 and validation reports own execution and acceptance results.
+
+Update records in the same PR as every non-chore project change, including work,
+review requests/decisions, dependencies, deliverables and evidence. The CI update
+check requires a change to `tracking.json` or `reviews.json`; maintainers review
+its substance. Use `chore: ...` or `chore(scope): ...` PR titles for maintenance.
+Chore PRs and their tasks/reviews are excluded from progress tracking and totals,
+but remain in Git history and session logs. Do not add this deployment PR as a
+project deliverable. Optional task/PR `category` defaults to `project`; the
+validator rejects `chore` entries and chore-prefixed PR titles. Scientific work
+cannot use the chore exemption. Metadata corrections may be made in a chore PR
+without adding the chore itself. The earlier dashboard infrastructure task was
+removed from this register under this policy; its history remains in Git/logs.
+After merge, update recorded PR merge metadata once known; never invent the
+future merge SHA or automatically advance document approval.
 
 Update records in the same PR as the relevant deliverable. Stable IDs must be
 unique, references must resolve, and dependencies must be acyclic. Use null for

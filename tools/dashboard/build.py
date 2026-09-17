@@ -10,6 +10,8 @@ import subprocess
 import sys
 from urllib.parse import quote, urlsplit
 
+from check_update import is_chore
+
 ROOT = Path(__file__).resolve().parents[2]
 LIFECYCLE = ('DRAFT', 'TECHNICAL REVIEW', 'EXPERT REVIEW', 'SIGNED OFF',
              'IMPLEMENTED', 'VALIDATED', 'ACCEPTED')
@@ -154,6 +156,7 @@ def normalize(root):
     for item in t['stages']:
         require(set(item['milestones']) <= milestones.keys(), 'Unknown stage milestone')
     for item in t['tasks']:
+        require(item.get('category', 'project') != 'chore', 'Chore tasks must not enter project progress tracking')
         require(item['stage'] in stages and item['workstream'] in streams, 'Unknown task stage/stream')
         require(set(item['milestones']) <= milestones.keys(), 'Unknown task milestone')
         require(set(item['documents']) <= documents.keys(), 'Unknown task document')
@@ -179,6 +182,8 @@ def normalize(root):
             require(report.startswith('docs/validation/'), 'Wrong validation-report directory')
             paths.add(report)
     for pr in t.get('pull_requests', []):
+        require(pr.get('category', 'project') != 'chore' and not is_chore(pr['title']),
+                'Chore PRs must not enter project progress tracking')
         require(pr['number'] > 0, 'PR number must be positive')
         evidence_path(root, pr['url'])
         require(urlsplit(pr['url']).scheme == 'https' and
@@ -435,7 +440,7 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('command',choices=('validate','build'))
     parser.add_argument('--repo',type=Path,default=ROOT)
-    parser.add_argument('--output',type=Path,default=ROOT / '_site/dashboard')
+    parser.add_argument('--output',type=Path,default=ROOT / '_site/pages')
     parser.add_argument('--built-at',default=None,help='Fixed UTC timestamp for reproducible builds')
     args=parser.parse_args()
     try:
