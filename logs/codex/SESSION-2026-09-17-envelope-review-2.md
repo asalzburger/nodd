@@ -48,3 +48,8 @@ DD4hep/Geant4/ACTS runtime or TDR build was executed. Local caches remain ignore
 and publication outcomes. Human review/sign-off of the envelope baseline remains
 pending; detailed field and muon studies are the next work, not hidden prerequisites
 claimed complete by this proposal.
+
+Published proposal commit `68d0d7c`, updated the PR description, and replied in
+eight substantive review threads. All 21 comments are accounted for in the
+disposition; reply URLs are retained there. No review threads were resolved or
+human sign-off recorded. This publication record follows in its own commit.
