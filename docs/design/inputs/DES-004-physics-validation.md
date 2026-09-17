@@ -164,9 +164,9 @@ with surrounding calorimeter iron. These facts motivate keeping vacuum diagnosti
 and physical detector models separate. New fixture numbers above derive from
 sampling the approved envelope scale, not from either experiment's layer design.
 
-Verification of this memorandum: repository plan, E1-R2 allocations and validation
-catalogue inspected. This document defines future checks and does not report a
-field/transport run, ACTS installation or numerical pass.
+Initial protocol drafting inspected the repository plan, E1-R2 allocations and
+validation catalogue. The independent numerical review performed afterward is
+recorded below; ACTS execution is reported separately by the software engineer.
 
 
 ## 7. Independent review of the first vacuum benchmark

@@ -62,3 +62,11 @@ physical field ranking, momentum resolution or shower-containment result is
 claimed. Nonlinear steel/yokes, discrete toroids, validated transport maps,
 material/measurement comparisons and candidate selection remain subsequent work
 behind the protocol's review gates. All candidate parameters remain unsigned.
+
+## Delivery
+
+Committed the first increment as `bac4d4ee7cedece2b64f2d679dfebbe3197f05f1` and opened [draft PR #6](https://github.com/asalzburger/nodd/pull/6).
+The dashboard records a pending technical review at that exact design revision.
+Seven ACTS propagation fixtures and five axis comparisons passed the final root
+run; all 15 documentation/logging tests passed after integration. The bounded
+first-increment session is closed; the wider magnetic research remains active.
