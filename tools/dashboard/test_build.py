@@ -39,6 +39,13 @@ class DashboardTests(unittest.TestCase):
             shutil.copytree(build.ROOT / directory, self.root / directory)
         shutil.copy(build.ROOT / 'PROJECT.md', self.root / 'PROJECT.md')
         shutil.copy(build.ROOT / '.gitignore', self.root / '.gitignore')
+        # Remove live GitHub/revision records from synthetic history. Real-history
+        # integration is tested separately against the actual checkout.
+        self.tracking = json.loads((self.root / 'project/tracking.json').read_text())
+        self.reviews = json.loads((self.root / 'project/reviews.json').read_text())
+        self.tracking['pull_requests'] = []
+        self.reviews['rounds'] = []
+        self.save()
         self.run_git('init','-q')
         self.run_git('add','.')
         self.run_git('-c','user.name=Synthetic fixture','-c','user.email=fixture@example.invalid',
@@ -144,6 +151,43 @@ class DashboardTests(unittest.TestCase):
         baseline=out / 'evidence' / build.evidence_name('docs/validation/M0-baseline-specification.md')
         self.assertIn('No numerical acceptance limits have been selected', baseline.read_text())
 
+    def pr(self, **updates):
+        record=dict(id='TEST-PR-1',number=1,title='Synthetic PR',
+                    url='https://github.com/example/synthetic/pull/1',state='merged',
+                    head_revision=self.sha,merge_commit=self.sha,
+                    merged_at='2026-09-17T10:00:00Z',collected_at='2026-09-17T11:00:00Z',
+                    task=self.task['id'],documents=[self.doc['id']],scope='Synthetic test scope')
+        record.update(updates)
+        self.tracking['pull_requests'].append(record)
+        return record
+
+    def test_technical_approval_and_merge_do_not_promote_document(self):
+        self.pr()
+        self.round(outcome='approved',reviewers=[dict(name='Synthetic reviewer',role='Test role',human=True)])
+        data=self.normalize()
+        self.assertEqual(data['tracking']['documents'][0]['state'],'DRAFT')
+        self.assertIn('Formal sign-off is not established.',data['tracking']['documents'][0]['warnings'][0])
+        self.assertFalse(data['reviews']['rounds'][0]['approval_supported'])
+
+    def test_invalid_pr_metadata_rejected(self):
+        pr=self.pr(state='closed')
+        with self.assertRaisesRegex(build.Invalid,'Unmerged PR'):
+            self.normalize()
+        pr['state']='merged'
+        pr['merge_commit']='0'*40
+        with self.assertRaisesRegex(build.Invalid,'Git evidence'):
+            self.normalize()
+        pr['merge_commit']=self.sha
+        pr['collected_at']='2026-09-17T09:00:00Z'
+        with self.assertRaisesRegex(build.Invalid,'predates merge'):
+            self.normalize()
+
+    def test_formatted_repository_statuses_and_unknowns(self):
+        self.assertEqual(build.document_state('- Status: **DRAFT — review round 2**, not approved.'),'DRAFT')
+        self.assertEqual(build.document_state('- Status: DRAFT; created: 2026-09-17.'),'DRAFT')
+        with self.assertRaises(build.Invalid):
+            build.document_state('- Status: **DRAFTED**')
+
     def test_dependency_cycles_and_unknown_references_rejected(self):
         self.task['dependencies']=[self.task['id']]
         with self.assertRaisesRegex(build.Invalid,'cycle'):
@@ -221,6 +265,28 @@ class DashboardTests(unittest.TestCase):
         (output / 'unexpected.txt').write_text('Synthetic stale output')
         with self.assertRaisesRegex(build.Invalid,'Unexpected/stale'):
             build.build(self.root,output,'2026-09-17T12:00:00Z')
+
+
+class RepositoryReviewTests(unittest.TestCase):
+    def test_actual_pr4_history_and_approval_scope(self):
+        data=build.normalize(build.ROOT)
+        pr=data['tracking']['pull_requests'][0]
+        self.assertEqual(pr['number'],4)
+        self.assertEqual(pr['state'],'merged')
+        self.assertEqual(pr['merge_commit'],'b106610b929cdfa603dd5f1ef2a6e79dbb633a7f')
+        rounds=[r for r in data['reviews']['rounds'] if r['document']=='DES-003']
+        self.assertEqual([r['outcome'] for r in rounds],['changes requested','changes requested','approved'])
+        self.assertEqual(rounds[-1]['target_revision'],pr['head_revision'])
+        self.assertTrue(rounds[-1]['target_matches_current'])
+        self.assertFalse(rounds[-1]['approval_supported'])
+        self.assertIn('later round',rounds[0]['warnings'][0])
+        doc=next(d for d in data['tracking']['documents'] if d['id']=='DES-003')
+        self.assertEqual(doc['state'],'DRAFT')
+        self.assertTrue(any('Formal sign-off is not established' in w for w in doc['warnings']))
+        html=build.render(data,{})
+        page=Page(html)
+        self.assertIn('PR-4',page.ids)
+        self.assertTrue(all(r['id'] in page.ids for r in rounds))
 
 
 if __name__ == '__main__':

@@ -55,7 +55,8 @@ JavaScriptCore uses a URL test shim because its shell lacks browser URL APIs;
 Node uses native URL APIs. These checks exercise filtering, URL restoration,
 empty states and deep links; they do not verify browser rendering.
 
-Tests cover initialization, revision changes, repeated and conditional reviews,
+Tests cover initialization, the actual PR #4 review history and approval scope,
+formatted document statuses, merge metadata, revision changes, repeated and conditional reviews,
 approval consistency, missing criteria, invalid dependencies, output allowlists,
 escaping, deterministic builds and every generated local link/fragment. Browser
 rendering, keyboard and mobile checks require a browser and should be completed

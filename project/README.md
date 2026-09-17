@@ -56,6 +56,19 @@ for review evidence and repository protections.
 Declared lifecycle states are displayed as written. Missing current-revision
 sign-off or acceptance produces visible warnings. Technical/expert approval,
 completed work, merged code and closed issues do not supply scientific sign-off.
+The optional `pull_requests` list is a curated GitHub snapshot with exact head and
+merge SHAs, merge/collection timestamps, task/document links and scope. The
+builder checks that the merge includes the recorded head revision. A merged PR
+never supplies design approval on its own. Optional review `scope` and `summary`
+fields retain the bounded decision and user-visible review statement. Superseded
+review rounds remain historical decisions rather than current review blockers.
+
+PR #4 records two changes-requested reviews and explicit human envelope-baseline
+approval. DES-003 and ADR-006 still declare DRAFT; no formal sign-off record was
+created by the dashboard. Reconciliation requires an identified human under the
+existing workflow. Production geometry and performance acceptance are outside
+that baseline review.
+
 Software execution and scientific acceptance stay separately described in the
 linked reports; the dashboard does not infer either from exit codes.
 
