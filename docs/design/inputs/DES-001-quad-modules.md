@@ -1,186 +1,165 @@
 # DES-001 input — Alternative B: reusable planar quad module
 
-- Status: DRAFT design input; no human approval or production implementation.
-- Date: 2026-09-17.
-- Author role: Tracking engineer alternative-design agent.
-- Governing design: [DES-001](../DES-001-rd53-pixel-modules.md); issue #7.
-- Context: [PROJECT](../../../PROJECT.md), [design workflow](../TEMPLATE.md), [source catalogue](../../../reference/manifest.yaml).
+- Status: DRAFT design input; human approval and production implementation pending.
+- Updated: 2026-09-17; author role: independent Tracking engineer alternative study.
+- Governing design: [DES-001](../DES-001-rd53-pixel-modules.md), [ADR-007](../../decisions/ADR-007-itkpix-pixel-baseline.md); issue [#7](https://github.com/asalzburger/nodd/issues/7).
+- Terminology: [RD53i glossary](../DES-001-rd53-pixel-modules.md#glossary).
+- Parameter authority for this comparison: [common proposed study stack](../DES-001-module-stack.json).
 - Human technical reviewer and approving humans: pending.
-- Chip inventory, pixel volume and operating requirements: unresolved.
 
-![Draft quad-module concept, not to scale](../figures/DES-001-quad-modules.svg)
+![Draft quad module with outward bond access and sensor-back flex](../figures/DES-001-quad-modules.svg)
 
-## ITkPix baseline revision — 2026-09-17
+## Module concept and boundary
 
-The user selected **ITkPix v2 (RD53C-ATLAS)**, superseding the earlier unspecified RD53-family
-assumption. The revision choice is resolved; physical stock, thinning, pads and qualification remain
-unresolved. This is a family direction, not human module sign-off. All RD53A
-facts and arithmetic retained below are **historical superseded benchmarks**;
-none sets current ITkPix dimensions, power, pads or acceptance.
+**NODD DESIGN CHOICE B-C20 — proposed:** use one rectangular planar silicon
+sensor, four RD53i chips in a 2 × 2 arrangement, one common flex, bump
+interconnects, flex adhesive, wire bonds, necessary local passives and one
+module-side electrical termination. Keep the chip bond peripheries facing the
+two opposite outer edges. This arrangement is conditional on the exact RD53i pad
+and bump drawing; the schematic is an assembly proposal, not a qualified layout.
+All B-C20–B-C25 choices below await human approval.
 
-**FACT — SRC-RD53-OVERVIEW-2023 slide5/PDF5:** the RD53 presentation identifies
-ITkPix v1/v1.1 as RD53B and v2 as RD53C; its ATLAS column lists400×384chip
-pixels at50×50µm pitch and approximately20×21mm chip dimensions. Exact revision
-manual/procurement drawing is a pre-freeze gate. Presentation targets are not
-measured stock performance. Public source: Stefano Esposito for RD53,
-*RD53: Lessons Learned — A verification perspective*, 2023-10-23, catalogue entry
-SRC-RD53-OVERVIEW-2023; accessed2026-09-17.
+The module ends at its electrical termination and exposed chip backs. Mounting,
+supports, cooling hardware, mounting adhesive and external service allocations
+are outside this study. They require a separate boundary study and contribute
+nothing to the module-only figures here; their eventual detector contribution
+must be accounted elsewhere. This boundary does not claim thermal qualification.
 
-**INFERENCE B-I-ITK1 — current ITkPix benchmark:** each matrix is
-20×19.2mm =384mm² and153,600channels; quad totals1536mm² and614,400channels.
-Approximate chip-only2×2span is40×42mm before die gaps, sensor edges, bond access,
-flex and mounting. These derive from source nominal dimensions/counts, not stock
-tolerances or measured active area. Do not carry RD53A's82.8%ratio into ITkPix.
+**NODD DESIGN CHOICE B-C21 — proposed:** start with a 150 µm planar n-in-p
+sensor and four chips thinned to 150 µm of silicon. These are comparison choices,
+not facts about available stock or guarantees of radiation performance. Supplier
+thinning capability, sensor depletion/bias requirements, flatness and handling
+yield must be checked before freezing them. A thinner sensor or chip is a later
+alternative requiring the same checks.
 
-**NODD DESIGN CHOICE B-C-ITK1 — proposed:** keep B as an ITkPix four-chip candidate
-only where its substantially larger rigid footprint fits. Revalidate outward-pad
-orientation, chip seams, flex routing and thermal contact against the exact revision.
-More nominal area per assembly heightens curvature, large-sensor yield and total
-heat/service challenges; no universal quad selection follows. Approvers pending.
+## Public evidence and geometrical inference
 
-
-## Proposal and boundary conditions
-
-**NODD DESIGN CHOICE — proposed:** develop one rectangular four-chip hybrid with
-one common planar silicon sensor, a common flex and a replaceable external service
-tail. Arrange the chips in two rows and two columns, with the bottom wire-bond
-peripheries facing the two outer long edges. This protects bond access and leaves
-the central seam between the opposing pixel-matrix edges. All choices in this
-input require human approval; none selects ATLAS or CMS geometry.
-
-**NODD DESIGN CHOICE — proposed:** use n-in-p planar silicon as the default sensor
-candidate. Keep sensor thickness, implant/isolation technology, guard-ring design,
-bias contact and qualified irradiation envelope open until operating requirements
-and suppliers are established. A single large sensor saves repeated perimeter
-regions, but is not evidence that its central seams collect charge efficiently.
-Do not impose the same large sensor on a future highest-fluence region without
-comparison against small planar or 3D hybrids.
-
-**FACT — SRC-RD53A:** manual v3.51 abstract and §1/Figure 1, physical PDF pages
-1 and 4–5, identify RD53A as a prototype and give a 20.0 mm × 11.6 mm die.
-Section 2, PDF 6, gives 400 × 192 cells of 50 µm × 50 µm and bottom-edge bond
-periphery. These are conditional benchmarks, not an identification of the chip
-in hand. The stock variant, wafer/die revision, thickness and assembly drawing
-must be established before freezing the sensor bump mask. Other published
-11.8 mm height labels must be reconciled against the stock drawing.
-
-**FACT — SRC-RD53A-MODULE-ASSEMBLY-2022:** §1–2, PDF 2–5, describes RD53A
-sensor/chip bump hybrids, flex attachment, pigtails, metrology and aluminium wire
-bonds. Section 3, PDF 5–7, describes electrical, source and thermal-cycle testing;
-PDF 7 reports seven operational quads, four integrated into a demonstrator.
-This establishes a manufacturing precedent, not nODD yield or lifetime.
-
-## Interfaces and construction
-
-The following rows are all **NODD DESIGN CHOICE — proposed**. Approving humans
-are pending. Dimensions and compositions remain explicit design variables.
-
-| Element | Proposed representation and reason | Evidence needed to freeze |
+| Claim ID | Classification | Statement and precise source locator |
 | --- | --- | --- |
-| Sensitive sensor | One planar tile, with four separately addressable readout regions; retain guard/bias structures and central seam map. | Sensor process, breakdown/leakage, edge efficiency, irradiation and bump-mask compatibility. |
-| Chip interconnect | Qualified flip-chip bumps to the actual supplied RD53 die; no replacement readout chip or assumed through-silicon vias. | Supplier bump alloy, pitch/mask, height, yield and thermal-cycle data. |
-| Flex | Polyimide/copper candidate stack on sensor backside, with bond-access openings or edge tabs; only required routing/passives. | Routing, return paths, conductor widths/thicknesses, dielectric stack and HV clearance. |
-| Flex attachment | Controlled patterned epoxy film; bonded support beneath flex bond pads; no glue on pads, HV contact or sensor guard regions. | Adhesive identity, density, coverage/mass, cure, flatness and radiation compatibility. |
-| Wire bonds | Low-mass aluminium candidate wires from outward-facing chip pads to flex. Keep bond loops and tool access in occupied envelope. | Actual pad compatibility, wire geometry, pull tests and protection method. |
-| Cooling interface | Thin qualified dielectric thermal adhesive on chip backs to shared support lands; support provides short path to cooling tube. | Thermal conductance, electrical isolation, flatness, differential expansion and allowable die stress. |
-| Service tail | Common electrical landing and separately routed detachable tail; connector placed outside sensitive footprint where practical. | Mating clearance, mass, HV/LV/data isolation, strain relief and replacement access. |
-| Repeated support | Shared support/cooling assembly, with deterministic per-module allocation of tube, coolant, facing and adhesive. | Mechanical deflection, pipe pressure/leak tests, cooling and installation study. |
+| B-F20 | FACT | SRC-RD53-OVERVIEW-2023, slide 5 / physical PDF 5, gives the selected family reference matrix as 400 × 384 chip cells at 50 µm pitch, with an approximate 20 × 21 mm die. These overview values do not specify stock tolerances, supplied thickness or pad accessibility. |
+| B-F21 | FACT | SRC-RD53A-MODULE-ASSEMBLY-2022, §1–2 / PDF 2–5, documents hybrid assembly using a sensor, bump-bonded chips, attached flex and wire bonds; §3 / PDF 5–7 describes testing. This is historical assembly precedent only; none of its chip dimensions or operating parameters governs RD53i. |
+| B-I20 | INFERENCE | B-F20 gives 20.0 × 19.2 mm = 384 mm² and 153,600 channels per chip. Four chips give 1536 mm² nominal readout footprint and 614,400 channels. Approximate die-only 2 × 2 span is 40 × 42 mm before gaps. No installed acceptance or sensor efficiency follows. |
+| B-I21 | INFERENCE | For die dimensions D_x,D_y, gaps g_x,g_y and outward envelope margins e_left,e_right,e_top,e_bottom, W = 2D_x + g_x + e_left + e_right and H = 2D_y + g_y + e_top + e_bottom. Margins include module-local bond loops, flex and termination. The sensor boundary must be derived separately so it does not cover bond pads. |
 
-**INFERENCE:** the backside flex and chip-back support interfaces lie on opposite
-faces of the sensor/bump/chip stack. The drawing therefore shows both, rather than
-placing the flex in the chip-to-coolant contact. No thermal path may rely solely
-on lateral conduction along a thin flex. Thermal performance remains unverified.
+Sources and version metadata are in the [catalogue](../../../reference/manifest.yaml).
+The chip reference is Stefano Esposito for RD53, *RD53: Lessons Learned —
+A verification perspective*, 2023-10-23. The assembly precedent is A. Petrukhin
+for the ATLAS ITk Pixel Collaboration, *RD53A pixel module assembly and testing
+experience*, arXiv:2212.09392v1, 2022-12-19. Earlier benchmark claims remain in
+Git history; the new IDs above do not redefine them.
 
-## Area, material and power accounting
+**NODD DESIGN CHOICE B-C22 — proposed:** retain four distinct readout regions,
+both inter-chip seams, sensor edge/guard structures and the bump-to-implant map.
+A common sensor does not imply a seamless active plane. Any elongated seam
+pixels require a compatible mask and measured charge response; they create no
+extra electronic channels. Gap sizes, guard margins and bond-loop heights are
+unresolved, so the 40 × 42 mm die reference cannot be used as a module envelope.
 
-**INFERENCE — conditional RD53A benchmark:** matrix area per die is
-400 × 192 × (0.050 mm)² = 192 mm², hence 768 mm² and 307,200 channels for a
-quad. The four dies occupy 4 × 20.0 mm × 11.6 mm = 928 mm²; the matrix/die-area
-ratio is 82.8%. This excludes gaps, guard rings, bond-loop clearances, flex and
-services. It is neither module fill factor nor sensor efficiency. Inputs are the
-manual facts above, arithmetic exact at quoted precision; actual-stock systematic
-uncertainty dominates.
+## Complete component account and provisional material calculation
 
-**INFERENCE — geometry bookkeeping:** define die width/height D_x,D_y;
-inter-die clearances g_x,g_y; outside flex/bond/guard margins e_left,e_right,
-e_top,e_bottom. The bounding rectangle is
-W = 2D_x + g_x + e_left + e_right and
-H = 2D_y + g_y + e_top + e_bottom. Margins are envelope bookkeeping terms,
-not a prescription to extend the sensor across bond pads. CAD must separately
-derive the sensor boundary, tool access and active map. Report A_readout/(WH)
-alongside the sensor active-area map. Any seam-crossing elongated pixels require
-a demonstrated implant/bump map and measured response; they cannot invent
-additional RD53 channels.
+**NODD DESIGN CHOICE B-C23 — proposed:** use the same study stack as alternative
+A, with a polyimide/copper flex on the sensor back and bumps/chips on its opposite
+face. The flex comprises a 25 µm core and two 12.5 µm coverlay films, two patterned
+18 µm copper layers, and separately accounted laminate adhesives. Attach the
+flex with a proposed 25 µm epoxy bondline. Study a 20 µm bump standoff and
+25 µm diameter aluminium wire bonds. Thicknesses and wire diameter are proposed
+values, not measured assemblies. Patterning, routing and a qualified assembly
+process determine whether they are sufficient; adding necessary material must
+update this account.
 
-**NODD DESIGN CHOICE — proposed:** compare alternatives using material per
-instrumented area and directional distributions, not just total module mass.
-For each constituent i, record actual covered area A_i, thickness t_i, density
-ρ_i and composition, giving m_i = ρ_i A_i t_i for planar pieces. Bumps, wires,
-passives, glue and connectors use their actual volumes or measured masses.
-Allocate shared support/coolant by a documented repeat length. Keep overlaps
-between sensor, chip and flex maps: adding area fractions as disjoint regions
-would undercount through-going material. Normal-incidence local budget is
-Σ t_i/X0_i; angled tracks require intersected path lengths, including
-edge/service concentrations. No complete numerical X/X0 is available yet.
+**FACT B-F22:** the PDG Atomic and Nuclear Properties tables give bulk radiation
+lengths of 93.70 mm for silicon, 14.36 mm for copper and 88.97 mm for aluminium
+(2025 element pages), and 285.7 mm for polyimide film (2020 film page). Precise
+locator: the `Radiation length` row of SRC-PDG-SILICON-2025,
+SRC-PDG-COPPER-2025, SRC-PDG-ALUMINUM-2025 and SRC-PDG-POLYIMIDE-2020.
+The film value is a reference composition, not a certification of a selected flex.
 
-**INFERENCE — thermal accounting:** quad load is ΣP_chip + V_bias I_leak +
-local regulation and passive losses. Compare thermal maps at identical channel
-load, irradiated leakage and coolant boundary conditions. Large area does not
-imply four times allowable cooling resistance. The hottest die and sensor, glue
-interfaces and failure transients determine feasibility. A qualified chip load
-model and power topology are unresolved; do not assume a serial-powered module
-has a fourfold external current or negligible shunt dissipation.
+**INFERENCE B-I22:** for a normal ray through a uniform layer, the contribution
+in percent of a radiation length is 100 t/X0, with t and X0 in the same units.
+The table applies B-F22 to the proposed B-C21/B-C23 dimensions. No unknown row
+is assigned zero. Silicon substrate values exclude separately listed device
+surface materials.
 
-## Tiling an undefined pixel volume
+| Module constituent | Proposed thickness / geometry | Material | Bulk X0 (mm) | Local contribution (% X0) | Remaining definition |
+| --- | --- | --- | --- | --- | --- |
+| Common sensor bulk | 150 µm | Silicon | 93.70 | 0.1601 | Process, perimeter, thickness tolerance and active map |
+| Four RD53i substrates | 150 µm per die | Silicon | 93.70 | 0.1601 through one die | Four lateral dies do not form four stacked layers; actual thinning and gaps pending |
+| Flex dielectric core | 25 µm | Polyimide film reference | 285.7 | 0.0088 | Supplier composition and cutouts |
+| Flex coverlay films | 2 × 12.5 µm | Polyimide film reference | 285.7 | 0.0088 combined | Adhesives excluded from film thickness |
+| Flex conductor layer 1 | 18 µm where copper exists | Copper | 14.36 | 0.1253 where crossed | Routing and spatial coverage c1 pending |
+| Flex conductor layer 2 | 18 µm where copper exists | Copper | 14.36 | 0.1253 where crossed | Routing and spatial coverage c2 pending |
+| Flex-to-sensor bond | 25 µm proposed bondline | Epoxy grade/composition TBD | TBD | TBD | Density, coverage, fillers, cure and actual thickness |
+| Flex laminate/coverlay adhesive | Thickness and coverage TBD | Adhesive grade TBD | TBD | TBD | Separate from the proposed 50 µm total polyimide |
+| Bump interconnects | 20 µm proposed standoff; volume/diameter/count map TBD | Alloy and under-bump metallization TBD | TBD | TBD | Standoff is not a continuous metal layer; supplier geometry required |
+| Chip-to-flex and sensor-bias bonds | 25 µm proposed wire diameter; counts/loop lengths TBD | Aluminium candidate | 88.97 | TBD | Nonplanar paths; include every required wire and contact |
+| Sensor/chip surfaces | Thickness, composition and coverage TBD | Device metallization, dielectrics and passivation | TBD | TBD | Avoid counting bump metallization twice |
+| Flex finishes, pads and vias | Thickness/volume map TBD | Plating/finish metals and via copper TBD | TBD | TBD | Add plating separately from nominal copper foils |
+| Local passives and attachment | BOM, package volumes and masses TBD | Capacitors, resistors and other required parts; solder/adhesive | TBD | TBD | Routing and power/HV design determine count and locations |
+| Module-side termination | Pad or connector choice and occupied volume TBD | Conductors, insulation and attachment TBD | TBD | TBD | Include any module-local reinforcement or retention needed by the selected termination |
+| Any required bond protection or reinforcement | Necessity, geometry and mass TBD | Material TBD | TBD | TBD | No blanket potting, underfill or stiffener assumed; any required addition must enter the BOM |
 
-**NODD DESIGN CHOICE — proposed:** use the same quad in longitudinal barrel
-repeats and on disk/ring support sectors where curvature and available chords
-permit. Supports/tails may vary while the sensor, bump assembly and common flex
-remain common. Evaluate staggered neighboring modules and opposite-face overlap
-before adding bespoke wedge sensors. Include the material cost of overlap.
+**INFERENCE B-I23:** the partial local stack through sensor, one chip, all
+50 µm of polyimide and both copper layers gives
+100 × (0.150/93.70 + 0.150/93.70 + 0.050/285.7 + 0.036/14.36)
+= **0.5884% X0**. Compute from unrounded values; individual rounded rows need
+not sum exactly. The polyimide subtotal is 0.0175% X0 and the two-copper-layer
+subtotal is 0.2507% X0. This is a partial reference crossing, **not the complete
+module budget**, not its area average and not an upper bound including the
+unknown components. A ray through one quad chip does not cross all four chips.
 
-**INFERENCE:** a large rectangular footprint improves repeated-area coverage
-and reduces the number of service landings, but fits small-radius rings and
-barrel curvature less easily than a small hybrid. The geometry gate must compare
-real occupied corners, bond loops and tails against the agreed pixel volume.
-No radius, stave count, disk count, gap or achieved acceptance is selected here.
+For an area average, integrate each component's actual material map over a
+stated area. Over a fixed region with fractional conductor coverage c1 and c2,
+the copper term is 0.12535(c1 + c2)% X0, assuming 18 µm uniform traces within
+each covered area. Do not assume equal coverage or use the full-coverage value
+as an average. Bump and wire contributions require their actual volumes or
+intersected paths; the proposed standoff/diameter alone is insufficient. Compare
+module mass and integrated material per 1536 mm² nominal readout area as one
+explicit normalization, and separately report useful measured sensor area and
+local concentrations. A full module material result remains pending.
 
-## Manufacture, test and failure tradeoffs
+## Assembly, reuse and alternative comparison
 
-**NODD DESIGN CHOICE — proposed:** qualify sensor, dies and flex separately;
-test the bare bump hybrid before flex attachment; perform post-glue metrology,
-bond inspection/pull sampling, chip-by-chip tuning and connectivity tests,
-sensor IV and charge-source/beam seam maps; repeat electrical/IV checks after
-thermal cycling. Record glue mass and production genealogy. Numerical acceptance
-criteria and cycle profiles require a separate validation specification.
+**NODD DESIGN CHOICE B-C24 — proposed:** use a single quad sensor/flex design
+and repeated chip orientation pairs. Route only the required conductors and
+local components; retain sufficient bondable flex land support within the module
+assembly and expose chip pads without routing flex through the bump interface.
+A routed flex must demonstrate power returns, signal integrity, bias clearance,
+bond-tool access and termination retention before material can be minimized
+credibly. The design does not assume that fewer module types makes one flex
+compatible with every electrical topology.
 
-**INFERENCE:** with independent chip-survival probability p and all four required,
-chip-only quad survival is p⁴ before sensor, bump, flex and assembly failures.
-This is a sensitivity model, not a yield estimate; defects can be correlated.
-A shared sensor or flex fault can lose the entire quad. Determine whether
-partial-chip operation is useful before labeling it a repair path.
+**INFERENCE B-I24:** compared at equal nominal readout area, one B quad replaces
+two A two-chip modules or four A one-chip modules. Common chip and sensor bulk
+thicknesses therefore offer no intrinsic silicon material saving per readout
+area. B may save duplicated sensor perimeter, flex edge and termination overhead.
+Longer routing, additional local passives, a larger sensor, reinforcement or
+assembly rejection can erase that saving. The unknown BOM prevents a numerical
+ranking or a claim that B has the least material.
 
-| Benefit | Countervailing issue and deciding evidence |
-| --- | --- |
-| Fewer sensor perimeters and service landings per area. | Larger sensor losses and correlated failure; compare measured material and accepted-area yield. |
-| One common high-area hybrid across many repeats. | Poor fit at tight curvature and narrow disk chords; compare occupied-envelope tilings. |
-| Potentially less repeated flex/passive overhead. | Four-chip routing, bond clearances and support stiffness may consume the saving; require routed flex and weighed stack. |
-| Shared assembly/test tooling. | Large thin sensor handling, glue flatness and thermal mismatch are demanding; qualify assembly and cycling. |
+| Criterion | Quad opportunity | Constraint and deciding evidence |
+| --- | --- | --- |
+| Few module types | One common large planar sensor and flex for repeated units | Exact inventory mapping and module fit remain unresolved |
+| Reuse | Four repeated chip placements and shared module test interface | A larger sensor/flex remains a separate part from compact alternatives |
+| Minimum module material | Amortize module termination and repeated sensor/flex edges | Compare routed and weighed BOMs per useful area, including reinforcement if required |
+| Realistic assembly | Conventional bump hybrid, sensor-back flex and outward wire bonding | Thin large-sensor handling, coplanarity, bond access and adhesive cure must be demonstrated |
+| Failure exposure | Chip-by-chip testing can identify defective regions | A common sensor/flex defect may reject a whole quad; partial operation is not assumed to be a repair |
 
-These comparisons are **INFERENCE**, contingent on the proposed construction.
+All comparisons in this table are **INFERENCE B-I25**, conditional on B-C20–B-C24.
+For independent chip survival probability p, the all-four-survive factor is p⁴;
+this sensitivity model excludes correlated, sensor and assembly failures and is
+not a yield prediction.
 
-## Recommendation to the Tracking engineer
+**NODD DESIGN CHOICE B-C25 — proposed:** qualify the sensor, thinned dies and
+flex independently; inspect/test the bare bump hybrid; measure glue mass and
+post-cure flatness; inspect and sample-test bonds; perform per-chip connectivity,
+noise/tuning and sensor IV tests; map charge response across both seams and
+outer edges; repeat electrical and metrology checks after a reviewed thermal
+cycle programme. Numerical criteria and cycle conditions require a validation
+specification; none is implied by the drawing.
 
-**NODD DESIGN CHOICE — proposed:** retain B as the reusable area-coverage
-candidate and compare it with the smaller hybrid at equal covered area, channel
-load and support/cooling boundary conditions. Prefer B where occupied-envelope
-tiling and measured assembly yield support its lower repeated overhead. Keep
-the smaller option available for constrained or demanding regions rather than
-claiming a universal quad. Project Coordinator recommendation and human review
-are separate from this engineering input.
-
-Before technical review, resolve chip inventory, sensor operating/radiation
-requirements, central seam response, flex routing, material inventory and the
-thermal/support model. No production geometry, material or readout configuration
-has been changed; any later unsigned construction demonstrator must be isolated
-and labeled PROTOTYPE.
+Retain B as the candidate for amortizing module overhead, pending a complete
+module BOM and assembly evidence. Exact die/pad/bump drawings, sensor process
+and seam response, routed flex, adhesive identities, passives and termination
+are unresolved. Human review must approve the dimensions, material choices and
+acceptance criteria before production implementation. This input changes no
+production geometry or detector configuration.

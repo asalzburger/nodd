@@ -1,82 +1,72 @@
-# ADR-007 — ITkPix pixel-module baseline
+# ADR-007 — RD53i pixel-module baseline
 
 - Status: DRAFT; created / updated: 2026-09-17.
 - Human owner: TBD; author: AI-assisted project coordination.
-- Issue: [#7](https://github.com/asalzburger/nodd/issues/7).
+- Issue [#7](https://github.com/asalzburger/nodd/issues/7); draft [PR #8](https://github.com/asalzburger/nodd/pull/8).
 - Related: [DES-001](../design/DES-001-rd53-pixel-modules.md), [ADR-006](ADR-006-global-envelope-and-field-hypotheses.md).
-- Supersedes / superseded by: none. Replaces the unspecified-chip working assumption in DES-001, not an accepted design.
-- Human approval evidence for an exact design revision: pending.
+- Supersedes / superseded by: none; amends an unapproved working proposal.
+- Human approval of an exact full design revision: pending.
 
-## Context
+## Context and notation
 
-On 2026-09-17, after discussing RD53A, ITkPix and CROC consequences, the user
-instructed: “Let's take ITkPix then”. The user subsequently specified “v2 it is.” This selects ITkPix v2 for design
-work; it neither certifies the physical inventory nor signs off DES-001.
-An ADR records the technology direction because it affects sensors, module
-footprints, services, assembly and response modelling.
+The user selected the chip family and revision on 2026-09-17 and subsequently
+requested one consistent shorthand and module-only proposals. Use **RD53i** as
+defined once in the [DES-001 glossary](../design/DES-001-rd53-pixel-modules.md#glossary).
+The family/revision question is resolved; module qualification is not implied.
+Prior choices and source-specific benchmark text remain traceable in Git history.
 
 ## Evidence and provenance
 
-**FACT — SRC-RD53-OVERVIEW-2023**, slide 5 / physical PDF5: ITkPix v1 and
-v1.1 belong to RD53B; v2 belongs to RD53C. The overview lists the ATLAS matrix
-as 400 × 384 with 50 µm chip-cell pitch and an approximate 20 × 21 mm die.
-The [source catalogue](../../reference/manifest.yaml) records selected-page
-verification. These overview values are not a certified stock drawing or
-revision-specific operating limits.
+**FACT — SRC-RD53-OVERVIEW-2023**, slide5/PDF5: the selected revision is in the
+RD53C generation; the ATLAS column lists 400 × 384 cells, 50 µm chip-cell pitch
+and approximately 20 × 21 mm die dimensions. These overview values are not
+procurement tolerances or certified operating limits. Source identity and
+verification are in the [catalogue](../../reference/manifest.yaml).
 
-**INFERENCE:** pixel count times pitch gives a nominal 20.0 × 19.2 mm matrix
-rectangle, or 384 mm² per chip. With identical cells, two and four chips provide
-768 and 1536 mm² of nominal readout footprint. This counts readout cells, not
-measured sensitive efficiency or seamless installed coverage. Guard structures,
-seams, chip gaps and services require explicit spatial accounting.
+**INFERENCE:** count times pitch yields 384 mm² nominal readout footprint per
+chip, 768 mm² for two and 1536 mm² for four. Guard/seam response, gaps and module
+termination do not follow from this arithmetic. The larger assembly can amortize
+repeated module components but does not establish a material advantage.
 
 ## Options
 
-Comparative judgments are **INFERENCE**; procurement and engineering evidence
-are incomplete.
+Comparative assessments are **INFERENCE**, with incomplete qualification evidence.
 
-| Option | Benefit | Cost / limitation |
+| Chip option | Benefit | Limitation / direction |
 | --- | --- | --- |
-| RD53A | Smaller demonstrator with public module-assembly experience | More chips for comparable matrix area; mixed front-end regions; not selected |
-| ITkPix | Selected larger-area family; supports common high-area hybrid study | Larger rigid footprint; revision-specific mask, pad, power and response evidence needed |
-| CROC | Alternative larger-area family and aspect ratio | Different chip/interface qualification; not selected |
+| RD53A demonstrator | Smaller chip and historical assembly studies | Mixed front ends; superseded benchmark, not current baseline |
+| RD53i | User-selected larger chip with a fixed revision | Exact interface/thinning/qualification evidence still required |
+| CMS successor | Alternative larger-chip shape | Different interface qualification; not selected |
 
 ## Design direction
 
-**NODD DESIGN CHOICE — human-directed investigation:** use **ITkPix v2 (RD53C-ATLAS)** for the nODD
-pixel-module design baseline, as explicitly directed by the user on 2026-09-17.
-The family and revision choices are resolved. This does not certify procurement,
-physical stock or full design approval. Compare compact and quad modules around the selected family;
-continue experiment-independent sensor, support and placement design.
+**NODD DESIGN CHOICE — human-directed investigation:** use RD53i unchanged for
+module design. This direction does not certify delivered stock or full module
+approval. Redo compact and quad alternatives around a common proposed module
+stack and component material account. Limit scope to sensor, chips, interconnect,
+flex/adhesion, wire bonds, bias contact, local parts and module termination.
+Mounting/cooling infrastructure and external distribution are excluded; the
+boundary stops at electrical termination and bare die backs.
+
+**NODD DESIGN CHOICE — proposed; approving humans pending:** study the nominal
+thicknesses in [DES-001](../design/DES-001-rd53-pixel-modules.md) and its common
+stack record. They are design-study values, not measured stock or vendor claims.
+Unknown compositions and missing component layers remain explicit; a partial
+local radiation-length subtotal must not be labeled a complete module budget.
 
 ## Consequences and validation
 
-**INFERENCE:** changing the working chip changes sensor bump mapping, die and
-bond-access envelopes, flex routing, thermal contacts, load budgets and
-readout/calibration support. RD53A examples remain historical evidence and must
-not govern ITkPix manufacturing or operating parameters. The larger footprint
-can alter the compact/quad tradeoff; no material saving is established.
+RD53i fixes the chip input for sensor mapping, bond access, module flex and
+readout/configuration work. Before freeze obtain authoritative drawings and
+load/interface evidence. Compare module outlines, routed material and qualified
+assembly, keeping pixel volume deliberately open. Do not select detector placement
+or complete infrastructure in this component task. Human design review and
+sign-off precede a separate production implementation.
 
-Review DES-001 and its drawings for consistent chip identity and arithmetic.
-Before dimensional freeze obtain the exact revision manual, mechanical/pad
-and bump drawings, thinning and qualification evidence. Before family selection,
-compare occupied-envelope coverage and full spatial BOM/service/thermal accounts.
-Production implementation follows separate human design review and sign-off.
+## Open questions and human review
 
-## Open questions
-
-- Tracking Engineer and human inventory owner: ITkPix v2 available
-  stock, die thickness and authoritative interface dossier.
-- Coordinator and tracking/physics: host volume, radiation/rate/lifetime and
-  useful coverage requirements.
-- Sensor/electrical/mechanical specialists: compatible sensor process, load,
-  isolation, assembly and cooling interfaces with explicit tolerances.
-
-## Human review
-
-| Role | Assigned human | Exact revision | Date | Outcome | Evidence |
-| --- | --- | --- | --- | --- | --- |
-| Technology/design reviewer | TBD | Pending | — | Pending | Pending |
-
-Only identified humans may authorize sign-off or acceptance. This DRAFT records
-an investigation direction; it does not approve detector integration.
+Human inventory owner, sensor/electrical/material specialists and approvers are
+unassigned. Delivered thickness, film/bump stacks, flex/adhesive grades, seams,
+local BOM, operating requirements and qualification remain unresolved. Pixel
+volume belongs to a later layout decision. No AI assessment grants approval;
+this ADR remains DRAFT and exact full-design human review evidence is pending.

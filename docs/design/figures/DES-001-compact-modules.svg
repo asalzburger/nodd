@@ -1,42 +1,70 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 720" role="img" aria-labelledby="title desc">
-<title id="title">DES-001 alternative A: compact ITkPix modules</title>
-<desc id="desc">Original draft schematic, not to scale. A1 has one chip; optional A2 has two side-by-side chips under a shared sensor, aligned bond access and a shared flex tail. Cross section shows sensor, bumps, die, thermal joint and DES-002 support boundary.</desc>
-<style>text{font:16px sans-serif;fill:#172b3a}.heading{font:bold 21px sans-serif}.small{font:14px sans-serif}.sensor{fill:#d7eff8;stroke:#226987;stroke-width:2}.chip{fill:#cfe6ce;stroke:#377340;stroke-width:2}.flex{fill:#ffe9b6;stroke:#a87618;stroke-width:2}.joint{fill:#ead7ed;stroke:#85598b;stroke-width:2}.line{stroke:#172b3a;stroke-width:2;fill:none}.bond{stroke:#986a21;stroke-width:2;fill:none}</style>
-<rect width="1000" height="720" fill="white"/>
-<text x="28" y="34" class="heading">Alternative A — compact ITkPix v2</text>
-<text x="28" y="60">DRAFT schematic · not to scale · variant and dimensions unresolved</text>
-<text x="28" y="98" class="heading">A1: single chip · top view</text>
-<rect x="48" y="125" width="250" height="155" class="chip"/>
-<rect x="37" y="114" width="272" height="135" class="sensor"/>
-<text x="99" y="165">Silicon sensor</text><text x="86" y="212" class="small">ITkPix die underneath</text>
-<text x="57" y="274" class="small">Accessible chip pad edge</text>
-<rect x="37" y="302" width="272" height="45" class="flex"/>
-<path d="M80 280 Q94 290 103 302 M135 280 Q149 290 158 302 M190 280 Q204 290 213 302 M245 280 Q259 290 268 302" class="bond"/>
-<text x="66" y="332">Flex bond/service strip</text>
-<path d="M309 320 L367 320 L367 353" class="line"/>
-<text x="326" y="378" class="small">Service tail</text>
-<text x="446" y="98" class="heading">A2: optional two chips · top view</text>
-<rect x="470" y="125" width="203" height="155" class="chip"/>
-<rect x="690" y="125" width="203" height="155" class="chip"/>
-<rect x="459" y="114" width="445" height="135" class="sensor"/>
-<text x="584" y="159">Shared silicon sensor</text>
-<text x="520" y="214">ITkPix die</text><text x="738" y="214">ITkPix die</text>
-<path d="M681 169 L681 234" class="line"/>
-<text x="554" y="274" class="small">Aligned accessible chip pad edges</text>
-<rect x="459" y="302" width="445" height="45" class="flex"/>
-<path d="M503 280 Q517 290 526 302 M561 280 Q575 290 584 302 M619 280 Q633 290 642 302 M723 280 Q737 290 746 302 M781 280 Q795 290 804 302 M839 280 Q853 290 862 302" class="bond"/>
-<text x="585" y="332">Shared flex service strip</text>
-<path d="M904 322 L958 322 L958 353" class="line"/><text x="835" y="378" class="small">Shared tail; sizing pending</text>
-<text x="28" y="422" class="heading">Common cross-section concept · bond access shown schematically</text>
-<rect x="58" y="457" width="535" height="38" class="sensor"/><text x="611" y="483">Sensor + bias contact (routing pending)</text>
-<g fill="#a87618"><circle cx="100" cy="507" r="5"/><circle cx="160" cy="507" r="5"/><circle cx="220" cy="507" r="5"/><circle cx="280" cy="507" r="5"/><circle cx="340" cy="507" r="5"/><circle cx="400" cy="507" r="5"/><circle cx="460" cy="507" r="5"/><circle cx="520" cy="507" r="5"/></g>
-<text x="611" y="514">Discrete bump array</text>
-<rect x="58" y="521" width="575" height="39" class="chip"/><text x="660" y="547">ITkPix die; exposed bond pad</text>
-<rect x="58" y="570" width="575" height="16" class="joint"/><text x="660" y="584">Thermal adhesive footprint</text>
-<rect x="44" y="595" width="702" height="38" fill="#e8e9ed" stroke="#596579" stroke-width="2"/>
-<text x="75" y="621">Local support / cooling interface owned by DES-002</text>
-<rect x="750" y="552" width="200" height="18" class="flex"/><path d="M620 524 Q689 475 755 552" class="bond"/>
-<text x="765" y="594" class="small">Flex edge tab; bond loop</text><text x="765" y="613" class="small">Backside routing pending</text>
-<text x="28" y="667" class="small">Lateral flex is a bond-access edge tab connected to sensor-backside flex; routing and adhesion remain pending.</text>
-<text x="28" y="695" class="small">No chip replacement, production geometry, pixel-volume placement or human approval is implied.</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="1000" viewBox="0 0 1280 1000" role="img" aria-labelledby="title desc">
+<title id="title">Alternative A: compact RD53i module proposal</title>
+<desc id="desc">Top views of single-chip A1 and optional two-chip A2; common cross-section has flex on sensor backside, adhesive, silicon sensor, discrete bumps, and RD53i chip underneath. Exposed chip pads connect by wire around the sensor edge to the flex. Thicknesses are proposed study values, not certified dimensions. Module infrastructure is excluded.</desc>
+<defs><style>text{font-family:Arial,Helvetica,sans-serif;fill:#183149} .title{font-size:28px;font-weight:bold}.head{font-size:21px;font-weight:bold}.body{font-size:17px}.small{font-size:15px}.tiny{font-size:13px}.panel{fill:#f6f8fb;stroke:#bac7d4}.sensor{fill:#9fd6e5;stroke:#286378;stroke-width:2}.chip{fill:#b9badc;stroke:#55517e;stroke-width:2}.flex{fill:#f2d59c;stroke:#9a6e21;stroke-width:2}.adhesive{fill:#dfbccc;stroke:#945770}.cu{fill:#c27640;stroke:#814723}.wire{fill:none;stroke:#607584;stroke-width:3}.guide{fill:none;stroke:#526a7b;stroke-width:1.5}.matrix{fill:none;stroke:#286378;stroke-dasharray:6 4;stroke-width:2}</style></defs>
+<rect width="1280" height="1000" fill="white"/>
+<text x="32" y="42" class="title">Alternative A · compact RD53i modules</text>
+<text x="32" y="71" class="body">DRAFT • A3-C01–C09 • 2026-09-17 • Proposed dimensions; no human sign-off</text>
+<rect x="25" y="92" width="490" height="315" rx="9" class="panel"/>
+<rect x="530" y="92" width="725" height="315" rx="9" class="panel"/>
+<text x="45" y="123" class="head">A1 · single chip</text><text x="550" y="123" class="head">A2 · optional shared sensor / two chips</text>
+<rect x="68" y="145" width="210" height="219" class="chip"/>
+<rect x="60" y="140" width="226" height="188" class="sensor"/>
+<rect x="76" y="150" width="194" height="167" class="matrix"/>
+<path d="M88 167 H235 V187 H326 V255 H235 V298 H88 Z" class="flex"/>
+<rect x="247" y="199" width="17" height="12" fill="#4e6575"/><rect x="272" y="222" width="14" height="20" fill="#4e6575"/>
+<path d="M98 345 Q99 306 112 294 M130 345 Q131 310 144 294 M162 345 Q163 310 176 294 M194 345 Q195 310 208 294" class="wire"/>
+<path d="M305 200 V248 M312 200 V248 M319 200 V248" stroke="#c27640" stroke-width="4"/>
+<text x="339" y="183" class="small">Local flex</text><text x="339" y="207" class="small">+ passives</text><text x="339" y="245" class="small">Termination</text><text x="339" y="265" class="small">lands; BOM TBD</text>
+<text x="45" y="392" class="small">384 mm² nominal matrix • 153,600 channels</text>
+<rect x="583" y="145" width="199" height="219" class="chip"/><rect x="794" y="145" width="199" height="219" class="chip"/>
+<rect x="574" y="140" width="428" height="188" class="sensor"/>
+<rect x="590" y="150" width="185" height="167" class="matrix"/><rect x="801" y="150" width="185" height="167" class="matrix"/>
+<path d="M607 167 H965 V187 H1050 V255 H965 V298 H607 Z" class="flex"/>
+<rect x="975" y="199" width="17" height="12" fill="#4e6575"/><rect x="997" y="222" width="14" height="20" fill="#4e6575"/>
+<path d="M628 345 Q629 310 642 294 M677 345 Q678 310 691 294 M726 345 Q727 310 740 294 M829 345 Q830 310 843 294 M878 345 Q879 310 892 294 M927 345 Q928 310 941 294" class="wire"/>
+<path d="M1028 200 V248 M1035 200 V248 M1042 200 V248" stroke="#c27640" stroke-width="4"/>
+<text x="1063" y="192" class="small">Shared local</text><text x="1063" y="214" class="small">termination</text><text x="1063" y="253" class="small">Seam + gap</text><text x="1063" y="275" class="small">mapping TBD</text>
+<text x="550" y="392" class="small">768 mm² nominal matrix • 307,200 channels • gap schematic</text>
+<text x="33" y="437" class="small">Top views show exposed bond ledges and schematic layering. Sensor edges and flex extents are not dimensioned.</text>
+<rect x="25" y="455" width="1230" height="352" rx="9" class="panel"/>
+<text x="45" y="487" class="head">Common cross-section at an accessible chip edge</text>
+<text x="45" y="512" class="small">Sensor backside above; chip backside below. Vertical drawing heights are schematic; thickness labels are study inputs.</text>
+<!-- Flex stack with separated dielectric/conductor bands and opened top bond pad. -->
+<rect x="95" y="558" width="479" height="12" class="flex"/>
+<rect x="95" y="570" width="505" height="8" class="cu"/>
+<rect x="95" y="578" width="505" height="23" class="flex"/>
+<rect x="95" y="601" width="505" height="8" class="cu"/>
+<rect x="95" y="609" width="505" height="12" class="flex"/>
+<rect x="95" y="621" width="505" height="17" class="adhesive"/>
+<rect x="80" y="638" width="550" height="51" class="sensor"/>
+<text x="225" y="669" class="body">Sensor silicon · 150 µm</text>
+<g fill="#808a94" stroke="#495763"><ellipse cx="110" cy="700" rx="8" ry="9"/><ellipse cx="158" cy="700" rx="8" ry="9"/><ellipse cx="206" cy="700" rx="8" ry="9"/><ellipse cx="254" cy="700" rx="8" ry="9"/><ellipse cx="302" cy="700" rx="8" ry="9"/><ellipse cx="350" cy="700" rx="8" ry="9"/><ellipse cx="398" cy="700" rx="8" ry="9"/><ellipse cx="446" cy="700" rx="8" ry="9"/><ellipse cx="494" cy="700" rx="8" ry="9"/><ellipse cx="542" cy="700" rx="8" ry="9"/><ellipse cx="590" cy="700" rx="8" ry="9"/></g>
+<rect x="80" y="711" width="663" height="53" class="chip"/><text x="232" y="744" class="body">RD53i silicon · 150 µm</text>
+<rect x="689" y="706" width="27" height="5" class="cu"/>
+<path d="M588 570 C642 491 755 526 702 706" class="wire"/>
+<rect x="272" y="537" width="45" height="20" fill="#4e6575"/>
+<text x="80" y="791" class="small">Chip backside ends the drawn assembly; no mounting or cooling layer.</text>
+<path d="M609 588 H780 V558 H805 M600 629 H805 M610 699 H805 M721 706 H774 V747 H805" class="guide"/>
+<text x="820" y="545" class="small">Flex: 25 µm PI core + 2 × 12.5 µm PI coverlay</text>
+<text x="820" y="567" class="small">and 2 × 18 µm patterned Cu; films shown separately</text>
+<text x="820" y="589" class="small">Laminate adhesives and passives: additional, TBD</text>
+<text x="820" y="627" class="small">Flex-to-sensor epoxy · proposed 25 µm</text>
+<text x="820" y="649" class="small">Grade, bonded area and X0: TBD</text>
+<text x="820" y="691" class="small">Discrete bumps · proposed 20 µm standoff</text>
+<text x="820" y="713" class="small">Alloy / shape TBD; not a metal slab</text>
+<text x="820" y="750" class="small">Exposed chip pad → Al wire → opened flex pad</text>
+<text x="820" y="773" class="small">Proposed wire diameter 25 µm; loop envelope TBD</text>
+<text x="35" y="839" class="head">Legend and material scope</text>
+<rect x="36" y="855" width="23" height="15" class="sensor"/><text x="68" y="869" class="small">Sensor</text>
+<rect x="163" y="855" width="23" height="15" class="chip"/><text x="195" y="869" class="small">RD53i</text>
+<rect x="290" y="855" width="23" height="15" class="flex"/><text x="322" y="869" class="small">Polyimide (PI)</text>
+<rect x="470" y="855" width="23" height="15" class="cu"/><text x="502" y="869" class="small">Copper</text>
+<rect x="606" y="855" width="23" height="15" class="adhesive"/><text x="638" y="869" class="small">Epoxy</text>
+<rect x="740" y="855" width="23" height="15" fill="#4e6575"/><text x="772" y="869" class="small">Local passives</text>
+<path d="M953 863 H983" class="matrix"/><text x="996" y="869" class="small">Nominal matrix</text>
+<text x="35" y="908" class="body">Partial local reference: Si + Si + PI + full two-layer Cu crossing = 0.5884% X0.</text>
+<text x="35" y="934" class="small">Not a complete module budget or area average. Bumps, epoxy, laminate adhesives, films, wires and local BOM remain additional/TBD.</text>
+<text x="35" y="960" class="small">Module-only boundary: includes local termination; excludes mounting, cooling and external services. No infrastructure allocation implied.</text>
+<text x="35" y="983" class="tiny">DES-001 alternative A • A3-F01–F05 / A3-I01–I04 • Common stack: DES-001-module-stack.json • Original vector schematic</text>
 </svg>
