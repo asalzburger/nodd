@@ -53,7 +53,11 @@ Hosted CI, mobile layout and keyboard/browser checks have not run.
 See paired changed-file inventory: project records/schemas, dashboard assets,
 builder/tests/guides, CI workflow, documentation index, ignore rules and this pair.
 The preceding planning changes accompany the implementation on the feature branch.
-Git history records any enclosing commit; no self-referential hash is invented.
+Implementation commit: 5a7792d5e95b17d10fe0effbcea734abae40c8ee. A post-commit fresh
+local clone built successfully without network or submodule initialization; its
+snapshot recorded the exact clean implementation revision. Rebuilt the local
+preview from the implementation commit. This follow-up record has a separate
+enclosing Git revision; no self-referential hash is invented.
 
 ## Follow-up
 
