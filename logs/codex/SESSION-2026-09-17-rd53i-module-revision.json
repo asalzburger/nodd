@@ -4,8 +4,8 @@
   "title": "Revise RD53i module proposals with component material tables",
   "recorded_at": "2026-09-17T15:22:41Z",
   "started_at": null,
-  "ended_at": null,
-  "status": "open",
+  "ended_at": "2026-09-17T15:34:45Z",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
@@ -20,7 +20,9 @@
     "start_commit": "2eec7003cc7cceed05849a2c9dad4eb7c7b3e435",
     "branch": "design/rd53-pixel-modules",
     "initial_changes": [],
-    "result_commits": [],
+    "result_commits": [
+      "ce99de4db5e906761de7ef2843ec6b533e095994"
+    ],
     "changed_files": [
       "docs/design/DES-001-module-stack.json",
       "logs/codex/SESSION-2026-09-17-rd53i-module-revision.json",
@@ -98,6 +100,36 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "Validated33records."
+    },
+    {
+      "command": "git push -u origin design/rd53-pixel-modules",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Published ce99de4 Astra rewrite without force push."
+    },
+    {
+      "command": "gh pr edit8 --title <module-only title> --body-file /tmp/nodd-rd53i-pr-body.md",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Updated draft PR8 title/body to RD53i module-only alternatives/material accounts/cross-sections."
+    },
+    {
+      "command": "gh pr view8 --json number,title,url,state,isDraft,headRefOid",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Verified OPEN,isDraft=true, headce99de4db5e906761de7ef2843ec6b533e095994."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate/build; python3 tools/session_logging/session_log.py validate; git diff --check (final review metadata)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "11tasks,9documents,7reviewrounds validate; dashboard builds;33sessionrecords validate; no whitespace errors."
+    },
+    {
+      "command": "gh run view35241157461 --json status,conclusion,jobs,url",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Hosted ce99de4 CI succeeded: policy/records, dashboard/docs tests, browser interaction tests, static build and preview artifact. Pages deployment skipped on draft PR. https://github.com/asalzburger/nodd/actions/runs/35241157461"
     }
   ]
 }

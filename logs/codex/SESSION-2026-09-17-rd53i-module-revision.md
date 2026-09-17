@@ -59,3 +59,15 @@ Resolve chip/pad/bump and delivered thinning evidence; sensor process/bias and
 operating requirements; glue/laminate grades, metal/film stacks, routed coverage,
 wire loops, local parts and qualification. Pixel volume is separate and remains
 open. Designs/ADR stay DRAFT; identified humans own full design review/sign-off.
+
+Final local suites passed: dashboard25tests and logging15tests; naming/link/XML
+and unitconversion audits, visual SVG review and whitespace checks pass.
+Published rewritece99de4, updated PR8 title/body and verified OPEN/isDraft=true.
+Recorded new pending exact-revision review rounds for DES001/ADR007, superseding
+withdrawn broader requests. No reviewer decision or human sign-off invented.
+
+Hosted rewrite CI passed: https://github.com/asalzburger/nodd/actions/runs/35241157461
+(policy/records, dashboard/docs tests, browser tests, static build and preview).
+A duplicate run was cancelled by workflow concurrency; successful run inspected.
+Final review-metadata checks validate11tasks/9documents/7rounds and33sessionrecords,
+build succeeds and whitespace checks pass. Pages deployment skipped for PR.
