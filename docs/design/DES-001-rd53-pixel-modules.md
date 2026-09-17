@@ -5,15 +5,15 @@
 - Author: Tracking Engineer AI agent, with independently delegated compact and quad studies.
 - Human owner: TBD; issue: [#7](https://github.com/asalzburger/nodd/issues/7).
 - Governing architecture: [DES-003](DES-003-global-envelopes.md), [ADR-006](../decisions/ADR-006-global-envelope-and-field-hypotheses.md); their baseline review does not sign off this module.
-- Technology direction: [ADR-007](../decisions/ADR-007-itkpix-pixel-baseline.md), DRAFT ITkPix baseline; exact revision pending.
+- Technology direction: [ADR-007](../decisions/ADR-007-itkpix-pixel-baseline.md), DRAFT ITkPix v2 baseline; chip choice resolved.
 - Sign-off record: pending; implementation PR: pending; validation evidence: documentary checks only.
 
 ## Scope and exclusions
 
 Develop a stand-alone hybrid pixel-module family around the **existing RD53 chip
 in hand**. Its mask, pitch, pads and interfaces are fixed inputs, not redesign
-opportunities. The user has selected **ITkPix** as the RD53-family baseline. Exact ITkPix
-revision (v1, v1.1 or v2), thinning and known-good-die status remain unknown.
+opportunities. The user has selected **ITkPix v2 (RD53C-ATLAS)** as the RD53-family baseline.
+Supplied thinning, physical stock and known-good-die status remain unverified.
 This selection supersedes the earlier unspecified-family assumption without
 granting design sign-off. No substitution by CROC or another chip is authorized.
 RD53A facts below remain historical benchmarks, not the selected chip interface.
@@ -80,7 +80,8 @@ Historical RD53A illustrations and catalogue metadata retain this distinction.
 
 | Claim ID | Classification | Baseline statement | Source / derivation and gate |
 | --- | --- | --- | --- |
-| PM-C08 | NODD DESIGN CHOICE | User-selected ITkPix family, exact revision TBD | Human instruction selects family; module technical approval pending |
+| PM-C08 | NODD DESIGN CHOICE | User-selected ITkPix family; revision selection completed by PM-C09 | Human instruction selects family; module technical approval pending |
+| PM-C09 | NODD DESIGN CHOICE | User-selected ITkPix v2 (RD53C-ATLAS), 2026-09-17 | Explicit revision direction; no procurement certification or module sign-off |
 | PM-F07 | FACT | Presentation lists ITkPix v1/v1.1 under RD53B and v2 under RD53C | SRC-RD53-OVERVIEW-2023 slide5/PDF5; inventory is not identified by this chronology |
 | PM-F08 | FACT | ATLAS-column ITkPix matrix400×384, chip pixel pitch50×50µm and approximately20×21mm chip dimensions | SRC-RD53-OVERVIEW-2023 slide5/PDF5; presentation dimensions are not procurement tolerances |
 | PM-I10 | INFERENCE | Nominal matrix20×19.2mm =384mm² and153,600channels per chip; A2=768mm²/307,200channels; B4=1536mm²/614,400channels | PM-F08 counts×pitch; no guard/gap/efficiency claim |
@@ -219,7 +220,7 @@ not govern ITkPix fit; AI Coordinator advice provides no human sign-off.
 
 | Risk/question | Impact | Owner | Gate |
 | --- | --- | --- | --- |
-| Exact ITkPix revision/drawing; historical RD53A die-size discrepancy | Wrong geometry, mask or electrical assumptions | Tracking Engineer + human inventory owner TBD | Before dimensional freeze |
+| ITkPix v2 drawing and stock qualification | Wrong geometry, mask or electrical assumptions | Tracking Engineer + human inventory owner TBD | Before dimensional freeze |
 | Pixel volume/fluence/rate/lifetime undefined | No final sensor, module size or data/power capacity | Coordinator + tracking/physics | Before family selection |
 | Hybrid vendor, thinning, sensor edge/bump map | Bond access, yield, fragile dies and inactive areas | Tracking Engineer + supplier expert TBD | Technical/expert review |
 | Flex routing/link integrity/serial faults and HV isolation | Added copper/parts and correlated failures | Readout/electrical reviewer TBD | Before sign-off |

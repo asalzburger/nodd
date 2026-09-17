@@ -8,8 +8,8 @@
 
 ## ITkPix baseline revision — 2026-09-17
 
-The user selected **ITkPix**, superseding the earlier unspecified RD53-family
-assumption. Exact v1/v1.1/v2 stock revision, thinning, pads and qualification remain
+The user selected **ITkPix v2 (RD53C-ATLAS)**, superseding the earlier unspecified RD53-family
+assumption. The revision choice is resolved; physical stock, thinning, pads and qualification remain
 unresolved. This is a family direction, not human module sign-off. All RD53A
 facts and arithmetic retained below are **historical superseded benchmarks**;
 none sets current ITkPix dimensions, power, pads or acceptance.
@@ -37,9 +37,8 @@ RD53A's1.7mm pad separation. Human technical approvers pending.
 
 ## Scope
 
-Equip a future pixel volume using the selected ITkPix chip family. The exact
-revision, physical stock, thinning and qualification evidence must be identified before
-mechanical dimensions or operating limits can be selected. The ITkPix family is fixed for this design study. It offers one reusable single-chip unit (A1),
+Equip a future pixel volume using the selected ITkPix chip family. Physical stock, thinning and qualification evidence must be identified before
+mechanical dimensions or operating limits can be selected. ITkPix v2 is fixed for this design study. It offers one reusable single-chip unit (A1),
 optionally extended to a side-by-side two-chip module (A2); A2 is justified only
 if its reduction in service overhead survives material and yield comparisons.
 The volume, radii, module populations, dose, occupancy and cooling conditions

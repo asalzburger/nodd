@@ -4,7 +4,7 @@
 - Date: 2026-09-17.
 - Governing proposal: [DES-001](../DES-001-rd53-pixel-modules.md); issue [#7](https://github.com/asalzburger/nodd/issues/7).
 - Inputs: [compact A](DES-001-compact-modules.md), [quad B](DES-001-quad-modules.md), and their linked original schematic drawings.
-- Technology direction: [ADR-007](../../decisions/ADR-007-itkpix-pixel-baseline.md), DRAFT; ITkPix selected, exact revision pending.
+- Technology direction: [ADR-007](../../decisions/ADR-007-itkpix-pixel-baseline.md), DRAFT; ITkPix v2 selected; interface dossier pending.
 - Human programme owner and technical approvers: pending.
 
 ## Recommendation
@@ -73,7 +73,7 @@ assuming the quad remains the default after the chip-family change.
 ## Balanced assessment
 
 All comparative judgments below are **INFERENCE**, conditional on the proposed
-layouts and the unresolved exact ITkPix revision, stock qualification, host volume
+layouts and the unresolved ITkPix v2 interface dossier, stock qualification, host volume
 and engineering processes.
 They are not hardware qualification results.
 
@@ -90,8 +90,8 @@ They are not hardware qualification results.
 
 **FACT — SRC-RD53-OVERVIEW-2023:** slide 5 / PDF5 lists ITkPix v1/v1.1
 under RD53B and v2 under RD53C, with 400 × 384 chip pixels at 50 × 50 µm pitch
-and approximately 20 × 21 mm chip dimensions. The selected family is ITkPix;
-exact revision, supplied thinning, stock qualification and procurement drawing
+and approximately 20 × 21 mm chip dimensions. The selected device is ITkPix v2 (RD53C-ATLAS); the revision choice is resolved.
+Supplied thinning, stock qualification and procurement drawing
 remain gates before dimensional or sensor-mask freeze. No RD53A pad, supply,
 power or qualification limit transfers to this interface.
 
@@ -141,3 +141,10 @@ strain-relief and connector/splice routing before the coverage comparison.
 This advice does not close M0, authorize production geometry, approve DES-001,
 or advance its lifecycle state. Human technical and domain review, an exact
 revision sign-off record and separate implementation authorization remain pending.
+
+## Revision direction — 2026-09-17
+
+**NODD DESIGN CHOICE — human-directed investigation:** the user selected ITkPix
+v2. This resolves chip identity for design work; the comparative recommendation
+remains conditional on its actual interface dossier and operating requirements.
+No new hardware qualification or full design approval follows from this choice.

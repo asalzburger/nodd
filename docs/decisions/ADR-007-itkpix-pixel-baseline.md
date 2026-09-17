@@ -10,7 +10,7 @@
 ## Context
 
 On 2026-09-17, after discussing RD53A, ITkPix and CROC consequences, the user
-instructed: “Let's take ITkPix then”. This selects the chip family for design
+instructed: “Let's take ITkPix then”. The user subsequently specified “v2 it is.” This selects ITkPix v2 for design
 work; it neither certifies the physical inventory nor signs off DES-001.
 An ADR records the technology direction because it affects sensors, module
 footprints, services, assembly and response modelling.
@@ -43,10 +43,10 @@ are incomplete.
 
 ## Design direction
 
-**NODD DESIGN CHOICE — human-directed investigation:** use ITkPix for the nODD
-pixel-module design baseline. Exact revision remains TBD. Do not silently
-interpret the family selection as ITkPix v2 procurement, verified stock or full
-design approval. Compare compact and quad modules around the selected family;
+**NODD DESIGN CHOICE — human-directed investigation:** use **ITkPix v2 (RD53C-ATLAS)** for the nODD
+pixel-module design baseline, as explicitly directed by the user on 2026-09-17.
+The family and revision choices are resolved. This does not certify procurement,
+physical stock or full design approval. Compare compact and quad modules around the selected family;
 continue experiment-independent sensor, support and placement design.
 
 ## Consequences and validation
@@ -65,7 +65,7 @@ Production implementation follows separate human design review and sign-off.
 
 ## Open questions
 
-- Tracking Engineer and human inventory owner: exact ITkPix revision, available
+- Tracking Engineer and human inventory owner: ITkPix v2 available
   stock, die thickness and authoritative interface dossier.
 - Coordinator and tracking/physics: host volume, radiation/rate/lifetime and
   useful coverage requirements.
