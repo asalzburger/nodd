@@ -34,7 +34,8 @@ the detached forward calorimeter remains outside.
 uniform 3 T over radius 4.5 m: `Phi = 3*pi*4.5² = 190.85 Wb`. Assigning all
 that flux to the annulus 4.95–6.762 m gives area 66.67 m² and average return
 field **2.86 T even if the annulus were solid iron**. Chamber gaps, supports and
-services reduce available steel. This is a strong field/space warning, not proof of saturation or
+services reduce available steel. This warns against the old fixed host; the enlarged request below supplies
+trial return slots. It is not proof of saturation or
 a solved minimum thickness: actual bore flux is nonuniform, some return lies in
 air, and calorimeter steel redistributes it. No B–H curve or allowable steel
 field is selected by this arithmetic.
@@ -65,3 +66,9 @@ survives those material and envelope costs; otherwise retain it as a control,
 not the default because CMS used the topology.
 
 No detector construction, nonlinear field or fitted performance was run here.
+
+**Current host request:** barrel r=4.95–10 m, |z|≤9 m;
+endcap r=0.4–10 m, |z|=9–10.9 m.
+[Budget](../inputs/DES-004-muon-envelope-amendments.md),
+[PNG](../figures/DES-004-mag-04-muon-envelope-rz.png) /
+[SVG](../figures/DES-004-mag-04-muon-envelope-rz.svg). Unsigned; baseline issue after selection.

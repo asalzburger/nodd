@@ -66,3 +66,9 @@ calorimeter-steel field model and pre-ECal material scenarios. Check assembly
 decomposition and service exits before optimizing field strength. Rank only after
 comparing resource and material consequences, with criteria supplied independently
 by Physics and Performance Validation. This note adds no simulation or sign-off.
+
+**Current host request:** barrel r=4.35–6.762 m, |z|≤7.2 m;
+endcap r=0.4–7 m, |z|=7.2–10.27 m.
+[Budget](../inputs/DES-004-muon-envelope-amendments.md),
+[PNG](../figures/DES-004-mag-01-muon-envelope-rz.png) /
+[SVG](../figures/DES-004-mag-01-muon-envelope-rz.svg). Unsigned; baseline issue after selection.

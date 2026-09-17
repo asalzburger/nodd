@@ -38,8 +38,8 @@ can aid combined measurements, yet stations beyond the main field may mainly
 measure an outgoing direction. SRC-CMS-YOKE-COSMICS-2010, §§1–2/PDF3–5, supports
 separating tracker-combined, vertex-constrained and unconstrained standalone
 measurements. It does not prove this yoke-free arrangement provides standalone
-leverage. The proposed host shrinks from 2.412 to 1.812 m radially, complicating
-station spacing and support allocation.
+leverage. The original fixed-outer-radius trial shrank the host to 1.812 m. The current
+request below expands it to 2.550 m, leaving station/support feasibility open.
 
 **INFERENCE — resources/services:** vacuum central-field normalization requires
 37.747 MA-turn versus MAG-01's 17.144, from the finite-sheet equation in the
@@ -66,3 +66,9 @@ downstream material costs. Review support/cryogenic routes and station room.
 MAG-03-B, a barrel-only outer coil, remains a reserve variant with length and end
 interfaces TBD; it cannot borrow this full-central model's forward results.
 No new simulation, engineering validation or sign-off is supplied by this note.
+
+**Current host request:** barrel r=4.95–7.5 m, |z|≤8 m;
+endcap r=0.4–7.5 m, |z|=8–10.9 m.
+[Budget](../inputs/DES-004-muon-envelope-amendments.md),
+[PNG](../figures/DES-004-mag-03-muon-envelope-rz.png) /
+[SVG](../figures/DES-004-mag-03-muon-envelope-rz.svg). Unsigned; baseline issue after selection.

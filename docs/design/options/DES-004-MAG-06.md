@@ -36,7 +36,7 @@ and fundamentally change available muon space.
 `R_outer=sqrt(4.5²+3*4.5²/1.5)=7.79 m`, beyond E1-R2's 6.762 m outer barrel
 host before coil thickness. This optimistic zero-thickness annulus starts at the
 main current sheet, inside its cryostat reservation. Starting usable return space
-at 4.95 m instead gives **8.062 m**, still before return-coil thickness. These are
+at 4.95 m instead gives **8.062 m**, still before return-coil thickness. The new 8.10 m annulus edge below responds to this screen. These are
 conditional area estimates, not lower bounds for every possible return topology. The −1.5 T is a borrowed screening value, not a
 requirement. Nonuniform/end return changes this estimate; it nevertheless exposes
 that low-field return is not spatially free. Neither this formula nor two infinite
@@ -64,3 +64,9 @@ Advance only if forward measurement information and physically reservable space
 survive; otherwise deprioritize before expensive engineering or simulation.
 
 No nODD dual-coil field, forces, quench response or resolution was calculated here.
+
+**Current host request:** barrel r=4.95–8.85 m, |z|≤9 m;
+endcap r=0.4–8.85 m, |z|=9–10.9 m.
+[Budget](../inputs/DES-004-muon-envelope-amendments.md),
+[PNG](../figures/DES-004-mag-06-muon-envelope-rz.png) /
+[SVG](../figures/DES-004-mag-06-muon-envelope-rz.svg). Unsigned; baseline issue after selection.

@@ -27,3 +27,9 @@ This is not a lower bound or a designed yoke: finite-solenoid flux is nonuniform
 **Next comparison:** separate unconstrained muon-only, vertex-constrained and combined fits with common uncertainties, then candidate-specific material. Report survival separately from precision. Compare the engineering burden of passive return structures with MAG-05's discrete coils, rather than ranking field strength alone.
 
 Verification: flux arithmetic executed with Python; no finite-element field solution, propagation or material simulation. Existing source IDs resolve in the [catalogue](../../../reference/manifest.yaml); no new source or production parameter introduced.
+
+**Current host request:** barrel r=4.35–7.5 m, |z|≤8 m;
+endcap r=0.4–7.5 m, |z|=8–10.9 m.
+[Budget](../inputs/DES-004-muon-envelope-amendments.md),
+[PNG](../figures/DES-004-mag-02-muon-envelope-rz.png) /
+[SVG](../figures/DES-004-mag-02-muon-envelope-rz.svg). Unsigned; baseline issue after selection.

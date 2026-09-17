@@ -16,6 +16,45 @@ for current recommendations, conditional showstoppers and next tests. The cards
 below retain the initial definitions and numerical foundations. Recommendations
 are research priorities; no topology has been selected or signed off.
 
+## Candidate-specific muon envelopes
+
+The user authorized adapting the study envelopes on 2026-09-17. The muon engineer
+and Project Coordinator agreed the following **NODD DESIGN CHOICE — unsigned**
+composite hosts. They include chambers, magnet structures, supports and services;
+coloured host area is not fully sensitive volume. E1-R2 remains the reference.
+A baseline-update issue follows only after a layout is chosen.
+
+| Option | Barrel r [m] | Barrel max absolute z [m] | Endcap r [m] | Endcap absolute z [m] |
+| --- | --- | --- | --- | --- |
+| MAG-01 | 4.35–6.762 | 7.2 | 0.4–7 | 7.2–10.27 |
+| MAG-02 | 4.35–7.5 | 8 | 0.4–7.5 | 8–10.9 |
+| MAG-03 | 4.95–7.5 | 8 | 0.4–7.5 | 8–10.9 |
+| MAG-04 | 4.95–10 | 9 | 0.4–10 | 9–10.9 |
+| MAG-05 | 4.35–9 | 9 | 0.4–9 | 9–10.9 |
+| MAG-06 | 4.95–8.85 | 9 | 0.4–8.85 | 9–10.9 |
+
+![Candidate-specific muon envelopes](figures/DES-004-muon-envelopes-comparison-rz.png)
+
+[Vector comparison](figures/DES-004-muon-envelopes-comparison-rz.svg),
+[muon budgets and rationale](inputs/DES-004-muon-envelope-amendments.md),
+[coordinator interface review](inputs/DES-004-envelope-coordination.md), and
+[generated dimensions/checks](../validation/DES-004-muon-envelope-proposals.json).
+Individual PNG/SVG drawings are linked from each option proposal below.
+
+MAG-04 reserves example radial magnetic-structure slots totalling 129.94 m²;
+this accommodates the earlier 127.23 m² trial return-area requirement without
+using the entire host. MAG-06 reserves a 4.95–8.10 m measurement/return annulus,
+8.10–8.60 m return-coil shell and 8.60–8.85 m routes/supports. These are space
+budgets, not steel recipes, actual fields or validated chamber arrangements.
+
+All six coarse allocations pass positive-rectangle-intersection checks. Expanded
+endcaps stop at |z|=10.9 m, leaving 0.30 m to the forward instrumented host.
+**Remaining concern:** MAG-04/06 end-flux closure, measurements and services have
+not been shown to fit the 9.0–10.9 m endcap host. Further axial/stepped amendments
+may be necessary. Enlarging the radial host does not settle that question.
+The original two-option drawings and fixed-host flux screens below are retained
+as historical comparison evidence; the table above is the current research request.
+
 ## 1. Decision to inform
 
 Which magnetic topology provides credible tracking and muon measurements for the
@@ -209,7 +248,7 @@ retains more forward axial field but at larger size/current; the table cannot
 rank tracking resolution, resources or standalone muon performance. The last
 point is a tracker-host corner, not an eta-4 track endpoint.
 
-### Global system layouts
+### Initial global system layouts — fixed outer-host comparison
 
 The following full-system r–z comparison uses identical axes and colours. MAG-01
 retains E1-R2. MAG-03 applies only the previously proposed outer-coil reservation

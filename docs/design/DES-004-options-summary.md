@@ -12,7 +12,7 @@
 with **MAG-05 and MAG-02 as the first standalone-muon research pair**. Use MAG-01
 and MAG-03 to establish the simpler solenoidal/combined-measurement alternatives.
 Retain MAG-04 as the operationally grounded outer-solenoid/iron comparison,
-subject to a serious return-space investigation. Give MAG-06 a finite-coil
+with an enlarged muon host for a return-space investigation. Give MAG-06 a finite-coil
 feasibility screen before investing in detailed engineering. This is a **NODD
 DESIGN CHOICE — proposed work priority**, not a performance ranking or elimination.
 No intrinsic physical showstopper has been demonstrated for an entire topology.
@@ -23,7 +23,7 @@ Several present assumptions cannot be carried into an integrated detector.
 | [MAG-01: inner solenoid, no dedicated yoke](options/DES-004-MAG-01.md) | Smallest change to E1-R2; retains pre-ECal coil material and uncertain independent muon information | Forward tracker response and actual fringe-field information between muon measurements |
 | [MAG-02: inner solenoid + iron return](options/DES-004-MAG-02.md) | Credible compact alternative for independent muons; modest flux-area demand does not prove useful station bending | Steel/endcap allocation, nonlinear field and bending-versus-scattering comparison |
 | [MAG-03: outer solenoid, no dedicated yoke](options/DES-004-MAG-03.md) | Less upstream barrel coil material; larger magnetic volume, current and integration demand | Compatible stations, combined/standalone information and resource consequences |
-| [MAG-04: outer solenoid + iron return](options/DES-004-MAG-04.md) | Built topology precedent, but the current host is under strong return-area pressure | Solved flux partition and plate/gap/field tradeoff, with explicit envelope alternatives |
+| [MAG-04: outer solenoid + iron return](options/DES-004-MAG-04.md) | Built topology precedent; enlarged host addresses the initial return-area warning | Solved flux partition and plate/gap/field tradeoff, with explicit envelope alternatives |
 | [MAG-05: inner solenoid + air-core toroids](options/DES-004-MAG-05.md) | Strong reason to investigate unconstrained muons; sectors and forward transitions may consume the available space | Joint 3D coil, station and service allocation before a performance claim |
 | [MAG-06: active return coils](options/DES-004-MAG-06.md) | Public design precedent; iron mass is exchanged for coils, supports and coupled-force risks | Finite main/return/end coils meeting spatial and external-field objectives |
 
@@ -52,27 +52,32 @@ bulk iron return but introduce coil/support sectors. Calorimeter steel affects
 
 ## Page 2 — Blockers, discussion outcome and next work
 
-**Established incompatibility:** the proposed MAG-03/04 assembly r=4.30–4.80 m
-intersects the unchanged muon host starting at 4.35 m. The existing study already
-requests a 4.95 m entrance. It is impossible to retain both overlapping allocations
-as occupied components; the amendment or another layout is necessary. The
-r=4.50 m diagnostic surface also cannot count as a physical chamber in that coil.
-This blocks unchanged-envelope integration, not further research into outer coils.
+**Envelope adaptation agreed for research:** the outer coil conflicts with the
+unchanged 4.35 m muon entrance, so its candidates use 4.95 m. The muon engineer
+and coordinator now propose outer barrel radii 6.762, 7.50, 7.50, 10.00, 9.00 and
+8.85 m for MAG-01 through MAG-06 respectively. These are explicit resource changes,
+not revisions of E1-R2. [Current allocations and drawings](DES-004-magnetic-configurations.md#candidate-specific-muon-envelopes)
+retain the full barrel/endcap definitions. The r=4.50 m diagnostic surface still
+cannot represent a chamber inside the outer coil.
 
-**Conditional resource warnings:** in a flat-field approximation, the outer coil
-carries 190.85 Wb. Returning all of it through the entire 4.95–6.762 m muon
-annulus would require an average 2.86 T even before chamber gaps reduce steel
-area. At trial means of 1.5–2 T, the required area is 127.23–95.43 m² versus
-66.67 m² available. These are diagnostic fields, not selected steel operating
-limits. Physics challenged treating this as a saturation proof: actual bore flux,
-calorimeter return and exterior leakage must be solved. Investigate altered
-return paths, field targets, station allocations and outer radius explicitly.
+**Return-space response:** the original flat-field/all-flux screen required
+127.23–95.43 m² at trial mean return fields 1.5–2 T, versus 66.67 m² in the old
+outer-coil host. MAG-04's expanded host now reserves illustrative radial magnetic
+slots totalling 129.94 m², with measurement/service gaps. MAG-06 instead reserves
+4.95–8.10 m for return-field measurements, 8.10–8.60 m for the return coil and
+8.60–8.85 m for outer routes/supports. Its measurement annulus has 129.14 m²;
+returning the flat-bore flux there would average 1.478 T. These are capacity
+screens, not solved fields or steel specifications. Actual flux, saturation,
+packing, calorimeter return and exterior leakage remain to be calculated.
 
-For the MAG-06 outer-main variant, a uniform −1.5 T active-return annulus requires
-an ideal outer radius 7.79 m if it begins at the zero-thickness main sheet, or
-8.06 m if it begins at the proposed 4.95 m muon entrance. Both exceed the present
-barrel host. This condition rejects that particular uniform-annulus fit, not all
-active-return systems; finite/end-coil solutions and other variants remain open.
+**Remaining integration concern:** MAG-02–06 endcaps stop at |z|=10.9 m, leaving
+0.30 m before the unchanged detached forward-calorimeter host. This is not a
+verified service/shielding gap. MAG-04/06 end-field closure and useful measurements
+have not been demonstrated within their 9.0–10.9 m endcap allocations. A physical
+solution may need a stepped host or further axial expansion and forward-interface
+changes. MAG-05 still needs discrete toroid/station/service sectors. No topology
+is rejected merely for needing more space; its increased resource demand must
+remain visible. A baseline-update issue will follow only after a layout is chosen.
 
 **Missing evidence, not demonstrated impossibility:** MAG-05 has no allocated
 3D toroid/station/service solution; MAG-02/04 have no validated nonlinear steel
@@ -94,8 +99,8 @@ from a verified nODD solution. These qualifications govern every recommendation.
 
 **Next actions.** The coordinator should obtain human priorities for unconstrained
 standalone versus combined muons, momentum/angular coverage, allowable losses,
-and willingness to expand the envelope. The architect and subsystem engineers
-can meanwhile prepare coarse steel/coil/station/service alternatives. Software
+and acceptable resource costs. Candidate host expansions now provide explicit
+inputs for steel/coil/station/service studies. Software
 should validate a nonlinear steel benchmark and a finite/discrete-coil benchmark,
 then provide continuous fields to ACTS. Physics should freeze common measurements,
 material scenarios and failure denominators before fits; preserve missing crossings

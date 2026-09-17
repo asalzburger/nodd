@@ -92,3 +92,19 @@ inputs. Every omitted effect is listed in that report; neither the energy proxy
 nor the return-area estimate is a rigorous engineering bound. The 1.5/2 T return
 trials are study settings, not selected steel saturation limits. No nonlinear
 field, force, material transport or detector performance is computed.
+
+## Adapted muon-envelope proposals
+
+```sh
+MPLCONFIGDIR=/tmp/nodd-mpl XDG_CACHE_HOME=/tmp/nodd-cache reference/cache/envelope-venv/bin/python -B tools/magnetic_study/muon_layouts.py
+```
+
+`muon-layouts.json` holds all six candidate-specific proposals separately from
+E1-R2 and the initial two-option inputs. The script validates top-level host
+intersections, main-coil reference containment and nested radial reservations,
+records forward gaps and straight-ray aperture samples, and generates six
+individual plus one combined PNG/SVG drawing. The retained report is
+`docs/validation/DES-004-muon-envelope-proposals.json`. Nested reservations
+belong to their composite host; they are not independent overlapping mothers.
+The MAG-04 trial bands and MAG-06 annulus are area screens only. No baseline
+parameter, station efficiency, steel material or full field is implemented.
