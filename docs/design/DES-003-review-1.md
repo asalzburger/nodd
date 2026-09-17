@@ -14,7 +14,7 @@ The review sets 14 TeV HL-LHC investigation targets: tracker eta 4, calorimeter 
 
 ### Forward coverage
 
-[Review comment](https://github.com/asalzburger/nodd/pull/4#discussion_r4032889973) — **Adapted**.
+[Review comment](https://github.com/asalzburger/nodd/pull/4#discussion_r4032889973) · [Posted team reply](https://github.com/asalzburger/nodd/pull/4#discussion_r4034332389) — **Adapted**.
 
 E1-R1 adds a detached forward-calorimeter study volume at |z|=11.2–13.2 m, r=0.12–1.50 m. The later consolidated review target of |eta|<5 supersedes the earlier minimum of 4. ATLAS forward calorimetry covers 3.1–4.9; CMS operational literature reports HF to 5.19. The proposed volume has full axial traversal for prompt rays through eta 5, but edge response, beam aperture, shielding and total installed enclosure remain to be established.
 
@@ -22,7 +22,7 @@ E1-R1 adds a detached forward-calorimeter study volume at |z|=11.2–13.2 m, r=0
 
 ### Depth literature in design cycle
 
-[Review comment](https://github.com/asalzburger/nodd/pull/4#discussion_r4032893034) — **Adapted**.
+[Review comment](https://github.com/asalzburger/nodd/pull/4#discussion_r4032893034) · [Posted team reply](https://github.com/asalzburger/nodd/pull/4#discussion_r4034332551) — **Adapted**.
 
 Added operational ATLAS electron/photon and CMS hadron-calorimeter calibration papers alongside the TDR precedents. CAL-V01/02 now require material scenarios and species/energy/angle leakage studies. Historical depth bands remain screening ranges, not automatic containment requirements; 14 TeV collisions do not imply 14 TeV single-particle tests.
 
@@ -30,7 +30,7 @@ Added operational ATLAS electron/photon and CMS hadron-calorimeter calibration p
 
 ### Calorimeter minimum coverage
 
-[Review comment](https://github.com/asalzburger/nodd/pull/4#discussion_r4032897907) — **Adapted**.
+[Review comment](https://github.com/asalzburger/nodd/pull/4#discussion_r4032897907) · [Posted team reply](https://github.com/asalzburger/nodd/pull/4#discussion_r4034332712) — **Adapted**.
 
 Recorded the later consolidated target |eta|<5, which includes this requested minimum. A dedicated forward candidate is now drawn and tested geometrically; extension to 5.2 remains exploratory because its prompt entrance margin is only 3.57 mm.
 
@@ -38,7 +38,7 @@ Recorded the later consolidated target |eta|<5, which includes this requested mi
 
 ### Coil order with muon design
 
-[Review comment](https://github.com/asalzburger/nodd/pull/4#discussion_r4032903479) — **Kept open**.
+[Review comment](https://github.com/asalzburger/nodd/pull/4#discussion_r4032903479) · [Posted team reply](https://github.com/asalzburger/nodd/pull/4#discussion_r4034332845) — **Kept open**.
 
 Kept coil ordering and return topology coupled to the muon-system study. E1-R1 still draws an inner-solenoid hypothesis; outer-solenoid, instrumented-return and air-core-toroid alternatives remain. This iteration does not force a dedicated muon magnet decision.
 
@@ -46,7 +46,7 @@ Kept coil ordering and return topology coupled to the muon-system study. E1-R1 s
 
 ### Dense PCB inventory
 
-[Review comment](https://github.com/asalzburger/nodd/pull/4#discussion_r4032905861) — **Deferred as requested**.
+[Review comment](https://github.com/asalzburger/nodd/pull/4#discussion_r4032905861) · [Posted team reply](https://github.com/asalzburger/nodd/pull/4#discussion_r4034332989) — **Deferred as requested**.
 
 Moved detailed PCB/effective-material inventory behind envelope definition. It still must be included whenever inherited material depth is quoted; deferral is not permission to delete or double-count its mass.
 
@@ -54,7 +54,7 @@ Moved detailed PCB/effective-material inventory behind envelope definition. It s
 
 ### Service exits
 
-[Review comment](https://github.com/asalzburger/nodd/pull/4#discussion_r4032911679) — **Researched and adapted**.
+[Review comment](https://github.com/asalzburger/nodd/pull/4#discussion_r4032911679) · [Posted team reply](https://github.com/asalzburger/nodd/pull/4#discussion_r4034333091) — **Researched and adapted**.
 
 Added ATLAS barrel/endcap-gap services (2008 detector paper §5.5, PDF166), CMS ECal end patch panels (§4.2, PDF119), and HGCAL outer-surface/rear-annular exits shared with timing/muons (TDR §4.5, PDF64–65). Proposed route topology: barrel bundles toward end patch regions, endcap bundles toward outer/rear handoffs, with named owners and phi sectors. Capacities and minimal path depth remain ENV-V03/CAL-V02 work.
 
@@ -62,7 +62,7 @@ Added ATLAS barrel/endcap-gap services (2008 detector paper §5.5, PDF166), CMS 
 
 ### Sufficient supports
 
-[Review comment](https://github.com/asalzburger/nodd/pull/4#discussion_r4032914880) — **Adapted**.
+[Review comment](https://github.com/asalzburger/nodd/pull/4#discussion_r4032914880) · [Posted team reply](https://github.com/asalzburger/nodd/pull/4#discussion_r4034333205) — **Adapted**.
 
 The proposal now calls for minimal but sufficient supports with explicit footprints and material ownership. Forward support, readout and shielding may extend beyond the instrumented box; its bounds are not advertised as a complete installed enclosure.
 
@@ -70,7 +70,7 @@ The proposal now calls for minimal but sufficient supports with explicit footpri
 
 ### Polygon optional
 
-[Review comment](https://github.com/asalzburger/nodd/pull/4#discussion_r4032917068) — **Adapted**.
+[Review comment](https://github.com/asalzburger/nodd/pull/4#discussion_r4032917068) · [Posted team reply](https://github.com/asalzburger/nodd/pull/4#discussion_r4034333336) — **Adapted**.
 
 Made polygon shape an optional later component choice. Circular maximum-enclosure bounds remain the planning convention. The 16-sided depth calculation is explicitly conditional, retained only to compare with ODD.
 
@@ -78,7 +78,7 @@ Made polygon shape an optional later component choice. Circular maximum-enclosur
 
 ### Toroidal baseline option
 
-[Review comment](https://github.com/asalzburger/nodd/pull/4#discussion_r4032933147) — **Adapted**.
+[Review comment](https://github.com/asalzburger/nodd/pull/4#discussion_r4032933147) · [Posted team reply](https://github.com/asalzburger/nodd/pull/4#discussion_r4034333467) — **Adapted**.
 
 Replaced the identification-first preference with a standalone-compatible, potentially toroidal baseline investigation. All three architectures remain in the comparison. Reserving the muon host is not proof that toroid coils, supports and stations fit; dedicated magnet design remains deferred.
 
@@ -86,7 +86,7 @@ Replaced the identification-first preference with a standalone-compatible, poten
 
 ### Independent momentum baseline
 
-[Review comment](https://github.com/asalzburger/nodd/pull/4#discussion_r4032955812) — **Adapted**.
+[Review comment](https://github.com/asalzburger/nodd/pull/4#discussion_r4032955812) · [Posted team reply](https://github.com/asalzburger/nodd/pull/4#discussion_r4034333604) — **Adapted**.
 
 Standalone-compatible muon measurement is now the baseline investigation rather than a mandatory finalized requirement. The catalogue separates tracker-combined, vertex-constrained muon-only and unconstrained standalone results, so an outer-coil combined fit cannot silently stand in for independent momentum measurement.
 
@@ -94,7 +94,7 @@ Standalone-compatible muon measurement is now the baseline investigation rather 
 
 ### Punch-through before extra steel; 14 TeV
 
-[Review comment](https://github.com/asalzburger/nodd/pull/4#discussion_r4032964329) — **Adapted**.
+[Review comment](https://github.com/asalzburger/nodd/pull/4#discussion_r4032964329) · [Posted team reply](https://github.com/asalzburger/nodd/pull/4#discussion_r4034333741) — **Adapted**.
 
 Recorded 14 TeV HL-LHC as the study scenario. CAL-V03/MU-V05 require leakage and punch-through evidence before recommending extra absorber steel. None is added. The detached forward calorimeter is downstream of current muon stations, so smaller upstream endcap apertures are proposed to study filtering at eta 3–3.5; their adequate depth remains unproven.
 
@@ -102,7 +102,7 @@ Recorded 14 TeV HL-LHC as the study scenario. CAL-V03/MU-V05 require leakage and
 
 ### Consolidated coverage
 
-[Review comment](https://github.com/asalzburger/nodd/pull/4#discussion_r4032974435) — **Adapted**.
+[Review comment](https://github.com/asalzburger/nodd/pull/4#discussion_r4032974435) · [Posted team reply](https://github.com/asalzburger/nodd/pull/4#discussion_r4034333884) — **Adapted**.
 
 Recorded tracker |eta|<4, calorimeter |eta|<5 with extension conditional, and muons |eta|<3 with 3.5 stretch. E1-R1 proposes ECal/HCal inner endcap radii 0.18/0.20 m, muon parent 0.40 m and detached forward calorimetry. These are new draft allocations, not achieved acceptance; actual station edges need a later layout.
 
@@ -110,7 +110,7 @@ Recorded tracker |eta|<4, calorimeter |eta|<5 with extension conditional, and mu
 
 ### Study catalogue
 
-[Review comment](https://github.com/asalzburger/nodd/pull/4#discussion_r4032977174) — **Added**.
+[Review comment](https://github.com/asalzburger/nodd/pull/4#discussion_r4032977174) · [Posted team reply](https://github.com/asalzburger/nodd/pull/4#discussion_r4034334025) — **Added**.
 
 Added docs/validation/DES-003-study-catalogue.md, including MU-V01–08: stations, independent measurements, vector-field bending, material/transport, punch-through, sensitive hits, reconstruction and systematic variations. Every item lists owners, dependencies, outputs and execution state.
 
@@ -118,7 +118,7 @@ Added docs/validation/DES-003-study-catalogue.md, including MU-V01–08: station
 
 ### Historical choices versus operation
 
-[Review comment](https://github.com/asalzburger/nodd/pull/4#discussion_r4032981759) — **Researched; limits retained**.
+[Review comment](https://github.com/asalzburger/nodd/pull/4#discussion_r4032981759) · [Posted team reply](https://github.com/asalzburger/nodd/pull/4#discussion_r4034334140) — **Researched; limits retained**.
 
 Added later operational calibration evidence. It supports the built scale and coverage but does not certify nODD containment: response corrections, material and leakage still matter. The cross-check also found a real documentation discrepancy: the 2008 CMS paper gives HF outer steel/sensitive radius 1.30 m, while the 2020 calibration paper §2 gives calorimeter radius 1.57 m. Its cause is unresolved and is not silently treated as an upgrade; nODD 1.50 m is an independent design proposal.
 
@@ -126,7 +126,7 @@ Added later operational calibration evidence. It supports the built scale and co
 
 ### Realistic solenoid field
 
-[Review comment](https://github.com/asalzburger/nodd/pull/4#discussion_r4032997182) — **Answered with screening estimate**.
+[Review comment](https://github.com/asalzburger/nodd/pull/4#discussion_r4032997182) · [Posted team reply](https://github.com/asalzburger/nodd/pull/4#discussion_r4034334279) — **Answered with screening estimate**.
 
 Built NbTi examples support studying 2–4 T, but not claiming that 3 T fits a complete 200 mm coil/cryostat. For a finite current sheet R=1.34 m, L=6.70 m, 3 T centrally needs about 17.23 MA-turn; magnetic-pressure scale is 3.58 MPa and a uniform-bore energy proxy is 115.9 MJ. The same toy model gives only 1.82 T on axis at z=3.15 m. Winding, reinforcement, thermal/quench systems and return flux need a physical decomposition; these calculations are not a magnet feasibility certificate.
 
@@ -134,7 +134,7 @@ Built NbTi examples support studying 2–4 T, but not claiming that 3 T fits a c
 
 ### Full propagation later
 
-[Review comment](https://github.com/asalzburger/nodd/pull/4#discussion_r4033007673) — **Adapted**.
+[Review comment](https://github.com/asalzburger/nodd/pull/4#discussion_r4033007673) · [Posted team reply](https://github.com/asalzburger/nodd/pull/4#discussion_r4034334375) — **Adapted**.
 
 Added mandatory PROP-V01 after a field and material/active-surface model exist. It requires full charged-particle propagation, sensitive crossings, numerical convergence and the same field identity in transport and reconstruction. Straight rays remain only the present allocation screen.
 
@@ -142,7 +142,7 @@ Added mandatory PROP-V01 after a field and material/active-surface model exist. 
 
 ### Architecture baseline
 
-[Review comment](https://github.com/asalzburger/nodd/pull/4#discussion_r4033030983) — **Retained and extended**.
+[Review comment](https://github.com/asalzburger/nodd/pull/4#discussion_r4033030983) · [Posted team reply](https://github.com/asalzburger/nodd/pull/4#discussion_r4034334477) — **Retained and extended**.
 
 Retained E1 central dimensions as the negotiation baseline. E1-R1 changes endcap apertures and adds forward calorimetry in response to the coverage review. The initial proposal is preserved at commit 7bb7ff0; new dimensions remain draft choices.
 
@@ -150,7 +150,7 @@ Retained E1 central dimensions as the negotiation baseline. E1-R1 changes endcap
 
 ### Timing placement and coverage
 
-[Review comment](https://github.com/asalzburger/nodd/pull/4#discussion_r4033039653) — **Answered; allocation open**.
+[Review comment](https://github.com/asalzburger/nodd/pull/4#discussion_r4033039653) · [Posted team reply](https://github.com/asalzburger/nodd/pull/4#discussion_r4034334598) — **Answered; allocation open**.
 
 A separate outer barrel timing assembly plus forward disks is the strongest comparison, rather than assuming an ordinary outer strip layer gives precision timing. CMS MTD provides a 40 mm barrel precedent using LYSO/SiPM; ATLAS HGTD provides forward LGAD coverage 2.4–4 with a 125 mm vessel/moderator allocation. Full nODD timing to eta 4 would be a new combined ambition. Coverage needs active-area/vertex/curved-track association, ageing, inefficiency and timing-response studies (TIME-V01); shared service space is not yet partitioned.
 
@@ -158,7 +158,7 @@ A separate outer barrel timing assembly plus forward disks is the strongest comp
 
 ### Project baseline
 
-[Review comment](https://github.com/asalzburger/nodd/pull/4#discussion_r4033046322) — **Retained**.
+[Review comment](https://github.com/asalzburger/nodd/pull/4#discussion_r4033046322) · [Posted team reply](https://github.com/asalzburger/nodd/pull/4#discussion_r4034334748) — **Retained**.
 
 Retained the overall ODD-like starting scale and documented E1-R1 as a review-driven iteration. This agreement to start is recorded as direction for the investigation, not technical sign-off of numerical dimensions.
 
@@ -166,7 +166,7 @@ Retained the overall ODD-like starting scale and documented E1-R1 as a review-dr
 
 ### Dedicated muon magnets later
 
-[Review comment](https://github.com/asalzburger/nodd/pull/4#discussion_r4033053336) — **Deferred as requested**.
+[Review comment](https://github.com/asalzburger/nodd/pull/4#discussion_r4033053336) · [Posted team reply](https://github.com/asalzburger/nodd/pull/4#discussion_r4034334949) — **Deferred as requested**.
 
 Dedicated muon-magnet selection/design remains with the later muon-system work. The current plan preserves standalone-compatible space and interface questions while comparing toroidal, solenoidal/combined and instrumented-return options.
 
@@ -174,7 +174,7 @@ Dedicated muon-magnet selection/design remains with the later muon-system work. 
 
 ### Smallest inner radius
 
-[Review comment](https://github.com/asalzburger/nodd/pull/4#discussion_r4033060406) — **Answered; minimum unresolved**.
+[Review comment](https://github.com/asalzburger/nodd/pull/4#discussion_r4033060406) · [Posted team reply](https://github.com/asalzburger/nodd/pull/4#discussion_r4034335120) — **Answered; minimum unresolved**.
 
 There is no justified universal minimum from collision energy alone. CMS Phase-2 TDR starts active pixels near 29 mm; operating ATLAS IBL provides a 33 mm precedent. We propose screening active radii around 30–35 mm later. The existing 25 mm host boundary is not a sensor radius: the inherited 24.4 mm pipe leaves only 0.6 mm before support, motion and installation allowance. Beam optics/aperture, pipe stability, lifetime/rate and module/support assumptions must set the limit.
 
@@ -182,7 +182,7 @@ There is no justified universal minimum from collision energy alone. CMS Phase-2
 
 ### Outer coil and need for iron
 
-[Review comment](https://github.com/asalzburger/nodd/pull/4#discussion_r4033078996) — **Answered; architecture open**.
+[Review comment](https://github.com/asalzburger/nodd/pull/4#discussion_r4033078996) · [Posted team reply](https://github.com/asalzburger/nodd/pull/4#discussion_r4034335295) — **Answered; architecture open**.
 
 An outer solenoid can provide useful bending between tracker and muon segments, potentially replacing a separate magnet for a combined measurement. It does not automatically give tracker-independent momentum, particularly for displaced muons. Iron is not fundamentally required: flux can return through air or return coils, but the field/stray-field, energy and support problem changes. Compare signed bending integrals between measured surfaces, field maps, alignment and scattering; CMS operational yoke studies are now catalogued as evidence.
 
@@ -190,7 +190,7 @@ An outer solenoid can provide useful bending between tracker and muon segments, 
 
 ### Coverage follow-up
 
-[Review comment](https://github.com/asalzburger/nodd/pull/4#discussion_r4033081125) — **Adapted**.
+[Review comment](https://github.com/asalzburger/nodd/pull/4#discussion_r4033081125) · [Posted team reply](https://github.com/asalzburger/nodd/pull/4#discussion_r4034335481) — **Adapted**.
 
 Replaced the open coverage question with the explicit 4/5/3 targets and 3.5 muon stretch. The follow-up now asks whether proposed apertures, transition depth, finite vertices and upstream filtering can deliver those objectives.
 
@@ -198,7 +198,7 @@ Replaced the open coverage question with the explicit 4/5/3 targets and 3.5 muon
 
 ### Planning must expose space needs
 
-[Review comment](https://github.com/asalzburger/nodd/pull/4#discussion_r4033083362) — **Adapted**.
+[Review comment](https://github.com/asalzburger/nodd/pull/4#discussion_r4033083362) · [Posted team reply](https://github.com/asalzburger/nodd/pull/4#discussion_r4034335612) — **Adapted**.
 
 Expanded the interface register with forward beam/support/shielding and timing ownership. Added literature-based service handoffs and a staged study catalogue. Unassigned space is now clearly a competing allocation to close, especially the timing/service band and forward support beyond the drawn instrumented box.
 
@@ -206,7 +206,7 @@ Expanded the interface register with forward beam/support/shielding and timing o
 
 ### Tracker layout after envelopes
 
-[Review comment](https://github.com/asalzburger/nodd/pull/4#discussion_r4033086141) — **Deferred as requested**.
+[Review comment](https://github.com/asalzburger/nodd/pull/4#discussion_r4033086141) · [Posted team reply](https://github.com/asalzburger/nodd/pull/4#discussion_r4034335752) — **Deferred as requested**.
 
 Kept layer/module/station design after envelope definition. The current pass sets coverage/aperture contracts and a first-radius comparison range only; it does not select or implement a tracker layout.
 

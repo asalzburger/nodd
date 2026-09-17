@@ -4,8 +4,8 @@
   "title": "Address first PR4 envelope review with specialist team",
   "recorded_at": "2026-09-17T07:23:58Z",
   "started_at": null,
-  "ended_at": null,
-  "status": "open",
+  "ended_at": "2026-09-17T07:41:15Z",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
@@ -22,7 +22,9 @@
     "start_commit": "7bb7ff04a96b2038572d59904f8954a42777d7e6",
     "branch": "design/global-envelopes",
     "initial_changes": [],
-    "result_commits": [],
+    "result_commits": [
+      "1b349b29dbceb2a12c60cf05a99483559afe961f"
+    ],
     "changed_files": [
       "docs/README.md",
       "docs/decisions/ADR-006-global-envelope-and-field-hypotheses.md",
@@ -134,6 +136,36 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "All five new PDFs successfully extracted into ignored reusable caches."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "23 session records validated."
+    },
+    {
+      "command": "Relative Markdown links and git diff --cached --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All changed Markdown relative targets exist; no staged whitespace errors."
+    },
+    {
+      "command": "git push",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Published proposal revision 1b349b2 to design/global-envelopes."
+    },
+    {
+      "command": "gh pr edit 4 --body-file /tmp/nodd-pr4-review-body.md",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "PR body updated to E1-R1 with current dimensions, figure and checks."
+    },
+    {
+      "command": "gh api repos/asalzburger/nodd/pulls/4/comments/COMMENT_ID/replies --method POST --input REPLY_JSON",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All 25 review replies posted successfully. Exact reply URLs in DES-003-review-1.md; threads left for human resolution."
     }
   ]
 }

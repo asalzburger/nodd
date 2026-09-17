@@ -70,3 +70,9 @@ Update PR #4 with the revised proposal, drawing and responses to all 25 threads.
 Next review should address detached versus compact forward placement, beam-line
 and shielding fit, timing/service partition and finite-field/muon tradeoffs.
 Publication results and resulting commits are recorded once they exist.
+
+Published revision `1b349b2` and updated the PR description. All 25 inline
+threads received team replies; their exact URLs are in the disposition register.
+Threads were not resolved on the human reviewer’s behalf. A sandbox Git index
+write failure required approved commit escalation; the final push succeeded.
+The publication record is a subsequent traceability commit.
