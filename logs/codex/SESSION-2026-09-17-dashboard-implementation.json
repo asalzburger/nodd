@@ -1,0 +1,127 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-09-17-dashboard-implementation",
+  "title": "Implement Git-backed project dashboard",
+  "recorded_at": "2026-09-17T10:21:38Z",
+  "started_at": null,
+  "ended_at": "2026-09-17T10:31:17Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact token usage, client version, thread ID and actual conversation start time are unavailable.",
+    "No browser tool or Node runtime available locally. Interaction assertions ran using macOS JavaScriptCore with synthetic DOM and a URL shim; browser layout, keyboard and mobile behavior remain unverified.",
+    "Hosted CI and Pages deployment have not run. No formal human design approval was recorded."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "fb7aef1af7e8a3835775f40271e2b26ae37804bf",
+    "branch": "main",
+    "initial_changes": [
+      "docs/DASHBOARD_PLAN.md",
+      "docs/README.md",
+      "logs/codex/SESSION-2026-09-17-dashboard-plan.json",
+      "logs/codex/SESSION-2026-09-17-dashboard-plan.md"
+    ],
+    "result_commits": [],
+    "changed_files": [
+      ".github/workflows/dashboard.yml",
+      ".gitignore",
+      "dashboard/app.js",
+      "dashboard/index.html",
+      "dashboard/style.css",
+      "docs/README.md",
+      "logs/codex/SESSION-2026-09-17-dashboard-implementation.json",
+      "logs/codex/SESSION-2026-09-17-dashboard-implementation.md",
+      "project/README.md",
+      "project/reviews.json",
+      "project/reviews.schema.json",
+      "project/tracking.json",
+      "project/tracking.schema.json",
+      "tools/dashboard/README.md",
+      "tools/dashboard/build.py",
+      "tools/dashboard/test_app.js",
+      "tools/dashboard/test_build.py"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [],
+    "related_ids": [
+      "PLAN-NODD-DASHBOARD-001",
+      "PLAN-NODD-001",
+      "ADR-002",
+      "ADR-003",
+      "ADR-004"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-09-17-dashboard-implementation.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "git switch -c feature/project-dashboard",
+      "status": "FAIL",
+      "exit_code": null,
+      "result": "Sandbox prevented writing the branch reference. Retried with requested escalation; branch creation succeeded with exit 0. Initial failure exit code was not independently captured in the compound invocation."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/dashboard -p 'test_*.py' -v",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "First run: two fixture errors (duplicate keyword override and macOS path alias). Fixed the test helper and resolved HTML page keys."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/dashboard -p 'test_*.py' -q",
+      "status": "FAIL",
+      "exit_code": null,
+      "result": "After expanding deliverables, the fixture lacked tools/dashboard/README.md: 4 failures and 8 errors. Extended fixture checkout to include tooling; no production validation weakened. Failure exit code was not independently captured before the subsequent JavaScript command."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/dashboard -p 'test_*.py' -q",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "15 tests passed, including fresh fixture builds, deterministic output, all generated links/fragments, review revision changes and approval/validation discrepancies."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p 'test_*.py' -q",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "15 tests passed, including repository documentation links."
+    },
+    {
+      "command": "/System/Library/Frameworks/JavaScriptCore.framework/Versions/A/Helpers/jsc tools/dashboard/test_app.js",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "14 synthetic DOM assertions passed: filters, shareable URLs, empty states, independent queues and task deep links. No browser layout verification."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 10 tasks, 5 documents and 0 formal review rounds."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py build",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Generated _site/dashboard with HTML, CSS, JavaScript, normalized snapshot and escaped allowlisted evidence."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 23 session records."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors."
+    }
+  ]
+}

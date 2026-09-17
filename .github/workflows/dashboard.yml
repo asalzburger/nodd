@@ -1,0 +1,40 @@
+name: Project dashboard
+
+on:
+  pull_request:
+  push:
+    branches: [main, feature/project-dashboard]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0 # Revision-specific reviews need historical document content.
+          persist-credentials: false
+          submodules: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - name: Validate project records
+        run: python3 -B tools/dashboard/build.py validate
+      - name: Test dashboard and documentation links
+        run: |
+          python3 -B -m unittest discover -s tools/dashboard -p 'test_*.py' -v
+          python3 -B -m unittest discover -s tools/session_logging -p 'test_*.py' -v
+          python3 -B tools/session_logging/session_log.py validate
+      - name: Test browser interaction logic
+        run: node tools/dashboard/test_app.js
+      - name: Build static preview
+        run: python3 -B tools/dashboard/build.py build
+      - uses: actions/upload-artifact@v7
+        with:
+          name: project-dashboard
+          path: _site/dashboard/
+          if-no-files-found: error
+          retention-days: 14
