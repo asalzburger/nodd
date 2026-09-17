@@ -49,3 +49,7 @@ New numbers are project choices and arithmetic inference; existing public source
 locators provide context. No new external source, material specification or human
 sign-off is introduced. Raw measurement counts/tokens were not exposed; exact
 usage remains unknown. Commands and results are in the paired JSON record.
+
+Delivered candidate adaptations at `10a918e835eb2d74a16990980bdc68bcebb99e58` in [PR #6](https://github.com/asalzburger/nodd/pull/6),
+with an updated executive summary, table and six-option drawing. Refreshed the
+pending review revision. The conditional baseline issue remains uncreated.
