@@ -9,13 +9,14 @@ The ODD general design features are a guideline, but can be overhauled if well s
 
 ## Current phase
 
-**Active work: stage B — full-detector architecture.** The user closed stage A for progression on 2026-09-16, relying on ODD/ColliderML evidence; see the [plan](DEVELOPMENT_PLAN.md). Outstanding governance and design sign-off requirements remain applicable before production changes. The repository is the canonical record; see [repository instructions](../AGENTS.md) and [project scope](../PROJECT.md).
+**Active work: stage B — full-detector architecture, with stage C pixel-module design drafting in parallel.** The user closed stage A for progression on 2026-09-16, relying on ODD/ColliderML evidence; see the [plan](DEVELOPMENT_PLAN.md). Outstanding governance and design sign-off requirements remain applicable before production changes. The repository is the canonical record; see [repository instructions](../AGENTS.md) and [project scope](../PROJECT.md).
 
 The documents below establish proposals and recording formats. Their presence does not constitute human approval or completion of M0.
 
 ## Index
 
 - [Full-detector development plan and TDR programme](DEVELOPMENT_PLAN.md)
+- [DES-001: reusable RD53 pixel modules, alternatives and drawings](design/DES-001-rd53-pixel-modules.md)
 - [DES-003: global envelope proposal, r–z drawing and review questions](design/DES-003-global-envelopes.md)
 - [Second envelope review: 3 T space budget and baseline closure](design/DES-003-review-2.md)
 - [First envelope review: responses and open decisions](design/DES-003-review-1.md)
