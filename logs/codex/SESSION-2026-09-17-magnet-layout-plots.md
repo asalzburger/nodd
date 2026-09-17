@@ -35,3 +35,7 @@ Update the existing draft PR #6 with plots and executive summary. No design
 selection, sign-off or production change is made. Unresolved supports, services,
 shielding and return systems are explicitly omitted in figure captions.
 Exact token counts were not exposed; none are estimated.
+
+Delivered drawings in `92264b308d828bc693a5f6c0ad3859abec18f55a`; pushed to PR #6 and updated its description
+with an executive summary and commit-pinned inline comparison image. Refreshed
+the pending review target to this design revision; no approval recorded.
