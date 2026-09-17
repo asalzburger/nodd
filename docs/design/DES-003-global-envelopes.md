@@ -1,6 +1,6 @@
 # DES-003 — Global detector envelopes and interfaces
 
-- Status: **DRAFT — review round 1, E1-R1**, not approved geometry.
+- Status: **DRAFT — review round 2, E1-R2**, not approved geometry.
 - Created: 2026-09-16; updated: 2026-09-17.
 - Authors: AI-assisted project coordinator, System Architect, subsystem technicians, software engineer and Physics and Performance Validation.
 - Human owner / technical reviewers / approving humans: TBD; no sign-off.
@@ -18,12 +18,16 @@ investigation targets, not achieved acceptance or sign-off of dimensions. The
 later consolidated coverage comment supersedes the earlier calorimeter minimum
 of eta 4. [Review direction](https://github.com/asalzburger/nodd/pull/4#discussion_r4032974435).
 
-**NODD DESIGN CHOICE — proposed:** use **E1-R1**, the revised envelope hypothesis
-below. It retains E1's central tracker/calorimeter scale, reduces the proposed
-inner endcap apertures, and adds detached forward calorimetry. Overall length
-therefore grows. All revised dimensions are agent proposals, not human-approved
+**NODD DESIGN CHOICE — proposed:** use **E1-R2**, the revised envelope hypothesis
+below. It retains the revised forward apertures and detached calorimetry, but
+expands the solenoid reservation and moves adjacent calorimeter/muon boundaries
+outward and downstream to preserve nominal thicknesses and interface gaps. All revised dimensions are agent proposals, not human-approved
 numbers. E1 at commit `7bb7ff04a96b2038572d59904f8954a42777d7e6` remains the
 first-round comparison in Git; original input memoranda preserve its reasoning.
+Review-round-1 E1-R1 remains at commit `9877ec1`. The review-round-2 proposal
+adds a [solenoid space budget](inputs/DES-003-solenoid-space-budget.md); detailed
+magnet and muon-system research is the next separate task, not a new prerequisite
+for closing this space-allocation review.
 
 Muon work now investigates a **standalone-compatible, potentially toroidal
 system as the baseline study**, superseding E1's identification-first preference.
@@ -56,7 +60,7 @@ must still be distinguished when making quantitative comparisons.
 | [Physics and Performance Validation](inputs/DES-003-physics-input.md) | Challenge coverage, magnetic leverage, material accounting and containment claims |
 
 The input memoranda preserve alternatives: their individual requests are not all
-adopted simultaneously. E1-R1 and the machine-readable allocation below are this
+adopted simultaneously. E1-R2 and the machine-readable allocation below are this
 proposal's consolidated candidate. All source IDs resolve in the
 [catalogue](../../reference/manifest.yaml); inputs retain precise PDF/factory locators.
 
@@ -94,7 +98,7 @@ technical authors remain responsible for their claims.
 The 2008 overviews and dated upgrade TDRs are historical evidence, not assertions
 about final installed systems. Their hardware choices are not copied wholesale.
 
-## 3. E1-R1 allocation and r–z drawing
+## 3. E1-R2 allocation and r–z drawing
 
 Canonical numerical input: [DES-003-envelopes.json](DES-003-envelopes.json).
 All table rows are **NODD DESIGN CHOICE, proposed; approving humans: none**.
@@ -106,16 +110,16 @@ These plotting conventions do not settle a full DD4hep/field coordinate ADR.
 | --- | ---: | ---: | ---: | ---: |
 | Tracker assembly | 0.025 | 1.140 | 0 | 3.150 |
 | Tracker interface reserve | 1.140 | 1.240 | 0 | 3.150 |
-| Coil / cryostat reserve | 1.240 | 1.440 | 0 | 3.350 |
-| ECal barrel | 1.500 | 1.860 | 0 | 3.300 |
-| ECal endcaps | 0.180 | 1.860 | 3.450 | 3.810 |
-| HCal barrel | 1.960 | 4.000 | 0 | 3.810 |
-| HCal endcaps | 0.200 | 4.000 | 3.960 | 6.000 |
-| Muon barrel allocation | 4.150 | 6.762 | 0 | 7.200 |
+| Coil / cryostat reserve | 1.240 | 1.640 | 0 | 3.550 |
+| ECal barrel | 1.700 | 2.060 | 0 | 3.500 |
+| ECal endcaps | 0.180 | 2.060 | 3.650 | 4.010 |
+| HCal barrel | 2.160 | 4.200 | 0 | 4.010 |
+| HCal endcaps | 0.200 | 4.200 | 4.160 | 6.200 |
+| Muon barrel allocation | 4.350 | 6.762 | 0 | 7.200 |
 | Muon endcap allocation | 0.400 | 7.000 | 7.200 | 10.270 |
 | Detached forward calorimeter study volume | 0.120 | 1.500 | 11.200 | 13.200 |
 
-![DRAFT E1-R1 global envelope drawing; allocations are not sensitive volumes](figures/DES-003-envelope-rz.png)
+![DRAFT E1-R2 global envelope drawing; allocations are not sensitive volumes](figures/DES-003-envelope-rz.png)
 
 [Vector drawing](figures/DES-003-envelope-rz.svg).
 Outer radii bound all polygon corners; inner radii bound the closest permitted
@@ -125,20 +129,29 @@ transfer ownership; actual geometry still needs reviewed tolerances and clearanc
 
 ### Rationale, concessions and omissions
 
-- **NODD DESIGN CHOICE:** retain the tracker assembly and 0.100 m radial shared
-  interface. Study separate barrel timing plus forward disks, with forward-only
-  and integrated tracking/timing alternatives. Their exact allocations remain
-  unassigned; the full shared band is not simultaneously available to timing,
-  supports and services. Ordinary outer silicon tracking is not precision timing
-  without an appropriate sensor/readout concept.
-- **NODD DESIGN CHOICE:** retain the 0.200 m coil/cryostat reservation pending the
-  finite-solenoid study below. No cryostat or reinforcement may silently move
-  outside it. Move dimensions if a credible assembly needs more room.
+- **Human review direction:** retain the aggressive **25 mm innermost tracker
+  host radius**. This is not a selected sensitive-layer radius or a demonstrated
+  beam-pipe/module clearance. The earlier 30–35 mm literature comparison remains
+  context for later layer design, not a replacement envelope target.
+- **Human review direction:** take the **outermost tracker layer with potential
+  timing capability** as the baseline investigation. A timing-capable sensor/readout
+  and forward coverage still need design; spatial silicon does not automatically
+  provide precision timing. Separate barrel/forward timing assemblies remain
+  alternatives. No new timing volume or shared-service capacity is approved here.
+- **NODD DESIGN CHOICE:** reserve **0.400 m** radially and |z|≤3.550 m for the
+  solenoid/cryostat. The space-budget input allocates 0.100 m inner cryostat/
+  interface, 0.150 m cold assembly, 0.100 m outer cryostat/support and 0.050 m
+  unassigned margin, with annular 0.250 m end allowances beyond a proposed cold
+  assembly ending at |z|=3.300 m. These are planning allocations, not materials,
+  engineering tolerances or a guaranteed upper bound. Chimneys and remote services
+  need named routes outside the shell. ECal/HCal and the muon inner boundary move
+  by 0.200 m; the calorimeter axial boundaries move by 0.200 m as well.
 - **NODD DESIGN CHOICE:** shrink ECal/HCal endcap holes to 0.180/0.200 m to
   investigate adequate upstream calorimetry before muons near eta 3.5. This does
   not establish beam-line clearance or active coverage. The muon parent hole
   becomes 0.400 m; actual station edges still need redesign after envelopes.
-- **NODD DESIGN CHOICE:** add a CMS-like detached forward study volume to target
+- **Human review direction:** detached forward calorimetry is now the baseline;
+  technology is deferred. **NODD DESIGN CHOICE:** retain the CMS-like study volume to target
   eta 5 without colliding with current muon boxes. Its 2.000 m axial allowance
   exceeds the historical CMS HF absorber length by 0.350 m; that increment is not
   a verified packaging budget. Readout, support and shielding require separate
@@ -146,7 +159,7 @@ transfer ownership; actual geometry still needs reviewed tolerances and clearanc
   The plotted global extent is therefore a lower bound on required space, not a
   closed detector enclosure.
 - **NODD DESIGN CHOICE:** retain the smaller central muon host of E1 provisionally.
-  Its 0.614 m radial loss relative to ODD remains a cost for stations and any
+  Its 0.814 m radial loss relative to ODD remains a cost for stations and any
   toroid/return structures. No topology is demonstrated to fit.
 
 **INFERENCE:** at eta 5 a prompt ray spans r=0.15094–0.17789 m across the forward
@@ -159,8 +172,10 @@ hadrons before those stations; the smaller upstream endcap apertures address tha
 interface geometrically, without proving suppression.
 
 **INFERENCE, conditional shape example:** if an ODD-like 16-sided barrel is
-retained, normal depth is `r_max*cos(pi/16) - r_min`: approximately 0.3243 m ECal
-and 1.9631 m HCal. A polygon is optional, not prescribed. These depth comparisons
+retained, normal depth is `r_max*cos(pi/16) - r_min`: approximately 0.3204 m ECal
+and 1.9593 m HCal. A polygon is optional, not prescribed. These depth comparisons
+are about 3.84 mm smaller than E1-R1 at each barrel face despite unchanged
+nominal radial widths: moving polygon corners outward changes face depth. They
 are not certified packaging margins. The detailed dense-PCB inventory is deferred;
 it must remain accounted for when quoting inherited material depth. Minimal but
 sufficient supports remain a physical requirement, not permission for zero mass.
@@ -175,14 +190,14 @@ SRC-ATLAS-SOLENOID-2007 and SRC-CMS-JINST-2008 supply commissioned 2 T and built
 in the physics review. Higher-field conductors are not a shortcut to a thin
 complete assembly.
 
-**INFERENCE:** the physics review's finite current-sheet model at R=1.34 m,
-L=6.70 m needs approximately 17.23 MA-turn for 3 T centrally. Its pressure scale
-is 3.58 MPa and uniform-bore energy proxy 115.9 MJ; the latter is neither total
-stored energy nor a bound. The toy on-axis field falls to about 1.82 T at
-z=3.15 m. This exposes a forward-field concern, not a map prediction. Current
-margin, reinforcement, vacuum walls, quench/cooling systems and actual return
-flux remain unallocated within the shell. Full propagation later must use the
-same vector-field identity as reconstruction.
+**INFERENCE:** the new space-budget diagnostic uses a cold-assembly midpoint
+R=1.415 m and illustrative winding length L=6.600 m. It requires approximately
+17.14 MA-turn for 3 T centrally; the magnetic-pressure scale is 3.58 MPa and
+uniform-bore energy proxy about 114 MJ. These are simplified consistency checks,
+not total stored energy, conductor margins or structural validation. The earlier
+E1-R1 finite-solenoid example and its forward field drop remain historical warning
+examples, not field values for E1-R2. More space does not establish uniform 3 T
+tracking. Detailed magnet/field research follows envelope agreement.
 
 **INFERENCE:** an outer solenoid can provide bending between tracker and muon
 segments; this may suffice for a combined fit, but does not automatically supply
@@ -193,8 +208,8 @@ bending integrals between actual measured surfaces, alignment and scattering.
 Estimate calorimeter leakage/punch-through before proposing additional absorber
 steel; no extra steel is chosen merely to improve rejection.
 
-**INFERENCE:** revised entrance-edge reach `asinh(z/r)` is approximately 3.647
-for ECal, 3.679 for HCal and 3.584 for the muon parent. These fit prompt eta 3.5
+**INFERENCE:** revised entrance-edge reach `asinh(z/r)` is approximately 3.703
+for ECal, 3.729 for HCal and 3.584 for the muon parent. These fit prompt eta 3.5
 rays through the allocation, not sensitive station or shower acceptance. The
 forward calorimeter provides a geometric continuation toward eta 5. Define
 separate observable-specific coverage and report transition depth, not only front
@@ -211,11 +226,12 @@ observables before acceptance thresholds.
 | --- | --- | --- |
 | E0 | Inherited ODD control | Existing physical assumptions and actual polygon bounds |
 | E1 | First-round enlarged central envelope, retained in Git | Coverage shortfall exposed by review |
-| **E1-R1** | Revised apertures and detached forward calorimetry | Beam-line/forward support and shielding fit; central coil remains a hypothesis |
+| E1-R1 | Revised apertures and detached forward calorimetry, retained in Git | First revised space hypothesis |
+| **E1-R2** | Explicit 0.400 m magnet budget and shifted neighboring envelopes | Provisional magnet decomposition; narrower muon host; service/forward footprints open |
 | E2 | External central solenoid alternative | Useful combined/standalone bending and return flux; larger magnet/support volume |
 | E3 | Standalone-compatible outer spectrometer, toroidal baseline investigation | Coil/support sectors and measured field integral; dedicated magnets deferred |
 
-E1-R1 and E3 are not exclusive: the current boxes reserve a detector host, while
+E1-R2 and E3 are not exclusive: the current boxes reserve a detector host, while
 E3 describes a magnet/muon architecture to investigate within or beyond it.
 A compact forward option from the calorimeter review (|z|=6.2–8.2 m,
 r=0.080–0.900 m) remains an alternative, but overlaps current muon hosts and
@@ -233,17 +249,17 @@ The coordinator routes coupled tradeoffs to the human reviewer.
 | --- | --- | --- |
 | IF-01 | Architect / tracker | Beam pipe, first active radius, supports and forward aperture; pipe profile not assigned by tracker box |
 | IF-02 | Tracker / architect | Shared r=1.140–1.240 m band; define local-to-shared cable/cooling/power handoff and timing competition |
-| IF-03 | Architect / calorimeter | Coil/cryostat ends and material; r=1.440–1.500 m radial interface is proposed space, not demonstrated clearance |
-| IF-04 | ECal / HCal, architect coordinating | r=1.860–1.960 m interface; packaging, electronics, shared supports and staggered transitions |
-| IF-05 | Calorimeter / muon / architect | r=4.000–4.150 m interface, leakage, first station, return material and service routes |
+| IF-03 | Architect / calorimeter | Coil/cryostat ends and material; r=1.640–1.700 m radial interface is proposed space, not demonstrated clearance |
+| IF-04 | ECal / HCal, architect coordinating | r=2.060–2.160 m interface; packaging, electronics, shared supports and staggered transitions |
+| IF-05 | Calorimeter / muon / architect | r=4.200–4.350 m interface, leakage, first station, return material and service routes |
 | IF-06 | Architect / software | Units, enclosure conventions, field identity, geometry/version mapping; no implicit physical defaults |
 | IF-07 | Subsystems / physics | Active surfaces, independent measurement counts, material scenarios and observable definitions |
 | IF-08 | Architect / calorimeter / muon | Detached forward support, beam profile, shielding, downstream world extent and upstream hadron filtering |
 | IF-09 | Tracker / architect / physics | Distinct barrel/forward timing hypotheses, coverage/association and shared services |
 
-The tracker-to-ECal axial gap at absolute z=3.150–3.450 m remains unassigned
+The tracker-to-ECal axial gap at absolute z=3.150–3.650 m remains unassigned
 integration space, including competing coil-end and service needs. ECal and HCal
-barrel/endcap transitions at 3.300–3.450 and 3.810–3.960 m, respectively, require
+barrel/endcap transitions at 3.500–3.650 and 4.010–4.160 m, respectively, require
 joint support/routing proposals. Space behind HCal endcaps is not assumed empty
 or wholly usable. Muon barrel/endcap reservations meet at 7.200 m without certified
 installation clearance. A two-dimensional drawing cannot allocate azimuthal routes.
@@ -269,20 +285,14 @@ only rectangles and prompt straight rays. The report retains input/script hashes
 software versions, command and deterministic sampling. No acceptance tolerances
 have been selected.
 
-First-round E1 evidence is retained in Git: at eta 3.5 it missed ECal and
-only grazed HCal; eta 4 crossed only the tracker box. E1-R1's regenerated report
-must be read against its input hash; changed holes and forward volume address
-that geometric shortfall. The current E1-R1 report samples 21 rays and finds no positive-area overlaps
-among its ten rectangles. At eta 3.5 the ECal, HCal, muon parent and detached
-forward allocations each provide full axial traversal. At eta 4 the ray misses
-ECal and the muon parent, crosses about 26.57% of HCal axial depth and the full
-forward allocation. At eta 5 and 5.2 the forward volume is the only calorimeter allocation crossed;
-the rays also intersect the tracker host, which does not imply tracking beyond
-the eta 4 objective. Both rays traverse the forward volume’s full axial depth, but the 5.2 aperture
-margin remains only millimetres. The diagnostic is descriptive: neither rectangle
-non-overlap nor full axial traversal demonstrates material depth, hermeticity,
-layer/hit counts or efficiency. See the current report for exact rays. Phi cracks,
-vertex shifts, bending, active edges and response remain outside this tool.
+Earlier E1 and E1-R1 diagnostics remain traceable in Git. Read the current
+E1-R2 report against its input hash for revised ray paths after the axial shifts;
+prior numerical traversal fractions must not be transferred to the new boxes.
+These diagnostics remain descriptive. Rectangle non-overlap and full axial
+traversal establish neither material depth nor hermeticity, hits or efficiency.
+Phi cracks, displaced vertices, bending, active edges and response remain outside
+this tool. **ACTS installation is planned for the subsequent straight-line and
+full-propagation study; it is not performed by this envelope revision.**
 
 The [study catalogue](../validation/DES-003-study-catalogue.md), including
 MU-V01–MU-V08 and later full propagation PROP-V01, separates geometric stations, measurement coordinates, field leverage, material,
@@ -306,30 +316,34 @@ Use existing tools where suitable rather than creating a competing transport
 framework. DD4hep construction, physical overlap checks, Geant4 simulation, field
 solutions and performance validation have **not** been run for this proposal.
 
-## 7. Prioritized follow-up questions
+## 7. Envelope review gate and subsequent work
 
-| Priority / ID | Decision or evidence needed | Owner | Needed before |
-| --- | --- | --- | --- |
-| P0 / Q1 | Can detached forward calorimetry, reduced holes and sufficient support coexist with an explicit beam-line profile? | System Architect leads; calorimeter and muon technicians | Next envelope review |
-| P0 / Q2 | Reserve standalone-compatible muon space; compare toroidal, iron-free solenoidal and instrumented-return requests without choosing a dedicated magnet now | Muon technician leads; architect and physicist | Muon/magnet design stage |
-| P0 / Q3 | Test eta 4/5/3 coverage objectives and muon 3.5 stretch against transitions, vertex extent and upstream filtering | Physics and Performance Validation leads; software and technicians | Coverage-envelope review |
-| P0 / Q4 | Translate literature route topology into named sectors/handoffs and minimal sufficient support envelopes; test barrel plus forward timing competition | System Architect leads; subsystem technicians | Interface acceptance |
-| P1 / Q5 | Decompose coil/cryostat and finite field; compare inner/outer solenoid leverage and material | System Architect leads; physicist and software engineer | Dependent magnet/transport design |
-| P1 / Q6 | Define reference beam pipe and first-sensitive-radius comparison (about 30–35 mm), separate from 25 mm container | Architect and tracker technician; physicist checks lifetime/rate | Tracker design after envelopes |
-| P1 / Q7 | Define 14 TeV particle/jet spectra, pile-up assumptions, leakage tails and muon punch-through; assess before adding steel | Physics and Performance Validation leads; calorimeter/muon technicians | Absorber or performance decisions |
-| P2 / Q8 | Detailed PCB/effective-material inventory, layer/station geometry and optional polygon choice | Subsystem technicians | Component work after envelopes |
-| P1 / Q9 | Maintain study catalogue, common field identity, compatible runtime and exact ODD/ColliderML comparison configuration | Software engineer leads; physicist defines observables | Each corresponding execution |
+**This review asks humans to assess the envelope allocation only:** E1-R2's
+0.400 m solenoid reservation and propagated shifts, retained 25 mm tracker host,
+forward-calorimeter baseline, and documented ownership of still-unallocated
+service/support footprints. Confirm that the provisional space and its limitations
+are an appropriate starting contract. No new physics, detailed magnet or layer
+research is required to conclude this envelope discussion. No sign-off is recorded.
 
-Role names denote accountable project roles; human reviewers remain to be named.
-The coordinator consolidates competing requests. Publication/documentation owns
-consistency of proposal, source ledger and eventual TDR, not physical approval.
+| Follow-up | Accountable role | Timing |
+| --- | --- | --- |
+| Review E1-R2 dimensions, narrowed muon host, interface ownership and provisional exclusions | Coordinator consolidates; System Architect owns space proposal; human reviewer decides | Current envelope review |
+| Research solenoid/cryostat/field and dedicated muon architecture within reserved space; amend if needed | System Architect and muon technician, with physicist | Next separate research task |
+| Develop tracker layers from retained aggressive host and timing-capable outer-layer baseline | Tracker technician; physicist evaluates timing/coverage | After envelope agreement |
+| Choose forward technology and component supports/services, including beam profile and shielding handoffs | Calorimeter technician and System Architect | Subsequent subsystem design |
+| Install ACTS in a reproducible environment and run planned line/full propagation studies | Software engineer; physicist defines observables | Subsequent validation task |
+| Study leakage, punch-through, operating spectra, materials and final coverage | Physics and Performance Validation with subsystem technicians | Later performance work, before dependent acceptance claims |
+
+Roles are accountable project roles, not appointed human approvers. Publication
+maintains consistent proposal/TDR/source records. The deferred work can require
+reviewed envelope amendments; it must not silently reinterpret agreed dimensions.
 
 ## 8. Review and implementation boundary
 
 The PR is the initial proposal and discussion record. Human comments may change
 the numbers and alternatives; the JSON, drawing and diagnostics must then be
 regenerated consistently. Review must distinguish agreement to continue studying
-E1-R1 from sign-off of an implementable architecture.
+E1-R2 from sign-off of this envelope proposal.
 
 Human technical, domain, validation and approval assignments remain **TBD**.
 Approval requires an identified reviewer, exact revision, conditions and explicit

@@ -10,6 +10,7 @@ The documents below establish proposals and recording formats. Their presence do
 
 - [Full-detector development plan and TDR programme](DEVELOPMENT_PLAN.md)
 - [DES-003: global envelope proposal, r–z drawing and review questions](design/DES-003-global-envelopes.md)
+- [Second envelope review: 3 T space budget and baseline closure](design/DES-003-review-2.md)
 - [First envelope review: responses and open decisions](design/DES-003-review-1.md)
 - [Validation study catalogue](validation/DES-003-study-catalogue.md)
 - [Envelope study tool and reproduction commands](../tools/envelope_study/README.md)

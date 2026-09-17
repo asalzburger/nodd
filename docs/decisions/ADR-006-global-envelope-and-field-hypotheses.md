@@ -1,6 +1,6 @@
 # ADR-006 — Global envelope and field hypotheses
 
-- Status: DRAFT; created: 2026-09-16; updated: 2026-09-17, review round 1.
+- Status: DRAFT; created: 2026-09-16; updated: 2026-09-17, review round 2.
 - Human owner: TBD; review: [PR #4](https://github.com/asalzburger/nodd/pull/4).
 - Human technical sign-off: pending; no production implementation authorized.
 - Related: [DES-003](../design/DES-003-global-envelopes.md), [ADR-001](ADR-001-upstream-baseline.md), [ADR-003](ADR-003-validation-and-artifact-policy.md), [development plan](../DEVELOPMENT_PLAN.md).
@@ -34,10 +34,14 @@ The following are **NODD DESIGN CHOICE — proposed; numerical design approvers:
 none**. The human investigation directions above are distinguished from these
 technical recommendations:
 
-1. Use **E1-R1** as the next numerical envelope hypothesis. Retain central E1
-   dimensions, reduce endcap ECal/HCal/muon parent apertures to the values in
-   DES-003 and add detached forward calorimetry. Preserve E1 at commit
-   `7bb7ff04a96b2038572d59904f8954a42777d7e6` for traceable comparison.
+1. Use **E1-R2** as the envelope hypothesis: reserve r=1.240–1.640 m,
+   |z|≤3.550 m for the solenoid/cryostat and shift adjacent calorimeter envelopes
+   and the muon inner boundary as recorded in DES-003. The
+   [space budget](../design/inputs/DES-003-solenoid-space-budget.md) explains the
+   0.400 m radial allowance; it is provisional, not an engineered upper bound.
+   Preserve first E1 at `7bb7ff04a96b2038572d59904f8954a42777d7e6` and E1-R1 at
+   `9877ec1` in Git. Retain the aggressive 25 mm tracker host radius by human
+   direction, without claiming a 25 mm active layer fits.
 2. Use metre-based, axisymmetric enclosures with radial exclusions and z-reflection
    symmetry for this pass. If polygons are later used, corners must fit; a polygon
    itself is optional. Coordinate/identifier/readout contracts remain open.
@@ -50,10 +54,13 @@ technical recommendations:
    An outer coil may improve a combined fit but does not automatically provide
    independent momentum. No dedicated muon magnet or iron amount is selected.
    Evaluate upstream calorimeter punch-through before proposing added absorber.
-5. Study separate barrel and forward timing hypotheses, with alternatives. Exact
-   allocations compete with support/services and remain open. Ordinary spatial
-   silicon readout does not itself supply precision timing.
-6. Treat detached forward calorimetry as an instrumented study volume, not a full
+5. Follow the reviewed baseline investigation of potential timing capability in
+   the outermost tracker layer. Sensor/readout choice and forward timing coverage
+   remain open; separate timing assemblies are alternatives. No additional timing
+   volume or guaranteed service capacity is allocated. Ordinary spatial silicon
+   readout does not itself supply precision timing.
+6. Take detached forward calorimetry as the baseline, with technology deferred.
+   Treat the drawn reservation as an instrumented study volume, not a full
    installed enclosure. Beam pipe, shielding, rear readout, supports and routes
    may require extra radius/length. Its downstream position cannot filter hadrons
    before upstream muon stations; reduced endcap holes require a physical depth
@@ -69,11 +76,12 @@ technical recommendations:
 | --- | --- | --- |
 | E0 | Inherited ODD comparison | Existing physical assumptions |
 | E1 | First-round envelope, retained in Git | Forward coverage shortfall |
-| E1-R1 | Revised apertures and detached forward study volume | Beam aperture, downstream footprint and upstream muon filtering |
+| E1-R1 | First revised apertures and forward study, preserved in Git | Historical comparison |
+| E1-R2 | Explicit magnet budget and propagated neighboring shifts | Provisional space, narrower muon host, external service/support routes |
 | E2 | External central solenoid | Bending leverage, return/stray field, support and increased dimensions |
 | E3 | Independent outer spectrometer; toroidal baseline investigation | Coil/support sectors, field integral and station geometry; decision deferred |
 
-E1-R1's boxes can host an E3 investigation; these labels do not make envelope and
+E1-R2's boxes can host an E3 investigation; these labels do not make envelope and
 magnet alternatives mutually exclusive. A compact forward insert is also retained
 as an alternative, but its overlap with current muon hosts requires redesign.
 An iron-free magnet is physically possible but changes the entire return-field
@@ -82,17 +90,21 @@ preferred by demonstrated nODD physics performance or magnet engineering.
 
 ## Verification and review gate
 
-Review global space, smaller apertures, route ownership and minimal sufficient
-supports now. Subsequent component work resolves layer/station geometry, material
-composition and detailed fields. Magnet decisions may remain open provided their
-reserved interfaces and implications are explicit; this round does not force a
-premature topology selection.
+The current review gate is **envelope agreement only**: assess the explicit
+magnet-space allowance, propagated boundary changes, retained aggressive tracker
+host, forward baseline and interface ownership. No additional detailed physics or
+magnet research is required to conclude this space-allocation discussion.
 
-DES-003 links allocation diagnostics and the muon/physics/software study catalogue.
-Select spectra, vertex/pile-up scenarios and observable-specific criteria before
-acceptance. No field solution, detector simulation, punch-through measurement or
-performance acceptance is claimed here. Operational ATLAS/CMS evidence supplies
-anchors, not validation of the nODD proposal.
+Detailed magnetic-system and muon research is the next separate task. Tracker
+layers/timing technology follow envelopes; forward technology, support/service
+budgets and performance studies follow in their respective work packages. ACTS
+installation is planned for subsequent line/full propagation validation, not
+performed by this revision. Deferred work may propose reviewed amendments if the
+reservation is inadequate; it does not silently change the agreed boundaries.
+
+DES-003 links current allocation diagnostics and the study catalogue. No field
+solution, detector simulation, punch-through measurement or performance acceptance
+is claimed. Operational ATLAS/CMS evidence supplies scale anchors only.
 
 Assign human reviewers and record the exact approved revision and conditions.
 Neither a baseline-start comment nor merging this DRAFT advances it to SIGNED OFF

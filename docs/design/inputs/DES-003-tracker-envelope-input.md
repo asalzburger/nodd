@@ -125,3 +125,11 @@ coverage and the role of forward timing. Suggested catalogue ID:
 `SRC-ATLAS-HLLHC-OVERVIEW-2023`; HTML, no local copy/hash, redistribution rights
 not checked. The numerical envelope recommendation relies on the registered ODD
 and local TDR sources above, not an uncatalogued web parameter.
+
+## Review round 2 direction
+
+Retain the 25 mm inner **envelope** as an aggressive baseline, without assigning
+a sensor at that radius. Investigate the **outermost tracker layer as a potential
+timing layer**; sensor/readout capability and forward coverage remain design work.
+This supersedes the earlier preference for a separate timing assembly, while
+retaining it as an alternative. See [review disposition](../DES-003-review-2.md).

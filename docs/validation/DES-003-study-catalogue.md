@@ -25,12 +25,12 @@ material and response assumptions. Human review owns acceptance.
 | CAL-V02 | Calorimeter + Physics | CAL-V01, geometry/field/physics list; actual beam hole, cracks and service paths | Shower containment/leakage distributions versus energy/η/φ/vertex, especially endcap-to-forward transition | Planned full transport; historical depths are screening inputs only |
 | CAL-V03 | Calorimeter + muon + Physics | CAL-V02, station locations, shielding hypotheses | Punch-through before stations and interaction with detached calorimeter; separate upstream/downstream ordering | Planned; must precede added-absorber recommendation |
 | FIELD-V01 | System Architect + Physics | Three magnet architecture hypotheses, coil/material/return assumptions | Spatial vector fields, finite-length variation, field/material/space tradeoffs | Analytic coil estimates in physics input only; no field solution executed |
-| PROP-V01 | Software + Physics | Chosen field identity, active surfaces, material, momentum/charge/species/vertex grid | Full charged-particle propagation, sensitive crossings, numerical convergence and transport/reconstruction agreement | **Mandatory later**; straight rays cannot close it |
-| TIME-V01 | Tracker + Physics | Barrel/forward timing options, supports/services, response and ageing hypotheses | Geometric and propagated association coverage; later time/vertex efficiency | Planned; outer silicon placement alone supplies no timing model |
+| PROP-V01 | Software + Physics | Chosen field identity, active surfaces, material, momentum/charge/species/vertex grid | Full charged-particle propagation, sensitive crossings, numerical convergence and transport/reconstruction agreement | **Mandatory later**; planned ACTS installation will supply straight-line and field propagation; version/integration pending, not installed in this review |
+| TIME-V01 | Tracker + Physics | Outermost tracker layer as potential timing baseline, forward coverage, supports/services, response and ageing hypotheses | Geometric and propagated association coverage; later time/vertex efficiency | Planned; outer silicon placement alone supplies no timing model |
 
 ENV-V01 reports a full axial allocation when the ray enters at the front and
 leaves at the back; corner contact can have zero margin. It does not prove active
-depth or containment. E1-R1's η=5.2 forward entrance margin is only about 3.57 mm
+depth or containment. E1-R2's η=5.2 forward entrance margin is only about 3.57 mm
 under the prompt-ray assumption. Finite vertices, beam pipe, passive rims and
 shower spread belong to ENV-V02/CAL-V02 before extension beyond the η=5 objective.
 
@@ -66,3 +66,7 @@ decisions: realistic source spectra/pile-up and luminosity, vertex distributions
 layer/station redundancy, leakage/fake-rate targets, timing operating lifetime,
 magnet alternatives and reviewer assignments. The coordinator orders these tasks;
 stage-A progression is not reopened.
+
+Review round 2 keeps this catalogue as follow-up work. Detailed magnetic-system
+and dedicated muon research come next; their completion is not implied by
+envelope sign-off. No ACTS installation or propagation was performed here.

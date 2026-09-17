@@ -10,6 +10,11 @@
   [catalogue](../../../reference/manifest.yaml). NODD DESIGN CHOICE entries are
   proposals with approving humans pending.
 
+> Review round 2 supersedes the 200 mm magnet reservation with the
+> [explicit space budget](DES-003-solenoid-space-budget.md), retains the 25 mm
+> tracker host and selects the outermost tracker layer as the potential timing
+> baseline. Earlier calculations below refer to E1-R1.
+
 ## 1. What field can reasonably be proposed?
 
 **Answer — INFERENCE:** retain **3 T central field as a credible NbTi study

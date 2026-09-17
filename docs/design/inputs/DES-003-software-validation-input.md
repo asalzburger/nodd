@@ -136,3 +136,9 @@ angular grid; definitions of redundancy and hermeticity; segmentation versus lay
 counting; material scenario ownership; magnet representation; and compatible
 runtime versions. No new framework, detector build or production geometry change
 is needed to discuss the present envelope proposal.
+
+## Review round 2 direction
+
+Plan an ACTS installation for straight-line and full-field tracking in the next
+software step (PROP-V01). This review records the stack direction; it does not
+install ACTS or claim propagation results.
