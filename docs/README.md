@@ -1,4 +1,11 @@
-# nODD documentation
+# Agentic (Re-)design of the Open Data Detector (ODD)
+
+This project aims at re-designing and re-implementing the ODD with a close-to-realism layout.
+We use the existing technical design reports and technical information of the current ATLAS/CMS detectors (and their HL-LHC upgrade versions) to guide a quasi-realistic re-implementation of the ODD.
+
+The workplace is fully agentic-driven, with a human expert sign-off chain attached, all handled via GitHub.
+
+The ODD general design features are a guideline, but can be overhauled if well supported arguments are given.
 
 ## Current phase
 
@@ -9,6 +16,15 @@ The documents below establish proposals and recording formats. Their presence do
 ## Index
 
 - [Full-detector development plan and TDR programme](DEVELOPMENT_PLAN.md)
+- [DES-003: global envelope proposal, r–z drawing and review questions](design/DES-003-global-envelopes.md)
+- [Second envelope review: 3 T space budget and baseline closure](design/DES-003-review-2.md)
+- [First envelope review: responses and open decisions](design/DES-003-review-1.md)
+- [Validation study catalogue](validation/DES-003-study-catalogue.md)
+- [Envelope study tool and reproduction commands](../tools/envelope_study/README.md)
+- [Project tracking and review dashboard plan](DASHBOARD_PLAN.md)
+- [Dashboard build, preview and GitHub Pages deployment](../tools/dashboard/README.md)
+- [Dashboard publication target](https://asalzburger.github.io/nodd/) — published after the deployment chore PR is merged
+- [Project tracking register and update workflow](../project/README.md)
 - [ODD realism assessment](validation/ODD-realism-assessment.md)
 
 - [Realism charter](charter/REALISM_CHARTER.md)
@@ -19,7 +35,11 @@ The documents below establish proposals and recording formats. Their presence do
 - [Validation report template](validation/REPORT_TEMPLATE.md)
 - [Project session journal](../logs/README.md)
 
-The [source catalogue](../reference/README.md) now records the initial PDF acquisitions in `reference/manifest.yaml`. Five documents—the ATLAS Pixel TDR, CMS Tracker TDR, RD53A manual and ATLAS/CMS JINST overviews—now have verified identity metadata and reading guides; other entries remain pending. Normative source claims require verified catalogue entries and precise locators.
+The [source catalogue](../reference/README.md) records acquisitions and verification
+state in `reference/manifest.yaml`. Reading guides cover the initial tracker,
+readout and whole-detector papers; DES-003 adds selected calorimeter/muon TDR
+passages and PDG evidence. Identity verification or selected-page reading does
+not imply a complete document review. Normative claims require precise locators.
 
 ## Design lifecycle
 
@@ -36,7 +56,7 @@ Only identified humans may authorize sign-off and acceptance. Approval records m
 
 - [ADR-005: reference reading](decisions/ADR-005-reference-reading-pilot.md): local extraction caches and source reading maps.
 
-All five ADRs are drafts. Their proposals do not override existing repository instructions.
+The registered ADRs remain drafts. Their proposals do not override existing repository instructions.
 
 ## M0 completion evidence
 

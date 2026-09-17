@@ -1,0 +1,156 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-09-17-dashboard-pages",
+  "title": "Prepare chore PR for Pages and dashboard maintenance",
+  "recorded_at": "2026-09-17T13:28:51Z",
+  "started_at": null,
+  "ended_at": "2026-09-17T13:35:59Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact token usage, client version, thread ID and actual conversation start time are unavailable.",
+    "Browser/mobile rendering and actual main-branch Pages deployment remain unexecuted; PR creation does not merge the branch."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "595a394216bc8e67df2cfe1d3f9fca7d75985622",
+    "branch": "chore/dashboard-pages",
+    "initial_changes": [],
+    "result_commits": [
+      "69fb125e76f5395c02cdb1426de0068daee21a57"
+    ],
+    "changed_files": [
+      ".github/workflows/dashboard.yml",
+      ".github/pull_request_template.md",
+      "AGENTS.md",
+      "docs/DASHBOARD_PLAN.md",
+      "docs/README.md",
+      "project/README.md",
+      "project/tracking.json",
+      "project/tracking.schema.json",
+      "tools/dashboard/README.md",
+      "tools/dashboard/build.py",
+      "tools/dashboard/test_build.py",
+      "tools/dashboard/check_update.py",
+      "tools/dashboard/test_update.py",
+      "logs/codex/SESSION-2026-09-17-dashboard-pages.json",
+      "logs/codex/SESSION-2026-09-17-dashboard-pages.md"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [],
+    "related_ids": [
+      "PLAN-NODD-DASHBOARD-001",
+      "DES-003",
+      "ADR-006",
+      "PR-5"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-09-17-dashboard-pages.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 -B -m unittest discover -s tools/dashboard -p 'test_*.py' -q",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "25 tests passed: dashboard, actual PR #4 history, chore exclusion and mandatory update policy, including actual synthetic Git diffs."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p 'test_*.py' -q",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "15 tests passed including repository Markdown links."
+    },
+    {
+      "command": "/System/Library/Frameworks/JavaScriptCore.framework/Versions/A/Helpers/jsc tools/dashboard/test_app.js",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "14 synthetic DOM assertions passed; no browser layout verification."
+    },
+    {
+      "command": "Ruby Psych YAML parser and deployment-condition assertions on .github/workflows/dashboard.yml",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Workflow parsed; deploy requires build, main ref outside PRs, and Pages/OIDC permissions only in deploy job."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "10 project tasks, 7 documents and 3 review rounds validated; infrastructure chore removed from progress."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py build",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Generated allowlisted _site/pages output."
+    },
+    {
+      "command": "Python HTMLParser traversal of _site/pages local links and fragments",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "160 local links/fragments across 22 pages checked."
+    },
+    {
+      "command": "gh api repos/asalzburger/nodd/pages",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Initial sandbox API connection failed, escalated retry returned HTTP 404 (Pages not configured). Subsequent Pages setup succeeded."
+    },
+    {
+      "command": "gh api --method POST repos/asalzburger/nodd/pages --input <temporary JSON containing build_type workflow>",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Enabled Pages Actions publishing at https://asalzburger.github.io/nodd/; no site deployment performed."
+    },
+    {
+      "command": "gh api --method PUT repos/asalzburger/nodd/environments/github-pages --input <temporary environment policy JSON>; gh api --method POST repos/asalzburger/nodd/environments/github-pages/deployment-branch-policies --input <temporary main branch policy JSON>",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Created Pages environment with custom branch policies and main branch policy; API configuration only."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 28 session records."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors."
+    },
+    {
+      "command": "gh api repos/asalzburger/nodd/environments/github-pages/deployment-branch-policies; gh api repos/asalzburger/nodd/pages",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Verified main branch policy and workflow build_type with https://asalzburger.github.io/nodd/ target."
+    },
+    {
+      "command": "git push -u origin chore/dashboard-pages",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Published new chore branch without force-push."
+    },
+    {
+      "command": "gh pr create --base main --head chore/dashboard-pages --title 'chore: publish project dashboard on GitHub Pages' --body-file /tmp/nodd-dashboard-pr-body.md",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Opened https://github.com/asalzburger/nodd/pull/5; intentionally excluded from project progress registers."
+    },
+    {
+      "command": "gh run view 35227955340 --json status,conclusion,jobs,url",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Hosted PR build succeeded: policy check, 25 dashboard/update tests, 15 logging/docs tests, 14 JavaScript assertions using Node native URLs, validation, build and preview artifact upload. Pages packaging and deployment skipped for PR as intended. Run: https://github.com/asalzburger/nodd/actions/runs/35227955340."
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+name: Project dashboard
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, edited]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dashboard-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0 # Revision-specific reviews need historical document content.
+          persist-credentials: false
+          submodules: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - name: Require dashboard updates for project PRs
+        run: python3 -B tools/dashboard/check_update.py --event "$GITHUB_EVENT_PATH"
+      - name: Validate project records
+        run: python3 -B tools/dashboard/build.py validate
+      - name: Test dashboard and documentation links
+        run: |
+          python3 -B -m unittest discover -s tools/dashboard -p 'test_*.py' -v
+          python3 -B -m unittest discover -s tools/session_logging -p 'test_*.py' -v
+          python3 -B tools/session_logging/session_log.py validate
+      - name: Test browser interaction logic
+        run: node tools/dashboard/test_app.js
+      - name: Build static site
+        run: python3 -B tools/dashboard/build.py build --output _site/pages
+      - uses: actions/upload-artifact@v7
+        with:
+          name: project-dashboard
+          path: _site/pages/
+          if-no-files-found: error
+          retention-days: 14
+      - name: Package Pages site
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site/pages/
+
+  deploy:
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+      - name: Deploy dashboard
+        id: deployment
+        uses: actions/deploy-pages@v4

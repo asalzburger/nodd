@@ -1,0 +1,135 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-09-17-envelope-review-2",
+  "title": "Close envelope review details and reserve 3 T solenoid space",
+  "recorded_at": "2026-09-17T10:35:30Z",
+  "started_at": null,
+  "ended_at": "2026-09-17T13:03:27Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact start, client version, token counts and complete tool-call totals unavailable.",
+    "Analytic planning space only; no engineering certification or transport."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "9877ec14998280ef6f9cb4d13ae6b949d6c75d06",
+    "branch": "design/global-envelopes",
+    "initial_changes": [],
+    "result_commits": [
+      "68d0d7c0faaffcd150e8119d1a3a2d183df7f6a9"
+    ],
+    "changed_files": [
+      "docs/README.md",
+      "docs/decisions/ADR-006-global-envelope-and-field-hypotheses.md",
+      "docs/design/DES-003-envelopes.json",
+      "docs/design/DES-003-global-envelopes.md",
+      "docs/design/DES-003-review-2.md",
+      "docs/design/figures/DES-003-envelope-rz.png",
+      "docs/design/figures/DES-003-envelope-rz.svg",
+      "docs/design/inputs/DES-003-physics-review-1.md",
+      "docs/design/inputs/DES-003-software-validation-input.md",
+      "docs/design/inputs/DES-003-solenoid-space-budget.md",
+      "docs/design/inputs/DES-003-tracker-envelope-input.md",
+      "docs/validation/DES-003-envelope-diagnostics.json",
+      "docs/validation/DES-003-study-catalogue.md",
+      "logs/codex/SESSION-2026-09-17-envelope-review-2.json",
+      "logs/codex/SESSION-2026-09-17-envelope-review-2.md",
+      "reference/manifest.yaml"
+    ]
+  },
+  "work": {
+    "milestone": "Stage B \u2014 envelope review round 2",
+    "components": [
+      "magnet space",
+      "global envelopes",
+      "tracker interfaces",
+      "timing baseline"
+    ],
+    "related_ids": [
+      "DES-003",
+      "ADR-006",
+      "PR-4"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-09-17-envelope-review-2.md",
+  "activities": [
+    {
+      "kind": "tool",
+      "name": "collaboration",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Physics bounded magnet-space estimate; System Architect document reconciliation; coordinator artifact generation and review replies."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 -B -m unittest discover -s tools/envelope_study -p 'test_*.py' -q",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "11 tests passed."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p 'test_*.py' -q",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "15 tests passed."
+    },
+    {
+      "command": "Envelope generator; exact command in report/README",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "10 allocations,21 rays,0 positive-area rectangle overlaps; figure inspected."
+    },
+    {
+      "command": "Report input/script SHA-256 checks",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Both hashes match current files."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "24 records validated."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors."
+    },
+    {
+      "command": "Relative Markdown links and git diff --cached --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No broken local links or whitespace errors."
+    },
+    {
+      "command": "git push",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Published envelope revision 68d0d7c."
+    },
+    {
+      "command": "gh pr edit 4 --body-file /tmp/nodd-review2-prbody.md",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Updated E1-R2 PR summary/table and validation."
+    },
+    {
+      "command": "gh api PR4 comment replies (8 substantive threads)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Eight replies posted; all 21 new comments accounted for in disposition. Human thread resolution/sign-off retained."
+    }
+  ]
+}

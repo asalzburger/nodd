@@ -1,0 +1,146 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-09-17-dashboard-pr4",
+  "title": "Rebase dashboard and reflect approved merged envelope PR",
+  "recorded_at": "2026-09-17T13:17:42Z",
+  "started_at": null,
+  "ended_at": "2026-09-17T13:21:54Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact token usage, client version, thread ID and actual conversation start time are unavailable.",
+    "Session pair created after rebase; starting SHA restored from observed pre-rebase HEAD and ORIG_HEAD, with initial clean working tree.",
+    "GitHub approval was read from all paginated PR review records; this does not create formal human sign-off or authorize production geometry.",
+    "Real browser/mobile checks and hosted CI remain unexecuted. No deployment or force-push performed."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "445ae6c8c6bf959eb88d8473810c8cffc41e6def",
+    "branch": "feature/project-dashboard",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      "docs/README.md",
+      "project/README.md",
+      "project/reviews.json",
+      "project/reviews.schema.json",
+      "project/tracking.json",
+      "project/tracking.schema.json",
+      "tools/dashboard/README.md",
+      "tools/dashboard/build.py",
+      "tools/dashboard/test_build.py",
+      "logs/codex/SESSION-2026-09-17-dashboard-pr4.json",
+      "logs/codex/SESSION-2026-09-17-dashboard-pr4.md"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [],
+    "related_ids": [
+      "PLAN-NODD-DASHBOARD-001",
+      "DES-003",
+      "ADR-006",
+      "PR-4"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-09-17-dashboard-pr4.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "git fetch origin main",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Fetched latest main at b106610b929cdfa603dd5f1ef2a6e79dbb633a7f."
+    },
+    {
+      "command": "gh pr view 4 --json number,title,url,body,headRefOid,mergeCommit,mergedAt,reviews,comments,closingIssuesReferences",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Network connection to api.github.com failed in sandbox. Escalated read-only retry succeeded. Initial guessed DES-001 path was absent; inspected actual DES-003 files instead."
+    },
+    {
+      "command": "gh api --paginate repos/asalzburger/nodd/pulls/4/reviews --jq '.[] | select(.state != \"COMMENTED\") | {id,user: .user.login,state,body,commit_id,submitted_at,html_url}'",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Verified two changes-requested reviews and final APPROVED review 5235997830 on cb654ee91457b22d899a898faf2c8bf6e0fc275e. Unpaginated listing omitted the final review; used all pages."
+    },
+    {
+      "command": "git rebase origin/main",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Documentation-index conflict at first dashboard commit. Resolved by retaining main envelope links and dashboard links; escalated git rebase --continue completed successfully."
+    },
+    {
+      "command": "git branch archive/dashboard-before-main-rebase-2026-09-17 445ae6c8c6bf959eb88d8473810c8cffc41e6def",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Preserved pre-rebase commits so earlier session-record references remain reachable locally."
+    },
+    {
+      "command": "git merge-base --is-ancestor origin/main HEAD",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Dashboard branch contains fetched main."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/dashboard -p 'test_*.py' -q",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "19 tests passed, including actual PR #4 history, approval scope, status adapters and merge-metadata validation."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p 'test_*.py' -q",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "15 tests passed including all repository Markdown links."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/envelope_study -p 'test_*.py' -q",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "11 analytic envelope tests passed. No diagnostic evidence regenerated."
+    },
+    {
+      "command": "/System/Library/Frameworks/JavaScriptCore.framework/Versions/A/Helpers/jsc tools/dashboard/test_app.js",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "14 synthetic DOM assertions passed; no layout verification."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 11 tasks, 7 documents, 3 review rounds and curated PR merge metadata."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py build",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Updated _site/dashboard; generated source pages remain escaped and allowlisted."
+    },
+    {
+      "command": "Python HTMLParser local-link traversal of _site/dashboard/*.html and evidence/*.html",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Checked 170 local links/fragments across 24 generated pages."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 27 session records."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors."
+    }
+  ]
+}
