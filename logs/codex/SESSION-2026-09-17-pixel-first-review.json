@@ -4,8 +4,8 @@
   "title": "Publish ITkPix v2 module draft for first review",
   "recorded_at": "2026-09-17T15:15:04Z",
   "started_at": null,
-  "ended_at": null,
-  "status": "open",
+  "ended_at": "2026-09-17T15:16:33Z",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
@@ -20,7 +20,9 @@
     "start_commit": "c11cddb85662553d264af19833c4846d8d00cb53",
     "branch": "design/rd53-pixel-modules",
     "initial_changes": [],
-    "result_commits": [],
+    "result_commits": [
+      "fd9689cbdbd2224b43f7307208f5001ab09f98a6"
+    ],
     "changed_files": [
       "project/tracking.json",
       "project/reviews.json",
@@ -74,6 +76,30 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "No whitespace errors."
+    },
+    {
+      "command": "git push -u origin design/rd53-pixel-modules",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Published dedicated branch; no force push."
+    },
+    {
+      "command": "gh pr create --draft --base main --head design/rd53-pixel-modules --title <project title> --body-file /tmp/nodd-pixel-first-pr.md",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Opened https://github.com/asalzburger/nodd/pull/8."
+    },
+    {
+      "command": "gh pr view8 --json number,title,url,state,isDraft,headRefOid",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Verified PR8 OPEN,isDrafttrue,headfd9689cbdbd2224b43f7307208f5001ab09f98a6."
+    },
+    {
+      "command": "gh run view35239108986 --json status,conclusion,jobs,url",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Hosted CI at fd9689c succeeded: project update policy, records, dashboard/documentation tests, browser interaction logic, static build and preview artifact. Deploy skipped for PR. https://github.com/asalzburger/nodd/actions/runs/35239108986"
     }
   ]
 }

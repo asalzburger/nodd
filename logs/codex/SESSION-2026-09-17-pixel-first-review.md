@@ -29,3 +29,13 @@ Project review/tracking registers and this session pair accompany previously
 committed designs, drawings, provenance and ADR-007. Keep pixel-volume definition
 open. Assign human reviewers and use the draft PR to discuss feasibility,
 module-type count, assumptions and next evidence; no production authorization.
+
+Published branch without force-push and opened draft PR#8:
+https://github.com/asalzburger/nodd/pull/8. GitHub verified OPEN/isDraft=true
+at headfd9689cbdbd2224b43f7307208f5001ab09f98a6. Added PR metadata snapshot
+and review evidence links; review target remains exact design revision c11cddb.
+
+Hosted CI for published fd9689c passed policy, records, tests, browser logic,
+static build and preview artifact upload. Run35239108986; Pages deploy skipped
+for PR. Final local metadata update validates11tasks/9documents/5reviewrounds,
+builds the snapshot and passes session validator32records and diff--check.
