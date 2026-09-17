@@ -1,10 +1,11 @@
-# Agentic Driven Redesign of the Open Data Detector (ODD)
+# Agentic (Re-)design of the Open Data Detector (ODD)
 
 This project aims at re-designing and re-implementing the ODD with a close-to-realism layout.
 We use the existing technical design reports and technical information of the current ATLAS/CMS detectors (and their HL-LHC upgrade versions) to guide a quasi-realistic re-implementation of the ODD.
 
 The workplace is fully agentic-driven, with a human expert sign-off chain attached, all handled via GitHub.
 
+The ODD general design features are a guideline, but can be overhauled if well supported arguments are given.
 
 ## Current phase
 
