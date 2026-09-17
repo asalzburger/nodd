@@ -78,3 +78,17 @@ checks sheet containment, and produces two individual and one matched-scale
 comparison drawing in PNG/SVG. The retained `DES-004-system-layouts.json` records
 coordinates, source hashes, versions and actual checks. No physical material or
 station geometry is generated. Plot extents, colours and labels are display choices.
+
+## Preliminary option resource screen
+
+```sh
+python3 -B tools/magnetic_study/option_screen.py
+```
+
+This deterministic arithmetic screen records uniform-field flux/energy proxies,
+muon-annulus areas, trial return fields and ideal active-return radii in
+`docs/validation/DES-004-option-screen.json`. It uses the existing candidate/layout
+inputs. Every omitted effect is listed in that report; neither the energy proxy
+nor the return-area estimate is a rigorous engineering bound. The 1.5/2 T return
+trials are study settings, not selected steel saturation limits. No nonlinear
+field, force, material transport or detector performance is computed.

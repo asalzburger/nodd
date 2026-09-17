@@ -1,0 +1,68 @@
+# MAG-03 — Outer solenoid without a dedicated return yoke
+
+- Date: 2026-09-17; status: DRAFT; human approval pending.
+- Parent: [DES-004](../DES-004-magnetic-configurations.md); reference: E1-R2.
+- Assessment: **retain as the principal large-solenoid comparison; any demonstrated measurement benefit must justify its space and resource costs.**
+
+## Proposal and evidence
+
+**NODD DESIGN CHOICE:** surround barrel and endcap **central** calorimeters with
+a diagnostic sheet R=4.500 m, half-length 6.500 m, normalized to +3 T centrally.
+Detached forward calorimetry is excluded. The [architect input](../inputs/DES-004-system-architecture.md),
+§3, requests assembly r=4.300–4.800 m, |z|≤6.800 m and muon barrel inner host
+4.950 m rather than 4.350 m. Keep the old inner-coil space unused initially;
+inward calorimeter optimization is a separate comparison.
+
+**FACT:** SRC-CMS-JINST-2008, §2.1/PDF33 and Table 2.1/PDF35, describes the built
+4 T external NbTi solenoid. It establishes a technology/topology anchor, not an
+iron-free precedent or proof that nODD's proposed 500 mm assembly fits. Source
+identities are in the [catalogue](../../../reference/manifest.yaml).
+
+## Technical assessment
+
+**INFERENCE — tracker:** the [vacuum benchmark](../../validation/DES-004-solenoid-benchmark.json),
+`results[candidate.id].checks`, gives Bz=2.743 T on axis at z=3.150 m and
+(Br,Bz)=(0.101,2.767) T at the outer tracker corner. The smaller end variation
+than MAG-01 motivates propagation studies. It does not establish better momentum
+resolution: forward trajectories, measurement leverage, material and resource
+differences remain relevant.
+
+**INFERENCE — calorimetry:** removing the inner coil avoids its pre-ECal material,
+but the larger solenoid exposes central calorimeters to a different field and
+requires external supports/services. Downstream coil material influences leakage
+and muon transport. Calorimeter steel inside the bore makes the vacuum field a
+control rather than a physical map; “no yoke” cannot mean ignoring this steel.
+
+**INFERENCE — muons:** substantial bending between tracker and outer segments
+can aid combined measurements, yet stations beyond the main field may mainly
+measure an outgoing direction. SRC-CMS-YOKE-COSMICS-2010, §§1–2/PDF3–5, supports
+separating tracker-combined, vertex-constrained and unconstrained standalone
+measurements. It does not prove this yoke-free arrangement provides standalone
+leverage. The proposed host shrinks from 2.412 to 1.812 m radially, complicating
+station spacing and support allocation.
+
+**INFERENCE — resources/services:** vacuum central-field normalization requires
+37.747 MA-turn versus MAG-01's 17.144, from the finite-sheet equation in the
+architect input. These are ampere-turns, not conductor-current or feasibility
+results. Larger radius/length increases the magnetic volume and changes forces,
+protection and cryogenic demands. Neither 3 T normalization nor a reserved shell
+establishes equal resources or sufficient structural margin.
+
+## Blocking conditions versus missing evidence
+
+**Demonstrated integration conflict:** the proposed assembly intersects E1-R2's
+unchanged muon barrel host. MAG-03 cannot coexist with that allocation unchanged;
+its amendment, or another explicit redesign, is necessary. This is not a rejection
+of the topology. Conductor/cryostat fit, nonlinear field, stray-field acceptability,
+station feasibility and standalone performance remain **missing evidence**.
+Insufficient standalone information would block that particular requirement.
+
+## Next discriminating tests
+
+**NODD DESIGN CHOICE:** compare common-surface vector-field propagation first,
+then separately show the amended muon layout; do not silently exchange layouts.
+Evaluate pre-ECal material benefit against resources, field-through-steel and
+downstream material costs. Review support/cryogenic routes and station room.
+MAG-03-B, a barrel-only outer coil, remains a reserve variant with length and end
+interfaces TBD; it cannot borrow this full-central model's forward results.
+No new simulation, engineering validation or sign-off is supplied by this note.

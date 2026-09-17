@@ -1,4 +1,4 @@
-# DES-004 — Magnetic configurations: first research increment
+# DES-004 — Magnetic configurations and option evaluation
 
 - Status: DRAFT
 - Created: 2026-09-17; unsigned research candidates.
@@ -7,6 +7,14 @@
 - Context: [PROJECT](../../PROJECT.md), [research plan](../MAGNET_RESEARCH_PLAN.md), [DES-003](DES-003-global-envelopes.md), [ADR-006](../decisions/ADR-006-global-envelope-and-field-hypotheses.md), [ADR-003](../decisions/ADR-003-validation-and-artifact-policy.md).
 - System integration: [architect input and explicit amendment requests](inputs/DES-004-system-architecture.md).
 - Sign-off / production implementation: none.
+
+## Current evaluation
+
+The user authorized evaluation of all options on 2026-09-17. Read the
+[two-page team summary and six one-page proposals](DES-004-options-summary.md)
+for current recommendations, conditional showstoppers and next tests. The cards
+below retain the initial definitions and numerical foundations. Recommendations
+are research priorities; no topology has been selected or signed off.
 
 ## 1. Decision to inform
 
@@ -137,8 +145,9 @@ field calculation; unknown dimensions must not be silently filled with defaults.
 - **Material/space:** additional conductors, protection, supports and energy are
   not free; coupled forces and quench behavior need later study.
 - **Evidence:** this is an exploratory project alternative, not a claimed built
-  collider-detector precedent. A dedicated public-source feasibility dossier is
-  still required; no unverified source or fabricated dimensions are inserted.
+  collider-detector precedent. The later [MAG-06 assessment](options/DES-004-MAG-06.md) now records a
+  public 4th Concept dual-solenoid proposal. It supplies conceptual precedent,
+  not a built HL-LHC system or a demonstrated nODD fit.
 - **Gate:** cheap field/space plausibility and source screen first. Do not carry
   this candidate into a physical ranking until its geometry and evidence exist.
 
