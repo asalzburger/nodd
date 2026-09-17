@@ -1,19 +1,22 @@
-# DES-001 — Reusable RD53 pixel modules
+# DES-001 — Reusable ITkPix pixel modules
 
 - Status: DRAFT — design proposal; no production integration authorized.
 - Created: 2026-09-17; updated: 2026-09-17.
 - Author: Tracking Engineer AI agent, with independently delegated compact and quad studies.
 - Human owner: TBD; issue: [#7](https://github.com/asalzburger/nodd/issues/7).
 - Governing architecture: [DES-003](DES-003-global-envelopes.md), [ADR-006](../decisions/ADR-006-global-envelope-and-field-hypotheses.md); their baseline review does not sign off this module.
+- Technology direction: [ADR-007](../decisions/ADR-007-itkpix-pixel-baseline.md), DRAFT ITkPix baseline; exact revision pending.
 - Sign-off record: pending; implementation PR: pending; validation evidence: documentary checks only.
 
 ## Scope and exclusions
 
 Develop a stand-alone hybrid pixel-module family around the **existing RD53 chip
 in hand**. Its mask, pitch, pads and interfaces are fixed inputs, not redesign
-opportunities. The exact inventory variant, revision, thinning and known-good-die
-status remain unknown. No substitution by ITkPix, CROC or another production chip
-is authorized. RD53A is used below only as a conditional, public reference case.
+opportunities. The user has selected **ITkPix** as the RD53-family baseline. Exact ITkPix
+revision (v1, v1.1 or v2), thinning and known-good-die status remain unknown.
+This selection supersedes the earlier unspecified-family assumption without
+granting design sign-off. No substitution by CROC or another chip is authorized.
+RD53A facts below remain historical benchmarks, not the selected chip interface.
 
 Two credible options are developed independently: compact one-/two-chip modules
 and a four-chip module. Both preserve reusable subassemblies and expose a common
@@ -45,12 +48,17 @@ requirements. Supporting memoranda retain additional claim-level locators.
 
 | Source ID | Public reference/version | Precise locator | Claims |
 | --- | --- | --- | --- |
+| SRC-RD53-OVERVIEW-2023 | Stefano Esposito for RD53, RD53 Lessons Learned, 2023-10-23 | Slide5/PDF5 | PM-F07–F08, current ITkPix nominal reference |
 | SRC-RD53A | RD53 Collaboration, CERN-RD53-PUB-17-001, manual v3.51, 2019-08-19 | Abstract PDF1; §1 PDF4 / printed3; Fig1 PDF5 / printed4; §2 PDF6 / printed5; §3/Table1 PDF8 / printed7; §4 PDF15 / printed14 | PM-F01–F05 |
 | SRC-CMS-TDR-014 | CMS Phase-2 Tracker TDR, CERN-LHCC-2017-009 | §4.2 PDF74/Fig4.3; §10.1.1.1 PDF233; §4.2.2 PDF81–83; §10.2.2.6 PDF252–255 | Module/service precedent, retained guide observations |
 | SRC-ATLAS-TDR-030 | ATLAS ITk Pixel TDR, CERN-LHCC-2017-021 | Chapters7–8; §8.2.2 printed199/PDF221; §8.2.5/Table8.2 printed202/PDF224 | Navigation for hybridization/flex/material review; no unchecked table values adopted |
 | SRC-RD53A-MODULE-ASSEMBLY-2022 | A. Petrukhin for ATLAS ITk Pixel Collaboration, arXiv:2212.09392v1, 2022-12-19 | §1 PDF2; §2 PDF3–5; §3 PDF5–7 | PM-F06: RD53A quad assembly/testing precedent |
 
 ## Sourced facts
+
+PM-F01–F05 describe the superseded RD53A benchmark only. They must not
+set the ITkPix pad access, load model, dimensions or inventory qualification.
+
 
 | Claim ID | Classification | Source-specific fact | Source/locator |
 | --- | --- | --- | --- |
@@ -61,14 +69,36 @@ requirements. Supporting memoranda retain additional claim-level locators.
 | PM-F05 | FACT | RD53A supports shunt-regulated serial operation and direct internal rail supply for tests; separate PLL/output-driver pads require external rail connections | SRC-RD53A §3/PDF8 |
 | PM-F06 | FACT | Published RD53A quad assemblies combine sensor, bump-bonded chips and glued flex; assembly includes metrology, wire bonding and module testing | SRC-RD53A-MODULE-ASSEMBLY-2022 §1–3/PDF2–7 |
 
-**Source discrepancy:** the CERN CDS record abstract for SRC-RD53A describes
+**Historical RD53A source discrepancy:** the CERN CDS record abstract for SRC-RD53A describes
 11.8 mm height; the opened v3.51 manual abstract and Fig1 describe 11.6 mm.
 PM-F02 is a fact about that manual, not a certified inventory dimension or a
-tolerance interval. No final fit may use either until the stock die/mechanical
-drawing is identified. Catalogue metadata and any conditional illustrations must
-retain this distinction.
+tolerance interval. Neither value governs the selected ITkPix chip or blocks its
+fit study; exact ITkPix revision drawings are the active dimensional gate.
+Historical RD53A illustrations and catalogue metadata retain this distinction.
+
+## ITkPix baseline update
+
+| Claim ID | Classification | Baseline statement | Source / derivation and gate |
+| --- | --- | --- | --- |
+| PM-C08 | NODD DESIGN CHOICE | User-selected ITkPix family, exact revision TBD | Human instruction selects family; module technical approval pending |
+| PM-F07 | FACT | Presentation lists ITkPix v1/v1.1 under RD53B and v2 under RD53C | SRC-RD53-OVERVIEW-2023 slide5/PDF5; inventory is not identified by this chronology |
+| PM-F08 | FACT | ATLAS-column ITkPix matrix400×384, chip pixel pitch50×50µm and approximately20×21mm chip dimensions | SRC-RD53-OVERVIEW-2023 slide5/PDF5; presentation dimensions are not procurement tolerances |
+| PM-I10 | INFERENCE | Nominal matrix20×19.2mm =384mm² and153,600channels per chip; A2=768mm²/307,200channels; B4=1536mm²/614,400channels | PM-F08 counts×pitch; no guard/gap/efficiency claim |
+| PM-I11 | INFERENCE | Approximate chip-only footprints A1≈20×21mm, A2≈40×21mm, B4≈40×42mm before gaps/margins | PM-F08 and chosen die counts/orientations; not module/sensor footprints or a fit certification |
+| PM-I12 | INFERENCE | One ITkPix chip nominal readout area equals two earlier RD53A benchmark chips; quad has substantially greater rigid span | PM-I01 and PM-I10; revise curvature/service/yield comparisons accordingly |
+
+The public primary source is Stefano Esposito for RD53, *RD53: Lessons Learned —
+A verification perspective*, 2023-10-23, **SRC-RD53-OVERVIEW-2023**, slide5.
+See [catalogue](../../reference/manifest.yaml). The rendered slide uses µm for
+pixel pitch; extracted text can misread it as mm. No listed power, rate, trigger
+or radiation target is adopted as measured inventory performance. Obtain the
+selected revision manual and procurement drawing before fixing die, bump mask,
+pads, supply topology, output lanes, irradiation behaviour or sensor mapping.
 
 ## Inferences and uncertainties
+
+PM-I01–I03 retain the historical RD53A arithmetic; PM-I10–I12 govern the current
+ITkPix comparison. No historical 82.8% ratio transfers to ITkPix.
 
 | Claim ID | Classification | Derivation | Validity/uncertainty |
 | --- | --- | --- | --- |
@@ -100,7 +130,7 @@ zero. Actual values require public evidence or an explicit reviewed design choic
 
 | Parameters | Meaning and units | Basis/gate |
 | --- | --- | --- |
-| D_x,D_y,t_die; N_col,N_row,p_x,p_y | Die dimensions/thickness [mm], counts and pitch [µm] | Exact inventory drawing/mask; PM-F02–03 only conditional reference |
+| D_x,D_y,t_die; N_col,N_row,p_x,p_y | Die dimensions/thickness [mm], counts and pitch [µm] | Exact ITkPix inventory drawing/mask; PM-F08 nominal reference only |
 | S_x,S_y,t_sensor; e_guard,g_chip | Sensor extent/thickness and guard/interchip clearances [mm] | Sensor vendor/process, bump map and rated bias; PM-C02 |
 | t_bump,V_bump,N_bump | Standoff [µm], individual alloy volume [mm³], count | Actual hybridization process; PM-C03; no solid full-area bump layer |
 | t_flex, t_Cu, c_Cu; A_flex | Dielectric/copper thickness [µm], copper coverage [fraction], flex area [mm²] | Layer stack, trace/current/link design; PM-C04 |
@@ -155,8 +185,8 @@ and coolant excursions require analysis and test. No allowable temperature is se
 
 | Criterion | Compact A | Quad B |
 | --- | --- | --- |
-| Reuse/type count | Common die/interface with one/two-chip sensor/flex variants | Single quad design, orientation reused; fewer assemblies for same footprint |
-| Curvature/irregular boundaries | Smaller rigid footprint fits tight host constraints more readily | Larger footprint may need overlap/tilt or leave wedge-edge losses |
+| Reuse/type count | ITkPix A1 already matches historical RD53A A2 nominal readout area; A2 remains conditional | Single quad design, orientation reused; fewer assemblies for same footprint |
+| Curvature/irregular boundaries | Smaller rigid footprint fits tight host constraints more readily | Approximate40×42mm chip-only span heightens curvature/edge-fit risk; gaps and bond clearances add span |
 | Material | More repeated module-edge/service contributions | Potential edge amortization; larger flex/routing and support not free |
 | Manufacturability | Smaller hybrid and test/replacement unit | Public RD53A assembly precedent; larger sensor and glue/metrology control |
 | Yield/failure | Smaller lost area per rejected module | More chips/sensor area at risk in one hybrid; chip-level masking may retain partial use |
@@ -173,19 +203,23 @@ parallel high-area coverage candidate. This is **NODD DESIGN CHOICE — proposed
 human approvers pending**, an order for obtaining evidence rather than a final
 production selection. Keep A2 documented but introduce an additional production
 type only when coverage/material evidence justifies its qualification cost.
+Following the user selection of ITkPix, the Coordinator explicitly reopens the
+coverage-family choice: A2-only and B-only are compared, and the larger quad
+span must earn its place through host-fit, material and assembly evidence.
 
 Compare B alone with B plus a compact type at identical useful coverage and
 operating conditions. Actual occupied-envelope tiling, full spatial BOM/service
 allocation, thermal/electrical qualification and accepted-area yield decide the
-family. No numerical material winner is demonstrated. Chip inventory and its
-mechanical discrepancy, host volume and operating requirements remain selection
-gates; AI Coordinator advice provides no human sign-off.
+family. No numerical material winner is demonstrated. Exact ITkPix revision,
+stock/interface qualification, host volume and operating requirements remain
+selection gates. The retained RD53A die-size discrepancy is historical and does
+not govern ITkPix fit; AI Coordinator advice provides no human sign-off.
 
 ## Risks and open questions
 
 | Risk/question | Impact | Owner | Gate |
 | --- | --- | --- | --- |
-| Exact RD53 inventory and die-size discrepancy | Wrong geometry, mask or electrical assumptions | Tracking Engineer + human inventory owner TBD | Before dimensional freeze |
+| Exact ITkPix revision/drawing; historical RD53A die-size discrepancy | Wrong geometry, mask or electrical assumptions | Tracking Engineer + human inventory owner TBD | Before dimensional freeze |
 | Pixel volume/fluence/rate/lifetime undefined | No final sensor, module size or data/power capacity | Coordinator + tracking/physics | Before family selection |
 | Hybrid vendor, thinning, sensor edge/bump map | Bond access, yield, fragile dies and inactive areas | Tracking Engineer + supplier expert TBD | Technical/expert review |
 | Flex routing/link integrity/serial faults and HV isolation | Added copper/parts and correlated failures | Readout/electrical reviewer TBD | Before sign-off |

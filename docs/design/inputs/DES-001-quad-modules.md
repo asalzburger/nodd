@@ -10,6 +10,35 @@
 
 ![Draft quad-module concept, not to scale](../figures/DES-001-quad-modules.svg)
 
+## ITkPix baseline revision — 2026-09-17
+
+The user selected **ITkPix**, superseding the earlier unspecified RD53-family
+assumption. Exact v1/v1.1/v2 stock revision, thinning, pads and qualification remain
+unresolved. This is a family direction, not human module sign-off. All RD53A
+facts and arithmetic retained below are **historical superseded benchmarks**;
+none sets current ITkPix dimensions, power, pads or acceptance.
+
+**FACT — SRC-RD53-OVERVIEW-2023 slide5/PDF5:** the RD53 presentation identifies
+ITkPix v1/v1.1 as RD53B and v2 as RD53C; its ATLAS column lists400×384chip
+pixels at50×50µm pitch and approximately20×21mm chip dimensions. Exact revision
+manual/procurement drawing is a pre-freeze gate. Presentation targets are not
+measured stock performance. Public source: Stefano Esposito for RD53,
+*RD53: Lessons Learned — A verification perspective*, 2023-10-23, catalogue entry
+SRC-RD53-OVERVIEW-2023; accessed2026-09-17.
+
+**INFERENCE B-I-ITK1 — current ITkPix benchmark:** each matrix is
+20×19.2mm =384mm² and153,600channels; quad totals1536mm² and614,400channels.
+Approximate chip-only2×2span is40×42mm before die gaps, sensor edges, bond access,
+flex and mounting. These derive from source nominal dimensions/counts, not stock
+tolerances or measured active area. Do not carry RD53A's82.8%ratio into ITkPix.
+
+**NODD DESIGN CHOICE B-C-ITK1 — proposed:** keep B as an ITkPix four-chip candidate
+only where its substantially larger rigid footprint fits. Revalidate outward-pad
+orientation, chip seams, flex routing and thermal contact against the exact revision.
+More nominal area per assembly heightens curvature, large-sensor yield and total
+heat/service challenges; no universal quad selection follows. Approvers pending.
+
+
 ## Proposal and boundary conditions
 
 **NODD DESIGN CHOICE — proposed:** develop one rectangular four-chip hybrid with

@@ -16,7 +16,7 @@ The documents below establish proposals and recording formats. Their presence do
 ## Index
 
 - [Full-detector development plan and TDR programme](DEVELOPMENT_PLAN.md)
-- [DES-001: reusable RD53 pixel modules, alternatives and drawings](design/DES-001-rd53-pixel-modules.md)
+- [DES-001: reusable ITkPix pixel modules, alternatives and drawings](design/DES-001-rd53-pixel-modules.md)
 - [DES-003: global envelope proposal, r–z drawing and review questions](design/DES-003-global-envelopes.md)
 - [Second envelope review: 3 T space budget and baseline closure](design/DES-003-review-2.md)
 - [First envelope review: responses and open decisions](design/DES-003-review-1.md)

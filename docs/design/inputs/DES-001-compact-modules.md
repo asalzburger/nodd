@@ -6,12 +6,40 @@
 - Human owner, issue, expert reviewers and sign-off: pending in parent DES-001
 - Production implementation: excluded
 
+## ITkPix baseline revision — 2026-09-17
+
+The user selected **ITkPix**, superseding the earlier unspecified RD53-family
+assumption. Exact v1/v1.1/v2 stock revision, thinning, pads and qualification remain
+unresolved. This is a family direction, not human module sign-off. All RD53A
+facts and arithmetic retained below are **historical superseded benchmarks**;
+none sets current ITkPix dimensions, power, pads or acceptance.
+
+**FACT — SRC-RD53-OVERVIEW-2023 slide5/PDF5:** the RD53 presentation identifies
+ITkPix v1/v1.1 as RD53B and v2 as RD53C; its ATLAS column lists400×384chip
+pixels at50×50µm pitch and approximately20×21mm chip dimensions. Exact revision
+manual/procurement drawing is a pre-freeze gate. Presentation targets are not
+measured stock performance. Public source: Stefano Esposito for RD53,
+*RD53: Lessons Learned — A verification perspective*, 2023-10-23, catalogue entry
+SRC-RD53-OVERVIEW-2023; accessed2026-09-17.
+
+**INFERENCE A-I4 — current ITkPix benchmark:** one chip has nominal matrix
+20×19.2mm =384mm² and153,600channels; A2 has768mm² and307,200channels.
+Derived counts×pitch, excluding sensor edges, seam efficiency, gaps and services.
+Approximate chip-only spans are20×21mm forA1 and40×21mm forA2, before margins
+and clearances. One ITkPix A1 nominal matrix equals the old RD53A A2 matrix;
+reassess whether A2 adds useful savings before adding a second module type.
+
+**NODD DESIGN CHOICE A-C7 — proposed:** retain ITkPix A1 as the compact baseline,
+A2 as conditional optimization. Revalidate accessible pad edges and the backside
+flex/contact concept against the exact ITkPix revision rather than transferring
+RD53A's1.7mm pad separation. Human technical approvers pending.
+
+
 ## Scope
 
-Equip a future pixel volume using the RD53 chip already available. The exact
-variant, revision, thinning and qualification evidence must be identified before
-mechanical dimensions or operating limits can be selected. This proposal does
-not substitute another chip. It offers one reusable single-chip unit (A1),
+Equip a future pixel volume using the selected ITkPix chip family. The exact
+revision, physical stock, thinning and qualification evidence must be identified before
+mechanical dimensions or operating limits can be selected. The ITkPix family is fixed for this design study. It offers one reusable single-chip unit (A1),
 optionally extended to a side-by-side two-chip module (A2); A2 is justified only
 if its reduction in service overhead survives material and yield comparisons.
 The volume, radii, module populations, dose, occupancy and cooling conditions
