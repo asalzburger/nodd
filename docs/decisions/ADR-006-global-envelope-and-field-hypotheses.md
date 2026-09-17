@@ -1,72 +1,99 @@
 # ADR-006 — Global envelope and field hypotheses
 
-- Status: DRAFT; created: 2026-09-16.
-- Human owner / issue: TBD / proposal PR discussion; no separate issue.
-- Human approval evidence: pending; no production implementation authorized.
+- Status: DRAFT; created: 2026-09-16; updated: 2026-09-17, review round 1.
+- Human owner: TBD; review: [PR #4](https://github.com/asalzburger/nodd/pull/4).
+- Human technical sign-off: pending; no production implementation authorized.
 - Related: [DES-003](../design/DES-003-global-envelopes.md), [ADR-001](ADR-001-upstream-baseline.md), [ADR-003](ADR-003-validation-and-artifact-policy.md), [development plan](../DEVELOPMENT_PLAN.md).
-- Supersedes / superseded by: none.
+- Supersedes / superseded by: none; first-round E1 retained in Git.
 
-## Context and evidence
+## Context and review direction
 
-Stage B requires a coherent detector proposal. Tracker, calorimeter and muon
-requests compete for magnet, support and service space. DES-003 collects sourced
-facts and their precise locators, derived consequences, proposed dimensions and
-open questions. Keeping ODD's broad character does not require preserving every
-dimension or its unsolved physical assumptions.
+Stage B defines a coherent global detector. The human review of PR #4 directs
+14 TeV HL-LHC studies with tracker coverage |eta| < 4, calorimetry |eta| < 5
+(extension where feasible), and muons |eta| < 3 with 3.5 as a stretch objective.
+The final combined coverage comment supersedes the earlier calorimeter minimum
+of eta 4. This directs the investigation; it does not approve proposed dimensions
+or assert achieved performance.
 
-**FACT:** SRC-ODD-UPSTREAM study revision
+Muon work investigates a standalone-compatible, potentially toroidal system as
+the baseline study while retaining the other field architectures. Dedicated
+spectrometer-magnet selection is deferred. E1's identification-first preference
+is superseded. Agreement that an allocation is a starting baseline is not
+technical sign-off. Detailed tracker layers, PCB composition and polygon choice
+follow the envelope exercise.
+
+DES-003 and its review inputs retain source locators, derived consequences and
+open questions. **FACT:** SRC-ODD-UPSTREAM study revision
 `c167363f3d4ad1540a577af99071283caf54f3a6`,
-`xml/OpenDataDetector.xml` defines a nominal central field of 3 T. Its envelope
-and calorimeter factories use conventions documented in DES-003. These facts
-establish the inspected implementation, not magnet feasibility or nODD targets.
+`xml/OpenDataDetector.xml` supplies a nominal central 3 T field. That source
+constant is not evidence that the new coil reservation realizes the same field.
 
 ## Proposed decision
 
-All following items are **NODD DESIGN CHOICE — proposed, approving humans: none**:
+The following are **NODD DESIGN CHOICE — proposed; numerical design approvers:
+none**. The human investigation directions above are distinguished from these
+technical recommendations:
 
-1. Use DES-003 candidate E1 as a numerical hypothesis for discussion: retain an
-   ODD-like tracker/inner-solenoid/calorimeter/muon ordering, enlarge interface and
-   calorimeter space, and initially retain the overall outer detector scale.
-2. Use axisymmetric metre-based enclosures with outer radii bounding all corners,
-   radial inner exclusions and z-reflection symmetry for this planning pass.
-   These are not active-surface or imported polygon conventions. A full
-   coordinate/identifier/readout contract remains open.
-3. Carry 3 T as a nominal tracker comparison value only. Do not inherit an outer
-   field or assert a physical field map. Require a coherent coil/cryostat/return
-   proposal and common field identity for transport and reconstruction.
-4. Begin with tracker-assisted muon identification/trajectory matching. Independent
-   muon momentum measurement requires a separate justified field/material/space
-   choice. No muon efficiency or resolution is implied.
-5. Keep dedicated timing, forward calorimetry, beam-pipe profile, return material
-   and detailed service routes explicitly unallocated. Their eventual volumes and
-   material may require changes to E1.
-6. Maintain machine-readable allocations, derived drawing and diagnostics together.
-   Their agreement is reproducibility evidence, not scientific acceptance.
+1. Use **E1-R1** as the next numerical envelope hypothesis. Retain central E1
+   dimensions, reduce endcap ECal/HCal/muon parent apertures to the values in
+   DES-003 and add detached forward calorimetry. Preserve E1 at commit
+   `7bb7ff04a96b2038572d59904f8954a42777d7e6` for traceable comparison.
+2. Use metre-based, axisymmetric enclosures with radial exclusions and z-reflection
+   symmetry for this pass. If polygons are later used, corners must fit; a polygon
+   itself is optional. Coordinate/identifier/readout contracts remain open.
+3. Carry 3 T centrally as an NbTi study hypothesis, bracketed by 2 and 4 T. Decompose
+   winding, reinforcement, cryostat, cooling and protection before claiming fit.
+   The finite-current-sheet estimate in the physics review reveals substantial
+   forward variation; do not model the entire tracker as validated uniform 3 T.
+4. Preserve standalone-compatible muon host space and compare air-core toroidal,
+   iron-free solenoidal/combined measurement and instrumented-return options.
+   An outer coil may improve a combined fit but does not automatically provide
+   independent momentum. No dedicated muon magnet or iron amount is selected.
+   Evaluate upstream calorimeter punch-through before proposing added absorber.
+5. Study separate barrel and forward timing hypotheses, with alternatives. Exact
+   allocations compete with support/services and remain open. Ordinary spatial
+   silicon readout does not itself supply precision timing.
+6. Treat detached forward calorimetry as an instrumented study volume, not a full
+   installed enclosure. Beam pipe, shielding, rear readout, supports and routes
+   may require extra radius/length. Its downstream position cannot filter hadrons
+   before upstream muon stations; reduced endcap holes require a physical depth
+   and beam-line study. Overall dimensions remain lower bounds on required space.
+7. Maintain allocation JSON, drawing and diagnostics consistently. Envelope
+   crossings and full axial traversal are not material budgets or active coverage.
+   Use a staged study catalogue and later full propagation through a common
+   versioned field in simulation and reconstruction.
 
 ## Alternatives and consequences
 
-| Option | Benefit | Cost |
+| Option | Role | Principal unresolved issue |
 | --- | --- | --- |
-| E0: ODD control | Direct lineage comparison | Existing physical assumptions remain unproven |
-| E1: expanded inner coil | Preserves broad ordering and makes integration space explicit | Dead material before ECal and reduced muon host space |
-| E2: external coil | Reduces upstream coil material | Larger magnet/support/return and changed muon envelopes |
-| E3: independent outer spectrometer | Separate momentum measurement | New bending-field and space requirements |
+| E0 | Inherited ODD comparison | Existing physical assumptions |
+| E1 | First-round envelope, retained in Git | Forward coverage shortfall |
+| E1-R1 | Revised apertures and detached forward study volume | Beam aperture, downstream footprint and upstream muon filtering |
+| E2 | External central solenoid | Bending leverage, return/stray field, support and increased dimensions |
+| E3 | Independent outer spectrometer; toroidal baseline investigation | Coil/support sectors, field integral and station geometry; decision deferred |
 
-E1 is not yet preferred on demonstrated physics or engineering grounds. The
-coverage mismatch between forward tracking and the shown calorimeter/muon
-allocations must be resolved through use cases and options. Metre-scale envelopes
-cannot substitute for radiation/interaction lengths, active crossings or field
-integrals. Empty drawing space cannot be treated as proven service capacity.
+E1-R1's boxes can host an E3 investigation; these labels do not make envelope and
+magnet alternatives mutually exclusive. A compact forward insert is also retained
+as an alternative, but its overlap with current muon hosts requires redesign.
+An iron-free magnet is physically possible but changes the entire return-field
+solution. Removing iron does not preserve the previous map. No option is yet
+preferred by demonstrated nODD physics performance or magnet engineering.
 
-## Verification and decision gate
+## Verification and review gate
 
-DES-003 links the current rectangle/straight-ray diagnostic and staged software
-plan. Before accepting an architecture, review magnet ordering and muon function,
-forward requirements, shared services/material accounting, polygon dimensions and
-calorimeter depth scenarios. Select physical observables and acceptance criteria
-before quantitative validation. No field solution, detector simulation or
-performance acceptance is claimed by this ADR.
+Review global space, smaller apertures, route ownership and minimal sufficient
+supports now. Subsequent component work resolves layer/station geometry, material
+composition and detailed fields. Magnet decisions may remain open provided their
+reserved interfaces and implications are explicit; this round does not force a
+premature topology selection.
 
-Assign human technical/domain/validation reviewers and record an exact reviewed
-revision with conditions. Discussion or merging this DRAFT does not advance it
-to SIGNED OFF or authorize production geometry changes.
+DES-003 links allocation diagnostics and the muon/physics/software study catalogue.
+Select spectra, vertex/pile-up scenarios and observable-specific criteria before
+acceptance. No field solution, detector simulation, punch-through measurement or
+performance acceptance is claimed here. Operational ATLAS/CMS evidence supplies
+anchors, not validation of the nODD proposal.
+
+Assign human reviewers and record the exact approved revision and conditions.
+Neither a baseline-start comment nor merging this DRAFT advances it to SIGNED OFF
+or authorizes production changes.

@@ -1,0 +1,139 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-09-17-envelope-review-1",
+  "title": "Address first PR4 envelope review with specialist team",
+  "recorded_at": "2026-09-17T07:23:58Z",
+  "started_at": null,
+  "ended_at": null,
+  "status": "open",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact conversation start, client version, token counts and complete tool-call totals unavailable.",
+    "Five specialist follow-ups and coordinator work curated; no private agent state.",
+    "Only analytic allocation diagnostics and source review, no detector transport or engineering validation."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "7bb7ff04a96b2038572d59904f8954a42777d7e6",
+    "branch": "design/global-envelopes",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      "docs/README.md",
+      "docs/decisions/ADR-006-global-envelope-and-field-hypotheses.md",
+      "docs/design/DES-003-envelopes.json",
+      "docs/design/DES-003-global-envelopes.md",
+      "docs/design/DES-003-review-1.md",
+      "docs/design/figures/DES-003-envelope-rz.png",
+      "docs/design/figures/DES-003-envelope-rz.svg",
+      "docs/design/inputs/DES-003-calorimeter-envelope-input.md",
+      "docs/design/inputs/DES-003-calorimeter-review-1.md",
+      "docs/design/inputs/DES-003-muon-envelope-input.md",
+      "docs/design/inputs/DES-003-muon-review-1.md",
+      "docs/design/inputs/DES-003-physics-input.md",
+      "docs/design/inputs/DES-003-physics-review-1.md",
+      "docs/design/inputs/DES-003-software-validation-input.md",
+      "docs/design/inputs/DES-003-system-architecture-input.md",
+      "docs/design/inputs/DES-003-tracker-envelope-input.md",
+      "docs/validation/DES-003-envelope-diagnostics.json",
+      "docs/validation/DES-003-study-catalogue.md",
+      "logs/codex/SESSION-2026-09-17-envelope-review-1.json",
+      "logs/codex/SESSION-2026-09-17-envelope-review-1.md",
+      "reference/manifest.yaml",
+      "tools/envelope_study/README.md",
+      "tools/envelope_study/study.py",
+      "tools/envelope_study/test_study.py"
+    ]
+  },
+  "work": {
+    "milestone": "Stage B \u2014 envelope review round 1",
+    "components": [
+      "tracker interfaces",
+      "calorimeters",
+      "muons",
+      "magnet",
+      "timing",
+      "services",
+      "validation tooling"
+    ],
+    "related_ids": [
+      "DES-003",
+      "ADR-006",
+      "PR-4"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-09-17-envelope-review-1.md",
+  "activities": [
+    {
+      "kind": "tool",
+      "name": "collaboration",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Calorimeter, muon and physics research; architect and software consolidation; tracker follow-up blocked by agent limit, questions covered locally."
+    },
+    {
+      "kind": "tool",
+      "name": "web and local PDF reading",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Primary sources and exact locators in specialist review inputs/manifest; five PDFs downloaded and extracted."
+    },
+    {
+      "kind": "tool",
+      "name": "GitHub PR tools",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Read all 25 inline comments; publication and replies recorded below when successful."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 -B -m unittest discover -s tools/envelope_study -p 'test_*.py' -q",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "11 tests passed."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p 'test_*.py' -q",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "15 tests passed."
+    },
+    {
+      "command": "reference/cache/venv/bin/python -B -m unittest discover -s tools/reference_reading -p 'test_*.py' -q",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "7 tests passed."
+    },
+    {
+      "command": "Envelope generation using README command",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "10 allocations, 21 rays, zero positive-area rectangle overlaps; full/partial axial checks; generated figure visually inspected."
+    },
+    {
+      "command": "Source/report integrity and analytic cross-check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Seven local hashes match; source IDs registered; report input/script hashes match; 17.227 MA-turn and 1.821 T tracker-end coil proxy reproduced."
+    },
+    {
+      "command": "reference/cache/venv/bin/python tools/reference_reading/read.py extract SOURCE_ID (five sources)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All five new PDFs successfully extracted into ignored reusable caches."
+    }
+  ]
+}

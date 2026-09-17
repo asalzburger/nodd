@@ -11,6 +11,10 @@ Stage A is considered complete for progression under the user's instruction.
 This work proposes tests of new architecture choices; it does not reopen that
 decision or claim a new ODD runtime validation.
 
+Review round 1 adds the [study catalogue](../../validation/DES-003-study-catalogue.md),
+including mandatory later full field propagation. The current prototype also
+reports full/partial axial allocation traversal.
+
 ## Recommendation and division of responsibility
 
 **NODD DESIGN CHOICE — proposed:** use a small analytic allocation tool now,

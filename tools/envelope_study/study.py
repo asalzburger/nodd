@@ -63,6 +63,20 @@ def ray_interval(region, eta):
     return (low, high) if high - low > guard else None
 
 
+def axial_depth(region, eta):
+    """Fraction of positive-z allocation depth crossed, not physical shower depth."""
+    interval = ray_interval(region, eta)
+    dz = math.tanh(abs(eta))
+    front, back = region['z_min_m'], region['z_max_m']
+    fraction = 0. if interval is None else (interval[1]-interval[0])*dz/(back-front)
+    full = interval is not None and all(
+        abs(actual-expected) <= 8*max(math.ulp(actual), math.ulp(expected))
+        for actual, expected in ((interval[0]*dz, front), (interval[1]*dz, back)))
+    return {'region': region['id'], 'axial_fraction': min(1., max(0., fraction)),
+            'traversal': 'full axial allocation' if full else ('partial allocation' if fraction > 0 else 'miss'),
+            'full_axial_depth': full}
+
+
 def report(data):
     overlaps = []
     for i, a in enumerate(data['regions']):
@@ -78,9 +92,11 @@ def report(data):
             interval = ray_interval(region, eta)
             if interval:
                 crossings.append({'region': region['id'], 'entry_path_m': interval[0], 'exit_path_m': interval[1], 'path_m': interval[1]-interval[0]})
-        rows.append({'eta': eta, 'envelope_crossings': sorted(crossings, key=lambda a: a['entry_path_m'])})
+        rows.append({'eta': eta, 'envelope_crossings': sorted(crossings, key=lambda a: a['entry_path_m']),
+                     'axial_depth_checks': [axial_depth(r, eta) for r in data['regions'] if r['z_min_m'] > 0]})
     return {'proposal': data['proposal'], 'status': 'DRAFT planning diagnostic',
             'limitations': ['Axisymmetric allocation rectangles, not constructed detector volumes.',
+                           'Full axial allocation means entry at front and exit at back; it does not establish active/material depth, shower containment or edge margin.',
                            'Envelope crossings are NOT layer counts, hits, efficiencies or proof of hermeticity.',
                            'No material assigned: path length is NOT radiation or interaction length.',
                            'Tangencies shorter than eight floating-point ULPs are discarded; this is not a physical clearance tolerance.',
@@ -94,7 +110,9 @@ def draw(data, output):
     import matplotlib.pyplot as plt
     from matplotlib.patches import Rectangle, Patch
     plt.rcParams.update({'svg.hashsalt': 'nodd-des-003', 'font.size': 9})
-    fig, axes = plt.subplots(1, 2, figsize=(15, 7), gridspec_kw={'width_ratios': [2.2, 1]})
+    forward = data['study'].get('plot_forward_m')
+    fig, axes = plt.subplots(1, 3 if forward else 2, figsize=(19 if forward else 15, 7),
+                             gridspec_kw={'width_ratios': [2.2, 1, .9] if forward else [2.2, 1]})
     handles = []
     for region in data['regions']:
         color = region['color']
@@ -111,6 +129,8 @@ def draw(data, output):
     axes[0].set(xlim=(-extent['z'], extent['z']), ylim=(0, extent['r']), title='Global allocations (both endcaps)')
     zoom = data['study']['plot_zoom_m']
     axes[1].set(xlim=(0, zoom['z']), ylim=(0, zoom['r']), title='Positive-z inner detector / calorimeters')
+    if forward:
+        axes[2].set(xlim=(forward['z_min'], forward['z_max']), ylim=(0, forward['r']), title='Forward aperture detail')
     for ax in axes:
         ax.set(xlabel='z [m]', ylabel='r [m]')
         ax.set_aspect('equal', adjustable='box')
@@ -124,7 +144,7 @@ def draw(data, output):
             ax.plot([0,z],[0,r], color='#444444', ls=':', lw=.7)
             if ax is axes[0]:
                 ax.plot([0,-z],[0,r], color='#444444', ls=':', lw=.7)
-            if ax is axes[1]:
+            if ax is axes[1] or (forward and ax is axes[2] and r < forward['r']):
                 ax.annotate(f'η={eta:g}', (z,r), fontsize=7, xytext=(-30,3), textcoords='offset points')
     fig.suptitle(data['figure_title'], fontsize=15)
     fig.legend(handles=handles, loc='lower center', ncol=4, bbox_to_anchor=(.5,.075), fontsize=8)
@@ -163,6 +183,7 @@ def main():
     result['provenance'] = {'input': str(args.input), 'input_sha256': hashlib.sha256(args.input.read_bytes()).hexdigest(),
         'script_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(), 'python': sys.version.split()[0],
         'source_revision': data['source_revision'], 'random_seed': 'not applicable; deterministic analytic rays',
+        'previous_proposal_revision': data.get('previous_proposal_revision'),
         'command': shlex.join([os.path.relpath(sys.executable), *sys.argv]),
         'acceptance_tolerances': 'none selected; descriptive planning diagnostics only',
         **project_provenance()}

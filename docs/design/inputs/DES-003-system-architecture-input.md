@@ -1,5 +1,7 @@
 # DES-003 input — System architecture synthesis
 
+> First-round input retained for traceability. The [2026-09-17 review update](../DES-003-global-envelopes.md) supersedes conflicting recommendations.
+
 - Date: 2026-09-16; status: DRAFT; approving humans: none.
 - Role: System Architect, coordinating the three subsystem requests.
 - Scope: global reservations and interfaces only; no production implementation.

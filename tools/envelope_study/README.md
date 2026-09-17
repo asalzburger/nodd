@@ -43,6 +43,11 @@ Omit `--figures` to produce only the JSON report without plotting dependencies.
   discarded. This numerical roundoff guard is not a physical clearance threshold.
 - The report records ordered envelope crossings and path lengths, not sensitive
   layers, hit counts, efficiency, radiation lengths or interaction lengths.
+- Review E1-R1 additionally reports the fraction of each endcap/forward axial
+  allocation traversed. `full_axial_depth` requires front-face entry and back-face
+  exit within the numerical ULP guard. Corner contact can satisfy this with zero
+  edge margin; this is not adequate shower containment or robust acceptance.
+  Partial entry through an inner/outer radial boundary is labelled separately.
 - No azimuthal structure, displaced vertices, curved tracks, material, field or
   detector response is modelled. Sampled rays do not prove hermeticity.
 - Guide rays on the drawing are positive finite pseudorapidities. Plot limits,
@@ -54,6 +59,11 @@ HEAD is the pre-generation checkout identity, not a claim that generated files
 already belonged to that commit. Hashes identify exact input/script bytes when
 the checkout is dirty; regeneration after committing legitimately changes HEAD
 metadata. Drawing byte identity across platforms/fonts is not guaranteed.
+
+E1-R1 records `previous_proposal_revision` (the E1 review state at `7bb7ff0`);
+the old input, report and drawings remain accessible through normal Git history.
+The current full-depth fields were not present in the old report. Compare inputs
+and state which generator was used before interpreting a result difference.
 
 ## Checks and further work
 

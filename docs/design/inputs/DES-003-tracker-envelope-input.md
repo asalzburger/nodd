@@ -1,5 +1,7 @@
 # DES-003 input — Tracker envelope request
 
+> First-round input retained for traceability. The [2026-09-17 review update](DES-003-physics-review-1.md) supersedes conflicting recommendations.
+
 - Status: DRAFT; stage-B architecture input, not approved geometry.
 - Date: 2026-09-16.
 - Role: Tracker technician; human technical reviewer and approving humans: pending.

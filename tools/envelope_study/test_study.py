@@ -48,4 +48,25 @@ class EnvelopeStudyTests(unittest.TestCase):
     def test_extreme_eta_no_overflow(self):
         self.assertIsNone(study.ray_interval(self.barrel, 1000.))
 
+    def test_full_axial_depth_including_outer_back_corner(self):
+        result = study.axial_depth(self.endcap, math.asinh(5./2.))
+        self.assertTrue(result['full_axial_depth'])
+        self.assertAlmostEqual(result['axial_fraction'], 1.)
+        # Exact front inner corner also spans the axial allocation, but has no margin.
+        self.assertTrue(study.axial_depth(self.endcap, math.asinh(4./.5))['full_axial_depth'])
+
+    def test_partial_depth_is_not_full_and_forward_hole_is_miss(self):
+        partial = study.axial_depth(self.endcap, math.asinh(4.5/2.))
+        self.assertFalse(partial['full_axial_depth'])
+        self.assertAlmostEqual(partial['axial_fraction'], .5)
+        missed = study.axial_depth(self.endcap, 10.)
+        self.assertEqual(missed['traversal'], 'miss')
+        self.assertEqual(missed['axial_fraction'], 0.)
+
+    def test_full_depth_threshold_both_sides(self):
+        edge = math.asinh(4./.5)
+        self.assertTrue(study.axial_depth(self.endcap, edge-1e-6)['full_axial_depth'])
+        self.assertFalse(study.axial_depth(self.endcap, edge+1e-6)['full_axial_depth'])
+        self.assertEqual(study.axial_depth(self.endcap, -edge), study.axial_depth(self.endcap, edge))
+
 if __name__ == '__main__': unittest.main()

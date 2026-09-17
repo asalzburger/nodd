@@ -1,5 +1,7 @@
 # DES-003 input — Physics and Performance Validation
 
+> First-round input retained for traceability. The [2026-09-17 review update](DES-003-physics-review-1.md) supersedes conflicting recommendations.
+
 - Date: 2026-09-16
 - Status: DRAFT; independent architecture critique, no human approval
 - Scope: global envelopes, field/material interfaces and screening tests only

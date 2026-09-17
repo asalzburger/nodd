@@ -1,5 +1,7 @@
 # DES-003 input: calorimeter envelopes and interfaces
 
+> First-round input retained for traceability. The [2026-09-17 review update](DES-003-calorimeter-review-1.md) supersedes conflicting recommendations.
+
 - Date: 2026-09-16
 - Status: DRAFT; subsystem advice for the global proposal, not sign-off
 - Role: calorimeter subsystem technician

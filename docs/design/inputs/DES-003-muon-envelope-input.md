@@ -1,5 +1,7 @@
 # DES-003 input — Muon envelopes and magnet interfaces
 
+> First-round input retained for traceability. The [2026-09-17 review update](DES-003-muon-review-1.md) supersedes conflicting recommendations.
+
 - Status: DRAFT; subsystem advice for the global architecture proposal.
 - Date: 2026-09-16.
 - Role: Muon subsystem technician.
