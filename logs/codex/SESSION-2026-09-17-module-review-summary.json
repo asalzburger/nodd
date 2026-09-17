@@ -4,8 +4,8 @@
   "title": "Create three-page RD53i reviewer summary and PR executive summary",
   "recorded_at": "2026-09-17T18:53:05Z",
   "started_at": null,
-  "ended_at": null,
-  "status": "open",
+  "ended_at": "2026-09-17T19:14:19Z",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
@@ -20,7 +20,9 @@
     "start_commit": "ac49fca5cbb11d0f7df7eb51ab87119c1c298a23",
     "branch": "design/rd53-pixel-modules",
     "initial_changes": [],
-    "result_commits": [],
+    "result_commits": [
+      "8d00995b9096c6cccee0ee9158ddcbb438998002"
+    ],
     "changed_files": [
       "docs/README.md",
       "docs/design/DES-001-review-summary.md",
@@ -85,6 +87,24 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "15 tests passed."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate; git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "34 records validated; no whitespace errors."
+    },
+    {
+      "command": "git push -u origin design/rd53-pixel-modules; gh pr edit 8 --body-file /tmp/nodd-summary-pr-body.md; gh pr view 8 --json body,headRefOid,isDraft,url",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Published brief at 8d00995; verified PDF link and executive summary in draft PR #8."
+    },
+    {
+      "command": "gh run list --branch design/rd53-pixel-modules --limit 2 --json databaseId,headSha,status,conclusion,url",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "CI run 35263633511 succeeded at 8d00995; concurrent run 35263633271 was cancelled. https://github.com/asalzburger/nodd/actions/runs/35263633511"
     }
   ]
 }

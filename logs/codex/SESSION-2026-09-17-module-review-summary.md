@@ -17,3 +17,7 @@ The first PDF build failed because an image shared a text paragraph, producing a
 ## Traceability and limitations
 
 Started from ac49fca5cbb11d0f7df7eb51ab87119c1c298a23 on design/rd53-pixel-modules with a clean tree. Changed-file inventory and actual checks are in the paired JSON. Token counts, client identity and actual conversation start time are unavailable; no usage is invented. No geometry implementation, hardware validation, sign-off or scientific progress completion is claimed.
+
+## Publication
+
+Published 8d00995b9096c6cccee0ee9158ddcbb438998002 to the existing branch without force-pushing. Updated and read back draft PR #8: the description begins with an executive summary and links directly to the three-page PDF, alongside full proposal/source links. CI run 35263633511 succeeded on that commit; a concurrent run was cancelled. Session validation passed for 34 records, and whitespace checks passed. This final log update records the already published result.
