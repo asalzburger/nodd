@@ -1,9 +1,9 @@
 # Magnetic configuration research — proposed work plan
 
-- Date: 2026-09-17; status: **DISCUSSION DRAFT**, execution not started.
+- Date: 2026-09-17; status: **DRAFT research protocol**, execution authorized by the user on 2026-09-17.
 - Basis: E1-R2 at `cb654ee91457b22d899a898faf2c8bf6e0fc275e`, approved in [PR #4](https://github.com/asalzburger/nodd/pull/4) and merged as `b106610b929cdfa603dd5f1ef2a6e79dbb633a7f`.
-- Local checkout inspected: main at `b524780`; synchronize before execution. This planning pass reads the reviewed baseline through the retained branch; no document status is advanced.
-- Scope: propose a physically credible magnetic architecture and comparison method; no production detector changes or installation in this pass.
+- Execution branch: `research/magnetic-configurations`, synchronized with main at `60ef366`; previous planning state remains in Git. Design sign-off states are unchanged.
+- Scope: propose a physically credible magnetic architecture and comparison method; isolated PROTOTYPE tools and dependency installation authorized; no production detector changes.
 - All candidate definitions, comparison settings and work sequencing below are **NODD DESIGN CHOICE — proposed**, pending discussion. Physical consequences are hypotheses to test, not measured nODD performance.
 
 ## 1. Research question and boundaries
@@ -85,8 +85,10 @@ interpolation, current normalization, source/model hashes and out-of-domain poli
 
 ACTS setup is a first execution task, not assumed available. **FACT —
 SRC-PYPI-ACTS-NAME:** public PyPI `acts` is Android Comms Test Suite; plain
-`pip install acts` does not select tracking ACTS. Verify any intended custom
-wheel/index or build the official pinned ACTS Python bindings. **FACT —
+`pip install acts` does not select tracking ACTS. The user identified `pyacts`.
+**FACT — SRC-PYPI-PYACTS:** the official ACTS README recommends
+`pip install pyacts` (import name `acts`). Verify and pin that distribution first,
+using a source build only if needed. **FACT —
 SRC-ACTS-SOFTWARE-DOCS:** ACTS documents straight-line and fourth-order Runge–Kutta
 steppers and field providers. Verify bindings/API and compiler/Python/platform
 compatibility in the chosen release. Do not substitute an unverified custom RK4
@@ -140,4 +142,5 @@ envelope amendments; decision memo and proposed TDR section outline.
 First increment should deliver candidate cards, verified ACTS setup and the
 vacuum-solenoid benchmark. That establishes a trustworthy path before expensive
 3D/yoke/toroid studies. A later PR presents the comparison and recommendation;
-this turn requests discussion of the plan only.
+execution of the first increment is now authorized. Review its evidence before
+expensive yoke/toroid modelling and architecture ranking.

@@ -1,0 +1,175 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-09-17-magnet-research",
+  "title": "Magnetic configuration research first increment",
+  "recorded_at": "2026-09-17T14:05:04Z",
+  "started_at": null,
+  "ended_at": null,
+  "status": "open",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact token counts, client version and thread ID unavailable.",
+    "Vacuum controls and isolated software checks do not establish physical candidate performance or engineering feasibility."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "7850263c5f6761a43d578092c1cb3a0c973bde0e",
+    "branch": "research/magnetic-configurations",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      "docs/MAGNET_RESEARCH_PLAN.md",
+      "docs/README.md",
+      "docs/design/DES-004-magnetic-configurations.md",
+      "docs/design/figures/DES-004-mag-01-field.png",
+      "docs/design/figures/DES-004-mag-01-field.svg",
+      "docs/design/figures/DES-004-mag-03-field.png",
+      "docs/design/figures/DES-004-mag-03-field.svg",
+      "docs/design/inputs/DES-004-calorimeter.md",
+      "docs/design/inputs/DES-004-muon.md",
+      "docs/design/inputs/DES-004-physics-validation.md",
+      "docs/design/inputs/DES-004-system-architecture.md",
+      "docs/design/inputs/DES-004-tracker.md",
+      "docs/validation/DES-004-acts-checks.json",
+      "docs/validation/DES-004-acts-setup.md",
+      "docs/validation/DES-004-solenoid-benchmark.json",
+      "logs/codex/SESSION-2026-09-17-magnet-research.json",
+      "logs/codex/SESSION-2026-09-17-magnet-research.md",
+      "project/tracking.json",
+      "reference/manifest.yaml",
+      "tools/magnetic_study/README.md",
+      "tools/magnetic_study/acts-requirements.txt",
+      "tools/magnetic_study/acts_checks.py",
+      "tools/magnetic_study/candidates.json",
+      "tools/magnetic_study/solenoid.py",
+      "tools/magnetic_study/test_solenoid.py"
+    ]
+  },
+  "work": {
+    "milestone": "Stage B \u2014 magnetic research first increment",
+    "components": [
+      "magnet",
+      "tracker",
+      "calorimeter",
+      "muon",
+      "physics",
+      "software",
+      "publication"
+    ],
+    "related_ids": [
+      "DES-004",
+      "DES-003",
+      "ADR-006"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-09-17-magnet-research.md",
+  "activities": [
+    {
+      "kind": "tool",
+      "name": "collaboration",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Six specialist agents contributed architect, calorimeter, muon, tracker, physics and ACTS inputs; root coordinated and published the integrated record."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "reference/cache/envelope-venv/bin/python -B -m unittest discover -s tools/magnetic_study -p test_solenoid.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "6 tests passed, including rerun after stricter convergence criterion."
+    },
+    {
+      "command": "MPLCONFIGDIR=/tmp/nodd-mpl XDG_CACHE_HOME=/tmp/nodd-cache reference/cache/envelope-venv/bin/python -B tools/magnetic_study/solenoid.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Both vacuum candidate benchmark screens passed; field figures generated with explicit convergence masks."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/dashboard -p test_*.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "25 tests passed."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/envelope_study -p test_*.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "11 tests passed; baseline unchanged."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p test_*.py (initial concurrent run)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Two documentation link failures while ACTS setup report was still being written; final rerun follows."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate (initial)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Task/stream role mismatch; corrected role to System Architect."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "11 tasks, 8 documents, 3 reviews validated."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py build --output _site/magnetic-preview",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Static preview built."
+    },
+    {
+      "command": "reference/cache/acts-venv/bin/python import acts / metadata / API smoke check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "pyacts47.7.0 imports; ConstantBField, SolenoidBField, EigenStepper, StraightLineStepper, Propagator available."
+    },
+    {
+      "command": "reference/cache/acts-venv/bin/python -B tools/magnetic_study/acts_checks.py --output reference/cache/acts-propagation-checks --report docs/validation/DES-004-acts-checks.json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Final root run passed 7 actual ACTS propagation fixtures and 5 solenoid-axis comparisons with nonfinite-value rejection."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p test_*.py (final)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "15 tests passed; both initially missing documentation targets now resolve."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "30 session records validated."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors."
+    },
+    {
+      "command": "Source catalogue parsing and unique IDs",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "54 sources parsed, all IDs unique."
+    },
+    {
+      "command": "Source/config hashes in retained benchmarks",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Field report hashes verified; ACTS report records final script hash."
+    }
+  ]
+}

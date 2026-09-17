@@ -15,6 +15,9 @@ The documents below establish proposals and recording formats. Their presence do
 
 ## Index
 
+- [DES-004: magnetic candidates and first research increment](design/DES-004-magnetic-configurations.md)
+- [Magnetic research protocol](MAGNET_RESEARCH_PLAN.md)
+
 - [Full-detector development plan and TDR programme](DEVELOPMENT_PLAN.md)
 - [DES-003: global envelope proposal, r–z drawing and review questions](design/DES-003-global-envelopes.md)
 - [Second envelope review: 3 T space budget and baseline closure](design/DES-003-review-2.md)
