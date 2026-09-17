@@ -4,8 +4,8 @@
   "title": "Prepare chore PR for Pages and dashboard maintenance",
   "recorded_at": "2026-09-17T13:28:51Z",
   "started_at": null,
-  "ended_at": null,
-  "status": "open",
+  "ended_at": "2026-09-17T13:35:59Z",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
@@ -21,7 +21,9 @@
     "start_commit": "595a394216bc8e67df2cfe1d3f9fca7d75985622",
     "branch": "chore/dashboard-pages",
     "initial_changes": [],
-    "result_commits": [],
+    "result_commits": [
+      "69fb125e76f5395c02cdb1426de0068daee21a57"
+    ],
     "changed_files": [
       ".github/workflows/dashboard.yml",
       ".github/pull_request_template.md",
@@ -46,7 +48,8 @@
     "related_ids": [
       "PLAN-NODD-DASHBOARD-001",
       "DES-003",
-      "ADR-006"
+      "ADR-006",
+      "PR-5"
     ]
   },
   "narrative": "logs/codex/SESSION-2026-09-17-dashboard-pages.md",
@@ -124,6 +127,30 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "No whitespace errors."
+    },
+    {
+      "command": "gh api repos/asalzburger/nodd/environments/github-pages/deployment-branch-policies; gh api repos/asalzburger/nodd/pages",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Verified main branch policy and workflow build_type with https://asalzburger.github.io/nodd/ target."
+    },
+    {
+      "command": "git push -u origin chore/dashboard-pages",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Published new chore branch without force-push."
+    },
+    {
+      "command": "gh pr create --base main --head chore/dashboard-pages --title 'chore: publish project dashboard on GitHub Pages' --body-file /tmp/nodd-dashboard-pr-body.md",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Opened https://github.com/asalzburger/nodd/pull/5; intentionally excluded from project progress registers."
+    },
+    {
+      "command": "gh run view 35227955340 --json status,conclusion,jobs,url",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Hosted PR build succeeded: policy check, 25 dashboard/update tests, 15 logging/docs tests, 14 JavaScript assertions using Node native URLs, validation, build and preview artifact upload. Pages packaging and deployment skipped for PR as intended. Run: https://github.com/asalzburger/nodd/actions/runs/35227955340."
     }
   ]
 }

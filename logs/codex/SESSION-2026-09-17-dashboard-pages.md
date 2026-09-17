@@ -40,17 +40,21 @@ No detector parameter, formal approval state or scientific-source provenance cha
 assertions passed. Workflow YAML/deployment conditions checked. Site build validated
 10 project tasks, 7 documents and 3 reviews; 160 local links across 22 output pages
 checked. 28 session records validated; whitespace check passed. Actual commands and
-API outcomes appear in the paired JSON. Hosted PR CI is checked after PR creation;
-real browser/mobile and first deployment remain unverified until performed.
+API outcomes appear in the paired JSON. Hosted PR CI passed in run 35227955340, including Node interaction assertions
+with native URL APIs and preview artifact upload. Pages packaging and deployment
+were skipped as intended for a PR. Real browser/mobile and first publication
+remain unverified until performed.
 
 ## Changes and revision links
 
 See paired inventory for workflow/template, maintenance instructions, schemas,
 tracking corrections, validators/tests/guides and this session pair. The new
 chore PR itself is intentionally not entered into project progress tracking.
+Opened [chore PR #5](https://github.com/asalzburger/nodd/pull/5) from chore/dashboard-pages
+after pushing the new branch without force-push. Implementation commit: 69fb125e76f5395c02cdb1426de0068daee21a57.
 
 ## Follow-up
 
-Open the requested chore PR and verify hosted CI. Human merge triggers the first
+The requested chore PR is open and hosted CI passed. Human merge triggers the first
 main-branch publication at https://asalzburger.github.io/nodd/. Production geometry
 and existing design lifecycle remain governed by normal human sign-off rules.
