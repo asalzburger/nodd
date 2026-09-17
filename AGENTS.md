@@ -178,6 +178,30 @@ Use a new project session ID for a new bounded task, even in the same client
 thread; never duplicate token observations across records. This workflow does
 not authorize collecting private client state or granting human sign-off.
 
+## Dashboard maintenance
+
+The project dashboard must stay current with every project change. For each
+non-chore PR, update `project/tracking.json` or `project/reviews.json` in the same
+PR with the affected work, dependencies, next actions, deliverables, reviews or
+evidence. Update the curated record date. Review requests and decisions retain
+exact target revisions and evidence; do not infer human approval from a merge.
+After merge, reconcile the PR/merge metadata in the next tracking update when
+it is available. Missing information stays explicitly unknown.
+
+Use `chore: ...` or `chore(scope): ...` titles for repository/infrastructure
+maintenance PRs. **Chore PRs are excluded from project progress tracking:** do
+not add chore work items, review rounds or PR entries, and do not count them as
+milestone or scientific progress. They still require logging, relevant checks
+and a successful dashboard build; tracking corrections may accompany a chore
+without tracking the chore itself. Scientific designs, detector changes and
+validation evidence must not be classified as chores to bypass updates.
+
+Run `python3 -B tools/dashboard/build.py validate` and the relevant dashboard
+checks before completing project work. CI checks tracking updates for non-chore
+PRs and rebuilds/publishes the dashboard after every successful main-branch push.
+See [the tracking workflow](project/README.md) and
+[dashboard build/deployment guide](tools/dashboard/README.md).
+
 ## Stop conditions
 
 Stop and ask for human direction when:

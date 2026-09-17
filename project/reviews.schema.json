@@ -1,0 +1,167 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "type": "integer",
+      "enum": [
+        1
+      ]
+    },
+    "note": {
+      "type": "string",
+      "minLength": 1
+    },
+    "rounds": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "task": {
+            "type": "string",
+            "minLength": 1
+          },
+          "document": {
+            "type": "string",
+            "minLength": 1
+          },
+          "target_revision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "technical",
+              "expert",
+              "sign-off",
+              "validation",
+              "acceptance"
+            ]
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "requested",
+              "open",
+              "closed",
+              "withdrawn"
+            ]
+          },
+          "outcome": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "changes requested",
+              "conditional",
+              "approved",
+              "rejected"
+            ]
+          },
+          "requested_at": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "completed_at": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "reviewers": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "role": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "human": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "name",
+                "role",
+                "human"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "conditions": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "conditions_resolved": {
+            "type": "boolean"
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "approval_record": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "supersedes": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "scope": {
+            "type": "string",
+            "minLength": 1
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "id",
+          "task",
+          "document",
+          "target_revision",
+          "type",
+          "state",
+          "outcome",
+          "requested_at",
+          "completed_at",
+          "reviewers",
+          "conditions",
+          "conditions_resolved",
+          "evidence",
+          "approval_record",
+          "supersedes"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "schema_version",
+    "note",
+    "rounds"
+  ],
+  "additionalProperties": false
+}

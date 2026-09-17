@@ -21,6 +21,10 @@ The documents below establish proposals and recording formats. Their presence do
 - [First envelope review: responses and open decisions](design/DES-003-review-1.md)
 - [Validation study catalogue](validation/DES-003-study-catalogue.md)
 - [Envelope study tool and reproduction commands](../tools/envelope_study/README.md)
+- [Project tracking and review dashboard plan](DASHBOARD_PLAN.md)
+- [Dashboard build, preview and GitHub Pages deployment](../tools/dashboard/README.md)
+- [Dashboard publication target](https://asalzburger.github.io/nodd/) — published after the deployment chore PR is merged
+- [Project tracking register and update workflow](../project/README.md)
 - [ODD realism assessment](validation/ODD-realism-assessment.md)
 
 - [Realism charter](charter/REALISM_CHARTER.md)
