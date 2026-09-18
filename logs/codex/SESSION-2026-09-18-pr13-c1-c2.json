@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-09-18-pr13-c1-c2",
+  "title": "Split inclined tracker C into C1 and C2 and clarify optimisation",
+  "recorded_at": "2026-09-18T19:36:36Z",
+  "started_at": null,
+  "ended_at": null,
+  "status": "open",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Actual conversation start time, client identity details and token usage have not been recorded."
+  ],
+  "client": {
+    "name": "unspecified",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "5a8a7bcd185226bc70f0ed447aca783e05693b45",
+    "branch": "study/tracker-first-layouts",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      "docs/design/DES-006-C1-C2-review.md",
+      "docs/design/DES-006-inclined-split-layouts.json",
+      "docs/design/DES-006-proposal-C1.md",
+      "docs/design/DES-006-proposal-C1.pdf",
+      "docs/design/DES-006-proposal-C2.md",
+      "docs/design/DES-006-proposal-C2.pdf",
+      "docs/design/figures/DES-006-C1-C2-comparison.png",
+      "docs/design/figures/DES-006-C1-rz.png",
+      "docs/design/figures/DES-006-C1-rz.svg",
+      "docs/design/figures/DES-006-C2-rz.png",
+      "docs/design/figures/DES-006-C2-rz.svg",
+      "docs/validation/DES-006-inclined-split-screen.json",
+      "logs/codex/SESSION-2026-09-18-pr13-c1-c2.json",
+      "logs/codex/SESSION-2026-09-18-pr13-c1-c2.md",
+      "tools/tracker_layout/plot_split_inclined.py",
+      "tools/tracker_layout/split_inclined.py",
+      "tools/tracker_layout/test_split_inclined.py",
+      "docs/design/DES-006-first-tracker-layouts.md",
+      "docs/design/DES-006-proposal-C.md",
+      "project/reviews.json",
+      "project/tracking.json",
+      "tools/tracker_layout/README.md"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "C1/C2 inclined tracker comparison",
+      "position optimisation clarification",
+      "PR review response"
+    ],
+    "related_ids": [
+      "DES-006",
+      "DES-005",
+      "PR-13"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-09-18-pr13-c1-c2.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 -B tools/tracker_layout/split_inclined.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Generated explicit C1/C2 geometry and A comparison:21627 finite-field probes per candidate plus finer zero-field scans; no nominal parent-station losses."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/tracker_layout -p test_*.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "21 prototype tests passed."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/dashboard -p test_*.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "25 dashboard tests passed."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p test_*.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "15 documentation/logging tests passed."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate; build --output /tmp/nodd-pr13-c1-c2-dashboard",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "28tasks,9documents,7review rounds validated; fresh dashboard built."
+    },
+    {
+      "command": "MPLCONFIGDIR=/tmp/nodd-pr13-mpl python3 -B tools/tracker_layout/plot_split_inclined.py; pdfinfo; pdftoppm; view_image",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Separate C1/C2 PDFs each2A4pages; all4pages rendered and visually inspected."
+    },
+    {
+      "command": "Split-report retained hash audit; git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All referenced input/code hashes match; no whitespace errors."
+    }
+  ]
+}

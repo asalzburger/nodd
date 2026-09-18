@@ -2,6 +2,10 @@
 
 DRAFT / isolated PROTOTYPE · 2026-09-18 · human selection and sign-off pending.
 
+**Review follow-up:** the original C is now named C2; C1 inclines short strips only.
+See the [C1/C2 comparison and optimisation status](DES-006-C1-C2-review.md).
+The original C proposal and numerical evidence below are retained for traceability.
+
 Read the [two-page C brief](DES-006-proposal-C.pdf),
 [TrackTech cost–benefit assessment](inputs/DES-006-inclined-tracktech.md) and
 [independent PhysVal assessment](inputs/DES-006-inclined-physval.md).

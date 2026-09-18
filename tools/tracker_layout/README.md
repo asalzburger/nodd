@@ -126,3 +126,24 @@ and the surface normal. Bisection tolerance/iterations and the restricted outwar
 branch are explicit in code; opposite-facing unsupported roots fail rather than
 silently disappearing. Future tilted pixel/barrel geometries need their own
 validated domain extension.
+
+## C1/C2 split and optimisation status
+
+The [review follow-up](../../docs/design/DES-006-C1-C2-review.md) separates
+short-strip-only inclination (C1) from inclination of both strip types (C2).
+C2 equals the original C; C1 restores the complete A long-strip system.
+The original A/B/C artifacts remain unchanged. No radial/z optimisation is
+performed by this ablation.
+
+```sh
+python3 -B tools/tracker_layout/split_inclined.py
+MPLCONFIGDIR=/tmp/nodd-pr13-mpl python3 -B tools/tracker_layout/plot_split_inclined.py
+python3 -B -m unittest discover -s tools/tracker_layout -p 'test_*.py'
+```
+
+The split tool records the three-way A/C1/C2 comparison on the original field,
+pT, eta and vertex grid, plus a finer zero-field vertex scan. It reuses the
+previously validated intersection implementation; the original independent
+solver audit remains evidence for that unchanged implementation. Additional
+regression checks enforce the intended subsystem-only change. The plotter
+creates separate two-page C1/C2 PDFs, drawings and a material comparison.
