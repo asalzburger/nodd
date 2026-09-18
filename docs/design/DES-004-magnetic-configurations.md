@@ -10,6 +10,11 @@
 
 ## Current evaluation
 
+The [physics pro/con follow-up](inputs/DES-004-muon-field-tradeoffs.md), tracked
+in [issue #9](https://github.com/asalzburger/nodd/issues/9), responds to PR #6
+on return-field versus dedicated muon magnets. Replies distinguish completed
+envelope amendments from outstanding field and performance evidence.
+
 The user authorized evaluation of all options on 2026-09-17. Read the
 [two-page team summary and six one-page proposals](DES-004-options-summary.md)
 for current recommendations, conditional showstoppers and next tests. The cards

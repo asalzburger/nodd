@@ -50,10 +50,11 @@ establishes equal resources or sufficient structural margin.
 
 ## Blocking conditions versus missing evidence
 
-**Demonstrated integration conflict:** the proposed assembly intersects E1-R2's
-unchanged muon barrel host. MAG-03 cannot coexist with that allocation unchanged;
-its amendment, or another explicit redesign, is necessary. This is not a rejection
-of the topology. Conductor/cryostat fit, nonlinear field, stray-field acceptability,
+**Historical integration conflict, addressed at envelope level:** the assembly
+intersects E1-R2's unchanged muon barrel host. The current amended barrel entrance
+at 4.950 m and stepped endcaps resolve that coarse overlap; the coordinated
+calorimeter redesign below reuses the absent inner-coil space. This does not
+establish physical integration. Conductor/cryostat fit, nonlinear field, stray-field acceptability,
 station feasibility and standalone performance remain **missing evidence**.
 Insufficient standalone information would block that particular requirement.
 
