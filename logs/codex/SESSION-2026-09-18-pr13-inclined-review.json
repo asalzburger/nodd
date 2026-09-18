@@ -4,8 +4,8 @@
   "title": "Address PR13 double-sided strips and inclined candidate C",
   "recorded_at": "2026-09-18T15:06:27Z",
   "started_at": null,
-  "ended_at": null,
-  "status": "open",
+  "ended_at": "2026-09-18T15:19:17Z",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
@@ -20,7 +20,9 @@
     "start_commit": "243b138ffd78844c020604e103f5c2a6e893d988",
     "branch": "study/tracker-first-layouts",
     "initial_changes": [],
-    "result_commits": [],
+    "result_commits": [
+      "d32da2541415f4730297601e0779594f08f5beaf"
+    ],
     "changed_files": [
       "docs/design/DES-006-inclined-layouts.json",
       "docs/design/DES-006-proposal-C.md",
@@ -122,6 +124,30 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "Input/code hashes match both reports; no whitespace errors."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "36 session records validated."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate/build (exact review target update)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "28 tasks,9 documents,7 review rounds validate; dashboard builds."
+    },
+    {
+      "command": "git push origin study/tracker-first-layouts; gh pr edit 13; gh pr comment 13",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Published d32da25 and updated executive summary/technical reply; Noemi comment untouched. Response https://github.com/asalzburger/nodd/pull/13#issuecomment-5732103962"
+    },
+    {
+      "command": "gh run watch 35361596731 --exit-status",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Hosted CI succeeded for d32da25 including18prototype,25dashboard,15documentation/logging tests and browser checks. A concurrent earlier run was cancelled by the PR edit. https://github.com/asalzburger/nodd/actions/runs/35361596731"
     }
   ]
 }
