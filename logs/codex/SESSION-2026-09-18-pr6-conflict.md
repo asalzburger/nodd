@@ -15,3 +15,7 @@ Record validation passed for 28 tasks, 9 documents and 6 rounds; 25 dashboard an
 ## Limitations
 
 Token counts, actual conversation start time and client identity are unavailable. No new scientific evidence, topology selection or human approval is inferred. Existing magnetic and tracker review questions remain open.
+
+## Publication
+
+Pushed merge 35c3fff and repair 76b12eb without force-pushing. Hosted CI run 35360011972 passed, including browser interaction tests unavailable locally. GitHub reports MERGEABLE and CLEAN. No PR merge or reviewer approval was performed.
