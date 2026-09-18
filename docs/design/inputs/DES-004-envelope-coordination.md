@@ -14,8 +14,9 @@ the host is fully sensitive. A fixed E1-R2 outer radius must not predetermine
 which topology survives. Keep results obtained with fixed measurement fixtures
 separate from results after candidate-specific station changes.
 
-The common tracker, calorimeters, inner-coil or outer-coil hypotheses and detached
-forward calorimeter retain their existing definitions. Proposed dimensions below
+Tracker, coil hypotheses and detached forward calorimeter retain their definitions.
+The [subsequent subsystem coordination](DES-004-inner-space-reallocation.md)
+reallocates central ECal/HCal radial bounds for MAG-03/04/06 only. Proposed dimensions below
 are not integrated into production or substituted for the reference JSON. No
 follow-up issue is created; the human will decide that after comparison.
 

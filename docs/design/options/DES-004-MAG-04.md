@@ -73,3 +73,9 @@ wide r=0.4–10 m, |z|=9–10.9 m.
 [Budget](../inputs/DES-004-muon-envelope-amendments.md),
 [PNG](../figures/DES-004-mag-04-muon-envelope-rz.png) /
 [SVG](../figures/DES-004-mag-04-muon-envelope-rz.svg). Unsigned; baseline issue after selection.
+
+**Coordinated inner-space reuse (2026-09-18):** barrel ECal r=1.30–1.66 m,
+endcap ECal outer r=1.66 m, barrel HCal r=1.76–4.20 m. This preserves nominal
+ECal thickness, increases HCal host width by 0.40 m and retains tracker/services,
+all axial bounds, outer coil and muon allocations. The [subsystem coordination](../inputs/DES-004-inner-space-reallocation.md)
+records requirements, alternatives and the unverified material/field consequences.

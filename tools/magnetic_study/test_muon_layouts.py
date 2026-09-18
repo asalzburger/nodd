@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 import unittest
 
-from muon_layouts import assemble
+from muon_layouts import assemble, allocation_comparison
 from envelope_study.study import ray_interval
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -39,6 +39,32 @@ class SteppedEndcapTests(unittest.TestCase):
     def test_collision_with_calorimeter_is_rejected(self):
         option = copy.deepcopy(self.options[0])
         option['endcap_sections'][0]['z_min_m'] = 6.0
+        with self.assertRaises(ValueError):
+            assemble(self.baseline, option)
+
+    def test_reallocation_preserves_interfaces_depths_and_sampled_paths(self):
+        for option in self.options:
+            if not option.get('inner_space_reallocated'):
+                continue
+            with self.subTest(candidate=option['id']):
+                data, regions = assemble(self.baseline, option)
+                comparison = allocation_comparison(self.baseline, data)
+                self.assertTrue(comparison['tracker_and_service_bounds_preserved'])
+                for family in ('ecal', 'hcal'):
+                    self.assertEqual(comparison['families'][family]['decreased_path_samples'], 0)
+                    self.assertEqual(comparison['families'][family]['new_miss_samples'], 0)
+                for name, depth in comparison['nominal_depths_m'].items():
+                    self.assertAlmostEqual(depth['candidate']-depth['baseline'],
+                                           .4 if name == 'hcal_barrel' else 0.)
+                self.assertAlmostEqual(comparison['interface_gaps_m']['tracker_services_to_ecal'], .06)
+                self.assertAlmostEqual(comparison['interface_gaps_m']['ecal_to_hcal_barrel'], .10)
+                baseline = {r['id']:r for r in self.baseline['regions']}
+                for name in ('hcal_endcap', 'forward_calorimeter'):
+                    self.assertEqual(regions[name], baseline[name])
+
+    def test_old_ecal_endcap_radius_conflicts_with_inward_hcal(self):
+        option = copy.deepcopy(next(o for o in self.options if o['id'] == 'MAG-03'))
+        option['overrides']['ecal_endcap']['r_max_m'] = 2.06
         with self.assertRaises(ValueError):
             assemble(self.baseline, option)
 

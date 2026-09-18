@@ -121,3 +121,13 @@ These are composite PROTOTYPE allocations, not physical chamber geometry.
 ```sh
 python3 -B -m unittest discover -s tools/magnetic_study -p 'test_muon_layouts.py'
 ```
+
+### Coordinated inner-space reuse (2026-09-18)
+
+MAG-03/04/06 in `muon-layouts.json` now apply the coordinated ECal/HCal radial
+amendment, with `inner_space_reallocated` recording the optimized scenario.
+The plotter no longer marks the removed coil space as unused. The report records
+nominal depths, interface gaps and a 5,201-point eta scan over 0–5.2 at 0.001
+spacing, with a 1e-10 m numerical path-comparison tolerance. Summed straight-ray
+host lengths are geometric proxies, not material depths or shower containment.
+Earlier `layouts.json` and field controls retain their original comparison inputs.

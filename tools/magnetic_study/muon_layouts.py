@@ -14,6 +14,43 @@ from envelope_study.study import validate, report, project_provenance, ray_inter
 ROOT = Path(__file__).resolve().parents[2]
 
 
+def allocation_comparison(baseline, data):
+    """Deterministic prompt-ray host-length comparison; no material or response."""
+    old = {r['id']: r for r in baseline['regions']}
+    new = {r['id']: r for r in data['regions']}
+    output = {'scope': 'Host path lengths only; no X0, interaction lengths or shower containment.',
+              'eta_grid': {'min': 0., 'max': 5.2, 'step': .001, 'count': 5201},
+              'path_comparison_tolerance_m': 1e-10,
+              'families': {}}
+    for family in ('ecal', 'hcal'):
+        names = (family+'_barrel', family+'_endcap')
+        def length(regions, eta):
+            return sum(interval[1]-interval[0] for name in names
+                       if (interval := ray_interval(regions[name], eta)))
+        rows = [(i/1000, length(old, i/1000), length(new, i/1000)) for i in range(5201)]
+        worst = min(rows, key=lambda row: row[2]-row[1])
+        output['families'][family] = {
+            'decreased_path_samples': sum(after < before-1e-10 for _, before, after in rows),
+            'new_miss_samples': sum(before > 1e-10 and after <= 1e-10 for _, before, after in rows),
+            'worst_change': {'eta': worst[0], 'baseline_m': worst[1], 'candidate_m': worst[2],
+                             'delta_m': worst[2]-worst[1]},
+            'samples': [{'eta': eta, 'baseline_m': length(old, eta), 'candidate_m': length(new, eta)}
+                        for eta in baseline['study']['eta_samples']]}
+    output['nominal_depths_m'] = {
+        name: {version: regions[name][axis+'_max_m']-regions[name][axis+'_min_m']
+               for version, regions in (('baseline', old), ('candidate', new))}
+        for name, axis in (('ecal_barrel', 'r'), ('ecal_endcap', 'z'),
+                           ('hcal_barrel', 'r'), ('hcal_endcap', 'z'))}
+    output['tracker_and_service_bounds_preserved'] = all(
+        old[name][key] == new[name][key] for name in ('tracker', 'tracker_services')
+        for key in ('r_min_m', 'r_max_m', 'z_min_m', 'z_max_m'))
+    output['interface_gaps_m'] = {
+        'tracker_services_to_ecal': new['ecal_barrel']['r_min_m']-new['tracker_services']['r_max_m'],
+        'ecal_to_hcal_barrel': new['hcal_barrel']['r_min_m']-new['ecal_barrel']['r_max_m'],
+        'tracker_to_ecal_endcap': new['ecal_endcap']['z_min_m']-new['tracker']['z_max_m']}
+    return output
+
+
 def assemble(baseline, option):
     data = copy.deepcopy(baseline)
     for name, change in option['overrides'].items():
@@ -69,8 +106,6 @@ def main():
         for r in regions.values():
             rectangle(ax,r,facecolor=r['color'],edgecolor=r['color'],alpha=.55,
                       hatch='///' if r.get('reservation') else None,lw=.6)
-        if option['unused_inner_coil']:
-            rectangle(ax,baseline_regions['magnet'],facecolor='none',edgecolor='#777777',hatch='...',lw=.6)
         for name in ('muon_barrel','muon_endcap'):
             rectangle(ax,baseline_regions[name],facecolor='none',edgecolor='#a02d25',ls='--',lw=.85)
         host = regions['muon_barrel']
@@ -88,6 +123,8 @@ def main():
                      f"wide: r ≤ {end['r_max_m']:g}, |z| {end['z_min_m']:g}–{end['z_max_m']:g} m",fontsize=9,pad=8)
         rectangle(ax,inner,facecolor='none',edgecolor='#135b65',lw=1.1)
         ax.text(0,(host['r_min_m']+host['r_max_m'])/2,'COMPOSITE MUON HOST',ha='center',fontsize=7)
+        if option.get('inner_space_reallocated'):
+            ax.text(0, .2, 'ECal inward 0.40 m · HCal host +0.40 m', ha='center', fontsize=7)
         ax.set(xlim=(-14,14),ylim=(0,10.4),xlabel='z [m]',ylabel='r [m]')
         ax.set_aspect('equal',adjustable='box'); ax.grid(alpha=.16); ax.set_axisbelow(True)
 
@@ -96,7 +133,7 @@ def main():
                 Patch(facecolor='none',edgecolor='#135b65',label='Upstream endcap step (r ≥ 0.4 m)'),
                 Line2D([0],[0],color='#412050',lw=1.6,label='Main-coil current-sheet reference'),
                 Patch(facecolor='none',edgecolor='#542c70',hatch='xxx',label='MAG-06 return-coil reservation'),
-                Patch(facecolor='none',edgecolor='#777777',hatch='...',label='Unused inner shell / MAG-06 outer routes')]
+                Patch(facecolor='none',edgecolor='#777777',hatch='...',label='MAG-06 outer routes')]
     footer=('DRAFT / PROTOTYPE · candidate composite hosts include magnets, chambers, supports and routes; not fully sensitive volumes\n'
             'Steel plates, discrete toroid sectors and end-return closure are not solved or drawn. Main-coil line is a reference, not a solved total field.\n'
             'E1-R2 baseline stays unchanged. Forward calorimetry: |z| = 11.2–13.2 m; MAG-02–06 leave a provisional 0.30 m gap (MAG-01: 0.93 m).')
@@ -130,11 +167,13 @@ def main():
              'forward_host_axial_gap_m':regions['forward_calorimeter']['z_min_m']-e['z_max_m'],
              'barrel_composite_radial_depth_m':b['r_max_m']-b['r_min_m'],
              'endcap_sections':[{k:s[k] for k in ('id','r_min_m','r_max_m','z_min_m','z_max_m')} for s in sections],
-             'endcap_upstream_clearance_m':sections[0]['z_min_m']-(magnet['z_max_m'] if option['unused_inner_coil'] else regions['hcal_endcap']['z_max_m']),
+             'endcap_upstream_clearance_m':sections[0]['z_min_m']-(magnet['z_max_m'] if option['main_coil_control']=='MAG-03' else regions['hcal_endcap']['z_max_m']),
              'endcap_step_to_barrel_radial_gap_m':b['r_min_m']-sections[0]['r_max_m'],
              'endcap_front_ray_radius_m':{str(eta):sections[0]['z_min_m']/math.sinh(eta) for eta in (3.,3.5)},
              'endcap_ray_entries_z_m':{str(eta):{s['id']:(interval[0]*math.tanh(eta) if (interval:=ray_interval(s,eta)) else None) for s in sections} for eta in (3.,3.5)},
              'figure_stem':'docs/design/figures/'+stem}
+        row['inner_space_reallocated'] = option.get('inner_space_reallocated', False)
+        row['allocation_comparison'] = allocation_comparison(baseline, data)
         if 'trial_steel_radial_bands_m' in option:
             bands = option['trial_steel_radial_bands_m']
             if any(not b['r_min_m']<=lo<hi<=b['r_max_m'] for lo,hi in bands):

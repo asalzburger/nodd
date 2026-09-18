@@ -10,8 +10,8 @@
 a diagnostic sheet R=4.500 m, half-length 6.500 m, normalized to +3 T centrally.
 Detached forward calorimetry is excluded. The [architect input](../inputs/DES-004-system-architecture.md),
 §3, requests assembly r=4.300–4.800 m, |z|≤6.800 m and muon barrel inner host
-4.950 m rather than 4.350 m. Keep the old inner-coil space unused initially;
-inward calorimeter optimization is a separate comparison.
+4.950 m rather than 4.350 m. The coordinated layout now reuses the inner-coil space as described below;
+the original fixed-calorimeter configuration remains a historical control.
 
 **FACT:** SRC-CMS-JINST-2008, §2.1/PDF33 and Table 2.1/PDF35, describes the built
 4 T external NbTi solenoid. It establishes a technology/topology anchor, not an
@@ -73,3 +73,9 @@ wide r=0.4–7.5 m, |z|=8–10.9 m.
 [Budget](../inputs/DES-004-muon-envelope-amendments.md),
 [PNG](../figures/DES-004-mag-03-muon-envelope-rz.png) /
 [SVG](../figures/DES-004-mag-03-muon-envelope-rz.svg). Unsigned; baseline issue after selection.
+
+**Coordinated inner-space reuse (2026-09-18):** barrel ECal r=1.30–1.66 m,
+endcap ECal outer r=1.66 m, barrel HCal r=1.76–4.20 m. This preserves nominal
+ECal thickness, increases HCal host width by 0.40 m and retains tracker/services,
+all axial bounds, outer coil and muon allocations. The [subsystem coordination](../inputs/DES-004-inner-space-reallocation.md)
+records requirements, alternatives and the unverified material/field consequences.

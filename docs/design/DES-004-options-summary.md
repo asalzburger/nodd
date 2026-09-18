@@ -70,6 +70,15 @@ returning the flat-bore flux there would average 1.478 T. These are capacity
 screens, not solved fields or steel specifications. Actual flux, saturation,
 packing, calorimeter return and exterior leakage remain to be calculated.
 
+**Coordinated reuse of inner-coil space:** MAG-03/04/06 now move barrel ECal to
+r=1.30–1.66 m and endcap ECal outer radius to 1.66 m; barrel HCal starts at
+1.76 m and retains r=4.20 m outside. Tracker/services, axial limits, outer coil
+and muon hosts remain fixed. This preserves nominal ECal depth and gains 0.40 m
+of HCal assembly capacity. Tracker, calorimeter and muon engineers reconciled
+constraints in the [architecture memo](inputs/DES-004-inner-space-reallocation.md).
+A 5,201-direction prompt-ray scan found no reduced ECal/HCal summed host path;
+material, shower, segmentation and service adequacy remain unverified.
+
 **Remaining integration concern:** MAG-02–06 endcaps stop at |z|=10.9 m, leaving
 0.30 m before the unchanged detached forward-calorimeter host. This is not a
 verified service/shielding gap. MAG-04/06 end-field closure and useful measurements

@@ -63,6 +63,24 @@ may be necessary. Enlarging the radial host does not settle that question.
 The original two-option drawings and fixed-host flux screens below are retained
 as historical comparison evidence; the table above is the current research request.
 
+## Reuse of the absent inner-solenoid space — 2026-09-18
+
+The System Architect coordinated tracker, calorimeter and muon inputs for
+MAG-03/04/06. **NODD DESIGN CHOICE — unsigned:** retain tracker and service
+bounds, move ECal barrel from r=1.70–2.06 m to **1.30–1.66 m**, reduce the
+ECal endcap outer radius to **1.66 m** to avoid an HCal overlap, and move the
+HCal barrel entrance from 2.16 to **1.76 m**, retaining its 4.20 m outer radius.
+All axial bounds, HCal endcaps, outer coil and stepped muon hosts are retained.
+The released 0.40 m increases HCal assembly capacity; no extra interaction length
+or performance gain is assumed. The former unused-coil shell is no longer drawn
+in these optimized candidates. Inner-solenoid candidates are unchanged.
+
+See the [coordinated requirements and alternatives](inputs/DES-004-inner-space-reallocation.md).
+The generated report compares nominal depths, interface gaps and 5,201 prompt
+rays from eta 0 to 5.2 per candidate against E1-R2. No sampled ECal/HCal summed
+host-path reduction was found. This does not validate showers, services, sensitive
+coverage or physical fields. Earlier fixed-layout results remain separate controls.
+
 ## 1. Decision to inform
 
 Which magnetic topology provides credible tracking and muon measurements for the
