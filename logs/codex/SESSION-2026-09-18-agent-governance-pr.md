@@ -54,6 +54,19 @@ Generated dashboard previews stay ignored.
 
 ## Follow-up
 
+Opened [PR #10](https://github.com/asalzburger/nodd/pull/10), titled
+`chore(docs): document agent roles and final sign-off authority`, from
+`chore/agent-roles-signoff` to `main`. The published implementation commit is
+recorded in the paired JSON. No chore PR entry was added to project tracking.
+
+Local verification passed: 25 dashboard/update-policy tests, 15
+logging/documentation tests, 14 synthetic JavaScript assertions, dashboard
+validation/build, validation of all 31 session records, the chore policy check
+and staged whitespace checks. The staged check covered all nine new/changed files.
+
 The PR is for human review; creating it does not merge it or approve M0 or an ADR.
-Remaining M0 decisions are unchanged. Publication metadata and hosted check
-results are added only after they are observed.
+Remaining M0 decisions are unchanged. The hosted Project dashboard build passed
+at implementation revision `1b61d1734536237a7a921c8f1701a1c246fb7b29` in
+[run 35327331331](https://github.com/asalzburger/nodd/actions/runs/35327331331);
+deployment was skipped for the PR. This publication-record update is a later
+commit; checks on its final revision are reported separately to the user.

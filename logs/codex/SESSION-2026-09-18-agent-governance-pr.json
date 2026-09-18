@@ -4,8 +4,8 @@
   "title": "Prepare the requested chore PR for agent roles and sign-off metadata",
   "recorded_at": "2026-09-18T08:58:42Z",
   "started_at": null,
-  "ended_at": null,
-  "status": "open",
+  "ended_at": "2026-09-18T09:01:47Z",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
@@ -29,7 +29,9 @@
       "logs/codex/SESSION-2026-09-18-signoff-authority.md",
       "project/tracking.json"
     ],
-    "result_commits": [],
+    "result_commits": [
+      "1b61d1734536237a7a921c8f1701a1c246fb7b29"
+    ],
     "changed_files": [
       "README.md",
       "docs/decisions/ADR-002-review-and-signoff-policy.md",
@@ -47,7 +49,8 @@
     "components": [],
     "related_ids": [
       "ADR-002",
-      "TASK-GOVERNANCE"
+      "TASK-GOVERNANCE",
+      "PR-10"
     ]
   },
   "narrative": "logs/codex/SESSION-2026-09-18-agent-governance-pr.md",
@@ -101,6 +104,30 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "No tracked whitespace errors."
+    },
+    {
+      "command": "git diff --cached --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All nine staged files passed whitespace validation, including the new README and session records."
+    },
+    {
+      "command": "git push -u origin chore/agent-roles-signoff",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Published the branch without force-push."
+    },
+    {
+      "command": "gh pr create --base main --head chore/agent-roles-signoff --title 'chore(docs): document agent roles and final sign-off authority' --body-file /tmp/nodd-agent-governance-pr-body.md",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Opened https://github.com/asalzburger/nodd/pull/10; the chore has no project progress entry."
+    },
+    {
+      "command": "gh pr view 10 --json number,title,url,state,headRefOid,statusCheckRollup",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "At implementation revision 1b61d1734536237a7a921c8f1701a1c246fb7b29, Project dashboard build succeeded and deploy was skipped for the PR. Run: https://github.com/asalzburger/nodd/actions/runs/35327331331."
     }
   ]
 }
