@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-09-18-signoff-authority",
+  "title": "Record the human final sign-off authority",
+  "recorded_at": "2026-09-18T08:56:20Z",
+  "started_at": null,
+  "ended_at": "2026-09-18T08:57:43Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact token usage, client version, thread ID and actual conversation start time are unavailable."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "60ef36631849f4d7525324550f1d2a8a17ef67fe",
+    "branch": "main",
+    "initial_changes": [
+      "README.md",
+      "logs/codex/SESSION-2026-09-18-agent-addresses.json",
+      "logs/codex/SESSION-2026-09-18-agent-addresses.md"
+    ],
+    "result_commits": [],
+    "changed_files": [
+      "PROJECT.md",
+      "docs/decisions/ADR-002-review-and-signoff-policy.md",
+      "project/tracking.json",
+      "logs/codex/SESSION-2026-09-18-signoff-authority.md",
+      "logs/codex/SESSION-2026-09-18-signoff-authority.json"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [],
+    "related_ids": [
+      "ADR-002",
+      "TASK-GOVERNANCE"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-09-18-signoff-authority.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 -B tools/dashboard/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 10 tasks, 7 documents and 3 review rounds."
+    },
+    {
+      "command": "python3 -B -m unittest test_build.DashboardTests.test_real_initialization_and_unknown_review_state test_build.DashboardTests.test_actual_pr4_history_and_approval_scope",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "From tools/dashboard: initialization test passed, but the real-history test was selected under the wrong class and raised AttributeError. Corrected invocation follows."
+    },
+    {
+      "command": "python3 -B -m unittest test_build.DashboardTests.test_real_initialization_and_unknown_review_state test_build.RepositoryReviewTests.test_actual_pr4_history_and_approval_scope",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "From tools/dashboard: both targeted tests passed, including unchanged real-history technical approval and absent formal sign-off."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p 'test_*.py'",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "15 tests passed, including repository documentation links."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py build --output _site/signoff-authority-preview",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Static dashboard built successfully; generated output is ignored by Git."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors in tracked diffs."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 30 session records."
+    }
+  ]
+}
