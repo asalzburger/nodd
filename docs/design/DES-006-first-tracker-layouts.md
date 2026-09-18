@@ -13,14 +13,20 @@
 
 ## Executive summary
 
-**Review update — alternative C:** the requested [inclined strip-barrel proposal](DES-006-proposal-C.md)
-([two-page PDF](DES-006-proposal-C.pdf)) adds independent TrackTech and PhysVal
-cost–benefit assessments. Relative to A, ideal total strixel area falls 9.13%
-and double-sided long-strip silicon area 1.96%. No parent stations are lost in
-the declared sampled comparison, but overlap can raise local material by 23.7%.
-Retain C for further module/service studies; no alternative is selected.
-Long strips explicitly have two scalar sensor faces per paired station; both
-faces enter silicon area, and the paired 2% X0 allowance is counted once.
+**Current review alternatives: C1 and C2.** [C1](DES-006-proposal-C1.md)
+inclines short-strip barrel ends only; [C2](DES-006-proposal-C2.md) inclines both
+short and long strips and retains the original C geometry. Both save 9.13% of
+ideal strixel area; C2 additionally saves 1.96% of double-sided long-strip area,
+with extra inclined supports/routing and higher adverse overlap material.
+No parent stations are lost in the declared scans. Investigate the simpler C1
+first and retain C2 for comparison; no layout is selected.
+
+**No systematic radial or axial position optimisation has been performed.**
+ODD barrel radii were retained, disk positions/annuli and barrel lengths were
+hand-chosen hypotheses, and the scans tested fixed-layout sensitivity and
+feasibility. Read the [full split comparison and parameter-by-parameter answer](DES-006-C1-C2-review.md).
+Long strips retain two scalar faces per paired station, both faces in silicon
+area and one paired material allowance per module crossing.
 
 The following A/B comparison and IdRes evidence remain the original controls.
 
@@ -244,7 +250,7 @@ the user's present exploration request does not fabricate its formal sign-off.
 
 ## 6. Human review requested
 
-Review whether A and B are useful starting hypotheses and whether the priority
+Review whether A, B, C1 and C2 are useful starting hypotheses and whether the priority
 order addresses the dominant uncertainties. Specify acceptable forward physics
 benchmarks and the next component-interface owners. No final layer selection is
 requested from these idealized results.
