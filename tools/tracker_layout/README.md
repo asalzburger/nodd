@@ -96,3 +96,33 @@ field maps, occupancy/radiation conditions, luminous distribution and numerical
 performance thresholds prevent final layout selection. DD4hep/Geant4, ACTS
 module conversion, efficiency/fake-rate reconstruction and timing benefit are
 explicit later stages, not tests passed by this tool.
+
+## PR #13 review: inclined C and double-sided strips
+
+The [C proposal](../../docs/design/DES-006-proposal-C.md) retains A/B as historical
+controls and adds an axisymmetric envelope of tilted planar module rows. C uses
+an independent public geometric/material screen; the IdRes adapter rejects
+unsupported surfaces. No C IdRes or scattering-fit result is claimed.
+
+```sh
+python3 -B tools/tracker_layout/inclined_study.py
+python3 -B tools/tracker_layout/audit_inclined.py
+MPLCONFIGDIR=/tmp/nodd-pr13-mpl python3 -B tools/tracker_layout/plot_inclined.py
+python3 -B -m unittest discover -s tools/tracker_layout -p 'test_*.py'
+```
+
+The first writes the C layer table and comparison with A, including 0/5/10 mm
+row-extension controls, input/code hashes and execution provenance. The second
+retains the independent solver and denser straight-ray coverage audit. The third
+uses Matplotlib to draw C, compare material/coverage and render a two-page A4
+brief; local execution used Matplotlib 3.11.0 and NumPy 2.4.3. PDF page count and
+visual inspection accompany publication.
+
+Each long-strip pair contributes two scalar faces but one parent station. Its
+paired normal material is not doubled. Overlap contributes every crossed row's
+material and faces; distinct parent groups are reported separately from physical
+crossings. The conical envelope intersection uses the helix's local direction
+and the surface normal. Bisection tolerance/iterations and the restricted outward
+branch are explicit in code; opposite-facing unsupported roots fail rather than
+silently disappearing. Future tilted pixel/barrel geometries need their own
+validated domain extension.
