@@ -1,6 +1,6 @@
 # DES-004 — Candidate-specific muon envelope requests
 
-- Date: 2026-09-17; status: DRAFT; approving humans: pending.
+- Date: 2026-09-18; status: DRAFT; approving humans: pending.
 - Review: [PR #6](https://github.com/asalzburger/nodd/pull/6).
 - Scope: user-authorized adaptation of research envelopes to magnetic candidates.
 - Context: [candidate cards](../DES-004-magnetic-configurations.md),
@@ -25,16 +25,16 @@ uses within that host, not overlapping independent detector mothers.
 
 ## Proposed research allocations
 
-| Candidate | Barrel r min–max | Barrel maximum absolute z | Endcap r min–max | Endcap absolute z min–max |
-| --- | --- | --- | --- | --- |
-| MAG-01 | 4.350–6.762 | 7.200 | 0.400–7.000 | 7.200–10.270 |
-| MAG-02 | 4.350–7.500 | 8.000 | 0.400–7.500 | 8.000–10.900 |
-| MAG-03 | 4.950–7.500 | 8.000 | 0.400–7.500 | 8.000–10.900 |
-| MAG-04 | 4.950–10.000 | 9.000 | 0.400–10.000 | 9.000–10.900 |
-| MAG-05 | 4.350–9.000 | 9.000 | 0.400–9.000 | 9.000–10.900 |
-| MAG-06, outer-main variant | 4.950–8.850 | 9.000 | 0.400–8.850 | 9.000–10.900 |
+| Candidate | Barrel r [m]; max absolute z [m] | Upstream endcap r [m]; absolute z [m] | Wide endcap r [m]; absolute z [m] |
+| --- | --- | --- | --- |
+| MAG-01 | 4.35–6.762; 7.2 | 0.4–4.2; 6.35–7.2 | 0.4–7; 7.2–10.27 |
+| MAG-02 | 4.35–7.5; 8 | 0.4–4.2; 6.35–8 | 0.4–7.5; 8–10.9 |
+| MAG-03 | 4.95–7.5; 8 | 0.4–4.8; 6.95–8 | 0.4–7.5; 8–10.9 |
+| MAG-04 | 4.95–10; 9 | 0.4–4.8; 6.95–9 | 0.4–10; 9–10.9 |
+| MAG-05 | 4.35–9; 9 | 0.4–4.2; 6.35–9 | 0.4–9; 9–10.9 |
+| MAG-06 | 4.95–8.85; 9 | 0.4–4.8; 6.95–9 | 0.4–8.85; 9–10.9 |
 
-The inherited MAG-01 boundaries preserve the compact control. Rounded expansions
+MAG-01 keeps its prior outer bounds and adds the upstream endcap step. Rounded expansions
 provide visible resource costs for alternatives; no optimum is asserted. All
 expanded endcaps stop 0.300 m before the unchanged detached forward-calorimeter
 front at |z|=11.200 m. That interval is an integration reservation, not established
@@ -43,7 +43,7 @@ mean actual solids may be coincident without reviewed tolerances.
 
 ## Candidate budgets and rationale
 
-**MAG-01:** retain the reference space. Establish available fringe-field
+**MAG-01:** retain the reference outer bounds with the new upstream step. Establish available fringe-field
 information without silently adding a magnet or independent-momentum claim.
 
 **MAG-02:** increase outer radius to 7.500 m and half-length to 8.000 m to permit
@@ -102,15 +102,48 @@ needs its own budget.
 
 ## Endcaps, forward aperture and remaining gates
 
-**INFERENCE:** moving the endcaps outward eases the ray aperture for a fixed
-inner radius, but does not prove chamber coverage or momentum measurement.
-The shared 0.400 m aperture preserves the earlier η=3.5 investigation reservation;
-beamline/shielding, inactive edges and displaced tracks still require studies.
-Endcap allocations must jointly accommodate independent measurements, return or
-toroid structures, and service exits. In particular, **MAG-04 and MAG-06 do not
-yet have a demonstrated end-flux solution inside 9.000–10.900 m**. If a physical
-solution needs more length, propose an explicit stepped endcap or relocation,
-including the forward calorimeter, rather than concealing the conflict.
+### Stepped-endcap revision — 2026-09-18
+
+**NODD DESIGN CHOICE — unsigned:** following PR #6 comments
+[4040667425](https://github.com/asalzburger/nodd/pull/6#discussion_r4040667425),
+[4040694164](https://github.com/asalzburger/nodd/pull/6#discussion_r4040694164) and
+[4040721189](https://github.com/asalzburger/nodd/pull/6#discussion_r4040721189),
+and the user's explicit instruction, decouple the endcap front from barrel length.
+Represent each endcap as the union of two non-overlapping radial/axial sections.
+The narrower upstream section sits inside the barrel; the downstream section
+widens to the previous outer radius. Their common face is a bookkeeping boundary
+inside one composite host, not two coincident physical solids.
+
+The proposed inner-solenoid front is |z|=6.35 m: HCal back 6.20 m plus a trial
+0.15 m interface allowance. Its outer radius 4.20 m leaves 0.15 m to the barrel
+inner radius 4.35 m. Outer-solenoid options start at |z|=6.95 m: coil-assembly
+back 6.80 m plus the same trial allowance; r=4.80 m leaves 0.15 m to their
+4.95 m barrel. These allowances are project choices, not validated routing,
+shielding or installation clearances. The upstream face is now independent of
+barrel length; the wide section currently starts at the barrel back because it
+shares its radial range. Moving either requires checking actual intersections,
+not enforcing equality. Outer radii, barrel lengths and endcap back faces stay
+at the prior candidate values for this isolated comparison.
+
+**INFERENCE:** the former HCal-to-endcap gaps of 1.0–2.8 m become 0.15 m for
+inner-solenoid options. Outer-solenoid options retain 0.75 m from HCal back to
+endcap front, determined here by the coil's axial extent plus 0.15 m; this is
+not a claim that the coil fills the entire intervening bore. Shared services and
+end structures still need explicit allocations. The new host is not automatically
+available in full for both chambers and magnetic closure.
+
+Keep the 0.40 m aperture. For a straight prompt eta=3.5 ray, r=6.35/sinh(3.5)
+≈0.384 m at the inner-family front: it enters the radial host only at
+|z|=0.4*sinh(3.5)≈6.617 m. Thus the earlier front does not guarantee a first
+station at that eta. The outer-family front gives r≈0.420 m. Eta=3 rays enter
+both families at their upstream face. These are allocation crossings, not hit
+counts, detector efficiency or a validated beam-line/shielding aperture.
+
+MAG-04/06 still have only 1.90 m of **full-radius** endcap space, but now also
+have an upstream inner-radius extension. No end-flux solution has yet been shown
+to fit their stepped union. More space alone does not resolve field topology,
+material or measurement leverage. Earlier rectangular requests remain in Git at
+`10a918e835eb2d74a16990980bdc68bcebb99e58`; E1-R2 is unchanged.
 
 Keep tracker |η|<4, calorimetry |η|<5 and muon |η|<3/3.5 goals visible. Forward
 calorimetry downstream of the muon hosts cannot provide upstream hadron filtering.

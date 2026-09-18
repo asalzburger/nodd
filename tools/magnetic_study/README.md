@@ -108,3 +108,16 @@ individual plus one combined PNG/SVG drawing. The retained report is
 belong to their composite host; they are not independent overlapping mothers.
 The MAG-04 trial bands and MAG-06 annulus are area screens only. No baseline
 parameter, station efficiency, steel material or full field is implemented.
+
+### Stepped endcaps (2026-09-18)
+
+`muon-layouts.json` supplies explicit `endcap_sections` for each candidate.
+`muon_layouts.py` replaces the reference endcap with their union, validating
+all section/host intersections without tying endcap starts to barrel length.
+The six single-option figures and combined comparison share the same inputs.
+The report records per-section ray entries and provisional axial/radial gaps.
+These are composite PROTOTYPE allocations, not physical chamber geometry.
+
+```sh
+python3 -B -m unittest discover -s tools/magnetic_study -p 'test_muon_layouts.py'
+```

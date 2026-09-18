@@ -1,6 +1,6 @@
 # DES-004 — Coordinated candidate muon-envelope amendments
 
-- Date: 2026-09-17; status: DRAFT; numerical human approval pending.
+- Date: 2026-09-18; status: DRAFT; numerical human approval pending.
 - Roles: Project Coordinator and System Architect, reconciled with muon engineer.
 - Scope: candidate space for research; no change to the DES-003 reference.
 - Context: [DES-004](../DES-004-magnetic-configurations.md), [reference envelopes](../DES-003-global-envelopes.md), [architect input](DES-004-system-architecture.md).
@@ -27,16 +27,16 @@ chambers, supports, services and candidate magnet/return structures; they must n
 be treated as uniformly sensitive volumes or simultaneously available in full
 to every owner.
 
-| Candidate | Barrel r min–max | Barrel absolute z | Endcap r min–max | Endcap absolute z |
-| --- | --- | --- | --- | --- |
-| MAG-01 | 4.350–6.762 | 0–7.200 | 0.400–7.000 | 7.200–10.270 |
-| MAG-02 | 4.350–7.500 | 0–8.000 | 0.400–7.500 | 8.000–10.900 |
-| MAG-03 | 4.950–7.500 | 0–8.000 | 0.400–7.500 | 8.000–10.900 |
-| MAG-04 | 4.950–10.000 | 0–9.000 | 0.400–10.000 | 9.000–10.900 |
-| MAG-05 | 4.350–9.000 | 0–9.000 | 0.400–9.000 | 9.000–10.900 |
-| MAG-06 | 4.950–8.850 | 0–9.000 | 0.400–8.850 | 9.000–10.900 |
+| Candidate | Barrel r [m]; max absolute z [m] | Upstream endcap r [m]; absolute z [m] | Wide endcap r [m]; absolute z [m] |
+| --- | --- | --- | --- |
+| MAG-01 | 4.35–6.762; 7.2 | 0.4–4.2; 6.35–7.2 | 0.4–7; 7.2–10.27 |
+| MAG-02 | 4.35–7.5; 8 | 0.4–4.2; 6.35–8 | 0.4–7.5; 8–10.9 |
+| MAG-03 | 4.95–7.5; 8 | 0.4–4.8; 6.95–8 | 0.4–7.5; 8–10.9 |
+| MAG-04 | 4.95–10; 9 | 0.4–4.8; 6.95–9 | 0.4–10; 9–10.9 |
+| MAG-05 | 4.35–9; 9 | 0.4–4.2; 6.35–9 | 0.4–9; 9–10.9 |
+| MAG-06 | 4.95–8.85; 9 | 0.4–4.8; 6.95–9 | 0.4–8.85; 9–10.9 |
 
-MAG-01 preserves the current host. MAG-02 adds room for an inner-solenoid return
+MAG-01 preserves its outer bounds and adds an upstream step. MAG-02 adds room for an inner-solenoid return
 and chambers. MAG-03 restores chamber/support space lost to the outer coil rather
 than requiring its earlier compressed host. MAG-04 expands more substantially to
 explore return steel and chamber gaps; radius 10 m is a planning scenario, not a
@@ -58,10 +58,7 @@ An end extension of the return annulus within r=8.100–8.600 m, |z|=8.000–9.0
 is a possible initial coil-space hypothesis. It does **not** solve axial flux
 redirection. Any end coils spanning farther inward must share or displace endcap
 measurements explicitly; an endcap host cannot be both entirely available to
-chambers and filled by an unrecorded closure structure. The 1.900 m endcap-host length in MAG-04–06 establishes neither sufficient
-room nor a demonstrated impossibility for chambers and end closure. Subsequent
-field/structure work may require explicit axial expansion and reconsideration of
-the forward interface. Keep the required end-field
+chambers and filled by an unrecorded closure structure. The 1.900 m full-radius part in MAG-04–06 now has an upstream inner-radius extension. Neither the stepped union nor the extra space demonstrates chamber/end-closure fit. Keep the required end-field
 topology open for a finite-coil study rather than assume a solid disk or an
 idealized boundary closes the field.
 
@@ -95,12 +92,48 @@ absorber steel merely to improve rejection.
 
 ## 4. Aperture and physical interpretation
 
-**INFERENCE:** for a prompt straight ray, r=|z|/sinh(|eta|). An eta-3.5 ray has
-r≈0.435 m at z=7.200 m and r≈0.544 m at z=9.000 m. The common 0.400 m hole
-therefore permits geometric entrance at the stretch direction for these hosts.
-It does not establish independent station crossings, inactive-edge clearance,
-beam-pipe/shielding fit or field leverage. Moving the endcap out may increase
-radial leverage while changing barrel/endcap transitions and required services.
+### Stepped-endcap revision — 2026-09-18
+
+**NODD DESIGN CHOICE — unsigned:** following PR #6 comments
+[4040667425](https://github.com/asalzburger/nodd/pull/6#discussion_r4040667425),
+[4040694164](https://github.com/asalzburger/nodd/pull/6#discussion_r4040694164) and
+[4040721189](https://github.com/asalzburger/nodd/pull/6#discussion_r4040721189),
+and the user's explicit instruction, decouple the endcap front from barrel length.
+Represent each endcap as the union of two non-overlapping radial/axial sections.
+The narrower upstream section sits inside the barrel; the downstream section
+widens to the previous outer radius. Their common face is a bookkeeping boundary
+inside one composite host, not two coincident physical solids.
+
+The proposed inner-solenoid front is |z|=6.35 m: HCal back 6.20 m plus a trial
+0.15 m interface allowance. Its outer radius 4.20 m leaves 0.15 m to the barrel
+inner radius 4.35 m. Outer-solenoid options start at |z|=6.95 m: coil-assembly
+back 6.80 m plus the same trial allowance; r=4.80 m leaves 0.15 m to their
+4.95 m barrel. These allowances are project choices, not validated routing,
+shielding or installation clearances. The upstream face is now independent of
+barrel length; the wide section currently starts at the barrel back because it
+shares its radial range. Moving either requires checking actual intersections,
+not enforcing equality. Outer radii, barrel lengths and endcap back faces stay
+at the prior candidate values for this isolated comparison.
+
+**INFERENCE:** the former HCal-to-endcap gaps of 1.0–2.8 m become 0.15 m for
+inner-solenoid options. Outer-solenoid options retain 0.75 m from HCal back to
+endcap front, determined here by the coil's axial extent plus 0.15 m; this is
+not a claim that the coil fills the entire intervening bore. Shared services and
+end structures still need explicit allocations. The new host is not automatically
+available in full for both chambers and magnetic closure.
+
+Keep the 0.40 m aperture. For a straight prompt eta=3.5 ray, r=6.35/sinh(3.5)
+≈0.384 m at the inner-family front: it enters the radial host only at
+|z|=0.4*sinh(3.5)≈6.617 m. Thus the earlier front does not guarantee a first
+station at that eta. The outer-family front gives r≈0.420 m. Eta=3 rays enter
+both families at their upstream face. These are allocation crossings, not hit
+counts, detector efficiency or a validated beam-line/shielding aperture.
+
+MAG-04/06 still have only 1.90 m of **full-radius** endcap space, but now also
+have an upstream inner-radius extension. No end-flux solution has yet been shown
+to fit their stepped union. More space alone does not resolve field topology,
+material or measurement leverage. Earlier rectangular requests remain in Git at
+`10a918e835eb2d74a16990980bdc68bcebb99e58`; E1-R2 is unchanged.
 
 No dedicated yoke still includes the effects of calorimeter/support steel.
 For MAG-02/04 the iron fraction, gaps, nonlinear material response and saturation

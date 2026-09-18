@@ -19,19 +19,26 @@ are research priorities; no topology has been selected or signed off.
 ## Candidate-specific muon envelopes
 
 The user authorized adapting the study envelopes on 2026-09-17. The muon engineer
-and Project Coordinator agreed the following **NODD DESIGN CHOICE — unsigned**
+and Project Coordinator proposed the hosts, revised on 2026-09-18 by explicit
+human direction to allow upstream endcap steps. The following are **NODD DESIGN CHOICE — unsigned**
 composite hosts. They include chambers, magnet structures, supports and services;
 coloured host area is not fully sensitive volume. E1-R2 remains the reference.
 A baseline-update issue follows only after a layout is chosen.
 
-| Option | Barrel r [m] | Barrel max absolute z [m] | Endcap r [m] | Endcap absolute z [m] |
-| --- | --- | --- | --- | --- |
-| MAG-01 | 4.35–6.762 | 7.2 | 0.4–7 | 7.2–10.27 |
-| MAG-02 | 4.35–7.5 | 8 | 0.4–7.5 | 8–10.9 |
-| MAG-03 | 4.95–7.5 | 8 | 0.4–7.5 | 8–10.9 |
-| MAG-04 | 4.95–10 | 9 | 0.4–10 | 9–10.9 |
-| MAG-05 | 4.35–9 | 9 | 0.4–9 | 9–10.9 |
-| MAG-06 | 4.95–8.85 | 9 | 0.4–8.85 | 9–10.9 |
+| Candidate | Barrel r [m]; max absolute z [m] | Upstream endcap r [m]; absolute z [m] | Wide endcap r [m]; absolute z [m] |
+| --- | --- | --- | --- |
+| MAG-01 | 4.35–6.762; 7.2 | 0.4–4.2; 6.35–7.2 | 0.4–7; 7.2–10.27 |
+| MAG-02 | 4.35–7.5; 8 | 0.4–4.2; 6.35–8 | 0.4–7.5; 8–10.9 |
+| MAG-03 | 4.95–7.5; 8 | 0.4–4.8; 6.95–8 | 0.4–7.5; 8–10.9 |
+| MAG-04 | 4.95–10; 9 | 0.4–4.8; 6.95–9 | 0.4–10; 9–10.9 |
+| MAG-05 | 4.35–9; 9 | 0.4–4.2; 6.35–9 | 0.4–9; 9–10.9 |
+| MAG-06 | 4.95–8.85; 9 | 0.4–4.8; 6.95–9 | 0.4–8.85; 9–10.9 |
+
+The endcap front no longer follows barrel length: inner-solenoid options start
+at |z|=6.35 m, outer-solenoid options at 6.95 m. A narrower section extends
+inside the barrel, then widens downstream. The [revision rationale and aperture
+limits](inputs/DES-004-muon-envelope-amendments.md#stepped-endcap-revision--2026-09-18)
+classify the trial 0.15 m interface allowances and unresolved shared uses.
 
 ![Candidate-specific muon envelopes](figures/DES-004-muon-envelopes-comparison-rz.png)
 
@@ -50,7 +57,8 @@ budgets, not steel recipes, actual fields or validated chamber arrangements.
 All six coarse allocations pass positive-rectangle-intersection checks. Expanded
 endcaps stop at |z|=10.9 m, leaving 0.30 m to the forward instrumented host.
 **Remaining concern:** MAG-04/06 end-flux closure, measurements and services have
-not been shown to fit the 9.0–10.9 m endcap host. Further axial/stepped amendments
+not been shown to fit the stepped host. Its full-radius section still spans
+9.0–10.9 m; the narrower upstream extension starts at 6.95 m. Further amendments
 may be necessary. Enlarging the radial host does not settle that question.
 The original two-option drawings and fixed-host flux screens below are retained
 as historical comparison evidence; the table above is the current research request.

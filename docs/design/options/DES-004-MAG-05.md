@@ -27,7 +27,8 @@ The inner solenoid retains pre-ECal material and the finite-length tracker-field
 Verification: reviewed existing source-located inputs and current allocations; no toroid model, solver or performance calculation run. Source IDs are registered in the [catalogue](../../../reference/manifest.yaml).
 
 **Current host request:** barrel r=4.35–9 m, |z|≤9 m;
-endcap r=0.4–9 m, |z|=9–10.9 m.
+stepped endcap: upstream r=0.4–4.2 m, |z|=6.35–9 m;
+wide r=0.4–9 m, |z|=9–10.9 m.
 [Budget](../inputs/DES-004-muon-envelope-amendments.md),
 [PNG](../figures/DES-004-mag-05-muon-envelope-rz.png) /
 [SVG](../figures/DES-004-mag-05-muon-envelope-rz.svg). Unsigned; baseline issue after selection.

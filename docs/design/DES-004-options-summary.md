@@ -73,9 +73,11 @@ packing, calorimeter return and exterior leakage remain to be calculated.
 **Remaining integration concern:** MAG-02–06 endcaps stop at |z|=10.9 m, leaving
 0.30 m before the unchanged detached forward-calorimeter host. This is not a
 verified service/shielding gap. MAG-04/06 end-field closure and useful measurements
-have not been demonstrated within their 9.0–10.9 m endcap allocations. A physical
-solution may need a stepped host or further axial expansion and forward-interface
-changes. MAG-05 still needs discrete toroid/station/service sectors. No topology
+have not been demonstrated within their now-stepped allocations. The upstream
+section starts at 6.35 m for inner solenoids and 6.95 m for outer solenoids,
+inside the barrel; only the wider section starts at the barrel back. Trial
+0.15 m interfaces and the retained 0.40 m aperture need review, particularly
+eta=3.5 entrance in the inner family. Further expansion may still be needed. MAG-05 still needs discrete toroid/station/service sectors. No topology
 is rejected merely for needing more space; its increased resource demand must
 remain visible. A baseline-update issue will follow only after a layout is chosen.
 

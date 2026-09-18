@@ -68,7 +68,8 @@ comparing resource and material consequences, with criteria supplied independent
 by Physics and Performance Validation. This note adds no simulation or sign-off.
 
 **Current host request:** barrel r=4.35–6.762 m, |z|≤7.2 m;
-endcap r=0.4–7 m, |z|=7.2–10.27 m.
+stepped endcap: upstream r=0.4–4.2 m, |z|=6.35–7.2 m;
+wide r=0.4–7 m, |z|=7.2–10.27 m.
 [Budget](../inputs/DES-004-muon-envelope-amendments.md),
 [PNG](../figures/DES-004-mag-01-muon-envelope-rz.png) /
 [SVG](../figures/DES-004-mag-01-muon-envelope-rz.svg). Unsigned; baseline issue after selection.

@@ -66,7 +66,8 @@ survive; otherwise deprioritize before expensive engineering or simulation.
 No nODD dual-coil field, forces, quench response or resolution was calculated here.
 
 **Current host request:** barrel r=4.95–8.85 m, |z|≤9 m;
-endcap r=0.4–8.85 m, |z|=9–10.9 m.
+stepped endcap: upstream r=0.4–4.8 m, |z|=6.95–9 m;
+wide r=0.4–8.85 m, |z|=9–10.9 m.
 [Budget](../inputs/DES-004-muon-envelope-amendments.md),
 [PNG](../figures/DES-004-mag-06-muon-envelope-rz.png) /
 [SVG](../figures/DES-004-mag-06-muon-envelope-rz.svg). Unsigned; baseline issue after selection.

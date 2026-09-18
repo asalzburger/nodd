@@ -68,7 +68,8 @@ interfaces TBD; it cannot borrow this full-central model's forward results.
 No new simulation, engineering validation or sign-off is supplied by this note.
 
 **Current host request:** barrel r=4.95–7.5 m, |z|≤8 m;
-endcap r=0.4–7.5 m, |z|=8–10.9 m.
+stepped endcap: upstream r=0.4–4.8 m, |z|=6.95–8 m;
+wide r=0.4–7.5 m, |z|=8–10.9 m.
 [Budget](../inputs/DES-004-muon-envelope-amendments.md),
 [PNG](../figures/DES-004-mag-03-muon-envelope-rz.png) /
 [SVG](../figures/DES-004-mag-03-muon-envelope-rz.svg). Unsigned; baseline issue after selection.

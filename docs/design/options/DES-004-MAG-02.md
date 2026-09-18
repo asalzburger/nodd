@@ -29,7 +29,8 @@ This is not a lower bound or a designed yoke: finite-solenoid flux is nonuniform
 Verification: flux arithmetic executed with Python; no finite-element field solution, propagation or material simulation. Existing source IDs resolve in the [catalogue](../../../reference/manifest.yaml); no new source or production parameter introduced.
 
 **Current host request:** barrel r=4.35–7.5 m, |z|≤8 m;
-endcap r=0.4–7.5 m, |z|=8–10.9 m.
+stepped endcap: upstream r=0.4–4.2 m, |z|=6.35–8 m;
+wide r=0.4–7.5 m, |z|=8–10.9 m.
 [Budget](../inputs/DES-004-muon-envelope-amendments.md),
 [PNG](../figures/DES-004-mag-02-muon-envelope-rz.png) /
 [SVG](../figures/DES-004-mag-02-muon-envelope-rz.svg). Unsigned; baseline issue after selection.
