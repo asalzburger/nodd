@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-09-18-tracker-reviewers",
+  "title": "Address the tracker plan reviewer-coverage comment",
+  "recorded_at": "2026-09-18T11:24:42Z",
+  "started_at": null,
+  "ended_at": null,
+  "status": "open",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact token usage, client version, thread ID and actual conversation start time are unavailable.",
+    "Reviewer identities and participation state are recorded in the governing plan; no invitation acceptance or formal sign-off is inferred."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "8c76dc4cea9e0005453fb86c2e2e8cd042bf64bf",
+    "branch": "design/tracker-system-plan",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      "docs/design/DES-005-tracker-system-plan.md",
+      "docs/design/inputs/DES-005-tracker-system-tracktech.md",
+      "docs/design/inputs/DES-005-tracker-system-physval.md",
+      "docs/design/inputs/DES-005-tracker-system-softeng.md",
+      "project/tracking.json",
+      "project/reviews.json",
+      "logs/codex/SESSION-2026-09-18-tracker-reviewers.md",
+      "logs/codex/SESSION-2026-09-18-tracker-reviewers.json"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [],
+    "related_ids": [
+      "DES-005",
+      "PR-11",
+      "TASK-B-TRACKER-PLAN"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-09-18-tracker-reviewers.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p 'test_*.py'",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "15 logging and documentation-link tests passed."
+    },
+    {
+      "command": "python3 -B -m unittest test_build.DashboardTests.test_closed_changes_requested_and_repeated_rounds test_build.DashboardTests.test_approval_survives_unrelated_commit_but_not_document_change test_build.RepositoryReviewTests.test_actual_pr4_history_and_approval_scope",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "From tools/dashboard: three targeted review-history and revision tests passed."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 27 tasks, 8 documents and 4 review rounds before updating the review target."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 34 session records."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No tracked whitespace errors."
+    }
+  ]
+}

@@ -9,7 +9,8 @@
 - Existing pixel work: [issue #7](https://github.com/asalzburger/nodd/issues/7),
   [PR #8](https://github.com/asalzburger/nodd/pull/8), inspected at
   `d237f146b578915cc032b30efa50044cf6344d5f`.
-- Human technical reviewers: unassigned. Final sign-off authority where required:
+- Human review coverage: see the [DES-005 reviewer map](../DES-005-tracker-system-plan.md#human-reviewer-coverage--2026-09-18);
+  component-specific assignments beyond those topics remain open. Final sign-off authority where required:
   `asalzburger-review`; no sign-off is recorded here.
 
 ## Position and constraints

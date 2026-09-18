@@ -3,7 +3,9 @@
 - Date: 2026-09-18.
 - Status: **DRAFT — proposed research and validation plan; no human sign-off**.
 - Owner: Physics and Performance Validation (`PhysVal`); coordinating roles:
-  `SysArch`, `TrackTech`, `SoftEng`. Human technical reviewer: pending.
+  `SysArch`, `TrackTech`, `SoftEng`. Human review coverage: see the
+  [DES-005 reviewer map](../DES-005-tracker-system-plan.md#human-reviewer-coverage--2026-09-18);
+  additional performance-review assignments remain open.
 - Context: [PROJECT](../../../PROJECT.md), [development plan](../../DEVELOPMENT_PLAN.md),
   [DES-003](../DES-003-global-envelopes.md),
   [ADR-003](../../decisions/ADR-003-validation-and-artifact-policy.md), and

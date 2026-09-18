@@ -2,7 +2,8 @@
 
 - Status: **DRAFT**; planning only, no implementation or performance result.
 - Date: 2026-09-18.
-- Role: `SoftEng`; human owner and technical reviewers: pending.
+- Role: `SoftEng`; human owner: pending. DD4hep–ACTS reviewer nomination and
+  participation state: [DES-005 reviewer map](../DES-005-tracker-system-plan.md#human-reviewer-coverage--2026-09-18).
 - Parent: [DES-005](../DES-005-tracker-system-plan.md).
 - Governance: [PROJECT](../../../PROJECT.md), [ADR-003](../../decisions/ADR-003-validation-and-artifact-policy.md).
 - Coordination: [TrackTech](DES-005-tracker-system-tracktech.md), [PhysVal](DES-005-tracker-system-physval.md).

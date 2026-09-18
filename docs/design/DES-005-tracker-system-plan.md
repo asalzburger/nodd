@@ -3,7 +3,7 @@
 - Status: DRAFT — review and plan sign-off requested; no selected layer layout or human sign-off.
 - Created: 2026-09-18.
 - Roles: `SysArch`, `TrackTech`, `PhysVal`, `SoftEng`.
-- Human owner / additional technical and expert reviewers: unassigned.
+- Human owner: unassigned. Named technical/expert coverage: see the reviewer map below.
 - Requested plan reviewer and final human sign-off authority: `asalzburger-review`.
 - Origin: direct user requests on 2026-09-18 for the plan and its review/sign-off PR.
 - Review request, exact target revision and PR: [review register](../../project/reviews.json).
@@ -96,6 +96,31 @@ SysArch integrates the proposals; PhysVal retains independent scientific review.
 Disagreements become alternatives with an observable, physical cost and next
 discriminating study. ProRes routes unresolved choices to human review. Agent
 agreement does not provide technical/expert human approval.
+
+### Human reviewer coverage — 2026-09-18
+
+**NODD DESIGN CHOICE — human-directed reviewer nominations:**
+`asalzburger-review` identified the following coverage in the
+[PR #11 comment](https://github.com/asalzburger/nodd/pull/11#issuecomment-5729274384).
+The table routes the stated expertise to the corresponding work packages; it
+does not extend a nomination to unrelated hardware or performance topics.
+
+| Review area | Named reviewers | Applicable deliverables | Recorded participation state |
+| --- | --- | --- | --- |
+| General tracker layout: layer positioning, overall parametric performance, hits/track studies and material-budget estimates | Markus Elsing; Noemi Calace | TRK-PARAMETRIC; hit/track outputs of TRK-ACTS; estimates from TRK-MATERIAL; these topics within TRK-REVIEW | Named by the final sign-off authority. Invitation sent to Noemi Calace; acceptance not recorded. Invitation/acceptance state for Markus Elsing not recorded. No completed review is claimed. |
+| DD4hep–ACTS interplay | `paulgessinger` | Software-interface aspects of TRK-CONTRACT, ACTS representation/conversion in TRK-ACTS and DD4hep/ACTS integration in TRK-FULLSIM | Named by the final sign-off authority; acceptance and completed review not recorded. |
+| Final programme/design sign-off where required | `asalzburger-review` | Exact-revision programme request and later applicable design gates | Existing assigned authority; the pending request and historical revisions remain in the review register. |
+
+The comment states that the plan makes sense and supplies reviewer coverage; it
+does not record an exact-revision formal sign-off. The plan remains DRAFT and its
+approval outcome remains pending. No additional invitation or GitHub review
+request is implied by this record. Confirm availability and the deliverable
+revision before scheduling each review; preserve findings and conditions in Git.
+
+Component hardware, support/thermal/service engineering, detailed reconstruction,
+timing and other specialist review assignments remain open where not covered by
+the stated topics. Human ownership, minimum review counts and independence rules
+remain governed by the unresolved parts of ADR-002.
 
 ## 4. Step-by-step programme
 
@@ -263,7 +288,8 @@ design amendment before changing that choice.
 
 ## 8. Immediate sequence and decisions to resolve
 
-1. Review this coordinated plan and assign human technical/expert reviewers.
+1. Review this coordinated plan, confirm the named reviewers' participation and
+   assign the remaining technical/expert coverage.
    SysArch and PhysVal draft TRK-CONTRACT: benchmark/use-case choices, coverage
    definition, luminous distribution, displaced scope, numerical performance
    targets, uncertainty and occupancy/timing scenarios. Record unresolved values.
