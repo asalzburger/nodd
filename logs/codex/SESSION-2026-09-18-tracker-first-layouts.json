@@ -4,8 +4,8 @@
   "title": "First tracker subsystem and layer placement study with IdRes",
   "recorded_at": "2026-09-18T11:36:39Z",
   "started_at": null,
-  "ended_at": null,
-  "status": "open",
+  "ended_at": "2026-09-18T13:53:48Z",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
@@ -22,9 +22,13 @@
     "start_commit": "1c6409acd205c1caa7f76514e4994835d8425bf3",
     "branch": "study/tracker-first-layouts",
     "initial_changes": [],
-    "result_commits": [],
+    "result_commits": [
+      "3833e0287401dcb88a9eb8ee70c5422d70e305ac",
+      "d1b456ed73b84a181eb469df0ab201036b95fe2b"
+    ],
     "changed_files": [
       ".github/workflows/dashboard.yml",
+      ".gitignore",
       "docs/README.md",
       "docs/design/DES-006-first-tracker-layouts.md",
       "docs/design/DES-006-layouts.json",
@@ -45,11 +49,11 @@
       "docs/validation/DES-006-layout-screen.json",
       "logs/codex/SESSION-2026-09-18-tracker-first-layouts.json",
       "logs/codex/SESSION-2026-09-18-tracker-first-layouts.md",
+      "project/reviews.json",
       "project/tracking.json",
       "reference/manifest.yaml",
       "tools/tracker_layout/IDRES.md",
       "tools/tracker_layout/README.md",
-      "tools/tracker_layout/__pycache__/covariance_control.cpython-314.pyc",
       "tools/tracker_layout/covariance_control.py",
       "tools/tracker_layout/idres_adapter.py",
       "tools/tracker_layout/plot.py",
@@ -80,7 +84,8 @@
       "TRK-FIELD",
       "ISSUE-7",
       "PR-8",
-      "PR-11"
+      "PR-11",
+      "PR-13"
     ]
   },
   "narrative": "logs/codex/SESSION-2026-09-18-tracker-first-layouts.md",
@@ -212,6 +217,24 @@
       "status": "FAIL",
       "exit_code": 2,
       "result": "Generated Matplotlib SVG paths contained trailing whitespace; added deterministic whitespace normalization to plotting output before restaging."
+    },
+    {
+      "command": "git diff --cached --check (after SVG normalization)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Staged artifacts passed whitespace check."
+    },
+    {
+      "command": "git push -u origin study/tracker-first-layouts",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Published study branch without force-push."
+    },
+    {
+      "command": "gh pr create --base main --head study/tracker-first-layouts --title <study title> --body-file /tmp/nodd-des006-pr.md",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Created PR #13 with executive summary, two-page briefs and exact proposal review target."
     }
   ]
 }
