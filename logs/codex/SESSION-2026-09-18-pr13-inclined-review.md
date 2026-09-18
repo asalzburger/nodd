@@ -24,3 +24,9 @@ C figures/PDF rendered with Matplotlib3.11.0/NumPy2.4.3; pdfinfo confirms2A4page
 ## Traceability and limitations
 
 Starting revision and branch, selected commands and changed paths are in the paired JSON. Token counts, client identity and conversation start timestamp are unavailable; no estimates recorded. Module masks, phi tiling, detailed stereo transforms, support/services, scattering fits and physical acceptance remain future work. The Noemi-directed comment remains untouched.
+
+## Publication and review
+
+Published d32da2541415f4730297601e0779594f08f5beaf on the existing PR #13 branch. Updated its executive summary and posted the technical response at https://github.com/asalzburger/nodd/pull/13#issuecomment-5732103962. The Noemi-directed comment was not answered or altered. Preserved the original review target and requested a superseding technical round at the exact C revision; no human approval recorded.
+
+Hosted CI35361596731 succeeded on d32da25, including browser checks. Final local dashboard validation/build passed with28tasks,9documents,7reviewrounds;36sessionrecords validated. The remaining commit records publication and review metadata only.
