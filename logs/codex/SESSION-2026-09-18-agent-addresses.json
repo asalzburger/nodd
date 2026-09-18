@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-09-18-agent-addresses",
+  "title": "Document agent role address names in the main README",
+  "recorded_at": "2026-09-18T08:52:01Z",
+  "started_at": null,
+  "ended_at": "2026-09-18T08:52:57Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact token usage, client version, thread ID and actual conversation start time are unavailable."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "60ef36631849f4d7525324550f1d2a8a17ef67fe",
+    "branch": "main",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      "README.md",
+      "logs/codex/SESSION-2026-09-18-agent-addresses.md",
+      "logs/codex/SESSION-2026-09-18-agent-addresses.json"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [],
+    "related_ids": []
+  },
+  "narrative": "logs/codex/SESSION-2026-09-18-agent-addresses.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 -B tools/dashboard/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 10 tasks, 7 documents and 3 review rounds."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py build --output _site/agent-addresses-preview",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Built the static dashboard successfully; output is ignored by Git."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p 'test_*.py'",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "15 tests passed, including repository documentation links."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 29 session records."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors reported in tracked diffs; the new README and session files are untracked."
+    }
+  ]
+}
