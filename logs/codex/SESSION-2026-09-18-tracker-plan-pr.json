@@ -33,7 +33,10 @@
       "project/tracking.json",
       "reference/manifest.yaml"
     ],
-    "result_commits": [],
+    "result_commits": [
+      "e001e53e0ce542849723d15a5b2fbef6eaf14605",
+      "7d99d8c92815c7cf28736abfe08d37d2fd04b558"
+    ],
     "changed_files": [
       "docs/design/DES-005-tracker-system-plan.md",
       "docs/design/inputs/DES-005-tracker-system-sysarch.md",
@@ -62,5 +65,60 @@
   "narrative": "logs/codex/SESSION-2026-09-18-tracker-plan-pr.md",
   "activities": [],
   "usage": [],
-  "checks": []
+  "checks": [
+    {
+      "command": "python3 tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 33 session records before publication."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 27 tasks, 8 documents and 3 existing review rounds before adding the DES-005 request."
+    },
+    {
+      "command": "git diff --cached --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All staged plan files and supporting records passed whitespace checks."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/dashboard -p 'test_*.py'",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "First publication run: 24 tests passed, initialization failed because TECHNICAL REVIEW did not match its expectation that current proposals remain DRAFT. Kept the plan DRAFT and represented the pending request in the review register; tests/gates unchanged. Corrected rerun follows."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p 'test_*.py'",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "15 logging/documentation tests passed."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 27 tasks, 8 documents and 4 review rounds after adding the pending request."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py build --output _site/tracker-plan-pr-final",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Built the dashboard with the DRAFT plan and exact-revision pending request; output ignored by Git."
+    },
+    {
+      "command": "Python check_update.check on actual committed paths and exact review-target content comparison",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Non-chore tracking policy passes; pending request targets current plan bytes and confers no approval."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/dashboard -p 'test_*.py'",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Corrected full publication run: all 25 dashboard/update-policy tests passed; tests and gates unchanged."
+    }
+  ]
 }
