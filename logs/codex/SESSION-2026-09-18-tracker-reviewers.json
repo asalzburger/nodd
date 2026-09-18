@@ -4,8 +4,8 @@
   "title": "Address the tracker plan reviewer-coverage comment",
   "recorded_at": "2026-09-18T11:24:42Z",
   "started_at": null,
-  "ended_at": null,
-  "status": "open",
+  "ended_at": "2026-09-18T11:29:49Z",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
@@ -21,7 +21,9 @@
     "start_commit": "8c76dc4cea9e0005453fb86c2e2e8cd042bf64bf",
     "branch": "design/tracker-system-plan",
     "initial_changes": [],
-    "result_commits": [],
+    "result_commits": [
+      "9f984e85e35c109aef3560493cf67388de06b728"
+    ],
     "changed_files": [
       "docs/design/DES-005-tracker-system-plan.md",
       "docs/design/inputs/DES-005-tracker-system-tracktech.md",
@@ -75,6 +77,48 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "No tracked whitespace errors."
+    },
+    {
+      "command": "git push",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Published the reviewer-coverage revision to PR #11 without force-push."
+    },
+    {
+      "command": "gh pr view 11 --json body,headRefOid,url",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Confirmed the PR head matches the published reviewer-coverage commit."
+    },
+    {
+      "command": "gh pr edit 11 --body-file /tmp/nodd-tracker-reviewers-pr-body.md",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Updated the exact review target and named review coverage in the existing PR description."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Final metadata validated: 27 tasks, 8 documents and 5 review rounds."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py build --output _site/tracker-reviewers",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Dashboard built successfully with the revised pending review."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated all 34 session records after review metadata changes."
+    },
+    {
+      "command": "git show 9f984e85e35c109aef3560493cf67388de06b728:docs/design/DES-005-tracker-system-plan.md (byte comparison)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Exact target revision contains the current plan bytes."
     }
   ]
 }

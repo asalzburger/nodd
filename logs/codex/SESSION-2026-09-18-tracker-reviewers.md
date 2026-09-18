@@ -58,3 +58,14 @@ See the paired JSON for exact paths and commits. PR #11 remains the review venue
 Confirm participation, assign uncovered specialist topics, and obtain explicit
 human plan sign-off against the current target. No approval, merge or detector
 implementation is performed here. Final hosted checks are reported to the user.
+
+## Completion evidence
+
+Published plan revision `9f984e85e35c109aef3560493cf67388de06b728` and updated
+the PR description to that exact review target. Follow-up metadata preserves the
+prior request and records the revised pending request; the plan bytes match the
+target. Fifteen logging/documentation tests and three targeted review-history
+tests passed. Final dashboard validation (27 tasks, 8 documents, 5 review rounds),
+dashboard build, session validation (34 records) and whitespace checks passed.
+The publication metadata commit follows the plan commit and is not self-recorded.
+Hosted checks on the final pushed head are checked separately and reported to the user.
