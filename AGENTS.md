@@ -178,6 +178,14 @@ Use a new project session ID for a new bounded task, even in the same client
 thread; never duplicate token observations across records. This workflow does
 not authorize collecting private client state or granting human sign-off.
 
+## Pull request descriptions
+
+Every PR description must begin with an **Executive summary**. State the purpose,
+main result or proposal, practical consequences, validation status and the next
+review decision in plain language. Scale its length to the change; keep detailed
+evidence and open questions below it. Update the summary as the PR evolves.
+This convention applies to project and chore PRs alike.
+
 ## Dashboard maintenance
 
 The project dashboard must stay current with every project change. For each

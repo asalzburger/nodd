@@ -1,0 +1,146 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-09-17-muon-envelopes",
+  "title": "Candidate-specific muon envelope proposals",
+  "recorded_at": "2026-09-17T14:57:30Z",
+  "started_at": null,
+  "ended_at": "2026-09-17T15:21:44Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Actual conversation start time, client identity details and token usage have not been recorded."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "6402353a29ec8c1345f419fdca429c015b07410f",
+    "branch": "research/magnetic-configurations",
+    "initial_changes": [],
+    "result_commits": [
+      "10a918e835eb2d74a16990980bdc68bcebb99e58"
+    ],
+    "changed_files": [
+      "docs/design/DES-004-magnetic-configurations.md",
+      "docs/design/DES-004-options-summary.md",
+      "docs/design/figures/DES-004-mag-01-muon-envelope-rz.png",
+      "docs/design/figures/DES-004-mag-01-muon-envelope-rz.svg",
+      "docs/design/figures/DES-004-mag-02-muon-envelope-rz.png",
+      "docs/design/figures/DES-004-mag-02-muon-envelope-rz.svg",
+      "docs/design/figures/DES-004-mag-03-muon-envelope-rz.png",
+      "docs/design/figures/DES-004-mag-03-muon-envelope-rz.svg",
+      "docs/design/figures/DES-004-mag-04-muon-envelope-rz.png",
+      "docs/design/figures/DES-004-mag-04-muon-envelope-rz.svg",
+      "docs/design/figures/DES-004-mag-05-muon-envelope-rz.png",
+      "docs/design/figures/DES-004-mag-05-muon-envelope-rz.svg",
+      "docs/design/figures/DES-004-mag-06-muon-envelope-rz.png",
+      "docs/design/figures/DES-004-mag-06-muon-envelope-rz.svg",
+      "docs/design/figures/DES-004-muon-envelopes-comparison-rz.png",
+      "docs/design/figures/DES-004-muon-envelopes-comparison-rz.svg",
+      "docs/design/inputs/DES-004-envelope-coordination.md",
+      "docs/design/inputs/DES-004-muon-envelope-amendments.md",
+      "docs/design/options/DES-004-MAG-01.md",
+      "docs/design/options/DES-004-MAG-02.md",
+      "docs/design/options/DES-004-MAG-03.md",
+      "docs/design/options/DES-004-MAG-04.md",
+      "docs/design/options/DES-004-MAG-05.md",
+      "docs/design/options/DES-004-MAG-06.md",
+      "docs/validation/DES-004-muon-envelope-proposals.json",
+      "logs/codex/SESSION-2026-09-17-muon-envelopes.json",
+      "logs/codex/SESSION-2026-09-17-muon-envelopes.md",
+      "project/reviews.json",
+      "project/tracking.json",
+      "tools/magnetic_study/README.md",
+      "tools/magnetic_study/muon-layouts.json",
+      "tools/magnetic_study/muon_layouts.py"
+    ]
+  },
+  "work": {
+    "milestone": "Stage B \u2014 candidate muon envelope adaptation",
+    "components": [
+      "muon",
+      "magnet",
+      "global envelopes",
+      "publication",
+      "dashboard"
+    ],
+    "related_ids": [
+      "DES-004",
+      "DES-003",
+      "ADR-006",
+      "PR-6"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-09-17-muon-envelopes.md",
+  "activities": [
+    {
+      "kind": "tool",
+      "name": "collaboration",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Muon engineer and Project Coordinator/System Architect agreed six candidate hosts; root integrated artifacts and review."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "MPLCONFIGDIR=/tmp/nodd-mpl XDG_CACHE_HOME=/tmp/nodd-cache reference/cache/envelope-venv/bin/python -B tools/magnetic_study/muon_layouts.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Six candidate layouts checked; seven PNG/SVG figures generated. Composite host intersections, main-sheet containment and internal radial budgets passed; combined drawing visually inspected."
+    },
+    {
+      "command": "Specialist Markdown dimension tables against muon-layouts.json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Both tables match all six options; expanded forward gaps are 0.30 m."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/envelope_study -p test_*.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "11 tests passed."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p test_*.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "15 tests passed, including documentation links."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "11 tasks, 8 documents, 4 reviews validated."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py build --output _site/magnetic-preview",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Preview built."
+    },
+    {
+      "command": "git diff --exit-code HEAD -- docs/design/DES-003-envelopes.json docs/tdr",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Reference allocation and TDR unchanged."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "33 session records validated."
+    }
+  ]
+}
