@@ -1,0 +1,133 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-09-18-agent-governance-pr",
+  "title": "Prepare the requested chore PR for agent roles and sign-off metadata",
+  "recorded_at": "2026-09-18T08:58:42Z",
+  "started_at": null,
+  "ended_at": "2026-09-18T09:01:47Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact token usage, client version, thread ID and actual conversation start time are unavailable."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "60ef36631849f4d7525324550f1d2a8a17ef67fe",
+    "branch": "main",
+    "initial_changes": [
+      "PROJECT.md",
+      "README.md",
+      "docs/decisions/ADR-002-review-and-signoff-policy.md",
+      "logs/codex/SESSION-2026-09-18-agent-addresses.json",
+      "logs/codex/SESSION-2026-09-18-agent-addresses.md",
+      "logs/codex/SESSION-2026-09-18-signoff-authority.json",
+      "logs/codex/SESSION-2026-09-18-signoff-authority.md",
+      "project/tracking.json"
+    ],
+    "result_commits": [
+      "1b61d1734536237a7a921c8f1701a1c246fb7b29"
+    ],
+    "changed_files": [
+      "README.md",
+      "docs/decisions/ADR-002-review-and-signoff-policy.md",
+      "project/tracking.json",
+      "logs/codex/SESSION-2026-09-18-agent-addresses.md",
+      "logs/codex/SESSION-2026-09-18-agent-addresses.json",
+      "logs/codex/SESSION-2026-09-18-signoff-authority.md",
+      "logs/codex/SESSION-2026-09-18-signoff-authority.json",
+      "logs/codex/SESSION-2026-09-18-agent-governance-pr.md",
+      "logs/codex/SESSION-2026-09-18-agent-governance-pr.json"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [],
+    "related_ids": [
+      "ADR-002",
+      "TASK-GOVERNANCE",
+      "PR-10"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-09-18-agent-governance-pr.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 -B -m unittest discover -s tools/dashboard -p 'test_*.py'",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "25 dashboard and update-policy tests passed."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p 'test_*.py'",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "15 logging and documentation-link tests passed."
+    },
+    {
+      "command": "/System/Library/Frameworks/JavaScriptCore.framework/Versions/A/Helpers/jsc tools/dashboard/test_app.js",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "14 synthetic DOM assertions passed; no browser-layout verification."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 10 tasks, 7 documents and 3 review rounds."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py build --output _site/agent-governance-pr-preview",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Built the static dashboard; generated output is ignored by Git."
+    },
+    {
+      "command": "Python check_update.check invocation with requested chore title and actual modified/untracked paths",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Existing policy accepts the chore footprint; no PROJECT change or chore progress entry."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 31 session records."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No tracked whitespace errors."
+    },
+    {
+      "command": "git diff --cached --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All nine staged files passed whitespace validation, including the new README and session records."
+    },
+    {
+      "command": "git push -u origin chore/agent-roles-signoff",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Published the branch without force-push."
+    },
+    {
+      "command": "gh pr create --base main --head chore/agent-roles-signoff --title 'chore(docs): document agent roles and final sign-off authority' --body-file /tmp/nodd-agent-governance-pr-body.md",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Opened https://github.com/asalzburger/nodd/pull/10; the chore has no project progress entry."
+    },
+    {
+      "command": "gh pr view 10 --json number,title,url,state,headRefOid,statusCheckRollup",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "At implementation revision 1b61d1734536237a7a921c8f1701a1c246fb7b29, Project dashboard build succeeded and deploy was skipped for the PR. Run: https://github.com/asalzburger/nodd/actions/runs/35327331331."
+    }
+  ]
+}

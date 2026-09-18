@@ -2,7 +2,9 @@
 
 - Status: DRAFT
 - Created: 2026-09-15
+- Updated: 2026-09-18
 - Human owner: TBD
+- Final human sign-off authority: `asalzburger-review` (assigned by the user on 2026-09-18)
 - Issue: TBD
 - Supersedes / superseded by: None
 - Human approval evidence: Pending
@@ -17,6 +19,19 @@
 | --- | --- | --- |
 | Assign reviews separately for each proposal | Adapts expertise to scope | Can leave approval requirements unclear until late |
 | Maintain a reviewer map with scope-specific requirements | Makes required expertise and routing visible | Requires maintenance and handling unavailable reviewers |
+
+## Confirmed human assignment — 2026-09-18
+
+**NODD DESIGN CHOICE — human-directed:** the user assigned the human GitHub
+reviewer **`asalzburger-review`** to provide final sign-off wherever required by
+the project workflow, including formal M0 closure. The user's instruction was:
+“final sign-off (if needed) is by "asalzburger-review"”.
+
+This assignment does not approve this ADR, close M0 or grant sign-off to any
+detector design. Each sign-off requires an explicit human decision and the
+exact-revision evidence described below. It does not assign technical,
+domain-expert or validation reviewers, establish minimum review counts, or
+resolve author/reviewer independence.
 
 ## Proposed decision
 
@@ -34,10 +49,13 @@ Changes after review must remain traceable; humans must assess whether amendment
 
 ## Open questions and human review
 
-- Who is the maintainer and who can authorize implementation and acceptance?
+- Who maintains the repository and configures enforcement, and how are final
+  sign-off decisions by `asalzburger-review` routed and recorded?
 - Which experts cover sensors, electronics, mechanics, thermal systems, services, simulation, and reconstruction?
 - How many distinct reviewers are required, and may authors hold approval roles?
 - How are conditional approvals resolved and recorded before implementation?
 - Which repository protections are available, and who configures them?
 
-Reviewer assignments, reviewed revision, review date, outcome, and approval evidence: **pending**.
+Final human sign-off authority: **`asalzburger-review`**, assigned by the user.
+Other reviewer assignments, reviewed revision, review date, outcome, and approval
+evidence for this ADR: **pending**.
