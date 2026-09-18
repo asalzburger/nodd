@@ -380,6 +380,17 @@ Integrate these into one architecture proposal and continuity/change matrix.
 Human review selects among the physical alternatives. Naming a role “expert” does
 not establish expertise or replace a named human domain reviewer.
 
+### Whole-tracker planning follow-up — 2026-09-18
+
+The [DES-005 whole-tracker programme](design/DES-005-tracker-system-plan.md)
+details the user-requested SysArch/TrackTech/PhysVal/SoftEng collaboration:
+ODD-guided pixels, strixels and stereo long strips within the retained envelope,
+fixed tracking coverage to `|eta| < 4`, module/service interfaces, early parametric
+estimates, ACTS coverage/material/field and reconstruction studies, then later
+DD4hep/Geant4 validation. It incorporates existing pixel and magnetic work through
+pinned dependency references. Its layer selection, numerical performance criteria
+and implementation remain subject to the design workflow.
+
 ## 7. TDR structure and continuous writing
 
 Start the outline during architecture and grow chapters with each design:
