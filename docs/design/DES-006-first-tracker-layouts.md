@@ -13,7 +13,19 @@
 
 ## Executive summary
 
-**Carry two candidates forward; select neither for construction.** A is the
+**Review update — alternative C:** the requested [inclined strip-barrel proposal](DES-006-proposal-C.md)
+([two-page PDF](DES-006-proposal-C.pdf)) adds independent TrackTech and PhysVal
+cost–benefit assessments. Relative to A, ideal total strixel area falls 9.13%
+and double-sided long-strip silicon area 1.96%. No parent stations are lost in
+the declared sampled comparison, but overlap can raise local material by 23.7%.
+Retain C for further module/service studies; no alternative is selected.
+Long strips explicitly have two scalar sensor faces per paired station; both
+faces enter silicon area, and the paired 2% X0 allowance is counted once.
+
+The following A/B comparison and IdRes evidence remain the original controls.
+
+
+**A/B reference comparison; neither selected for construction.** A is the
 smaller reference: ODD-guided barrel radii and a pixel-disk train extended to
 3.07 m. B adds two pixel disks per end and widens downstream pixel annuli. The
 comparison deliberately holds the barrel and strip system fixed. These are
