@@ -4,8 +4,8 @@
   "title": "Publish the tracker plan for human review and sign-off",
   "recorded_at": "2026-09-18T10:49:43Z",
   "started_at": null,
-  "ended_at": null,
-  "status": "open",
+  "ended_at": "2026-09-18T10:56:13Z",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
@@ -35,7 +35,8 @@
     ],
     "result_commits": [
       "e001e53e0ce542849723d15a5b2fbef6eaf14605",
-      "7d99d8c92815c7cf28736abfe08d37d2fd04b558"
+      "7d99d8c92815c7cf28736abfe08d37d2fd04b558",
+      "db4ab22aab9041783c2889b731a9d79607234f43"
     ],
     "changed_files": [
       "docs/design/DES-005-tracker-system-plan.md",
@@ -59,7 +60,8 @@
     "components": [],
     "related_ids": [
       "DES-005",
-      "TASK-B-TRACKER-PLAN"
+      "TASK-B-TRACKER-PLAN",
+      "PR-11"
     ]
   },
   "narrative": "logs/codex/SESSION-2026-09-18-tracker-plan-pr.md",
@@ -119,6 +121,36 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "Corrected full publication run: all 25 dashboard/update-policy tests passed; tests and gates unchanged."
+    },
+    {
+      "command": "git push -u origin design/tracker-system-plan",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Published the branch without force-push."
+    },
+    {
+      "command": "gh pr create --base main --head design/tracker-system-plan --title \"Plan whole-tracker design and staged performance studies\" --body-file /tmp/nodd-tracker-plan-pr-body.md --reviewer asalzburger-review",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Opened https://github.com/asalzburger/nodd/pull/11 and requested review."
+    },
+    {
+      "command": "gh pr view 11 --json number,title,url,state,headRefOid,reviewRequests,statusCheckRollup",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Verified PR #11 is open at db4ab22aab9041783c2889b731a9d79607234f43 with the requested reviewer. The hosted dashboard build was in progress; no CI success inferred."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py build --output _site/tracker-plan-pr-published",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Built dashboard with the published PR snapshot and pending review record."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated all 33 session records after adding publication metadata."
     }
   ]
 }
