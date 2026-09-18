@@ -1,6 +1,6 @@
 # DES-005 — Whole-tracker design and staged performance programme
 
-- Status: TECHNICAL REVIEW — staged programme; no selected layer layout or human sign-off.
+- Status: DRAFT — review and plan sign-off requested; no selected layer layout or human sign-off.
 - Created: 2026-09-18.
 - Roles: `SysArch`, `TrackTech`, `PhysVal`, `SoftEng`.
 - Human owner / additional technical and expert reviewers: unassigned.

@@ -14,7 +14,7 @@ are unavailable. Prior usage observations are not copied.
 ## Selected conversation
 
 - User request (exact quote): “Make a PR with the plan for review and sign-off.”
-- Assistant action: prepare DES-005 for technical review, publish the branch and
+- Assistant action: prepare DES-005 for human review, publish the branch and
   request review from the previously assigned final human sign-off authority.
 
 ## Decisions and outcomes
@@ -22,7 +22,7 @@ are unavailable. Prior usage observations are not copied.
 The requested decision concerns the staged programme, responsibilities,
 dependencies and evidence gates. Numerical acceptance criteria, selected layers,
 component choices, production implementation and physics acceptance retain their
-later review requirements. DES-005 enters TECHNICAL REVIEW; no approval outcome
+later review requirements. DES-005 remains DRAFT with a pending review request; no approval outcome
 or sign-off is recorded. Other human expertise/ownership assignments remain open.
 
 The review register pins the plan commit and leaves the outcome pending. PR
@@ -36,6 +36,12 @@ refreshed origin and confirmed no newer main commits. Reviewed the prior task's
 successful 40 tests and validation evidence. New checks and publication results
 are retained in the paired JSON only after execution. No detector studies are
 executed as part of publication.
+
+The first publication dashboard-suite run passed 24 tests and failed the
+initialization test because changing the document lifecycle to TECHNICAL REVIEW
+violated its expectation that current proposals remain DRAFT. Kept DES-005 at
+DRAFT with the pending request represented in the review register; no tests or
+gates were changed. The request will target the corrected document revision.
 
 ## Changes and revision links
 
