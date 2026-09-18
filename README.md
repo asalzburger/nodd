@@ -25,6 +25,10 @@ defines their full mandates and responsibility boundaries.
 These are responsibility roles, not a requirement for eight simultaneous agent
 processes. Only identified humans may grant design sign-off or acceptance.
 
+## Human review 
+
+Guidelines for human review can be found in [REVIEW.md](REVIEW.md) 
+
 ## Final sign-off
 
 The final human sign-off authority is **`asalzburger-review`**, assigned by the
