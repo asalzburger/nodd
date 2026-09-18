@@ -1,0 +1,217 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-09-18-tracker-first-layouts",
+  "title": "First tracker subsystem and layer placement study with IdRes",
+  "recorded_at": "2026-09-18T11:36:39Z",
+  "started_at": null,
+  "ended_at": null,
+  "status": "open",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact token usage, client version/thread ID and actual conversation start time are unavailable.",
+    "Curated record includes selected user-visible requests and outcomes; no private model state.",
+    "External IdRes anonymous distribution/licensing remains unresolved; source/examples retained locally only."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "1c6409acd205c1caa7f76514e4994835d8425bf3",
+    "branch": "study/tracker-first-layouts",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      ".github/workflows/dashboard.yml",
+      "docs/README.md",
+      "docs/design/DES-006-first-tracker-layouts.md",
+      "docs/design/DES-006-layouts.json",
+      "docs/design/DES-006-proposal-A.md",
+      "docs/design/DES-006-proposal-A.pdf",
+      "docs/design/DES-006-proposal-B.md",
+      "docs/design/DES-006-proposal-B.pdf",
+      "docs/design/figures/DES-006-A-rz.png",
+      "docs/design/figures/DES-006-A-rz.svg",
+      "docs/design/figures/DES-006-B-rz.png",
+      "docs/design/figures/DES-006-B-rz.svg",
+      "docs/design/figures/DES-006-comparison.png",
+      "docs/design/figures/DES-006-idres-resolution.png",
+      "docs/design/inputs/DES-006-physval.md",
+      "docs/design/inputs/DES-006-tracktech.md",
+      "docs/validation/DES-006-covariance-control.json",
+      "docs/validation/DES-006-idres-results.json",
+      "docs/validation/DES-006-layout-screen.json",
+      "logs/codex/SESSION-2026-09-18-tracker-first-layouts.json",
+      "logs/codex/SESSION-2026-09-18-tracker-first-layouts.md",
+      "project/tracking.json",
+      "reference/manifest.yaml",
+      "tools/tracker_layout/IDRES.md",
+      "tools/tracker_layout/README.md",
+      "tools/tracker_layout/__pycache__/covariance_control.cpython-314.pyc",
+      "tools/tracker_layout/covariance_control.py",
+      "tools/tracker_layout/idres_adapter.py",
+      "tools/tracker_layout/plot.py",
+      "tools/tracker_layout/render_briefs.py",
+      "tools/tracker_layout/requirements-controls.txt",
+      "tools/tracker_layout/requirements-idres-plotting.txt",
+      "tools/tracker_layout/study.py",
+      "tools/tracker_layout/test_covariance_control.py",
+      "tools/tracker_layout/test_idres_adapter.py",
+      "tools/tracker_layout/test_study.py"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "tracker layout",
+      "parametric validation"
+    ],
+    "related_ids": [
+      "DES-006",
+      "DES-005",
+      "DES-003",
+      "ADR-006",
+      "TRK-PARAMETRIC",
+      "TRK-CONTRACT",
+      "TRK-CONTROL",
+      "TRK-MATERIAL",
+      "TRK-FIELD",
+      "ISSUE-7",
+      "PR-8",
+      "PR-11"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-09-18-tracker-first-layouts.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "make -C /tmp/nodd-des005-idres/src CPPFLAGS=-I/opt/homebrew/opt/gsl/include LDFLAGS=-L/opt/homebrew/opt/gsl/lib",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "SoftEng compiled pinned unchanged IdRes source with Apple clang17/GSL2.8; durable ignored installation at reference/cache/idres."
+    },
+    {
+      "command": "reference/cache/idres-venv/bin/python -m pip install -r tools/tracker_layout/requirements-idres-plotting.txt",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Pinned plotting dependencies installed in isolated ignored environment."
+    },
+    {
+      "command": "From IdRes test/: MPLBACKEND=Agg <nodd-root>/reference/cache/idres-venv/bin/python test.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Supplied example produced14PNG and4PDF; output-file smoke only, not physics verification."
+    },
+    {
+      "command": "Initial IdRes multi-valued B 2 3 4 input",
+      "status": "FAIL",
+      "exit_code": 0,
+      "result": "Independent covariance exposed all cases using last4T field. Trial excluded; retained runs use separate process for each field. No upstream source patch."
+    },
+    {
+      "command": "python3 -B tools/tracker_layout/idres_adapter.py --checkout reference/cache/idres --work reference/cache/idres-study",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "22 runs,729completefinite result rows each;16,038total, no missing rows. Raw source-specific strip counts distinguished from effective stations."
+    },
+    {
+      "command": "python3 -B tools/tracker_layout/study.py docs/design/DES-006-layouts.json --output docs/validation/DES-006-layout-screen.json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Uniform-helix crossing/material/area screen with signedeta and3stressvertices; hashes retained."
+    },
+    {
+      "command": "reference/cache/envelope-venv/bin/python -B tools/tracker_layout/covariance_control.py --idres-results docs/validation/DES-006-idres-results.json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "16nearzero covariance comparisons pass rounding consistency;486station counts exact;162material points within printprecision."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/tracker_layout -p 'test_*.py'",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "12prototype tests passed, including3independent covariance tests; no skips in local environment."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/dashboard -p 'test_*.py' (initial)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "New task used a mismatched role/workstream:2failures1error of25. Corrected metadata to System Architect/WS-ARCH; no test changed."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/dashboard -p 'test_*.py' (after correction)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All25dashboard/update-policy tests passed."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p 'test_*.py'",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All15logging/documentation-link tests passed."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "28tasks9documents5reviewrounds before new PR metadata."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py build --output _site/tracker-first-layouts",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "PDFdeliverable pointers exceeded text-only dashboard evidence allowlist; changed tracking pointers to Markdown briefs with PDF links, preserving policy."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py build --output _site/tracker-first-layouts-final",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Dashboard built successfully."
+    },
+    {
+      "command": "/System/Library/Frameworks/JavaScriptCore.framework/Versions/A/Helpers/jsc tools/dashboard/test_app.js",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "14syntheticDOM assertions passed; not browser rendering validation."
+    },
+    {
+      "command": "MPLCONFIGDIR=/tmp/nodd-mpl reference/cache/envelope-venv/bin/python -B tools/tracker_layout/plot.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Generated both candidate drawings, crossing/material comparison and IdRes resolution curves."
+    },
+    {
+      "command": "reference/cache/venv/bin/python -B tools/tracker_layout/render_briefs.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Exactly2A4 pages per proposal, no overfull boxes; all4pages rendered and visually inspected."
+    },
+    {
+      "command": "SHA-256 consistency audit of7input/code/adapter/result links",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All retained evidence hashes match final generating inputs/code and IdRes artifact."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "35session records validated before final publication metadata."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors."
+    },
+    {
+      "command": "git diff --cached --check (first staging)",
+      "status": "FAIL",
+      "exit_code": 2,
+      "result": "Generated Matplotlib SVG paths contained trailing whitespace; added deterministic whitespace normalization to plotting output before restaging."
+    }
+  ]
+}
