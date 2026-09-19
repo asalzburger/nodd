@@ -4,8 +4,8 @@
   "title": "Split inclined tracker C into C1 and C2 and clarify optimisation",
   "recorded_at": "2026-09-18T19:36:36Z",
   "started_at": null,
-  "ended_at": null,
-  "status": "open",
+  "ended_at": "2026-09-18T20:41:20Z",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
@@ -20,7 +20,9 @@
     "start_commit": "5a8a7bcd185226bc70f0ed447aca783e05693b45",
     "branch": "study/tracker-first-layouts",
     "initial_changes": [],
-    "result_commits": [],
+    "result_commits": [
+      "8b7604ea27075038baa18050ba5ab1d6ab48e622"
+    ],
     "changed_files": [
       "docs/design/DES-006-C1-C2-review.md",
       "docs/design/DES-006-inclined-split-layouts.json",
@@ -104,6 +106,30 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "All referenced input/code hashes match; no whitespace errors."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "37 records validated."
+    },
+    {
+      "command": "git push origin study/tracker-first-layouts; gh pr edit 13; gh pr comment 13",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Published8b7604e; executive summary updated and response https://github.com/asalzburger/nodd/pull/13#issuecomment-5735919927 posted. Noemi-directed comment untouched."
+    },
+    {
+      "command": "gh run watch 35392737336 --exit-status",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Hosted CI passed at8b7604e, including browser tests. Earlier concurrent run cancelled by PR edit. https://github.com/asalzburger/nodd/actions/runs/35392737336"
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate/build (new review target)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "28tasks,9documents,8rounds validate; final dashboard built."
     }
   ]
 }
