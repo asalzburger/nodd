@@ -16,6 +16,7 @@ The documents below establish proposals and recording formats. Their presence do
 ## Index
 
 - [Full-detector development plan and TDR programme](DEVELOPMENT_PLAN.md)
+- [TRK-SE03: pyacts module and Gen-3 binding assessment](validation/TRK-SE03-pyacts-bindings.md)
 - [DES-005: whole-tracker design, work packages and staged performance studies](design/DES-005-tracker-system-plan.md)
 - [DES-003: global envelope proposal, r–z drawing and review questions](design/DES-003-global-envelopes.md)
 - [Second envelope review: 3 T space budget and baseline closure](design/DES-003-review-2.md)

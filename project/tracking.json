@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated": "2026-09-18",
+  "updated": "2026-09-21",
   "note": "Curated register. Stage B architecture is active. PR #4\u2019s envelope baseline has explicit human approval and is merged; its documents still declare DRAFT and no formal sign-off record exists. Role ownership does not imply active agents. Chore PRs and infrastructure chores are excluded from project progress.",
   "stages": [
     {
@@ -905,13 +905,14 @@
       "deliverables": [],
       "evidence": [
         "docs/design/DES-005-tracker-system-plan.md",
-        "https://github.com/asalzburger/nodd/pull/11#issuecomment-5729274384"
+        "https://github.com/asalzburger/nodd/pull/11#issuecomment-5729274384",
+        "docs/validation/TRK-SE03-pyacts-bindings.md"
       ],
       "documents": [
         "DES-005"
       ],
-      "updated": "2026-09-18",
-      "next_action": "Prepare hits/track studies for Markus Elsing and Noemi Calace and ACTS/DD4hep representation-interface evidence for paulgessinger; confirm participation and keep physics versus software review scopes distinct.",
+      "updated": "2026-09-21",
+      "next_action": "Module/Gen-3 binding capability is demonstrated by the separate TRK-SE03 probe. Tracker proposal work is on hold by user direction; on resumption, convert one module family and test masks/stereo, field propagation and beamspot coverage before physics review. Retain Markus Elsing/Noemi Calace physics review and paulgessinger representation-interface review nominations; confirm participation and keep scopes distinct.",
       "blocker": null,
       "disposition": null,
       "subsystem": "tracking and timing"
@@ -1042,6 +1043,42 @@
       "next_action": "Prepare compatible backend readiness and DD4hep\u2013ACTS integration evidence for paulgessinger after confirming participation; production work still requires M0 completion and applicable design sign-off.",
       "blocker": null,
       "disposition": null,
+      "subsystem": "tracking and timing"
+    },
+    {
+      "id": "TRK-SE03-BINDINGS",
+      "title": "pyacts module and Gen-3 binding capability",
+      "scope": "Bounded wheel-only capability probe; synthetic barrel/disc modules and independent straight-ray checks. Does not complete TRK-SE03 or tracker acceptance.",
+      "stage": "B",
+      "milestones": [
+        "M1"
+      ],
+      "workstream": "WS-SOFT",
+      "role": "Project software engineer",
+      "owner": null,
+      "state": "completed",
+      "dependencies": [
+        "TASK-B-TRACKER-PLAN"
+      ],
+      "deliverables": [
+        "docs/validation/TRK-SE03-pyacts-bindings.md",
+        "docs/validation/TRK-SE03-pyacts-bindings.json",
+        "tools/acts_binding_probe/README.md",
+        "docs/validation/TRK-SE03-propagation.json"
+      ],
+      "evidence": [
+        "docs/validation/TRK-SE03-pyacts-bindings.json",
+        "reference/manifest.yaml",
+        "docs/validation/TRK-SE03-propagation.json",
+        "https://github.com/asalzburger/nodd/pull/14"
+      ],
+      "documents": [
+        "DES-005"
+      ],
+      "updated": "2026-09-21",
+      "next_action": "Review the wheel capability assessment and propagation visualization in PR #14 (review requested from asalzburger-review); resume physical module conversion only when the tracker hold is lifted. Field maps, material response, full acceptance and reconstruction remain open.",
+      "blocker": null,
+      "disposition": "Latest checked pyacts 47.7.0 installed in an isolated environment. Both TryAll and SurfaceArray build 32 sensitive modules in two barrel and two disc layers; each matches 200 seeded analytic ray comparisons. Direct transform, sensitivity and child-enumeration limitations documented. No human approval inferred. Follow-up PropagationAlgorithm/OBJ step output: all 48 tracks per 0/2 T synthetic case written and independently checked; x-y view retained with 34/30 module intersections. No physical field-map or reconstruction validation.",
       "subsystem": "tracking and timing"
     }
   ],
@@ -1215,6 +1252,23 @@
         "DES-005"
       ],
       "scope": "Human review and sign-off of the staged tracker programme, responsibilities, dependencies and evidence gates; no layer selection, production authorization or physics acceptance.",
+      "category": "project"
+    },
+    {
+      "id": "PR-14",
+      "number": 14,
+      "title": "Assess pyacts Gen-3 module geometry and propagation bindings",
+      "url": "https://github.com/asalzburger/nodd/pull/14",
+      "state": "open",
+      "head_revision": "d8f5dd69a0a4c3a74ef09239d186b79f5a5160c2",
+      "merge_commit": null,
+      "merged_at": null,
+      "collected_at": "2026-09-21T11:10:44Z",
+      "task": "TRK-SE03-BINDINGS",
+      "documents": [
+        "DES-005"
+      ],
+      "scope": "Synthetic module/Gen-3 capability and written propagation-step assessment only. Source/figure revision captured at PR creation; following metadata commit does not alter evidence. No tracker layout, physical field or production approval.",
       "category": "project"
     }
   ]
