@@ -1,0 +1,120 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-09-21-pyacts-gen3-bindings",
+  "title": "Assess latest pyacts module surfaces and Gen-3 geometry bindings",
+  "recorded_at": "2026-09-21T09:04:13Z",
+  "started_at": null,
+  "ended_at": "2026-09-21T09:25:25Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact token usage, actual conversation start time, client version and thread identity are unavailable; usage is unobserved, not zero.",
+    "Curated tool activity and selected requests only; no private agent state. Only CPython 3.14.6/macOS arm64 was tested.",
+    "Synthetic straight-ray capability checks do not establish tracker acceptance, field propagation or reconstruction readiness."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "8472892bee490a7e04e58bab7d1332493cb615b9",
+    "branch": "study/pyacts-gen3-bindings",
+    "initial_changes": [
+      "tools/tracker_layout/__pycache__/covariance_control.cpython-314.pyc"
+    ],
+    "result_commits": [],
+    "changed_files": [
+      "docs/README.md",
+      "docs/validation/TRK-SE03-pyacts-bindings.md",
+      "docs/validation/TRK-SE03-pyacts-bindings.json",
+      "tools/acts_binding_probe/README.md",
+      "tools/acts_binding_probe/requirements.txt",
+      "tools/acts_binding_probe/probe.py",
+      "reference/manifest.yaml",
+      "project/tracking.json",
+      "logs/codex/SESSION-2026-09-21-pyacts-gen3-bindings.json",
+      "logs/codex/SESSION-2026-09-21-pyacts-gen3-bindings.md"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "software",
+      "tracking"
+    ],
+    "related_ids": [
+      "DES-005",
+      "ADR-003",
+      "TRK-SE03",
+      "TRK-SE03-BINDINGS",
+      "PR-13"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-09-21-pyacts-gen3-bindings.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "reference/cache/pyacts-bindings-venv/bin/python -m pip index versions pyacts",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Live index reports latest 47.7.0. Initial sandbox DNS failure was retried with authorized network access."
+    },
+    {
+      "command": "reference/cache/pyacts-bindings-venv/bin/python -m pip install --upgrade pyacts --report reference/cache/pyacts-bindings-install.json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Installed 47.7.0 cp314 macOS arm64 wheel in a separate environment; digest retained."
+    },
+    {
+      "command": "reference/cache/pyacts-bindings-venv/bin/python -B tools/acts_binding_probe/probe.py --work reference/cache/pyacts-binding-probe --report docs/validation/TRK-SE03-pyacts-bindings.json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Both policies constructed 32 sensitive modules in two barrel and two disc layers; each matched all 200 analytic ray comparisons with 45 module crossings and no duplicates. Same seed/directions for both policies; position, normal and ID checks passed."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 28 tasks, 8 documents and 5 review rounds."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 35 session records."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "15 tests passed, including repository documentation links."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py build --output _site/pyacts-bindings",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Static dashboard build passed; ignored local output only."
+    },
+    {
+      "command": "Python SHA-256/source-ID/report-link audit",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Retained executable, inputs, navigation CSVs and cached source hashes match; policy CSVs identical, source IDs unique and local report links resolve."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/dashboard -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "25 dashboard and update-policy tests passed."
+    },
+    {
+      "command": "git diff --cached --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All ten staged task files passed whitespace checks; unrelated bytecode remains untracked."
+    }
+  ]
+}
