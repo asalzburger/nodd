@@ -40,7 +40,8 @@ software-readiness result, not evidence of detector coverage or tracking efficie
 | Use navigation policies with portals | Yes | TryAll and SurfaceArray policies tested; array cylinder bins `(8,1)`, disc bins `(1,8)`, plus TryAll portals-only |
 | Navigate finite modules in both barrel and endcaps | Yes, diagnostic straight rays | Seeded `pseudoNavigation` results matched independent ray/rectangle intersections |
 | Instantiate standard Navigator against this geometry | Yes | `Navigator(trackingGeometry=..., resolveSensitive=True, ...)` constructed |
-| Run field-dependent propagation, hits, material interaction, fits or pattern recognition | Not tested here | These remain separate integration/physics checks; pseudo-navigation is not the Propagator |
+| Run field-dependent propagation | Central-slice smoke test passed in follow-up below | Example PropagationAlgorithm with EigenStepper, synthetic zero/uniform 2 T field, written steps; no physical field-map validation |
+| Run hits, material interaction, fits or pattern recognition | Not tested here | These remain separate integration/physics checks |
 | Arbitrarily edit a low-level TrackingVolume or implement a Python SurfacePlacementBase | Insufficient direct bindings | `TrackingVolume.addSurface` not exposed; placement base has no Python constructor/trampoline. Use the higher-level blueprint/JSON route |
 
 Gen-3 “layers” here are module-bearing volumes created by `LayerBlueprintNode`
@@ -83,6 +84,52 @@ the same 200 seeded rays are deliberately used for both policies. The sample is
 not a uniform-eta physics distribution or an acceptance sample. A preliminary
 barrel-only control also ran successfully (100 rays, 72 module intersections);
 the retained mixed fixture is the reproducible assessment artifact.
+
+## Follow-up: propagation steps and x–y intersections
+
+![Recorded propagation paths and steps on barrel module planes](figures/TRK-SE03-propagation-xy.png)
+
+The follow-up requested a view from the propagation example with step writing
+enabled. It uses `EigenStepper` + `Navigator` + `ConcretePropagator` through
+`PropagationAlgorithm(sterileLogger=False)`. The wheel lacks the ROOT plugin,
+so its available `ObjPropagationStepsWriter` records the actual steps instead.
+No ACTS rebuild or custom writer is needed.
+
+The same 48 seeded negative muons start at the origin in both panels, with
+eta = 0 and pT = 0.1 GeV. Zero and uniform 2 T fields and a 2 mm maximum step
+are synthetic visualization controls, not nODD field or momentum selections.
+The full mixed geometry is constructed, but only its 16 barrel modules are
+in this central slice; endcaps are neither crossed nor projected into the plot.
+
+| Check | Bz = 0 T | Bz = 2 T |
+| --- | --- | --- |
+| Generated / written tracks | 48 / 48 | 48 / 48 |
+| Written steps | 2,744 | 2,959 |
+| Module intersections / distinct modules | 34 / 14 | 30 / 13 |
+| Tracks matching independent intersections | 48 / 48 | 48 / 48 |
+| Maximum trajectory residual [mm] | 0.000170 | 0.000311 |
+
+Every track reaches the outer fixture boundary. Straight-line and circular
+trajectory checks and finite-plane intersection sets agree for all 96
+propagations. The signed transverse curvature uses
+`k = -q * 0.299792458 * Bz / (1000 * pT)` in inverse mm for pT in GeV;
+the factor is the SI speed-of-light conversion. The same input particle CSV
+hash confirms matching samples across the field cases.
+
+Orange markers are written step positions, geometrically matched to the module
+planes. OBJ does not store surface IDs, so this is not a surface-ID-labelled
+hit collection. The geometric association and analytic comparison use 0.001 mm
+plane/trajectory and 0.002 mm intersection tolerances, accommodating six-digit
+OBJ coordinates. No efficiency, material response, reconstruction or high-eta
+acceptance conclusion follows from this sample. This limited follow-up extends
+the earlier capability boundary to actual propagation with a synthetic field;
+it does not complete TRK-SE03 or resume placement proposals.
+
+[Runner](../../tools/acts_binding_probe/propagation_view.py),
+[reproduction commands](../../tools/acts_binding_probe/README.md#propagation-step-view),
+and [retained report](TRK-SE03-propagation.json) record versions, hashes, seed,
+configuration, intersections and the exact generating command. Raw OBJ and
+particle CSV files remain in the ignored work directory and are regenerable.
 
 ## Binding limitations and safe paths
 
@@ -139,7 +186,8 @@ There is no need to start a custom C++ bridge merely to place modules in layers.
 When the user resumes tracker work, the next bounded software task is to convert
 one module family, verify inactive masks and scalar stereo semantics, then run
 the existing straight/uniform-field Propagator controls against the module
-geometry. Real material, alignment/conditions, field maps, curved crossings,
+geometry. The central-slice field smoke test above does not cover real material,
+alignment/conditions, field maps, general curved crossings,
 holes/edge cases, detector identifiers and detector performance remain open.
 Optional upstream binding fixes should be separate from that detector work.
 No issue, comment or review request was sent to upstream maintainers here.
@@ -165,3 +213,7 @@ proposed nODD software choice. Test dimensions are not normative detector facts.
 - [Surface JSON conversion](https://github.com/acts-project/acts/blob/2790f1b05c0c94cb3b569cbb18262b24867c7855/Plugins/Json/src/SurfaceJsonConverter.cpp) and
   [transform JSON conversion](https://github.com/acts-project/acts/blob/2790f1b05c0c94cb3b569cbb18262b24867c7855/Plugins/Json/src/AlgebraJsonConverter.cpp):
   sensitivity setter and row-major rotation import used by the workaround.
+- [Propagation example](https://github.com/acts-project/acts/blob/2790f1b05c0c94cb3b569cbb18262b24867c7855/Examples/Scripts/Python/propagation.py),
+  [algorithm](https://github.com/acts-project/acts/blob/2790f1b05c0c94cb3b569cbb18262b24867c7855/Examples/Algorithms/Propagation/src/PropagationAlgorithm.cpp) and
+  [OBJ step writer](https://github.com/acts-project/acts/blob/2790f1b05c0c94cb3b569cbb18262b24867c7855/Examples/Io/Obj/src/ObjPropagationStepsWriter.cpp): follow-up runner sequence,
+  failed-track handling and actual step-output format.

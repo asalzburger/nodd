@@ -37,3 +37,32 @@ and code hashes, pre-generation Git revision, commands, numerical tolerances,
 seed, expected counts and actual outcomes. Generated JSON module inputs and raw
 navigation CSVs remain under the ignored work directory. The fixture assumes
 no material and assigns no detector performance target.
+
+## Propagation step view
+
+The follow-up uses the official propagation-example sequence with
+`EigenStepper`, `Navigator`, `PropagationAlgorithm(sterileLogger=False)` and
+`ObjPropagationStepsWriter`. The tested wheel does not include the ROOT writer.
+This is actual propagation step output, separate from `pseudoNavigation` above.
+
+```sh
+reference/cache/pyacts-bindings-venv/bin/python -m pip install -r tools/acts_binding_probe/requirements-plot.txt
+reference/cache/pyacts-bindings-venv/bin/python -B tools/acts_binding_probe/propagation_view.py --work reference/cache/pyacts-propagation-view --figure reference/cache/pyacts-propagation-view/propagation-xy.png --report reference/cache/pyacts-propagation-view/propagation.json
+```
+
+The retained [x–y figure](../../docs/validation/figures/TRK-SE03-propagation-xy.png)
+and [execution report](../../docs/validation/TRK-SE03-propagation.json) use 48
+identical seeded muons per field case, eta = 0, pT = 0.1 GeV, charge -1 and
+synthetic Bz = 0 / 2 T. Step length is limited to 2 mm. All values are test
+settings; neither the low momentum nor the field is a detector requirement.
+Endcaps remain in the geometry but are outside this central slice.
+
+OBJ contains positions and connectivity, not surface IDs. The plotted markers
+are actual written steps associated geometrically with finite module planes;
+no line-segment intersections are invented for the picture. All generated
+tracks must have written paths, reach the fixture boundary and agree with
+independent straight/circular trajectories and finite-plane intersections.
+The 0.001 mm trajectory/plane and 0.002 mm intersection tolerances accommodate
+the upstream OBJ writer's six-significant-digit coordinates. They are numerical
+fixture checks, not alignment or detector-performance tolerances. Material,
+response and reconstruction are absent.

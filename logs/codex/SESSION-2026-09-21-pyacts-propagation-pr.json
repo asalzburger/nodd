@@ -1,0 +1,124 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-09-21-pyacts-propagation-pr",
+  "title": "Publish pyacts assessment with propagation step views",
+  "recorded_at": "2026-09-21T10:59:00Z",
+  "started_at": null,
+  "ended_at": null,
+  "status": "open",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact token usage, actual conversation start time, client version and thread ID are unavailable.",
+    "Curated requests and results only; no private client state. Tested only on macOS arm64/CPython 3.14.6."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "fb4562140b7327f0fc935869fa8bce99a4649efc",
+    "branch": "study/pyacts-gen3-bindings",
+    "initial_changes": [
+      "tools/tracker_layout/__pycache__/covariance_control.cpython-314.pyc"
+    ],
+    "result_commits": [],
+    "changed_files": [
+      "tools/acts_binding_probe/propagation_view.py",
+      "tools/acts_binding_probe/requirements-plot.txt",
+      "tools/acts_binding_probe/README.md",
+      "docs/validation/TRK-SE03-pyacts-bindings.md",
+      "docs/validation/TRK-SE03-propagation.json",
+      "docs/validation/figures/TRK-SE03-propagation-xy.png",
+      "reference/manifest.yaml",
+      "project/tracking.json",
+      "logs/codex/SESSION-2026-09-21-pyacts-propagation-pr.json",
+      "logs/codex/SESSION-2026-09-21-pyacts-propagation-pr.md"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "software",
+      "tracking"
+    ],
+    "related_ids": [
+      "DES-005",
+      "ADR-003",
+      "TRK-SE03",
+      "TRK-SE03-BINDINGS"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-09-21-pyacts-propagation-pr.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "from acts.examples.root import RootPropagationStepsWriter",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "ROOT plugin is absent from this wheel. Existing ObjPropagationStepsWriter used instead; no rebuild or custom step writer."
+    },
+    {
+      "command": "reference/cache/pyacts-bindings-venv/bin/python -m pip install matplotlib",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Installed Matplotlib 3.11.2 and dependencies in the isolated probe environment; plot requirements pinned."
+    },
+    {
+      "command": "reference/cache/pyacts-bindings-venv/bin/python -B tools/acts_binding_probe/propagation_view.py --work reference/cache/pyacts-propagation-view --figure docs/validation/figures/TRK-SE03-propagation-xy.png --report docs/validation/TRK-SE03-propagation.json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "48/48 written tracks per field; 2744/2959 steps and 34/30 module crossings in 0/2 T. All 96 tracks match independent straight/circle trajectories and finite-plane intersection sets. Maximum residual 0.000312 mm, below 0.001 mm tolerance. Written OBJ/particle hashes reproduce across runs."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Initial record used PASS with no exit code for a visual inspection. Moved that observation to narrative; automated checks retain actual exit codes."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "15 tests passed."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 28 tasks, 8 documents and 5 review rounds."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py build --output _site/pyacts-propagation",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Static dashboard built successfully."
+    },
+    {
+      "command": "Python retained hash and report link audit",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Code, geometry, PNG, OBJ, particle and module hashes match; report links resolve."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/dashboard -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "25 tests passed."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 36 session records after correcting visual-inspection entry."
+    },
+    {
+      "command": "git diff --cached --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Task changes pass whitespace checks."
+    }
+  ]
+}
