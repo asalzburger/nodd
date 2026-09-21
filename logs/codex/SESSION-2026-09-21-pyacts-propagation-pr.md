@@ -51,6 +51,15 @@ the eventual commits; no human approval or sign-off is recorded.
 
 ## Follow-up
 
-Publish the requested PR with an executive summary and embedded figure. Physical
+Published [PR #14](https://github.com/asalzburger/nodd/pull/14) with an executive
+summary, immutable embedded figure and review requested from asalzburger-review.
+The exact evidence revision is d8f5dd69a0a4c3a74ef09239d186b79f5a5160c2; the
+subsequent metadata commit only reconciles the project/session registers. All
+40 local tests, dashboard build/validation, retained hashes and whitespace checks
+passed. GitHub dashboard CI was queued at publication; no human approval is
+implied. Initial staging/commit sandbox denials were retried with authorized Git
+permissions before publishing the complete PR.
+
+Physical
 module conversion, field maps, material response, acceptance and reconstruction
 remain open. The unrelated tracker-layout proposals in PR #13 remain on hold.

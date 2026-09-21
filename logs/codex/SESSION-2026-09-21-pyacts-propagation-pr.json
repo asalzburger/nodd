@@ -4,8 +4,8 @@
   "title": "Publish pyacts assessment with propagation step views",
   "recorded_at": "2026-09-21T10:59:00Z",
   "started_at": null,
-  "ended_at": null,
-  "status": "open",
+  "ended_at": "2026-09-21T11:10:44Z",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
@@ -23,7 +23,9 @@
     "initial_changes": [
       "tools/tracker_layout/__pycache__/covariance_control.cpython-314.pyc"
     ],
-    "result_commits": [],
+    "result_commits": [
+      "d8f5dd69a0a4c3a74ef09239d186b79f5a5160c2"
+    ],
     "changed_files": [
       "tools/acts_binding_probe/propagation_view.py",
       "tools/acts_binding_probe/requirements-plot.txt",
@@ -47,7 +49,8 @@
       "DES-005",
       "ADR-003",
       "TRK-SE03",
-      "TRK-SE03-BINDINGS"
+      "TRK-SE03-BINDINGS",
+      "PR-14"
     ]
   },
   "narrative": "logs/codex/SESSION-2026-09-21-pyacts-propagation-pr.md",
@@ -119,6 +122,18 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "Task changes pass whitespace checks."
+    },
+    {
+      "command": "git push; gh pr create --base main --head study/pyacts-gen3-bindings --title \"Assess pyacts Gen-3 module geometry and propagation bindings\" --body-file /tmp/nodd-pyacts-pr.md --reviewer asalzburger-review",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Published PR #14 with immutable figure/report links and requested human review."
+    },
+    {
+      "command": "gh pr view --json number,url,title,state,headRefOid,reviewRequests,statusCheckRollup",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "PR #14 OPEN at d8f5dd69a0a4c3a74ef09239d186b79f5a5160c2, reviewer asalzburger-review requested; dashboard CI queued at collection, not reported as passed."
     }
   ]
 }
