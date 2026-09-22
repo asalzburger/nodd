@@ -1,0 +1,123 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-09-22-pr-naming",
+  "title": "Standardize PR titles and reconcile open branch conflicts",
+  "recorded_at": "2026-09-22T11:31:14Z",
+  "started_at": null,
+  "ended_at": null,
+  "status": "open",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact token usage, client version, thread ID and actual conversation start time are unavailable.",
+    "Curated requests/actions only. The separate PR #8 merge has its own bounded record; no token observations are duplicated."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "8472892bee490a7e04e58bab7d1332493cb615b9",
+    "branch": "infrastructure/pr-naming",
+    "initial_changes": [
+      "tools/tracker_layout/__pycache__/covariance_control.cpython-314.pyc"
+    ],
+    "result_commits": [],
+    "changed_files": [
+      "AGENTS.md",
+      "project/README.md",
+      ".github/pull_request_template.md",
+      ".github/workflows/dashboard.yml",
+      "tools/dashboard/check_update.py",
+      "tools/dashboard/test_update.py",
+      "tools/dashboard/test_build.py",
+      "logs/codex/SESSION-2026-09-22-pr-naming.json",
+      "logs/codex/SESSION-2026-09-22-pr-naming.md"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [
+      "workflow",
+      "infrastructure"
+    ],
+    "related_ids": [
+      "PR-6",
+      "PR-8",
+      "PR-13",
+      "PR-14"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-09-22-pr-naming.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 -B -m unittest discover -s tools/dashboard -p test_update.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "6 tests passed: all seven prefixes, malformed names, historical classification, science-exemption protection and real Git-diff CLI."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "15 tests passed."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "27 tasks, 8 documents and 5 review rounds validated; no infrastructure task added."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py build --output _site/pr-naming",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Static dashboard built successfully."
+    },
+    {
+      "command": "node tools/dashboard/test_app.js",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "14 JavaScript assertions passed (synthetic DOM, not layout)."
+    },
+    {
+      "command": "gh pr edit 6/8/13/14 --title <recorded title>",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All four open PR titles updated successfully."
+    },
+    {
+      "command": "git push origin HEAD:design/rd53-pixel-modules (isolated checkout)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "PR #8 conflict-resolution merge 84f23f3f58cd289b90b9ac759efdc0e51dceb97b pushed normally. Separate record contains 40 passing tests and preservation audit."
+    },
+    {
+      "command": "git diff origin/main HEAD --check (PR #8 checkout)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "PR #8 diff against main has no whitespace errors; initial merge diff against old PR head showed existing main README/REVIEW whitespace, preserved without unrelated cleanup."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/dashboard -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "26 dashboard/update-policy tests passed."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "35 paired records validated."
+    },
+    {
+      "command": "gh pr list --state open --limit 100 --json number,title,mergeable,mergeStateStatus,headRefOid",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "PRs #6, #8, #13 and #14 all have requested prefixes and are MERGEABLE/CLEAN; #8 head is 84f23f3f58cd289b90b9ac759efdc0e51dceb97b."
+    }
+  ]
+}
