@@ -4,8 +4,8 @@
   "title": "Learn node-aware ACTS Spack DD4hep and Geant4 workflow",
   "recorded_at": "2026-09-22T14:11:40Z",
   "started_at": null,
-  "ended_at": null,
-  "status": "open",
+  "ended_at": "2026-09-22T14:41:49Z",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
@@ -24,7 +24,9 @@
     "initial_changes": [
       "tools/tracker_layout/__pycache__/covariance_control.cpython-314.pyc"
     ],
-    "result_commits": [],
+    "result_commits": [
+      "c092a1b94c4dd006c17dda510a2c9b78af0b2e60"
+    ],
     "changed_files": [
       "AGENTS.md",
       "README.md",
@@ -53,7 +55,8 @@
       "DES-005",
       "TRK-SE01",
       "TRK-SE06",
-      "TASK-SOFT-SPACK"
+      "TASK-SOFT-SPACK",
+      "PR-16"
     ]
   },
   "narrative": "logs/codex/SESSION-2026-09-22-acts-spack-skill.md",
@@ -161,6 +164,24 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "Staged task files are whitespace-clean; unrelated tracker bytecode excluded."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/dashboard -p 'test_*.py' -v (after skills fixture correction)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All 26 dashboard/update-policy tests passed."
+    },
+    {
+      "command": "python3 -B tools/dashboard/check_update.py --event /tmp/nodd-spack-event.json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Software title and actual committed base/head diff pass the project tracking check."
+    },
+    {
+      "command": "git push; gh pr create --base main --head software/acts-spack-skill --title \"Software: Add node-aware ACTS Spack workflow skill\" --body-file /tmp/nodd-spack-skill-pr.md --reviewer asalzburger-review",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "PR #16 published; requested reviewer and evidence revision c092a1b94c4dd006c17dda510a2c9b78af0b2e60 verified. GitHub dashboard CI was in progress at collection."
     }
   ]
 }

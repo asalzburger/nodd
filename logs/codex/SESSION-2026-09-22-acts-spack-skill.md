@@ -62,3 +62,11 @@ placement proposal was changed.
 The first dashboard suite exposed a fixture omission: its synthetic checkouts
 did not copy the new skills/ evidence directory (6 failures, 9 errors). The
 fixture now includes that directory; assertions and tolerances are unchanged.
+
+All 26 dashboard tests passed after the fixture correction; together with 15
+logging/document-link tests and 5 preflight tests, 46 local tests pass. Published
+[PR #16](https://github.com/asalzburger/nodd/pull/16), Software: Add node-aware
+ACTS Spack workflow skill, at c092a1b94c4dd006c17dda510a2c9b78af0b2e60 with
+review requested from asalzburger-review. This final metadata update changes no
+skill/runtime evidence. GitHub CI was in progress at collection; no human approval
+is inferred.
