@@ -4,8 +4,8 @@
   "title": "Outline TDR and publication plan with PubDoc",
   "recorded_at": "2026-09-22T14:57:49Z",
   "started_at": null,
-  "ended_at": null,
-  "status": "open",
+  "ended_at": "2026-09-22T15:07:06Z",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
@@ -23,7 +23,9 @@
     "initial_changes": [
       "tools/tracker_layout/__pycache__/covariance_control.cpython-314.pyc"
     ],
-    "result_commits": [],
+    "result_commits": [
+      "8d78aae39d7c6d0a82984acaa288f8aca786070a"
+    ],
     "changed_files": [
       ".github/pull_request_template.md",
       "AGENTS.md",
@@ -52,7 +54,10 @@
       "DES-003",
       "DES-005",
       "ADR-002",
-      "ADR-006"
+      "ADR-006",
+      "PUB-TDR-001",
+      "PUB-PLAN-001",
+      "PR-17"
     ]
   },
   "narrative": "logs/codex/SESSION-2026-09-22-tdr-publication-plan.md",
@@ -124,6 +129,24 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "All 15 tests passed. References to optional submodule files are plain code paths, not links that would fail in CI without submodules."
+    },
+    {
+      "command": "Python tracked-Markdown link audit",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All 405 local links in tracked Markdown resolve without initialized submodules or ignored files."
+    },
+    {
+      "command": "python3 -B tools/dashboard/check_update.py --event /tmp/nodd-tdr-publication-event.json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Documentation title and actual base/head changes pass project tracking check."
+    },
+    {
+      "command": "git push; gh pr create; gh pr view 17 --json number,title,url,state,headRefOid,reviewRequests,statusCheckRollup",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "PR #17 created at revision 8d78aae39d7c6d0a82984acaa288f8aca786070a with reviewer asalzburger-review requested. GitHub dashboard CI in progress at metadata collection."
     }
   ]
 }

@@ -61,3 +61,13 @@ Specialists need to supply the missing technical evidence and chapter claims;
 the plan retains unresolved simulation, services, field, response and performance
 inputs. Human reviewer assignments and publication details remain open. Final
 sign-off authority remains `asalzburger-review`; no approval is recorded here.
+
+## Review handoff
+
+[PR #17](https://github.com/asalzburger/nodd/pull/17) requests review from
+`asalzburger-review`. The initial deliverable revision is
+`8d78aae39d7c6d0a82984acaa288f8aca786070a`; the later metadata commit only records
+the PR and completed checks. All 47 Python tests and 14 JavaScript assertions
+passed, along with dashboard build/validation and the 37-record log validator.
+All 405 tracked Markdown links were also checked without assuming submodule
+initialization. GitHub CI was running when the initial PR snapshot was collected.
