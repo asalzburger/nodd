@@ -49,6 +49,14 @@ unknown, not approvals.
 
 ## Publication
 
-Prepare an Infrastructure PR for this rule and its enforcement. It has no
-scientific progress entry. Existing PR renames and conflict resolution are
+Published [PR #15](https://github.com/asalzburger/nodd/pull/15),
+Infrastructure: Standardize PR naming and conflict preservation, with review
+requested from asalzburger-review. Rule/test revision is
+ddfd9826607efb5e98c8c48465e6a23a43c59853; the following commit only completes
+this session record. It has no scientific progress entry. Existing PR renames and conflict resolution are
 already applied; their immutable historical review evidence is unchanged.
+
+All five open PRs were verified mergeable. The naming change passed 26 dashboard
+tests, 15 logging/document-link tests, 14 JavaScript assertions, log validation,
+the real-diff PR policy check and dashboard build. GitHub CI was in progress at
+collection; no human review or approval is inferred.

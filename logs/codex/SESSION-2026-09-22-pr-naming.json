@@ -4,8 +4,8 @@
   "title": "Standardize PR titles and reconcile open branch conflicts",
   "recorded_at": "2026-09-22T11:31:14Z",
   "started_at": null,
-  "ended_at": null,
-  "status": "open",
+  "ended_at": "2026-09-22T11:53:15Z",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
@@ -23,7 +23,9 @@
     "initial_changes": [
       "tools/tracker_layout/__pycache__/covariance_control.cpython-314.pyc"
     ],
-    "result_commits": [],
+    "result_commits": [
+      "ddfd9826607efb5e98c8c48465e6a23a43c59853"
+    ],
     "changed_files": [
       "AGENTS.md",
       "project/README.md",
@@ -46,7 +48,8 @@
       "PR-6",
       "PR-8",
       "PR-13",
-      "PR-14"
+      "PR-14",
+      "PR-15"
     ]
   },
   "narrative": "logs/codex/SESSION-2026-09-22-pr-naming.md",
@@ -118,6 +121,30 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "PRs #6, #8, #13 and #14 all have requested prefixes and are MERGEABLE/CLEAN; #8 head is 84f23f3f58cd289b90b9ac759efdc0e51dceb97b."
+    },
+    {
+      "command": "python3 -B tools/dashboard/check_update.py --event /tmp/nodd-pr-naming-event.json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Actual committed base/head diff and Infrastructure title pass maintenance exclusion; no infrastructure progress entry."
+    },
+    {
+      "command": "git diff --cached --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Naming-rule staged diff is whitespace-clean."
+    },
+    {
+      "command": "gh pr create --base main --head infrastructure/pr-naming --title \"Infrastructure: Standardize PR naming and conflict preservation\" --body-file /tmp/nodd-pr-naming-body.md --reviewer asalzburger-review",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Published PR #15 with review requested from asalzburger-review."
+    },
+    {
+      "command": "gh pr view --json number,url,title,headRefOid,reviewRequests,mergeable,statusCheckRollup",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "PR #15 MERGEABLE at ddfd9826607efb5e98c8c48465e6a23a43c59853; reviewer request confirmed. GitHub CI in progress at collection."
     }
   ]
 }
