@@ -13,17 +13,25 @@ validates their supported subset and additional semantic constraints. Documents
 own their declared lifecycle, formal sign-off records own human approval evidence,
 and validation reports own execution and acceptance results.
 
-Update records in the same PR as every non-chore project change, including work,
-review requests/decisions, dependencies, deliverables and evidence. The CI update
-check requires a change to `tracking.json` or `reviews.json`; maintainers review
-its substance. Use `chore: ...` or `chore(scope): ...` PR titles for maintenance.
-Chore PRs and their tasks/reviews are excluded from progress tracking and totals,
-but remain in Git history and session logs. Do not add this deployment PR as a
-project deliverable. Optional task/PR `category` defaults to `project`; the
-validator rejects `chore` entries and chore-prefixed PR titles. Scientific work
-cannot use the chore exemption. Metadata corrections may be made in a chore PR
-without adding the chore itself. The earlier dashboard infrastructure task was
-removed from this register under this policy; its history remains in Git/logs.
+Use the [PR naming rule](../AGENTS.md#pull-request-naming-and-conflict-resolution):
+`Magnet System:`, `Tracker:`, `Calorimeter:`, `Muon System:`, `Global:`,
+`Software:` or `Infrastructure:`, followed by one space and a nonempty description.
+CI validates exact spelling and capitalization, including on title edits.
+
+Update records in the same PR as every non-infrastructure project change,
+including work, review requests/decisions, dependencies, deliverables and evidence.
+CI requires a change to `tracking.json` or `reviews.json`; maintainers review its
+substance. `Software:` work needs tracking just like subsystem work.
+
+`Infrastructure:` replaces the former `chore:` / `chore(scope):` naming convention.
+Infrastructure PRs and their tasks/reviews remain excluded from progress tracking
+and totals, but require session logs, relevant checks and a dashboard build.
+Scientific work cannot use this exemption. Metadata corrections may accompany an
+infrastructure PR without tracking the infrastructure work itself. The internal
+legacy `category: chore` remains excluded, as do historical chore-prefixed titles;
+closed PRs and historical records do not need title migrations. The earlier
+dashboard infrastructure task was removed under this policy; its history remains
+in Git/logs.
 After merge, update recorded PR merge metadata once known; never invent the
 future merge SHA or automatically advance document approval.
 

@@ -178,27 +178,71 @@ Use a new project session ID for a new bounded task, even in the same client
 thread; never duplicate token observations across records. This workflow does
 not authorize collecting private client state or granting human sign-off.
 
+## Node-specific software workflows
+
+Before relying on the local ACTS Spack installation for DD4hep/Geant4 builds,
+runtime or source-level work, read the [acts-spack skill](skills/acts-spack/SKILL.md)
+and run its node preflight. The [node registry](skills/acts-spack/references/nodes.json)
+records only verified nodes and distinguishes installed libraries/runtime from
+full source trees. Warn the user when the current node or requested capability
+is unavailable or unverified before proceeding with dependent work. Recheck
+actual paths and required runtime behavior; a recorded hostname or the
+`ACTS_SPACK_SETUP` flag alone is not proof of availability. Add other nodes only
+after testing them. Do not install or modify shared dependencies merely to make
+the preflight pass.
+
+## Pull-request naming and conflict resolution
+
+Effective 2026-09-22 by explicit human instruction, every new or open PR title
+must use exactly one of these case-sensitive prefixes, a colon, one space and
+a nonempty description:
+
+| Prefix | Scope |
+| --- | --- |
+| `Magnet System: <description>` | Magnets, field configurations and return structures |
+| `Tracker: <description>` | Pixel/strip modules, tracker layouts and tracking-system design |
+| `Calorimeter: <description>` | Electromagnetic and hadronic calorimeter work |
+| `Muon System: <description>` | Muon detectors, stations and system design |
+| `Global: <description>` | Detector-wide design, envelopes and shared interfaces |
+| `Software: <description>` | New software capabilities, tools, skills and validation methods |
+| `Infrastructure: <description>` | Repository workflow, CI, dashboard, logging and maintenance |
+
+Choose the area of the principal deliverable; use `Global` for detector-wide
+work and `Software` for reusable software capability even when demonstrated
+with one subsystem. This replaces `chore: ...` / `chore(scope): ...` for PR
+titles; it does not require renaming closed PRs or historical commits.
+Infrastructure remains excluded from scientific progress tracking as below.
+
+When resolving merge conflicts, preserve both independent contributions by
+default, especially session logs. Keep distinct session pairs and merge record
+arrays by stable ID; do not concatenate JSON documents or duplicate token
+observations, IDs, reviews or checks. Reconcile edits to the same record against
+their evidence, retaining exact review revisions and approval boundaries. Do not
+silently choose one side when facts conflict. Validate merged logs and dashboard
+records and run relevant checks before pushing. Use ordinary merges; do not
+rewrite shared history or treat a conflict-resolution merge as design approval.
+
 ## Dashboard maintenance
 
 The project dashboard must stay current with every project change. For each
-non-chore PR, update `project/tracking.json` or `project/reviews.json` in the same
-PR with the affected work, dependencies, next actions, deliverables, reviews or
+non-infrastructure PR, update `project/tracking.json` or `project/reviews.json`
+in the same PR with the affected work, dependencies, next actions, deliverables, reviews or
 evidence. Update the curated record date. Review requests and decisions retain
 exact target revisions and evidence; do not infer human approval from a merge.
 After merge, reconcile the PR/merge metadata in the next tracking update when
 it is available. Missing information stays explicitly unknown.
 
-Use `chore: ...` or `chore(scope): ...` titles for repository/infrastructure
-maintenance PRs. **Chore PRs are excluded from project progress tracking:** do
+Use `Infrastructure: <description>` titles for repository/workflow maintenance
+PRs. **Infrastructure PRs are excluded from project progress tracking:** do
 not add chore work items, review rounds or PR entries, and do not count them as
 milestone or scientific progress. They still require logging, relevant checks
-and a successful dashboard build; tracking corrections may accompany a chore
-without tracking the chore itself. Scientific designs, detector changes and
-validation evidence must not be classified as chores to bypass updates.
+and a successful dashboard build; tracking corrections may accompany an
+infrastructure PR without tracking that PR itself. Scientific designs, detector changes and
+validation evidence must not be classified as infrastructure to bypass updates.
 
 Run `python3 -B tools/dashboard/build.py validate` and the relevant dashboard
-checks before completing project work. CI checks tracking updates for non-chore
-PRs and rebuilds/publishes the dashboard after every successful main-branch push.
+checks before completing project work. CI checks PR naming and project tracking
+updates and rebuilds/publishes the dashboard after every successful main-branch push.
 See [the tracking workflow](project/README.md) and
 [dashboard build/deployment guide](tools/dashboard/README.md).
 

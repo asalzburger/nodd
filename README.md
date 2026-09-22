@@ -25,6 +25,10 @@ defines their full mandates and responsibility boundaries.
 These are responsibility roles, not a requirement for eight simultaneous agent
 processes. Only identified humans may grant design sign-off or acceptance.
 
+## Human review 
+
+Guidelines for human review can be found in [REVIEW.md](REVIEW.md) 
+
 ## Final sign-off
 
 The final human sign-off authority is **`asalzburger-review`**, assigned by the
@@ -32,3 +36,10 @@ user on 2026-09-18, wherever the project workflow requires it, including formal
 M0 closure. See [ADR-002](docs/decisions/ADR-002-review-and-signoff-policy.md)
 for the assignment and remaining review-policy questions. Each approval requires
 an explicit human decision for an exact reviewed revision.
+
+## Node-specific software
+
+The [ACTS Spack skill](skills/acts-spack/SKILL.md) checks the
+[verified node registry](skills/acts-spack/references/nodes.json) before using
+preinstalled DD4hep/Geant4. It warns about unavailable nodes or capabilities;
+runtime availability and full source availability are recorded separately.
