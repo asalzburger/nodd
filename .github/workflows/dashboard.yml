@@ -37,6 +37,8 @@ jobs:
           python3 -B tools/session_logging/session_log.py validate
       - name: Test browser interaction logic
         run: node tools/dashboard/test_app.js
+      - name: Test node-aware software preflight
+        run: python3 -B -m unittest discover -s skills/acts-spack/scripts -p 'test_*.py' -v
       - name: Build static site
         run: python3 -B tools/dashboard/build.py build --output _site/pages
       - uses: actions/upload-artifact@v7

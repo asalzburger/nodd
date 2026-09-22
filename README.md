@@ -36,3 +36,10 @@ user on 2026-09-18, wherever the project workflow requires it, including formal
 M0 closure. See [ADR-002](docs/decisions/ADR-002-review-and-signoff-policy.md)
 for the assignment and remaining review-policy questions. Each approval requires
 an explicit human decision for an exact reviewed revision.
+
+## Node-specific software
+
+The [ACTS Spack skill](skills/acts-spack/SKILL.md) checks the
+[verified node registry](skills/acts-spack/references/nodes.json) before using
+preinstalled DD4hep/Geant4. It warns about unavailable nodes or capabilities;
+runtime availability and full source availability are recorded separately.
