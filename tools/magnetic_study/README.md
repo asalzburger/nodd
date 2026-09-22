@@ -4,7 +4,41 @@ Governed by [DES-004](../../docs/design/DES-004-magnetic-configurations.md).
 These tools are isolated research fixtures. They do not supply a production
 DD4hep field, magnet material or detector performance estimate.
 
-## Vacuum current-sheet benchmark
+## Current study: finite homogeneous windings (2026-09-22)
+
+The active comparison is MAG-01 through MAG-05. MAG-06 is withdrawn following
+[expert review](../../docs/design/inputs/DES-004-magnet-expert-review.md).
+`windings.json` supplies the current finite main-winding bounds; `candidates.json`
+and `solenoid.py` remain historical thin-sheet controls and a quadrature kernel.
+
+```sh
+python3 -B -m unittest discover -s tools/magnetic_study -p 'test_*.py'
+MPLCONFIGDIR=/tmp/nodd-mpl XDG_CACHE_HOME=/tmp/nodd-cache python3 -B tools/magnetic_study/finite_winding.py
+MPLCONFIGDIR=/tmp/nodd-mpl XDG_CACHE_HOME=/tmp/nodd-cache python3 -B tools/magnetic_study/muon_layouts.py
+```
+
+These commands require NumPy and Matplotlib (use the environment instructions
+below when unavailable). The finite-winding report records actual versions;
+this update does not claim a run of the earlier environment or ACTS fixtures.
+
+`finite_winding.py` integrates constant azimuthal winding-pack J over radius,
+z and azimuth, with independent analytic axis normalization. Inner r=1.34–1.44 m,
+|z|≤3.30 m and outer r=4.40–4.60 m, |z|≤6.50 m are unsigned design choices.
+The pack-average density differs between coils to normalize each to +3 T in
+vacuum; there is no current grading within a pack. The historical sheet is
+recovered in the thin-pack limit. No physical iron/toroid field is supplied.
+The 0.12 m numerical exclusion surrounds the whole pack; no interior or near-pack
+accuracy, transport map, conductor margin or structural adequacy is claimed.
+
+The [review response](../../docs/design/inputs/DES-004-magnet-expert-review.md)
+contains the full derivation, allocation rationale and unresolved vessel design.
+`DES-004-finite-winding-benchmark.json` adds evidence without overwriting the old
+sheet benchmark. Current muon drawings show finite pack bounds. The old six-option
+host report remains in Git at `2530c5543da6b2c474ccadc6c67ce431d69d2e0f`;
+the regenerated report contains five active candidates and winding containment.
+`withdrawn_options` preserves MAG-06 input but is excluded from normal generation.
+
+## Historical vacuum current-sheet benchmark
 
 Use the existing plotting environment, or create an ignored environment and
 install the exact [plotting requirements](../envelope_study/requirements.txt):
@@ -99,14 +133,14 @@ field, force, material transport or detector performance is computed.
 MPLCONFIGDIR=/tmp/nodd-mpl XDG_CACHE_HOME=/tmp/nodd-cache reference/cache/envelope-venv/bin/python -B tools/magnetic_study/muon_layouts.py
 ```
 
-`muon-layouts.json` holds all six candidate-specific proposals separately from
+`muon-layouts.json` holds five active candidate-specific proposals separately from
 E1-R2 and the initial two-option inputs. The script validates top-level host
-intersections, main-coil reference containment and nested radial reservations,
-records forward gaps and straight-ray aperture samples, and generates six
+intersections, finite main-winding containment and nested radial reservations,
+records forward gaps and straight-ray aperture samples, and generates five
 individual plus one combined PNG/SVG drawing. The retained report is
 `docs/validation/DES-004-muon-envelope-proposals.json`. Nested reservations
 belong to their composite host; they are not independent overlapping mothers.
-The MAG-04 trial bands and MAG-06 annulus are area screens only. No baseline
+The MAG-04 trial bands are area screens only; MAG-06 is archived. No baseline
 parameter, station efficiency, steel material or full field is implemented.
 
 ### Stepped endcaps (2026-09-18)

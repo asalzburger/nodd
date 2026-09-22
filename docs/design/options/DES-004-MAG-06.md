@@ -1,5 +1,10 @@
 # MAG-06 — Solenoid with active return coils
 
+**WITHDRAWN FROM STUDY — 2026-09-22:** the magnetic-field expert requested
+removal of the active-return configuration. This card and its figures are retained
+as historical evidence only; its recommendations and next tests are superseded.
+See the [review response](../inputs/DES-004-magnet-expert-review.md).
+
 - Date: 2026-09-17; status: DRAFT, unsigned candidate assessment.
 - Parent: [DES-004](../DES-004-magnetic-configurations.md).
 - Recommendation: retain for an inexpensive explicit dual-solenoid screen;

@@ -1,5 +1,10 @@
 # DES-004 — Reallocate the absent inner-solenoid space
 
+**2026-09-22 scope update:** MAG-06 is withdrawn from active study following
+[expert review](DES-004-magnet-expert-review.md). New main-solenoid studies use
+finite homogeneous winding packs; the earlier sheet calculations and MAG-06
+recommendations below are historical. Enclosure allowances remain unverified.
+
 - Date: 2026-09-18; status: **DRAFT — unsigned candidate layout amendment**.
 - Roles: Project Coordinator/System Architect, reconciled with tracker and calorimeter engineers; conditional concurrence from the muon engineer.
 - Scope: MAG-03, MAG-04 and MAG-06 outer-main-solenoid variants only.

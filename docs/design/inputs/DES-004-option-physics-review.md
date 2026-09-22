@@ -1,5 +1,10 @@
 # DES-004 — Independent review of all six magnetic options
 
+**2026-09-22 scope update:** MAG-06 is withdrawn from active study following
+[expert review](DES-004-magnet-expert-review.md). New main-solenoid studies use
+finite homogeneous winding packs; the earlier sheet calculations and MAG-06
+recommendations below are historical. Enclosure allowances remain unverified.
+
 - Date: 2026-09-17; status: DRAFT, no human sign-off or candidate selection.
 - Reviewed: [MAG-01](../options/DES-004-MAG-01.md), [MAG-02](../options/DES-004-MAG-02.md), [MAG-03](../options/DES-004-MAG-03.md), [MAG-04](../options/DES-004-MAG-04.md), [MAG-05](../options/DES-004-MAG-05.md), [MAG-06](../options/DES-004-MAG-06.md) and [common screen](../../validation/DES-004-option-screen.json).
 - Governing comparison: [physics contract](DES-004-physics-validation.md).

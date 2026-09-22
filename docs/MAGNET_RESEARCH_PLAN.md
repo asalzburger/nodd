@@ -1,5 +1,11 @@
 # Magnetic configuration research — proposed work plan
 
+**2026-09-22 review amendment:** active scope is MAG-01 through MAG-05.
+MAG-06 is withdrawn following the magnetic-field expert's request; its original
+plan below is historical. Use [finite homogeneous main windings](design/inputs/DES-004-magnet-expert-review.md)
+for new calculations, and replace provisional enclosure allowances with an
+engineering assessment before claiming fit. No production change is authorized.
+
 - Date: 2026-09-17; status: **DRAFT research protocol**, execution authorized by the user on 2026-09-17.
 - Basis: E1-R2 at `cb654ee91457b22d899a898faf2c8bf6e0fc275e`, approved in [PR #4](https://github.com/asalzburger/nodd/pull/4) and merged as `b106610b929cdfa603dd5f1ef2a6e79dbb633a7f`.
 - Execution branch: `research/magnetic-configurations`, synchronized with main at `60ef366`; previous planning state remains in Git. Design sign-off states are unchanged.
@@ -30,7 +36,7 @@ forward calorimetry remains outside the central-magnet terminology.
 | MAG-05 | Inner solenoid plus air-core barrel/endcap toroids | Can standalone-compatible muon bending fit the allocated host and forward reach? |
 | MAG-06 | Solenoid plus active return/shielding coils | Can controlled return flux reduce dependence on a massive dedicated yoke? |
 
-MAG-06 gets an inexpensive plausibility screen before detailed modelling. End
+MAG-06 is withdrawn; no further feasibility screen is scheduled. End
 compensation coils, iron-dominated toroids and hybrid arrangements form a short
 brainstorming reserve; add a candidate only when it tests a distinct benefit.
 No dedicated yoke does not mean an iron-free detector: calorimeter/support steel

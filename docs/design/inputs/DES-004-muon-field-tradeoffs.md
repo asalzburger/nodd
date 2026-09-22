@@ -1,5 +1,10 @@
 # DES-004 — Muon return-field and dedicated-magnet tradeoffs
 
+**2026-09-22 scope update:** MAG-06 is withdrawn from active study following
+[expert review](DES-004-magnet-expert-review.md). New main-solenoid studies use
+finite homogeneous winding packs; the earlier sheet calculations and MAG-06
+recommendations below are historical. Enclosure allowances remain unverified.
+
 - Date: 2026-09-18; status: DRAFT, research follow-up; no sign-off.
 - Physics/Performance agent assessment; no new simulation.
 - Tracking: [issue #9](https://github.com/asalzburger/nodd/issues/9), requested in [PR #6](https://github.com/asalzburger/nodd/pull/6#discussion_r4040748306).

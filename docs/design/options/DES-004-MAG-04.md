@@ -1,5 +1,11 @@
 # MAG-04 — Outer solenoid with instrumented iron return
 
+**2026-09-22 amendment:** the outer main solenoid now has an explicit finite
+homogeneous winding pack. The [expert-review response](../inputs/DES-004-magnet-expert-review.md)
+defines its bounds, pack-average current, derivation and checks. Historical
+thin-sheet numbers below remain reference controls. Enclosure adequacy and
+complete physical field solutions remain unverified; MAG-06 is withdrawn.
+
 - Date: 2026-09-17; status: DRAFT, unsigned candidate assessment.
 - Parent: [DES-004](../DES-004-magnetic-configurations.md).
 - Recommendation: retain as the built-topology comparison; compare changed return

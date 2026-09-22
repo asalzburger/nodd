@@ -1,0 +1,190 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-09-22-magnet-expert-review",
+  "title": "Address magnetic-field expert review on PR 6",
+  "recorded_at": "2026-09-22T09:38:08Z",
+  "started_at": null,
+  "ended_at": null,
+  "status": "open",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Actual conversation start time, client identity details and token usage have not been recorded.",
+    "The expert general comment does not name an exact reviewed commit; inspected PR head is recorded separately.",
+    "No new ACTS, Geant4, nonlinear field or structural validation was performed.",
+    "Historical CMS PDF locators reused from the repository; fresh PDF retrieval attempts were blocked. ATLAS primary PDF was re-read online."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "2530c5543da6b2c474ccadc6c67ce431d69d2e0f",
+    "branch": "research/magnetic-configurations",
+    "initial_changes": [
+      "tools/tracker_layout/__pycache__/audit_inclined.cpython-314.pyc",
+      "tools/tracker_layout/__pycache__/inclined_study.cpython-314.pyc",
+      "tools/tracker_layout/__pycache__/study.cpython-314.pyc"
+    ],
+    "result_commits": [],
+    "changed_files": [
+      "docs/MAGNET_RESEARCH_PLAN.md",
+      "docs/design/DES-004-magnetic-configurations.md",
+      "docs/design/DES-004-options-summary.md",
+      "docs/design/figures/DES-004-finite-winding-axis.png",
+      "docs/design/figures/DES-004-finite-winding-axis.svg",
+      "docs/design/figures/DES-004-mag-01-muon-envelope-rz.png",
+      "docs/design/figures/DES-004-mag-01-muon-envelope-rz.svg",
+      "docs/design/figures/DES-004-mag-02-muon-envelope-rz.png",
+      "docs/design/figures/DES-004-mag-02-muon-envelope-rz.svg",
+      "docs/design/figures/DES-004-mag-03-muon-envelope-rz.png",
+      "docs/design/figures/DES-004-mag-03-muon-envelope-rz.svg",
+      "docs/design/figures/DES-004-mag-04-muon-envelope-rz.png",
+      "docs/design/figures/DES-004-mag-04-muon-envelope-rz.svg",
+      "docs/design/figures/DES-004-mag-05-muon-envelope-rz.png",
+      "docs/design/figures/DES-004-mag-05-muon-envelope-rz.svg",
+      "docs/design/figures/DES-004-muon-envelopes-comparison-rz.png",
+      "docs/design/figures/DES-004-muon-envelopes-comparison-rz.svg",
+      "docs/design/inputs/DES-004-envelope-coordination.md",
+      "docs/design/inputs/DES-004-inner-space-reallocation.md",
+      "docs/design/inputs/DES-004-magnet-expert-review.md",
+      "docs/design/inputs/DES-004-muon-envelope-amendments.md",
+      "docs/design/inputs/DES-004-muon-field-tradeoffs.md",
+      "docs/design/inputs/DES-004-option-physics-review.md",
+      "docs/design/inputs/DES-004-option-software-review.md",
+      "docs/design/inputs/DES-004-system-architecture.md",
+      "docs/design/options/DES-004-MAG-01.md",
+      "docs/design/options/DES-004-MAG-02.md",
+      "docs/design/options/DES-004-MAG-03.md",
+      "docs/design/options/DES-004-MAG-04.md",
+      "docs/design/options/DES-004-MAG-05.md",
+      "docs/design/options/DES-004-MAG-06.md",
+      "docs/validation/DES-004-finite-winding-benchmark.json",
+      "docs/validation/DES-004-muon-envelope-proposals.json",
+      "logs/codex/SESSION-2026-09-22-magnet-expert-review.json",
+      "logs/codex/SESSION-2026-09-22-magnet-expert-review.md",
+      "project/reviews.json",
+      "project/tracking.json",
+      "reference/manifest.yaml",
+      "tools/magnetic_study/README.md",
+      "tools/magnetic_study/finite_winding.py",
+      "tools/magnetic_study/muon-layouts.json",
+      "tools/magnetic_study/muon_layouts.py",
+      "tools/magnetic_study/test_finite_winding.py",
+      "tools/magnetic_study/test_muon_layouts.py",
+      "tools/magnetic_study/windings.json"
+    ]
+  },
+  "work": {
+    "milestone": "Stage B \u2014 magnetic architecture research",
+    "components": [
+      "magnet",
+      "field calculation",
+      "enclosure assumptions",
+      "expert review",
+      "dashboard"
+    ],
+    "related_ids": [
+      "DES-004",
+      "DES-003",
+      "ADR-006",
+      "ADR-003",
+      "PR-6",
+      "issue-9"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-09-22-magnet-expert-review.md",
+  "activities": [
+    {
+      "kind": "tool",
+      "name": "exec_command, apply_patch, web and view_image",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "GitHub comment and PR inspection; public-source checks; prototype/docs/record edits; tests and generated figure inspection. Invocation totals and timing not collected."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 -B -m unittest discover -s tools/magnetic_study -p test_*.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "20 tests passed: 7 finite-winding, 6 sheet and 7 allocation tests."
+    },
+    {
+      "command": "MPLCONFIGDIR=/tmp/nodd-mpl XDG_CACHE_HOME=/tmp/nodd-cache python3 -B tools/magnetic_study/finite_winding.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Both finite packs passed all 12 benchmark samples; analytic axis comparisons and quadrature errors retained; new PNG/SVG axis plot inspected."
+    },
+    {
+      "command": "MPLCONFIGDIR=/tmp/nodd-mpl XDG_CACHE_HOME=/tmp/nodd-cache python3 -B tools/magnetic_study/muon_layouts.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Five active layouts passed intersection and finite-winding containment checks; six PNG/SVG drawings regenerated, combined drawing inspected. 5201 rays per candidate show no ECal/HCal host-path decrease."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/envelope_study -p test_*.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "11 tests passed."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/dashboard -p test_*.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "25 tests passed."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p test_*.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "15 tests passed."
+    },
+    {
+      "command": "/System/Library/Frameworks/JavaScriptCore.framework/Versions/A/Helpers/jsc tools/dashboard/test_app.js",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "14 assertions passed using documented fallback; Node unavailable."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "28 tasks, 9 documents, 6 review rounds validated."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py build --output _site/magnet-expert-review",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Dashboard preview built successfully."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "44 paired session records validated."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Passed."
+    },
+    {
+      "command": "git diff --exit-code HEAD -- docs/design/DES-003-envelopes.json docs/tdr",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Reference E1-R2 and TDR unchanged."
+    },
+    {
+      "command": "node tools/dashboard/test_app.js",
+      "status": "FAIL",
+      "exit_code": 127,
+      "result": "Node is not installed; documented JavaScriptCore fallback passed all 14 assertions."
+    }
+  ]
+}

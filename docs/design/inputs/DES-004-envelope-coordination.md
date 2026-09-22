@@ -1,5 +1,10 @@
 # DES-004 — Coordinated candidate muon-envelope amendments
 
+**2026-09-22 scope update:** MAG-06 is withdrawn from active study following
+[expert review](DES-004-magnet-expert-review.md). New main-solenoid studies use
+finite homogeneous winding packs; the earlier sheet calculations and MAG-06
+recommendations below are historical. Enclosure allowances remain unverified.
+
 - Date: 2026-09-18; status: DRAFT; numerical human approval pending.
 - Roles: Project Coordinator and System Architect, reconciled with muon engineer.
 - Scope: candidate space for research; no change to the DES-003 reference.

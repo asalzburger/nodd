@@ -1,5 +1,11 @@
 # MAG-03 — Outer solenoid without a dedicated return yoke
 
+**2026-09-22 amendment:** the outer main solenoid now has an explicit finite
+homogeneous winding pack. The [expert-review response](../inputs/DES-004-magnet-expert-review.md)
+defines its bounds, pack-average current, derivation and checks. Historical
+thin-sheet numbers below remain reference controls. Enclosure adequacy and
+complete physical field solutions remain unverified; MAG-06 is withdrawn.
+
 - Date: 2026-09-17; status: DRAFT; human approval pending.
 - Parent: [DES-004](../DES-004-magnetic-configurations.md); reference: E1-R2.
 - Assessment: **retain as the principal large-solenoid comparison; any demonstrated measurement benefit must justify its space and resource costs.**

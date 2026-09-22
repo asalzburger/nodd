@@ -2,7 +2,7 @@
 
 - Status: DRAFT
 - Created: 2026-09-17; unsigned research candidates.
-- Human owner / technical reviewers / numerical approvers: pending.
+- Human owner / numerical approvers: pending. Magnetic-field expert feedback: `mgtmentink`, 2026-09-22; no approval recorded.
 - Scope: candidate definitions and isolated PROTOTYPE diagnostics, not detector implementation.
 - Context: [PROJECT](../../PROJECT.md), [research plan](../MAGNET_RESEARCH_PLAN.md), [DES-003](DES-003-global-envelopes.md), [ADR-006](../decisions/ADR-006-global-envelope-and-field-hypotheses.md), [ADR-003](../decisions/ADR-003-validation-and-artifact-policy.md).
 - System integration: [architect input and explicit amendment requests](inputs/DES-004-system-architecture.md).
@@ -15,11 +15,26 @@ in [issue #9](https://github.com/asalzburger/nodd/issues/9), responds to PR #6
 on return-field versus dedicated muon magnets. Replies distinguish completed
 envelope amendments from outstanding field and performance evidence.
 
-The user authorized evaluation of all options on 2026-09-17. Read the
-[two-page team summary and six one-page proposals](DES-004-options-summary.md)
-for current recommendations, conditional showstoppers and next tests. The cards
-below retain the initial definitions and numerical foundations. Recommendations
-are research priorities; no topology has been selected or signed off.
+The active comparison is now **MAG-01 through MAG-05**. In response to the
+[magnetic-field expert's comment](https://github.com/asalzburger/nodd/pull/6#issuecomment-5774198540),
+MAG-06 (active return/shielding solenoids) is withdrawn from the study. Its prior
+card and evidence remain historical. No remaining topology is selected or signed off.
+
+The [review response](inputs/DES-004-magnet-expert-review.md) explains that the
+0.40/0.50 m enclosure widths were planning allowances, **not a vacuum-vessel
+radius-scaling calculation**. It also replaces the main-solenoid sheet model for
+new studies with finite homogeneous winding packs. The inner pack occupies
+r=1.34–1.44 m, |z|≤3.30 m; the outer pack r=4.40–4.60 m, |z|≤6.50 m. Both are
+unsigned prototype subdivisions of the existing hosts. Independent vacuum
+normalization to +3 T gives pack-average J=25.905 / 14.518 A/mm² and
+NI=17.097 / 37.747 MA-turn, respectively. These are not strand-current limits or
+physical currents for the still-unsolved iron/toroid systems.
+
+See the [finite-winding benchmark](../validation/DES-004-finite-winding-benchmark.json)
+and [axis comparison](figures/DES-004-finite-winding-axis.png). Seven new field
+tests and all twelve sampled benchmark points passed. The old sheet atlas and
+first numerical table below remain explicitly historical; no full-volume field
+map, vacuum vessel or performance validation is implied.
 
 ## Candidate-specific muon envelopes
 
@@ -37,7 +52,6 @@ A baseline-update issue follows only after a layout is chosen.
 | MAG-03 | 4.95–7.5; 8 | 0.4–4.8; 6.95–8 | 0.4–7.5; 8–10.9 |
 | MAG-04 | 4.95–10; 9 | 0.4–4.8; 6.95–9 | 0.4–10; 9–10.9 |
 | MAG-05 | 4.35–9; 9 | 0.4–4.2; 6.35–9 | 0.4–9; 9–10.9 |
-| MAG-06 | 4.95–8.85; 9 | 0.4–4.8; 6.95–9 | 0.4–8.85; 9–10.9 |
 
 The endcap front no longer follows barrel length: inner-solenoid options start
 at |z|=6.35 m, outer-solenoid options at 6.95 m. A narrower section extends
@@ -55,13 +69,12 @@ Individual PNG/SVG drawings are linked from each option proposal below.
 
 MAG-04 reserves example radial magnetic-structure slots totalling 129.94 m²;
 this accommodates the earlier 127.23 m² trial return-area requirement without
-using the entire host. MAG-06 reserves a 4.95–8.10 m measurement/return annulus,
-8.10–8.60 m return-coil shell and 8.60–8.85 m routes/supports. These are space
+using the entire host. These are space
 budgets, not steel recipes, actual fields or validated chamber arrangements.
 
-All six coarse allocations pass positive-rectangle-intersection checks. Expanded
+All five active coarse allocations pass positive-rectangle-intersection checks. Expanded
 endcaps stop at |z|=10.9 m, leaving 0.30 m to the forward instrumented host.
-**Remaining concern:** MAG-04/06 end-flux closure, measurements and services have
+**Remaining concern:** MAG-04 end-flux closure, measurements and services have
 not been shown to fit the stepped host. Its full-radius section still spans
 9.0–10.9 m; the narrower upstream extension starts at 6.95 m. Further amendments
 may be necessary. Enlarging the radial host does not settle that question.
@@ -71,7 +84,7 @@ as historical comparison evidence; the table above is the current research reque
 ## Reuse of the absent inner-solenoid space — 2026-09-18
 
 The System Architect coordinated tracker, calorimeter and muon inputs for
-MAG-03/04/06. **NODD DESIGN CHOICE — unsigned:** retain tracker and service
+MAG-03/04 (and the now-withdrawn MAG-06). **NODD DESIGN CHOICE — unsigned:** retain tracker and service
 bounds, move ECal barrel from r=1.70–2.06 m to **1.30–1.66 m**, reduce the
 ECal endcap outer radius to **1.66 m** to avoid an HCal overlap, and move the
 HCal barrel entrance from 2.16 to **1.76 m**, retaining its 4.20 m outer radius.
@@ -96,7 +109,8 @@ and muons to 3 with 3.5 stretch as investigation objectives. Standalone-compatib
 muon spectrometry is the baseline investigation; combined measurement remains a
 legitimate alternative rather than an interchangeable performance claim.
 
-**NODD DESIGN CHOICE:** begin with six candidates. Normalize the first comparison
+**NODD DESIGN CHOICE:** retain five active candidates after the expert-directed
+MAG-06 withdrawal; the initial six-candidate definitions remain below for traceability. Normalize the first comparison
 to +3 T central Bz, then test resource plausibility. No current-only calculation
 represents calorimeter steel or an iron return. No candidate ranking, detector
 resolution or engineering approval is supplied by these cards.
@@ -117,9 +131,10 @@ have different evidential roles.
 | M-F05 | FACT | SRC-CMS-FIELD-MAP-2023, §§1–2/PDF2–3; same review | Operational map includes iron/air interfaces and geometrical asymmetries; a central field number is insufficient |
 | M-F06 | FACT | SRC-ODD-UPSTREAM at `c167363f3d4ad1540a577af99071283caf54f3a6`, `xml/detectors/CalorimeterHCal.xml`; [calorimeter input](inputs/DES-003-calorimeter-envelope-input.md) | Inherited calorimeter contains steel and effective material; absence of a dedicated yoke is not an iron-free detector |
 
-## 3. Candidate cards
+## 3. Initial candidate cards — historical definitions
 
-All candidate prescriptions below are **NODD DESIGN CHOICE — proposed; human
+The finite-winding amendment above supersedes the thin-sheet prescriptions,
+and MAG-06 is withdrawn. All candidate prescriptions below are **NODD DESIGN CHOICE — proposed; human
 approvers pending**. Physical consequences labelled INFERENCE are hypotheses,
 not measured nODD results. TBD means the candidate is not ready for a physical
 field calculation; unknown dimensions must not be silently filled with defaults.
@@ -205,7 +220,10 @@ field calculation; unknown dimensions must not be silently filled with defaults.
 - **Key tests:** 3D field orientation, signed bending, coil obstruction and
   barrel/endcap continuity; report any required envelope expansion explicitly.
 
-### MAG-06 — Solenoid with active return/shielding coils
+### MAG-06 — Withdrawn: solenoid with active return/shielding coils
+
+**Withdrawn 2026-09-22 following expert review.** The following is historical,
+not an active work request.
 
 - **Geometry/current:** central inner/outer choice, return-coil radii/lengths,
   positions, polarities and currents **TBD**. No numerical model is specified.
@@ -259,7 +277,7 @@ Software artifacts and specialist results must state their own actual checks;
 these cards do not claim a solver, propagation, engineering or performance result.
 No sign-off state, baseline dimensions or production geometry is changed.
 
-## 6. First evidence and subsystem advice
+## 6. Historical thin-sheet evidence and subsystem advice
 
 The [vacuum benchmark](../validation/DES-004-solenoid-benchmark.json) and
 [reproduction instructions](../../tools/magnetic_study/README.md) retain the
@@ -337,8 +355,9 @@ no TDR submodule modification is needed for this research checkpoint.
 
 ## 7. Questions for the next review
 
-1. Retain all six candidates through the inexpensive screen, or prioritize the
-   standalone-compatible toroid and instrumented-return candidates first?
+1. Review the finite homogeneous winding assumptions and the engineering inputs
+   needed to replace the unverified vacuum-vessel allowances. MAG-06 is withdrawn;
+   MAG-05 and MAG-02 retain the proposed investigation priority.
 2. Is the outer-solenoid enclosure around **all central calorimeters** useful
    enough to investigate its explicit muon-host amendment, alongside a separately
    defined barrel-only alternative?

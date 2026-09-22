@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 import unittest
 
-from muon_layouts import assemble, allocation_comparison
+from muon_layouts import assemble, allocation_comparison, validate_winding_containment
 from envelope_study.study import ray_interval
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -14,6 +14,18 @@ class SteppedEndcapTests(unittest.TestCase):
     def setUp(self):
         self.baseline = json.loads((ROOT/'docs/design/DES-003-envelopes.json').read_text())
         self.options = json.loads((ROOT/'tools/magnetic_study/muon-layouts.json').read_text())['options']
+
+    def test_finite_windings_fit_active_hosts_and_reject_overflow(self):
+        coils = {c['id']: c for c in json.loads((ROOT/'tools/magnetic_study/windings.json').read_text())['windings']}
+        for option in self.options:
+            _, regions = assemble(self.baseline, option)
+            winding = coils[option['main_coil_control']]
+            validate_winding_containment(winding, regions['magnet'])
+            for key, value in (('r_min_m', regions['magnet']['r_min_m']-.01),
+                               ('r_max_m', regions['magnet']['r_max_m']+.01),
+                               ('half_length_m', regions['magnet']['z_max_m']+.01)):
+                with self.subTest(candidate=option['id'], key=key), self.assertRaises(ValueError):
+                    validate_winding_containment(dict(winding, **{key: value}), regions['magnet'])
 
     def test_all_candidates_reclaim_space_without_intersections(self):
         original = copy.deepcopy(self.baseline)

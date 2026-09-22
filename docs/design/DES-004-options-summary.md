@@ -2,19 +2,20 @@
 
 - Status: DRAFT
 - Date: 2026-09-17; **research recommendations, not human sign-off**.
-- Reading length: two-page equivalent; six linked one-page proposals below.
+- Reading length: two-page equivalent; five active one-page proposals below; MAG-06 archived.
 - Basis: [candidate definitions](DES-004-magnetic-configurations.md), E1-R2,
   public experimental/concept evidence and explicitly limited diagnostic calculations.
 
 ## Page 1 — Recommendation and technical comparison
 
-**Executive summary.** Continue all six options through a bounded evaluation,
+**Executive summary.** Continue MAG-01 through MAG-05 through a bounded evaluation,
 with **MAG-05 and MAG-02 as the first standalone-muon research pair**. Use MAG-01
 and MAG-03 to establish the simpler solenoidal/combined-measurement alternatives.
 Retain MAG-04 as the operationally grounded outer-solenoid/iron comparison,
-with an enlarged muon host for a return-space investigation. Give MAG-06 a finite-coil
-feasibility screen before investing in detailed engineering. This is a **NODD
-DESIGN CHOICE — proposed work priority**, not a performance ranking or elimination.
+with an enlarged muon host for a return-space investigation. **Withdraw MAG-06**
+following the [2026-09-22 expert review](inputs/DES-004-magnet-expert-review.md). This is a **NODD
+DESIGN CHOICE — proposed work priority** among the remaining options, not a
+performance ranking. MAG-06 withdrawal is a review-directed scope decision.
 No intrinsic physical showstopper has been demonstrated for an entire topology.
 Several present assumptions cannot be carried into an integrated detector.
 
@@ -25,7 +26,6 @@ Several present assumptions cannot be carried into an integrated detector.
 | [MAG-03: outer solenoid, no dedicated yoke](options/DES-004-MAG-03.md) | Less upstream barrel coil material; larger magnetic volume, current and integration demand | Compatible stations, combined/standalone information and resource consequences |
 | [MAG-04: outer solenoid + iron return](options/DES-004-MAG-04.md) | Built topology precedent; enlarged host addresses the initial return-area warning | Solved flux partition and plate/gap/field tradeoff, with explicit envelope alternatives |
 | [MAG-05: inner solenoid + air-core toroids](options/DES-004-MAG-05.md) | Strong reason to investigate unconstrained muons; sectors and forward transitions may consume the available space | Joint 3D coil, station and service allocation before a performance claim |
-| [MAG-06: active return coils](options/DES-004-MAG-06.md) | Public design precedent; iron mass is exchanged for coils, supports and coupled-force risks | Finite main/return/end coils meeting spatial and external-field objectives |
 
 **FACT — historical anchors:** ATLAS's solenoid and toroids and CMS's solenoid
 and instrumented return establish credible technologies, not nODD performance.
@@ -35,7 +35,12 @@ end coils. It is a design concept, not an operating HL-LHC detector. Its quoted
 forward reach does not establish the nODD muon objective. Exact experimental
 locators appear in each option proposal and the existing source ledger.
 
-**INFERENCE — useful common scales:** the retained vacuum controls require about
+**Current prototype:** finite homogeneous winding packs replace the sheets for
+new studies. [Definitions, enclosure audit and numerical results](inputs/DES-004-magnet-expert-review.md)
+give J=25.905 / 14.518 A/mm² and NI=17.097 / 37.747 MA-turn. These pack averages
+are independently normalized to +3 T in vacuum; iron/toroid systems remain unsolved.
+
+**INFERENCE — historical sheet-control scales:** the retained old controls require
 17.14 versus 37.75 MA-turn and give 1.77 versus 2.74 T on axis at z=3.15 m,
 for inner versus outer solenoids normalized to 3 T centrally. Neither axis sample
 is an eta-4 track measurement. A common uniform-field winding-bore energy proxy
@@ -54,8 +59,8 @@ bulk iron return but introduce coil/support sectors. Calorimeter steel affects
 
 **Envelope adaptation agreed for research:** the outer coil conflicts with the
 unchanged 4.35 m muon entrance, so its candidates use 4.95 m. The muon engineer
-and coordinator now propose outer barrel radii 6.762, 7.50, 7.50, 10.00, 9.00 and
-8.85 m for MAG-01 through MAG-06 respectively. These are explicit resource changes,
+and coordinator now propose outer barrel radii 6.762, 7.50, 7.50, 10.00 and
+9.00 m for active MAG-01 through MAG-05 respectively. These are explicit resource changes,
 not revisions of E1-R2. [Current allocations and drawings](DES-004-magnetic-configurations.md#candidate-specific-muon-envelopes)
 retain the full barrel/endcap definitions. The r=4.50 m diagnostic surface still
 cannot represent a chamber inside the outer coil.
@@ -63,14 +68,11 @@ cannot represent a chamber inside the outer coil.
 **Return-space response:** the original flat-field/all-flux screen required
 127.23–95.43 m² at trial mean return fields 1.5–2 T, versus 66.67 m² in the old
 outer-coil host. MAG-04's expanded host now reserves illustrative radial magnetic
-slots totalling 129.94 m², with measurement/service gaps. MAG-06 instead reserves
-4.95–8.10 m for return-field measurements, 8.10–8.60 m for the return coil and
-8.60–8.85 m for outer routes/supports. Its measurement annulus has 129.14 m²;
-returning the flat-bore flux there would average 1.478 T. These are capacity
+slots totalling 129.94 m², with measurement/service gaps. These are capacity
 screens, not solved fields or steel specifications. Actual flux, saturation,
 packing, calorimeter return and exterior leakage remain to be calculated.
 
-**Coordinated reuse of inner-coil space:** MAG-03/04/06 now move barrel ECal to
+**Coordinated reuse of inner-coil space:** MAG-03/04 now move barrel ECal to
 r=1.30–1.66 m and endcap ECal outer radius to 1.66 m; barrel HCal starts at
 1.76 m and retains r=4.20 m outside. Tracker/services, axial limits, outer coil
 and muon hosts remain fixed. This preserves nominal ECal depth and gains 0.40 m
@@ -79,9 +81,9 @@ constraints in the [architecture memo](inputs/DES-004-inner-space-reallocation.m
 A 5,201-direction prompt-ray scan found no reduced ECal/HCal summed host path;
 material, shower, segmentation and service adequacy remain unverified.
 
-**Remaining integration concern:** MAG-02–06 endcaps stop at |z|=10.9 m, leaving
+**Remaining integration concern:** MAG-02–05 endcaps stop at |z|=10.9 m, leaving
 0.30 m before the unchanged detached forward-calorimeter host. This is not a
-verified service/shielding gap. MAG-04/06 end-field closure and useful measurements
+verified service/shielding gap. MAG-04 end-field closure and useful measurements
 have not been demonstrated within their now-stepped allocations. The upstream
 section starts at 6.35 m for inner solenoids and 6.95 m for outer solenoids,
 inside the barrel; only the wider section starts at the barrel back. Trial
@@ -92,8 +94,8 @@ remain visible. A baseline-update issue will follow only after a layout is chose
 
 **Missing evidence, not demonstrated impossibility:** MAG-05 has no allocated
 3D toroid/station/service solution; MAG-02/04 have no validated nonlinear steel
-field; MAG-06 lacks a finite-coil solution. The existing ACTS checks establish a
-working propagator, not six comparable detector models. No fit covariance,
+field. MAG-06 is withdrawn, with its prior card retained as historical evidence. The existing ACTS checks establish a
+working propagator, not five comparable detector models. No fit covariance,
 alignment assumptions or quantitative standalone acceptance requirement is frozen.
 Consequently there is no defensible resolution ranking yet.
 

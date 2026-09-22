@@ -1,5 +1,11 @@
 # MAG-02 — Inner solenoid with instrumented iron return
 
+**2026-09-22 amendment:** the inner main solenoid now has an explicit finite
+homogeneous winding pack. The [expert-review response](../inputs/DES-004-magnet-expert-review.md)
+defines its bounds, pack-average current, derivation and checks. Historical
+thin-sheet numbers below remain reference controls. Enclosure adequacy and
+complete physical field solutions remain unverified; MAG-06 is withdrawn.
+
 - Date: 2026-09-17; status: DRAFT; no approving humans.
 - Governing [candidate](../DES-004-magnetic-configurations.md); [muon assessment](../inputs/DES-004-muon.md).
 - **NODD DESIGN CHOICE — recommendation:** retain as a principal alternative to MAG-05 for independent muon momentum; request a coarse return-and-station layout before a nonlinear field solve. Do not select its steel inventory now.

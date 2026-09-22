@@ -79,6 +79,12 @@ def assemble(baseline, option):
     return data, regions
 
 
+def validate_winding_containment(winding, magnet):
+    if not (magnet['r_min_m'] < winding['r_min_m'] < winding['r_max_m'] < magnet['r_max_m']
+            and 0 < winding['half_length_m'] < magnet['z_max_m']):
+        raise ValueError('Finite winding outside main-coil reserve')
+
+
 def main():
     import matplotlib
     matplotlib.use('Agg')
@@ -87,10 +93,10 @@ def main():
     from matplotlib.lines import Line2D
     plt.rcParams.update({'svg.hashsalt':'nodd-des-004-muon-hosts','font.size':9})
     paths = [ROOT/'tools/magnetic_study/muon-layouts.json',ROOT/'docs/design/DES-003-envelopes.json',
-             ROOT/'tools/magnetic_study/candidates.json']
+             ROOT/'tools/magnetic_study/windings.json']
     config, baseline, controls = [json.loads(p.read_text()) for p in paths]
     baseline_regions = {r['id']:r for r in baseline['regions']}
-    coils = {c['id']:c for c in controls['vacuum_controls']}
+    coils = {c['id']:c for c in controls['windings']}
     out = ROOT/'docs/design/figures'
     fig, axes = plt.subplots(3,2,figsize=(18,13))
     fig.subplots_adjust(top=.95,bottom=.18,hspace=.42,wspace=.18)
@@ -115,7 +121,8 @@ def main():
             rectangle(ax,region,facecolor='none',edgecolor='#542c70' if band['kind']=='coil' else '#555555',
                       hatch='xxx' if band['kind']=='coil' else '...',lw=.6)
         c = coils[option['main_coil_control']]
-        ax.plot([-c['half_length_m'],c['half_length_m']],[c['radius_m']]*2,color='#412050',lw=1.6)
+        rectangle(ax, dict(c, z_min_m=0., z_max_m=c['half_length_m']),
+                  facecolor='#412050', edgecolor='#412050', alpha=.9)
         inner, end = [regions[s['id']] for s in option['endcap_sections']]
         ax.set_title(f"{option['id']} · {option['title']}\n"
                      f"Barrel r {host['r_min_m']:g}–{host['r_max_m']:g}, |z| ≤ {host['z_max_m']:g} m\n"
@@ -131,12 +138,10 @@ def main():
     handles = [Patch(facecolor=r['color'],alpha=.55,label=r['label']) for r in baseline['regions']]
     handles += [Line2D([0],[0],color='#a02d25',ls='--',label='E1-R2 muon host'),
                 Patch(facecolor='none',edgecolor='#135b65',label='Upstream endcap step (r ≥ 0.4 m)'),
-                Line2D([0],[0],color='#412050',lw=1.6,label='Main-coil current-sheet reference'),
-                Patch(facecolor='none',edgecolor='#542c70',hatch='xxx',label='MAG-06 return-coil reservation'),
-                Patch(facecolor='none',edgecolor='#777777',hatch='...',label='MAG-06 outer routes')]
+                Patch(facecolor='#412050',label='Finite homogeneous main winding (vacuum control)')]
     footer=('DRAFT / PROTOTYPE · candidate composite hosts include magnets, chambers, supports and routes; not fully sensitive volumes\n'
-            'Steel plates, discrete toroid sectors and end-return closure are not solved or drawn. Main-coil line is a reference, not a solved total field.\n'
-            'E1-R2 baseline stays unchanged. Forward calorimetry: |z| = 11.2–13.2 m; MAG-02–06 leave a provisional 0.30 m gap (MAG-01: 0.93 m).')
+            'Steel plates, discrete toroid sectors and end-return closure are not solved or drawn. Winding pack is a vacuum control, not a solved total field.\n'
+            'E1-R2 baseline stays unchanged. Forward calorimetry: |z| = 11.2–13.2 m; MAG-02–05 leave a provisional 0.30 m gap (MAG-01: 0.93 m).')
 
     def save(figure,stem):
         figure.legend(handles=handles,loc='lower center',bbox_to_anchor=(.5,.063),ncol=4,fontsize=7)
@@ -151,8 +156,7 @@ def main():
     for ax, option in zip(axes.flat,config['options']):
         data, regions = assemble(baseline,option)
         c = coils[option['main_coil_control']]; magnet = regions['magnet']
-        if not (magnet['r_min_m'] < c['radius_m'] < magnet['r_max_m'] and c['half_length_m'] < magnet['z_max_m']):
-            raise ValueError('Reference current sheet outside main-coil reserve')
+        validate_winding_containment(c, magnet)
         draw(ax,option,regions)
         single, sax = plt.subplots(figsize=(15,8))
         single.subplots_adjust(top=.87,bottom=.28)
@@ -162,7 +166,7 @@ def main():
         sections = [regions[s['id']] for s in option['endcap_sections']]
         e = sections[-1]; b = regions['muon_barrel']
         row={'candidate':option['id'],'allocations':[{k:r[k] for k in ('id','r_min_m','r_max_m','z_min_m','z_max_m')} for r in regions.values()],
-             'positive_rectangle_intersections':[], 'main_current_sheet_contained':True,
+             'positive_rectangle_intersections':[], 'main_finite_winding_contained':True, 'main_winding':c,
              'barrel_radial_budgets':option.get('barrel_radial_budgets',[]),
              'forward_host_axial_gap_m':regions['forward_calorimeter']['z_min_m']-e['z_max_m'],
              'barrel_composite_radial_depth_m':b['r_max_m']-b['r_min_m'],
@@ -184,12 +188,11 @@ def main():
             flux = 3*math.pi*4.5**2
             row['trial_return_area']={'bands_m':bands,'area_m2':area,'mean_T_if_all_flat_bore_flux_returns':flux/area,
                                      'scope':'Midplane radial area screen only, no endcap flux neck, nonlinear steel or material prescription'}
-        if option['id']=='MAG-06':
-            band=option['barrel_radial_budgets'][0]
-            area=math.pi*(band['r_max_m']**2-band['r_min_m']**2)
-            row['active_return_area']={'area_m2':area,'mean_T_if_all_flat_bore_flux_returns':3*math.pi*4.5**2/area,
-                                      'scope':'Uniform annulus arithmetic, not a finite-coil solution'}
         result.append(row)
+    for ax in list(axes.flat)[len(config['options']):]:
+        ax.axis('off')
+        ax.text(.5,.5,'MAG-06 withdrawn from study\nExpert review, 2026-09-22\nHistorical evidence retained',
+                ha='center',va='center',transform=ax.transAxes,fontsize=12)
     save(fig,'DES-004-muon-envelopes-comparison-rz')
     provenance={**project_provenance(),'command':shlex.join([os.path.relpath(sys.executable),*sys.argv]),
         'python':sys.version.split()[0],'matplotlib':matplotlib.__version__,
@@ -197,9 +200,10 @@ def main():
         'random_seed':None,'tolerances':'Strict positive rectangle intersection check; no physical tolerances selected'}
     report_path=ROOT/'docs/validation/DES-004-muon-envelope-proposals.json'
     report_path.write_text(json.dumps({'status':'PROTOTYPE; proposed hosts, no baseline amendment or physical acceptance',
+        'withdrawn_candidates':[o['id'] for o in config.get('withdrawn_options',[])],
         'provenance':provenance,'limitations':['Composite hosts include non-sensitive magnet/support/service volumes.',
         'No muon stations, nonlinear flux closure, coil forces, phi-sector coverage or material were validated.',
         'Straight-ray aperture samples are not hit efficiency or standalone momentum reach.'], 'results':result},indent=2)+'\n')
-    print('6 candidate allocations: rectangle and containment checks passed; 7 PNG/SVG drawings generated.')
+    print(f"{len(result)} active candidate allocations: rectangle and finite-winding containment checks passed; {len(result)+1} PNG/SVG drawings generated.")
 
 if __name__ == '__main__': main()

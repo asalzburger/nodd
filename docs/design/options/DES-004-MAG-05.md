@@ -1,5 +1,11 @@
 # MAG-05 — Inner solenoid with air-core barrel/endcap toroids
 
+**2026-09-22 amendment:** the inner main solenoid now has an explicit finite
+homogeneous winding pack. The [expert-review response](../inputs/DES-004-magnet-expert-review.md)
+defines its bounds, pack-average current, derivation and checks. Historical
+thin-sheet numbers below remain reference controls. Enclosure adequacy and
+complete physical field solutions remain unverified; MAG-06 is withdrawn.
+
 - Date: 2026-09-17; status: DRAFT; no approving humans.
 - Governing [candidate](../DES-004-magnetic-configurations.md); [muon assessment](../inputs/DES-004-muon.md).
 - **NODD DESIGN CHOICE — recommendation:** retain as the preferred topology to investigate for genuinely unconstrained standalone muons, conditional on a credible coil/station/service layout. Compare directly with MAG-02/04; this is a research priority, not a demonstrated performance winner.
