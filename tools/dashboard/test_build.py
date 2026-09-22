@@ -177,6 +177,9 @@ class DashboardTests(unittest.TestCase):
         pr=self.pr(title='chore: synthetic maintenance')
         with self.assertRaisesRegex(build.Invalid,'Chore PRs'):
             self.normalize()
+        pr.update(title='Infrastructure: synthetic maintenance')
+        with self.assertRaisesRegex(build.Invalid,'Chore PRs'):
+            self.normalize()
         pr.update(title='Synthetic project work',category='chore')
         with self.assertRaisesRegex(build.Invalid,'Chore PRs'):
             self.normalize()
