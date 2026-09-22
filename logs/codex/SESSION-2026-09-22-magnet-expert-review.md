@@ -73,3 +73,16 @@ sizing, conductor/thermal/protection engineering, nonlinear iron fields, discret
 toroid geometry and muon performance still require further work. No ACTS,
 Geant4 or structural solver was run. Issue #9's previous MAG-06 scope is
 superseded in the repository and PR; the issue itself was not edited in this task.
+
+## Publication
+
+Published implementation and response evidence at `e6a1ba796bb642f27cd3804519906d1f156422fd`.
+Updated [PR #6](https://github.com/asalzburger/nodd/pull/6) description and posted
+the [three-part expert reply](https://github.com/asalzburger/nodd/pull/6#issuecomment-5775404465). Both link
+to the exact scientific revision. The tracking snapshot records that observed
+head; a subsequent logging-only commit does not change the scientific target.
+
+GitHub [build passed](https://github.com/asalzburger/nodd/actions/runs/35719994684/job/106720436356)
+for the scientific revision; PR deployment was skipped as intended. Local session
+and dashboard validation and the post-publication preview build passed. Task
+closed after publication verification; expert approval remains pending.
