@@ -1,0 +1,110 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-09-22-pixel-branch-reconciliation",
+  "title": "Reconcile pixel PR with main while retaining both records",
+  "recorded_at": "2026-09-22T11:48:33Z",
+  "started_at": null,
+  "ended_at": "2026-09-22T11:50:09Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact tokens, client version, thread ID and conversation start time unavailable.",
+    "Initial changed paths were produced by the authorized merge of origin/main, not pre-existing user edits."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "d237f146b578915cc032b30efa50044cf6344d5f",
+    "branch": "design/rd53-pixel-modules (isolated detached checkout)",
+    "initial_changes": [
+      "README.md",
+      "REVIEW.md",
+      "docs/DEVELOPMENT_PLAN.md",
+      "docs/README.md",
+      "docs/decisions/ADR-002-review-and-signoff-policy.md",
+      "docs/design/DES-005-tracker-system-plan.md",
+      "docs/design/inputs/DES-005-tracker-system-physval.md",
+      "docs/design/inputs/DES-005-tracker-system-softeng.md",
+      "docs/design/inputs/DES-005-tracker-system-sysarch.md",
+      "docs/design/inputs/DES-005-tracker-system-tracktech.md",
+      "logs/codex/SESSION-2026-09-18-agent-addresses.json",
+      "logs/codex/SESSION-2026-09-18-agent-addresses.md",
+      "logs/codex/SESSION-2026-09-18-agent-governance-pr.json",
+      "logs/codex/SESSION-2026-09-18-agent-governance-pr.md",
+      "logs/codex/SESSION-2026-09-18-signoff-authority.json",
+      "logs/codex/SESSION-2026-09-18-signoff-authority.md",
+      "logs/codex/SESSION-2026-09-18-tracker-plan-pr.json",
+      "logs/codex/SESSION-2026-09-18-tracker-plan-pr.md",
+      "logs/codex/SESSION-2026-09-18-tracker-reviewers.json",
+      "logs/codex/SESSION-2026-09-18-tracker-reviewers.md",
+      "logs/codex/SESSION-2026-09-18-tracker-system-plan.json",
+      "logs/codex/SESSION-2026-09-18-tracker-system-plan.md",
+      "project/reviews.json",
+      "project/tracking.json",
+      "reference/manifest.yaml"
+    ],
+    "result_commits": [],
+    "changed_files": [
+      "docs/README.md",
+      "project/tracking.json",
+      "project/reviews.json",
+      "logs/codex/SESSION-2026-09-22-pixel-branch-reconciliation.json",
+      "logs/codex/SESSION-2026-09-22-pixel-branch-reconciliation.md"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [],
+    "related_ids": [
+      "PR-8",
+      "DES-001",
+      "ADR-007",
+      "DES-005"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-09-22-pixel-branch-reconciliation.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 -B -m unittest discover -s tools/dashboard -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "25 tests passed."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "15 tests passed."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "28 tasks, 10 documents and 9 review rounds validated."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py build --output _site/pixel-reconciliation",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Static dashboard built successfully."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "41 paired session records validated."
+    },
+    {
+      "command": "Python merge preservation audit",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Every original review round and log path from both parents retained; DES-001/ADR-007 bytes unchanged."
+    }
+  ]
+}
