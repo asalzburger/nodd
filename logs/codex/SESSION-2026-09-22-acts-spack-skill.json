@@ -1,0 +1,166 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-09-22-acts-spack-skill",
+  "title": "Learn node-aware ACTS Spack DD4hep and Geant4 workflow",
+  "recorded_at": "2026-09-22T14:11:40Z",
+  "started_at": null,
+  "ended_at": null,
+  "status": "open",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact token usage, client version, thread ID and conversation start time unavailable.",
+    "Only acts-mac-studio-01.cern.ch tested; other nodes unknown. Full source staging and event simulation not performed.",
+    "No external configuration contents, credentials or complete environment dump retained. External helper fingerprint records provenance only."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "53aaf37f97c1b40170e053909a22c539004fe640",
+    "branch": "software/acts-spack-skill",
+    "initial_changes": [
+      "tools/tracker_layout/__pycache__/covariance_control.cpython-314.pyc"
+    ],
+    "result_commits": [],
+    "changed_files": [
+      "AGENTS.md",
+      "README.md",
+      "project/tracking.json",
+      "logs/codex/SESSION-2026-09-22-acts-spack-skill.json",
+      "logs/codex/SESSION-2026-09-22-acts-spack-skill.md",
+      "skills/acts-spack/SKILL.md",
+      "skills/acts-spack/references/workflow.md",
+      "skills/acts-spack/references/nodes.json",
+      "skills/acts-spack/agents/openai.yaml",
+      "skills/acts-spack/scripts/test_preflight.py",
+      "skills/acts-spack/scripts/preflight.py",
+      "skills/acts-spack/scripts/smoke/CMakeLists.txt",
+      "skills/acts-spack/scripts/smoke/smoke.cpp",
+      ".github/workflows/dashboard.yml",
+      "tools/dashboard/test_build.py"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "software",
+      "dependencies"
+    ],
+    "related_ids": [
+      "DES-005",
+      "TRK-SE01",
+      "TRK-SE06",
+      "TASK-SOFT-SPACK"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-09-22-acts-spack-skill.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "Fresh zsh: source user acts_setup.sh; unset ACTS_SPACK_SETUP; setup_spack; spack env status; spack find DD4hep/Geant4",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Activated ci-dependencies; dd4hep@1.37 +ddg4 and geant4@11.4.1 installed. Initial sandbox CPU-detection denial corrected by authorized normal subprocess."
+    },
+    {
+      "command": "Python dd4hep import after setup_spack only",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "DD4HEP_LIBRARY_PATH missing. Corrected by sourcing thisdd4hep.sh; helper was not modified."
+    },
+    {
+      "command": "After setup_spack: source thisdd4hep.sh and geant4.sh; python3 imports dd4hep/DDG4; geant4-config --check-datasets",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "DD4hep and DDG4 imports succeeded; all 12 Geant4 dataset directories reported installed."
+    },
+    {
+      "command": "spack location --source-dir dd4hep; spack location --source-dir geant4",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Both full source directories absent; no source staging/download attempted. Expected stage paths from -s do not establish availability."
+    },
+    {
+      "command": "Activated shell: cmake -S skills/acts-spack/scripts/smoke -B reference/cache/spack-skill/build -G Ninja; cmake --build reference/cache/spack-skill/build --parallel 2; reference/cache/spack-skill/build/spack-smoke",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Configured, compiled, linked DDCore/DDG4/Geant4 and ran: obtained DD4hep Detector and G4_Si. CMake policy warnings and CLHEP view-prefix warning retained; CLHEP configs resolve identically."
+    },
+    {
+      "command": "python3 -B skills/acts-spack/scripts/preflight.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Known-node files/fingerprints match."
+    },
+    {
+      "command": "python3 -B skills/acts-spack/scripts/preflight.py --require-sources",
+      "status": "FAIL",
+      "exit_code": 2,
+      "result": "Intentional unavailable-source check emits both warnings and exits 2, as required."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s skills/acts-spack/scripts -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Five tests passed: matching node, unknown node, removed prerequisite, fingerprint drift and independent source availability."
+    },
+    {
+      "command": "/Users/salzburg/Documents/work/externals/ci-dependencies/.spack-env/view/bin/python3 /Users/salzburg/.codex/skills/.system/skill-creator/scripts/quick_validate.py skills/acts-spack",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Skill valid. System python lacked PyYAML; used preinstalled Spack Python/PyYAML without adding dependencies."
+    },
+    {
+      "command": "Install tested skill into /Users/salzburg/.codex/skills/acts-spack and compare bytes",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Authorized personal skill installation; all eight skill files match repository copy."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "28 tasks, 8 documents and 5 review rounds validated."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py build --output _site/spack-skill",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Static dashboard built successfully."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "36 paired records validated."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "15 tests passed."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/dashboard -p 'test_*.py' -v (before fixture fix)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "26 tests ran, 6 failures and 9 errors: synthetic checkouts omitted new skills/ evidence directory. Added skills/ to copied fixtures; no validation assertion or tolerance weakened."
+    },
+    {
+      "command": "Python skill reference/prerequisite/fingerprint audit",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All skill-relative Markdown links resolve, all recorded files exist, setup and lockfile SHA-256 match."
+    },
+    {
+      "command": "git diff --cached --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Staged task files are whitespace-clean; unrelated tracker bytecode excluded."
+    }
+  ]
+}

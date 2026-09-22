@@ -178,6 +178,19 @@ Use a new project session ID for a new bounded task, even in the same client
 thread; never duplicate token observations across records. This workflow does
 not authorize collecting private client state or granting human sign-off.
 
+## Node-specific software workflows
+
+Before relying on the local ACTS Spack installation for DD4hep/Geant4 builds,
+runtime or source-level work, read the [acts-spack skill](skills/acts-spack/SKILL.md)
+and run its node preflight. The [node registry](skills/acts-spack/references/nodes.json)
+records only verified nodes and distinguishes installed libraries/runtime from
+full source trees. Warn the user when the current node or requested capability
+is unavailable or unverified before proceeding with dependent work. Recheck
+actual paths and required runtime behavior; a recorded hostname or the
+`ACTS_SPACK_SETUP` flag alone is not proof of availability. Add other nodes only
+after testing them. Do not install or modify shared dependencies merely to make
+the preflight pass.
+
 ## Pull-request naming and conflict resolution
 
 Effective 2026-09-22 by explicit human instruction, every new or open PR title
