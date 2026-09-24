@@ -1,5 +1,9 @@
 # DES-004 — Calorimeter constraints on magnetic architectures
 
+**2026-09-24 sizing amendment:** [Current constraints and dimensions](DES-004-magnet-sizing-review.md)
+supersede earlier winding/vessel and MAG-03/04 radial allocations below.
+Earlier numerical results remain historical; complete-system engineering is open.
+
 - Date: 2026-09-17; status: DRAFT research input; no technical sign-off.
 - Context: [magnetic research plan](../../MAGNET_RESEARCH_PLAN.md),
   [DES-003 E1-R2](../DES-003-global-envelopes.md),

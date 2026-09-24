@@ -35,10 +35,11 @@ end coils. It is a design concept, not an operating HL-LHC detector. Its quoted
 forward reach does not establish the nODD muon objective. Exact experimental
 locators appear in each option proposal and the existing source ledger.
 
-**Current prototype:** finite homogeneous winding packs replace the sheets for
-new studies. [Definitions, enclosure audit and numerical results](inputs/DES-004-magnet-expert-review.md)
-give J=25.905 / 14.518 A/mm² and NI=17.097 / 37.747 MA-turn. These pack averages
-are independently normalized to +3 T in vacuum; iron/toroid systems remain unsolved.
+**Current prototype:** the [2026-09-24 expert sizing response](inputs/DES-004-magnet-sizing-review.md)
+adds all-space vacuum stored energy and coupled cold-mass/vessel sizing. At 3 T,
+inner/outer U=132.576/3624.582 MJ and RVo=1.559419/5.400309 m. MAG-03/04 muon
+radial budgets move outward 0.600309 m. Axial allowances and the provisional RCMi
+interpretation require confirmation; installed iron/toroid energy remains open.
 
 **INFERENCE — historical sheet-control scales:** the retained old controls require
 17.14 versus 37.75 MA-turn and give 1.77 versus 2.74 T on axis at z=3.15 m,

@@ -1,0 +1,355 @@
+{
+  "status": "PROTOTYPE; homogeneous finite windings in vacuum; no physical field ranking",
+  "command": [
+    "tools/magnetic_study/finite_winding.py"
+  ],
+  "commit": "58a60f9a7bea2fab0c4d977d48847bc4351050ed",
+  "working_tree_dirty": true,
+  "input_sha256": {
+    "tools/magnetic_study/windings.json": "bf7e9680d25d6843df9604ae5ea64e64f9b208c3c2eb153f66f12203a1dbc170",
+    "tools/magnetic_study/candidates.json": "0886486c3849a6922dfdf8452be45471120d0c28f5bfbc35c975d727996c63a3",
+    "/private/tmp/nodd-pr6-expert-sizing/tools/magnetic_study/finite_winding.py": "7be61123d164a94f88d13d69c6714a2842a29f654a3e58d0a3b9f8d84be3d82d",
+    "/private/tmp/nodd-pr6-expert-sizing/tools/magnetic_study/solenoid.py": "d240aa9663f8c711e356f1a084852078ad6cf06d6ad366c87b4f2350fd8ca523",
+    "/private/tmp/nodd-pr6-expert-sizing/tools/magnetic_study/sizing.py": "7968ed24c7a3d261241564e43ff12dc861f319e70fd0ccae496e4eda38443f72",
+    "/private/tmp/nodd-pr6-expert-sizing/tools/magnetic_study/sizing-policy.json": "ff54e1da249d5118f59137008d0b3c28185a089b489991ba570af9eb85fc28bc"
+  },
+  "versions": {
+    "python": "3.14.6 (main, Jun 10 2026, 10:03:53) [Clang 21.0.0 (clang-2100.0.123.102)]",
+    "numpy": "2.5.3",
+    "matplotlib": "3.11.2"
+  },
+  "random_seed": null,
+  "randomness": "none",
+  "quadrature_r_z_phi": {
+    "coarse": [
+      4,
+      48,
+      64
+    ],
+    "nominal": [
+      8,
+      96,
+      128
+    ],
+    "fine": [
+      16,
+      192,
+      256
+    ]
+  },
+  "tolerances": {
+    "point_convergence": "1e-6 T + 1e-5 norm(B_fine)",
+    "axis_absolute_T": 1e-10
+  },
+  "excluded_domain": "Within winding pack or <=0.12 m from its rectangular r-z cross-section; numerical guard, not physical clearance.",
+  "limitations": [
+    "J is a homogeneous winding-pack average, not strand current density.",
+    "Different constant J per control enforces +3 T at the origin in vacuum only.",
+    "No iron, toroid field, turn discreteness, leads, structural or quench calculation.",
+    "Sampled checks and analytic axis curves do not establish a validated transport map."
+  ],
+  "results": [
+    {
+      "winding": {
+        "id": "MAG-01",
+        "applies_to_main_solenoid": [
+          "MAG-01",
+          "MAG-02",
+          "MAG-05"
+        ],
+        "r_min_m": 1.3278,
+        "r_max_m": 1.3797792648008482,
+        "half_length_m": 3.3,
+        "central_field_T": 3.0,
+        "sizing": {
+          "id": "MAG-01",
+          "candidates": [
+            "MAG-01",
+            "MAG-02",
+            "MAG-05"
+          ],
+          "vessel_inner_radius_m": 1.24,
+          "cold_inner_radius_m": 1.3278,
+          "cold_outer_radius_m": 1.405768897201272,
+          "winding_outer_radius_m": 1.3797792648008482,
+          "cold_mass_length_m": 6.6,
+          "vessel_length_m": 7.1,
+          "axial_gap_per_end_m": 0.25,
+          "vessel_outer_radius_m": 1.5594188972012724,
+          "central_field_T": 3.0,
+          "J_A_mm2": 49.64321907346699,
+          "stored_energy_J": 132576478.44061258,
+          "cold_volume_m3": 4.419215948014131,
+          "energy_density_J_m3": 30000000.00004269,
+          "energy_density_relative_residual": 1.4230838729645257e-12,
+          "refinement_orders_r_phi": [
+            [
+              24,
+              96
+            ],
+            [
+              48,
+              192
+            ],
+            [
+              96,
+              384
+            ]
+          ],
+          "refinement_energy_J": [
+            132577596.20310801,
+            132576478.44061258,
+            132576067.100034
+          ],
+          "relative_refinement": 3.1026663509514663e-06
+        },
+        "rationale": "Review-directed energy/volume and vessel scaling; vacuum-only conditional closure; axial end allowances provisional."
+      },
+      "J_A_per_mm2": 49.64321907346699,
+      "NI_A_turn": 17030758.996589284,
+      "checks": [
+        {
+          "r_m": 0.0,
+          "z_m": 0.0,
+          "Br_T": 2.4922215544934756e-18,
+          "Bz_T": 2.9999999999999956,
+          "coarse_to_nominal_T": 1.5099033449333026e-14,
+          "nominal_to_fine_T": 2.753353110057375e-14,
+          "screening_tolerance_T": 3.099999999999968e-05,
+          "axis_error_T": 4.440892098500626e-15,
+          "delta_from_historical_sheet_T": [
+            -3.844814380377673e-18,
+            2.042810365310288e-14
+          ],
+          "passed": true
+        },
+        {
+          "r_m": 0.0,
+          "z_m": 3.15,
+          "Br_T": -4.64680524108965e-17,
+          "Bz_T": 1.7653179082590638,
+          "coarse_to_nominal_T": 1.2656548481753906e-14,
+          "nominal_to_fine_T": 2.4424907266803125e-14,
+          "screening_tolerance_T": 1.8653179082590885e-05,
+          "axis_error_T": 6.217248937900877e-15,
+          "delta_from_historical_sheet_T": [
+            -1.356761698262268e-18,
+            -0.0008984379146665944
+          ],
+          "passed": true
+        },
+        {
+          "r_m": 0.5,
+          "z_m": 1.0,
+          "Br_T": 0.029728335572060675,
+          "Bz_T": 2.9542357338708585,
+          "coarse_to_nominal_T": 3.224618446639027e-11,
+          "nominal_to_fine_T": 2.5352827101916777e-14,
+          "screening_tolerance_T": 3.054385307507337e-05,
+          "axis_error_T": null,
+          "delta_from_historical_sheet_T": [
+            -0.0017117251519635258,
+            0.002894980826494642
+          ],
+          "passed": true
+        },
+        {
+          "r_m": 1.14,
+          "z_m": 3.15,
+          "Br_T": 0.9316521993238327,
+          "Bz_T": 2.0221131121914855,
+          "coarse_to_nominal_T": 6.843068072547967e-05,
+          "nominal_to_fine_T": 2.1561741844766953e-09,
+          "screening_tolerance_T": 2.3264135398168e-05,
+          "axis_error_T": null,
+          "delta_from_historical_sheet_T": [
+            0.06098258673236867,
+            0.05558784960984564
+          ],
+          "passed": true
+        },
+        {
+          "r_m": 3.0,
+          "z_m": 4.0,
+          "Br_T": 0.15232748255442816,
+          "Bz_T": 0.022298729318750928,
+          "coarse_to_nominal_T": 9.57724476598867e-16,
+          "nominal_to_fine_T": 1.8578750750735138e-15,
+          "screening_tolerance_T": 2.539509508596829e-06,
+          "axis_error_T": null,
+          "delta_from_historical_sheet_T": [
+            -0.01610223124105359,
+            -0.0032890689002060755
+          ],
+          "passed": true
+        },
+        {
+          "r_m": 6.0,
+          "z_m": 8.0,
+          "Br_T": 0.01571052559895131,
+          "Bz_T": 0.007988815354547298,
+          "coarse_to_nominal_T": 2.6020852139652106e-17,
+          "nominal_to_fine_T": 5.388822918106865e-17,
+          "screening_tolerance_T": 1.1762503291810702e-06,
+          "axis_error_T": null,
+          "delta_from_historical_sheet_T": [
+            -0.0015467288350531593,
+            -0.0008186563643577064
+          ],
+          "passed": true
+        }
+      ],
+      "passed": true
+    },
+    {
+      "winding": {
+        "id": "MAG-03",
+        "applies_to_main_solenoid": [
+          "MAG-03",
+          "MAG-04"
+        ],
+        "r_min_m": 4.5866999999999996,
+        "r_max_m": 4.794622674720305,
+        "half_length_m": 6.5,
+        "central_field_T": 3.0,
+        "sizing": {
+          "id": "MAG-03",
+          "candidates": [
+            "MAG-03",
+            "MAG-04"
+          ],
+          "vessel_inner_radius_m": 4.3,
+          "cold_inner_radius_m": 4.5866999999999996,
+          "cold_outer_radius_m": 4.898584012080457,
+          "winding_outer_radius_m": 4.794622674720305,
+          "cold_mass_length_m": 13.0,
+          "vessel_length_m": 13.6,
+          "axial_gap_per_end_m": 0.3,
+          "vessel_outer_radius_m": 5.400309012080457,
+          "central_field_T": 3.0,
+          "J_A_mm2": 14.159248415084164,
+          "stored_energy_J": 3624582016.164864,
+          "cold_volume_m3": 120.81940053890777,
+          "energy_density_J_m3": 29999999.99998039,
+          "energy_density_relative_residual": 6.536993168992922e-13,
+          "refinement_orders_r_phi": [
+            [
+              24,
+              96
+            ],
+            [
+              48,
+              192
+            ],
+            [
+              96,
+              384
+            ]
+          ],
+          "refinement_energy_J": [
+            3624626421.7412577,
+            3624582016.164864,
+            3624566828.2625065
+          ],
+          "relative_refinement": 4.190249327962192e-06
+        },
+        "rationale": "Review-directed energy/volume and vessel scaling; vacuum-only conditional closure; axial end allowances provisional."
+      },
+      "J_A_per_mm2": 14.159248415084164,
+      "NI_A_turn": 38272374.43241607,
+      "checks": [
+        {
+          "r_m": 0.0,
+          "z_m": 0.0,
+          "Br_T": -7.63820585153564e-19,
+          "Bz_T": 2.9999999999999947,
+          "coarse_to_nominal_T": 1.1102230248117037e-14,
+          "nominal_to_fine_T": 2.13162821116314e-14,
+          "screening_tolerance_T": 3.099999999999974e-05,
+          "axis_error_T": 5.329070518200751e-15,
+          "delta_from_historical_sheet_T": [
+            -6.252794560871155e-18,
+            1.509903313490213e-14
+          ],
+          "passed": true
+        },
+        {
+          "r_m": 0.0,
+          "z_m": 3.15,
+          "Br_T": -2.465985455213272e-17,
+          "Bz_T": 2.738774169348106,
+          "coarse_to_nominal_T": 7.105431406466946e-15,
+          "nominal_to_fine_T": 1.2878587934613733e-14,
+          "screening_tolerance_T": 2.8387741693480936e-05,
+          "axis_error_T": 5.329070518200751e-15,
+          "delta_from_historical_sheet_T": [
+            -4.600953939910822e-20,
+            -0.004101355978112231
+          ],
+          "passed": true
+        },
+        {
+          "r_m": 0.5,
+          "z_m": 1.0,
+          "Br_T": 0.012191148946374436,
+          "Bz_T": 2.9789505009924038,
+          "coarse_to_nominal_T": 1.1104181638668011e-14,
+          "nominal_to_fine_T": 2.08764491480008e-14,
+          "screening_tolerance_T": 3.07897544660499e-05,
+          "axis_error_T": null,
+          "delta_from_historical_sheet_T": [
+            0.00030850433662852304,
+            -0.0005636111835096713
+          ],
+          "passed": true
+        },
+        {
+          "r_m": 1.14,
+          "z_m": 3.15,
+          "Br_T": 0.10129839528383494,
+          "Bz_T": 2.762481383817029,
+          "coarse_to_nominal_T": 7.32410687763558e-15,
+          "nominal_to_fine_T": 1.2872843271903407e-14,
+          "screening_tolerance_T": 2.864338033023939e-05,
+          "axis_error_T": null,
+          "delta_from_historical_sheet_T": [
+            0.0007533611720877964,
+            -0.00474763373071907
+          ],
+          "passed": true
+        },
+        {
+          "r_m": 3.0,
+          "z_m": 4.0,
+          "Br_T": 0.35166537253237556,
+          "Bz_T": 2.756239922485875,
+          "coarse_to_nominal_T": 2.0706432235073397e-12,
+          "nominal_to_fine_T": 1.746767553183381e-14,
+          "screening_tolerance_T": 2.878583640012156e-05,
+          "axis_error_T": null,
+          "delta_from_historical_sheet_T": [
+            0.0037369409135500353,
+            -0.013565633374191144
+          ],
+          "passed": true
+        },
+        {
+          "r_m": 6.0,
+          "z_m": 8.0,
+          "Br_T": 0.5604024414352696,
+          "Bz_T": 0.18921621552932955,
+          "coarse_to_nominal_T": 2.024924049216869e-11,
+          "nominal_to_fine_T": 9.193424303459782e-15,
+          "screening_tolerance_T": 6.9148429614475635e-06,
+          "axis_error_T": null,
+          "delta_from_historical_sheet_T": [
+            0.05473987772036282,
+            0.0327384449007615
+          ],
+          "passed": true
+        }
+      ],
+      "passed": true
+    }
+  ]
+}

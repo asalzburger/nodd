@@ -80,6 +80,13 @@ def assemble(baseline, option):
 
 
 def validate_winding_containment(winding, magnet):
+    from sizing import validate_sized_winding
+    validate_sized_winding(winding)
+    sized=winding['sizing']
+    if not all(math.isclose(magnet[k],sized[v],abs_tol=1e-9) for k,v in (('r_min_m','vessel_inner_radius_m'),('r_max_m','vessel_outer_radius_m'))):
+        raise ValueError('Magnet host must follow sized vessel radii')
+    if not math.isclose(2*magnet['z_max_m'],sized['vessel_length_m'],abs_tol=1e-9):
+        raise ValueError('Magnet host must follow explicit vessel length')
     if not (magnet['r_min_m'] < winding['r_min_m'] < winding['r_max_m'] < magnet['r_max_m']
             and 0 < winding['half_length_m'] < magnet['z_max_m']):
         raise ValueError('Finite winding outside main-coil reserve')
@@ -121,6 +128,8 @@ def main():
             rectangle(ax,region,facecolor='none',edgecolor='#542c70' if band['kind']=='coil' else '#555555',
                       hatch='xxx' if band['kind']=='coil' else '...',lw=.6)
         c = coils[option['main_coil_control']]
+        cold=c['sizing']
+        rectangle(ax,dict(r_min_m=cold['cold_inner_radius_m'],r_max_m=cold['cold_outer_radius_m'],z_min_m=0.,z_max_m=cold['cold_mass_length_m']/2),facecolor='#bba0cc',edgecolor='#412050',alpha=.7)
         rectangle(ax, dict(c, z_min_m=0., z_max_m=c['half_length_m']),
                   facecolor='#412050', edgecolor='#412050', alpha=.9)
         inner, end = [regions[s['id']] for s in option['endcap_sections']]
@@ -132,12 +141,13 @@ def main():
         ax.text(0,(host['r_min_m']+host['r_max_m'])/2,'COMPOSITE MUON HOST',ha='center',fontsize=7)
         if option.get('inner_space_reallocated'):
             ax.text(0, .2, 'ECal inward 0.40 m · HCal host +0.40 m', ha='center', fontsize=7)
-        ax.set(xlim=(-14,14),ylim=(0,10.4),xlabel='z [m]',ylabel='r [m]')
+        ax.set(xlim=(-14,14),ylim=(0,11.1),xlabel='z [m]',ylabel='r [m]')
         ax.set_aspect('equal',adjustable='box'); ax.grid(alpha=.16); ax.set_axisbelow(True)
 
     handles = [Patch(facecolor=r['color'],alpha=.55,label=r['label']) for r in baseline['regions']]
     handles += [Line2D([0],[0],color='#a02d25',ls='--',label='E1-R2 muon host'),
                 Patch(facecolor='none',edgecolor='#135b65',label='Upstream endcap step (r ≥ 0.4 m)'),
+                Patch(facecolor='#bba0cc',label='Cold mass: energy/volume scaling (vacuum only)'),
                 Patch(facecolor='#412050',label='Finite homogeneous main winding (vacuum control)')]
     footer=('DRAFT / PROTOTYPE · candidate composite hosts include magnets, chambers, supports and routes; not fully sensitive volumes\n'
             'Steel plates, discrete toroid sectors and end-return closure are not solved or drawn. Winding pack is a vacuum control, not a solved total field.\n'
@@ -185,9 +195,11 @@ def main():
             if any(right[0]<left[1] for left,right in zip(bands,bands[1:])):
                 raise ValueError('Trial steel bands overlap')
             area = math.pi*sum(hi*hi-lo*lo for lo,hi in bands)
-            flux = 3*math.pi*4.5**2
+            proxy_radius=(c['r_min_m']+c['r_max_m'])/2
+            flux = abs(c['central_field_T'])*math.pi*proxy_radius**2
             row['trial_return_area']={'bands_m':bands,'area_m2':area,'mean_T_if_all_flat_bore_flux_returns':flux/area,
-                                     'scope':'Midplane radial area screen only, no endcap flux neck, nonlinear steel or material prescription'}
+                                     'flat_field_proxy_radius_m':proxy_radius,
+                                     'scope':'Midplane area and uniform-field mean-winding-radius flux proxy only; not integrated physical flux, no endcap closure or nonlinear steel solution'}
         result.append(row)
     for ax in list(axes.flat)[len(config['options']):]:
         ax.axis('off')
@@ -196,7 +208,7 @@ def main():
     save(fig,'DES-004-muon-envelopes-comparison-rz')
     provenance={**project_provenance(),'command':shlex.join([os.path.relpath(sys.executable),*sys.argv]),
         'python':sys.version.split()[0],'matplotlib':matplotlib.__version__,
-        'input_sha256':{str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for p in paths+[Path(__file__).resolve(),ROOT/'tools/envelope_study/study.py']},
+        'input_sha256':{str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for p in paths+[Path(__file__).resolve(),ROOT/'tools/envelope_study/study.py',ROOT/'tools/magnetic_study/sizing.py',ROOT/'tools/magnetic_study/sizing-policy.json']},
         'random_seed':None,'tolerances':'Strict positive rectangle intersection check; no physical tolerances selected'}
     report_path=ROOT/'docs/validation/DES-004-muon-envelope-proposals.json'
     report_path.write_text(json.dumps({'status':'PROTOTYPE; proposed hosts, no baseline amendment or physical acceptance',

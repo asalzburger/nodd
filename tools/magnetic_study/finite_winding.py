@@ -13,6 +13,7 @@ import sys
 
 import numpy as np
 from solenoid import MU0, Solenoid, sha
+from sizing import check_field, validate_sized_winding
 
 
 class FiniteWinding:
@@ -26,6 +27,7 @@ class FiniteWinding:
             raise ValueError('quadrature orders must be integers')
         if nr < 2 or nz < 2 or nphi < 4:
             raise ValueError('invalid quadrature order')
+        check_field(central_field)
         self.a, self.b, self.h = r_min, r_max, half_length
         self.b0, self.guard = central_field, guard
         self.j = central_field / (MU0 * half_length *
@@ -62,7 +64,7 @@ class FiniteWinding:
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--config', default='tools/magnetic_study/windings.json')
-    p.add_argument('--output', default='docs/validation/DES-004-finite-winding-benchmark.json')
+    p.add_argument('--output', default='docs/validation/DES-004-sized-winding-benchmark.json')
     p.add_argument('--figures', default='docs/design/figures')
     args = p.parse_args()
     config = json.loads(Path(args.config).read_text())
@@ -74,8 +76,9 @@ def main():
     matplotlib.use('Agg')
     import matplotlib.pyplot as plt
     plt.rcParams['svg.hashsalt'] = 'nodd-finite-winding'
-    fig, axes = plt.subplots(1,2,figsize=(11,4),layout='constrained')
-    for ax, c in zip(axes, config['windings']):
+    fig, axes = plt.subplots(1,len(config['windings']),figsize=(5.5*len(config['windings']),4),layout='constrained',squeeze=False)
+    for ax, c in zip(axes.flat, config['windings']):
+        validate_sized_winding(c)
         models = {key: FiniteWinding(c['r_min_m'], c['r_max_m'], c['half_length_m'],
                   c['central_field_T'], *order) for key, order in quadrature.items()}
         model = models['nominal']
@@ -103,14 +106,14 @@ def main():
     fig.suptitle('PROTOTYPE: finite homogeneous winding packs; no iron or engineering validation')
     out = Path(args.figures); out.mkdir(parents=True, exist_ok=True)
     for ext in ('png','svg'):
-        path=out/('DES-004-finite-winding-axis.'+ext)
+        path=out/('DES-004-sized-winding-axis.'+ext)
         fig.savefig(path,dpi=140,metadata={'Date':None} if ext=='svg' else None)
         if ext=='svg': path.write_text('\n'.join(line.rstrip() for line in path.read_text().splitlines())+'\n')
     plt.close(fig)
     report = {'status':'PROTOTYPE; homogeneous finite windings in vacuum; no physical field ranking',
         'command':sys.argv, 'commit':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),
         'working_tree_dirty':bool(subprocess.check_output(['git','status','--porcelain'],text=True).strip()),
-        'input_sha256':{str(path):sha(path) for path in (Path(args.config),old_path,Path(__file__),Path(__file__).with_name('solenoid.py'))},
+        'input_sha256':{str(path):sha(path) for path in (Path(args.config),old_path,Path(__file__),Path(__file__).with_name('solenoid.py'),Path(__file__).with_name('sizing.py'),Path(__file__).with_name('sizing-policy.json'))},
         'versions':{'python':sys.version,'numpy':np.__version__,'matplotlib':matplotlib.__version__},
         'random_seed':None, 'randomness':'none', 'quadrature_r_z_phi':quadrature,
         'tolerances':{'point_convergence':'1e-6 T + 1e-5 norm(B_fine)','axis_absolute_T':1e-10},

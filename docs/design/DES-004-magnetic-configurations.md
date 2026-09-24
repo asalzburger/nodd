@@ -20,21 +20,18 @@ The active comparison is now **MAG-01 through MAG-05**. In response to the
 MAG-06 (active return/shielding solenoids) is withdrawn from the study. Its prior
 card and evidence remain historical. No remaining topology is selected or signed off.
 
-The [review response](inputs/DES-004-magnet-expert-review.md) explains that the
-0.40/0.50 m enclosure widths were planning allowances, **not a vacuum-vessel
-radius-scaling calculation**. It also replaces the main-solenoid sheet model for
-new studies with finite homogeneous winding packs. The inner pack occupies
-r=1.34–1.44 m, |z|≤3.30 m; the outer pack r=4.40–4.60 m, |z|≤6.50 m. Both are
-unsigned prototype subdivisions of the existing hosts. Independent vacuum
-normalization to +3 T gives pack-average J=25.905 / 14.518 A/mm² and
-NI=17.097 / 37.747 MA-turn, respectively. These are not strand-current limits or
-physical currents for the still-unsolved iron/toroid systems.
+The [2026-09-24 sizing response](inputs/DES-004-magnet-sizing-review.md) applies
+review-directed radial gaps, 30 MJ/m³ stored-energy/cold-volume scaling and a hard
+5 T central-field cap. All current controls stay at 3 T. The inner/outer vacuum
+windings store 132.576 / 3624.582 MJ; vessel outer radii become 1.559419 / 5.400309 m.
+The outer muon reservations move outward by 0.600309 m. Axial lengths and the
+undefined `RCM` symbol interpretation remain explicit confirmation questions.
 
-See the [finite-winding benchmark](../validation/DES-004-finite-winding-benchmark.json)
-and [axis comparison](figures/DES-004-finite-winding-axis.png). Seven new field
-tests and all twelve sampled benchmark points passed. The old sheet atlas and
-first numerical table below remain explicitly historical; no full-volume field
-map, vacuum vessel or performance validation is implied.
+See the [energy/size report](../validation/DES-004-magnet-sizing.json) and
+[updated field benchmark](../validation/DES-004-sized-winding-benchmark.json).
+The [earlier response](inputs/DES-004-magnet-expert-review.md), thin-sheet atlas
+and original finite-pack benchmark remain historical controls. Full iron/toroid
+fields, installed stored energy, conductor margins and engineering remain open.
 
 ## Candidate-specific muon envelopes
 
@@ -49,8 +46,8 @@ A baseline-update issue follows only after a layout is chosen.
 | --- | --- | --- | --- |
 | MAG-01 | 4.35–6.762; 7.2 | 0.4–4.2; 6.35–7.2 | 0.4–7; 7.2–10.27 |
 | MAG-02 | 4.35–7.5; 8 | 0.4–4.2; 6.35–8 | 0.4–7.5; 8–10.9 |
-| MAG-03 | 4.95–7.5; 8 | 0.4–4.8; 6.95–8 | 0.4–7.5; 8–10.9 |
-| MAG-04 | 4.95–10; 9 | 0.4–4.8; 6.95–9 | 0.4–10; 9–10.9 |
+| MAG-03 | 5.550309–8.100309; 8 | 0.4–5.400309; 6.95–8 | 0.4–8.100309; 8–10.9 |
+| MAG-04 | 5.550309–10.600309; 9 | 0.4–5.400309; 6.95–9 | 0.4–10.600309; 9–10.9 |
 | MAG-05 | 4.35–9; 9 | 0.4–4.2; 6.35–9 | 0.4–9; 9–10.9 |
 
 The endcap front no longer follows barrel length: inner-solenoid options start
@@ -88,7 +85,8 @@ MAG-03/04 (and the now-withdrawn MAG-06). **NODD DESIGN CHOICE — unsigned:** r
 bounds, move ECal barrel from r=1.70–2.06 m to **1.30–1.66 m**, reduce the
 ECal endcap outer radius to **1.66 m** to avoid an HCal overlap, and move the
 HCal barrel entrance from 2.16 to **1.76 m**, retaining its 4.20 m outer radius.
-All axial bounds, HCal endcaps, outer coil and stepped muon hosts are retained.
+The calorimeter axial bounds and HCal endcaps are retained. The 2026-09-24
+sizing amendment supersedes the earlier outer coil and muon radial bounds.
 The released 0.40 m increases HCal assembly capacity; no extra interaction length
 or performance gain is assumed. The former unused-coil shell is no longer drawn
 in these optimized candidates. Inner-solenoid candidates are unchanged.

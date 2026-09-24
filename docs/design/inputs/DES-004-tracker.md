@@ -1,5 +1,9 @@
 # DES-004 — Tracker magnetic-study input
 
+**2026-09-24 sizing amendment:** [Current constraints and dimensions](DES-004-magnet-sizing-review.md)
+supersede earlier winding/vessel and MAG-03/04 radial allocations below.
+Earlier numerical results remain historical; complete-system engineering is open.
+
 - Date: 2026-09-17; status: DRAFT; human reviewer/approver: pending.
 - Scope: tracker requirements for magnetic research, not production geometry or
   a detector-performance result.

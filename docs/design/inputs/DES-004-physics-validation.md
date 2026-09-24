@@ -1,5 +1,9 @@
 # DES-004 — Independent physics comparison contract
 
+**2026-09-24 sizing amendment:** [Current constraints and dimensions](DES-004-magnet-sizing-review.md)
+supersede earlier winding/vessel and MAG-03/04 radial allocations below.
+Earlier numerical results remain historical; complete-system engineering is open.
+
 - Date: 2026-09-17; status: DRAFT; unsigned PROTOTYPE study settings.
 - Scope: first magnetic research increment and its later comparison prerequisites.
 - Governing context: [magnetic research plan](../../MAGNET_RESEARCH_PLAN.md),

@@ -4,7 +4,39 @@ Governed by [DES-004](../../docs/design/DES-004-magnetic-configurations.md).
 These tools are isolated research fixtures. They do not supply a production
 DD4hep field, magnet material or detector performance estimate.
 
-## Current study: finite homogeneous windings (2026-09-22)
+## Current study: review-directed energy sizing (2026-09-24)
+
+The [response](../../docs/design/inputs/DES-004-magnet-sizing-review.md) and
+`sizing-policy.json` govern all five active main-coil geometries. `sizing.py`
+solves winding/current/cold-mass size together using all-space vacuum energy;
+`finite_winding.py` and `muon_layouts.py` reject invalid current inputs. CI runs
+all magnetic tests, including geometry, energy/volume and 5 T hard-limit checks.
+No SciPy or new numerical dependency is required; NumPy suffices for tests.
+
+```sh
+python3 -B tools/magnetic_study/sizing.py
+python3 -B -m unittest discover -s tools/magnetic_study -p 'test_*.py' -v
+MPLCONFIGDIR=/tmp/nodd-mpl XDG_CACHE_HOME=/tmp/nodd-cache python3 -B tools/magnetic_study/finite_winding.py
+MPLCONFIGDIR=/tmp/nodd-mpl XDG_CACHE_HOME=/tmp/nodd-cache python3 -B tools/magnetic_study/muon_layouts.py
+```
+
+The first command regenerates `windings.json` and the sizing report. Radial host
+amendments are explicitly retained in `muon-layouts.json`; changing a sizing
+input requires reconciling all affected hosts, and containment checks reject a
+stale host. The field command now writes `DES-004-sized-winding-benchmark.json`
+and `DES-004-sized-winding-axis.*`, preserving the older finite-pack evidence.
+Use the existing envelope plotting environment for figures. The new report
+records code/input hashes, versions, root/refinement tolerances and limitations.
+
+Cold lengths and vessel end allowances remain provisional, the outer-gap symbol
+interpretation awaits confirmation, and installed iron/toroid energy remains a
+blocker to complete-system sizing. Generic vacuum current controls are not a
+certificate of conductor margin, total physical field or structural feasibility.
+
+## Historical finite homogeneous windings (2026-09-22)
+
+The following dimensions and command descriptions record the prior study. Current
+commands and numerical bounds are those immediately above and in `windings.json`.
 
 The active comparison is MAG-01 through MAG-05. MAG-06 is withdrawn following
 [expert review](../../docs/design/inputs/DES-004-magnet-expert-review.md).

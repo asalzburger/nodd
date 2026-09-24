@@ -1,5 +1,9 @@
 # DES-004 — Magnetic-field expert review response
 
+**2026-09-24 sizing amendment:** [Current constraints and dimensions](DES-004-magnet-sizing-review.md)
+supersede earlier winding/vessel and MAG-03/04 radial allocations below.
+Earlier numerical results remain historical; complete-system engineering is open.
+
 - Date: 2026-09-22; status: DRAFT / isolated PROTOTYPE; no design sign-off.
 - Reviewer: `mgtmentink`, magnetic-field expert identified by the user.
 - Evidence: [three-part PR #6 comment](https://github.com/asalzburger/nodd/pull/6#issuecomment-5774198540).

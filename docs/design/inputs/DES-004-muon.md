@@ -1,5 +1,9 @@
 # DES-004 — Muon measurement and magnet comparison
 
+**2026-09-24 sizing amendment:** [Current constraints and dimensions](DES-004-magnet-sizing-review.md)
+supersede earlier winding/vessel and MAG-03/04 radial allocations below.
+Earlier numerical results remain historical; complete-system engineering is open.
+
 - Date: 2026-09-17; status: DRAFT, unsigned research advice.
 - Context: [candidate cards](../DES-004-magnetic-configurations.md),
   [research plan](../../MAGNET_RESEARCH_PLAN.md),

@@ -1,5 +1,9 @@
 # DES-004 — Candidate-specific muon envelope requests
 
+**2026-09-24 sizing amendment:** [Current constraints and dimensions](DES-004-magnet-sizing-review.md)
+supersede earlier winding/vessel and MAG-03/04 radial allocations below.
+Earlier numerical results remain historical; complete-system engineering is open.
+
 **2026-09-22 scope update:** MAG-06 is withdrawn from active study following
 [expert review](DES-004-magnet-expert-review.md). New main-solenoid studies use
 finite homogeneous winding packs; the earlier sheet calculations and MAG-06

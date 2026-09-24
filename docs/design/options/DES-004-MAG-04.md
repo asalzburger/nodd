@@ -1,5 +1,9 @@
 # MAG-04 — Outer solenoid with instrumented iron return
 
+**2026-09-24 sizing amendment:** [Current constraints and dimensions](../inputs/DES-004-magnet-sizing-review.md)
+supersede earlier winding/vessel and MAG-03/04 radial allocations below.
+Earlier numerical results remain historical; complete-system engineering is open.
+
 **2026-09-22 amendment:** the outer main solenoid now has an explicit finite
 homogeneous winding pack. The [expert-review response](../inputs/DES-004-magnet-expert-review.md)
 defines its bounds, pack-average current, derivation and checks. Historical
