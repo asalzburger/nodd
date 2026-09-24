@@ -29,3 +29,7 @@ See paired inventory: sizing solver/policy/tests, CI and AGENTS rule, current wi
 ## Follow-up
 
 Expert confirmation of RCMi interpretation, axial allowance, cold-volume convention and winding/support split; conductor margins (inner pack now about 49.6 A/mm²), support/closure design, complete nonlinear steel/toroid/coupled energy and field solutions. Future full configurations cannot claim the 5 T total central cap or complete energy sizing from an isolated vacuum control. Human final sign-off remains with asalzburger-review; no condition marked resolved on behalf of a reviewer.
+
+## Publication and re-review
+
+Published `2b8c032fb9c6e8aa2333ae5a4c88818cacecc645`; [response](https://github.com/asalzburger/nodd/pull/6#issuecomment-5812130449). Requested re-review from mgtmentink; original asalzburger-review request retained. GitHub reports MERGEABLE. [Hosted CI](https://github.com/asalzburger/nodd/actions/runs/35985506596) passed at that code revision, including the newly enforced magnetic tests. Following commit updates review/PR/log metadata only and records this exact evidence target.

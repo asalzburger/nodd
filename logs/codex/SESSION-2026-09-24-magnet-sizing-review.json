@@ -4,8 +4,8 @@
   "title": "Address PR6 expert cold-mass and vessel sizing constraints",
   "recorded_at": "2026-09-24T09:58:22Z",
   "started_at": null,
-  "ended_at": null,
-  "status": "open",
+  "ended_at": "2026-09-24T10:11:10Z",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
@@ -21,7 +21,8 @@
     "branch": null,
     "initial_changes": [],
     "result_commits": [
-      "58a60f9a7bea2fab0c4d977d48847bc4351050ed"
+      "58a60f9a7bea2fab0c4d977d48847bc4351050ed",
+      "2b8c032fb9c6e8aa2333ae5a4c88818cacecc645"
     ],
     "changed_files": [
       ".github/workflows/dashboard.yml",
@@ -65,6 +66,7 @@
       "docs/validation/DES-004-sized-winding-benchmark.json",
       "logs/codex/SESSION-2026-09-24-magnet-sizing-review.json",
       "logs/codex/SESSION-2026-09-24-magnet-sizing-review.md",
+      "project/reviews.json",
       "project/tracking.json",
       "reference/manifest.yaml",
       "tools/magnetic_study/README.md",
@@ -180,6 +182,24 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "Passed."
+    },
+    {
+      "command": "git diff --cached --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No staged whitespace errors."
+    },
+    {
+      "command": "git push origin HEAD:research/magnetic-configurations; gh pr edit 6 --body-file /tmp/nodd-pr6-sizing-body.md --add-reviewer mgtmentink; gh pr comment 6 --body-file /tmp/nodd-pr6-sizing-reply.md",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Published evidence; updated executive summary and requested expert re-review. https://github.com/asalzburger/nodd/pull/6#issuecomment-5812130449"
+    },
+    {
+      "command": "gh pr view 6 --json headRefOid,mergeable,reviewRequests,statusCheckRollup",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Evidence head 2b8c032 is MERGEABLE. Hosted build succeeded, including magnetic tests: https://github.com/asalzburger/nodd/actions/runs/35985506596"
     }
   ]
 }
