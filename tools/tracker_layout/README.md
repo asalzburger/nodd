@@ -147,3 +147,33 @@ previously validated intersection implementation; the original independent
 solver audit remains evidence for that unchanged implementation. Additional
 regression checks enforce the intended subsystem-only change. The plotter
 creates separate two-page C1/C2 PDFs, drawings and a material comparison.
+
+## Expert review: active A/C1 optimisation
+
+[DES-006 expert response](../../docs/design/DES-006-expert-review.md) documents
+all nine review requests, scan rationale/weights and unresolved inputs. B/C2
+remain historical artifacts; the active inputs are
+[DES-006-reviewed-layouts.json](../../docs/design/DES-006-reviewed-layouts.json).
+
+```sh
+python3 -B tools/tracker_layout/expert_review.py
+MPLCONFIGDIR=/tmp/nodd-mpl python3 -B tools/tracker_layout/plot_expert_review.py
+python3 -B -m unittest discover -s tools/tracker_layout -p 'test_*.py' -v
+```
+
+The first uses the pinned NumPy dependency. It records attempted/selected bounded
+search steps, geometry rejection, separate finer profiles and signed finite-field
+checks. Its new GLS screen uses free transverse/longitudinal parameters and
+leading-term thin-scatterer covariance; it is not IdRes, a finite-curvature fit
+or reconstructed performance. Tests include analytic three-point covariance,
+upstream-scatterer IP variance, material/field limits and geometry failures.
+Beam-pipe material is a labelled sensitivity fixture, not a design.
+
+The cylinder/disc-only iterated A was also executed in the pinned local IdRes
+checkout. Recreate its input by taking candidate A alone from the reviewed
+catalogue; use `idres_adapter.py --configuration <A-only.json> --checkout
+<idres-checkout> --work <scratch> --output <report.json>`. Do not pass inclined
+C1 to this adapter. Report and raw-output hashes are retained in
+[the A IdRes evidence](../../docs/validation/DES-006-reviewed-A-idres.json).
+Current A/C1 PDFs are rendered by `render_briefs.render(path, date='2026-09-24')`
+in the existing PyMuPDF environment; original PDFs are preserved.

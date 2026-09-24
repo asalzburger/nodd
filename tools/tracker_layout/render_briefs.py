@@ -12,7 +12,7 @@ import pymupdf
 ROOT = Path(__file__).resolve().parents[2]
 
 
-def render(path):
+def render(path, date='2026-09-18'):
     pages = path.read_text().split('<!-- PAGE -->')
     if len(pages) != 2:
         raise ValueError('Exactly two source pages required')
@@ -52,7 +52,7 @@ def render(path):
             if spare < 0:
                 raise ValueError(f'Overfull text block: {block[:50]}')
             y += height + 7
-        page.insert_text((36,815),f'DES-006 | PROTOTYPE | 2026-09-18 | page {number}/2',fontsize=8,color=(.4,.4,.4))
+        page.insert_text((36,815),f'DES-006 | PROTOTYPE | {date} | page {number}/2',fontsize=8,color=(.4,.4,.4))
     doc.set_metadata({'title':path.stem,'author':'nODD: SysArch, TrackTech, PhysVal, SoftEng (AI-assisted)'})
     out = path.with_suffix('.pdf')
     doc.save(out, garbage=4, deflate=True)

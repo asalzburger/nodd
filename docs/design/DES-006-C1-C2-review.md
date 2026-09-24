@@ -1,6 +1,10 @@
 # DES-006 — C1/C2 split and layer-position optimisation status
 
-DRAFT / isolated PROTOTYPE · 2026-09-18 · no layout selected or signed off.
+DRAFT / isolated PROTOTYPE · historical 2026-09-18 split study.
+
+**Superseded as the active choice set:** the [2026-09-24 expert response](DES-006-expert-review.md)
+retains A/C1 only and performs the first bounded position scans. The optimisation
+status and C2 recommendation below describe the earlier review revision.
 
 This addresses the [second technical comment on PR #13](https://github.com/asalzburger/nodd/pull/13#issuecomment-5735179707).
 Read the two-page briefs: [C1](DES-006-proposal-C1.pdf) and [C2](DES-006-proposal-C2.pdf).
