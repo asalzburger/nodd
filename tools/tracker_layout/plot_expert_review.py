@@ -28,7 +28,9 @@ def main():
                title=f"{c['id']} — bounded expert-review iteration; PROTOTYPE")
         ax.legend(loc='upper right',fontsize=9);ax.grid(alpha=.2)
         fig.savefig(FIG/f"DES-006-reviewed-{c['id']}-rz.png",dpi=160)
-        fig.savefig(FIG/f"DES-006-reviewed-{c['id']}-rz.svg")
+        svg=FIG/f"DES-006-reviewed-{c['id']}-rz.svg"
+        fig.savefig(svg)
+        svg.write_text("\n".join(line.rstrip() for line in svg.read_text().splitlines())+"\n")
         plt.close(fig)
     styles={'A0':('#555555','--'),'C10':('#a06020','--'),'A':('#0072b2','-'),'C1':('#b43c46','-')}
     names={'A0':'original A','C10':'original C1','A':'iterated A','C1':'iterated C1'}

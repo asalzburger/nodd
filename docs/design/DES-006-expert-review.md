@@ -197,4 +197,3 @@ Final A was run in the pinned, unchanged local IdRes executable: **11 runs × 72
 ![Local material and low-momentum control](figures/DES-006-reviewed-profiles-pt1.png)
 
 ![Transition recovery with neighboring adverse cases](figures/DES-006-reviewed-transition.png)
-
