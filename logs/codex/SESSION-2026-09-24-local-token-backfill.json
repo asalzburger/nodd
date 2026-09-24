@@ -4,13 +4,13 @@
   "title": "Recover and reconcile local project token usage",
   "recorded_at": "2026-09-24T15:28:55Z",
   "started_at": null,
-  "ended_at": null,
-  "status": "open",
+  "ended_at": "2026-09-24T15:45:55Z",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
     "Recovery covers only this local client store and project directory. The user confirms work on another computer; complete project coverage remains unknown.",
-    "61 disjoint turns were imported into 33 current-branch sessions. 47 turns matched 14 branch-only records and remain pending import; 11 closed turns remain unassigned. Four dashboard records have no local match.",
+    "63 disjoint turns were imported into 34 current-branch sessions. 45 turns matched 13 branch-only records and remain pending import; 11 closed turns remain unassigned. Four dashboard records have no local match.",
     "The current backfill turn is still active and is not imported. Its snapshot in the recovery inventory is incomplete. Actual execution model, client version and conversation start are not inferred.",
     "One client turn covers stage-b-roles plus physics-validation-role and is counted only once under stage-b-roles. Existing narrative statements of unavailable tokens are preserved and superseded only by dated corrections.",
     "No raw client conversations, private model state, credentials or personal account identifiers are retained. Only usage counters, opaque thread/turn IDs, timestamps, Git metadata and curated attribution evidence are published."
@@ -36,7 +36,10 @@
       "tools/session_logging/test_session_log.py",
       "tools/tracker_layout/__pycache__/covariance_control.cpython-314.pyc"
     ],
-    "result_commits": [],
+    "result_commits": [
+      "5a110dc05b9ae25577d5fa00aecd02ecca8314da",
+      "cc709f6a0c13d383ebd177ee3a550e44bd45f544"
+    ],
     "changed_files": [
       "AGENTS.md",
       "docs/decisions/ADR-004-session-logging-and-traceability.md",
@@ -106,6 +109,8 @@
       "logs/codex/SESSION-2026-09-22-acts-spack-skill.md",
       "logs/codex/SESSION-2026-09-22-pr-naming.json",
       "logs/codex/SESSION-2026-09-22-pr-naming.md",
+      "logs/codex/SESSION-2026-09-22-tdr-publication-plan.json",
+      "logs/codex/SESSION-2026-09-22-tdr-publication-plan.md",
       "logs/codex/SESSION-2026-09-24-local-token-backfill.json",
       "logs/codex/SESSION-2026-09-24-local-token-backfill.md",
       "logs/codex/SESSION-2026-09-24-token-accounting.json",
@@ -194,6 +199,54 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "No whitespace errors."
+    },
+    {
+      "command": "git fetch origin main; git merge origin/main --no-edit",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Fetched main at d449b7033561472a16a016bfdaf2549d34339372 and merged without conflicts, preserving the TDR publication contribution and existing accounting changes."
+    },
+    {
+      "command": "Reconcile and import the now-merged TDR publication-plan session",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Imported its two additional turns. Final current-branch total: 63 turns in 34 sessions, 89530690 input and 412598 output tokens; 45 turns remain pending in 13 branch-only records."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p 'test_*.py' -q (final merged state)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "31 tests passed, including the retained inventory and all imported counter values."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/dashboard -p 'test_*.py' -q (temporary clone with final working-tree edits)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "27 tests passed with complete Git history and tracked fixtures; ignored reference caches excluded by the clean checkout."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate; python3 -B tools/dashboard/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "40 paired session records and 28 tasks/8 documents/5 review rounds validated."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py build --output _site/local-token-backfill-final",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Final dashboard built successfully in the real workspace."
+    },
+    {
+      "command": "Infrastructure PR title and changed-path classification",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Infrastructure: Recover local token usage and add accounting tools passes the current naming/tracking policy; excluded from scientific progress tracking."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py summary --format json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "34 of 40 sessions with usage; 63 turns; 89530690 input, 86221568 cached input, 412598 output, 53704 reasoning output, 89943288 total. Missing coverage remains explicit."
     }
   ]
 }

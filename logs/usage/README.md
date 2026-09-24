@@ -13,8 +13,8 @@ reset or inherited counter prefix was observed.
 
 | Disposition | Turns | Task records | Input tokens | Output tokens |
 | --- | ---: | ---: | ---: | ---: |
-| Imported into the current branch's session logs | 61 | 33 | 86,460,827 | 389,669 |
-| Matched to records on other cached Git branches | 47 | 14 | 92,972,569 | 393,528 |
+| Imported into the current branch's session logs | 63 | 34 | 89,530,690 | 412,598 |
+| Matched to records on other cached Git branches | 45 | 13 | 89,902,706 | 370,599 |
 | Closed turns without a confident task assignment | 11 | — | 2,915,502 | 8,423 |
 
 The recovered **closed-turn local subtotal** is **182,348,898 input** and
@@ -23,7 +23,7 @@ a full project total: other-machine usage is unknown. One interrupted turn has
 no token observations, and the ongoing recovery turn is excluded from this
 subtotal. Its inventory counters are an explicitly incomplete snapshot.
 
-For the imported row, 83,298,944 input tokens were reported cached and 51,409
+For the imported row, 86,221,568 input tokens were reported cached and 53,704
 output tokens were reported reasoning. These are subsets, not additional usage.
 These figures are client-reported accounting, not a billing statement. Actual
 per-turn model identity was not established and remains null.
@@ -55,12 +55,14 @@ ran. Eleven short orientation, status or discussion turns remain unassigned
 rather than being allocated to nearby tasks by time alone. No usage entry is
 inserted for a turn without observed counters, and no active turn is imported.
 
-The 14 pending task records belong to magnetic-configuration research, first
-tracker layouts, pyacts studies and TDR publication work. Their exact cached Git
+The 13 pending task records belong to magnetic-configuration research, first
+tracker layouts and pyacts studies. Their exact cached Git
 revisions and repository paths are recorded in each `target_record`. This PR
 does not merge those branches or copy their scientific documents into main.
 Their usage entries are retained for import once the appropriate records are
-available in the target checkout.
+available in the target checkout. After fetching and merging main at
+`d449b7033561472a16a016bfdaf2549d34339372`, the TDR publication-plan record became available; its two matched
+turns are included in the imported row. The source snapshot stays unchanged.
 
 ## Continue on another branch or computer
 

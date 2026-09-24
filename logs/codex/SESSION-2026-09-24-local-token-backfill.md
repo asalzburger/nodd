@@ -30,8 +30,8 @@ and 1,675 request increases after removing 60 repeated cumulative snapshots.
 Each increase equals its last-request counters; no reset, inherited prefix,
 unexplained aggregate or outside-turn event was found.
 
-Imported 61 disjoint turns into 33 existing session records: 86,460,827 input
-and 389,669 output tokens. Another 47 turns match 14 task records on cached Git
+Imported 63 disjoint turns into 34 existing session records: 89,530,690 input
+and 412,598 output tokens. Another 45 turns match 13 task records on cached Git
 branches and are retained for later import. Eleven closed orientation, status or
 discussion turns lack a confident bounded-session match and remain unassigned.
 Four dashboard tasks have no local match; the other computer may supply them.
@@ -84,3 +84,11 @@ Recover usage from the other computer and reconcile by exact thread/turn IDs.
 Import the pending branch matches when their target records are present, following
 the report instructions. Resolve unmatched turns only with evidence. No design
 sign-off or scientific acceptance is requested.
+
+## Main-branch reconciliation
+
+Fetched and merged main at `d449b7033561472a16a016bfdaf2549d34339372` without conflicts. The merged TDR publication-plan record received its two matched turns. Source counter evidence stayed unchanged; attribution and summary were updated. This preserves the independent documentation work without treating its merge as design approval.
+
+## Final local checks
+
+31 logging tests and 27 dashboard tests passed. The session validator accepted 40 records; dashboard validation and the final build succeeded. Infrastructure naming and path classification passed. The project summary reports 63 observed turns in 34 sessions, 89,530,690 input and 412,598 output tokens. Remaining coverage is explicit in the recovery report.

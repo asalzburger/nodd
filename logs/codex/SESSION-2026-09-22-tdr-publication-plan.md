@@ -71,3 +71,9 @@ the PR and completed checks. All 47 Python tests and 14 JavaScript assertions
 passed, along with dashboard build/validation and the 37-record log validator.
 All 405 tracked Markdown links were also checked without assuming submodule
 initialization. GitHub CI was running when the initial PR snapshot was collected.
+
+## Token usage recovered — 2026-09-24
+
+Recovered local client-reported counters for 2 disjoint turns: **3,069,863 input** and **22,929 output** tokens. Cached input and reasoning output are subsets, not additions. Request-to-task matching and counter evidence are retained in [the recovery inventory](../usage/USAGE-2026-09-24-local.json).
+
+This dated correction supersedes earlier statements that token counts were unavailable for these turns. Original narrative and limitations are preserved. It does not establish complete coverage across machines; unmatched and branch-only turns remain explicit in the inventory.
