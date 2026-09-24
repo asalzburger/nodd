@@ -4,7 +4,7 @@
   "title": "Recover and reconcile local project token usage",
   "recorded_at": "2026-09-24T15:28:55Z",
   "started_at": null,
-  "ended_at": "2026-09-24T15:45:55Z",
+  "ended_at": "2026-09-24T15:47:34Z",
   "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
@@ -38,7 +38,8 @@
     ],
     "result_commits": [
       "5a110dc05b9ae25577d5fa00aecd02ecca8314da",
-      "cc709f6a0c13d383ebd177ee3a550e44bd45f544"
+      "cc709f6a0c13d383ebd177ee3a550e44bd45f544",
+      "030cc9779b1604e36443b1943f684e88602094dd"
     ],
     "changed_files": [
       "AGENTS.md",
@@ -247,6 +248,24 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "34 of 40 sessions with usage; 63 turns; 89530690 input, 86221568 cached input, 412598 output, 53704 reasoning output, 89943288 total. Missing coverage remains explicit."
+    },
+    {
+      "command": "git commit -m \"Infrastructure: Reconcile merged session usage and final checks\"",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Committed final reconciliation as 030cc9779b1604e36443b1943f684e88602094dd."
+    },
+    {
+      "command": "git push -u origin infrastructure/local-token-accounting",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Published the authorized accounting branch and set upstream tracking."
+    },
+    {
+      "command": "gh pr create --repo asalzburger/nodd --base main --head infrastructure/local-token-accounting --title \"Infrastructure: Recover local token usage and add accounting tools\" --body-file <prepared description>",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Created https://github.com/asalzburger/nodd/pull/18. No merge or human design approval was performed."
     }
   ]
 }

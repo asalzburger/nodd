@@ -92,3 +92,7 @@ Fetched and merged main at `d449b7033561472a16a016bfdaf2549d34339372` without co
 ## Final local checks
 
 31 logging tests and 27 dashboard tests passed. The session validator accepted 40 records; dashboard validation and the final build succeeded. Infrastructure naming and path classification passed. The project summary reports 63 observed turns in 34 sessions, 89,530,690 input and 412,598 output tokens. Remaining coverage is explicit in the recovery report.
+
+## Publication
+
+Committed and pushed the authorized branch; opened [PR #18](https://github.com/asalzburger/nodd/pull/18), “Infrastructure: Recover local token usage and add accounting tools”. Result commits are recorded in the paired JSON. No PR merge or human approval was performed. Hosted checks are available on the PR.
