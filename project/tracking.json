@@ -1033,13 +1033,14 @@
       "deliverables": [],
       "evidence": [
         "docs/design/DES-005-tracker-system-plan.md",
-        "https://github.com/asalzburger/nodd/pull/11#issuecomment-5729274384"
+        "https://github.com/asalzburger/nodd/pull/11#issuecomment-5729274384",
+        "skills/acts-spack/references/nodes.json"
       ],
       "documents": [
         "DES-005"
       ],
-      "updated": "2026-09-18",
-      "next_action": "Prepare compatible backend readiness and DD4hep\u2013ACTS integration evidence for paulgessinger after confirming participation; production work still requires M0 completion and applicable design sign-off.",
+      "updated": "2026-09-22",
+      "next_action": "Prepare compatible backend readiness and DD4hep\u2013ACTS integration evidence for paulgessinger after confirming participation; production work still requires M0 completion and applicable design sign-off. Local backend dependency readiness is now recorded by TASK-SOFT-SPACK on one node; source availability and full simulation execution remain separate checks.",
       "blocker": null,
       "disposition": null,
       "subsystem": "tracking and timing"
@@ -1091,6 +1092,38 @@
       "blocker": null,
       "disposition": "Research execution authorized by user; no magnetic architecture selected or signed off.",
       "subsystem": "magnets and global interfaces"
+    },
+    {
+      "id": "TASK-SOFT-SPACK",
+      "title": "Node-aware ACTS Spack dependency workflow",
+      "scope": "Discover and verify local DD4hep/Geant4 libraries, runtime and source availability; retain reusable skill and unavailable-node warnings.",
+      "stage": "B",
+      "milestones": [
+        "M1"
+      ],
+      "workstream": "WS-SOFT",
+      "role": "Project software engineer",
+      "owner": null,
+      "state": "completed",
+      "dependencies": [],
+      "deliverables": [
+        "skills/acts-spack/SKILL.md",
+        "skills/acts-spack/references/nodes.json",
+        "skills/acts-spack/references/workflow.md"
+      ],
+      "evidence": [
+        "skills/acts-spack/references/nodes.json",
+        "logs/codex/SESSION-2026-09-22-acts-spack-skill.md",
+        "https://github.com/asalzburger/nodd/pull/16"
+      ],
+      "documents": [
+        "DES-005"
+      ],
+      "updated": "2026-09-22",
+      "next_action": "Use preflight before dependent execution; verify additional nodes individually. Full DD4hep/Geant4 sources need separate acquisition; full simulation remains untested.",
+      "blocker": null,
+      "disposition": "acts-mac-studio-01.cern.ch verified: DD4hep 1.37/DDG4, Geant4 11.4.1, Python imports after runtime setup, 12 dataset directories and C++ compile/link/run pass. Neither full source tree is staged. No production geometry or scientific acceptance.",
+      "subsystem": "software"
     }
   ],
   "documents": [
@@ -1293,6 +1326,23 @@
         "DES-004"
       ],
       "scope": "Five active magnetic options with homogeneous finite main-winding controls; MAG-06 withdrawn after expert feedback. Enclosures remain unverified space reservations; no baseline change or sign-off.",
+      "category": "project"
+    },
+    {
+      "id": "PR-16",
+      "number": 16,
+      "title": "Software: Add node-aware ACTS Spack workflow skill",
+      "url": "https://github.com/asalzburger/nodd/pull/16",
+      "state": "open",
+      "head_revision": "c092a1b94c4dd006c17dda510a2c9b78af0b2e60",
+      "merge_commit": null,
+      "merged_at": null,
+      "collected_at": "2026-09-22T14:41:49Z",
+      "task": "TASK-SOFT-SPACK",
+      "documents": [
+        "DES-005"
+      ],
+      "scope": "Node-aware local dependency workflow, installed skill and DD4hep/Geant4 capability evidence only. Full sources not staged; no full simulation, detector integration or design sign-off. Revision captured at PR creation before metadata-only update.",
       "category": "project"
     }
   ]
