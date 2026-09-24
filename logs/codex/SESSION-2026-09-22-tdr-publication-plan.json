@@ -1,0 +1,152 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-09-22-tdr-publication-plan",
+  "title": "Outline TDR and publication plan with PubDoc",
+  "recorded_at": "2026-09-22T14:57:49Z",
+  "started_at": null,
+  "ended_at": "2026-09-22T15:07:06Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact token usage, client version, thread ID and conversation start time unavailable.",
+    "Documentation planning only; detector validation and LaTeX compilation not performed. The Overleaf-backed TDR submodule remains unchanged."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "bb1f2dd512cd56b8c7e52679350ea843d8e3f0ff",
+    "branch": "documentation/tdr-publication-plan",
+    "initial_changes": [
+      "tools/tracker_layout/__pycache__/covariance_control.cpython-314.pyc"
+    ],
+    "result_commits": [
+      "8d78aae39d7c6d0a82984acaa288f8aca786070a"
+    ],
+    "changed_files": [
+      ".github/pull_request_template.md",
+      "AGENTS.md",
+      "README.md",
+      "docs/DEVELOPMENT_PLAN.md",
+      "docs/README.md",
+      "docs/publication/TDR-outline.md",
+      "docs/publication/publication-plan.md",
+      "project/README.md",
+      "project/tracking.json",
+      "tools/dashboard/check_update.py",
+      "tools/dashboard/test_update.py",
+      "logs/codex/SESSION-2026-09-22-tdr-publication-plan.json",
+      "logs/codex/SESSION-2026-09-22-tdr-publication-plan.md"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "publication",
+      "documentation",
+      "workflow"
+    ],
+    "related_ids": [
+      "TASK-B-PUB",
+      "DES-003",
+      "DES-005",
+      "ADR-002",
+      "ADR-006",
+      "PUB-TDR-001",
+      "PUB-PLAN-001",
+      "PR-17"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-09-22-tdr-publication-plan.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 -B -m unittest discover -s tools/dashboard -p test_update.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All seven PR naming/tracking policy tests passed, including Documentation tracking and publication/TDR maintenance-exemption checks."
+    },
+    {
+      "command": "Python relative Markdown link audit",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All 93 relative file links resolve across the two new documents and four updated indexes/plans."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "28 tasks, 8 documents and 5 review rounds validated."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py build --output _site/tdr-publication-plan",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Static dashboard built successfully."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "37 paired session records validated."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "15 tests passed."
+    },
+    {
+      "command": "node tools/dashboard/test_app.js",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "14 JavaScript assertions passed; synthetic DOM only."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s skills/acts-spack/scripts -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "5 synthetic node-preflight tests passed; no live dependency activation needed for this task."
+    },
+    {
+      "command": "git diff --check; git diff --name-only -- docs/tdr",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Whitespace check passed and TDR submodule unchanged."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/dashboard -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All 27 dashboard/update-policy tests passed."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p 'test_*.py' -v (after submodule-reference portability correction)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All 15 tests passed. References to optional submodule files are plain code paths, not links that would fail in CI without submodules."
+    },
+    {
+      "command": "Python tracked-Markdown link audit",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All 405 local links in tracked Markdown resolve without initialized submodules or ignored files."
+    },
+    {
+      "command": "python3 -B tools/dashboard/check_update.py --event /tmp/nodd-tdr-publication-event.json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Documentation title and actual base/head changes pass project tracking check."
+    },
+    {
+      "command": "git push; gh pr create; gh pr view 17 --json number,title,url,state,headRefOid,reviewRequests,statusCheckRollup",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "PR #17 created at revision 8d78aae39d7c6d0a82984acaa288f8aca786070a with reviewer asalzburger-review requested. GitHub dashboard CI in progress at metadata collection."
+    }
+  ]
+}

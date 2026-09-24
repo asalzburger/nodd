@@ -15,13 +15,13 @@ and validation reports own execution and acceptance results.
 
 Use the [PR naming rule](../AGENTS.md#pull-request-naming-and-conflict-resolution):
 `Magnet System:`, `Tracker:`, `Calorimeter:`, `Muon System:`, `Global:`,
-`Software:` or `Infrastructure:`, followed by one space and a nonempty description.
+`Software:`, `Documentation:` or `Infrastructure:`, followed by one space and a nonempty description.
 CI validates exact spelling and capitalization, including on title edits.
 
 Update records in the same PR as every non-infrastructure project change,
 including work, review requests/decisions, dependencies, deliverables and evidence.
 CI requires a change to `tracking.json` or `reviews.json`; maintainers review its
-substance. `Software:` work needs tracking just like subsystem work.
+substance. `Software:` and `Documentation:` work need tracking just like subsystem work.
 
 `Infrastructure:` replaces the former `chore:` / `chore(scope):` naming convention.
 Infrastructure PRs and their tasks/reviews remain excluded from progress tracking
@@ -98,5 +98,7 @@ linked reports; the dashboard does not infer either from exit codes.
 Repository paths must exist, remain inside the checkout and refer to curated text
 files; HTTPS evidence links are allowed. Only referenced Markdown/JSON/YAML files
 are exported as escaped source pages. Downloaded PDFs and the TDR submodule are
-not needed. Add a public TDR pointer when one is available; the current pointer
-only describes revision management, not completed chapter coverage.
+not needed. The [TDR outline](../docs/publication/TDR-outline.md) and
+[publication plan](../docs/publication/publication-plan.md) provide the draft
+chapter and evidence frame. They do not establish completed chapters or a
+released report. Add a public TDR pointer when one is available.

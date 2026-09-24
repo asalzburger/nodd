@@ -212,6 +212,7 @@ a nonempty description:
 | `Muon System: <description>` | Muon detectors, stations and system design |
 | `Global: <description>` | Detector-wide design, envelopes and shared interfaces |
 | `Software: <description>` | New software capabilities, tools, skills and validation methods |
+| `Documentation: <description>` | TDR structure, publication planning, report chapters and documentation deliverables |
 | `Infrastructure: <description>` | Repository workflow, CI, dashboard, logging and maintenance |
 
 Choose the area of the principal deliverable; use `Global` for detector-wide
@@ -219,6 +220,9 @@ work and `Software` for reusable software capability even when demonstrated
 with one subsystem. This replaces `chore: ...` / `chore(scope): ...` for PR
 titles; it does not require renaming closed PRs or historical commits.
 Infrastructure remains excluded from scientific progress tracking as below.
+`Documentation:` was added by human instruction on 2026-09-22. Documentation
+deliverables require project tracking; this category does not grant publication
+authorization or design sign-off.
 
 When resolving merge conflicts, preserve both independent contributions by
 default, especially session logs. Keep distinct session pairs and merge record
