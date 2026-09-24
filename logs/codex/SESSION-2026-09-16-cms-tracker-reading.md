@@ -66,3 +66,9 @@ Use ATLAS and CMS as two experimental inputs, with the RD53A manual as prototype
 context, in the next focused module-evidence pass. Later production sources will
 be needed before adopting chip/module parameters. Human review of ADR-005 and
 future designs remains pending; this reading task does not grant sign-off.
+
+## Token usage recovered — 2026-09-24
+
+Recovered local client-reported counters for 1 disjoint turns: **1,444,187 input** and **8,659 output** tokens. Cached input and reasoning output are subsets, not additions. Request-to-task matching and counter evidence are retained in [the recovery inventory](../usage/USAGE-2026-09-24-local.json).
+
+This dated correction supersedes earlier statements that token counts were unavailable for these turns. Original narrative and limitations are preserved. It does not establish complete coverage across machines; unmatched and branch-only turns remain explicit in the inventory.

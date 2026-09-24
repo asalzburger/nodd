@@ -53,3 +53,9 @@ No commit or pull request was requested or created; result commits remain empty.
 
 No unresolved implementation questions or design sign-off request for this task.
 Exact token measurements remain unavailable.
+
+## Token usage recovered — 2026-09-24
+
+Recovered local client-reported counters for 1 disjoint turns: **464,375 input** and **3,166 output** tokens. Cached input and reasoning output are subsets, not additions. Request-to-task matching and counter evidence are retained in [the recovery inventory](../usage/USAGE-2026-09-24-local.json).
+
+This dated correction supersedes earlier statements that token counts were unavailable for these turns. Original narrative and limitations are preserved. It does not establish complete coverage across machines; unmatched and branch-only turns remain explicit in the inventory.

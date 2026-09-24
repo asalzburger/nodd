@@ -62,3 +62,9 @@ Review the provisional full-detector roadmap. Select and characterize the ODD
 baseline under M0. Technology choices, numerical accuracy targets, generator
 architecture and subsystem designs still require dedicated proposals and human
 review/sign-off before production implementation.
+
+## Token usage recovered — 2026-09-24
+
+Recovered local client-reported counters for 1 disjoint turns: **1,054,133 input** and **6,092 output** tokens. Cached input and reasoning output are subsets, not additions. Request-to-task matching and counter evidence are retained in [the recovery inventory](../usage/USAGE-2026-09-24-local.json).
+
+This dated correction supersedes earlier statements that token counts were unavailable for these turns. Original narrative and limitations are preserved. It does not establish complete coverage across machines; unmatched and branch-only turns remain explicit in the inventory.

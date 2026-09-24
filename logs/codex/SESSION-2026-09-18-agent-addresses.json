@@ -9,12 +9,13 @@
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
-    "Exact token usage, client version, thread ID and actual conversation start time are unavailable."
+    "Exact token usage, client version, thread ID and actual conversation start time are unavailable.",
+    "2026-09-24 correction: local client counters recovered for 1 disjoint turns; this supersedes earlier token-unavailability statements for those turns only. Full multi-machine coverage remains unknown. See logs/usage/USAGE-2026-09-24-local.json."
   ],
   "client": {
     "name": "Codex",
     "version": null,
-    "thread_id": null
+    "thread_id": "01a0b3b0-f8f3-7de0-8854-ff1f156bebab"
   },
   "git": {
     "start_commit": "60ef36631849f4d7525324550f1d2a8a17ef67fe",
@@ -34,7 +35,22 @@
   },
   "narrative": "logs/codex/SESSION-2026-09-18-agent-addresses.md",
   "activities": [],
-  "usage": [],
+  "usage": [
+    {
+      "client_thread_id": "01a0b3b0-f8f3-7de0-8854-ff1f156bebab",
+      "turn_id": "01a0b3b7-0225-7e90-a319-c7d2cd448792",
+      "model": null,
+      "source": "2026-09-24 local token_count recovery; logs/usage/USAGE-2026-09-24-local.json; usage SHA-256 38c20f64ff01aa19d13911322fbb5143cbffb03fe81b8f42316f43ca54de4f91; cumulative increases equal last-request counters over persisted turn ordinals 114..180.",
+      "limitations": [
+        "Local client-reported usage only; other-machine coverage and billing equivalence are not established. Per-turn execution model was not reported."
+      ],
+      "input_tokens": 464375,
+      "cached_input_tokens": 451840,
+      "output_tokens": 3166,
+      "reasoning_output_tokens": 455,
+      "total_tokens": 467541
+    }
+  ],
   "checks": [
     {
       "command": "python3 -B tools/dashboard/build.py validate",

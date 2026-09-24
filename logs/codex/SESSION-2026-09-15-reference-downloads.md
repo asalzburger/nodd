@@ -77,3 +77,9 @@ normative detector facts. Obtain the missing CMS-TDR-020 recipe or verify whethe
 another supplied label denotes it. Exact model, client version, thread IDs,
 tokens and tool invocation totals remain unavailable. No design/ADR approval
 state changed. Final structural log validation follows completion of this record.
+
+## Token usage recovered — 2026-09-24
+
+Recovered local client-reported counters for 1 disjoint turns: **1,113,777 input** and **8,436 output** tokens. Cached input and reasoning output are subsets, not additions. Request-to-task matching and counter evidence are retained in [the recovery inventory](../usage/USAGE-2026-09-24-local.json).
+
+This dated correction supersedes earlier statements that token counts were unavailable for these turns. Original narrative and limitations are preserved. It does not establish complete coverage across machines; unmatched and branch-only turns remain explicit in the inventory.

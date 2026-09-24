@@ -84,3 +84,9 @@ an ingestion/reading ADR and pilot a small corpus before scaling to all sources.
 
 Exact client version, model identity, token counters and start time are not
 available. No commit or push is performed by this consultation.
+
+## Token usage recovered — 2026-09-24
+
+Recovered local client-reported counters for 1 disjoint turns: **348,040 input** and **2,105 output** tokens. Cached input and reasoning output are subsets, not additions. Request-to-task matching and counter evidence are retained in [the recovery inventory](../usage/USAGE-2026-09-24-local.json).
+
+This dated correction supersedes earlier statements that token counts were unavailable for these turns. Original narrative and limitations are preserved. It does not establish complete coverage across machines; unmatched and branch-only turns remain explicit in the inventory.

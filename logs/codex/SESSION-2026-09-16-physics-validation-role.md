@@ -35,3 +35,7 @@ User (exact quote): “And you can call the Project technician system architect�
 Updated the active plan to use System Architect consistently, including the
 role table, ownership boundaries and first assignments. Historical session records
 retain their original wording.
+
+## Shared token accounting — 2026-09-24
+
+The local client records this request and the naming clarification as steering within the stage-B roles turn. Its full usage is counted once in [stage-b-roles](SESSION-2026-09-16-stage-b-roles.md). No separate allocation is recorded here; the empty usage list does not indicate zero cost.

@@ -10,12 +10,13 @@
   "completeness": "partial",
   "limitations": [
     "Exact token usage, client version, thread ID and actual conversation start time are unavailable.",
-    "Curated requests/actions only. The separate PR #8 merge has its own bounded record; no token observations are duplicated."
+    "Curated requests/actions only. The separate PR #8 merge has its own bounded record; no token observations are duplicated.",
+    "2026-09-24 correction: local client counters recovered for 1 disjoint turns; this supersedes earlier token-unavailability statements for those turns only. Full multi-machine coverage remains unknown. See logs/usage/USAGE-2026-09-24-local.json."
   ],
   "client": {
     "name": "Codex",
     "version": null,
-    "thread_id": null
+    "thread_id": "01a0b3b0-f8f3-7de0-8854-ff1f156bebab"
   },
   "git": {
     "start_commit": "8472892bee490a7e04e58bab7d1332493cb615b9",
@@ -54,7 +55,22 @@
   },
   "narrative": "logs/codex/SESSION-2026-09-22-pr-naming.md",
   "activities": [],
-  "usage": [],
+  "usage": [
+    {
+      "client_thread_id": "01a0b3b0-f8f3-7de0-8854-ff1f156bebab",
+      "turn_id": "01a0c8e1-6338-7233-a93e-6de5cbc218cd",
+      "model": null,
+      "source": "2026-09-24 local token_count recovery; logs/usage/USAGE-2026-09-24-local.json; usage SHA-256 d36fda5067d53dd3c82bd02af11ba1ce7abed0e5c6f6c6d5d031fa01d6af7226; cumulative increases equal last-request counters over persisted turn ordinals 2501..2677.",
+      "limitations": [
+        "Local client-reported usage only; other-machine coverage and billing equivalence are not established. Per-turn execution model was not reported."
+      ],
+      "input_tokens": 2718177,
+      "cached_input_tokens": 2564992,
+      "output_tokens": 13942,
+      "reasoning_output_tokens": 3191,
+      "total_tokens": 2732119
+    }
+  ],
   "checks": [
     {
       "command": "python3 -B -m unittest discover -s tools/dashboard -p test_update.py -v",
