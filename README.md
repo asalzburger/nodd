@@ -5,6 +5,10 @@ OpenDataDetector for DD4hep simulation and ACTS-compatible reconstruction.
 See the [project scope](PROJECT.md), [development plan](docs/DEVELOPMENT_PLAN.md)
 and [documentation index](docs/README.md).
 
+The [TDR outline](docs/publication/TDR-outline.md) and
+[publication plan](docs/publication/publication-plan.md) organize chapters,
+evidence and review inputs as the detector design develops.
+
 ## Agent roles
 
 Use these short address names when referring to the project's eight agent roles.
