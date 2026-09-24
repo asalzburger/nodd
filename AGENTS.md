@@ -178,6 +178,28 @@ Use a new project session ID for a new bounded task, even in the same client
 thread; never duplicate token observations across records. This workflow does
 not authorize collecting private client state or granting human sign-off.
 
+## Magnetic sizing constraints
+
+For all current and future magnetic candidates, apply the review-directed
+[DES-004 sizing policy](docs/design/inputs/DES-004-magnet-sizing-review.md) and
+[machine-readable constants](tools/magnetic_study/sizing-policy.json):
+`RCMi = 1.065 RVi + 0.0072 m`, `U = (30 MJ/m³) Vcold`, and
+`RVo = RCMo + 1.75 (RCMi − RVi)` (the expert's undefined `RCM` is provisionally
+interpreted as `RCMi`; confirmation remains open). State cold-mass and vessel
+axial lengths separately; do not infer an axial scaling from these radial rules.
+Maintain homogeneous winding-pack current density. Require the magnitude of the
+**complete central field** to be at most 5 T; 1–4 T is the preferred study range.
+This central cap does not certify peak conductor field or NbTi operating margin.
+
+Use computed stored field energy, not a uniform-bore energy proxy. Iterate winding,
+current normalization and cold-mass size consistently. For nonlinear iron, coupled
+coils or non-solenoidal geometry, obtain the complete energy/field solution and
+an applicable cold-volume allocation; do not certify compliance from an isolated
+vacuum coil. Missing inputs must remain explicit blockers. Apply the checks to
+all active layouts; preserve dated historical fixtures as controls, clearly
+superseded. Changes to these review constraints require explicit human direction.
+No numerical study or CI pass grants detector design approval.
+
 ## Node-specific software workflows
 
 Before relying on the local ACTS Spack installation for DD4hep/Geant4 builds,

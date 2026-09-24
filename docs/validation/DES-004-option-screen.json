@@ -1,0 +1,92 @@
+{
+  "status": "PROTOTYPE inference; not an energy estimate, saturation calculation or feasibility proof",
+  "classification": "INFERENCE from explicitly unsigned diagnostic dimensions",
+  "assumptions": [
+    "Uniform central B across disk of current-sheet radius; actual solved bore flux may differ.",
+    "All disk flux assigned to the muon barrel annulus at its midplane; HCal return and external leakage omitted.",
+    "Whole annulus treated as available return area; actual steel fraction is smaller because stations and services need space.",
+    "1.5 T and 2.0 T are NODD DESIGN CHOICE trial mean return fields, not steel grades, saturation limits or selected operating fields.",
+    "Active-return radius screens assume a uniform -1.5 T annulus beginning either at the infinitesimal main sheet or at the muon host inner radius; finite coils, end return and outside flux are omitted.",
+    "Uniform sheet-bore energy is B0^2/(2mu0) times geometric winding-bore volume; neither full-field energy nor a rigorous bound.",
+    "No endcap bottleneck, nonlinear B-H response, force balance, quench or structural verification."
+  ],
+  "formulas": {
+    "flux": "B0*pi*Rsheet^2",
+    "area": "pi*(Rmuon_outer^2-Rmuon_inner^2)",
+    "return_mean": "flux/area",
+    "pressure": "B0^2/(2mu0)",
+    "energy_proxy": "pressure*pi*Rsheet^2*2h"
+  },
+  "results": [
+    {
+      "vacuum_control": "MAG-01",
+      "instrumented_return_candidate": "MAG-02",
+      "sheet_radius_m": 1.415,
+      "sheet_half_length_m": 3.3,
+      "central_field_T": 3.0,
+      "muon_host_inner_m": 4.35,
+      "muon_host_outer_m": 6.762,
+      "flat_field_disk_flux_proxy_Wb": 18.87052605250147,
+      "whole_muon_annulus_area_m2": 84.20141869085573,
+      "all_flux_returning_in_solid_host_average_T": 0.22411173524028533,
+      "central_pressure_scale_MPa": 3.5809862195676447,
+      "uniform_sheet_bore_energy_proxy_MJ": 148.66520624999998,
+      "ideal_active_return_radius_at_minus_1p5T_m": 2.4508518927099616,
+      "host_start_active_return_radius_at_minus_1p5T_m": 4.788209477456056,
+      "return_area_trials": [
+        {
+          "trial_mean_field_T": 1.5,
+          "required_area_m2": 12.580350701667648,
+          "fraction_of_whole_host": 0.14940782349352355
+        },
+        {
+          "trial_mean_field_T": 2.0,
+          "required_area_m2": 9.435263026250736,
+          "fraction_of_whole_host": 0.11205586762014266
+        }
+      ]
+    },
+    {
+      "vacuum_control": "MAG-03",
+      "instrumented_return_candidate": "MAG-04",
+      "sheet_radius_m": 4.5,
+      "sheet_half_length_m": 6.5,
+      "central_field_T": 3.0,
+      "muon_host_inner_m": 4.95,
+      "muon_host_outer_m": 6.762,
+      "flat_field_disk_flux_proxy_Wb": 190.85175370557994,
+      "whole_muon_annulus_area_m2": 66.67133168382468,
+      "all_flux_returning_in_solid_host_average_T": 2.862575996091631,
+      "central_pressure_scale_MPa": 3.5809862195676447,
+      "uniform_sheet_bore_energy_proxy_MJ": 2961.5624999999995,
+      "ideal_active_return_radius_at_minus_1p5T_m": 7.794228634059948,
+      "host_start_active_return_radius_at_minus_1p5T_m": 8.062412790226013,
+      "return_area_trials": [
+        {
+          "trial_mean_field_T": 1.5,
+          "required_area_m2": 127.23450247038663,
+          "fraction_of_whole_host": 1.9083839973944208
+        },
+        {
+          "trial_mean_field_T": 2.0,
+          "required_area_m2": 95.42587685278997,
+          "fraction_of_whole_host": 1.4312879980458155
+        }
+      ]
+    }
+  ],
+  "provenance": {
+    "project_revision": "8dc8330a07b2362b9be40244cf0f573422b92771",
+    "working_tree_dirty": true,
+    "command": "python3 -B tools/magnetic_study/option_screen.py",
+    "python": "3.14.6",
+    "input_sha256": {
+      "tools/magnetic_study/candidates.json": "0886486c3849a6922dfdf8452be45471120d0c28f5bfbc35c975d727996c63a3",
+      "tools/magnetic_study/layouts.json": "72d25020c7df9e8f7df0f67e7292c217d6c5a574e5fef77e447ab36008fbe343",
+      "docs/design/DES-003-envelopes.json": "ac2fdcb9e3b9cc8378285e7a1d00eac4a5b46ccfd8f15e0e434bf48419f2cd8c",
+      "tools/magnetic_study/option_screen.py": "eeffce172ed1515d033d4202a9713273614d4fe95b6ff5b986c0d8c43850ae9a"
+    },
+    "random_seed": null,
+    "tolerances": "math.isclose default for algebraic ratio identity; no physical acceptance tolerance"
+  }
+}
