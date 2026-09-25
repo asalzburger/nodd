@@ -70,6 +70,10 @@ has about 50.87 million channels per disk. Power/bandwidth remain unquantified.
 
 ## Changes and revision links
 
+Draft PR published: <https://github.com/asalzburger/nodd/pull/21>, initial
+head `601552975dcabf39c460211f41e4d1b803971c38`. Project tracking records that
+exact observed revision before this metadata update. No reviewer messages sent.
+
 See the paired JSON changed-file inventory. Deliverables include DES-007,
 functional-module and ring figures, two retained numerical scans, comparison
 report, isolated tool/inputs/tests, ATLAS reading guide and CMS guide extension,
