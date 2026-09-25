@@ -1,0 +1,155 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-09-25-short-strip-research",
+  "title": "Short-strip sensor and reusable ring-module research",
+  "recorded_at": "2026-09-25T04:18:09Z",
+  "started_at": null,
+  "ended_at": null,
+  "status": "open",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact current-turn token counters, client version/thread ID and conversation start time are not exposed. Usage is empty (unknown, not zero). The required PR token-accounting gate remains unsatisfied until completed-turn evidence is imported.",
+    "Research is limited to selected public TDR passages, pinned ODD source and isolated analytical geometry; no electronics/thermal design or detector runtime validation.",
+    "Unrelated main-worktree edits were preserved by using /tmp/nodd-short-strip at origin/main. The main-worktree pending token-accounting instruction was respected without copying its uncommitted implementation into this scientific branch."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "58136c8adad0d10bb046bef3a574e181b7e1463c",
+    "branch": "research/short-strip-modules",
+    "initial_changes": [],
+    "result_commits": [
+      "bcf9bab3a64db79ed44943f79fbaca7f5c442190",
+      "601552975dcabf39c460211f41e4d1b803971c38"
+    ],
+    "changed_files": [
+      "docs/README.md",
+      "docs/design/DES-007-short-strip-modules.md",
+      "docs/design/figures/DES-007-module.svg",
+      "docs/design/figures/DES-007-rings.svg",
+      "docs/validation/DES-007-ring-study-initial.json",
+      "docs/validation/DES-007-ring-study.json",
+      "docs/validation/DES-007-ring-study.md",
+      "logs/codex/SESSION-2026-09-25-short-strip-research.json",
+      "logs/codex/SESSION-2026-09-25-short-strip-research.md",
+      "project/tracking.json",
+      "reference/guides/SRC-ATLAS-TDR-025.md",
+      "reference/guides/SRC-CMS-TDR-014.md",
+      "reference/manifest.yaml",
+      "tools/short_strip/README.md",
+      "tools/short_strip/inputs-initial.json",
+      "tools/short_strip/inputs.json",
+      "tools/short_strip/study.py",
+      "tools/short_strip/test_study.py"
+    ]
+  },
+  "work": {
+    "milestone": "Stage B",
+    "components": [
+      "short-strip sensors",
+      "strixel modules",
+      "endcap rings"
+    ],
+    "related_ids": [
+      "DES-005",
+      "DES-007",
+      "TRK-SSTRIP",
+      "TRK-CONTRACT",
+      "ISSUE-20",
+      "PR-21"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-09-25-short-strip-research.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "SHA-256 of the ATLAS/CMS PDFs and four pinned ODD files compared to repository manifests",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Both catalogue PDF hashes and all four source-file hashes match. Selected TDR tables visually inspected; not a full document review."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/short_strip -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "6 analytical geometry tests pass, including independent global-coordinate coverage comparison."
+    },
+    {
+      "command": "MPLCONFIGDIR=/tmp/nodd-mpl-short-strip python3 -B tools/short_strip/study.py --refined --figure docs/design/figures/DES-007-rings.svg",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Four final candidates have zero sampled uncovered bins on both grids and three vertex positions; five-ring control fails coverage as expected. All fixtures have zero same-level body intersections."
+    },
+    {
+      "command": "python3 -B tools/short_strip/study.py --input tools/short_strip/inputs-initial.json --refined --output docs/validation/DES-007-ring-study-initial.json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Preserved initial two-mm margins and explained projection/curvature failures, not accepted reference evidence."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "28 tasks, 9 documents, 5 review rounds validated."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/dashboard -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "27 tests pass."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py build",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Built local _site/pages preview; no deployment."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "43 session records validated."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors."
+    },
+    {
+      "command": "Retained study script/input SHA-256 comparison",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Both retained outputs match current script and their respective inputs."
+    },
+    {
+      "command": "git diff --cached --check (first staging)",
+      "status": "FAIL",
+      "exit_code": 2,
+      "result": "Matplotlib SVG contains trailing spaces, not detected by unstaged tracked-file check. Fixed SVG writer to trim line endings and use stable SVG IDs before publication."
+    },
+    {
+      "command": "python3 -B /Users/salzburg/Documents/work/openai/nodd/tools/session_logging/check_pr_usage.py --repo /tmp/nodd-short-strip --base origin/main --head HEAD",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Required gate fails as expected: this active session has no measured input/output usage. Import completed-turn evidence before merge; no exemption claimed."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py summary --format markdown",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "43 sessions, 38 with usage and 67 recorded turns. Historical observed input=98045726/output=477200; this new task remains unmeasured. Historical totals are not assigned to this task."
+    },
+    {
+      "command": "git diff --cached --check; git diff origin/main --check (after SVG cleanup)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Final staged and full-branch whitespace checks passed."
+    }
+  ]
+}

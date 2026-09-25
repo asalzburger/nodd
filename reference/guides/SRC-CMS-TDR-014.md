@@ -112,3 +112,19 @@ Rendered pages 1, 74, 82 and 251 were inspected for identity, module drawing,
 chip-specification context and demonstrator scope respectively. Navigation and
 source observations are ready for a focused ATLAS/CMS/RD53A comparison; detailed
 parameter verification remains a separate pass.
+
+## Short-strip/strixel research addition — 2026-09-25
+
+[DES-007](../../docs/design/DES-007-short-strip-modules.md) uses the Outer Tracker
+as a macropixel/readout and repeated-module precedent. Printed/PDF pages 28,
+37–38, 42 and 45 were read; Table 3.3 on page 37 was visually checked. The local
+PDF hash still matches the catalogue. Page numbering in these locators is the
+actual one-based PDF page, not an inferred offset from earlier reading maps.
+
+PS-p: 100 µm × 1.467 mm cells, active 96 × 46.944 mm²; DC coupling and
+bump-bonded MPA readout. The TDR prefers 200 µm physical sensor thickness, with
+alternatives under study. Four staggered module surfaces form endcap rings.
+These facts do not demonstrate ASIC compatibility with ODD's 75 µm × 0.5 mm
+cells or support an nODD power estimate. The full PS module has two sensors and
+a trigger function that DES-007 does not inherit. Later production choices
+may supersede this TDR; they have not been silently substituted.
