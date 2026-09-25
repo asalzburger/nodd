@@ -23,7 +23,8 @@
     "branch": "repair/pr13-rebase",
     "initial_changes": [],
     "result_commits": [
-      "d4b4d0d192fa1702a1fe6bf81aadd9b3b3b86ed6"
+      "d4b4d0d192fa1702a1fe6bf81aadd9b3b3b86ed6",
+      "69ea15bd37edb7af44aeb9e9e52688b13c933de9"
     ],
     "changed_files": [
       "docs/design/DES-006-expert-review.md",
@@ -138,6 +139,30 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "Named cobe/pint catalogue and separate figures/briefs generated. Both PDFs have two A4 pages; all four rendered pages visually inspected. Physical layers unchanged; historical artifacts retained."
+    },
+    {
+      "command": "git diff --cached --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Staged naming/accounting changes contain no whitespace errors."
+    },
+    {
+      "command": "git push archive ref, then push --force-with-lease with exact f57e26e expected head",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Archived original head; PR13 updated to 69ea15b without overwriting newer remote work."
+    },
+    {
+      "command": "gh pr view 13 --json headRefOid,mergeable,mergeStateStatus,statusCheckRollup,reviewDecision",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "At 69ea15b GitHub reports MERGEABLE/CLEAN; hosted build 36142049953 succeeded. Historical CHANGES_REQUESTED review retained."
+    },
+    {
+      "command": "python3 -B /Users/salzburg/Documents/work/openai/nodd/tools/session_logging/check_pr_usage.py --repo /tmp/nodd-pr13-rebase --base origin/main --head HEAD",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Only SESSION-2026-09-25-pr13-rebase lacks measured usage. All four historical PR sessions now pass accounting. No missing-count exemption is claimed."
     }
   ]
 }

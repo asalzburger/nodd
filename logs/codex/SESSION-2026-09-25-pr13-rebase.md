@@ -26,7 +26,7 @@ tracker source, source manifest and review register were byte-for-byte identical
 to the old PR head. The subsequent user-directed naming update below changes
 presentation only and leaves historical numerical artifacts intact. Main's logging/publication changes and every tracking ID remain present.
 No historical evidence artifacts were regenerated and no review target was rewritten.
-The old head is to be retained as `archive/pr13-before-rebase-2026-09-25` so
+The old head was published as `archive/pr13-before-rebase-2026-09-25` so
 historical review/source links remain reachable after the requested history rewrite.
 
 The user has authorized merging the draft research. GitHub's historical
@@ -88,7 +88,9 @@ accounting and hosted-check outcomes are reported after execution.
 ## Files and follow-up
 
 Paired JSON lists files edited by this integration task. The rebase itself also
-retains all PR scientific commits and current main infrastructure. Next: publish
-the archive and lease-protected PR head, confirm hosted checks and mergeability,
-then merge only after the required accounting is resolved or explicitly waived
-by the human. A merge does not advance DES-006 out of DRAFT/PROTOTYPE.
+retains all PR scientific commits and current main infrastructure. Published original-head archive and rebased PR head `69ea15b` using an
+exact-head lease. PR title and description now use cobe/pint. GitHub reports
+MERGEABLE/CLEAN, and hosted build run `36142049953` passed at that head.
+The local required token gate failed (exit 1) only for this new rebase session.
+Merge remains pending until its completed-turn accounting is available or the
+human explicitly authorizes an exception. A merge does not advance DES-006 out of DRAFT/PROTOTYPE.
