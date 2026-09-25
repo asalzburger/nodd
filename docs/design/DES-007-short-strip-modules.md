@@ -13,8 +13,8 @@
 ## Proposal and scope
 
 Develop a planar n-in-p **strixel** module with approximately ODD's fine pitch
-and short second coordinate. The provisional baseline is a 75 µm × 0.5 mm
-cell, with longer-cell alternatives retained for electronics review. Compare
+and short second coordinate. The agreed research baseline is a 75 µm × 0.5 mm
+cell, with 75 µm × 1.5 mm retained as the fallback for electronics review. Compare
 ring-specific wedge sensors with repeated rectangular sensors. A repeated
 48 mm tangential × 96 mm radial active rectangle is the initial candidate;
 48 mm squares provide a smaller-module alternative. Neither is an approved
@@ -26,8 +26,11 @@ This proposal uses their sensor/readout and support principles without adopting
 either experiment's full detector, trigger architecture or radiation requirements.
 It opens the component research area requested by the human on 2026-09-25.
 The subsequent clarification selects **ATLAS ITk Strip + CMS Tracker TDRs**.
-The cell-length preference remains open; retaining 0.5 mm is a provisional
-assumption, not inferred human design approval.
+On 2026-09-25 the user explicitly agreed to keep 0.5 mm as the research
+baseline and study 1.5 mm as the fallback until electronics feasibility is
+clearer. This resolves the research preference only; DES-007 remains DRAFT,
+with hardware feasibility and formal design sign-off pending. Evidence:
+[recorded agreement](../../logs/codex/SESSION-2026-09-25-short-strip-cell-choice.md).
 
 ## Public facts and precise locators
 
@@ -61,12 +64,14 @@ not claims about final production hardware.
 
 ## Proposed choices and measurement contract
 
-All choices below are **NODD DESIGN CHOICE**, proposed by AI; approving humans
-and evidence are **pending**. The input JSON is the executable parameter record.
+All choices below are **NODD DESIGN CHOICE**. C01 records the user-agreed
+research baseline/fallback; the other choices remain AI proposals. Formal
+human design sign-off is **pending**. The input JSON retains the numerical
+comparison cases, including the 1.0 mm sensitivity point and CMS reference cell.
 
 | ID | Proposed choice | Rationale, alternatives and consequences |
 | --- | --- | --- |
-| C01 | 75 µm × 0.5 mm baseline; compare 75 µm × 1.0 and 1.5 mm and sourced CMS 100 µm × 1.467 mm cells. | Keep ODD feature size while exposing readout cost. Longer cells lower channel density but worsen the second coordinate. Rounded cell counts for non-divisible dimensions are only area estimates. |
+| C01 | 75 µm × 0.5 mm research baseline; 75 µm × 1.5 mm fallback, agreed by the user on 2026-09-25. Retain 75 µm × 1.0 mm as a sensitivity point and sourced CMS 100 µm × 1.467 mm as a reference. | Keep ODD feature size while exposing readout cost. Longer cells lower channel density but worsen the second coordinate. Rounded cell counts for non-divisible dimensions are only area estimates. |
 | C02 | Single 200 µm planar n-in-p DC-coupled sensor; examine 250/300/320 µm thicknesses. | ODD barrel and CMS precedent; thickness is a proposal, not an established radiation solution. No copied CMS paired-sensor pT-stub requirement and no artificial stereo pair for a 2D cell. |
 | C03 | Repeated active 48×96 mm² and 48×48 mm² sensors; 96×96 mm² control; custom wedges per ring. | 48 mm follows ODD barrel scale; 96 mm follows TDR sensor scale and gives integer baseline cell counts. Full dies with edges, ASIC peripheries and wafer yield still need layout. A large square is a packaging/control alternative, not automatically one feasible wafer product. |
 | C04 | Compare a 200–700 mm active annulus, with six or twelve rings as appropriate, and ODD's three-ring reference separately. | Provisional interface aligned with the DES-006 first-layout study, not an approved envelope. ODD itself starts near 240 mm active radius. Keep disk count/positions outside this study's optimization. |
@@ -145,12 +150,14 @@ They are later gates after the sensor/readout and support interfaces are reviewe
 
 ## Open decisions and review gates
 
-1. Human preference: retain 0.5 mm second dimension, allow roughly 1–1.5 mm,
-   or accept conventional strips with stereo and a different measurement model?
+1. Research preference resolved on 2026-09-25: keep 0.5 mm as the baseline and
+   investigate 1.5 mm as the fallback. Switching to the fallback requires an
+   explicit decision based on electronics feasibility; it is not automatic.
 2. Sensor/electronics expert: compatible readout and realistic ASIC tiling,
    leakage/noise/radiation and bandwidth/power; the fine-cell baseline is
    conditional on this work. The sourced CMS cell is a lower-extrapolation
-   fallback, not proven plug-compatible with the proposed rectangle.
+   comparison reference, distinct from the agreed 75 µm × 1.5 mm fallback and
+   not proven plug-compatible with the proposed rectangle.
 3. Tracker architect: approve active inner radius and ring count; reconcile
    DES-006 covariance/material fixtures and adjacent pixel/long-strip envelopes.
 4. Mechanical/services expert: replace trial body and z offsets with a complete

@@ -64,6 +64,12 @@ the outer range must be reconciled with the provisional 710 mm long-strip start.
 
 ## ODD reference and feature-size cost
 
+The user agreed on 2026-09-25 to retain 75 µm × 0.5 mm as the research
+baseline and 75 µm × 1.5 mm as the fallback pending electronics feasibility.
+The 1.0 mm case and sourced CMS cell remain sensitivity/reference comparisons.
+This decision changes neither the retained numerical inputs/results nor their
+validation status; see [the agreement record](../../logs/codex/SESSION-2026-09-25-short-strip-cell-choice.md).
+
 ODD has 126 modules per disk in three rings. From the pinned factory half-
 dimensions (DES-007 F02/I01), its full active trapezoid area is
 1.454544 m²
