@@ -16,7 +16,7 @@
 ## Investigation contract
 
 Compare repeated rectangular sensors with ring-specific wedges in a provisional
-700–1100 mm annulus. Each module contains two independently identified sensors,
+710–1100 mm target annulus, aligned with PR13 A and C1. Each module contains two independently identified sensors,
 physically rotated by opposite half-angles about their common centre and placed
 on opposite sides of a local support. Count coverage only when the same ray
 crosses both sensors of the same module. The relative angle, sensor mid-plane
@@ -67,14 +67,14 @@ these numerical choices. Exact inputs are in [inputs.json](../../tools/long_stri
 
 | ID | Scenario | Rationale and alternatives |
 | --- | --- | --- |
-| C01 | 700–1100 mm active annulus, first-disk stress plane z=1320 mm; vertices z=−150,0,+150 mm. | Continue PR21's provisional 700 mm transition, extend toward the 1140 mm host boundary in DES-005. Match its disk/vertex stress fixture for comparison. These are not fixed subsystem boundaries, disk placement or beamspot specifications. |
+| C01 | 710–1100 mm target annulus; first long-strip disk z=1430 mm; vertices z=−150,0,+150 mm. | Align with both active DES-006 A/C1 proposals in PR13 at `f57e26e83b826867c2720edcd702e808fe946854`. Check all six disk positions and mirrored sides. Replaces the initial 700 mm / 1320 mm fixture on user request; neither layout is signed off. These are coverage targets at reference planes, not guaranteed physical sensor edges. |
 | C02 | Relative stereo 40 mrad, scan 0/20/40/52/80 mrad; sensors rotated physically about the common module centre. | ODD/endcap and ITk angle references; zero is a singular control, 20/80 bracket the nominal value. Do not confuse 40 mrad relative with ±40 mrad per side. Implant stereo without die rotation is a separate option. |
 | C03 | Sensor mid-plane separation 5 mm; scan 1.8/4/5/6.6/10 mm. Silicon thickness 0.300 mm per side. | ODD endcap spacing, CMS packaging scales, rounded ODD barrel comparison and enlarged stress control. TDR thickness precedent; no radiation qualification implied. The minimum geometric separation must exceed thickness. |
 | C04 | Square 96×96 mm² and narrow 48×96 mm² active outlines; one continuous nominal 96 mm strip row for the geometric shortlist. Compare 96×48 mm² one-row modules, two 48 mm rows on the square, and six ring-specific wedges. | 96 mm scale follows PR21/ITk sensor scale, not an approved 96 mm strip product. Continuous strips avoid a central dead seam but double strip length relative to ITk's cited long-strip row; capacitance, noise and occupancy must be checked. Wedge strips here are parallel Cartesian lines clipped to the outline, not ITk radial/fan strips. |
 | C05 | 80 µm pitch; split-square dead row band 0.100 mm; one-row cases have no internal row seam. | Rounded pitch near ITk's 75.5 µm, compatible with 96 and 48 mm integer channel counts. The seam is an explicit sensitivity fixture, not a sourced manufacturing dimension. Dead channels and bond-pad masks remain unmodeled. |
 | C06 | 0.5 mm guard beyond active outline; 5 mm radial and 3 mm tangential service/mounting allowances beyond guard; 1 mm external allowance on each sandwich face. | Trial boxes surround both rotated sensors. Edges have a public scale precedent; electronics, mounting tabs, connectors and adhesives are not dimensioned hardware. A 30 mm radial-allowance stress control tests larger attachments. |
 | C07 | Four module-centre levels at −12,−4,+4,+12 mm; even module counts, ring parity and alternating azimuthal index define levels. | 8 mm separation accommodates the nominal 7.3 mm occupied stack, leaving 0.7 mm between adjacent levels. The 3 mm PR21 spacing is retained only as a rejected control. Common carrier, manifolds and fastener access are additional. |
-| C08 | 16 mm radial end allowance and 3 mm tangential half-width allowance; compare 5/6 rings for 96 mm radial size and 12/14 for 48 mm size. | Extreme sensor plane is 14.5 mm from the disk reference; at r=1100 mm and vertex z=150 mm its radial displacement is 13.63 mm. Extra margin covers rotation/curvature in this fixture. It is not an assembly tolerance. Failed ring counts are retained. |
+| C08 | 16 mm radial end allowance and 3 mm tangential half-width allowance; compare 5/6 rings for 96 mm radial size and 12/14 for 48 mm size. | Extreme sensor plane is 14.5 mm from the disk reference; at r=1100 mm and vertex z=150 mm its radial displacement at the first 1430 mm disk is 12.46 mm. Extra margin covers rotation/curvature in this fixture. It is not an assembly tolerance. Failed ring counts are retained. |
 | C09 | Internal test stack: 0.2 mm interface per face, 0.2 mm support skin per face and 3.2 mm tube outer diameter. | Deliberately explicit fit test near the ODD pipe scale; no chosen coolant, pressure, material or engineered wall thickness. Residual space measures only a one-dimensional envelope; routing/bends/joints/insulation and adhesive qualification remain open. |
 
 ## Measurement contract and stereo tradeoff
@@ -125,7 +125,7 @@ and clamp pads cannot simply share identical unrotated coordinates.
 
 A 96×96 mm one-row pair has 2×1200=2400 nominal strip channels; the same outline
 split into two rows has 4800. A 48×96 mm one-row pair has 1200, and a 96×48 mm
-one-row pair has 2400. The 402-pair square layout therefore has 964,800 nominal
+one-row pair has 2400. The 404-pair square layout therefore has 969,600 nominal
 channels, before spare/edge channels. Wedge counts in the JSON are width/pitch
 estimates; actual fan/parallel strip termination and partial strips require a
 sensor-mask design. Channel count alone is not a power or material model.
@@ -157,7 +157,7 @@ mixture, heat load, thermal resistance or complete X/X0 is assigned yet.
 | Row division | A 0.1 mm central dead band creates pair losses even on otherwise covered square rings. | Qualify row termination, mask and electronics placement; change staggering or use a separate seam-covering arrangement. Do not hide the band in an effective resolution. |
 | Wedges | Fewer modules and less silicon for this annulus, but six outline families; rotated corners and clipped strip ends require local clearances. | Sensor masks, hybrid families and common mounting datums; compare implant stereo as an alternative that avoids rotating whole dies. |
 | External supports/cooling | Trial box detects module-to-module intrusion only; no ring carrier/tube network or screws are modeled. | Route contacts, tube bends, manifolds, cable exits and fasteners without crossing the rotated sensor/bond envelopes; close thermal and mechanical budgets. |
-| Adjacent subsystems | Occupied radii extend below the 700 mm active transition and above 1100 mm active edge. | Coordinate with DES-007 at its exact revision, including relative z: continuous active coverage is not a noninterference proof. Remain within the 1140 mm host boundary with real services. |
+| Adjacent subsystems | Occupied radii extend below the 710 mm long-strip target edge and above 1100 mm active edge. | Coordinate with DES-007 at its exact revision, including relative z: continuous active coverage is not a noninterference proof. Remain within the 1140 mm host boundary with real services. |
 | Barrel reuse | Same sensor family is plausible; normal separation becomes radial and longitudinal slope can enlarge edge losses. | Perform a separate stave tiling, end overlap and thermal/support study. No barrel acceptance follows from this endcap screen. |
 
 ## Results, limitations and review gates
@@ -187,3 +187,30 @@ correlated errors, realistic masks and curved-track acceptance. Pin the resultin
 proposal for human technical/expert review and formal sign-off before production
 implementation. No DD4hep/Geant4/ACTS construction, overlaps, material scans,
 alignment stability, thermal analysis or full tracking efficiency is claimed here.
+
+## Compatibility amendment — PR13 A and C1, 2026-09-25
+
+**NODD DESIGN CHOICE C11 — human-directed compatibility study, dimensions remain
+unsigned:** use the active A and C1 definitions from PR13's
+[reviewed layout file](https://github.com/asalzburger/nodd/blob/f57e26e83b826867c2720edcd702e808fe946854/docs/design/DES-006-reviewed-layouts.json).
+Both use long-strip disk annuli 710–1100 mm at |z|=1430,1800,2120,2450,2730,3120 mm.
+Their long-strip barrels are at r=840/1060 mm with |z|≤1400 mm; the C1 inclination
+applies to short strips. Do not confuse these barrel radii with disk apertures.
+
+The [curated input](../../tools/long_strip/pr13-layouts.json) retains exact signed
+layer IDs, geometry, source revision and original-file hash for both options.
+The [compatibility report](../validation/DES-008-layout-compatibility.md) checks
+annulus equality and five/six-ring coverage at every disk position. This replaces
+the initial 700 mm / 1320 mm scenario; its inputs, results, code and figures remain
+available at [the previous study revision](https://github.com/asalzburger/nodd/tree/68932692fc61bb25d21e55a915a12eb929b2b316/tools/long_strip).
+
+The rerun retains six rings: 404 square module pairs per disk, with no missing
+pair samples at any of the six disk positions on either grid. Five rings lose
+pair coverage at the first three disks (worst 1.0914% at 1430 mm). Using the same
+six-ring arrangement throughout avoids a separate rear-disk assembly variant;
+five-ring rear disks remain a possible later material/complexity tradeoff. The nominal
+10 mm separation from the 700 mm short-strip band is a separation of ideal
+reference-plane coverage bands: rotated sensors, parallax margins and attachments
+extend inward. Check actual disk z separation and the host boundary; do not claim
+a free 10 mm radial service corridor. Barrel end structures, shared supports,
+connector access and the short/long-strip handoff still require engineering review.
