@@ -41,3 +41,13 @@ No commit, issue or deployment created. Existing ADRs remain drafts.
 Review the proposal, assign tracking ownership and implement the tracking contract
 and local MVP. Choose hosting and authorize publication after a working build is
 available. No human sign-off was granted or recorded.
+
+## Token-accounting correction — 2026-09-25
+
+Recovered one completed client turn from the second device using verified
+cumulative-to-request counters and persisted turn boundaries. The user-visible
+request and session-ID tool references match this task. Exact counters and
+evidence hash are in the paired JSON and the
+[second-device inventory](../usage/USAGE-2026-09-25-device.json).
+No thread/turn IDs overlap PR #18’s recovery. Original narrative and limitations
+are retained as historical statements; model identity remains unknown.

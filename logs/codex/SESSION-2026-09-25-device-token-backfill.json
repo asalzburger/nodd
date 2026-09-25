@@ -1,0 +1,129 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-09-25-device-token-backfill",
+  "title": "Recover token usage from the second device",
+  "recorded_at": "2026-09-25T03:24:12Z",
+  "started_at": null,
+  "ended_at": "2026-09-25T03:33:05Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Current recovery turn is active; its incomplete captured counters are excluded and usage remains empty.",
+    "Full project coverage, actual conversation start, client version and actual per-turn execution model are not established.",
+    "Branch-only matches and unassigned turns are retained in the inventory but excluded from normal session totals."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": "01a0d695-767d-7d33-8adf-a34065616d1e"
+  },
+  "git": {
+    "start_commit": "7c0b8f51c41191e413a752c4297f9cdbdae6cca5",
+    "branch": "infrastructure/device-token-accounting",
+    "initial_changes": [
+      "tools/tracker_layout/__pycache__/audit_inclined.cpython-314.pyc",
+      "tools/tracker_layout/__pycache__/inclined_study.cpython-314.pyc",
+      "tools/tracker_layout/__pycache__/study.cpython-314.pyc"
+    ],
+    "result_commits": [],
+    "changed_files": [
+      "logs/codex/SESSION-2026-09-17-dashboard-implementation.json",
+      "logs/codex/SESSION-2026-09-17-dashboard-implementation.md",
+      "logs/codex/SESSION-2026-09-17-dashboard-pages.json",
+      "logs/codex/SESSION-2026-09-17-dashboard-pages.md",
+      "logs/codex/SESSION-2026-09-17-dashboard-plan.json",
+      "logs/codex/SESSION-2026-09-17-dashboard-plan.md",
+      "logs/codex/SESSION-2026-09-17-dashboard-pr4.json",
+      "logs/codex/SESSION-2026-09-17-dashboard-pr4.md",
+      "logs/codex/SESSION-2026-09-25-device-token-backfill.json",
+      "logs/codex/SESSION-2026-09-25-device-token-backfill.md",
+      "logs/usage/README.md",
+      "logs/usage/USAGE-2026-09-25-device.json",
+      "tools/session_logging/test_recover_usage.py"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [
+      "infrastructure",
+      "session logging",
+      "token accounting"
+    ],
+    "related_ids": [
+      "ADR-004",
+      "PR #18"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-09-25-device-token-backfill.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "git switch -c infrastructure/device-token-accounting (sandboxed attempt)",
+      "status": "FAIL",
+      "exit_code": 128,
+      "result": "Sandbox could not create the Git branch reference; escalated retry succeeded."
+    },
+    {
+      "command": "git switch -c infrastructure/device-token-accounting (escalated retry)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Created the isolated infrastructure branch."
+    },
+    {
+      "command": "python3 -B tools/session_logging/recover_usage.py --codex-home <selected local store> --project <repository> --output <temporary inventory>",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "12 threads; 32 completed, 4 failed and 1 active turns; 529 events, 14 repeated snapshots, 515 requests; no outside-turn observations."
+    },
+    {
+      "command": "session_log.py import-usage for four dashboard sessions: dry-run, import, identical replay",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Added one turn per session. Each replay reported added=0 and unchanged=1."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "32 tests passed, including both retained inventories and second-device child attribution."
+    },
+    {
+      "command": "apply_patch combined documentation update (first attempt)",
+      "status": "FAIL",
+      "exit_code": null,
+      "result": "Rejected before writing because delete/add operations targeted the same file; corrected to one update per file."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/dashboard -p 'test_*.py' -v (temporary clean local clone with task edits overlaid)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "27 dashboard and update-policy tests passed."
+    },
+    {
+      "command": "Compare retained inventory to raw numeric capture and four dashboard records to HEAD",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All original numeric metadata preserved; historical records differ only by added usage and appended corrections; first-device inventory unchanged."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate && python3 -B tools/dashboard/build.py build --output /tmp/nodd-device-dashboard-2026-09-25",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 28 tasks, 8 documents and 5 review rounds; dashboard built successfully."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate && git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "41 session records validated; no whitespace errors."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py summary --format json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "67 observed turns in 38 of 41 sessions; 98045726 input and 477200 output tokens. Pending, unassigned and incomplete turns are excluded."
+    }
+  ]
+}

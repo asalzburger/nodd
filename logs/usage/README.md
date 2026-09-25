@@ -1,5 +1,55 @@
 # Local token-usage recovery
 
+## Second-device recovery — 2026-09-25
+
+At the user's request, [the second-device inventory](USAGE-2026-09-25-device.json)
+extends PR #18's recovery. It contains 12 project threads (9 child threads) and
+37 turns. All 529 token-count events reconcile: 14 repeated cumulative snapshots
+are excluded, leaving 515 request increases and no outside-turn observations.
+The capture timestamp is retained in the inventory. No thread/turn pair overlaps
+the first inventory or previously imported session usage.
+
+| Disposition | Turns | Task records | Input tokens | Output tokens |
+| --- | ---: | ---: | ---: | ---: |
+| Imported into existing dashboard session logs | 4 | 4 | 8,515,036 | 64,602 |
+| Matched to records on other cached Git branches | 22 | 10 | 39,680,436 | 189,890 |
+| Closed turns without a bounded task assignment | 6 | — | 881,455 | 4,508 |
+
+The second-device **observed closed-turn subtotal** is **49,076,927 input** and
+**259,000 output** tokens. Four failed child turns have no observations and are
+not treated as zero. One current recovery turn has only an incomplete snapshot
+and is not imported. Requested model names do not establish execution identity;
+model fields remain null.
+
+This fills all four dashboard gaps listed in the first recovery. Each root turn
+matches its user-visible request, existing narrative and session-ID tool activity.
+Child assignments additionally retain the recorded parent edge, parent turn,
+spawn/followup ordinal and target agent. Parent and child counters reconcile
+independently from zero against their own last-request observations.
+
+Pending entries cover six pixel-module sessions, two PR #13 tracker-review
+sessions, the PR #6 conflict repair and the magnetic-expert response. Exact cached
+branch revisions and record paths are retained with each entry. They are ready
+for import when those session records are present in the target checkout; no
+scientific branch content was copied or merged. Six orientation or short
+discussion turns remain unassigned instead of being attached by time alone.
+
+After import, the normal session summary reports **98,045,726 input** and
+**477,200 output** tokens across **67 turns in 38 of 41 sessions**. Cached input
+is 94,477,952 and reasoning output is 68,817; both are subsets, not extra tokens.
+The physics-role session shares a turn already counted in stage-b-roles. The
+first and second recovery tasks themselves still lack completed-turn accounting.
+These totals exclude pending-branch and unassigned turns and do not establish
+complete project usage or billing.
+
+The first inventory below is preserved as a historical snapshot. Its statement
+that dashboard usage was missing is superseded by this dated update. For pending
+entries from this device, use the extraction example below with
+`USAGE-2026-09-25-device.json` as the input inventory. Import replay was checked
+for all four dashboard sessions and added no duplicate observations.
+
+## First-device recovery — 2026-09-24
+
 The user authorized recovery on 2026-09-24 from this local machine and stated that
 another computer may hold missing sessions. This is infrastructure accounting,
 not scientific progress or design approval.
