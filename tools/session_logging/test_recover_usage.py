@@ -84,9 +84,14 @@ class RecoveryTests(unittest.TestCase):
         self.assertNotEqual(first['turns'][0]['usage_sha256'], other['turns'][0]['usage_sha256'])
 
     def test_retained_inventory_reconciles_and_imported_entries_match_logs(self):
+        for name in ['USAGE-2026-09-24-local.json', 'USAGE-2026-09-25-device.json']:
+            with self.subTest(inventory=name):
+                self.check_retained_inventory(name)
+
+    def check_retained_inventory(self, name):
         # Audit retained numeric evidence; do not access any client data directory.
         root = Path(__file__).resolve().parents[2]
-        path = root / 'logs/usage/USAGE-2026-09-24-local.json'
+        path = root / 'logs/usage' / name
         report = json.loads(path.read_text())
         recorded = {(u['client_thread_id'], u['turn_id']): (r['session_id'], u)
                     for r in log.load_records(root) for u in r['usage']}
@@ -107,9 +112,33 @@ class RecoveryTests(unittest.TestCase):
             turns = [t for thread in report['threads'] for t in thread['turns']
                      if t['disposition'] == state]
             self.assertEqual(summary['turns'], len(turns))
+            self.assertEqual(summary['sessions'],
+                             len({t['target_session_id'] for t in turns
+                                  if t['target_session_id'] is not None}))
             for field in log.TOKEN_FIELDS:
                 self.assertEqual(summary['tokens'][field],
                                  log.observed([t['tokens'][field] for t in turns])['sum'])
+
+    def test_second_device_is_disjoint_and_child_attribution_has_parent_evidence(self):
+        root = Path(__file__).resolve().parents[2]
+        first = json.loads((root / 'logs/usage/USAGE-2026-09-24-local.json').read_text())
+        second = json.loads((root / 'logs/usage/USAGE-2026-09-25-device.json').read_text())
+        first_keys = {(th['thread_id'], t['turn_id'])
+                      for th in first['threads'] for t in th['turns']}
+        second_turns = {(th['thread_id'], t['turn_id']): t
+                        for th in second['threads'] for t in th['turns']}
+        self.assertFalse(first_keys & second_turns.keys())
+        for th in second['threads']:
+            for turn in th['turns']:
+                if not th['parent_thread_id'] or not turn['target_session_id']:
+                    continue
+                evidence = turn['parent_activity']
+                self.assertEqual(evidence['thread_id'], th['parent_thread_id'])
+                parent = second_turns[evidence['thread_id'], evidence['turn_id']]
+                self.assertEqual(parent['target_session_id'], turn['target_session_id'])
+                self.assertGreaterEqual(evidence['tool_call_ordinal'], parent['start_ordinal'])
+                self.assertLessEqual(evidence['tool_call_ordinal'], parent['end_ordinal'])
+                self.assertEqual(evidence['target_agent'], th['agent_path'])
 
 
 if __name__ == '__main__':

@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-09-25-device-token-pr",
+  "title": "Publish second-device token recovery PR",
+  "recorded_at": "2026-09-25T03:33:49Z",
+  "started_at": null,
+  "ended_at": null,
+  "status": "open",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact completed-turn counters are not exposed for this publication turn; usage remains empty.",
+    "Actual conversation start time and client version are unknown. Prior recovery validation is linked, not claimed as rerun here."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": "01a0d695-767d-7d33-8adf-a34065616d1e"
+  },
+  "git": {
+    "start_commit": "7c0b8f51c41191e413a752c4297f9cdbdae6cca5",
+    "branch": "infrastructure/device-token-accounting",
+    "initial_changes": [
+      "logs/codex/SESSION-2026-09-17-dashboard-implementation.json",
+      "logs/codex/SESSION-2026-09-17-dashboard-implementation.md",
+      "logs/codex/SESSION-2026-09-17-dashboard-pages.json",
+      "logs/codex/SESSION-2026-09-17-dashboard-pages.md",
+      "logs/codex/SESSION-2026-09-17-dashboard-plan.json",
+      "logs/codex/SESSION-2026-09-17-dashboard-plan.md",
+      "logs/codex/SESSION-2026-09-17-dashboard-pr4.json",
+      "logs/codex/SESSION-2026-09-17-dashboard-pr4.md",
+      "logs/codex/SESSION-2026-09-25-device-token-backfill.json",
+      "logs/codex/SESSION-2026-09-25-device-token-backfill.md",
+      "logs/usage/README.md",
+      "logs/usage/USAGE-2026-09-25-device.json",
+      "tools/session_logging/test_recover_usage.py",
+      "tools/tracker_layout/__pycache__/audit_inclined.cpython-314.pyc",
+      "tools/tracker_layout/__pycache__/inclined_study.cpython-314.pyc",
+      "tools/tracker_layout/__pycache__/study.cpython-314.pyc"
+    ],
+    "result_commits": [],
+    "changed_files": [
+      "logs/codex/SESSION-2026-09-25-device-token-pr.json",
+      "logs/codex/SESSION-2026-09-25-device-token-pr.md"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [
+      "infrastructure",
+      "session logging",
+      "token accounting"
+    ],
+    "related_ids": [
+      "ADR-004",
+      "PR #18"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-09-25-device-token-pr.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "git fetch origin main",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Fetched main; branch starts from the merged PR18 revision."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate; python3 -B tools/dashboard/build.py validate; python3 -B tools/dashboard/build.py build --output /tmp/nodd-device-token-pr-dashboard; git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "42 session records and 28 tasks/8 documents/5 review rounds validated. Dashboard built and whitespace check passed."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py summary --format json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "67 observed turns in 38 of 42 sessions: 98045726 input and 477200 output tokens. Missing coverage is explicit."
+    },
+    {
+      "command": "tools/dashboard/check_update.py check() with PR title and exact staged-path inventory",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Infrastructure classification accepted; no scientific tracking update required."
+    }
+  ]
+}

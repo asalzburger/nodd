@@ -65,3 +65,13 @@ Inspect the local preview and browser/mobile behavior; assign tracking maintenan
 Publication requires reviewing a working build and choosing/authorizing hosting.
 Formal review policy remains governed by repository instructions; draft ADRs were
 not promoted. No agents were launched, credentials collected or site deployed.
+
+## Token-accounting correction — 2026-09-25
+
+Recovered one completed client turn from the second device using verified
+cumulative-to-request counters and persisted turn boundaries. The user-visible
+request and session-ID tool references match this task. Exact counters and
+evidence hash are in the paired JSON and the
+[second-device inventory](../usage/USAGE-2026-09-25-device.json).
+No thread/turn IDs overlap PR #18’s recovery. Original narrative and limitations
+are retained as historical statements; model identity remains unknown.
