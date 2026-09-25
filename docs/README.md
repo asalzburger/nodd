@@ -18,6 +18,7 @@ The documents below establish proposals and recording formats. Their presence do
 - [Full-detector development plan and TDR programme](DEVELOPMENT_PLAN.md)
 - [TDR chapter and subsection outline with evidence coverage](publication/TDR-outline.md)
 - [Publication plan, priorities and review gates](publication/publication-plan.md)
+- [DES-008: stereo long-strip sandwiches, ring layouts and mounting/cooling constraints](design/DES-008-long-strip-modules.md)
 - [DES-005: whole-tracker design, work packages and staged performance studies](design/DES-005-tracker-system-plan.md)
 - [DES-003: global envelope proposal, r–z drawing and review questions](design/DES-003-global-envelopes.md)
 - [Second envelope review: 3 T space budget and baseline closure](design/DES-003-review-2.md)

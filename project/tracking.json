@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated": "2026-09-22",
+  "updated": "2026-09-25",
   "note": "Curated register. Stage B architecture is active. PR #4\u2019s envelope baseline has explicit human approval and is merged; its documents still declare DRAFT and no formal sign-off record exists. Role ownership does not imply active agents. Chore PRs and infrastructure chores are excluded from project progress.",
   "stages": [
     {
@@ -688,7 +688,7 @@
     {
       "id": "TRK-LSTRIP",
       "title": "Stereo long-strip component proposal",
-      "scope": "Stereo axes/separation, covariance and ambiguities, electronics, outlines and material interfaces.",
+      "scope": "DES-008 prototype stereo sandwiches: sensor rotation/separation, same-module pair coverage, repeated rings, row seams and mounting/cooling constraints. Align the target annulus and disk planes with both PR13 A/C1 layouts; recheck five/six rings and physical interface extensions.",
       "stage": "B",
       "milestones": [
         "M1",
@@ -697,19 +697,29 @@
       "workstream": "WS-TRACK",
       "role": "Tracker technician",
       "owner": null,
-      "state": "planned",
+      "state": "active",
       "dependencies": [
         "TASK-B-TRACKER-PLAN"
       ],
-      "deliverables": [],
+      "deliverables": [
+        "docs/design/DES-008-long-strip-modules.md",
+        "tools/long_strip/README.md",
+        "docs/validation/DES-008-ring-study.md",
+        "docs/validation/DES-008-layout-compatibility.md"
+      ],
       "evidence": [
-        "docs/design/DES-005-tracker-system-plan.md"
+        "docs/design/DES-005-tracker-system-plan.md",
+        "docs/validation/DES-008-ring-study.json",
+        "logs/codex/SESSION-2026-09-25-long-strip-research.md",
+        "docs/validation/DES-008-layout-compatibility.json",
+        "tools/long_strip/pr13-layouts.json"
       ],
       "documents": [
-        "DES-005"
+        "DES-005",
+        "DES-008"
       ],
-      "updated": "2026-09-18",
-      "next_action": "Prepare the paired-sensor measurement and physical-interface proposal with PhysVal.",
+      "updated": "2026-09-25",
+      "next_action": "Retain the common six-ring 710-1100 mm / 404-pair arrangement for PR13 A/C1; review inward occupied-space extensions, barrel end structures and cooling/services before claiming a cleared interface. Qualify ~96 mm strip electronics and shorter-row alternatives; no sign-off.",
       "blocker": null,
       "disposition": null,
       "subsystem": "tracking and timing"
@@ -1127,6 +1137,14 @@
       "id": "DES-005",
       "path": "docs/design/DES-005-tracker-system-plan.md",
       "validation_reports": []
+    },
+    {
+      "id": "DES-008",
+      "path": "docs/design/DES-008-long-strip-modules.md",
+      "validation_reports": [
+        "docs/validation/DES-008-ring-study.md",
+        "docs/validation/DES-008-layout-compatibility.md"
+      ]
     }
   ],
   "evidence": [
@@ -1224,6 +1242,11 @@
       "title": "Publication priorities and review gates",
       "path": "docs/publication/publication-plan.md",
       "kind": "TDR plan"
+    },
+    {
+      "title": "Long-strip stereo sandwich and ring prototype",
+      "path": "docs/validation/DES-008-ring-study.md",
+      "kind": "analytical prototype"
     }
   ],
   "pull_requests": [
@@ -1292,6 +1315,24 @@
       "task": "TASK-B-PUB",
       "documents": [],
       "scope": "PubDoc draft chapter/subsection outline, claim/evidence map and publication process, plus Documentation PR category. Captured at PR creation before metadata-only update; no detector approval, TDR submodule migration or publication authorization. Human reviewer asalzburger-review requested.",
+      "category": "project"
+    },
+    {
+      "id": "PR-22",
+      "number": 22,
+      "title": "Tracker: Investigate long-strip stereo sandwiches and endcap layouts",
+      "url": "https://github.com/asalzburger/nodd/pull/22",
+      "state": "open",
+      "head_revision": "61dcdca1fcf41c41fc8fbd1665c589b9dd7049a6",
+      "merge_commit": null,
+      "merged_at": null,
+      "collected_at": "2026-09-25T12:39:19Z",
+      "task": "TRK-LSTRIP",
+      "documents": [
+        "DES-005",
+        "DES-008"
+      ],
+      "scope": "DES-008 analytical PROTOTYPE: stereo sandwich outlines, pair coverage, ring reuse and gap/mounting/cooling controls. Snapshot at PR creation before this metadata-only update. No engineering qualification or human design approval.",
       "category": "project"
     }
   ]
