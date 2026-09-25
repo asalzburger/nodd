@@ -34,3 +34,9 @@ and credentials are omitted from these records. Exact token usage is unavailable
 Align template naming/source paths and the chapter plan with nODD when TDR editing
 starts. Choose how the main repository pins or retains TDR revisions before
 publishing a reproducible release. The checkout itself is ready for local work.
+
+## Token usage recovered — 2026-09-24
+
+Recovered local client-reported counters for 1 disjoint turns: **703,310 input** and **1,482 output** tokens. Cached input and reasoning output are subsets, not additions. Request-to-task matching and counter evidence are retained in [the recovery inventory](../usage/USAGE-2026-09-24-local.json).
+
+This dated correction supersedes earlier statements that token counts were unavailable for these turns. Original narrative and limitations are preserved. It does not establish complete coverage across machines; unmatched and branch-only turns remain explicit in the inventory.

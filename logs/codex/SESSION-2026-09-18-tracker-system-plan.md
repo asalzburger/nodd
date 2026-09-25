@@ -113,3 +113,9 @@ and occupancy scenarios before selection. Then execute the bounded study tasks.
 Module/field dependencies, physical budgets, backend readiness and applicable
 human design sign-off remain explicit. No final layout decision is requested
 without its evidence.
+
+## Token usage recovered — 2026-09-24
+
+Recovered local client-reported counters for 7 disjoint turns: **7,752,206 input** and **39,477 output** tokens. Cached input and reasoning output are subsets, not additions. Request-to-task matching and counter evidence are retained in [the recovery inventory](../usage/USAGE-2026-09-24-local.json).
+
+This dated correction supersedes earlier statements that token counts were unavailable for these turns. Original narrative and limitations are preserved. It does not establish complete coverage across machines; unmatched and branch-only turns remain explicit in the inventory.

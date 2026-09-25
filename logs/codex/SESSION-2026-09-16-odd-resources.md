@@ -64,3 +64,9 @@ Read source and overview together, trace representative components and prepare a
 version-consistent baseline candidate under ADR-001 and ADR-003. Resolve the
 geometry/field/material-map/reconstruction configuration as a unit. The study
 snapshot and source license observation are evidence for review, not human approval.
+
+## Token usage recovered — 2026-09-24
+
+Recovered local client-reported counters for 1 disjoint turns: **5,082,191 input** and **15,189 output** tokens. Cached input and reasoning output are subsets, not additions. Request-to-task matching and counter evidence are retained in [the recovery inventory](../usage/USAGE-2026-09-24-local.json).
+
+This dated correction supersedes earlier statements that token counts were unavailable for these turns. Original narrative and limitations are preserved. It does not establish complete coverage across machines; unmatched and branch-only turns remain explicit in the inventory.

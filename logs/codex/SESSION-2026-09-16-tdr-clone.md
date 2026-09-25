@@ -38,3 +38,9 @@ validation is recorded in the JSON. No LaTeX build or detector check was run.
 Only this session pair was added. No design/ADR states changed. Authenticate locally
 and retry the user-supplied clone into docs/tdr; then inspect its branch, contents
 and instructions and establish a traceable relationship with the main repository.
+
+## Token usage recovered — 2026-09-24
+
+Recovered local client-reported counters for 1 disjoint turns: **932,861 input** and **1,588 output** tokens. Cached input and reasoning output are subsets, not additions. Request-to-task matching and counter evidence are retained in [the recovery inventory](../usage/USAGE-2026-09-24-local.json).
+
+This dated correction supersedes earlier statements that token counts were unavailable for these turns. Original narrative and limitations are preserved. It does not establish complete coverage across machines; unmatched and branch-only turns remain explicit in the inventory.

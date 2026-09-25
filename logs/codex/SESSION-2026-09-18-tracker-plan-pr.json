@@ -10,12 +10,13 @@
   "completeness": "partial",
   "limitations": [
     "Exact token usage, client version, thread ID and actual conversation start time are unavailable.",
-    "Publication and infrastructure checks do not provide human plan sign-off or detector validation."
+    "Publication and infrastructure checks do not provide human plan sign-off or detector validation.",
+    "2026-09-24 correction: local client counters recovered for 1 disjoint turns; this supersedes earlier token-unavailability statements for those turns only. Full multi-machine coverage remains unknown. See logs/usage/USAGE-2026-09-24-local.json."
   ],
   "client": {
     "name": "Codex",
     "version": null,
-    "thread_id": null
+    "thread_id": "01a0b3b0-f8f3-7de0-8854-ff1f156bebab"
   },
   "git": {
     "start_commit": "9bc03865fa384dd4b19448b81bd9f86b29feb9f0",
@@ -66,7 +67,22 @@
   },
   "narrative": "logs/codex/SESSION-2026-09-18-tracker-plan-pr.md",
   "activities": [],
-  "usage": [],
+  "usage": [
+    {
+      "client_thread_id": "01a0b3b0-f8f3-7de0-8854-ff1f156bebab",
+      "turn_id": "01a0b422-76db-7370-9f76-f238c791640b",
+      "model": null,
+      "source": "2026-09-24 local token_count recovery; logs/usage/USAGE-2026-09-24-local.json; usage SHA-256 64bd5673b7943daa3ed2c838bf1ae191e738eb843b38d016e7b3a4df464496c2; cumulative increases equal last-request counters over persisted turn ordinals 729..921.",
+      "limitations": [
+        "Local client-reported usage only; other-machine coverage and billing equivalence are not established. Per-turn execution model was not reported."
+      ],
+      "input_tokens": 4163115,
+      "cached_input_tokens": 4130816,
+      "output_tokens": 11156,
+      "reasoning_output_tokens": 2599,
+      "total_tokens": 4174271
+    }
+  ],
   "checks": [
     {
       "command": "python3 tools/session_logging/session_log.py validate",

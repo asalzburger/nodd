@@ -178,6 +178,13 @@ Use a new project session ID for a new bounded task, even in the same client
 thread; never duplicate token observations across records. This workflow does
 not authorize collecting private client state or granting human sign-off.
 
+For each significant task, add available exact client-reported per-turn token
+counters with `session_log.py record-usage` or `import-usage`, following the
+logging workflow. Include separately reported subagent turns without overlapping
+parent totals. If counters are unavailable, leave `usage` empty and explain the
+missing measurements; never estimate them. Run `session_log.py summary` at task
+completion and distinguish observed input/output totals from missing coverage.
+
 ## Node-specific software workflows
 
 Before relying on the local ACTS Spack installation for DD4hep/Geant4 builds,

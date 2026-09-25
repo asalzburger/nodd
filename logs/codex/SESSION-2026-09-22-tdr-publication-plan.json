@@ -10,12 +10,13 @@
   "completeness": "partial",
   "limitations": [
     "Exact token usage, client version, thread ID and conversation start time unavailable.",
-    "Documentation planning only; detector validation and LaTeX compilation not performed. The Overleaf-backed TDR submodule remains unchanged."
+    "Documentation planning only; detector validation and LaTeX compilation not performed. The Overleaf-backed TDR submodule remains unchanged.",
+    "2026-09-24 correction: local client counters recovered for 2 disjoint turns; this supersedes earlier token-unavailability statements for those turns only. Full multi-machine coverage remains unknown. See logs/usage/USAGE-2026-09-24-local.json."
   ],
   "client": {
     "name": "Codex",
     "version": null,
-    "thread_id": null
+    "thread_id": "01a0b3b0-f8f3-7de0-8854-ff1f156bebab"
   },
   "git": {
     "start_commit": "bb1f2dd512cd56b8c7e52679350ea843d8e3f0ff",
@@ -62,7 +63,36 @@
   },
   "narrative": "logs/codex/SESSION-2026-09-22-tdr-publication-plan.md",
   "activities": [],
-  "usage": [],
+  "usage": [
+    {
+      "client_thread_id": "01a0b3b0-f8f3-7de0-8854-ff1f156bebab",
+      "turn_id": "01a0c99c-61b4-7ee2-a628-eb04e4f5dd34",
+      "model": null,
+      "source": "2026-09-24 local token_count recovery; logs/usage/USAGE-2026-09-24-local.json; usage SHA-256 676ff70c91db0b1c55da9ba8d58910e448a3c1b087b5977f9d1527bdf1807133; cumulative increases equal last-request counters over persisted turn ordinals 2955..3280.",
+      "limitations": [
+        "Local client-reported usage only; other-machine coverage and billing equivalence are not established. Per-turn execution model was not reported."
+      ],
+      "input_tokens": 2560156,
+      "cached_input_tokens": 2463360,
+      "output_tokens": 11925,
+      "reasoning_output_tokens": 2000,
+      "total_tokens": 2572081
+    },
+    {
+      "client_thread_id": "01a0c99f-2335-7f52-8f31-7826872e1da2",
+      "turn_id": "01a0c99f-239a-7872-ab8e-a7debfcc0ef7",
+      "model": null,
+      "source": "2026-09-24 local token_count recovery; logs/usage/USAGE-2026-09-24-local.json; usage SHA-256 0ab5548c3edbf227291b40526eda773cce996e0cef8dedb587ef74de52e57f57; cumulative increases equal last-request counters over persisted turn ordinals 12..89.",
+      "limitations": [
+        "Local client-reported usage only; other-machine coverage and billing equivalence are not established. Per-turn execution model was not reported."
+      ],
+      "input_tokens": 509707,
+      "cached_input_tokens": 459264,
+      "output_tokens": 11004,
+      "reasoning_output_tokens": 295,
+      "total_tokens": 520711
+    }
+  ],
   "checks": [
     {
       "command": "python3 -B -m unittest discover -s tools/dashboard -p test_update.py -v",

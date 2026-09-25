@@ -35,3 +35,9 @@ Session validation passed for all 11 records. Token usage and client/model detai
 are unavailable.
 The preceding task records preserve per-task changed files and provenance; this
 record captures preparation and publication, not a second reading of the papers.
+
+## Token usage recovered — 2026-09-24
+
+Recovered local client-reported counters for 1 disjoint turns: **2,111,885 input** and **4,069 output** tokens. Cached input and reasoning output are subsets, not additions. Request-to-task matching and counter evidence are retained in [the recovery inventory](../usage/USAGE-2026-09-24-local.json).
+
+This dated correction supersedes earlier statements that token counts were unavailable for these turns. Original narrative and limitations are preserved. It does not establish complete coverage across machines; unmatched and branch-only turns remain explicit in the inventory.

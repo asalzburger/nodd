@@ -53,3 +53,9 @@ Published proposal commit `68d0d7c`, updated the PR description, and replied in
 eight substantive review threads. All 21 comments are accounted for in the
 disposition; reply URLs are retained there. No review threads were resolved or
 human sign-off recorded. This publication record follows in its own commit.
+
+## Token usage recovered — 2026-09-24
+
+Recovered local client-reported counters for 3 disjoint turns: **5,237,594 input** and **17,292 output** tokens. Cached input and reasoning output are subsets, not additions. Request-to-task matching and counter evidence are retained in [the recovery inventory](../usage/USAGE-2026-09-24-local.json).
+
+This dated correction supersedes earlier statements that token counts were unavailable for these turns. Original narrative and limitations are preserved. It does not establish complete coverage across machines; unmatched and branch-only turns remain explicit in the inventory.

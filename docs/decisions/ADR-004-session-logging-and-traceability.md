@@ -80,3 +80,29 @@ creation without overwriting existing records. No detector checks apply.
 
 This ADR remains DRAFT. No external technical source claims or detector
 parameters are introduced; the rationale is a project infrastructure choice.
+
+## Implementation update — 2026-09-24
+
+The user requested adding token accounting to the logs. The logging CLI now
+provides `record-usage` for one client-reported turn and `import-usage` for a
+curated JSON array. Both validate before writing, support preview, reject
+cross-session double counting and conflicting evidence, and treat an identical
+replay as a no-op. The existing version-1 schema and subset accounting remain
+unchanged. Session summaries explicitly count sessions without observations.
+
+These commands ingest supplied counters; they do not collect client telemetry.
+Historical backfill needs a verified task-to-turn mapping and a dated correction.
+No exact token measurements were available in the 36 existing records when this
+work began. This implementation update does not grant ADR approval or imply that
+missing historical usage has been recovered.
+
+The user subsequently authorized historical recovery from this local machine,
+noting that another computer may hold missing sessions. The opt-in
+`tools/session_logging/recover_usage.py` exports usage-only evidence from the
+explicitly selected local client store. It verifies cumulative-to-request
+arithmetic and persisted turn boundaries before curated task matching and import.
+The [2026-09-24 recovery inventory](../../logs/usage/README.md) records the imported
+turns, pending branch-only matches and unmatched observations. Historical
+narratives are preserved with dated corrections; no inference from token counts
+grants scientific progress or human sign-off. The earlier absence-of-usage finding
+describes the logs before this recovery, not the retained local client evidence.
