@@ -80,8 +80,11 @@ material, electronics, thermal and mechanical validation were not run.
 
 See the paired JSON changed-file inventory: DES-008, report/JSON, two figures,
 `tools/long_strip/`, source manifest and reading guides, docs index, tracking
-register and this session pair. Result commits and PR link are added after they
-exist. PR21/DES-007 is a comparison reference, not a dependency merged here.
+register and this session pair. Study commit: `61dcdca1fcf41c41fc8fbd1665c589b9dd7049a6`. Pushed branch
+and opened [PR22](https://github.com/asalzburger/nodd/pull/22); its creation
+revision is captured in tracking before this metadata-only update. GitHub
+dashboard CI was in progress at publication. The corrected staged whitespace
+check passed. PR21/DES-007 is a comparison reference, not a dependency merged here.
 
 ## Token accounting
 
