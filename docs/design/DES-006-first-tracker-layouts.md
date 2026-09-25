@@ -13,16 +13,23 @@
 
 ## Executive summary
 
-**Current active options: A and C1 only.** The expert review from `noemina`
+**Current active options: cobe and pint only.**
+
+The user named these on 2026-09-25: **cobe** = classical barrel endcap
+(formerly A); **pint** = progressive inclined transition (formerly C1).
+[The current named catalogue](DES-006-named-layouts.json) changes proposal names
+and candidate keys only; layer IDs and all physical values are preserved.
+Historical review targets, A/C1 numerical records and earlier briefs remain
+unchanged. The named catalogue records its source hash and legacy keys. The expert review from `noemina`
 on 2026-09-23 withdraws B and C2 from the current choice set. Their files remain
 historical evidence. The [expert-review response](DES-006-expert-review.md)
 contains the TDR/beam-pipe comparison, bounded radial/axial optimisation,
 hit/material tradeoffs, eta~1.1 recovery study and remaining engineering inputs.
 
-Read the updated two-page briefs: [A](DES-006-reviewed-A.pdf) /
-[source](DES-006-reviewed-A.md), [C1](DES-006-reviewed-C1.pdf) /
-[source](DES-006-reviewed-C1.md). The
-[current layer tables](DES-006-reviewed-layouts.json) and
+Read the updated two-page briefs: [cobe](DES-006-reviewed-cobe.pdf) /
+[source](DES-006-reviewed-cobe.md), [pint](DES-006-reviewed-pint.pdf) /
+[source](DES-006-reviewed-pint.md). The
+[current layer tables](DES-006-named-layouts.json) and
 [executed optimisation](../validation/DES-006-expert-optimisation.json)
 are separate from the original controls. No candidate is selected or signed off;
 local regressions and unresolved service/beam-pipe constraints remain explicit.

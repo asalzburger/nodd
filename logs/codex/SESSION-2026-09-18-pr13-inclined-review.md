@@ -30,3 +30,11 @@ Starting revision and branch, selected commands and changed paths are in the pai
 Published d32da2541415f4730297601e0779594f08f5beaf on the existing PR #13 branch. Updated its executive summary and posted the technical response at https://github.com/asalzburger/nodd/pull/13#issuecomment-5732103962. The Noemi-directed comment was not answered or altered. Preserved the original review target and requested a superseding technical round at the exact C revision; no human approval recorded.
 
 Hosted CI35361596731 succeeded on d32da25, including browser checks. Final local dashboard validation/build passed with28tasks,9documents,7reviewrounds;36sessionrecords validated. The remaining commit records publication and review metadata only.
+
+## Token-accounting update — 2026-09-25
+
+Imported 4 disjoint completed-turn entries already attributed to this session
+in the retained `logs/usage/USAGE-2026-09-24-local.json` or
+`USAGE-2026-09-25-device.json` inventory. Exact source and counters are in the
+paired JSON. This supersedes earlier missing-usage wording for those turns;
+no new raw client-state recovery or estimated attribution was performed.

@@ -148,12 +148,24 @@ solver audit remains evidence for that unchanged implementation. Additional
 regression checks enforce the intended subsystem-only change. The plotter
 creates separate two-page C1/C2 PDFs, drawings and a material comparison.
 
-## Expert review: active A/C1 optimisation
+## Expert review: active cobe/pint optimisation
 
 [DES-006 expert response](../../docs/design/DES-006-expert-review.md) documents
 all nine review requests, scan rationale/weights and unresolved inputs. B/C2
-remain historical artifacts; the active inputs are
-[DES-006-reviewed-layouts.json](../../docs/design/DES-006-reviewed-layouts.json).
+remain historical artifacts. The user named A **cobe** (classical barrel endcap)
+and C1 **pint** (progressive inclined transition) on 2026-09-25. The current
+[named inputs](../../docs/design/DES-006-named-layouts.json) preserve every physical
+layer and layer ID from the historical `DES-006-reviewed-layouts.json`, with
+`legacy_id` mapping candidate names back to retained A/C1 numerical results.
+
+Regenerate the named catalogue and brief sources with
+`python3 -B tools/tracker_layout/name_proposals.py`; then run the plotter below
+and render `DES-006-reviewed-cobe.md` and `DES-006-reviewed-pint.md` using
+`render_briefs.render(path, date="2026-09-25")`. The plotter now writes separate
+cobe/pint files, leaving all reviewed A/C1 images and PDFs unchanged. The
+optimisation tool retains historical A/C1 output keys; rerun the naming tool
+after any future scientifically reviewed optimisation. Renaming does not rerun
+the search or imply a new performance result.
 
 ```sh
 python3 -B tools/tracker_layout/expert_review.py
@@ -175,5 +187,5 @@ catalogue; use `idres_adapter.py --configuration <A-only.json> --checkout
 <idres-checkout> --work <scratch> --output <report.json>`. Do not pass inclined
 C1 to this adapter. Report and raw-output hashes are retained in
 [the A IdRes evidence](../../docs/validation/DES-006-reviewed-A-idres.json).
-Current A/C1 PDFs are rendered by `render_briefs.render(path, date='2026-09-24')`
+Historical A/C1 PDFs were rendered by `render_briefs.render(path, date='2026-09-24')`
 in the existing PyMuPDF environment; original PDFs are preserved.

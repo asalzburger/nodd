@@ -1,0 +1,143 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-09-25-pr13-rebase",
+  "title": "Resolve PR 13 conflicts and rebase onto main",
+  "recorded_at": "2026-09-25T13:25:12Z",
+  "started_at": null,
+  "ended_at": null,
+  "status": "open",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact counters for the current rebase turn are not exposed; usage is empty and the required token gate remains unresolved until completed-turn evidence is available.",
+    "Historical numerical artifacts, physical layers and review targets preserved. User-directed naming adds cobe/pint presentation/catalogue without rerunning IdRes optimisation, DD4hep/Geant4 or ACTS runtime.",
+    "User explicitly requested rebase, overriding the usual ordinary-merge instruction for this PR only. Main-worktree unrelated changes remain untouched."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "f57e26e83b826867c2720edcd702e808fe946854",
+    "branch": "repair/pr13-rebase",
+    "initial_changes": [],
+    "result_commits": [
+      "d4b4d0d192fa1702a1fe6bf81aadd9b3b3b86ed6"
+    ],
+    "changed_files": [
+      "docs/design/DES-006-expert-review.md",
+      "docs/design/DES-006-first-tracker-layouts.md",
+      "docs/design/DES-006-named-layouts.json",
+      "docs/design/DES-006-reviewed-cobe.md",
+      "docs/design/DES-006-reviewed-cobe.pdf",
+      "docs/design/DES-006-reviewed-pint.md",
+      "docs/design/DES-006-reviewed-pint.pdf",
+      "docs/design/figures/DES-006-cobe-pint-profiles-pt1.png",
+      "docs/design/figures/DES-006-cobe-pint-profiles-pt100.png",
+      "docs/design/figures/DES-006-cobe-pint-transition.png",
+      "docs/design/figures/DES-006-reviewed-cobe-rz.png",
+      "docs/design/figures/DES-006-reviewed-cobe-rz.svg",
+      "docs/design/figures/DES-006-reviewed-pint-rz.png",
+      "docs/design/figures/DES-006-reviewed-pint-rz.svg",
+      "logs/codex/SESSION-2026-09-18-pr13-c1-c2.json",
+      "logs/codex/SESSION-2026-09-18-pr13-c1-c2.md",
+      "logs/codex/SESSION-2026-09-18-pr13-inclined-review.json",
+      "logs/codex/SESSION-2026-09-18-pr13-inclined-review.md",
+      "logs/codex/SESSION-2026-09-18-tracker-first-layouts.json",
+      "logs/codex/SESSION-2026-09-18-tracker-first-layouts.md",
+      "logs/codex/SESSION-2026-09-24-tracker-expert-review.json",
+      "logs/codex/SESSION-2026-09-24-tracker-expert-review.md",
+      "logs/codex/SESSION-2026-09-25-pr13-rebase.json",
+      "logs/codex/SESSION-2026-09-25-pr13-rebase.md",
+      "project/tracking.json",
+      "tools/tracker_layout/README.md",
+      "tools/tracker_layout/name_proposals.py",
+      "tools/tracker_layout/plot_expert_review.py",
+      "tools/tracker_layout/test_proposal_names.py"
+    ]
+  },
+  "work": {
+    "milestone": "Stage B",
+    "components": [
+      "tracker prototype PR integration"
+    ],
+    "related_ids": [
+      "PR-13",
+      "DES-006",
+      "DES-005",
+      "TASK-B-TRACKER-FIRST-LAYOUTS"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-09-25-pr13-rebase.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 -B -m unittest discover -s tools/tracker_layout -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "29 tracker tests pass, including two new naming/physical-invariance controls."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/dashboard -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "27 dashboard/update-policy tests pass."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "32 logging/recovery tests pass."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s skills/acts-spack/scripts -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "5 preflight unit tests pass; no node/runtime qualification rerun."
+    },
+    {
+      "command": "JavaScriptCore tools/dashboard/test_app.js",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "14 synthetic DOM assertions pass."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate; python3 -B tools/dashboard/build.py build",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "29 tasks, 9 documents, 10 review rounds validate; dashboard builds."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate; summary --format markdown",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "47 records validate; 42 sessions with usage / 79 turns. Observed input=134594309, output=674111. This rebase turn remains unknown."
+    },
+    {
+      "command": "Scientific-tree comparison to f57e26e and tracking/log preservation audit",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "docs/design, docs/validation, tools/tracker_layout, source manifest and reviews JSON unchanged. All main tracking IDs and log files retained."
+    },
+    {
+      "command": "session_log.py import-usage for four matched PR13 sessions (dry-run then import)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "12 previously curated disjoint turns imported: 36548583 input / 196911 output tokens, no newly guessed attribution."
+    },
+    {
+      "command": "Initial local conflict-resolution helper",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Regex block-count assertion failed; unpushed rebase was aborted and restarted. Subsequent conflicts resolved with parse/unique-ID and record-preservation assertions before continuation."
+    },
+    {
+      "command": "name_proposals.py; plot_expert_review.py; render_briefs.render(date=2026-09-25)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Named cobe/pint catalogue and separate figures/briefs generated. Both PDFs have two A4 pages; all four rendered pages visually inspected. Physical layers unchanged; historical artifacts retained."
+    }
+  ]
+}

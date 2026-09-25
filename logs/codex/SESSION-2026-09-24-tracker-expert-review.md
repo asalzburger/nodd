@@ -33,3 +33,11 @@ Expert re-review remains necessary. Priorities: beam-pipe/service envelopes, tra
 ## Publication
 
 Published evidence revision `06275ecf55e4bb428ffbdb1d5beb72c9a7aca064` to PR13 and requested expert re-review from noemina. [Public response](https://github.com/asalzburger/nodd/pull/13#issuecomment-5809201534). The following commit records exact review/PR metadata only. Initial staged whitespace findings were corrected in a normal follow-up commit; no history rewrite. Final whitespace and paired-record checks passed. Hosted CI status is checked separately and not inferred from local success.
+
+## Token-accounting update — 2026-09-25
+
+Imported 1 disjoint completed-turn entries already attributed to this session
+in the retained `logs/usage/USAGE-2026-09-24-local.json` or
+`USAGE-2026-09-25-device.json` inventory. Exact source and counters are in the
+paired JSON. This supersedes earlier missing-usage wording for those turns;
+no new raw client-state recovery or estimated attribution was performed.
