@@ -34,3 +34,12 @@ is empty rather than estimated. The observed project total remains 98,045,726
 input and 477,200 output tokens from 67 turns. This publication record adds one
 session without measurements; pending branch and unassigned usage remain excluded.
 Human PR review and merge are subsequent actions, not performed by this task.
+
+## Publication
+
+Committed `3e594e265011c868dfebcf35894192a691d527ac`, pushed the branch, and opened
+[PR #19](https://github.com/asalzburger/nodd/pull/19),
+“Infrastructure: Recover second-device token usage”. Verified the open PR title
+and exact head. Hosted checks were not yet listed at that observation; local
+results remain as recorded above. The final logging commit records publication.
+No merge or approval was performed.

@@ -4,8 +4,8 @@
   "title": "Publish second-device token recovery PR",
   "recorded_at": "2026-09-25T03:33:49Z",
   "started_at": null,
-  "ended_at": null,
-  "status": "open",
+  "ended_at": "2026-09-25T03:45:33Z",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
@@ -38,7 +38,9 @@
       "tools/tracker_layout/__pycache__/inclined_study.cpython-314.pyc",
       "tools/tracker_layout/__pycache__/study.cpython-314.pyc"
     ],
-    "result_commits": [],
+    "result_commits": [
+      "3e594e265011c868dfebcf35894192a691d527ac"
+    ],
     "changed_files": [
       "logs/codex/SESSION-2026-09-25-device-token-pr.json",
       "logs/codex/SESSION-2026-09-25-device-token-pr.md"
@@ -53,7 +55,8 @@
     ],
     "related_ids": [
       "ADR-004",
-      "PR #18"
+      "PR #18",
+      "PR #19"
     ]
   },
   "narrative": "logs/codex/SESSION-2026-09-25-device-token-pr.md",
@@ -83,6 +86,24 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "Infrastructure classification accepted; no scientific tracking update required."
+    },
+    {
+      "command": "git diff --cached --check && git diff --cached --stat",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "15 scoped files staged; whitespace clean; unrelated tracker bytecode excluded."
+    },
+    {
+      "command": "git commit; git push -u origin infrastructure/device-token-accounting; gh pr create --base main --head infrastructure/device-token-accounting --body-file <reviewed body>",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Published 3e594e265011c868dfebcf35894192a691d527ac; opened PR #19 with the Infrastructure title prefix."
+    },
+    {
+      "command": "gh pr view --json number,url,title,state,headRefOid,statusCheckRollup",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Verified PR #19 is OPEN with the expected title and published head; hosted checks were not yet listed at this observation."
     }
   ]
 }
