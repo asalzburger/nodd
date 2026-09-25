@@ -2,7 +2,7 @@
 
 - Status: PROTOTYPE analytical evidence; no detector validation or sign-off
 - Date: 2026-09-25
-- Source base: `58136c8adad0d10bb046bef3a574e181b7e1463c` plus working-tree inputs/script hashes in JSON
+- Source base: `bcf9bab3a64db79ed44943f79fbaca7f5c442190` plus working-tree inputs/script hashes in JSON
 - Design: [DES-007](../design/DES-007-short-strip-modules.md)
 - Inputs and reproduction: [study README](../../tools/short_strip/README.md)
 - Numerical records: [4 mm margins](DES-007-ring-study.json), [initial 2 mm margins](DES-007-ring-study-initial.json)

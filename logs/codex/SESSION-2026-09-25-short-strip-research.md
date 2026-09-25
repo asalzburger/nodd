@@ -57,6 +57,8 @@ has about 50.87 million channels per disk. Power/bandwidth remain unquantified.
   excerpts and inspect rendered tables. Four GitLab ODD raw-file hashes match
   the pinned 2026-09-16 snapshot. Wrong guessed source/branch paths were corrected
   against repository listings; no findings were based on those failed reads.
+- First staged whitespace check exposed Matplotlib SVG trailing spaces. The
+  writer now trims SVG lines and fixes its hash salt for reproducibility.
 - Six short-strip analytical tests pass; both full numerical runs succeed.
   Inspect the rendered candidate figure. No randomness used.
 - Dashboard validation, 27 tests and local build pass. Logging/schema checks and
@@ -82,7 +84,10 @@ usage or estimate a split. The pending main-worktree AGENTS rule explicitly says
 that unavailable/pending counts do not exempt a PR and to leave the gate failing
 until completed-turn evidence can be imported. Its checker is run from that
 worktree against this committed branch; no unrelated workflow edits are copied.
-The session summary reports missing coverage separately from historical totals.
+The checker failed with exit 1 on the committed branch: empty usage and no new
+measured counters. The session summary reports 43 sessions, 38 with usage and
+67 recorded turns; historical observed input/output totals are 98,045,726 /
+477,200. Those totals do not measure this new task.
 
 ## Follow-up
 

@@ -22,7 +22,9 @@
     "start_commit": "58136c8adad0d10bb046bef3a574e181b7e1463c",
     "branch": "research/short-strip-modules",
     "initial_changes": [],
-    "result_commits": [],
+    "result_commits": [
+      "bcf9bab3a64db79ed44943f79fbaca7f5c442190"
+    ],
     "changed_files": [
       "docs/README.md",
       "docs/design/DES-007-short-strip-modules.md",
@@ -123,6 +125,24 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "Both retained outputs match current script and their respective inputs."
+    },
+    {
+      "command": "git diff --cached --check (first staging)",
+      "status": "FAIL",
+      "exit_code": 2,
+      "result": "Matplotlib SVG contains trailing spaces, not detected by unstaged tracked-file check. Fixed SVG writer to trim line endings and use stable SVG IDs before publication."
+    },
+    {
+      "command": "python3 -B /Users/salzburg/Documents/work/openai/nodd/tools/session_logging/check_pr_usage.py --repo /tmp/nodd-short-strip --base origin/main --head HEAD",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Required gate fails as expected: this active session has no measured input/output usage. Import completed-turn evidence before merge; no exemption claimed."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py summary --format markdown",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "43 sessions, 38 with usage and 67 recorded turns. Historical observed input=98045726/output=477200; this new task remains unmeasured. Historical totals are not assigned to this task."
     }
   ]
 }

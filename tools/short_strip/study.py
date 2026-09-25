@@ -184,6 +184,7 @@ def evaluate(c, cfg, refined):
 def figure(candidates, cfg, path):
     import matplotlib
     matplotlib.use('Agg')
+    matplotlib.rcParams['svg.hashsalt'] = 'DES-007'
     import matplotlib.pyplot as plt
     from matplotlib.collections import PolyCollection
     fig, axes = plt.subplots(2, 3, figsize=(15, 10))
@@ -205,6 +206,8 @@ def figure(candidates, cfg, path):
     fig.tight_layout()
     fig.savefig(path, metadata={'Date': None})
     plt.close(fig)
+    if path.suffix.lower() == '.svg':
+        path.write_text("\n".join(line.rstrip() for line in path.read_text().splitlines())+"\n")
 
 
 def main():
