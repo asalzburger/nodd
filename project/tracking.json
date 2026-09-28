@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "updated": "2026-09-25",
-  "note": "Curated register. Stage B architecture is active. PR #4\u2019s envelope baseline has explicit human approval and is merged; its documents still declare DRAFT and no formal sign-off record exists. Role ownership does not imply active agents. Chore PRs and infrastructure chores are excluded from project progress.",
+  "updated": "2026-09-28",
+  "note": "Curated register. Stage B architecture is active. PR #4’s envelope baseline has explicit human approval and is merged; its documents still declare DRAFT and no formal sign-off record exists. Role ownership does not imply active agents. Chore PRs and infrastructure chores are excluded from project progress.",
   "stages": [
     {
       "id": "A",
@@ -498,7 +498,7 @@
     },
     {
       "id": "TASK-B-ENVELOPES",
-      "title": "Global detector envelope baseline \u2014 E1-R2",
+      "title": "Global detector envelope baseline — E1-R2",
       "scope": "Envelope allocations and shared interfaces; detailed magnet, muon and technology research follows.",
       "stage": "B",
       "milestones": [
@@ -694,7 +694,7 @@
     {
       "id": "TRK-LSTRIP",
       "title": "Stereo long-strip component proposal",
-      "scope": "Stereo axes/separation, covariance and ambiguities, electronics, outlines and material interfaces.",
+      "scope": "DES-008 prototype stereo sandwiches: sensor rotation/separation, same-module pair coverage, repeated rings, row seams and mounting/cooling constraints. Align the target annulus and disk planes with both PR13 A/C1 layouts; recheck five/six rings and physical interface extensions.",
       "stage": "B",
       "milestones": [
         "M1",
@@ -703,19 +703,29 @@
       "workstream": "WS-TRACK",
       "role": "Tracker technician",
       "owner": null,
-      "state": "planned",
+      "state": "active",
       "dependencies": [
         "TASK-B-TRACKER-PLAN"
       ],
-      "deliverables": [],
+      "deliverables": [
+        "docs/design/DES-008-long-strip-modules.md",
+        "tools/long_strip/README.md",
+        "docs/validation/DES-008-ring-study.md",
+        "docs/validation/DES-008-layout-compatibility.md"
+      ],
       "evidence": [
-        "docs/design/DES-005-tracker-system-plan.md"
+        "docs/design/DES-005-tracker-system-plan.md",
+        "docs/validation/DES-008-ring-study.json",
+        "logs/codex/SESSION-2026-09-25-long-strip-research.md",
+        "docs/validation/DES-008-layout-compatibility.json",
+        "tools/long_strip/pr13-layouts.json"
       ],
       "documents": [
-        "DES-005"
+        "DES-005",
+        "DES-008"
       ],
-      "updated": "2026-09-18",
-      "next_action": "Prepare the paired-sensor measurement and physical-interface proposal with PhysVal.",
+      "updated": "2026-09-25",
+      "next_action": "Retain the common six-ring 710-1100 mm / 404-pair arrangement for PR13 A/C1; review inward occupied-space extensions, barrel end structures and cooling/services before claiming a cleared interface. Qualify ~96 mm strip electronics and shorter-row alternatives; no sign-off.",
       "blocker": null,
       "disposition": null,
       "subsystem": "tracking and timing"
@@ -1028,7 +1038,7 @@
         "DES-005"
       ],
       "updated": "2026-09-18",
-      "next_action": "Consolidate the physical shortlist and evidence; use the named layout/parametric/hit/material and DD4hep\u2013ACTS reviewers for those topics, assign remaining expertise and obtain final human sign-off.",
+      "next_action": "Consolidate the physical shortlist and evidence; use the named layout/parametric/hit/material and DD4hep–ACTS reviewers for those topics, assign remaining expertise and obtain final human sign-off.",
       "blocker": null,
       "disposition": null,
       "subsystem": "tracking and timing"
@@ -1060,7 +1070,7 @@
         "DES-005"
       ],
       "updated": "2026-09-22",
-      "next_action": "Prepare compatible backend readiness and DD4hep\u2013ACTS integration evidence for paulgessinger after confirming participation; production work still requires M0 completion and applicable design sign-off. Local backend dependency readiness is now recorded by TASK-SOFT-SPACK on one node; source availability and full simulation execution remain separate checks.",
+      "next_action": "Prepare compatible backend readiness and DD4hep–ACTS integration evidence for paulgessinger after confirming participation; production work still requires M0 completion and applicable design sign-off. Local backend dependency readiness is now recorded by TASK-SOFT-SPACK on one node; source availability and full simulation execution remain separate checks.",
       "blocker": null,
       "disposition": null,
       "subsystem": "tracking and timing"
@@ -1206,6 +1216,14 @@
       "validation_reports": []
     },
     {
+      "id": "DES-008",
+      "path": "docs/design/DES-008-long-strip-modules.md",
+      "validation_reports": [
+        "docs/validation/DES-008-ring-study.md",
+        "docs/validation/DES-008-layout-compatibility.md"
+      ]
+    },
+    {
       "id": "DES-006",
       "path": "docs/design/DES-006-first-tracker-layouts.md",
       "validation_reports": [
@@ -1317,6 +1335,11 @@
       "kind": "TDR plan"
     },
     {
+      "title": "Long-strip stereo sandwich and ring prototype",
+      "path": "docs/validation/DES-008-ring-study.md",
+      "kind": "analytical prototype"
+    },
+    {
       "title": "First tracker layout study and proposals",
       "path": "docs/design/DES-006-first-tracker-layouts.md",
       "kind": "Design study"
@@ -1391,15 +1414,33 @@
       "category": "project"
     },
     {
+      "id": "PR-22",
+      "number": 22,
+      "title": "Tracker: Investigate long-strip stereo sandwiches and endcap layouts",
+      "url": "https://github.com/asalzburger/nodd/pull/22",
+      "state": "open",
+      "head_revision": "61dcdca1fcf41c41fc8fbd1665c589b9dd7049a6",
+      "merge_commit": null,
+      "merged_at": null,
+      "collected_at": "2026-09-25T12:39:19Z",
+      "task": "TRK-LSTRIP",
+      "documents": [
+        "DES-005",
+        "DES-008"
+      ],
+      "scope": "DES-008 analytical PROTOTYPE: stereo sandwich outlines, pair coverage, ring reuse and gap/mounting/cooling controls. Snapshot at PR creation before this metadata-only update. No engineering qualification or human design approval.",
+      "category": "project"
+    },
+    {
       "id": "PR-13",
       "number": 13,
       "title": "Tracker: Study cobe and pint layouts with independent controls",
       "url": "https://github.com/asalzburger/nodd/pull/13",
-      "state": "open",
-      "head_revision": "69ea15bd37edb7af44aeb9e9e52688b13c933de9",
-      "merge_commit": null,
-      "merged_at": null,
-      "collected_at": "2026-09-25T13:38:14Z",
+      "state": "merged",
+      "head_revision": "412fa0f37a1e0cf284e07ce2db39bfcc7041dd55",
+      "merge_commit": "0d90d75d6f998f732adaad2f0a49787b5cbc46fa",
+      "merged_at": "2026-09-25T13:41:56Z",
+      "collected_at": "2026-09-28T08:56:07Z",
       "task": "TASK-B-TRACKER-FIRST-LAYOUTS",
       "documents": [
         "DES-006"
