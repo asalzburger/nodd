@@ -301,9 +301,10 @@ def validate(layout, tracks, work, expected_patch_hits=None, *, host_radius_mm=1
 
     This does not validate the global Navigator. The exhaustive TryAll control
     above exposes its candidate loss in a large curved-track navigation leaf.
-    With the step-size binding each conservative voxel candidate is targeted
-    directly by ACTS' EigenStepper/VoidNavigator. Older bindings use native
-    guide-state reanchoring. No analytic hit prediction selects candidates.
+    With the step-size binding each conservative voxel candidate's supporting
+    plane is targeted directly by ACTS' EigenStepper/VoidNavigator, followed by
+    native finite-bounds membership. Older bindings use native guide-state
+    reanchoring. No analytic hit prediction selects candidates.
     The shared broad phase is checked against exhaustive all-plane controls.
     """
     import acts
@@ -409,7 +410,7 @@ def validate(layout, tracks, work, expected_patch_hits=None, *, host_radius_mm=1
             guide_points.append(point)
             guide_paths.append(path)
         guide_points = np.asarray(guide_points)
-        native_errors, residual_max, target_calls = {}, 0., 0
+        native_errors, residual_max, target_calls, bounds_rejections = {}, 0., 0, 0
         for j in candidates:
             surface = surfaces[j]
             module = layout["modules"][j]
@@ -429,7 +430,7 @@ def validate(layout, tracks, work, expected_patch_hits=None, *, host_radius_mm=1
                 target_calls += 1
                 try:
                     trial = propagator.propagateToSurface(start if direct_mode else guide_states[segment],
-                                                         surface if direct_mode else target_planes[j], local_options)
+                                                         target_planes[j], local_options)
                 except RuntimeError as exc:
                     error = str(exc)
                     native_errors[error] = native_errors.get(error, 0) + 1
@@ -439,6 +440,7 @@ def validate(layout, tracks, work, expected_patch_hits=None, *, host_radius_mm=1
                 if surface.bounds.inside(acts.Vector2(bound[0], bound[1])):
                     end = trial
                     break
+                bounds_rejections += 1
             if end is None:
                 continue
             bound = end.parameters
@@ -477,7 +479,8 @@ def validate(layout, tracks, work, expected_patch_hits=None, *, host_radius_mm=1
         per_track.append(dict(track=i, input=track, tested_candidates=len(candidates),
                               expected_patch_hits=sorted(wanted), observed_patch_hits=sorted(actual),
                               observed_sensor_hits=sorted({by_id[p].get("sensor_id", p) for p in actual}),
-                              native_target_misses=sum(native_errors.values()),
+                              native_propagation_errors=sum(native_errors.values()),
+                              native_bounds_rejections=bounds_rejections,
                               native_target_calls=target_calls,
                               negative_candidate_targets=len(candidates) - len(actual),
                               native_guide_states=0 if direct_mode else len(guide_states),
@@ -491,13 +494,15 @@ def validate(layout, tracks, work, expected_patch_hits=None, *, host_radius_mm=1
                   physical_sensors=len({m.get("sensor_id", m["id"]) for m in layout["modules"]}),
                   geometry_sha256=json_digest(layout), tracks_sha256=json_digest(tracks),
                   construction="Python finite sensitive planes retained in one Gen-3 cuboid leaf",
-                  propagation=("ACTS EigenVoidPropagator direct finite-surface targets with bounded maxStepSize; native RectangleBounds.inside and returned geometry IDs"
+                  propagation=("ACTS EigenVoidPropagator direct supporting-plane targets with bounded maxStepSize; native finite RectangleBounds.inside and returned geometry IDs"
                                if direct_mode else "ACTS EigenVoidPropagator with native guide-state reanchoring to supporting planes; native finite RectangleBounds.inside and returned geometry IDs"),
                   candidate_selection="all planes" if exhaustive else "conservative voxel/helix-sagitta superset shared with oracle",
                   tested_candidate_targets=total_candidates, reached_native_targets=total_native_hits,
                   native_target_calls=total_target_calls,
                   negative_candidate_targets=total_candidates - total_native_hits,
                   native_target_error_counts=error_counts, exhaustive=exhaustive,
+                  native_propagation_errors=sum(error_counts.values()),
+                  native_bounds_rejections=sum(t["native_bounds_rejections"] for t in per_track),
                   host_radius_mm=host_radius_mm, host_half_z_mm=host_half_z_mm,
                   path_limit="Exact first host exit or transverse half-turn, per track, expressed in 3D path length",
                   max_steps=10000, surface_tolerance_mm=1e-6, trajectory_tolerance_mm=.002,

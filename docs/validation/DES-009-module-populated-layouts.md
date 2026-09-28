@@ -147,6 +147,17 @@ so their module counts and pixel coverage can be compared directly. These contro
 use the original stagger pattern and therefore retain mechanical failures;
 they do not establish a viable uniform-quad inner barrel.
 
+For the common pixel control sample, uniform single/double/quad layouts use
+15,900/7,968/3,996 pixel assemblies, respectively, with approximately 15,900–16,000
+chip islands in every case. Their gross pixel sensor areas are 6.745/6.631/6.520 m²;
+the mixed control uses 5,632 assemblies and 6.562 m². Positive-charge pixel
+station losses are 4.17/4.75/4.30%, compared with 4.29% for the mixed control.
+Thus quads reduce assembly count substantially without reducing the chip count;
+the double family shows no compelling coverage advantage here. Prefer the
+single-plus-quad policy for the next mechanically checked iteration, while
+retaining all three as configurable alternatives. This comparison does not
+qualify a quad on the innermost barrel.
+
 The guard/interchip hypotheses are varied from 0.25/0.1 mm to 1.0/0.5 mm around
 the nominal 0.5/0.2 mm. Those variations change coverage and physical area;
 they are not measurement uncertainties or qualified manufacturing ranges.

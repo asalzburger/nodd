@@ -143,9 +143,10 @@ fixtures where the source proposal has not established them.
 `acts_validate.py` constructs every finite patch as a sensitive ACTS plane in
 one Gen-3 cuboid leaf. When the ACTS binding exposes
 `PropagatorPlainOptions.stepping.maxStepSize`, its primary audit propagates
-directly to every conservative candidate's finite sensitive surface with
-`EigenVoidPropagator` and a maximum step of 10 mm. ACTS supplies the intersection,
-finite `RectangleBounds.inside` check and returned geometry ID. Exact patch-ID
+directly to every conservative candidate's unbounded supporting plane with
+`EigenVoidPropagator` and a maximum step of 10 mm, then applies the original
+finite sensitive surface's native `RectangleBounds.inside` check. ACTS supplies
+the intersection and returned geometry ID. Exact patch-ID
 sets are compared to the independent oracle. The trajectory diagnostic
 tolerance is 0.002 mm; boundary masks are not expanded by that tolerance.
 Negative candidate trials are retained in the counts. The voxel broad phase
@@ -166,6 +167,15 @@ crossings, and applies the real finite bounds. This fallback is explicitly
 reported; unresolved tangencies or two crossings inside one guide interval
 remain its stated limit. The direct mode removes that guide-bracketing limit.
 The exact analytic bulk solver treats both cases independently.
+
+A retained [off-grid control](../../docs/validation/DES-009-native-edge-control.json)
+also exposes a finite-target boundary loss: at a 10 mm maximum step ACTS missed
+a crossing 5.43 micrometres inside a strip edge, while 5 mm and 1 mm finite-target
+runs recovered it. The supporting-plane approach recovers that crossing at all
+three step sizes with the original strict finite bounds. This treatment applies
+to every candidate; no oracle prediction selects an exception. A native
+regression shifts a second patch by 10 micrometres and verifies that its genuine
+miss remains rejected.
 
 Reproduce the adverse control in a fresh directory with:
 
@@ -267,6 +277,13 @@ the two directories contain different case sets. Comparison requires exact
 geometry diagnostics, summaries, directions, per-track metrics and native track
 selections; elapsed time and separate native-audit artifacts are excluded.
 Gzip headers and runtime timestamps are not numerical results.
+
+To rerun native validation with a changed ACTS version or audit implementation,
+use `study.py validate-acts --output EXISTING_RUN --audit-label NEW_LABEL`.
+The named report and artifacts are new files; earlier passes and failures remain.
+The run metadata records the audit history and selects the latest passing report
+for export. Geometry/oracle hashes must still match the numerical run; changed
+sensor or layer inputs require a fresh full run instead.
 
 For an isolated development build overlay, `--runtime-manifest PATH` records
 its provenance with each native audit and requires its `acts_extension_sha256`

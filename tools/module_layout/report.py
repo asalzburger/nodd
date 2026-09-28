@@ -92,7 +92,7 @@ def export(run, output):
                 for scope, group in groups.items():
                     cohort_rows.append(dict(case=case["id"], mode=mode, cohort=cohort, scope=scope,
                                             **flattened(_summarize_columns(group, selection))))
-        native = path/"acts_validation.json"
+        native = path/meta.get("native_audit_report", "acts_validation.json")
         result["native_acts"] = read(native) if native.exists() else {"passed": False, "status": "NOT RUN"}
         result["raw_track_metrics_sha256"] = hashlib.sha256((path/"track_metrics.json.gz").read_bytes()).hexdigest()
         bundle["cases"].append(result)

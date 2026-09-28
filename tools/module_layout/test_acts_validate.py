@@ -57,6 +57,24 @@ class NativeAuditTests(unittest.TestCase):
         self.assertEqual(result["mismatches"][0]["missing"], [999])
         self.assertTrue(result["mismatches"][0]["extra"])
 
+    def test_recorded_near_edge_hit_and_adjacent_miss(self):
+        # Named regression values from the retained off-grid adverse control.
+        # The first patch is crossed 5.43 micrometres inside its u boundary.
+        # Translating the second patch by 10 micrometres makes it a true miss;
+        # its bounds must not be relaxed to repair the first native target loss.
+        test_u = [0.5000000000000001, -0.8660254037844386, 0.]
+        test_center = [-223.21650994331952, -128.87411210334432, 129.3846153846154]
+        modules = [dict(id=i + 1, sensor_id=i + 1, module_id=i + 1,
+                        center_mm=(np.asarray(test_center) + i * .01 * np.asarray(test_u)).tolist(),
+                        u=test_u, v=[0., 0., 1.], half_u_mm=24., half_v_mm=48.) for i in range(2)]
+        test_track = dict(origin_mm=[.25500041461670586, .5360892709157811, -70.62675491950414],
+                          eta=.7904382558009395, phi=3.4569551972178796,
+                          charge=-1., field_T=3., pt_GeV=1.)
+        with tempfile.TemporaryDirectory() as work:
+            result = validate(dict(modules=modules), [test_track], work, exhaustive=True)
+        self.assertTrue(result["passed"], result["mismatches"])
+        self.assertEqual(result["per_track"][0]["observed_patch_hits"], [1])
+
 
 if __name__ == "__main__":
     unittest.main()

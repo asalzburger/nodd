@@ -9,6 +9,7 @@ import hashlib
 import json
 from pathlib import Path
 import platform
+import re
 import subprocess
 import time
 
@@ -132,19 +133,37 @@ def run(args):
     print(f"Completed {len(selected)} cases in {output}", flush=True)
 
 
-def validate_acts(output, acts_source=None, runtime_manifest=None):
+def validate_acts(output, acts_source=None, runtime_manifest=None, audit_label="default"):
     from acts_validate import validate
     output = Path(output)
+    if not re.fullmatch(r"[a-z][a-z0-9_-]*", audit_label):
+        raise ValueError("Audit labels must be lowercase letters, digits, hyphens or underscores")
     metadata, models = read(output/"run.json"), read(output/"sensor_models.json")
     overlay = read(runtime_manifest) if runtime_manifest else None
     for name in ("geometry.py", "intersections.py"):
         if digest(HERE/name) != metadata["code_sha256"][name]:
             raise RuntimeError(f"Code changed since scan: {name}; create a fresh run")
+    suffix = "" if audit_label == "default" else "-"+audit_label
+    report_file = "acts_validation"+suffix+".json"
+    if any((output/c["id"]/("acts"+suffix)).exists() for c in metadata["cases"]):
+        raise FileExistsError("Audit label already exists; choose a new --audit-label")
+    if "native_audits" not in metadata:
+        previous = {c["id"]: read(output/c["id"]/"acts_validation.json")["passed"]
+                    for c in metadata["cases"] if (output/c["id"]/"acts_validation.json").exists()}
+        metadata["native_audits"] = []
+        if previous:
+            status = ("INCOMPLETE" if len(previous) != len(metadata["cases"]) else
+                      "PASS" if all(previous.values()) else "FAIL")
+            metadata["native_audits"].append(dict(label="default", report_file="acts_validation.json",
+                                                  status=status, failed_cases=[c for c, ok in previous.items() if not ok]))
+    audit = dict(label=audit_label, report_file=report_file, status="RUNNING", failed_cases=[])
+    metadata.setdefault("native_audits", []).append(audit)
+    write(output/"run.json", metadata)
     # Adding an audit is allowed; replacing an earlier audit is not.
     for case in metadata["cases"]:
         path = output/case["id"]
         layout = case_layout(case, models, output/"layouts.json")
-        native_dir = path/"acts"
+        native_dir = path/("acts"+suffix)
         if native_dir.exists():
             raise FileExistsError(f"Retained ACTS evidence already exists: {native_dir}")
         host = layout["metadata"]["host"]
@@ -155,11 +174,17 @@ def validate_acts(output, acts_source=None, runtime_manifest=None):
             if result["runtime"]["acts_extension_sha256"] != overlay["acts_extension_sha256"]:
                 raise RuntimeError("Runtime extension does not match supplied overlay manifest")
             result["runtime_overlay"] = overlay
-        write(path/"acts_validation.json", result)
+        write(path/report_file, result)
         print(json.dumps(dict(case=case["id"], passed=result["passed"],
                               mismatches=len(result["mismatches"]))), flush=True)
         if not result["passed"]:
-            raise RuntimeError(f"Native ACTS disagrees: {case['id']}")
+            audit["failed_cases"].append(case["id"])
+    audit["status"] = "FAIL" if audit["failed_cases"] else "PASS"
+    if audit["failed_cases"]:
+        metadata["acts_validation"] = "FAIL; inspect named native audit mismatches"
+        write(output/"run.json", metadata)
+        raise RuntimeError(f"Native ACTS disagrees: {audit['failed_cases']}")
+    metadata["native_audit_report"] = report_file
     metadata["acts_validation"] = "PASS; native ACTS target-propagation patch sets on retained samples; global navigation remains unvalidated"
     write(output/"run.json", metadata)
 
@@ -212,11 +237,12 @@ def main():
     command.add_argument("--output", required=True)
     command.add_argument("--acts-source", type=Path)
     command.add_argument("--runtime-manifest", type=Path)
+    command.add_argument("--audit-label", default="default", help="New label preserves earlier native evidence")
     args = parser.parse_args()
     if args.action == "run":
         run(args)
     elif args.action == "validate-acts":
-        validate_acts(args.output, args.acts_source, args.runtime_manifest)
+        validate_acts(args.output, args.acts_source, args.runtime_manifest, args.audit_label)
     else:
         compare_runs(args.first, args.second, args.cases)
 
