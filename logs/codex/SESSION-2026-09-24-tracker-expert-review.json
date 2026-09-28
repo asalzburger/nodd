@@ -1,0 +1,190 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-09-24-tracker-expert-review",
+  "title": "Address PR13 expert layout optimisation review",
+  "recorded_at": "2026-09-24T06:20:31Z",
+  "started_at": null,
+  "ended_at": "2026-09-24T06:48:01Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Actual conversation start time, client identity details and token usage have not been recorded.",
+    "2026-09-25: imported 1 already-curated disjoint completed turns from the local/device usage inventories during PR13 rebase. Earlier unavailability text is historical; current record usage is authoritative for these turns only."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "9f98d6dd821b10f756ce8781d07932801d5ba59b",
+    "branch": null,
+    "initial_changes": [],
+    "result_commits": [
+      "7ebfc3d29f1e8b8c10540af1e8d64f1f4eaff7a0",
+      "06275ecf55e4bb428ffbdb1d5beb72c9a7aca064"
+    ],
+    "changed_files": [
+      "docs/design/DES-006-C1-C2-review.md",
+      "docs/design/DES-006-expert-review.md",
+      "docs/design/DES-006-first-tracker-layouts.md",
+      "docs/design/DES-006-reviewed-A-idres-input.json",
+      "docs/design/DES-006-reviewed-A.md",
+      "docs/design/DES-006-reviewed-A.pdf",
+      "docs/design/DES-006-reviewed-C1.md",
+      "docs/design/DES-006-reviewed-C1.pdf",
+      "docs/design/DES-006-reviewed-layouts.json",
+      "docs/design/figures/DES-006-reviewed-A-rz.png",
+      "docs/design/figures/DES-006-reviewed-A-rz.svg",
+      "docs/design/figures/DES-006-reviewed-C1-rz.png",
+      "docs/design/figures/DES-006-reviewed-C1-rz.svg",
+      "docs/design/figures/DES-006-reviewed-profiles-pt1.png",
+      "docs/design/figures/DES-006-reviewed-profiles-pt100.png",
+      "docs/design/figures/DES-006-reviewed-transition.png",
+      "docs/validation/DES-006-expert-optimisation.json",
+      "docs/validation/DES-006-expert-pilot.json",
+      "docs/validation/DES-006-reviewed-A-idres.json",
+      "logs/codex/SESSION-2026-09-24-tracker-expert-review.json",
+      "logs/codex/SESSION-2026-09-24-tracker-expert-review.md",
+      "project/reviews.json",
+      "project/tracking.json",
+      "reference/manifest.yaml",
+      "tools/tracker_layout/README.md",
+      "tools/tracker_layout/expert_review.py",
+      "tools/tracker_layout/plot_expert_review.py",
+      "tools/tracker_layout/render_briefs.py",
+      "tools/tracker_layout/test_expert_review.py"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "tracker layout prototype",
+      "expert review response",
+      "parametric covariance"
+    ],
+    "related_ids": [
+      "DES-006",
+      "DES-005",
+      "ADR-006",
+      "PR-13"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-09-24-tracker-expert-review.md",
+  "activities": [],
+  "usage": [
+    {
+      "client_thread_id": "01a0b3b0-f8f3-7de0-8854-ff1f156bebab",
+      "turn_id": "01a0d211-75ed-76e2-9e17-2e5c20f63c72",
+      "model": null,
+      "source": "2026-09-24 local token_count recovery; logs/usage/USAGE-2026-09-24-local.json; usage SHA-256 4589882e09b5a39103ef48549e973f4abf67478a3386ad84fb9debd92d295a3d; cumulative increases equal last-request counters over persisted turn ordinals 3354..3791.",
+      "limitations": [
+        "Local client-reported usage only; other-machine coverage and billing equivalence are not established. Per-turn execution model was not reported."
+      ],
+      "input_tokens": 6677766,
+      "cached_input_tokens": 6377600,
+      "output_tokens": 44090,
+      "reasoning_output_tokens": 9370,
+      "total_tokens": 6721856
+    }
+  ],
+  "checks": [
+    {
+      "command": "Read pre-existing project/tracking.json with JSON parser",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Missing task object boundary in reviewed head prevented parsing. Also repaired a missing PR object boundary that otherwise hid PR13 behind duplicate PR16 keys; preserved both records."
+    },
+    {
+      "command": "envelope-venv/bin/python -B tools/tracker_layout/expert_review.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "611 attempted variants, 486 cases per feasible variant; 966 finer profiles and 21627 signed finite-field probes per layout. Adverse physics cases retained."
+    },
+    {
+      "command": "envelope-venv/bin/python -B tools/tracker_layout/idres_adapter.py --configuration /tmp/nodd-idres-review-A.json --checkout reference/cache/idres --work /tmp/nodd-idres-review-A --output docs/validation/DES-006-reviewed-A-idres.json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "11 runs and 8019 finite fit rows for A; C1 unsupported and not exported. Durable input SHA matches temporary configuration."
+    },
+    {
+      "command": "envelope-venv/bin/python -B -m unittest discover -s tools/tracker_layout -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "27 prototype tests passed."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/dashboard -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "26 dashboard tests passed."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "15 logging/documentation tests passed."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s skills/acts-spack/scripts -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "5 node-preflight tests passed; no Spack dependencies used."
+    },
+    {
+      "command": "/System/Library/Frameworks/JavaScriptCore.framework/Versions/A/Helpers/jsc tools/dashboard/test_app.js",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "14 synthetic-DOM assertions passed."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate; build --output _site/pages",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Dashboard validation and build passed."
+    },
+    {
+      "command": "plot_expert_review.py; render_briefs.render(date=2026-09-24); PyMuPDF page count and view_image",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Two A4 pages per new A/C1 PDF; all four pages visually inspected. Fontconfig cache warnings did not prevent rendering."
+    },
+    {
+      "command": "SHA-256 verification of retained study/code, IdRes configuration and three cited source PDFs",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All retained hashes match. Twelve measurement-only q/pT comparisons agree with printed IdRes values within 5e-7 GeV^-1; maximum 4.94e-7 after matching field conversion. No equality of scattering models claimed."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Passed before staging."
+    },
+    {
+      "command": "git diff --cached --check (initial staging)",
+      "status": "FAIL",
+      "exit_code": null,
+      "result": "New Matplotlib SVG trailing spaces and Markdown final blank line reported; normalized whitespace and updated plot writer to retain normalization."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "40 paired records validated."
+    },
+    {
+      "command": "git diff --cached --check (after normalization)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Passed after separately staging normalized generated SVG/Markdown changes. Initial combined-shell staging hit sandbox index-write denial; separate authorized staging succeeded."
+    },
+    {
+      "command": "git push origin HEAD:study/tracker-first-layouts; gh pr edit 13 --body-file /tmp/nodd-pr13-current-body.md --add-reviewer noemina; gh pr comment 13 --body-file /tmp/nodd-pr13-review-reply.md",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Evidence pushed; executive summary updated; noemina re-review requested. Response: https://github.com/asalzburger/nodd/pull/13#issuecomment-5809201534"
+    }
+  ]
+}
