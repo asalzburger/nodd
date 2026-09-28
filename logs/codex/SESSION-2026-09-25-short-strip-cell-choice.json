@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-09-25-short-strip-cell-choice",
+  "title": "Record agreed short-strip research baseline and fallback",
+  "recorded_at": "2026-09-25T09:47:27Z",
+  "started_at": null,
+  "ended_at": "2026-09-25T09:49:39Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact client input/output usage is unavailable for this turn. No counters are estimated or imported from unrelated sessions; the PR token-accounting gate remains unresolved.",
+    "This records a user-agreed research preference only, not an expert hardware review or formal design sign-off."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "41bbac58c6628c875eb578355f8a70f0c87a9d1f",
+    "branch": "research/short-strip-modules",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      "docs/design/DES-007-short-strip-modules.md",
+      "docs/validation/DES-007-ring-study.md",
+      "project/tracking.json",
+      "logs/codex/SESSION-2026-09-25-short-strip-cell-choice.json",
+      "logs/codex/SESSION-2026-09-25-short-strip-cell-choice.md"
+    ]
+  },
+  "work": {
+    "milestone": "Stage B",
+    "components": [
+      "short-strip research cell-size choice"
+    ],
+    "related_ids": [
+      "DES-007",
+      "TRK-SSTRIP",
+      "PR-21",
+      "ISSUE-20"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-09-25-short-strip-cell-choice.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 -B tools/dashboard/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "28 tasks, 9 documents and 5 review rounds validated."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py build",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Local dashboard built successfully."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "44 session records validated."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py summary --format markdown",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "44 sessions; 38 have usage; 67 recorded historical turns. This task has no measured usage. Historical observed input/output totals are 98045726/477200, not this task usage."
+    },
+    {
+      "command": "gh pr edit 21 / gh issue edit 20 --body-file (curated Markdown files)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Both descriptions updated to reflect the agreed research baseline/fallback."
+    }
+  ]
+}

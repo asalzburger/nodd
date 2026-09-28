@@ -15,6 +15,8 @@ The documents below establish proposals and recording formats. Their presence do
 
 ## Index
 
+- [DES-007: short-strip sensors, reusable modules and endcap ring comparison](design/DES-007-short-strip-modules.md)
+
 - [Full-detector development plan and TDR programme](DEVELOPMENT_PLAN.md)
 - [TDR chapter and subsection outline with evidence coverage](publication/TDR-outline.md)
 - [Publication plan, priorities and review gates](publication/publication-plan.md)
