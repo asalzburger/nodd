@@ -61,3 +61,20 @@ unknown, not zero. No historical usage observations are duplicated.
 
 Human review/merge of the infrastructure PR. Rerun runtime preflight before
 future dependent tasks and retain exact source/patch/artifact provenance.
+
+## Published outcome
+
+Opened https://github.com/asalzburger/nodd/pull/23 with title
+“Infrastructure: Document local ACTS checkout and execution workflow”.
+Documentation/record revision: `918d6dd4ec555c9662c03aab8042a507a9f8714f`.
+Local checks passed: 49 session records, 32 session/document tests, 7 PR-policy
+tests, dashboard validation (29 tasks/9 documents/10 review rounds), static
+dashboard build and whitespace/scope checks. The working tree was clean after
+the first push; only this closeout pair is updated subsequently.
+
+The executed summary reports historical observed input 134,594,309 and output
+674,111 tokens across 79 turns in 42/49 sessions. Seven sessions lack
+observations; this task's usage remains unknown.
+
+PR #23 CI build passed for the documentation revision; deployment was skipped
+as intended for a PR. This final update closes only the publication session.
