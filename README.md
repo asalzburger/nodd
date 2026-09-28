@@ -5,6 +5,10 @@ OpenDataDetector for DD4hep simulation and ACTS-compatible reconstruction.
 See the [project scope](PROJECT.md), [development plan](docs/DEVELOPMENT_PLAN.md)
 and [documentation index](docs/README.md).
 
+The [TDR outline](docs/publication/TDR-outline.md) and
+[publication plan](docs/publication/publication-plan.md) organize chapters,
+evidence and review inputs as the detector design develops.
+
 ## Agent roles
 
 Use these short address names when referring to the project's eight agent roles.
@@ -36,3 +40,10 @@ user on 2026-09-18, wherever the project workflow requires it, including formal
 M0 closure. See [ADR-002](docs/decisions/ADR-002-review-and-signoff-policy.md)
 for the assignment and remaining review-policy questions. Each approval requires
 an explicit human decision for an exact reviewed revision.
+
+## Node-specific software
+
+The [ACTS Spack skill](skills/acts-spack/SKILL.md) checks the
+[verified node registry](skills/acts-spack/references/nodes.json) before using
+preinstalled DD4hep/Geant4. It warns about unavailable nodes or capabilities;
+runtime availability and full source availability are recorded separately.

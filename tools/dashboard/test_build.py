@@ -35,7 +35,7 @@ class DashboardTests(unittest.TestCase):
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name) / 'repo'
         self.root.mkdir()
-        for directory in ('project','docs','reference','dashboard','logs','tools'):
+        for directory in ('project','docs','reference','dashboard','logs','tools','skills'):
             shutil.copytree(build.ROOT / directory, self.root / directory)
         shutil.copy(build.ROOT / 'PROJECT.md', self.root / 'PROJECT.md')
         shutil.copy(build.ROOT / '.gitignore', self.root / '.gitignore')
@@ -175,6 +175,9 @@ class DashboardTests(unittest.TestCase):
             self.normalize()
         self.task['category']='project'
         pr=self.pr(title='chore: synthetic maintenance')
+        with self.assertRaisesRegex(build.Invalid,'Chore PRs'):
+            self.normalize()
+        pr.update(title='Infrastructure: synthetic maintenance')
         with self.assertRaisesRegex(build.Invalid,'Chore PRs'):
             self.normalize()
         pr.update(title='Synthetic project work',category='chore')

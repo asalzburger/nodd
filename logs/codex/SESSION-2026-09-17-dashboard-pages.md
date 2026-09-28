@@ -58,3 +58,13 @@ after pushing the new branch without force-push. Implementation commit: 69fb125e
 The requested chore PR is open and hosted CI passed. Human merge triggers the first
 main-branch publication at https://asalzburger.github.io/nodd/. Production geometry
 and existing design lifecycle remain governed by normal human sign-off rules.
+
+## Token-accounting correction — 2026-09-25
+
+Recovered one completed client turn from the second device using verified
+cumulative-to-request counters and persisted turn boundaries. The user-visible
+request and session-ID tool references match this task. Exact counters and
+evidence hash are in the paired JSON and the
+[second-device inventory](../usage/USAGE-2026-09-25-device.json).
+No thread/turn IDs overlap PR #18’s recovery. Original narrative and limitations
+are retained as historical statements; model identity remains unknown.

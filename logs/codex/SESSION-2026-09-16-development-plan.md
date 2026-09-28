@@ -69,3 +69,9 @@ Human review of the proposed plan and checkpoint decisions remains open. First
 jobs are baseline/environment proposals, RD53 module comparison, material/readout
 audit and source dossiers for other systems. M0 execution and completion, design
 sign-off, implementation and TDR release remain future work.
+
+## Token usage recovered — 2026-09-24
+
+Recovered local client-reported counters for 1 disjoint turns: **837,598 input** and **9,302 output** tokens. Cached input and reasoning output are subsets, not additions. Request-to-task matching and counter evidence are retained in [the recovery inventory](../usage/USAGE-2026-09-24-local.json).
+
+This dated correction supersedes earlier statements that token counts were unavailable for these turns. Original narrative and limitations are preserved. It does not establish complete coverage across machines; unmatched and branch-only turns remain explicit in the inventory.

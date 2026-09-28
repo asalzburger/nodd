@@ -70,3 +70,9 @@ at implementation revision `1b61d1734536237a7a921c8f1701a1c246fb7b29` in
 [run 35327331331](https://github.com/asalzburger/nodd/actions/runs/35327331331);
 deployment was skipped for the PR. This publication-record update is a later
 commit; checks on its final revision are reported separately to the user.
+
+## Token usage recovered — 2026-09-24
+
+Recovered local client-reported counters for 1 disjoint turns: **1,678,358 input** and **8,545 output** tokens. Cached input and reasoning output are subsets, not additions. Request-to-task matching and counter evidence are retained in [the recovery inventory](../usage/USAGE-2026-09-24-local.json).
+
+This dated correction supersedes earlier statements that token counts were unavailable for these turns. Original narrative and limitations are preserved. It does not establish complete coverage across machines; unmatched and branch-only turns remain explicit in the inventory.

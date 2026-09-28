@@ -88,3 +88,9 @@ unavailable. Future significant tasks must create/update records and validate th
   result-commit list remains empty. No detector/source provenance was changed.
 - The observed task-closure timestamp is in the paired JSON. Structural record
   validation is repeated after recording these final results.
+
+## Token usage recovered — 2026-09-24
+
+Recovered local client-reported counters for 2 disjoint turns: **1,056,111 input** and **17,730 output** tokens. Cached input and reasoning output are subsets, not additions. Request-to-task matching and counter evidence are retained in [the recovery inventory](../usage/USAGE-2026-09-24-local.json).
+
+This dated correction supersedes earlier statements that token counts were unavailable for these turns. Original narrative and limitations are preserved. It does not establish complete coverage across machines; unmatched and branch-only turns remain explicit in the inventory.
