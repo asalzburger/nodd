@@ -47,3 +47,6 @@ The [ACTS Spack skill](skills/acts-spack/SKILL.md) checks the
 [verified node registry](skills/acts-spack/references/nodes.json) before using
 preinstalled DD4hep/Geant4. It warns about unavailable nodes or capabilities;
 runtime availability and full source availability are recorded separately.
+
+For local ACTS development, use the authorized `acts-nodd` sister checkout and
+the [recorded build, test and Python runtime workflow](AGENTS.md#local-acts-sister-checkout).

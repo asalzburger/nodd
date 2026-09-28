@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-09-28-acts-sister-checkout",
+  "title": "Record authorized ACTS sister checkout and local workflow",
+  "recorded_at": "2026-09-28T14:19:05Z",
+  "started_at": null,
+  "ended_at": "2026-09-28T14:22:58Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact client-reported per-turn token counters, client version/thread ID and conversation start time are unavailable; usage remains empty, not zero.",
+    "Inspection was read-only in the ACTS sister checkout. No remote freshness check, Spack activation/preflight, ACTS build, C++ tests, pytest or runtime smoke test was performed."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "0d90d75d6f998f732adaad2f0a49787b5cbc46fa",
+    "branch": "main",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      "AGENTS.md",
+      "logs/codex/SESSION-2026-09-28-acts-sister-checkout.json",
+      "logs/codex/SESSION-2026-09-28-acts-sister-checkout.md"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [
+      "infrastructure"
+    ],
+    "related_ids": [
+      "ADR-004"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-09-28-acts-sister-checkout.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 48 paired session records."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py summary --format json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "42/48 sessions have usage observations, 79 recorded turns. Historical observed input 134594309 and output 674111 tokens; this session has no observed counters."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 29 tasks, 9 documents and 10 review rounds."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py build --output /tmp/nodd-acts-sister-checkout-dashboard-20260928",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Dashboard built successfully outside the repository."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/dashboard -p 'test_*.py' -q",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "27 tests passed."
+    }
+  ]
+}
