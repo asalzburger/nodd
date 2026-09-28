@@ -21,7 +21,7 @@ def read(path):
 def write_csv(path, rows):
     keys = list(dict.fromkeys(key for row in rows for key in row))
     with Path(path).open("w", newline="") as stream:
-        writer = csv.DictWriter(stream, fieldnames=keys)
+        writer = csv.DictWriter(stream, fieldnames=keys, lineterminator="\n")
         writer.writeheader()
         writer.writerows(rows)
 
@@ -135,6 +135,9 @@ def plot_profiles(rows, meta, config, output):
 
 def plot_tradeoff(bundle, output):
     fig, axes = plt.subplots(1, 2, figsize=(12, 5), constrained_layout=True)
+    offsets = {"flat": (8, 8), "hybrid": (-48, 24),
+               "hybrid_clearance": (12, -30), "staggered": (-70, -23),
+               "tilted": (10, -30), "staggered_clearance": (-22, 25)}
     for ax, candidate in zip(axes, ("cobe", "pint")):
         for result in bundle["cases"]:
             case = result["case"]
@@ -145,8 +148,9 @@ def plot_tradeoff(bundle, output):
             clashes = result["body_diagnostics"]["overlapping_body_pairs"]
             ax.scatter(area, 100*miss, marker="x" if clashes else "o", s=65,
                        color="tab:red" if clashes else "tab:blue")
-            ax.annotate(case["variant"].replace("_", "\n"), (area, 100*miss), xytext=(4, 5),
-                        textcoords="offset points", fontsize=8)
+            ax.annotate(case["variant"].replace("_", "\n"), (area, 100*miss),
+                        xytext=offsets[case["variant"]], textcoords="offset points",
+                        fontsize=8, arrowprops={"arrowstyle": "-", "color": ".55", "lw": .6})
         ax.set(title=candidate, xlabel="Gross sensor surface [m²]", ylabel="Missing eligible stations [%]")
         ax.grid(alpha=.25)
         ax.margins(.22)

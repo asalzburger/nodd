@@ -127,8 +127,10 @@ tilted trial brings collisions and no demonstrated buildable advantage. This
 does not establish that every possible tilt is unnecessary.
 
 **Avoid adding complexity to pint's inclined rows on this evidence.** Their
-existing alternating placement uses a 5 mm normal envelope, and all 48 inclined
-pieces have zero sampled ideal-reference misses. Their full 96 mm sensors
+existing alternating placement uses a 5 mm normal envelope, and their logical
+inclined stations have zero sampled misses after deduplication. At piece level,
+`C1-short_strip-B1-P2` misses one of 85 eligible positive-charge off-grid tracks
+in both cleared variants; another piece recovers the same station. Their full 96 mm sensors
 overhang the original finite meridional segments. Those overhangs are retained,
 counted in silicon and checked against the trial bodies; material/services and
 independent-measurement value still need assessment.
@@ -167,24 +169,82 @@ control tables accompany the primary results.
 
 ## ACTS and execution evidence
 
-Native ACTS validation is pending final execution. The initial single-large-leaf
-Navigator experiment passed straight-track sensitive-ID checks but missed some
-bent-track surfaces. That failed navigation control must remain visible.
-Per-target ACTS propagation audits are being executed separately; they cannot
-establish that a production navigation hierarchy is validated.
+All **32 native audit cases pass**: 1,534 tracks, 1,424,857 candidate target
+trials and 22,344 reached active patches, with exact patch-set agreement. Maximum
+checked trajectory residual is 7.22 × 10⁻⁷ mm, below the fixed 0.002 mm diagnostic
+tolerance. The broad-phase candidate superset is shared with the independent
+oracle; exhaustive synthetic controls test that boundary. The dense 477,312-track
+coverage matrix uses the analytic oracle, not 477,312 full ACTS navigation runs.
+
+ACTS propagates to each supporting plane with a 10 mm maximum step, then applies
+the original native rectangle bounds at the reached point. The physical bounds
+are unchanged. Hit definition is crossing the sensor measurement plane;
+finite-thickness grazing charge deposition is not evaluated. Native identifiers,
+strict hit/miss comparisons and near-edge regression fixtures are retained.
+The missing Python step-size option is implemented in draft
+[ACTS PR #6178](https://github.com/acts-project/acts/pull/6178), commit
+`9e3b59f638a38520abe9420fe8868eff3de6789f`. Its two propagation regressions and
+full Python Core suite passed: **54 passed, one skipped**, with all required
+pre-commit checks passing. An isolated compiled overlay preserves the shared
+source/build/install trees and records reused objects explicitly.
+
+Two adverse controls remain visible. The
+[single-large-leaf Navigator experiment](DES-009-native-navigation-control.json)
+passes five straight tracks but misses surfaces for ten curved tracks. A
+[5.43 micrometre inside-edge case](DES-009-native-edge-control.json) was missed
+by bounded target selection at a 10 mm step. Targeting the supporting plane and
+applying the same native rectangle check resolves it; a nearby true miss is also
+tested. Neither the intersection audit nor that correction validates a full
+detector navigation hierarchy. Earlier failed audit files and named audit history
+are retained; no failed result is rewritten as a pass.
 
 The node preflight reported changed Spack setup/lock fingerprints. Actual local
 imports and required capabilities were checked using the authorized sister
 checkout/install. The Geant4 data-directory warning was observed; no Geant4
 transport, full material simulation, reconstruction efficiency or resolution
-measurement is claimed. Code/input hashes identify the uncommitted prototype
-used by the bulk runs; source HEAD alone is not the implementation revision.
+measurement is claimed. The final numerical runs use nODD commit
+`0926353e3cd0cd1e67fd6e775ed9645e2c89a1f6`; the named supporting-plane audits
+use `5a6e4af4420717c7e2c8daeba2dcf25756894cc7`. Input/code hashes, actual extension
+hashes and source/overlay manifests accompany each result. The local ACTS
+Python/ROOT/NumPy versions are 3.14.5 / 6.40.04 / 2.5.3; figures use Matplotlib
+3.11.2. A source checkout SHA alone does not identify the patched binary.
 
 ## Retained results and reproduction
 
-Result bundles and exact execution/check records are added after the native
-audits. The [workflow instructions](../../tools/module_layout/README.md) describe
+The retained bundles are:
+
+- [Full comparison and family/outline controls](DES-009-module-coverage/main/results.md)
+- [Independent random-sample comparison](DES-009-module-coverage/offgrid/results.md)
+- [Total-p = 1 GeV comparison](DES-009-module-coverage/total-p/results.md)
+
+Each directory contains complete JSON summaries/native audits, per-subdetector
+and per-region coverage CSV, per-layer denominators/misses, eta/phi/cohort
+profiles, silicon counts/areas, and figures. Raw per-track numerical arrays and
+intermediate native artifacts are in ignored `reference/cache/DES-009-final-*`;
+their hashes are retained. They regenerate from the inputs and commands below.
+
+```sh
+python tools/module_layout/study.py run --jobs 3 --native \
+  --output reference/cache/NEW-main
+python tools/module_layout/study.py run --native \
+  --config tools/module_layout/offgrid_config.json --output reference/cache/NEW-offgrid
+python tools/module_layout/study.py run --native \
+  --config tools/module_layout/total_p_config.json --output reference/cache/NEW-total-p
+python tools/module_layout/report.py --run reference/cache/NEW-main \
+  --output reference/cache/NEW-report
+```
+
+Run these in the documented ACTS environment; the preferred audit requires the
+step-size binding. Existing installations have a separately labelled guide-state
+fallback with additional limits. The session's exact overlay/manifest commands
+are in each `summary.json` and the [session record](../../logs/codex/SESSION-2026-09-28-module-populated-layouts.md).
+
+The [workflow instructions](../../tools/module_layout/README.md) describe
 fresh output directories, external models/layers, momentum and sampling configs,
 input/code hashes, ACTS requirements and explicit unsupported-shape failures.
 Future sensor updates require editing the input snapshot/classification and
-rerunning the same commands, not replacing older accepted evidence.
+rerunning the same commands, not replacing older accepted evidence. An independent
+12,288-trajectory rerun reproduced all numerical metrics exactly. Validation also
+passed 28 nODD geometry/intersection/native/sampling tests, 27 dashboard tests,
+32 logging tests and 14 dashboard interaction assertions. These checks do not
+confer human detector acceptance.

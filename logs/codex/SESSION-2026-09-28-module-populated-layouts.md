@@ -62,7 +62,10 @@ The paired JSON retains commands and actual checks. Preliminary numerical runs
 covered 477,312 trajectories across 24 main/control cases, four independent
 sample cases and four total-p cases; repeated straight controls count toward
 that total. A separate exact rerun covered another 12,288 trajectories.
-The final canonical-revision runs and exports are recorded below when complete.
+Final canonical runs reproduce all 32 numerical cases exactly. The retained
+evidence contains 477,312 evaluations, plus 1,534 native ACTS audit tracks with
+1,424,857 candidate targets and exact reached-patch agreement. All 32 final
+supporting-plane audits pass; earlier finite-target failures remain in history.
 
 The acts-spack preflight exited 2 for changed setup/lock fingerprints. Fresh
 ACTS/ROOT/NumPy/Matplotlib capabilities were verified. Runtime setup warned about
@@ -80,7 +83,10 @@ build passed. Final complete checks are retained in the paired JSON.
 
 See the paired JSON inventory. Principal changes are `tools/module_layout/`,
 DES-009 design/report/evidence, the source manifest, tracking, README discovery
-and this session pair. Result revisions and PR links are appended once they exist.
+and this session pair. Numerical source revision is `0926353e3cd0cd1e67fd6e775ed9645e2c89a1f6`;
+final native-audit revision is `5a6e4af4420717c7e2c8daeba2dcf25756894cc7`.
+Draft [ACTS PR #6178](https://github.com/acts-project/acts/pull/6178) supplies
+the missing maximum-step binding at `9e3b59f638a38520abe9420fe8868eff3de6789f`.
 
 ## Token accounting
 
@@ -88,7 +94,10 @@ Exact client-reported per-turn counters and stable client turn IDs were not
 exposed for the parent or any of the three subagents. `usage` remains empty;
 there are no observed input/output totals for this task. No counts were estimated
 or copied from other sessions. The final logging summary reports historical
-observations separately from this missing coverage.
+observations separately from this missing coverage: 79 historical observed turns
+have 134,594,309 input and 674,111 output tokens across 42 sessions; 12 sessions
+have no usage observations. These are neither this task counts nor complete
+project totals.
 
 ## Follow-up
 
@@ -96,3 +105,35 @@ Human review is needed for pixel sensor boundaries/seams, stave depth and servic
 beam-pipe clearance, long-strip electronics qualification, and a suitable full
 ACTS navigation hierarchy. Finite sampling is not continuous hermeticity, and
 trial occupied boxes are not support engineering. No design sign-off is recorded.
+
+## Exact runtime and final checks
+
+Final commands used the verified local environment and isolated binding overlay:
+
+```sh
+source /Users/salzburg/Documents/work/installed/acts-nodd/pyvenv/bin/activate
+source /Users/salzburg/Documents/work/installed/acts-nodd/bin/this_acts_withdeps.sh
+export PYTHONPATH="/tmp/acts-python-step-size-overlay/python:${PYTHONPATH}"
+python -B tools/module_layout/study.py validate-acts \
+  --output reference/cache/DES-009-final-main-20260928 \
+  --audit-label supporting-plane \
+  --acts-source /Users/salzburg/Documents/work/dev/acts-nodd \
+  --runtime-manifest /tmp/acts-python-step-size-overlay/manifest.json
+```
+
+The same audit was run separately for offgrid and total-p output directories.
+Source/install/overlay hashes and actual command arguments are embedded in each
+retained summary. The shared ACTS installation and its unrelated changes were
+preserved. The upstream binding tests passed 54 cases, with one skip, and the
+required upstream pre-commit suite passed. nODD validation passed 28 module-study
+tests, 27 dashboard tests, 32 logging tests and 14 JavaScript assertions.
+
+A final formatting correction separates nearly coincident tradeoff-plot labels;
+fresh export directories preserve traceability and replace only unpublished
+report copies. No numerical result or accepted evidence was changed.
+
+Final delegated review corrected one distinction: pint has zero missed logical
+inclined stations in the sample, but one positive-charge per-piece miss is
+recovered by another piece. The numerical evidence was unchanged. Public CI
+now runs numerical regression controls; native controls explicitly skip without
+ACTS and were separately executed in the verified local runtime.

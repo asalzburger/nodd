@@ -290,3 +290,12 @@ its provenance with each native audit and requires its `acts_extension_sha256`
 to match the actual imported extension. This is optional for ordinary ACTS
 installations. Keep overlay source revisions and reused compiled objects distinct
 from the original sister-checkout revision.
+
+The public CI runs the geometry, intersection and sampling regression controls
+with NumPy on every PR. The three native integration tests explicitly skip when
+ACTS is unavailable there; run the same command in the verified ACTS environment
+to include them:
+
+```sh
+python -B -m unittest discover -s tools/module_layout -p 'test_*.py' -v
+```
