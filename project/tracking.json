@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "updated": "2026-09-25",
-  "note": "Curated register. Stage B architecture is active. PR #4\u2019s envelope baseline has explicit human approval and is merged; its documents still declare DRAFT and no formal sign-off record exists. Role ownership does not imply active agents. Chore PRs and infrastructure chores are excluded from project progress.",
+  "updated": "2026-09-28",
+  "note": "Curated register. Stage B architecture is active. PR #4’s envelope baseline has explicit human approval and is merged; its documents still declare DRAFT and no formal sign-off record exists. Role ownership does not imply active agents. Chore PRs and infrastructure chores are excluded from project progress. Pixel-module design dossier opened by human direction in parallel with architecture; final component-method gates remain pending.",
   "stages": [
     {
       "id": "A",
@@ -38,7 +38,7 @@
     {
       "id": "C",
       "title": "Prove the component method",
-      "state": "planned",
+      "state": "active",
       "milestones": [
         "M1",
         "M2"
@@ -46,7 +46,7 @@
       "dependencies": [
         "B"
       ],
-      "disposition": "Evidence dossiers and reviewed component designs before production implementation.",
+      "disposition": "Pixel-module evidence and alternative design drafting authorized in parallel with stage B on 2026-09-17. Stage B remains a dependency for final interfaces, family selection and implementation; no integration gate waived.",
       "evidence": [
         "docs/DEVELOPMENT_PLAN.md"
       ],
@@ -498,7 +498,7 @@
     },
     {
       "id": "TASK-B-ENVELOPES",
-      "title": "Global detector envelope baseline \u2014 E1-R2",
+      "title": "Global detector envelope baseline — E1-R2",
       "scope": "Envelope allocations and shared interfaces; detailed magnet, muon and technology research follows.",
       "stage": "B",
       "milestones": [
@@ -528,6 +528,47 @@
       "blocker": null,
       "disposition": "Envelope baseline explicitly approved by asalzburger-review at cb654ee91457b22d899a898faf2c8bf6e0fc275e; PR #4 merged as b106610b929cdfa603dd5f1ef2a6e79dbb633a7f. Production geometry and performance acceptance remain outside this decision.",
       "subsystem": "global"
+    },
+    {
+      "id": "TASK-C-PIX",
+      "title": "Reusable RD53i module-only alternatives",
+      "scope": "Compact and quad module assemblies rewritten with Astra; shared thickness/material/X0 table and module cross-sections. Mounting/cooling infrastructure excluded; pixel volume remains open.",
+      "stage": "C",
+      "milestones": [
+        "M1",
+        "M2"
+      ],
+      "workstream": "WS-TRACK",
+      "role": "Tracker technician",
+      "owner": "Tracking Engineer (AI-assisted); human owner pending",
+      "state": "active",
+      "dependencies": [],
+      "deliverables": [
+        "docs/design/DES-001-rd53-pixel-modules.md",
+        "docs/design/inputs/DES-001-compact-modules.md",
+        "docs/design/inputs/DES-001-quad-modules.md",
+        "docs/design/inputs/DES-001-coordinator-review.md",
+        "docs/decisions/ADR-007-itkpix-pixel-baseline.md",
+        "docs/design/DES-001-module-stack.json",
+        "docs/design/DES-001-review-summary.md"
+      ],
+      "evidence": [
+        "https://github.com/asalzburger/nodd/issues/7",
+        "reference/manifest.yaml",
+        "https://github.com/asalzburger/nodd/pull/8",
+        "docs/design/DES-001-module-stack.json",
+        "docs/design/DES-001-review-summary.md"
+      ],
+      "documents": [
+        "DES-001",
+        "ADR-007"
+      ],
+      "updated": "2026-09-17",
+      "next_action": "First human review of module-only alternatives, proposed layer stack and unresolved films/adhesives/bumps/local BOM; obtain chip interface and assembly evidence before full design sign-off.",
+      "blocker": null,
+      "disposition": "Chip family/revision fixed; RD53i shorthand defined in DES-001. Module-only scope directed on2026-09-17; nominal thicknesses are proposed choices and material subtotal is partial. Designs/ADR remain DRAFT; no approval or production integration.",
+      "subsystem": "tracking and timing",
+      "category": "project"
     },
     {
       "id": "TASK-B-TRACKER-PLAN",
@@ -1028,7 +1069,7 @@
         "DES-005"
       ],
       "updated": "2026-09-18",
-      "next_action": "Consolidate the physical shortlist and evidence; use the named layout/parametric/hit/material and DD4hep\u2013ACTS reviewers for those topics, assign remaining expertise and obtain final human sign-off.",
+      "next_action": "Consolidate the physical shortlist and evidence; use the named layout/parametric/hit/material and DD4hep–ACTS reviewers for those topics, assign remaining expertise and obtain final human sign-off.",
       "blocker": null,
       "disposition": null,
       "subsystem": "tracking and timing"
@@ -1060,7 +1101,7 @@
         "DES-005"
       ],
       "updated": "2026-09-22",
-      "next_action": "Prepare compatible backend readiness and DD4hep\u2013ACTS integration evidence for paulgessinger after confirming participation; production work still requires M0 completion and applicable design sign-off. Local backend dependency readiness is now recorded by TASK-SOFT-SPACK on one node; source availability and full simulation execution remain separate checks.",
+      "next_action": "Prepare compatible backend readiness and DD4hep–ACTS integration evidence for paulgessinger after confirming participation; production work still requires M0 completion and applicable design sign-off. Local backend dependency readiness is now recorded by TASK-SOFT-SPACK on one node; source availability and full simulation execution remain separate checks.",
       "blocker": null,
       "disposition": null,
       "subsystem": "tracking and timing"
@@ -1201,6 +1242,16 @@
       ]
     },
     {
+      "id": "DES-001",
+      "path": "docs/design/DES-001-rd53-pixel-modules.md",
+      "validation_reports": []
+    },
+    {
+      "id": "ADR-007",
+      "path": "docs/decisions/ADR-007-itkpix-pixel-baseline.md",
+      "validation_reports": []
+    },
+    {
       "id": "DES-005",
       "path": "docs/design/DES-005-tracker-system-plan.md",
       "validation_reports": []
@@ -1252,11 +1303,6 @@
       "kind": "Sources"
     },
     {
-      "title": "TDR outline and evidence coverage",
-      "path": "docs/publication/TDR-outline.md",
-      "kind": "TDR plan"
-    },
-    {
       "title": "Curated session journal",
       "path": "logs/README.md",
       "kind": "History"
@@ -1287,6 +1333,11 @@
       "kind": "Planned studies"
     },
     {
+      "title": "RD53 pixel-module alternatives",
+      "path": "docs/design/DES-001-rd53-pixel-modules.md",
+      "kind": "Design"
+    },
+    {
       "title": "Whole-tracker staged design programme",
       "path": "docs/design/DES-005-tracker-system-plan.md",
       "kind": "Plan"
@@ -1310,6 +1361,11 @@
       "title": "Tracker-system softeng input",
       "path": "docs/design/inputs/DES-005-tracker-system-softeng.md",
       "kind": "Planning input"
+    },
+    {
+      "title": "TDR outline and evidence coverage",
+      "path": "docs/publication/TDR-outline.md",
+      "kind": "TDR plan"
     },
     {
       "title": "Publication priorities and review gates",
@@ -1339,6 +1395,24 @@
         "ADR-006"
       ],
       "scope": "Global envelope baseline only; no production geometry, complete magnet design or performance acceptance.",
+      "category": "project"
+    },
+    {
+      "id": "PR-8",
+      "number": 8,
+      "title": "Tracker: Propose reusable RD53i modules with component material accounts",
+      "url": "https://github.com/asalzburger/nodd/pull/8",
+      "state": "open",
+      "head_revision": "d237f146b578915cc032b30efa50044cf6344d5f",
+      "merge_commit": null,
+      "merged_at": null,
+      "collected_at": "2026-09-22T11:50:09Z",
+      "task": "TASK-C-PIX",
+      "documents": [
+        "DES-001",
+        "ADR-007"
+      ],
+      "scope": "Draft module-only review: compact/quad RD53i assemblies, component thickness/material/X0 accounts and cross-sections; pixel volume open, no mounting/cooling infrastructure or production sign-off. Collected head is a metadata snapshot; exact design review target is ce99de4.",
       "category": "project"
     },
     {
@@ -1395,11 +1469,11 @@
       "number": 13,
       "title": "Tracker: Study cobe and pint layouts with independent controls",
       "url": "https://github.com/asalzburger/nodd/pull/13",
-      "state": "open",
-      "head_revision": "69ea15bd37edb7af44aeb9e9e52688b13c933de9",
-      "merge_commit": null,
-      "merged_at": null,
-      "collected_at": "2026-09-25T13:38:14Z",
+      "state": "merged",
+      "head_revision": "412fa0f37a1e0cf284e07ce2db39bfcc7041dd55",
+      "merge_commit": "0d90d75d6f998f732adaad2f0a49787b5cbc46fa",
+      "merged_at": "2026-09-25T13:41:56Z",
+      "collected_at": "2026-09-28T08:56:07Z",
       "task": "TASK-B-TRACKER-FIRST-LAYOUTS",
       "documents": [
         "DES-006"
