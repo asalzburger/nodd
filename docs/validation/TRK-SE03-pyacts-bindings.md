@@ -28,7 +28,7 @@ recommendation in the historical assessment below.**
 The user authorized checking the local corrected ACTS checkout and adding
 missing functionality. Source revision `355ea68493b326956756c9386d2fd9eaf9328568`
 has a corrected transform constructor, but still lacks the sensitivity setter
-and a single-surface JSON converter binding. [ACTS draft PR #6176](https://github.com/acts-project/acts/pull/6176)
+and a single-surface JSON converter binding. [ACTS PR #6176](https://github.com/acts-project/acts/pull/6176)
 exposes the existing C++ setter, preserving the placement-ownership guard, with
 surface and Gen-3 regression tests. Its patch revision is
 `95ece2188858a05dcb04efb4f09c75dfa26e7257`, based on ACTS main

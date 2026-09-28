@@ -89,3 +89,29 @@ client state was accessed and no historical observation was duplicated.
 Await human review of the Python-first response and upstream draft binding.
 Physical module masks/stereo, material, realistic fields, beamspot coverage,
 response and reconstruction remain future work. No design sign-off requested.
+
+## Published outcome and final validation
+
+Implementation/evidence pushed as `de395b40f4589829e6df1c5283cff56c685d77d8`.
+PR #14 was retitled and its description rewritten around the final Python-first
+implementation. The explicitly requested reviewer reply is posted at
+https://github.com/asalzburger/nodd/pull/14#issuecomment-5872518726
+and links the immutable implementation/evidence revision and ACTS draft #6176.
+
+After correcting the tracking export, all 27 dashboard tests and 32
+session/document tests passed. Dashboard validation/build, final session
+validation (51 records), patch-file/hash comparisons and whitespace checks
+passed. CI Project dashboard build passed for the implementation commit;
+PR deployment was skipped as intended. The initial incomplete activity metadata
+was corrected to the published logging schema and revalidated. Final closeout
+updates only tracking/session metadata; no implementation or evidence changed.
+
+ACTS #6176 was created with --draft and subsequently marked ready for review
+by the human at 2026-09-28T14:53:28Z (GitHub timeline inspected). That human
+state change was preserved. Its CI is still running/queued; merge-sentinel
+currently reports a failed aggregate Builds gate, while completed lint, docs,
+API-surface and Python-wheel checks passed. No full upstream CI success is claimed.
+
+Final session summary: 134,594,309 observed historical input tokens and 674,111
+output tokens across 79 recorded turns in 42 of 51 sessions; 9 sessions lack
+usage observations. These totals exclude this task's unknown usage.

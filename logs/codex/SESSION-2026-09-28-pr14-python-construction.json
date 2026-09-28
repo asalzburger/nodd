@@ -4,14 +4,15 @@
   "title": "Address expert review with Python-native ACTS module construction",
   "recorded_at": "2026-09-28T14:38:45Z",
   "started_at": null,
-  "ended_at": null,
-  "status": "open",
+  "ended_at": "2026-09-28T14:56:17Z",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
     "Exact client-reported per-turn token counters and stable client thread/turn IDs were not exposed. Usage is empty and unknown, not zero.",
     "Curated record only; no raw client state collected. Current Spack setup/lockfile changed since registry verification; only task-required runtime/build capabilities were rechecked. Geant4 data warning remains; no transport simulation claimed.",
-    "Skill duration and failure counters were not instrumented; nullable activity measurements remain unknown."
+    "Skill duration and failure counters were not instrumented; nullable activity measurements remain unknown.",
+    "ACTS PR #6176 was opened as a draft and subsequently marked ready by a human. Its CI remains in progress; merge-sentinel reported an aggregate Builds gate failure, so no full upstream CI success is claimed."
   ],
   "client": {
     "name": "Codex",
@@ -22,7 +23,9 @@
     "start_commit": "45f1a8b62dbb6e90069a875122e9721f3013ec03",
     "branch": "study/pyacts-gen3-bindings",
     "initial_changes": [],
-    "result_commits": [],
+    "result_commits": [
+      "de395b40f4589829e6df1c5283cff56c685d77d8"
+    ],
     "changed_files": [
       "docs/validation/TRK-SE03-pyacts-bindings.md",
       "docs/validation/TRK-SE03-python-construction.json",
@@ -196,6 +199,18 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "No whitespace errors; all three patched ACTS files are byte-identical to the upstream draft."
+    },
+    {
+      "command": "gh pr view 14 --json headRefOid,statusCheckRollup",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Project dashboard CI build passed at de395b40f4589829e6df1c5283cff56c685d77d8; deployment skipped for PR as intended."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py summary --format json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Observed historical input 134594309 and output 674111 tokens; 79 turns across 42/51 sessions. Nine sessions, including this task, have no usage observations."
     }
   ]
 }

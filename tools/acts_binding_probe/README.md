@@ -11,7 +11,7 @@ geometry-design interface. The review response and executed evidence are in
 [the assessment](../../docs/validation/TRK-SE03-pyacts-bindings.md#expert-review-response--2026-09-28).
 
 The source-built path needs `Surface.assignIsSensitive`, added by
-[ACTS draft PR #6176](https://github.com/acts-project/acts/pull/6176).
+[ACTS PR #6176](https://github.com/acts-project/acts/pull/6176).
 The installed `pyacts==47.7.0` wheel does not expose it. The recorded local
 `acts-nodd` installation has the patch; read its instructions and run the
 [Spack preflight](../../skills/acts-spack/SKILL.md) before relying on the runtime.
