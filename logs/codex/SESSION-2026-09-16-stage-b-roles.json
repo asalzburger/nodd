@@ -10,12 +10,13 @@
   "completeness": "partial",
   "limitations": [
     "Exact token usage, client version and conversation start unavailable.",
-    "Role and progression documentation only; no agent team launched or detector validation run."
+    "Role and progression documentation only; no agent team launched or detector validation run.",
+    "2026-09-24 correction: local client counters recovered for 1 disjoint turns; this supersedes earlier token-unavailability statements for those turns only. Full multi-machine coverage remains unknown. See logs/usage/USAGE-2026-09-24-local.json."
   ],
   "client": {
     "name": "Codex",
     "version": null,
-    "thread_id": null
+    "thread_id": "01a0a573-f0f0-73c3-80e2-f37e2cc44e3f"
   },
   "git": {
     "start_commit": "2f1cd77357568412780f53fef387693e23326330",
@@ -79,7 +80,23 @@
   },
   "narrative": "logs/codex/SESSION-2026-09-16-stage-b-roles.md",
   "activities": [],
-  "usage": [],
+  "usage": [
+    {
+      "client_thread_id": "01a0a573-f0f0-73c3-80e2-f37e2cc44e3f",
+      "turn_id": "01a0aac3-e36a-7212-b1f4-34571e27b341",
+      "model": null,
+      "source": "2026-09-24 local token_count recovery; logs/usage/USAGE-2026-09-24-local.json; usage SHA-256 20f49c9f05616d07724b63b4541d448aa5fee4b9a807635927e627712d099b5c; cumulative increases equal last-request counters over persisted turn ordinals 1590..1665.",
+      "limitations": [
+        "Local client-reported usage only; other-machine coverage and billing equivalence are not established. Per-turn execution model was not reported.",
+        "Also covers physics-validation-role steering within this same client turn; cannot allocate that subtask separately without double counting."
+      ],
+      "input_tokens": 1609374,
+      "cached_input_tokens": 1558016,
+      "output_tokens": 6428,
+      "reasoning_output_tokens": 229,
+      "total_tokens": 1615802
+    }
+  ],
   "checks": [
     {
       "command": "python3 -B -m unittest discover -s tools/session_logging -p 'test_*.py' -q",

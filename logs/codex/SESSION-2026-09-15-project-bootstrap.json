@@ -12,12 +12,13 @@
     "Exact conversation start/end times, client version, thread/turn IDs and model identity are unavailable.",
     "Exact token counters, invocation counts, durations and costs are unavailable; no zero usage is inferred.",
     "Selected user-visible conversation and commands only; no raw client state collected.",
-    "Earlier project creation conversations are outside the available context; records were backfilled during the next task."
+    "Earlier project creation conversations are outside the available context; records were backfilled during the next task.",
+    "2026-09-24 correction: local client counters recovered for 3 disjoint turns; this supersedes earlier token-unavailability statements for those turns only. Full multi-machine coverage remains unknown. See logs/usage/USAGE-2026-09-24-local.json."
   ],
   "client": {
     "name": "Codex",
     "version": null,
-    "thread_id": null
+    "thread_id": "01a0a573-f0f0-73c3-80e2-f37e2cc44e3f"
   },
   "git": {
     "start_commit": "4a63b336d2bced28fb7a2b36f6c5b4948757b5de",
@@ -66,7 +67,50 @@
       "evidence": "The assistant explicitly invoked and read this skill for the logging consultation."
     }
   ],
-  "usage": [],
+  "usage": [
+    {
+      "client_thread_id": "01a0a573-f0f0-73c3-80e2-f37e2cc44e3f",
+      "turn_id": "01a0a574-4170-78b1-8a2e-9c206d27d8b6",
+      "model": null,
+      "source": "2026-09-24 local token_count recovery; logs/usage/USAGE-2026-09-24-local.json; usage SHA-256 0abaabd17e4b896033a64f7a5c233091afe1155ec72f6bce63a11bdf45caed7f; cumulative increases equal last-request counters over persisted turn ordinals 1..40.",
+      "limitations": [
+        "Local client-reported usage only; other-machine coverage and billing equivalence are not established. Per-turn execution model was not reported."
+      ],
+      "input_tokens": 104553,
+      "cached_input_tokens": 82048,
+      "output_tokens": 1028,
+      "reasoning_output_tokens": 13,
+      "total_tokens": 105581
+    },
+    {
+      "client_thread_id": "01a0a573-f0f0-73c3-80e2-f37e2cc44e3f",
+      "turn_id": "01a0a575-e32a-70d3-8a83-0a8f4c16517e",
+      "model": null,
+      "source": "2026-09-24 local token_count recovery; logs/usage/USAGE-2026-09-24-local.json; usage SHA-256 dd4ce8617ccca222a92f322cc91c5d075c517796db026e83309abdb45607bb81; cumulative increases equal last-request counters over persisted turn ordinals 42..52.",
+      "limitations": [
+        "Local client-reported usage only; other-machine coverage and billing equivalence are not established. Per-turn execution model was not reported."
+      ],
+      "input_tokens": 34110,
+      "cached_input_tokens": 33664,
+      "output_tokens": 390,
+      "reasoning_output_tokens": 36,
+      "total_tokens": 34500
+    },
+    {
+      "client_thread_id": "01a0a573-f0f0-73c3-80e2-f37e2cc44e3f",
+      "turn_id": "01a0a58a-cde1-79b3-a0c6-f5690a41bd56",
+      "model": null,
+      "source": "2026-09-24 local token_count recovery; logs/usage/USAGE-2026-09-24-local.json; usage SHA-256 a85fdf0e53dc56ace4c163d6cda590e78ee2f74a0fb044b72f31e5b44c785dd5; cumulative increases equal last-request counters over persisted turn ordinals 54..86.",
+      "limitations": [
+        "Local client-reported usage only; other-machine coverage and billing equivalence are not established. Per-turn execution model was not reported."
+      ],
+      "input_tokens": 220670,
+      "cached_input_tokens": 197120,
+      "output_tokens": 1152,
+      "reasoning_output_tokens": 38,
+      "total_tokens": 221822
+    }
+  ],
   "checks": [
     {
       "command": "git diff --check",

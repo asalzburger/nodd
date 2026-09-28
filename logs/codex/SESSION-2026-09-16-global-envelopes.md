@@ -85,3 +85,9 @@ programme. Merging this draft alone does not authorize production implementation
 [PR #4](https://github.com/asalzburger/nodd/pull/4) publishes the first proposal
 on `design/global-envelopes`. The paired JSON records the proposal commit; this
 publication record is a subsequent traceability commit. Human sign-off is pending.
+
+## Token usage recovered — 2026-09-24
+
+Recovered local client-reported counters for 10 disjoint turns: **11,993,045 input** and **56,998 output** tokens. Cached input and reasoning output are subsets, not additions. Request-to-task matching and counter evidence are retained in [the recovery inventory](../usage/USAGE-2026-09-24-local.json).
+
+This dated correction supersedes earlier statements that token counts were unavailable for these turns. Original narrative and limitations are preserved. It does not establish complete coverage across machines; unmatched and branch-only turns remain explicit in the inventory.

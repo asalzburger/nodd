@@ -29,6 +29,15 @@ class UpdatePolicyTests(unittest.TestCase):
             with self.subTest(title=title), self.assertRaisesRegex(ValueError, 'PR title'):
                 check_update.check(title, ['project/tracking.json'])
 
+    def test_documentation_requires_tracking(self):
+        title = 'Documentation: Outline the TDR'
+        paths = ['docs/publication/TDR-outline.md']
+        self.assertFalse(check_update.is_chore(title))
+        with self.assertRaisesRegex(ValueError, 'must update'):
+            check_update.check(title, paths)
+        self.assertIn('includes a tracking update', check_update.check(
+            title, paths + ['project/tracking.json']))
+
     def test_historical_maintenance_classification(self):
         for title in ('chore: cleanup', 'chore(ci): cleanup', 'Infrastructure: cleanup'):
             self.assertTrue(check_update.is_chore(title))
@@ -37,6 +46,7 @@ class UpdatePolicyTests(unittest.TestCase):
 
     def test_chore_cannot_bypass_scientific_work(self):
         for path in ('docs/design/TEST.md','docs/signoff/TEST.md','docs/validation/TEST.json',
+                     'docs/publication/TEST.md','docs/tdr',
                      'PROJECT.md','reference/manifest.yaml','src/TEST.cpp','xml/TEST.xml'):
             with self.subTest(path=path), self.assertRaisesRegex(ValueError,'project/scientific'):
                 check_update.check('Infrastructure: synthetic exemption attempt',[path,'project/tracking.json'])

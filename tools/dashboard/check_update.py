@@ -8,12 +8,12 @@ import sys
 
 CHORE_TITLE = re.compile(r'^chore(?:\([^)]+\))?:\s+\S', re.I)
 PR_AREAS = ('Magnet System', 'Tracker', 'Calorimeter', 'Muon System',
-            'Global', 'Software', 'Infrastructure')
+            'Global', 'Software', 'Documentation', 'Infrastructure')
 PR_TITLE = re.compile(r'(' + '|'.join(PR_AREAS) + r'): \S[^\r\n]*')
 TRACKING = {'project/tracking.json', 'project/reviews.json'}
-PROJECT_PATHS = ('docs/design/', 'docs/signoff/', 'docs/validation/',
+PROJECT_PATHS = ('docs/design/', 'docs/signoff/', 'docs/validation/', 'docs/publication/',
                  'src/', 'xml/', 'geometry/', 'detector/', 'config/')
-PROJECT_FILES = {'PROJECT.md', 'docs/DEVELOPMENT_PLAN.md', 'reference/manifest.yaml'}
+PROJECT_FILES = {'PROJECT.md', 'docs/DEVELOPMENT_PLAN.md', 'docs/tdr', 'reference/manifest.yaml'}
 
 
 def is_chore(title):

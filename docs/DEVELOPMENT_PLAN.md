@@ -393,6 +393,12 @@ and implementation remain subject to the design workflow.
 
 ## 7. TDR structure and continuous writing
 
+The [PubDoc outline](publication/TDR-outline.md) expands this frame into
+chapters and subsections with an evidence/claim coverage matrix. The accompanying
+[publication plan](publication/publication-plan.md) proposes drafting priorities,
+input owners, review gates and the handoff to the LaTeX TDR. Both remain drafts;
+chapter coverage does not establish detector approval or validated performance.
+
 Start the outline during architecture and grow chapters with each design:
 
 1. Motivation, TrackML/ODD lineage, objectives and scope of credibility.

@@ -66,3 +66,9 @@ revision can be found using `git log --follow -- <record path>`.
 Implement logging as requested in the next session. Source catalogue, upstream
 selection, reviewer assignments and M0 baseline work remain open. No exact model,
 token, cost, invocation-count or timing statistics can be reconstructed here.
+
+## Token usage recovered — 2026-09-24
+
+Recovered local client-reported counters for 3 disjoint turns: **359,333 input** and **2,570 output** tokens. Cached input and reasoning output are subsets, not additions. Request-to-task matching and counter evidence are retained in [the recovery inventory](../usage/USAGE-2026-09-24-local.json).
+
+This dated correction supersedes earlier statements that token counts were unavailable for these turns. Original narrative and limitations are preserved. It does not establish complete coverage across machines; unmatched and branch-only turns remain explicit in the inventory.

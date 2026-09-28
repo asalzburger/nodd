@@ -11,12 +11,13 @@
   "limitations": [
     "Exact token usage, client version, thread ID and conversation start time unavailable.",
     "Only acts-mac-studio-01.cern.ch tested; other nodes unknown. Full source staging and event simulation not performed.",
-    "No external configuration contents, credentials or complete environment dump retained. External helper fingerprint records provenance only."
+    "No external configuration contents, credentials or complete environment dump retained. External helper fingerprint records provenance only.",
+    "2026-09-24 correction: local client counters recovered for 1 disjoint turns; this supersedes earlier token-unavailability statements for those turns only. Full multi-machine coverage remains unknown. See logs/usage/USAGE-2026-09-24-local.json."
   ],
   "client": {
     "name": "Codex",
     "version": null,
-    "thread_id": null
+    "thread_id": "01a0b3b0-f8f3-7de0-8854-ff1f156bebab"
   },
   "git": {
     "start_commit": "53aaf37f97c1b40170e053909a22c539004fe640",
@@ -61,7 +62,22 @@
   },
   "narrative": "logs/codex/SESSION-2026-09-22-acts-spack-skill.md",
   "activities": [],
-  "usage": [],
+  "usage": [
+    {
+      "client_thread_id": "01a0b3b0-f8f3-7de0-8854-ff1f156bebab",
+      "turn_id": "01a0c974-46de-7da2-9efa-ba687bb5b956",
+      "model": null,
+      "source": "2026-09-24 local token_count recovery; logs/usage/USAGE-2026-09-24-local.json; usage SHA-256 46708fb42f99d2312b2b3afd1880a71885c1e7cf6a82f9085dbea1bf4b7a5f69; cumulative increases equal last-request counters over persisted turn ordinals 2686..2953.",
+      "limitations": [
+        "Local client-reported usage only; other-machine coverage and billing equivalence are not established. Per-turn execution model was not reported."
+      ],
+      "input_tokens": 6311031,
+      "cached_input_tokens": 6223616,
+      "output_tokens": 24628,
+      "reasoning_output_tokens": 9678,
+      "total_tokens": 6335659
+    }
+  ],
   "checks": [
     {
       "command": "Fresh zsh: source user acts_setup.sh; unset ACTS_SPACK_SETUP; setup_spack; spack env status; spack find DD4hep/Geant4",

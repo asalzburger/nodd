@@ -178,6 +178,13 @@ Use a new project session ID for a new bounded task, even in the same client
 thread; never duplicate token observations across records. This workflow does
 not authorize collecting private client state or granting human sign-off.
 
+For each significant task, add available exact client-reported per-turn token
+counters with `session_log.py record-usage` or `import-usage`, following the
+logging workflow. Include separately reported subagent turns without overlapping
+parent totals. If counters are unavailable, leave `usage` empty and explain the
+missing measurements; never estimate them. Run `session_log.py summary` at task
+completion and distinguish observed input/output totals from missing coverage.
+
 ## Magnetic sizing constraints
 
 For all current and future magnetic candidates, apply the review-directed
@@ -227,6 +234,7 @@ a nonempty description:
 | `Muon System: <description>` | Muon detectors, stations and system design |
 | `Global: <description>` | Detector-wide design, envelopes and shared interfaces |
 | `Software: <description>` | New software capabilities, tools, skills and validation methods |
+| `Documentation: <description>` | TDR structure, publication planning, report chapters and documentation deliverables |
 | `Infrastructure: <description>` | Repository workflow, CI, dashboard, logging and maintenance |
 
 Choose the area of the principal deliverable; use `Global` for detector-wide
@@ -234,6 +242,9 @@ work and `Software` for reusable software capability even when demonstrated
 with one subsystem. This replaces `chore: ...` / `chore(scope): ...` for PR
 titles; it does not require renaming closed PRs or historical commits.
 Infrastructure remains excluded from scientific progress tracking as below.
+`Documentation:` was added by human instruction on 2026-09-22. Documentation
+deliverables require project tracking; this category does not grant publication
+authorization or design sign-off.
 
 When resolving merge conflicts, preserve both independent contributions by
 default, especially session logs. Keep distinct session pairs and merge record

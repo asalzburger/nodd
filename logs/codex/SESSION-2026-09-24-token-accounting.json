@@ -1,0 +1,141 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-09-24-token-accounting",
+  "title": "Add token usage ingestion to project logs",
+  "recorded_at": "2026-09-24T15:12:07Z",
+  "started_at": null,
+  "ended_at": "2026-09-24T15:18:53Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact per-turn token counters, client thread/turn IDs and actual conversation start time were not exposed to this task. Usage remains empty, not zero.",
+    "The installed codex-cli version was observed as 0.156.1; this does not establish the version of the active conversation client.",
+    "No client usage export was supplied. Historical recovery and automatic telemetry collection were not performed.",
+    "Curated activity counts and durations were not measured.",
+    "2026-09-24 correction: local client counters recovered for 1 disjoint turns; this supersedes earlier token-unavailability statements for those turns only. Full multi-machine coverage remains unknown. See logs/usage/USAGE-2026-09-24-local.json."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": "01a0d3f2-a219-7c30-abd6-8cb3654d5017"
+  },
+  "git": {
+    "start_commit": "bb1f2dd512cd56b8c7e52679350ea843d8e3f0ff",
+    "branch": "main",
+    "initial_changes": [
+      "tools/tracker_layout/__pycache__/covariance_control.cpython-314.pyc"
+    ],
+    "result_commits": [],
+    "changed_files": [
+      "AGENTS.md",
+      "docs/decisions/ADR-004-session-logging-and-traceability.md",
+      "logs/README.md",
+      "logs/TEMPLATE.md",
+      "tools/session_logging/session_log.py",
+      "tools/session_logging/test_session_log.py",
+      "logs/codex/SESSION-2026-09-24-token-accounting.json",
+      "logs/codex/SESSION-2026-09-24-token-accounting.md"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [
+      "infrastructure",
+      "session logging"
+    ],
+    "related_ids": [
+      "ADR-004"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-09-24-token-accounting.md",
+  "activities": [
+    {
+      "kind": "skill",
+      "name": "openai-docs",
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "version": null,
+      "evidence": "Read the installed openai-docs skill and consulted official documentation; no provider-specific adapter was implemented."
+    }
+  ],
+  "usage": [
+    {
+      "client_thread_id": "01a0d3f2-a219-7c30-abd6-8cb3654d5017",
+      "turn_id": "01a0d3f8-be9d-7b01-9b16-e463852dbfa9",
+      "model": null,
+      "source": "2026-09-24 local token_count recovery; logs/usage/USAGE-2026-09-24-local.json; usage SHA-256 7439bd9e9cc9c75e5a5ce1bbe71f4010c6c152e7161135fd043c74bf411215a0; cumulative increases equal last-request counters over persisted turn ordinals 70..270.",
+      "limitations": [
+        "Local client-reported usage only; other-machine coverage and billing equivalence are not established. Per-turn execution model was not reported."
+      ],
+      "input_tokens": 2376460,
+      "cached_input_tokens": 2312704,
+      "output_tokens": 12054,
+      "reasoning_output_tokens": 2604,
+      "total_tokens": 2388514
+    }
+  ],
+  "checks": [
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p 'test_*.py' -q",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "22 tests passed, including import replay, cross-session attribution, invalid batches, null/zero counters, lock and write-failure behavior, and CLI aggregation."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/dashboard -p 'test_*.py' -q (original workspace)",
+      "status": "FAIL",
+      "exit_code": 130,
+      "result": "Interrupted during test fixture copy of the large ignored reference/cache tree; no assertion failure was reported. Retried unchanged tests in a temporary Git clone with current changes overlaid."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py build --output _site/token-accounting",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Built the dashboard successfully from the working tree."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 37 paired session records."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 28 tasks, 8 documents and 5 review rounds."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py summary --format json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "37 sessions; no observed usage turns; input and output totals null. No estimated counts inserted."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/dashboard -p 'test_*.py' -q (temporary Git clone with current changes overlaid)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "26 tests passed. Unchanged tests used the tracked repository files and full local Git history without ignored caches."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate (first final-record check)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "New activity metadata omitted required version and evidence fields. Added the missing fields; the following summary attempt also failed because validation runs before reporting."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate && python3 -B tools/dashboard/build.py validate && python3 -B tools/session_logging/session_log.py summary --format json && git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "After correcting activity metadata, 37 sessions and 28 tasks/8 documents/5 review rounds validated; summary succeeded with unknown token totals; no whitespace errors."
+    }
+  ]
+}
