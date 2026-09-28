@@ -1,0 +1,201 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-09-28-pr14-python-construction",
+  "title": "Address expert review with Python-native ACTS module construction",
+  "recorded_at": "2026-09-28T14:38:45Z",
+  "started_at": null,
+  "ended_at": null,
+  "status": "open",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact client-reported per-turn token counters and stable client thread/turn IDs were not exposed. Usage is empty and unknown, not zero.",
+    "Curated record only; no raw client state collected. Current Spack setup/lockfile changed since registry verification; only task-required runtime/build capabilities were rechecked. Geant4 data warning remains; no transport simulation claimed.",
+    "Skill duration and failure counters were not instrumented; nullable activity measurements remain unknown."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "45f1a8b62dbb6e90069a875122e9721f3013ec03",
+    "branch": "study/pyacts-gen3-bindings",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      "docs/validation/TRK-SE03-pyacts-bindings.md",
+      "docs/validation/TRK-SE03-python-construction.json",
+      "project/tracking.json",
+      "reference/manifest.yaml",
+      "tools/acts_binding_probe/README.md",
+      "tools/acts_binding_probe/probe.py",
+      "tools/acts_binding_probe/propagation_view.py",
+      "tools/acts_binding_probe/python_construction.py",
+      "logs/codex/SESSION-2026-09-28-pr14-python-construction.json",
+      "logs/codex/SESSION-2026-09-28-pr14-python-construction.md"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "ACTS Python bindings",
+      "prototype module construction",
+      "expert review response"
+    ],
+    "related_ids": [
+      "DES-005",
+      "TRK-SE03",
+      "ADR-003",
+      "PR-14",
+      "ACTS-PR-6176"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-09-28-pr14-python-construction.md",
+  "activities": [
+    {
+      "kind": "skill",
+      "name": "acts-spack",
+      "calls": 1,
+      "failures": null,
+      "duration_seconds": null,
+      "version": null,
+      "evidence": "Read acts-spack skill and workflow; executed node preflight and task-specific runtime/build verification."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 skills/acts-spack/scripts/preflight.py",
+      "status": "FAIL",
+      "exit_code": 2,
+      "result": "Changed setup_script and spack_lock fingerprints. Warned user, then verified task-required setup/imports; did not promote the full node capability record."
+    },
+    {
+      "command": "Fresh shell: acts run acts-nodd; spack env status; spack find dd4hep geant4; import acts",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Correct installed Python and ACTS source build loaded; DD4hep 1.38, Geant4 11.4.2. Geant4 setup emits missing data-directory warning; no simulation claimed."
+    },
+    {
+      "command": "python -m pytest -q (new surface-sensitivity and native-blueprint tests before patch)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "All 4 added cases fail with missing assignIsSensitive AttributeError, confirming regression coverage."
+    },
+    {
+      "command": "cmake --build /Users/salzburg/Documents/work/build/acts-nodd --target ActsPythonBindings --parallel 4; cmake -P /Users/salzburg/Documents/work/build/acts-nodd/Python/Core/cmake_install.cmake",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Incremental Python binding build and install succeeded; existing venv and unrelated source changes preserved."
+    },
+    {
+      "command": "python -m pytest -q Python/Core/tests/test_surfaces.py Python/Core/tests/test_blueprint.py Python/Core/tests/test_navigation.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "20 passed after patch."
+    },
+    {
+      "command": "pre-commit run --all-files --show-diff-on-failure (sandbox)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "gersemi failed during restricted execution; codegen dependency hook denied uv cache access. Repeated outside sandbox without changing checks."
+    },
+    {
+      "command": "pre-commit run --all-files --show-diff-on-failure (authorized external execution)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All ACTS hooks passed."
+    },
+    {
+      "command": "python_construction.py --work /tmp/nodd-pr14-native-run-1",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "RectangleBounds two-vector overload is not exposed; corrected to the bound four-value array constructor."
+    },
+    {
+      "command": "python_construction.py --work /tmp/nodd-pr14-native-run-2",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Current source JSON control requires type: PlaneSurface instead of wheel kind: PlaneRectangle. Added explicit control-schema selection, retaining wheel encoding."
+    },
+    {
+      "command": "python -B tools/acts_binding_probe/python_construction.py --acts-source /Users/salzburg/Documents/work/dev/acts-nodd --work /tmp/nodd-pr14-native-run-3 --report docs/validation/TRK-SE03-python-construction.json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "1600 analytic ray comparisons, 192 analytic propagation comparisons; native/JSON IDs, navigation CSVs and propagation outputs match exactly. Baseline/staggered module crossings 45/46 per ray case; field crossings 34/30 per 48 tracks."
+    },
+    {
+      "command": "Wheel probe.py --backend json and propagation_view.py --backend json (fresh temporary outputs)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Original wheel compatibility retained: 200 analytic rays per policy, 48 trajectories per field. Old retained reports/figure unchanged."
+    },
+    {
+      "command": "python -m pytest -q Python/Core/tests (initial collection)",
+      "status": "FAIL",
+      "exit_code": 2,
+      "result": "Missing matplotlib; sandbox also blocked ROOT shell detection. User installed dependencies; reran outside sandbox."
+    },
+    {
+      "command": "python -m pytest -q -o cache_dir=/tmp/acts-python-sensitivity-core-tests Python/Core/tests",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "56 passed, 1 skipped after user installed matplotlib."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/dashboard -p 'test_*.py' -q (initial tracking update)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "2 errors of 27: Python source path cannot be exported as curated dashboard evidence. Removed Python deliverable link in favor of existing README and retained JSON report; did not alter dashboard restrictions."
+    },
+    {
+      "command": "Compare retained native report code_sha256 against current three Python files",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All generating-code hashes match."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/dashboard -p 'test_*.py' -q (corrected tracking)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "27 tests passed."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p 'test_*.py' -q",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "32 tests passed."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py build --output /tmp/nodd-pr14-python-dashboard",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Dashboard built successfully."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate (initial populated session)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Activity entry missing version/evidence fields; supplied explicit null version and evidence text, preserving schema requirements."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate (corrected record)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 51 paired records."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 30 tasks, 9 documents and 10 review rounds."
+    },
+    {
+      "command": "git diff --check; compare ACTS patch source files against draft worktree",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors; all three patched ACTS files are byte-identical to the upstream draft."
+    }
+  ]
+}

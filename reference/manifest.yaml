@@ -1109,6 +1109,39 @@
       "supported_design_facts": [
         "DES-006 TTC-F01: central flat and tilted end barrel precedent, material/module motivation and mechanical/cooling complexity; no nODD numerical dimensions or savings imported."
       ]
+    },
+    {
+      "id": "SRC-ACTS-PYTHON-SENSITIVITY",
+      "title": "ACTS Python surface sensitivity binding and Python-native Gen-3 module construction",
+      "authors_or_collaboration": "ACTS project contributors",
+      "public_url": "https://github.com/acts-project/acts/pull/6176",
+      "publication_or_version_date": "2026-09-28",
+      "access_date": "2026-09-28",
+      "local_file": null,
+      "sha256": null,
+      "verified_identifiers": [
+        "ACTS main 20f2e679d2fe8d500e1a810f0f138f395d4f6b9a",
+        "Local correction 355ea68493b326956756c9386d2fd9eaf9328568",
+        "Draft binding patch 95ece2188858a05dcb04efb4f09c75dfa26e7257"
+      ],
+      "license_or_redistribution": "ACTS source: MPL-2.0; external checkout, no upstream source vendored.",
+      "supported_design_facts": [],
+      "supported_infrastructure_or_metadata": [
+        "At 20f2e679d: Python/Core/src/Definitions.cpp uses makeTransform3 and checks orthogonality; the historical v47.7.0 transform-constructor defect is fixed.",
+        "At 20f2e679d: Python/Core/src/Surfaces.cpp exposes isSensitive read-only; Python/Plugins/src/Json.cpp exposes vector/hierarchy readers but no single-surface converter.",
+        "Core/src/Surfaces/Surface.cpp assignIsSensitive changes standalone sensitivity and throws for surfaces with a placement owner; geometry identifiers remain separate.",
+        "Draft patch 95ece2188 binds the existing setter and adds surface/blueprint regression tests; no upstream acceptance claimed.",
+        "Current Plugins/Json/src/SurfaceJsonConverter.cpp requires type (PlaneSurface) whereas the pinned wheel control uses kind (PlaneRectangle)."
+      ],
+      "public_urls": [
+        "https://github.com/acts-project/acts/blob/20f2e679d2fe8d500e1a810f0f138f395d4f6b9a/Python/Core/src/Definitions.cpp",
+        "https://github.com/acts-project/acts/blob/20f2e679d2fe8d500e1a810f0f138f395d4f6b9a/Python/Core/src/Surfaces.cpp",
+        "https://github.com/acts-project/acts/blob/20f2e679d2fe8d500e1a810f0f138f395d4f6b9a/Core/src/Surfaces/Surface.cpp",
+        "https://github.com/acts-project/acts/blob/20f2e679d2fe8d500e1a810f0f138f395d4f6b9a/Python/Plugins/src/Json.cpp",
+        "https://github.com/acts-project/acts/blob/20f2e679d2fe8d500e1a810f0f138f395d4f6b9a/Plugins/Json/src/SurfaceJsonConverter.cpp",
+        "https://github.com/asalzburger/acts/commit/95ece2188858a05dcb04efb4f09c75dfa26e7257"
+      ],
+      "verification": "Local source inspection, missing-method regression reproduction, incremental binding build, 20 focused tests, full pre-commit and downstream native/JSON analytic controls. See TRK-SE03-python-construction.json. Full Core suite initially blocked at collection by missing matplotlib; after user installation, 56 passed and 1 skipped."
     }
   ]
 }

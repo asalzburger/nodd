@@ -1069,7 +1069,7 @@
     {
       "id": "TRK-SE03-BINDINGS",
       "title": "pyacts module and Gen-3 binding capability",
-      "scope": "Bounded wheel-only capability probe; synthetic barrel/disc modules and independent straight-ray checks. Does not complete TRK-SE03 or tracker acceptance.",
+      "scope": "Bounded wheel and patched source-build capability probe; Python-native synthetic modules, Gen-3 navigation and independent ray/field-propagation controls. Does not complete TRK-SE03 or tracker acceptance.",
       "stage": "B",
       "milestones": [
         "M1"
@@ -1085,21 +1085,25 @@
         "docs/validation/TRK-SE03-pyacts-bindings.md",
         "docs/validation/TRK-SE03-pyacts-bindings.json",
         "tools/acts_binding_probe/README.md",
-        "docs/validation/TRK-SE03-propagation.json"
+        "docs/validation/TRK-SE03-propagation.json",
+        "docs/validation/TRK-SE03-python-construction.json"
       ],
       "evidence": [
         "docs/validation/TRK-SE03-pyacts-bindings.json",
         "reference/manifest.yaml",
         "docs/validation/TRK-SE03-propagation.json",
-        "https://github.com/asalzburger/nodd/pull/14"
+        "https://github.com/asalzburger/nodd/pull/14",
+        "docs/validation/TRK-SE03-python-construction.json",
+        "https://github.com/asalzburger/nodd/pull/14#issuecomment-5809364503",
+        "https://github.com/acts-project/acts/pull/6176"
       ],
       "documents": [
         "DES-005"
       ],
-      "updated": "2026-09-21",
-      "next_action": "Review the wheel capability assessment and propagation visualization in PR #14 (review requested from asalzburger-review); resume physical module conversion only when the tracker hold is lifted. Field maps, material response, full acceptance and reconstruction remain open.",
+      "updated": "2026-09-28",
+      "next_action": "Expert re-review of the Python-first response in PR #14 and upstream draft ACTS #6176. Module masks/stereo, material, real fields and reconstruction remain future work; no production approval inferred.",
       "blocker": null,
-      "disposition": "Latest checked pyacts 47.7.0 installed in an isolated environment. Both TryAll and SurfaceArray build 32 sensitive modules in two barrel and two disc layers; each matches 200 seeded analytic ray comparisons. Direct transform, sensitivity and child-enumeration limitations documented. No human approval inferred. Follow-up PropagationAlgorithm/OBJ step output: all 48 tracks per 0/2 T synthetic case written and independently checked; x-y view retained with 34/30 module intersections. No physical field-map or reconstruction validation.",
+      "disposition": "Latest checked pyacts 47.7.0 installed in an isolated environment. Both TryAll and SurfaceArray build 32 sensitive modules in two barrel and two disc layers; each matches 200 seeded analytic ray comparisons. Direct transform, sensitivity and child-enumeration limitations documented. No human approval inferred. Follow-up PropagationAlgorithm/OBJ step output: all 48 tracks per 0/2 T synthetic case written and independently checked; x-y view retained with 34/30 module intersections. No physical field-map or reconstruction validation. On 2026-09-28 the response replaces JSON as the recommended construction API with Python loops and blueprint code. Patched source build matches JSON IDs/navigation/propagation exactly across 1600 ray comparisons and 192 propagations; samples are repeated controls, not independent statistics. Four new upstream test cases fail before the setter patch; 20 focused tests and all pre-commit hooks pass after it. Original wheel controls still pass. Draft ACTS #6176 supplies the missing setter; historical reports are preserved. After the user installed matplotlib, the full ACTS Python Core suite passed: 56 passed, 1 skipped.",
       "subsystem": "tracking and timing"
     },
     {
@@ -1398,18 +1402,18 @@
     {
       "id": "PR-14",
       "number": 14,
-      "title": "Assess pyacts Gen-3 module geometry and propagation bindings",
+      "title": "Software: Assess pyacts Gen-3 module geometry and propagation bindings",
       "url": "https://github.com/asalzburger/nodd/pull/14",
       "state": "open",
-      "head_revision": "d8f5dd69a0a4c3a74ef09239d186b79f5a5160c2",
+      "head_revision": "45f1a8b62dbb6e90069a875122e9721f3013ec03",
       "merge_commit": null,
       "merged_at": null,
-      "collected_at": "2026-09-21T11:10:44Z",
+      "collected_at": "2026-09-28T14:49:59Z",
       "task": "TRK-SE03-BINDINGS",
       "documents": [
         "DES-005"
       ],
-      "scope": "Synthetic module/Gen-3 capability and written propagation-step assessment only. Source/figure revision captured at PR creation; following metadata commit does not alter evidence. No tracker layout, physical field or production approval.",
+      "scope": "Remote head observed before the expert-response commits. Python-first module construction with an upstream draft setter binding; no detector design, physical field or production approval.",
       "category": "project"
     },
     {

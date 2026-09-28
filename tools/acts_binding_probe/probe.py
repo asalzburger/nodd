@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""PROTOTYPE: wheel-only Gen-3 construction with synthetic module fixtures."""
+"""PROTOTYPE: Python-first Gen-3 construction with synthetic module fixtures."""
 import argparse
 import csv
 import hashlib
@@ -11,20 +11,27 @@ import platform
 import shlex
 import subprocess
 import sys
+from datetime import datetime, timezone
 
 import acts
-import acts.json
 
 
 def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def package_version(name):
+    try:
+        return importlib.metadata.version(name)
+    except importlib.metadata.PackageNotFoundError:
+        return None  # Source installations need an explicit source revision.
+
+
 def dot(a, b):
     return sum(x * y for x, y in zip(a, b))
 
 
-def specs():
+def specs(stagger_mm=0.):
     """All lengths are synthetic test values in ACTS mm, not nODD dimensions."""
     groups = []
     for name, radius, z, barrel in [
@@ -39,23 +46,58 @@ def specs():
             c, s = math.cos(phi), math.sin(phi)
             # Local u tangential; v longitudinal (barrel) or inward radial (disc).
             rotation = [-s, 0., c, c, 0., s, 0., 1., 0.] if barrel else [-s, -c, 0., c, -s, 0., 0., 0., 1.]
+            module_z = z + ((-1)**i * stagger_mm if barrel else 0.)
             modules.append(dict(kind='PlaneRectangle', sensitive=True,
-                                transform=dict(translation=[radius*c, radius*s, z], rotation=rotation),
+                                transform=dict(translation=[radius*c, radius*s, module_z], rotation=rotation),
                                 bounds=dict(type='RectangleBounds', values=[-10., -20., 10., 20.])))
         groups.append(dict(name=name, barrel=barrel, modules=modules))
     return groups
 
 
-def construction(work, policy):
+def python_surface(definition):
+    """Construct one surface without JSON or a detector-element lifetime owner."""
+    if not hasattr(acts.Surface, 'assignIsSensitive'):
+        raise RuntimeError('Python construction requires Surface.assignIsSensitive; '
+                           'use the patched ACTS build or explicitly select backend=json.')
+    matrix = definition['transform']['rotation']
+    rotation = acts.RotationMatrix3(*(
+        acts.Vector3(*(matrix[3*i+j] for i in range(3))) for j in range(3)))
+    transform = acts.Transform3(acts.Vector3(*definition['transform']['translation']), rotation)
+    xmin, ymin, xmax, ymax = definition['bounds']['values']
+    surface = acts.Surface.createPlane(
+        transform, acts.RectangleBounds([xmin, ymin, xmax, ymax]))
+    surface.assignIsSensitive(definition['sensitive'])
+    return surface
+
+
+def fixture_digest(definitions):
+    return hashlib.sha256((json.dumps(definitions, indent=2)+'\n').encode()).hexdigest()
+
+
+def construction(work, policy, backend='python', stagger_mm=0., json_schema='kind'):
     ctx = acts.GeometryContext.dangerouslyDefaultConstruct()
-    groups = specs()
-    path = work / f'test-modules-{policy}.json'
+    groups = specs(stagger_mm)
     definitions = [m for g in groups for m in g['modules']]
-    path.write_text(json.dumps(definitions, indent=2) + '\n')
-    reader = acts.json.SurfaceJsonOptions()
-    reader.inputFile = str(path)
-    reader.jsonEntryPath = []
-    surfaces = acts.json.readSurfaceVectorFromJson(reader)
+    if backend == 'python':
+        surfaces = [python_surface(definition) for definition in definitions]
+    elif backend == 'json':
+        # Explicit compatibility control for pyacts 47.7.0; not the design API.
+        import acts.json as acts_json
+        path = work / f'test-modules-{policy}.json'
+        if json_schema == 'kind':
+            payload = definitions  # v47.7.0 fixture encoding.
+        elif json_schema == 'type':
+            payload = [dict((k, v) for k, v in d.items() if k != 'kind') |
+                       {'type': 'PlaneSurface'} for d in definitions]
+        else:
+            raise ValueError(f'Unknown JSON control schema: {json_schema}')
+        path.write_text(json.dumps(payload, indent=2) + '\n')
+        reader = acts_json.SurfaceJsonOptions()
+        reader.inputFile = str(path)
+        reader.jsonEntryPath = []
+        surfaces = acts_json.readSurfaceVectorFromJson(reader)
+    else:
+        raise ValueError(f'Unknown construction backend: {backend}')
     assert len(surfaces) == 32 and all(s.isSensitive for s in surfaces)
     root = acts.Blueprint(envelope=acts.ExtentEnvelope(r=[5., 5.], z=[5., 5.]))
     detector = root.addCylinderContainer('TEST-detector', acts.AxisDirection.AxisZ)
@@ -149,7 +191,8 @@ def navigation(geo, ctx, surfaces, definitions, path):
         assert sum(int(r[6]) > 0 for r in run_rows) == len(actual)
         for identifier in actual:
             z = catalog[identifier]['transform']['translation'][2]
-            by_region['barrel' if z == 0 else 'negative_disc' if z < 0 else 'positive_disc'] += 1
+            # Disc z coordinates are fixed at +/-100 mm in this synthetic family.
+            by_region['negative_disc' if z == -100. else 'positive_disc' if z == 100. else 'barrel'] += 1
         hit_rows += sum(int(r[6]) > 0 for r in run_rows)
         crossed.update(actual)
     assert hit_rows > 0
@@ -191,20 +234,22 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--work',type=Path,required=True)
     parser.add_argument('--report',type=Path,required=True)
+    parser.add_argument('--backend', choices=['python', 'json'], default='python')
     args = parser.parse_args()
     args.work.mkdir(parents=True,exist_ok=True)
     report = dict(status='PROTOTYPE software capability only; no detector acceptance',
-        checked_date='2026-09-21', pyacts=importlib.metadata.version('pyacts'),
+        checked_date=datetime.now(timezone.utc).date().isoformat(), pyacts=package_version('pyacts'),
+        backend=args.backend,
         python=platform.python_version(),platform=platform.platform(),
         command=shlex.join(['python','-B',*sys.argv]),
         project_revision=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),
         code_sha256=digest(Path(__file__)), limitations=limitations(), fixtures={})
     for policy in ['try_all','array']:
-        geo,ctx,surfaces,definitions,root,nodes = construction(args.work,policy)
+        geo,ctx,surfaces,definitions,root,nodes = construction(args.work,policy,args.backend)
         result = navigation(geo,ctx,surfaces,definitions,args.work/f'test-navigation-{policy}.csv')
         result.update(sensitive_modules=32, cylinder_layers=2, disc_layers=2,
                       unique_module_ids=32, center_tolerance_mm=1e-9,normal_tolerance=1e-12,
-                      module_input_sha256=digest(args.work/f'test-modules-{policy}.json'))
+                      module_input_sha256=fixture_digest(definitions))
         report['fixtures'][policy] = result
     assert report['fixtures']['try_all']['module_intersections'] == report['fixtures']['array']['module_intersections']
     receipt=Path('reference/cache/pyacts-bindings-install.json')

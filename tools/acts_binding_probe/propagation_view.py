@@ -19,7 +19,7 @@ from acts.examples.simulation import (
     addParticleGun, ParticleConfig, EtaConfig, MomentumConfig,
 )
 
-from probe import construction, digest, dot
+from probe import construction, digest, dot, fixture_digest, package_version
 
 TRACKS = 48
 SEED = 42
@@ -54,9 +54,9 @@ def read_steps(path):
     return tracks
 
 
-def run(work, field_tesla):
+def run(work, field_tesla, backend='python', json_schema='kind'):
     work.mkdir(parents=True, exist_ok=True)
-    geo, ctx, surfaces, definitions, root, nodes = construction(work, 'array')
+    geo, ctx, surfaces, definitions, root, nodes = construction(work, 'array', backend, json_schema=json_schema)
     seq = ex.Sequencer(events=1, numThreads=1, logLevel=acts.logging.WARNING,
                        outputDir=str(work))
     addParticleGun(
@@ -169,7 +169,7 @@ def run(work, field_tesla):
                   analytic_tracks_matched=TRACKS,
                   max_trajectory_residual_mm=max_residual,
                   obj_sha256=digest(obj), particles_sha256=digest(particles_path),
-                  module_input_sha256=digest(work/'test-modules-array.json'))
+                  module_input_sha256=fixture_digest(definitions))
     return result, tracks, crossings, barrel
 
 
@@ -214,14 +214,15 @@ def main():
     parser.add_argument('--work', type=Path, required=True)
     parser.add_argument('--figure', type=Path, required=True)
     parser.add_argument('--report', type=Path, required=True)
+    parser.add_argument('--backend', choices=['python', 'json'], default='python')
     args = parser.parse_args()
-    cases = [run(args.work/f'field-{field:g}T', field) for field in (0., 2.)]
+    cases = [run(args.work/f'field-{field:g}T', field, args.backend) for field in (0., 2.)]
     assert cases[0][0]['particles_sha256'] == cases[1][0]['particles_sha256']
     plot(cases, args.figure, args.work/'mpl-cache')
     report = dict(status='PROTOTYPE; central-slice propagation smoke test only',
                   recorded_at=datetime.now(timezone.utc).isoformat(),
-                  command=shlex.join(['reference/cache/pyacts-bindings-venv/bin/python', '-B', *sys.argv]),
-                  pyacts=importlib.metadata.version('pyacts'),
+                  command=shlex.join([sys.executable, '-B', *sys.argv]),
+                  backend=args.backend, pyacts=package_version('pyacts'),
                   matplotlib=importlib.metadata.version('matplotlib'),
                   python=platform.python_version(), platform=platform.platform(),
                   project_revision=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),
@@ -236,7 +237,7 @@ def main():
                   field_cases=[c[0] for c in cases],
                   intersections=[c[2] for c in cases],
                   figure=str(args.figure), figure_sha256=digest(args.figure),
-                  limitations=['ROOT writer absent from tested wheel; used existing OBJ step writer.',
+                  limitations=['OBJ step writer selected for continuity with the wheel control.',
                                'OBJ has positions and connectivity, no surface IDs; intersections are geometrically associated recorded steps.',
                                'Synthetic central barrel slice only; endcaps remain in geometry but are not crossed or projected.',
                                'No material, response, reconstruction, beamspot or coverage validation.'])

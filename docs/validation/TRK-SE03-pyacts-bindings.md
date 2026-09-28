@@ -7,7 +7,86 @@
 - User direction: leave tracker proposals on hold; assess the latest pip release.
 - No nODD placement proposal, production detector, review or sign-off is advanced.
 
-## Finding
+## Expert-review response — 2026-09-28
+
+**Use Python directly for module placement and blueprint construction.** The
+[expert comment](https://github.com/asalzburger/nodd/pull/14#issuecomment-5809364503)
+correctly distinguishes that goal from choosing a JSON-based geometry interface.
+The original task was a bounded feasibility check: finite sensitive modules,
+Gen-3 construction/navigation and propagation, preparatory to future coverage
+studies. It was not a selection of a detector specification language.
+
+The vector JSON reader was a workaround for missing wheel functionality.
+`pyacts==47.7.0` exposes neither a single-surface converter nor
+`Surface.assignIsSensitive`; a sensitive geometry ID does not set sensitivity.
+A Python loop around the same converters is therefore not exposed by that
+wheel. JSON offers optional snapshot/interchange value but no inherent benefit
+for generating these placements. Module staggering and larger blueprint topology
+changes should be expressed in Python. **This supersedes the JSON-adapter
+recommendation in the historical assessment below.**
+
+The user authorized checking the local corrected ACTS checkout and adding
+missing functionality. Source revision `355ea68493b326956756c9386d2fd9eaf9328568`
+has a corrected transform constructor, but still lacks the sensitivity setter
+and a single-surface JSON converter binding. [ACTS draft PR #6176](https://github.com/acts-project/acts/pull/6176)
+exposes the existing C++ setter, preserving the placement-ownership guard, with
+surface and Gen-3 regression tests. Its patch revision is
+`95ece2188858a05dcb04efb4f09c75dfa26e7257`, based on ACTS main
+`20f2e679d2fe8d500e1a810f0f138f395d4f6b9a`; the separate local compiler correction
+is excluded from the draft. No new geometry algorithm is needed.
+
+The [Python-first runner](../../tools/acts_binding_probe/python_construction.py)
+constructs each plane using `Transform3`, `RectangleBounds`, `Surface.createPlane`
+and `assignIsSensitive(True)`, then puts those surfaces into the Python-authored
+blueprint. Native construction performs no module JSON I/O. The historical
+vector reader remains only as an explicitly selected regression control. The
+old wheel cannot run the native path until the binding becomes available.
+
+### Executed comparison
+
+[New retained results](TRK-SE03-python-construction.json) identify the local
+source revision, uncommitted patch mirror, binding/extension hashes, commands,
+code hashes, seeds and numerical tolerances. The original September 21 reports
+and figure remain unchanged.
+
+| Check | Executed result |
+| --- | --- |
+| Original ACTS binding, added tests | All four added cases fail with missing-method AttributeError |
+| Patched surfaces, blueprint and navigation tests | 20 passed |
+| Full Python Core suite after user installed matplotlib | 56 passed, 1 skipped |
+| ACTS pre-commit, all files | All hooks passed outside sandbox |
+| Native/JSON, baseline, TryAll/SurfaceArray | 32 sensitive modules and unique IDs; 200/200 analytic ray matches per case; 45 module intersections |
+| Native/JSON, alternating barrel z +/-2 mm, both policies | 200/200 analytic ray matches per case; 46 module intersections |
+| Baseline propagation, both backends, 0/2 T | All 48 generated tracks per case written and analytically checked; 34/30 module intersections |
+| Native versus JSON on same source build | Exact IDs, navigation CSV and propagation OBJ/particle hashes match |
+| Original wheel compatibility rerun | Both 200-ray controls and both 48-track field cases pass |
+
+The eight ray cases total 1,600 checked rays; the four field cases total 192
+checked propagations. Repeated backends/policies reuse seeded samples and are
+not independent statistical samples. Alternating z is a synthetic placement
+exercise, not evidence that every structural rewrite or physical layout works.
+The fixed numerical tolerances remain 1e-9 mm for centres, 1e-12 for normals,
+0.001 mm for trajectories/planes and 0.002 mm for intersection positions.
+
+The local environment reports DD4hep 1.38 and Geant4 11.4.2. Its setup/lockfile
+fingerprints differ from the earlier node registry; runtime activation/imports
+were checked for this task without promoting the whole node record. Geant4's
+setup reports a missing data directory: no Geant4 execution is claimed.
+Full Python Core pytest collection initially stopped on missing `matplotlib`;
+after the user installed it, the full Core suite passed (56 passed, 1 skipped). The first comparison attempts
+exposed an unsupported RectangleBounds overload and a changed JSON control
+encoding (`kind` versus `type`); both were corrected and the complete comparison
+rerun successfully, without changing dimensions or tolerances.
+
+**NODD DESIGN CHOICE — proposed software route:** Python-first module and
+blueprint construction, with optional serialized fixtures as provenance/control.
+No human approval is inferred from the expert's favorable assessment or from
+opening the upstream draft. Physics coverage, real masks/stereo, field maps,
+material, response and reconstruction remain future work under DES-005.
+Sources: `SRC-PYACTS-4770-BINDINGS` and `SRC-ACTS-PYTHON-SENSITIVITY` in the
+[source catalogue](../../reference/manifest.yaml).
+
+## Historical finding (2026-09-21)
 
 **Yes, pyacts 47.7.0 has enough bindings to place finite sensitive modules into
 barrel/endcap layer blueprints and build a Gen-3 tracking geometry, using the
@@ -175,7 +254,7 @@ columns. The probe checks and parses the actual structure explicitly. The helper
 also assumes an origin-containing geometry and is not a robust general tracking
 runner; use normal propagation infrastructure for subsequent field studies.
 
-## Recommendation and follow-up
+## Historical recommendation and follow-up (superseded above)
 
 **NODD DESIGN CHOICE — proposed software route, no human approval implied:** use
 a versioned module JSON adapter feeding `readSurfaceVectorFromJson`, then Gen-3
