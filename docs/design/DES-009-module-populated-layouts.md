@@ -9,7 +9,7 @@
 - Governing designs: [DES-005](DES-005-tracker-system-plan.md), [DES-006](DES-006-first-tracker-layouts.md)
 - Governing ADRs: no new architecture decision
 - Sign-off record: pending; no design approval asserted
-- Implementation PR: pending
+- Implementation PR: [#24](https://github.com/asalzburger/nodd/pull/24) (isolated prototype and evidence)
 - Validation evidence: [completed comparison and retained bundles](../validation/DES-009-module-populated-layouts.md); 477,312 numerical trajectories and 32 passing native audit cases
 
 ## Scope and authorization

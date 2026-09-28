@@ -4,8 +4,8 @@
   "title": "Populate cobe and pint with finite modules and compare ACTS coverage",
   "recorded_at": "2026-09-28T15:17:43Z",
   "started_at": null,
-  "ended_at": null,
-  "status": "open",
+  "ended_at": "2026-09-28T16:24:13Z",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
@@ -24,7 +24,8 @@
     "initial_changes": [],
     "result_commits": [
       "0926353e3cd0cd1e67fd6e775ed9645e2c89a1f6",
-      "5a6e4af4420717c7e2c8daeba2dcf25756894cc7"
+      "5a6e4af4420717c7e2c8daeba2dcf25756894cc7",
+      "66fe919ad6e1317bc5b2afa86f37e16c0d642c5c"
     ],
     "changed_files": [
       ".github/workflows/dashboard.yml",
@@ -303,6 +304,30 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "25 numerical tests passed; three native tests explicitly skipped. Verifies CI behavior without ACTS; native tests passed separately in the configured runtime."
+    },
+    {
+      "command": "git diff --cached --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Final staged source/documents and re-exported LF CSV passed before commit 66fe919."
+    },
+    {
+      "command": "gh pr checks 24 --repo asalzburger/nodd; gh api repos/asalzburger/nodd/actions/jobs/109024050130",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "PR24 CI passed at implementation/evidence head 66fe919. Title/tracking, tracker tests, module controls, dashboard/logging, browser assertions, node preflight tests, site build and artifact upload succeeded. Later closeout edits are PR/session metadata only."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate; python3 -B tools/dashboard/build.py build --output /tmp/nodd-DES009-PR24-dashboard",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "PR24 tracking snapshot validated and dashboard built."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate; python3 -B tools/session_logging/session_log.py summary --format json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "54 records valid; historical observed 79 turns have 134594309 input/674111 output tokens. This task and its subagents have unavailable counts; 12 sessions lack usage."
     }
   ]
 }

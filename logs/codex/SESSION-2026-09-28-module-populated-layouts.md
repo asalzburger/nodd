@@ -137,3 +137,16 @@ inclined stations in the sample, but one positive-charge per-piece miss is
 recovered by another piece. The numerical evidence was unchanged. Public CI
 now runs numerical regression controls; native controls explicitly skip without
 ACTS and were separately executed in the verified local runtime.
+
+Published [nODD PR #24](https://github.com/asalzburger/nodd/pull/24) at
+`66fe919ad6e1317bc5b2afa86f37e16c0d642c5c`; PR metadata is a snapshot of that
+reviewable implementation/evidence revision. Later closeout commits do not
+change the numerical evidence. CSV export now uses LF consistently; the staged
+whitespace check passed after fresh exports.
+
+PR #24 CI passed at `66fe919`: all build/test/tracking stages succeeded, including
+the new numerical controls and the complete dashboard artifact. The published
+ACTS draft also passed Linux wheel, macOS, lint and other completed upstream
+checks; some broader upstream jobs/review remained pending at closeout. The
+final local tracking/dashboard and paired-log validation passed. Session closed
+with exact token counters still unavailable; closure is not design acceptance.
