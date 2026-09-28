@@ -1,0 +1,112 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-09-18-pr6-conflict",
+  "title": "Repair PR 6 merged project records",
+  "recorded_at": "2026-09-18T15:01:55Z",
+  "started_at": null,
+  "ended_at": "2026-09-18T15:03:46Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Actual conversation start time, client identity details and token usage have not been recorded."
+  ],
+  "client": {
+    "name": "unspecified",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "35c3fff6974005101bbe6ffe0c55071b515207ea",
+    "branch": "research/magnetic-configurations",
+    "initial_changes": [],
+    "result_commits": [
+      "35c3fff6974005101bbe6ffe0c55071b515207ea",
+      "76b12ebda1f33dbcba1b46f7eceab087bb022f07"
+    ],
+    "changed_files": [
+      "project/tracking.json",
+      "project/reviews.json",
+      "logs/codex/SESSION-2026-09-18-pr6-conflict.json",
+      "logs/codex/SESSION-2026-09-18-pr6-conflict.md"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "merge conflict repair",
+      "project records"
+    ],
+    "related_ids": [
+      "PR-6",
+      "DES-004",
+      "DES-005",
+      "ISSUE-9"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-09-18-pr6-conflict.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 -B tools/dashboard/build.py validate (before repair)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Invalid merged JSON at line 532."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "28 tasks, 9 documents, 6 review rounds."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py build",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Existing ignored output contained stale files from another branch; preserved it and used a fresh output."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py build --output /tmp/nodd-pr6-conflict-dashboard",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Fresh dashboard built."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/dashboard -p test_*.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "25 tests passed."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p test_*.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "15 tests passed."
+    },
+    {
+      "command": "node tools/dashboard/test_app.js",
+      "status": "FAIL",
+      "exit_code": 127,
+      "result": "Node is unavailable locally; hosted CI must verify browser tests."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "43 records validated."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors."
+    },
+    {
+      "command": "gh pr checks 6 --watch; gh pr view 6 --json mergeable,mergeStateStatus",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Hosted build passed at 76b12eb, including browser tests. PR MERGEABLE/CLEAN. https://github.com/asalzburger/nodd/actions/runs/35360011972"
+    }
+  ]
+}

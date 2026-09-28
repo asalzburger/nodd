@@ -1,0 +1,270 @@
+{
+  "status": "PROTOTYPE; homogeneous finite windings in vacuum; no physical field ranking",
+  "command": [
+    "tools/magnetic_study/finite_winding.py"
+  ],
+  "commit": "2530c5543da6b2c474ccadc6c67ce431d69d2e0f",
+  "working_tree_dirty": true,
+  "input_sha256": {
+    "tools/magnetic_study/windings.json": "ba0805c6bba191782a172a133cfcaddfbfb175103f521fb386eeedff49ab50a1",
+    "tools/magnetic_study/candidates.json": "0886486c3849a6922dfdf8452be45471120d0c28f5bfbc35c975d727996c63a3",
+    "/Users/salzburg/Documents/work/openai/nodd/tools/magnetic_study/finite_winding.py": "4e48b7ba8aad99ff7d80e8a92dff99226d9806f5d0164cea6fec6a75cdc15098",
+    "/Users/salzburg/Documents/work/openai/nodd/tools/magnetic_study/solenoid.py": "d240aa9663f8c711e356f1a084852078ad6cf06d6ad366c87b4f2350fd8ca523"
+  },
+  "versions": {
+    "python": "3.14.7 (main, Aug  5 2026, 10:29:49) [Clang 21.0.0 (clang-2100.1.1.101)]",
+    "numpy": "2.4.3",
+    "matplotlib": "3.11.0"
+  },
+  "random_seed": null,
+  "randomness": "none",
+  "quadrature_r_z_phi": {
+    "coarse": [
+      4,
+      48,
+      64
+    ],
+    "nominal": [
+      8,
+      96,
+      128
+    ],
+    "fine": [
+      16,
+      192,
+      256
+    ]
+  },
+  "tolerances": {
+    "point_convergence": "1e-6 T + 1e-5 norm(B_fine)",
+    "axis_absolute_T": 1e-10
+  },
+  "excluded_domain": "Within winding pack or <=0.12 m from its rectangular r-z cross-section; numerical guard, not physical clearance.",
+  "limitations": [
+    "J is a homogeneous winding-pack average, not strand current density.",
+    "Different constant J per control enforces +3 T at the origin in vacuum only.",
+    "No iron, toroid field, turn discreteness, leads, structural or quench calculation.",
+    "Sampled checks and analytic axis curves do not establish a validated transport map."
+  ],
+  "results": [
+    {
+      "winding": {
+        "id": "MAG-01",
+        "applies_to_main_solenoid": [
+          "MAG-01",
+          "MAG-02",
+          "MAG-05"
+        ],
+        "r_min_m": 1.34,
+        "r_max_m": 1.44,
+        "half_length_m": 3.3,
+        "central_field_T": 3.0,
+        "rationale": "Use 0.10 m of the existing 0.15 m cold-assembly allowance for homogenized winding; reserve the remaining 0.05 m outward for support/cooling. Retain the inherited length. This tests finite winding geometry, not conductor feasibility."
+      },
+      "J_A_per_mm2": 25.905069635447084,
+      "NI_A_turn": 17097345.95939505,
+      "checks": [
+        {
+          "r_m": 0.0,
+          "z_m": 0.0,
+          "Br_T": 5.404154831550719e-19,
+          "Bz_T": 3.000000000000003,
+          "coarse_to_nominal_T": 1.465494392615194e-14,
+          "nominal_to_fine_T": 2.6645352592232752e-14,
+          "screening_tolerance_T": 3.0999999999999764e-05,
+          "axis_error_T": 2.6645352591003757e-15,
+          "delta_from_historical_sheet_T": [
+            -5.796620451716077e-18,
+            2.7977620220553945e-14
+          ],
+          "passed": true
+        },
+        {
+          "r_m": 0.0,
+          "z_m": 3.15,
+          "Br_T": -4.784683691222962e-17,
+          "Bz_T": 1.7658284168814524,
+          "coarse_to_nominal_T": 1.0214058164056837e-14,
+          "nominal_to_fine_T": 2.3092640010090967e-14,
+          "screening_tolerance_T": 1.8658284168814757e-05,
+          "axis_error_T": 4.440892098500626e-15,
+          "delta_from_historical_sheet_T": [
+            -2.7355461995953842e-18,
+            -0.00038792929227793316
+          ],
+          "passed": true
+        },
+        {
+          "r_m": 0.5,
+          "z_m": 1.0,
+          "Br_T": 0.03073970075612386,
+          "Bz_T": 2.95252605475092,
+          "coarse_to_nominal_T": 1.431083538791371e-11,
+          "nominal_to_fine_T": 2.4912260619765997e-14,
+          "screening_tolerance_T": 3.0526860708828264e-05,
+          "axis_error_T": null,
+          "delta_from_historical_sheet_T": [
+            -0.0007003599679003408,
+            0.0011853017065561744
+          ],
+          "passed": true
+        },
+        {
+          "r_m": 1.14,
+          "z_m": 3.15,
+          "Br_T": 0.8955293611017489,
+          "Bz_T": 1.988706510977447,
+          "coarse_to_nominal_T": 2.1749610533298296e-05,
+          "nominal_to_fine_T": 3.547121398622739e-10,
+          "screening_tolerance_T": 2.281037923097184e-05,
+          "axis_error_T": null,
+          "delta_from_historical_sheet_T": [
+            0.02485974851028483,
+            0.022181248395807263
+          ],
+          "passed": true
+        },
+        {
+          "r_m": 3.0,
+          "z_m": 4.0,
+          "Br_T": 0.1618089400643983,
+          "Bz_T": 0.024231832018939577,
+          "coarse_to_nominal_T": 1.0829177162645094e-15,
+          "nominal_to_fine_T": 2.0208389352759673e-15,
+          "screening_tolerance_T": 2.6361330865109396e-06,
+          "axis_error_T": null,
+          "delta_from_historical_sheet_T": [
+            -0.00662077373108344,
+            -0.0013559662000174263
+          ],
+          "passed": true
+        },
+        {
+          "r_m": 6.0,
+          "z_m": 8.0,
+          "Br_T": 0.01662166417165469,
+          "Bz_T": 0.008470952388650147,
+          "coarse_to_nominal_T": 2.4532694666933986e-17,
+          "nominal_to_fine_T": 4.9310106010724466e-17,
+          "screening_tolerance_T": 1.186557431962934e-06,
+          "axis_error_T": null,
+          "delta_from_historical_sheet_T": [
+            -0.0006355902623497792,
+            -0.00033651933025485685
+          ],
+          "passed": true
+        }
+      ],
+      "passed": true
+    },
+    {
+      "winding": {
+        "id": "MAG-03",
+        "applies_to_main_solenoid": [
+          "MAG-03",
+          "MAG-04"
+        ],
+        "r_min_m": 4.4,
+        "r_max_m": 4.6,
+        "half_length_m": 6.5,
+        "central_field_T": 3.0,
+        "rationale": "Trial 0.20 m winding centered on the historical 4.50 m sheet; retains 0.10 m inner cryostat allowance, 0.10 m outward support/cooling and 0.10 m outer cryostat allowance inside the existing 0.50 m host. No mechanical radius-scaling law or current-density limit is inferred."
+      },
+      "J_A_per_mm2": 14.518052821662165,
+      "NI_A_turn": 37746937.336321495,
+      "checks": [
+        {
+          "r_m": 0.0,
+          "z_m": 0.0,
+          "Br_T": 1.4119008507711842e-18,
+          "Bz_T": 3.000000000000008,
+          "coarse_to_nominal_T": 1.0658141218531178e-14,
+          "nominal_to_fine_T": 2.042810372758562e-14,
+          "screening_tolerance_T": 3.099999999999988e-05,
+          "axis_error_T": 8.43769498715119e-15,
+          "delta_from_historical_sheet_T": [
+            -4.077073124946407e-18,
+            2.842170943040401e-14
+          ],
+          "passed": true
+        },
+        {
+          "r_m": 0.0,
+          "z_m": 3.15,
+          "Br_T": -2.6302462095725066e-17,
+          "Bz_T": 2.742919959312113,
+          "coarse_to_nominal_T": 6.2172528901828454e-15,
+          "nominal_to_fine_T": 1.2434497983214676e-14,
+          "screening_tolerance_T": 2.8429199593121007e-05,
+          "axis_error_T": 6.217248937900877e-15,
+          "delta_from_historical_sheet_T": [
+            -1.6886170829914534e-18,
+            4.443398589470959e-05
+          ],
+          "passed": true
+        },
+        {
+          "r_m": 0.5,
+          "z_m": 1.0,
+          "Br_T": 0.011880304738880588,
+          "Bz_T": 2.9795181814611373,
+          "coarse_to_nominal_T": 1.0660346623157176e-14,
+          "nominal_to_fine_T": 2.132038138868584e-14,
+          "screening_tolerance_T": 3.07954186667985e-05,
+          "axis_error_T": null,
+          "delta_from_historical_sheet_T": [
+            -2.3398708653248057e-06,
+            4.069285223895491e-06
+          ],
+          "passed": true
+        },
+        {
+          "r_m": 1.14,
+          "z_m": 3.15,
+          "Br_T": 0.10052977520577332,
+          "Bz_T": 2.7672734736206963,
+          "coarse_to_nominal_T": 6.908629839105742e-15,
+          "nominal_to_fine_T": 1.33305380556329e-14,
+          "screening_tolerance_T": 2.8690988991922277e-05,
+          "axis_error_T": null,
+          "delta_from_historical_sheet_T": [
+            -1.525890597382784e-05,
+            4.4456072948229064e-05
+          ],
+          "passed": true
+        },
+        {
+          "r_m": 3.0,
+          "z_m": 4.0,
+          "Br_T": 0.347846882465472,
+          "Bz_T": 2.769883512382118,
+          "coarse_to_nominal_T": 2.57409059347477e-11,
+          "nominal_to_fine_T": 1.790180836524724e-14,
+          "screening_tolerance_T": 2.8916396840937714e-05,
+          "axis_error_T": null,
+          "delta_from_historical_sheet_T": [
+            -8.154915335351065e-05,
+            7.795652205189185e-05
+          ],
+          "passed": true
+        },
+        {
+          "r_m": 6.0,
+          "z_m": 8.0,
+          "Br_T": 0.5057359919108588,
+          "Bz_T": 0.15668826869160304,
+          "coarse_to_nominal_T": 2.6266582895399262e-12,
+          "nominal_to_fine_T": 8.000589806987758e-15,
+          "screening_tolerance_T": 6.294526485528577e-06,
+          "axis_error_T": null,
+          "delta_from_historical_sheet_T": [
+            7.342819595201888e-05,
+            0.0002104980630349973
+          ],
+          "passed": true
+        }
+      ],
+      "passed": true
+    }
+  ]
+}

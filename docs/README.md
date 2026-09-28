@@ -15,6 +15,11 @@ The documents below establish proposals and recording formats. Their presence do
 
 ## Index
 
+- [Magnetic options: two-page team evaluation and six one-page proposals](design/DES-004-options-summary.md)
+
+- [DES-004: magnetic candidates and first research increment](design/DES-004-magnetic-configurations.md)
+- [Magnetic research protocol](MAGNET_RESEARCH_PLAN.md)
+
 - [Full-detector development plan and TDR programme](DEVELOPMENT_PLAN.md)
 - [TDR chapter and subsection outline with evidence coverage](publication/TDR-outline.md)
 - [Publication plan, priorities and review gates](publication/publication-plan.md)
