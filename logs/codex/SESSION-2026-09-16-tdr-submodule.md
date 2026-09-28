@@ -34,3 +34,9 @@ Other checkouts can initialize the pinned TDR with
 Overleaf access is still required. Future report updates should commit in the TDR
 repository and update the parent gitlink to the intended revision. Publication
 and pushes remain separate actions. No design/ADR approval state changed.
+
+## Token usage recovered — 2026-09-24
+
+Recovered local client-reported counters for 1 disjoint turns: **1,307,511 input** and **1,667 output** tokens. Cached input and reasoning output are subsets, not additions. Request-to-task matching and counter evidence are retained in [the recovery inventory](../usage/USAGE-2026-09-24-local.json).
+
+This dated correction supersedes earlier statements that token counts were unavailable for these turns. Original narrative and limitations are preserved. It does not establish complete coverage across machines; unmatched and branch-only turns remain explicit in the inventory.

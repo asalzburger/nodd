@@ -2,14 +2,17 @@
 """Create, validate and summarize curated nODD session records; no dependencies."""
 
 import argparse
+import copy
 from collections import Counter
 from datetime import datetime, timezone, date
 import json
 import math
+import os
 from pathlib import Path
 import re
 import subprocess
 import sys
+import tempfile
 
 SCHEMA_PATH = Path(__file__).with_name('session.schema.json')
 TOKEN_FIELDS = ('input_tokens', 'cached_input_tokens', 'output_tokens',
@@ -169,6 +172,68 @@ def observed(values):
     return {'sum': sum(known) if known else None, 'known': len(known), 'records': len(values)}
 
 
+def import_usage(root, session_id, entries, dry_run=False):
+    """Append curated, disjoint turns after validating the entire proposed change.
+
+    Exact replays within the target session are harmless. Conflicting counters
+    and turns already attributed to another session require explicit correction.
+    No cumulative counters, client archives or private transcripts are read.
+    """
+    records = load_records(root)
+    targets = [r for r in records if r['session_id'] == session_id]
+    require(len(targets) == 1, 'target session does not exist; create it with new first')
+    require(type(entries) is list and entries, 'usage import must be a nonempty JSON array')
+    record = copy.deepcopy(targets[0])
+    path = repo_path(root, record['narrative']).with_suffix('.json')
+    original = path.read_bytes()
+    schema = read_json(SCHEMA_PATH)
+    existing = {(t['client_thread_id'], t['turn_id']): (r['session_id'], t)
+                for r in records for t in r['usage']}
+    added, skipped = 0, 0
+    for entry in entries:
+        validate_value(entry, schema['properties']['usage']['items'])
+        require(any(entry[field] is not None for field in TOKEN_FIELDS),
+                'usage entry has no observed counters; record missing data in limitations')
+        key = (entry['client_thread_id'], entry['turn_id'])
+        if key in existing:
+            owner, previous = existing[key]
+            require(owner == session_id, f'usage turn already belongs to session {owner}')
+            require(previous == entry, 'conflicting usage turn; reconcile evidence explicitly')
+            skipped += 1
+            continue
+        record['usage'].append(entry)
+        existing[key] = (session_id, entry)
+        added += 1
+    validate_record(record, root, path, schema)
+    if added and not dry_run:
+        # Serialize importers across sessions so concurrent attribution cannot
+        # insert the same turn twice. Never overwrite an existing lock.
+        lock = root / 'logs' / '.usage-import.lock'
+        with lock.open('x'):
+            try:
+                require(load_records(root) == records and path.read_bytes() == original,
+                        'logs changed during import; retry against the new records')
+                # Replace only after the complete batch passes; a failed import
+                # must not leave partially written JSON or partially added turns.
+                name = None
+                try:
+                    with tempfile.NamedTemporaryFile(mode='w', dir=path.parent,
+                                                     prefix='.usage-', suffix='.tmp',
+                                                     delete=False) as handle:
+                        name = handle.name
+                        handle.write(json.dumps(record, indent=2) + '\n')
+                    os.chmod(name, path.stat().st_mode & 0o777)
+                    os.replace(name, path)
+                finally:
+                    if name is not None:
+                        Path(name).unlink(missing_ok=True)
+            finally:
+                lock.unlink()
+    return {'session_id': session_id, 'added': added, 'unchanged': skipped,
+            'dry_run': dry_run,
+            'tokens': summarize([record])['tokens']}
+
+
 def summarize(records):
     usage = [turn for record in records for turn in record['usage']]
     activities = {}
@@ -181,6 +246,7 @@ def summarize(records):
         'closed_sessions': sum(r['status'] == 'closed' for r in records),
         'partial_sessions': sum(r['completeness'] == 'partial' for r in records),
         'sessions_with_usage': sum(bool(r['usage']) for r in records),
+        'sessions_without_usage': sum(not r['usage'] for r in records),
         'usage_turns': len(usage),
         'tokens': {key: observed([turn[key] for turn in usage]) for key in TOKEN_FIELDS},
         'models_by_recorded_turn': dict(sorted(Counter(t['model'] or '(unknown)' for t in usage).items())),
@@ -267,12 +333,37 @@ def main(argv=None):
     summary = commands.add_parser('summary', help='report observed usage and coverage')
     summary.add_argument('--format', choices=('json', 'markdown'), default='markdown')
     summary.add_argument('--milestone')
+    ingest = commands.add_parser('import-usage', help='import curated per-turn usage JSON; no client archives')
+    ingest.add_argument('--id', required=True, help='existing project session ID')
+    ingest.add_argument('--file', type=Path, required=True, help='JSON array of usage entries')
+    ingest.add_argument('--dry-run', action='store_true', help='validate and preview without writing')
+    usage = commands.add_parser('record-usage', help='record one client-reported, disjoint turn')
+    usage.add_argument('--id', required=True, help='existing project session ID')
+    usage.add_argument('--thread-id', required=True)
+    usage.add_argument('--turn-id', required=True)
+    usage.add_argument('--model', help='reported execution model, if available')
+    usage.add_argument('--source', required=True, help='curated evidence description; no secrets')
+    usage.add_argument('--limitation', action='append', default=[])
+    usage.add_argument('--dry-run', action='store_true')
+    for field in TOKEN_FIELDS:
+        usage.add_argument('--' + field.replace('_', '-'), type=int)
     args = parser.parse_args(argv)
     root = args.repo.resolve()
     try:
         if args.command == 'new':
             record = new_record(root, args.id, args.title, args.category, args.milestone)
             print(f"Created {record['narrative']} and paired JSON; complete and review before committing.")
+        elif args.command in ('import-usage', 'record-usage'):
+            if args.command == 'import-usage':
+                entries = read_json(args.file)
+            else:
+                entries = [{
+                    'client_thread_id': args.thread_id, 'turn_id': args.turn_id,
+                    'model': args.model, 'source': args.source,
+                    'limitations': args.limitation,
+                    **{field: getattr(args, field) for field in TOKEN_FIELDS},
+                }]
+            print(json.dumps(import_usage(root, args.id, entries, args.dry_run), indent=2))
         else:
             records = load_records(root)
             if args.command == 'validate':

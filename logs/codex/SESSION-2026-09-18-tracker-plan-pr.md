@@ -66,3 +66,9 @@ Await human review and explicit plan sign-off at the recorded revision. Merge,
 approval and production implementation are not performed by this task. Hosted
 CI was in progress when this publication record was closed; the final revision's
 result is reported separately to the user after it completes.
+
+## Token usage recovered — 2026-09-24
+
+Recovered local client-reported counters for 1 disjoint turns: **4,163,115 input** and **11,156 output** tokens. Cached input and reasoning output are subsets, not additions. Request-to-task matching and counter evidence are retained in [the recovery inventory](../usage/USAGE-2026-09-24-local.json).
+
+This dated correction supersedes earlier statements that token counts were unavailable for these turns. Original narrative and limitations are preserved. It does not establish complete coverage across machines; unmatched and branch-only turns remain explicit in the inventory.

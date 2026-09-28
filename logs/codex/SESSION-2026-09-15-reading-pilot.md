@@ -83,3 +83,9 @@ original-page checks. Empty-text pages other than sampled blanks, complete table
 semantics, OCR need and public/local byte equality remain unresolved. Exact client
 version, model identity, thread/turn IDs and token counters are not exposed.
 Session validation is repeated after completing this record.
+
+## Token usage recovered — 2026-09-24
+
+Recovered local client-reported counters for 1 disjoint turns: **4,107,071 input** and **23,036 output** tokens. Cached input and reasoning output are subsets, not additions. Request-to-task matching and counter evidence are retained in [the recovery inventory](../usage/USAGE-2026-09-24-local.json).
+
+This dated correction supersedes earlier statements that token counts were unavailable for these turns. Original narrative and limitations are preserved. It does not establish complete coverage across machines; unmatched and branch-only turns remain explicit in the inventory.

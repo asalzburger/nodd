@@ -43,3 +43,9 @@ role mandates and active assignments. Added this session pair; preserved all pri
 work and staged submodule changes. No commit or push. Next deliverables: architecture
 brief, interface/request register, subsystem options, software contract, TDR claim
 coverage and independent validation criteria, followed by coordinated human review.
+
+## Token usage recovered — 2026-09-24
+
+Recovered local client-reported counters for 1 disjoint turns: **1,609,374 input** and **6,428 output** tokens. Cached input and reasoning output are subsets, not additions. Request-to-task matching and counter evidence are retained in [the recovery inventory](../usage/USAGE-2026-09-24-local.json). The same client turn also contains the physics-validation-role subtask; it is counted here once.
+
+This dated correction supersedes earlier statements that token counts were unavailable for these turns. Original narrative and limitations are preserved. It does not establish complete coverage across machines; unmatched and branch-only turns remain explicit in the inventory.

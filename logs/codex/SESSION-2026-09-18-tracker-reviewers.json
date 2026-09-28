@@ -10,12 +10,13 @@
   "completeness": "partial",
   "limitations": [
     "Exact token usage, client version, thread ID and actual conversation start time are unavailable.",
-    "Reviewer identities and participation state are recorded in the governing plan; no invitation acceptance or formal sign-off is inferred."
+    "Reviewer identities and participation state are recorded in the governing plan; no invitation acceptance or formal sign-off is inferred.",
+    "2026-09-24 correction: local client counters recovered for 1 disjoint turns; this supersedes earlier token-unavailability statements for those turns only. Full multi-machine coverage remains unknown. See logs/usage/USAGE-2026-09-24-local.json."
   ],
   "client": {
     "name": "Codex",
     "version": null,
-    "thread_id": null
+    "thread_id": "01a0b3b0-f8f3-7de0-8854-ff1f156bebab"
   },
   "git": {
     "start_commit": "8c76dc4cea9e0005453fb86c2e2e8cd042bf64bf",
@@ -46,7 +47,23 @@
   },
   "narrative": "logs/codex/SESSION-2026-09-18-tracker-reviewers.md",
   "activities": [],
-  "usage": [],
+  "usage": [
+    {
+      "client_thread_id": "01a0b3b0-f8f3-7de0-8854-ff1f156bebab",
+      "turn_id": "01a0b441-53d3-7322-a647-868ba9e316ed",
+      "model": null,
+      "source": "2026-09-24 local token_count recovery; logs/usage/USAGE-2026-09-24-local.json; usage SHA-256 a5db7bf2b7543bd2f76224600c9faa03795b65709abc2a3a29f61d5eaab7c51b; cumulative increases equal last-request counters over persisted turn ordinals 923..1058.",
+      "limitations": [
+        "Local client-reported usage only; other-machine coverage and billing equivalence are not established. Per-turn execution model was not reported.",
+        "Turn ended interrupted; counters cover reported requests through its persisted boundary only."
+      ],
+      "input_tokens": 1702978,
+      "cached_input_tokens": 1661440,
+      "output_tokens": 9330,
+      "reasoning_output_tokens": 2184,
+      "total_tokens": 1712308
+    }
+  ],
   "checks": [
     {
       "command": "python3 -B -m unittest discover -s tools/session_logging -p 'test_*.py'",

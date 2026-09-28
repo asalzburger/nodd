@@ -26,6 +26,14 @@ Distinguish structural checks from detector acceptance.
 List changed files or refer to the paired JSON inventory. Result commits are
 recorded only once they exist; Git history locates this record's enclosing commit.
 
+## Token accounting
+
+Record the client-provided per-turn usage source and import command, or state why
+exact counters are unavailable. Report observed input/output sums and missing
+coverage from `session_log.py summary`; empty usage means unknown, not zero.
+Never copy raw client archives or private model state. Do not duplicate turns
+across tasks or add cached/reasoning subsets to the input/output totals.
+
 ## Follow-up
 
 List remaining work, missing measurements and any human review needed.
