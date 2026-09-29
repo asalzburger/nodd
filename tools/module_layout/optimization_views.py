@@ -39,7 +39,11 @@ def digest(path):
 
 
 def read(path):
-    return json.loads(Path(path).read_text())
+    path = Path(path)
+    if path.suffix == ".gz":
+        with gzip.open(path, "rt") as stream:
+            return json.load(stream)
+    return json.loads(path.read_text())
 
 
 def _save(fig, output, name, plt):
@@ -357,6 +361,8 @@ def comparison_views(case_ids, summaries, baseline, output, plt):
 def export(run, output, cases=None):
     run, output = Path(run), Path(output)
     study_path = run / "study.json"
+    if not study_path.exists():
+        study_path = run / "study.json.gz"
     study = read(study_path)
     baseline = study["baseline"]
     case_ids = list(dict.fromkeys(cases if cases is not None else [baseline, *study["selected"]]))

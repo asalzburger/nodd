@@ -101,6 +101,95 @@ def _route(name, sub, kind, r0, r1, z0, z1, side, role, targets, **extra):
                 connects_to=[t+"-"+suffix for t in targets], **extra)
 
 
+def _round_transport_components(groups, inputs):
+    """Known round components actually charged by these whole source groups.
+
+    These are the existing DES-010 comparator outer diameters, not new sourced
+    component choices. Positive strip leaf counts imply at least one downstream
+    manifold trunk pair under the unchanged within-layer rounding rule. Pixel
+    ancillary bundles have an area-only normalization and no fixed aspect ratio
+    in these inputs; this necessary circular-envelope check does not qualify them.
+    """
+    pixel = [g for g in groups if g["subsystem"] == "pixel"]
+    strip = [g for g in groups if g["subsystem"] in ("short_strip", "long_strip")]
+    keys = []
+    if any(g["cooling_leaf_loops"] > 0 for g in pixel):
+        keys += [("pixel", "feed_outer_diameter_mm"), ("pixel", "return_outer_diameter_mm")]
+    if any(g["harnesses"] > 0 for g in strip):
+        keys += [("strip", "power_cable_outer_diameter_mm"), ("strip", "fibre_cable_outer_diameter_mm")]
+    if any(g["cooling_leaf_loops"] > 0 for g in strip):
+        keys += [("strip", "trunk_feed_outer_diameter_mm"), ("strip", "trunk_return_outer_diameter_mm")]
+    return [dict(input_key=f"{owner}.{key}", outer_diameter_mm=inputs[owner][key]) for owner, key in keys]
+
+
+def _round_transport_diameter(groups, inputs):
+    return max((c["outer_diameter_mm"] for c in _round_transport_components(groups, inputs)), default=0.)
+
+
+def transport_envelope_checks(groups, inputs, routes):
+    """Check necessary individual cable/pipe fit on routes and declared joins.
+
+    Radial routes need axial depth, axial routes need radial width, and overlap
+    pockets need both. At a face handoff the finite transverse opening limits
+    the fit. Boundary skins are removed on both sides. Only source groups shared
+    by the two joined routes are charged to a throat. Thus a pixel branch joining
+    a shared trunk is checked against its own traffic, while the downstream route
+    is separately checked against all traffic it carries. This check is necessary
+    and not sufficient: bends, fittings, manifolds and non-round bundles remain
+    unqualified. It may audit retained DES-010/011 budget groups without rerunning
+    geometry or changing an old producer's evidence.
+    """
+    boundary = inputs["capacity"]["boundary_allowance_mm"]
+    by_id = {r["id"]: r for r in routes}
+    selected = {rid:_selected(groups, r) for rid, r in by_id.items()}
+
+    def check(label, kind, dimension, source_groups, direction):
+        components = _round_transport_components(source_groups, inputs)
+        diameter = max((c["outer_diameter_mm"] for c in components), default=0.)
+        clear = max(0., dimension-2*boundary)
+        return dict(id=label, kind=kind, direction=direction,
+            modules_carried=sum(g["modules"] for g in source_groups),
+            components=components, largest_known_outer_diameter_mm=diameter,
+            gross_transverse_mm=dimension, available_clear_transverse_mm=clear,
+            required_gross_transverse_mm=diameter+2*boundary if diameter else 0.,
+            status="PASS" if diameter <= clear+_EPS else "FAIL")
+
+    route_checks, throat_checks = [], []
+    for r in routes:
+        dr = r["r_max_mm"]-r["r_min_mm"]
+        dz = r["z_max_mm"]-r["z_min_mm"]
+        dimension = dr if r["kind"] == "axial" else dz if r["kind"] == "radial" else min(dr, dz)
+        direction = "radial width" if r["kind"] == "axial" else "axial depth" if r["kind"] == "radial" else "minimum radial width/axial depth"
+        route_checks.append(check(r["id"], "route", dimension, selected[r["id"]], direction))
+    seen = set()
+    for a in routes:
+        for target in a["connects_to"]:
+            edge = tuple(sorted((a["id"], target)))
+            if edge in seen:
+                continue
+            seen.add(edge)
+            b = by_id[target]
+            dr = min(a["r_max_mm"], b["r_max_mm"])-max(a["r_min_mm"], b["r_min_mm"])
+            dz = min(a["z_max_mm"], b["z_max_mm"])-max(a["z_min_mm"], b["z_min_mm"])
+            b_ids = {mid for g in selected[target] for mid in g["module_ids"]}
+            shared = [g for g in selected[a["id"]] if set(g["module_ids"]) <= b_ids]
+            if dr < -_EPS or dz < -_EPS or max(dr, dz) <= _EPS:
+                dimension, direction = 0., "no finite contact"
+            elif abs(dz) <= _EPS:
+                dimension, direction = dr, "axial face: radial width"
+            elif abs(dr) <= _EPS:
+                dimension, direction = dz, "radial face: axial depth"
+            else:
+                dimension, direction = min(dr, dz), "overlap: minimum radial width/axial depth"
+            throat_checks.append(check(" -> ".join(edge), "throat", dimension, shared, direction))
+    return dict(boundary_allowance_mm=boundary, routes=route_checks, throats=throat_checks,
+        all_pass=all(c["status"] == "PASS" for c in route_checks+throat_checks),
+        definition="Necessary fit of actually charged known round cable/pipe envelopes, including both boundary skins",
+        limitations=["Diameter fit does not qualify bend radius, fittings, manifolds or installation.",
+                     "Pixel ancillary/control bundle aspect ratios are not fixed by their area normalization.",
+                     "The largest charged cable or pipe diameter governs; a power cable can exceed the cooling-pipe diameter."])
+
+
 def build_optimized_services(layout, inputs, policy=None, *, diagnostics=True):
     """Return service geometry and constraints without mutating ``layout``.
 
@@ -133,13 +222,15 @@ def build_optimized_services(layout, inputs, policy=None, *, diagnostics=True):
     def area_demand(groups):
         return _demand(groups, inputs)[p["sizing_scenario"]]
 
-    def outer_for(r0, demand):
-        return math.sqrt((r0+boundary)**2+margin*demand/(math.pi*packing))+boundary
+    def outer_for(r0, demand, selected):
+        return max(math.sqrt((r0+boundary)**2+margin*demand/(math.pi*packing))+boundary,
+                   r0+2*boundary+_round_transport_diameter(selected, inputs))
 
-    def depth_for(r0, demand):
+    def depth_for(r0, demand, selected):
         if r0 <= 0:
             raise ValueError("radial service routes require a positive inner radius")
-        return 2*boundary+margin*demand/(2*math.pi*r0*packing)
+        return 2*boundary+max(margin*demand/(2*math.pi*r0*packing),
+                              _round_transport_diameter(selected, inputs))
 
     groups = _groups(layout, inputs)
     supports = support_envelopes(layout, p["support_depths_mm"])
@@ -180,11 +271,12 @@ def build_optimized_services(layout, inputs, policy=None, *, diagnostics=True):
             main_groups = [g for g in end_groups if g["layer_id"] != bypass_id]
             bypass_groups = [g for g in end_groups if g["layer_id"] == bypass_id]
             starts = [min(e["r_min_mm"] for e in envelopes[l["id"]]) for l in barrel]
-            prefix_demands = [area_demand([g for g in end_groups if g["region"] == "barrel"
-                                          and g["layer_id"] in {l["id"] for l in barrel[:i+1]}])
-                              for i in range(len(barrel))]
+            prefixes = [[g for g in end_groups if g["region"] == "barrel"
+                         and g["layer_id"] in {l["id"] for l in barrel[:i+1]}]
+                        for i in range(len(barrel))]
+            prefix_demands = [area_demand(gs) for gs in prefixes]
             bay_depth = rounded(max(p["barrel_bay_floor_mm"][sub],
-                                    *(depth_for(r0, demand) for r0, demand in zip(starts, prefix_demands))))
+                                    *(depth_for(r0, demand, gs) for r0, demand, gs in zip(starts, prefix_demands, prefixes))))
             barrel_end = max(sign*e["z_max_mm" if sign > 0 else "z_min_mm"]
                              for l in barrel for e in envelopes[l["id"]])
             bay_start = rounded(barrel_end+clearance)
@@ -203,7 +295,7 @@ def build_optimized_services(layout, inputs, policy=None, *, diagnostics=True):
                 r0, r1 = min(e["r_min_mm"] for e in ee), max(e["r_max_mm"] for e in ee)
                 selected = [g for g in end_groups if g["layer_id"] == lid]
                 demand = area_demand(selected)
-                depth = rounded(max(p["disc_collector_floor_mm"][sub], depth_for(r0, demand)))
+                depth = rounded(max(p["disc_collector_floor_mm"][sub], depth_for(r0, demand, selected)))
                 support = support_by_layer.get(lid)
                 support_end = (max(abs(support["z_min_mm"]), abs(support["z_max_mm"]))
                                if support else hi)
@@ -234,13 +326,15 @@ def build_optimized_services(layout, inputs, policy=None, *, diagnostics=True):
         limits = []
         for side in SIDES:
             record = records[side, sub]
-            limits.append(dict(source=side+":main_inventory", required_outer_mm=outer_for(inner, area_demand(record["main_groups"]))))
+            limits.append(dict(source=side+":main_inventory", required_outer_mm=outer_for(inner, area_demand(record["main_groups"]), record["main_groups"])))
             limits.append(dict(source=side+":barrel_join", required_outer_mm=outer_for(
-                max(inner, record["starts"][-1]), record["prefix_demands"][-1])))
+                max(inner, record["starts"][-1]), record["prefix_demands"][-1],
+                [g for g in record["end_groups"] if g["region"] == "barrel"])))
             for disc in record["discs"]:
                 if not disc["bypass"]:
                     limits.append(dict(source=side+":"+disc["layer_id"], required_outer_mm=outer_for(
-                        max(inner, disc["r_min_mm"]), disc["demand_mm2"])))
+                        max(inner, disc["r_min_mm"]), disc["demand_mm2"],
+                        [g for g in record["end_groups"] if g["layer_id"] == disc["layer_id"]])))
         width = rounded(max(item["required_outer_mm"] for item in limits)-inner)
         trunks[sub] = dict(r_min_mm=inner, r_max_mm=inner+width, width_mm=width,
                            unrounded_width_mm=max(item["required_outer_mm"] for item in limits)-inner,
@@ -262,23 +356,24 @@ def build_optimized_services(layout, inputs, policy=None, *, diagnostics=True):
         common_join_inner = max(p["rear_all_r_min_mm"], p["common_bore_r_min_mm"])
         exit_join_inner = max(p["exit_r_min_mm"], p["common_bore_r_min_mm"])
         common_outer = rounded(max(trunks["long_strip"]["r_max_mm"],
-            outer_for(common_join_inner, full_demand), outer_for(exit_join_inner, full_demand)))
+            outer_for(common_join_inner, full_demand, side_groups), outer_for(exit_join_inner, full_demand, side_groups)))
         if common_outer > p["outer_radius_limit_mm"]+_EPS:
             failures.append("outer_radius_limit:common_bore:"+side)
         rear_ends = rear_starts[1:]+[common_outer]
-        rear_depths = [depth_for(r0, demand) for r0, demand in zip(rear_starts, rear_demands)]
-        rear_depths += [depth_for(common_join_inner, full_demand)]
+        rear_depths = [depth_for(r0, demand, [g for g in side_groups if g["subsystem"] in SUBSYSTEMS[:i+1]])
+                       for i, (r0, demand) in enumerate(zip(rear_starts, rear_demands))]
+        rear_depths += [depth_for(common_join_inner, full_demand, side_groups)]
         for sub in SUBSYSTEMS:
             record = records[side, sub]
             if record["bypass_id"]:
                 rear_depths.append(depth_for(record["discs"][-1]["r_min_mm"],
-                                            area_demand(record["bypass_groups"])))
+                                            area_demand(record["bypass_groups"]), record["bypass_groups"]))
         rear_depth = rounded(max(p["rear_collector_floor_mm"], *rear_depths))
         rear_start = max(p["rear_start_abs_z_mm"], max(
             d["collector_start_abs_z_mm"] for sub in SUBSYSTEMS for d in records[side, sub]["discs"]))
         rear_end = rear_start+rear_depth
-        exit_depth = rounded(max(p["exit_floor_mm"], depth_for(p["exit_r_min_mm"], full_demand),
-                                 depth_for(exit_join_inner, full_demand)))
+        exit_depth = rounded(max(p["exit_floor_mm"], depth_for(p["exit_r_min_mm"], full_demand, side_groups),
+                                 depth_for(exit_join_inner, full_demand, side_groups)))
         exit_start = p["exit_abs_z_window_mm"][0]
         exit_end = exit_start+exit_depth
         if exit_end > p["exit_abs_z_window_mm"][1]+_EPS:
@@ -343,6 +438,10 @@ def build_optimized_services(layout, inputs, policy=None, *, diagnostics=True):
 
     # Exact original counting/manifold rounding and all finite declared throats.
     budget = estimate_budget(layout, inputs, routes)
+    transport = transport_envelope_checks(groups, inputs, routes)
+    for item in transport["routes"]+transport["throats"]:
+        if item["status"] == "FAIL":
+            failures.append("individual_transport_envelope:"+item["id"])
     checks = []
     for kind in ("routes", "throats"):
         for item in budget[kind]:
@@ -374,6 +473,7 @@ def build_optimized_services(layout, inputs, policy=None, *, diagnostics=True):
         sizing=dict(scenario=p["sizing_scenario"], capacity_factor=margin,
             boundary_allowance_mm=boundary, trunks=trunks, downstream=downstream,
             source_partitions=partitions, capacity_checks=checks,
+            individual_transport_envelopes=transport,
             all_sizing_capacities_pass=all(c["status"] == "PASS" for c in checks),
             method="Minimum rounded widths/depths for this inventory, declared topology and named floors; no global optimum",
             limitations=["Area capacity does not qualify bends, connectors, mechanics or cooling.",

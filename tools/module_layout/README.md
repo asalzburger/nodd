@@ -84,8 +84,11 @@ It refills fixed sensor/module shapes into candidate annuli, derives uniform
 service corridors from their actual inventories, and places the first disc at
 the closest finite-body/service limit with at least 10 mm clearance. Optional
 last-disc bypasses remain explicitly routed and included in downstream loads.
-The compact 10 mm collector floor is an unqualified sensitivity assumption;
-the original pocket floors are retained as a comparison.
+The named compact 10 mm floor is overridden by aggregate capacity and the
+largest known individual cable/pipe envelope plus boundary skins (currently
+18 mm for strip passages). This necessary fit check still does not qualify
+bends, connectors or unknown ancillary bundle shapes. The original larger
+pocket floors remain a comparison.
 
 ```sh
 python tools/module_layout/optimization.py --jobs 3 --native \
@@ -96,6 +99,15 @@ python tools/module_layout/optimization_views.py \
   --run reference/cache/NEW-service-optimization \
   --output reference/cache/NEW-service-optimization-views
 ```
+
+The executed individual-envelope correction uses the bounded configuration
+`--config tools/module_layout/optimization_envelope_followup_config.json`.
+It covers eight primary cases plus the same radius/pocket follow-up; the default
+configuration retains the broader 216-case domain for future full reruns.
+The [validation report](../../docs/validation/DES-011-service-constrained-optimization.md)
+keeps both rejected runs and the corrected evidence separate. Curated large
+study JSON may be gzip encoded; the view command accepts either `study.json`
+or `study.json.gz` and verifies the retained manifest.
 
 Use the verified runtime setup below when `--native` is requested. Without that
 option the scan and finite-module intersections need Python/NumPy only. The

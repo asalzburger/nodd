@@ -3,8 +3,8 @@ import copy
 import math
 import unittest
 
-from tools.module_layout.optimization_services import build_optimized_services, default_policy
-from tools.module_layout.services_budget import SUBSYSTEMS, _inventory, _selected, load_inputs
+from tools.module_layout.optimization_services import build_optimized_services, default_policy, transport_envelope_checks
+from tools.module_layout.services_budget import SUBSYSTEMS, _groups, _inventory, _selected, estimate_budget, load_inputs
 from tools.module_layout.services_geometry import route_connectivity
 
 
@@ -257,6 +257,76 @@ class OptimizationServicesTests(unittest.TestCase):
                 p[key] = value
                 with self.assertRaises(ValueError):
                     self.build(p, diagnostics=False)
+
+    def test_known_round_component_floors_include_cable_not_only_cooling_pipe(self):
+        p = default_policy()
+        p["barrel_bay_floor_mm"] = dict.fromkeys(SUBSYSTEMS, 10.)
+        p["disc_collector_floor_mm"] = dict.fromkeys(SUBSYSTEMS, 10.)
+        result = self.build(p, diagnostics=False)
+        guard = result["sizing"]["individual_transport_envelopes"]
+        self.assertTrue(guard["all_pass"])
+        for check in guard["routes"]:
+            if (check["id"].startswith("pixel-") or check["id"].startswith("test-pixel-")
+                    or check["id"] in ("rear-pixel-P", "rear-pixel-N")):
+                self.assertEqual(check["largest_known_outer_diameter_mm"], 4.)
+                self.assertEqual(check["required_gross_transverse_mm"], 8.)
+            else:
+                self.assertEqual(check["largest_known_outer_diameter_mm"], 13.4)
+                self.assertAlmostEqual(check["required_gross_transverse_mm"], 17.4)
+                self.assertTrue(any(c["input_key"] == "strip.power_cable_outer_diameter_mm" for c in check["components"]))
+        for side in ("positive", "negative"):
+            for sub in ("short_strip", "long_strip"):
+                c = result["placement_constraints"][side][sub]
+                self.assertEqual(c["barrel_bay_abs_z_mm"][1]-c["barrel_bay_abs_z_mm"][0], 18.)
+                self.assertTrue(all(d["collector_depth_mm"] == 18. for d in c["disc_layers"]))
+                self.assertGreaterEqual(result["sizing"]["trunks"][sub]["width_mm"], 18.)
+
+    def test_area_capacity_can_pass_while_individual_cable_cannot_fit(self):
+        # Test-only broad-radius slab: abundant annular area, only 6 mm usable
+        # axial depth for a charged 13.4 mm round power cable.
+        routes = [dict(id="test-thin-slab", subsystem="short_strip", kind="radial", side="positive",
+                       r_min_mm=1000., r_max_mm=1100., z_min_mm=100., z_max_mm=110.,
+                       layer_ids=["test-short_strip-disc-0-P"], connects_to=[])]
+        budget = estimate_budget(self.layout, self.inputs, routes)
+        self.assertEqual(budget["routes"][0]["scenarios"]["reference"]["status"], "PASS")
+        guard = transport_envelope_checks(budget["local_groups"], self.inputs, routes)
+        self.assertFalse(guard["all_pass"])
+        self.assertEqual(guard["routes"][0]["available_clear_transverse_mm"], 6.)
+        self.assertEqual(guard["routes"][0]["largest_known_outer_diameter_mm"], 13.4)
+
+    def test_throat_tests_only_shared_source_components(self):
+        routes = [dict(id="test-pixel-branch", subsystem="pixel", kind="axial", side="positive",
+                       r_min_mm=100., r_max_mm=108., z_min_mm=100., z_max_mm=120.,
+                       connects_to=["test-shared"]),
+                  dict(id="test-shared", subsystem="shared", kind="axial", side="positive",
+                       r_min_mm=100., r_max_mm=130., z_min_mm=100., z_max_mm=120., connects_to=[])]
+        guard = transport_envelope_checks(_groups(self.layout, self.inputs), self.inputs, routes)
+        self.assertTrue(guard["all_pass"])
+        self.assertEqual(guard["throats"][0]["largest_known_outer_diameter_mm"], 4.)
+        self.assertEqual(guard["throats"][0]["available_clear_transverse_mm"], 4.)
+        self.assertEqual(guard["routes"][1]["largest_known_outer_diameter_mm"], 13.4)
+
+    def test_wide_routes_do_not_hide_a_narrow_overlap_throat(self):
+        scope = dict(subsystem="short_strip", side="positive", layer_ids=["test-short_strip-disc-0-P"])
+        routes = [dict(scope, id="test-axial", kind="axial", r_min_mm=100., r_max_mm=118.,
+                       z_min_mm=100., z_max_mm=130., connects_to=["test-radial"]),
+                  dict(scope, id="test-radial", kind="radial", r_min_mm=110., r_max_mm=150.,
+                       z_min_mm=120., z_max_mm=140., connects_to=[])]
+        guard = transport_envelope_checks(_groups(self.layout, self.inputs), self.inputs, routes)
+        self.assertTrue(all(r["status"] == "PASS" for r in guard["routes"]))
+        self.assertFalse(guard["all_pass"])
+        self.assertEqual(guard["throats"][0]["status"], "FAIL")
+        self.assertEqual(guard["throats"][0]["available_clear_transverse_mm"], 4.)
+
+    def test_bypass_shadow_cannot_silently_expand_to_fit_transport(self):
+        lid = "test-long_strip-disc-1-P"
+        for body in self.layout["bodies"]:
+            if body["layer_id"] == lid:
+                body["half_v_mm"] = 5.  # Test-only shadow narrower than 13.4+4 mm.
+        p = default_policy()
+        p["bypass_last_disc"] = True
+        result = self.build(p, diagnostics=False)
+        self.assertIn("individual_transport_envelope:long_strip-last-disc-bypass-P", result["failures"])
 
 
 if __name__ == "__main__":

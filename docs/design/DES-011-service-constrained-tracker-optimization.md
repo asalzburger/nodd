@@ -21,7 +21,8 @@ mechanical feasibility or full-detector integration.
 
 ## Requirements and numerical classification
 
-Every new parameter below is **NODD DESIGN CHOICE**. Reviewer-directed constraints
+Study settings below are **NODD DESIGN CHOICE** unless explicitly classified
+**INFERENCE** for a derived geometric bound. Reviewer-directed constraints
 are identified separately from algorithm choices proposed by Codex; neither
 constitutes human sign-off of a resulting layout. Sensor facts and service-load
 inputs retain the classifications and public sources in DES-009/010.
@@ -131,6 +132,37 @@ No sensor, staggering policy or harness limit is changed to repair the seam.
 The native sample explicitly includes eight uniformly spread central-grid
 azimuths per mode in addition to the seeded/adverse sample; the first run's
 native sample contained no eta=0 tracks.
+
+**SO-C17 — INFERENCE, derived necessary fit constraint:** an independent
+post-selection audit found that aggregate annular area alone permits passages
+thinner than individual round components already charged to the budget. With
+the inherited 13.4 mm strip power cable, 12 mm return pipe and 2 mm allowance on
+each boundary, the largest known strip item needs 17.4 mm total passage, rounded
+to 18 mm. Pixel transport pipes have 4 mm diameter and require 8 mm before any
+larger named floor. Values and their original classifications remain in
+`services_budget_inputs.json`; the new inequality is a geometric derivation,
+not a new cable technology choice or a qualified bend radius.
+
+**SO-C18 — NODD DESIGN CHOICE, proposed enforcement and follow-up:** require
+this bound in every routed cross-section and finite joining throat,
+using the actual carried component inventory. Size passages to satisfy both
+aggregate capacity and known component dimensions. Unknown pixel ancillary
+bundle shapes, connector envelopes and bends remain explicitly unqualified.
+The 10 mm named compact floor remains only a lower bound and cannot override
+this physical bound. The full run at
+`10203d9a3f41d82cb467a7deb75e8293b0f1cc95` predates this check: preserve its compact
+finalists as rejected pocket-depth diagnostics, even where all coverage/native
+checks pass. Its original larger-pocket control is assessed separately.
+
+A fresh bounded engineering follow-up covers pixel trunk inner radii 170/190 mm,
+short-strip 680/720 mm, final-disc bypass enabled, inherited-pitch 23-row barrels,
+and front-loaded/uniform disc schedules (eight primary cases), plus the same
+three radius/pocket comparisons. This declared subdomain follows the earlier
+search; it is not a rerun of the entire 216-case scan or a global optimum.
+Retain fresh random validation seed 202609294 and rerun geometry, inventory,
+capacity, individual-item fit, coverage and native checks after the correction.
+The default full-scan configuration also uses the corrected service builder for
+future shape updates; only the bounded follow-up is newly executed here.
 
 ## Validation contract
 

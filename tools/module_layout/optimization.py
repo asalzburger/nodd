@@ -359,6 +359,11 @@ def report_markdown(study, retained):
             for sub, values in [("total",spacing["total"]),*spacing["per_subdetector"].items()]:
                 gaps=values["station_spacing"]
                 lines.append(f"| {name} | {mode} | {sub} | {number(values['sensor_hits']['mean'])} | {number(values['stations']['mean'])} | {percent(values['missing_ideal_station_fraction'])} | {number(gaps['max_inter_hit_gap_mm']['p95'])} | {number(gaps['max_boundary_gap_mm']['p95'])} |")
+    lines += ["", "## Dense coverage validation outcome", "",
+              "Training selections are not reranked using validation. A failed dense guard",
+              "withholds that candidate from a recommendation, even if native propagation agrees.", "",
+              "| Candidate | All dense coverage guards pass |", "| --- | --- |"]
+    lines += [f"| {name} | {passed} |" for name,passed in study.get("holdout_coverage_passed", {}).items()]
     lines += ["", "## Local coverage guards", "",
               "Central eta=0 / vertex z=0 must preserve each subsystem's mean and zero-hit fraction.",
               "Other eta-band / vertex-plane strata must not become entirely blind. Smaller local",
@@ -491,6 +496,10 @@ def run(args):
                                                  for key,value in retained.items() if key != "pr25"}
     study["holdout_local_coverage_guards"] = {key:{mode:coverage_strata_regressions(value["spacing"][mode],retained["pr25"]["spacing"][mode]) for mode in MODES}
                                                 for key,value in retained.items() if key != "pr25"}
+    study["holdout_coverage_passed"] = {
+        key:study["holdout_no_subsystem_mean_hit_loss"][key] and all(g["passed"] for g in modes.values())
+        for key,modes in study["holdout_local_coverage_guards"].items()}
+    study["holdout_coverage_failures"] = [key for key,passed in study["holdout_coverage_passed"].items() if not passed]
     study["independent_random_scores"] = {key:score(value["independent_random_spacing"],value["summary"])
                                            for key,value in retained.items()}
     if {p.name:sha(p) for p in HERE.glob("*.py")} != study["code_sha256"]:

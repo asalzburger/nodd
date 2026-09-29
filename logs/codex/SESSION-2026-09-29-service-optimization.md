@@ -108,3 +108,26 @@ length1287.3333333333333mm preserves the retained PR25 barrel-row pitch exactly:
 (22×((2800−96)/24)+96)/2. This provides a physical baseline-preserving alternative
 to stretching23rows. The full revised configuration has216 primary cases plus
 the bounded radius/pocket follow-up. No new longitudinal staggering is introduced.
+
+Revised source freeze: `10203d9a3f41d82cb467a7deb75e8293b0f1cc95`.
+The canonical corrected run started with clean tracked source and records all
+input/source hashes. Full revised tests:131 run in64.478s,128pass and3ACTS skips
+in systemPython; finalist native audits run separately in the verified runtime.
+
+## Second run: coverage passes, individual-component fit fails
+
+The219-case revised study completed with clean source/input hash checks:
+111geometry/aggregate-capacity passes,81mean guards and33fulltrainingguards.
+All five retained cases completed dense validation and72native tracks each
+(360total), all passed. An independent audit confirmed exact local-guard results
+and preserved smaller local losses. The original DES01021artifact hashes remain
+unchanged; an initial recheck helper used the wrong manifestkey and was corrected.
+
+Independent service audit then found the compact strips pockets cannot contain
+the budget's13.4mm power cable plus2mm boundary skins (17.4mm necessarytotal,
+rounded18). The12mm return pipe also fails10/15mm passages. Aggregatearea and
+sensitive ACTS checks did not catch this dimensional mismatch. Preserve this
+run under`docs/validation/DES-011-optimization-rejected-pocket-depths/`; original
+larger-pocket control is assessed separately. DES-011 adds explicit route/throat
+individualitem bounds and an eight-primary-case followup with freshseed202609294.
+This is a scoped correction, not a claim the earlier216case scan passed the newgate.
