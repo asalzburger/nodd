@@ -281,7 +281,7 @@ def transverse_views(case_id, layout, services, output, plt):
     return metadata
 
 
-def comparison_views(case_ids, summaries, baseline, output, plt):
+def comparison_views(case_ids, summaries, baseline, output, plt, validation=None):
     scopes = ("total", *SUBSYSTEMS)
     fig, axes = plt.subplots(5, 4, figsize=(17, 17), layout="constrained")
     labels, selected_count = [], 0
@@ -347,7 +347,8 @@ def comparison_views(case_ids, summaries, baseline, output, plt):
             ax.set_ylabel(definitions[4])
     axes[0, 0].legend(fontsize=8)
     axes[4, 0].legend(fontsize=8)
-    mapping = "\n".join(f"{short}: {cid}" for short, cid in zip(labels, case_ids))
+    mapping = "\n".join(f"{short}: {cid}" + (" [DENSE COVERAGE FAIL]" if (validation or {}).get(cid) is False else "")
+                        for short, cid in zip(labels, case_ids))
     fig.suptitle("DES-011 sampled layout comparison · PROTOTYPE\n"
                  "Coverage first; a spacing statistic alone is not an optimization score\n"
                  "Silicon areas sum sensors; projected overlaps count repeatedly, not as unique coverage\n"+mapping, fontsize=12)
@@ -415,7 +416,8 @@ def export(run, output, cases=None):
             layout = json.load(stream)
         details[cid] = dict(routing=routing_views(cid, layout, summary["services"], vessel, case_output, plt),
                             transverse=transverse_views(cid, layout, summary["services"], case_output, plt))
-    comparison = comparison_views(case_ids, summaries, baseline, output, plt)
+    comparison = comparison_views(case_ids, summaries, baseline, output, plt,
+                                  study.get("holdout_coverage_passed"))
     if any(digest(run/name) != value for name, value in input_hashes.items()):
         raise RuntimeError("Retained inputs changed during rendering")
     if digest(Path(__file__)) != renderer_hash or any(digest(HERE/name) != value for name, value in helper_hashes.items()):

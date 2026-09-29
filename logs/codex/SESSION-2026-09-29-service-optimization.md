@@ -131,3 +131,43 @@ run under`docs/validation/DES-011-optimization-rejected-pocket-depths/`; origina
 larger-pocket control is assessed separately. DES-011 adds explicit route/throat
 individualitem bounds and an eight-primary-case followup with freshseed202609294.
 This is a scoped correction, not a claim the earlier216case scan passed the newgate.
+
+Final service-source freeze: `ac61f766b34f9bb60748e8fc4258a41037ca1e33`.
+The bounded followup starts with clean tracked source. All11candidate geometries
+pass aggregate capacity and the new necessary individualcomponent fit gates;
+training roles remain unchanged. Fullmodule suite136tests in64.174s:133pass,
+3ACTS-dependent skips; actualselectedcase ACTS jobs run separately. Compressed
+retained second-study JSON decodes to the exact originalhashed bytes; all219
+records are retained. Finaldense/native outcomes follow after completion.
+
+The user additionally requested: “Push the summary to the PR when done.”
+The final numerical outcome, routing views, limitations and separate follow-up
+PR link will be posted to PR #25 after validation completes.
+
+## Final executed outcome
+
+All 11 corrected candidates pass geometry/reference-area/known round-component
+checks. Five retained layouts completed 180,960 mode-track evaluations and 360
+native ACTS trajectories with zero mismatches (maximum residual2.048e-7mm).
+Source/input hashes remained unchanged. Coverage, area and original-pocket cases
+pass dense coverage gates. The spacing candidate loses17 straight long-strip
+station opportunities (10984→10967/12064rays), fails the frozen mean guard and
+is withheld. Smaller local regressions remain explicit; no holdout reranking.
+
+The coverage case yields9.0758 mean stations and196.473m² versus baseline8.2284
+and177.303m², but adds local zero-hit rays. The original-pocket control yields
+9.0182 and197.250m² without increased zero-hit fractions in measured bins; it is
+a comparison option for engineering review, not an approved default. Known
+stripitem allowance leaves only0.6mm extra beyond cable13.4mm+two2mm skins;
+bends, connectors and ancillary shapes remain unqualified. Adversecapacitiesfail.
+
+An independent paired training audit finds last-disc bypass saves2/3/2mm trunk
+width, no silicon area, and0.01582 mean stations. This marginal gain argues for
+keeping the topology optional. Twenty-two final PNG/PDF views rendered and
+routing/transverse/comparison figures were inspected. The spacing failure is
+marked in the figure. Gzip study encoding preserves exactoriginalbytes/hashes.
+
+Publication checks and the PR25 reply link will be added after posting. A small
+tracking-update helper initially addressed the wrong reviews key; corrected
+`rounds` without modifying review approval state. No exact usage counters were
+exposed; usage remains empty. Unrelated usage-summary files remain untouched.
