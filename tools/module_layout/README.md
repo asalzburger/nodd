@@ -21,6 +21,35 @@ the four choices on the original independent random sample;
 `review_total_p_config.json` checks the default with total p = 1 GeV.
 The original configurations and evidence remain available unchanged.
 
+PR #24 did not approve this tracker layout. It remains a working hypothesis.
+The separate [DES-010 service-gap prototype](../../docs/design/DES-010-tracker-service-corridors.md)
+uses it to reserve support, cooling and cable space while keeping all retained
+module positions and identifiers. Layer-position optimization is deferred.
+
+```sh
+python tools/module_layout/services.py \
+  --output reference/cache/NEW-service-gap-study --coverage --native \
+  --acts-source /Users/salzburg/Documents/work/dev/acts-nodd \
+  --runtime-manifest /tmp/acts-python-step-size-overlay/manifest.json
+python tools/module_layout/services_views.py \
+  --run reference/cache/NEW-service-gap-study \
+  --output reference/cache/NEW-service-gap-views
+```
+
+Use the verified runtime/overlay setup below; the temporary overlay path is
+machine-specific and must be recreated or replaced by an equivalent binding
+when unavailable. Without `--native`, geometry, budget and coverage need no ACTS
+import. Omit `--coverage` for a fast service-space and capacity-only probe.
+`--config`, `--budget`, `--models`, `--layouts`, `--envelopes` and `--sampling`
+select explicit inputs. The service inputs distinguish adopted reference
+architecture, adverse packing/readout cases and an unqualified strixel stress.
+Every run writes fresh byte-exact input snapshots and source hashes. Shape
+updates regenerate the baseline before whole-row exclusions; no stale module
+removal list is applied. Missing route capacity is retained as a scenario failure,
+while physical clearance, disconnection or native audit failures stop execution.
+Support envelopes reserve space only; the service tool does not add material,
+thermal calculations, structural mechanics or a layer-position optimizer.
+
 ```sh
 python tools/module_layout/study.py run --jobs 3 --native \
   --models tools/module_layout/review_models.json \

@@ -127,6 +127,11 @@ requests a concrete default for further work and transverse barrel/endcap views.
 This is direction for the isolated **PROTOTYPE**, not formal detector sign-off.
 The prior comparison and its adverse controls remain unchanged.
 
+The user reiterated on 2026-09-29 that PR #24 did **not approve** this default.
+It is only a working hypothesis. The subsequent support/service-gap study is
+[DES-010](DES-010-tracker-service-corridors.md); layer-position optimization is
+deferred to a separate follow-up PR.
+
 **MP-C15 — NODD DESIGN CHOICE:** use independent barrel placement controls for
 each subsystem, replacing the earlier all-subsystem pattern as the next-study
 default. Pixel barrels stagger in phi, with no z staggering by default and a
