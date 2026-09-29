@@ -8,6 +8,8 @@ gaps include the origin and fixed host exit, including for zero/one-hit tracks.
 """
 
 from collections import defaultdict
+import hashlib
+import json
 import math
 
 import numpy as np
@@ -25,6 +27,9 @@ COUNT_FIELDS = ("sensor_hits", "stations", "ideal_stations", "missing_stations",
 SPACING_FIELDS = ("max_inter_hit_gap_mm", "mean_inter_hit_gap_mm",
                   "max_inter_hit_chord_mm", "max_boundary_gap_mm",
                   "first_path_mm", "last_path_mm", "origin_to_first_mm", "last_to_exit_mm")
+# DES-011 SO-C16 diagnostic choices, not detector dimensions or statistical bins.
+COVERAGE_ETA_EDGES = tuple(-4. + .5*i for i in range(17))
+COVERAGE_VERTEX_PLANES_MM = (-150., 0., 150.)
 
 
 def _distribution(values):
@@ -191,6 +196,159 @@ def summarize_cohort(records):
                 index_definition="Worst-track indices are cohort-local; map through track_indices")
 
 
+def _coverage_counts(records):
+    """Integer counts support exact paired comparisons without float tolerances."""
+    count = len(records)
+    stations = sum(row["stations"] for row in records)
+    zero = sum(row["stations"] == 0 for row in records)
+    ideal = sum(row["ideal_stations"] for row in records)
+    missing = sum(row["missing_stations"] for row in records)
+    return dict(tracks=count, station_sum=stations,
+                mean_stations=stations/count if count else None,
+                min_stations=min((row["stations"] for row in records), default=None),
+                zero_station_tracks=zero, fraction_zero_stations=zero/count if count else None,
+                eligible_tracks=sum(row["ideal_stations"] > 0 for row in records),
+                ideal_station_opportunities=ideal, missing_station_opportunities=missing,
+                missing_ideal_station_fraction=missing/ideal if ideal else None)
+
+
+def summarize_coverage_strata(records, *, eta_bin_edges=COVERAGE_ETA_EDGES,
+                              vertex_z_planes_mm=COVERAGE_VERTEX_PLANES_MM):
+    """Retain local coverage, including an exact eta=0, vertex-z=0 control.
+
+    Structured tracks are grouped by eta band and exact sampled vertex plane;
+    off-grid and other interior vertices are separate diagnostics. Eta bins are
+    left-closed/right-open, except the last includes its upper endpoint. Tracks
+    outside the eta range are explicitly retained. This is a finite-sample
+    diagnostic, not an estimate of a blind region's continuous angular extent.
+    Hashes include ordered physical track parameters and cohort membership.
+    """
+    records = list(records)
+    edges = tuple(float(v) for v in eta_bin_edges)
+    planes = tuple(float(v) for v in vertex_z_planes_mm)
+    if (len(edges) < 2 or not all(math.isfinite(v) for v in edges)
+            or any(a >= b for a, b in zip(edges, edges[1:]))):
+        raise ValueError("Eta bin edges must be finite and strictly increasing")
+    if not planes or not all(math.isfinite(v) for v in planes) or len(set(planes)) != len(planes):
+        raise ValueError("Vertex planes must be finite, nonempty and unique")
+    names = sorted(records[0]["per_subdetector"]) if records else []
+    if any(sorted(row["per_subdetector"]) != names for row in records):
+        raise ValueError("Coverage strata require homogeneous subsystem keys")
+    tracks = []
+    for row in records:
+        track = row["track"]
+        identity = dict(origin_mm=[float(v) for v in track["origin_mm"]],
+                        eta=float(track["eta"]), phi=float(track["phi"]),
+                        charge=float(track.get("charge", 1.)),
+                        pt_GeV=float(track.get("pt_GeV", 1.)),
+                        field_T=float(track.get("field_T", 0.)),
+                        cohort=track.get("cohort", "unlabelled"))
+        if len(identity["origin_mm"]) != 3:
+            raise ValueError("A track origin must have three coordinates")
+        tracks.append(identity)
+
+    def sample_hash(indices):
+        encoded = json.dumps([tracks[i] for i in indices], sort_keys=True,
+                             separators=(",", ":"), allow_nan=False).encode()
+        return hashlib.sha256(encoded).hexdigest()
+
+    central_id = "central_eta0_z0"
+    groups = {central_id: []}
+    identities = {central_id: dict(kind="central", eta=0., vertex_z_mm=0.)}
+    for i, track in enumerate(tracks):
+        eta, z = track["eta"], track["origin_mm"][2]
+        if eta == 0. and z == 0.:
+            groups[central_id].append(i)
+        if eta < edges[0]:
+            band, bounds = "below_range", [None, edges[0]]
+        elif eta > edges[-1]:
+            band, bounds = "above_range", [edges[-1], None]
+        else:
+            j = min(int(np.searchsorted(edges, eta, side="right"))-1, len(edges)-2)
+            band, bounds = f"eta_{j:02d}", [edges[j], edges[j+1]]
+        if track["cohort"] == "off_grid":
+            key, kind, plane = f"off_grid/{band}", "off_grid", None
+        elif z in planes:
+            key, kind, plane = f"grid/{band}/vertex_{planes.index(z)}", "eta_vertex_plane", z
+        else:
+            key, kind, plane = f"other_interior/{band}", "other_interior", None
+        groups.setdefault(key, []).append(i)
+        identities[key] = dict(kind=kind, eta_bounds=bounds, vertex_z_mm=plane,
+                               upper_endpoint_included=bounds[1] == edges[-1])
+    strata = {}
+    for key, indices in sorted(groups.items()):
+        chosen = [records[i] for i in indices]
+        strata[key] = dict(identity=identities[key], tracks=len(indices),
+                           sample_sha256=sample_hash(indices),
+                           total=_coverage_counts([row["total"] for row in chosen]),
+                           per_subdetector={name: _coverage_counts(
+                               [row["per_subdetector"][name] for row in chosen]) for name in names})
+    return dict(schema_version=1, tracks=len(records), sample_sha256=sample_hash(range(len(records))),
+                eta_bin_edges=list(edges), vertex_z_planes_mm=list(planes),
+                central_stratum_id=central_id, strata=strata,
+                definition="DES-011 SO-C16 paired finite-sample local coverage; exact central rays and eta/vertex-plane bands",
+                bin_boundary="left-closed/right-open; final upper endpoint included; out-of-range and interior tracks retained separately")
+
+
+def coverage_strata_regressions(candidate_spacing, baseline_spacing):
+    """Compare one mode's matched samples under the DES-011 SO-C16 guard.
+
+    Central station means must not decrease and zero-station fractions must not
+    increase, separately in total and per subsystem. Elsewhere only a newly
+    completely blind structured eta/vertex-plane stratum is a hard failure.
+    Smaller local losses and interior/off-grid changes remain explicit. Exact
+    integer sums/counts on identical samples avoid numerical guard tolerances.
+    Missing ideal opportunities are reported; they are not an eligibility gate
+    that could excuse losing a previously reached station.
+    """
+    candidate, baseline = candidate_spacing["local_coverage"], baseline_spacing["local_coverage"]
+    for key in ("schema_version", "tracks", "sample_sha256", "eta_bin_edges",
+                "vertex_z_planes_mm", "central_stratum_id"):
+        if candidate[key] != baseline[key]:
+            raise ValueError(f"Coverage comparisons require identical paired samples and strata: {key}")
+    if candidate["strata"].keys() != baseline["strata"].keys():
+        raise ValueError("Coverage comparisons require identical stratum identities")
+    central_id = baseline["central_stratum_id"]
+    tested = baseline["strata"][central_id]["tracks"] > 0
+    central_failures, blind, regressions, changes = [], [], [], []
+    for key, old in baseline["strata"].items():
+        new = candidate["strata"][key]
+        if any(new[field] != old[field] for field in ("identity", "tracks", "sample_sha256")):
+            raise ValueError(f"Coverage comparisons require identical paired stratum samples: {key}")
+        if new["per_subdetector"].keys() != old["per_subdetector"].keys():
+            raise ValueError("Coverage comparisons require identical subsystem identities")
+        scopes = [("total", old["total"], new["total"])] + [
+            (name, old["per_subdetector"][name], new["per_subdetector"][name])
+            for name in sorted(old["per_subdetector"])]
+        for scope, before, after in scopes:
+            if before["tracks"] != old["tracks"] or after["tracks"] != new["tracks"]:
+                raise ValueError("Coverage counts must describe the paired stratum")
+            change = dict(stratum_id=key, identity=old["identity"], subsystem=scope,
+                          tracks=old["tracks"], sample_sha256=old["sample_sha256"],
+                          baseline=before, candidate=after,
+                          station_sum_delta=after["station_sum"]-before["station_sum"],
+                          zero_station_tracks_delta=after["zero_station_tracks"]-before["zero_station_tracks"],
+                          missing_station_opportunities_delta=after["missing_station_opportunities"]-before["missing_station_opportunities"])
+            change["mean_stations_delta"] = change["station_sum_delta"]/old["tracks"] if old["tracks"] else None
+            change["fraction_zero_stations_delta"] = change["zero_station_tracks_delta"]/old["tracks"] if old["tracks"] else None
+            changes.append(change)
+            coverage_loss = change["station_sum_delta"] < 0 or change["zero_station_tracks_delta"] > 0
+            if coverage_loss or change["missing_station_opportunities_delta"] > 0:
+                regressions.append(change)
+            if key == central_id and coverage_loss:
+                central_failures.append(change)
+            if (old["identity"]["kind"] == "eta_vertex_plane"
+                    and before["station_sum"] > 0 and after["station_sum"] == 0):
+                blind.append(change)
+    central_pass = tested and not central_failures
+    return dict(passed=central_pass and not blind, central_tested=tested,
+                central_pass=central_pass, no_new_blind_strata_pass=not blind,
+                central_failure_reason=None if tested else "No exact eta=0, vertex-z=0 tracks; central guard untested",
+                sample_sha256=baseline["sample_sha256"], central_failures=central_failures,
+                newly_blind_strata=blind, local_regressions=regressions, local_changes=changes,
+                definition="Strict central mean/zero-station nonloss; no new fully blind structured eta/vertex-plane stratum; all smaller changes reported")
+
+
 def evaluate_spacing(layout, tracks, *, reference_layers=None, index=None,
                      host_radius_mm=1140., host_half_z_mm=3150., return_per_track=True):
     """Measure coverage and spacing in one finite-surface oracle pass per track.
@@ -233,10 +391,9 @@ def evaluate_spacing(layout, tracks, *, reference_layers=None, index=None,
             sub_ideal = {sid for sid in ideal if station_subsystem[sid] == name}
             by_subsystem[name] = _track_group(*chosen, sub_ideal, track, limit)
             subsystems[name].append(by_subsystem[name])
-        if return_per_track:
-            rows.append(dict(track_index=track_index, track=dict(track),
-                             traversal_path_mm=limit*math.cosh(track["eta"]),
-                             total=total, per_subdetector=by_subsystem))
+        rows.append(dict(track_index=track_index, track=dict(track),
+                         traversal_path_mm=limit*math.cosh(track["eta"]),
+                         total=total, per_subdetector=by_subsystem))
     result = dict(schema_version=1, definition="PROTOTYPE geometric coverage and 3D path spacing",
                   reference_basis="candidate_local" if reference_layers is None else "external_fixed",
                   path_limit="first common-host exit or first transverse half-turn",
@@ -245,6 +402,7 @@ def evaluate_spacing(layout, tracks, *, reference_layers=None, index=None,
                   spacing_boundary="common origin-to-host traversal, including for each subsystem; not a subsystem active envelope",
                   selection_guard="Compare fixed-reference coverage before spacing; undefined inter-hit gaps are null, never zero",
                   host_radius_mm=host_radius_mm, host_half_z_mm=host_half_z_mm,
+                  local_coverage=summarize_coverage_strata(rows),
                   total=_summarize(totals),
                   per_subdetector={name: _summarize(data) for name, data in subsystems.items()})
     if return_per_track:

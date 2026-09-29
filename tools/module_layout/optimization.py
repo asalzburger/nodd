@@ -21,14 +21,14 @@ import subprocess
 
 if __package__:
     from . import geometry, services, services_budget, services_geometry
-    from .optimization_metrics import evaluate_spacing, summarize_cohort
+    from .optimization_metrics import evaluate_spacing, summarize_cohort, coverage_strata_regressions
     from .optimization_placement import refill_candidate
     from .optimization_services import build_optimized_services, default_policy
     from .intersections import SurfaceIndex, evaluate
     from .sampling import directions, tracks_for, native_sample
 else:
     import geometry, services, services_budget, services_geometry
-    from optimization_metrics import evaluate_spacing, summarize_cohort
+    from optimization_metrics import evaluate_spacing, summarize_cohort, coverage_strata_regressions
     from optimization_placement import refill_candidate
     from optimization_services import build_optimized_services, default_policy
     from intersections import SurfaceIndex, evaluate
@@ -73,6 +73,8 @@ def validate_config(config):
         sample=config[name]
         if sample["eta_points"]<2 or sample["stress_eta_points"]<2 or min(sample["phi_points"],sample["stress_phi_points"],sample["random_tracks"])<1:
             raise ValueError("Sampling needs nonempty angular grids and random cohort")
+        if sample["eta_points"] % 2 == 0 or 0. not in sample["z_vertices_mm"]:
+            raise ValueError("Central coverage guard requires eta=0 and vertex-z=0 grid samples")
         if sample["eta_max"]<=0 or sample["momentum_GeV"]<=0:
             raise ValueError("Sampling needs positive eta range and momentum")
     if config["fixed_point_iterations"]<1 or config["native_tracks_per_case"]<3:
@@ -237,18 +239,25 @@ def trial(parameters, config, paths, reference, baseline):
         if not failures:
             spacing = spacing_reports(layout, track_sets(config["training"]), reference)
             record.update(spacing=spacing, score=score(spacing, record["area"]),
-                          no_subsystem_mean_hit_loss=no_mean_hit_loss(spacing, baseline))
+                          no_subsystem_mean_hit_loss=no_mean_hit_loss(spacing, baseline),
+                          local_coverage_guard={mode:coverage_strata_regressions(spacing[mode],baseline[mode]) for mode in MODES})
+            # Complete before/after stratum counts already live in spacing and
+            # baseline_training. Keep failures/deltas here without another full
+            # duplicate of every unchanged stratum in each search record.
+            for guard in record["local_coverage_guard"].values():
+                guard.pop("local_changes")
         return record
     except (ValueError, RuntimeError) as error:
         return dict(id=parameters["id"], parameters=parameters, feasible=False,
                     failures=[type(error).__name__+": "+str(error)])
 
 
-def select(records):
+def select(records, *, seed_only=False):
     feasible = [r for r in records if r["feasible"] and r["no_subsystem_mean_hit_loss"]
+                and all(v["central_pass" if seed_only else "passed"] for v in r["local_coverage_guard"].values())
                 and not r.get("parameters", {}).get("original_pocket_floors", False)]
     if not feasible:
-        raise RuntimeError("No feasible candidate preserves every subsystem's mean training hit count")
+        raise RuntimeError("No feasible candidate passes mean and local-coverage guards")
     coverage = max(feasible, key=lambda r:(r["score"]["worst_mode_mean_stations"],
                      r["score"]["mean_stations"],-r["score"]["worst_mode_p95_boundary_gap_mm"],
                      r["score"]["active_area_m2"],r["id"]))
@@ -256,6 +265,24 @@ def select(records):
                   r["score"]["worst_mode_p95_boundary_gap_mm"],-r["score"]["mean_stations"],r["id"]))
     area = max(feasible, key=lambda r:(r["score"]["active_area_m2"],r["score"]["mean_stations"],r["id"]))
     return dict(coverage=coverage["id"], spacing=gap["id"], area=area["id"])
+
+
+def include_central_native_tracks(chosen, tracks):
+    """Add eight central-grid azimuth probes per mode without duplicating tracks."""
+    seen = {(row["mode"], row["original_index"]) for row in chosen}
+    result = list(chosen)
+    for mode, values in tracks.items():
+        central = [i for i, row in enumerate(values) if row["eta"] == 0.
+                   and row["origin_mm"][2] == 0. and row["cohort"] == "central_grid"]
+        if not central:
+            raise ValueError("Native validation requires a central eta=0/z=0 grid cohort")
+        central.sort(key=lambda i: values[i]["phi"])
+        for j in range(min(8, len(central))):
+            i = central[j*len(central)//min(8, len(central))]
+            if (mode,i) not in seen:
+                result.append(dict(values[i], mode=mode, original_index=i))
+                seen.add((mode,i))
+    return result
 
 
 def retain_case(output, case_id, layout, service, tracks, reference, *, native=False,
@@ -280,7 +307,7 @@ def retain_case(output, case_id, layout, service, tracks, reference, *, native=F
                             -raw["spacing"][i]["total"]["station_spacing"]["max_boundary_gap_mm"]))[:4]
     with gzip.open(directory/"layout.json.gz", "wt") as stream:
         json.dump(layout, stream, allow_nan=False)
-    chosen = native_sample(tracks, native_count, seed, worst)
+    chosen = include_central_native_tracks(native_sample(tracks, native_count, seed, worst), tracks)
     write(directory/"native_tracks.json", chosen)
     write(directory/"summary.json", summary)
     if native:
@@ -332,6 +359,16 @@ def report_markdown(study, retained):
             for sub, values in [("total",spacing["total"]),*spacing["per_subdetector"].items()]:
                 gaps=values["station_spacing"]
                 lines.append(f"| {name} | {mode} | {sub} | {number(values['sensor_hits']['mean'])} | {number(values['stations']['mean'])} | {percent(values['missing_ideal_station_fraction'])} | {number(gaps['max_inter_hit_gap_mm']['p95'])} | {number(gaps['max_boundary_gap_mm']['p95'])} |")
+    lines += ["", "## Local coverage guards", "",
+              "Central eta=0 / vertex z=0 must preserve each subsystem's mean and zero-hit fraction.",
+              "Other eta-band / vertex-plane strata must not become entirely blind. Smaller local",
+              "regressions are retained explicitly; passing is not pointwise or continuum hermeticity.", "",
+              "| Candidate | Mode | Central guard | No new blind stratum | Strata/subsystem regressions |",
+              "| --- | --- | --- | --- | ---: |"]
+    for name, modes in study.get("holdout_local_coverage_guards", {}).items():
+        for mode, guard in modes.items():
+            lines.append(f"| {name} | {mode} | {guard['central_pass']} | {guard['no_new_blind_strata_pass']} | {len(guard['local_regressions'])} |")
+    lines += ["", "Detailed local changes and paired track hashes are retained in `study.json` and case summaries.", ""]
     lines += ["", "## Independent random cohort", "",
               "| Candidate | Mean stations | Fixed-reference missed stations | Worst-mode p95 maximum inter-station gap, mm |",
               "| --- | ---: | ---: | ---: |"]
@@ -397,8 +434,12 @@ def run(args):
                 write(output/"study.json", study)
                 print(record["id"], "feasible" if record["feasible"] else record["failures"], flush=True)
     execute(parameters)
-    selection = select(study["records"])
-    # A bounded second pass moves only intermediate radii of the training winner.
+    # Explore radius changes from a physically feasible, mean/central-preserving
+    # seed even when its other angular strata need repair. It is not a finalist:
+    # all final roles below require the complete local-coverage guard.
+    selection = select(study["records"], seed_only=True)
+    study["secondary_seed"] = selection["coverage"]
+    # A bounded second pass moves only intermediate radii of that training seed.
     winner = next(r for r in study["records"] if r["id"] == selection["coverage"])
     extra = []
     for offset in config["barrel_radius_offsets_mm"]:
@@ -448,6 +489,8 @@ def run(args):
     study["holdout_scores"] = {key:score(value["spacing"],value["summary"]) for key,value in retained.items()}
     study["holdout_no_subsystem_mean_hit_loss"] = {key:no_mean_hit_loss(value["spacing"],retained["pr25"]["spacing"])
                                                  for key,value in retained.items() if key != "pr25"}
+    study["holdout_local_coverage_guards"] = {key:{mode:coverage_strata_regressions(value["spacing"][mode],retained["pr25"]["spacing"][mode]) for mode in MODES}
+                                                for key,value in retained.items() if key != "pr25"}
     study["independent_random_scores"] = {key:score(value["independent_random_spacing"],value["summary"])
                                            for key,value in retained.items()}
     if {p.name:sha(p) for p in HERE.glob("*.py")} != study["code_sha256"]:

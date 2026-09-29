@@ -54,7 +54,12 @@ the last disc positions and distribute intermediate discs using the inherited
 fractions, equal intervals or a power-law exponent of 1.25. The first disc is
 placed at the finite-body/service lower bound. Compare both final-disc routing
 topologies. A second pass shifts four intermediate barrel radii by ±10 mm,
-retaining the inner two pixel radii and the outermost tracking radius.
+retaining the inner two pixel radii and the outermost tracking radius. Its seed
+must pass physical constraints, subsystem means and the strict central guard;
+it may still fail another angular stratum. Radius exploration can repair such a
+seam. The seed is not a finalist: all final roles require the complete SO-C16
+guard. This distinction was frozen after the 1300 mm development probe exposed
+a fully blind straight eta=-0.5, vertex-z=+150 mm stratum in unshifted barrels.
 
 **SO-C12 — NODD DESIGN CHOICE, proposed:** derive the constant trunk, barrel-turn,
 collector and joining-pocket dimensions from each repopulated inventory, using
@@ -63,34 +68,43 @@ rounded upwards to whole millimetres. Retain all adverse budget outcomes.
 The compact-pocket study uses a 10 mm floor for barrel and disc routing pockets;
 this is an **unqualified space hypothesis**, not a sourced bend radius or proof
 that connectors fit. Compare the winning geometry with the original DES-010
-50/80/90 mm barrel and 50/90/90 mm disc pocket floors. The final common exit may
-start at r=1040 mm within the existing proposed bore envelope; outer radius
-1220 mm and the 3555–3645 mm exit window remain fixed. No new global allocation
+50/80/90 mm barrel and 50/90/90 mm disc pocket floors. The common rear collector and radial-exit inlet may
+start at r=1040 mm within the existing proposed bore envelope; its 1220 mm outer
+bore limit and the 3555–3645 mm exit window remain fixed. The downstream radial
+handoff still extends to r=1680 mm within the conditional vessel opening. No new global allocation
 is made. Every enlarged overlap is shown and checked explicitly.
 
 **SO-C13 — NODD DESIGN CHOICE, proposed:** train on 17×8 angular grid points at
 three luminous z positions, a 9×4 grid at all luminous corners, and 256 random
 directions (seed 202609291), separately for straight and both charged modes.
 Rank only physically feasible candidates that do not lower any subsystem's mean
-station count in any mode relative to the PR #25 control. Retain separate best
+station count in any mode relative to the PR #25 control and pass SO-C16. Retain separate best
 tested coverage, inter-station spacing and active-area candidates. Coverage rank
 first maximizes the worst-mode mean station count; it does not claim a continuum
 minimum or detector resolution optimum.
 
 Freeze that selection before a denser 41×32 central / 21×16 luminous-corner grid
-and 4096 independent random directions (seed 202609292). The holdout's grids share
+and 4096 independent random directions (revised seed 202609293). The holdout's grids share
 some training angles; only its random cohort is statistically independent. Report
 holdout performance without reranking, and use native ACTS on a seeded sample
 plus adverse trajectories. Separately record candidate-local ideal misses and
 fixed-original-layer misses; neither replaces actual reached-station counts.
 
 **SO-C14 — NODD DESIGN CHOICE, proposed:** also compare long-strip barrel nominal
-half-lengths 1350 and 1400 mm. The unchanged endpoint-filling policy generates
-24 and 25 rows, respectively. With 25 rows, the central row is assigned to the
+half-lengths 1287.3333333333333, 1300, 1350 and 1400 mm. The unchanged
+endpoint-filling policy generates 23, 23, 24 and 25 rows, respectively.
+The first preserves the original PR #25 retained barrel-row pitch: the original
+25-row arrangement has pitch (2800−96)/24 = 112.6666667 mm; retaining 23 rows
+at that pitch gives nominal half-length (22×pitch+96)/2 = 1287.3333333 mm.
+It is a **NODD DESIGN CHOICE** to retain this derived-pitch control, avoiding
+unnecessary shifts of existing longitudinal seams; it is not fitted to an eta
+sample. The 1300 mm option stretches the same 23 rows to a larger extent. With 25 rows, the central row is assigned to the
 positive end; 13 modules per positive half-stave exceed the inherited 12-module
 harness ceiling and require two harnesses there. The 24-row option has 12 on
-each end. This is an explicit geometry/electrical tradeoff, not a change to the
-harness architecture or an omission of central modules. Compare both under the
+each end but leaves an active seam at z=0. The 23-row option retains the central
+row with 12/11 modules per positive/negative half-stave, within the same harness
+ceiling. This is an explicit geometry/electrical tradeoff, not a change to the
+harness architecture or an omission of central modules. Compare all four under the
 same finite-body clearance, exit-capacity and hit-coverage constraints.
 
 **SO-C15 — NODD DESIGN CHOICE, proposed:** refill pixel endcaps down to a physical
@@ -98,6 +112,25 @@ body radius of 27 mm (25 mm host plus 2 mm allowance), compared with the origina
 29.7 mm body minimum. Refill long-strip endcaps up to a body radius of 1138 mm
 (1140 mm host minus 2 mm). These are candidate body bounds, not redefinitions of
 the original ideal-layer denominator or approved beam-pipe interfaces.
+
+**SO-C16 — NODD DESIGN CHOICE, proposed after an observed failure:** the first
+retained run at `6c882257c368927732315dbc756f1b89263d95af` selected 24-row long-strip
+barrels. Dense validation exposed a central seam: all 96 straight rays with
+eta=0 and vertex z=0 lost both long-strip stations despite improved global means.
+Preserve that run as rejected evidence. Before the revised search, add the
+23-row alternative and freeze a local guard: the central eta=0/vertex-z=0 cohort
+must preserve each subsystem's mean stations and zero-station fraction in every
+mode. Across 0.5-wide eta bands at each sampled vertex plane (-150/0/150 mm),
+reject any newly completely blind subsystem stratum that was reached in the
+baseline. Require identical paired track identities. Report all other local
+mean/zero-hit regressions explicitly; this guard does not promise pointwise
+non-regression. Bins and zero-loss central rule are diagnostic choices, not
+sourced detector specifications. The repeated dense grids now serve regression
+testing; use fresh random seed 202609293 for the revised independent cohort.
+No sensor, staggering policy or harness limit is changed to repair the seam.
+The native sample explicitly includes eight uniformly spread central-grid
+azimuths per mode in addition to the seeded/adverse sample; the first run's
+native sample contained no eta=0 tracks.
 
 ## Validation contract
 

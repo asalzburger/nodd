@@ -5,9 +5,9 @@ from pathlib import Path
 import unittest
 
 try:
-    from .optimization import MODES, SUBS, disc_coordinates, no_mean_hit_loss, select, validate_config
+    from .optimization import MODES, SUBS, disc_coordinates, include_central_native_tracks, no_mean_hit_loss, select, validate_config
 except ImportError:
-    from optimization import MODES, SUBS, disc_coordinates, no_mean_hit_loss, select, validate_config
+    from optimization import MODES, SUBS, disc_coordinates, include_central_native_tracks, no_mean_hit_loss, select, validate_config
 
 
 class OptimizationDriverTests(unittest.TestCase):
@@ -17,6 +17,9 @@ class OptimizationDriverTests(unittest.TestCase):
         for key,value in (("variant","flat"),("pixel_family","single"),
                           ("pixel_trunk_inner_mm",[170.,170.]),("disc_spacing",["typo"])):
             changed=copy.deepcopy(config);changed[key]=value
+            with self.assertRaises(ValueError):validate_config(changed)
+        for key,value in (("eta_points",40),("z_vertices_mm",[-150.,150.])):
+            changed=copy.deepcopy(config);changed["holdout"][key]=value
             with self.assertRaises(ValueError):validate_config(changed)
         config["holdout"]["seed"]=config["training"]["seed"]
         with self.assertRaises(ValueError):validate_config(config)
@@ -53,6 +56,7 @@ class OptimizationDriverTests(unittest.TestCase):
     def test_selection_rejects_infeasible_or_hit_losing_high_area_case(self):
         def record(name,area,hits,gap,feasible=True,guard=True):
             return dict(id=name,feasible=feasible,no_subsystem_mean_hit_loss=guard,
+                        local_coverage_guard={mode:{"passed":True,"central_pass":True} for mode in MODES},
                         score=dict(active_area_m2=area,mean_stations=hits,
                                    worst_mode_mean_stations=hits,
                                    worst_mode_p95_inter_station_gap_mm=gap,
@@ -66,6 +70,22 @@ class OptimizationDriverTests(unittest.TestCase):
         control["parameters"]={"original_pocket_floors":True}
         self.assertEqual(chosen,select(records+[control]))
         with self.assertRaises(RuntimeError):select(records[2:])
+        blind=record("blind",400,200,0.1)
+        blind["local_coverage_guard"]["straight"]["passed"]=False
+        self.assertEqual(chosen,select(records+[blind]))
+        self.assertEqual(select(records+[blind],seed_only=True)["coverage"],"blind")
+        blind["local_coverage_guard"]["straight"]["central_pass"]=False
+        self.assertEqual(chosen,select(records+[blind],seed_only=True))
+
+    def test_native_central_probes_span_azimuths_and_deduplicate(self):
+        tracks={mode:[dict(eta=0.,origin_mm=[0.5,0.5,0.],phi=i/32*6.283,
+                           cohort="central_grid") for i in range(32)] for mode in MODES}
+        initial=[dict(tracks["straight"][0],mode="straight",original_index=0)]
+        chosen=include_central_native_tracks(initial,tracks)
+        self.assertEqual(len(chosen),24)
+        for mode in MODES:
+            self.assertEqual(sorted(r["original_index"] for r in chosen if r["mode"]==mode),list(range(0,32,4)))
+        with self.assertRaises(ValueError):include_central_native_tracks([], {"straight":[]})
 
 
 if __name__=="__main__":unittest.main()

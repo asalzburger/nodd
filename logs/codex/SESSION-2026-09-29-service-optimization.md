@@ -62,3 +62,49 @@ Independent source audit added explicit unsupported-config/duplicate-ID guards,
 null-statistic handling, baseline geometry validation, and final source/input
 hash checks. Source is committed before the retained run. New source, tests,
 configuration, DES-011 and tracking records form one isolated prototype.
+
+
+Source freeze: `6c882257c368927732315dbc756f1b89263d95af`. The retained run reports
+clean tracked source and snapshots all inputs. All 33 new tests passed in
+4.420 s. The full module suite ran 123 tests in 60.816 s: 120 passed and three
+native tests were skipped in system Python. Native finalist checks run separately
+inside the verified ACTS runtime. All 32 logging tests passed in 1.198 s. SHA-256
+checks confirm all 21 original DES-010 artifacts remain byte-identical.
+
+## Rejected first run and corrective protocol
+
+The complete frozen-source run produced111 candidates,39 geometry/capacity
+passes and23 mean-hit guard passes. All five retained cases completed36192
+mode-track evaluations and48 native checks each with zero mismatches. The22
+PNG/PDF figures rendered; all source/input hashes remained unchanged.
+
+Post-run local coverage inspection exposed a failure hidden by the mean score:
+24 long-strip barrel rows leave a15.3167mm stereo-projected active seam atz=0.
+All96 eta=0/zvertex=0 rays per mode lost both long-strip stations, while PR25
+retained means2/2/1.9375 (straight/positive/negative). Native samples contained
+no eta=0 rays; their agreement was not coverage acceptance. The first full run,
+figures and exact central-cohort diagnostic are retained under
+`docs/validation/DES-011-optimization-rejected-even-rows/`.
+
+Before the corrective run, DES-011 adds half-length1300mm (23rows, central row,
+12/11 modules per signed half-stave), strict central mean/zero-hit guards and
+no newly completely blind eta/vertex strata. Smaller local regressions remain
+reported. Sensor shapes, no-z-stagger long-strip policy and harness architecture
+are unchanged. Explicit central native probes are added. First-run dense grids
+now serve regression testing; a fresh random seed202609293 is independent.
+Independent agents confirmed the1300 alternatives fit unchanged service limits.
+The earlier27 dashboard tests passed in178.741s; logging32 tests also passed.
+
+The new local guard correctly rejected the first1300 development seed: at
+straight eta=-0.5,vertexz=+150mm both unchanged-radius LS layers shared a row seam.
+The existing±10mm intermediate-radius exploration can decorrelate those seams.
+Its seed now requires physical/mean/central constraints, while all final ranking
+roles still require the full local guard. This search-stage distinction is
+explicit in DES-011; a seed is never presented as a validated finalist.
+
+The explicit1300/front-loaded/p190/s680 probe completed with the+10mm variant
+passing all final training guards, service/body/host checks. A fourth declared
+length1287.3333333333333mm preserves the retained PR25 barrel-row pitch exactly:
+(22×((2800−96)/24)+96)/2. This provides a physical baseline-preserving alternative
+to stretching23rows. The full revised configuration has216 primary cases plus
+the bounded radius/pocket follow-up. No new longitudinal staggering is introduced.

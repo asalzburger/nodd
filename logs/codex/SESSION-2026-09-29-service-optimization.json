@@ -11,7 +11,8 @@
   "limitations": [
     "Exact client-reported root/subagent per-turn token counters are unavailable; usage is empty, not zero.",
     "Bounded prototype search and finite sampling do not establish global optimum, continuum hermeticity or engineering approval.",
-    "Compact routing-pocket floors, service electronics/packing and vessel handoff remain unqualified design hypotheses."
+    "Compact routing-pocket floors, service electronics/packing and vessel handoff remain unqualified design hypotheses.",
+    "Protocol revised after first dense run exposed a central seam. Revised grid is a regression check; fresh random seed202609293 preserves independent random validation."
   ],
   "client": {
     "name": "unspecified",
@@ -27,7 +28,9 @@
       "logs/usage/USAGE-2026-09-29-local.json",
       "logs/usage/USAGE-2026-09-29-project-summary.json"
     ],
-    "result_commits": [],
+    "result_commits": [
+      "6c882257c368927732315dbc756f1b89263d95af"
+    ],
     "changed_files": [
       "docs/design/DES-011-service-constrained-tracker-optimization.md",
       "logs/codex/SESSION-2026-09-29-service-optimization.json",
@@ -125,6 +128,78 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "Development probe: one primary plus two barrel shifts and original-pocket control. All four physical/service checks passed; only primary/control preserved every subsystem mean. No final holdout/native claim. Later separated original-pocket comparison from primary ranking."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/module_layout -p 'test_optimization*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "33 tests passed in 4.420 s after final configuration/selection guards."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/module_layout -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "123 tests run in 60.816 s: 120 passed, three native ACTS tests skipped in system Python; selected-layout native validation runs separately in verified runtime."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p 'test_*.py' -q",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "32 tests passed in 1.198 s."
+    },
+    {
+      "command": "Verify SHA-256 against both original DES010 artifact manifests",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All 21 retained original artifacts remain byte-identical."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/dashboard -p test_*.py -q",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "27 dashboard tests passed in178.741s before protocol revision."
+    },
+    {
+      "command": "optimization.py --jobs3 --native --output reference/cache/DES-011-optimization-main-20260929 (full configured first run)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "111 candidates;39 geometry/capacity feasible;23 passed mean guard. Five retained cases,36192mode-tracks each; all240 native checks passed. Input/source hashes unchanged. Numerical execution pass is not coverage acceptance."
+    },
+    {
+      "command": "Post-run central eta0/zvertex0 cohort diagnostic",
+      "status": "FAIL",
+      "exit_code": null,
+      "result": "All four selected/control24-row layouts lose every long-strip station for all96 central rays per mode. Baseline averages2/2/1.9375 stations. Mean-only guard insufficient; native sample had no eta0 tracks. Entire first run retained as rejected evidence."
+    },
+    {
+      "command": "optimization_views.py render first study",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "22 PNG/PDF views generated; comparison inspected. First-run views retained with explicit rejected-run notice."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/module_layout -p test_optimization*.py -q (first local-guard revision)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "41 focused tests passed in4.692s, including7 local-coverage controls and central native sampling."
+    },
+    {
+      "command": "optimization.py --output /tmp/nodd-optimization-odd-probe --jobs1 --limit1 --search-only",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Development seed1300/p170/s640 physically feasible and mean/central preserving, but new local guard rejects an entirely blind straight eta[-0.5,0),vertexz+150 LS stratum. Selection correctly refuses it. Subsequent protocol permits mean/central-preserving exploratory seeds for existing\u00b110mm radius scan, while final ranking still requires fullguard."
+    },
+    {
+      "command": "Independent1300 counterpart geometry/training/central probes",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Three counterparts pass original geometry/service checks and all subsystem training means; dense central rays show no individual station losses. This does not establish other angular strata pass."
+    },
+    {
+      "command": "optimization.py --config /tmp/nodd-optimization-odd-guard-probe-config.json --output /tmp/nodd-optimization-odd-guard-probe --jobs3 --search-only",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Exploratory mean/central-preserving1300 seed and three controls generated; fullguard selects+10mm variant. 41 focusedtests passed after stagedselection change. No final holdout/native claim."
     }
   ]
 }

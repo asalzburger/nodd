@@ -24,7 +24,8 @@ The original configurations and evidence remain available unchanged.
 PR #24 did not approve this tracker layout. It remains a working hypothesis.
 The separate [DES-010 service-gap prototype](../../docs/design/DES-010-tracker-service-corridors.md)
 uses it to reserve support, cooling and cable space while keeping all retained
-module positions and identifiers. Layer-position optimization is deferred. The [executed DES-010 report](../../docs/validation/DES-010-tracker-services.md)
+module positions and identifiers. The separate DES-011 follow-up below explores
+new placements. The [executed DES-010 report](../../docs/validation/DES-010-tracker-services.md)
 retains the routing mockups, failed adverse capacity scenarios and coverage costs.
 
 ```sh
@@ -109,6 +110,11 @@ It is not a proof of global optimality or continuum hermeticity. Reachable
 stations and fixed-original-layer misses accompany physical path gaps; chip
 islands and stereo faces cannot inflate the station count. Active area is the
 sum of finite sensitive patches, including overlaps, not their projected union.
+The revised selection also guards the central eta=0/z=0 cohort and rejects newly
+fully blind eta/vertex strata. All smaller local regressions remain visible;
+mean gains do not establish pointwise non-regression. The first even-row run
+exposed a central long-strip seam and is preserved as rejected evidence.
+Native checks include explicit central probes in all three trajectory modes.
 Every rejected candidate and its parameters remain in `study.json`. Regenerate
 the study after sensor-shape changes instead of reusing old service inventories.
 
