@@ -65,3 +65,17 @@ and published reply are recorded below after execution.
 Exact root/subagent counters are unavailable. Usage remains empty. Historical
 observed totals will be reported by the journal summary without allocating them
 to this task. No private client state or raw model content is collected.
+
+## Frozen execution and evidence
+
+Source/code/dossier commit `b6a7506d671d4462935d9c07efdf401f3aeaf676` was committed
+before the retained profile run; tracked source was clean. Executed the profile
+and view commands shown in the report to
+`docs/validation/DES-010-services/review-accumulation`, preserving all original
+run artifacts. Six profiles, both ends, match all terminal scenario loads and
+capacities; exact input snapshots and original producer hashes pass. Generated
+PNG/PDF inspected, with independent artifact manifest. Geometry/hit evidence
+remains byte-identical; no redundant ACTS propagation or physics scan claimed.
+Dashboard validates32 tasks/11documents/12reviewrounds and builds successfully;
+journal validates59 local records. The local count includes the unrelated
+untracked usage-summary pair. `git diff --check` passes.

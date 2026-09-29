@@ -27,11 +27,19 @@
       "logs/usage/USAGE-2026-09-29-local.json",
       "logs/usage/USAGE-2026-09-29-project-summary.json"
     ],
-    "result_commits": [],
+    "result_commits": [
+      "b6a7506d671d4462935d9c07efdf401f3aeaf676"
+    ],
     "changed_files": [
       "docs/design/DES-010-tracker-service-corridors.md",
       "docs/design/inputs/DES-010-upgrade-service-comparison.md",
       "docs/validation/DES-010-service-gap-review.md",
+      "docs/validation/DES-010-services/review-accumulation/artifacts.json",
+      "docs/validation/DES-010-services/review-accumulation/budget_inputs.json",
+      "docs/validation/DES-010-services/review-accumulation/profile.json",
+      "docs/validation/DES-010-services/review-accumulation/views/cumulative-services.pdf",
+      "docs/validation/DES-010-services/review-accumulation/views/cumulative-services.png",
+      "docs/validation/DES-010-services/review-accumulation/views/views.json",
       "docs/validation/DES-010-tracker-services.md",
       "logs/codex/SESSION-2026-09-29-service-gap-review.json",
       "logs/codex/SESSION-2026-09-29-service-gap-review.md",
@@ -109,6 +117,36 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "49 tests passed in4.631s; includes original services budget/geometry/driver tests and10 additive-profile controls."
+    },
+    {
+      "command": "services_profile.py --run docs/validation/DES-010-services/main --output docs/validation/DES-010-services/review-accumulation --pickup-policy near-edge-full-load",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Six profiles generated at clean b6a7506; ten/seven/seven segments per signed end; all terminal budgets identical."
+    },
+    {
+      "command": "services_profile_views.py --run docs/validation/DES-010-services/review-accumulation --output docs/validation/DES-010-services/review-accumulation/views (verified plot environment)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "PNG/PDF and hashes generated; final six-panel figure visually checked."
+    },
+    {
+      "command": "Verify original DES010 artifact hashes and new profile/source/view hashes",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All original evidence byte-identical; clean additive source provenance; new plots match manifest."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate; build --output /tmp/nodd-pr25-review-dashboard",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "32tasks,11documents,12reviewrounds validated; dashboard build passed."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate; git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "59localpairedrecords validate; no whitespace errors."
     }
   ]
 }

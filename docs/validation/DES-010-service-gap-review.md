@@ -137,9 +137,12 @@ checked directly. No ACTS build or propagation was needed for this additive
 budget diagnostic. Source SHA, code/input hashes, timestamp, command and runtime
 are retained in profile/view metadata.
 
-Ten new controls cover mirrored/unequal ends, exact source-group partition,
+The retained additive run used clean source
+`b6a7506d671d4462935d9c07efdf401f3aeaf676`; its [artifact manifest](DES-010-services/review-accumulation/artifacts.json)
+covers the profile, input snapshot and PNG/PDF output. All 49 service tests passed,
+including ten new controls covering mirrored/unequal ends, exact source-group partition,
 local rounding, cooling manifold aggregation, final load agreement, equivalent
 width inversion, malformed graph/pickup rejection and retained-input tampering.
-The final focused service-suite result and publication checks are recorded in
+Dashboard validation/build and journal validation passed; final publication checks are recorded in
 [the session journal](../../logs/codex/SESSION-2026-09-29-service-gap-review.md).
 The original numerical/native report remains available unchanged.
