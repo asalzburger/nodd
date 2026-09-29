@@ -86,3 +86,8 @@ The journal summary retains historical observed input 134,594,309 and output
 674,111 over 79 turns in 42/56 sessions; these partial sums are not this task's
 usage. This checkout excludes PR #25's pending journal and the unrelated local
 usage-summary pair, explaining the different session denominator.
+
+Restoration and journal completed at observed 2026-09-29T11:56:02Z. Published
+record commit `c3a74910c2d7f2ee411eb6ea157eeac202bd2e39` on
+`infrastructure/restore-workflow-branches`; later metadata closure adds no branch
+mutation or token observation. The main worktree remains on the tracker PR.
