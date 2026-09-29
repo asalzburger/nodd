@@ -18,8 +18,11 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 MODELS_PATH = Path(__file__).with_name("sensor_models.json")
+REVIEW_MODELS_PATH = Path(__file__).with_name("review_models.json")
 LAYOUTS_PATH = ROOT / "docs/design/DES-006-named-layouts.json"
-VARIANTS = ("flat", "staggered", "tilted", "hybrid", "hybrid_clearance", "staggered_clearance")
+LEGACY_VARIANTS = ("flat", "staggered", "tilted", "hybrid", "hybrid_clearance", "staggered_clearance")
+REVIEW_VARIANTS = ("review_default", "review_pixel_z", "review_short_tilt", "review_pixel_z_short_tilt")
+VARIANTS = LEGACY_VARIANTS + REVIEW_VARIANTS
 PIXEL_FAMILIES = ("single", "double", "quad", "mixed")
 
 
@@ -65,6 +68,35 @@ def validate_models(models):
         raise ValueError("long-strip sensor mid-plane separation must exceed silicon thickness")
     if models["long_strip"]["endcap_rings"] < 2:
         raise ValueError("long-strip endcap_rings must be at least two")
+
+
+def _review_policy(models, variant):
+    """Resolve explicit subsystem controls without changing historical models."""
+    try:
+        register = models["review_placement"]
+        policies = copy.deepcopy(register["barrel"])
+        overrides = register["variants"][variant]
+    except KeyError as error:
+        raise ValueError("review variants require a complete review_placement model") from error
+    if register["inclined_barrel_sections"]:
+        raise ValueError("review default supports no inclined barrel-end sections")
+    for subsystem, change in overrides.items():
+        policies[subsystem].update(change)
+    for policy in policies.values():
+        if not all(isinstance(policy[key], bool) for key in ("phi_stagger", "z_stagger")):
+            raise ValueError("review phi/z staggering controls must be boolean")
+        if policy["phi_method"] not in ("radial", "tilted"):
+            raise ValueError("review phi method must be radial or tilted")
+        if policy["z_row_policy"] not in ("fit_endpoints", "fixed_body_pitch_cover"):
+            raise ValueError("unknown review no-z row policy")
+        angle = policy["tilt_degrees"]
+        if not math.isfinite(angle) or not 0 <= angle < 90:
+            raise ValueError("review tilt must be finite and in [0,90) degrees")
+        if policy["phi_method"] == "radial" and angle != 0:
+            raise ValueError("radial phi staggering uses tangential modules, without tilt")
+        if policy["phi_method"] == "tilted" and (angle == 0 or not policy["phi_stagger"]):
+            raise ValueError("tilted phi staggering requires nonzero tilt and phi staggering")
+    return policies
 
 
 def _linear_centres(lo, hi, width, pitch, cover):
@@ -152,12 +184,18 @@ def generate_layout(candidate, variant, pixel_family="mixed", *, models=None, mo
         raise ValueError("unknown placement variant or pixel family")
     if models is not None and models_path is not None:
         raise ValueError("supply models or models_path, not both")
-    models = copy.deepcopy(models) if models is not None else load_models(models_path or MODELS_PATH)
+    review = variant in REVIEW_VARIANTS
+    default_models_path = REVIEW_MODELS_PATH if review else MODELS_PATH
+    models = copy.deepcopy(models) if models is not None else load_models(models_path or default_models_path)
     layouts_path = Path(layouts_path or LAYOUTS_PATH)
     validate_models(models)
     catalogue = json.loads(layouts_path.read_text())
     chosen = (next(c for c in catalogue["candidates"] if c["id"] == candidate)
               if isinstance(candidate,str) else copy.deepcopy(candidate))
+    review_policy = _review_policy(models, variant) if review else None
+    if review and any(layer["kind"] == "inclined_ring" for layer in chosen["layers"]):
+        raise ValueError("review variants require unshortened cylindrical barrels: use cobe, not inclined pint")
+    effective_policy = {}
     result = dict(candidate=chosen["id"], variant=variant, pixel_family=pixel_family,
                   status="PROTOTYPE; unsigned sensor/placement hypotheses", layers=copy.deepcopy(chosen["layers"]),
                   modules=[], bodies=[], metadata={})
@@ -167,22 +205,38 @@ def generate_layout(candidate, variant, pixel_family="mixed", *, models=None, mo
         family = _family(layer,pixel_family,models)
         shape = _shape(family,models)
         region = {"cylinder":"barrel", "disc":"endcap", "inclined_ring":"inclined"}[layer["kind"]]
-        clearance = variant.endswith("_clearance")
-        base_variant = variant.removesuffix("_clearance")
+        clearance = review or variant.endswith("_clearance")
+        base_variant = "staggered" if review else variant.removesuffix("_clearance")
         strategy = ("flat" if region == "barrel" else "staggered") if base_variant == "hybrid" else base_variant
         cover = strategy != "flat"
         sub = layer["subsystem"]
+        policy = review_policy[sub] if review and region == "barrel" else None
+        if policy is not None:
+            cover = policy["phi_stagger"]
+        longitudinal_cover = policy["z_stagger"] if policy is not None else cover
         ou = placement[sub+"_overlap_u_mm"] if cover else 0.
-        ov = placement[sub+"_overlap_v_mm"] if cover else 0.
+        ov = placement[sub+"_overlap_v_mm"] if longitudinal_cover else 0.
         pu = shape["width"]-ou if cover else shape["body_u"]+placement["body_clearance_mm"]
-        pv = shape["height"]-ov if cover else shape["body_v"]+placement["body_clearance_mm"]
+        pv = shape["height"]-ov if longitudinal_cover else shape["body_v"]+placement["body_clearance_mm"]
         if pu <= 0 or pv <= 0:
             raise ValueError("overlap must be smaller than active module span")
         tilt = math.radians(placement["tilt_degrees"]) if strategy == "tilted" and region != "inclined" else 0.
+        if policy is not None:
+            tilt = math.radians(policy["tilt_degrees"])
         pu *= math.cos(tilt)
         if region == "barrel":
             radius = layer["r_m"]*1000
-            rows = _linear_centres(layer["z_min_m"]*1000,layer["z_max_m"]*1000,shape["height"],pv,cover)
+            rows = _linear_centres(layer["z_min_m"]*1000,layer["z_max_m"]*1000,shape["height"],pv,longitudinal_cover)
+            if policy is not None and not longitudinal_cover:
+                low_z, high_z = layer["z_min_m"]*1000,layer["z_max_m"]*1000
+                row_span = high_z-low_z-shape["height"]
+                if policy["z_row_policy"] == "fit_endpoints":
+                    row_count = max(1,math.floor(row_span/pv)+1)
+                    row_pitch = row_span/(row_count-1) if row_count>1 else pv
+                else:
+                    row_count = max(1,math.ceil(row_span/pv)+1)
+                    row_pitch = pv
+                rows = [(low_z+high_z)/2+(i-(row_count-1)/2)*row_pitch for i in range(row_count)]
         elif region == "endcap":
             low,high = layer["r_min_m"]*1000,layer["r_max_m"]*1000
             margin = (models["long_strip"]["endcap_radial_margin_mm"] if sub == "long_strip" else placement["end_margin_mm"])
@@ -200,14 +254,26 @@ def generate_layout(candidate, variant, pixel_family="mixed", *, models=None, mo
             angular_pitch = 2*math.atan2(pu/2,phi_radius)
             nphi = max(4,math.ceil(2*math.pi/angular_pitch) if cover else math.floor(2*math.pi/angular_pitch))
             colours = placement["clearance_pixel_phi_colours"] if clearance and sub == "pixel" and region == "endcap" else 2
+            if policy is not None:
+                colours = 2 if cover and policy["phi_method"] == "radial" else 1
             if cover:
                 nphi = colours*math.ceil(nphi/colours)  # periodic seam has matching colour cycle
             spacing = shape["spacing"]
             if clearance and cover and region == "barrel":
                 sagitta = math.hypot(radius,shape["body_u"]/2)-radius
                 spacing = max(spacing,shape["body_w"]+placement["clearance_curvature_sagitta_factor"]*sagitta+placement["clearance_body_gap_mm"])
+            if policy is not None:
+                radial_half = (shape["body_u"]*abs(math.sin(tilt))+shape["body_w"]*abs(math.cos(tilt)))/2
+                tangential_half = (shape["body_u"]*abs(math.cos(tilt))+shape["body_w"]*abs(math.sin(tilt)))/2
+                spacing = max(shape["spacing"],2*radial_half+placement["clearance_curvature_sagitta_factor"]*(math.hypot(radius,tangential_half)-radius)+placement["clearance_body_gap_mm"])
+                z_levels = 2 if longitudinal_cover and len(rows)>1 else 1
+                effective_policy[layer["id"]] = dict(policy,phi_colours=colours,z_levels=z_levels,radial_spacing_mm=spacing if colours*z_levels>1 else 0.,radial_body_projection_mm=2*radial_half,nominal_z_pitch_mm=pv,actual_z_pitch_mm=rows[1]-rows[0] if len(rows)>1 else None,phi_columns=nphi,rows=len(rows),stagger_displacement_direction="radial",unrotated_active_z_extent_mm=[rows[0]-shape["height"]/2,rows[-1]+shape["height"]/2],nominal_z_extent_mm=[layer["z_min_m"]*1000,layer["z_max_m"]*1000])
+            elif review:
+                effective_policy[layer["id"]] = dict(phi_stagger=True,r_stagger=True,tilt_degrees=0.,method="historical clearance endcap",phi_colours=colours,radial_levels=2,normal_spacing_mm=spacing)
             for col in range(nphi):
                 phase = (row%2)*.5 if cover else 0.
+                if policy is not None:
+                    phase = (row%2)*.5 if longitudinal_cover else 0.
                 phi = 2*math.pi*(col+phase)/nphi
                 er,eu = [math.cos(phi),math.sin(phi),0.],[-math.sin(phi),math.cos(phi),0.]
                 if region == "barrel":
@@ -222,9 +288,14 @@ def generate_layout(candidate, variant, pixel_family="mixed", *, models=None, mo
                 if tilt:
                     u,n = add(scale(u,math.cos(tilt)),scale(n,math.sin(tilt))),add(scale(n,math.cos(tilt)),scale(u,-math.sin(tilt)))
                 level = ((col%colours)-(colours-1)/2 if len(rows) == 1 else ((col%colours)+colours*(row%2))-(2*colours-1)/2) if cover else 0.
-                center = add(center,scale(n,level*spacing))
+                if policy is not None:
+                    level = (col%colours)+colours*(row%2 if z_levels>1 else 0)-(colours*z_levels-1)/2
+                displacement_axis = er if policy is not None else n
+                center = add(center,scale(displacement_axis,level*spacing))
                 # Shift rows alternately in the meridional direction, without changing normal.
                 shift = ((col%2)-.5)*ov/2 if cover else 0.
+                if policy is not None:
+                    shift = ((col%2)-.5)*ov/2 if longitudinal_cover else 0.
                 if region != "inclined":
                     center = add(center,scale(v,shift))
                 mid += 1
@@ -232,6 +303,8 @@ def generate_layout(candidate, variant, pixel_family="mixed", *, models=None, mo
                             subsystem=sub,region=region,family=family,level=level,level_spacing_mm=spacing,normal_offset_mm=level*spacing,row=row,col=col,
                             center_mm=add(center,scale(v,shape["body_v_offset"])),u=u,v=v,n=n,
                             half_u_mm=shape["body_u"]/2,half_v_mm=shape["body_v"]/2,half_w_mm=shape["body_w"]/2)
+                if policy is not None:
+                    body.update(radial_offset_mm=level*spacing,normal_offset_mm=level*spacing*math.cos(tilt),phi_stagger=policy["phi_stagger"],phi_method=policy["phi_method"],z_stagger=policy["z_stagger"],tilt_degrees=policy["tilt_degrees"],stagger_displacement_direction="radial")
                 if region == "inclined":
                     rv = -layer["normal_z"]
                     zv = layer["normal_r"]
@@ -261,6 +334,22 @@ def generate_layout(candidate, variant, pixel_family="mixed", *, models=None, mo
          pixel_sensor_area_status="Conditional gross sensor-outline fixture; excludes readout-chip silicon",
          hit_contract="Deduplicate id patches by sensor_id; require both faces of same module_id for long-strip pair; station_id deduplicates inclined rings",
          summary=summarize(result),host_diagnostics=host_diagnostics(result,catalogue["host"]))
+    if review:
+        for layer in chosen["layers"]:
+            if layer["kind"] != "cylinder":
+                continue
+            records = [m for m in result["modules"] if m["layer_id"] == layer["id"]]
+            zlow = min(m["center_mm"][2]-m["half_u_mm"]*abs(m["u"][2])-m["half_v_mm"]*abs(m["v"][2]) for m in records)
+            zhigh = max(m["center_mm"][2]+m["half_u_mm"]*abs(m["u"][2])+m["half_v_mm"]*abs(m["v"][2]) for m in records)
+            info = effective_policy[layer["id"]]
+            info["actual_active_z_extent_mm"] = [zlow,zhigh]
+            info["active_z_overhang_mm"] = [max(0.,layer["z_min_m"]*1000-zlow),max(0.,zhigh-layer["z_max_m"]*1000)]
+            bodies = [b for b in result["bodies"] if b["layer_id"] == layer["id"]]
+            body_low = min(min(p[2] for p in _corners(b)) for b in bodies)
+            body_high = max(max(p[2] for p in _corners(b)) for b in bodies)
+            info["body_z_extent_mm"] = [body_low,body_high]
+            info["body_z_overhang_mm"] = [max(0.,layer["z_min_m"]*1000-body_low),max(0.,body_high-layer["z_max_m"]*1000)]
+        result["metadata"]["review_placement"] = dict(barrel=review_policy,layers=effective_policy,interpretations=models["review_placement"]["interpretations"])
     return result
 
 

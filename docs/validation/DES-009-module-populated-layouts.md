@@ -3,6 +3,9 @@
 Date: 2026-09-28. **PROTOTYPE; draft module models, no detector sign-off.**
 Governing contract: [DES-009](../design/DES-009-module-populated-layouts.md).
 
+The [2026-09-29 reviewer-directed default and transverse views](DES-009-review-default.md)
+continue this comparison. The results below retain the original study unchanged.
+
 Staggering improves reachable-station coverage substantially, particularly in
 the short-strip barrels. It does not make these layouts hermetic. The best
 mechanically cleared trials still miss approximately 4.5–4.9% of their eligible

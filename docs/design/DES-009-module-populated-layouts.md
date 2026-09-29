@@ -2,7 +2,7 @@
 
 - Status: DRAFT
 - Created: 2026-09-28
-- Updated: 2026-09-28
+- Updated: 2026-09-29
 - Author: Codex with three delegated implementation/validation agents
 - Human owner: unassigned
 - Issue: no separate issue; requested continuation of PRs #8, #14, #21 and #22
@@ -119,6 +119,56 @@ modules can overhang pint's finite inclined segments. Overhangs, host violations
 and trial occupied-body intersections must remain visible. An arrangement with
 clashing trial bodies is a rejected mechanical candidate even if it has better
 hit coverage. Resolving such conflicts requires a reviewed placement amendment.
+
+## Reviewer-directed default — 2026-09-29
+
+The [expert comment on PR #24](https://github.com/asalzburger/nodd/pull/24#issuecomment-5886458913)
+requests a concrete default for further work and transverse barrel/endcap views.
+This is direction for the isolated **PROTOTYPE**, not formal detector sign-off.
+The prior comparison and its adverse controls remain unchanged.
+
+**MP-C15 — NODD DESIGN CHOICE:** use independent barrel placement controls for
+each subsystem, replacing the earlier all-subsystem pattern as the next-study
+default. Pixel barrels stagger in phi, with no z staggering by default and a
+separate z-staggered option. Short-strip barrels stagger in phi and z, using
+tangential modules at different radii by default and a local-tilt alternative.
+Long-strip barrels stagger in phi with local module tilt, without z staggering.
+All endcaps retain the tested clearance staggering pending engineering review.
+The third unnamed barrel bullet is interpreted as long strips; this inference
+is recorded explicitly rather than treated as a separate approval.
+
+**MP-C16 — NODD DESIGN CHOICE:** interpret “no tilt section” as no inclined
+barrel-end sections in the default, distinct from the explicitly requested
+local module tilts. Use the existing cobe nominal layers for that default;
+retain pint and its inclined sections as historical alternatives. Clarification
+of this interpretation has been requested; any correction is to be recorded
+before finalizing the response.
+
+All new numeric controls must remain in a separate review-model JSON input,
+with placement and clearance rationale. Retain the inherited sensor dimensions,
+the mixed single/quad pixel policy, and nominal layers. Assess body intersections,
+host containment, hit coverage and silicon area before presenting a placement
+as mechanically cleared. No-z staggering means fixed phi/radius along each
+stave with nonintersecting consecutive occupied bodies; any remaining inactive
+longitudinal seam must be measured rather than hidden by body overlap.
+
+**MP-C17 — NODD DESIGN CHOICE:** show actual x-y barrel sections with the slice
+position stated, and x-y tiling of representative endcap layers. Distinguish
+active patches, occupied bodies and normal placement levels. The view generator
+must use the retained run inputs and be repeatable after shape revisions.
+
+**MP-C18 — NODD DESIGN CHOICE, end-fit amendment:** a preliminary no-z placement
+using the minimum occupied-body pitch and enough rows to exceed both nominal
+barrel ends produced 328 long-barrel/first-disc occupied-body intersections.
+Retain this rejected control. The default instead fits full rows between the
+nominal active-envelope endpoints, using the largest row count whose uniform
+pitch is at least the occupied-body extent plus 0.2 mm clearance. This preserves
+the barrel/endcap interface without shortening sensors or moving ideal layers;
+the wider inactive seams are an explicit cost to measure. For the present long
+strips this gives 25 rows at 112.667 mm pitch rather than 26 at 109.121 mm.
+Stereo-rotated active corners and body extents still require the complete
+three-dimensional checks. This rule applies to all no-z-stagger barrels and is
+an explicit parameterized hypothesis, not an approved engineering dimension.
 
 ## Coordinates, identifiers and metrics
 

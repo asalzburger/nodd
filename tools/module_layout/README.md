@@ -6,6 +6,37 @@ and compares placements. It does not modify the production detector, approve a
 layout or simulate reconstruction. The [DES-005 programme](../../docs/design/DES-005-tracker-system-plan.md)
 places this work in its finite active-coverage stage.
 
+## Working default after the PR #24 review
+
+The next-study default is **`cobe-review_default-mixed`**, defined in
+[`review_models.json`](review_models.json) and described in the
+[review response](../../docs/validation/DES-009-review-default.md). It uses
+cylindrical cobe layers, tangential phi-staggered pixels without z staggering,
+tangential phi/z-staggered short strips, tilted long-strip staves without z
+staggering, and clearance-staggered endcaps. It remains an isolated prototype.
+
+`review_config.json` runs a 2×2 comparison: pixel z staggering off/on, and
+short-strip tangential/tilted phi placement. `review_offgrid_config.json` repeats
+the four choices on the original independent random sample;
+`review_total_p_config.json` checks the default with total p = 1 GeV.
+The original configurations and evidence remain available unchanged.
+
+```sh
+python tools/module_layout/study.py run --jobs 3 --native \
+  --models tools/module_layout/review_models.json \
+  --config tools/module_layout/review_config.json \
+  --output reference/cache/NEW-default-comparison
+python tools/module_layout/views.py --run reference/cache/NEW-default-comparison \
+  --case cobe-review_default-mixed --output reference/cache/NEW-default-views
+```
+
+Add `--cases cobe-review_default-mixed` to run only the default. The same explicit
+inputs permit revised module dimensions without changing the scan or plotting
+logic. `views.py` checks retained geometry and input hashes, then produces true
+barrel cross sections at stated z positions and labelled endcap assembly
+projections. Empty sections through longitudinal seams remain empty. All outputs
+go to fresh directories; a projected endcap overlap is not a solid intersection.
+
 ## Inputs and rerunning
 
 Run commands from the repository root. The independent numerical calculation
