@@ -49,7 +49,7 @@ could change the short-strip demand substantially.
 ## Supports and service inventory
 
 Reserve external local-support depth of 5 mm for pixels and 6.6 mm for strips,
-with 2 mm separation from service routes. The ATLAS strip thermal stack requires
+with 2 mm separation from service routes. The ATLAS strip thermal stack combined with two 0.30 mm sensors implies
 6.34–6.54 mm between sensor midplanes; it cannot be inserted into the inherited
 5 mm long-strip sandwich. An external carrier/cold rail is therefore reserved.
 Attachments and thermal bridges to staggered modules remain undefined.
@@ -275,6 +275,10 @@ Use fresh output directories when repeating. The overlay path is machine-local;
 recreate it or supply an equivalent verified binding if absent. Six exact input
 snapshots and code hashes permit changed sensor/module shapes to regenerate
 geometry, exclusions, budgets, coverage and plots without a stale removal list.
+Dimension and mask-layout changes within the supported rectangular models rerun
+directly. New boundary shapes need matching geometry, intersection and native
+ACTS-bounds adapters plus validation; arbitrary shapes are not accepted by JSON
+alone.
 The committed summary contains the complete numerical ledgers and native audit;
 compressed per-track scan files and ACTS runtime intermediates remain in ignored
 cache and can be regenerated. Plotting needs only the retained summary and inputs.

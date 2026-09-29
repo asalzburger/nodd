@@ -131,3 +131,7 @@ The local denominator includes the unrelated, preserved usage-summary pair.
 The final audit also identified the limiting reference rear/common-bore join:
 97.86% utilization (2.14% headroom). This is now prominent beside the reference
 capacity pass, preventing a larger downstream section from hiding the bottleneck.
+
+Final wording also states the 0.30 mm sensor assumption in the support-spacing
+derivation and limits direct shape-update support to rectangular active masks;
+new boundary types require corresponding numerical/native adapters.
