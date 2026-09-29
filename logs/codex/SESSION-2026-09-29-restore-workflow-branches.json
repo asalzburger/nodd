@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-09-29-restore-workflow-branches",
+  "title": "Restore deleted remote workflow branches for future reuse",
+  "recorded_at": "2026-09-29T10:13:09Z",
+  "started_at": null,
+  "ended_at": null,
+  "status": "open",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact client-reported per-turn token counts are unavailable; usage is empty, not zero.",
+    "Restoration preserves historical commits; no present-runtime or detector acceptance is implied."
+  ],
+  "client": {
+    "name": "unspecified",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "1aa2aafd381fc37a9da3368686f2ca34d9f4dd0a",
+    "branch": "infrastructure/restore-workflow-branches",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      "logs/codex/SESSION-2026-09-29-restore-workflow-branches.json",
+      "logs/codex/SESSION-2026-09-29-restore-workflow-branches.md"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [
+      "infrastructure",
+      "remote workflow preservation"
+    ],
+    "related_ids": [
+      "ADR-004",
+      "PR-25"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-09-29-restore-workflow-branches.md",
+  "activities": [
+    {
+      "kind": "tool",
+      "name": "shell and git",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Read-only local/live remote audit, atomic creation of twelve deleted refs, exact remote/local postcondition verification."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "Verify twelve target commit objects and ancestry of origin/main",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All twelve targets exist locally and are included in current main."
+    },
+    {
+      "command": "git push --atomic origin <twelve explicit SHA:refs/heads/name refspecs>",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Twelve new branches created; no existing branch updated."
+    },
+    {
+      "command": "Compare fresh GitHub heads to restore plan and pre-push local/remote inventory",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All twelve restored heads match; ten existing remote heads and target local heads unchanged."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "56 paired records validated in the isolated main-based worktree."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py summary --format json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Observed historical input134594309/output674111 across79turns in42/56sessions; this task has no counters. Main-based checkout excludes open PR25 and unrelated untracked usage summary."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "31tasks,10documents,11reviewrounds validated; infrastructure excluded from progress tracking."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py build --output /tmp/nodd-branch-restore-dashboard",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Dashboard and documentation build passed."
+    }
+  ]
+}
