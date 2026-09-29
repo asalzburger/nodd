@@ -75,6 +75,43 @@ while physical clearance, disconnection or native audit failures stop execution.
 Support envelopes reserve space only; the service tool does not add material,
 thermal calculations, structural mechanics or a layer-position optimizer.
 
+## Service-constrained placement follow-up
+
+[DES-011](../../docs/design/DES-011-service-constrained-tracker-optimization.md)
+implements the subsequent PR #25 review direction as a separate prototype.
+It refills fixed sensor/module shapes into candidate annuli, derives uniform
+service corridors from their actual inventories, and places the first disc at
+the closest finite-body/service limit with at least 10 mm clearance. Optional
+last-disc bypasses remain explicitly routed and included in downstream loads.
+The compact 10 mm collector floor is an unqualified sensitivity assumption;
+the original pocket floors are retained as a comparison.
+
+```sh
+python tools/module_layout/optimization.py --jobs 3 --native \
+  --output reference/cache/NEW-service-optimization \
+  --acts-source /Users/salzburg/Documents/work/dev/acts-nodd \
+  --runtime-manifest /tmp/acts-python-step-size-overlay/manifest.json
+python tools/module_layout/optimization_views.py \
+  --run reference/cache/NEW-service-optimization \
+  --output reference/cache/NEW-service-optimization-views
+```
+
+Use the verified runtime setup below when `--native` is requested. Without that
+option the scan and finite-module intersections need Python/NumPy only. The
+search configuration, sensor models, layout catalogue, service budget and
+envelope inputs are explicit command-line inputs and snapshotted per fresh run.
+`--search-only` omits final validation, and `--limit` is for development probes;
+neither should be presented as the complete configured study.
+
+The bounded search ranks training samples and freezes coverage/spacing/area
+finalists before dense validation and an independently seeded random cohort.
+It is not a proof of global optimality or continuum hermeticity. Reachable
+stations and fixed-original-layer misses accompany physical path gaps; chip
+islands and stereo faces cannot inflate the station count. Active area is the
+sum of finite sensitive patches, including overlaps, not their projected union.
+Every rejected candidate and its parameters remain in `study.json`. Regenerate
+the study after sensor-shape changes instead of reusing old service inventories.
+
 ```sh
 python tools/module_layout/study.py run --jobs 3 --native \
   --models tools/module_layout/review_models.json \

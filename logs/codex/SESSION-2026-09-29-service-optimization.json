@@ -1,0 +1,130 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-09-29-service-optimization",
+  "title": "Optimize tracker module placements under reviewed service constraints",
+  "recorded_at": "2026-09-29T13:14:24Z",
+  "started_at": null,
+  "ended_at": null,
+  "status": "open",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact client-reported root/subagent per-turn token counters are unavailable; usage is empty, not zero.",
+    "Bounded prototype search and finite sampling do not establish global optimum, continuum hermeticity or engineering approval.",
+    "Compact routing-pocket floors, service electronics/packing and vessel handoff remain unqualified design hypotheses."
+  ],
+  "client": {
+    "name": "unspecified",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "9b5b7f2aa14ad38434480c29666187aa893b73d3",
+    "branch": "study/tracker-service-optimization",
+    "initial_changes": [
+      "logs/codex/SESSION-2026-09-29-project-usage-summary.json",
+      "logs/codex/SESSION-2026-09-29-project-usage-summary.md",
+      "logs/usage/USAGE-2026-09-29-local.json",
+      "logs/usage/USAGE-2026-09-29-project-summary.json"
+    ],
+    "result_commits": [],
+    "changed_files": [
+      "docs/design/DES-011-service-constrained-tracker-optimization.md",
+      "logs/codex/SESSION-2026-09-29-service-optimization.json",
+      "logs/codex/SESSION-2026-09-29-service-optimization.md",
+      "project/reviews.json",
+      "project/tracking.json",
+      "tools/module_layout/README.md",
+      "tools/module_layout/optimization.py",
+      "tools/module_layout/optimization_config.json",
+      "tools/module_layout/optimization_metrics.py",
+      "tools/module_layout/optimization_placement.py",
+      "tools/module_layout/optimization_services.py",
+      "tools/module_layout/optimization_views.py",
+      "tools/module_layout/test_optimization.py",
+      "tools/module_layout/test_optimization_metrics.py",
+      "tools/module_layout/test_optimization_placement.py",
+      "tools/module_layout/test_optimization_services.py"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "tracker services",
+      "constrained module placement",
+      "coverage and hit spacing"
+    ],
+    "related_ids": [
+      "DES-011",
+      "DES-010",
+      "PR-25",
+      "REVIEW-DES-010-2"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-09-29-service-optimization.md",
+  "activities": [
+    {
+      "kind": "tool",
+      "name": "collaboration",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Three delegated agents handle routing, refill/placement, and path-spacing metrics/mockups."
+    },
+    {
+      "kind": "skill",
+      "name": "acts-spack",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Preflight flagged setup/lock fingerprints; actual installed runtime and existing overlay verified."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 skills/acts-spack/scripts/preflight.py",
+      "status": "FAIL",
+      "exit_code": 2,
+      "result": "Changed setup_script/spack_lock; user warned before dependent runtime use."
+    },
+    {
+      "command": "acts run acts-nodd; activate installed pyvenv; import sys,acts,numpy,matplotlib with existing step-size overlay",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Installed pyvenv, sensitivity binding present, NumPy 2.5.3, Matplotlib 3.11.2; ACTS loaded from existing overlay. Source HEAD355ea684 with pre-existing changes preserved."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate (initial tracking draft)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Draft task used unsupported state in progress; changed to schema state active."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "33 tasks, 12 documents and 13 review rounds validate."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/module_layout -p test_optimization_metrics.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Initial 10 metric tests pass; later cohort helper adds an additional control, pending root combined suite."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "60 local paired records validate, including unrelated untracked usage-summary pair."
+    },
+    {
+      "command": "python3 -B tools/module_layout/optimization.py --output /tmp/nodd-optimization-probe-01 --jobs 1 --limit 1 --search-only",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Development probe: one primary plus two barrel shifts and original-pocket control. All four physical/service checks passed; only primary/control preserved every subsystem mean. No final holdout/native claim. Later separated original-pocket comparison from primary ranking."
+    }
+  ]
+}
