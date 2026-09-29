@@ -138,3 +138,31 @@ The [service-gap report](../validation/DES-010-tracker-services.md) records the
 source estimates, selected reservations, routing mockups, failed adverse budgets,
 row-removal costs and native ACTS check. Reference capacity passing does not
 approve the tracker or its interfaces. Optimization remains a separate follow-up.
+
+## PR #25 review: comparison and accumulated loads
+
+The [expert question](https://github.com/asalzburger/nodd/pull/25#issuecomment-5890301780)
+asks for ATLAS/CMS gap comparisons and whether the final service bundle was
+charged along the entire endcap route. The source comparison is retained in
+[the upgrade-services dossier](inputs/DES-010-upgrade-service-comparison.md).
+Its dimensioned engineering-envelope facts and derived widths are distinguished
+from sensor-envelope separations and from usable cable capacity.
+
+**SC-I04 — INFERENCE:** the original axial-trunk ledger carries the complete
+signed-end subsystem inventory uniformly along the fixed corridor. Barrel radial
+segments, individual disc collectors and rear owner combinations already select
+local/accumulated source groups, but the axial trunks do not vary their load with
+z. Thus the original reservations are a conservative geometric hypothesis, not
+an estimate of the necessary width at every upstream disc.
+
+**SC-C19 — NODD DESIGN CHOICE, unapproved diagnostic:** add a separate cumulative
+profile without changing the retained geometry or reference evidence. Each direct
+feeder contributes its whole original source groups at the near edge in absolute
+z of its finite overlap with the axial trunk. This conservative pickup convention
+is explicit; it does not locate connectors inside the pocket. Groups enter once,
+with the inherited chain and per-layer manifold rounding, and the final load must
+match the original whole-end budget. Both detector ends are profiled separately.
+The area-equivalent annular width holds the original inner radius, packing,
+azimuth occupancy and boundary allowances fixed; it is not a tapered design.
+Full loads remain in rear/shared routes and through extraction pockets. Actual
+tapering, row recovery and layer positioning remain a separate optimization PR.

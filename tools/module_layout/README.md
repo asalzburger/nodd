@@ -37,6 +37,30 @@ python tools/module_layout/services_views.py \
   --output reference/cache/NEW-service-gap-views
 ```
 
+The [PR #25 service-gap review](../../docs/validation/DES-010-service-gap-review.md)
+adds ATLAS/CMS comparisons and accumulated axial loads. The original axial gap
+is constant and its budget uses the final whole-end load. Generate a separate
+position-dependent diagnostic from any matching retained service run:
+
+```sh
+python3 tools/module_layout/services_profile.py \
+  --run docs/validation/DES-010-services/main \
+  --output reference/cache/NEW-service-load-profile \
+  --pickup-policy near-edge-full-load
+python tools/module_layout/services_profile_views.py \
+  --run reference/cache/NEW-service-load-profile \
+  --output reference/cache/NEW-service-load-profile-views
+```
+
+The first command uses the standard library only; plotting needs Matplotlib.
+Input snapshots and original producer hashes are checked before using the
+retained local groups. Each branch contributes once, with original chain and
+per-layer manifold rounding. Finite pickup intervals and both signed ends are
+retained; the final load must exactly reproduce the original trunk budget.
+The equivalent annular width is diagnostic only. No existing gap, sensor row,
+coverage evidence or downstream junction capacity is changed. After changing
+module shapes or producer logic, create a fresh service run before profiling it.
+
 Use the verified runtime/overlay setup below; the temporary overlay path is
 machine-specific and must be recreated or replaced by an equivalent binding
 when unavailable. Without `--native`, geometry, budget and coverage need no ACTS

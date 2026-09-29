@@ -290,3 +290,12 @@ stack and attachment depth, manifold/bend/access envelopes and the vessel-end
 handoff. The later positioning study should preserve those reserved routes and
 measure whether moving layers or ring boundaries can recover the observed losses.
 This PR does not perform that optimization or choose a new tracker default.
+
+## Review clarification: corridor width versus accumulated payload
+
+The [PR #25 response](DES-010-service-gap-review.md) compares public ATLAS/CMS
+engineering envelopes and adds cumulative axial-load profiles. This original
+run used complete whole-end demand everywhere in each constant axial trunk;
+individual collectors/radial segments already selected their source groups.
+Original geometry, numerical evidence and capacity/coverage conclusions are
+preserved. The response does not implement tapered gaps or position optimization.
