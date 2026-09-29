@@ -135,3 +135,19 @@ capacity pass, preventing a larger downstream section from hiding the bottleneck
 Final wording also states the 0.30 mm sensor assumption in the support-spacing
 derivation and limits direct shape-update support to rectangular active masks;
 new boundary types require corresponding numerical/native adapters.
+
+## Publication
+
+Created draft [PR #25](https://github.com/asalzburger/nodd/pull/25),
+`Tracker: Reserve cable, cooling and support routes in the working layout`, at
+`175b065d47f0e99e4363ebfa6f59d2cb8dc75752`. The report/evidence commit is
+`a588a6bec649eeb2f39ab5d3a0c3fece55bf16c7`; canonical executed source remains
+`d3265fa1e52f26b0aac556325eaa6d7a10442720`. Final artifact/input/code hash checks
+confirm no numerical source drift. Later tracking/log closure does not change
+scientific evidence or grant approval. The separate optimization is not begun.
+
+Bounded implementation/evidence publication completed at observed
+2026-09-29T10:10:29Z. Final local dashboard/log validation and build pass. Hosted
+CI was still running at this metadata closure; its live result is on PR #25.
+The user requested a separate branch-restoration task after finishing this PR;
+that work receives its own session record. No token counters became available.
