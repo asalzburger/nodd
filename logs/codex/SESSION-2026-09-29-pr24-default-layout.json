@@ -4,13 +4,13 @@
   "title": "Address PR24 default stave layout and transverse views",
   "recorded_at": "2026-09-29T08:35:36Z",
   "started_at": null,
-  "ended_at": null,
-  "status": "open",
+  "ended_at": "2026-09-29T08:59:55Z",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
     "Exact client-reported completed-turn token counters, client version and stable client turn identities are unavailable during this task; usage is empty, not zero.",
-    "Prototype only. Reviewer intent is interpreted explicitly: no tilt section means no inclined barrel ends; unnamed third barrel bullet means long strips. Optional clarification requested; no answer at initial implementation.",
+    "Prototype only. The user explicitly confirmed on 2026-09-29 that no tilt section means no inclined section by default and the unnamed barrel bullet means long strips. Formal detector sign-off remains separate.",
     "Spack setup/lock fingerprints changed. Actual ACTS imports and overlay step-size option verified; runtime setup warns about sandbox shell detection and absent Geant4 data path. No Geant4 transport claimed."
   ],
   "client": {
@@ -28,7 +28,8 @@
       "logs/usage/USAGE-2026-09-29-project-summary.json"
     ],
     "result_commits": [
-      "30ac28acaee5f8359acb1654de655a9760c7d704"
+      "30ac28acaee5f8359acb1654de655a9760c7d704",
+      "01b8e229663f117fb22d98f90af4b932312b6979"
     ],
     "changed_files": [
       "docs/design/DES-009-module-populated-layouts.md",
@@ -145,6 +146,15 @@
       "failures": null,
       "duration_seconds": null,
       "evidence": "Reused three explicitly requested subagents for geometry, views and independent interpretation/report review."
+    },
+    {
+      "kind": "tool",
+      "name": "gh pr edit / gh pr comment",
+      "version": null,
+      "calls": 2,
+      "failures": 0,
+      "duration_seconds": null,
+      "evidence": "Updated title/body and posted review response: https://github.com/asalzburger/nodd/pull/24#issuecomment-5886989941"
     }
   ],
   "usage": [],
@@ -262,6 +272,24 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "56 local records validate, including unrelated uncommitted usage-summary pair retained outside this task commits."
+    },
+    {
+      "command": "gh pr checks 24 --repo asalzburger/nodd",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Hosted build passed at 01b8e229663f117fb22d98f90af4b932312b6979: https://github.com/asalzburger/nodd/actions/runs/36545667460 ; deployment skipped on PR as configured."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate; python3 -B tools/dashboard/build.py build --output /tmp/nodd-pr24-default-confirmed-dashboard",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "After confirmed clarification and publication: 31 tasks,10 documents,11 review rounds validated; dashboard built."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py summary",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "56 local sessions,42 with usage,14 without;79 historical recorded turns. Observed input134594309/output674111; these partial totals exclude unmeasured work and must not be added to overlapping usage inventories. This task has no available counters."
     }
   ]
 }

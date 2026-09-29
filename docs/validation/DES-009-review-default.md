@@ -6,9 +6,10 @@ Date: 2026-09-29. **PROTOTYPE; a working default for the next iteration.**
 [original comparison](DES-009-module-populated-layouts.md).
 
 The default uses cobe's cylindrical layers, omitting pint's inclined barrel-end
-sections. Local module tilts in phi are a separate choice. This interprets the
-reviewer's “no tilt section” consistently with the explicit barrel tilt requests;
-the unnamed third barrel bullet is taken to mean long strips.
+sections. Local module tilts in phi are a separate choice. The user explicitly
+confirmed on 2026-09-29 that “no tilt section” means no inclined section as default
+and that the unnamed third barrel bullet means long strips; the clarification is
+retained in the [session record](../../logs/codex/SESSION-2026-09-29-pr24-default-layout.md).
 
 | Region | Default | Separate option |
 | --- | --- | --- |

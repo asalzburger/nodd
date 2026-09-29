@@ -134,15 +134,15 @@ separate z-staggered option. Short-strip barrels stagger in phi and z, using
 tangential modules at different radii by default and a local-tilt alternative.
 Long-strip barrels stagger in phi with local module tilt, without z staggering.
 All endcaps retain the tested clearance staggering pending engineering review.
-The third unnamed barrel bullet is interpreted as long strips; this inference
-is recorded explicitly rather than treated as a separate approval.
+The user explicitly confirmed on 2026-09-29 that the third unnamed barrel bullet
+means long strips; see the [curated clarification record](../../logs/codex/SESSION-2026-09-29-pr24-default-layout.md).
 
-**MP-C16 — NODD DESIGN CHOICE:** interpret “no tilt section” as no inclined
+**MP-C16 — NODD DESIGN CHOICE:** “no tilt section” means no inclined
 barrel-end sections in the default, distinct from the explicitly requested
 local module tilts. Use the existing cobe nominal layers for that default;
-retain pint and its inclined sections as historical alternatives. An optional clarification
-was requested and remained unanswered while the study proceeded. This is the
-stated working interpretation for human re-review, not inferred sign-off.
+retain pint and its inclined sections as historical alternatives. The user
+explicitly confirmed this meaning on 2026-09-29. This confirms the requested
+prototype scope; it does not constitute detector design sign-off.
 
 All new numeric controls must remain in a separate review-model JSON input,
 with placement and clearance rationale. Retain the inherited sensor dimensions,

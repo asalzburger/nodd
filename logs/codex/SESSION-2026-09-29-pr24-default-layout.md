@@ -10,10 +10,14 @@ summary task remain untouched and excluded from this response's commits.
 
 ## Interpretation and design boundary
 
-A draft DES-009 amendment precedes implementation. No tilt section is interpreted
-as no pint inclined barrel ends, while retaining explicitly requested local module
-tilts. The unnamed third barrel bullet is interpreted as long strips. An optional
-clarification was requested. Cobe's complete cylindrical nominal layers avoid
+A draft DES-009 amendment precedes implementation. The initial interpretation was
+no pint inclined barrel ends, while retaining explicitly requested local module
+tilts, and long strips for the unnamed third barrel bullet. An optional
+clarification was requested. The user asked “What follow-up question is there?”;
+the response explained these two points. The user then explicitly confirmed:
+“no tilt section means no inclined section as default, the nunnamed barrel bullet
+is long strips”. This matches the implemented and tested scope; no numerical
+inputs or results changed. Cobe's complete cylindrical nominal layers avoid
 removing pint end pieces while retaining its shortened cylinders.
 
 Pixel phi staggering uses tangential staves at alternating radii, no z staggering
@@ -103,3 +107,20 @@ python -B tools/module_layout/study.py run --native --jobs 4 \
 Offgrid and total-p runs substitute the explicit configs/output paths recorded
 in the paired JSON. Each report/view export is fresh. Subsequent plot-label and
 portable-test changes do not alter the frozen numerical geometry or evidence.
+
+## Publication and clarification
+
+Evidence commit `01b8e229663f117fb22d98f90af4b932312b6979` was pushed to PR #24.
+The [hosted build passed](https://github.com/asalzburger/nodd/actions/runs/36545667460);
+PR deployment is intentionally skipped. The title/body now describe the default,
+options, figures and retained coverage limits. The [review reply](https://github.com/asalzburger/nodd/pull/24#issuecomment-5886989941)
+records the user-confirmed interpretation and links the report, views and checks.
+Only documentation/provenance/tracking/session metadata changed after this
+evidence revision. Human re-review of the resulting prototype remains open.
+
+Final dashboard validation/build and session validation passed. The local session
+summary covers 56 records, 42 with usage and 14 without, with 79 historical turns:
+134,594,309 observed input tokens and 674,111 observed output tokens. These are
+partial historical observations, not a complete project total or this task's
+usage, and overlap the separate usage inventory. No current root/subagent
+completed-turn counters are exposed; this task retains an empty usage array.
