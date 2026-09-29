@@ -171,3 +171,26 @@ Publication checks and the PR25 reply link will be added after posting. A small
 tracking-update helper initially addressed the wrong reviews key; corrected
 `rounds` without modifying review approval state. No exact usage counters were
 exposed; usage remains empty. Unrelated usage-summary files remain untouched.
+
+## Publication and bounded-task closeout
+
+Published [draft PR #28](https://github.com/asalzburger/nodd/pull/28), stacked on PR #25, at
+`770d6b6fe203cd79be6111188aff8ebffd022efd`. The GitHub dashboard build passed; PR deployment
+was skipped. Posted the [requested summary on PR #25](https://github.com/asalzburger/nodd/pull/25#issuecomment-5898939972), including outcomes, failed candidates, local losses, engineering
+limits and the repeatable workflow. Expert acceptance remains unrecorded.
+
+A server interruption occurred after PR creation. Checked remote comments before
+retrying: the summary had not been posted, so it was published once. Initial
+sandbox push failed DNS resolution; approved network execution succeeded.
+
+The completed task is the bounded prototype and review handoff. DES-011 remains
+DRAFT, PR #24 remains an unapproved working hypothesis, and no review condition
+is marked resolved by automation. Publication metadata is a later snapshot than
+the numerical producer revision. Exact usage counters remain unavailable for
+this task; historical project totals must not be attributed to this session.
+
+Final publication checks passed: 60 local paired session records; dashboard
+validation (33 tasks, 12 documents, 13 review rounds) and build; whitespace check.
+Session summary reports historical observed input 134,594,309 and output 674,111
+across 79 turns in 42/60 sessions. These exclude unobserved usage for this task
+and are not a complete project total.

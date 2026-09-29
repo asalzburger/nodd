@@ -4,15 +4,15 @@
   "title": "Optimize tracker module placements under reviewed service constraints",
   "recorded_at": "2026-09-29T13:14:24Z",
   "started_at": null,
-  "ended_at": null,
-  "status": "open",
+  "ended_at": "2026-09-29T21:09:13Z",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
     "Exact client-reported root/subagent per-turn token counters are unavailable; usage is empty, not zero.",
     "Bounded prototype search and finite sampling do not establish global optimum, continuum hermeticity or engineering approval.",
     "Compact routing-pocket floors, service electronics/packing and vessel handoff remain unqualified design hypotheses.",
-    "Protocol revised after first dense run exposed a central seam. Revised grid is a regression check; fresh random seed202609293 preserves independent random validation."
+    "Protocol revised after central-seam and individual-component fit failures. Reused dense grids are regression checks; final independent random seed is 202609294 (earlier rejected corrected run used 202609293)."
   ],
   "client": {
     "name": "unspecified",
@@ -31,7 +31,8 @@
     "result_commits": [
       "6c882257c368927732315dbc756f1b89263d95af",
       "10203d9a3f41d82cb467a7deb75e8293b0f1cc95",
-      "ac61f766b34f9bb60748e8fc4258a41037ca1e33"
+      "ac61f766b34f9bb60748e8fc4258a41037ca1e33",
+      "770d6b6fe203cd79be6111188aff8ebffd022efd"
     ],
     "changed_files": [
       "docs/design/DES-010-tracker-service-corridors.md",
@@ -217,7 +218,8 @@
       "DES-011",
       "DES-010",
       "PR-25",
-      "REVIEW-DES-010-2"
+      "REVIEW-DES-010-2",
+      "PR-28"
     ]
   },
   "narrative": "logs/codex/SESSION-2026-09-29-service-optimization.md",
@@ -446,6 +448,24 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "60localpaired sessionrecords validate; no whitespaceerrors. Usage remainsunavailable for thisboundedtask."
+    },
+    {
+      "command": "git push -u origin study/tracker-service-optimization; gh pr create --draft --base study/tracker-service-corridors",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Published draft PR28 at 770d6b6fe203cd79be6111188aff8ebffd022efd. First sandbox push failed DNS resolution; approved network execution succeeded. GitHub dashboard build passed on this revision; deployment skipped for PR."
+    },
+    {
+      "command": "gh pr comment 25 --body-file /tmp/nodd-pr25-optimization-response.md",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Published requested summary: https://github.com/asalzburger/nodd/pull/25#issuecomment-5898939972. Interrupted earlier call did not create body or post comment; checked remote state before retry."
+    },
+    {
+      "command": "session_log.py validate; session_log.py summary; dashboard/build.py validate; dashboard/build.py build --output /tmp/nodd-des011-publication-dashboard; git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Publication closeout: 60 local paired logs validate; dashboard validates 33 tasks, 12 documents, 13 rounds and builds successfully; no whitespace errors. Historical observed input 134594309/output 674111 across 79 turns in 42/60 sessions. Current task has no exact token observations; these totals are not its usage."
     }
   ]
 }
