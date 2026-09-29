@@ -10,7 +10,7 @@
 The reviewer is correct: service traffic grows as endcaps join the route. The
 original prototype used the **final whole-end load at every z in each axial
 trunk**, while its disc collectors and barrel/rear radial segments selected
-local or accumulated traffic. The original72/170/76 mm gaps are fixed conservative
+local or accumulated traffic. The original 72/170/76 mm gaps are fixed conservative
 reservations, not calculated requirements at every disc. This response adds a
 position-dependent diagnostic and historical engineering comparisons; it does
 not change gaps, restore rows or start the separate layer-position optimization.
@@ -18,20 +18,20 @@ not change gaps, restore rows or start the separate layer-position optimization.
 ## Comparison with public upgrade designs
 
 The following are **derived envelope dimensions**, except the directly reported
-ATLAS6.6 mm local accommodation. They are not transferable nODD requirements.
+ATLAS 6.6 mm local accommodation. They are not transferable nODD requirements.
 
 | Object | nODD working reservation, mm | Public comparison and exact locator | Scope |
 | --- | ---: | --- | --- |
-| Pixel axial route |72 radial | ATLAS2021 overview slide15 reports6.6 local accommodation at the limiting Layer2 last half-ring. CMS TDR Table10.1 p236 plus Fig5.1 p89 give50/56 pixel-module-to-OT envelope differences. | A distributed ring-layer route and module/envelope differences are not a combined all-pixel trunk; support and clearance occupy some of the latter. |
-| Short/long inter-endcap route |170 radial | Neither upgrade has the same separate nested short/long endcap topology. CMS's577→621=44 in Fig5.1 is only a barrel mechanical-envelope separation. | No like-for-like170 mm endcap corridor is established by either design. |
-| Outer barrel-service bypass |76 radial for nODD long-strip trunk | ATLAS Pixel TDR Fig15.1 p322/PDF344:1061−1015=46. CMS Fig5.1 p89:1175−1155=20, separate from10 installation clearance to TEDD. | Published service-labelled envelopes carry barrel services past endcaps; nODD's trunk also collects its own endcap services. Different loads, radii and sector occupancy. |
-| Barrel radial escape |50/80/90 axial for pixels/short/long | ATLAS Fig15.1:1475−1372=103. CMS Fig5.1:1265−1224.5=40.5 TBPS;1245−1202=43 TB2S. | Similar functions at centimetre scale; connector/bend/support qualifications do not transfer. |
+| Pixel axial route |72 radial | ATLAS 2021 overview slide 15 reports 6.6 local accommodation at the limiting Layer 2 last half-ring. CMS TDR Table 10.1 p236 plus Fig. 5.1 p89 give 50/56 pixel-module-to-OT envelope differences. | A distributed ring-layer route and module/envelope differences are not a combined all-pixel trunk; support and clearance occupy some of the latter. |
+| Short/long inter-endcap route |170 radial | Neither upgrade has the same separate nested short/long endcap topology. CMS's 577→621=44 in Fig. 5.1 is only a barrel mechanical-envelope separation. | No like-for-like 170 mm endcap corridor is established by either design. |
+| Outer barrel-service bypass |76 radial for nODD long-strip trunk | ATLAS Pixel TDR Fig. 15.1 p322/PDF344:1061−1015=46. CMS Fig. 5.1 p89:1175−1155=20, separate from 10 installation clearance to TEDD. | Published service-labelled envelopes carry barrel services past endcaps; nODD's trunk also collects its own endcap services. Different loads, radii and sector occupancy. |
+| Barrel radial escape |50/80/90 axial for pixels/short/long | ATLAS Fig. 15.1:1475−1372=103. CMS Fig. 5.1:1265−1224.5=40.5 TBPS; 1245−1202=43 TB2S. | Similar functions at centimetre scale; connector/bend/support qualifications do not transfer. |
 
 The ATLAS envelope drawing is explicitly a historical discussion model. Both
 TDRs use support/installation allocations that must not be counted again as
-free cable volume. ATLAS uses external strip service collection; CMS PS and2S
+free cable volume. ATLAS uses external strip service collection; CMS PS and 2S
 share endcap structures. Their architecture and readout loads differ from nODD.
-The nODD170 mm gap is consequently a target for constrained routing review, not
+The nODD 170 mm gap is consequently a target for constrained routing review, not
 something validated by analogy. Width alone cannot compare capacity: circumference,
 packing, available azimuth and carried cable/cooling inventory also matter.
 
@@ -66,10 +66,10 @@ Positive-end results, using the reference architecture:
 | short strip | 3,388 → 5,044 | 78,410.8 → 105,919.4 | 74.03% | 54.26 → 71.04 | 170 | 3094.10 |
 | long strip | 1,644 → 3,372 | 23,655.6 → 51,164.3 | 46.23% | 12.73 → 22.79 | 76 | 3144.25 |
 
-The full-load pickup intervals are3081.70–3131.70 mm for pixels,
-3094.10–3184.10 for short strips and3144.25–3234.25 for long strips. The table uses
+The full-load pickup intervals are 3081.70–3131.70 mm for pixels,
+3094.10–3184.10 for short strips and 3144.25–3234.25 for long strips. The table uses
 the near edge, not an exact termination coordinate. At the negative end, pixel
-reference demand is10,516.9→16,939.9 mm² (equivalent width28.24→41.67 mm).
+reference demand is 10,516.9→16,939.9 mm² (equivalent width 28.24→41.67 mm).
 Short-strip and long-strip area demands coincide between ends under the current
 group ceilings, despite unequal long-strip module counts. Full signed inventories
 are retained in the [profile JSON](DES-010-services/review-accumulation/profile.json).
@@ -79,8 +79,8 @@ are retained in the [profile JSON](DES-010-services/review-accumulation/profile.
 `w = 2b + sqrt((r_min+b)^2 + A/(π f_phi f_pack)) − (r_min+b)`.
 
 Here A includes the scenario's demand multiplier, b=2 mm per boundary, and the
-original azimuth/packing assumptions remain fixed. Reference uses0.75×0.50;
-conservative/stress use0.50×0.40 and25% demand allowance. This is an area-only
+original azimuth/packing assumptions remain fixed. Reference uses 0.75×0.50;
+conservative/stress use 0.50×0.40 and 25% demand allowance. This is an area-only
 lower requirement under the assumed architecture, **not a proposed physical
 taper**. It omits bend/connector footprints and does not recheck module/support
 clearance at new boundaries. Geometrically allocating its radius can be impossible
@@ -96,16 +96,16 @@ the unchanged reserved gap; long-strip conservative/stress curves coincide.
 
 ## Consequences and unchanged limitations
 
-The final equivalent widths are reference41.81/71.04/22.79 mm versus the retained
+The final equivalent widths are reference 41.81/71.04/22.79 mm versus the retained
 72/170/76 mm gaps. This makes upstream over-reservation explicit and motivates
 a later tapering study. It does not justify accepting those reference minima:
-conservative terminal widths are99.15/152.17/47.58 mm; stress gives
-160.69/495.75/47.58. Pixel conservative and pixel/short-strip stress fail even
+conservative terminal widths are 99.15/152.17/47.58 mm; stress gives
+160.69/495.74/47.58. Pixel conservative and pixel/short-strip stress fail even
 before all endcaps have joined. Electronics, packing and sector choices still
 matter more than a single reference-width comparison.
 
-The original required rear-all/common-bore junction still has only2.14% reference
-cross-section headroom. Reference capacity, all adverse failures, the3,898 removed
+The original required rear-all/common-bore junction still has only 2.14% reference
+cross-section headroom. Reference capacity, all adverse failures, the 3,898 removed
 assemblies and original coverage losses remain exactly as reported. A varying
 upstream profile cannot remove a real downstream bottleneck. Strip stress still
 retains optimistic reference cooling; no hydraulic qualification follows.
@@ -130,8 +130,8 @@ python -B tools/module_layout/services_profile_views.py \
 ```
 
 The profile command is standard-library-only. Plotting used the verified ACTS
-installation's Python3.14.5 with Matplotlib3.11.2; profile/test execution used
-system Python3.14.6. See [runtime setup](../../tools/module_layout/README.md).
+installation's Python 3.14.5 with Matplotlib 3.11.2; profile/test execution used
+system Python 3.14.6. See [runtime setup](../../tools/module_layout/README.md).
 The Spack preflight flagged changed setup/lock fingerprints, so imports were
 checked directly. No ACTS build or propagation was needed for this additive
 budget diagnostic. Source SHA, code/input hashes, timestamp, command and runtime

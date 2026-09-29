@@ -4,8 +4,8 @@
   "title": "Compare service gaps with upgrade trackers and expose cumulative routing loads",
   "recorded_at": "2026-09-29T12:29:19Z",
   "started_at": null,
-  "ended_at": null,
-  "status": "open",
+  "ended_at": "2026-09-29T12:58:44Z",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
@@ -28,7 +28,8 @@
       "logs/usage/USAGE-2026-09-29-project-summary.json"
     ],
     "result_commits": [
-      "b6a7506d671d4462935d9c07efdf401f3aeaf676"
+      "b6a7506d671d4462935d9c07efdf401f3aeaf676",
+      "bbc7bca001e825331729bcaf567d2d3b2f1c87e7"
     ],
     "changed_files": [
       "docs/design/DES-010-tracker-service-corridors.md",
@@ -84,6 +85,15 @@
       "failures": null,
       "duration_seconds": null,
       "evidence": "Node preflight warned about changed fingerprints; actual installed Python/NumPy/Matplotlib imports verified before plotting."
+    },
+    {
+      "kind": "tool",
+      "name": "gh pr edit / gh pr comment",
+      "version": null,
+      "calls": 2,
+      "failures": 0,
+      "duration_seconds": null,
+      "evidence": "https://github.com/asalzburger/nodd/pull/25#issuecomment-5890787099"
     }
   ],
   "usage": [],
@@ -98,7 +108,7 @@
       "command": "acts run acts-nodd; activate installed pyvenv; import sys,numpy,matplotlib",
       "status": "PASS",
       "exit_code": 0,
-      "result": "Installed Python3.14.5, NumPy2.5.3, Matplotlib3.11.2. Sister source HEAD355ea684 with existing changes preserved."
+      "result": "Installed Python 3.14.5, NumPy 2.5.3, Matplotlib 3.11.2. Sister source HEAD 355ea684 with existing changes preserved."
     },
     {
       "command": "Initial root focused profile test/probe/plot attempt",
@@ -116,7 +126,7 @@
       "command": "python3 -B -m unittest discover -s tools/module_layout -p test_services*.py -v",
       "status": "PASS",
       "exit_code": 0,
-      "result": "49 tests passed in4.631s; includes original services budget/geometry/driver tests and10 additive-profile controls."
+      "result": "49 tests passed in 4.631 s; includes original services budget/geometry/driver tests and 10 additive-profile controls."
     },
     {
       "command": "services_profile.py --run docs/validation/DES-010-services/main --output docs/validation/DES-010-services/review-accumulation --pickup-policy near-edge-full-load",
@@ -140,13 +150,49 @@
       "command": "python3 -B tools/dashboard/build.py validate; build --output /tmp/nodd-pr25-review-dashboard",
       "status": "PASS",
       "exit_code": 0,
-      "result": "32tasks,11documents,12reviewrounds validated; dashboard build passed."
+      "result": "32 tasks,11 documents,12 review rounds validated; dashboard build passed."
     },
     {
       "command": "python3 tools/session_logging/session_log.py validate; git diff --check",
       "status": "PASS",
       "exit_code": 0,
-      "result": "59localpairedrecords validate; no whitespace errors."
+      "result": "59 local paired records validate; no whitespace errors."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/dashboard -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "27 tests passed in 169.003 s."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "32 tests passed in 0.972 s."
+    },
+    {
+      "command": "gh pr view 25 --repo asalzburger/nodd --json number,title,state,isDraft,headRefOid,statusCheckRollup",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Published bbc7bca observed, PR open/draft; dashboard run 36571384124 succeeded. PR-body update triggered another run, pending at observation."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py summary",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "59 local sessions, 42 with usage, 79 observed turns. Historical observed input 134594309/output 674111; this task has no exact counters. No usage observations duplicated or estimated."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate (closeout attempt)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Manual audit was initially entered as PASS with no process exit code. Moved it to the narrative; automated PASS records require observed zero exit status."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate; summary --format json (corrected closeout)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "59 paired records validate; summary unchanged at 42 measured sessions/79 turns; no whitespace errors."
     }
   ]
 }
