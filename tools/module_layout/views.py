@@ -11,7 +11,9 @@ import math
 import os
 from pathlib import Path
 import platform
+import shlex
 import subprocess
+import sys
 
 import numpy as np
 
@@ -22,6 +24,7 @@ except ImportError:
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
+VIEWS_CODE_SHA256 = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
 SECTION_TOLERANCE_MM = 1e-9
 SUBSYSTEMS = ("pixel", "short_strip", "long_strip")
 LABELS = {"pixel": "Pixels", "short_strip": "Short strips", "long_strip": "Long-strip pairs"}
@@ -253,6 +256,7 @@ def barrel_views(layout, sensors, output, plt):
         selected_patches = [p for p in patches if p["layer_id"] == layer["id"]]
         offsets = [b.get("normal_offset_mm", 0.) for b in selected]
         maximum = max(1., max(map(abs, offsets)))
+        varying_offset = max(offsets) - min(offsets) > SECTION_TOLERANCE_MM
         norm = Normalize(vmin=-maximum, vmax=maximum)
         cmap = plt.get_cmap("coolwarm")
         radius = layer["r_m"] * 1000.
@@ -265,9 +269,11 @@ def barrel_views(layout, sensors, output, plt):
             detail_data.append(entry)
             axes[row, col].add_patch(Circle((0., 0.), radius, facecolor="none", edgecolor="#8b9298",
                                            linestyle=":", linewidth=.8))
-            axes[row, col].set_title(f"{LABELS[sub]} · {layer['id']}\nz = {z:.2f} mm", fontsize=11)
-        fig.colorbar(ScalarMappable(norm=norm, cmap=cmap), ax=axes[:, col], shrink=.7,
-                     label="Body displacement along nominal normal [mm]")
+            offset_label = "" if varying_offset else f" · normal offset {offsets[0]:g} mm"
+            axes[row, col].set_title(f"{LABELS[sub]} · {layer['id']}\nz = {z:.2f} mm{offset_label}", fontsize=10)
+        if varying_offset:
+            fig.colorbar(ScalarMappable(norm=norm, cmap=cmap), ax=axes[:, col], shrink=.7,
+                         label="Body displacement along nominal normal [mm]")
     fig.suptitle(f"{layout['candidate']} / {layout['variant']} · local barrel module sections\n"
                  "True cuts; empty seams remain empty · dotted line: nominal layer radius", fontsize=14)
     fig.legend(handles=[Patch(facecolor="#c1c8cd", edgecolor="#6e7981", label="Trial occupied body"),
@@ -317,8 +323,8 @@ def endcap_views(layout, sensors, output, plt):
             for radius in (layer["r_min_m"] * 1000., layer["r_max_m"] * 1000.):
                 ax.add_patch(Circle((0., 0.), radius, facecolor="none", edgecolor="#525d64", linewidth=.7, linestyle=":"))
             _axes(ax, bounds)
-            ax.set_title(f"{LABELS[sub]} · {layer['id']}\n"
-                         f"{'Full disc assembly' if row == 0 else 'Module-neighbour detail'} · nominal z = {nominal_z:g} mm", fontsize=10)
+            detail_label = f"Full disc assembly · nominal z = {nominal_z:g} mm" if row == 0 else "Module-neighbour detail"
+            ax.set_title(f"{LABELS[sub]} · {layer['id']}\n{detail_label}", fontsize=10)
         fig.colorbar(ScalarMappable(norm=norm, cmap=cmap), ax=axes[:, column], shrink=.75,
                      label="Module-body centre z − nominal disc z [mm]")
         vertices = [box_vertices(b) for b in bodies]
@@ -330,7 +336,8 @@ def endcap_views(layout, sensors, output, plt):
                              reference_module_id=reference["module_id"],
                              note="Projection along z of one named nominal disc assembly, including every staggered normal level and both long-strip faces"))
     fig.suptitle(f"{layout['candidate']} / {layout['variant']} · endcap tiling\n"
-                 "PROTOTYPE · separate reference disc per subsystem · projections along z, not planar cuts", fontsize=14)
+                 "PROTOTYPE · separate reference disc per subsystem · projections along z, not planar cuts\n"
+                 "All normal levels and both long-strip sensor faces are shown", fontsize=13)
     fig.legend(handles=[Line2D([], [], color="#8b949c", label="Trial occupied-body silhouette"),
                         Line2D([], [], color="#26333d", linestyle="--", label="Conditional physical sensor"),
                         Patch(facecolor=plt.get_cmap("coolwarm")(.8), alpha=.68, label="Active readout islands; colour = body z offset"),
@@ -344,8 +351,10 @@ def export(run, case_id, output):
     run, output = Path(run), Path(output)
     layout, retained = load_case(run, case_id)
     output.mkdir(parents=True, exist_ok=False)
-    os.environ.setdefault("MPLCONFIGDIR", str(output / ".mpl-cache"))
-    os.environ.setdefault("XDG_CACHE_HOME", str(output / ".cache"))
+    cache = ROOT / "reference/cache/module-layout-views" / hashlib.sha256(str(output.resolve()).encode()).hexdigest()[:16]
+    cache.mkdir(parents=True, exist_ok=True)
+    os.environ.setdefault("MPLCONFIGDIR", str(cache / "matplotlib"))
+    os.environ.setdefault("XDG_CACHE_HOME", str(cache / "xdg"))
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
@@ -354,9 +363,12 @@ def export(run, case_id, output):
     endcaps = endcap_views(layout, sensors, output, plt)
     provenance = dict(status="PROTOTYPE geometric views; no new detector acceptance", case=case_id,
                       generated_utc=datetime.now(timezone.utc).isoformat(), run=str(run),
+                      command=shlex.join([sys.executable, *sys.argv]),
                       source_run_revision=retained["project_revision"],
                       export_revision=subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip(),
-                      views_code_sha256=digest(__file__), geometry_code_sha256=digest(HERE / "geometry.py"),
+                      views_code_sha256=VIEWS_CODE_SHA256, geometry_code_sha256=digest(HERE / "geometry.py"),
+                      views_code_uncommitted=bool(subprocess.check_output(
+                          ["git", "status", "--porcelain", "--", str(Path(__file__).resolve())], cwd=ROOT, text=True).strip()),
                       retained_run_sha256=digest(run / "run.json"),
                       retained_summary_sha256=digest(run / case_id / "summary.json"),
                       retained_input_sha256={name: digest(run / name) for name in ("sensor_models.json", "layouts.json")},

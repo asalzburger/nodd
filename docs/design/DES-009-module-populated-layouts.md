@@ -140,9 +140,9 @@ is recorded explicitly rather than treated as a separate approval.
 **MP-C16 — NODD DESIGN CHOICE:** interpret “no tilt section” as no inclined
 barrel-end sections in the default, distinct from the explicitly requested
 local module tilts. Use the existing cobe nominal layers for that default;
-retain pint and its inclined sections as historical alternatives. Clarification
-of this interpretation has been requested; any correction is to be recorded
-before finalizing the response.
+retain pint and its inclined sections as historical alternatives. An optional clarification
+was requested and remained unanswered while the study proceeded. This is the
+stated working interpretation for human re-review, not inferred sign-off.
 
 All new numeric controls must remain in a separate review-model JSON input,
 with placement and clearance rationale. Retain the inherited sensor dimensions,
@@ -156,6 +156,9 @@ longitudinal seam must be measured rather than hidden by body overlap.
 position stated, and x-y tiling of representative endcap layers. Distinguish
 active patches, occupied bodies and normal placement levels. The view generator
 must use the retained run inputs and be repeatable after shape revisions.
+
+The [executed review-default study](../validation/DES-009-review-default.md)
+retains the default, the two independent options, coverage and transverse views.
 
 **MP-C18 — NODD DESIGN CHOICE, end-fit amendment:** a preliminary no-z placement
 using the minimum occupied-body pitch and enough rows to exceed both nominal

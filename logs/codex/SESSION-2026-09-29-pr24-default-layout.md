@@ -40,5 +40,66 @@ initial runtime probes were corrected and retained in the paired check history.
 
 ## Execution, results and revisions
 
-Populated when measured. Exact per-turn counters are unavailable during this
-active task and are not estimated or copied from the earlier usage inventory.
+The numerical and native source revision is `30ac28acaee5f8359acb1654de655a9760c7d704`.
+All four policies clear trial occupied-body and host checks. Nine new scan cases
+cover 169,344 trajectory evaluations; all nine native audits pass on 432 tracks,
+382,142 candidate targets and 6,241 reached patches. Source/input/overlay hashes
+and actual commands accompany the retained evidence.
+
+The selected default has 24,855 assemblies, 33,128 physical sensors and
+217.465 m² gross sensor surface. Independent-sample missing eligible station
+fractions are 5.970/5.897/6.302% for straight/positive/negative tracks. The combined
+long-barrel phi-tilt/no-z policy saves most of the 36.074 m² versus the previous
+fully staggered cobe but misses 16.40/15.15/22.92% of eligible long-barrel stations.
+That comparison changes both phi and z policies, so it does not isolate the
+cost of removing z staggering alone. Pixel z staggering helps modestly. The
+tested short-strip local tilt loses coverage and adds depth, so tangential
+modules remain the default.
+
+The primary grid has straight tracks with only two reached stations, whereas
+the independent default sample has at least five. Independent review corrected
+an initially incorrect attribution: those two-station tracks are forward
+pixel-endcap directions (eta ±3.4, z ±150 mm) with seven eligible endcap stations
+and no eligible barrel stations. They are not barrel z-seam losses. The raw
+numerical evidence was correct and unchanged. These are finite geometric probes,
+not reconstruction efficiency or continuous hermeticity.
+
+A 26-row minimum-pitch long barrel collided 328 times with first-endcap trial
+bodies. The rejected control is retained. The documented MP-C18 amendment uses
+25 full rows at 112.667 mm pitch, preserving ideal unrotated endpoints and
+leaving 7.890 mm body clearance. Rotated sensor corners overhang the nominal
+extent by 0.950 mm. No sensors were cropped.
+
+True x-y barrel cuts and positive reference-endcap tiled projections are exported
+for the default and short-tilt option. Physical sensor outlines, active patches
+and occupied bodies are distinguished. The z=0 outer-pixel inter-module gap
+remains visible; a second cut shows all four pixel barrels. Geometry/view code
+and input hashes accompany fresh exports. Full native navigation, material and
+Geant4 validation remain outside this scope.
+
+All 41 local module/native/view tests passed. A portability correction to the
+new legacy test compares exact JSON against the frozen a382a72 generator on
+the same machine, retaining the earlier 12 macOS hash checks as observed evidence.
+All 27 dashboard, 32 logging and 14 JavaScript checks passed. Report exports and
+dashboard build passed. Exact completed-turn counters remain unavailable and
+are not estimated or copied from previous usage inventories.
+
+## Runtime commands
+
+Scans used the installed pyvenv and the existing isolated ACTS binding overlay:
+
+```sh
+source /Users/salzburg/Documents/work/installed/acts-nodd/pyvenv/bin/activate
+source /Users/salzburg/Documents/work/installed/acts-nodd/bin/this_acts_withdeps.sh
+export PYTHONPATH="/tmp/acts-python-step-size-overlay/python:${PYTHONPATH}"
+python -B tools/module_layout/study.py run --native --jobs 4 \
+  --models tools/module_layout/review_models.json \
+  --config tools/module_layout/review_config.json \
+  --output reference/cache/DES-009-review-main-20260929 \
+  --acts-source /Users/salzburg/Documents/work/dev/acts-nodd \
+  --runtime-manifest /tmp/acts-python-step-size-overlay/manifest.json
+```
+
+Offgrid and total-p runs substitute the explicit configs/output paths recorded
+in the paired JSON. Each report/view export is fresh. Subsequent plot-label and
+portable-test changes do not alter the frozen numerical geometry or evidence.

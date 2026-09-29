@@ -1,10 +1,14 @@
 """Meaningful geometry-contract tests for the unsigned finite-module prototype."""
 import copy
-import hashlib
 import json
 from collections import defaultdict
 import math
+from pathlib import Path
+import subprocess
+import types
 import unittest
+
+from tools.module_layout import geometry
 
 from tools.module_layout.geometry import (
     _obb_overlap, body_overlap_diagnostics, cross, dot, generate_layout,
@@ -22,18 +26,28 @@ def fixture(subsystem="pixel", kind="cylinder"):
     return dict(id="test-only",layers=[layer])
 
 
-LEGACY_OUTPUT_SHA256 = {'cobe/flat': '8d651e76d531083aac717d9ef64b66b8bdc74ea62d12560714b38e4508e54392', 'cobe/staggered': '2f111da7b00b85d1f026c9ad47d9e846b16b6f546a570eb666c961111c9fc27a', 'cobe/tilted': '110be76b9edcedb695a0c353a9134b99671981e94dfcc53432865cbaf4a5a82e', 'cobe/hybrid': '65b551c3d8061e4c44d907b3cafdb50b55a59b184561910d74928708f0b29ba7', 'cobe/hybrid_clearance': 'ac70abc230d41d8d7e92a430de38b0f651c4470ebf27421689d885453963b55c', 'cobe/staggered_clearance': 'e6b52b0bae55f24aaa4bc0c2bca76e0654a2d95acf3081ad04542d7347b302d2', 'pint/flat': '02a498f7082ce503e608744ea3511d4a8efb5d34e30956441178b844a3f2ea7c', 'pint/staggered': 'b22d77924b272f9cf2a57b3e036d41f100f152459425d1dcbbd089af2cb01ae9', 'pint/tilted': 'ffbc2e12a07a91f09f5d25c88cc4f9a9e9d33895fe5104d13542868222da64b2', 'pint/hybrid': 'cff4dec3ddf4bcc890ce9c3d4b44db96c4e265cb854506cfe6f1013cda2de796', 'pint/hybrid_clearance': '039cbda6be1f6b611bf2d30233be0b8a63bcc8bc3cd9e7f08c9b2e5f8a24214f', 'pint/staggered_clearance': '3fe7b1e59cff87a984585e3251358ab0f300f98a2a2c3ba72ed115dbb1cc930d'}
+LEGACY_GEOMETRY_REVISION = "a382a72f304c44d4316a60e9117cc760c141dbb7"
 
 
 class FiniteGeometryTest(unittest.TestCase):
     def test_legacy_output_bytes_preserved(self):
-        # Captured before the reviewer-directed implementation. These hashes cover
-        # every patch/body/metadata field, including all previously rejected controls.
+        # Run the frozen generator on this platform: libm float serialization can
+        # differ across platforms. Compare every patch/body/metadata byte exactly,
+        # using the same unchanged input files. CI fetches the full Git history.
+        source = subprocess.check_output(
+            ["git", "show", f"{LEGACY_GEOMETRY_REVISION}:tools/module_layout/geometry.py"],
+            cwd=Path(geometry.__file__).resolve().parents[2],
+            text=True,
+        )
+        reference = types.ModuleType("frozen_module_layout_geometry")
+        reference.__file__ = geometry.__file__
+        exec(compile(source, reference.__file__, "exec"), reference.__dict__)
         for candidate in ("cobe", "pint"):
             for variant in LEGACY_VARIANTS:
                 with self.subTest(candidate=candidate,variant=variant):
-                    value = json.dumps(generate_layout(candidate,variant),sort_keys=True,separators=(",", ":"))
-                    self.assertEqual(hashlib.sha256(value.encode()).hexdigest(),LEGACY_OUTPUT_SHA256[candidate+"/"+variant])
+                    actual = json.dumps(generate_layout(candidate,variant),sort_keys=True,separators=(",", ":"))
+                    expected = json.dumps(reference.generate_layout(candidate,variant),sort_keys=True,separators=(",", ":"))
+                    self.assertTrue(actual == expected, "canonical JSON differs from the frozen generator")
 
     def test_review_layouts_clear_boxes_and_keep_nominal_cobe_layers(self):
         expected = next(c["layers"] for c in json.loads(LAYOUTS_PATH.read_text())["candidates"] if c["id"]=="cobe")

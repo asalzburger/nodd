@@ -46,6 +46,17 @@ def trajectory_label(config):
     return f"{momentum} = {config['momentum_GeV']:g} GeV, Bz = {config['field_T']:g} T"
 
 
+def variant_label(variant, multiline=False):
+    names = {"review_default": "default", "review_pixel_z": "pixel z staggering",
+             "review_short_tilt": "short-strip phi tilt",
+             "review_pixel_z_short_tilt": "pixel z + short-strip phi tilt"}
+    label = names.get(variant, variant.replace("_", " "))
+    if multiline:
+        import textwrap
+        return "\n".join(textwrap.wrap(label, width=16, break_long_words=False))
+    return label
+
+
 def primary_cases(cases):
     """Use the cases actually present, including one-candidate review runs."""
     return [case for case in cases if case["cohort"] == "main"]
@@ -145,7 +156,7 @@ def plot_profiles(rows, meta, config, output):
             values = [r for r in rows if r["case"] == case["id"] and r["mode"] == "positive" and r["scope"] == "total"]
             eta = [(r["eta_min"]+r["eta_max"])/2 for r in values]
             style = "-" if (case["variant"].endswith("clearance") or case["variant"].startswith("review_")) else "--"
-            label = case["variant"].replace("_", " ")
+            label = variant_label(case["variant"])
             axes[0, column].plot(eta, [r["sensor_hits_mean"] for r in values], style, label=label)
             axes[1, column].plot(eta, [100*r["missing_ideal_station_fraction"]
                                       if r["missing_ideal_station_fraction"] is not None else np.nan
@@ -185,7 +196,7 @@ def plot_tradeoff(bundle, output):
             clashes = result["body_diagnostics"]["overlapping_body_pairs"]
             ax.scatter(area, 100*miss, marker="x" if clashes else "o", s=65,
                        color="tab:red" if clashes else "tab:blue")
-            ax.annotate(case["variant"].replace("_", "\n"), (area, 100*miss),
+            ax.annotate(variant_label(case["variant"], multiline=True), (area, 100*miss),
                         xytext=offsets.get(case["variant"], (8, 8)), textcoords="offset points",
                         fontsize=8, arrowprops={"arrowstyle": "-", "color": ".55", "lw": .6})
         ax.set(title=candidate, xlabel="Gross sensor surface [m²]", ylabel="Missing eligible stations [%]")
@@ -218,7 +229,7 @@ def plot_maps(run, bundle, output):
         b = np.histogram2d(eta, phi, bins=bins, weights=ideal)[0]
         values = np.divide(100*a, b, out=np.full_like(a, np.nan), where=b > 0)
         im = ax.pcolormesh(bins[0], bins[1], values.T, vmin=0, vmax=35, cmap="magma")
-        ax.set(title=f"{case['candidate']}: {case['variant'].replace('_', ' ')}", xlabel="eta", ylabel="phi [rad]")
+        ax.set(title=f"{case['candidate']}: {variant_label(case['variant'])}", xlabel="eta", ylabel="phi [rad]")
     if im is not None:
         fig.colorbar(im, ax=axes, label="Missing eligible stations [%]", extend="max")
     fig.suptitle("Sampled gaps: all luminous vertices; "+trajectory_label(bundle["config"])+", + charge")
@@ -254,7 +265,7 @@ def plot_layouts(run, bundle, output):
         host = layout["metadata"]["host"]
         ax.set(xlim=(-1000*host["abs_z_max_m"]-50, 1000*host["abs_z_max_m"]+50),
                ylim=(0, 1000*host["r_max_m"]+30), xlabel="z [mm]", ylabel="r [mm]",
-               title=f"{case['candidate']}: {case['variant'].replace('_', ' ')}")
+               title=f"{case['candidate']}: {variant_label(case['variant'])}")
         ax.grid(alpha=.2)
         if panel == 0:
             ax.legend(fontsize=8)
