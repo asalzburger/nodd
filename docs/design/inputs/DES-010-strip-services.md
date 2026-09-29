@@ -198,3 +198,13 @@ fibre bandwidth, link error margins, coolant heat capacity/pressure drop/dry-out
 service-force transmission, radiation lifetime, thermal expansion, structural
 stiffness, assembly tooling or vessel feedthrough clearance. No layer-position
 optimization or physical tracker approval follows from this input.
+
+## Adopted executable hypothesis
+
+The final DES-010 configuration reserves **6.6 mm** external strip support depth,
+rounding the earlier 6.5 mm input proposal upward. The 25/50 mm illustrative
+bend-radius cases above have **not** been implemented or qualified: the current
+prototype checks finite joining pockets and declared flow continuity. Review
+connector, manifold and bend envelopes before treating it as engineered routing.
+The [executed report](../../validation/DES-010-tracker-services.md) is authoritative
+for the implemented reservations and their measured consequences.

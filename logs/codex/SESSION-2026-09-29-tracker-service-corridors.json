@@ -28,17 +28,37 @@
       "logs/usage/USAGE-2026-09-29-local.json",
       "logs/usage/USAGE-2026-09-29-project-summary.json"
     ],
-    "result_commits": [],
+    "result_commits": [
+      "d3265fa1e52f26b0aac556325eaa6d7a10442720"
+    ],
     "changed_files": [
       "docs/design/DES-009-module-populated-layouts.md",
-      "project/tracking.json",
-      "reference/manifest.yaml",
-      "tools/module_layout/README.md",
       "docs/design/DES-010-tracker-service-corridors.md",
       "docs/design/inputs/DES-010-pixel-services.md",
       "docs/design/inputs/DES-010-strip-services.md",
+      "docs/validation/DES-010-services/artifacts.json",
+      "docs/validation/DES-010-services/main/budget_inputs.json",
+      "docs/validation/DES-010-services/main/config.json",
+      "docs/validation/DES-010-services/main/envelopes.json",
+      "docs/validation/DES-010-services/main/layouts.json",
+      "docs/validation/DES-010-services/main/models.json",
+      "docs/validation/DES-010-services/main/native_tracks.json",
+      "docs/validation/DES-010-services/main/sampling.json",
+      "docs/validation/DES-010-services/main/summary.json",
+      "docs/validation/DES-010-services/rejected-throat-probe.json",
+      "docs/validation/DES-010-services/views/local-support-concept.pdf",
+      "docs/validation/DES-010-services/views/local-support-concept.png",
+      "docs/validation/DES-010-services/views/routing-rz.pdf",
+      "docs/validation/DES-010-services/views/routing-rz.png",
+      "docs/validation/DES-010-services/views/routing-xy.pdf",
+      "docs/validation/DES-010-services/views/routing-xy.png",
+      "docs/validation/DES-010-services/views/views.json",
+      "docs/validation/DES-010-tracker-services.md",
       "logs/codex/SESSION-2026-09-29-tracker-service-corridors.json",
       "logs/codex/SESSION-2026-09-29-tracker-service-corridors.md",
+      "project/tracking.json",
+      "reference/manifest.yaml",
+      "tools/module_layout/README.md",
       "tools/module_layout/services.py",
       "tools/module_layout/services_budget.py",
       "tools/module_layout/services_budget_inputs.json",
@@ -136,6 +156,66 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "Corrected curated-text deliverables; source dashboard built."
+    },
+    {
+      "command": "services.py --output reference/cache/DES-010-services-main-20260929 --coverage --native --acts-source /Users/salzburg/Documents/work/dev/acts-nodd --runtime-manifest /tmp/acts-python-step-size-overlay/manifest.json (verified ACTS overlay environment)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Clean source d3265fa. 53,952 trajectory evaluations, all geometric exclusions clear, reference capacity passes; conservative22 route/14 throat and stress48/24 failures retained. Native48/48 tracks,565 reached patches,zero mismatches,maxresidual9.211e-7mm."
+    },
+    {
+      "command": "services_views.py --run reference/cache/DES-010-services-main-20260929 --output docs/validation/DES-010-services/views",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Three PNG/PDF pairs plus hashed view metadata; final r-z and x-y visually inspected. Representative flow paths bounded by declared route graph."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/dashboard -p test_*.py -v (clean source worktree)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "27 tests passed in23.860s."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p test_*.py -v (clean source worktree)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "32 tests passed in0.747s."
+    },
+    {
+      "command": "/System/Library/Frameworks/JavaScriptCore.framework/Versions/A/Helpers/jsc tools/dashboard/test_app.js (clean source worktree)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "14 JavaScript assertions passed."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "32 tasks,11 documents,11 review rounds validated."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py build --output /tmp/nodd-des010-final-dashboard",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Report, routing artifacts and tracking exported successfully."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "57 local paired records validated; includes preserved unrelated usage-summary record."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py summary",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Observed historical input134594309/output674111;42/57 sessions,79 turns. Current task root/subagent usage unavailable, not zero."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors."
     }
   ]
 }

@@ -24,7 +24,8 @@ The original configurations and evidence remain available unchanged.
 PR #24 did not approve this tracker layout. It remains a working hypothesis.
 The separate [DES-010 service-gap prototype](../../docs/design/DES-010-tracker-service-corridors.md)
 uses it to reserve support, cooling and cable space while keeping all retained
-module positions and identifiers. Layer-position optimization is deferred.
+module positions and identifiers. Layer-position optimization is deferred. The [executed DES-010 report](../../docs/validation/DES-010-tracker-services.md)
+retains the routing mockups, failed adverse capacity scenarios and coverage costs.
 
 ```sh
 python tools/module_layout/services.py \

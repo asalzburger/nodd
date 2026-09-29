@@ -131,3 +131,10 @@ interface proposals, physical module bodies, supports and service envelopes.
 
 Human review of the routing budget and mechanical hypotheses is required before
 the separate constrained layer-position optimization or production integration.
+
+## Retained prototype evidence
+
+The [service-gap report](../validation/DES-010-tracker-services.md) records the
+source estimates, selected reservations, routing mockups, failed adverse budgets,
+row-removal costs and native ACTS check. Reference capacity passing does not
+approve the tracker or its interfaces. Optimization remains a separate follow-up.

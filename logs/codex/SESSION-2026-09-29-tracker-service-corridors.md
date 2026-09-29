@@ -73,8 +73,7 @@ this task does not alter its sources or installation beyond the authorized
 runtime helper's normal ODD-data copy.
 
 Focused geometry/budget/driver tests and source-space probes are recorded in the
-paired JSON. Full numerical/native and final publication results follow below
-when actually completed. Source/input hashes and commands accompany retained
+paired JSON. Completed numerical/native results follow below. Source/input hashes and commands accompany retained
 outputs; fresh directories prevent replacement of earlier evidence.
 
 ## Token accounting
@@ -91,3 +90,44 @@ voltage drop, thermal runaway, pressure drop, material composition, support
 attachments, vessel access and full-detector egress remain unqualified. Failed
 adverse scenarios are constraints for later review and optimization, not hidden
 by a successful geometric exclusion check.
+
+## Canonical run and retained results
+
+Committed the reproducible source/configuration at
+`d3265fa1e52f26b0aac556325eaa6d7a10442720` before execution (clean tracked source).
+Ran `tools/module_layout/services.py --coverage --native` using the verified ACTS
+runtime and `/tmp/acts-python-step-size-overlay` binding, writing to fresh cache
+`reference/cache/DES-010-services-main-20260929`. Exact arguments and hashes are
+retained in `docs/validation/DES-010-services/main/summary.json`; the report gives
+the complete setup and plotting commands.
+
+The 53,952 evaluations compare identical luminous-region samples before/after
+row removal. All geometric exclusions and declared route connectivity pass;
+reference capacity passes. Conservative fails 22 routes/14 throats and stress
+48/24. The 3,898 removed assemblies cost 40.162 m² of sensor area and raise the
+missing eligible-station fraction from 5.3–5.7% to 16.9–17.3%. This is an exposed
+coverage cost, not accepted tracking performance. Native ACTS agrees on every
+patch set for 48 tracks, with 565 reached patches and maximum residual
+9.211e-7 mm. Negative candidate errors/bounds rejections are retained separately.
+
+Full module tests: 80 passed (39 new service tests). Clean-worktree source checks:
+27 dashboard tests, 32 logging tests, 14 JavaScript assertions passed. The JS
+command was `/System/Library/Frameworks/JavaScriptCore.framework/Versions/A/Helpers/jsc tools/dashboard/test_app.js`.
+Generated and visually checked final routing projections and local support
+concept; retained PNG/PDF pairs, view metadata and artifact hashes. Retained the
+initial rejected throat-capacity probe separately. Public PDFs, raw trajectory
+files and ACTS intermediates remain in ignored cache. No layer optimization,
+production detector change or human approval is recorded.
+
+Independent final report audit matched all numerical tables and exact snapshots;
+clarified that the common route lies inside the vessel bore, and that support
+area is equivalent volume/depth rather than projected area. No numerical source
+or result changed. Final dashboard validation/build and session validation pass.
+The local journal summary has 134,594,309 observed input and 674,111 output tokens
+across 79 turns in 42/57 sessions; this task has no available counters. These are
+partial historical totals, not the current task's usage or complete project cost.
+The local denominator includes the unrelated, preserved usage-summary pair.
+
+The final audit also identified the limiting reference rear/common-bore join:
+97.86% utilization (2.14% headroom). This is now prominent beside the reference
+capacity pass, preventing a larger downstream section from hiding the bottleneck.
