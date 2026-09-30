@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-09-30-baseline-recommendation",
+  "title": "Recommend the next tracker working baseline from PR28",
+  "recorded_at": "2026-09-30T06:51:48Z",
+  "started_at": null,
+  "ended_at": "2026-09-30T06:51:56Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact client-reported per-turn token counters are unavailable; usage is empty, not zero.",
+    "Recommendation from retained PR28 evidence; no new geometry, propagation run or human approval.",
+    "Measured-bin non-regression does not establish continuum hermeticity. No-bypass option has training-only evidence."
+  ],
+  "client": {
+    "name": "unspecified",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "17ae47f6d18e132eb539f30ef8323114963f8588",
+    "branch": "study/tracker-service-optimization",
+    "initial_changes": [
+      "logs/codex/SESSION-2026-09-29-project-usage-summary.json",
+      "logs/codex/SESSION-2026-09-29-project-usage-summary.md",
+      "logs/usage/USAGE-2026-09-29-local.json",
+      "logs/usage/USAGE-2026-09-29-project-summary.json"
+    ],
+    "result_commits": [],
+    "changed_files": [
+      "logs/design/SESSION-2026-09-30-baseline-recommendation.json",
+      "logs/design/SESSION-2026-09-30-baseline-recommendation.md"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "tracker baseline recommendation"
+    ],
+    "related_ids": [
+      "DES-011",
+      "DES-010",
+      "DES-009",
+      "PR-28"
+    ]
+  },
+  "narrative": "logs/design/SESSION-2026-09-30-baseline-recommendation.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "gh pr view 28 --json title,state,headRefOid,body,comments",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Open PR at17ae47f6d18e132eb539f30ef8323114963f8588, no new comments; compared retained DES011 report and exact original-pocket layout."
+    },
+    {
+      "command": "Read gzip-retained original-pocket layout and compute report comparisons",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Verified barrel radii, first-disc positions, inherited module placement and family choices. Original-pocket control has9.0182mean stations,9.60% abovePR25 and0.635% belowcoverage candidate; gap statistic26.77% lower thanPR25."
+    },
+    {
+      "command": "session_log.py validate; session_log.py summary --format json; dashboard/build.py validate; dashboard/build.py build --output /tmp/nodd-baseline-recommendation-dashboard",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "61 local paired records validate; summary generated with no usage observations for this task; 33 tasks,12 documents,13 review rounds validate; dashboard builds successfully."
+    }
+  ]
+}
