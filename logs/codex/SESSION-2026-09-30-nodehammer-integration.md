@@ -133,3 +133,17 @@ into main. An ordinary merge of origin/design/pixel-barrel-support created
 ed78a3f76583b5061235d458b1cad68db21627d2. Both PR30 head54605b3 and the support
 baselinec79c219 are ancestors. Dashboard validation/build and session validation
 passed on that main; DD4hep checks run before push. Nodehammer stays a separate PR.
+
+## Publication
+
+At the user's explicit request, pushed main with an exact force-with-lease guard
+against6693ffd. The actual update was fast-forward toed78a3f; GitHub API confirms
+that main, origin/main and local main match. DD4hep rebuild and3/3 CTests passed
+in17.87s before publication. Existing untracked user usage files were preserved.
+
+Rebased only the unpublished integration commit onto updated main, yielding
+6decffbfe3df515703a07144343bae543fafdaa5; the resulting tree matches the pre-rebase tree exactly. Created
+[PR32](https://github.com/asalzburger/nodd/pull/32) against main. The PR includes
+only optional nodehammer work. PR metadata records that exact implementation
+head; this closeout commit changes tracking/logging only. Hosted CI results are
+not inferred from local checks.

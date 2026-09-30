@@ -4,8 +4,8 @@
   "title": "Evaluate and integrate nodehammer display workflow",
   "recorded_at": "2026-09-30T14:36:34Z",
   "started_at": null,
-  "ended_at": null,
-  "status": "open",
+  "ended_at": "2026-09-30T15:13:37Z",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
@@ -107,7 +107,10 @@
       "logs/usage/USAGE-2026-09-29-local.json",
       "logs/usage/USAGE-2026-09-29-project-summary.json"
     ],
-    "result_commits": [],
+    "result_commits": [
+      "ed78a3f76583b5061235d458b1cad68db21627d2",
+      "6decffbfe3df515703a07144343bae543fafdaa5"
+    ],
     "changed_files": [
       ".github/workflows/dashboard.yml",
       ".gitignore",
@@ -142,11 +145,31 @@
       "ADR-003",
       "TASK-SOFT-NODEHAMMER",
       "SRC-NODEHAMMER",
-      "PR-30"
+      "PR-30",
+      "PR-32"
     ]
   },
   "narrative": "logs/codex/SESSION-2026-09-30-nodehammer-integration.md",
-  "activities": [],
+  "activities": [
+    {
+      "kind": "skill",
+      "name": "acts-spack",
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Read repository skill, ran preflight and verified actual DD4hep build/import/rendering despite old registry fingerprints.",
+      "version": null
+    },
+    {
+      "kind": "skill",
+      "name": "nodehammer",
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Read source-pinned skills/nodehammer/SKILL.md. Used stable inspect JSON, CLI project packing and one-shot screenshots. Discovered/documented CLI examples requiring correction.",
+      "version": "30b19dcbd9329b742d98b1383a1484600fc3e0c3"
+    }
+  ],
   "usage": [],
   "checks": [
     {
@@ -262,6 +285,36 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "69 branch-local records: 79 observed turns across42 sessions;134594309 input,674111 output tokens;27 sessions lack usage including this task. Untracked unrelated historical records not collected into this worktree."
+    },
+    {
+      "command": "cmake --build build/dd4hep --parallel 4; ctest --test-dir build/dd4hep --output-on-failure",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Merged main build passes;3/3 tests pass in17.87s."
+    },
+    {
+      "command": "git push --force-with-lease=refs/heads/main:6693ffd05a697f554ad07fca04fdaef4a131a766 origin main:main",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "User explicitly requested force-push after merging support/PR30. Published ed78a3f with lease; actual update was fast-forward. GitHub commit API and both local refs match."
+    },
+    {
+      "command": "git rebase --onto origin/main b982cf0 software/nodehammer-integration",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "User explicitly requested rebase of unpublished integration. One new integration commit replayed; tree identical to pre-rebase a195aa5. Existing shared PR30/support history was not rewritten."
+    },
+    {
+      "command": "gh pr create --base main --head software/nodehammer-integration --title Software:... --body-file /tmp/nodd-nodehammer-pr-body.md",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Opened https://github.com/asalzburger/nodd/pull/32; branch pushed. Hosted CI not yet claimed successful."
+    },
+    {
+      "command": "Initial final session-log validation",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "New skill activity records omitted required nullable version field; supplied before successful final validation."
     }
   ]
 }
