@@ -27,6 +27,10 @@ if(BUILD_TESTING)
     "${PROJECT_SOURCE_DIR}/tools/pixel_barrel_dd4hep/validate.py"
     --compact "${NODD_COMPACT_DIR}/pixel-barrel.xml" --expected "${NODD_COMPACT_DIR}/expected.json"
     --library "$<TARGET_FILE:nODDPixelBarrel>" --output "${CMAKE_CURRENT_BINARY_DIR}/validation.json")
+  add_test(NAME pixel-root-display-roundtrip COMMAND "${Python3_EXECUTABLE}" -B
+    "${PROJECT_SOURCE_DIR}/tools/pixel_barrel_dd4hep/export_root.py"
+    --compact "${NODD_COMPACT_DIR}/pixel-barrel.xml" --library "$<TARGET_FILE:nODDPixelBarrel>"
+    --output "${CMAKE_CURRENT_BINARY_DIR}/pixel-barrel.root")
 endif()
 install(TARGETS nODDPixelBarrel LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
 install(DIRECTORY "${NODD_COMPACT_DIR}/" DESTINATION share/nODD/pixel-barrel)

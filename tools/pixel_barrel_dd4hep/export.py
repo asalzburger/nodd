@@ -90,24 +90,22 @@ def export(config, output):
     for axis, value in zip("xyz", config["world_half_size_mm"]):
         ET.SubElement(define, "constant", name="world_" + axis, value=mm(value))
     display = ET.SubElement(compact, "display")
-    colors = {
-        "Sensor": (0.2, 0.7, 0.3),
-        "Module": (0.3, 0.4, 0.6),
-        "Support": (0.6, 0.5, 0.3),
-        "Cooling": (0.1, 0.5, 0.8),
-        "Mount": (0.5, 0.2, 0.7),
-        "Cable": (0.9, 0.5, 0.1),
-        "Service": (0.2, 0.6, 0.7),
-    }
-    for name, c in colors.items():
+    palette = read(ROOT / "detector/config/display.json")["styles"]
+    for name, style in palette.items():
+        ET.SubElement(
+            define,
+            "constant",
+            name="nodd_colour_" + name,
+            value=str(style["root_color"]),
+        )
         ET.SubElement(
             display,
             "vis",
             name=name,
-            r=str(c[0]),
-            g=str(c[1]),
-            b=str(c[2]),
-            alpha="0.8",
+            r=str(style["rgb"][0]),
+            g=str(style["rgb"][1]),
+            b=str(style["rgb"][2]),
+            alpha=str(style["alpha"]),
             showDaughters="true",
             visible="true",
         )
@@ -245,7 +243,7 @@ def export(config, output):
                     thickness=mm(thickness),
                     w=mm(w),
                     center_y=mm(zy),
-                    vis="Support",
+                    vis="Foam" if kind == "core" else materials_by_layer[kind],
                 )
                 capacity = wid * length * thickness
                 if kind == "core":
@@ -264,6 +262,8 @@ def export(config, output):
                         tube_offset=mm(fam["tube_offset_mm"]),
                         tube_material="Titanium",
                         coolant_material="CO2",
+                        tube_vis="Titanium",
+                        coolant_vis="CO2",
                     )
                     ET.SubElement(sx, "core", **attr)
                     entity(
@@ -345,7 +345,7 @@ def export(config, output):
                     length=mm(sv),
                     thickness=mm(module["sensor_mm"]),
                     material="Silicon",
-                    vis="Sensor",
+                    vis="Silicon",
                 )
                 active_volume = sum(
                     4 * p["half_u_mm"] * p["half_v_mm"] * module["sensor_mm"]
@@ -407,7 +407,7 @@ def export(config, output):
                         length=mm(dv),
                         thickness=mm(dw),
                         material=mat,
-                        vis="Module",
+                        vis="Copper" if mat == "PatternedCopper" else mat,
                     )
                     entity(
                         name + "_" + part, role, world(b, u, v, w), du * dv * dw, mat
@@ -486,7 +486,7 @@ def export(config, output):
                 length=mm(length),
                 z=mm(r["z_mm"]),
                 material="CFRP",
-                vis="Mount",
+                vis="CFRP",
             )
             entity(
                 name,
@@ -511,7 +511,7 @@ def export(config, output):
                 phi=rad(phi),
                 z=mm(f["center_mm"][2]),
                 material="CFRP",
-                vis="Mount",
+                vis="CFRP",
             )
             volume = f["mass_g"] / support["density_g_cm3"]["CFRP"] * 1000
             entity(name, "foot", f["center_mm"], volume, "CFRP")
@@ -571,6 +571,7 @@ def export(config, output):
     counts = dict(Counter(e["role"] for e in entities))
     source_files = [
         "detector/config/elements.json",
+        "detector/config/display.json",
         "detector/config/pixel-barrel.json",
         "tools/pixel_barrel_dd4hep/export.py",
         "tools/pixel_barrel_dd4hep/materials.py",
@@ -578,6 +579,7 @@ def export(config, output):
         "detector/src/PixelComponents.cpp",
         "detector/src/PixelServices.cpp",
         "detector/include/nodd/PixelComponents.hpp",
+        "detector/include/nodd/PixelDisplay.hpp",
         "detector/include/nodd/PixelServices.hpp",
     ]
     provenance = dict(

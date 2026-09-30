@@ -1,6 +1,7 @@
 // Isolated PROTOTYPE: parameters and provisional materials belong to the XML,
 // not to these reusable construction functions. See DES-012.
 #include "nodd/PixelComponents.hpp"
+#include "nodd/PixelDisplay.hpp"
 
 #include <DD4hep/Objects.h>
 #include <DD4hep/Shapes.h>
@@ -33,7 +34,7 @@ double positive(Handle_t node, const char* field) {
 
 void decorate(Detector& detector, Volume volume, Handle_t node) {
   if (node.hasAttr("vis")) {
-    volume.setVisAttributes(detector, node.attr<std::string>("vis"));
+    applyDisplay(detector, volume, node.attr<std::string>("vis"));
   }
 }
 
@@ -134,6 +135,8 @@ dd4hep::Assembly buildStave(dd4hep::Detector& detector,
       Volume coolant(name + "_coolant" + suffix,
                      Tube(0 * mm, inner, length / 2),
                      detector.material(core.attr<std::string>("coolant_material")));
+      applyDisplay(detector, pipe, core.attr<std::string>("tube_vis"));
+      applyDisplay(detector, coolant, core.attr<std::string>("coolant_vis"));
       pipe.placeVolume(coolant);
       coreVolume.placeVolume(pipe,
           Transform3D(tubeRotation, Position(sign * offset, 0 * mm, 0 * mm)));

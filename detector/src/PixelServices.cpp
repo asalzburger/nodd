@@ -1,4 +1,5 @@
 #include "nodd/PixelServices.hpp"
+#include "nodd/PixelDisplay.hpp"
 #include <DD4hep/Shapes.h>
 #include <cmath>
 #include <stdexcept>
@@ -11,7 +12,7 @@ dd4hep::Volume buildServiceSector(dd4hep::Detector& detector, dd4hep::xml::Handl
   // Rotate the sector placement to its phi centre in the assembly factory.
   dd4hep::Volume volume(x.attr<std::string>("name"),
     dd4hep::Tube(ri,ro,length/2,0.,width),detector.material(x.attr<std::string>("material")));
-  volume.setVisAttributes(detector,x.attr<std::string>("vis"));
+  applyDisplay(detector,volume,x.attr<std::string>("vis"));
   return volume;
 }
 }

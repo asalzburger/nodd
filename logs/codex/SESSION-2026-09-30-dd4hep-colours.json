@@ -1,0 +1,150 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-09-30-dd4hep-colours",
+  "title": "Persist material display colours through ROOT export",
+  "recorded_at": "2026-09-30T14:19:35Z",
+  "started_at": null,
+  "ended_at": "2026-09-30T14:28:03Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact client-reported input/output counters unavailable; usage remains empty.",
+    "Interactive rendering not exercised; exported geometry reopened in a fresh ROOT process."
+  ],
+  "client": {
+    "name": "unspecified",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "0a65fa5dc36fe97cb05269b8d02e98b19dc3da21",
+    "branch": "implementation/dd4hep-pixel-barrel",
+    "initial_changes": [
+      "logs/codex/SESSION-2026-09-29-project-usage-summary.json",
+      "logs/codex/SESSION-2026-09-29-project-usage-summary.md",
+      "logs/usage/USAGE-2026-09-29-local.json",
+      "logs/usage/USAGE-2026-09-29-project-summary.json"
+    ],
+    "result_commits": [],
+    "changed_files": [
+      "detector/CMakeLists.txt",
+      "detector/README.md",
+      "detector/config/display.json",
+      "detector/include/nodd/PixelDisplay.hpp",
+      "detector/src/PixelComponents.cpp",
+      "detector/src/PixelServices.cpp",
+      "docs/design/DES-012-dd4hep-pixel-barrels.md",
+      "docs/validation/DES-012/display/artifacts.json",
+      "docs/validation/DES-012/display/geometry.json",
+      "docs/validation/DES-012/display/physics-comparison.json",
+      "docs/validation/DES-012/display/results.md",
+      "docs/validation/DES-012/display/roundtrip.json",
+      "logs/codex/SESSION-2026-09-30-dd4hep-colours.json",
+      "logs/codex/SESSION-2026-09-30-dd4hep-colours.md",
+      "project/tracking.json",
+      "reference/manifest.yaml",
+      "tools/pixel_barrel_dd4hep/export.py",
+      "tools/pixel_barrel_dd4hep/export_root.py"
+    ]
+  },
+  "work": {
+    "milestone": "M3",
+    "components": [
+      "DD4hep material display",
+      "ROOT export persistence"
+    ],
+    "related_ids": [
+      "DES-012",
+      "PR-30",
+      "TASK-SOFT-DD4HEP-PIXEL"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-09-30-dd4hep-colours.md",
+  "activities": [
+    {
+      "kind": "skill",
+      "name": "acts-spack",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Preflight warned about changed fingerprints; installed DD4hep/ROOT build, validation and fresh-process export/import verified."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 skills/acts-spack/scripts/preflight.py",
+      "status": "FAIL",
+      "exit_code": 2,
+      "result": "Recorded setup/lockfile fingerprints differ; user warned and actual runtime reverified."
+    },
+    {
+      "command": "Initial pixel-root-display-roundtrip attempts",
+      "status": "FAIL",
+      "exit_code": 8,
+      "result": "Audit initially included unplaced Air volumes, then needed PyROOT Char_t decoding; RGB matching selected nearby blue. Corrected placed-volume traversal/byte conversion and explicit ROOT colour indices."
+    },
+    {
+      "command": "cmake --build build/dd4hep --parallel 4",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Palette compact and display helper built."
+    },
+    {
+      "command": "ctest --test-dir build/dd4hep --output-on-failure",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "3/3 passed in17.48s: ten pure controls, full geometry validation, ROOT display export/import."
+    },
+    {
+      "command": "export_root.py: export then reopen in separate ROOT-only process",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "36550 placed solid volume styles retain colour indices/RGB, transparency, fill colour and visibility."
+    },
+    {
+      "command": "Compare new physical-validation report with retained DES012 nominal",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Counts, mass, every material, all75 navigation rays, IDs, centres/normals and overlaps exactly unchanged."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "34tasks,14documents,15reviews validated."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py build --output _site/dd4hep-pixel-review",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Static dashboard build passed."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors."
+    },
+    {
+      "command": "python3 -B -m unittest test_build.DashboardTests.test_deterministic_escaped_build_and_all_internal_links -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "1test passed; new documentation and evidence links resolve."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "69local records validated."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py summary --format json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Summary succeeded; this task has no observed input/output counters."
+    }
+  ]
+}

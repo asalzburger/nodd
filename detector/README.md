@@ -60,6 +60,60 @@ old eight-element material table can abort ROOT with
 the complete 98-element table; changing Air or removing argon is not the fix.
 Rebuilding refreshes the canonical compact when its inputs change.
 
+## Material colours and ROOT export
+
+The display palette lives in [config/display.json](config/display.json). It is
+independent of physical material densities/compositions and uses standard ROOT
+colours, avoiding session-local RGB definitions that can disappear on export.
+Volume attributes are assigned by material family, including nested tubes/coolant.
+
+| Material family | Colour |
+| --- | --- |
+| Silicon sensors and ASICs | Blue |
+| CFRP / graphite | Dark / medium grey |
+| Titanium tubes | Light grey |
+| CO₂ coolant | Cyan |
+| Foam/glue core | Green |
+| Copper flex / cable mixtures | Orange |
+| Polyimide | Yellow |
+| Epoxy | Magenta |
+| Mixed end-bay services | Violet |
+
+Supports and service envelopes have partial transparency to expose nested parts.
+This is a viewing convention, not a change in material or an extra void fraction.
+The palette's `rgb` values match the specified standard ROOT `root_color` index;
+The C++ display helper assigns that exact index to ROOT line/fill attributes,
+avoiding approximate RGB matching. Keep both consistent when selecting a different
+standard colour. `alpha` controls opacity independently.
+See [ROOT's predefined colours](https://root.cern.ch/doc/v636/classTColor.html).
+
+Rebuild, close the old display, and reopen the maintained compact to see changes.
+To export a ROOT file and automatically verify its colours in a fresh process:
+
+```sh
+python3 -B tools/pixel_barrel_dd4hep/export_root.py \
+  --compact build/dd4hep/detector/compact/pixel-barrel.xml \
+  --library build/dd4hep/detector/libnODDPixelBarrel.dylib \
+  --output build/dd4hep/detector/pixel-barrel.root
+```
+
+CTest also runs this export/reopen check as `pixel-root-display-roundtrip`.
+The sidecar `pixel-barrel.display.json` records RGB, colour indices, transparency
+and validation hashes. The ROOT geometry uses ordinary saved volume attributes;
+it does not require a recolouring macro after import. Existing exports must be
+regenerated to receive the new palette. For a ROOT session opened from the
+repository root (`root -l`), the exported geometry can be viewed with:
+
+```cpp
+auto geometry = TGeoManager::Import("build/dd4hep/detector/pixel-barrel.root");
+geometry->SetVisLevel(6);
+geometry->SetMaxVisNodes(100000);
+geometry->GetTopVolume()->Draw("ogl");
+```
+
+The depth/node settings above are viewer choices for this assembly. Interactive rendering is not a test of
+physics, and visibility can still depend on the viewer's depth/clipping settings.
+
 ## Configurable provisional cable material
 
 [config/pixel-barrel.json](config/pixel-barrel.json) is the canonical configuration.

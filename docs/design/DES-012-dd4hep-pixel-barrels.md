@@ -89,3 +89,17 @@ Keep material composition sensitivity separate from geometry and heat balance.
 Geant4 transport, digitization, thermal/pressure qualification, alignment/FEA,
 endcap/global integration and ACTS conversion are explicitly future gates.
 A runnable prototype does not resolve the omitted hardware inventory.
+
+## Display convention (2026-09-30)
+
+**PB-C13 — NODD DESIGN CHOICE:** assign volume display attributes by material
+family using `detector/config/display.json`. Silicon is blue, carbon supports
+and titanium grey, foam green, CO₂ cyan, copper/cables orange, polyimide yellow,
+epoxy magenta and mixed end-bay services violet. Partial transparency exposes
+nested components. These are visual labels, not material properties or changes
+to dimensions, density, composition or sensitivity. Standard ROOT colours avoid
+process-local custom colour IDs when exporting geometry. Validate RGB, colour
+indices and transparency after reopening a ROOT export in a fresh process.
+SRC-ROOT-TCOLOR documents the standard colour wheel; actual persistence is tested
+against the installed DD4hep/ROOT versions. Existing numerical evidence remains
+unchanged and is retained.
