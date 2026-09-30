@@ -1405,6 +1405,42 @@
       "blocker": null,
       "disposition": "Standalone prototype implemented and validated with DD4hep1.38/ROOT6.40.04: 6206 matching sensitive elements, zero overlaps,31030 pixel cell checks,75 navigation rays; Cu5/10/20 variants preserve geometry and pass. No engineering acceptance or formal design sign-off. geoDisplay load-only and environment-based plugin discovery verified; README identifies the maintained compact and stale-probe failure. Standard ROOT material-family colours and transparency survive fresh-process export/import; CTest3/3 passes and physics results remain identical.",
       "subsystem": "software"
+    },
+    {
+      "id": "TASK-SOFT-NODEHAMMER",
+      "title": "Integrate optional nodehammer pixel-barrel display",
+      "scope": "Pinned source build, audited DD4hep/NHB/GLB conversion and portable native viewer projects. Display only; no detector parameter changes.",
+      "stage": "B",
+      "milestones": [
+        "M1",
+        "M3"
+      ],
+      "workstream": "WS-SOFT",
+      "role": "Project software engineer",
+      "owner": null,
+      "state": "completed",
+      "dependencies": [
+        "TASK-SOFT-DD4HEP-PIXEL"
+      ],
+      "deliverables": [
+        "tools/nodehammer/README.md",
+        "tools/nodehammer/upstream.json",
+        "docs/validation/nodehammer/results.md"
+      ],
+      "evidence": [
+        "docs/validation/nodehammer/report.json",
+        "docs/validation/nodehammer/root-fallback.json",
+        "logs/codex/SESSION-2026-09-30-nodehammer-integration.md"
+      ],
+      "documents": [
+        "DES-012",
+        "ADR-003"
+      ],
+      "updated": "2026-09-30",
+      "next_action": "Review optional integration; upstream strict-mode, ROOT extension and screenshot CLI fixes; qualify a matched web runtime before any browser/dashboard publication.",
+      "blocker": null,
+      "disposition": "Native build and 602 upstream tests pass; 6 safeguards pass; 39386 entity/transform matches and 6206 sensitive tags survive NHB round trip; full/sensitive/stave mesh sets and GLB units/opacity verified; native screenshots inspected. Native blending and physics equivalence are not claimed.",
+      "subsystem": "software"
     }
   ],
   "documents": [
@@ -1779,18 +1815,18 @@
       "number": 29,
       "title": "Tracker: Compare pixel barrel support and CO2 cooling concepts",
       "url": "https://github.com/asalzburger/nodd/pull/29",
-      "state": "open",
+      "state": "merged",
       "head_revision": "c79c2194e23e99c4d2696ca2d6628a388b96f5e4",
-      "merge_commit": null,
-      "merged_at": null,
-      "collected_at": "2026-09-30T13:45:19Z",
+      "merge_commit": "99dc05e77660d3a985aa0f5fa3c8086912dc0feb",
+      "merged_at": "2026-09-30T13:49:55Z",
+      "collected_at": "2026-09-30T15:04:06Z",
       "task": "TRK-SUPPORT",
       "documents": [
         "DES-002",
         "DES-011",
         "DES-010"
       ],
-      "scope": "Draft two-candidate support/cooling proposal on selected PR28 baseline, outward ring-mounted A and cumulative barrel cable bundles with 12 cooling sectors per end. Repeatable geometry/material-accounting export and separate radial routing drawings. Reference space screen passes; adverse scenarios fail; composition, manifolds, hydraulics and cage stiffness unqualified. No sign-off or production integration. Human reviewer selected the cable-inclusive working baseline on 2026-09-30; standalone DD4hep implementation proceeds under DES-012, without formal lifecycle promotion.",
+      "scope": "Draft two-candidate support/cooling proposal on selected PR28 baseline, outward ring-mounted A and cumulative barrel cable bundles with 12 cooling sectors per end. Repeatable geometry/material-accounting export and separate radial routing drawings. Reference space screen passes; adverse scenarios fail; composition, manifolds, hydraulics and cage stiffness unqualified. No sign-off or production integration. Human reviewer selected the cable-inclusive working baseline on 2026-09-30; standalone DD4hep implementation proceeds under DES-012, without formal lifecycle promotion. Merged into study/tracker-service-corridors; no formal sign-off inferred.",
       "category": "project"
     },
     {
@@ -1798,17 +1834,35 @@
       "number": 30,
       "title": "Software: Assemble the PR29 pixel barrels in DD4hep",
       "url": "https://github.com/asalzburger/nodd/pull/30",
-      "state": "open",
-      "head_revision": "164bd38ab4e0ea8ef159405fce80026d70c9314e",
-      "merge_commit": null,
-      "merged_at": null,
-      "collected_at": "2026-09-30T13:52:09Z",
+      "state": "merged",
+      "head_revision": "54605b333e819e2fe454cc78627260835f5da208",
+      "merge_commit": "b7c33f396df22b0445a217955ff274e331393031",
+      "merged_at": "2026-09-30T14:30:56Z",
+      "collected_at": "2026-09-30T15:04:06Z",
       "task": "TASK-SOFT-DD4HEP-PIXEL",
       "documents": [
         "DES-012",
         "DES-002"
       ],
-      "scope": "Draft standalone DD4hep implementation stacked on PR29. Four layers,2750 modules,6206 sensitive patches; configurable provisional cable material. CTest and three material variants pass; engineering/material review and full-detector/G4/ACTS integration remain open.",
+      "scope": "Merged standalone PROTOTYPE into design/pixel-barrel-support. Includes geoDisplay/plugin-discovery fixes and material-family ROOT colours. Does not supply design acceptance or main-branch integration by itself.",
+      "category": "project"
+    },
+    {
+      "id": "PR-32",
+      "number": 32,
+      "title": "Software: Integrate nodehammer pixel-barrel display",
+      "url": "https://github.com/asalzburger/nodd/pull/32",
+      "state": "open",
+      "head_revision": "6decffbfe3df515703a07144343bae543fafdaa5",
+      "merge_commit": null,
+      "merged_at": null,
+      "collected_at": "2026-09-30T15:13:37Z",
+      "task": "TASK-SOFT-NODEHAMMER",
+      "documents": [
+        "DES-012",
+        "ADR-003"
+      ],
+      "scope": "Optional display integration at the captured implementation head; subsequent closeout updates tracking/logs only. Rebased onto main ed78a3f after user-authorized support/PR30 merge. Native import/rendering and portable project/GLB checks pass; native blending, browser runtime and physics equivalence remain explicit limits. No design approval.",
       "category": "project"
     }
   ]
