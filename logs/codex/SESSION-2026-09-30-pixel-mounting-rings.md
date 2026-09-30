@@ -102,3 +102,13 @@ updated drawing proposal does not grant production authorization.
 The local accounting summary observes 134,594,309 input and 674,111 output tokens
 over 79 historical turns in 42 sessions; 23 sessions lack usage measurements,
 including this task. These incomplete project totals are not this task’s usage.
+
+## Publication
+
+Committed and pushed `9b916d7ad7dcfa013a8673f2c394069ebdedbdfd` to draft PR #29. Updated the PR description and
+replied directly to the mounting-ring request with immutable drawing/report
+links. The final staged whitespace check passes. No merge or sign-off.
+
+Reply: https://github.com/asalzburger/nodd/pull/29#issuecomment-5911114398. Post-publication dashboard build and log validation/summary pass.
+GitHub build was in progress when observed at the drawing commit; remote success
+is not claimed. The reviewer’s acceptance of the response remains pending.
