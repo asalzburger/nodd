@@ -47,6 +47,46 @@ screen, rather than treating the existing annular reservation as detailed CAD.
 
 ![Candidate cross-sections](../validation/DES-002/cross-sections.png)
 
+### Candidate A with the support radially outside
+
+**PS-C11 — NODD DESIGN CHOICE, proposed:** following the user's 2026-09-30
+request, orient A with the sensor side towards the beam and its readout-side
+thermal interface, carbon structure and cooling towards increasing radius.
+Retain the module/sensitive-plane positions, radial staggering and PS-C01–C03
+dimensions. This is an orientation variant of A, not a third candidate. Engineering
+approval remains pending. The earlier inward-support screen is retained as
+separate evidence; its clearance result does not establish the outward fit.
+
+The motivation is to place a stave's support after its own measurement for an
+outgoing track. Material from inner layers still precedes outer measurements;
+tracking improvement has not been quantified. The working layout represents
+sensitive planes and 1 mm module bounding bodies, not a resolved sensor/ASIC
+laminate. Draw those planes at their exact existing positions; the proposed
+sensor-facing direction does not relocate them to the body's inner edge.
+
+**PS-C12 — NODD DESIGN CHOICE, drawing convention:** use an actual x–y cut at
+z = +25 mm, between the proposed bearing planes, which intersects a module and
+active silicon in every pixel stave. Show all columns with no azimuthal tilt.
+Global bearing rings, end connections and service routes outside that cut are
+not solid components in this section. A longitudinal assembly and global support
+design remain necessary before calling this a mechanically complete detector.
+
+The outward structure replaces the old inward-support hypothesis locally. The
+DES-010 inward annular reservations are not moved or claimed to contain it.
+New outward envelopes and clearances must be reviewed together with the global
+load path, stagger-height bearings and service handoff. The repeatable section
+generator and its separate retained evidence are documented in the
+[outward assembly report](../validation/DES-002/outward-A/results.md).
+
+![Candidate A, complete pixel barrel x–y section](../validation/DES-002/outward-A/barrel-all.png)
+
+Individual sections: [B1](../validation/DES-002/outward-A/barrel-B1.png),
+[B2](../validation/DES-002/outward-A/barrel-B2.png),
+[B3](../validation/DES-002/outward-A/barrel-B3.png),
+[B4](../validation/DES-002/outward-A/barrel-B4.png).
+PDF/SVG versions, nominal clearance results and the limited B4 service-interface
+headroom are in the linked report.
+
 ## Source facts
 
 Exact source entries, versions, URLs and local hashes are in

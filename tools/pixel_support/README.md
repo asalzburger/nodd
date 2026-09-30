@@ -23,3 +23,26 @@ boiling, pressure drop, laminate shear/torsion, global supports or thermal runaw
 The zero-clearance cross-section test uses all82 repeated stave columns; shared
 ribs, joints, tolerances and end routing need separate full geometry checks.
 Never interpret nominal heat-capacity or static-sag targets as engineering approval.
+
+## Candidate A, sensor inward / support outward
+
+```sh
+MPLCONFIGDIR=/tmp/nodd-des002-mpl python3 -B tools/pixel_support/outward.py
+```
+
+This separate generator writes four complete barrel x–y sections and a combined
+view in PNG/PDF/SVG, plus a nominal-clearance screen and artifact manifest, to
+`docs/validation/DES-002/outward-A/`. `--output PATH` selects another directory.
+It retains the earlier inward-support evidence. The shared stack and exact
+baseline come from `inputs.json`; `outward.json` selects z = +25 mm and the
+numerical overlap tolerance. The tolerance is not a manufacturing allowance.
+
+Sections use actual body and active-patch intersections with that plane. They
+refuse a cut missing modules/active silicon, a changed baseline checksum or
+nonuniform/tilted stave columns. The clearance screen uses two enclosing boxes
+per stave (full-width thin plate, narrow spine), checks all other module and
+support boxes, and computes Euclidean polygon gaps and corner-based outer radii.
+Tube circles are contained within the spine. Own-module and internal-layer
+contacts are intentional. No global frame, bearings, end joints or flex is tested.
+Review the assembly report when changing sensor/module shapes or orientation;
+never carry the previous fit or service handoff forward automatically.
