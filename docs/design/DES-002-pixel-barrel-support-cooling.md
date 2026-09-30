@@ -87,6 +87,47 @@ Individual sections: [B1](../validation/DES-002/outward-A/barrel-B1.png),
 PDF/SVG versions, nominal clearance results and the limited B4 service-interface
 headroom are in the linked report.
 
+### Mounting rings for candidate A
+
+The [2026-09-30 reviewer request](https://github.com/asalzburger/nodd/pull/29#issuecomment-5910690174)
+asks how the staves are held and mounted. **PS-C13 — NODD DESIGN CHOICE,
+proposed:** use **six rings per barrel: two end mounting rings and four intermediate
+stiffening rings**, or 24 rings across B1–B4. Put their centres at
+**z = −546, −330, −110, +110, +330, +546 mm**. This supersedes PS-C05's
+illustrative ±560/±336/±112 mm stations for outward A only; the earlier numerical
+evidence is retained. The new end rings occupy |z| = 542–550 mm, before the
+service bay starting at |z| = 555 mm. No module row is removed or displaced.
+
+Retain the proposed 8 mm axial by 1 mm radial CFRP ring section from PS-C10.
+Set each ring's inner radius 0.5 mm beyond its barrel's outermost stave corner.
+This 0.5 mm is a proposed nominal assembly separation, not a tolerance budget.
+Discrete 4 mm tangential by 8 mm axial bearing-foot envelopes bridge from every
+stave's outward back face to its ring, with height following the radial staggering.
+These envelopes represent CFRP feet for space/mass screening; pins, inserts,
+bondlines, flexures and split-ring joints are still unresolved and additional.
+Use one axial locating station at z = −546 mm; other stations guide radially and
+tangentially while accommodating longitudinal contraction by slides or flexures.
+
+The two end rings mount each barrel cage to the global tracker end supports.
+The four interior rings tie the staves together to maintain cross-section shape
+and share loads. They are not independently fixed bearings: **six rings alone
+do not justify the previous 250 mm simply-supported sag result**. The new maximum
+station pitch is 220 mm, but complete cage/end-mount FEA and metrology must
+establish actual deformation and determine whether fewer rings suffice. End
+mount brackets and the global load path remain unqualified interfaces, not hidden
+massless supports. No material is added on the sensor-facing side.
+
+**PS-C14 — NODD DESIGN CHOICE, representation:** show a real x–y section at
+z = +110 mm through a ring, individually for all four barrels and combined,
+and a |r|–z projection showing all six stations, module rows and the start of the
+service bay. Radial projections do not claim that a ring at one z exists everywhere
+along the barrel. The previous z = +25 mm drawings remain valid between rings.
+See the [mounted-ring report](../validation/DES-002/outward-A-mounted/results.md)
+for the new radial envelopes, material allowance, clearance checks and drawings.
+
+![Candidate A with rings, x–y](../validation/DES-002/outward-A-mounted/barrel-all.png)
+![Candidate A with rings, radius–z](../validation/DES-002/outward-A-mounted/barrels-rz.png)
+
 ## Source facts
 
 Exact source entries, versions, URLs and local hashes are in
@@ -100,6 +141,7 @@ Exact source entries, versions, URLs and local hashes are in
 | PS-F04 | FACT | SRC-ATLAS-ITK-LOCAL-SUPPORTS-2022, slides 7, 10, 12–14 | Inner staves combine CFRP, foam and titanium; outer cells use graphite and cooling blocks. Peripheral chip heating is nonuniform. Prototype thermal tests and cycling accompany FEA; an average heat density alone does not bound a hot spot. |
 | PS-F05 | FACT | SRC-NIST-CO2-SATURATION-DES002, −35 °C row | Saturation pressure 12.024 bar, liquid/vapour enthalpy 123.05/436.23 kJ/kg, liquid density 1096.4 kg/m³. These equilibrium data do not calculate two-phase pressure drop. |
 | PS-F06 | FACT | SRC-PDG-MATERIALS-DES002, carbon, oxygen and polyimide rows | Carbon 42.70 and oxygen 34.24 g/cm²; graphite 19.32 cm. Graphite 2.21 g/cm³; polyimide 28.57 cm and 1.42 g/cm³. Used for graphite, insulation and stoichiometric CO₂ material accounting. |
+| PS-F07 | FACT | SRC-ATLAS-IBL-PRODUCTION-2018, §7.3, printed p. 75 / PDF p. 75 | IBL staves mount on support rings; a segmented central ring clips to stave feet to increase radial stiffness while allowing azimuthal and longitudinal movement. The paper reports residual temperature-dependent distortions. This supports the ring/foot concept and the need to qualify constraints, not nODD's number, positions or stiffness. |
 
 ## Proposed dimensions and operating assumptions
 

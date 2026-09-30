@@ -46,3 +46,27 @@ Tube circles are contained within the spine. Own-module and internal-layer
 contacts are intentional. No global frame, bearings, end joints or flex is tested.
 Review the assembly report when changing sensor/module shapes or orientation;
 never carry the previous fit or service handoff forward automatically.
+
+## Candidate A with mounting and stiffening rings
+
+```sh
+MPLCONFIGDIR=/tmp/nodd-des002-mpl python3 -B tools/pixel_support/mounting.py
+```
+
+`mounting.json` selects six proposed ring centres per barrel, the axial locator,
+nominal ring separation and bearing-foot width. Ring radial/axial sizes and CFRP
+properties reuse `inputs.json`. The output directory defaults to
+`docs/validation/DES-002/outward-A-mounted/`; `--output PATH` overrides it.
+Five x–y sections through a ring and one combined |r|–z projection are exported
+in PNG/PDF/SVG, alongside numerical results and a producer/artifact hash manifest.
+Earlier inward and between-ring outward evidence remains unchanged.
+
+Ring/body and ring/service checks use conservative radial–axial projections;
+feet are screened against all module bodies, other feet/staves, other rings,
+existing support reservations and routes. Curved feet end on the inner ring
+surface; their bounding boxes are used conservatively, with intentional contact
+at their own ring excluded. New rings are treated as continuous annuli for
+clearance and mass: a segmented assembly's joint hardware remains unmodeled.
+Tests include a ring deliberately moved into the service bay and a numerical
+cross-check of the curved-foot volume. No global cage stiffness follows from
+the ring count or a passing nominal clearance screen.
