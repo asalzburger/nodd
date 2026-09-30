@@ -70,3 +70,31 @@ clearance and mass: a segmented assembly's joint hardware remains unmodeled.
 Tests include a ring deliberately moved into the service bay and a numerical
 cross-check of the curved-foot volume. No global cage stiffness follows from
 the ring count or a passing nominal clearance screen.
+
+## Cumulative cable bundles and sector cooling
+
+```sh
+MPLCONFIGDIR=/tmp/nodd-des002-mpl python3 -B tools/pixel_support/services.py
+```
+
+`services.json` defines the separate additive service proposal. The generator
+reuses the pinned baseline, mounting geometry and DES-010 cable footprint/scenario
+inputs. It writes `docs/validation/DES-002/outward-A-services/` (or `--output PATH`):
+five x–y sections, |r|–z, cable accumulation and dedicated radial extraction views
+in PNG/PDF/SVG; a numerical screen; compressed machine-readable routing records;
+and hashes of all producers and artifacts. Previous evidence is preserved.
+
+Module pickups grow each half-stave's electrical bundle. Twelve phi sectors at
+each end collect the actual stave populations into supply/exhaust pairs without
+changing the two local counterflow evaporators per stave. Radial/axial capacity
+is checked sector by sector. The reference scenario fits these screens; adverse
+scenarios fail and are retained explicitly. The exit screen is barrel-only;
+downstream barrel plus endcap traffic remains owned by DES-010.
+
+The export separates cable outer-footprint volume from material composition.
+Composition/mass are null pending a cable bill of materials. Packing and spare
+space are not solid material. Transport-tube mass is a provisional wall/length
+screen; branch gathering uses idealized centrelines and the drawing omits bends.
+It is not a complete DD4hep solid model, pressure design or overlap proof. A
+future implementation must partition/union turn volumes, normalize constituent
+mass, add flex/connectors/manifold/clip inventory and run full material scans.

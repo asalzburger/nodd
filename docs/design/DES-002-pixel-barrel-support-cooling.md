@@ -219,3 +219,75 @@ stave average cannot describe local pipe/rib peaks or eta-dependent material.
 A is the recommended first prototype because thermal continuity and skin support
 reduce the largest uncertainties. B earns adoption only after matched tests show
 that its material savings survive the thermal-interface and stability requirements.
+
+## Cable bundles and twelve-sector cooling extraction
+
+The [2026-09-30 routing request](https://github.com/asalzburger/nodd/pull/29#issuecomment-5911262892)
+extends this **PROTOTYPE** towards a simulation description. It does not request
+engineering CAD or approve a production material model. The repeatable proposal
+and dedicated drawings are in [the service report](../validation/DES-002/outward-A-services/results.md).
+
+**PS-C15 — NODD DESIGN CHOICE, proposed:** split electrical services at z=0 by
+module centre (z=0 belongs to +z). Each homogeneous half-stave has contiguous
+serial chains starting at its innermost module, capped at 16 modules and 32 chips,
+as in DES-010. A full ancillary bundle starts at the first module in its chain;
+each module adds its data/command links. This is a conservative transport envelope
+within a chain, not a model of the individual serial jumpers. Pickups occur at
+module centres; short module-to-bus flex and connectors remain additional. Use
+all three inherited cable scenarios. The reference drawing uses one uplink and
+one command per module, 35 mm² ancillary footprint per chain, 1 mm²/link, 50%
+packing. These are the existing DES-010 choices supported by PX-SF01/04/10/11;
+no new cable specification is inferred.
+
+**PS-C16 — NODD DESIGN CHOICE, effective geometry:** represent each stave's
+longitudinal bundle by stepped annular sectors covering 75% of its azimuthal
+pitch, starting 0.5 mm outside its outer mounting ring. This keeps services on
+the outward side and gives a simple ring overflight without bend CAD. It spreads
+the bundle over the available pitch; it is not a solid annulus. The exact sector
+area equals cable footprint divided by packing. The ring overflight is retained
+along the whole stave as a conservative radial placement simplification; added
+clips/trays, local transitions and bend lengths are not silently assigned zero
+material. Keep their missing inventory explicit. Check against neighbouring
+layers and the fixed end-service reservations before interpreting this as a fit.
+
+**PS-C17 — NODD DESIGN CHOICE, human-directed topology:** twelve equal phi
+cooling sectors, repeated at both signed ends. Each contains one grouped supply
+and one grouped exhaust downstream of its layer pickups: 24 pairs total, serving
+the unchanged 164 counterflow evaporators. Assign each stave to the nearest
+sector centre; keep actual uneven populations. The two directions are independent
+circuits, not a U-loop. Use the same sectors for illustrative cable collection;
+calculate capacity per sector, never divide total demand by twelve indiscriminately.
+Keep the existing |z|=555–605 mm radial bay and r=190–234 mm axial trunk. Use
+2 mm boundary allowances, and the midpoint r=212 mm as the radial-to-axial handoff.
+No endcap services are removed or included twice; the drawn handoff ends at
+|z|=605 mm, with downstream shared loading inherited from DES-010.
+
+**PS-C18 — NODD DESIGN CHOICE, unqualified transport dimensions:** upstream
+branches retain the DES-010 4 mm outer envelope per feed/exhaust. At a collector
+with N staves use grouped OD=4√N mm for each leg, preserving the sum of branch
+outer cross-sectional areas. This is an area-preserving routing rule, not a
+hydraulic sizing law. Use a provisional 0.15 mm Ti wall (the outer stave's wall
+scale) only for a separately labelled transport-material screen. Pressure drop,
+two-phase exhaust velocity, restrictors, manifolds and warm-pressure qualification
+remain open. Coolant uses the existing full-liquid upper-bound density. Thermal
+loads and flows follow PS-C09 and the exact sector population; collection does
+not reduce heat or mass flow. Manifold hardware and local collection plumbing
+need additional inventory before material integration.
+
+**PS-I09 — INFERENCE:** compute cumulative longitudinal cable area at every
+module pickup, integrate footprint × segment length by ancillary/data class,
+and invert A=Δφ(Router²−Rinner²)/2 for each envelope. In the radial bay use
+area=r Δφ Δz at its narrowest radius, adding the actual inner-layer pickups
+sector by sector. Report nominal, conservative and stress capacity separately;
+a failed scenario is retained, not hidden by increasing a gap or changing modules.
+
+**PS-C19 — NODD DESIGN CHOICE, simulation contract:** exported route records
+carry stable IDs, dimensions, counts, footprint volumes, packing and connectivity.
+Cable conductor/insulator fractions remain null until a public cable specification
+or measured bill of materials establishes them. For a supplied composition f_j
+inside the cable outer footprint, the homogenized component fraction in the
+route envelope is packing×f_j; sum(component volumes) must preserve the supplied
+inventory. Packing void is not copper, and 35 mm² is not conductor area. Do not
+assign the TDR's example local flex stack to an unrelated transport harness.
+The export is geometry/material-accounting input for later signed-off DD4hep
+implementation, not an executable or qualified full-simulation detector.
