@@ -24,7 +24,8 @@ The original configurations and evidence remain available unchanged.
 PR #24 did not approve this tracker layout. It remains a working hypothesis.
 The separate [DES-010 service-gap prototype](../../docs/design/DES-010-tracker-service-corridors.md)
 uses it to reserve support, cooling and cable space while keeping all retained
-module positions and identifiers. Layer-position optimization is deferred. The [executed DES-010 report](../../docs/validation/DES-010-tracker-services.md)
+module positions and identifiers. The separate DES-011 follow-up below explores
+new placements. The [executed DES-010 report](../../docs/validation/DES-010-tracker-services.md)
 retains the routing mockups, failed adverse capacity scenarios and coverage costs.
 
 ```sh
@@ -74,6 +75,68 @@ removal list is applied. Missing route capacity is retained as a scenario failur
 while physical clearance, disconnection or native audit failures stop execution.
 Support envelopes reserve space only; the service tool does not add material,
 thermal calculations, structural mechanics or a layer-position optimizer.
+
+## Service-constrained placement follow-up
+
+The working baseline selected by the user on 2026-09-30 is the retained
+`p190-s680-b1-l1287.33-front_loaded-original-pockets` case, including its tested
+last-disc bypass. [DES-011 SO-C19](../../docs/design/DES-011-service-constrained-tracker-optimization.md#working-baseline-selected-on-2026-09-30)
+pins the geometry, source revision and hash. Use that case as the reference for
+future changes; the search's historical coverage winner and training rankings
+remain unchanged. Regenerate and validate before adopting any geometry derived
+from updated sensor shapes.
+
+[DES-011](../../docs/design/DES-011-service-constrained-tracker-optimization.md)
+implements the subsequent PR #25 review direction as a separate prototype.
+It refills fixed sensor/module shapes into candidate annuli, derives uniform
+service corridors from their actual inventories, and places the first disc at
+the closest finite-body/service limit with at least 10 mm clearance. Optional
+last-disc bypasses remain explicitly routed and included in downstream loads.
+The named compact 10 mm floor is overridden by aggregate capacity and the
+largest known individual cable/pipe envelope plus boundary skins (currently
+18 mm for strip passages). This necessary fit check still does not qualify
+bends, connectors or unknown ancillary bundle shapes. The original larger
+pocket floors are used by the selected working baseline.
+
+```sh
+python tools/module_layout/optimization.py --jobs 3 --native \
+  --output reference/cache/NEW-service-optimization \
+  --acts-source /Users/salzburg/Documents/work/dev/acts-nodd \
+  --runtime-manifest /tmp/acts-python-step-size-overlay/manifest.json
+python tools/module_layout/optimization_views.py \
+  --run reference/cache/NEW-service-optimization \
+  --output reference/cache/NEW-service-optimization-views
+```
+
+The executed individual-envelope correction uses the bounded configuration
+`--config tools/module_layout/optimization_envelope_followup_config.json`.
+It covers eight primary cases plus the same radius/pocket follow-up; the default
+configuration retains the broader 216-case domain for future full reruns.
+The [validation report](../../docs/validation/DES-011-service-constrained-optimization.md)
+keeps both rejected runs and the corrected evidence separate. Curated large
+study JSON may be gzip encoded; the view command accepts either `study.json`
+or `study.json.gz` and verifies the retained manifest.
+
+Use the verified runtime setup below when `--native` is requested. Without that
+option the scan and finite-module intersections need Python/NumPy only. The
+search configuration, sensor models, layout catalogue, service budget and
+envelope inputs are explicit command-line inputs and snapshotted per fresh run.
+`--search-only` omits final validation, and `--limit` is for development probes;
+neither should be presented as the complete configured study.
+
+The bounded search ranks training samples and freezes coverage/spacing/area
+finalists before dense validation and an independently seeded random cohort.
+It is not a proof of global optimality or continuum hermeticity. Reachable
+stations and fixed-original-layer misses accompany physical path gaps; chip
+islands and stereo faces cannot inflate the station count. Active area is the
+sum of finite sensitive patches, including overlaps, not their projected union.
+The revised selection also guards the central eta=0/z=0 cohort and rejects newly
+fully blind eta/vertex strata. All smaller local regressions remain visible;
+mean gains do not establish pointwise non-regression. The first even-row run
+exposed a central long-strip seam and is preserved as rejected evidence.
+Native checks include explicit central probes in all three trajectory modes.
+Every rejected candidate and its parameters remain in `study.json`. Regenerate
+the study after sensor-shape changes instead of reusing old service inventories.
 
 ```sh
 python tools/module_layout/study.py run --jobs 3 --native \

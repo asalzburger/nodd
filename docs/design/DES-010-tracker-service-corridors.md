@@ -166,3 +166,13 @@ The area-equivalent annular width holds the original inner radius, packing,
 azimuth occupancy and boundary allowances fixed; it is not a tapered design.
 Full loads remain in rear/shared routes and through extraction pockets. Actual
 tapering, row recovery and layer positioning remain a separate optimization PR.
+
+## Reviewer-directed optimization follow-up
+
+The [subsequent expert direction](https://github.com/asalzburger/nodd/pull/25#issuecomment-5891018641)
+requests constant maximum service corridors, at least 10 mm barrel/first-disc
+clearance, an optional final-disc downstream bypass, and new module placements
+to improve coverage and inter-hit spacing. The separate
+[DES-011 prototype](DES-011-service-constrained-tracker-optimization.md) records
+and tests those constraints. This does not change the retained DES-010 geometry
+or confer approval on PR #24, the service budget or the resulting placements.
