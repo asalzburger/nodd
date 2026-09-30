@@ -85,3 +85,21 @@ Human review of provisional cable/support compositions, contact shims and
 service-cell representation remains necessary. Geant4, ACTS conversion, thermal/
 hydraulic qualification, FEA, detailed connectors/bonds and endcap/global
 integration remain separate follow-ups.
+
+## Delivery
+
+Implementation commit `164bd38ab4e0ea8ef159405fce80026d70c9314e` is pushed in
+[draft PR #30](https://github.com/asalzburger/nodd/pull/30), based on PR #29's
+unmerged branch. CTest passed 2/2; all three copper variants exited cleanly and
+passed every geometry check. Their modeled masses are 20.345/24.054/31.472 kg;
+all geometry, IDs, ray paths and non-cable materials remain unchanged.
+Ten pure controls, 31,030 cell-address checks and 75 navigation rays per variant
+are retained in DES-012. Dashboard/link/history tests passed after adding the
+new detector directory to the synthetic repository fixture.
+
+Session validation passed for 67 local records. The summary observed 134,594,309
+input and 674,111 output tokens across 79 previously recorded turns, with 42 sessions
+having usage and 25 without; these repository-wide numbers include the preserved
+local usage-summary record. **This task's input/output usage remains unknown.**
+The bounded significant requests were the DD4hep implementation and configurable
+provisional cable material; no complete human-interaction count is claimed.
