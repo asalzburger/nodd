@@ -19,6 +19,51 @@ evidence. PR #24 remains an unapproved working hypothesis. The comment directs
 an exploration; it does not approve its numerical outcome, material model,
 mechanical feasibility or full-detector integration.
 
+## Working baseline selected on 2026-09-30
+
+**SO-C19 — NODD DESIGN CHOICE, selected by explicit human instruction:** use
+`p190-s680-b1-l1287.33-front_loaded-original-pockets` as the new tracker working baseline for subsequent
+support, service and layout studies. The user confirmed the recommendation:
+
+> Ok, we take the recommendation as the new baseline, record that and update the PR accordingly.
+
+The [decision record](../../logs/codex/SESSION-2026-09-30-baseline-selection.md)
+retains the instruction and its scope. This selects a working baseline; DES-011
+remains DRAFT/PROTOTYPE and does not gain formal engineering sign-off or production
+integration authorization. The historical PR #24 layout remains unapproved;
+this explicit choice supplies the new baseline for future studies.
+
+The exact selected geometry is the [retained original-pocket layout](../validation/DES-011-optimization/cases/p190-s680-b1-l1287.33-front_loaded-original-pockets/layout.json.gz)
+at evidence revision `17ae47f6d18e132eb539f30ef8323114963f8588`, produced with numerical
+source `ac61f766b34f9bb60748e8fc4258a41037ca1e33`. Its compressed-file SHA-256 is
+`89ce39dae6af7e1e69d40582a6c49e6e7f26dbcd6ce1dd3cc061e41e75419cbd`.
+The historical case name remains unchanged for reproducibility.
+
+| Selected feature | Pixels / short strips / long strips, unless stated otherwise |
+| --- | --- |
+| Barrel radii, mm | 34/60/106/182; 260/340/480/660; 840/1060 |
+| Long-strip barrel | 23 rows, inherited 112.6666667 mm pitch, central row retained; nominal half-length 1287.3333333 mm |
+| Disc schedule | Front-loaded, with positive first-disc centres 611.7 / 1295.5 / 1403.65 mm |
+| Constant service trunks, mm | 44 / 73 / 25 |
+| Original routing-pocket floors, mm | Barrel: 50 / 80 / 90; disc: 50 / 90 / 90; actual envelopes remain those in the retained geometry |
+| Final-disc routing | Tested downstream bypass retained, with complete downstream inventory |
+| Module placements | Inherited sensor families, staggering and local tilts; no inclined barrel section; existing 12-degree long-strip local module tilt retained |
+
+Rationale: with silicon area no longer a driving concern, retain service space
+and measured local coverage for only a 0.64% mean-station reduction relative to
+the compact coverage candidate. The selected case has 197.250 m² physical silicon,
+9.0182 mean usable stations and a 1009.57 mm worst-mode p95 maximum inter-station
+gap. It has no increased zero-hit fractions in the measured structured/random
+eta bins relative to PR #25. These are sampled results, not continuum hermeticity
+or tracking-resolution guarantees. See the [comparison](../validation/DES-011-service-constrained-optimization.md).
+
+Next work prioritizes connector/bend envelopes, support/cooling interfaces,
+service material, vessel access and local coverage weaknesses. Conservative/stress
+capacity scenarios remain failures. Removing the final-disc bypass is a separate
+simplification study requiring matched dense/native validation before adoption;
+its training-only comparison does not change this selected baseline. The
+numerical studies and their frozen training rankings remain unchanged.
+
 ## Requirements and numerical classification
 
 Study settings below are **NODD DESIGN CHOICE** unless explicitly classified

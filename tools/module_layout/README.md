@@ -78,6 +78,14 @@ thermal calculations, structural mechanics or a layer-position optimizer.
 
 ## Service-constrained placement follow-up
 
+The working baseline selected by the user on 2026-09-30 is the retained
+`p190-s680-b1-l1287.33-front_loaded-original-pockets` case, including its tested
+last-disc bypass. [DES-011 SO-C19](../../docs/design/DES-011-service-constrained-tracker-optimization.md#working-baseline-selected-on-2026-09-30)
+pins the geometry, source revision and hash. Use that case as the reference for
+future changes; the search's historical coverage winner and training rankings
+remain unchanged. Regenerate and validate before adopting any geometry derived
+from updated sensor shapes.
+
 [DES-011](../../docs/design/DES-011-service-constrained-tracker-optimization.md)
 implements the subsequent PR #25 review direction as a separate prototype.
 It refills fixed sensor/module shapes into candidate annuli, derives uniform
@@ -88,7 +96,7 @@ The named compact 10 mm floor is overridden by aggregate capacity and the
 largest known individual cable/pipe envelope plus boundary skins (currently
 18 mm for strip passages). This necessary fit check still does not qualify
 bends, connectors or unknown ancillary bundle shapes. The original larger
-pocket floors remain a comparison.
+pocket floors are used by the selected working baseline.
 
 ```sh
 python tools/module_layout/optimization.py --jobs 3 --native \

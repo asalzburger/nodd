@@ -6,6 +6,16 @@ observed at `9b5b7f2aa14ad38434480c29666187aa893b73d3`.
 this separate follow-up. PR #24's tracker remains an unapproved hypothesis.
 No production geometry, material or sign-off changes.
 
+## Working-baseline decision — 2026-09-30
+
+The user selected **the original-pocket control** as the new tracker working
+baseline: `p190-s680-b1-l1287.33-front_loaded-original-pockets`.
+[DES-011 SO-C19](../design/DES-011-service-constrained-tracker-optimization.md#working-baseline-selected-on-2026-09-30)
+records the exact geometry, retained bypass, scope and rationale. Larger silicon
+area is no longer a driving concern. This is a human selection from the retained
+comparison, not a change to the frozen optimization ranking or numerical evidence.
+Engineering qualification and production sign-off remain outstanding.
+
 ## Final corrected results
 
 Numerical source: `ac61f766b34f9bb60748e8fc4258a41037ca1e33`. Eight primary configurations and three
@@ -67,13 +77,13 @@ local regressions also remain. The [independent audit](DES-011-optimization/loca
 retains all before/after bins, paired hashes and central outcomes. Passing the
 declared guards does not establish pointwise non-regression or hermeticity.
 
-**Engineering suggestion:** carry the inherited-pitch, constant-corridor design
+**Recommendation at study publication (2026-09-29):** carry the inherited-pitch, constant-corridor design
 into review with both the coverage candidate and the original-pocket control.
 The control retains more routing depth, has 9.0182 mean stations versus 9.0758,
 a 1009.57 mm gap statistic versus 1008.17 mm, and 0.777 m² more silicon. It has
 no increased zero-hit fraction in any measured structured or random eta bin.
-It remains a comparison control, not a newly optimized winner or approved
-default. The area candidate offers 199.964 m² with fewer average hits. Avoid
+Its numerical role remains a comparison control, not a newly optimized winner.
+The subsequent human selection above makes it the working baseline. The area candidate offers 199.964 m² with fewer average hits. Avoid
 selecting a layout solely because it has the lowest inter-hit-gap statistic.
 
 ### Routing dimensions and mockups
@@ -100,9 +110,9 @@ the two boundary skins. This is a necessary dimension check, not bend, connector
 or installation qualification. [Independent service audit](DES-011-optimization/service-source-audit.json),
 [individual-fit audit](DES-011-optimization/individual-fit-audit.json).
 
-![Corrected routing mockup](DES-011-optimization/views/p190-s680-b1-l1287.33-front_loaded-barrel-10/routing-rz.png)
+![Selected working-baseline routing mockup](DES-011-optimization/views/p190-s680-b1-l1287.33-front_loaded-original-pockets/routing-rz.png)
 
-[Transverse module/support/service views](DES-011-optimization/views/p190-s680-b1-l1287.33-front_loaded-barrel-10/transverse-sections.png)
+[Selected baseline transverse module/support/service views](DES-011-optimization/views/p190-s680-b1-l1287.33-front_loaded-original-pockets/transverse-sections.png)
 and [full comparison figure](DES-011-optimization/views/comparison.png); PDF versions
 and all five case views accompany the [view manifest](DES-011-optimization/views/views.json).
 The failed spacing case is marked in the comparison figure. Bands reserve space;
