@@ -291,3 +291,15 @@ inventory. Packing void is not copper, and 35 mm² is not conductor area. Do not
 assign the TDR's example local flex stack to an unrelated transport harness.
 The export is geometry/material-accounting input for later signed-off DD4hep
 implementation, not an executable or qualified full-simulation detector.
+
+
+## Working implementation baseline selected on 2026-09-30
+
+The [human reviewer](https://github.com/asalzburger/nodd/pull/29#issuecomment-5911774023)
+confirmed “our new baseline with cables”. The user then explicitly directed use
+of PR #29, even unmerged, as the DD4hep pixel-barrel implementation baseline.
+Pin `c79c2194e23e99c4d2696ca2d6628a388b96f5e4`; the selected service scenario is
+reference. [DES-012](DES-012-dd4hep-pixel-barrels.md) records the implementation
+contract, explicitly provisional configurable cable material and representation
+refinements. This records human selection and implementation authorization;
+engineering uncertainties and formal lifecycle status remain as stated above.
