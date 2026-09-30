@@ -73,7 +73,9 @@ interpretation and reference/adverse capacity results were reported during work.
 
 Changed design, new service code/config/test, support README, generated service
 artifacts, project tracking/review records and this paired log. The paired JSON
-contains the exact inventory. PR publication will be recorded after it occurs.
+contains the exact inventory. Published in commit `2193ed1d17a581348467d0b587e0413944843628`.
+Updated the PR description and posted the [review response](https://github.com/asalzburger/nodd/pull/29#issuecomment-5911595460).
+The PR remains open; no merge or human approval was recorded.
 
 ## Token accounting
 
