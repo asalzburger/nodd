@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated": "2026-09-28",
+  "updated": "2026-09-29",
   "note": "Curated register. Stage B architecture is active. PR #4\u2019s envelope baseline has explicit human approval and is merged; its documents still declare DRAFT and no formal sign-off record exists. Role ownership does not imply active agents. Chore PRs and infrastructure chores are excluded from project progress.",
   "stages": [
     {
@@ -736,15 +736,18 @@
       "dependencies": [
         "TASK-B-TRACKER-PLAN"
       ],
-      "deliverables": [],
+      "deliverables": [
+        "docs/design/DES-010-tracker-service-corridors.md"
+      ],
       "evidence": [
         "docs/design/DES-005-tracker-system-plan.md"
       ],
       "documents": [
-        "DES-005"
+        "DES-005",
+        "DES-010"
       ],
-      "updated": "2026-09-18",
-      "next_action": "Define occupied-space and material ownership interfaces from provisional component payloads; close them before TRK-REVIEW.",
+      "updated": "2026-09-29",
+      "next_action": "Review DES-010 provisional space budgets, electronics/hydraulic scenarios and routing gaps; detailed hardware, material and engineering closure remain open.",
       "blocker": null,
       "disposition": null,
       "subsystem": "tracking and timing"
@@ -765,15 +768,18 @@
       "dependencies": [
         "TASK-B-TRACKER-PLAN"
       ],
-      "deliverables": [],
+      "deliverables": [
+        "docs/design/DES-010-tracker-service-corridors.md"
+      ],
       "evidence": [
         "docs/design/DES-005-tracker-system-plan.md"
       ],
       "documents": [
-        "DES-005"
+        "DES-005",
+        "DES-010"
       ],
-      "updated": "2026-09-18",
-      "next_action": "Prepare provisional load/temperature scenarios and physical routing; retain missing thermal engineering evidence.",
+      "updated": "2026-09-29",
+      "next_action": "Review DES-010 provisional space budgets, electronics/hydraulic scenarios and routing gaps; detailed hardware, material and engineering closure remain open.",
       "blocker": null,
       "disposition": null,
       "subsystem": "tracking and timing"
@@ -794,15 +800,18 @@
       "dependencies": [
         "TASK-B-TRACKER-PLAN"
       ],
-      "deliverables": [],
+      "deliverables": [
+        "docs/design/DES-010-tracker-service-corridors.md"
+      ],
       "evidence": [
         "docs/design/DES-005-tracker-system-plan.md"
       ],
       "documents": [
-        "DES-005"
+        "DES-005",
+        "DES-010"
       ],
-      "updated": "2026-09-18",
-      "next_action": "Prepare scenario inventory and handoff ownership with SysArch; reconcile loads and occupied routes with cooling/support.",
+      "updated": "2026-09-29",
+      "next_action": "Review DES-010 provisional space budgets, electronics/hydraulic scenarios and routing gaps; detailed hardware, material and engineering closure remain open.",
       "blocker": null,
       "disposition": null,
       "subsystem": "tracking and timing"
@@ -1250,6 +1259,49 @@
       "blocker": null,
       "disposition": "Original comparison retained. Reviewer-directed cobe default and 2x2 options delivered with 169344 new trajectory evaluations, nine passing ACTS audits (432 tracks), zero trial-box/host conflicts and repeatable transverse views. No detector sign-off or production authorization; original review conditions await human confirmation.",
       "subsystem": "tracking and timing"
+    },
+    {
+      "id": "TASK-B-TRACKER-SERVICE-CORRIDORS",
+      "title": "Tracker service corridors and support-space working hypothesis",
+      "scope": "Public TDR estimates, finite service gaps and routing mockups from the unapproved PR24 layout; layer positioning optimization deferred.",
+      "stage": "B",
+      "milestones": [
+        "M1",
+        "M3"
+      ],
+      "workstream": "WS-TRACK",
+      "role": "Tracker technician",
+      "owner": null,
+      "state": "completed",
+      "dependencies": [
+        "TASK-B-TRACKER-MODULE-COVERAGE"
+      ],
+      "deliverables": [
+        "docs/design/DES-010-tracker-service-corridors.md",
+        "tools/module_layout/README.md",
+        "tools/module_layout/services_config.json",
+        "tools/module_layout/services_budget_inputs.json",
+        "docs/validation/DES-010-tracker-services.md",
+        "docs/validation/DES-010-service-gap-review.md"
+      ],
+      "evidence": [
+        "docs/design/inputs/DES-010-pixel-services.md",
+        "docs/design/inputs/DES-010-strip-services.md",
+        "docs/validation/DES-010-services/main/summary.json",
+        "docs/validation/DES-010-services/artifacts.json",
+        "docs/validation/DES-010-services/views/views.json",
+        "docs/design/inputs/DES-010-upgrade-service-comparison.md",
+        "docs/validation/DES-010-services/review-accumulation/artifacts.json"
+      ],
+      "documents": [
+        "DES-010",
+        "DES-009"
+      ],
+      "updated": "2026-09-29",
+      "next_action": "Review ATLAS/CMS gap comparisons and cumulative-load diagnostic; qualify electronics/packing/support/handoff constraints before the separate geometry optimization.",
+      "blocker": null,
+      "disposition": "Original bounded prototype retained. Expert questions addressed with source comparisons and additive longitudinal traffic profiles; no layer/gap changes or expert acceptance recorded.",
+      "subsystem": "tracking and timing"
     }
   ],
   "documents": [
@@ -1325,6 +1377,14 @@
         "docs/validation/DES-009-review-default/total-p/summary.json",
         "docs/validation/DES-009-review-default/views/views.json",
         "docs/validation/DES-009-review-default/rejected-minimum-pitch.json"
+      ]
+    },
+    {
+      "id": "DES-010",
+      "path": "docs/design/DES-010-tracker-service-corridors.md",
+      "validation_reports": [
+        "docs/validation/DES-010-tracker-services.md",
+        "docs/validation/DES-010-service-gap-review.md"
       ]
     }
   ],
@@ -1537,16 +1597,34 @@
       "number": 24,
       "title": "Tracker: Define default module placements with coverage and transverse views",
       "url": "https://github.com/asalzburger/nodd/pull/24",
-      "state": "open",
-      "head_revision": "01b8e229663f117fb22d98f90af4b932312b6979",
-      "merge_commit": null,
-      "merged_at": null,
-      "collected_at": "2026-09-29T08:58:40Z",
+      "state": "merged",
+      "head_revision": "b97010c6135a562d5be38f410ae3600976303231",
+      "merge_commit": "1aa2aafd381fc37a9da3368686f2ca34d9f4dd0a",
+      "merged_at": "2026-09-29T09:17:01Z",
+      "collected_at": "2026-09-29T09:44:15Z",
       "task": "TASK-B-TRACKER-MODULE-COVERAGE",
       "documents": [
         "DES-009"
       ],
-      "scope": "Published reviewer-default study and transverse evidence at the exact captured head; CI passed. Subsequent closeout records the user-confirmed scope, PR reply and session metadata. No production geometry, full navigation validation or design sign-off.",
+      "scope": "Merged prototype/evidence only. The user explicitly states the tracker default was not approved by PR24; retain it solely as a working hypothesis. No detector sign-off or production authorization.",
+      "category": "project"
+    },
+    {
+      "id": "PR-25",
+      "number": 25,
+      "title": "Tracker: Reserve cable, cooling and support routes in the working layout",
+      "url": "https://github.com/asalzburger/nodd/pull/25",
+      "state": "open",
+      "head_revision": "bbc7bca001e825331729bcaf567d2d3b2f1c87e7",
+      "merge_commit": null,
+      "merged_at": null,
+      "collected_at": "2026-09-29T12:58:44Z",
+      "task": "TASK-B-TRACKER-SERVICE-CORRIDORS",
+      "documents": [
+        "DES-010",
+        "DES-009"
+      ],
+      "scope": "Draft prototype/evidence revision observed after the expert response; later closeout changes only documentation and metadata. PR24 tracker remains unapproved. Added upgrade comparisons and cumulative-load diagnostics without changing geometry. Reference capacity passes narrowly, conservative/stress fail and coverage losses remain explicit. No engineering qualification, production integration or layer optimization.",
       "category": "project"
     }
   ]
