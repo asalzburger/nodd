@@ -42,3 +42,11 @@ Exact geometry identity and unchanged retained evidence are checked directly.
 Client-reported exact counters are unavailable for this task; usage remains empty.
 The historical session summary is not this task's usage. No observations are copied
 or inferred from earlier sessions.
+
+## Published record
+
+Decision commit: `655f47e44725a7aa30d8d9bd46266131254001b8`. Updated the title and body of
+[PR #28](https://github.com/asalzburger/nodd/pull/28) and posted the
+[baseline-selection summary](https://github.com/asalzburger/nodd/pull/28#issuecomment-5905908730).
+The PR remains draft. The dashboard snapshot records that actual revision;
+subsequent closeout changes only publication metadata and this record.
