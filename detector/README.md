@@ -6,6 +6,10 @@ This standalone assembly implements the human-selected PR #29 baseline at
 engineering qualification, material review and full-detector integration remain
 open. It does not replace the production ODD description.
 
+For an optional viewer with selection, cutaways and portable scene files, see
+the [nodehammer workflow](../tools/nodehammer/README.md) and its
+[tested capabilities and limitations](../docs/validation/nodehammer/results.md).
+
 ## Build and validate
 
 Run the [Spack preflight](../skills/acts-spack/SKILL.md) first. On the verified
