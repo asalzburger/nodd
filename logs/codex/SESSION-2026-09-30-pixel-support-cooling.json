@@ -4,8 +4,8 @@
   "title": "Compare two pixel barrel local support and CO2 cooling concepts",
   "recorded_at": "2026-09-30T07:16:24Z",
   "started_at": null,
-  "ended_at": null,
-  "status": "open",
+  "ended_at": "2026-09-30T07:37:11Z",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
@@ -26,7 +26,9 @@
       "logs/usage/USAGE-2026-09-29-local.json",
       "logs/usage/USAGE-2026-09-29-project-summary.json"
     ],
-    "result_commits": [],
+    "result_commits": [
+      "be0a47f345168220a365c30f4c2932e3ab5b0b9a"
+    ],
     "changed_files": [
       "docs/design/DES-002-pixel-barrel-support-cooling.md",
       "reference/manifest.yaml",
@@ -62,7 +64,8 @@
       "DES-010",
       "DES-011",
       "PR-28",
-      "PR-26"
+      "PR-26",
+      "PR-29"
     ]
   },
   "narrative": "logs/codex/SESSION-2026-09-30-pixel-support-cooling.md",
@@ -110,6 +113,24 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "12 artifact/producer hashes verified. Added explicit global-frame reaction limitation to the report and updated its artifact hash; no numerical change."
+    },
+    {
+      "command": "git push -u origin design/pixel-barrel-support; gh pr create --draft --base study/tracker-service-corridors",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Published https://github.com/asalzburger/nodd/pull/29 atbe0a47f345168220a365c30f4c2932e3ab5b0b9a. GitHub build in progress at observation. Reconciled PR28 actual merge metadata; no design approval inferred."
+    },
+    {
+      "command": "dashboard/build.py validate/build (initial PR metadata closeout)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "PR29 referenced governing DES011 but the support task lacked that document link. Added DES011 to both support/cooling task document lists; no scientific change."
+    },
+    {
+      "command": "dashboard/build.py validate; build --output /tmp/nodd-des002-publication-dashboard; session_log.py validate; session_log.py summary --format json; git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Corrected metadata validates:33tasks,13documents,13rounds; dashboard build succeeds;63 local paired logs validate. Usage summary generated with no exact observations for this task; historical totals are not allocated here. No whitespace errors."
     }
   ]
 }

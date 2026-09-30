@@ -55,3 +55,17 @@ DD4hep, Geant4, FEA or hydraulic solver was run. The sensitive baseline is uncha
 Exact client per-turn counters are unavailable; usage remains empty. Historical
 project summary totals are not this task's usage. Publication links and closeout
 checks follow after the draft PR is created.
+
+## Publication and closeout
+
+Published [draft PR29](https://github.com/asalzburger/nodd/pull/29) at
+`be0a47f345168220a365c30f4c2932e3ab5b0b9a`, based on the branch containing the PR28 merge.
+The CI dashboard build was in progress when inspected. PR28 merge metadata was
+reconciled in tracking, preserving its working-baseline selection and approval
+limits. Added an explicit warning that floating ribs cannot create short beam
+spans without an independently stiff global support structure.
+
+Final dashboard metadata initially failed because the new PR referenced DES011
+but the task did not. Added the governing baseline document to both task lists;
+validation/build then passed (33tasks,13documents,13rounds). All63 local paired
+session logs validate; usage summary generated, with current-task counters missing.
