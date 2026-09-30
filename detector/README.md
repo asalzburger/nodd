@@ -37,6 +37,29 @@ The pure exporter tests need only Python 3.10+:
 python3 -B -m unittest discover -s tools/pixel_barrel_dd4hep -p 'test_*.py' -v
 ```
 
+## View with geoDisplay
+
+After the build and DD4hep activation above, from the repository root:
+
+```sh
+export DD4HEP_LIBRARY_PATH="$PWD/build/dd4hep/detector:${DD4HEP_LIBRARY_PATH:-}"
+export DYLD_LIBRARY_PATH="$PWD/build/dd4hep/detector:${DYLD_LIBRARY_PATH:-}"
+geoDisplay -input "$PWD/build/dd4hep/detector/compact/pixel-barrel.xml"
+```
+
+On Linux set `LD_LIBRARY_PATH` instead of `DYLD_LIBRARY_PATH`. The directory
+contains both the library and its `.components` plugin registration. The validator
+normally loads the library explicitly, whereas `geoDisplay` discovers it through
+these paths. Add `-load_only` for a geometry-loading check without opening the
+interactive display.
+
+Use the CMake-generated compact above. The local `build/pixel-compact-probe/`
+directory was an early development export and is not maintained by CMake. Its
+old eight-element material table can abort ROOT with
+`Cannot add element having Z=18 to mixture Air`. The current exporter supplies
+the complete 98-element table; changing Air or removing argon is not the fix.
+Rebuilding refreshes the canonical compact when its inputs change.
+
 ## Configurable provisional cable material
 
 [config/pixel-barrel.json](config/pixel-barrel.json) is the canonical configuration.

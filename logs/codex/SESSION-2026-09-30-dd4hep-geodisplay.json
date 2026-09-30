@@ -1,0 +1,118 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-09-30-dd4hep-geodisplay",
+  "title": "Correct geoDisplay compact path and plugin discovery",
+  "recorded_at": "2026-09-30T14:05:01Z",
+  "started_at": null,
+  "ended_at": "2026-09-30T14:06:33Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact client-reported token counters unavailable; usage empty.",
+    "Interactive geoDisplay rendering not tested; actual executable load-only mode verified."
+  ],
+  "client": {
+    "name": "unspecified",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "43a93e358a7d2dc3e6c78a4d82d1862880937347",
+    "branch": "implementation/dd4hep-pixel-barrel",
+    "initial_changes": [
+      "logs/codex/SESSION-2026-09-29-project-usage-summary.json",
+      "logs/codex/SESSION-2026-09-29-project-usage-summary.md",
+      "logs/usage/USAGE-2026-09-29-local.json",
+      "logs/usage/USAGE-2026-09-29-project-summary.json"
+    ],
+    "result_commits": [],
+    "changed_files": [
+      "detector/README.md",
+      "project/tracking.json",
+      "logs/codex/SESSION-2026-09-30-dd4hep-geodisplay.md",
+      "logs/codex/SESSION-2026-09-30-dd4hep-geodisplay.json"
+    ]
+  },
+  "work": {
+    "milestone": "M3",
+    "components": [
+      "DD4hep display workflow",
+      "documentation"
+    ],
+    "related_ids": [
+      "DES-012",
+      "PR-30",
+      "TASK-SOFT-DD4HEP-PIXEL"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-09-30-dd4hep-geodisplay.md",
+  "activities": [
+    {
+      "kind": "skill",
+      "name": "acts-spack",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Preflight warned; installed runtime then verified through automatic plugin discovery and geoDisplay load-only."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 skills/acts-spack/scripts/preflight.py",
+      "status": "FAIL",
+      "exit_code": 2,
+      "result": "Recorded setup/lockfile fingerprints differ; task-specific runtime reverified."
+    },
+    {
+      "command": "XML inspection of probe and CMake compact materials.xml",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Stale probe8 elements; canonical98 elements. Plugin library and registration exist."
+    },
+    {
+      "command": "validate.py --compact build/dd4hep/detector/compact/pixel-barrel.xml --expected build/dd4hep/detector/compact/expected.json --output build/dd4hep/geodisplay-autoload-validation.json (no --library)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Environment-based plugin discovery passes:6206 sensitive elements,0 overlaps,75 rays."
+    },
+    {
+      "command": "geoDisplay -input \"$PWD/build/dd4hep/detector/compact/pixel-barrel.xml\" -load_only",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Actual geoDisplay executable loaded39388 nodes and exited successfully; no GUI launched."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "34 tasks,14 documents,15 reviews validated."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py build --output _site/dd4hep-pixel-review",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Static dashboard build passed."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "68 local session records validated."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py summary --format json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Summary succeeded; this follow-up has no observed input/output counters."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors."
+    }
+  ]
+}
