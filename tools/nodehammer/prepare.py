@@ -223,7 +223,8 @@ def main():
     roundtrip_report, nodes, physical = audit(portable, expected, palette)
     report["nhb_roundtrip"] = roundtrip_report
     views = {"full": None, "sensitive": 'tag.sensitive == "true"',
-             "stave": 'path ~= "**/layer1_stave0" || path ~= "**/layer1_stave0/**"'}
+             "stave": 'path ~= "**/layer1_stave0" || path ~= "**/layer1_stave0/**"',
+             "module": 'path ~= "**/m1" || path ~= "**/m1/**"'}
     report["views"] = {}
     for name, selection in views.items():
         config = out / f"{name}.toml"
@@ -237,8 +238,9 @@ def main():
         wanted = physical
         if name == "sensitive":
             wanted = {k for k in physical if nodes[k].get("tags", {}).get("sensitive") == "true"}
-        elif name == "stave":
-            root = next(k for k, n in nodes.items() if n["name"] == "layer1_stave0")
+        elif name in ("stave", "module"):
+            selected_name = {"stave": "layer1_stave0", "module": "m1"}[name]
+            root = next(k for k, n in nodes.items() if n["name"] == selected_name)
             descendants, pending = set(), [root]
             while pending:
                 key = pending.pop()
