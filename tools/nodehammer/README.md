@@ -61,12 +61,14 @@ maintained `build/dd4hep/detector/compact/pixel-barrel.xml`, accompanied by its
 On Linux use the corresponding `LD_LIBRARY_PATH` plugin directory.
 
 The helper checks binary provenance, structured import diagnostics, every expected
-entity/material/centre, all sensor normals and sensitive tags, imported RGB,
+entity/material/centre, all sensor normals and sensitive tags,
 the NHB round trip, and every selected tessellated placement. It checks GLB
 transforms and box dimensions in metres and explicit RGBA/BLEND settings.
 Assembly and world bounding boxes are omitted from rendering; physical parents
 such as foam cores and titanium tubes are retained. No leaf-only filtering or
 descendant merging is applied to the full view.
+The imported ROOT RGB may differ from config `rgb`: ROOT follows `root_color`,
+while generated nodehammer styles and GLB RGBA follow `rgb` and `alpha`.
 
 Outputs in `build/nodehammer/pixel/`:
 
