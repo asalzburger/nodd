@@ -87,3 +87,13 @@ Expert review of slim sensor edges, lateral bonds and assembly tolerances; therm
 and hydraulic work to resolve the quad stress failure; adverse cable-capacity cases;
 full-detector/Geant4/ACTS conversion qualification. Review the implementation PR;
 formal design status remains DRAFT / standalone PROTOTYPE.
+
+## Delivery
+
+[PR35](https://github.com/asalzburger/nodd/pull/35) opened with the complete summary,
+linked drawing index, build commands and retained engineering limitations.
+Implementation commits: `8a09567f89c9a1ce2f9eebeb4a101ceb6c4f08f3` and
+`1ef9cc532e9ae00f46b39b7436e0d4fa31644830`. Subsequent closeout records PR metadata.
+Original checkout changes were rechecked and preserved. Git write/network sandbox
+failures were retried with the explicit execution permission mechanism; no history
+was rewritten. Full-change whitespace validation passes after SVG normalization.
