@@ -1,0 +1,91 @@
+{
+  "status": "PASS",
+  "revision": "d2a0f3e23449e06b75fb0717263dfbc7010c55a0",
+  "recorded_at": "2026-10-01T16:28:06.279954+00:00",
+  "commands": [
+    {
+      "command": [
+        "cmake",
+        "-S",
+        "/private/tmp/nodd-pixel-detector",
+        "-B",
+        "/private/tmp/nodd-pixel-detector/build/dd4hep",
+        "-G",
+        "Ninja",
+        "-DCMAKE_BUILD_TYPE=RelWithDebInfo"
+      ],
+      "exit_code": 0,
+      "log": "/private/tmp/nodd-pixel-detector/build/dd4hep/configure.log",
+      "sha256": "2d7389f4edea31163c96d3f612c46a1da0087ca5635eea3efb217c017d38317a"
+    },
+    {
+      "command": [
+        "cmake",
+        "--build",
+        "/private/tmp/nodd-pixel-detector/build/dd4hep",
+        "--parallel",
+        "4"
+      ],
+      "exit_code": 0,
+      "log": "/private/tmp/nodd-pixel-detector/build/dd4hep/build.log",
+      "sha256": "b0d6aa94ffd2e71303c7a771dbbe33b54119d5968bb25f7301f0887b263f1f3b"
+    },
+    {
+      "command": [
+        "ctest",
+        "--test-dir",
+        "/private/tmp/nodd-pixel-detector/build/dd4hep",
+        "--output-on-failure"
+      ],
+      "exit_code": 0,
+      "log": "/private/tmp/nodd-pixel-detector/build/dd4hep/ctest.log",
+      "sha256": "b2b9a2d396d261069210f088b3a64458ceab9427d2773b6e91dae196ed8245a1"
+    },
+    {
+      "command": [
+        "/Users/salzburg/Documents/work/externals/ci-dependencies/.spack-env/view/bin/python3",
+        "-B",
+        "/private/tmp/nodd-pixel-detector/tools/nodehammer/prepare.py",
+        "--compact",
+        "/private/tmp/nodd-pixel-detector/build/dd4hep/detector/pixel-detector/pixel-detector.xml",
+        "--nodehammer",
+        "/Users/salzburg/Documents/work/projects/nodd/build/nodehammer/native/nodehammer",
+        "--output",
+        "/private/tmp/nodd-pixel-detector/build/nodehammer/pixel-detector"
+      ],
+      "exit_code": 0,
+      "log": "/private/tmp/nodd-pixel-detector/build/dd4hep/nodehammer.log",
+      "sha256": "1d8ca32bd1cfc862af86fb776ace2418d60fad2d846dc395ea3c944391df517a"
+    },
+    {
+      "command": [
+        "/Users/salzburg/Documents/work/externals/ci-dependencies/.spack-env/view/bin/python3",
+        "/Users/salzburg/Documents/work/externals/ci-dependencies/.spack-env/view/bin/ddsim",
+        "--compactFile",
+        "/private/tmp/nodd-pixel-detector/build/dd4hep/detector/pixel-detector/pixel-detector.xml",
+        "--runType",
+        "run",
+        "--macroFile",
+        "/private/tmp/nodd-pixel-detector/build/dd4hep/initialize.mac",
+        "--outputFile",
+        "/private/tmp/nodd-pixel-detector/build/dd4hep/initialize.root",
+        "--physics.list",
+        "FTFP_BERT",
+        "--random.seed",
+        "42"
+      ],
+      "exit_code": 0,
+      "log": "/private/tmp/nodd-pixel-detector/build/dd4hep/geant4-initialize.log",
+      "sha256": "ca8159248f4bc61c8626304a81eb75aba5f94e531c02b33b66bf13c45271e072"
+    }
+  ],
+  "geant4_events": 0,
+  "geant4_initialization": {
+    "sensitive_paths": 14858,
+    "events": 0,
+    "geometry_conversion": true,
+    "physics_list": "FTFP_BERT",
+    "seed": 42,
+    "version": "geant4-11-04-patch-02 [MT]   (12-June-2026)"
+  }
+}

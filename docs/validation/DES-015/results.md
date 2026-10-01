@@ -67,10 +67,25 @@ These representations are deliberately preliminary:
 - The first native check found 12 trunk/flange overlaps. Keeping the flanges and
   narrowing the effective trunk to r192..222 mm across their 2 mm thickness
   removes these intersections. At reference 50% packing, the front neck uses
-  **74.4%** of capacity and the rear neck **131.0%**: the rear service interface
+  **73.9–74.4%** of capacity and the rear neck **130.5–131.0%**: the rear service interface
   remains **FAILED**. No numerical tolerance was relaxed to obtain zero overlaps.
 - PR36's stress thermal failure and conservative/stress trunk failures remain.
   No FEA qualification, ACTS conversion or coverage re-evaluation is claimed.
+
+| Native material scope | Mass |
+| --- | ---: |
+| Unchanged barrel, including its local services | 25.336563 kg |
+| Negative endcap and downstream services | 84.021822 kg |
+| Positive endcap and downstream services | 84.323639 kg |
+| Combined modeled pixel assembly | 193.682024 kg |
+| One local passive disc, including effective packing air | 594.486025 g |
+| One shared carrier, partitioned rails and flanges | 2161.878846 g |
+
+The positive/negative difference comes from the inherited unequal barrel terminal
+cable inventories. The new downstream transport cells contribute 148.151479 kg
+in total; their provisional composition is a major material-model uncertainty.
+The carrier is 6.855028 g/end below PR36's additive estimate after removing
+intersection double-counting and introducing the coupling slots.
 
 Full axial service material is included for the first time, up to |z|3300 mm and
 r680 mm. Its substantial mass must not be compared with the former barrel-only
@@ -84,6 +99,13 @@ Follow [the repeatable workflow](../../../tools/pixel_detector_dd4hep/README.md)
 projects, then initializes Geant4 without events. `report.py` retains the reports.
 Run the Spack preflight first; the registry fingerprints changed, but actual
 DD4hep 1.38 / ROOT 6.40.04 / Geant4 11.4.2 capabilities were verified here.
+
+The final workflow replay used code revision
+`d2a0f3e23449e06b75fb0717263dfbc7010c55a0`. Six compact/inventory/provenance
+artifacts were byte-identical on repeat export with the same active Python.
+An initial comparison using a different Python version differed only in its
+recorded Python provenance, as expected. Nodehammer safeguards passed 8 tests,
+dashboard controls 27 tests, and all 73 paired session records validated.
 
 The evidence bundle records code revision, source/configuration hashes, commands,
 versions and tolerances. `native.json` contains actual ROOT navigation/material

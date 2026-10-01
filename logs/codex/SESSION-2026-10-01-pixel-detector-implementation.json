@@ -22,8 +22,46 @@
     "start_commit": "6a07da7cd3096e6482bae4e96ccabe9b4facf0a3",
     "branch": "detector/preliminary-pixel-detector",
     "initial_changes": [],
-    "result_commits": [],
-    "changed_files": []
+    "result_commits": [
+      "d2a0f3e23449e06b75fb0717263dfbc7010c55a0"
+    ],
+    "changed_files": [
+      ".github/workflows/dashboard.yml",
+      "detector/CMakeLists.txt",
+      "detector/README.md",
+      "detector/config/pixel-detector.json",
+      "detector/include/nodd/PixelComponents.hpp",
+      "detector/include/nodd/PixelEndcap.hpp",
+      "detector/src/PixelEndcap.cpp",
+      "detector/src/PixelEndcapParts.cpp",
+      "docs/design/DES-014-pixel-endcap-support.md",
+      "docs/design/DES-015-preliminary-pixel-detector.md",
+      "docs/validation/DES-015/artifacts.json",
+      "docs/validation/DES-015/initial-overlaps.json",
+      "docs/validation/DES-015/manifest.json",
+      "docs/validation/DES-015/native.json",
+      "docs/validation/DES-015/nodehammer.json",
+      "docs/validation/DES-015/results.md",
+      "docs/validation/DES-015/service-accounting.json",
+      "docs/validation/DES-015/summary.json",
+      "docs/validation/DES-015/workflow.json",
+      "logs/codex/SESSION-2026-10-01-pixel-detector-implementation.json",
+      "logs/codex/SESSION-2026-10-01-pixel-detector-implementation.md",
+      "project/tracking.json",
+      "tools/nodehammer/README.md",
+      "tools/nodehammer/prepare.py",
+      "tools/nodehammer/test_rescale.py",
+      "tools/pixel_barrel_dd4hep/export_root.py",
+      "tools/pixel_barrel_dd4hep/validate.py",
+      "tools/pixel_detector_dd4hep/README.md",
+      "tools/pixel_detector_dd4hep/endcap_modules.py",
+      "tools/pixel_detector_dd4hep/endcap_parts.py",
+      "tools/pixel_detector_dd4hep/endcap_services.py",
+      "tools/pixel_detector_dd4hep/export.py",
+      "tools/pixel_detector_dd4hep/refresh.py",
+      "tools/pixel_detector_dd4hep/report.py",
+      "tools/pixel_detector_dd4hep/test_export.py"
+    ]
   },
   "work": {
     "milestone": "M3",
@@ -42,7 +80,108 @@
     ]
   },
   "narrative": "logs/codex/SESSION-2026-10-01-pixel-detector-implementation.md",
-  "activities": [],
+  "activities": [
+    {
+      "kind": "skill",
+      "name": "acts-spack",
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "version": null,
+      "evidence": "Repository acts-spack skill and node preflight; runtime capabilities verified in the same activated shell."
+    }
+  ],
   "usage": [],
-  "checks": []
+  "checks": [
+    {
+      "command": "python3 skills/acts-spack/scripts/preflight.py",
+      "status": "FAIL",
+      "result": "Changed setup/lock fingerprints; actual installed capabilities subsequently verified.",
+      "exit_code": 2
+    },
+    {
+      "command": "Spack activation; import dd4hep,ROOT,DDG4; spack find dd4hep geant4; geant4-config --check-datasets",
+      "status": "PASS",
+      "result": "DD4hep1.38 /7deaacd, ROOT6.40.04, Geant4 11.4.2 /cpge6jj; 12 datasets present.",
+      "exit_code": 0
+    },
+    {
+      "command": "ctest -R pixel-detector-validation (initial geometry)",
+      "status": "FAIL",
+      "result": "12 diagnosed trunk/flange overlaps; sensor transforms,IDs,materials passed. Retained initial-overlaps.json.",
+      "exit_code": 8
+    },
+    {
+      "command": "tools/nodehammer/prepare.py (initial combined export)",
+      "status": "FAIL",
+      "result": "GLB float32 translation rounding exceeded unchanged 1e-7m audit tolerance; exact-operation repair added.",
+      "exit_code": 1
+    },
+    {
+      "command": "ddsim initialization attempts before launcher/constants corrections",
+      "status": "FAIL",
+      "result": "macOS launcher lost plugin path; subsequent active-Python invocation required tracker truth-envelope constants.",
+      "exit_code": 1
+    },
+    {
+      "command": "python3 -B tools/pixel_detector_dd4hep/refresh.py --nodehammer existing-pinned-binary --geant4-init",
+      "status": "PASS",
+      "result": "Final code d2a0f3e: all6 CTests, 7 portable nodehammer projects and DDSim/Geant4 initialization;14858 sensitive paths,zero events.",
+      "exit_code": 0
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/pixel_detector_dd4hep -p test_*.py -v",
+      "status": "PASS",
+      "result": "5 source/frame/ID/barrel-regression/constituent checks, included in CTest.",
+      "exit_code": 0
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/nodehammer -p test_*.py -v",
+      "status": "PASS",
+      "result": "8 safeguards including exact long-translation repair and wrong-unit rejection.",
+      "exit_code": 0
+    },
+    {
+      "command": "Repeat combined export under active Spack Python; compare six artifacts SHA256",
+      "status": "PASS",
+      "result": "Six byte-identical compact/inventory/provenance files. Earlier host-Python comparison differed only in honestly recorded Python version.",
+      "exit_code": 0
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/dashboard -p test_*.py -v",
+      "status": "PASS",
+      "result": "27 tests passed.",
+      "exit_code": 0
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate (initial tracking)",
+      "status": "FAIL",
+      "result": "Task/workstream role mismatch corrected to established Tracker technician role.",
+      "exit_code": 1
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate; build",
+      "status": "PASS",
+      "result": "39 tasks,17 documents,15 review rounds; dashboard built.",
+      "exit_code": 0
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate; summary",
+      "status": "PASS",
+      "result": "73 valid session records;42/73 have usage observations. Observed134594309 input/674111 output tokens across79 historical turns; not a complete project total. Current task counters unavailable.",
+      "exit_code": 0
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "result": "No whitespace errors.",
+      "exit_code": 0
+    },
+    {
+      "command": "session_log.py validate (activity closeout draft)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Missing activity version/evidence fields; filled required schema fields without inventing counters."
+    }
+  ]
 }

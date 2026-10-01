@@ -76,3 +76,19 @@ empty. This is missing coverage, not zero tokens. No usage from an earlier task
 or cumulative client counter was reassigned. No subagents were spawned for this
 task. The project summary is run at closeout and reports observed totals separately
 from missing coverage.
+
+## Final replay
+
+Code revision `d2a0f3e23449e06b75fb0717263dfbc7010c55a0` passed the one-shot
+workflow: six CTests, seven packed/audited nodehammer views and Geant4 initialization
+with14858 sensitive paths and zero events. Six repeated export artifacts are
+byte-identical under the same Python runtime. The initial host-Python comparison
+differed only in its correctly recorded interpreter version. Dashboard27 tests,
+validation/build and session73 validation passed. Retained evidence is under
+`docs/validation/DES-015/`. New downstream service material is148.151kg; the full
+modeled scope is193.682kg, not comparable to former local-only mass totals.
+
+Canonical paired-log summary:134594309 observed input and674111 observed output
+tokens across79 recorded turns in42/73 sessions.31 sessions lack usage observations;
+this task contributes no fabricated counters. These historical observed sums are
+not the complete project total or this task's usage.
