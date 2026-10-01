@@ -98,7 +98,8 @@ def draw(compact,output):
     for layer,ax in zip(root.findall('.//detector/layer'),axes):
         stave=layer.find('stave');ms=stave.findall('module');sensor=ms[0].find('sensor');half=val(sensor,'width')/2
         support=stave.find('slab');length=val(stave,'length');cy=val(support,'center_y')
-        ax.add_patch(Rectangle((cy-length/2,-half-1),length,2*half+2,fc='#deddd8',ec='#6b747b',lw=.6))
+        support_width=val(support,'width')
+        ax.add_patch(Rectangle((cy-length/2,-support_width/2),length,support_width,fc='#deddd8',ec='#6b747b',lw=.6))
         for ring in layer.findall('ring'):
             z=val(ring,'z');t=val(ring,'length');ax.axvspan(z-t/2,z+t/2,color='#9575b5',alpha=.35)
         for m in ms:

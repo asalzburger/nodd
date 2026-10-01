@@ -97,3 +97,7 @@ Implementation commits: `8a09567f89c9a1ce2f9eebeb4a101ceb6c4f08f3` and
 Original checkout changes were rechecked and preserved. Git write/network sandbox
 failures were retried with the explicit execution permission mechanism; no history
 was rewritten. Full-change whitespace validation passes after SVG normalization.
+
+Final visual closeout uses the exact compact slab width for the stave-packing
+support band (23/44.2 mm), replacing a visual margin derived from sensor width.
+Drawing sheets and manifests were regenerated; detector geometry is unchanged.
