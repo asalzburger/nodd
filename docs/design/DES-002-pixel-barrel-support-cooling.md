@@ -9,6 +9,17 @@
 - Validation evidence: [screening results](../validation/DES-002/results.md)
 - Sign-off: pending
 
+## Current working implementation
+
+The numerical studies below retain their original PR29 inputs. After the human
+selected PR34's `packed-200um` barrel on 2026-10-01, [DES012 PB-C14–18](DES-012-dd4hep-pixel-barrels.md)
+retains candidate A's outward stack, physical tube/stave ends and mounting stations,
+refreshes ring clearances and service inventory, and uses the new module packing.
+The [new drawings and checks](../validation/DES-012/PR34/results.md) are the current
+working assembly reference. Quad stress exit quality is 0.45705 at the inherited
+2.5 g/s per circuit, exceeding the 0.45 ceiling; no cooling qualification or flow
+increase is implied by baseline selection.
+
 ## Authority and baseline
 
 The user requested at most two low-material, stable, sufficiently cooled pixel

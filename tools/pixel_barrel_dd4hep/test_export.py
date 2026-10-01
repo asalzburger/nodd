@@ -23,7 +23,7 @@ class ExportTests(unittest.TestCase):
         cls.temp = tempfile.TemporaryDirectory()
         cls.path = Path(cls.temp.name)
         cls.expected = generator.export(cls.config, cls.path / "nominal")
-        cls.support = generator.read(generator.ROOT / "tools/pixel_support/inputs.json")
+        cls.support = generator.read(generator.ROOT / cls.config["support_config"])
 
     @classmethod
     def tearDownClass(cls):
@@ -47,8 +47,8 @@ class ExportTests(unittest.TestCase):
             dict(
                 layer=4,
                 stave=82,
-                module=2750,
-                sensitive=6206,
+                module=3050,
+                sensitive=6794,
                 ring=24,
                 foot=492,
                 cooling_tube=164,
@@ -66,9 +66,43 @@ class ExportTests(unittest.TestCase):
                 self.assertEqual(e["center_mm"], p["center_mm"])
                 self.assertEqual(e["normal"], p["n"])
         changed = copy.deepcopy(self.config)
-        changed["input_sha256"]["tools/pixel_support/inputs.json"] = "0" * 64
+        changed["input_sha256"][self.config["support_config"]] = "0" * 64
         with self.assertRaisesRegex(ValueError, "Pinned baseline"):
             generator.export(changed, self.path / "stale")
+
+    def test_translated_stave_frame_and_rotated_module_stack(self):
+        root = ET.parse(self.path / "nominal/pixel-barrel.xml").getroot()
+        layout = generator.load_layout(self.support)
+        bodies = {b["module_id"]: b for b in layout["bodies"]}
+        value = lambda node, key: float(node.get(key).split("*")[0])
+        for stave in root.findall(".//stave"):
+            phi, radius, offset = (value(stave, key) for key in ("phi", "radius", "offset_u"))
+            n = [math.cos(phi), math.sin(phi), 0.]
+            u = [-math.sin(phi), math.cos(phi), 0.]
+            first = stave.find("module")
+            b = bodies[int(first.get("id"))]
+            for j in range(2):
+                self.assertAlmostEqual(n[j], b['n'][j], places=12)
+                self.assertAlmostEqual(radius*n[j]+offset*u[j], b['center_mm'][j], places=10)
+            span = self.support['passive_stave_z_mm'][b['layer_id']]
+            self.assertAlmostEqual(value(stave, 'length'),span[1]-span[0])
+            for module in stave.findall('module'):
+                sensor=module.find('sensor')
+                self.assertAlmostEqual(value(sensor,'length'),20.4 if b['family']=='single' else 40.6)
+                for patch in sensor.findall('patch'):
+                    self.assertAlmostEqual(value(patch,'width'),19.2)
+                    self.assertAlmostEqual(value(patch,'length'),20.)
+                for die in module.findall('die'):
+                    self.assertAlmostEqual(value(die,'width'),21.)
+                    self.assertAlmostEqual(value(die,'length'),20.)
+                    # No ASIC periphery is allowed to consume the z clearance.
+                    self.assertLessEqual(abs(value(die,'v'))+value(die,'length')/2,value(sensor,'length')/2+1e-10)
+
+    def test_retained_pr29_configuration_still_exports(self):
+        old=generator.read(generator.ROOT/'detector/config/pixel-barrel-pr29.json')
+        expected=generator.export(old,self.path/'pr29')
+        self.assertEqual(expected['counts']['module'],2750)
+        self.assertEqual(expected['counts']['sensitive'],6206)
 
     def test_configured_readout_fields_cannot_overflow(self):
         config = copy.deepcopy(self.config)

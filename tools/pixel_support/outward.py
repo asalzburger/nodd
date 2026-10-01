@@ -30,6 +30,16 @@ def load_layout(config):
     return json.loads(gzip.decompress(path.read_bytes()))
 
 
+def stave_span(column, config):
+    """Passive endpoints may stay fixed when an approved active row set shrinks."""
+    occupied = [min(b['center_mm'][2]-b['half_v_mm'] for b in column),
+                max(b['center_mm'][2]+b['half_v_mm'] for b in column)]
+    span = config.get('passive_stave_z_mm', {}).get(column[0]['layer_id'], occupied)
+    if len(span) != 2 or not all(math.isfinite(x) for x in span) or span[0] > occupied[0]+1e-9 or span[1] < occupied[1]-1e-9:
+        raise ValueError('Passive stave span must contain every occupied module body')
+    return tuple(span)
+
+
 def corners(box):
     return [tuple(box['center_mm'][j] + su*box['half_u_mm']*box['u'][j]
                   + sn*box['half_w_mm']*box['n'][j] for j in range(2))

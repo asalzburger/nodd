@@ -98,3 +98,12 @@ screen; branch gathering uses idealized centrelines and the drawing omits bends.
 It is not a complete DD4hep solid model, pressure design or overlap proof. A
 future implementation must partition/union turn volumes, normalize constituent
 mass, add flex/connectors/manifold/clip inventory and run full material scans.
+
+## Current barrel baseline
+
+These commands retain historical PR29 study inputs by default. For the selected
+PR34 geometry and its longer passive mounting span, use the coordinated
+[DD4hep refresh workflow](../../detector/README.md#current-drawings-and-regeneration).
+It supplies `detector/config/pixel-barrel-support.json`, regenerates counts,
+routing and mounted sections, and preserves the failed quad thermal stress check.
+Do not repin historical evidence in place to make the old study look current.

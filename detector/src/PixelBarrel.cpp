@@ -1,4 +1,4 @@
-// PR29 pixel-barrel assembly. Reusable solids live in separate components.
+// Selected pixel-barrel assembly. Reusable solids live in separate components.
 #include "nodd/PixelComponents.hpp"
 #include "nodd/PixelServices.hpp"
 #include <DD4hep/DetFactoryHelper.h>
@@ -8,9 +8,9 @@ namespace {
 using namespace dd4hep;
 using xml::Handle_t;
 // Columns of the rotation matrix are tangent, beam and outward radial.
-Transform3D staveFrame(double phi, double radius, double beamZ=0.) {
+Transform3D staveFrame(double phi, double radius, double beamZ=0., double offsetU=0.) {
   const double c=std::cos(phi),s=std::sin(phi);
-  return Transform3D(Rotation3D(-s,0,c,c,0,s,0,1,0),Position(radius*c,radius*s,beamZ));
+  return Transform3D(Rotation3D(-s,0,c,c,0,s,0,1,0),Position(radius*c-offsetU*s,radius*s+offsetU*c,beamZ));
 }
 Ref_t createPixelBarrel(Detector& detector, Handle_t x, SensitiveDetector sensitive) {
   const auto name=x.attr<std::string>("name");
@@ -41,7 +41,7 @@ Ref_t createPixelBarrel(Detector& detector, Handle_t x, SensitiveDetector sensit
           patchElement.setPlacement(patchPlacement);
         }
       }
-      auto placement=layerVolume.placeVolume(staveVolume,staveFrame(stave.attr<double>("phi"),stave.attr<double>("radius")));
+      auto placement=layerVolume.placeVolume(staveVolume,staveFrame(stave.attr<double>("phi"),stave.attr<double>("radius"),0.,stave.hasAttr("offset_u") ? stave.attr<double>("offset_u") : 0.));
       placement.addPhysVolID("stave",sid);staveElement.setPlacement(placement);
     }
     for (xml::Collection_t ring(layer,"ring"); ring; ++ring)

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Export pinned PR29 pixel barrels to a standalone DD4hep compact prototype."""
+"""Export a pinned pixel barrel working baseline to a standalone DD4hep compact."""
 
 from collections import Counter, defaultdict
 import argparse
@@ -16,8 +16,9 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 sys.path.insert(0, str(ROOT / "tools/pixel_support"))
 from mounting import make_mounts
-from outward import load_layout
+from outward import load_layout, stave_span
 from materials import Materials
+from module_geometry import describe, stave_frame
 
 
 def sha(path):
@@ -62,15 +63,15 @@ def export(config, output):
         or module["flex_copper_coverage"] > 1
     ):
         raise ValueError("Invalid module dimensions or copper coverage")
-    support = read(ROOT / "tools/pixel_support/inputs.json")
+    support = read(ROOT / config.get("support_config", "tools/pixel_support/inputs.json"))
     mounts = read(ROOT / "tools/pixel_support/mounting.json")
     layout = load_layout(support)
     models = read(ROOT / "tools/module_layout/review_models.json")["pixel"]
     route = read_gzip(
-        ROOT / "docs/validation/DES-002/outward-A-services/routing.json.gz"
+        ROOT / config.get("routing", "docs/validation/DES-002/outward-A-services/routing.json.gz")
     )
     service_summary = read(
-        ROOT / "docs/validation/DES-002/outward-A-services/screening.json"
+        ROOT / config.get("service_summary", "docs/validation/DES-002/outward-A-services/screening.json")
     )
     assembly, boxes, rings, feet, layers = make_mounts(layout, support, mounts)
     materials = Materials(config, support)
@@ -79,7 +80,7 @@ def export(config, output):
         compact,
         "info",
         name="nODDPixelBarrel",
-        title="PR29 pixel barrel prototype",
+        title=f"PR{config['baseline_pr']} pixel barrel prototype",
         author="nODD",
         version="0.1",
         status="prototype",
@@ -198,10 +199,8 @@ def export(config, output):
         for col in sorted(set(b["col"] for b in bs)):
             column = sorted([b for b in bs if b["col"] == col], key=lambda b: b["row"])
             b = column[0]
-            phi = math.atan2(b["center_mm"][1], b["center_mm"][0])
-            radius = math.hypot(*b["center_mm"][:2])
-            zlo = min(b["center_mm"][2] - b["half_v_mm"] for b in column)
-            zhi = max(b["center_mm"][2] + b["half_v_mm"] for b in column)
+            phi, radius, offset_u = stave_frame(b)
+            zlo, zhi = stave_span(column, support)
             length = zhi - zlo
             zy = (zhi + zlo) / 2
             sn = f"{lname}_stave{col}"
@@ -212,6 +211,7 @@ def export(config, output):
                 name=sn,
                 phi=rad(phi),
                 radius=mm(radius),
+                offset_u=mm(offset_u),
                 length=mm(length),
             )
             origin = dict(b, center_mm=[b["center_mm"][0], b["center_mm"][1], 0.0])
@@ -311,31 +311,9 @@ def export(config, output):
                 )
                 entity(name, "module", b["center_mm"], ids=ids)
                 ps = patches[mid]
-                local = [
-                    (
-                        sum(
-                            (p["center_mm"][j] - b["center_mm"][j]) * b["u"][j]
-                            for j in range(3)
-                        ),
-                        sum(
-                            (p["center_mm"][j] - b["center_mm"][j]) * b["v"][j]
-                            for j in range(3)
-                        ),
-                    )
-                    for p in ps
-                ]
-                uc = sum(p[0] for p in local) / len(local)
-                vc = sum(p[1] for p in local) / len(local)
-                su = (
-                    max(u + p["half_u_mm"] for (u, v), p in zip(local, ps))
-                    - min(u - p["half_u_mm"] for (u, v), p in zip(local, ps))
-                    + 2 * models["guard_mm"]
-                )
-                sv = (
-                    max(v + p["half_v_mm"] for (u, v), p in zip(local, ps))
-                    - min(v - p["half_v_mm"] for (u, v), p in zip(local, ps))
-                    + 2 * models["guard_mm"]
-                )
+                shape = describe(b, ps, models, layout)
+                local = shape['local']
+                uc, vc, su, sv = (shape[k] for k in ('u','v','width','length'))
                 tx = ET.SubElement(
                     mx,
                     "sensor",
@@ -436,22 +414,16 @@ def export(config, output):
                     + module["bump_standoff_mm"]
                     + module["asic_mm"] / 2
                 )
-                for k, ((u, v), p) in enumerate(zip(local, ps)):
-                    sign = 1 if len(ps) == 1 or v > vc else -1
-                    diev = (
-                        v
-                        + sign
-                        * (models["approximate_die_v_mm"] - models["chip_active_v_mm"])
-                        / 2
-                    )
+                for k, die in enumerate(shape['dies']):
+                    dieu, diev = die['u'], die['v']
                     passive(
                         f"asic{k}",
                         "die",
-                        u,
+                        dieu,
                         diev,
                         asicw,
-                        models["approximate_die_u_mm"],
-                        models["approximate_die_v_mm"],
+                        die["width"],
+                        die["length"],
                         module["asic_mm"],
                         "Silicon",
                         "asic",
@@ -465,11 +437,11 @@ def export(config, output):
                     passive(
                         f"contact{k}",
                         "passive",
-                        u,
+                        dieu,
                         diev,
                         back + shim / 2,
-                        models["approximate_die_u_mm"],
-                        models["approximate_die_v_mm"],
+                        die["width"],
+                        die["length"],
                         shim,
                         "Graphite",
                         "contact_shim",
@@ -575,6 +547,9 @@ def export(config, output):
         "detector/config/pixel-barrel.json",
         "tools/pixel_barrel_dd4hep/export.py",
         "tools/pixel_barrel_dd4hep/materials.py",
+        "tools/pixel_barrel_dd4hep/module_geometry.py",
+        "tools/pixel_support/mounting.py",
+        "tools/pixel_support/outward.py",
         "detector/src/PixelBarrel.cpp",
         "detector/src/PixelComponents.cpp",
         "detector/src/PixelServices.cpp",
