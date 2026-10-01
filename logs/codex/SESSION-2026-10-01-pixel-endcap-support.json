@@ -1,0 +1,160 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-01-pixel-endcap-support",
+  "title": "Design common pixel endcap disc supports, rails and services",
+  "recorded_at": "2026-10-01T14:18:15Z",
+  "started_at": null,
+  "ended_at": null,
+  "status": "open",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Selected user-visible task and outcomes only; actual conversation start and client identifiers unavailable.",
+    "Exact client-reported per-turn token counters unavailable; usage remains empty, not zero.",
+    "No native DD4hep/ACTS or engineering qualification; proposed sensor-placement amendment is not adopted."
+  ],
+  "client": {
+    "name": "unspecified",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "15e7cc5a5bb05f2b2c1ef3f35a1612fd88f548e1",
+    "branch": "design/pixel-endcap-support",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      ".github/workflows/dashboard.yml",
+      "docs/design/DES-014-pixel-endcap-support.md",
+      "docs/design/inputs/DES-014-literature.md",
+      "docs/validation/DES-014-pixel-endcap-support/artifacts.json",
+      "docs/validation/DES-014-pixel-endcap-support/carrier.png",
+      "docs/validation/DES-014-pixel-endcap-support/carrier.svg",
+      "docs/validation/DES-014-pixel-endcap-support/diagnostics.png",
+      "docs/validation/DES-014-pixel-endcap-support/diagnostics.svg",
+      "docs/validation/DES-014-pixel-endcap-support/disc-xy.png",
+      "docs/validation/DES-014-pixel-endcap-support/disc-xy.svg",
+      "docs/validation/DES-014-pixel-endcap-support/drawings.pdf",
+      "docs/validation/DES-014-pixel-endcap-support/proposed-module-placements.csv",
+      "docs/validation/DES-014-pixel-endcap-support/results.md",
+      "docs/validation/DES-014-pixel-endcap-support/routing.png",
+      "docs/validation/DES-014-pixel-endcap-support/routing.svg",
+      "docs/validation/DES-014-pixel-endcap-support/screening.json",
+      "docs/validation/DES-014-pixel-endcap-support/sections.png",
+      "docs/validation/DES-014-pixel-endcap-support/sections.svg",
+      "logs/codex/SESSION-2026-10-01-pixel-endcap-support.json",
+      "logs/codex/SESSION-2026-10-01-pixel-endcap-support.md",
+      "project/tracking.json",
+      "reference/manifest.yaml",
+      "tools/pixel_endcap_support/README.md",
+      "tools/pixel_endcap_support/budget.py",
+      "tools/pixel_endcap_support/drawings.py",
+      "tools/pixel_endcap_support/inputs.json",
+      "tools/pixel_endcap_support/model.py",
+      "tools/pixel_endcap_support/report.py",
+      "tools/pixel_endcap_support/test_support.py",
+      "tools/pixel_endcap_support/thermal.py"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "pixel endcap support",
+      "cooling",
+      "services",
+      "technical drawings",
+      "design screening"
+    ],
+    "related_ids": [
+      "DES-014",
+      "DES-002",
+      "DES-010",
+      "DES-011",
+      "DES-013",
+      "ADR-003",
+      "issue-7",
+      "PR-35"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-01-pixel-endcap-support.md",
+  "activities": [
+    {
+      "kind": "tool",
+      "name": "shell, git, gh and public-web research",
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "version": null,
+      "evidence": "Selected commands in the paired narrative; only measured validation results retained."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 -B tools/pixel_endcap_support/report.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Executed deterministic screening and five-sheet drawing generation; local envelope overlaps=0. All18 thermal stress sensitivities fail; adverse cable demand fails. No acceptance claim."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/pixel_endcap_support -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "10 tests pass, including analytic thermal solution and negative controls."
+    },
+    {
+      "command": "Fresh-output rerun and independent hash/scientific-output comparison",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Identical scientific JSON and13 byte-identical retained artifacts; input/code/artifact hashes and unique catalogue IDs verified."
+    },
+    {
+      "command": "Initial python3 -B tools/dashboard/build.py validate",
+      "status": "FAIL",
+      "exit_code": null,
+      "result": "Fractional-second PR collection time rejected; corrected to required UTC seconds."
+    },
+    {
+      "command": "Initial python3 -B -m unittest discover -s tools/dashboard -p 'test_*.py' -v",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "27 run;25 passed and2 build errors because direct PDF deliverable cannot be exported as curated text."
+    },
+    {
+      "command": "python3 -B -m unittest test_build.DashboardTests.test_deterministic_escaped_build_and_all_internal_links test_build.DashboardTests.test_missing_criteria_are_preserved_in_source_evidence -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Both affected tests pass after linking drawings through the Markdown report; gate unchanged."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "38 tasks,16 documents,15 review rounds validated."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py build --output _site/endcap-preview",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Dashboard built successfully after tracking correction."
+    },
+    {
+      "command": "DD4hep/Geant4, ACTS, directional material scans, FEA and hydraulic qualification",
+      "status": "NOT RUN",
+      "exit_code": null,
+      "result": "Design study only; required before subsequent geometry implementation/acceptance."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "72 paired session records validate."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py summary --format json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Canonical paired logs contain observed134594309 input and674111 output tokens across79 turns in42 sessions;30 sessions have no usage. This task has no reported counters. Separate local historical project inventories are not included or reallocated."
+    }
+  ]
+}
