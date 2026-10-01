@@ -88,7 +88,10 @@ See paired JSON file inventory. New DES014 design, source dossier, support tools
 retained drawings/screening and this session pair; updated source catalogue,
 project tracking and CI test registration. All original baseline, detector and
 accepted evidence files remain untouched. Result commits are added only once
-those commits exist. The design PR is draft pending review.
+those commits exist. The design PR is [#36](https://github.com/asalzburger/nodd/pull/36), draft pending
+review. Design/code/evidence commit: `1cd1f6642375a54c42ce3be1c24a0695eea2741a`.
+The subsequent closeout commit records PR metadata and this session only; the
+hosted check was queued when that snapshot was prepared.
 
 ## Token accounting
 
