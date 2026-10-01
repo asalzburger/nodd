@@ -1,7 +1,8 @@
 # Pixel barrel DD4hep prototype
 
-This standalone assembly implements the human-selected PR #29 baseline at
-`c79c2194e23e99c4d2696ca2d6628a388b96f5e4`. Its implementation contract is
+This standalone assembly implements the human-selected PR #34 `packed-200um`
+baseline at `ac56d6db1dd2dc40882f5ed39a76125096171a06`, retaining the PR29 outward
+support architecture. It contains 3,050 modules and 6,794 active chip patches. Its implementation contract is
 [DES-012](../docs/design/DES-012-dd4hep-pixel-barrels.md). It is a **PROTOTYPE**:
 engineering qualification, material review and full-detector integration remain
 open. It does not replace the production ODD description.
@@ -9,6 +10,40 @@ open. It does not replace the production ODD description.
 For an optional viewer with selection, cutaways and portable scene files, see
 the [nodehammer workflow](../tools/nodehammer/README.md) and its
 [tested capabilities and limitations](../docs/validation/nodehammer/results.md).
+
+## Current drawings and regeneration
+
+The [drawing index and validation report](../docs/validation/DES-012/PR34/results.md)
+contains single/quad module faces and sections, a dimensioned longitudinal joint,
+four barrel sections, full assembly views, mounting and cable/cooling routing.
+Drawings are technical layouts, not manufacturing drawings.
+
+The canonical compact is generated from [pixel-barrel.json](config/pixel-barrel.json)
+and [pixel-barrel-support.json](config/pixel-barrel-support.json). The latter pins
+the selected ACTS layout and the passive stave endpoints required by the mounts.
+The historical [pixel-barrel-pr29.json](config/pixel-barrel-pr29.json) remains a
+reproducible control; no retained PR29 evidence has been overwritten.
+
+After an authorized baseline/input change, review the design contract and pins,
+then refresh services and drawings **before** building or testing:
+
+```sh
+MPLCONFIGDIR=build/matplotlib python3 -B tools/pixel_barrel_dd4hep/refresh.py --draw --update-config
+cmake --build build/dd4hep --parallel 4
+ctest --test-dir build/dd4hep --output-on-failure
+MPLCONFIGDIR=build/matplotlib python3 -B tools/pixel_barrel_dd4hep/drawings.py \
+  --compact build/dd4hep/detector/compact/pixel-barrel.xml \
+  --output docs/validation/DES-012/PR34/drawings
+```
+
+Use a new evidence directory for a future design revision (`refresh.py --output`),
+and update its explicit input dependencies in `detector/CMakeLists.txt`. Matplotlib
+is needed only for drawings. Input hashes deliberately reject partially refreshed
+inventories; do not run refresh concurrently with export/build/tests. The refresh
+checks service capacity and geometry, while retaining failed thermal hypotheses
+in `thermal.json`. Quad cooling currently exceeds the stress quality ceiling;
+geometry success does not qualify the cooling system. Refresh ROOT and nodehammer
+exports after rebuilding; old viewer projects retain their old geometry.
 
 ## Build and validate
 

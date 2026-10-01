@@ -15,6 +15,9 @@ file(GLOB NODD_EXPORT_INPUTS CONFIGURE_DEPENDS
 add_custom_command(OUTPUT "${NODD_COMPACT_DIR}/pixel-barrel.xml" "${NODD_COMPACT_DIR}/expected.json"
   COMMAND "${Python3_EXECUTABLE}" -B "${PROJECT_SOURCE_DIR}/tools/pixel_barrel_dd4hep/export.py" --output "${NODD_COMPACT_DIR}"
   DEPENDS ${NODD_EXPORT_INPUTS}
+    "${PROJECT_SOURCE_DIR}/docs/validation/DES-013-pixel-z/data/packed-200um/layout.json.gz"
+    "${PROJECT_SOURCE_DIR}/docs/validation/DES-012/PR34/engineering/routing.json.gz"
+    "${PROJECT_SOURCE_DIR}/docs/validation/DES-012/PR34/engineering/screening.json"
     "${PROJECT_SOURCE_DIR}/docs/validation/DES-011-optimization/cases/p190-s680-b1-l1287.33-front_loaded-original-pockets/layout.json.gz"
     "${PROJECT_SOURCE_DIR}/docs/validation/DES-002/outward-A-services/routing.json.gz"
     "${PROJECT_SOURCE_DIR}/docs/validation/DES-002/outward-A-services/screening.json"

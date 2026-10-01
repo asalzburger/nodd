@@ -1,10 +1,10 @@
 # DES-013 — Pixel barrel longitudinal coverage
 
-- Status: DRAFT; isolated **PROTOTYPE**, pending human approval.
+- Status: DRAFT; **PROTOTYPE**; `packed-200um` selected as the working baseline on 2026-10-01 (Z-C09).
 - Created: 2026-10-01.
 - Direction: human request to test transverse wire-bond routing and close z packing in a new PR with ACTS evidence.
 - Governing inputs: [DES-011](DES-011-service-constrained-tracker-optimization.md), [DES-002](DES-002-pixel-barrel-support-cooling.md), [DES-012](DES-012-dd4hep-pixel-barrels.md); module issue [#7](https://github.com/asalzburger/nodd/issues/7).
-- Approving humans: none for these numerical hypotheses. Production/default compact files remain unchanged.
+- Authority: explicit human baseline selection recorded in Z-C09; formal engineering sign-off remains pending. The standalone DD4hep default is updated under DES012 PB-C14–18; the production ODD detector remains separate.
 
 ## Parameter contract, before implementation
 
@@ -33,3 +33,23 @@ Repeatable configuration, regenerated module/bounds geometry, matched coverage b
 ## Executed result and proposed amendment
 
 The [results](../validation/DES-013-pixel-z/results.md) and [recommendation](../validation/DES-013-pixel-z/recommendation.md) retain all six hypotheses. Z-C03’s 0.2 mm edge/gap, chip-centred case is recommended for expert review, not adopted. Existing cooling fails the quad stress exit-quality ceiling; the recommendation proposes a new flow study without changing DES002. Added diagnostics are NODD DESIGN CHOICE: matched 1-unit eta and 100 mm z bands, straight eta=0 scans in 1 mm z steps at 16 phase-offset azimuths, and explicit native z-edge probes at ±1 µm (a numerical check, not an assembly tolerance).
+
+## Working baseline adopted on 2026-10-01
+
+**Z-C09 — NODD DESIGN CHOICE, explicit human selection:** use the
+`packed-200um` case as the new pixel-barrel working baseline. The user stated:
+
+> Ok, that's the new barrel baseline (PR is merged).
+> Make a new set of technical drawings, update DD4hep and whatever is needed for that.
+
+This selects the recommendation of merged [PR #34](https://github.com/asalzburger/nodd/pull/34),
+head `ac56d6db1dd2dc40882f5ed39a76125096171a06`, merged as
+`4fd92926c61bc8281055ec21befcc43ebbe1c30c`. The governing layout is
+`docs/validation/DES-013-pixel-z/data/packed-200um/layout.json.gz`, SHA-256
+`e3abb11dd779daef410290186318f9e696c7d7a9a330841badb9a1773c17a842`.
+The exact human instruction, rather than the merge alone, authorizes the baseline
+and standalone DD4hep update. No formal SIGNED OFF/ACCEPTED status is asserted;
+sensor qualification, assembly tolerances and cooling/service engineering remain
+open. Historical study statements above describe the pre-selection comparison.
+
+The current implementation and drawings follow the DES012 amendment below.

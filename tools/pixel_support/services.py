@@ -10,7 +10,7 @@ import subprocess
 import sys
 
 from mounting import make_mounts
-from outward import ROOT, load_layout, sha, corners
+from outward import ROOT, load_layout, sha, corners, stave_span
 from services_geometry import body_envelope, _intersects
 import services_budget as budget
 
@@ -193,6 +193,10 @@ def build(layout, config, mount_settings, inputs, settings):
         cable_length=collector_z-bay[0]+g['inner_radius_mm']*delta
         bs=[bodies[mid] for mid in g['module_ids']]
         zend=max(abs(b['center_mm'][2])+b['half_v_mm'] for b in bs)
+        if 'passive_stave_z_mm' in config:
+            column=[b for b in layout['bodies'] if b['layer_id']==g['layer_id'] and b['col']==g['col']]
+            span=stave_span(column,config)
+            zend=span[1] if g['side']=='positive' else -span[0]
         pipe_r=math.hypot(*bs[0]['center_mm'][:2])+bs[0]['half_w_mm']+sum(config['stack_mm'][k] for k in ['interface','insulation','graphite','top_skin'])+config['stack_mm']['core']/2
         pipe_length=collector_z-zend+abs(g['inner_radius_mm']-pipe_r)+g['inner_radius_mm']*delta
         gathering.append(dict(group_id=g['id'], cable_path_length_mm=cable_length,

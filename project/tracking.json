@@ -1473,9 +1473,47 @@
         "DES-012"
       ],
       "updated": "2026-10-01",
-      "next_action": "Review measured coverage, row phase, slim sensor edges, assembly clearances and extra service/cooling load before changing the working baseline.",
+      "next_action": "Follow the explicit 2026-10-01 working-baseline selection with DD4hep/drawings and sensor, assembly and thermal engineering review.",
       "blocker": null,
-      "disposition": "Six prototype layouts measured on matched cohorts; 720 native ACTS track audits pass, including explicit edge controls. Chip-centred 0.2 mm edge/gap hypothesis reduces sampled barrel misses to about 4%; cooling/services and sensor/mechanics require expert review. No baseline promotion.",
+      "disposition": "Six prototype layouts measured on matched cohorts; 720 native ACTS track audits pass, including explicit edge controls. Chip-centred 0.2 mm edge/gap hypothesis reduces sampled barrel misses to about 4%; cooling/services and sensor/mechanics require expert review. No baseline promotion. On 2026-10-01, after PR34 merge, the user explicitly selected packed-200um as the working barrel baseline (DES013 Z-C09); this is not formal engineering sign-off.",
+      "subsystem": "tracker"
+    },
+    {
+      "id": "TASK-TRK-PIXEL-BASELINE",
+      "title": "Implement selected PR34 pixel barrel and technical drawings",
+      "scope": "User-authorized standalone DD4hep working baseline; retain PR29 support architecture and historical evidence.",
+      "stage": "B",
+      "milestones": [
+        "M1",
+        "M3"
+      ],
+      "workstream": "WS-TRACK",
+      "role": "Tracker technician",
+      "owner": null,
+      "state": "completed",
+      "dependencies": [
+        "TASK-TRK-PIXEL-Z",
+        "TASK-SOFT-DD4HEP-PIXEL"
+      ],
+      "deliverables": [
+        "detector/config/pixel-barrel-support.json",
+        "detector/README.md",
+        "docs/validation/DES-012/PR34/results.md"
+      ],
+      "evidence": [
+        "docs/validation/DES-012/PR34/nominal.json",
+        "docs/validation/DES-012/PR34/nodehammer.json",
+        "docs/validation/DES-012/PR34/engineering/thermal.json"
+      ],
+      "documents": [
+        "DES-013",
+        "DES-012",
+        "DES-002"
+      ],
+      "updated": "2026-10-01",
+      "next_action": "Qualify slim sensor edges and assembly tolerances; resolve quad stress cooling and adverse cable-envelope scenarios before engineering acceptance.",
+      "blocker": null,
+      "disposition": "3050 modules,6794 chip patches; retained passive mounting span; reference routing refreshed. Native DD4hep/ROOT checks pass; quad stress exit quality remains above0.45. Explicit baseline selection, no formal SIGNED OFF/ACCEPTED status.",
       "subsystem": "tracker"
     }
   ],
@@ -1584,14 +1622,16 @@
       "path": "docs/design/DES-012-dd4hep-pixel-barrels.md",
       "validation_reports": [
         "docs/validation/DES-012/results.md",
-        "docs/validation/DES-012/display/results.md"
+        "docs/validation/DES-012/display/results.md",
+        "docs/validation/DES-012/PR34/results.md"
       ]
     },
     {
       "id": "DES-013",
       "path": "docs/design/DES-013-pixel-barrel-z-coverage.md",
       "validation_reports": [
-        "docs/validation/DES-013-pixel-z/results.md"
+        "docs/validation/DES-013-pixel-z/results.md",
+        "docs/validation/DES-012/PR34/results.md"
       ]
     }
   ],
@@ -1913,11 +1953,11 @@
       "number": 34,
       "title": "Tracker: Test transverse pixel periphery and close z packing",
       "url": "https://github.com/asalzburger/nodd/pull/34",
-      "state": "open",
-      "head_revision": "b8d1002d718f4a466be3ef4d7fa95d2b13fd474a",
-      "merge_commit": null,
-      "merged_at": null,
-      "collected_at": "2026-10-01T09:45:01Z",
+      "state": "merged",
+      "head_revision": "ac56d6db1dd2dc40882f5ed39a76125096171a06",
+      "merge_commit": "4fd92926c61bc8281055ec21befcc43ebbe1c30c",
+      "merged_at": "2026-10-01T12:03:17Z",
+      "collected_at": "2026-10-01T13:32:37Z",
       "task": "TASK-TRK-PIXEL-Z",
       "documents": [
         "DES-013",
@@ -1925,7 +1965,26 @@
         "DES-011",
         "DES-012"
       ],
-      "scope": "Captured implementation/evidence revision; prototype for eventual approval. Six variants, 720 native track audits; cooling, sensor and mechanical approval remain pending. Follow-up closes tracking/logs and registers existing layout tests in CI.",
+      "scope": "Captured implementation/evidence revision; prototype for eventual approval. Six variants, 720 native track audits; cooling, sensor and mechanical approval remain pending. Follow-up closes tracking/logs and registers existing layout tests in CI. Subsequent explicit human instruction selects packed-200um as working baseline; merge alone is not design approval.",
+      "category": "project"
+    },
+    {
+      "id": "PR-35",
+      "number": 35,
+      "title": "Tracker: Implement selected pixel barrel baseline and technical drawings",
+      "url": "https://github.com/asalzburger/nodd/pull/35",
+      "state": "open",
+      "head_revision": "1ef9cc532e9ae00f46b39b7436e0d4fa31644830",
+      "merge_commit": null,
+      "merged_at": null,
+      "collected_at": "2026-10-01T13:45:41Z",
+      "task": "TASK-TRK-PIXEL-BASELINE",
+      "documents": [
+        "DES-012",
+        "DES-013",
+        "DES-002"
+      ],
+      "scope": "Captured implementation/drawing revision. Explicit PR34 working-baseline selection, standalone DD4hep migration, regenerated services and technical drawings. Native geometry/display checks pass; quad cooling/adverse cable capacity and engineering sign-off remain open. Later closeout updates tracking/logs and makes the stave-packing drawing support band use the exact compact slab width; detector geometry unchanged.",
       "category": "project"
     }
   ]

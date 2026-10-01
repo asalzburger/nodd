@@ -5,7 +5,7 @@ import math
 from pathlib import Path
 import unittest
 
-from outward import envelopes, gap, load_layout, section, _obb_overlap
+from outward import envelopes, gap, load_layout, section, stave_span, _obb_overlap
 
 
 class OutwardTests(unittest.TestCase):
@@ -55,6 +55,15 @@ class OutwardTests(unittest.TestCase):
         broad = envelopes(bodies, cfg)
         self.assertTrue(any(_obb_overlap(p, b) for p in broad for b in bodies
                             if p['module_id'] != b['module_id']))
+
+    def test_passive_span_rejects_module_overhang(self):
+        # Test-only two bodies occupying [-5, 5]; passive endpoints are independent.
+        bodies=[dict(center_mm=[0,0,z],half_v_mm=1,layer_id='test') for z in [-4,4]]
+        self.assertEqual(stave_span(bodies,{}),(-5,5))
+        self.assertEqual(stave_span(bodies,{'passive_stave_z_mm':{'test':[-6,7]}}),(-6,7))
+        for span in [[-4,7],[-6,4],[float('nan'),7],[7,-6]]:
+            with self.assertRaisesRegex(ValueError,'contain every occupied'):
+                stave_span(bodies,{'passive_stave_z_mm':{'test':span}})
 
     def test_gap_against_rotated_analytic_boxes(self):
         # Test-only two-mm squares: gaps are one mm and sqrt(2) mm.

@@ -8,7 +8,7 @@ from pathlib import Path
 import subprocess
 import sys
 
-from outward import ROOT, corners, envelopes, load_layout, section, sha, _obb_overlap
+from outward import ROOT, corners, envelopes, load_layout, section, sha, _obb_overlap, stave_span
 from services_geometry import body_envelope, _intersects
 
 
@@ -29,11 +29,11 @@ def make_mounts(layout, config, settings):
     # Every selected ring must sit within each continuous stave's occupied length.
     for b in bodies:
         column = [m for m in layout['bodies'] if m['layer_id'] == b['layer_id'] and m['col'] == b['col']]
-        lo = min(m['center_mm'][2]-m['half_v_mm'] for m in column)
-        hi = max(m['center_mm'][2]+m['half_v_mm'] for m in column)
+        lo, hi = stave_span(column, config)
         if zplanes[0]-config['rib_axial_mm']/2 < lo or zplanes[-1]+config['rib_axial_mm']/2 > hi:
             raise ValueError('Ring width extends past the continuous stave length')
-        if settings['foot_tangential_width_mm'] > config['families'][b['family']]['spine_mm']:
+        tangential_offset = sum(b['center_mm'][i]*b['u'][i] for i in range(2))
+        if abs(tangential_offset)+settings['foot_tangential_width_mm']/2 > config['families'][b['family']]['spine_mm']/2:
             raise ValueError('Foot must fit on the narrow spine back face')
     rings, feet, layers = [], [], []
     for lid in sorted({b['layer_id'] for b in bodies}):
@@ -238,7 +238,7 @@ def draw(layout, config, settings, mounts, result, output):
                 e=body_envelope(b)
                 a.add_patch(Rectangle((e['z_min_mm'], e['r_min_mm']), e['z_max_mm']-e['z_min_mm'], e['r_max_mm']-e['r_min_mm'], fc='#dfebe3', ec='#819a88', lw=.3))
             for col in [0,1]:
-                bs=[b for b in selected if b['col']==col]; zmin=min(b['center_mm'][2]-b['half_v_mm'] for b in bs); zmax=max(b['center_mm'][2]+b['half_v_mm'] for b in bs)
+                bs=[b for b in selected if b['col']==col]; zmin,zmax=stave_span(bs,config)
                 for p in boxes:
                     if p['layer_id']==lid and p['col']==col:
                         e=body_envelope(p)

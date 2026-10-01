@@ -6,8 +6,9 @@
 - Human direction: use PR #29, even unmerged, as the new baseline and implement
   its pixel barrels in DD4hep. Configurable provisional cable material was
   explicitly authorized in the same session.
-- Baseline: PR #29 at `c79c2194e23e99c4d2696ca2d6628a388b96f5e4`, with
+- Initial baseline: PR #29 at `c79c2194e23e99c4d2696ca2d6628a388b96f5e4`, with
   [human baseline confirmation](https://github.com/asalzburger/nodd/pull/29#issuecomment-5911774023).
+- Current working baseline: PR #34 `packed-200um`, explicitly selected on 2026-10-01; see PB-C14–18 and [DES-013 Z-C09](DES-013-pixel-barrel-z-coverage.md#working-baseline-adopted-on-2026-10-01). PR29 support/material architecture is retained with refreshed loads and clearances.
 - Governing designs: DES-001 (pinned module revision below),
   [DES-002](DES-002-pixel-barrel-support-cooling.md), DES-010, DES-011.
 - Linked work: [pixel module issue #7](https://github.com/asalzburger/nodd/issues/7),
@@ -103,3 +104,28 @@ indices and transparency after reopening a ROOT export in a fresh process.
 SRC-ROOT-TCOLOR documents the standard colour wheel; actual persistence is tested
 against the installed DD4hep/ROOT versions. Existing numerical evidence remains
 unchanged and is retained.
+
+## PR34 barrel baseline implementation — 2026-10-01
+
+The explicit [DES013 Z-C09 baseline selection](DES-013-pixel-barrel-z-coverage.md)
+authorizes updating this standalone DD4hep working default. It supersedes PR29's
+pixel module arrangement while retaining its outward-support concept and
+provisional materials. The former configuration and evidence remain available.
+The assembly remains a PROTOTYPE; the instruction does not establish a qualified
+sensor, adhesive, hydraulic system or production detector sign-off.
+
+| ID | Class | Implementation contract |
+| --- | --- | --- |
+| PB-C14 | NODD DESIGN CHOICE | Preserve every selected PR34 sensitive centre, finite bound, normal and source identifier. Use 3050 modules / 6794 patches on 82 staves; phi/z patch dimensions are 19.2/20.0 mm and Cartesian cell counts 384/400 at the unchanged 0.05 mm pitch. Endcaps and strips are excluded from this standalone assembly and remain unchanged in the source layout. |
+| PB-I02 | INFERENCE | Rotation moves the single-chip body centre −0.9 mm tangentially relative to its active centre. Stave orientation must come from its normal, with an independent tangential translation, not from the polar angle of its translated body centre. Rotate ASIC dies and graphite contacts together; use the source's anisotropic sensor guards. |
+| PB-C15 | NODD DESIGN CHOICE | Retain each PR29 passive stave/cooling endpoint and all six mounting-ring z stations. Shortening the active rows does not shorten the load-bearing support or detach an end ring. Recalculate ring radial envelopes and cable clearances from the new transverse module bodies. The radial foot remains centred on the nominal radial plane; verify its full width still lies on the tangentially shifted spine. |
+| PB-C16 | NODD DESIGN CHOICE | Regenerate cumulative cable pickups, power-chain counts, sector loads and effective end-bay material from all new module IDs. Keep the inherited cable scenarios and provisional material fractions. Cooling branches start at the retained physical evaporator ends, not at the shortened active-row ends, to avoid double-counting coolant/Ti lengths. |
+| PB-C17 | NODD DESIGN CHOICE | Keep the installed baseline pipe geometry and configured 1.3/2.5 g/s circuit flows while explicitly retaining the PR34 stress-quality failure and negligible single-stave margin. A derived required-flow target is a diagnostic, not an automatic hydraulic approval or silent flow change. |
+| PB-C18 | NODD DESIGN CHOICE | Produce dimensioned module faces/stack, stave z packing, four individual and one combined x–y barrel sections, mounting and services projections from the exact exported inputs. Retain SVG/PDF/PNG where available and source/config/artifact hashes. These are technical layout drawings, not manufacturing tolerances or qualified CAD. |
+
+Validation retains the existing overlap, transform, mass and ID tolerances.
+Add checks for tangentially translated frames, exact anisotropic sensor area,
+rotated die/contact containment, retained passive spans, mount contact, cable
+inventory and independent agreement with every selected source surface. Compare
+new material/navigation results with the retained PR29 report; preserve that
+report rather than replacing its evidence.
