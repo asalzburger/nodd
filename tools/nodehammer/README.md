@@ -77,6 +77,7 @@ Outputs in `build/nodehammer/pixel/`:
 | `full.nhproj` | All physical solids, including mounting and services |
 | `sensitive.nhproj` | Active sensor patches |
 | `stave.nhproj` | Layer 1, stave 0, including its nested cooling and modules |
+| `module.nhproj` | Module m1 only: substrate, active sensor, ASIC, flex/glue and graphite contact shim |
 | `*.glb` | The same selections in metre-based glTF 2.0 |
 | `*.toml` | Generated styles from `detector/config/display.json` |
 | `pixel.nhb`, `pixel.json`, `roundtrip.json` | Portable semantic geometry and audit inputs |
@@ -94,6 +95,11 @@ audit for explicit review rather than silently using an unknown style.
 ```sh
 build/nodehammer/native/nodehammer viewer open build/nodehammer/pixel/full.nhproj
 ```
+
+For the individual module, replace `full.nhproj` with `module.nhproj`. It selects
+only the m1 assembly and its descendants; stave, mounting and external service
+volumes are excluded. The current m1 is a single-pixel module with eight physical
+component placements. The world/assembly nodes carry no rendered geometry.
 
 Use the hierarchy to select or hide volumes and the angle-cut controls to expose
 the interior. Native transparency is not yet implemented at the pinned revision;
