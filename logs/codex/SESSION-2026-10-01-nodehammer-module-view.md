@@ -41,3 +41,7 @@ remains unsupported by the pinned viewer.
 No exact client per-turn counters or stable turn IDs were exposed. Usage is empty;
 input/output totals for this task are unknown, not zero. No estimates or repeated
 historical observations were added.
+
+Implementation commit: 48322e524922320c774d8674bfd70169165d4d53. Seven safeguards pass; dashboard validation/build
+and71 session records pass. Summary generated; task token counters unavailable.
+The implementation is included in PR33 with its description updated to the final scope.
