@@ -92,3 +92,14 @@ Canonical paired-log summary:134594309 observed input and674111 observed output
 tokens across79 recorded turns in42/73 sessions.31 sessions lack usage observations;
 this task contributes no fabricated counters. These historical observed sums are
 not the complete project total or this task's usage.
+
+## Pull request and closeout
+
+Created draft [PR37](https://github.com/asalzburger/nodd/pull/37), stacked on PR36,
+with implementation revision d2a0f3e and evidence revision aed99ce. The original
+main working changes were rechecked and preserved. Git staging encountered a
+sandbox index-lock denial and PR creation a sandbox network failure; authorized
+retries succeeded. Hosted checks are distinct from the completed local native
+workflow. No force push, merge, design approval or event transport was performed.
+An initial closeout activity record lacked required version/evidence fields;
+those schema fields were filled and session validation passed.
