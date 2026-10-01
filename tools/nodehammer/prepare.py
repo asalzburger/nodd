@@ -83,9 +83,8 @@ def audit(scene, expected, palette):
         material = materials[volumes[node["logVolId"]]["materialId"]]
         if material["name"] not in ("Air", "dummy"):
             physical.add(key)
-            style = palette[style_name(material["name"])]
-            if max(abs(a - b) for a, b in zip(material["color"], style["rgb"])) > 1e-6:
-                raise ValueError(f"material RGB differs: {material['name']}")
+            if style_name(material["name"]) not in palette:
+                raise ValueError(f"unclassified display material: {material['name']}")
         if node.get("degradation", 0):
             raise ValueError(f"degraded import: {name}")
     expected_names = {e["name"] for e in expected["entities"]}
@@ -114,7 +113,9 @@ def audit(scene, expected, palette):
         "max_centre_error_mm": max_centre_error, "centre_tolerance_mm": CENTRE_TOLERANCE_MM,
         "max_sensor_normal_error": max_normal_error,
         "physical_shape_counts": dict(Counter(shapes[volumes[nodes[k]["logVolId"]]["shapeId"]]["type"] for k in physical)),
-        "material_rgb_checked": True, "semantic_length_unit": "cm",
+        "material_rgb_checked": False,
+        "display_rgb_source": "config palette, independent of imported ROOT colour",
+        "semantic_length_unit": "cm",
         "gltf_unit_scale": METRES_PER_CM,
     }, nodes, physical
 
@@ -222,7 +223,8 @@ def main():
     roundtrip_report, nodes, physical = audit(portable, expected, palette)
     report["nhb_roundtrip"] = roundtrip_report
     views = {"full": None, "sensitive": 'tag.sensitive == "true"',
-             "stave": 'path ~= "**/layer1_stave0" || path ~= "**/layer1_stave0/**"'}
+             "stave": 'path ~= "**/layer1_stave0" || path ~= "**/layer1_stave0/**"',
+             "module": 'path ~= "**/m1" || path ~= "**/m1/**"'}
     report["views"] = {}
     for name, selection in views.items():
         config = out / f"{name}.toml"
@@ -236,8 +238,9 @@ def main():
         wanted = physical
         if name == "sensitive":
             wanted = {k for k in physical if nodes[k].get("tags", {}).get("sensitive") == "true"}
-        elif name == "stave":
-            root = next(k for k, n in nodes.items() if n["name"] == "layer1_stave0")
+        elif name in ("stave", "module"):
+            selected_name = {"stave": "layer1_stave0", "module": "m1"}[name]
+            root = next(k for k, n in nodes.items() if n["name"] == selected_name)
             descendants, pending = set(), [root]
             while pending:
                 key = pending.pop()

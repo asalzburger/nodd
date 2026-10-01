@@ -85,10 +85,13 @@ Volume attributes are assigned by material family, including nested tubes/coolan
 
 Supports and service envelopes have partial transparency to expose nested parts.
 This is a viewing convention, not a change in material or an extra void fraction.
-The palette's `rgb` values match the specified standard ROOT `root_color` index;
-The C++ display helper assigns that exact index to ROOT line/fill attributes,
-avoiding approximate RGB matching. Keep both consistent when selecting a different
-standard colour. `alpha` controls opacity independently.
+The palette's `root_color` and `rgb` settings are independent. The C++ display
+helper assigns `root_color` to ROOT line/fill attributes, so `geoDisplay` and
+ROOT exports use that index's colour. `rgb` supplies the DD4hep visualization
+colour and RGB-based tools such as nodehammer; it need not match the ROOT index.
+`alpha` requests opacity independently. The export check verifies the ROOT index
+and persistence of its actual RGB and transparency. It does not require ROOT RGB
+to match config `rgb`, or effective transparency to exactly match config `alpha`.
 See [ROOT's predefined colours](https://root.cern.ch/doc/v636/classTColor.html).
 
 Rebuild, close the old display, and reopen the maintained compact to see changes.
