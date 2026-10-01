@@ -1,5 +1,11 @@
 # Optional nodehammer display
 
+For the preliminary barrel plus PR36 endcaps, use the
+[combined pixel workflow](../pixel_detector_dd4hep/README.md). It generates full,
+barrel, endcap, disc, stave, module and sensitive-only projects with the same
+import/round-trip audits. The instructions below retain the barrel-only defaults.
+
+
 Nodehammer is useful for interactive geometry selection, cutaways and sharing a
 portable pixel-barrel scene. Use it alongside DD4hep `geoDisplay` and the
 [geometry validation](../../detector/README.md), whose physics checks remain
