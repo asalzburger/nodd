@@ -112,6 +112,16 @@ def shape_capacity(shape):
         raise ValueError("CSG audit requires a complete cylinder")
     matrix = node.GetRightMatrix()
     rotation = [float(matrix.GetRotationMatrix()[i]) for i in range(9)]
+    # DES015 tongue: radial box with its circular-plate intersection removed.
+    identity = [1.,0.,0.,0.,1.,0.,0.,0.,1.]
+    if operation == "TGeoSubtraction" and str(left.ClassName()) == "TGeoBBox" and max(abs(a-b) for a,b in zip(rotation,identity)) < 1e-12:
+        tx,ty,tz = [float(matrix.GetTranslation()[i]) for i in range(3)]
+        a,b,c = float(left.GetDX()),float(left.GetDY()),float(left.GetDZ())
+        radius = float(right.GetRmax())
+        start,end = -tx-a,-tx+a
+        if abs(ty)>1e-12 or abs(tz)>1e-12 or start<=0 or math.hypot(start,b)>=radius or end<=radius or right.GetDz()<c:
+            raise ValueError("unsupported endcap tongue subtraction")
+        return (2*b*end-b*math.sqrt(radius*radius-b*b)-radius*radius*math.asin(b/radius))*2*c
     expected_rotation = [1.0, 0.0, 0.0, 0.0, 0.0, -1.0, 0.0, 1.0, 0.0]
     if max(abs(a - b) for a, b in zip(rotation, expected_rotation)) > 1e-12:
         raise ValueError("unsupported CSG cylinder orientation")
@@ -302,14 +312,16 @@ def compare_entities(observed, expected, tolerance_mm=1e-7):
 
 
 def check_packed_identifiers(detector, ROOT, sensors, expected, dd4hep):
-    specification = detector.readout("PixelBarrelHits").idSpec()
-    decoder = specification.decoder()
     packed_ids, errors = set(), []
-    segmentation = detector.readout("PixelBarrelHits").segmentation()
     cells_checked = 0
     pitch = float(expected["readout_pitch_mm"])
     cell_ranges = set()
+    readouts = expected.get("readouts_by_system", {"1": "PixelBarrelHits"})
     for sensor in sensors:
+        readout_name = readouts.get(str(sensor["ids"]["system"]), expected["readout"])
+        specification = detector.readout(readout_name).idSpec()
+        decoder = specification.decoder()
+        segmentation = detector.readout(readout_name).segmentation()
         fields = ROOT.std.vector("pair<string,int>")()
         for key, value in sorted(sensor["ids"].items()):
             fields.emplace_back(key, value)
@@ -363,7 +375,7 @@ def check_packed_identifiers(detector, ROOT, sensors, expected, dd4hep):
         "passed": not errors,
         "errors": errors,
         "unique_volume_ids": len(packed_ids),
-        "readout": "PixelBarrelHits",
+        "readouts": sorted(set(readouts.values())),
         "pixel_cell_fields": "x,y remain zero for volume IDs",
         "cell_centres_checked": cells_checked,
         "patch_grids": sorted(cell_ranges),
@@ -418,6 +430,7 @@ def trace_ray(
         "l_over_lambda": interaction,
         "sensitive_crossings": len(hits),
         "hits_by_layer": dict(sorted(by_layer.items())),
+        "hits_by_detector_layer": dict(sorted(Counter(f"{sensitive_paths[path]['ids']['system']}:{sensitive_paths[path]['ids']['layer']}" for path in hits).items())),
         "crossed_layers": len(by_layer),
         "material_path_mm": dict(sorted(materials.items())),
         "boundary_steps": steps,
@@ -478,12 +491,25 @@ def validate(args):
                 )
                 ray.update(eta=eta, phi_rad=phi)
                 rays.append(ray)
+    if "readouts_by_system" in expected:
+        # Exercise every endcap plane with an independently directed centre ray.
+        targets = {}
+        for s in expected_sensors:
+            if s["ids"]["system"] != 1:
+                targets.setdefault((s["ids"]["system"],s["ids"]["layer"]),s)
+        for key,s in sorted(targets.items()):
+            length=math.sqrt(sum(x*x for x in s["center_mm"]))
+            ray=trace_ray(manager,dd4hep,[0.,0.,0.],[x/length for x in s["center_mm"]],sensor_paths)
+            ray.update(target_detector_layer=list(key))
+            rays.append(ray)
+            if f"{key[0]}:{key[1]}" not in ray["hits_by_detector_layer"]:
+                errors.append(f"targeted ray missed endcap plane {key}")
     if not any(r["sensitive_crossings"] for r in rays):
         errors.append(
             "none of the deterministic navigation rays crossed a sensitive volume"
         )
-    expected_layers = {s["ids"]["layer"] for s in expected_sensors}
-    crossed_layers = {layer for ray in rays for layer in ray["hits_by_layer"]}
+    expected_layers = {f"{s['ids']['system']}:{s['ids']['layer']}" for s in expected_sensors}
+    crossed_layers = {layer for ray in rays for layer in ray["hits_by_detector_layer"]}
     if crossed_layers != expected_layers:
         errors.append(
             f"navigation did not exercise all pixel layers: {sorted(crossed_layers)} vs {sorted(expected_layers)}"
@@ -531,7 +557,7 @@ def validate(args):
             "maximum_sensor_crossings": max(r["sensitive_crossings"] for r in rays),
             "maximum_boundary_steps": max(r["boundary_steps"] for r in rays),
         },
-        "navigation_sampling": "75 deterministic rays; three luminous origins, five eta, five phi; no random seed",
+        "navigation_sampling": f"{len(rays)} deterministic rays; base 75 rays plus one directed ray per endcap plane when present; no random seed",
         "material_accounting": "Exclusive volumes; world medium excluded. Primitive capacities and independently inspected curved-foot CSG have analytical capacities.",
         "limitations": [
             "No Geant4 transport, magnetic bending or ACTS conversion in this DD4hep-only test.",

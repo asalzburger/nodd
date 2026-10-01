@@ -12,7 +12,8 @@
 
 namespace nodd {
 
-// All component-local frames are (u=tangent, v=beam, w=outward radial).
+// Module frames are (u,v) in the sensor plane, with +w toward the support.
+// Stave frames use (u=tangent, v=beam, w=outward radial).
 // XML lengths are evaluated by DD4hep and must carry explicit units.
 struct ModuleBuild {
   dd4hep::Assembly volume;

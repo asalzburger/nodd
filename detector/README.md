@@ -1,5 +1,11 @@
 # Pixel barrel DD4hep prototype
 
+The combined preliminary pixel barrel **and endcaps** are now available through
+[the DES015 workflow](../tools/pixel_detector_dd4hep/README.md). It builds the
+separate `pixel-detector/pixel-detector.xml` entry point and nodehammer projects,
+including a single disc. The barrel-only workflow below remains supported.
+
+
 This standalone assembly implements the human-selected PR #34 `packed-200um`
 baseline at `ac56d6db1dd2dc40882f5ed39a76125096171a06`, retaining the PR29 outward
 support architecture. It contains 3,050 modules and 6,794 active chip patches. Its implementation contract is

@@ -89,7 +89,7 @@ def audit(scene, expected, palette):
         if node.get("degradation", 0):
             raise ValueError(f"degraded import: {name}")
     expected_names = {e["name"] for e in expected["entities"]}
-    if set(mapped) != expected_names | {"world", "PixelBarrel"}:
+    if set(mapped) != expected_names | {"world", *expected.get("detector_names", ["PixelBarrel"])}:
         raise ValueError("imported entity inventory differs from expected.json")
     max_centre_error = max_normal_error = 0.0
     for entity in expected["entities"]:
@@ -142,6 +142,42 @@ def config_text(palette, materials, selection=None):
                       f'material = "{style_name(name)}"']
     lines += ["[[rules]]", "[rules.tessellation]", "max_segments_circle = 96", 'fallback = "fail"']
     return "\n".join(lines) + "\n"
+
+
+def rescale_glb_translations(path, render):
+    """Repair pinned upstream float32 cm->m multiplication, preserving all meshes.
+
+    Accept only the exact observed float32 calculation (or the already exact
+    double result). An arbitrary translation/scale error is rejected before
+    rewriting. GLB JSON matrices support double precision numbers.
+    """
+    data=path.read_bytes()
+    magic,version,total=struct.unpack_from("<III",data)
+    size,kind=struct.unpack_from("<II",data,12)
+    if (magic,version,kind)!=(0x46546C67,2,0x4E4F534A) or total!=len(data):
+        raise ValueError("unsupported GLB container")
+    gltf=json.loads(data[20:20+size]);tail=data[20+size:]
+    if len(gltf["nodes"])!=len(render["nodes"]):
+        raise ValueError("GLB node inventory differs")
+    f32=lambda v:struct.unpack("<f",struct.pack("<f",v))[0]
+    maximum=0.;changed=0
+    for node,ref in zip(gltf["nodes"],render["nodes"]):
+        if node["name"]!=ref["name"]:raise ValueError("GLB node ordering changed")
+        for i in (12,13,14):
+            source=ref["localTransform"][i]
+            exact=source*METRES_PER_CM
+            single=f32(f32(source)*f32(METRES_PER_CM))
+            actual=node["matrix"][i]
+            if actual not in (exact,single):
+                raise ValueError("GLB translation is not the verified float32 unit conversion")
+            maximum=max(maximum,abs(actual-exact));changed+=actual!=exact
+            node["matrix"][i]=exact
+    payload=json.dumps(gltf,separators=(",",":"),ensure_ascii=True).encode()
+    payload+=b" "*((-len(payload))%4)
+    path.write_bytes(struct.pack("<III",magic,version,20+len(payload)+len(tail))+
+                     struct.pack("<II",len(payload),kind)+payload+tail)
+    return {"translations_corrected":changed,"maximum_rounding_correction_m":maximum,
+            "mesh_binary_unchanged":True,"method":"exact float32 conversion verified; JSON translations rescaled in double precision"}
 
 
 def audit_glb(path, render, palette, semantic):
@@ -223,6 +259,12 @@ def main():
     report["nhb_roundtrip"] = roundtrip_report
     views = {"full": None, "sensitive": 'tag.sensitive == "true"',
              "stave": 'path ~= "**/layer1_stave0" || path ~= "**/layer1_stave0/**"'}
+    roots = {"stave": "layer1_stave0"}
+    if "PixelEndcapP" in expected.get("detector_names", []):
+        roots.update(barrel="PixelBarrel", endcap="PixelEndcapP", disc="discP1",
+                     module=next(e["name"] for e in expected["entities"] if e["role"]=="module" and e["ids"]["system"]==3))
+        for view, root_name in roots.items():
+            views[view] = f'path ~= "**/{root_name}" || path ~= "**/{root_name}/**"'
     report["views"] = {}
     for name, selection in views.items():
         config = out / f"{name}.toml"
@@ -236,8 +278,8 @@ def main():
         wanted = physical
         if name == "sensitive":
             wanted = {k for k in physical if nodes[k].get("tags", {}).get("sensitive") == "true"}
-        elif name == "stave":
-            root = next(k for k, n in nodes.items() if n["name"] == "layer1_stave0")
+        elif name in roots:
+            root = next(k for k, n in nodes.items() if n["name"] == roots[name])
             descendants, pending = set(), [root]
             while pending:
                 key = pending.pop()
@@ -247,7 +289,11 @@ def main():
         if bindings != wanted:
             raise ValueError(f"{name}: tessellated placements differ: {len(bindings)} != {len(wanted)}")
         run("convert", "-i", out / "pixel.nhb", "-c", config, "-o", out / f"{name}.glb")
-        glb_report = audit_glb(out / f"{name}.glb", render, palette, portable["content"])
+        glb_path=out / f"{name}.glb"
+        raw_glb_sha=sha(glb_path)
+        rescaling=rescale_glb_translations(glb_path,render)
+        glb_report = audit_glb(glb_path, render, palette, portable["content"])
+        glb_report.update(translation_rescaling=rescaling,upstream_glb_sha256=raw_glb_sha)
         run("project", "pack", "-i", out / "pixel.nhb", "-c", config, "-o", out / f"{name}.nhproj")
         run("project", "info", out / f"{name}.nhproj")
         report["views"][name] = {"mesh_placements": len(bindings), "mesh_assets": len(render["meshAssets"]),
