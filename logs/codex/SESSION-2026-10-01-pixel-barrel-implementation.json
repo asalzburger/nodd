@@ -22,7 +22,9 @@
     "start_commit": "4fd92926c61bc8281055ec21befcc43ebbe1c30c",
     "branch": "tracker/pixel-barrel-baseline",
     "initial_changes": [],
-    "result_commits": [],
+    "result_commits": [
+      "8a09567f89c9a1ce2f9eebeb4a101ceb6c4f08f3"
+    ],
     "changed_files": [
       "detector/CMakeLists.txt",
       "detector/README.md",
@@ -257,6 +259,24 @@
       "status": "FAIL",
       "exit_code": 1,
       "result": "Direct Python deliverable paths are outside curated-text evidence policy. Linked the README and report instead; no dashboard policy weakened."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py build --output _site/pr34; unittest discover -s tools/dashboard",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Dashboard build and all27tests pass after curated evidence path correction."
+    },
+    {
+      "command": "git diff --cached --check before first implementation commit",
+      "status": "FAIL",
+      "exit_code": 2,
+      "result": "New Matplotlib SVGs contained trailing path whitespace. Added the same line normalization already used by support drawing generators; regenerated module/stave/joint sheets."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate; summary",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "71 records valid. Project snapshot:42/71sessions,79turns observed;134594309input/674111output tokens. This task has no exact counters,usageempty; older observed totals do not cover it."
     }
   ]
 }

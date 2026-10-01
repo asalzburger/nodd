@@ -17,7 +17,9 @@ def val(node,key):return float(node.get(key).split('*')[0])
 def save(fig,output,name):
     for ext in ('svg','pdf','png'):
         metadata={'Date':None} if ext=='svg' else ({'CreationDate':None,'ModDate':None} if ext=='pdf' else {})
-        fig.savefig(output/(name+'.'+ext),dpi=180,metadata=metadata)
+        target=output/(name+'.'+ext)
+        fig.savefig(target,dpi=180,metadata=metadata)
+        if ext=='svg':target.write_text('\n'.join(line.rstrip() for line in target.read_text().splitlines())+'\n')
     plt.close(fig)
 
 

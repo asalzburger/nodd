@@ -50,7 +50,7 @@ No shared dependency was installed or modified.
 
 Commands and actual results are listed in the paired JSON. Initial failures were
 an import-name collision, a source pin caught during concurrent refresh/build,
-and an invalid dashboard output directory. Each was corrected directly. The
+an invalid dashboard output directory and uncurated Python-file dashboard links. Each was corrected directly. The
 final3/3CTest includes12 exporter/validator tests;19 support tests pass. Additional
 PR29/control and Cu5/Cu20 native runs pass. Independent source-box checks reproduce
 75rays per layout; Cu5/10/20 retains identical paths/IDs and monotonic material response.
@@ -59,6 +59,12 @@ Drawings were inspected visually. Nodehammer conversion/NHB reload and all three
 view mesh/GLB audits pass. No desktop screenshot was needed or claimed. The
 retained results record generator hashes and dirty base revision; the enclosing
 Git history identifies the implementation commit.
+
+Final dashboard build and27tests pass; session validation passes for71records.
+New module-sheet SVG path whitespace was normalized to match existing support
+drawing generators after the staged diff check exposed it. Project usage snapshot:
+42/71sessions and79turns have observations,134594309input/674111output tokens;
+this task contributes no unobserved or estimated counters.
 
 ## Provenance and deliverables
 
