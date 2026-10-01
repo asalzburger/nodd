@@ -89,3 +89,7 @@ is empty, not zero. Repository-wide summary includes earlier observations only:
 134,594,309 input and 674,111 output tokens across 79 recorded turns in 42 of 70
 sessions at this checkout; it does not measure this task's token consumption.
 No raw private client state or inferred token counts were collected.
+
+## Publication and closeout
+
+Opened [PR #34](https://github.com/asalzburger/nodd/pull/34) at implementation/evidence commit b8d1002d718f4a466be3ef4d7fa95d2b13fd474a. Added the six new layout controls to the existing CI workflow; no dependency added. Eighteen bulky generated JSON reports were losslessly archived with byte-for-byte round-trip checks; report rendering works from the retained archives. A follow-up commit records PR metadata and this closeout. User main checkout changes remain preserved.
