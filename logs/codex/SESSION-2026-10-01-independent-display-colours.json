@@ -1,0 +1,101 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-01-independent-display-colours",
+  "title": "Allow independent ROOT/RGB display colours and effective transparency",
+  "recorded_at": "2026-10-01T08:00:33Z",
+  "started_at": null,
+  "ended_at": null,
+  "status": "open",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact client-reported per-turn input/output counters and client turn IDs unavailable; usage remains empty.",
+    "User palette and unrelated historical usage files in the shared checkout were preserved and excluded from this PR."
+  ],
+  "client": {
+    "name": "unspecified",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "5125f08bfb5899212d70354204489d1413b27c92",
+    "branch": "software/nodehammer-integration",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      "detector/README.md",
+      "docs/design/DES-012-dd4hep-pixel-barrels.md",
+      "docs/validation/nodehammer/independent-colours.json",
+      "docs/validation/nodehammer/independent-colours.md",
+      "logs/codex/SESSION-2026-10-01-independent-display-colours.json",
+      "logs/codex/SESSION-2026-10-01-independent-display-colours.md",
+      "project/tracking.json",
+      "tools/nodehammer/README.md",
+      "tools/nodehammer/prepare.py",
+      "tools/nodehammer/test_prepare.py",
+      "tools/pixel_barrel_dd4hep/export_root.py",
+      "tools/pixel_barrel_dd4hep/test_display.py"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [
+      "display validation",
+      "nodehammer",
+      "DD4hep"
+    ],
+    "related_ids": [
+      "DES-012",
+      "TASK-SOFT-NODEHAMMER",
+      "TASK-SOFT-DD4HEP-PIXEL",
+      "PR-32"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-01-independent-display-colours.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 skills/acts-spack/scripts/preflight.py",
+      "status": "FAIL",
+      "exit_code": 2,
+      "result": "Recorded setup/lock fingerprints changed; actual build, ROOT export and nodehammer workflow verified subsequently."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/pixel_barrel_dd4hep -p 'test_display.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "4/4 pass: independent RGB/transparency accepted; wrong and undefined ROOT indices rejected."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/nodehammer -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "7/7 pass, including an independent imported ROOT/config RGB fixture."
+    },
+    {
+      "command": "cmake --build build/dd4hep --parallel 4; ctest --test-dir build/dd4hep --output-on-failure",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "3/3 pass in17.67s with user-edited palette, including fresh ROOT process round trip."
+    },
+    {
+      "command": "prepare.main() with ROOT set to the shared user checkout and output build/nodehammer/independent-colours",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Full/sensitive/stave exports pass entity, mesh, units and configured GLB RGBA checks while permitting different imported ROOT RGB."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate; python3 -B tools/dashboard/build.py build",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "35 tasks,14 documents,15 review rounds validate; dashboard builds."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors."
+    }
+  ]
+}
