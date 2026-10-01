@@ -19,6 +19,8 @@ def sha(path):
 
 
 def style_name(material):
+    if material.startswith("EC_"):
+        return material.split("_")[1]
     if material.endswith("_Core"):
         return "Foam"
     if material.startswith("CableMix_"):

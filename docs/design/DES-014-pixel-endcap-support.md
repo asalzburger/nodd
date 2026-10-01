@@ -13,6 +13,14 @@
   screening model. Production geometry and baseline sensitive transforms stay fixed.
   Human review of this proposal is required before implementation.
 
+**2026-10-01 preliminary-baseline selection:** the human maintainer subsequently
+selected this PR's recommended proposal B together with the existing pixel barrel
+and requested DD4hep/nodehammer implementation. [DES-015](DES-015-preliminary-pixel-detector.md)
+records that authorization and the effective implementation boundaries. Statements
+below that B is “not adopted” describe the original screening stage; B is now the
+preliminary working baseline, with its thermal/service failures retained. This
+does not advance the formal design lifecycle or alter the frozen study evidence.
+
 ## Contract before modelling
 
 | ID | Classification | Requirement / rationale |
