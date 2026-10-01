@@ -62,3 +62,12 @@ commands/checks and the changed-file inventory.
 Review the software correction. Native nodehammer BLEND rendering remains an
 upstream limitation; relaxing validation does not implement transparency in the
 renderer. The old report/screenshots remain evidence for their original inputs.
+
+## Publication
+
+Published [PR33](https://github.com/asalzburger/nodd/pull/33) at implementation
+revision53ad68477d7aad66d59a7068a05c0c0cb456ca33. Closing metadata does not change the tested implementation.
+Final logging validation passed70 records and the summary command succeeded;
+this task has no token observations. No new public source or detector parameter
+was added. The user can open the refreshed independent-colours/full.nhproj with
+the existing native binary from the DD4hep-enabled terminal.
