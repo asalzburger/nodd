@@ -4,8 +4,8 @@
   "title": "Add a single-module nodehammer project",
   "recorded_at": "2026-10-01T08:42:29Z",
   "started_at": null,
-  "ended_at": null,
-  "status": "open",
+  "ended_at": "2026-10-01T09:01:57Z",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
@@ -21,7 +21,9 @@
     "start_commit": "5b9c29a04e84391a8782bc31f0aba63539b32828",
     "branch": "software/independent-display-colours",
     "initial_changes": [],
-    "result_commits": [],
+    "result_commits": [
+      "48322e524922320c774d8674bfd70169165d4d53"
+    ],
     "changed_files": [
       "docs/validation/nodehammer/module-view.json",
       "logs/codex/SESSION-2026-10-01-nodehammer-module-view.json",
@@ -51,6 +53,30 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "All4 views pass. Module has8 physical mesh placements,7 mesh assets,10 structural/render nodes; all8 box dimensions and10 transforms checked in GLB; configured RGBA/BLEND checked. Archive packed and project info read successfully."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/nodehammer -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "7/7 pass."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate; python3 -B tools/dashboard/build.py build",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "35 tasks,14 documents,15 reviews validated; site builds."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate; python3 tools/session_logging/session_log.py summary --format json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "71 records validate; summary succeeds, task token counts unavailable."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Pass."
     }
   ]
 }
