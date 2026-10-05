@@ -1,5 +1,11 @@
 # Optional nodehammer display
 
+For the preliminary barrel plus PR36 endcaps, use the
+[combined pixel workflow](../pixel_detector_dd4hep/README.md). It generates full,
+barrel, endcap, disc, stave, module and sensitive-only projects with the same
+import/round-trip audits. The instructions below retain the barrel-only defaults.
+
+
 Nodehammer is useful for interactive geometry selection, cutaways and sharing a
 portable pixel-barrel scene. Use it alongside DD4hep `geoDisplay` and the
 [geometry validation](../../detector/README.md), whose physics checks remain
@@ -101,8 +107,9 @@ only the first module assembly in `(system, layer, stave, module)` identifier
 order and its descendants; stave, mounting and external service volumes are
 excluded. The chosen name is recorded as `views.module.source_module` in
 `report.json`. On the current barrel baseline this is `m23142`, a single-pixel
-module with eight physical component placements. The world/assembly nodes carry
-no rendered geometry.
+module with eight physical component placements. For the combined compact, the
+module view instead selects the first positive-endcap module (system 3), using
+the same identifier order. The world/assembly nodes carry no rendered geometry.
 
 Use the hierarchy to select or hide volumes and the angle-cut controls to expose
 the interior. Native transparency is not yet implemented at the pinned revision;

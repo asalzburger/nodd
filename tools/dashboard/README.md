@@ -3,6 +3,15 @@
 Build with Python 3.10 or newer and Git; no Python packages, JavaScript toolchain,
 network calls or TDR submodule checkout are required.
 
+A fresh clone can lack historical review commits or recorded merges after a
+branch is rebased. Before validation, CI explicitly runs
+`python3 -B tools/dashboard/fetch_evidence.py` to fetch missing commit SHAs from
+`origin`. Run this command locally when validation reports missing Git evidence.
+It reads review targets and merged PR heads/merges, validates full SHAs, and
+fetches only absent commits. Unavailable evidence fails the step; ancestry and
+approval checks still run unchanged in the offline builder. This separate
+preparation command requires network access when commits are missing.
+
 ```sh
 python3 -B tools/dashboard/build.py validate
 python3 -B -m unittest discover -s tools/dashboard -p 'test_*.py' -v

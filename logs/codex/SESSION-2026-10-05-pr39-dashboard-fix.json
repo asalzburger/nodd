@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-05-pr39-dashboard-fix",
+  "title": "Fix PR39 dashboard failure in a fresh CI checkout",
+  "recorded_at": "2026-10-05T13:46:10Z",
+  "started_at": null,
+  "ended_at": null,
+  "status": "open",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact client-reported per-turn token counters, client version, thread ID and actual conversation start time are unavailable; usage remains empty.",
+    "No tool invocation/duration aggregate was measured; activities is empty.",
+    "Hosted verification is pending in this initial record.",
+    "Primary local main has unrelated user detector/display edits and usage files, preserved by using the existing PR39 worktree."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "cb76e517dc0ac8f1dd7bcf6f5184b3361ef50d0b",
+    "branch": "rebase/pr39-2026-10-05",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      ".github/workflows/dashboard.yml",
+      "tools/dashboard/fetch_evidence.py",
+      "tools/dashboard/test_fetch_evidence.py",
+      "tools/dashboard/README.md",
+      "project/tracking.json",
+      "logs/codex/SESSION-2026-10-05-pr39-dashboard-fix.json",
+      "logs/codex/SESSION-2026-10-05-pr39-dashboard-fix.md"
+    ]
+  },
+  "work": {
+    "milestone": "M3",
+    "components": [
+      "Dashboard CI",
+      "Historical Git evidence"
+    ],
+    "related_ids": [
+      "PR-39",
+      "PR-37",
+      "ADR-003",
+      "ADR-004"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-05-pr39-dashboard-fix.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "gh run view 37317957178 --log-failed",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Inspected failed job at cb76e51. Validate project records failed because historical PR37 merge 78bc60bb6da0c9d234baf00d37cadea9dd4964b4 was missing."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate (fresh single-branch clone, before history fetch)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Reproduced exact hosted failure: Cannot resolve Git evidence: cat-file -e 78bc60bb6da0c9d234baf00d37cadea9dd4964b4^{commit}."
+    },
+    {
+      "command": "python3 -B tools/dashboard/fetch_evidence.py --repo /tmp/nodd-pr39-clean-ci",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Fetched7 absent pinned commits from origin, including historical merge78bc60b and original head db74bec. GitHub accepted all exact SHAs. No tracking/review hashes were replaced."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate (same clean clone after fetch)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "40 tasks,21 documents,19 review rounds validate with original builder unchanged."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py build (same clean clone after fetch)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Static dashboard built successfully after restoring recorded Git evidence."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/dashboard -p test_fetch_evidence.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "4 tests pass: fresh clone recovery and ancestry/idempotence; open snapshot exclusion; invalid SHA rejection before fetch; unavailable commit fetch failure."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/dashboard -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "31 tests pass, including the four new recovery controls."
+    },
+    {
+      "command": "python3 -B tools/dashboard/fetch_evidence.py (existing worktree)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No absent commits; no fetch performed."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate && python3 -B tools/dashboard/build.py build (existing worktree)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validation and static dashboard build pass locally."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors."
+    }
+  ]
+}

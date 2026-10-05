@@ -1546,7 +1546,7 @@
     {
       "id": "TASK-TRK-PIXEL-ENDCAP-SUPPORT",
       "title": "Design common pixel endcap supports, mounting and services",
-      "scope": "DRAFT passive-support study; proposed sensor-z amendment isolated from working layout and DD4hep.",
+      "scope": "Completed support study; proposal B selected as preliminary baseline by human instruction on 2026-10-01, implementation governed by DES015.",
       "stage": "B",
       "milestones": [
         "M1"
@@ -1575,9 +1575,9 @@
         "DES-013"
       ],
       "updated": "2026-10-01",
-      "next_action": "Review support-driven z/face proposal; close thermal resistance and adverse cable capacity before adoption; coverage/ACTS and material study follow any approved placement amendment.",
+      "next_action": "Resolve thermal stress and service capacity; qualify effective local interfaces and re-evaluate shifted endcap coverage.",
       "blocker": null,
-      "disposition": "Design-study deliverable complete, no sign-off. Common 112-module disc, carbon sandwich, three carrier-backed rails and 10 circuits/disc. Nominal component envelope checks pass; thermal stress target and adverse service cases fail explicitly. Existing baseline remains unchanged.",
+      "disposition": "Design-study deliverable complete, no sign-off. Common 112-module disc, carbon sandwich, three carrier-backed rails and 10 circuits/disc. Nominal component envelope checks pass; thermal stress target and adverse service cases fail explicitly. Existing baseline remains unchanged. On 2026-10-01 the human maintainer selected B as preliminary baseline, with the failed engineering screens retained; no formal sign-off.",
       "subsystem": "tracker"
     },
     {
@@ -1621,6 +1621,49 @@
       "disposition": "Chip family/revision fixed; RD53i shorthand defined in DES-001. Module-only scope directed on2026-09-17; nominal thicknesses are proposed choices and material subtotal is partial. Designs/ADR remain DRAFT; no approval or production integration. Main 5c4fe35 reconciled into PR #8 on 2026-10-05; scientific files and approval states preserved.",
       "subsystem": "tracking and timing",
       "category": "project"
+    },
+    {
+      "id": "TASK-TRK-PIXEL-COMBINED",
+      "title": "Implement preliminary pixel barrels and endcaps in DD4hep and nodehammer",
+      "scope": "User-selected standalone preliminary baseline combining PR35 barrel and PR36 proposal B; explicit effective material boundaries.",
+      "stage": "B",
+      "milestones": [
+        "M1",
+        "M3"
+      ],
+      "workstream": "WS-TRACK",
+      "role": "Tracker technician",
+      "owner": null,
+      "state": "completed",
+      "dependencies": [
+        "TASK-TRK-PIXEL-BASELINE",
+        "TASK-TRK-PIXEL-ENDCAP-SUPPORT"
+      ],
+      "deliverables": [
+        "docs/design/DES-015-preliminary-pixel-detector.md",
+        "tools/pixel_detector_dd4hep/README.md",
+        "detector/config/pixel-detector.json",
+        "docs/validation/DES-015/results.md"
+      ],
+      "evidence": [
+        "docs/validation/DES-015/results.md",
+        "docs/validation/DES-015/native.json",
+        "docs/validation/DES-015/nodehammer.json",
+        "docs/validation/DES-015/workflow.json",
+        "docs/validation/DES-015/pr39-rebase.json",
+        "logs/codex/SESSION-2026-10-05-pr39-rebase.md"
+      ],
+      "documents": [
+        "DES-015",
+        "DES-014",
+        "DES-012",
+        "DES-013"
+      ],
+      "updated": "2026-10-05",
+      "next_action": "Use preliminary compact for the Geant4 transport/hit tutorial; resolve flange packing and inherited thermal/service failures before engineering acceptance.",
+      "blocker": null,
+      "disposition": "Implemented and validated as a preliminary standalone baseline: 5066 modules,14858 chips,zero ROOT overlaps,93 navigation rays,7 nodehammer projects,Geant4 initialization with zero events. Effective material approximations explicit; rear flange reference packing fails. No formal sign-off. On 2026-10-05 PR39 was rebased onto main 3db6876 by explicit user request. Native6/6 checks, seven combined and four barrel-only nodehammer views, 13 display safeguards and zero-event Geant4 initialization pass. Reconciled identifier-derived barrel/endcap module selection with PR33; factories/configuration remain identical to original PR39. Engineering limitations and DRAFT status preserved.",
+      "subsystem": "tracker"
     }
   ],
   "documents": [
@@ -1770,6 +1813,13 @@
       "path": "docs/design/DES-007-short-strip-modules.md",
       "validation_reports": [
         "docs/validation/DES-007-ring-study.md"
+      ]
+    },
+    {
+      "id": "DES-015",
+      "path": "docs/design/DES-015-preliminary-pixel-detector.md",
+      "validation_reports": [
+        "docs/validation/DES-015/results.md"
       ]
     }
   ],
@@ -2145,11 +2195,11 @@
       "number": 36,
       "title": "Tracker: Propose common pixel endcap disc supports and routing",
       "url": "https://github.com/asalzburger/nodd/pull/36",
-      "state": "open",
-      "head_revision": "1cd1f6642375a54c42ce3be1c24a0695eea2741a",
-      "merge_commit": null,
-      "merged_at": null,
-      "collected_at": "2026-10-01T15:14:56Z",
+      "state": "merged",
+      "head_revision": "6a07da7cd3096e6482bae4e96ccabe9b4facf0a3",
+      "merge_commit": "5c4fe354a095eea6ebcbd5a8566369b9d27b2ceb",
+      "merged_at": "2026-10-05T08:52:59Z",
+      "collected_at": "2026-10-05T13:29:07Z",
       "task": "TASK-TRK-PIXEL-ENDCAP-SUPPORT",
       "documents": [
         "DES-014",
@@ -2158,7 +2208,7 @@
         "DES-011",
         "DES-013"
       ],
-      "scope": "Draft PR; captured design/code/evidence revision. Common disc and carrier concept, isolated z/face proposal, original drawings and repeatable screens. Local nominal component checks pass; thermal stress and adverse service capacity fail. No baseline adoption or sign-off. Subsequent closeout changes tracking/session records only.",
+      "scope": "Draft design PR, hosted build passed. Subsequently selected as preliminary baseline by the human maintainer on 2026-10-01; DES015 records implementation boundaries. Thermal and adverse service failures remain; no formal sign-off.",
       "category": "project"
     },
     {
@@ -2219,16 +2269,56 @@
       "number": 33,
       "title": "Software: Relax display validation and add module-only viewing",
       "url": "https://github.com/asalzburger/nodd/pull/33",
-      "state": "open",
-      "head_revision": "f92030dc6d611ebbb57ae431939f4fa65f54e34d",
-      "merge_commit": null,
-      "merged_at": null,
-      "collected_at": "2026-10-05T13:05:01Z",
+      "state": "merged",
+      "head_revision": "de11d09207dfcca493239205c445b00ef03472e3",
+      "merge_commit": "3db68765f09eb9953afedceaba677ab3744eef7c",
+      "merged_at": "2026-10-05T13:21:29Z",
+      "collected_at": "2026-10-05T13:29:07Z",
       "task": "TASK-SOFT-NODEHAMMER",
       "documents": [
         "DES-012"
       ],
       "scope": "Human-requested independent ROOT/config RGB and effective-transparency policy, plus module.nhproj containing only the first source module and its descendants. Rebased onto main 2792227 and published at the observed head; GitHub reports MERGEABLE. Later closeout changes only tracking and session records. Rebase compatibility correction derives module identity from expected.json rather than m1. Four views pass mesh, unit and style audits; see pr33-rebase.json. No detector changes or approval.",
+      "category": "project"
+    },
+    {
+      "id": "PR-37",
+      "number": 37,
+      "title": "Tracker: Implement preliminary pixel detector in DD4hep and nodehammer",
+      "url": "https://github.com/asalzburger/nodd/pull/37",
+      "state": "merged",
+      "head_revision": "db74bec126646fe225a4ec6c0f6cc57c75eb3140",
+      "merge_commit": "78bc60bb6da0c9d234baf00d37cadea9dd4964b4",
+      "merged_at": "2026-10-05T09:44:06Z",
+      "collected_at": "2026-10-05T13:29:07Z",
+      "task": "TASK-TRK-PIXEL-COMBINED",
+      "documents": [
+        "DES-015",
+        "DES-014",
+        "DES-012",
+        "DES-013"
+      ],
+      "scope": "Draft implementation PR stacked on PR36. Captured implementation/evidence head; subsequent closeout changes tracking/session metadata only. Human-selected preliminary baseline, no formal sign-off. Native/display/Geant4-initialization checks pass; rear flange packing and inherited thermal/adverse service cases fail explicitly. Merged into design/pixel-endcap-support, awaiting main integration through PR39; this records GitHub metadata, not design sign-off.",
+      "category": "project"
+    },
+    {
+      "id": "PR-39",
+      "number": 39,
+      "title": "Tracker: Integrate preliminary pixel detector with current main",
+      "url": "https://github.com/asalzburger/nodd/pull/39",
+      "state": "open",
+      "head_revision": "cb76e517dc0ac8f1dd7bcf6f5184b3361ef50d0b",
+      "merge_commit": null,
+      "merged_at": null,
+      "collected_at": "2026-10-05T14:06:06Z",
+      "task": "TASK-TRK-PIXEL-COMBINED",
+      "documents": [
+        "DES-015",
+        "DES-014",
+        "DES-012",
+        "DES-013"
+      ],
+      "scope": "Existing combined pixel implementation from merged PR37, now rebased onto main 3db6876. Observed rebased remote head, GitHub MERGEABLE, hosted checks running. Rebase validation is in pr39-rebase.json. Subsequent closeout updates tracking/session metadata only. No new geometry parameters, formal sign-off or resolved engineering-failure claim. Dashboard CI failure at cb76e51 reproduced in a clean single-branch clone: historical merged/review commits were absent. Explicit SHA fetch restores evidence before unchanged strict validation; this is a workflow correction, not new detector progress.",
       "category": "project"
     }
   ]

@@ -28,6 +28,8 @@ jobs:
           python-version: '3.12'
       - name: Validate PR title and require project tracking updates
         run: python3 -B tools/dashboard/check_update.py --event "$GITHUB_EVENT_PATH"
+      - name: Fetch recorded historical Git evidence
+        run: python3 -B tools/dashboard/fetch_evidence.py
       - name: Validate project records
         run: python3 -B tools/dashboard/build.py validate
       - name: Test public tracker prototype controls
@@ -42,6 +44,8 @@ jobs:
         run: python3 -B -m unittest discover -s tools/pixel_endcap_support -p 'test_*.py' -v
       - name: Test DD4hep pixel compact export controls
         run: python3 -B -m unittest discover -s tools/pixel_barrel_dd4hep -p 'test_*.py' -v
+      - name: Test combined preliminary pixel export
+        run: python3 -B -m unittest discover -s tools/pixel_detector_dd4hep -p 'test_*.py' -v
       - name: Test optional nodehammer display safeguards
         run: python3 -B -m unittest discover -s tools/nodehammer -p 'test_*.py' -v
       - name: Test dashboard and documentation links
