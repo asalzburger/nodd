@@ -1,11 +1,14 @@
 # DES016 pixel disc optimization — isolated PROTOTYPE
 
 This executable study responds to issue38's excessive silicon overlap, using the
-user's10% limit. It writes review evidence and ACTS-sensitive-plane fixtures;
+user's revised 15% preferred / 20% maximum limit and radial/tangential axes.
+The original 10% Cartesian study remains a superseded control. It writes review evidence and ACTS-sensitive-plane fixtures;
 it does not modify the DD4hep compact or any baseline/historical artifact.
 [The design](../../docs/design/DES-016-pixel-disc-module-optimization.md) governs
 choices and scope; [the retained results](../../docs/validation/DES-016/results.md)
 include the failed service-space estimates and guard control.
+
+## Superseded Cartesian control and shared environment
 
 Use Python3.12+ with NumPy and the pinned Shapely dependency. For native audit and
 plots, activate the verified acts-nodd installation in the same shell, following
@@ -62,3 +65,39 @@ This is a straight-ray certificate, not a helix or transverse-vertex proof.
 transport separately. Service estimates retain full module/link counts,
 local spatial grouping, both feed/return legs, barrel traffic and failed adverse
 cases. They cannot qualify manufacture, thermal contacts or hydraulics.
+
+## Current radial revision
+
+The user rejected global x/y alignment, particularly for rectangular pixels.
+`radial.py` keeps the 18-single inner polar ring and explores further concentric
+single, tangential-double, radial-double, quad and mixed-family rings. The axes
+are tangential/radial at each assembly centre. Shared sensors are counted once;
+individual active matrices retain the inherited 0.2 mm inactive seam. Whole
+physical assemblies share one axial level, with occupied-body checks including
+periphery. The configured scan is bounded, not a global optimum claim.
+
+After the same verified ACTS environment activation above, run:
+
+```sh
+python -B tools/pixel_disc_optimization/radial.py --output build/disc-optimization/radial-final
+python -B -m unittest discover -s tools/pixel_disc_optimization -p 'test_*.py' -v
+python -B tools/pixel_disc_optimization/radial_audit.py --screening build/disc-optimization/radial-final/screening.json --output build/disc-optimization/radial-acts --acts-source /path/to/acts-nodd/source
+MPLCONFIGDIR=build/disc-optimization/matplotlib python -B tools/pixel_disc_optimization/radial_report.py --run build/disc-optimization/radial-final --audit build/disc-optimization/radial-acts --output docs/validation/DES-016/radial-revision
+```
+
+[Revised results](../../docs/validation/DES-016/radial-revision/results.md) and
+`radial-inputs.json` retain the full family scan, continuous straight-ray
+certificates, per-distance body/silicon screens, matched native ACTS audit,
+orientation covariance control and recomputed half-ring services. The source
+scene and original Cartesian report/code remain intact. The double/quad controls
+are rejected where their actual active seams leave holes; their shared silicon
+cannot be treated as one seamless active matrix.
+
+The rectangular 25 × 100 micrometre pixel control uses pitch/sqrt(12) to show
+measurement-axis dependence; it is a test hypothesis rather than changed RD53i
+hardware. Finite rectangles still have corner departures from the local
+radial/tangential basis. No fitted track resolution, global navigation or
+continuous helical hermeticity is asserted. Source datum pairing accepts only
+1e-9 mm binary-float roundoff; actual native transport uses the unchanged source
+datums, including the original first-disc position. Guard, support, cooling and
+shared service qualification remain open.

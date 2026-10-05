@@ -10,10 +10,10 @@
 
 | ID | Classification | Requirement or choice |
 | --- | --- | --- |
-| DO-C01 | NODD DESIGN CHOICE, explicit user direction 2026-10-05 | Silicon overlap must be at most 10%. Report both repeated silicon area divided by the projected union and divided by the summed installed silicon area. Use the stricter former quantity for selection. Also report installed silicon outside the unchanged nominal annulus, so overhang cannot disappear into an overlap metric. |
+| DO-C01 | NODD DESIGN CHOICE, revised explicit user direction 2026-10-05 | Prefer at most 15% silicon overlap; allow up to 20% where needed to retain hermetic coverage with local radial/tangential axes. This supersedes the earlier 10% Cartesian study. Report both repeated silicon area divided by the projected union and divided by the summed installed silicon area. Use the stricter former quantity for selection, including a separate annulus-only limit. Report installed silicon outside the unchanged annulus. |
 | DO-C02 | NODD DESIGN CHOICE | Preserve the nominal active annulus r32.3..181.4550267061104 mm, nine discs per end and existing disc datums. The position amendment is a separate PR. Do not reduce the acceptance region or silently crop sensor outlines to achieve the target. |
-| DO-C03 | NODD DESIGN CHOICE | Explore rectangular single-RD53i modules to reduce the severe inner-radius overlap of quads. Retain the 20.0 by 19.2 mm active matrix, 50 micrometre pitch, 0.15 mm sensor and inherited 1 mm occupied module thickness. Any narrower guard is an explicitly unqualified design choice, with the inherited 0.5 mm guard retained as a control. No new ASIC functionality or trapezoidal active pixels is assumed. |
-| DO-C04 | NODD DESIGN CHOICE | Scan integer phi populations and radial ring spacing, plus mixed Cartesian/inner-ring tiling; explicitly screen actual active rectangles, physical sensor outlines and module bodies. Full projected annular coverage must be checked separately from area overlap. Preserve holes found in baseline controls. |
+| DO-C03 | NODD DESIGN CHOICE | Explore single, double and quad RD53i assemblies to reduce the severe inner-radius overlap of the original quad-only layout. Retain each 20.0 by 19.2 mm active matrix, 50 micrometre pitch, 0.15 mm sensor, inherited 0.2 mm inactive interchip gap and 1 mm occupied module thickness. Any narrower guard is explicitly unqualified; retain the inherited 0.5 mm guard as a control. No new ASIC functionality, seamless chip joints or trapezoidal active pixels is assumed. |
+| DO-C04 | NODD DESIGN CHOICE, revised explicit user direction 2026-10-05 | Retain the 18-single innermost polar ring. Arrange further singles, doubles and quads in concentric rings, with one matrix axis tangential and the other radial at each physical module centre. Compare family choices, integer phi populations and radial ring spacing. Screen active rectangles, inactive interchip seams, physical sensor outlines and occupied module bodies separately. Check coverage independently of overlap and retain rejected controls. |
 | DO-C05 | NODD DESIGN CHOICE | Finite z offsets and nonzero luminous vertices require their own straight/curved-track checks. Native ACTS target propagation validates finite sensitive-plane intersections and identifiers against the analytic oracle; it is not a claim of global ACTS navigation, material response or reconstruction. |
 | DO-C06 | NODD DESIGN CHOICE | Recompute power chains, links, heat, half-ring circuit count, coolant feed/return and collector/trunk footprints with DES014/010 scenario inputs. Do not scale a quad count as though it were a single-chip module. Keep reference and adverse scenarios, packing failures and hydraulic/thermal qualification limits visible. |
 | DO-C07 | NODD DESIGN CHOICE | Retain the full preliminary barrel and all original evidence as controls. Study outputs and proposed sensitive planes are isolated under tools/pixel_disc_optimization and docs/validation/DES-016. Baseline integration and a revised detailed support/thermal design need human review. |
@@ -24,7 +24,7 @@ DES-001/014 and reference/manifest.yaml. This study adds choices and derived
 geometry/service estimates, without new externally established design facts.
 
 
-## Selected conditional proposal and engineering boundary
+## Superseded Cartesian proposal and engineering boundary
 
 The reproducible study selects328 single modules per disc:18 inner polar modules
 and310 Cartesian modules. It retains the original active matrices and nominal
@@ -55,3 +55,54 @@ cross-sections and packing failures are INFERENCES from those executable inputs.
 Area tolerances, polygon resolution, colouring padding and subdivision limits
 are numerical screening controls, not fabrication tolerances. No externally
 qualified hardware performance is introduced by this proposal.
+
+## Radial revision contract — 2026-10-05
+
+The user rejected global x/y alignment because pixel measurement axes should
+have a stable relation to transverse and longitudinal track coordinates,
+especially for rectangular pixels. The revised isolated study will compare
+single, double and quad module rings and keep the innermost ring. Tangential
+and radial axes are fixed at each module centre; finite module width still
+introduces a bounded local angular departure elsewhere on a module. An
+anisotropic pixel covariance control will expose this departure without
+claiming a fitted-track resolution or a sensor-response validation. Square
+50 micrometre pixels remain the current RD53i fixture; a rectangular-pixel
+control is a test hypothesis, not a new hardware specification.
+
+Shared double/quad sensors do not imply seamless active response. The search
+must retain individual active matrices and explicit gaps, count shared silicon
+outlines once, colour whole occupied assemblies, and group services by physical
+module family with both module and chip chain limits. The preferred overlap
+limit is 15%, with a hard 20% ceiling as authorized by the user. Coverage,
+body clearance and the unchanged annulus cannot be relaxed to meet a budget.
+
+The original results under `docs/validation/DES-016/` remain a dated control.
+New geometry, native audits and figures will be retained under its
+`radial-revision/` subdirectory. This is a revision of PR41; the positioning
+PR40 and production compact are outside its implementation scope.
+
+## Revised conditional proposal — radial rings
+
+The [new retained results](../validation/DES-016/radial-revision/results.md) select
+359 singles per disc in nine concentric rings, with the innermost18-module ring
+retained. Physical axes are tangential/radial at module centres; an anisotropic
+binary-pitch covariance control and finite corner departures are retained.
+Thirty-six bounded candidates include tangential/radial doubles, quads and mixed
+policies with individual inactive chip seams. The tested larger/mixed variants
+leave gaps and/or exceed20%; this does not exclude every possible mixed design.
+
+The first-disc whole-silicon overlap is15.593%, annulus-only17.478%; the worst
+across all distances is19.483%. Continuous straight on-axis luminous coverage,
+body separation and matched native ACTS checks pass. No candidate certified
+coverage within the preferred15% tier for both metrics. The selected arrangement
+uses the authorized20% ceiling. Current square-pixel matrix fixtures are unchanged;
+the25×100micrometre covariance control is a test hypothesis, not new hardware.
+Maximum corner departure17.435degrees remains, mainly at the preserved inner ring.
+This is geometric measurement evidence, not fitted-track resolution.
+
+The0.1mm guard and slim single-body envelope remain unqualified; the0.5mm guard
+control fails20%. Maximum body radius202.035mm exceeds the original support.
+Homogeneous half-ring service groups need30 power chains and18 cooling circuits;
+all inherited shared-trunk scenarios still fail. Guard/sensor, support, cooling,
+readout aggregation and collector/trunk review remain prerequisites to adoption.
+Production compact and the independent whole-mm positioning PR remain unchanged.
