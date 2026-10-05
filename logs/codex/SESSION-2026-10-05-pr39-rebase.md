@@ -50,7 +50,7 @@ unchanged. Current evidence is recorded separately in
 - `git range-diff` reviewed all three replayed commits. Tracking IDs and unchanged
   implementation sources were independently checked.
 - acts-spack preflight returned exit 2 for changed setup_script/spack_lock fingerprints.
-  The assistant warned before dependent work. Existing DD4hep 1.38 / ROOT 6.40.04 / 
+  The assistant warned before dependent work. Existing DD4hep 1.38 / ROOT 6.40.04 /
   Geant4 11.4.2 imports, build and runtime were verified in activated shells;
   no shared installation was changed. The registry remains unverified for its
   new fingerprints. A sandbox GitHub network failure was retried using the
