@@ -1,0 +1,149 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-09-25-long-strip-research",
+  "title": "Investigate stereo long-strip sandwich modules and reusable rings",
+  "recorded_at": "2026-09-25T12:20:20Z",
+  "started_at": null,
+  "ended_at": "2026-09-25T12:39:19Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Selected user-visible project record only; actual conversation start time and client version/thread identity were not captured for this bounded task.",
+    "Exact completed-turn token counters for this active task are not exposed to this turn; usage remains empty, unknown rather than zero. No cumulative counters or private client state were imported.",
+    "Analytical geometry and trial occupied volumes only; no DD4hep/Geant4/ACTS, material, thermal, electrical, mechanical or full tracking validation.",
+    "No human design sign-off or approval; continuous ~96 mm strip feasibility and shorter-strip mounting/seam remedies remain open."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "58136c8adad0d10bb046bef3a574e181b7e1463c",
+    "branch": "research/long-strip-modules",
+    "initial_changes": [
+      "tools/tracker_layout/__pycache__/covariance_control.cpython-314.pyc"
+    ],
+    "result_commits": [
+      "61dcdca1fcf41c41fc8fbd1665c589b9dd7049a6"
+    ],
+    "changed_files": [
+      "docs/design/DES-008-long-strip-modules.md",
+      "docs/design/figures/DES-008-rings.svg",
+      "docs/design/figures/DES-008-sandwich.svg",
+      "docs/validation/DES-008-ring-study.json",
+      "docs/validation/DES-008-ring-study.md",
+      "logs/codex/SESSION-2026-09-25-long-strip-research.json",
+      "logs/codex/SESSION-2026-09-25-long-strip-research.md",
+      "reference/guides/SRC-ATLAS-TDR-025.md",
+      "tools/long_strip/README.md",
+      "tools/long_strip/geometry.py",
+      "tools/long_strip/inputs.json",
+      "tools/long_strip/study.py",
+      "tools/long_strip/test_study.py",
+      "docs/README.md",
+      "project/tracking.json",
+      "reference/guides/SRC-CMS-TDR-014.md",
+      "reference/manifest.yaml"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "tracker",
+      "long strips",
+      "stereo geometry",
+      "local support",
+      "cooling",
+      "analytical prototype"
+    ],
+    "related_ids": [
+      "DES-005",
+      "DES-008",
+      "TRK-LSTRIP",
+      "TRK-CONTRACT",
+      "TRK-SUPPORT",
+      "TRK-COOLING",
+      "PR-21",
+      "PR-22"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-09-25-long-strip-research.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 -B -m unittest discover -s tools/long_strip -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "9 independent geometry/measurement tests passed."
+    },
+    {
+      "command": "MPLCONFIGDIR=/tmp/nodd-long-strip-mpl XDG_CACHE_HOME=/tmp/nodd-long-strip-cache reference/cache/envelope-venv/bin/python -B tools/long_strip/study.py --refined --sweeps --figure docs/design/figures/DES-008-rings.svg",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Seven candidates, two grids, normal projection and three vertices, angle/gap/mounting controls generated. Three continuous-strip candidates have zero sampled missing pairs and trial body conflicts; failures are retained for other candidates."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/dashboard -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "27 tests passed in a temporary local clone with full Git history and current curated file overlay, excluding ignored large reference caches."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "32 tests passed, including documentation links and usage recovery invariants."
+    },
+    {
+      "command": "node tools/dashboard/test_app.js",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "14 synthetic-DOM JavaScript assertions passed."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "28 tasks, 9 documents and 5 review rounds validated."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py build --output _site/long-strip-study",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Static dashboard built successfully."
+    },
+    {
+      "command": "Python SHA-256 comparison and ElementTree SVG parsing",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Input, geometry.py and study.py hashes match retained JSON; both SVG figures parse. Ring figure rendered and visually inspected."
+    },
+    {
+      "command": "DD4hep / Geant4 / ACTS and engineering qualification",
+      "status": "NOT RUN",
+      "exit_code": null,
+      "result": "Outside the authorized analytical prototype; detailed sensors, support, electronics and services remain unsigned."
+    },
+    {
+      "command": "git diff --cached --check (first staging pass)",
+      "status": "FAIL",
+      "exit_code": 2,
+      "result": "Copied geometry helper had an extra blank line at EOF. Removed the blank line; retained study rerun so the geometry source hash matches."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "43 paired session records validated."
+    },
+    {
+      "command": "git diff --cached --check (corrected staging)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors after removing the copied trailing blank line."
+    }
+  ]
+}

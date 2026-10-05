@@ -1,0 +1,134 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-09-25-long-strip-layout-compatibility",
+  "title": "Align long-strip rings with PR13 A and C1 layouts",
+  "recorded_at": "2026-09-25T13:04:16Z",
+  "started_at": null,
+  "ended_at": "2026-09-25T13:15:18Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Selected user-visible project record only; actual conversation start time, client version and thread identity are not recorded.",
+    "Exact completed-turn usage for this active task is not exposed; usage remains empty, unknown rather than zero. No private client state or cumulative counters imported.",
+    "Compatibility is for PR13 reference-plane annuli, sampled pair coverage and trial envelopes. Full services, barrel end structures, detailed material and reconstruction remain unverified.",
+    "No human design sign-off. The original 700 mm / 1320 mm study remains preserved at 68932692fc61bb25d21e55a915a12eb929b2b316."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "68932692fc61bb25d21e55a915a12eb929b2b316",
+    "branch": "research/long-strip-modules",
+    "initial_changes": [
+      "tools/tracker_layout/__pycache__/covariance_control.cpython-314.pyc"
+    ],
+    "result_commits": [],
+    "changed_files": [
+      "docs/validation/DES-008-layout-compatibility.json",
+      "docs/validation/DES-008-layout-compatibility.md",
+      "logs/codex/SESSION-2026-09-25-long-strip-layout-compatibility.json",
+      "logs/codex/SESSION-2026-09-25-long-strip-layout-compatibility.md",
+      "tools/long_strip/compatibility.py",
+      "tools/long_strip/pr13-layouts.json",
+      "tools/long_strip/test_compatibility.py",
+      "docs/design/DES-008-long-strip-modules.md",
+      "docs/design/figures/DES-008-rings.svg",
+      "docs/validation/DES-008-ring-study.json",
+      "docs/validation/DES-008-ring-study.md",
+      "project/tracking.json",
+      "tools/long_strip/README.md",
+      "tools/long_strip/inputs.json"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "tracker",
+      "long strips",
+      "layout compatibility",
+      "analytical prototype"
+    ],
+    "related_ids": [
+      "DES-005",
+      "DES-006",
+      "DES-008",
+      "TRK-LSTRIP",
+      "PR-13",
+      "PR-22"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-09-25-long-strip-layout-compatibility.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 -B -m unittest discover -s tools/long_strip -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "14 tests passed, including A/C1 mismatch and mirrored-side regressions."
+    },
+    {
+      "command": "reference/cache/envelope-venv/bin/python -B tools/long_strip/compatibility.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Five/six rings evaluated at all six absolute disk positions on both grids and three vertices; six rings pass all coverage/body checks. All 18 disk/vertex inner and outer boundary checks have zero sampled misses. Five rings fail at the first three disk positions."
+    },
+    {
+      "command": "MPLCONFIGDIR=/tmp/nodd-long-strip-mpl XDG_CACHE_HOME=/tmp/nodd-long-strip-cache reference/cache/envelope-venv/bin/python -B tools/long_strip/study.py --refined --sweeps --figure docs/design/figures/DES-008-rings.svg",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Seven-candidate study, controls and figure regenerated for 710-1100 mm / 1430 mm; prior evidence retained in Git. Updated overview rendered and visually inspected."
+    },
+    {
+      "command": "Pinned PR13 Git extraction and SHA-256/field comparisons",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Original source hash and all curated geometry fields match PR13 f57e26e; its layout bytes equal reviewed target 06275ec. Both retained result files match current code/input hashes."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/dashboard -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "27 tests passed unchanged in temporary full-history clone with current curated-file overlay; ignored reference caches omitted."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "32 tests passed, including repository documentation links."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "28 tasks, 9 documents and 5 review rounds validated."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py build --output _site/long-strip-study",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Dashboard build succeeded."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors."
+    },
+    {
+      "command": "DD4hep / Geant4 / ACTS and detailed engineering validation",
+      "status": "NOT RUN",
+      "exit_code": null,
+      "result": "Outside this isolated analytical compatibility amendment."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "44 paired session records validated; summary preserves missing usage explicitly."
+    }
+  ]
+}

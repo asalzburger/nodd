@@ -1,0 +1,1561 @@
+{
+  "status": "PROTOTYPE; target-band compatibility, not engineered service clearance",
+  "source_revision": "68932692fc61bb25d21e55a915a12eb929b2b316",
+  "working_tree": [
+    " M docs/design/DES-008-long-strip-modules.md",
+    " M docs/design/figures/DES-008-rings.svg",
+    " M docs/validation/DES-008-ring-study.json",
+    " M docs/validation/DES-008-ring-study.md",
+    " M project/tracking.json",
+    " M tools/long_strip/README.md",
+    " M tools/long_strip/inputs.json",
+    "?? docs/validation/DES-008-layout-compatibility.json",
+    "?? docs/validation/DES-008-layout-compatibility.md",
+    "?? logs/codex/SESSION-2026-09-25-long-strip-layout-compatibility.json",
+    "?? logs/codex/SESSION-2026-09-25-long-strip-layout-compatibility.md",
+    "?? tools/long_strip/compatibility.py",
+    "?? tools/long_strip/pr13-layouts.json",
+    "?? tools/long_strip/test_compatibility.py",
+    "?? tools/tracker_layout/"
+  ],
+  "python": "3.14.6",
+  "numpy": "2.5.3",
+  "sampling_method": "deterministic polar midpoints, radius-weighted; base and doubled grids",
+  "numerical_boundary_epsilon": 1e-09,
+  "random_seed": null,
+  "configuration": {
+    "status": "PROTOTYPE; unsigned DES-008 scenarios C01-C09; mm and rad",
+    "inner_radius": 710.0,
+    "outer_radius": 1100.0,
+    "disk_z": 1430.0,
+    "vertex_z": [
+      -150.0,
+      0.0,
+      150.0
+    ],
+    "relative_stereo": 0.04,
+    "separation": 5.0,
+    "sensor_thickness": 0.3,
+    "pitch": 0.08,
+    "row_gap": 0.1,
+    "radial_margin": 16.0,
+    "tangential_margin": 3.0,
+    "guard": 0.5,
+    "radial_service": 5.0,
+    "tangential_service": 3.0,
+    "external_allowance_per_face": 1.0,
+    "level_spacing": 8.0,
+    "interface_per_face": 0.2,
+    "support_skin_per_face": 0.2,
+    "cooling_outer_diameter": 3.2,
+    "sampling": {
+      "radial_bins": 250,
+      "phi_bins": 720
+    },
+    "scan_sampling": {
+      "radial_bins": 100,
+      "phi_bins": 360
+    },
+    "angle_scan": [
+      0.0,
+      0.02,
+      0.04,
+      0.052,
+      0.08
+    ],
+    "separation_scan": [
+      1.8,
+      4.0,
+      5.0,
+      6.6,
+      10.0
+    ],
+    "candidates": [
+      {
+        "id": "wedge-long-6",
+        "shape": "wedge",
+        "width": 96.0,
+        "rings": 6,
+        "rows": 1
+      },
+      {
+        "id": "square-long-6",
+        "shape": "rectangle",
+        "width": 96.0,
+        "height": 96.0,
+        "rings": 6,
+        "rows": 1
+      },
+      {
+        "id": "narrow-long-6",
+        "shape": "rectangle",
+        "width": 48.0,
+        "height": 96.0,
+        "rings": 6,
+        "rows": 1
+      },
+      {
+        "id": "square-split-6",
+        "shape": "rectangle",
+        "width": 96.0,
+        "height": 96.0,
+        "rings": 6,
+        "rows": 2
+      },
+      {
+        "id": "wide-12",
+        "shape": "rectangle",
+        "width": 96.0,
+        "height": 48.0,
+        "rings": 12,
+        "rows": 1
+      },
+      {
+        "id": "wide-14-mount-control",
+        "shape": "rectangle",
+        "width": 96.0,
+        "height": 48.0,
+        "rings": 14,
+        "rows": 1
+      },
+      {
+        "id": "square-5-control",
+        "shape": "rectangle",
+        "width": 96.0,
+        "height": 96.0,
+        "rings": 5,
+        "rows": 1
+      }
+    ],
+    "layout_reference": "PR13 DES-006 A/C1 at f57e26e83b826867c2720edcd702e808fe946854; see pr13-layouts.json and DES-008 C11"
+  },
+  "layout_source": {
+    "revision": "f57e26e83b826867c2720edcd702e808fe946854",
+    "path": "docs/design/DES-006-reviewed-layouts.json",
+    "sha256": "028cdfd517d5df6a6cadc2e959c26ec1e10efd7ce6a85f248a31144e573534f4",
+    "url": "https://github.com/asalzburger/nodd/blob/f57e26e83b826867c2720edcd702e808fe946854/docs/design/DES-006-reviewed-layouts.json"
+  },
+  "hashes": {
+    "inputs.json": "10c7ca2ec2f94a349151106d650786506b20e32420c710d7d1d4fefa2205032d",
+    "pr13-layouts.json": "5982639a2a1de15e27939f3ca5c476d77fc24c28dffe2583f24d4d4acee667fe",
+    "compatibility.py": "fb0761cbd500484b82ad90bbfc059ca63ae5851bd1ba988de840c14d6020ca42",
+    "study.py": "4960e25f5b82dd0d0ba539c31a5742de9b3f1343a7efcee1783c535c3b2d272e",
+    "geometry.py": "4f8a7ef691e8df66a2cec1d4db84a29579435938fdd0b66310e319b9c3649c41"
+  },
+  "contract": {
+    "layouts": [
+      "A",
+      "C1"
+    ],
+    "annulus_mm": [
+      710.0,
+      1100.0
+    ],
+    "abs_disk_z_mm": [
+      1430.0,
+      1800.0,
+      2120.0,
+      2450.0,
+      2730.0,
+      3120.0
+    ],
+    "negative_side_rule": "Reflect disk and complete module stack; relabel vertex z with opposite sign. Coverage factors and collision geometry are invariant."
+  },
+  "cases": [
+    {
+      "abs_disk_z_mm": 1430.0,
+      "source_layer_ids": [
+        "A-long_strip-N1",
+        "A-long_strip-P1",
+        "C1-long_strip-N1",
+        "C1-long_strip-P1"
+      ],
+      "candidate": "square-long-6",
+      "modules": 404,
+      "body_collisions": 0,
+      "max_missing_pair_fraction": 0.0,
+      "coverage": {
+        "normal_1x": {
+          "radial_bins": 250,
+          "phi_bins": 720,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.4680945964395335,
+          "mean_pairs": 1.5591456034376918,
+          "mean_sensor_crossings": 3.177114973603438
+        },
+        "vertex_-150_mm_1x": {
+          "radial_bins": 250,
+          "phi_bins": 720,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.47151732130141194,
+          "mean_pairs": 1.5574817596071209,
+          "mean_sensor_crossings": 3.229946072068753
+        },
+        "vertex_0_mm_1x": {
+          "radial_bins": 250,
+          "phi_bins": 720,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.47287275039901777,
+          "mean_pairs": 1.5583858336402703,
+          "mean_sensor_crossings": 3.2393191841620625
+        },
+        "vertex_150_mm_1x": {
+          "radial_bins": 250,
+          "phi_bins": 720,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.4701291571516268,
+          "mean_pairs": 1.5545586330263965,
+          "mean_sensor_crossings": 3.2460372380601594
+        },
+        "normal_2x": {
+          "radial_bins": 500,
+          "phi_bins": 1440,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.467297784407612,
+          "mean_pairs": 1.5597792788213627,
+          "mean_sensor_crossings": 3.1732311375076736
+        },
+        "vertex_-150_mm_2x": {
+          "radial_bins": 500,
+          "phi_bins": 1440,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.4698106754297115,
+          "mean_pairs": 1.5585770209177408,
+          "mean_sensor_crossings": 3.2279716737875996
+        },
+        "vertex_0_mm_2x": {
+          "radial_bins": 500,
+          "phi_bins": 1440,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.4684723846531615,
+          "mean_pairs": 1.5562704995395948,
+          "mean_sensor_crossings": 3.232837671086556
+        },
+        "vertex_150_mm_2x": {
+          "radial_bins": 500,
+          "phi_bins": 1440,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.46696135902394104,
+          "mean_pairs": 1.5536116639963167,
+          "mean_sensor_crossings": 3.2393930139349294
+        }
+      },
+      "boundary_checks": [
+        {
+          "vertex_z_mm": -150.0,
+          "phi_samples_per_boundary": 1440,
+          "missing_inner_boundary_samples": 0,
+          "missing_outer_boundary_samples": 0
+        },
+        {
+          "vertex_z_mm": 0.0,
+          "phi_samples_per_boundary": 1440,
+          "missing_inner_boundary_samples": 0,
+          "missing_outer_boundary_samples": 0
+        },
+        {
+          "vertex_z_mm": 150.0,
+          "phi_samples_per_boundary": 1440,
+          "missing_inner_boundary_samples": 0,
+          "missing_outer_boundary_samples": 0
+        }
+      ]
+    },
+    {
+      "abs_disk_z_mm": 1430.0,
+      "source_layer_ids": [
+        "A-long_strip-N1",
+        "A-long_strip-P1",
+        "C1-long_strip-N1",
+        "C1-long_strip-P1"
+      ],
+      "candidate": "square-5-control",
+      "modules": 338,
+      "body_collisions": 0,
+      "max_missing_pair_fraction": 0.01091364407612032,
+      "coverage": {
+        "normal_1x": {
+          "radial_bins": 250,
+          "phi_bins": 720,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.2559979152854512,
+          "mean_pairs": 1.288992649232658,
+          "mean_sensor_crossings": 2.624353234131369
+        },
+        "vertex_-150_mm_1x": {
+          "radial_bins": 250,
+          "phi_bins": 720,
+          "missing_pair_bins": 535,
+          "missing_pair_fraction": 0.003261645794966237,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.001817177163904236,
+          "multiple_pair_fraction": 0.23540145733578888,
+          "mean_pairs": 1.257219280908533,
+          "mean_sensor_crossings": 2.6042605082872927
+        },
+        "vertex_0_mm_1x": {
+          "radial_bins": 250,
+          "phi_bins": 720,
+          "missing_pair_bins": 1023,
+          "missing_pair_fraction": 0.006192478453038673,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.00334114671577655,
+          "multiple_pair_fraction": 0.23423820135052179,
+          "mean_pairs": 1.2530521310006137,
+          "mean_sensor_crossings": 2.605435434499693
+        },
+        "vertex_150_mm_1x": {
+          "radial_bins": 250,
+          "phi_bins": 720,
+          "missing_pair_bins": 1730,
+          "missing_pair_fraction": 0.010438121792510741,
+          "no_sensor_fraction": 0.00042889674647022733,
+          "both_sides_but_no_same_module_pair_fraction": 0.004189539472068754,
+          "multiple_pair_fraction": 0.23446362087170045,
+          "mean_pairs": 1.2492592626151013,
+          "mean_sensor_crossings": 2.6044297614487415
+        },
+        "normal_2x": {
+          "radial_bins": 500,
+          "phi_bins": 1440,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.2557432031921424,
+          "mean_pairs": 1.2887694424186618,
+          "mean_sensor_crossings": 2.624169748864334
+        },
+        "vertex_-150_mm_2x": {
+          "radial_bins": 500,
+          "phi_bins": 1440,
+          "missing_pair_bins": 1958,
+          "missing_pair_fraction": 0.0029875149785144263,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0019041066451810928,
+          "multiple_pair_fraction": 0.2358705629066912,
+          "mean_pairs": 1.2581563868324126,
+          "mean_sensor_crossings": 2.6076443157765503
+        },
+        "vertex_0_mm_2x": {
+          "radial_bins": 500,
+          "phi_bins": 1440,
+          "missing_pair_bins": 3936,
+          "missing_pair_fraction": 0.005954649079189687,
+          "no_sensor_fraction": 1.261939840392879e-05,
+          "both_sides_but_no_same_module_pair_fraction": 0.002761169030079804,
+          "multiple_pair_fraction": 0.23499348626457955,
+          "mean_pairs": 1.2542823030079806,
+          "mean_sensor_crossings": 2.6056556341774093
+        },
+        "vertex_150_mm_2x": {
+          "radial_bins": 500,
+          "phi_bins": 1440,
+          "missing_pair_bins": 7232,
+          "missing_pair_fraction": 0.01091364407612032,
+          "no_sensor_fraction": 0.0004036507673419277,
+          "both_sides_but_no_same_module_pair_fraction": 0.004699646654389196,
+          "multiple_pair_fraction": 0.2339636042203806,
+          "mean_pairs": 1.248600610834868,
+          "mean_sensor_crossings": 2.6034170180171885
+        }
+      },
+      "boundary_checks": []
+    },
+    {
+      "abs_disk_z_mm": 1800.0,
+      "source_layer_ids": [
+        "A-long_strip-N2",
+        "A-long_strip-P2",
+        "C1-long_strip-N2",
+        "C1-long_strip-P2"
+      ],
+      "candidate": "square-long-6",
+      "modules": 404,
+      "body_collisions": 0,
+      "max_missing_pair_fraction": 0.0,
+      "coverage": {
+        "normal_1x": {
+          "radial_bins": 250,
+          "phi_bins": 720,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.4680945964395335,
+          "mean_pairs": 1.5591456034376918,
+          "mean_sensor_crossings": 3.177114973603438
+        },
+        "vertex_-150_mm_1x": {
+          "radial_bins": 250,
+          "phi_bins": 720,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.47530784689993855,
+          "mean_pairs": 1.5635313364027013,
+          "mean_sensor_crossings": 3.224900125352977
+        },
+        "vertex_0_mm_1x": {
+          "radial_bins": 250,
+          "phi_bins": 720,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.4738911562922038,
+          "mean_pairs": 1.561049713321056,
+          "mean_sensor_crossings": 3.2271332963781463
+        },
+        "vertex_150_mm_1x": {
+          "radial_bins": 250,
+          "phi_bins": 720,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.471500092203806,
+          "mean_pairs": 1.5580069135666055,
+          "mean_sensor_crossings": 3.2288268466543895
+        },
+        "normal_2x": {
+          "radial_bins": 500,
+          "phi_bins": 1440,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.467297784407612,
+          "mean_pairs": 1.5597792788213627,
+          "mean_sensor_crossings": 3.1732311375076736
+        },
+        "vertex_-150_mm_2x": {
+          "radial_bins": 500,
+          "phi_bins": 1440,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.4706144236801719,
+          "mean_pairs": 1.5607123981276856,
+          "mean_sensor_crossings": 3.215671474984653
+        },
+        "vertex_0_mm_2x": {
+          "radial_bins": 500,
+          "phi_bins": 1440,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.4707352536832412,
+          "mean_pairs": 1.5604538313535912,
+          "mean_sensor_crossings": 3.221579756629834
+        },
+        "vertex_150_mm_2x": {
+          "radial_bins": 500,
+          "phi_bins": 1440,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.4693714141958257,
+          "mean_pairs": 1.5583298141958257,
+          "mean_sensor_crossings": 3.2242696147943524
+        }
+      },
+      "boundary_checks": [
+        {
+          "vertex_z_mm": -150.0,
+          "phi_samples_per_boundary": 1440,
+          "missing_inner_boundary_samples": 0,
+          "missing_outer_boundary_samples": 0
+        },
+        {
+          "vertex_z_mm": 0.0,
+          "phi_samples_per_boundary": 1440,
+          "missing_inner_boundary_samples": 0,
+          "missing_outer_boundary_samples": 0
+        },
+        {
+          "vertex_z_mm": 150.0,
+          "phi_samples_per_boundary": 1440,
+          "missing_inner_boundary_samples": 0,
+          "missing_outer_boundary_samples": 0
+        }
+      ]
+    },
+    {
+      "abs_disk_z_mm": 1800.0,
+      "source_layer_ids": [
+        "A-long_strip-N2",
+        "A-long_strip-P2",
+        "C1-long_strip-N2",
+        "C1-long_strip-P2"
+      ],
+      "candidate": "square-5-control",
+      "modules": 338,
+      "body_collisions": 0,
+      "max_missing_pair_fraction": 0.0024608676949048496,
+      "coverage": {
+        "normal_1x": {
+          "radial_bins": 250,
+          "phi_bins": 720,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.2559979152854512,
+          "mean_pairs": 1.288992649232658,
+          "mean_sensor_crossings": 2.624353234131369
+        },
+        "vertex_-150_mm_1x": {
+          "radial_bins": 250,
+          "phi_bins": 720,
+          "missing_pair_bins": 82,
+          "missing_pair_fraction": 0.0005171990178023327,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0005171990178023327,
+          "multiple_pair_fraction": 0.24085522995702885,
+          "mean_pairs": 1.2665928834868017,
+          "mean_sensor_crossings": 2.6110298740331492
+        },
+        "vertex_0_mm_1x": {
+          "radial_bins": 250,
+          "phi_bins": 720,
+          "missing_pair_bins": 153,
+          "missing_pair_fraction": 0.0009652379373848987,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0009020691221608352,
+          "multiple_pair_fraction": 0.24003500061387356,
+          "mean_pairs": 1.2646072170656844,
+          "mean_sensor_crossings": 2.6109391970534075
+        },
+        "vertex_150_mm_1x": {
+          "radial_bins": 250,
+          "phi_bins": 720,
+          "missing_pair_bins": 336,
+          "missing_pair_fraction": 0.0020960699815837933,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.001484251810926949,
+          "multiple_pair_fraction": 0.23702949772866794,
+          "mean_pairs": 1.2600142676488642,
+          "mean_sensor_crossings": 2.607166507550645
+        },
+        "normal_2x": {
+          "radial_bins": 500,
+          "phi_bins": 1440,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.2557432031921424,
+          "mean_pairs": 1.2887694424186618,
+          "mean_sensor_crossings": 2.624169748864334
+        },
+        "vertex_-150_mm_2x": {
+          "radial_bins": 500,
+          "phi_bins": 1440,
+          "missing_pair_bins": 288,
+          "missing_pair_fraction": 0.0004541235727440148,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0004541235727440148,
+          "multiple_pair_fraction": 0.24002803804481276,
+          "mean_pairs": 1.265865501995089,
+          "mean_sensor_crossings": 2.6098388449662373
+        },
+        "vertex_0_mm_2x": {
+          "radial_bins": 500,
+          "phi_bins": 1440,
+          "missing_pair_bins": 788,
+          "missing_pair_fraction": 0.0012375138735420503,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0011949401626764886,
+          "multiple_pair_fraction": 0.23856027770104357,
+          "mean_pairs": 1.2631838896715777,
+          "mean_sensor_crossings": 2.609867475997545
+        },
+        "vertex_150_mm_2x": {
+          "radial_bins": 500,
+          "phi_bins": 1440,
+          "missing_pair_bins": 1601,
+          "missing_pair_fraction": 0.0024608676949048496,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0017544674800491098,
+          "multiple_pair_fraction": 0.2368615973296501,
+          "mean_pairs": 1.259908622421731,
+          "mean_sensor_crossings": 2.6079879600982196
+        }
+      },
+      "boundary_checks": []
+    },
+    {
+      "abs_disk_z_mm": 2120.0,
+      "source_layer_ids": [
+        "A-long_strip-N3",
+        "A-long_strip-P3",
+        "C1-long_strip-N3",
+        "C1-long_strip-P3"
+      ],
+      "candidate": "square-long-6",
+      "modules": 404,
+      "body_collisions": 0,
+      "max_missing_pair_fraction": 0.0,
+      "coverage": {
+        "normal_1x": {
+          "radial_bins": 250,
+          "phi_bins": 720,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.4680945964395335,
+          "mean_pairs": 1.5591456034376918,
+          "mean_sensor_crossings": 3.177114973603438
+        },
+        "vertex_-150_mm_1x": {
+          "radial_bins": 250,
+          "phi_bins": 720,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.47331721755678324,
+          "mean_pairs": 1.562046255125844,
+          "mean_sensor_crossings": 3.216817236586863
+        },
+        "vertex_0_mm_1x": {
+          "radial_bins": 250,
+          "phi_bins": 720,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.47335287955801103,
+          "mean_pairs": 1.5619193565377532,
+          "mean_sensor_crossings": 3.219656085082873
+        },
+        "vertex_150_mm_1x": {
+          "radial_bins": 250,
+          "phi_bins": 720,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.4751572207489257,
+          "mean_pairs": 1.563512080417434,
+          "mean_sensor_crossings": 3.224857340085942
+        },
+        "normal_2x": {
+          "radial_bins": 500,
+          "phi_bins": 1440,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.467297784407612,
+          "mean_pairs": 1.5597792788213627,
+          "mean_sensor_crossings": 3.1732311375076736
+        },
+        "vertex_-150_mm_2x": {
+          "radial_bins": 500,
+          "phi_bins": 1440,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.47174099088397786,
+          "mean_pairs": 1.562800205432781,
+          "mean_sensor_crossings": 3.2108233507826887
+        },
+        "vertex_0_mm_2x": {
+          "radial_bins": 500,
+          "phi_bins": 1440,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.47163960607734806,
+          "mean_pairs": 1.5624384097298956,
+          "mean_sensor_crossings": 3.214399897145488
+        },
+        "vertex_150_mm_2x": {
+          "radial_bins": 500,
+          "phi_bins": 1440,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.47043716568446897,
+          "mean_pairs": 1.5605527075966852,
+          "mean_sensor_crossings": 3.215046838858195
+        }
+      },
+      "boundary_checks": [
+        {
+          "vertex_z_mm": -150.0,
+          "phi_samples_per_boundary": 1440,
+          "missing_inner_boundary_samples": 0,
+          "missing_outer_boundary_samples": 0
+        },
+        {
+          "vertex_z_mm": 0.0,
+          "phi_samples_per_boundary": 1440,
+          "missing_inner_boundary_samples": 0,
+          "missing_outer_boundary_samples": 0
+        },
+        {
+          "vertex_z_mm": 150.0,
+          "phi_samples_per_boundary": 1440,
+          "missing_inner_boundary_samples": 0,
+          "missing_outer_boundary_samples": 0
+        }
+      ]
+    },
+    {
+      "abs_disk_z_mm": 2120.0,
+      "source_layer_ids": [
+        "A-long_strip-N3",
+        "A-long_strip-P3",
+        "C1-long_strip-N3",
+        "C1-long_strip-P3"
+      ],
+      "candidate": "square-5-control",
+      "modules": 338,
+      "body_collisions": 0,
+      "max_missing_pair_fraction": 0.0004115402854511971,
+      "coverage": {
+        "normal_1x": {
+          "radial_bins": 250,
+          "phi_bins": 720,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.2559979152854512,
+          "mean_pairs": 1.288992649232658,
+          "mean_sensor_crossings": 2.624353234131369
+        },
+        "vertex_-150_mm_1x": {
+          "radial_bins": 250,
+          "phi_bins": 720,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.24266412044198896,
+          "mean_pairs": 1.2696796692449355,
+          "mean_sensor_crossings": 2.61018372437078
+        },
+        "vertex_0_mm_1x": {
+          "radial_bins": 250,
+          "phi_bins": 720,
+          "missing_pair_bins": 18,
+          "missing_pair_fraction": 0.00011353149171270718,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.00011353149171270718,
+          "multiple_pair_fraction": 0.24142996500920813,
+          "mean_pairs": 1.2683629480662983,
+          "mean_sensor_crossings": 2.6095096701043583
+        },
+        "vertex_150_mm_1x": {
+          "radial_bins": 250,
+          "phi_bins": 720,
+          "missing_pair_bins": 59,
+          "missing_pair_fraction": 0.0003721310006138735,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0003721310006138735,
+          "multiple_pair_fraction": 0.24088304923265808,
+          "mean_pairs": 1.2668177770411295,
+          "mean_sensor_crossings": 2.6109621652547577
+        },
+        "normal_2x": {
+          "radial_bins": 500,
+          "phi_bins": 1440,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.2557432031921424,
+          "mean_pairs": 1.2887694424186618,
+          "mean_sensor_crossings": 2.624169748864334
+        },
+        "vertex_-150_mm_2x": {
+          "radial_bins": 500,
+          "phi_bins": 1440,
+          "missing_pair_bins": 1,
+          "missing_pair_fraction": 1.5774248004910988e-06,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 1.5774248004910988e-06,
+          "multiple_pair_fraction": 0.24335623776856968,
+          "mean_pairs": 1.2708659363413137,
+          "mean_sensor_crossings": 2.612103020503376
+        },
+        "vertex_0_mm_2x": {
+          "radial_bins": 500,
+          "phi_bins": 1440,
+          "missing_pair_bins": 26,
+          "missing_pair_fraction": 4.101304481276856e-05,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 4.101304481276856e-05,
+          "multiple_pair_fraction": 0.2421670975905464,
+          "mean_pairs": 1.269167303713935,
+          "mean_sensor_crossings": 2.61200990208717
+        },
+        "vertex_150_mm_2x": {
+          "radial_bins": 500,
+          "phi_bins": 1440,
+          "missing_pair_bins": 261,
+          "missing_pair_fraction": 0.0004115402854511971,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0004115402854511971,
+          "multiple_pair_fraction": 0.24030857549109888,
+          "mean_pairs": 1.2662721595303867,
+          "mean_sensor_crossings": 2.6099183683087785
+        }
+      },
+      "boundary_checks": []
+    },
+    {
+      "abs_disk_z_mm": 2450.0,
+      "source_layer_ids": [
+        "A-long_strip-N4",
+        "A-long_strip-P4",
+        "C1-long_strip-N4",
+        "C1-long_strip-P4"
+      ],
+      "candidate": "square-long-6",
+      "modules": 404,
+      "body_collisions": 0,
+      "max_missing_pair_fraction": 0.0,
+      "coverage": {
+        "normal_1x": {
+          "radial_bins": 250,
+          "phi_bins": 720,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.4680945964395335,
+          "mean_pairs": 1.5591456034376918,
+          "mean_sensor_crossings": 3.177114973603438
+        },
+        "vertex_-150_mm_1x": {
+          "radial_bins": 250,
+          "phi_bins": 720,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.4751247233885819,
+          "mean_pairs": 1.5648064337630447,
+          "mean_sensor_crossings": 3.2104559054634745
+        },
+        "vertex_0_mm_1x": {
+          "radial_bins": 250,
+          "phi_bins": 720,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.47480546298342535,
+          "mean_pairs": 1.563769000859423,
+          "mean_sensor_crossings": 3.211571817311234
+        },
+        "vertex_150_mm_1x": {
+          "radial_bins": 250,
+          "phi_bins": 720,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.4732232290976059,
+          "mean_pairs": 1.5619663333333333,
+          "mean_sensor_crossings": 3.2154977387354204
+        },
+        "normal_2x": {
+          "radial_bins": 500,
+          "phi_bins": 1440,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.467297784407612,
+          "mean_pairs": 1.5597792788213627,
+          "mean_sensor_crossings": 3.1732311375076736
+        },
+        "vertex_-150_mm_2x": {
+          "radial_bins": 500,
+          "phi_bins": 1440,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.47197095019950885,
+          "mean_pairs": 1.5636638224831185,
+          "mean_sensor_crossings": 3.2058056957949663
+        },
+        "vertex_0_mm_2x": {
+          "radial_bins": 500,
+          "phi_bins": 1440,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.47210838296500923,
+          "mean_pairs": 1.5635432379066911,
+          "mean_sensor_crossings": 3.208499270994475
+        },
+        "vertex_150_mm_2x": {
+          "radial_bins": 500,
+          "phi_bins": 1440,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.47195352053407,
+          "mean_pairs": 1.5631474935236342,
+          "mean_sensor_crossings": 3.2104807360036833
+        }
+      },
+      "boundary_checks": [
+        {
+          "vertex_z_mm": -150.0,
+          "phi_samples_per_boundary": 1440,
+          "missing_inner_boundary_samples": 0,
+          "missing_outer_boundary_samples": 0
+        },
+        {
+          "vertex_z_mm": 0.0,
+          "phi_samples_per_boundary": 1440,
+          "missing_inner_boundary_samples": 0,
+          "missing_outer_boundary_samples": 0
+        },
+        {
+          "vertex_z_mm": 150.0,
+          "phi_samples_per_boundary": 1440,
+          "missing_inner_boundary_samples": 0,
+          "missing_outer_boundary_samples": 0
+        }
+      ]
+    },
+    {
+      "abs_disk_z_mm": 2450.0,
+      "source_layer_ids": [
+        "A-long_strip-N4",
+        "A-long_strip-P4",
+        "C1-long_strip-N4",
+        "C1-long_strip-P4"
+      ],
+      "candidate": "square-5-control",
+      "modules": 338,
+      "body_collisions": 0,
+      "max_missing_pair_fraction": 0.0,
+      "coverage": {
+        "normal_1x": {
+          "radial_bins": 250,
+          "phi_bins": 720,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.2559979152854512,
+          "mean_pairs": 1.288992649232658,
+          "mean_sensor_crossings": 2.624353234131369
+        },
+        "vertex_-150_mm_1x": {
+          "radial_bins": 250,
+          "phi_bins": 720,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.24567850804174335,
+          "mean_pairs": 1.2742866225905463,
+          "mean_sensor_crossings": 2.614098249109883
+        },
+        "vertex_0_mm_1x": {
+          "radial_bins": 250,
+          "phi_bins": 720,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.24453341583793736,
+          "mean_pairs": 1.271943868631062,
+          "mean_sensor_crossings": 2.6113746182934316
+        },
+        "vertex_150_mm_1x": {
+          "radial_bins": 250,
+          "phi_bins": 720,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.24288204505831798,
+          "mean_pairs": 1.2699402893799876,
+          "mean_sensor_crossings": 2.6103487565377534
+        },
+        "normal_2x": {
+          "radial_bins": 500,
+          "phi_bins": 1440,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.2557432031921424,
+          "mean_pairs": 1.2887694424186618,
+          "mean_sensor_crossings": 2.624169748864334
+        },
+        "vertex_-150_mm_2x": {
+          "radial_bins": 500,
+          "phi_bins": 1440,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.24621247688766112,
+          "mean_pairs": 1.2747896337630449,
+          "mean_sensor_crossings": 2.6140522949201963
+        },
+        "vertex_0_mm_2x": {
+          "radial_bins": 500,
+          "phi_bins": 1440,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.2447316800644567,
+          "mean_pairs": 1.2728901797882135,
+          "mean_sensor_crossings": 2.6132124934622465
+        },
+        "vertex_150_mm_2x": {
+          "radial_bins": 500,
+          "phi_bins": 1440,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.2438366319981584,
+          "mean_pairs": 1.2714394606200121,
+          "mean_sensor_crossings": 2.612395713014119
+        }
+      },
+      "boundary_checks": []
+    },
+    {
+      "abs_disk_z_mm": 2730.0,
+      "source_layer_ids": [
+        "A-long_strip-N5",
+        "A-long_strip-P5",
+        "C1-long_strip-N5",
+        "C1-long_strip-P5"
+      ],
+      "candidate": "square-long-6",
+      "modules": 404,
+      "body_collisions": 0,
+      "max_missing_pair_fraction": 0.0,
+      "coverage": {
+        "normal_1x": {
+          "radial_bins": 250,
+          "phi_bins": 720,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.4680945964395335,
+          "mean_pairs": 1.5591456034376918,
+          "mean_sensor_crossings": 3.177114973603438
+        },
+        "vertex_-150_mm_1x": {
+          "radial_bins": 250,
+          "phi_bins": 720,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.4755993712707181,
+          "mean_pairs": 1.566277241743401,
+          "mean_sensor_crossings": 3.21065434340086
+        },
+        "vertex_0_mm_1x": {
+          "radial_bins": 250,
+          "phi_bins": 720,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.47557249220380593,
+          "mean_pairs": 1.565645641252302,
+          "mean_sensor_crossings": 3.2106169160220994
+        },
+        "vertex_150_mm_1x": {
+          "radial_bins": 250,
+          "phi_bins": 720,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.47512932608962555,
+          "mean_pairs": 1.564794786372007,
+          "mean_sensor_crossings": 3.2107142047882133
+        },
+        "normal_2x": {
+          "radial_bins": 500,
+          "phi_bins": 1440,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.467297784407612,
+          "mean_pairs": 1.5597792788213627,
+          "mean_sensor_crossings": 3.1732311375076736
+        },
+        "vertex_-150_mm_2x": {
+          "radial_bins": 500,
+          "phi_bins": 1440,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.4720291647943523,
+          "mean_pairs": 1.5640673268723144,
+          "mean_sensor_crossings": 3.202788398956415
+        },
+        "vertex_0_mm_2x": {
+          "radial_bins": 500,
+          "phi_bins": 1440,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.4716639689840393,
+          "mean_pairs": 1.5635941245549416,
+          "mean_sensor_crossings": 3.204297029834254
+        },
+        "vertex_150_mm_2x": {
+          "radial_bins": 500,
+          "phi_bins": 1440,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.47178366685082873,
+          "mean_pairs": 1.5633606406844691,
+          "mean_sensor_crossings": 3.2058109571976674
+        }
+      },
+      "boundary_checks": [
+        {
+          "vertex_z_mm": -150.0,
+          "phi_samples_per_boundary": 1440,
+          "missing_inner_boundary_samples": 0,
+          "missing_outer_boundary_samples": 0
+        },
+        {
+          "vertex_z_mm": 0.0,
+          "phi_samples_per_boundary": 1440,
+          "missing_inner_boundary_samples": 0,
+          "missing_outer_boundary_samples": 0
+        },
+        {
+          "vertex_z_mm": 150.0,
+          "phi_samples_per_boundary": 1440,
+          "missing_inner_boundary_samples": 0,
+          "missing_outer_boundary_samples": 0
+        }
+      ]
+    },
+    {
+      "abs_disk_z_mm": 2730.0,
+      "source_layer_ids": [
+        "A-long_strip-N5",
+        "A-long_strip-P5",
+        "C1-long_strip-N5",
+        "C1-long_strip-P5"
+      ],
+      "candidate": "square-5-control",
+      "modules": 338,
+      "body_collisions": 0,
+      "max_missing_pair_fraction": 0.0,
+      "coverage": {
+        "normal_1x": {
+          "radial_bins": 250,
+          "phi_bins": 720,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.2559979152854512,
+          "mean_pairs": 1.288992649232658,
+          "mean_sensor_crossings": 2.624353234131369
+        },
+        "vertex_-150_mm_1x": {
+          "radial_bins": 250,
+          "phi_bins": 720,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.24865842344996925,
+          "mean_pairs": 1.2783114309392263,
+          "mean_sensor_crossings": 2.6175308213627995
+        },
+        "vertex_0_mm_1x": {
+          "radial_bins": 250,
+          "phi_bins": 720,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.24701439668508288,
+          "mean_pairs": 1.2762839368938,
+          "mean_sensor_crossings": 2.6163314635972985
+        },
+        "vertex_150_mm_1x": {
+          "radial_bins": 250,
+          "phi_bins": 720,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.24531976955187232,
+          "mean_pairs": 1.273832572989564,
+          "mean_sensor_crossings": 2.6136930972375687
+        },
+        "normal_2x": {
+          "radial_bins": 500,
+          "phi_bins": 1440,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.2557432031921424,
+          "mean_pairs": 1.2887694424186618,
+          "mean_sensor_crossings": 2.624169748864334
+        },
+        "vertex_-150_mm_2x": {
+          "radial_bins": 500,
+          "phi_bins": 1440,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.2473377195518723,
+          "mean_pairs": 1.2765124887507673,
+          "mean_sensor_crossings": 2.6143158404389193
+        },
+        "vertex_0_mm_2x": {
+          "radial_bins": 500,
+          "phi_bins": 1440,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.24714469504297118,
+          "mean_pairs": 1.2761079187845303,
+          "mean_sensor_crossings": 2.614450724493554
+        },
+        "vertex_150_mm_2x": {
+          "radial_bins": 500,
+          "phi_bins": 1440,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.24590828437691833,
+          "mean_pairs": 1.2744435597605892,
+          "mean_sensor_crossings": 2.6138430416820135
+        }
+      },
+      "boundary_checks": []
+    },
+    {
+      "abs_disk_z_mm": 3120.0,
+      "source_layer_ids": [
+        "A-long_strip-N6",
+        "A-long_strip-P6",
+        "C1-long_strip-N6",
+        "C1-long_strip-P6"
+      ],
+      "candidate": "square-long-6",
+      "modules": 404,
+      "body_collisions": 0,
+      "max_missing_pair_fraction": 0.0,
+      "coverage": {
+        "normal_1x": {
+          "radial_bins": 250,
+          "phi_bins": 720,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.4680945964395335,
+          "mean_pairs": 1.5591456034376918,
+          "mean_sensor_crossings": 3.177114973603438
+        },
+        "vertex_-150_mm_1x": {
+          "radial_bins": 250,
+          "phi_bins": 720,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.4751555995089011,
+          "mean_pairs": 1.5655396180478822,
+          "mean_sensor_crossings": 3.2043073021485573
+        },
+        "vertex_0_mm_1x": {
+          "radial_bins": 250,
+          "phi_bins": 720,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.4754768983425414,
+          "mean_pairs": 1.5659727689379987,
+          "mean_sensor_crossings": 3.2077951645181093
+        },
+        "vertex_150_mm_1x": {
+          "radial_bins": 250,
+          "phi_bins": 720,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.4753192929404542,
+          "mean_pairs": 1.5659588957642725,
+          "mean_sensor_crossings": 3.210207901289135
+        },
+        "normal_2x": {
+          "radial_bins": 500,
+          "phi_bins": 1440,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.467297784407612,
+          "mean_pairs": 1.5597792788213627,
+          "mean_sensor_crossings": 3.1732311375076736
+        },
+        "vertex_-150_mm_2x": {
+          "radial_bins": 500,
+          "phi_bins": 1440,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.4723385281614487,
+          "mean_pairs": 1.5646282363566604,
+          "mean_sensor_crossings": 3.199130681384285
+        },
+        "vertex_0_mm_2x": {
+          "radial_bins": 500,
+          "phi_bins": 1440,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.4721852839011664,
+          "mean_pairs": 1.5643561552332719,
+          "mean_sensor_crossings": 3.2002793647636585
+        },
+        "vertex_150_mm_2x": {
+          "radial_bins": 500,
+          "phi_bins": 1440,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.4719329883364028,
+          "mean_pairs": 1.5639620030847146,
+          "mean_sensor_crossings": 3.200939383149171
+        }
+      },
+      "boundary_checks": [
+        {
+          "vertex_z_mm": -150.0,
+          "phi_samples_per_boundary": 1440,
+          "missing_inner_boundary_samples": 0,
+          "missing_outer_boundary_samples": 0
+        },
+        {
+          "vertex_z_mm": 0.0,
+          "phi_samples_per_boundary": 1440,
+          "missing_inner_boundary_samples": 0,
+          "missing_outer_boundary_samples": 0
+        },
+        {
+          "vertex_z_mm": 150.0,
+          "phi_samples_per_boundary": 1440,
+          "missing_inner_boundary_samples": 0,
+          "missing_outer_boundary_samples": 0
+        }
+      ]
+    },
+    {
+      "abs_disk_z_mm": 3120.0,
+      "source_layer_ids": [
+        "A-long_strip-N6",
+        "A-long_strip-P6",
+        "C1-long_strip-N6",
+        "C1-long_strip-P6"
+      ],
+      "candidate": "square-5-control",
+      "modules": 338,
+      "body_collisions": 0,
+      "max_missing_pair_fraction": 0.0,
+      "coverage": {
+        "normal_1x": {
+          "radial_bins": 250,
+          "phi_bins": 720,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.2559979152854512,
+          "mean_pairs": 1.288992649232658,
+          "mean_sensor_crossings": 2.624353234131369
+        },
+        "vertex_-150_mm_1x": {
+          "radial_bins": 250,
+          "phi_bins": 720,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.24883501718845916,
+          "mean_pairs": 1.278409582320442,
+          "mean_sensor_crossings": 2.6144613100061385
+        },
+        "vertex_0_mm_1x": {
+          "radial_bins": 250,
+          "phi_bins": 720,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.24905550877839167,
+          "mean_pairs": 1.2786797364027012,
+          "mean_sensor_crossings": 2.6159190570902395
+        },
+        "vertex_150_mm_1x": {
+          "radial_bins": 250,
+          "phi_bins": 720,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.2487907783916513,
+          "mean_pairs": 1.2784582906077349,
+          "mean_sensor_crossings": 2.6169329980356046
+        },
+        "normal_2x": {
+          "radial_bins": 500,
+          "phi_bins": 1440,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.2557432031921424,
+          "mean_pairs": 1.2887694424186618,
+          "mean_sensor_crossings": 2.624169748864334
+        },
+        "vertex_-150_mm_2x": {
+          "radial_bins": 500,
+          "phi_bins": 1440,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.24951493190607735,
+          "mean_pairs": 1.2793314087170045,
+          "mean_sensor_crossings": 2.616220491528545
+        },
+        "vertex_0_mm_2x": {
+          "radial_bins": 500,
+          "phi_bins": 1440,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.24908582308164517,
+          "mean_pairs": 1.2787168293278084,
+          "mean_sensor_crossings": 2.6159205209791287
+        },
+        "vertex_150_mm_2x": {
+          "radial_bins": 500,
+          "phi_bins": 1440,
+          "missing_pair_bins": 0,
+          "missing_pair_fraction": 0.0,
+          "no_sensor_fraction": 0.0,
+          "both_sides_but_no_same_module_pair_fraction": 0.0,
+          "multiple_pair_fraction": 0.24769245368324125,
+          "mean_pairs": 1.2770070247391037,
+          "mean_sensor_crossings": 2.6146503012891342
+        }
+      },
+      "boundary_checks": []
+    }
+  ],
+  "interfaces": {
+    "occupied_radius_mm": [
+      687.5496636787243,
+      1123.6751288908908
+    ],
+    "rotated_active_outline_radius_mm": [
+      693.8516049466008,
+      1117.9400334464478
+    ],
+    "radial_host_residual_mm": 16.324871109109154,
+    "layouts": [
+      {
+        "layout": "A",
+        "ideal_active_band_gap_mm": 10.0,
+        "body_radial_gap_to_short_strip_active_edge_mm": -12.4503363212757,
+        "nearest_short_long_disk_centres_mm": 40.000000000000036,
+        "short_long_trial_axial_envelope_gap_mm": 18.850000000000037,
+        "first_disk_body_to_ideal_barrel_end_mm": 14.349999999999909,
+        "last_disk_body_to_host_end_mm": 14.35
+      },
+      {
+        "layout": "C1",
+        "ideal_active_band_gap_mm": 10.0,
+        "body_radial_gap_to_short_strip_active_edge_mm": -12.4503363212757,
+        "nearest_short_long_disk_centres_mm": 40.000000000000036,
+        "short_long_trial_axial_envelope_gap_mm": 18.850000000000037,
+        "first_disk_body_to_ideal_barrel_end_mm": 14.349999999999909,
+        "last_disk_body_to_host_end_mm": 14.35
+      }
+    ],
+    "limitation": "Short-strip depth is the PR21 trial fixture; actual barrel-end structures, carriers and services are unmodeled. Negative radial gap does not imply a 3D collision when z envelopes are separated."
+  },
+  "six_rings_pass_sampled_coverage_and_body_checks": true
+}

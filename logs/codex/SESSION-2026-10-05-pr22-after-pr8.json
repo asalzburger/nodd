@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-05-pr22-after-pr8",
+  "title": "Synchronize PR #22 after PR #8 merge",
+  "recorded_at": "2026-10-05T10:43:29Z",
+  "started_at": null,
+  "ended_at": "2026-10-05T10:44:54Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Actual conversation start time and exact client-reported per-turn token counters are unavailable; usage is empty, not zero.",
+    "No detector runtime executed: changes reconcile records and import existing main content. JavaScript dashboard checks require CI because Node is unavailable locally."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "c0bd87165229c22f8e991ff9464d54b37783681e",
+    "branch": "repair/pr22-main-20261005",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      "project/tracking.json",
+      "reference/manifest.yaml",
+      "logs/codex/SESSION-2026-10-05-pr22-after-pr8.json",
+      "logs/codex/SESSION-2026-10-05-pr22-after-pr8.md"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "pull-request maintenance",
+      "conflict resolution"
+    ],
+    "related_ids": [
+      "PR-22",
+      "PR-8",
+      "DES-008",
+      "ISSUE-20"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-05-pr22-after-pr8.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 -B -m unittest discover -s tools/dashboard -p 'test_*.py'",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "...........................\n----------------------------------------------------------------------\nRan 27 tests in 82.288s\n\nOK"
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p 'test_*.py'",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "................................\n----------------------------------------------------------------------\nRan 32 tests in 0.772s\n\nOK"
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/long_strip -p 'test_*.py'",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "14 tests passed."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py build",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Dashboard built successfully."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 39 tasks, 19 documents and 19 review rounds."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 86 session records."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py summary --format json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Historical input=134594309, output=674111; 42/86 sessions with observations; 79 recorded turns. This task has no observed counters."
+    },
+    {
+      "command": "Audit parent source facts, reviews, usage and scientific files",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All facts and tracking IDs retained, review objects identical, 158 parent usage entries retained (79 distinct); 15 strip scientific files identical to original head. Imported main files identical except combined index/tracking/catalogue."
+    },
+    {
+      "command": "git diff --cached --check; confirm no unmerged index paths",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors or unresolved conflicts."
+    }
+  ]
+}

@@ -4,7 +4,7 @@
   "title": "Synchronize PR #21 after PR #8 merge",
   "recorded_at": "2026-10-05T10:43:28Z",
   "started_at": null,
-  "ended_at": "2026-10-05T10:44:54Z",
+  "ended_at": "2026-10-05T10:56:47Z",
   "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
@@ -21,12 +21,16 @@
     "start_commit": "8b6ca913be8d0fd806533aaa867004defa7bff18",
     "branch": "repair/pr21-main-20261005",
     "initial_changes": [],
-    "result_commits": [],
+    "result_commits": [
+      "c30e2fa311734ecee9f6d68ea38b1ff28f5e397c"
+    ],
     "changed_files": [
       "project/tracking.json",
       "reference/manifest.yaml",
       "logs/codex/SESSION-2026-10-05-pr21-after-pr8.json",
-      "logs/codex/SESSION-2026-10-05-pr21-after-pr8.md"
+      "logs/codex/SESSION-2026-10-05-pr21-after-pr8.md",
+      "reference/guides/SRC-ATLAS-TDR-025.md",
+      "reference/guides/SRC-CMS-TDR-014.md"
     ]
   },
   "work": {
@@ -39,7 +43,9 @@
       "PR-21",
       "PR-8",
       "DES-007",
-      "ISSUE-20"
+      "ISSUE-20",
+      "PR-22",
+      "DES-008"
     ]
   },
   "narrative": "logs/codex/SESSION-2026-10-05-pr21-after-pr8.md",
@@ -105,6 +111,36 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "No whitespace errors or unresolved conflicts."
+    },
+    {
+      "command": "After PR22 merge: python3 -B tools/dashboard/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 39 tasks, 20 documents and 19 review rounds."
+    },
+    {
+      "command": "After PR22 merge: python3 -B tools/dashboard/build.py build",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Built /private/tmp/nodd-pr21-sync/_site/pages"
+    },
+    {
+      "command": "After PR22 merge: python3 tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 91 session records."
+    },
+    {
+      "command": "After PR22 merge: python3 tools/session_logging/session_log.py summary --format json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Historical input=134594309, output=674111; 42/91 sessions with usage; 79 recorded turns. No usage observed for this task."
+    },
+    {
+      "command": "After PR22 merge: short-strip and long-strip unittest suites; preservation audit",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "6 short-strip and 14 long-strip tests passed. All source facts, exact review objects and usage records preserved; scientific files unchanged."
     }
   ]
 }

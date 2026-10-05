@@ -128,3 +128,17 @@ These facts do not demonstrate ASIC compatibility with ODD's 75 µm × 0.5 mm
 cells or support an nODD power estimate. The full PS module has two sensors and
 a trigger function that DES-007 does not inherit. Later production choices
 may supersede this TDR; they have not been silently substituted.
+
+## Long-strip sandwich reading — 2026-09-25
+
+For [DES-008](../../docs/design/DES-008-long-strip-modules.md), the local hash was
+reverified and PDF28,30,37,44–45 read. Printed and PDF numbers agree here.
+Section3.1.1/PDF28 motivates four-surface rectangular endcap tiling; §3.1.2/PDF30
+specifies 2S sensor mid-plane spacings of 1.8/4.0 mm for momentum filtering.
+Table3.3/§3.3.1.2/PDF37 establishes the 90 µm pitch and 50.274 mm strip length.
+Section3.3.3.1/PDF44–45 describes bridges that simultaneously space, mount and
+cool the sensors and readout hybrids. These functions must be accounted for
+when changing gap or rotating a sensor. CMS's gap values do not establish a
+stereo angle or second-coordinate resolution; this is a different measurement
+architecture. No CMS readout compatibility or thermal performance is transferred
+to the proposed nODD module. Live CDS access remained challenged.
