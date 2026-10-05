@@ -42,3 +42,5 @@ flex artwork, voltage drop, hydraulic stability, pressure certification, joint
 FEA, material scans and coverage/ACTS validation remain unperformed. Thermal
 control tests deliberately retain that failure; they must not be weakened to
 produce a green design conclusion.
+
+Issue #38 / DES015 PD-C11 supplies `placement.disc_abs_z_mm`: nine strictly increasing positive integer support datums. They are reflected on the negative end and replace, rather than add to, the legacy first-disc shift. Historical DES014 evidence retains its original inputs; [the position amendment](../../docs/validation/DES-015/issue38-disc-positions/results.md) compares against the previously implemented ±615.2 mm first datum.

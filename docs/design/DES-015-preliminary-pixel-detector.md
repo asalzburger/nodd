@@ -57,3 +57,28 @@ not a reconstruction acceptance region or the future full tracker. This closes
 an initialization failure from missing constants; the handler is not disabled.
 No events, field-transport result or hit-efficiency claim follows from an
 initialization-only smoke test.
+
+## Issue #38: whole-millimetre disc datums
+
+**PD-C11 — NODD DESIGN CHOICE, 2026-10-05:** in response to
+[the axial-position review](https://github.com/asalzburger/nodd/issues/38#issuecomment-5991197165),
+use positive plate datums **615, 795, 1046, 1333, 1645, 1977, 2328, 2692,
+3070 mm**, with exact reflection on the negative end. These are the reviewer's
+specified positions, not a rounding prescription applied to the old table.
+The first datum replaces the old 611.7 + 3.5 mm expression; do not add that shift
+a second time. Local support heights, sensor offsets, x/y placement, materials,
+module/chip counts and identifiers retain their DES014/015 definitions.
+
+The explicit list is owned by `tools/pixel_endcap_support/inputs.json`; the
+combined compact, carrier interfaces and collectors consume the same values.
+Frozen DES013/014/015 study artifacts remain historical controls. New validation
+belongs in `docs/validation/DES-015/issue38-disc-positions/`.
+This amends the human-selected isolated prototype; DRAFT and engineering limits
+remain. The comment and this task authorize the amendment, without supplying
+formal design acceptance.
+
+Future disc-spacing searches emit integer millimetres: floor proposed positions
+and check ordering and service clearance after quantization. A feasibility lower
+bound is first moved to the next integer millimetre so flooring cannot place a
+disc below that bound. Do not reuse sub-millimetre optimizer outputs as geometry
+or reinterpret sensor/support thicknesses as whole-millimetre quantities.
