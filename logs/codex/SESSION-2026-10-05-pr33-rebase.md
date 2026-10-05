@@ -80,18 +80,23 @@ not detector acceptance, Geant4 transport or an ACTS performance study.
 The paired JSON lists conflict-resolution paths, compatibility code/tests,
 documentation, evidence, tracking and this session pair. Four rebased commits are
 recorded there; Git history locates the enclosing compatibility/logging commit.
-PR33's tracking head snapshot was collected before the remote rebase update and
-is explicitly labeled as such.
+The compatibility commit is `f92030dc6d611ebbb57ae431939f4fa65f54e34d`.
+The lease-protected push succeeded and GitHub confirmed that exact remote head,
+base `2792227`, and MERGEABLE status. This later closeout commit updates only
+tracking and the session record; Git history locates its publication.
 
 ## Token accounting
 
 Exact client-reported per-turn counters were unavailable. `usage` is empty;
 this task's input/output totals are unknown, not zero. No historical token
-observations were copied or duplicated. A project summary is run at closeout;
-its observed totals cover only recorded turns and do not measure this task.
+observations were copied or duplicated. The closeout summary reports observed input 134594309 and output 674111 across
+79 recorded turns in 42 of 94 sessions. The remaining 52 sessions have no usage
+observations, including this one. These are partial branch-record totals, not a
+complete project total or a measurement of this task.
 
 ## Follow-up
 
-The prepared update awaits the lease-protected push and hosted checks. Native
+The rebased PR is published and conflict-free; hosted CI was running when this
+record was closed. Native
 nodehammer transparency remains an upstream limitation; GLB RGBA/BLEND are
 validated. Human review of PR33 remains separate from this maintenance task.

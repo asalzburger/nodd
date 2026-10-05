@@ -4,15 +4,15 @@
   "title": "Rebase PR33 onto current main",
   "recorded_at": "2026-10-05T12:47:10Z",
   "started_at": null,
-  "ended_at": null,
-  "status": "open",
+  "ended_at": "2026-10-05T13:05:01Z",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
     "Exact client-reported per-turn input/output counters, client version, thread ID and actual conversation start time are unavailable; usage remains empty, not zero.",
     "Tool counts and durations were not aggregated; null activity fields are unknown.",
     "The primary checkout has unrelated user edits and untracked usage records, left untouched in a separate worktree.",
-    "Hosted CI and publication were pending when this initial local validation record was written."
+    "Hosted CI was running at the observed rebased remote head f92030d; local checks passed. Subsequent GitHub status is independent of this snapshot."
   ],
   "client": {
     "name": "Codex",
@@ -27,7 +27,8 @@
       "056382492ac115704297560b079588c4f267c792",
       "29f54516c20ddac89547cade995edd96db7f349e",
       "14759868660862882fd989951be8748fbf02fbc7",
-      "dc58aa0a72ad7ccd54cf1e7f17e937a91a8bd1b0"
+      "dc58aa0a72ad7ccd54cf1e7f17e937a91a8bd1b0",
+      "f92030dc6d611ebbb57ae431939f4fa65f54e34d"
     ],
     "changed_files": [
       "docs/design/DES-012-dd4hep-pixel-barrels.md",
@@ -151,6 +152,24 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "No whitespace errors or unresolved conflict markers."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py summary --format json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "94 sessions, 79 recorded turns in 42 sessions; observed input 134594309 and output 674111. 52 sessions have no usage observations, including this task. No complete-project or task token total is claimed."
+    },
+    {
+      "command": "git push --force-with-lease=refs/heads/software/independent-display-colours:266e1ab34d8cd0a913f455ed0a7525b16411678b origin HEAD:refs/heads/software/independent-display-colours",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Remote PR33 updated from 266e1ab to f92030d. GitHub confirms head SHA, main base 2792227 and MERGEABLE; hosted build running."
+    },
+    {
+      "command": "git merge-base --is-ancestor 279222749ceb53f58bf50de694d4763d435dddf1 HEAD",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Rebased branch contains current main; primary checkout remains ed78a3f with the same unrelated working changes."
     }
   ]
 }
