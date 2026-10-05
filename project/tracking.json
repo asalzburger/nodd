@@ -694,7 +694,7 @@
     {
       "id": "TRK-LSTRIP",
       "title": "Stereo long-strip component proposal",
-      "scope": "Stereo axes/separation, covariance and ambiguities, electronics, outlines and material interfaces.",
+      "scope": "DES-008 prototype stereo sandwiches: sensor rotation/separation, same-module pair coverage, repeated rings, row seams and mounting/cooling constraints. Align the target annulus and disk planes with both PR13 A/C1 layouts; recheck five/six rings and physical interface extensions.",
       "stage": "B",
       "milestones": [
         "M1",
@@ -703,21 +703,33 @@
       "workstream": "WS-TRACK",
       "role": "Tracker technician",
       "owner": null,
-      "state": "planned",
+      "state": "active",
       "dependencies": [
         "TASK-B-TRACKER-PLAN"
       ],
-      "deliverables": [],
+      "deliverables": [
+        "docs/design/DES-008-long-strip-modules.md",
+        "tools/long_strip/README.md",
+        "docs/validation/DES-008-ring-study.md",
+        "docs/validation/DES-008-layout-compatibility.md"
+      ],
       "evidence": [
-        "docs/design/DES-005-tracker-system-plan.md"
+        "docs/design/DES-005-tracker-system-plan.md",
+        "docs/validation/DES-008-ring-study.json",
+        "logs/codex/SESSION-2026-09-25-long-strip-research.md",
+        "docs/validation/DES-008-layout-compatibility.json",
+        "tools/long_strip/pr13-layouts.json",
+        "logs/codex/SESSION-2026-10-05-pr22-merge-main.md",
+        "logs/codex/SESSION-2026-10-05-pr22-after-pr8.md"
       ],
       "documents": [
-        "DES-005"
+        "DES-005",
+        "DES-008"
       ],
-      "updated": "2026-09-18",
-      "next_action": "Prepare the paired-sensor measurement and physical-interface proposal with PhysVal.",
+      "updated": "2026-10-05",
+      "next_action": "Retain the common six-ring 710-1100 mm / 404-pair arrangement for PR13 A/C1; review inward occupied-space extensions, barrel end structures and cooling/services before claiming a cleared interface. Qualify ~96 mm strip electronics and shorter-row alternatives; no sign-off.",
       "blocker": null,
-      "disposition": null,
+      "disposition": " Main 5c4fe35 reconciled into PR #22 on 2026-10-05; scientific files and approval states preserved. Updated again after PR #8 merged into main at 5290b26; strip research remains unchanged.",
       "subsystem": "tracking and timing"
     },
     {
@@ -1729,6 +1741,14 @@
       "id": "ADR-007",
       "path": "docs/decisions/ADR-007-itkpix-pixel-baseline.md",
       "validation_reports": []
+    },
+    {
+      "id": "DES-008",
+      "path": "docs/design/DES-008-long-strip-modules.md",
+      "validation_reports": [
+        "docs/validation/DES-008-ring-study.md",
+        "docs/validation/DES-008-layout-compatibility.md"
+      ]
     }
   ],
   "evidence": [
@@ -1836,6 +1856,11 @@
       "title": "First tracker layout study and proposals",
       "path": "docs/design/DES-006-first-tracker-layouts.md",
       "kind": "Design study"
+    },
+    {
+      "title": "Long-strip stereo sandwich and ring prototype",
+      "path": "docs/validation/DES-008-ring-study.md",
+      "kind": "analytical prototype"
     }
   ],
   "pull_requests": [
@@ -2114,17 +2139,35 @@
       "number": 8,
       "title": "Tracker: Propose reusable RD53i modules with component material accounts",
       "url": "https://github.com/asalzburger/nodd/pull/8",
-      "state": "open",
-      "head_revision": "d237f146b578915cc032b30efa50044cf6344d5f",
-      "merge_commit": null,
-      "merged_at": null,
-      "collected_at": "2026-09-22T11:50:09Z",
+      "state": "merged",
+      "head_revision": "9c2da3a1a55ca81da2f79712a3c7da7a9c4cec53",
+      "merge_commit": "5290b265a5cc158198da1f40ad506028d8a0ebc5",
+      "merged_at": "2026-10-05T10:42:08Z",
+      "collected_at": "2026-10-05T10:44:54Z",
       "task": "TASK-C-PIX",
       "documents": [
         "DES-001",
         "ADR-007"
       ],
       "scope": "Draft module-only review: compact/quad RD53i assemblies, component thickness/material/X0 accounts and cross-sections; pixel volume open, no mounting/cooling infrastructure or production sign-off. Collected head is a metadata snapshot; exact design review target is ce99de4.",
+      "category": "project"
+    },
+    {
+      "id": "PR-22",
+      "number": 22,
+      "title": "Tracker: Investigate long-strip stereo sandwiches and endcap layouts",
+      "url": "https://github.com/asalzburger/nodd/pull/22",
+      "state": "open",
+      "head_revision": "61dcdca1fcf41c41fc8fbd1665c589b9dd7049a6",
+      "merge_commit": null,
+      "merged_at": null,
+      "collected_at": "2026-09-25T12:39:19Z",
+      "task": "TRK-LSTRIP",
+      "documents": [
+        "DES-005",
+        "DES-008"
+      ],
+      "scope": "DES-008 analytical PROTOTYPE: stereo sandwich outlines, pair coverage, ring reuse and gap/mounting/cooling controls. Snapshot at PR creation before this metadata-only update. No engineering qualification or human design approval.",
       "category": "project"
     }
   ]
