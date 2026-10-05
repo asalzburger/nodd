@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-05-issue38-resource-closure",
+  "title": "Recover final issue38 app usage after implementation closure",
+  "recorded_at": "2026-10-05T16:20:20Z",
+  "started_at": null,
+  "ended_at": "2026-10-05T16:23:20Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Actual client start/completion metadata and final tokens for this bookkeeping turn are unavailable while it is active; ended_at records observed bounded logging-task closure, not client-turn completion. Its usage is excluded, not treated as zero.",
+    "Executed model and client version are unknown.",
+    "Implementation usage belongs once to SESSION-2026-10-05-issue38-shared-completion; older project coverage remains partial."
+  ],
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": "01a10c6a-664d-72b1-afad-926c2c57312b"
+  },
+  "git": {
+    "start_commit": "e9221e26c5bfea66f0edc5650da2aaf6fb86ed06",
+    "branch": "codex/issue38-disc-positions",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      "logs/codex/SESSION-2026-10-05-issue38-shared-completion.md",
+      "logs/codex/SESSION-2026-10-05-issue38-shared-completion.json",
+      "logs/usage/USAGE-2026-10-05-app.json",
+      "logs/codex/SESSION-2026-10-05-issue38-resource-closure.json",
+      "logs/codex/SESSION-2026-10-05-issue38-resource-closure.md"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "session logging",
+      "resource accounting"
+    ],
+    "related_ids": [
+      "issue-38"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-05-issue38-resource-closure.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "recover_usage.py with new ignored output",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "First output attempt found build/issue38 missing; no partial output was created. Created the ignored parent directory and reran successfully."
+    },
+    {
+      "command": "recover_usage.py; import-usage --dry-run; import-usage",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Exact completed implementation turn reconciled and imported once in its canonical record; four earlier entries preserved. This bookkeeping turn is excluded."
+    },
+    {
+      "command": "session_log.py validate and summary --format json; tools/dashboard/build.py validate and build; git diff --check and git diff --check origin/main",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 104 paired records; summary has 84 observed turns in 47 sessions and 57 sessions without usage. Dashboard validated 40 tasks, 21 documents and 19 review rounds and built the ignored preview. Working-tree and full base-relative whitespace checks passed against origin/main 7b559d0fbe0287848c46cb1e05c833e0579c43d8. Aggregate observed coverage remains partial."
+    },
+    {
+      "command": "Compare pre-update bytes, synchronize shared-completion JSON/Markdown and usage inventory; primary session_log.py validate and summary",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Only the three authorized log files synchronized. Primary logger validates 104 paired records and reports 84 observed turns. Original main remains at 7b559d0fbe0287848c46cb1e05c833e0579c43d8 with no tracked scientific changes; original uncommitted log copies preserved."
+    }
+  ]
+}
