@@ -4,13 +4,13 @@
   "title": "Revise disc tiling with radial pixel axes and mixed module families",
   "recorded_at": "2026-10-05T17:13:13Z",
   "started_at": "2026-10-05T17:12:33Z",
-  "ended_at": "2026-10-05T17:43:50Z",
+  "ended_at": "2026-10-05T18:05:14Z",
   "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
-    "Scientific task closure is recorded at ended_at; actual client-turn completion and final counters for turn01a10d0d-89a2-74f3-ab78-cbf70a5057ab require the authorized post-closure recovery. No active snapshot is imported.",
-    "Actual model/client version are unknown; usage remains empty rather than estimated.",
+    "Execution model and client version are unknown.",
+    "Only this bounded radial revision turn is recovered here; earlier canonical attribution remains unchanged and older project coverage is partial.",
     "Isolated unsigned prototype; orientation covariance screens do not qualify reconstructed track resolution or hardware."
   ],
   "client": {
@@ -45,7 +45,8 @@
       "docs/validation/DES-016/radial-revision/inputs.json",
       "docs/validation/DES-016/radial-revision/module-levels.svg",
       "docs/validation/DES-016/radial-revision/results.md",
-      "docs/validation/DES-016/radial-revision/screening.json"
+      "docs/validation/DES-016/radial-revision/screening.json",
+      "logs/usage/USAGE-2026-10-05-radial-revision.json"
     ]
   },
   "work": {
@@ -74,7 +75,22 @@
       "evidence": "Preflight fingerprint warning handled with actual environment/runtime verification."
     }
   ],
-  "usage": [],
+  "usage": [
+    {
+      "client_thread_id": "01a10c6a-664d-72b1-afad-926c2c57312b",
+      "turn_id": "01a10d0d-89a2-74f3-ab78-cbf70a5057ab",
+      "model": null,
+      "source": "Usage-only local Codex recovery captured 2026-10-05T18:07:17.473307+00:00; logs/usage/USAGE-2026-10-05-radial-revision.json; verified event SHA-256 ca53e670d402e56448fd4c54ad3b4d009e1b82991eac828e465b27d06d9a7e81",
+      "limitations": [
+        "Execution model and client version were not exposed by recovered counters."
+      ],
+      "input_tokens": 8196394,
+      "cached_input_tokens": 7991552,
+      "output_tokens": 66397,
+      "reasoning_output_tokens": 31626,
+      "total_tokens": 8262791
+    }
+  ],
   "checks": [
     {
       "command": "acts-spack preflight.py",
@@ -131,16 +147,40 @@
       "result": "99 paired records validate;79 existing observed turns in42 sessions,57 sessions without usage. Dashboard validates41 tasks,22 documents,19 review rounds;31 dashboard/document tests and ignored build pass. All new artifact/producer hashes match and full base-relative whitespace checks pass. Current revision usage remains unknown until closure."
     },
     {
-      "command": "gh run view37349765493 --repo asalzburger/nodd",
+      "command": "gh run view 37349765493 --repo asalzburger/nodd",
       "status": "PASS",
       "exit_code": 0,
       "result": "Hosted build SUCCESS at exact scientific revision161feba6117b62cc6409f94770848a01b55738aa, completed2026-10-05T17:42:22Z. Naming/tracking, portable geometry controls,16 disc controls, dashboard/document/browser and static build all passed; deploy skipped. https://github.com/asalzburger/nodd/actions/runs/37349765493/job/111897970990"
     },
     {
-      "command": "gh pr edit41 --title/--body-file; git push origin codex/issue38-disc-overlap; attach_artifact",
+      "command": "gh pr edit 41 --title/--body-file; git push origin codex/issue38-disc-overlap; attach_artifact",
       "status": "PASS",
       "exit_code": 0,
       "result": "Existing PR41 revised and attached with final radial proposal and actual limits. PR40 positioning/movement table unchanged. Primary revision pair synchronized without altering main/scientific files;105 primary paired records validate."
+    },
+    {
+      "command": "recover_usage.py; import-usage --dry-run; import-usage",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Exact completed turn 01a10d0d-89a2-74f3-ab78-cbf70a5057ab, ordinals 1553..2022, 48 requests, usage hash ca53e670d402e56448fd4c54ad3b4d009e1b82991eac828e465b27d06d9a7e81; all increments reconcile. Tokens input8196394/cached7991552/output66397/reasoning31626/total8262791. Imported once into this canonical record; current service-radius/bookkeeping turn excluded."
+    },
+    {
+      "command": "gh run view 37350615469 --repo asalzburger/nodd",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Final logging-only head6daea6189bebd2cc7e3fb8d23ae569c3ffc174f4 hosted build SUCCESS at2026-10-05T17:49:59Z. https://github.com/asalzburger/nodd/actions/runs/37350615469/job/111900241459"
+    },
+    {
+      "command": "git diff --check origin/main...HEAD",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Full base-relative check passed at6daea6189bebd2cc7e3fb8d23ae569c3ffc174f4 before the next scientific revision."
+    },
+    {
+      "command": "session_log.py validate/summary; dashboard validate/build; byte-checked primary sync",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Recovered logs validate with100 paired overlap records and105 primary records. Dashboard41 tasks/22 documents/19 rounds validates and builds. Primary pair/inventory synchronized after pre-update byte checks; original main/scientific files unchanged."
     }
   ]
 }
