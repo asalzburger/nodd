@@ -18,6 +18,7 @@ The documents below establish proposals and recording formats. Their presence do
 - [Full-detector development plan and TDR programme](DEVELOPMENT_PLAN.md)
 - [DES-001: reusable RD53i module-only proposals and material tables, alternatives and drawings](design/DES-001-rd53-pixel-modules.md)
 - [DES-001: three-page reviewer brief (PDF, recommendation and material summary)](design/DES-001-review-summary.md)
+- [TRK-SE03: pyacts module and Gen-3 binding assessment](validation/TRK-SE03-pyacts-bindings.md)
 - [TDR chapter and subsection outline with evidence coverage](publication/TDR-outline.md)
 - [Publication plan, priorities and review gates](publication/publication-plan.md)
 - [DES-005: whole-tracker design, work packages and staged performance studies](design/DES-005-tracker-system-plan.md)

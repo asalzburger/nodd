@@ -47,3 +47,12 @@ The [ACTS Spack skill](skills/acts-spack/SKILL.md) checks the
 [verified node registry](skills/acts-spack/references/nodes.json) before using
 preinstalled DD4hep/Geant4. It warns about unavailable nodes or capabilities;
 runtime availability and full source availability are recorded separately.
+
+For local ACTS development, use the authorized `acts-nodd` sister checkout and
+the [recorded build, test and Python runtime workflow](AGENTS.md#local-acts-sister-checkout).
+
+The [finite-module study workflow](tools/module_layout/README.md) regenerates
+isolated cobe/pint prototypes from versioned sensor and layer inputs, compares
+straight/curved-track coverage and silicon area, and audits intersections with
+ACTS. See [DES-009](docs/design/DES-009-module-populated-layouts.md) and the
+[coverage/support report](docs/validation/DES-009-module-populated-layouts.md).
