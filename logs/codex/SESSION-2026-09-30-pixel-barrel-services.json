@@ -1,0 +1,149 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-09-30-pixel-barrel-services",
+  "title": "Pixel barrel cable bundles and sector cooling routing",
+  "recorded_at": "2026-09-30T12:29:34Z",
+  "started_at": null,
+  "ended_at": "2026-09-30T12:47:34Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact client per-turn token counters and actual model identity are unavailable; usage remains empty.",
+    "Selected public/user-visible record only; no private client state collected.",
+    "Geometry and material accounting are prototype screens, not a full simulation or engineering qualification."
+  ],
+  "client": {
+    "name": "unspecified",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "5a3befa420cdfac2e17ce0dc39880e0c1f626702",
+    "branch": "design/pixel-barrel-support",
+    "initial_changes": [
+      "logs/codex/SESSION-2026-09-29-project-usage-summary.json",
+      "logs/codex/SESSION-2026-09-29-project-usage-summary.md",
+      "logs/usage/USAGE-2026-09-29-local.json",
+      "logs/usage/USAGE-2026-09-29-project-summary.json"
+    ],
+    "result_commits": [
+      "2193ed1d17a581348467d0b587e0413944843628"
+    ],
+    "changed_files": [
+      "docs/design/DES-002-pixel-barrel-support-cooling.md",
+      "docs/validation/DES-002/outward-A-services/artifacts.json",
+      "docs/validation/DES-002/outward-A-services/barrel-B1.pdf",
+      "docs/validation/DES-002/outward-A-services/barrel-B1.png",
+      "docs/validation/DES-002/outward-A-services/barrel-B1.svg",
+      "docs/validation/DES-002/outward-A-services/barrel-B2.pdf",
+      "docs/validation/DES-002/outward-A-services/barrel-B2.png",
+      "docs/validation/DES-002/outward-A-services/barrel-B2.svg",
+      "docs/validation/DES-002/outward-A-services/barrel-B3.pdf",
+      "docs/validation/DES-002/outward-A-services/barrel-B3.png",
+      "docs/validation/DES-002/outward-A-services/barrel-B3.svg",
+      "docs/validation/DES-002/outward-A-services/barrel-B4.pdf",
+      "docs/validation/DES-002/outward-A-services/barrel-B4.png",
+      "docs/validation/DES-002/outward-A-services/barrel-B4.svg",
+      "docs/validation/DES-002/outward-A-services/barrel-all.pdf",
+      "docs/validation/DES-002/outward-A-services/barrel-all.png",
+      "docs/validation/DES-002/outward-A-services/barrel-all.svg",
+      "docs/validation/DES-002/outward-A-services/barrels-rz.pdf",
+      "docs/validation/DES-002/outward-A-services/barrels-rz.png",
+      "docs/validation/DES-002/outward-A-services/barrels-rz.svg",
+      "docs/validation/DES-002/outward-A-services/cable-accumulation.pdf",
+      "docs/validation/DES-002/outward-A-services/cable-accumulation.png",
+      "docs/validation/DES-002/outward-A-services/cable-accumulation.svg",
+      "docs/validation/DES-002/outward-A-services/radial-extraction.pdf",
+      "docs/validation/DES-002/outward-A-services/radial-extraction.png",
+      "docs/validation/DES-002/outward-A-services/radial-extraction.svg",
+      "docs/validation/DES-002/outward-A-services/results.md",
+      "docs/validation/DES-002/outward-A-services/routing.json.gz",
+      "docs/validation/DES-002/outward-A-services/screening.json",
+      "logs/codex/SESSION-2026-09-30-pixel-barrel-services.json",
+      "logs/codex/SESSION-2026-09-30-pixel-barrel-services.md",
+      "project/reviews.json",
+      "project/tracking.json",
+      "tools/pixel_support/README.md",
+      "tools/pixel_support/services.json",
+      "tools/pixel_support/services.py",
+      "tools/pixel_support/test_services.py"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "pixel barrel services",
+      "cumulative cable bundles",
+      "sector cooling",
+      "PR review response",
+      "technical drawings"
+    ],
+    "related_ids": [
+      "DES-002",
+      "DES-010",
+      "DES-011",
+      "REVIEW-DES-002-2",
+      "PR-29"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-09-30-pixel-barrel-services.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "MPLCONFIGDIR=/tmp/nodd-des002-mpl python3 -B tools/pixel_support/services.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Eight views exported in PNG/PDF/SVG plus numerical and routing records. Reference capacity fits; conservative and stress fail explicitly. Baseline unchanged."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/pixel_support -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "18 tests pass in 10.517 s; includes six service conservation/failure tests."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate; build --output /tmp/nodd-des002-services-dashboard",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "33 tasks,13 documents,15 review rounds validate; dashboard builds."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/dashboard -p 'test_*.py' -k deterministic_escaped_build_and_all_internal_links -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "1 test passes in 17.244 s."
+    },
+    {
+      "command": "Verify four producer/artifact manifests and parse new SVG files",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "94 hashes verify;8 SVG files parse; earlier evidence unchanged. Initial ad-hoc path/import probes corrected as recorded in narrative."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Pass; no whitespace errors."
+    },
+    {
+      "command": "session_log.py validate; session_log.py summary; git diff --cached --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "66 paired logs validate; summary generated. Observed historical input134594309/output674111 across79 turns in42sessions;24 sessions lack usage including this task. Staged whitespace check passes."
+    },
+    {
+      "command": "git commit; git push origin design/pixel-barrel-support; gh pr edit 29; gh pr comment 29",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Published 2193ed1d17a581348467d0b587e0413944843628. Updated PR description and replied with immutable evidence links: https://github.com/asalzburger/nodd/pull/29#issuecomment-5911595460. No merge or design sign-off."
+    },
+    {
+      "command": "Post-publication dashboard validate/build, session-log validate/summary; gh pr view 29",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "33 tasks/13 documents/15 reviews validate and dashboard builds.66 session records validate; usage summary regenerated with this task missing. Remote head2193ed1 verified; GitHub build IN_PROGRESS when inspected, no remote success claimed."
+    }
+  ]
+}

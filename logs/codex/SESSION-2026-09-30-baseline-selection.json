@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-09-30-baseline-selection",
+  "title": "Record the human-selected tracker working baseline and update PR28",
+  "recorded_at": "2026-09-30T06:54:21Z",
+  "started_at": null,
+  "ended_at": null,
+  "status": "open",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact client-reported per-turn token counters are unavailable; usage is empty, not zero.",
+    "Human instruction selects a working baseline; no formal sign-off, engineering qualification or production integration is recorded."
+  ],
+  "client": {
+    "name": "unspecified",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "17ae47f6d18e132eb539f30ef8323114963f8588",
+    "branch": "study/tracker-service-optimization",
+    "initial_changes": [
+      "logs/codex/SESSION-2026-09-29-project-usage-summary.json",
+      "logs/codex/SESSION-2026-09-29-project-usage-summary.md",
+      "logs/design/SESSION-2026-09-30-baseline-recommendation.json",
+      "logs/design/SESSION-2026-09-30-baseline-recommendation.md",
+      "logs/usage/USAGE-2026-09-29-local.json",
+      "logs/usage/USAGE-2026-09-29-project-summary.json"
+    ],
+    "result_commits": [],
+    "changed_files": [
+      "docs/design/DES-011-service-constrained-tracker-optimization.md",
+      "docs/validation/DES-011-service-constrained-optimization.md",
+      "tools/module_layout/README.md",
+      "project/tracking.json",
+      "project/reviews.json",
+      "logs/codex/SESSION-2026-09-30-baseline-selection.json",
+      "logs/codex/SESSION-2026-09-30-baseline-selection.md"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "tracker working baseline",
+      "human decision record",
+      "PR update"
+    ],
+    "related_ids": [
+      "DES-011",
+      "DES-010",
+      "DES-009",
+      "PR-28"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-09-30-baseline-selection.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "Verify selected layout SHA-256 and git diff --name-only HEAD -- docs/validation/DES-011-optimization",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Selected geometry hash matches the pinned record; retained numerical evidence unchanged. No physics code/configuration changes."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate; python3 -B tools/dashboard/build.py validate; python3 -B tools/dashboard/build.py build --output /tmp/nodd-baseline-selection-dashboard; git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "62 local paired logs validate;33 tasks,12 documents,13 review rounds validate;dashboard builds and whitespace check passes."
+    }
+  ]
+}

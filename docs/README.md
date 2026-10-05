@@ -18,6 +18,7 @@ The documents below establish proposals and recording formats. Their presence do
 - [DES-007: short-strip sensors, reusable modules and endcap ring comparison](design/DES-007-short-strip-modules.md)
 
 - [Full-detector development plan and TDR programme](DEVELOPMENT_PLAN.md)
+- [TRK-SE03: pyacts module and Gen-3 binding assessment](validation/TRK-SE03-pyacts-bindings.md)
 - [TDR chapter and subsection outline with evidence coverage](publication/TDR-outline.md)
 - [Publication plan, priorities and review gates](publication/publication-plan.md)
 - [DES-005: whole-tracker design, work packages and staged performance studies](design/DES-005-tracker-system-plan.md)
