@@ -16,6 +16,7 @@ The documents below establish proposals and recording formats. Their presence do
 ## Index
 
 - [Full-detector development plan and TDR programme](DEVELOPMENT_PLAN.md)
+- [TRK-SE03: pyacts module and Gen-3 binding assessment](validation/TRK-SE03-pyacts-bindings.md)
 - [TDR chapter and subsection outline with evidence coverage](publication/TDR-outline.md)
 - [Publication plan, priorities and review gates](publication/publication-plan.md)
 - [DES-008: stereo long-strip sandwiches, ring layouts and mounting/cooling constraints](design/DES-008-long-strip-modules.md)

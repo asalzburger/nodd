@@ -1,0 +1,198 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-09-29-service-gap-review",
+  "title": "Compare service gaps with upgrade trackers and expose cumulative routing loads",
+  "recorded_at": "2026-09-29T12:29:19Z",
+  "started_at": null,
+  "ended_at": "2026-09-29T12:58:44Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact client-reported per-turn root and subagent token counters are unavailable; usage is empty, not zero.",
+    "Historical engineering envelopes are not final-production dimensions or usable all-phi cable capacities.",
+    "No geometry, gaps, rows, original capacity/coverage evidence or design approval changes; equivalent widths are additive diagnostics only."
+  ],
+  "client": {
+    "name": "unspecified",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "2a3dbfb741f7ea27e77cca3de81690fa800e4567",
+    "branch": "study/tracker-service-corridors",
+    "initial_changes": [
+      "logs/codex/SESSION-2026-09-29-project-usage-summary.json",
+      "logs/codex/SESSION-2026-09-29-project-usage-summary.md",
+      "logs/usage/USAGE-2026-09-29-local.json",
+      "logs/usage/USAGE-2026-09-29-project-summary.json"
+    ],
+    "result_commits": [
+      "b6a7506d671d4462935d9c07efdf401f3aeaf676",
+      "bbc7bca001e825331729bcaf567d2d3b2f1c87e7"
+    ],
+    "changed_files": [
+      "docs/design/DES-010-tracker-service-corridors.md",
+      "docs/design/inputs/DES-010-upgrade-service-comparison.md",
+      "docs/validation/DES-010-service-gap-review.md",
+      "docs/validation/DES-010-services/review-accumulation/artifacts.json",
+      "docs/validation/DES-010-services/review-accumulation/budget_inputs.json",
+      "docs/validation/DES-010-services/review-accumulation/profile.json",
+      "docs/validation/DES-010-services/review-accumulation/views/cumulative-services.pdf",
+      "docs/validation/DES-010-services/review-accumulation/views/cumulative-services.png",
+      "docs/validation/DES-010-services/review-accumulation/views/views.json",
+      "docs/validation/DES-010-tracker-services.md",
+      "logs/codex/SESSION-2026-09-29-service-gap-review.json",
+      "logs/codex/SESSION-2026-09-29-service-gap-review.md",
+      "project/reviews.json",
+      "project/tracking.json",
+      "reference/manifest.yaml",
+      "tools/module_layout/README.md",
+      "tools/module_layout/services_profile.py",
+      "tools/module_layout/services_profile_views.py",
+      "tools/module_layout/test_services_profile.py"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "tracker services",
+      "expert review response",
+      "cumulative service inventory"
+    ],
+    "related_ids": [
+      "DES-010",
+      "PR-25",
+      "REVIEW-DES-010-1"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-09-29-service-gap-review.md",
+  "activities": [
+    {
+      "kind": "tool",
+      "name": "collaboration",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Delegated independent ATLAS/CMS source comparisons and cumulative-budget implementation/audit."
+    },
+    {
+      "kind": "skill",
+      "name": "acts-spack",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Node preflight warned about changed fingerprints; actual installed Python/NumPy/Matplotlib imports verified before plotting."
+    },
+    {
+      "kind": "tool",
+      "name": "gh pr edit / gh pr comment",
+      "version": null,
+      "calls": 2,
+      "failures": 0,
+      "duration_seconds": null,
+      "evidence": "https://github.com/asalzburger/nodd/pull/25#issuecomment-5890787099"
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 skills/acts-spack/scripts/preflight.py",
+      "status": "FAIL",
+      "exit_code": 2,
+      "result": "Changed setup_script/spack_lock; reported and required plotting runtime reverified."
+    },
+    {
+      "command": "acts run acts-nodd; activate installed pyvenv; import sys,numpy,matplotlib",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Installed Python 3.14.5, NumPy 2.5.3, Matplotlib 3.11.2. Sister source HEAD 355ea684 with existing changes preserved."
+    },
+    {
+      "command": "Initial root focused profile test/probe/plot attempt",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Duplicate provenance keyword while reconciling root/agent additions caused SyntaxError; dependent preview lacked profile input. Duplicate removed; no retained reference evidence changed."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/module_layout -p test_services_profile.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "10 controls passed after provenance reconciliation."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/module_layout -p test_services*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "49 tests passed in 4.631 s; includes original services budget/geometry/driver tests and 10 additive-profile controls."
+    },
+    {
+      "command": "services_profile.py --run docs/validation/DES-010-services/main --output docs/validation/DES-010-services/review-accumulation --pickup-policy near-edge-full-load",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Six profiles generated at clean b6a7506; ten/seven/seven segments per signed end; all terminal budgets identical."
+    },
+    {
+      "command": "services_profile_views.py --run docs/validation/DES-010-services/review-accumulation --output docs/validation/DES-010-services/review-accumulation/views (verified plot environment)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "PNG/PDF and hashes generated; final six-panel figure visually checked."
+    },
+    {
+      "command": "Verify original DES010 artifact hashes and new profile/source/view hashes",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All original evidence byte-identical; clean additive source provenance; new plots match manifest."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate; build --output /tmp/nodd-pr25-review-dashboard",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "32 tasks,11 documents,12 review rounds validated; dashboard build passed."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate; git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "59 local paired records validate; no whitespace errors."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/dashboard -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "27 tests passed in 169.003 s."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "32 tests passed in 0.972 s."
+    },
+    {
+      "command": "gh pr view 25 --repo asalzburger/nodd --json number,title,state,isDraft,headRefOid,statusCheckRollup",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Published bbc7bca observed, PR open/draft; dashboard run 36571384124 succeeded. PR-body update triggered another run, pending at observation."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py summary",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "59 local sessions, 42 with usage, 79 observed turns. Historical observed input 134594309/output 674111; this task has no exact counters. No usage observations duplicated or estimated."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate (closeout attempt)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Manual audit was initially entered as PASS with no process exit code. Moved it to the narrative; automated PASS records require observed zero exit status."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate; summary --format json (corrected closeout)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "59 paired records validate; summary unchanged at 42 measured sessions/79 turns; no whitespace errors."
+    }
+  ]
+}
