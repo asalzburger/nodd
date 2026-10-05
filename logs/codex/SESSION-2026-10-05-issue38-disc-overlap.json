@@ -1,0 +1,122 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-05-issue38-disc-overlap",
+  "title": "Issue 38: optimize RD53 pixel disc modules within ten-percent overlap",
+  "recorded_at": "2026-10-05T15:31:30Z",
+  "started_at": null,
+  "ended_at": "2026-10-05T15:31:30Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Client version/executed model identity unavailable.",
+    "Shared preparation and continued implementation usage are counted once in canonical shared records on the positioning PR; no per-PR token split is inferred. Current active turn requires recovery after closure.",
+    "Geometric optimization is conditional on unqualified0.1mm guard/body choices and a larger support envelope. Service packing fails; no baseline integration or design approval."
+  ],
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": "01a10c6a-664d-72b1-afad-926c2c57312b"
+  },
+  "git": {
+    "start_commit": "7b559d0fbe0287848c46cb1e05c833e0579c43d8",
+    "branch": "codex/issue38-disc-overlap",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      "tools/pixel_disc_optimization/",
+      ".github/workflows/dashboard.yml",
+      "docs/design/DES-016-pixel-disc-module-optimization.md",
+      "docs/validation/DES-016/",
+      "project/tracking.json",
+      "logs/codex/SESSION-2026-10-05-issue38-disc-overlap.md",
+      "logs/codex/SESSION-2026-10-05-issue38-disc-overlap.json"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "pixel disc silicon",
+      "ACTS finite-surface audit",
+      "services envelope"
+    ],
+    "related_ids": [
+      "DES-016",
+      "DES-015",
+      "DES-014",
+      "issue-38"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-05-issue38-disc-overlap.md",
+  "activities": [
+    {
+      "kind": "skill",
+      "name": "acts-spack",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Read node-specific skill, preflight reported stale fingerprints; actual installed runtime reverified without changing shared dependencies."
+    },
+    {
+      "kind": "tool",
+      "name": "acts-nodd finite-surface propagation",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "docs/validation/DES-016/acts.json records measured audit time, exact binary/source hashes, candidate/track counts and numerical residuals."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "ACTS runtime audit with local-only PYTHONPATH override",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Initial invocation erased the activated ACTS paths: ModuleNotFoundError. Corrected by prepending the local dependency path; later full runs pass."
+    },
+    {
+      "command": "python -B -m unittest discover -s tools/pixel_disc_optimization -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Six tests pass, including physical body collisions, true-circle supersets, continuous vertex coverage and far-disc overlap control."
+    },
+    {
+      "command": "python -B tools/pixel_disc_optimization/study.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All18 body/overlap screens and straight on-axis luminous coverage certificates pass; rejected candidates/guard control retained. All service-space scenarios fail."
+    },
+    {
+      "command": "python -B tools/pixel_disc_optimization/audit.py ...",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "324 candidate and324 matched baseline tracks, plus6 exhaustive controls. Native finite-surface/ID/oracle agreement; zero mismatches. Runtime/source/binary hashes retained."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate; python3 -B tools/dashboard/build.py build",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "41 tasks,22 documents,19 rounds validate; dashboard built."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate; summary --format json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "98 paired records validate; summary retained in ignored build directory. Shared exact usage is owned by positioning-PR records."
+    },
+    {
+      "command": "Final geometry JSON hashes compared against acts-summary.json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Final candidate/baseline fixtures exactly match the native-audited hashes after report/provenance corrections."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors."
+    }
+  ]
+}
