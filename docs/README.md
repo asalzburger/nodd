@@ -15,6 +15,8 @@ The documents below establish proposals and recording formats. Their presence do
 
 ## Index
 
+- [DES-007: short-strip sensors, reusable modules and endcap ring comparison](design/DES-007-short-strip-modules.md)
+
 - [Full-detector development plan and TDR programme](DEVELOPMENT_PLAN.md)
 - [DES-001: reusable RD53i module-only proposals and material tables, alternatives and drawings](design/DES-001-rd53-pixel-modules.md)
 - [DES-001: three-page reviewer brief (PDF, recommendation and material summary)](design/DES-001-review-summary.md)

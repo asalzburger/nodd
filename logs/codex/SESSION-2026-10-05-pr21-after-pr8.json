@@ -1,0 +1,146 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-05-pr21-after-pr8",
+  "title": "Synchronize PR #21 after PR #8 merge",
+  "recorded_at": "2026-10-05T10:43:28Z",
+  "started_at": null,
+  "ended_at": "2026-10-05T10:56:47Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Actual conversation start time and exact client-reported per-turn token counters are unavailable; usage is empty, not zero.",
+    "No detector runtime executed: changes reconcile records and import existing main content. JavaScript dashboard checks require CI because Node is unavailable locally."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "8b6ca913be8d0fd806533aaa867004defa7bff18",
+    "branch": "repair/pr21-main-20261005",
+    "initial_changes": [],
+    "result_commits": [
+      "c30e2fa311734ecee9f6d68ea38b1ff28f5e397c"
+    ],
+    "changed_files": [
+      "project/tracking.json",
+      "reference/manifest.yaml",
+      "logs/codex/SESSION-2026-10-05-pr21-after-pr8.json",
+      "logs/codex/SESSION-2026-10-05-pr21-after-pr8.md",
+      "reference/guides/SRC-ATLAS-TDR-025.md",
+      "reference/guides/SRC-CMS-TDR-014.md"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "pull-request maintenance",
+      "conflict resolution"
+    ],
+    "related_ids": [
+      "PR-21",
+      "PR-8",
+      "DES-007",
+      "ISSUE-20",
+      "PR-22",
+      "DES-008"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-05-pr21-after-pr8.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 -B -m unittest discover -s tools/dashboard -p 'test_*.py'",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "...........................\n----------------------------------------------------------------------\nRan 27 tests in 82.958s\n\nOK"
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p 'test_*.py'",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "................................\n----------------------------------------------------------------------\nRan 32 tests in 0.774s\n\nOK"
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/short_strip -p 'test_*.py'",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "6 tests passed."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py build",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Dashboard built successfully."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 39 tasks, 19 documents and 19 review rounds."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 86 session records."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py summary --format json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Historical input=134594309, output=674111; 42/86 sessions with observations; 79 recorded turns. This task has no observed counters."
+    },
+    {
+      "command": "Audit parent source facts, reviews, usage and scientific files",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All facts and tracking IDs retained, review objects identical, 158 parent usage entries retained (79 distinct); 11 strip scientific files identical to original head. Imported main files identical except combined index/tracking/catalogue."
+    },
+    {
+      "command": "Initial strict main-file identity audit",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "docs/README.md also contains the retained DES-007 index entry. Replaced inappropriate whole-file identity expectation with main-line preservation check; passed."
+    },
+    {
+      "command": "git diff --cached --check; confirm no unmerged index paths",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors or unresolved conflicts."
+    },
+    {
+      "command": "After PR22 merge: python3 -B tools/dashboard/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 39 tasks, 20 documents and 19 review rounds."
+    },
+    {
+      "command": "After PR22 merge: python3 -B tools/dashboard/build.py build",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Built /private/tmp/nodd-pr21-sync/_site/pages"
+    },
+    {
+      "command": "After PR22 merge: python3 tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 91 session records."
+    },
+    {
+      "command": "After PR22 merge: python3 tools/session_logging/session_log.py summary --format json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Historical input=134594309, output=674111; 42/91 sessions with usage; 79 recorded turns. No usage observed for this task."
+    },
+    {
+      "command": "After PR22 merge: short-strip and long-strip unittest suites; preservation audit",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "6 short-strip and 14 long-strip tests passed. All source facts, exact review objects and usage records preserved; scientific files unchanged."
+    }
+  ]
+}
