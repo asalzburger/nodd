@@ -30,3 +30,7 @@ def render(cfg,out,layout):
     ax.axhspan(-3.15,3.15,color='gray',alpha=.25,label='Inherited 6.3 mm plate thickness only')
     ax.set(xlabel='Module radius [mm]; radial width schematic for Cartesian modules',ylabel='Local outward z [mm]',title='Five levels give ≥0.2 mm module-body separation; supports and flex routes require redesign')
     ax.legend(fontsize=8);ax.grid(alpha=.2);fig.savefig(out/'module-levels.svg');plt.close(fig)
+
+    # Matplotlib emits path-line trailing spaces; preserve tokens, normalize text.
+    for path in out.glob("*.svg"):
+        path.write_text("\n".join(line.rstrip() for line in path.read_text().splitlines())+"\n")

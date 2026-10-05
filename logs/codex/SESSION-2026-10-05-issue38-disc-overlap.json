@@ -22,7 +22,10 @@
     "start_commit": "7b559d0fbe0287848c46cb1e05c833e0579c43d8",
     "branch": "codex/issue38-disc-overlap",
     "initial_changes": [],
-    "result_commits": [],
+    "result_commits": [
+      "c6f47f134dc7a8f2ff10aa8f70c997341a659ed6",
+      "439835c34a902b126cb49bdd723eea141d7510e2"
+    ],
     "changed_files": [
       "tools/pixel_disc_optimization/",
       ".github/workflows/dashboard.yml",
@@ -117,6 +120,18 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "No whitespace errors."
+    },
+    {
+      "command": "git diff --check origin/main...HEAD",
+      "status": "FAIL",
+      "exit_code": 2,
+      "result": "Post-push full diff exposed Matplotlib SVG trailing spaces. Stripped line-end whitespace, preserving parsed XML element/attribute tokens; generator now performs the same normalization."
+    },
+    {
+      "command": "Compare normalized parsed SVG XML tokens before/after whitespace correction",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Both vector figures retain identical element and attribute tokens. PNG rendering unchanged; artifact/producer hashes updated."
     }
   ]
 }

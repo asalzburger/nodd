@@ -9,3 +9,5 @@ Ran acts-nodd:324 matched tracks for candidate and actual preliminary baseline, 
 Recomputed full module/chip/link/power-chain/cooling circuit counts and tube/cable envelopes. Heat decreases26.8%, but commands/chains, boundary overhang and reduced trunk area make every inherited packing scenario fail. This is a conditional geometric proposal, requiring readout/support/cooling/routing review before adoption. Figures/results and executable controls are retained in DES016; tracking records bounded study completion without design sign-off.
 
 Shared token usage is recorded once on the positioning PR. The repository recovery tool is run for completed app turns; active final counters are deferred until closure. No raw conversation or private model state is logged.
+
+Publication correction: removed accidentally tracked Python bytecode in a normal follow-up commit and ignored new-tool caches. Full base-relative diff then exposed generated SVG trailing spaces; normalized them without changing parsed vector tokens, corrected producer/artifact hashes and added that normalization to the generator. No scientific inputs or tolerances changed.
