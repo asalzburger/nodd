@@ -28,6 +28,8 @@ jobs:
           python-version: '3.12'
       - name: Validate PR title and require project tracking updates
         run: python3 -B tools/dashboard/check_update.py --event "$GITHUB_EVENT_PATH"
+      - name: Fetch recorded historical Git evidence
+        run: python3 -B tools/dashboard/fetch_evidence.py
       - name: Validate project records
         run: python3 -B tools/dashboard/build.py validate
       - name: Test public tracker prototype controls
