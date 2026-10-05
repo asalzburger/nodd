@@ -25,6 +25,15 @@ def sha(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
+def module_view_root(expected):
+    """Choose a source module by detector hierarchy, independent of inventory order."""
+    modules = [entity for entity in expected["entities"] if entity["role"] == "module"]
+    if not modules:
+        raise ValueError("module view requires a module in expected.json")
+    return min(modules, key=lambda entity: tuple(
+        entity["ids"][field] for field in ("system", "layer", "stave", "module")))["name"]
+
+
 def mv(matrix, vector):
     return [sum(a * b for a, b in zip(row, vector)) for row in matrix]
 
@@ -83,9 +92,8 @@ def audit(scene, expected, palette):
         material = materials[volumes[node["logVolId"]]["materialId"]]
         if material["name"] not in ("Air", "dummy"):
             physical.add(key)
-            style = palette[style_name(material["name"])]
-            if max(abs(a - b) for a, b in zip(material["color"], style["rgb"])) > 1e-6:
-                raise ValueError(f"material RGB differs: {material['name']}")
+            if style_name(material["name"]) not in palette:
+                raise ValueError(f"unclassified display material: {material['name']}")
         if node.get("degradation", 0):
             raise ValueError(f"degraded import: {name}")
     expected_names = {e["name"] for e in expected["entities"]}
@@ -114,7 +122,9 @@ def audit(scene, expected, palette):
         "max_centre_error_mm": max_centre_error, "centre_tolerance_mm": CENTRE_TOLERANCE_MM,
         "max_sensor_normal_error": max_normal_error,
         "physical_shape_counts": dict(Counter(shapes[volumes[nodes[k]["logVolId"]]["shapeId"]]["type"] for k in physical)),
-        "material_rgb_checked": True, "semantic_length_unit": "cm",
+        "material_rgb_checked": False,
+        "display_rgb_source": "config palette, independent of imported ROOT colour",
+        "semantic_length_unit": "cm",
         "gltf_unit_scale": METRES_PER_CM,
     }, nodes, physical
 
@@ -221,8 +231,10 @@ def main():
     portable = json.loads((out / "roundtrip.json").read_text())
     roundtrip_report, nodes, physical = audit(portable, expected, palette)
     report["nhb_roundtrip"] = roundtrip_report
+    module_name = module_view_root(expected)
     views = {"full": None, "sensitive": 'tag.sensitive == "true"',
-             "stave": 'path ~= "**/layer1_stave0" || path ~= "**/layer1_stave0/**"'}
+             "stave": 'path ~= "**/layer1_stave0" || path ~= "**/layer1_stave0/**"',
+             "module": f'path ~= "**/{module_name}" || path ~= "**/{module_name}/**"'}
     report["views"] = {}
     for name, selection in views.items():
         config = out / f"{name}.toml"
@@ -236,8 +248,9 @@ def main():
         wanted = physical
         if name == "sensitive":
             wanted = {k for k in physical if nodes[k].get("tags", {}).get("sensitive") == "true"}
-        elif name == "stave":
-            root = next(k for k, n in nodes.items() if n["name"] == "layer1_stave0")
+        elif name in ("stave", "module"):
+            selected_name = {"stave": "layer1_stave0", "module": module_name}[name]
+            root = next(k for k, n in nodes.items() if n["name"] == selected_name)
             descendants, pending = set(), [root]
             while pending:
                 key = pending.pop()
@@ -254,6 +267,7 @@ def main():
                                 "glb_audit": glb_report,
                                 "project_bytes": (out / f"{name}.nhproj").stat().st_size,
                                 "glb_bytes": (out / f"{name}.glb").stat().st_size}
+    report["views"]["module"]["source_module"] = module_name
     report.update({"recorded_at": datetime.now(timezone.utc).isoformat(),
                    "nodd_revision": subprocess.check_output(["git", "-C", str(ROOT), "rev-parse", "HEAD"], text=True).strip(),
                    "upstream_pin": json.loads(Path(__file__).with_name("upstream.json").read_text()),

@@ -10,6 +10,43 @@ import prepare
 
 
 class DisplayChecks(unittest.TestCase):
+    def test_module_view_uses_source_hierarchy_without_m1(self):
+        # Synthetic IDs only: neither inventory order nor globally smallest ID
+        # identifies the first module of the first stave/layer/system.
+        def module(name, system, layer, stave, identifier):
+            return {"name": name, "role": "module", "ids": {
+                "system": system, "layer": layer, "stave": stave, "module": identifier}}
+
+        entities = [module("other_system", 2, 1, 0, 2),
+                    module("other_layer", 1, 2, 0, 3),
+                    module("other_stave", 1, 1, 1, 4),
+                    module("later_module", 1, 1, 0, 9001),
+                    module("selected_module", 1, 1, 0, 9000),
+                    {"name": "sensor", "role": "sensitive"}]
+        self.assertEqual(prepare.module_view_root({"entities": entities}), "selected_module")
+        self.assertEqual(prepare.module_view_root({"entities": list(reversed(entities))}),
+                         "selected_module")
+
+    def test_module_view_rejects_missing_modules(self):
+        with self.assertRaisesRegex(ValueError, "module view requires a module"):
+            prepare.module_view_root({"entities": [{"name": "sensor", "role": "sensitive"}]})
+
+    def test_imported_root_rgb_can_differ_from_display_rgb(self):
+        # Test-only scene: one passive box, with red ROOT and blue display RGB.
+        scene = {"header": {"version": 1, "type": "semantic"}, "content": {
+            "nodes": [
+                {"id": 1, "name": "world", "logVolId": 1, "sourceSystem": "dd4hep"},
+                {"id": 2, "name": "PixelBarrel", "parentId": 1, "logVolId": 1, "sourceSystem": "dd4hep"},
+                {"id": 3, "name": "test_box_0", "parentId": 2, "logVolId": 2, "sourceSystem": "dd4hep/tgeo"}],
+            "logVols": [{"id": 1, "materialId": 1, "shapeId": 1}, {"id": 2, "materialId": 2, "shapeId": 1}],
+            "materials": [{"id": 1, "name": "Air"}, {"id": 2, "name": "Silicon", "color": [1, 0, 0]}],
+            "shapes": [{"id": 1, "type": "box"}]}}
+        expected = {"entities": [{"name": "test_box", "role": "asic", "center_mm": [0, 0, 0], "material": "Silicon"}], "counts": {"asic": 1}}
+        palette = {"Silicon": {"rgb": [0, 0, 1], "alpha": 1}}
+        report, _, physical = prepare.audit(scene, expected, palette)
+        self.assertEqual(physical, {3})
+        self.assertFalse(report["material_rgb_checked"])
+
     def test_column_major_parent_rotation(self):
         # Test values only: +90 degrees around z, then translate along local x.
         nodes = {1: {"locRot": [0, 1, 0, -1, 0, 0, 0, 0, 1], "locTrl": [3, 0, 0]},

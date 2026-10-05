@@ -61,12 +61,14 @@ maintained `build/dd4hep/detector/compact/pixel-barrel.xml`, accompanied by its
 On Linux use the corresponding `LD_LIBRARY_PATH` plugin directory.
 
 The helper checks binary provenance, structured import diagnostics, every expected
-entity/material/centre, all sensor normals and sensitive tags, imported RGB,
+entity/material/centre, all sensor normals and sensitive tags,
 the NHB round trip, and every selected tessellated placement. It checks GLB
 transforms and box dimensions in metres and explicit RGBA/BLEND settings.
 Assembly and world bounding boxes are omitted from rendering; physical parents
 such as foam cores and titanium tubes are retained. No leaf-only filtering or
 descendant merging is applied to the full view.
+The imported ROOT RGB may differ from config `rgb`: ROOT follows `root_color`,
+while generated nodehammer styles and GLB RGBA follow `rgb` and `alpha`.
 
 Outputs in `build/nodehammer/pixel/`:
 
@@ -75,6 +77,7 @@ Outputs in `build/nodehammer/pixel/`:
 | `full.nhproj` | All physical solids, including mounting and services |
 | `sensitive.nhproj` | Active sensor patches |
 | `stave.nhproj` | Layer 1, stave 0, including its nested cooling and modules |
+| `module.nhproj` | First source module only: substrate, active sensor, ASIC, flex/glue and graphite contact shim |
 | `*.glb` | The same selections in metre-based glTF 2.0 |
 | `*.toml` | Generated styles from `detector/config/display.json` |
 | `pixel.nhb`, `pixel.json`, `roundtrip.json` | Portable semantic geometry and audit inputs |
@@ -92,6 +95,14 @@ audit for explicit review rather than silently using an unknown style.
 ```sh
 build/nodehammer/native/nodehammer viewer open build/nodehammer/pixel/full.nhproj
 ```
+
+For the individual module, replace `full.nhproj` with `module.nhproj`. It selects
+only the first module assembly in `(system, layer, stave, module)` identifier
+order and its descendants; stave, mounting and external service volumes are
+excluded. The chosen name is recorded as `views.module.source_module` in
+`report.json`. On the current barrel baseline this is `m23142`, a single-pixel
+module with eight physical component placements. The world/assembly nodes carry
+no rendered geometry.
 
 Use the hierarchy to select or hide volumes and the angle-cut controls to expose
 the interior. Native transparency is not yet implemented at the pinned revision;

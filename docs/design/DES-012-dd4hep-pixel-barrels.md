@@ -105,6 +105,14 @@ SRC-ROOT-TCOLOR documents the standard colour wheel; actual persistence is teste
 against the installed DD4hep/ROOT versions. Existing numerical evidence remains
 unchanged and is retained.
 
+Display clarification (2026-10-01, explicit human request): `root_color` and
+`rgb` may differ. ROOT volume attributes use the index; RGB-based consumers use
+the configured triplet. Effective ROOT transparency may also differ from the
+configured `alpha`. Persistence checks retain actual ROOT RGB and transparency
+across export/import without requiring equality to configured RGB/alpha. This amends
+PB-C13's software display policy only; it changes no detector parameter or
+scientific approval state.
+
 ## PR34 barrel baseline implementation — 2026-10-01
 
 The explicit [DES013 Z-C09 baseline selection](DES-013-pixel-barrel-z-coverage.md)

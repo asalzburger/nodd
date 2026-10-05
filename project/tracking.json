@@ -1416,16 +1416,17 @@
         "docs/validation/DES-012/results.md",
         "https://github.com/asalzburger/nodd/pull/30",
         "logs/codex/SESSION-2026-09-30-dd4hep-geodisplay.md",
-        "docs/validation/DES-012/display/results.md"
+        "docs/validation/DES-012/display/results.md",
+        "docs/validation/nodehammer/independent-colours.md"
       ],
       "documents": [
         "DES-012",
         "DES-002"
       ],
-      "updated": "2026-09-30",
+      "updated": "2026-10-01",
       "next_action": "Expert review of cable fractions, contact shims and effective end-bay representation; future Geant4/ACTS/full-detector integration and engineering qualification.",
       "blocker": null,
-      "disposition": "Standalone prototype implemented and validated with DD4hep1.38/ROOT6.40.04: 6206 matching sensitive elements, zero overlaps,31030 pixel cell checks,75 navigation rays; Cu5/10/20 variants preserve geometry and pass. No engineering acceptance or formal design sign-off. geoDisplay load-only and environment-based plugin discovery verified; README identifies the maintained compact and stale-probe failure. Standard ROOT material-family colours and transparency survive fresh-process export/import; CTest3/3 passes and physics results remain identical.",
+      "disposition": "Standalone prototype implemented and validated with DD4hep1.38/ROOT6.40.04: 6206 matching sensitive elements, zero overlaps,31030 pixel cell checks,75 navigation rays; Cu5/10/20 variants preserve geometry and pass. No engineering acceptance or formal design sign-off. geoDisplay load-only and environment-based plugin discovery verified; README identifies the maintained compact and stale-probe failure. Standard ROOT material-family colours and transparency survive fresh-process export/import; CTest3/3 passes and physics results remain identical. Human-requested display relaxation: root_color and rgb are independent; effective ROOT transparency need not equal config alpha. Actual attributes must still survive ROOT export/import.",
       "subsystem": "software"
     },
     {
@@ -1452,16 +1453,20 @@
       "evidence": [
         "docs/validation/nodehammer/report.json",
         "docs/validation/nodehammer/root-fallback.json",
-        "logs/codex/SESSION-2026-09-30-nodehammer-integration.md"
+        "logs/codex/SESSION-2026-09-30-nodehammer-integration.md",
+        "docs/validation/nodehammer/independent-colours.md",
+        "docs/validation/nodehammer/module-view.json",
+        "docs/validation/nodehammer/pr33-rebase.json",
+        "logs/codex/SESSION-2026-10-05-pr33-rebase.md"
       ],
       "documents": [
         "DES-012",
         "ADR-003"
       ],
-      "updated": "2026-09-30",
+      "updated": "2026-10-05",
       "next_action": "Review optional integration; upstream strict-mode, ROOT extension and screenshot CLI fixes; qualify a matched web runtime before any browser/dashboard publication.",
       "blocker": null,
-      "disposition": "Native build and 602 upstream tests pass; 6 safeguards pass; 39386 entity/transform matches and 6206 sensitive tags survive NHB round trip; full/sensitive/stave mesh sets and GLB units/opacity verified; native screenshots inspected. Native blending and physics equivalence are not claimed.",
+      "disposition": "Native build and 602 upstream tests pass; 6 safeguards pass; 39386 entity/transform matches and 6206 sensitive tags survive NHB round trip; full/sensitive/stave mesh sets and GLB units/opacity verified; native screenshots inspected. Native blending and physics equivalence are not claimed. Human-requested display relaxation: root_color and rgb are independent; effective ROOT transparency need not equal config alpha. Actual attributes must still survive ROOT export/import. Added repeatable m1-only module.nhproj:8 physical components, no stave/mounting/external services; GLB dimensions/transforms/styles checked. On 2026-10-05 PR33 was rebased onto main 2792227 by explicit user request. Updated module selection to derive the first source module by identifier hierarchy (currently m23142); 9 safeguards, 3 native CTests and all four regenerated views pass on the current 3050-module/6794-sensitive-patch baseline. Historical counts above describe earlier runs; no geometry or design-approval change.",
       "subsystem": "software"
     },
     {
@@ -2093,7 +2098,7 @@
         "DES-012",
         "ADR-003"
       ],
-      "scope": "Optional display integration at the captured implementation head; subsequent closeout updates tracking/logs only. Rebased onto main ed78a3f after user-authorized support/PR30 merge. Native import/rendering and portable project/GLB checks pass; native blending, browser runtime and physics equivalence remain explicit limits. No design approval.",
+      "scope": "Optional display integration at the captured implementation head; subsequent closeout updates tracking/logs only. Rebased onto main ed78a3f after user-authorized support/PR30 merge. Native import/rendering and portable project/GLB checks pass; native blending, browser runtime and physics equivalence remain explicit limits. No design approval. Merged into main; no design sign-off inferred.",
       "category": "project"
     },
     {
@@ -2207,6 +2212,23 @@
         "DES-007"
       ],
       "scope": "Draft DES-007 research; observed head before the baseline-choice update. User agreed to the 0.5 mm research baseline and 1.5 mm fallback; no hardware sign-off. Electronics/services feasibility and required token accounting remain open.",
+      "category": "project"
+    },
+    {
+      "id": "PR-33",
+      "number": 33,
+      "title": "Software: Relax display validation and add module-only viewing",
+      "url": "https://github.com/asalzburger/nodd/pull/33",
+      "state": "open",
+      "head_revision": "f92030dc6d611ebbb57ae431939f4fa65f54e34d",
+      "merge_commit": null,
+      "merged_at": null,
+      "collected_at": "2026-10-05T13:05:01Z",
+      "task": "TASK-SOFT-NODEHAMMER",
+      "documents": [
+        "DES-012"
+      ],
+      "scope": "Human-requested independent ROOT/config RGB and effective-transparency policy, plus module.nhproj containing only the first source module and its descendants. Rebased onto main 2792227 and published at the observed head; GitHub reports MERGEABLE. Later closeout changes only tracking and session records. Rebase compatibility correction derives module identity from expected.json rather than m1. Four views pass mesh, unit and style audits; see pr33-rebase.json. No detector changes or approval.",
       "category": "project"
     }
   ]
