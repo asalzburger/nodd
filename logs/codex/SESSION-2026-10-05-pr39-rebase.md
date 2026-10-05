@@ -75,8 +75,10 @@ at runtime validation. No literature provenance or manifest changes were needed.
 
 ## Publication and remaining limits
 
-The initial local record precedes the lease-protected push; the observed remote
-result is recorded at closeout. Human review remains separate. DRAFT/PROTOTYPE
+The lease-protected push succeeded: original head `78bc60b` became
+`f189ae640a5049ae4b5eeedb66b6e7354801ad19`. GitHub confirmed that head, base
+`3db6876`, the corrected title, and MERGEABLE status. Hosted CI was running at
+closeout. The subsequent commit updates tracking/session metadata only. Human review remains separate. DRAFT/PROTOTYPE
 status, thermal stress failure, rear-flange packing failure and effective-material
 approximations remain unchanged. Nodehammer's pinned native transparency limitation
 persists; GLB RGBA/BLEND were checked. No ACTS conversion or coverage reevaluation
@@ -86,5 +88,7 @@ is claimed.
 
 Exact client-reported per-turn counters were unavailable. `usage` stays empty,
 so this task's input/output are unknown. No counters were copied from earlier
-sessions. `session_log.py summary` is run at closeout and its observed totals
-are distinguished from missing coverage; they cannot establish this task's usage.
+sessions. `session_log.py summary` reports observed input 134594309 and output 674111
+across 79 recorded turns in 42 of 96 sessions. The remaining 54 sessions lack
+usage observations, including this one. These partial branch-record totals
+cannot establish complete project totals or this task's usage.
