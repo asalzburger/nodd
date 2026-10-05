@@ -81,7 +81,7 @@ New geometry, native audits and figures will be retained under its
 `radial-revision/` subdirectory. This is a revision of PR41; the positioning
 PR40 and production compact are outside its implementation scope.
 
-## Revised conditional proposal — radial rings
+## Superseded nine-ring radial proposal
 
 The [new retained results](../validation/DES-016/radial-revision/results.md) select
 359 singles per disc in nine concentric rings, with the innermost18-module ring
@@ -106,3 +106,49 @@ Homogeneous half-ring service groups need30 power chains and18 cooling circuits;
 all inherited shared-trunk scenarios still fail. Guard/sensor, support, cooling,
 readout aggregation and collector/trunk review remain prerequisites to adoption.
 Production compact and the independent whole-mm positioning PR remain unchanged.
+
+## Service-radius amendment — 2026-10-05
+
+**DO-C08 — NODD DESIGN CHOICE, explicit human direction:** keep the revised
+disc inside the inherited cable/service bounds, removing the outermost ring if
+needed. The nine-ring radial proposal above is retained as a superseded control.
+Use DES014's r188.5 mm local plate and DES015's r192..231.7 mm effective trunk;
+preserve the r190 mm collector boundary and the r222 mm flange necks. Do not
+widen, move inward or claim more packing capacity for these service reservations.
+Remove whole rings whose occupied bodies exceed the local plate at any of the
+nine distances. Preserve all surviving module identifiers, axes, centres and
+axial levels from the nine-ring proposal. Keep the original nominal annulus as
+the coverage target and explicitly measure any acceptance loss; removed silicon
+must not be hidden by cropping the target or weakening its certificate.
+
+**DO-C09 — NODD DESIGN CHOICE, conditional interface reservation:** check the
+OD2.8 mm local tube envelopes and an 18 by 8 mm pickup-land bounding rectangle
+against the same local radial limit. The old quad-specific +16 mm land offset is
+a rejected inheritance control for slim singles. A single's provisional land may
+be reserved wholly within its occupied silhouette: its outboard edge matches
+the body edge, giving offset 0.9 + 21.4/2 - 8/2 = 7.6 mm. This is a geometric
+reservation, not a qualified thermal contact, machined foot or routed pipe.
+Count all surviving modules/chips, physical chains and both hydraulic legs;
+report normal-trunk and flange-neck packing failures. Thermal/support interface
+engineering and detailed flex/bend routing remain open within the fixed bounds.
+
+New evidence will be retained in `docs/validation/DES-016/service-radius/`.
+The Cartesian and nine-ring radial evidence, original annulus, disc positions,
+production compact and independent PR40 remain unchanged.
+
+## Current bounded proposal — eight radial rings
+
+The [service-radius results](../validation/DES-016/service-radius/results.md)
+remove the 63-module outer ring and retain 296 singles in eight rings. All
+surviving transforms and the 18-module inner ring are unchanged. Maximum reserved
+radius is 183.388628 mm: 5.111372 mm inside the plate and 6.611372 mm inside the
+r190 service boundary. Local tube and conditional pickup-land bounds fit too;
+the old quad-specific land offset is retained as an incompatible control.
+
+The unchanged original annulus has 2.5245–3.3284% uncovered projected area in
+the sampled vertices/distances. Direct counterexamples invalidate full-annulus
+hermeticity. Worst silicon overlap is 18.476%. Native ACTS agreement retains all
+54 added edge-track misses, rather than counting a successful transport audit as
+coverage. The fixed trunk and flange-neck reference utilizations remain 1.318×
+and 1.785×, with adverse failures retained. Further engineering and coverage
+restoration must respect the fixed radial interfaces. No sign-off is recorded.

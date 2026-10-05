@@ -66,7 +66,7 @@ transport separately. Service estimates retain full module/link counts,
 local spatial grouping, both feed/return legs, barrel traffic and failed adverse
 cases. They cannot qualify manufacture, thermal contacts or hydraulics.
 
-## Current radial revision
+## Superseded nine-ring radial revision
 
 The user rejected global x/y alignment, particularly for rectangular pixels.
 `radial.py` keeps the 18-single inner polar ring and explores further concentric
@@ -101,3 +101,32 @@ continuous helical hermeticity is asserted. Source datum pairing accepts only
 1e-9 mm binary-float roundoff; actual native transport uses the unchanged source
 datums, including the original first-disc position. Guard, support, cooling and
 shared service qualification remain open.
+
+## Current service-radius revision
+
+The user required the radial module file to remain within the existing cable
+and service bounds. `service_radius.py` removes the complete outer ring and
+retains every surviving transform/ID/level. It reads pinned DES014/DES015
+interfaces: r188.5 mm local plate, r190 mm collector boundary, r192..231.7 mm
+trunk and r222 mm flange neck. Tube and provisional pickup-land reservations are
+screened too. The earlier Cartesian and nine-ring radial outputs stay intact.
+
+After the verified ACTS dependency/runtime activation above, run:
+
+```sh
+python -B tools/pixel_disc_optimization/service_radius.py screen --output build/disc-optimization/service-radius-final
+python -B -m unittest discover -s tools/pixel_disc_optimization -p 'test_*.py' -v
+python -B tools/pixel_disc_optimization/service_radius.py audit --run build/disc-optimization/service-radius-final --output build/disc-optimization/service-radius-acts --acts-source /path/to/acts-nodd/source
+MPLCONFIGDIR=build/disc-optimization/matplotlib python -B tools/pixel_disc_optimization/service_radius.py report --run build/disc-optimization/service-radius-final --audit build/disc-optimization/service-radius-acts --output docs/validation/DES-016/service-radius
+```
+
+[Current results](../../docs/validation/DES-016/service-radius/results.md) and
+`layout.json` retain 296 singles in eight rings and a maximum reserved radius of
+183.388628 mm. Original-annulus coverage explicitly fails after outer-ring
+removal; its comparison target and numerical tolerances are unchanged. Native
+ACTS includes 54 added edge probes and retains actual target-disc misses.
+The report requires finite-plane/oracle agreement, radial interfaces, body
+separation, orientation and overlap checks; it does not require or falsely claim
+hermeticity for the user-authorized trimmed proposal. Fixed service capacities
+and all failing scenarios remain visible. Pickup lands are bounding reservations,
+not qualified contacts, flex artwork or swept pipes.
