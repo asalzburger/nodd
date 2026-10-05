@@ -31,6 +31,25 @@ class DisplayChecks(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "module view requires a module"):
             prepare.module_view_root({"entities": [{"name": "sensor", "role": "sensitive"}]})
 
+    def test_module_view_can_select_positive_endcap(self):
+        # Test-only IDs: combined views select system 3; barrel views keep the
+        # default hierarchy order. Inventory order must not alter either choice.
+        entities = [{"name": name, "role": "module", "ids": {
+            "system": system, "layer": layer, "stave": 0, "module": identifier}}
+            for name, system, layer, identifier in (
+                ("later_endcap", 3, 2, 10), ("barrel", 1, 1, 100),
+                ("negative_endcap", 2, 1, 20), ("first_endcap", 3, 1, 30))]
+        self.assertEqual(prepare.module_view_root({"entities": entities}), "barrel")
+        for order in (entities, list(reversed(entities))):
+            self.assertEqual(prepare.module_view_root({"entities": order}, system=3),
+                             "first_endcap")
+
+    def test_missing_requested_system_does_not_fall_back_to_barrel(self):
+        expected = {"entities": [{"name": "barrel", "role": "module", "ids": {
+            "system": 1, "layer": 1, "stave": 0, "module": 100}}]}
+        with self.assertRaisesRegex(ValueError, "module view requires a module"):
+            prepare.module_view_root(expected, system=3)
+
     def test_imported_root_rgb_can_differ_from_display_rgb(self):
         # Test-only scene: one passive box, with red ROOT and blue display RGB.
         scene = {"header": {"version": 1, "type": "semantic"}, "content": {

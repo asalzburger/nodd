@@ -107,8 +107,9 @@ only the first module assembly in `(system, layer, stave, module)` identifier
 order and its descendants; stave, mounting and external service volumes are
 excluded. The chosen name is recorded as `views.module.source_module` in
 `report.json`. On the current barrel baseline this is `m23142`, a single-pixel
-module with eight physical component placements. The world/assembly nodes carry
-no rendered geometry.
+module with eight physical component placements. For the combined compact, the
+module view instead selects the first positive-endcap module (system 3), using
+the same identifier order. The world/assembly nodes carry no rendered geometry.
 
 Use the hierarchy to select or hide volumes and the angle-cut controls to expose
 the interior. Native transparency is not yet implemented at the pinned revision;
