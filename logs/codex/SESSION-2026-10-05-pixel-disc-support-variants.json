@@ -1,0 +1,193 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-05-pixel-disc-support-variants",
+  "title": "Compare eight single rings and four single plus two quad rings with local support, cooling and mounting",
+  "recorded_at": "2026-10-05T20:22:41Z",
+  "started_at": "2026-10-05T20:20:04Z",
+  "ended_at": null,
+  "status": "open",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact execution model and client version unavailable.",
+    "Current implementation turn01a10db9-36a0-7922-971e-3730adf8d4b8 remains active; final counters/client completion boundary pending post-turn usage-only recovery. No partial observations imported.",
+    "Selected project record only; older project coverage remains partial; no all-project or self-inclusive resource total claimed."
+  ],
+  "client": {
+    "name": "Codex desktop app",
+    "version": null,
+    "thread_id": "01a10c6a-664d-72b1-afad-926c2c57312b"
+  },
+  "git": {
+    "start_commit": "8e593e32a97acc36b9a7850e1dfabc11d2175180",
+    "branch": "codex/pixel-disc-support-variants",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      ".github/workflows/dashboard.yml",
+      "project/tracking.json",
+      "docs/design/DES-017-pixel-disc-support-variants.md",
+      "docs/validation/DES-017/acts.json",
+      "docs/validation/DES-017/artifacts.json",
+      "docs/validation/DES-017/cooling-mounting.png",
+      "docs/validation/DES-017/cooling-mounting.svg",
+      "docs/validation/DES-017/coverage-map.png",
+      "docs/validation/DES-017/coverage-map.svg",
+      "docs/validation/DES-017/eight-single-layout.json",
+      "docs/validation/DES-017/failed-outward-controls.json",
+      "docs/validation/DES-017/four-single-two-quad-layout.json",
+      "docs/validation/DES-017/inputs.json",
+      "docs/validation/DES-017/layout-comparison.png",
+      "docs/validation/DES-017/layout-comparison.svg",
+      "docs/validation/DES-017/local-support.png",
+      "docs/validation/DES-017/local-support.svg",
+      "docs/validation/DES-017/mounting-inputs.json",
+      "docs/validation/DES-017/results.md",
+      "docs/validation/DES-017/screening.json",
+      "docs/validation/DES-017/thermal-refined.json",
+      "tools/pixel_disc_support_variants/README.md",
+      "tools/pixel_disc_support_variants/inputs.json",
+      "tools/pixel_disc_support_variants/mounting-inputs.json",
+      "tools/pixel_disc_support_variants/native_audit.py",
+      "tools/pixel_disc_support_variants/report.py",
+      "tools/pixel_disc_support_variants/study.py",
+      "tools/pixel_disc_support_variants/test_study.py",
+      "logs/codex/SESSION-2026-10-05-pixel-disc-support-variants.json",
+      "logs/codex/SESSION-2026-10-05-pixel-disc-support-variants.md"
+    ]
+  },
+  "work": {
+    "milestone": "M3",
+    "components": [
+      "pixel endcap layout",
+      "local support",
+      "cooling",
+      "mounting",
+      "services",
+      "native ACTS audit"
+    ],
+    "related_ids": [
+      "DES-017",
+      "DES-016",
+      "DES-014",
+      "issue38"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-05-pixel-disc-support-variants.md",
+  "activities": [
+    {
+      "kind": "skill",
+      "name": "acts-spack",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Preflight unverified; installed runtime and source state actually checked."
+    },
+    {
+      "kind": "tool",
+      "name": "ACTS native Python",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Two540-track matched audits and two6-track exhaustive controls, retained acts.json."
+    },
+    {
+      "kind": "tool",
+      "name": "Matplotlib",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Dimensioned original drawings and coverage-gap map visually reviewed."
+    },
+    {
+      "kind": "tool",
+      "name": "session logger and usage-only recovery",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Current metadata inspected; no active-turn counters imported."
+    },
+    {
+      "kind": "skill",
+      "name": "OpenAI Docs",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Official automation docs and exposed app heartbeat tool consulted for bounded post-turn recovery; no API-backed tool built."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python -B tools/pixel_disc_support_variants/study.py --output build/disc-support-variants/run-04",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "324 candidate ranking; full retained18-disc bounds, explicit failures and unchanged source hashes."
+    },
+    {
+      "command": "python -B tools/pixel_disc_support_variants/native_audit.py --run build/disc-support-variants/run-04 --output build/disc-support-variants/native-04 --acts-source verified-sister-checkout",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "540+540 native tracks and6+6 exhaustive controls agree with oracle;54/92 expected misses retained."
+    },
+    {
+      "command": "python -B -m unittest discover -s tools/pixel_disc_support_variants -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "7 controls pass, including artifact hashes, conservation and failed geometry controls."
+    },
+    {
+      "command": "python -B tools/pixel_disc_support_variants/report.py --run build/disc-support-variants/run-04 --native build/disc-support-variants/native-04 --output docs/validation/DES-017",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Drawings/report and0.25/0.125mm thermal controls; maximum stress-temperature grid change0.005789K."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "101 session records validated after correcting check-status enum."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py summary",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "44/101 sessions with81 observed turns; current implementation usage absent, older coverage partial."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "42 tasks,23 documents,19 reviews validated."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py build --output _site/disc-support-variants",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Static dashboard built; first output under build was rejected by required_site output guard, corrected without weakening it."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Tracked working diff whitespace check passed; staged/base-relative checks remain to run."
+    },
+    {
+      "command": "python -B -m unittest discover -s tools/pixel_disc_optimization -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "20 inherited disc optimization controls passed."
+    },
+    {
+      "command": "git diff --cached --check; git diff codex/issue38-disc-overlap --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Full staged/new-file and parent-relative whitespace checks passed."
+    }
+  ]
+}
