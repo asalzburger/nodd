@@ -157,15 +157,15 @@ def screen(c,l):
     legs=cooling(c);length=sum(p['dims']['major']*p['dims']['angle'] if p['kind']=='torus' else p['dims']['length'] for p in legs)
     corners=[math.hypot(m['radius_mm']+51.5,24.5) for m in l['modules']]
     return dict(status='SCREEN; no engineering qualification',execution=execution(),rings=l['rings'],discs=l['discs'],modules=len(l['modules']),
-        modules_per_disc=360,modules_per_petal=30,channels_per_module=122880,channels=len(l['modules'])*122880,
-        active_area_m2=len(l['modules'])*48*96/1e6,projected_area_to_nominal_annulus_ratio=456*48*96/(math.pi*(c['annulus_mm'][1]**2-c['annulus_mm'][0]**2)),
+        modules_per_disc=len(l['modules'])//len(l['discs']),modules_per_petal=len(taps),channels_per_module=122880,channels=len(l['modules'])*122880,
+        active_area_m2=len(l['modules'])*48*96/1e6,projected_area_to_nominal_annulus_ratio=len(l['modules'])*48*96/(len(l['discs'])*math.pi*(c['annulus_mm'][1]**2-c['annulus_mm'][0]**2)),
         cooling_length_mm_per_petal=length,pickup_area_mm2=area*1e6,maximum_module_corner_radius_mm=max(corners),
         board_corner_radius_mm=math.hypot(695+10,26),minimum_collector_axial_clearance_mm=c['disc_z_mm'][0]-13.5-1310,
         endcap_harnesses_per_end=216,endcap_loops_per_end=72,barrel_harnesses_per_end=sum(barrel_by_sector),barrel_loops_per_end=sum(barrel_loops),
         combined_trunk_packing=packing,thermal=thermal,electrical_flow=electrical,data_link_sensitivity=data,
         external_bends=[dict(bend_mm=b,required_axial_mm=max(b+13.4/2,25),available_axial_mm=70,required_radial_mm=b+13.4/2,available_radial_mm=25,passed=max(b+13.4/2,25)<=70 and b+13.4/2<=25) for b in c['bend_radius_mm']],
         limitations=['Thermal/contact conductivities are hypotheses, no FEA or CTE qualification.',
-        'Local3mm entry bend and multi-metre serpentine pressure drop require review.',
+        f"Local{c['entry_bend_mm']}mm entry bend and multi-metre serpentine pressure drop require review.",
         'Effective fanout omits individual vias and connector transitions; no installation claim.',
         'Standalone native material excludes barrel; combined trunk demand explicitly includes barrel.',
         'Finite vacuum coverage is not full tracking efficiency or reconstruction.'])

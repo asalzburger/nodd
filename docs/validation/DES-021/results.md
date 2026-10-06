@@ -18,7 +18,7 @@ PR50's tilted barrel; production and old scientific artifacts are unchanged.
 
 | Check | Actual result |
 | --- | --- |
-| Eight portable controls | PASS: counts/IDs, signed axes, complete module/pickup separating axes, cooling containment/separation, limits, true plane hits and a sole-endcap-hit loss regression |
+| Nine portable controls | PASS: counts/IDs, signed axes, complete module/pickup separating axes, cooling containment/separation, limits, true plane hits, a sole-endcap-hit loss regression and independent sensor-area accounting |
 | Standalone CMake / CTest | PASS: both model and native tests; DD4hep1.38, ROOT6.40.04, Python3.14.5 |
 | Native construction | PASS: 113,654 physical placements including world; 4,320 sensitive sensors |
 | IDs / anisotropic cells | PASS: 4,320 unique volume IDs; 21,600 cell centre/decode probes, 640×192 cells/module |
@@ -38,6 +38,13 @@ No ACTS conversion, calibrated strixel response, digitization or physics-perform
 validation is claimed. Sparse material rays are navigation checks, not continuous
 material/acceptance maps. The isolated native mass is not a full integrated tracker
 mass; it includes the deliberately large gross cable comparator and transport trays.
+The sum of sensor areas is19.90656m2; divided by the twelve nominal annuli it
+gives1.35504. This is an area-sum ratio, not a measured overlap fraction or union
+coverage. [Area-accounting correction](area-correction.json) replaces a stale
+456-module numerator with the actual placements. Full layout/entity/material
+comparisons and byte-identical compact XML demonstrate unchanged geometry;
+all engineering gate values remain unchanged. The prior screen is retained in
+commit1063dce. The screening text also now reflects the actual10mm entry bends.
 
 ## Coverage and barrel interface
 
@@ -121,6 +128,9 @@ later source changes add only validation constraints and route-crosswalk metadat
 Original hashes remain intact rather than being rewritten to enclosing commits.
 Corrected coverage accounting was executed separately on dirty
 ae031397b91b9b0a7ca21fdc60dfba02d8ab08f2 with the same geometry/input hashes.
+Corrected area accounting was executed on dirty
+108313e91486f2843fe8f5a87b8a25594d9223c1; native and Geant4 execution hashes
+remain those of the actual prior runs.
 
 [Rejected456-module candidate](rejected-456.json) records45,504 overlaps.
 [Intermediate failures](failed-attempts.json) retain count-only3,888 and
