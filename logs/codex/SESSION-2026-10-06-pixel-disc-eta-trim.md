@@ -130,3 +130,48 @@ No partial current-turn usage is recorded.
 
 The first PR43 dashboard snapshot lacked its stable ID; validation rejected it.
 Added PR-43 and reran strict validation/build. Scientific evidence unchanged.
+
+## Completed-turn accounting correction — 2026-10-06
+
+Authorized metadata-only recovery verified the exact implementation turn is
+closed at 2026-10-06T08:20:16Z, persisted start/end ordinals3545/4233 and usage
+ordinals3560..4232. All78 cumulative request increments reconcile with reported
+last-request counters. Recovery read only thread/turn metadata and token_count
+events; no conversation items or raw private state. The curated inventory is
+`logs/usage/USAGE-2026-10-06-disc-eta-apertures.json`, with original recovery
+source `build/issue38/eta-usage-only-20261006-0946.json`. Verified usage SHA256:
+`2b8f992571f6a8931d75e5c178c53caaa5a153f9f1743cfd848df7ca9f8bffd2`.
+
+Logger dry-run and import succeeded, adding this exact turn once to this owner:
+input10497559, cached input10196608, output73762, reasoning output27589,
+total10571321. Cached/reasoning counts are subsets. Reloaded JSON after import
+before setting the actual completion time and closed task status. Model/client
+version remain unknown. This separate bookkeeping turn is excluded, and older
+project coverage remains partial; no self-inclusive or all-project total claim.
+
+Final hosted run37434294081 succeeded on exact7c567f99888046e8500b177b820de1dcb3f397de:
+build112172713912 completed2026-10-06T08:17:47Z, run updated08:17:48Z;
+deploy112175059565 skipped. Initial scientific-head run37434150482 was cancelled
+when the metadata push superseded it, not a scientific failure. Preserved earlier
+failed local attempts and unchanged scientific/native execution hashes.
+Result commits now include scientific b54899ad and metadata7c567f9, with the
+full start-to-metadata changed-file inventory and new usage inventory.
+
+PR43 is now MERGED, observed head7c567f9, merge7057861fa3c8c137833ecedddcae0856ebd91e4c
+at2026-10-06T08:23:13Z. No push or PR modification is authorized for this closed
+publication target; recovered validated logs will be retained locally. First
+PR-state query hit a transient TLS timeout; retry succeeded. One read used a
+wrong design filename, corrected from the repository inventory. No scientific
+files, prior records, counters/attributions, PR descriptions or design status changed.
+The accounting heartbeat was paused before recovery and will stay paused.
+
+Post-import logger validate/summary passed102records, with observed coverage
+46/102sessions and83turns; missing coverage is explicit. Dashboard validates
+43tasks/24documents/19review rounds and builds under _site/eta-usage-recovery-20261006.
+Working and full prototype-parent/main-relative diff checks passed.
+
+Safely synchronized only the updated canonical pair and new curated inventory
+to primary after immediate comparison against saved pre-update bytes. Primary
+logger validates109records, remains original main7b559d0 with no tracked diff.
+All earlier records and current DES019 logging copies are preserved. The
+recovery is retained locally; PR43 is merged, so no log-only push is made.

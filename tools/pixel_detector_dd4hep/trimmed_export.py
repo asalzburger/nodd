@@ -302,6 +302,16 @@ def export(config, output):
     radial = read(ROOT / config["radial_inputs"])
     template = read(ROOT / config["layout"])
     schedule = read(ROOT / config["apertures"])["variants"]["four-single-two-quad"]
+    # The frozen aperture study supplies the original local layout, while PR40
+    # supplies the reviewed assembly datums. Move each complete disc rigidly;
+    # do not recompute its luminous compensation or recolour the survivors.
+    source_discs = schedule["positive_discs"]
+    datums = cfg["placement"]["disc_abs_z_mm"]
+    if len(datums) != len(source_discs) or any(
+        not math.isfinite(z) or z <= 0 for z in datums
+    ) or any(a >= b for a, b in zip(datums, datums[1:])):
+        raise ValueError("Invalid reviewed disc datums")
+    discs = [dict(d, datum_mm=z) for d, z in zip(source_discs, datums)]
     die = read(ROOT / "tools/module_layout/review_models.json")["pixel"]
     bc = read(ROOT / config["barrel_config"])
     bc["cable_volume_fractions"] = fractions
@@ -337,14 +347,16 @@ def export(config, output):
             readout="PixelEndcapHits",
         )
         ET.SubElement(det, "sensitive", type="tracker")
-        for di, d in enumerate(schedule["positive_discs"], 1):
+        for di, d in enumerate(discs, 1):
             datum = d["datum_mm"]
             name = f"disc{sideName}{di}"
             dx = ET.SubElement(det, "disc", id=str(di), name=name, z=mm(side * datum))
             entities.append(
                 dict(name=name, role="disc", center_mm=[0, 0, side * datum])
             )
-            modules = placed(template, datum, d["removed_rows"], radial)
+            modules = placed(template, source_discs[di - 1]["datum_mm"], d["removed_rows"], radial)
+            for module in modules:
+                module["center_mm"][2] = datum + module["local_z_mm"]
             for m in modules:
                 module_xml(
                     dx, m, radial, bc["module"], entities, side, system, di, datum, die
@@ -374,7 +386,7 @@ def export(config, output):
             sideName,
             [
                 dict(proposed_z_mm=side * d["datum_mm"])
-                for d in schedule["positive_discs"]
+                for d in discs
             ],
         )
         accounting["transport_" + sideName] = transport(
@@ -387,7 +399,7 @@ def export(config, output):
             bc,
             side,
             sideName,
-            schedule["positive_discs"],
+            discs,
             template["rings"],
         )
     targets = defaultdict(lambda: dict(volume_mm3=0.0, mass_g=0.0))
@@ -414,6 +426,12 @@ def export(config, output):
         service_accounting=dict(expected["service_accounting"], endcap=accounting),
     )
     expected["provenance"]["combined_config"] = config
+    expected["provenance"]["disc_position_reconciliation"] = [
+        dict(source_datum_mm=source["datum_mm"], datum_mm=datum,
+             signed_positive_shift_mm=datum - source["datum_mm"],
+             local_transforms="Preserved; rigid assembly shift only")
+        for source, datum in zip(source_discs, datums)
+    ]
     expected["provenance"]["combined_source_sha256"] = {
         str(p.relative_to(ROOT)): sha(p)
         for p in sorted(Path(__file__).parent.glob("*.py"))

@@ -1,9 +1,12 @@
 # Pixel barrel DD4hep prototype
 
 The combined preliminary pixel barrel **and endcaps** are now available through
-[the DES015 workflow](../tools/pixel_detector_dd4hep/README.md). It builds the
+[the DES019 workflow](../tools/pixel_detector_dd4hep/README.md). It builds the
 separate `pixel-detector/pixel-detector.xml` entry point and nodehammer projects,
-including a single disc. The barrel-only workflow below remains supported.
+including a single disc. Its default is the trimmed four-single/two-quad source
+layout with the reviewed PR40 disc datums. The barrel-only workflow below remains
+supported. DES015 quad-only is an explicit control; see the
+[main integration evidence](../docs/validation/DES-019/main-integration/results.md).
 
 
 This standalone assembly implements the human-selected PR #34 `packed-200um`

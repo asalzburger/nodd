@@ -16,7 +16,7 @@ source locators in DES012–018 and ADR006. No new public technology claim is ma
 
 | ID | Classification | Parameter and rationale |
 |---|---|---|
-| PM-C01 | NODD DESIGN CHOICE | User selects DES018 `four-single-two-quad` survivors as preliminary default. Keep the old `pixel-detector.json` byte-for-byte as a legacy control because prior studies pin it. New default is `pixel-detector-trimmed.json`. |
+| PM-C01 | NODD DESIGN CHOICE | User selects DES018 `four-single-two-quad` survivors as preliminary default. Retain `pixel-detector.json` as the separate quad-only control; PR40 supplies its reviewed whole-millimetre datums. New default is `pixel-detector-trimmed.json`. Prior execution hashes and scientific evidence remain immutable. |
 | PM-I01 | INFERENCE | Reconstruct module centres from DES017 raw template and its frozen face/colour: `anchor=(z²−150²)/z`, `xy=raw_xy*(1+local_z/anchor)`, sensor plane `z+local_z`. Filter exactly DES018 removed rows; reflect negative z. Never recolour or compact survivors. |
 | PM-I02 | INFERENCE | Per positive disc modules/chips: 152/302 four times, 134/284 twice, 112/262 once, 84/234 twice. Both ends: 2312/5012. Unchanged barrel: 3050/6794. Combined: 5362/11806. |
 | PM-C02 | NODD DESIGN CHOICE | Lossless simulation ID encoding uses module `template_id−200000`, sensor `template_patch_id−300000`; retain gaps. Descriptor `system:5,layer:4,stave:6,module:10,sensor:10,x:-9,y:-9` accommodates columns up to33. Source IDs are preserved in the inventory with disc offsets of10000. Barrel descriptor remains unchanged. |
@@ -60,3 +60,25 @@ x/y±1mm, uniform |B|≤4T, first outward half-turn in vacuum. Coverage gaps,
 mount coupling, bypass routing and empty-window closure remain unresolved.
 TDR sources must report these boundaries and distinguish baseline selection from
 design approval. Production geometry and earlier scientific evidence stay unchanged.
+
+## Main baseline integration — 2026-10-06
+
+PM-C07 (NODD DESIGN CHOICE): the user explicitly requests that main carry this
+working baseline and all required PR41 descendants. PR46 integrates DES016–019
+and the independent PR40 positions. This direction does not change design
+sign-off or the retained engineering failures.
+
+PR40 adds the exact disc datum list and its provenance to the inherited endcap
+input; support/material/service dimensions are identical. The quad control
+changes only its corresponding hash pin/provenance. Reconcile these specific
+pins in the trimmed model and study entry points, with a recorded semantic diff
+in `docs/validation/DES-019/main-integration/input-reconciliation.json`.
+The mixed template, DES018 removal schedule, axes, IDs and service bounds remain
+unchanged. PM-C08 (NODD DESIGN CHOICE): build local module transforms at the
+frozen DES018 source datums, then translate each complete disc to the reviewed
+PR40 datum. Preserve local offsets and x/y compensation exactly. Reposition its
+support and collector together and derive transport spans from the new datums.
+Recheck the continuous removed-ring exclusion margins at the shifted planes.
+Compare the new export with the retained DES019 native export under these
+explicit rigid shifts; retain new integration evidence separately. Do not
+overwrite DES016–019 historical reports, native hashes or execution provenance.

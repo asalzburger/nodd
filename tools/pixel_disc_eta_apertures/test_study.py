@@ -72,7 +72,11 @@ class EtaApertureTest(unittest.TestCase):
         for name,wanted in manifest['artifact_sha256'].items():
             self.assertEqual(study.digest(directory/name),wanted,name)
         for name,wanted in manifest['producer_sha256'].items():
-            self.assertEqual(study.digest(study.ROOT/name),wanted,name)
+            # The historical run's inputs are retained verbatim alongside its
+            # artifacts. The live input file now pins the reviewed PR40 datums;
+            # load_inputs in setUp separately checks those current dependencies.
+            path = directory/'inputs.json' if name=='tools/pixel_disc_eta_apertures/inputs.json' else study.ROOT/name
+            self.assertEqual(study.digest(path),wanted,name)
         screening=json.loads((directory/'screening.json').read_text())
         native=json.loads((directory/'acts.json').read_text())
         for name in study.VARIANTS:

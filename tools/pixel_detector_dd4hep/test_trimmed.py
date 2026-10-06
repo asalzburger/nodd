@@ -5,6 +5,8 @@ import importlib.util
 import json
 import math
 from pathlib import Path
+import subprocess
+import sys
 import tempfile
 import unittest
 
@@ -31,6 +33,28 @@ class TrimmedTests(unittest.TestCase):
     def tearDownClass(cls):
         cls.tmp.cleanup()
 
+    def test_default_cli_selects_trimmed_mixed_baseline_and_reviewed_datums(self):
+        with tempfile.TemporaryDirectory() as folder:
+            subprocess.run(
+                [sys.executable, "-B", str(HERE / "export.py"), "--output", folder],
+                cwd=ROOT,
+                check=True,
+                capture_output=True,
+                text=True,
+            )
+            result = combined.read(Path(folder) / "expected.json")
+        self.assertEqual(result["counts"]["module"], 5362)
+        self.assertEqual(result["counts"]["sensitive"], 11806)
+        self.assertEqual(
+            sorted(e["center_mm"][2] for e in result["entities"] if e["role"] == "disc"),
+            [-3070, -2692, -2328, -1977, -1645, -1333, -1046, -795, -615,
+             615, 795, 1046, 1333, 1645, 1977, 2328, 2692, 3070],
+        )
+        first = [e for e in result["entities"] if e["role"] == "module"
+                 and e["ids"]["system"] == 3 and e["ids"]["layer"] == 1]
+        self.assertEqual({e["row"] for e in first if e["family"] == "single"}, {0, 1, 2, 3})
+        self.assertEqual({e["row"] for e in first if e["family"] == "quad"}, {4, 5})
+
     def test_counts_survivors_and_lossless_source_ids(self):
         self.assertEqual(self.result["counts"]["module"], 5362)
         self.assertEqual(self.result["counts"]["sensitive"], 11806)
@@ -54,9 +78,10 @@ class TrimmedTests(unittest.TestCase):
                 for m in self.template["raw_modules"]
                 if m["module_id"] == p["module_id"]
             )
-            z = disc["datum_mm"]
+            source_z = disc["datum_mm"]
+            z = [615, 795, 1046, 1333, 1645, 1977, 2328, 2692, 3070][ids["layer"] - 1]
             dz = original["local_z_mm"]
-            anchor = (z * z - 150 * 150) / z
+            anchor = (source_z * source_z - 150 * 150) / source_z
             xy = [
                 raw["center_mm"][j] * (1 + dz / anchor)
                 + (p["center_mm"][j] - original["center_mm"][j])

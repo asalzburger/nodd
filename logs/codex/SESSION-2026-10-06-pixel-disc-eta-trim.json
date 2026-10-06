@@ -4,17 +4,19 @@
   "title": "Optimize outer pixel-disc inner rings for eta4 and luminous-region coverage",
   "recorded_at": "2026-10-06T07:42:54Z",
   "started_at": "2026-10-06T07:41:02Z",
-  "ended_at": null,
-  "status": "open",
+  "ended_at": "2026-10-06T08:20:16Z",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
-    "Execution model and client version are unknown. The bounded implementation turn is still active; final exact counters cannot be imported before client completion. Usage-only recovery is authorized after completion.",
+    "Execution model and client version remain unknown. Final counters for the closed exact implementation turn were recovered once from authorized metadata/token_count events; original attribution and prior observations preserved.",
     "Turn 01a11028-aa17-7a02-9f78-1e51445b27a1 in thread 01a10c6a-664d-72b1-afad-926c2c57312b belongs only to this canonical task record; prior token observations and attributions are preserved. Older project coverage remains partial.",
     "Continuous coverage proof assumes pT >= 1 GeV, |eta| <= 4, luminous z +/-150 mm and x/y +/-1 mm, uniform axial |B| <= 4 T and first outward half-turn/host exit. Vacuum finite-plane ACTS validation excludes material transport, nonuniform fields, low-pT/secondary/recurling tracks and fitted resolution.",
     "Baseline coverage holes, 0.5 mm guard and warm-coolant failures remain; all fixed-radius service packing scenarios still fail. Human sign-off, CAD/tolerance/thermal/hydraulic/FEA qualification and empty pickup-window closeouts remain open.",
     "ACTS Spack preflight failed due to changed setup/lock fingerprints and unstaged full sources. Actual installed runtime was separately verified; no shared dependency or sister-source edits were made.",
-    "Execution SHA f2af2714dadd30a722f5ece11d0fd04e92cbfd39 plus dirty producer/input hashes identify the actual scientific run. Later result commits do not replace those hashes."
+    "Execution SHA f2af2714dadd30a722f5ece11d0fd04e92cbfd39 plus dirty producer/input hashes identify the actual scientific run. Later result commits do not replace those hashes.",
+    "This separate resource-recovery bookkeeping turn is active and excluded; older project coverage remains partial. No all-project or self-inclusive total claim.",
+    "PR43 was merged at2026-10-06T08:23:13Z before accounting; recovered logs retained locally, no push to the closed PR or change to scientific evidence."
   ],
   "client": {
     "name": "Codex desktop app",
@@ -26,7 +28,8 @@
     "branch": "codex/pixel-disc-eta-trim",
     "initial_changes": [],
     "result_commits": [
-      "b54899ade5054d2d9f98e792344ca58ef482b7c1"
+      "b54899ade5054d2d9f98e792344ca58ef482b7c1",
+      "7c567f99888046e8500b177b820de1dcb3f397de"
     ],
     "changed_files": [
       ".github/workflows/dashboard.yml",
@@ -43,6 +46,7 @@
       "docs/validation/DES-018/screening.json",
       "logs/codex/SESSION-2026-10-06-pixel-disc-eta-trim.json",
       "logs/codex/SESSION-2026-10-06-pixel-disc-eta-trim.md",
+      "logs/usage/USAGE-2026-10-06-disc-eta-apertures.json",
       "project/tracking.json",
       "reference/manifest.yaml",
       "tools/pixel_disc_eta_apertures/README.md",
@@ -125,7 +129,22 @@
       "evidence": "Committed b54899ade5054d2d9f98e792344ca58ef482b7c1, normally pushed and created/attached PR43 with full removal table. New canonical pair safely copied to primary and 108 records validated; exact active usage still pending."
     }
   ],
-  "usage": [],
+  "usage": [
+    {
+      "client_thread_id": "01a10c6a-664d-72b1-afad-926c2c57312b",
+      "turn_id": "01a11028-aa17-7a02-9f78-1e51445b27a1",
+      "model": null,
+      "source": "Usage-only local Codex recovery captured 2026-10-06T09:47:12.290292+00:00; logs/usage/USAGE-2026-10-06-disc-eta-apertures.json; verified event SHA-256 2b8f992571f6a8931d75e5c178c53caaa5a153f9f1743cfd848df7ca9f8bffd2",
+      "limitations": [
+        "Actual execution model and client version were not exposed by recovered counters."
+      ],
+      "input_tokens": 10497559,
+      "cached_input_tokens": 10196608,
+      "output_tokens": 73762,
+      "reasoning_output_tokens": 27589,
+      "total_tokens": 10571321
+    }
+  ],
   "checks": [
     {
       "command": "python3 skills/acts-spack/scripts/preflight.py --require-sources",
@@ -249,9 +268,9 @@
     },
     {
       "command": "Hosted final PR43 Project dashboard build",
-      "status": "NOT RUN",
-      "exit_code": null,
-      "result": "Initial run37434150482/job112171724821 is in progress at scientific head. Final metadata-head hosted conclusion/time will be verified before task completion and recovered in the bounded post-turn log correction."
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Actual run37434294081 SUCCESS on exact7c567f99888046e8500b177b820de1dcb3f397de; build job112172713912 completed2026-10-06T08:17:47Z, run updated08:17:48Z, deploy112175059565 SKIPPED. No native/scientific rerun."
     },
     {
       "command": "python3 -B tools/dashboard/build.py validate (first PR43 snapshot)",
@@ -264,6 +283,30 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "Corrected stable PR-43 id; 43 tasks, 24 documents and 19 review rounds validate, dashboard builds successfully."
+    },
+    {
+      "command": "Hosted initial scientific-head run37434150482/job112171724821",
+      "status": "NOT RUN",
+      "exit_code": null,
+      "result": "Actual CANCELLED when metadata push superseded it; not a scientific validation failure. Final metadata-head run passed."
+    },
+    {
+      "command": "recover_usage.py --codex-home explicitly selected local store --project explicitly selected project --output build/issue38/eta-usage-only-20261006-0946.json; import-usage --dry-run then import-usage",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Exact closed turn 01a11028-aa17-7a02-9f78-1e51445b27a1, persisted ordinals3545..4233 (usage3560..4232),78 request increments reconcile; event SHA256 2b8f992571f6a8931d75e5c178c53caaa5a153f9f1743cfd848df7ca9f8bffd2. Imported once into this canonical owner, input10497559 cached10196608 output73762 reasoning27589 total10571321. No conversation items accessed or raw conversations/private state retained."
+    },
+    {
+      "command": "Recovery session_log.py validate/summary; dashboard validate/build _site/eta-usage-recovery-20261006; working and full prototype-parent/main-relative diff checks",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "102 task records validate; observed coverage46/102sessions,83turns remains partial.43tasks/24documents/19review rounds validate and dashboard builds. Full origin/codex/issue38-disc-overlap...HEAD and origin/main...HEAD checks pass; no scientific rerun."
+    },
+    {
+      "command": "Primary compare-and-swap shared-pair/new inventory sync; session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 109 session records. Primary pair exactly matched saved canonical preimages before copying only the updated pair/new inventory. Original main7b559d0 and tracked scientific files unchanged; all other records preserved. No remote push because PR43 is merged."
     }
   ]
 }
