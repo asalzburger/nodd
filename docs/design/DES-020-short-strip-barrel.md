@@ -1,0 +1,141 @@
+# DES-020 — Detailed short-strip barrel
+
+- Status: DRAFT
+- Created: 2026-10-06
+- Scope: isolated PROTOTYPE; no change to the pixel baseline or production detector.
+- Governing documents: [DES-007](DES-007-short-strip-modules.md), [DES-011](DES-011-service-constrained-tracker-optimization.md), [DES-010 service inputs](inputs/DES-010-strip-services.md).
+- Issue: [#20](https://github.com/asalzburger/nodd/issues/20).
+- Human owner, engineering reviewers and sign-off: pending.
+
+## Proposal
+
+Use four cylindrical layers of straight carbon sandwich staves. Keep the
+selected nominal radii 260/340/480/660 mm and active z extent ±1200 mm.
+Orient the fine sensor coordinate tangentially and the short-cell coordinate
+along z. Each stave carries 28 rectangular strixel modules, with alternate
+modules raised above the common cold plate. Alternate staves occupy two radial
+lanes. This gives physically accessible cooling and service paths while covering
+projected sensor edges. Unlike DES-009's alternating half-phi row shifts, each
+column is now one straight mechanical stave. This is a new placement proposal;
+historical transforms, IDs and coverage results are not reused as validation.
+
+Each stave has two independent half-length U-loops, accessed from its respective
+barrel end. Common support crosses z=0; the positive and negative circuits do
+not. End boards terminate the local copper buses, HV, control and data.
+Radial sector trays collect services outside the active barrel; downstream
+services use the inherited r710..783 mm short-strip corridor. Endcaps are outside
+this first implementation; their demand is not counted as spare capacity.
+
+## Provenance and numerical contract
+
+The executable input is [inputs.json](../../tools/short_strip_barrel/inputs.json).
+All numerical hardware parameters are NODD DESIGN CHOICE unless an inherited
+fact or derivation is explicitly identified below. These are engineering
+hypotheses, not approved components or fabrication specifications.
+
+| ID | Classification | Parameter, rationale and boundary |
+|---|---|---|
+| SB-F01 | FACT | Inherit DES-007 F01/F03 and DES-010 SS-F01..12 with their public source IDs and precise TDR locators. These are recorded historical source readings; the local PDFs are unavailable in this checkout and CDS challenges live access. No new byte verification of those TDRs is claimed. |
+| SB-F02 | FACT | Thermal cycling of ATLAS strip assemblies revealed CTE-related sensor fractures; an interposer mitigation was studied. SRC-ATLAS-STRIP-INTERPOSER-2025, §1–2, arXiv:2508.18015v1. It concerns different strip hardware and supplies no qualification for nODD strixels. |
+| SB-C01 | NODD DESIGN CHOICE | Retain user-agreed DES-007 75 µm × 0.5 mm cells, 48×96 mm² active area, 0.5 mm guard and 0.2 mm sensor. The 1.5 mm fallback remains separate. No stereo pair is added to a two-coordinate sensor. |
+| SB-I01 | INFERENCE | 640×192 = 122,880 channels/module. Fit 28 symmetric rows with endpoint centres ±1152 mm: pitch 2304/27 = 85.333… mm and nominal axial active overlap 10.666… mm. No cropping at endpoints. |
+| SB-C02 | NODD DESIGN CHOICE | 12 mm lane separation, 1.5 mm alternating row lift, 52 mm support width; size even phi populations using the outermost sensor radius and an 8 mm tangential active margin. Low-row sensor centres sit at nominal radius, high rows at +1.5 mm; odd staves add +12 mm. Radii are datums, not average sensor surfaces. Recompute counts; do not copy the old 242-column inventory. |
+| SB-C03 | NODD DESIGN CHOICE | One continuous 49×97 mm² sensor die; eight 23.4×23.4×0.15 mm³ readout tiles on a 2×4 grid with 24 mm centre pitch. 25 µm bump envelope (15% Cu/85% air volume fixture), 0.10 mm adhesive, 0.20 mm graphite, 25 µm insulation, 0.10 mm adhesive and 0.20 mm CFRP backing. The two 3 mm axial flex ledges make a 49×103 mm² occupied outline. Tiles/bump redistribution are a footprint hypothesis, not compatible off-the-shelf ASICs; no live-channel claim across tile gaps. |
+| SB-C04 | NODD DESIGN CHOICE | 5 mm core, two 0.15 mm CFRP skins and two 0.10 mm core glue layers, informed by SS-F01. Two 20×64 mm² graphite pickups/module span from cold-plate surface to module backing. Length64 clears the next module despite its 103 mm body. Raised modules require oriented thermal inserts; density2.21 g/cm³ and assumed effective conductivity100 W/(m K) are screening choices. |
+| SB-C05 | NODD DESIGN CHOICE | 2.5 mm OD / 0.14 mm wall titanium U-loop, two legs at u=±12 mm, centre w=−4.05 mm, straight z spans16..1210 mm on each side, U-return radius12 mm. This adopts an interface-scale diameter from SS-F02, not the exact ATLAS prototype pipe. Ti density4.51, CO2 effective density1.0 g/cm³; coolant density is a transport proxy, not a saturation calculation. Include explicit pipes/coolant; subtract their full outer envelopes from the core. |
+| SB-C06 | NODD DESIGN CHOICE | Backside buses: two 12×0.20 mm² Cu rails and a 0.15 mm PI carrier, electrically separate from carbon. HV/control/data use a distinct 0.10 mm patterned flex fixture (17 µm Cu-equivalent at50% coverage). Each module has two flex ledges; route edge tails separately. End-board footprint52×30×8 mm³ at z=±1230 mm is an effective electronics allocation, not a qualified connector/ASIC BOM. |
+| SB-C07 | NODD DESIGN CHOICE | Nine 8 mm axial ×3 mm radial CFRP bearing rings/layer at z=0, ±250, ±550, ±850, ±1150 mm. Four-mm tangential feet join the stave back to the ring. The z=0 bearing is the axial datum; other feet use proposed sliding/compliant joints. Hardware is represented by occupied feet, not detailed pins or proven kinematics. CFRP density1.73 g/cm³, 70% carbon mass fraction, E70/100/140 GPa; pure-carbon foam core density0.20 and glue2.0 g/cm³ are screening choices informed by the pixel work; the pure-carbon core composition differs from the pixel composite foam. |
+| SB-C08 | NODD DESIGN CHOICE | Twelve sector collectors, r244..750 mm, |z|1245..1310 mm; fixed trunk r710..783 mm, |z|1310..3500 mm. Usable phi fraction0.75, nominal packing0.50; adverse case0.50/0.40 and demand factor1.25, inherited DES-010. One 13.4 mm power plus3.6 mm fibre cable per ≤12 modules, rounded within each half-stave. Cooling manifolds ≤8 leaf loops, 8/12 mm OD and6/10 mm ID feed/return. Counts round separately per sector. Collector cells conserve constituent volumes but do not represent fittings or bend geometry. At65 mm, the worst mean envelope fill is50.90%, slightly exceeding the50% packing target: at least70 mm is recommended for the next interface revision, as a mean-volume lower bound; local cross-section/manifold/bend geometry is still required. |
+| SB-C09 | NODD DESIGN CHOICE | For effective off-stave cable material, allocate20% Cu,30% PI,50% air by volume inside the outer cable envelope; optical material is a silica/PI fixture. Native constructibility cannot qualify either cable. Preserve the gross diameter budget independently of material fractions. Tray wall0.5 mm Al, density2.70 g/cm³; no installation void is counted as solid. |
+| SB-I02 | INFERENCE | Inherit7.8 W/module CMS PS comparator and7.8×122880/30208 W channel-scaled sensitivity; neither is a physical bound. Add the separate2 W leakage comparator and5 W/end-board choice. Evaluate12 V distribution, copper resistivity0.0175 Ω mm²/m, uniform taps with exact discrete drop/loss, 1 V/0.2 V round-trip/return screen from SS-F04. Shared 0.20 mm rails are a higher-current choice than ITk's patterned17 µm layers. |
+| SB-C10 | NODD DESIGN CHOICE | Thermal screen: coolant−35/−25 °C, sensor goal≤−20 °C, interface k1, PI k0.12, CFRP through-thickness k0.5, graphite in-plane k400 and carbon-foam core k20 W/(m K), additional pipe-contact R0.25 K/W. The conservative hotspot fixture sends all module heat through6 mm of graphite toward two64 mm sheet edges and through the full5 mm carbon-foam depth; it is not a calibrated finite-element model. Flow3/7 g/s, latent heat200 kJ/kg and usable quality rise0.35; energy-only comparisons, no pressure-drop/dry-out qualification. Retain any failures. |
+| SB-C11 | NODD DESIGN CHOICE | 25/50 mm route bend-centre allowances and25 mm connector/access reserve are inherited unqualified construction cases. Compare the swept finished cable/pipe radius with the65 mm collector depth. The original30 mm collector failed both cable-volume conservation and bend clearance; retain inputs-30mm-control.json. A failed turn cannot be hidden by an effective DD4hep service cell. |
+| SB-C12 | NODD DESIGN CHOICE | Isolated readout `system:5,layer:3,stave:7,module:5,sensor:1,x:-11,y:-10`, system3; layer/stave/row indices are deterministic prototype IDs. No production identifier remap is implied. The MC-truth region uses r800 mm and z±1400 mm, matching the coverage host and enclosing all sensors; world half sizes1000/1000/3700 mm are simulation fixtures. |
+
+Native constituent definitions reuse the explicit pixel material builder: Si2.329,
+Cu8.96, graphite2.21, PI1.42, epoxy2.0, CFRP1.73 and carbon foam0.20 g/cm³,
+with its atom/mass recipes except the separately defined pure-carbon core. Silica2.20 g/cm³ is an optical transport fixture. Patterned interconnect and electronics/service cells
+are documented volume-normalized fixtures. Core holes displace foam; tube walls
+and coolant are disjoint. Silicon guards are passive and the active rectangle
+alone is sensitive. No overlapping parent silicon is counted twice.
+
+The initial20/10 mm lane/row fixture was replaced by12/1.5 mm after accounting
+for the actual roughly1 mm module stack. The larger lift is unnecessary and
+increases projective seam displacement. A first2 mm phi-margin sample exposed
+curved-track gaps;8 mm includes the displacement between radial lanes at1 GeV
+in4 T. Retained initial results remain separate. Fixed ±1200 mm endpoints mean
+some nominal-cylinder end crossings move beyond the physical outer lane: report
+these losses against the original denominator and close them with the endcap
+transition study, not by relabelling the eligible cylinder.
+
+The65 mm collector ends at1310 mm. The frozen first short-strip disc datum is
+1295.5 mm, so this new collector is **incompatible with that existing endcap
+schedule** wherever their radial envelopes coincide. Endcap placement/support
+must be revised before integration. Pixel services remain a separate fixed
+interface; no pixel displacement or global allocation is authorized here.
+
+SB-C13 — NODD DESIGN CHOICE: data sensitivity uses cell occupancy10⁻⁵/10⁻⁴/10⁻³,
+1/40 MHz accepted-event rates,32 bits/hit and20% packet allowance. These are
+scenario inputs, not collider occupancy or DAQ predictions. Compare required
+uplinks with the sourced8.96 Gbit/s usable payload and the ATLAS two-uplink
+half-stave comparator. Neither MPA compatibility nor a qualified fibre count in
+the3.6 mm cable is supplied. The benchmark gross cable diameter does not certify
+signal capacity. Shared LV buses and separately grouped HV/data are an nODD
+proposal; CMS's independently powered modules are a geometric comparator.
+
+## Support, assembly and routes
+
+Recommend metrology-controlled module bonding onto discrete insulated thermal
+pickups, with flex tails on a separate compliant path. The electronics sits
+behind the sensor and transfers heat through the graphite backing; it does not
+use the ATLAS hybrid-on-sensor assembly unchanged. The cited CTE experience
+motivates thermal-cycle testing and strain relief, not an assertion that a
+polyimide sheet solves nODD's different bump-bonded assembly.
+
+Build and pressure-test each stave before module loading. Load alternating
+heights using datum fixtures; inspect fiducials and active seams; mount the stave
+in its bearing rings with one axial locator. Connect accessible end boards and
+manifolds after installation. Restrain service loads to the rings/end frame,
+with flexible pigtails between fixed services and the cold stave. The native
+rectangular feet meet the circular ring at a tangent; this is an occupied
+interface placeholder with line contact, not a finite-area bearing seat.
+Specify a curved shoe or machined seat and clamps before mechanical integration.
+End boards,
+conversion heat and optical endpoints need independent qualification.
+
+LV/HV/control and data run along each half-stave to its end board. The service
+ledger explicitly connects every module to one half-stave, every half-stave to
+one sector, and every sector to the downstream boundary. Cooling runs inward
+along one leg, returns in the central U-bend and leaves through the other;
+positive/negative loops are independent. Sector collectors and longitudinal
+trunks are finite transport cells with volume inventories. They preserve
+material and demand, **not hydraulic or signal connectivity at the CAD level**.
+
+Recommend closing electronics power/bandwidth, bends, connector envelopes and
+manifold access before changing the global tracker allocation. Barrel-only
+capacity cannot establish the full short-strip/endcap budget. Validate against
+the actual pixel and future short/long-strip geometry before subsystem
+integration. Do not remove silicon or shrink cables to conceal service failures.
+
+## Validation contract
+
+Generate deterministic placement, route ledger, constituent inventory and
+drawings. Screen local OBB body collisions, pickup clearance, transverse/axial
+coverage at luminous z±150 mm and both charges at pT≥1 GeV under |B|≤4 T;
+sampling is not continuum hermeticity or ACTS tracking validation. Report
+off-stave packing, electrical, thermal, enthalpy and beam-sag scenarios
+independently. A native PASS refers only to construction, transforms, identifiers,
+material conservation, overlaps at1e−5 mm, sparse ROOT material/navigation rays,
+ROOT persistence and Geant4 smoke execution. Engineering failures remain
+failures. Human sign-off and full-detector integration remain pending.
+
+
+## Drawings and evidence
+
+![Barrel placement, support and routing](figures/DES-020-barrel-overview.svg)
+
+![Local stave stack](figures/DES-020-stave-section.svg)
+
+The [retained report](../validation/DES-020/results.md) distinguishes native
+software checks from failed or unqualified engineering gates. No DES-006
+resolution/material fixture or production reconstruction configuration changes.
