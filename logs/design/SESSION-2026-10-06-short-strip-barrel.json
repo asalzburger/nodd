@@ -5,7 +5,7 @@
   "recorded_at": "2026-10-06T14:51:22Z",
   "started_at": null,
   "ended_at": null,
-  "status": "open",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
@@ -23,7 +23,9 @@
     "start_commit": "a2493c458538d938971b2c3fbb00c1be719d6f60",
     "branch": "codex/short-strip-barrel",
     "initial_changes": [],
-    "result_commits": [],
+    "result_commits": [
+      "98a0fee7e6c554c5ea3a910d830329580ff998bb"
+    ],
     "changed_files": [
       ".github/workflows/dashboard.yml",
       "docs/design/DES-020-short-strip-barrel.md",
@@ -78,7 +80,8 @@
       "DES-011",
       "TRK-SSTRIP",
       "TASK-TRK-SHORT-STRIP-BARREL",
-      "ISSUE-20"
+      "ISSUE-20",
+      "PR-49"
     ]
   },
   "narrative": "logs/design/SESSION-2026-10-06-short-strip-barrel.md",
@@ -280,6 +283,60 @@
       "status": "FAIL",
       "exit_code": 2,
       "result": "Generated Matplotlib SVG path lines contained trailing spaces; text whitespace normalization added to draw.py and both SVGs regenerated. Geometry, scientific producer hashes and validation tolerances preserved."
+    },
+    {
+      "command": "git diff --cached --check; git diff origin/main...HEAD --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All newly staged files and full base-relative deliverable diff pass after vector whitespace normalization; artifact/source hashes match."
+    },
+    {
+      "command": "git push -u origin codex/short-strip-barrel; gh pr create --draft; attach_artifact",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "DraftPR49 created on main at exact scientific head98a0fee7e6c554c5ea3a910d830329580ff998bb and attached to this chat."
+    },
+    {
+      "command": "gh pr view --head codex/short-strip-barrel",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Unsupported --head flag for view; corrected to gh pr view49."
+    },
+    {
+      "command": "gh pr view49 --json metadata/statusCheckRollup",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "OPEN draft, expected branch/main base and exact98a0fee head; initial hosted build37488668212/job112355293280 in progress at observation."
+    },
+    {
+      "command": "gh pr edit49 --body-file reviewed description",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Both drawings and design/report/guide links pin immutable scientific deliverable98a0fee. Draft PR preserved."
+    },
+    {
+      "command": "Safe new-pair primary sync; session_log.py --repo ../nodd validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Primary117 records validate; only this new pair copied. Original branch/head, scientific files and eight unrelated session files preserved by preimage checks."
+    },
+    {
+      "command": "gh run view37488668212 after PR description link edit",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Initial scientific-head run automatically cancelled at2026-10-06T15:36:06Z as description-edit run37488825012 superseded it at the same98a0fee head; no scientific failure or manual retry."
+    },
+    {
+      "command": "gh run view37488825012 --json final hosted metadata",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Exact scientific head98a0fee7e6c554c5ea3a910d830329580ff998bb passed run37488825012, buildjob112356042665 completed2026-10-06T15:42:53Z; run updated15:42:54Z. Deployjob112359305928 skipped for PR. Includes five new standard-library controls; native checks remain actual local results."
+    },
+    {
+      "command": "Final local logger/summary, dashboard validate/build and full start/main-relative diff checks",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "113 task records and117 primary records validated;46tasks/26documents/19review rounds built. Entire delivered diff passes. Final publication metadata is tested locally; its post-push hosted run is a separate later observation."
     }
   ]
 }

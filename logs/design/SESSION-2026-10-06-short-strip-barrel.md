@@ -97,3 +97,31 @@ Review electronics footprint/power/data, collector/endcap transition and boundar
 coverage, real service bends/connectors/manifolds, combined detector clearance,
 CTE/thermal-cycle, hydraulic/pressure and structural qualification. No production
 integration, human sign-off or performance acceptance is granted by this prototype.
+
+## Publication and closeout observations
+
+Scientific deliverable `98a0fee7e6c554c5ea3a910d830329580ff998bb` published in
+[draft PR49](https://github.com/asalzburger/nodd/pull/49), with both drawings and
+immutable report/source links. Actual PR branch/main base verified. Local logger
+validates113 records; primary validates117 after copying only this new pair with
+preimage guards. Primary branch/head and all eight older untracked files were
+preserved. Logger summary has observed input217,035,315/output1,272,392 across
+90 earlier recorded turns;60 sessions lack usage, including this task. These
+are partial observed sums, not complete project or current-turn totals.
+
+Initial full staged diff check failed on Matplotlib SVG trailing spaces; the
+drawing producer now normalizes text whitespace. Complete staged/base-relative
+checks then passed. Initial dashboard build rejected a C++ deliverable link;
+the dashboard export links the curated prototype guide instead, retaining the
+source in Git. An unsupported `gh pr view --head` flag was corrected to `view49`.
+These publication fixes do not alter executed scientific hashes or failures.
+
+The full hosted scientific-head run37488825012 passed on exact98a0fee: build
+job112356042665 completed2026-10-06T15:42:53Z; run updated15:42:54Z; deployment
+job112359305928 skipped for this PR. Initial run37488668212 was automatically
+cancelled by the description-link edit, not by a scientific failure.
+
+The bounded project record is closed; actual client turn completion and token
+counters remain unknown, so ended_at stays null and usage stays empty. This
+closeout changes only journal/tracking metadata; its later enclosing revision
+is resolved by Git history and never substituted for execution provenance.
