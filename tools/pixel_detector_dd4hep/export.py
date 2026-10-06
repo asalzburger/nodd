@@ -36,7 +36,7 @@ MATERIAL_MAP = {
 }
 
 
-def export(config, output):
+def legacy_export(config, output):
     cfg, layout, inherited = load_inputs(ROOT / config["endcap_inputs"])
     for p, h in config["input_sha256"].items():
         if sha(ROOT / p) != h:
@@ -395,10 +395,20 @@ def export(config, output):
     return expected
 
 
+def export(config, output):
+    if config.get("endcap_variant") == "DES018-trimmed-mixed":
+        from trimmed_export import export as trimmed_export
+
+        return trimmed_export(config, output)
+    return legacy_export(config, output)
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument(
-        "--config", type=Path, default=ROOT / "detector/config/pixel-detector.json"
+        "--config",
+        type=Path,
+        default=ROOT / "detector/config/pixel-detector-trimmed.json",
     )
     p.add_argument("--output", type=Path, required=True)
     a = p.parse_args()
