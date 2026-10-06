@@ -189,3 +189,46 @@ Prior journal-head hosted run37517521654 observedcompleted/success
 updated2026-10-06T19:21:02Z; build job112454158213 success completed2026-10-06T19:21:01Z; deploy job112456790656 skipped completed2026-10-06T19:21:01Z. The area-correction head has separate CI.
 Area correction logger117/121, summary, dashboard49/27/19/build and working diff
 passed; exact guarded primary pair synchronization performed without science changes.
+
+## Completed-turn resource correction — 2026-10-06T19:30:08Z
+
+The implementation client turn closed at **2026-10-06T19:27:31Z**,
+with persisted ordinals9907..11175 and143 model-request increments. Authorized
+`recover_usage.py` read only thread/turn metadata and decoded token_count events;
+every cumulative increase reconciled against its last-request counters. No
+conversation items or private model state were queried or retained.
+
+| Counter | Exact recovered tokens |
+| --- | ---: |
+| Input |19,980,708|
+| Cached input (subset) |19,552,000|
+| Output |154,657|
+| Reasoning output (subset) |77,277|
+| Total (input + output) |20,135,365|
+
+The five counters are imported exactly once into this canonical session.
+[Curated usage inventory](../usage/USAGE-2026-10-06-short-strip-endcap.json) holds
+boundaries, original recovery source,143-request count and verified usage hash
+`d935e54471baf9d4789f32799a8179ea6b6e860763715dff211ae7a1d0f1fade`. Dry-run/import added one entry; JSON reloaded after
+import. The enclosing result fd2ec9f belongs to this implementation turn.
+
+Final hosted run37518389469/job112457127799 succeeded on exactfd2ec9f at
+2026-10-06T19:26:05Z; run updated19:26:07Z, deploy112458960675 skipped19:26:06Z.
+Both full parent/main-relative diff checks passed. Source/native/artifact hashes,
+failed attempts, first-disc coverage loss, service/thermal/structural gates and
+DRAFT status are preserved.
+
+Execution model/client version remain unknown. Current accounting turn
+01a112af-787a-7491-8ea4-01dfdcfe09e7 is separate/active/excluded and has its own journal. Older
+project coverage remains partial; these counters do not claim an all-project
+or self-inclusive current-turn total. Earlier active-turn statements above
+are contemporaneous history, superseded by this dated correction.
+
+Accounting verification passed:118 task/122 primary records, dashboard49 tasks/
+27 documents/19 reviews and _site/endcap-accounting build. Full parent/main and
+accounting-start diff checks passed. Identical import replay reports added0/
+unchanged1, preserving the original usage source. Summary observes94 turns in
+57/118 sessions; input265,136,032/output1,670,036/total266,806,068 are observed
+sums with partial coverage, not all-project totals. Current bookkeeping excluded.
+Only5 logging files synchronized under exact byte/absence guards; primary
+branch/head/tracked edits and unrelated science/logs preserved.

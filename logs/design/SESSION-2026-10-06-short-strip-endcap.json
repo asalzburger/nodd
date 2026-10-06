@@ -2,14 +2,14 @@
   "schema_version": 1,
   "session_id": "SESSION-2026-10-06-short-strip-endcap",
   "title": "Detailed short-strip endcap design, model and services",
-  "recorded_at": "2026-10-06T19:20:28Z",
+  "recorded_at": "2026-10-06T19:30:08Z",
   "started_at": "2026-10-06T18:18:05Z",
-  "ended_at": null,
+  "ended_at": "2026-10-06T19:27:31Z",
   "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
-    "This bounded endcap turn01a1126f-e509-74f1-9201-15f080b5386b is active; final counters and completion boundary unavailable. No partial counters imported.",
+    "Exact completed endcap turn01a1126f-e509-74f1-9201-15f080b5386b recovered once with five reconciled counters and persisted boundaries. This later accounting turn is separate, active and excluded.",
     "Execution model/client version unknown; older project resource coverage partial.",
     "Geometric/software validation is distinct from failed coverage, thermal, normal-load and service screens; DES021 remains DRAFT.",
     "No full barrel/endcap native service integration or ACTS conversion; effective fanout omits individual vias and connector transitions."
@@ -27,7 +27,8 @@
       "1063dce1139d07b44b0db6f18040775f387834cb",
       "ae031397b91b9b0a7ca21fdc60dfba02d8ab08f2",
       "14c1ec105e4759a3a72c1f734a14875b55a6e564",
-      "108313e91486f2843fe8f5a87b8a25594d9223c1"
+      "108313e91486f2843fe8f5a87b8a25594d9223c1",
+      "fd2ec9fafa026229a2d178424d980c0552e546f1"
     ],
     "changed_files": [
       ".github/workflows/dashboard.yml",
@@ -53,6 +54,7 @@
       "docs/validation/DES-021/services.json",
       "logs/design/SESSION-2026-10-06-short-strip-endcap.json",
       "logs/design/SESSION-2026-10-06-short-strip-endcap.md",
+      "logs/usage/USAGE-2026-10-06-short-strip-endcap.json",
       "project/tracking.json",
       "prototypes/short_strip_endcap/CMakeLists.txt",
       "prototypes/short_strip_endcap/ShortStripEndcap.cpp",
@@ -104,7 +106,7 @@
       "calls": 1,
       "failures": 0,
       "duration_seconds": null,
-      "evidence": "Authorized metadata/token_count-only recovery under ignored build identified exact endcap start/ordinal9907. Target remains active; final usage deliberately unimported; no conversation item access."
+      "evidence": "Implementation-time metadata/token_count-only recovery identified ordinal9907 while this turn was active; no partial import. The later dated accounting correction imported the exact closed turn once. Its recovery invocation belongs to the separate accounting session."
     },
     {
       "kind": "tool",
@@ -116,7 +118,23 @@
       "evidence": "Initial native geometry and API diagnostics failed; intermediate artifacts/hashes retained in rejected-456.json and failed-attempts.json. Final geometry checks separate from engineering screens."
     }
   ],
-  "usage": [],
+  "usage": [
+    {
+      "client_thread_id": "01a10c6a-664d-72b1-afad-926c2c57312b",
+      "turn_id": "01a1126f-e509-74f1-9201-15f080b5386b",
+      "model": null,
+      "source": "Usage-only local Codex recovery captured 2026-10-06T19:28:22.438910+00:00; logs/usage/USAGE-2026-10-06-short-strip-endcap.json; verified event SHA-256 d935e54471baf9d4789f32799a8179ea6b6e860763715dff211ae7a1d0f1fade",
+      "limitations": [
+        "Execution model and client version were not exposed by usage-only metadata.",
+        "This exact completed implementation turn is counted once. Current accounting follow-up usage is excluded; older project coverage remains partial."
+      ],
+      "input_tokens": 19980708,
+      "cached_input_tokens": 19552000,
+      "output_tokens": 154657,
+      "reasoning_output_tokens": 77277,
+      "total_tokens": 20135365
+    }
+  ],
   "checks": [
     {
       "command": "acts-spack preflight.py",
@@ -321,6 +339,42 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "117 task/121 primary logger records validated; summary retained with current-turn usage empty. Dashboard49 tasks/27 documents/19 reviews built.9 local controls and full geometry/XML equivalence passed; working diff clean. Only endcap pair mirrored under exact preimage guards."
+    },
+    {
+      "command": "Completed-turn recover_usage.py and import-usage --dry-run/import-usage",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Exact turn01a1126f-e509-74f1-9201-15f080b5386b closed at2026-10-06T19:27:31Z, ordinals9907..11175,143 reconciled requests, usage SHA256 d935e54471baf9d4789f32799a8179ea6b6e860763715dff211ae7a1d0f1fade. Added once: input19980708/cached19552000/output154657/reasoning77277/total20135365. Metadata/token_count only; no conversation items."
+    },
+    {
+      "command": "Final hosted run37518389469/job112457127799",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Success on exactfd2ec9fafa026229a2d178424d980c0552e546f1. Build completed2026-10-06T19:26:05Z, run updated19:26:07Z; deploy112458960675 skipped at19:26:06Z. All9 endcap controls and inherited/logger/dashboard/documentation checks passed."
+    },
+    {
+      "command": "Final full parent/main-relative diff checks on fd2ec9f",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Both origin/codex/short-strip-tilted-baseline...HEAD and origin/main...HEAD passed at implementation closeout and before accounting. Actual scientific sources/artifacts/native execution hashes preserved."
+    },
+    {
+      "command": "Accounting logger validate/summary, dashboard validate/build and full diff checks",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "118 task/122 primary records validate; dashboard49 tasks/27 documents/19 reviews builds. Both full parent/main-relative and accounting-start diffs pass. Observed94 turns in57/118 sessions: input265136032/output1670036/total266806068; coverage remains partial, current bookkeeping excluded."
+    },
+    {
+      "command": "Import-usage identical replay --dry-run",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Added0/unchanged1; exact original source/counters preserved. No second import/owner."
+    },
+    {
+      "command": "Guarded primary5-file synchronization and validation",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Original pair matched saved byte hashes; new3 paths absent before copy. Five logging files only copied; head/branch/tracked edits unchanged; primary122 records validated. No geometry or unrelated logs overwritten."
     }
   ]
 }
