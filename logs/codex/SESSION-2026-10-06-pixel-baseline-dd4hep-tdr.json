@@ -1,0 +1,140 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-06-pixel-baseline-dd4hep-tdr",
+  "title": "Adopt trimmed single/quad pixel baseline in DD4hep and TDR",
+  "recorded_at": "2026-10-06T08:43:06Z",
+  "started_at": "2026-10-06T08:26:07Z",
+  "ended_at": null,
+  "status": "open",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Current implementation turn 01a11051-efc0-75e1-8080-8c9c88d42e24 is active; exact final counters will be recovered only after closure. Execution model/client version unknown.",
+    "Older project usage coverage is partial; this record owns the shared two-PR implementation turn once.",
+    "Preliminary prototype selection does not grant engineering sign-off."
+  ],
+  "client": {
+    "name": "Codex app",
+    "version": null,
+    "thread_id": "01a10c6a-664d-72b1-afad-926c2c57312b"
+  },
+  "git": {
+    "start_commit": "7057861fa3c8c137833ecedddcae0856ebd91e4c",
+    "branch": "codex/pixel-baseline-dd4hep",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      "detector/config/pixel-detector-trimmed.json",
+      "docs/design/DES-019-trimmed-mixed-pixel-dd4hep.md",
+      "docs/validation/DES-019/artifacts.json",
+      "docs/validation/DES-019/manifest.json",
+      "docs/validation/DES-019/native.json",
+      "docs/validation/DES-019/nodehammer.json",
+      "docs/validation/DES-019/results.md",
+      "docs/validation/DES-019/service-accounting.json",
+      "docs/validation/DES-019/summary.json",
+      "docs/validation/DES-019/workflow.json",
+      "logs/codex/SESSION-2026-10-06-pixel-baseline-dd4hep-tdr.json",
+      "logs/codex/SESSION-2026-10-06-pixel-baseline-dd4hep-tdr.md",
+      "tools/pixel_detector_dd4hep/test_trimmed.py",
+      "tools/pixel_detector_dd4hep/trimmed_export.py",
+      "tools/pixel_detector_dd4hep/trimmed_modules.py",
+      "tools/pixel_detector_dd4hep/trimmed_services.py",
+      "detector/CMakeLists.txt",
+      "detector/README.md",
+      "project/tracking.json",
+      "tools/pixel_barrel_dd4hep/validate.py",
+      "tools/pixel_detector_dd4hep/README.md",
+      "tools/pixel_detector_dd4hep/export.py",
+      "tools/pixel_detector_dd4hep/report.py"
+    ]
+  },
+  "work": {
+    "milestone": "M3",
+    "components": [
+      "pixel DD4hep",
+      "TDR"
+    ],
+    "related_ids": [
+      "DES019",
+      "DES018",
+      "DES017",
+      "PR43"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-06-pixel-baseline-dd4hep-tdr.md",
+  "activities": [
+    {
+      "kind": "skill",
+      "name": "acts-spack",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Read skill; preflight warning and actual installed-runtime verification before dependent work."
+    },
+    {
+      "kind": "tool",
+      "name": "DD4hep/ROOT/Geant4 and nodehammer",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "DES019 native/workflow/display artifacts record executed source hashes, versions, commands and exact counts."
+    },
+    {
+      "kind": "skill",
+      "name": "pdf:pdf",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Read PDF skill for final TDR compile/render review; artifact marker ran successfully before authoring. No local TeX; GitHub CI compilation planned."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "ACTS Spack preflight",
+      "status": "FAIL",
+      "exit_code": 2,
+      "result": "Setup/lock fingerprints changed. Warned before runtime; actual DD4hep/ROOT/Geant4 imports verified installed capabilities."
+    },
+    {
+      "command": "recover_usage.py initial unique output",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Missing output directory. Created ignored parent and reran; only metadata/token_count events accessed; active turn not imported."
+    },
+    {
+      "command": "DD4hep/Geant4 runtime imports and local TeX availability",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Runtime imports succeeded DD4hep1.38 ROOT6.40.04 Geant411.4.2; missing TeX commands produced shell exit1. No dependency changes."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/pixel_detector_dd4hep -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "9 focused tests including5 legacy controls; source centres/IDs/frame signs, barrel identity, heterogeneous service demand and independent Ti/CO2 conservation pass."
+    },
+    {
+      "command": "pixel_detector_dd4hep/refresh.py --build build/dd4hep-final --nodehammer existing verified binary --display-output build/nodehammer/trimmed --geant4-init",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Configure/build,6/6 CTest, portable display, ROOT roundtrip and Geant4 geometry initialization passed. Zero events; seed42 FTFP_BERT. Actual hashes in DES019 artifacts."
+    },
+    {
+      "command": "dashboard validate initial DES019 document",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Unsupported missing Status field. Added conventional - Status: DRAFT metadata; no geometry change."
+    },
+    {
+      "command": "dashboard validate/build _site/trimmed-pixel; session logger validate/summary; git diff --check and full parent/main-relative diff checks",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "44 tasks/25 documents/19 reviews validate; dashboard built.103 logger records validate. Observed usage excludes active shared task, older project coverage partial. Diff checks pass."
+    }
+  ]
+}

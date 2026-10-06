@@ -94,3 +94,19 @@ Geant4 overlap checks. The initialization defaults are not physics qualification
 
 Detailed results, effective-material limitations and the rear flange packing
 failure are in [the validation report](../../docs/validation/DES-015/results.md).
+The default combined compact now implements the **DES019 trimmed mixed-module
+preliminary baseline** selected on 2026-10-06. Configuration:
+[`pixel-detector-trimmed.json`](../../detector/config/pixel-detector-trimmed.json).
+The existing `pixel-detector.json` remains a frozen DES015 quad-only control;
+pass it explicitly with `--config` to reproduce that export. Old validation
+reports are historical controls, not evidence for the new default.
+
+The endcaps retain DES017 radial/tangential single and quad frames, frozen
+support faces/colours, compensated centres and DES018 per-disc ring removals.
+The combined inventory is5362 modules and11806 sensitive chip areas; barrel
+3050/6794 is unchanged. Service inventories use248 retained endcap cooling
+circuits, not nine identical discs. The native readout maps template IDs
+losslessly to bounded fields; source identifiers are recorded in `expected.json`.
+See [DES019](../../docs/design/DES-019-trimmed-mixed-pixel-dd4hep.md) and its
+[results](../../docs/validation/DES-019/results.md). Preliminary selection is
+not sign-off; inherited coverage, thermal, routing and packing limits remain.

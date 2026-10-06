@@ -65,7 +65,7 @@ def main():
     )
     carrier = (roles["carrier"] + roles["rail"]) / 2
     account = expected["service_accounting"]["endcap"]
-    reference = account["local_disc_reference"]
+    reference = account.get("local_disc_reference", {})
     summary = dict(
         status="PASS — construction/display/initialization only; engineering limits remain",
         source_revision=native["commit"],
@@ -75,9 +75,9 @@ def main():
         total_mass_g=native["mass_g"],
         mass_by_role_g=dict(roles),
         local_disc_passive_g=local,
-        pr36_local_disc_passive_g=reference["disc_passive_mass_g"],
+        pr36_local_disc_passive_g=reference.get("disc_passive_mass_g"),
         carrier_per_end_g=carrier,
-        pr36_additive_carrier_per_end_g=reference["shared_support_per_end_g"],
+        pr36_additive_carrier_per_end_g=reference.get("shared_support_per_end_g"),
         flange_necks={
             k: account[k]["flange_necks"] for k in ("transport_N", "transport_P")
         },
@@ -94,6 +94,37 @@ def main():
             "Core inserts, radial pipes, coupling hardware and flex routes are inventory-normalized approximations.",
         ],
     )
+    if "discs" in account:
+        summary.update(
+            endcap_modules=sum(d["modules"] for d in account["discs"]),
+            endcap_chips=sum(d["chips"] for d in account["discs"]),
+            endcap_cooling_circuits=sum(
+                d["cooling"]["number_circuits"] for d in account["discs"]
+            ),
+            per_disc_inventory=[
+                {
+                    k: d[k]
+                    for k in (
+                        "side",
+                        "disc",
+                        "datum_mm",
+                        "removed_rows",
+                        "modules",
+                        "chips",
+                    )
+                }
+                for d in account["discs"]
+            ],
+            inherited_scenario_screens=account["inherited_scenario_screens"],
+            limitations=[
+                "DES017/018 original coverage gaps, 0.5mm guard failure and warm-coolant thermal failure remain.",
+                "Reference trunk and rear flange packing fail; effective geometry is not a qualified manufactured route.",
+                "Geant4 initialization only, no transported events, hit validation or realized magnetic field.",
+                "Frozen DES018 analytic/ACTS navigation is inherited; no DD4hep-to-ACTS navigation claim.",
+                "DES019 core/skin/window allocation is an explicit simulation approximation, not DES017's approximate mass proxy.",
+                "Contacts, manifolds, bypass, coupling hardware, flex routes and unused window closures remain unqualified.",
+            ],
+        )
     write(out / "summary.json", summary)
     for src, name in [
         (a.build / "detector/pixel-detector-validation.json", "native.json"),

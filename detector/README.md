@@ -246,3 +246,9 @@ Geant4 transport, ACTS conversion, field propagation, omitted bonds/bump metals/
 passives, endcap integration, electronics detail and support engineering are
 future work. See the [retained validation report](../docs/validation/DES-012/results.md)
 for actual results and limitations, and [NOTICE](NOTICE.md) for element provenance.
+The maintained combined pixel entry point now defaults to the **trimmed mixed
+single/quad endcap** under [DES019](../docs/design/DES-019-trimmed-mixed-pixel-dd4hep.md).
+It remains an isolated preliminary prototype. The DES015 quad-only configuration
+and its report are retained as explicit legacy controls. See the
+[combined workflow](../tools/pixel_detector_dd4hep/README.md) for export, native
+DD4hep checks, ROOT roundtrip, optional display and Geant4 initialization.

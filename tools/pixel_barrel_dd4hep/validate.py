@@ -61,6 +61,9 @@ def compare_sensors(observed, expected, tolerance_mm=1e-7):
             errors.append(f"sensitive centre mismatch {dict(key)}: {center:.9g} mm")
         if normal > 1e-9:
             errors.append(f"sensitive normal mismatch {dict(key)}: {normal:.9g}")
+        for axis in ("u", "v"):
+            if axis in sensor and math.dist(actual[axis], sensor[axis]) > 1e-9:
+                errors.append(f"sensitive {axis} axis mismatch {dict(key)}")
         if (
             "size_mm" in sensor
             and math.dist(actual["size_mm"], sensor["size_mm"]) > tolerance_mm
@@ -246,6 +249,10 @@ def physical_inventory(detector, dd4hep, ROOT, expected_entities):
                     "ids": ids,
                     "center_mm": [x / unit for x in point],
                     "normal": list(normal),
+                    **{
+                        axis: [float(matrix.GetRotationMatrix()[3*j+i]) for j in range(3)]
+                        for i, axis in enumerate(("u", "v"))
+                    },
                     "size_mm": [
                         2 * float(volume.GetShape().GetDX()) / unit,
                         2 * float(volume.GetShape().GetDY()) / unit,
