@@ -1,0 +1,219 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-06-overleaf-pixel-baseline",
+  "title": "Update Overleaf pixel text and drawings to the current baseline",
+  "recorded_at": "2026-10-06T12:44:08Z",
+  "started_at": null,
+  "ended_at": null,
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact client turn start/end, execution model, client version and current-turn token counters are not exposed in this active implementation turn. Usage remains empty; no estimates or cumulative counters imported.",
+    "The paired record is a curated account, not a complete conversation or complete project resource total.",
+    "Detailed Overleaf compiler timing is minute precision plus downloaded PDF creation metadata; exact service completion timestamp is unknown."
+  ],
+  "client": {
+    "name": "Codex desktop app",
+    "version": null,
+    "thread_id": "01a10c6a-664d-72b1-afad-926c2c57312b"
+  },
+  "git": {
+    "start_commit": "e50ae6def313cae3d9be62ff1e299569965c1b35",
+    "branch": "main",
+    "initial_changes": [
+      "logs/codex/SESSION-2026-10-06-history-and-figures.json",
+      "logs/codex/SESSION-2026-10-06-history-and-figures.md",
+      "logs/codex/SESSION-2026-10-06-main-baseline-resource-recovery.json",
+      "logs/codex/SESSION-2026-10-06-main-baseline-resource-recovery.md",
+      "logs/codex/SESSION-2026-10-06-pixel-baseline-resource-recovery.json",
+      "logs/codex/SESSION-2026-10-06-pixel-baseline-resource-recovery.md"
+    ],
+    "result_commits": [
+      "72bb502dfe09a1a1209acbf7b5c048094b652e1e",
+      "14c3816ed7b531dd877f1b37cbabc47bcfee0cc8"
+    ],
+    "changed_files": [
+      "docs/tdr",
+      "docs/publication/pixel-baseline-overleaf.json",
+      "project/tracking.json",
+      "logs/codex/SESSION-2026-10-06-overleaf-pixel-baseline.json",
+      "logs/codex/SESSION-2026-10-06-overleaf-pixel-baseline.md",
+      "docs/tdr/README.md",
+      "docs/tdr/chapters/pixel-detector.tex",
+      "docs/tdr/data/pixel-endcap-baseline.json",
+      "docs/tdr/data/pixel-endcap-provenance.json",
+      "docs/tdr/data/pixel-render-manifest.json",
+      "docs/tdr/figures/pixel-disc-section.pdf",
+      "docs/tdr/figures/pixel-endcap-routing.pdf",
+      "docs/tdr/figures/pixel-endcap.pdf",
+      "docs/tdr/figures/pixel-overview.pdf",
+      "docs/tdr/figures/pixel-service-interfaces.pdf",
+      "docs/tdr/generated/pixel-disc-rows.tex",
+      "docs/tdr/generated/pixel-ring-rows.tex",
+      "docs/tdr/scripts/pixel_baseline_snapshot.py",
+      "docs/tdr/scripts/pixel_details.py",
+      "docs/tdr/scripts/pixel_endcap_figures.py",
+      "docs/tdr/scripts/pixel_figures.py"
+    ]
+  },
+  "work": {
+    "milestone": "M3",
+    "components": [
+      "pixel TDR",
+      "endcap drawings",
+      "Overleaf publication",
+      "publication provenance"
+    ],
+    "related_ids": [
+      "TASK-PXL-TDR-OVERLEAF",
+      "DES-016",
+      "DES-017",
+      "DES-018",
+      "DES-019",
+      "PUB-PLAN-001",
+      "PR-48"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-06-overleaf-pixel-baseline.md",
+  "activities": [
+    {
+      "kind": "skill",
+      "name": "pdf:pdf",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "PDF edit marker executed once; five figure PDFs and all23compiled report pages rendered/inspected."
+    },
+    {
+      "kind": "tool",
+      "name": "matplotlib",
+      "version": "3.11.2",
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Ignored task-only venv; deterministic endcap-only generator."
+    },
+    {
+      "kind": "tool",
+      "name": "Overleaf pdfLaTeX",
+      "version": "TeX Live2026 / pdfTeX1.40.29",
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Signed-in browser recompile, optimized PDF/log download and screenshot proof."
+    },
+    {
+      "kind": "tool",
+      "name": "Git",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Fetched existing report main, preserved latest detailed barrel, committed and normally pushed72bb502; remote head verified."
+    },
+    {
+      "kind": "tool",
+      "name": "pixel_detector_dd4hep/export.py",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Pure export verified current counts/materials; no native/scientific rerun."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "Runtime/system Python import matplotlib",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "ModuleNotFoundError; resolved with ignored task-only venv and PyPI matplotlib3.11.2."
+    },
+    {
+      "command": "Find local TeX engines",
+      "status": "NOT RUN",
+      "exit_code": null,
+      "result": "No local engine available; actual Overleaf pdfLaTeX used."
+    },
+    {
+      "command": "python3 tools/pixel_detector_dd4hep/export.py --output build/issue38/overleaf-baseline/export",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "5362modules/11806activechips/100334entities; current model and transport masses reconciled."
+    },
+    {
+      "command": "scripts/pixel_baseline_snapshot.py and scripts/pixel_figures.py --endcap-only",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Pinned current parent, frozen survivor axes/IDs,19retained artifact hashes; only five figure PDFs and two endcap tables changed."
+    },
+    {
+      "command": "Barrel/unchanged source byte preservation and manifest/source SHA256 assertions",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Detailed barrel layout/electrical/cooling blocks, retained barrel assets and all source/artifact hashes verified."
+    },
+    {
+      "command": "Python assertions over downloaded final Overleaf compiler log and optimized PDF",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "23A4pages; UI0errors/0warnings; raw log has two inherited PDF-version warnings. Raw compiler and optimized download are separate artifacts."
+    },
+    {
+      "command": "Poppler render plus visual inspection; fresh final PDF text comparison",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All five drawings/all23pages inspected; fresh final23page text identical."
+    },
+    {
+      "command": "git -C docs/tdr diff --check; ordinary push; ls-remote origin refs/heads/main",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Published72bb502dfe09a1a1209acbf7b5c048094b652e1e; existing remote report main verified."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate (initial parent-record validation)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Browser compile observation was initially marked PASS with no process exit code; validator rejected this format. Corrected to an actually run zero-exit Python assertion over retained log/PDF evidence, preserving the browser build as narrative evidence."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate; build --output _site/overleaf-pixel-baseline",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "45tasks,25documents,19review rounds validated; dashboard built."
+    },
+    {
+      "command": "git diff --check; git diff e50ae6def313cae3d9be62ff1e299569965c1b35 --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Working and full start-relative whitespace checks passed; report checkout clean at published72bb502."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate; summary --format json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "115paired records validated; summary retained under ignored build. Current task has no observed usage; older coverage remains partial."
+    },
+    {
+      "command": "tools.dashboard.check_update.check for Documentation title and focused changed paths",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Documentation title accepted with project tracking change."
+    },
+    {
+      "command": "gh pr create (initial sandboxed attempt)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Could not connect to GitHub API. Retried with authorized network escalation; PR48 created successfully."
+    },
+    {
+      "command": "git push -u origin codex/overleaf-pixel-baseline; gh pr create; gh pr view48",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Normal branch push and focused Documentation PR48 created; OPEN, main base, expected head14c3816. Attached to current Codex task."
+    }
+  ]
+}
