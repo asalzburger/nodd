@@ -18,7 +18,7 @@ PR50's tilted barrel; production and old scientific artifacts are unchanged.
 
 | Check | Actual result |
 | --- | --- |
-| Seven portable controls | PASS: counts/IDs, signed axes, complete module/pickup separating axes, cooling containment/separation, limits and true plane hits |
+| Eight portable controls | PASS: counts/IDs, signed axes, complete module/pickup separating axes, cooling containment/separation, limits, true plane hits and a sole-endcap-hit loss regression |
 | Standalone CMake / CTest | PASS: both model and native tests; DD4hep1.38, ROOT6.40.04, Python3.14.5 |
 | Native construction | PASS: 113,654 physical placements including world; 4,320 sensitive sensors |
 | IDs / anisotropic cells | PASS: 4,320 unique volume IDs; 21,600 cell centre/decode probes, 640×192 cells/module |
@@ -48,17 +48,30 @@ boards fit below the fixed710mm trunk inner radius; outer board corner radius
 705.479mm, maximum module/flex corner676.001mm.
 
 The coverage denominator remains the **original annuli and original datums**.
+The old/new active-hit comparison uses the same detailed module layout at the
+old/new first-disc datums; it is distinct from the ideal-annulus denominator.
 At4T and pT1GeV, each charge-sign sample loses576 of35,136 old ideal disc
 intersections (1.64%):288 per first disc on each end. The old-datum active layout
 misses none in the same sample, so this is a datum-shift effect. At0T and at4T /
-pT10GeV there are zero sampled losses. Both old/new layouts give the same
-any-strip-disc-hit count in this grid; a lost first-disc hit still changes hit
-multiplicity. The revised nominal-annulus sample has zero missing intersections.
+pT10GeV there are zero sampled losses. Direct old/new track counts at4T / pT1GeV
+are **10,752 /10,176 per charge-sign sample**:576 tracks lose their only
+short-strip endcap hit,5.36% of the old endcap-hit tracks (2.47% of all23,328
+tracks in that scenario). No tracks gain an endcap hit. The other three scenarios
+retain10,176 any-endcap-hit tracks each with no such losses or gains. These
+counts concern the short-strip endcap alone; they do not measure the loss of
+all tracker hits or reconstruction efficiency. The revised nominal-annulus
+sample has zero missing intersections.
 Finite grids cannot prove continuous hermeticity. Luminous z hypotheses are
 −150/0/+150mm; vacuum first traversal, host r800/|z|3300mm, eta−4..4 in0.1 steps,
 96 phi bins. Off-axis samples are used for the independent oracle comparison.
 The strip endcap alone does not cover all |eta|<4; pixel/barrel combination and
 transition efficiency require an integration study.
+
+The initial report incorrectly claimed equal old/new any-disc-hit counts while
+only storing the new count. The dated [coverage correction](coverage-correction.json)
+preserves the prior report hash and adds measured old/new counts and a regression
+track. The original report remains in commit1063dce. Geometry, datum choices,
+old-denominator misses and native/Geant4 execution evidence are unchanged.
 
 ## Engineering gates retained as failures
 
@@ -106,6 +119,8 @@ compact and library between final native audit and the actual Geant4 execution.
 The latter used [its preserved native source report](native-geant4-source.json);
 later source changes add only validation constraints and route-crosswalk metadata.
 Original hashes remain intact rather than being rewritten to enclosing commits.
+Corrected coverage accounting was executed separately on dirty
+ae031397b91b9b0a7ca21fdc60dfba02d8ab08f2 with the same geometry/input hashes.
 
 [Rejected456-module candidate](rejected-456.json) records45,504 overlaps.
 [Intermediate failures](failed-attempts.json) retain count-only3,888 and

@@ -73,6 +73,12 @@ class ModelControls(unittest.TestCase):
                     separated|=d>=reach-1e-9
                 self.assertFalse(np.any(zover&~separated),m['name'])
 
+    def test_first_disc_shift_can_lose_only_endcap_hit(self):
+        track=dict(origin_mm=[0,0,0],eta=1.4,phi=.17,pt_GeV=1,field_T=4,charge=1)
+        new,_=batch_hits(self.c,[track]);old,_=batch_hits(self.c,[track],True)
+        self.assertTrue(old.any())
+        self.assertFalse(new.any())
+
     def test_true_sensor_centre_hit(self):
         for m in (self.l['modules'][0],self.l['modules'][-1]):
             p=m['center_mm'];r=math.hypot(*p[:2]);eta=math.asinh(p[2]/r);phi=math.atan2(p[1],p[0])

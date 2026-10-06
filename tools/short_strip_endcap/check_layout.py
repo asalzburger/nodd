@@ -68,6 +68,9 @@ def run(out):
             missing_old_datum_active_intersections=int(oldmiss.sum()),
             per_disc_missing=missed.sum(axis=0).tolist(),
             tracks_with_any_strip_disc_hit=int(np.any(hits[selected],axis=1).sum()),
+            old_tracks_with_any_strip_disc_hit=int(np.any(oldhits[selected],axis=1).sum()),
+            tracks_losing_all_strip_disc_hits=int((np.any(oldhits[selected],axis=1)&~np.any(hits[selected],axis=1)).sum()),
+            tracks_gaining_any_strip_disc_hit=int((~np.any(oldhits[selected],axis=1)&np.any(hits[selected],axis=1)).sum()),
             any_active_hit_fraction=float(np.any(hits[selected],axis=1).mean()),
             misses_new_nominal_annuli=int((nominal[selected]&~hits[selected]).sum()),
             shifted_first_disc_old_intersection_lost=int((denominator[:,[0,6]]&~hits[selected][:,[0,6]]&oldhits[selected][:,[0,6]]).sum())))
