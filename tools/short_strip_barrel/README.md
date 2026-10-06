@@ -12,28 +12,31 @@ the existing1e−7 mm native transform gate. A negative control rejects a1e−8 
 placement shift while accepting a one-ULP perturbation. Native overlap and
 engineering tolerances are unchanged.
 
-The **phi-tilted alternative** uses `inputs-phi-tilted.json`: same-radius
-staves, common+15° beam-axis tilt, unchanged local components, and beveled
-ring-contact feet. Default `inputs.json` and all historical reports remain the
-tangential control. New evidence is retained separately under
-[phi-tilted/](../../docs/validation/DES-020/phi-tilted/results.md).
+The **working baseline**, selected by the user on2026-10-06, is
+`inputs-phi-tilted.json`: same-radius staves at+15° about global+z, unchanged
+local components, and beveled ring-contact webs. The model, compact exporter and
+coverage CLI select this input when `--input` is omitted. It has44/56/80/108
+staves and8,064 modules. `inputs.json` remains the byte-preserved historical
+tangential control, selected explicitly with `--input`. Historical drawings
+also explicitly load that control; the comparison figure retains its original
+labels. Read [the baseline selection checks](../../docs/validation/DES-020/baseline-selection.md)
+and [tilted evidence](../../docs/validation/DES-020/phi-tilted/results.md).
+
+The standalone CMake project's default `compact/` and `native.json` now describe
+the tilted baseline. `compact-control/` and `native-control.json` describe the
+explicit tangential control; CTest audits both. This replaces the earlier
+`compact-phi/` alternative naming for fresh builds. Existing build products and
+historical retained reports are not rewritten by this selection.
+
+For a separate control export:
 
 ```sh
-python3 -B tools/short_strip_barrel/model.py --input tools/short_strip_barrel/inputs-phi-tilted.json --output build/short-strip-barrel-phi
-python3 -B tools/short_strip_barrel/export.py --input tools/short_strip_barrel/inputs-phi-tilted.json --output build/short-strip-barrel-phi/compact
-python3 -B tools/short_strip_barrel/check_layout.py --input tools/short_strip_barrel/inputs-phi-tilted.json --refined --expected build/short-strip-barrel-phi/compact/expected.json --output build/short-strip-barrel-phi/coverage-refined.json
-python3 -B tools/short_strip_barrel/compare_phi.py --output build/short-strip-barrel-phi/comparison.json
-MPLCONFIGDIR=/tmp/nodd-strip-phi-mpl python3 -B tools/short_strip_barrel/draw_phi.py --output build/short-strip-barrel-phi/figures
+python3 -B tools/short_strip_barrel/export.py --input tools/short_strip_barrel/inputs.json --output build/short-strip-control/compact
 ```
 
-The same standalone CMake project builds both `compact/` and `compact-phi/`;
-CTest audits both and writes `native.json` and `native-phi.json`. For persistence
-use `native-phi.root` with `compact-phi/expected.json`. For DDSim select
-`compact-phi/short-strip-barrel.xml`; pass that expected inventory to
-`check_geant4.py --expected ...` so tilted path lengths are compared with the
-actual plane normal at the unchanged0.01 mm smoke tolerance. Controls12/18°
-have their own retained inputs/native reports. The12° collision is a failure;
-neither sampled coverage nor zero overlaps establishes detector acceptance.
+Coverage uses the same nominal-cylinder denominator for both layouts. The12/18°
+controls and the12° collision failure remain retained separately. Neither finite
+sampled coverage nor zero overlaps establishes detector acceptance.
 
 From the repository root:
 
@@ -44,7 +47,8 @@ python3 -B tools/short_strip_barrel/export.py --output build/short-strip-barrel/
 python3 -B tools/short_strip_barrel/check_layout.py --refined \
   --expected build/short-strip-barrel/compact/expected.json \
   --output build/short-strip-barrel/layout-check.json
-MPLCONFIGDIR=/tmp/nodd-strip-mpl python3 -B tools/short_strip_barrel/draw.py
+python3 -B tools/short_strip_barrel/compare_phi.py --output build/short-strip-barrel/comparison.json
+MPLCONFIGDIR=/tmp/nodd-strip-mpl python3 -B tools/short_strip_barrel/draw_phi.py --output build/short-strip-barrel/figures
 ```
 
 The model/export/controls use Python's standard library. Coverage uses NumPy and
@@ -98,12 +102,15 @@ python3 -B tools/short_strip_barrel/check_geant4.py \
   --root build/short-strip-barrel/geant4.root \
   --log build/short-strip-barrel/geant4.log \
   --native build/short-strip-barrel/native/native.json \
+  --expected build/short-strip-barrel/native/compact/expected.json \
   --output build/short-strip-barrel/geant4-check.json
 ```
 
 Save the DDSim stdout/stderr as `geant4.log` when running the smoke command.
-The retained execution used `geant4-transverse.root` and
-`geant4-transverse.log`. It saved eight positive-energy hits in all four layers.
+The original and tilted retained executions use separate `geant4-transverse`
+reports in DES-020 and DES-020/phi-tilted/. Both saved eight positive-energy hits
+in all four layers. Supplying the baseline expected inventory makes the checker
+use its tilted sensor normal, rather than the tangential0.2mm fallback.
 No field is defined in this simulation compact.
 
 Retain the failed30 mm collector using `inputs-30mm-control.json`: the compact

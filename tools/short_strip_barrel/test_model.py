@@ -11,7 +11,7 @@ import xml.etree.ElementTree as ET
 
 HERE=Path(__file__).resolve().parent
 sys.path.insert(0,str(HERE))
-from model import load,build,screen,frame,foot_profile,ROOT,sha
+from model import load,build,screen,frame,foot_profile,ROOT,sha,INPUT,CONTROL_INPUT
 spec=importlib.util.spec_from_file_location('ss_export',HERE/'export.py')
 generator=importlib.util.module_from_spec(spec);spec.loader.exec_module(generator)
 
@@ -19,7 +19,16 @@ generator=importlib.util.module_from_spec(spec);spec.loader.exec_module(generato
 class BarrelTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.c=load();cls.layout=build(cls.c)
+        cls.c=load(CONTROL_INPUT);cls.layout=build(cls.c)
+
+    def test_default_selects_retained_tilted_baseline(self):
+        self.assertEqual(INPUT,HERE/'inputs-phi-tilted.json')
+        baseline=build(load())
+        retained=json.loads(gzip.decompress((ROOT/'docs/validation/DES-020/phi-tilted/layout.json.gz').read_bytes()))
+        self.assert_snapshot(baseline,retained)
+        self.assertEqual([x['staves'] for x in baseline['layers']],[44,56,80,108])
+        self.assertEqual(len(baseline['modules']),8064)
+        self.assertEqual(generator.INPUT,INPUT)
 
     def test_every_module_has_one_unambiguous_route(self):
         routed=[m for r in self.layout['routes'] for m in r['modules']]

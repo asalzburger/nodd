@@ -3,16 +3,16 @@
   "session_id": "SESSION-2026-10-06-short-strip-barrel",
   "title": "Detailed short-strip barrel placement support cooling and service routes",
   "recorded_at": "2026-10-06T14:51:22Z",
-  "started_at": null,
-  "ended_at": null,
+  "started_at": "2026-10-06T14:48:46Z",
+  "ended_at": "2026-10-06T15:46:15Z",
   "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
-    "Exact active-turn start/end, execution model, client version and final token counters are unavailable; usage remains empty, unknown rather than zero.",
     "Selected curated journal is partial, not a full conversation or complete project resource total.",
     "Native runs used dirty starting revision plus actual producer/input hashes. Historical raw failures and binary artifacts remain ignored locally; retained report hashes describe their scope.",
-    "No ACTS conversion, full-detector clearance or hardware qualification. Engineering and boundary-coverage failures remain unresolved."
+    "No ACTS conversion, full-detector clearance or hardware qualification. Engineering and boundary-coverage failures remain unresolved.",
+    "2026-10-06 correction: this completed turn now has exact recovered boundaries and five counters. Execution model/client version and older project coverage remain unknown/partial; later baseline-promotion and recovery bookkeeping counters are excluded."
   ],
   "client": {
     "name": "Codex desktop app",
@@ -24,7 +24,8 @@
     "branch": "codex/short-strip-barrel",
     "initial_changes": [],
     "result_commits": [
-      "98a0fee7e6c554c5ea3a910d830329580ff998bb"
+      "98a0fee7e6c554c5ea3a910d830329580ff998bb",
+      "c5472092c6da1ab073544fa75f0f00769ab2af9f"
     ],
     "changed_files": [
       ".github/workflows/dashboard.yml",
@@ -150,7 +151,23 @@
       "evidence": "Isolated worktree, fetched current main and verified actual PR48 merge metadata; unrelated files preserved."
     }
   ],
-  "usage": [],
+  "usage": [
+    {
+      "client_thread_id": "01a10c6a-664d-72b1-afad-926c2c57312b",
+      "turn_id": "01a111b0-40c3-7390-b7da-865fa38b174d",
+      "model": null,
+      "source": "Usage-only local Codex recovery captured 2026-10-06T18:00:04.324314+00:00; logs/usage/USAGE-2026-10-06-short-strip-barrel-turns.json; verified event SHA-256 cff77e1b897947957d0aa2ed68c2b2bd34193fb8bd36f74d3e5862cf59025c9f",
+      "limitations": [
+        "Execution model and client version were not exposed by usage-only metadata.",
+        "This exact completed turn is counted once; older project coverage and the active baseline-promotion turn are excluded."
+      ],
+      "input_tokens": 16951378,
+      "cached_input_tokens": 16432128,
+      "output_tokens": 131853,
+      "reasoning_output_tokens": 60594,
+      "total_tokens": 17083231
+    }
+  ],
   "checks": [
     {
       "command": "acts-spack node preflight",
@@ -337,6 +354,12 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "113 task records and117 primary records validated;46tasks/26documents/19review rounds built. Entire delivered diff passes. Final publication metadata is tested locally; its post-push hosted run is a separate later observation."
+    },
+    {
+      "command": "recover_usage.py; import-usage --dry-run; import-usage",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Closed persisted turn01a111b0-40c3-7390-b7da-865fa38b174d; 109 request increments reconcile; ordinals7766..8761; verified usage SHA256cff77e1b897947957d0aa2ed68c2b2bd34193fb8bd36f74d3e5862cf59025c9f. Imported once into this owner."
     }
   ]
 }

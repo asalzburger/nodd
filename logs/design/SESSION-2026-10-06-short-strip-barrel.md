@@ -125,3 +125,7 @@ The bounded project record is closed; actual client turn completion and token
 counters remain unknown, so ended_at stays null and usage stays empty. This
 closeout changes only journal/tracking metadata; its later enclosing revision
 is resolved by Git history and never substituted for execution provenance.
+
+## 2026-10-06 resource-accounting correction
+
+The earlier unavailable-counter statements describe the evidence at original closeout. Usage-only local recovery now verifies persisted completed turn `01a111b0-40c3-7390-b7da-865fa38b174d` from 2026-10-06T14:48:46Z to 2026-10-06T15:46:15Z, ordinals7766..8761, with109 reconciled request increases and usage SHA256`cff77e1b897947957d0aa2ed68c2b2bd34193fb8bd36f74d3e5862cf59025c9f`. Imported exactly once into this canonical owner using dry-run then import. Counters: input16951378, cached input16432128, output131853, reasoning output60594, total17083231. Cached/reasoning are subsets, never added again. Initial detailed barrel task; canonical journal request/outcomes, recorded start a2493c4 and result commits98a0fee/c547209 agree with this bounded persisted turn and the subsequent alternative task. Source:logs/usage/USAGE-2026-10-06-short-strip-barrel-turns.json; original ignored recovery source retained. Execution model/client version stay null. Later active baseline-promotion/recovery bookkeeping and older unobserved project turns are excluded; no all-project or self-inclusive total. Historical scientific execution/artifact hashes and failures remain unchanged.

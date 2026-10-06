@@ -9,14 +9,14 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle,Circle,Arc
-from model import ROOT,load,build,screen
+from model import ROOT,CONTROL_INPUT,load,build,screen
 
 COLORS=dict(sensor='#246aa0',readout='#7594b5',support='#4b6354',cooling='#ba5379',
             copper='#bc772d',pickup='#7d7972',service='#d0aa67',failure='#b43e3e')
 
 
 def draw(output):
-    c=load();layout=build(c);s=screen(c,layout)
+    c=load(CONTROL_INPUT);layout=build(c);s=screen(c,layout)
     plt.rcParams.update({'font.family':'DejaVu Serif','font.size':10,'svg.fonttype':'none',
                          'axes.spines.top':False,'axes.spines.right':False})
     output.mkdir(parents=True,exist_ok=True)

@@ -14,13 +14,13 @@ add_custom_command(OUTPUT "${NODD_COMPACT}/short-strip-barrel.xml" "${NODD_COMPA
   DEPENDS ${NODD_SS_INPUTS} "${NODD_REPO}/tools/pixel_barrel_dd4hep/materials.py"
   WORKING_DIRECTORY "${NODD_REPO}" VERBATIM)
 add_custom_target(nodd-short-strip-compact ALL DEPENDS "${NODD_COMPACT}/short-strip-barrel.xml" "${NODD_COMPACT}/expected.json")
-set(NODD_PHI_COMPACT "${CMAKE_CURRENT_BINARY_DIR}/compact-phi")
-add_custom_command(OUTPUT "${NODD_PHI_COMPACT}/short-strip-barrel.xml" "${NODD_PHI_COMPACT}/expected.json"
+set(NODD_CONTROL_COMPACT "${CMAKE_CURRENT_BINARY_DIR}/compact-control")
+add_custom_command(OUTPUT "${NODD_CONTROL_COMPACT}/short-strip-barrel.xml" "${NODD_CONTROL_COMPACT}/expected.json"
   COMMAND "${Python3_EXECUTABLE}" -B "${NODD_REPO}/tools/short_strip_barrel/export.py"
-    --input "${NODD_REPO}/tools/short_strip_barrel/inputs-phi-tilted.json" --output "${NODD_PHI_COMPACT}"
+    --input "${NODD_REPO}/tools/short_strip_barrel/inputs.json" --output "${NODD_CONTROL_COMPACT}"
   DEPENDS ${NODD_SS_INPUTS} "${NODD_REPO}/tools/pixel_barrel_dd4hep/materials.py"
   WORKING_DIRECTORY "${NODD_REPO}" VERBATIM)
-add_custom_target(nodd-short-strip-phi-compact ALL DEPENDS "${NODD_PHI_COMPACT}/short-strip-barrel.xml" "${NODD_PHI_COMPACT}/expected.json")
+add_custom_target(nodd-short-strip-control-compact ALL DEPENDS "${NODD_CONTROL_COMPACT}/short-strip-barrel.xml" "${NODD_CONTROL_COMPACT}/expected.json")
 include(CTest)
 if(BUILD_TESTING)
   add_test(NAME short-strip-model COMMAND "${Python3_EXECUTABLE}" -B -m unittest discover
@@ -28,7 +28,7 @@ if(BUILD_TESTING)
   add_test(NAME short-strip-native COMMAND "${Python3_EXECUTABLE}" -B "${NODD_REPO}/tools/short_strip_barrel/validate.py"
     --compact "${NODD_COMPACT}/short-strip-barrel.xml" --expected "${NODD_COMPACT}/expected.json"
     --library "$<TARGET_FILE:nODDShortStripBarrel>" --output "${CMAKE_CURRENT_BINARY_DIR}/native.json")
-  add_test(NAME short-strip-phi-native COMMAND "${Python3_EXECUTABLE}" -B "${NODD_REPO}/tools/short_strip_barrel/validate.py"
-    --compact "${NODD_PHI_COMPACT}/short-strip-barrel.xml" --expected "${NODD_PHI_COMPACT}/expected.json"
-    --library "$<TARGET_FILE:nODDShortStripBarrel>" --output "${CMAKE_CURRENT_BINARY_DIR}/native-phi.json")
+  add_test(NAME short-strip-control-native COMMAND "${Python3_EXECUTABLE}" -B "${NODD_REPO}/tools/short_strip_barrel/validate.py"
+    --compact "${NODD_CONTROL_COMPACT}/short-strip-barrel.xml" --expected "${NODD_CONTROL_COMPACT}/expected.json"
+    --library "$<TARGET_FILE:nODDShortStripBarrel>" --output "${CMAKE_CURRENT_BINARY_DIR}/native-control.json")
 endif()
