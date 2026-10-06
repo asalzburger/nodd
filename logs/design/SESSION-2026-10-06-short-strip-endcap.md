@@ -166,3 +166,26 @@ The primary session pair was byte-identical to the published correction before
 this closeout; only this pair is synchronized again with exact saved-byte guards.
 Current implementation turn remains active, final token boundary/counters and
 ended_at unknown. No partial observations imported and no new token owner.
+
+## Sensor-area accounting correction — 2026-10-06T19:20:28Z
+
+Independent area auditing found a456-module numerator left from the rejected
+candidate, while the physical layout and all native checks use360/disc. The
+corrected screen derives counts/area from placements:19.90656m2 over12 nominal
+annuli gives1.355039911, rather than1.716383887. This ratio is an area sum,
+not a measured overlap fraction. Screening limitation text also now reads the
+actual10mm bend input rather than the initial3mm fixture. Prior screen hashes
+remain in `area-correction.json` and original1063dce history.
+
+An independent placed-area control brings the portable suite to9, all passed.
+The full serialized layout, physical entities/materials/readout and other pins
+match the actual native input; compact/material XML are byte-identical. Only
+the expected inventory's model-source hash changes. Corrected screening executes
+on dirty108313e; actual native/G4 and earlier coverage execution hashes remain
+untouched. All engineering gates/coverage counts are unchanged. This correction
+follows the journal-only108313e update, which itself changed only the pair.
+
+Prior journal-head hosted run37517521654 observedcompleted/success
+updated2026-10-06T19:21:02Z; build job112454158213 success completed2026-10-06T19:21:01Z; deploy job112456790656 skipped completed2026-10-06T19:21:01Z. The area-correction head has separate CI.
+Area correction logger117/121, summary, dashboard49/27/19/build and working diff
+passed; exact guarded primary pair synchronization performed without science changes.

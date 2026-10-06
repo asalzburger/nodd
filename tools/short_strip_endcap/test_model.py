@@ -1,7 +1,7 @@
 import math
 import unittest
 import numpy as np
-from model import load,build,cooling,rings
+from model import load,build,cooling,rings,screen
 from check_layout import batch_hits
 
 class ModelControls(unittest.TestCase):
@@ -17,6 +17,13 @@ class ModelControls(unittest.TestCase):
         for m in self.l['modules']:
             self.assertTrue(np.allclose(np.cross(m['u'],m['v']),m['n'],atol=1e-12))
             self.assertAlmostEqual(np.dot(m['u'],m['v']),0,places=12)
+    def test_area_accounting_matches_placed_sensors(self):
+        result=screen(self.c,self.l)
+        area=sum(4*m['half_u_mm']*m['half_v_mm'] for m in self.l['modules'])
+        annuli=len(self.l['discs'])*math.pi*(self.c['annulus_mm'][1]**2-self.c['annulus_mm'][0]**2)
+        self.assertAlmostEqual(result['active_area_m2'],area/1e6)
+        self.assertAlmostEqual(result['projected_area_to_nominal_annulus_ratio'],area/annuli)
+        self.assertEqual(result['modules_per_disc']*len(self.l['discs']),len(self.l['modules']))
     def test_collector_and_radial_limits(self):
         self.assertEqual(self.c['disc_z_mm'][0]-13.5-1310,11.5)
         self.assertLess(math.hypot(705,26),710)

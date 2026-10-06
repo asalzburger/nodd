@@ -33,8 +33,8 @@ python3 -B tools/short_strip_endcap/draw.py --output build/short-strip-endcap/fi
 
 Controls verify IDs/counts, signed frames, envelope limits, invalid first datum,
 complete module/pickup separating axes, cooling-hole containment/separation,
-the conservative azimuth broad phase and a sole-endcap-hit loss regression
-(eight controls). Coverage compares116,640 sampled
+the conservative azimuth broad phase, a sole-endcap-hit loss regression and
+sensor-area accounting against placed dimensions (nine controls). Coverage compares116,640 sampled
 vacuum helices against fixed original annuli/datums, and64 tracks against the
 independent finite-plane solver. Missing ideal intersections are reported, not
 removed from the denominator. Software PASS and engineering acceptance differ.
