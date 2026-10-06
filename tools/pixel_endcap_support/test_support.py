@@ -9,7 +9,7 @@ import unittest
 import numpy as np
 
 sys.path.insert(0,str(Path(__file__).resolve().parent))
-from model import ROOT,load_inputs,template,proposal,run_geometry,comparisons,digest
+from model import ROOT,load_inputs,template,proposal,run_geometry,comparisons,digest,disc_records
 from thermal import sheet_resistance,thermal_screen
 from budget import inventory,services
 
@@ -56,6 +56,21 @@ class DesignControls(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             p=Path(d)/'inputs.json';p.write_text(json.dumps(cfg))
             with self.assertRaisesRegex(ValueError,'Baseline SHA'):load_inputs(p)
+
+    def test_reviewed_datums_are_reflected_without_an_extra_first_disc_shift(self):
+        wanted=[615,795,1046,1333,1645,1977,2328,2692,3070]
+        for side in (-1,1):
+            discs=sorted((d for d in disc_records(self.layout,self.cfg) if d['side']==side),
+                         key=lambda d:abs(d['proposed_z_mm']))
+            self.assertEqual([d['proposed_z_mm'] for d in discs],[side*z for z in wanted])
+
+    def test_invalid_integer_datum_tables_fail_before_export(self):
+        for bad in ([615]*9,[615.2,795,1046,1333,1645,1977,2328,2692,3070],
+                    [615,795],[-615,795,1046,1333,1645,1977,2328,2692,3070]):
+            cfg=copy.deepcopy(self.cfg);cfg['placement']['disc_abs_z_mm']=bad
+            with tempfile.TemporaryDirectory() as d:
+                p=Path(d)/'inputs.json';p.write_text(json.dumps(cfg))
+                with self.assertRaisesRegex(ValueError,'integer millimetres'):load_inputs(p)
 
     def test_service_failures_remain_visible(self):
         s=services(self.cfg,self.layout,self.g['rows'])

@@ -53,6 +53,19 @@ class OptimizationDriverTests(unittest.TestCase):
         candidate["positive"]["per_subdetector"]["short_strip"]["stations"]["mean"] = 8.
         self.assertFalse(no_mean_hit_loss(candidate,baseline))
 
+    def test_future_coordinates_floor_interior_and_preserve_fractional_minimum(self):
+        layout={'layers':[]};constraints={side:{} for side in ('negative','positive')}
+        for side,sign in (('negative',-1),('positive',1)):
+            for sub in SUBS:
+                constraints[side][sub]={'minimum_first_disc_center_abs_z_mm':600.2}
+                for i,z in enumerate((700.,1600.,3000.7)):
+                    layout['layers'].append(dict(id=f'{side}-{sub}-{i}',kind='disc',subsystem=sub,z_m=sign*z/1000))
+        coords=disc_coordinates(layout,constraints,'uniform',1.25)
+        for side in constraints:
+            for sub in SUBS:
+                self.assertEqual([coords[f'{side}-{sub}-{i}'] for i in range(3)],
+                                 [601,1800,3000])
+
     def test_selection_rejects_infeasible_or_hit_losing_high_area_case(self):
         def record(name,area,hits,gap,feasible=True,guard=True):
             return dict(id=name,feasible=feasible,no_subsystem_mean_hit_loss=guard,

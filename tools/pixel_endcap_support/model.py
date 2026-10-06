@@ -20,6 +20,11 @@ def digest(path):
 def load_inputs(path=None):
     path = Path(path) if path else Path(__file__).with_name('inputs.json')
     cfg = json.loads(path.read_text())
+    positions = cfg['placement'].get('disc_abs_z_mm')
+    if positions is not None:
+        if (len(positions) != 9 or any(type(z) is not int or z <= 0 for z in positions)
+                or any(a >= b for a, b in zip(positions, positions[1:]))):
+            raise ValueError('Disc datums must be nine increasing positive integer millimetres')
     src = ROOT / cfg['baseline']
     if digest(src) != cfg['baseline_sha256']:
         raise ValueError('Baseline SHA changed: review module and interface provenance first')
@@ -136,7 +141,10 @@ def disc_records(layout,cfg):
         # Nominal is independent of placement's signed offset convention.
         old=bs[0]['center_mm'][2]-bs[0]['normal_offset_mm'];sgn=1 if old>0 else -1
         shift=cfg['placement']['first_disc_shift_mm'] if l['id'].endswith(('P1','N1')) else 0.
-        datum=abs(old)+shift
+        positions=cfg['placement'].get('disc_abs_z_mm')
+        datum=(positions[int(l['id'].rsplit('-',1)[1][1:])-1]
+               if positions is not None else abs(old)+shift)
+        shift=datum-abs(old)
         template_new=proposal(bs,cfg)[0]
         deltas=[sgn*datum+sgn*b['center_mm'][2]-a['center_mm'][2] for a,b in zip(bs,template_new)]
         collector=next((r for r in layout['metadata']['services']['routes']

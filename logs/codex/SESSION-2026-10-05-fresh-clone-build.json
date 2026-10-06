@@ -1,0 +1,135 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-05-fresh-clone-build",
+  "title": "Build fresh nODD checkout and run registered validation",
+  "recorded_at": "2026-10-05T14:17:01Z",
+  "started_at": "2026-10-05T14:16:34Z",
+  "ended_at": "2026-10-05T14:20:46Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Registry fingerprints remain stale; current packages, imports and datasets were checked without modifying shared dependencies or the registry.",
+    "Build and DD4hep/ROOT validation do not execute Geant4 transport or qualify inherited thermal/service engineering.",
+    "2026-10-05 correction: completed-turn token counters and client turn boundaries recovered from usage-only metadata. Client version and actual execution model remain unknown. Current in-progress recovery turn is excluded."
+  ],
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": "01a10c6a-664d-72b1-afad-926c2c57312b"
+  },
+  "git": {
+    "start_commit": "7b559d0fbe0287848c46cb1e05c833e0579c43d8",
+    "branch": "main",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      "logs/codex/SESSION-2026-10-05-fresh-clone-build.json",
+      "logs/codex/SESSION-2026-10-05-fresh-clone-build.md"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [
+      "local-build",
+      "pixel-barrel",
+      "pixel-endcaps",
+      "dashboard",
+      "session-logging"
+    ],
+    "related_ids": [
+      "DES-012",
+      "DES-015"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-05-fresh-clone-build.md",
+  "activities": [
+    {
+      "kind": "skill",
+      "name": "acts-spack",
+      "version": null,
+      "calls": 1,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Applied skills/acts-spack/SKILL.md and references/workflow.md; preflight required current-environment re-verification."
+    }
+  ],
+  "usage": [
+    {
+      "client_thread_id": "01a10c6a-664d-72b1-afad-926c2c57312b",
+      "turn_id": "01a10c6c-6cd8-7d42-92e0-f582cbeb5fa6",
+      "model": null,
+      "source": "Usage-only local Codex recovery captured 2026-10-05T14:32:45.043599+00:00; logs/usage/USAGE-2026-10-05-app.json; verified event SHA-256 0a514ebc12140afed41ac25c1a4cd1abf4a0346b9b3735fda481cce38dee3b33",
+      "limitations": [
+        "Actual per-turn execution model and client version were not exposed by the recovered counters."
+      ],
+      "input_tokens": 1245586,
+      "cached_input_tokens": 1205504,
+      "output_tokens": 10973,
+      "reasoning_output_tokens": 2838,
+      "total_tokens": 1256559
+    }
+  ],
+  "checks": [
+    {
+      "command": "python3 skills/acts-spack/scripts/preflight.py",
+      "status": "FAIL",
+      "exit_code": 2,
+      "result": "Known node unverified because setup_script and spack_lock fingerprints differed from the registry. Warning reported before dependent work."
+    },
+    {
+      "command": "source /Users/salzburg/cernbox/configs/acts/acts_setup.sh; unset ACTS_SPACK_SETUP; setup_spack; source /Users/salzburg/Documents/work/externals/ci-dependencies/.spack-env/view/bin/thisdd4hep.sh; source /Users/salzburg/Documents/work/externals/ci-dependencies/.spack-env/view/bin/geant4.sh; spack env status; spack find --format '{name}@{version} /{hash:7}' dd4hep geant4 root python; python3 -c 'import sys,dd4hep,DDG4,ROOT; print(sys.executable,sys.version,ROOT.gROOT.GetVersion())'; geant4-config --version; geant4-config --check-datasets",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Sandboxed inspection imported DD4hep/DDG4 and found all 12 datasets, but sysctl/ps were denied. Activation, package checks and imports were repeated outside the sandbox successfully. DD4hep 1.38 /7deaacd, Geant4 11.4.2 /cpge6jj, ROOT 6.40.04 /7nazwew and Python 3.14.5 /vneif4p."
+    },
+    {
+      "command": "source /Users/salzburg/cernbox/configs/acts/acts_setup.sh; unset ACTS_SPACK_SETUP; setup_spack; source /Users/salzburg/Documents/work/externals/ci-dependencies/.spack-env/view/bin/thisdd4hep.sh; source /Users/salzburg/Documents/work/externals/ci-dependencies/.spack-env/view/bin/geant4.sh; cmake -S . -B build/dd4hep -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Configured with AppleClang 21.0.0.21000334. Dependency policy and CLHEP_DIR warnings; no settings or checks were weakened."
+    },
+    {
+      "command": "cmake --build build/dd4hep --parallel 4",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Built libnODDPixelBarrel.dylib and plugin registration; exported barrel and combined pixel compacts under ignored build/dd4hep/."
+    },
+    {
+      "command": "ctest --test-dir build/dd4hep --output-on-failure",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All 6 tests passed in 40.82 seconds: two exporter suites, two native geometry validations and two ROOT display round trips. Empty errors/overlaps at 1e-5 mm in both native reports. Combined: 5066 modules, 14858 sensitive patches/IDs and 74290 pixel-cell centres."
+    },
+    {
+      "command": "git fetch --no-tags --no-write-fetch-head -- origin 78bc60bb6da0c9d234baf00d37cadea9dd4964b4",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Fetched sole missing historical merge commit required by dashboard validation. HEAD and source files unchanged."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 40 tasks, 21 documents and 19 review rounds."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py build",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Built ignored local dashboard at _site/pages/."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated all 98 paired session records."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py summary",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Repository observed totals: 134594309 input and 674111 output tokens across 79 recorded turns in 42/98 sessions. This task has no available exact usage counters; its totals remain unknown."
+    }
+  ]
+}
