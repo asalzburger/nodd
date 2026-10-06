@@ -2,7 +2,7 @@
   "schema_version": 1,
   "session_id": "SESSION-2026-10-06-short-strip-endcap",
   "title": "Detailed short-strip endcap design, model and services",
-  "recorded_at": "2026-10-06T18:56:23Z",
+  "recorded_at": "2026-10-06T19:05:47Z",
   "started_at": "2026-10-06T18:18:05Z",
   "ended_at": null,
   "status": "closed",
@@ -24,11 +24,13 @@
     "branch": "codex/short-strip-endcap",
     "initial_changes": [],
     "result_commits": [
-      "1063dce1139d07b44b0db6f18040775f387834cb"
+      "1063dce1139d07b44b0db6f18040775f387834cb",
+      "ae031397b91b9b0a7ca21fdc60dfba02d8ab08f2"
     ],
     "changed_files": [
       ".github/workflows/dashboard.yml",
       "docs/design/DES-021-short-strip-endcap.md",
+      "docs/validation/DES-021/coverage-correction.json",
       "docs/validation/DES-021/coverage.json",
       "docs/validation/DES-021/failed-attempts.json",
       "docs/validation/DES-021/figures/drawing-provenance.json",
@@ -238,6 +240,48 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "Both passed on scientific deliverable1063dce, clean checkout. No scientific/native execution hashes substituted."
+    },
+    {
+      "command": "Coverage summary audit and corrected check_layout.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Initial equality claim lacked old count. Direct rerun on dirty ae03139 reports10752 old/10176 new any-endcap-hit tracks per4T/pT1GeV sign,576 sole-endcap-hit losses and zero gains; other scenarios unchanged. Geometry/native/G4 unchanged."
+    },
+    {
+      "command": "Eight portable controls including sole-endcap-hit regression",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All8 passed. Preserve prior7-control run as historical evidence."
+    },
+    {
+      "command": "Hosted scientific run37514992249/job112445508331",
+      "status": "NOT RUN",
+      "exit_code": null,
+      "result": "Cancelled by superseding metadata push; run updated2026-10-06T18:57:52Z. Not a scientific failure."
+    },
+    {
+      "command": "Diagnostic session/coverage field inspection",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Two inspection-only attempts used nonexistent changed_files/scenarios keys; corrected to git.changed_files/groups. No evidence or geometry modified by failures."
+    },
+    {
+      "command": "Logger validate coverage-correction record initial",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Schema rejected SKIP for cancelled hosted check; corrected to supported NOT RUN, retaining actual cancellation."
+    },
+    {
+      "command": "Hosted metadata run37515247073/job112446707546",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Success on exact ae031397b91b9b0a7ca21fdc60dfba02d8ab08f2; build completed2026-10-06T19:04:16Z, run updated19:04:17Z; deploy112449505374 skipped for PR. Coverage-count correction subsequently changes code/report, so final head must be checked separately."
+    },
+    {
+      "command": "Final coverage correction logger/dashboard/build/diff and guarded primary sync",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All8 portable controls passed; logger117 task/121 primary, dashboard49 tasks/27 documents/19 reviews and _site/short-strip-endcap build passed. Working diff check passed. Only paired session logs mirrored after matching exact saved primary hashes; unrelated science/logs preserved."
     }
   ]
 }

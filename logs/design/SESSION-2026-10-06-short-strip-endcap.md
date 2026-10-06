@@ -117,3 +117,34 @@ to this chat; drawings are in its description. No Slack message or merge.
 The project task is closed with partial measurements; actual client completion
 and final resource counters remain unavailable while this turn is active.
 Source/native/artifact execution hashes are preserved.
+
+## Coverage accounting correction — 2026-10-06T19:05:47Z
+
+The initial report/PR description claimed equal old/new any-disc-hit counts,
+although the original JSON only recorded the new count. Direct rerun on dirty
+`ae031397b91b9b0a7ca21fdc60dfba02d8ab08f2` measures10,752 old versus10,176 new
+endcap-hit tracks per4T/pT1GeV charge-sign scenario.576 lose their sole short-strip
+endcap hit (5.36% of old endcap-hit tracks;2.47% of all23,328 tracks/scenario);
+none gain one. Other scenarios retain10,176 each without losses/gains. This is
+endcap-only evidence, not full-tracker reconstruction efficiency.
+
+The old-denominator576 intersection losses remain unchanged. Geometry, native
+and Geant4 hashes are unchanged. `coverage-correction.json` retains the old
+report hash and measured correction; original evidence stays in1063dce. A new
+sole-hit regression brings the portable controls to8, all passed.
+Two schema-inspection attempts failed on nonexistent keys (exit1 each), then
+used the actual git.changed_files/groups fields; no scientific effect.
+Scientific hosted run37514992249 was cancelled by the metadata push at
+2026-10-06T18:57:52Z; cancellation is not a scientific failure.
+
+The correction journal's first validation rejected the unsupported SKIP enum
+(exit1); the cancelled check now uses NOT RUN with its actual cancellation
+explanation. Hosted metadata run37515247073/job112446707546 on ae03139 succeeded
+at2026-10-06T19:04:16Z (run updated19:04:17Z); PR deploy112449505374 skipped.
+The corrected code/report require a separate final-head hosted check.
+
+Correction validation:8 portable controls,117 task/121 primary logger records,
+dashboard49 tasks/27 documents/19 review rounds and _site/short-strip-endcap
+build passed. Working diff check passed. Only this session pair synchronized
+to primary after exact saved-byte guards; primary scientific/unrelated files
+preserved. Final current-turn counters remain unavailable.
