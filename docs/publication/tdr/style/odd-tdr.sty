@@ -1,0 +1,473 @@
+% ===========================================================================
+%  odd-tdr.sty — house style for the Open Data Detector Technical Design Report
+% ---------------------------------------------------------------------------
+%  ALL formatting lives in this file.  main.tex should stay thin: class,
+%  \usepackage{style/odd-tdr}, metadata, and one \include per chapter.
+%
+%  Engine:  pdfLaTeX only.  No fontspec, no --shell-escape, nothing outside
+%           TeX Live.  This must compile unchanged on Overleaf.
+%
+%  If you are not a LaTeX expert: every block below is labelled and every
+%  number you might reasonably want to change is on a line of its own with a
+%  comment.  The three you are most likely to touch are
+%     (2) page geometry     — the measure (line length),
+%     (3) leading           — the line spacing,
+%     (5) colours           — the accent colour.
+% ===========================================================================
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{style/odd-tdr}[2026/09/08 v0.1 Open Data Detector TDR house style]
+
+
+% ===========================================================================
+% (1)  ENCODINGS AND FONTS
+% ---------------------------------------------------------------------------
+%  Body text:  Palatino via newpx.  Palatino is warm, wide and has a large
+%  x-height, which makes it very legible on screen at 11pt; the price is that
+%  it needs a *shorter line* and *more leading* than Computer Modern.  Both
+%  are set below.  newpxtext/newpxmath are used rather than mathpazo because
+%  the matching maths (Greek, operators, delimiters) is far better and it is
+%  the maths that carries a detector TDR.
+%
+%  Headings:  TeX Gyre Heros (a Helvetica clone).  Helvetica's x-height is
+%  larger than Palatino's, so it is scaled down by ~0.90 to make the two
+%  fonts sit on the same optical line.  Do not remove the scaling.
+%
+%  Monospace: Inconsolata, scaled to sit with Palatino.  Used for XML tags,
+%  DD4hep names, file paths and code listings later on.
+% ===========================================================================
+\RequirePackage[T1]{fontenc}
+\RequirePackage[utf8]{inputenc}       % harmless on modern TeX (utf8 is default)
+\RequirePackage{textcomp}
+\RequirePackage{amsmath}              % must come before newpxmath
+%  newpxtext already ships TeX Gyre Heros as the companion sans and scales it
+%  by "helvratio" relative to Palatino.  Palatino's x-height is 0.460 em,
+%  Helvetica's 0.523 em, so the x-heights match at 0.88; 0.90 is a shade
+%  larger, which keeps bold sans headings from looking undersized next to the
+%  body text.  (Do NOT also \usepackage{tgheros} — it clashes with this.)
+\RequirePackage[helvratio=0.90]{newpxtext}
+\RequirePackage[varqu,varl,scaled=0.95]{inconsolata} % typewriter
+\RequirePackage[bigdelims]{newpxmath} % Palatino-matched maths; load AFTER newpxtext
+% NB: do NOT load amssymb — newpxmath already provides the AMS symbols and the
+%     two together produce "symbol already defined" errors.
+
+\RequirePackage[english]{babel}
+
+
+% ===========================================================================
+% (2)  PAGE GEOMETRY  —  the measure
+% ---------------------------------------------------------------------------
+%  Target: 65-75 characters per line.  Measured on running prose, 11pt
+%  Palatino gives 76 characters at 130 mm and 72 at 124 mm, so 124 mm it is.
+%  A4 is 210 x 297 mm, so that leaves 43 mm of margin on each side: wide, but
+%  this is a single-sided document with marginal notes, and the alternative
+%  (a longer line) is the one thing that reliably makes long technical text
+%  tiring to read.
+%
+%  Vertically: 32 mm above the text block (the running head sits inside that),
+%  which leaves ~41 mm below — the classical "more air at the foot" balance,
+%  and enough room that a figure caption never crowds the paper edge.
+%
+%  Rule of thumb if you change it: every 9 mm of textwidth is ~5 characters.
+%  Wide tables and figures may be pushed into the margin with
+%  \makebox[\textwidth][c]{...} rather than by widening the whole document.
+% ===========================================================================
+%  Two implementation details, both the result of getting them wrong first:
+%   - the four margins are given explicitly rather than as textwidth plus
+%     "hcentering", because geometry quietly widens the outer margin to make
+%     room for marginal notes and the block then is not where you asked for
+%     it (it came out 31.5 mm / 54.6 mm instead of 43 mm / 43 mm);
+%   - geometry is loaded bare and configured with \geometry{reset,...},
+%     because the class option "usegeometry" makes KOMA hand its own computed
+%     width and height to geometry; "reset" discards those, so our margins
+%     are the only constraints and geometry stops warning about
+%     over-specification on every run.
+\RequirePackage{geometry}
+\geometry{
+  reset,
+  a4paper,
+  left        = 43mm,    % <-- the measure is 210mm - left - right = 124mm,
+  right       = 43mm,    %     which is ~72 characters at 11pt Palatino
+  top         = 32mm,    % paper edge to top of the text block
+  bottom      = 41mm,    % a little more air at the foot than at the head
+  headheight  = 15pt,    % running head: chapter title and folio
+  headsep     = 9mm,
+  footskip    = 13mm,
+  marginparwidth = 24mm, % marginal notes live in the 43mm side margin
+  marginparsep   = 6mm
+}
+
+
+% ===========================================================================
+% (3)  LEADING, PARAGRAPHS AND LINE BREAKING
+% ---------------------------------------------------------------------------
+%  Palatino's large x-height makes LaTeX's default leading look cramped.
+%  11pt text has a 13.6pt default baseline; \linespread{1.08} takes it to
+%  ~14.7pt, i.e. 1.34x the type size, which is right for this measure.
+% ===========================================================================
+\linespread{1.08}                     % <-- the leading
+
+\setlength{\parindent}{1.2em}         % indent, no blank line between paragraphs
+\setlength{\emergencystretch}{2em}    % helps the narrow measure absorb long
+                                      % words like "pseudorapidity" without
+                                      % overfull lines
+\tolerance=1500
+
+\widowpenalty=10000                   % never leave a single line at the top
+\clubpenalty=10000                    % or bottom of a page
+\displaywidowpenalty=10000
+\raggedbottom                         % pages may end short rather than being
+                                      % stretched; kinder to figure-heavy text
+
+
+% ===========================================================================
+% (4)  MICROTYPOGRAPHY
+% ---------------------------------------------------------------------------
+%  Character protrusion and font expansion; both work with pdfLaTeX and Type 1
+%  fonts.  "tracking" enables \textls{} used by the chapter openers and the
+%  title page.  This is the single biggest visual improvement per line of
+%  code in the whole file — leave it on.
+% ===========================================================================
+\RequirePackage[
+  protrusion = true,
+  expansion  = true,
+  tracking   = true,
+  kerning    = true,
+  final
+]{microtype}
+
+
+% ===========================================================================
+% (5)  COLOUR
+% ---------------------------------------------------------------------------
+%  Taken from the ODD emblem, so document and logo agree.  The palette is
+%  deliberately small and dark: everything except \TODO prints legibly in
+%  greyscale and nothing shouts.
+% ===========================================================================
+\RequirePackage[table,dvipsnames]{xcolor}
+
+\definecolor{oddblue} {HTML}{174382}  % deep blue  — chapter labels, structure
+\definecolor{oddcyan} {HTML}{0479C1}  % bright blue — external links only
+\definecolor{oddslate}{HTML}{3B4552}  % near-black slate — all heading text
+\definecolor{oddrule} {HTML}{B7BEC7}  % hairlines under heads and running head
+\definecolor{oddlink} {HTML}{1F4E79}  % internal links: dark, prints as black
+\definecolor{oddtodo} {HTML}{B3541E}  % editorial marks — the one loud colour
+
+
+% ===========================================================================
+% (6)  GRAPHICS, TABLES, UNITS
+% ---------------------------------------------------------------------------
+\RequirePackage{graphicx}
+\graphicspath{{figures/}}
+\RequirePackage{booktabs}             % \toprule \midrule \bottomrule
+\RequirePackage{array}
+\RequirePackage{multirow}
+\RequirePackage{longtable}
+\RequirePackage{siunitx}
+
+%  House table rules: no vertical rules, ever.  A little more air around the
+%  horizontal rules than booktabs' default, to match the open leading.
+\setlength{\heavyrulewidth}{0.9pt}
+\setlength{\lightrulewidth}{0.45pt}
+\renewcommand{\arraystretch}{1.15}
+
+%  siunitx: numbers detect the surrounding font, thin-space digit grouping,
+%  en-dash ranges.  Use \qty{2.5}{\milli\metre}, \num{1.2e-3}, \si{\tesla}.
+\sisetup{
+  mode                  = match,      % numbers follow the text font
+  propagate-math-font   = true,
+  separate-uncertainty  = true,
+  group-separator       = {\,},
+  group-minimum-digits  = 4,
+  range-phrase          = {\,\text{--}\,},  % en dash, not a minus sign
+  range-units           = single,
+  exponent-product      = \times
+}
+%  Units a detector TDR needs that siunitx does not define.
+\DeclareSIUnit{\barn}{b}
+\DeclareSIUnit{\radlen}{X_{0}}        % radiation lengths
+\DeclareSIUnit{\intlen}{\lambda_{0}}  % nuclear interaction lengths
+\DeclareSIUnit{\ns}{ns}
+\DeclareSIUnit{\channel}{ch}
+
+
+% ===========================================================================
+% (7)  HEADINGS
+% ---------------------------------------------------------------------------
+%  All headings are sans (TeX Gyre Heros) in near-black slate.  Sizes are
+%  given explicitly rather than as \Large/\large so the steps between levels
+%  stay controlled: 21 / 14.5 / 12 / 11 pt.
+% ===========================================================================
+\setkomafont{disposition}{\normalfont\sffamily\color{oddslate}}
+
+\addtokomafont{chapter}      {\fontsize{21}{25}\selectfont\bfseries}
+\addtokomafont{section}      {\fontsize{14.5}{18}\selectfont\bfseries}
+\addtokomafont{subsection}   {\fontsize{12}{15}\selectfont\bfseries}
+\addtokomafont{subsubsection}{\fontsize{11}{14}\selectfont\bfseries}
+\addtokomafont{paragraph}    {\fontsize{11}{14}\selectfont\bfseries}
+\addtokomafont{minisec}      {\fontsize{11}{14}\selectfont\bfseries}
+
+%  Chapter opener --------------------------------------------------------
+%  "CHAPTER 3" letterspaced in blue, the title beneath it, a hairline under
+%  both.  Restrained: one accent colour, one rule, no big numerals.
+\newcommand*{\oddchapterlabelfont}{%
+  \normalfont\sffamily\fontsize{9.5}{12}\selectfont\color{oddblue}}
+
+\renewcommand*{\chapterformat}{%
+  {\oddchapterlabelfont\textls[220]{\MakeUppercase{\chapapp\nobreakspace\thechapter}}}%
+  \par\nobreak\vspace{2.4mm}%
+}
+\renewcommand*{\chapterlinesformat}[3]{%
+  % #1 = level, #2 = \chapterformat output (empty for \chapter*), #3 = title
+  \begingroup
+    \raggedright
+    #2#3\par\nobreak
+    \vspace{3mm}%
+    {\color{oddrule}\rule{\linewidth}{0.6pt}}%
+  \endgroup
+}
+%  Space above the chapter head, and between head and first paragraph.
+\renewcommand*{\chapterheadstartvskip}{\vspace*{22mm}}
+\renewcommand*{\chapterheadendvskip} {\vspace{12mm}}
+
+%  Lower-level spacing.  afterindent=false suppresses the indent of the first
+%  paragraph after a heading (the modern KOMA idiom; do not use a negative
+%  beforeskip, which is deprecated).
+\RedeclareSectionCommand[beforeskip=4.2ex plus 1ex minus .2ex,
+                         afterskip =2.0ex plus .2ex,
+                         afterindent=false]{section}
+\RedeclareSectionCommand[beforeskip=3.4ex plus .8ex minus .2ex,
+                         afterskip =1.5ex plus .2ex,
+                         afterindent=false]{subsection}
+\RedeclareSectionCommand[beforeskip=3.0ex plus .8ex minus .2ex,
+                         afterskip =1.2ex plus .2ex,
+                         afterindent=false]{subsubsection}
+
+\setcounter{secnumdepth}{3}           % number down to x.y.z
+\setcounter{tocdepth}{1}              % list chapters and sections in the ToC
+                                      % (raise to 2 once chapters have grown)
+
+
+% ===========================================================================
+% (8)  RUNNING HEADS AND FOLIOS
+% ---------------------------------------------------------------------------
+%  Body pages: chapter title on the left, page number on the right, hairline
+%  underneath.  Chapter-opening pages and other "plain" pages: page number
+%  centred at the foot, no rule.  Front matter is numbered i, ii, iii...,
+%  main matter 1, 2, 3... (that comes from \frontmatter / \mainmatter).
+% ===========================================================================
+\RequirePackage[automark]{scrlayer-scrpage}
+\pagestyle{scrheadings}
+\clearpairofpagestyles
+\automark{chapter}
+
+\setkomafont{pageheadfoot}{\normalfont\sffamily\fontsize{9}{11}\selectfont
+                           \color{oddslate}}
+\setkomafont{pagenumber}  {\normalfont\sffamily\fontsize{9}{11}\selectfont
+                           \color{oddslate}}
+
+\ihead[]{\headmark}                   % [plain]{scrheadings}: empty on plain
+\ohead[]{\pagemark}
+\cfoot[\pagemark]{}                   % centred folio on plain pages only
+
+\KOMAoptions{headsepline=0.4pt}
+\setkomafont{headsepline}{\color{oddrule}}
+
+
+% ===========================================================================
+% (9)  CAPTIONS
+% ---------------------------------------------------------------------------
+%  Sans bold label ("Figure 2.3.") to echo the headings, roman caption text
+%  one step down from the body, centred if it fits on one line and justified
+%  otherwise.  Table captions go above the table (set in main.tex via the
+%  class option captions=tableheading).
+% ===========================================================================
+\RequirePackage{caption}
+\captionsetup{
+  format          = plain,
+  indention       = 0pt,
+  font            = small,
+  labelfont       = {sf,bf,color=oddslate},
+  textfont        = {rm},
+  labelsep        = period,
+  justification   = justified,
+  singlelinecheck = true,
+  skip            = 8pt,
+  width           = 0.95\textwidth
+}
+\captionsetup[table]{skip=6pt}
+
+
+% ===========================================================================
+% (10)  LINKS, PDF METADATA AND CROSS-REFERENCES
+% ---------------------------------------------------------------------------
+%  hyperref must be loaded late and cleveref last of all.
+%  Link colours are dark enough to print as near-black; only external URLs
+%  get the brighter blue.
+% ===========================================================================
+\RequirePackage{hyperref}
+\hypersetup{
+  colorlinks      = true,
+  linkcolor       = oddlink,
+  citecolor       = oddlink,
+  filecolor       = oddlink,
+  urlcolor        = oddcyan,
+  linktoc         = all,
+  breaklinks      = true,
+  bookmarksnumbered = true,
+  bookmarksopen     = true,
+  bookmarksopenlevel = 1,
+  pdfdisplaydoctitle = true,
+  pdfstartview    = {FitH},
+  pdfcreator      = {pdfLaTeX},
+  pdfproducer     = {pdfLaTeX}
+}
+\urlstyle{same}                        % URLs in the text font, not typewriter
+
+\RequirePackage[capitalise,nameinlink]{cleveref}
+\crefname{chapter}{Chapter}{Chapters}
+\crefname{section}{Section}{Sections}
+\crefname{figure}{Figure}{Figures}
+\crefname{table}{Table}{Tables}
+\crefname{equation}{Equation}{Equations}
+
+
+% ===========================================================================
+% (11)  DOCUMENT METADATA
+% ---------------------------------------------------------------------------
+%  Set these in main.tex.  They feed both the title page and the PDF
+%  properties, so they are only written once.
+% ===========================================================================
+\newcommand*{\ODDtheSubject}{Open Data Detector}
+\newcommand*{\ODDtheTitle}  {Technical Design Report}
+\newcommand*{\ODDtheAuthor} {}
+\newcommand*{\ODDtheEmail}  {}
+\newcommand*{\ODDtheVersion}{}
+\newcommand*{\ODDtheDate}   {\today}
+
+\newcommand*{\ODDsubject}[1]{\renewcommand*{\ODDtheSubject}{#1}}
+\newcommand*{\ODDtitle}  [1]{\renewcommand*{\ODDtheTitle}  {#1}}
+\newcommand*{\ODDauthor} [1]{\renewcommand*{\ODDtheAuthor} {#1}}
+\newcommand*{\ODDemail}  [1]{\renewcommand*{\ODDtheEmail}  {#1}}
+\newcommand*{\ODDversion}[1]{\renewcommand*{\ODDtheVersion}{#1}}
+\newcommand*{\ODDdate}   [1]{\renewcommand*{\ODDtheDate}   {#1}}
+
+\AtBeginDocument{%
+  \hypersetup{
+    pdftitle   = {\ODDtheSubject\space\ODDtheTitle},
+    pdfauthor  = {\ODDtheAuthor},
+    pdfsubject = {nODD preliminary pixel baseline},
+    pdfkeywords= {nODD, Open Data Detector, DD4hep, ACTS, tracking,
+                  detector description, technical design report}
+  }%
+}
+
+
+% ===========================================================================
+% (12)  TITLE PAGE
+% ---------------------------------------------------------------------------
+%  The emblem is used *without* its wordmark (figures/odd-mark.pdf): the
+%  logo's own lettering is a geometric sans that fights both Palatino and
+%  Heros, and printing "OpenDataDetector" twice on one page — once as
+%  lettering, once as the title — reads as an accident.  The mark alone is a
+%  device; the name is then set in the document's own type, which is what
+%  makes the page look designed rather than assembled.
+%
+%  The full logo with wordmark is kept in figures/odd-logo.pdf should you
+%  disagree; swap the \includegraphics line below.
+% ===========================================================================
+\newcommand*{\ODDmaketitle}{%
+  \begin{titlepage}
+    \thispagestyle{empty}
+    \centering
+    \vspace*{18mm}
+
+    \includegraphics[height=50mm]{odd-mark}\par
+
+    \vspace{24mm}
+
+    % Eyebrow: the detector's name, letterspaced.  Tracking is what turns a
+    % line of capitals from shouting into a label; 250/1000 em is enough to
+    % open the letters without breaking the words apart.
+    {\normalfont\sffamily\fontsize{12}{15}\selectfont\color{oddblue}%
+      \textls[250]{\MakeUppercase{\ODDtheSubject}}}\par
+
+    \vspace{6mm}
+    {\color{oddrule}\rule{0.52\linewidth}{0.5pt}}\par
+    \vspace{9mm}
+
+    % The title itself: Heros at its regular weight.  Bold at 30pt would be
+    % the loudest thing in the document, and it does not need to be.
+    {\normalfont\sffamily\fontsize{30}{36}\selectfont\color{oddslate}%
+      \ODDtheTitle}\par
+
+    % The imprint block sits at the foot.  A second, shorter hairline gives
+    % the white space between title and imprint a bottom edge, so the page
+    % reads as two composed blocks rather than one block and a gap.
+    \vfill
+
+    {\color{oddrule}\rule{0.24\linewidth}{0.5pt}}\par
+    \vspace{8mm}
+
+    {\normalfont\sffamily\fontsize{12}{15}\selectfont\color{oddslate}%
+      \ODDtheAuthor}\par
+    \ifx\ODDtheEmail\empty\else
+      \vspace{2.5mm}
+      {\normalfont\ttfamily\fontsize{9.5}{12}\selectfont\color{oddslate}%
+        \ODDtheEmail}\par
+    \fi
+
+    \vspace{13mm}
+    {\normalfont\sffamily\fontsize{9}{12}\selectfont\color{oddslate}%
+      \ifx\ODDtheVersion\empty\else
+        \textls[180]{\MakeUppercase{\ODDtheVersion}}%
+        \hspace{1.2em}\textperiodcentered\hspace{1.2em}%
+      \fi
+      \ODDtheDate}\par
+    \vspace{12mm}
+  \end{titlepage}%
+}
+
+%  Colophon for the verso of the title page.  Purely factual; delete the
+%  \ODDcolophon line in main.tex if you would rather have a blank page.
+\newcommand*{\ODDcolophon}{%
+  \thispagestyle{empty}
+  \null\vfill
+  \begingroup
+    \footnotesize\color{oddslate}
+    \raggedright
+    Typeset with pdf\LaTeX{} in Palatino (\textsf{newpx}) with TeX Gyre Heros
+    headings and Inconsolata for code.\par
+    \vspace{2mm}
+    Source: self-contained TDR review sources in the nODD repository,
+    derived from the pinned Overleaf template. Pixel parameters and evidence
+    come from DES013, DES017--019 and the corresponding frozen validation records.
+    This preliminary draft is not an engineering sign-off.\par
+    \vspace{2mm}
+    Emblem: the Open Data Detector logo, wordmark removed.\par
+  \endgroup
+  \vspace{6mm}
+  \clearpage
+}
+
+
+% ===========================================================================
+% (13)  EDITORIAL AND WRITING HELPERS
+% ---------------------------------------------------------------------------
+%  \TODO{...}  marks a value or passage that is deliberately missing.  House
+%  rule: never invent a plausible-looking number — emit a \TODO instead, so
+%  it is visible in the PDF and greppable in the source.
+% ===========================================================================
+\newcommand{\TODO}[1]{%
+  \textcolor{oddtodo}{\normalfont\sffamily\bfseries[\,TODO: #1\,]}}
+
+%  Shorthands used throughout the TDR.
+\newcommand{\ODD}{ODD}
+\newcommand{\DDfourhep}{DD4hep}
+\newcommand{\ACTS}{ACTS}
+\newcommand{\code}[1]{\texttt{#1}}    % XML tags, file paths, plugin names
+\newcommand{\pt}{\ensuremath{p_{\mathrm{T}}}}
+\newcommand{\abseta}{\ensuremath{|\eta|}}
+\newcommand{\Xzero}{\ensuremath{X_{0}}}
+\newcommand{\lambdazero}{\ensuremath{\lambda_{0}}}
+
+\endinput

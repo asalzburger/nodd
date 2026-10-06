@@ -1,0 +1,54 @@
+name: TDR pdfLaTeX
+
+on:
+  pull_request:
+    paths:
+      - 'docs/publication/tdr/**'
+      - 'tools/tdr_baseline/**'
+      - '.github/workflows/tdr.yml'
+  push:
+    branches: ['codex/pixel-baseline-tdr']
+    paths:
+      - 'docs/publication/tdr/**'
+      - 'tools/tdr_baseline/**'
+      - '.github/workflows/tdr.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+          submodules: false
+      - name: Verify frozen TDR evidence and generated inventory
+        run: python3 -B tools/tdr_baseline/generate.py --check
+      - name: Compile self-contained manuscript with pdfLaTeX
+        uses: xu-cheng/latex-action@6549dc21effb2730855a1281407ecfcececc6c1b # v4
+        with:
+          root_file: main.tex
+          working_directory: docs/publication/tdr
+          texlive_version: 2026
+          args: -pdf -file-line-error -halt-on-error -interaction=nonstopmode
+      - name: Require resolved references and unclipped text
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          text = Path('docs/publication/tdr/main.log').read_text()
+          bad = re.findall(r'Overfull \\[hv]box|(?:Citation|Reference) .+ undefined|There were undefined references', text)
+          if bad:
+              raise SystemExit('\n'.join(bad))
+          PY
+      - uses: actions/upload-artifact@v7
+        with:
+          name: preliminary-pixel-tdr
+          path: |
+            docs/publication/tdr/main.pdf
+            docs/publication/tdr/main.log
+          if-no-files-found: error
+          retention-days: 14
