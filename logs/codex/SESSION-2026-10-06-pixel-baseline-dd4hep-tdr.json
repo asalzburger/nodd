@@ -4,16 +4,16 @@
   "title": "Adopt trimmed single/quad pixel baseline in DD4hep and TDR",
   "recorded_at": "2026-10-06T08:43:06Z",
   "started_at": "2026-10-06T08:26:07Z",
-  "ended_at": null,
-  "status": "open",
+  "ended_at": "2026-10-06T09:45:58Z",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
-    "Current implementation turn 01a11051-efc0-75e1-8080-8c9c88d42e24 is active; exact final counters will be recovered only after closure. Execution model/client version unknown.",
+    "Exact completed implementation turn01a11051-efc0-75e1-8080-8c9c88d42e24 recovered once after closure. Actual execution model and client version remain unknown.",
     "Older project usage coverage is partial; this record owns the shared two-PR implementation turn once.",
     "Preliminary prototype selection does not grant engineering sign-off.",
     "PR44 merged during implementation at9a4632d; remaining clarification, TDR evidence and shared logging closeout belong to PR45. No push to the closed PR44.",
-    "Final client completion time and counters unknown until the bounded implementation turn closes; pending one metadata-only recovery."
+    "Recovery bookkeeping counters are separate, unknown and excluded; standalone figure/history work is also excluded. Older project usage coverage remains partial; no complete all-project or self-inclusive total."
   ],
   "client": {
     "name": "Codex app",
@@ -30,7 +30,11 @@
       "89b4ce289c2f700e91315a529c600a36317f84fc",
       "63e030f2b517bdbe526a1860c0f32a3012a712b4",
       "dda70e5709e1668dfe98e555dddda8efbccd13a8",
-      "14258a2c7eb1c776c322191ab04186270418d213"
+      "14258a2c7eb1c776c322191ab04186270418d213",
+      "38255171eaa3e211da3bc1eebfcaead3b749807a",
+      "381d434cd49fa89f8cb87358b8f96eada9f96ced",
+      "3dc8e44b5af12b38e5af53ea4b12d79a1d0fb353",
+      "da4c9908b836b463a28fadde229610d4d73a621b"
     ],
     "changed_files": [
       ".github/workflows/tdr.yml",
@@ -70,6 +74,7 @@
       "docs/validation/DES-019/workflow.json",
       "logs/codex/SESSION-2026-10-06-pixel-baseline-dd4hep-tdr.json",
       "logs/codex/SESSION-2026-10-06-pixel-baseline-dd4hep-tdr.md",
+      "logs/usage/USAGE-2026-10-06-pixel-baseline-dd4hep-tdr.json",
       "project/tracking.json",
       "tools/pixel_barrel_dd4hep/validate.py",
       "tools/pixel_detector_dd4hep/README.md",
@@ -128,7 +133,22 @@
       "evidence": "Read PDF skill; marker ran once. Exact pinned pdfLaTeX CI compile succeeded; final11A4 pages rendered at105dpi with Poppler and individually inspected. Retained finalPDF/log/source and artifact hashes."
     }
   ],
-  "usage": [],
+  "usage": [
+    {
+      "client_thread_id": "01a10c6a-664d-72b1-afad-926c2c57312b",
+      "turn_id": "01a11051-efc0-75e1-8080-8c9c88d42e24",
+      "model": null,
+      "source": "Usage-only local Codex recovery captured 2026-10-06T10:10:14.063315+00:00; logs/usage/USAGE-2026-10-06-pixel-baseline-dd4hep-tdr.json; verified event SHA-256 1a77e7dbca218066654c65994d572ad52c426036dd5d6d1ca4bdc388bf68f50a",
+      "limitations": [
+        "Actual execution model and client version were not exposed by recovered counters."
+      ],
+      "input_tokens": 19848971,
+      "cached_input_tokens": 19214592,
+      "output_tokens": 118088,
+      "reasoning_output_tokens": 48397,
+      "total_tokens": 19967059
+    }
+  ],
   "checks": [
     {
       "command": "ACTS Spack preflight",
@@ -225,6 +245,48 @@
       "status": "FAIL",
       "exit_code": 2,
       "result": "Raw public TeX compiler log contains native trailing whitespace/blankEOF. Check output was followed by diff stat and the metadata commit still executed. Corrected by byte-preserving gzip storage with both raw/compressed hashes, no scientific or PDF mutation."
+    },
+    {
+      "command": "Implementation closeout logger validate --repo ../nodd",
+      "status": "FAIL",
+      "exit_code": 2,
+      "result": "At implementation closeout, --repo was placed after validate and argparse rejected it. Corrected global option form session_log.py --repo ../nodd validate passed109records before that turn closed. Failure retained; not rerun here."
+    },
+    {
+      "command": "Final hosted dashboard37444450749/job112205780428 and pdfLaTeX37444450897/job112205777739 on da4c990",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Actual dashboard/build SUCCESS2026-10-06T09:45:26Z; deployment112208073585 SKIPPED atsame timestamp. Actual compile SUCCESS2026-10-06T09:41:34Z. Both workflow aggregates now completed/success; exact head da4c9908b836b463a28fadde229610d4d73a621b, no scientific rerun."
+    },
+    {
+      "command": "Implementation closeout retained evidence and _site/pixel-tdr-retained build; full parent/main-relative diff checks",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Before implementation closed, retained manuscript/PDF/log hashes matched on da4c990; dashboard45tasks/25documents/19reviews built. Task logger103records and primary109records validated. Full parent/main-relative checks and clean branch passed. Recovery reverified manuscript/artifact/raw and compressed log hashes and both full base-relative checks without altering evidence."
+    },
+    {
+      "command": "Bounded resource-log automation creation attempts",
+      "status": "FAIL",
+      "exit_code": null,
+      "result": "Implementation scheduling first rejected a missing target; COUNT1 had no future occurrence. Successful bounded COUNT2 schedule was paused immediately on this first invocation, preserving name/prompt/rule/target; no retry or reactivation."
+    },
+    {
+      "command": "recover_usage.py --codex-home /Users/salzburg/.codex --project /Users/salzburg/Documents/ChatGPT/agentic-detector --output build/issue38/pixel-baseline-final-usage-20261006T1010Z-01.json; exact-target curation; import-usage --dry-run; import-usage",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Closed exact target, boundaries4235..5374, usage4248..5373,130requests; all cumulative increments reconcile. Verified event SHA2561a77e7dbca218066654c65994d572ad52c426036dd5d6d1ca4bdc388bf68f50a. Dry-run and import each added1/unchanged0. Five counters imported once into canonical shared owner; original source retained. Actual client completion2026-10-06T09:45:58Z."
+    },
+    {
+      "command": "After-import logger validate/summary; dashboard validate/build; full diff checks; safe primary/model synchronization and logger validation",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Task logger103records, primary111records (including separate local unknown-usage recovery record) and model103records validate. Logger summary shows observed disjoint sums with older coverage partial; no self-inclusive/all-project claim. Dashboard45tasks/25documents/19review rounds validated and built under_site/pixel-tdr-resource-recovery-20261006. Working-tree and full origin/codex/issue38-disc-overlap...HEAD plus origin/main...HEAD checks passed. Original pair bytes matched saved closeout preimage immediately before syncing only updated pair/new inventory; primarymain7b559d0/model63e030f branches and unrelated science/PR44 snapshot preserved."
+    },
+    {
+      "command": "Log-only publication guard, initial invocation",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Guard stripped leading whitespace from porcelain status and truncated the first path, triggering a safe assertion before staging/commit. Corrected to NUL-delimited status with untouched bytes; no scientific or unrelated changes."
     }
   ]
 }
