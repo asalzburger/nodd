@@ -40,7 +40,11 @@ identities; the enclosing publication commit is not an execution identity.
 
 Committed and normally pushed the report to its existing remote main at
 `72bb502dfe09a1a1209acbf7b5c048094b652e1e`. Remote main was verified equal. The
-parent pointer/publication record is prepared on `codex/overleaf-pixel-baseline`.
+parent pointer/publication record was committed at
+`14c3816ed7b531dd877f1b37cbabc47bcfee0cc8` on `codex/overleaf-pixel-baseline`
+and normally pushed. [PR48](https://github.com/asalzburger/nodd/pull/48) is OPEN
+against main and attached to this task. Initial sandboxed PR creation could not
+connect to the GitHub API; authorized network escalation succeeded.
 [The publication inventory](../../docs/publication/pixel-baseline-overleaf.json)
 contains the exact source/artifact hashes and engineering boundaries, without
 private project URLs, authentication data or raw conversations.
@@ -77,8 +81,8 @@ Initial parent logger validation rejected a browser PASS observation with a null
 process exit code. Replaced that entry with a successfully executed Python
 assertion over the retained compiler log and PDF; no fabricated service exit
 code. Dashboard validate/build passed45tasks/25documents/19reviews, and working
-plus full start-relative whitespace checks passed. Final logger results are
-recorded in the paired JSON after execution. No design lifecycle, scientific inputs, older evidence or
+plus full start-relative whitespace checks passed. Corrected logger validation and summary passed115 records; this task has no
+observed token counters. Hosted parent checks are recorded only when observed. No design lifecycle, scientific inputs, older evidence or
 native execution hashes changed.
 
 ## Changes and revision links
