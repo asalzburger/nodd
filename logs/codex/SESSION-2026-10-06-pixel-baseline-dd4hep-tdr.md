@@ -138,3 +138,10 @@ original main7b559d0 with scientific files unchanged. Model local pair also
 validates103records. Remaining client-end timestamp/token measurements will be
 filled by a single bounded after-close metadata-only recovery, without changing
 scientific inputs, execution hashes or assigning the turn to another record.
+
+The first staged closeout diff check exposed native whitespace in the public
+TeX compiler log; a following stat masked the shell exit and metadata commit
+14258a2 still executed. Preserved this failure and corrected in ordinary history:
+the compiler log is now stored as byte-preserving gzip with independent raw and
+compressed hashes. No PDF/manuscript/native evidence changed. Future checks
+run with explicit failure propagation.
