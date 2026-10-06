@@ -148,3 +148,21 @@ dashboard49 tasks/27 documents/19 review rounds and _site/short-strip-endcap
 build passed. Working diff check passed. Only this session pair synchronized
 to primary after exact saved-byte guards; primary scientific/unrelated files
 preserved. Final current-turn counters remain unavailable.
+
+## Verified corrected deliverable closeout
+
+Corrected deliverable `14c1ec105e4759a3a72c1f734a14875b55a6e564` was normally
+pushed to OPEN draft PR51 with its measured coverage correction in the body.
+Hosted run37516515454/job112450688476 succeeded on that exact head at
+2026-10-06T19:13:15Z; run updated19:13:16Z and deploy112453433415 skipped.
+The parallel same-head event37516515266 was cancelled at19:07:00Z; preserve
+that event separately, not as a scientific failure. All8 endcap controls,
+inherited controls and dashboard/documentation checks passed. Full parent/main
+diff checks and every current source/artifact hash passed; native execution
+remains dirty54523d9 and corrected coverage dirtyae03139. No new scientific run
+or changed engineering gate is implied by this final journal-only update.
+
+The primary session pair was byte-identical to the published correction before
+this closeout; only this pair is synchronized again with exact saved-byte guards.
+Current implementation turn remains active, final token boundary/counters and
+ended_at unknown. No partial observations imported and no new token owner.
