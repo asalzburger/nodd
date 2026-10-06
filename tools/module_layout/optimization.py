@@ -111,7 +111,13 @@ def shift_discs(layout, coordinates):
 
 
 def disc_coordinates(layout, constraints, pattern, exponent):
-    """Keep last discs fixed; distribute residual space above service minima."""
+    """Distribute space on a whole-mm grid, retaining feasible ordering.
+
+    Issue #38 asks that future optimized disc datums use floored millimetres.
+    Raise a feasibility lower bound to its first admissible integer; floor the
+    final boundary and proposed intermediate coordinates. Geometry/service
+    checks still decide whether the resulting candidate is usable.
+    """
     if pattern not in ("inherited","uniform","front_loaded"):
         raise ValueError("Unknown disc-spacing schedule")
     coordinates = {}
@@ -123,8 +129,9 @@ def disc_coordinates(layout, constraints, pattern, exponent):
                             and (l["z_m"] > 0) == (side == "positive")),
                            key=lambda l: abs(l["z_m"]))
             old = [abs(l["z_m"])*1000 for l in discs]
-            first = group["minimum_first_disc_center_abs_z_mm"]
-            if first >= old[-1]:
+            first = math.ceil(group["minimum_first_disc_center_abs_z_mm"]-1e-9)
+            last = math.floor(old[-1]+1e-9)
+            if first >= last:
                 raise ValueError("First-disc service bay reaches final disc")
             # The service builder checks every collector against every body;
             # spacing schedules are proposed here and rejected if they collide.
@@ -132,7 +139,10 @@ def disc_coordinates(layout, constraints, pattern, exponent):
                 fraction = (old[i]-old[0])/(old[-1]-old[0]) if pattern == "inherited" else i/(len(old)-1)
                 if pattern == "front_loaded":
                     fraction = fraction**exponent
-                coordinates[layer["id"]] = first+(old[-1]-first)*fraction
+                coordinates[layer["id"]] = math.floor(first+(last-first)*fraction+1e-9)
+            positions = [coordinates[layer['id']] for layer in discs]
+            if any(a >= b for a,b in zip(positions,positions[1:])):
+                raise ValueError('Whole-mm disc quantization collapses ordered stations')
     return coordinates
 
 

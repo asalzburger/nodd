@@ -144,6 +144,15 @@ class CombinedTests(unittest.TestCase):
                     self.assertLess(int(m.get("col")), 32)
                     self.assertLess(int(m.get("id")), 65536)
 
+    def test_reviewed_integer_datums_are_the_actual_compact_positions(self):
+        import xml.etree.ElementTree as ET
+        wanted = [615, 795, 1046, 1333, 1645, 1977, 2328, 2692, 3070]
+        tree = ET.parse(self.out / "pixel-detector.xml")
+        for name, sign in [('PixelEndcapP', 1), ('PixelEndcapN', -1)]:
+            discs = tree.findall(f"detectors/detector[@name='{name}']/disc")
+            self.assertEqual([float(d.get('z').removesuffix('*mm')) for d in discs],
+                             [sign*z for z in wanted])
+
 
 if __name__ == "__main__":
     unittest.main()
