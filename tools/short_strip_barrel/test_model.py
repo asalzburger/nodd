@@ -41,7 +41,34 @@ class BarrelTests(unittest.TestCase):
 
     def test_tangential_control_matches_retained_placement(self):
         control=json.loads(gzip.decompress((ROOT/'docs/validation/DES-020/layout.json.gz').read_bytes()))
-        self.assertEqual(self.layout,control)
+        self.assert_snapshot(self.layout,control)
+
+    def assert_snapshot(self,actual,expected,path='layout'):
+        """Exact structure/IDs; libm rounding envelope for serialized floats.
+
+        Eight ULPs are machine precision (<=9.1e-13 mm at radius660 mm),
+        far stricter than the established 1e-7 mm native transform gate.
+        Comparing a macOS libm snapshot bit-for-bit fails on Linux despite
+        unchanged geometry. This never regenerates or rounds the old artifact.
+        """
+        self.assertEqual(type(actual),type(expected),path)
+        if isinstance(expected,dict):
+            self.assertEqual(actual.keys(),expected.keys(),path)
+            for key in expected:self.assert_snapshot(actual[key],expected[key],path+'.'+key)
+        elif isinstance(expected,list):
+            self.assertEqual(len(actual),len(expected),path)
+            for i,(a,b) in enumerate(zip(actual,expected)):self.assert_snapshot(a,b,f'{path}[{i}]')
+        elif isinstance(expected,float):
+            self.assertLessEqual(abs(actual-expected),8*max(math.ulp(actual),math.ulp(expected)),path)
+        else:self.assertEqual(actual,expected,path)
+
+    def test_snapshot_distinguishes_roundoff_from_changed_placement(self):
+        c=copy.deepcopy(self.layout)
+        x=c['modules'][0]['center_mm'][0]
+        c['modules'][0]['center_mm'][0]=math.nextafter(x,math.inf)
+        self.assert_snapshot(c,self.layout)
+        c['modules'][0]['center_mm'][0]=x+1e-8
+        with self.assertRaises(AssertionError):self.assert_snapshot(c,self.layout)
 
     def test_phi_alternative_is_rotationally_repeated_with_signed_axes(self):
         c=load(HERE/'inputs-phi-tilted.json');layout=build(c)

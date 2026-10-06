@@ -35,3 +35,11 @@ Exact active-turn completion/counters, execution model and client version are un
 ## Follow-up
 
 Human review of15degree alternative, actual installation/contact and thermal-cycle qualification, electronics/services, and barrel/endcap coverage/interface closure remain. DES020 stays DRAFT; no production integration is performed.
+
+## Publication closeout
+
+Scientific deliverable75c8df68fac13b0db9dd4812c9404b1a24011437 pushed normally to draft PR49, with the immutable before/after picture in its description. All new-source/artifact hashes and original report bytes reconcile. Full start/main-relative and staged-new-file diff checks passed. Primary safely received only this new paired journal after an absence/preimage check; logger validated118records, versus114in task checkout. Original primary branch/head, tracked science and ten unrelated records preserved. No duplicate usage owner/import; active-turn counts still unknown.
+
+### Portable regression correction
+
+Hosted scientific-head run37493641055/job112373185458 failed at2026-10-06T16:17:11Z solely in the new bitwise snapshot equality test: Linux Python3.12.14/libm produced a last-digit floating-point centre difference from macOS. Eight other strip controls passed. The comparator now requires exact IDs/structure/discrete values and bounds floats to8ULPs, below the established native transform tolerance by many orders of magnitude. A new negative control rejects1e−8mm placement shifts and accepts a one-ULP rounding perturbation. All ten local controls pass; old evidence, scientific input/model/export/factory/validator and native/engineering tolerances are unchanged. Preserve the failed run; do not regenerate geometry or misreport it as a native failure. Old-head body-edit run37493629294 was cancelled by publication. A README patch context initially failed without mutation, then was corrected.

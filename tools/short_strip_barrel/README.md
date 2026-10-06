@@ -5,6 +5,13 @@ geometry. Read [DES-020](../../docs/design/DES-020-short-strip-barrel.md) and th
 [results](../../docs/validation/DES-020/results.md) before treating a software
 pass as detector feasibility.
 
+The frozen tangential layout is compared without rewriting it: structure,
+identifiers and discrete values are exact; serialized floats allow8 ULPs of
+libm rounding across macOS/Linux (≤9.1e−13 mm at660 mm). This is stricter than
+the existing1e−7 mm native transform gate. A negative control rejects a1e−8 mm
+placement shift while accepting a one-ULP perturbation. Native overlap and
+engineering tolerances are unchanged.
+
 The **phi-tilted alternative** uses `inputs-phi-tilted.json`: same-radius
 staves, common+15° beam-axis tilt, unchanged local components, and beveled
 ring-contact feet. Default `inputs.json` and all historical reports remain the
