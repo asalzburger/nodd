@@ -41,3 +41,6 @@ For a deliberate Overleaf update, review and copy `main.tex`, `style/`,
 There are no references across the submodule boundary and no dependency on
 running the generator in Overleaf. The review copy is an editorial artifact;
 detector configurations and frozen reports remain the parameter source of truth.
+
+The [retained compiled preview and review evidence](../../validation/DES-019-tdr/results.md)
+contain the final 11-page PDF, exact CI/source/artifact hashes and visual QA.
