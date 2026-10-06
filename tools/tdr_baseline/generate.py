@@ -10,6 +10,7 @@ import math
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
+BARREL_LAYOUT = "docs/validation/DES-013-pixel-z/data/packed-200um/layout.json.gz"
 SOURCES = [
     "detector/config/pixel-detector-trimmed.json",
     "detector/config/pixel-barrel.json",
@@ -21,7 +22,8 @@ SOURCES = [
     "docs/validation/DES-019/summary.json",
     "docs/validation/DES-019/native.json",
     "docs/validation/DES-019/workflow.json",
-    "docs/validation/DES-013-pixel-z/data/packed-200um/layout.json.gz",
+    BARREL_LAYOUT,
+    "docs/design/DES-019-trimmed-mixed-pixel-dd4hep.md",
 ]
 
 
@@ -86,7 +88,7 @@ def facts():
 
 
 def barrel_table():
-    source = json.loads(gzip.decompress((ROOT / SOURCES[-1]).read_bytes()))
+    source = json.loads(gzip.decompress((ROOT / BARREL_LAYOUT).read_bytes()))
     result = []
     for i, layer in enumerate(source["layers"][:4], 1):
         bodies = [b for b in source["bodies"] if b["layer_id"] == layer["id"]]
@@ -262,6 +264,7 @@ def main():
     manifest = dict(
         status="DRAFT / preliminary pixel baseline",
         template_revision="7783ea3e3235c0fe9da641db3d303a6f211b3073",
+        contract_revision="63e030f2b517bdbe526a1860c0f32a3012a712b4",
         model_deliverable_revision="9a4632d8262fb7667be80c168635d4c9eac8317e",
         source_sha256=hashes,
         generated_sha256={
