@@ -4,16 +4,15 @@
   "title": "Integrate trimmed single and quad pixel baseline into main",
   "recorded_at": "2026-10-06T10:50:05Z",
   "started_at": "2026-10-06T10:48:31Z",
-  "ended_at": null,
-  "status": "open",
+  "ended_at": "2026-10-06T11:14:02Z",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
-    "Current implementation turn is still active; exact final per-turn counters unavailable and usage remains empty, not zero. Model/client version unknown.",
+    "Exact closed implementation turn recovered once from verified token-count events and persisted boundaries. Execution model/client version remain unknown.",
     "Older project token coverage remains partial; earlier disjoint completed observations are preserved with their original canonical owners.",
-    "Baseline adoption is explicitly authorized by the user; DES016..019 stay DRAFT with inherited engineering/coverage limitations.",
-    "Authorized usage-only recovery exposed active implementation turn01a110d4-4c8e-74f0-906f-dd2c190a5565, start ordinal5981. Partial snapshots deliberately not imported.",
-    "Task implementation and primary default verification are finished; status stays open and ended_at null until exact client completion is recovered. No self-inclusive token total is claimed."
+    "Baseline adoption was explicitly authorized by the user; DES016..019 stay DRAFT with inherited engineering/coverage limitations.",
+    "This separate recovery bookkeeping turn has unknown final usage and is excluded; no self-inclusive current-turn or complete all-project total is claimed."
   ],
   "client": {
     "name": "Codex desktop app",
@@ -28,7 +27,8 @@
       "e6369cddad3699afb1dfc9c095ba24e640adce9b",
       "88757da7466483d857b286496e2404f92315e18f",
       "f049cf1251a342961a881c5737ce769bb0567f5c",
-      "dea300d1dc094c7dce54fe0172b7c8d5fce82a4e"
+      "dea300d1dc094c7dce54fe0172b7c8d5fce82a4e",
+      "056843e8846a3944ed6b8fc9e097bb27d8ca592e"
     ],
     "changed_files": [
       "README.md",
@@ -72,6 +72,7 @@
       "logs/usage/USAGE-2026-10-05-app.json",
       "logs/usage/USAGE-2026-10-06-disc-eta-apertures.json",
       "logs/usage/USAGE-2026-10-06-pixel-baseline-dd4hep-tdr.json",
+      "logs/usage/USAGE-2026-10-06-pixel-baseline-main-integration.json",
       "project/tracking.json",
       "tools/module_layout/optimization.py",
       "tools/module_layout/test_optimization.py",
@@ -131,9 +132,33 @@
       "failures": null,
       "duration_seconds": null,
       "evidence": "Ordinary merges, reviewed input reconciliation, native workflow, retained hashes and controls; invocation/duration totals not measured."
+    },
+    {
+      "kind": "tool",
+      "name": "Codex usage-only recovery",
+      "version": null,
+      "calls": 1,
+      "failures": 0,
+      "duration_seconds": null,
+      "evidence": "Authorized selected-project metadata/token_count recovery, verified cumulative-to-request increments and exact persisted closed turn. Curated inventory retains original source/hash; no raw conversations retained."
     }
   ],
-  "usage": [],
+  "usage": [
+    {
+      "client_thread_id": "01a10c6a-664d-72b1-afad-926c2c57312b",
+      "turn_id": "01a110d4-4c8e-74f0-906f-dd2c190a5565",
+      "model": null,
+      "source": "Usage-only local Codex recovery captured 2026-10-06T11:29:02.750154+00:00; logs/usage/USAGE-2026-10-06-pixel-baseline-main-integration.json; verified event SHA-256 5068edf98ac4ddc2d63231e37fbc5c9d9a0cc65623a1d0da05976b93839fb63b",
+      "limitations": [
+        "Actual execution model and client version were not exposed by recovered counters."
+      ],
+      "input_tokens": 9048358,
+      "cached_input_tokens": 8755584,
+      "output_tokens": 53395,
+      "reasoning_output_tokens": 20050,
+      "total_tokens": 9101753
+    }
+  ],
   "checks": [
     {
       "command": "GitHub PR lineage inspection",
@@ -287,9 +312,9 @@
     },
     {
       "command": "main hosted build/deploy run37454696851",
-      "status": "NOT RUN",
-      "exit_code": null,
-      "result": "Main merge pipeline active atdea300d. Final hosted result remains pending; PR-head gates already passed."
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Exact scientific merge dea300d1dc094c7dce54fe0172b7c8d5fce82a4e: run37454696851 SUCCESS; build112239319238 completed2026-10-06T11:17:36Z; deploy112241738880 SUCCESS completed11:17:51Z; run updated11:17:52Z. Verified during usage follow-up without scientific rerun."
     },
     {
       "command": "primary main combined exporter unittest suite",
@@ -308,6 +333,54 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "Only canonical integration log pair and PR46 tracking metadata changed; four unrelated session files preserved untracked."
+    },
+    {
+      "command": "main closeout hosted build/deploy run37454874676",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Exact head056843e8846a3944ed6b8fc9e097bb27d8ca592e: SUCCESS; build112241833386 completed2026-10-06T11:24:27Z; deploy112244270503 SUCCESS completed11:24:40Z; run updated11:24:41Z."
+    },
+    {
+      "command": "recover_usage.py --codex-home selected-local-store --project selected-project --output build/issue38/main-integration-final-usage-20261006T1128.json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Exact turn01a110d4-4c8e-74f0-906f-dd2c190a5565 closed at2026-10-06T11:14:02Z;67request increments reconcile, persisted boundaries5981..6591, usage5998..6590; verified usage SHA2565068edf98ac4ddc2d63231e37fbc5c9d9a0cc65623a1d0da05976b93839fb63b. Target alone imported once; no other turns assigned."
+    },
+    {
+      "command": "session_log.py import-usage --dry-run then import-usage",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Single exact completed target added once to its canonical integration record; canonical JSON reloaded before subsequent metadata edits."
+    },
+    {
+      "command": "canonical primary/task preimage checks and old evidence preservation",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Primary pair matched clean056843e and synchronized task copies before import. Saved both preimages. Older canonical logs/inventories byte hashes unchanged. All seven accounting schedules PAUSED; no scientific rerun."
+    },
+    {
+      "command": "session_log.py validate/summary after bounded final import",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Primary114records validated, including separate local bookkeeping record with unknown/empty usage. Exact completed implementation target added once; older observations preserved and summary generated with partial coverage."
+    },
+    {
+      "command": "dashboard validate/build --output _site/main-resource-recovery",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "44tasks/25documents/19reviews validated; static site built successfully. No scientific or progress-tracking changes."
+    },
+    {
+      "command": "git diff --check and full38255171eaa3e211da3bc1eebfcaead3b749807a-relative diff check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Working/full recorded-start-relative checks passed. Publication limited to canonical pair and one new curated usage inventory."
+    },
+    {
+      "command": "safe task checkout canonical pair/new inventory sync and validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Pre-update task pair matched saved primary preimages, rechecked immediately before writes. Only updated pair/new inventory mirrored; branch/science/tracking unchanged. Task logger111records validated; no second import/owner."
     }
   ]
 }
