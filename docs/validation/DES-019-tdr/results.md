@@ -3,7 +3,7 @@
 - Date: 2026-10-06
 - Status: PASS for manuscript compilation and visual review; preliminary DRAFT
 - Sources: [editable manuscript](../../publication/tdr/README.md)
-- Evidence: [validation.json](validation.json), [compiled preview](pixel-tdr.pdf), [compile log](compile.log)
+- Evidence: [validation.json](validation.json), [compiled preview](pixel-tdr.pdf), [compile log](compile.log.gz)
 
 The final manuscript at `dda70e5709e1668dfe98e555dddda8efbccd13a8`
 compiled with pdfLaTeX / TeX Live 2026 in hosted run
@@ -29,3 +29,7 @@ module frames/readout, local support/cooling/mounting and fixed service limits.
 Coverage gaps, guard/warm thermal failures, service overpacking and manufacturing
 questions remain visible. This manuscript is a review copy; no Overleaf push,
 production integration, design approval or full-detector acceptance is claimed.
+
+The public compiler log is stored as byte-preserving gzip to retain its native
+whitespace without introducing text-diff whitespace errors. Its compressed and
+decompressed hashes are recorded independently.
