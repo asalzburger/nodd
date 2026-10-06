@@ -10,7 +10,8 @@ from pathlib import Path
 import subprocess
 
 ROOT = Path(__file__).resolve().parents[2]
-INPUT = Path(__file__).with_name("inputs.json")
+CONTROL_INPUT = Path(__file__).with_name("inputs.json")
+INPUT = Path(__file__).with_name("inputs-phi-tilted.json")
 
 
 def sha(path):

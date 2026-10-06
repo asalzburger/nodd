@@ -9,15 +9,22 @@
 
 ## Proposal
 
+On 2026-10-06 the user selected the **+15° phi-tilted layout as the new
+short-strip barrel working baseline**: “Good, mark the tilted as the new
+baseline - make a PR, fix the token counting and ping me for review on slack.”
+This records the human layout preference and executable default; DES-020 remains
+DRAFT and its engineering and barrel/endcap integration gates remain open.
+
 Use four cylindrical layers of straight carbon sandwich staves. Keep the
 selected nominal radii 260/340/480/660 mm and active z extent ±1200 mm.
-Orient the fine sensor coordinate tangentially and the short-cell coordinate
-along z. Each stave carries 28 rectangular strixel modules, with alternate
-modules raised above the common cold plate. Alternate staves occupy two radial
-lanes. This gives physically accessible cooling and service paths while covering
-projected sensor edges. Unlike DES-009's alternating half-phi row shifts, each
-column is now one straight mechanical stave. This is a new placement proposal;
-historical transforms, IDs and coverage results are not reused as validation.
+Place all stave anchors of each layer at the same radius and rotate the complete
+cold stave by +15° about global +z, following SB-C14..15 below. The fine 75 µm
+sensor coordinate follows local U; the 0.5 mm coordinate follows z. Each stave
+carries 28 rectangular strixel modules, with the 1.5 mm alternating row lift.
+The selected populations are 44/56/80/108 staves: 288 staves and 8,064 modules.
+Modules, support, cooling and local buses share the rotation. The previous
+tangential two-lane layout remains an explicit regression control, with its
+original input and retained evidence preserved.
 
 Each stave has two independent half-length U-loops, accessed from its respective
 barrel end. Common support crosses z=0; the positive and negative circuits do
@@ -28,7 +35,11 @@ this first implementation; their demand is not counted as spare capacity.
 
 ## Provenance and numerical contract
 
-The executable input is [inputs.json](../../tools/short_strip_barrel/inputs.json).
+The default executable input is
+[inputs-phi-tilted.json](../../tools/short_strip_barrel/inputs-phi-tilted.json).
+[inputs.json](../../tools/short_strip_barrel/inputs.json) is the historical
+tangential control. The original SB-C02/SB-C07 choices below describe that
+control; SB-C14/SB-C15 supersede its lanes and mounting for the working baseline.
 All numerical hardware parameters are NODD DESIGN CHOICE unless an inherited
 fact or derivation is explicitly identified below. These are engineering
 hypotheses, not approved components or fabrication specifications.
@@ -257,6 +268,12 @@ full-track hermeticity, mechanics or service qualification.
 ![Longitudinal packing, central seam and barrel-end allocation](figures/DES-020-z-packing.svg)
 
 ## Drawings and evidence
+
+In the retained comparison below, the right-hand phi-tilted layout is the
+selected working baseline; the drawing's historical “alternative” label records
+the comparison before selection. Existing drawings and execution hashes are
+retained without rewriting their provenance. See the
+[baseline selection checks](../validation/DES-020/baseline-selection.md).
 
 ![Tangential control and phi-tilted alternative](figures/DES-020-phi-tilted-comparison.svg)
 
