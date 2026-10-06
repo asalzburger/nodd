@@ -4,14 +4,14 @@
   "title": "Compare eight single rings and four single plus two quad rings with local support, cooling and mounting",
   "recorded_at": "2026-10-05T20:22:41Z",
   "started_at": "2026-10-05T20:20:04Z",
-  "ended_at": null,
-  "status": "open",
+  "ended_at": "2026-10-06T03:25:18Z",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
     "Exact execution model and client version unavailable.",
-    "Current implementation turn01a10db9-36a0-7922-971e-3730adf8d4b8 remains active; final counters/client completion boundary pending post-turn usage-only recovery. No partial observations imported.",
-    "Selected project record only; older project coverage remains partial; no all-project or self-inclusive resource total claimed."
+    "Selected project record only; older project coverage remains partial; no all-project or self-inclusive resource total claimed.",
+    "Exact completed implementation turn recovered once. The separate resource-recovery bookkeeping turn is active, unknown and excluded; this is not a self-inclusive total."
   ],
   "client": {
     "name": "Codex desktop app",
@@ -23,11 +23,11 @@
     "branch": "codex/pixel-disc-support-variants",
     "initial_changes": [],
     "result_commits": [
-      "db4a47a5c19198dc641a31b89c467e3c392c83a4"
+      "db4a47a5c19198dc641a31b89c467e3c392c83a4",
+      "b1b7565ba4b41d15aee6b36317f99e7744d523e9"
     ],
     "changed_files": [
       ".github/workflows/dashboard.yml",
-      "project/tracking.json",
       "docs/design/DES-017-pixel-disc-support-variants.md",
       "docs/validation/DES-017/acts.json",
       "docs/validation/DES-017/artifacts.json",
@@ -47,15 +47,17 @@
       "docs/validation/DES-017/results.md",
       "docs/validation/DES-017/screening.json",
       "docs/validation/DES-017/thermal-refined.json",
+      "logs/codex/SESSION-2026-10-05-pixel-disc-support-variants.json",
+      "logs/codex/SESSION-2026-10-05-pixel-disc-support-variants.md",
+      "logs/usage/USAGE-2026-10-05-disc-support-variants.json",
+      "project/tracking.json",
       "tools/pixel_disc_support_variants/README.md",
       "tools/pixel_disc_support_variants/inputs.json",
       "tools/pixel_disc_support_variants/mounting-inputs.json",
       "tools/pixel_disc_support_variants/native_audit.py",
       "tools/pixel_disc_support_variants/report.py",
       "tools/pixel_disc_support_variants/study.py",
-      "tools/pixel_disc_support_variants/test_study.py",
-      "logs/codex/SESSION-2026-10-05-pixel-disc-support-variants.json",
-      "logs/codex/SESSION-2026-10-05-pixel-disc-support-variants.md"
+      "tools/pixel_disc_support_variants/test_study.py"
     ]
   },
   "work": {
@@ -111,7 +113,7 @@
       "calls": null,
       "failures": null,
       "duration_seconds": null,
-      "evidence": "Current metadata inspected; no active-turn counters imported."
+      "evidence": "Metadata/token_count-only recovery captured2026-10-06T07:20:36.524085+00:00; exact closed implementation turn,78 request increments reconcile, persisted ordinals2547..3364, usage SHA-2567fbd1be87ff7eda11b0d28e0e1614f56e7fecbc4aebd482520a62ec0ba170753. Dry-run and actual import added exactly one observation to this canonical record."
     },
     {
       "kind": "skill",
@@ -123,7 +125,22 @@
       "evidence": "Official automation docs and exposed app heartbeat tool consulted for bounded post-turn recovery; no API-backed tool built."
     }
   ],
-  "usage": [],
+  "usage": [
+    {
+      "client_thread_id": "01a10c6a-664d-72b1-afad-926c2c57312b",
+      "turn_id": "01a10db9-36a0-7922-971e-3730adf8d4b8",
+      "model": null,
+      "source": "Usage-only local Codex recovery captured 2026-10-06T07:20:36.524085+00:00; logs/usage/USAGE-2026-10-05-disc-support-variants.json; verified event SHA-256 7fbd1be87ff7eda11b0d28e0e1614f56e7fecbc4aebd482520a62ec0ba170753",
+      "limitations": [
+        "Actual execution model and client version were not exposed by recovered counters."
+      ],
+      "input_tokens": 11198491,
+      "cached_input_tokens": 10684800,
+      "output_tokens": 97136,
+      "reasoning_output_tokens": 44212,
+      "total_tokens": 11295627
+    }
+  ],
   "checks": [
     {
       "command": "python -B tools/pixel_disc_support_variants/study.py --output build/disc-support-variants/run-04",
@@ -202,6 +219,54 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "Full parent-relative and main-relative committed diffs pass at scientific head db4a47a5c19198dc641a31b89c467e3c392c83a4."
+    },
+    {
+      "command": "python3 -B tools/session_logging/recover_usage.py --codex-home selected-local-Codex-store --project authorized-project-directory --output build/issue38/support-variants-final-usage-20261006T0338Z-01.json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Exact target completed2026-10-06T03:25:18Z;78 requests, all increments reconcile. Persisted boundaries2547..3364, usage ordinals2560..3363; verified hash retained in curated inventory. No conversation items queried."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py import-usage --id SESSION-2026-10-05-pixel-disc-support-variants --file build/issue38/support-variants-usage-import-20261006T0338Z-01.json --dry-run; same command without --dry-run",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Dry-run and import each report added1, unchanged0; actual import reload verified exact counters/source. No earlier attribution changed."
+    },
+    {
+      "command": "gh run view 37406272263 --repo asalzburger/nodd --json status,conclusion,updatedAt,headSha,jobs,url",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Final build job112084462094 succeeded on exact head b1b7565ba4b41d15aee6b36317f99e7744d523e9 at2026-10-06T02:58:15Z; run completed/success and updated2026-10-06T02:58:16Z. Deploy skipped for the PR. https://github.com/asalzburger/nodd/actions/runs/37406272263"
+    },
+    {
+      "command": "gh pr view 42 --repo asalzburger/nodd --json state,headRefName,headRefOid,baseRefName,url; git status --short; git branch --show-current; git rev-parse HEAD",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Before logging update, PR42 OPEN at b1b7565ba4b41d15aee6b36317f99e7744d523e9; clean codex/pixel-disc-support-variants checkout, base codex/issue38-disc-overlap."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate; python3 -B tools/session_logging/session_log.py summary",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "After exact completed-turn import:101 records validated;45/101 sessions have82 observed turns. Coverage remains partial; summary sums are not all-project or self-inclusive totals."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate; python3 -B tools/dashboard/build.py build --output _site/disc-support-variants-resource-recovery",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "42 tasks,23 documents,19 review rounds validated and dashboard successfully built after the accounting update."
+    },
+    {
+      "command": "git diff --check; git diff --check codex/issue38-disc-overlap...HEAD; git diff --check origin/main...HEAD",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Working diff and full parent/main-relative committed diff checks passed during recovery at b1b7565ba4b41d15aee6b36317f99e7744d523e9; only curated logging changes pending."
+    },
+    {
+      "command": "Byte comparison against saved canonical preimage; synchronize only canonical pair/new inventory; python3 -B tools/session_logging/session_log.py validate (primary checkout)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Primary pair matched pre-update bytes before synchronization; only updated DES017 pair and new usage inventory copied. All other primary log bytes preserved. Primary logger validated107 records; original main7b559d0fbe0287848c46cb1e05c833e0579c43d8 and scientific files unchanged."
     }
   ]
 }

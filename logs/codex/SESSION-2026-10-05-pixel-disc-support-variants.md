@@ -110,3 +110,72 @@ duplicate turn observations or claim a self-inclusive/current all-project total.
 Scientific follow-up: resolve coverage, guard feasibility and fixed service demand;
 cold thermal/expansion/load-sharing coupons and swept CAD/FEA before adoption.
 Resource follow-up: exact completed-turn accounting only. Formal DRAFT unchanged.
+
+
+## 2026-10-06 — Completed-turn resource correction
+
+This dated correction supersedes the earlier active-turn/pending-usage statements.
+Client metadata confirms implementation turn `01a10db9-36a0-7922-971e-3730adf8d4b8`
+completed at **2026-10-06T03:25:18Z**; the canonical record is now closed. Scientific
+DRAFT status and all engineering/coverage limitations remain unchanged.
+The result commits are `db4a47a5c19198dc641a31b89c467e3c392c83a4` and
+`b1b7565ba4b41d15aee6b36317f99e7744d523e9`. Execution source/native/artifact
+hashes continue to identify the actual runs; they are not replaced by these commits.
+
+Authorized usage-only recovery captured **2026-10-06T07:20:36.524085+00:00** in
+ignored `build/issue38/support-variants-final-usage-20261006T0338Z-01.json`.
+Persisted turn boundaries are ordinals **2547–3364**, contributing usage ordinals
+**2560–3363**. All **78** cumulative increases equal the corresponding request
+counters; repeated snapshots were ignored. The verified event SHA-256 is
+`7fbd1be87ff7eda11b0d28e0e1614f56e7fecbc4aebd482520a62ec0ba170753`.
+Only metadata and `token_count` events were decoded; no conversation items or
+raw private model state were queried or retained.
+
+| Counter | Exact tokens |
+| --- | ---: |
+| Input | 11,198,491 |
+| Cached input (subset) | 10,684,800 |
+| Output | 97,136 |
+| Reasoning output (subset) | 44,212 |
+| Total (input + output) | 11,295,627 |
+
+[The curated usage inventory](../usage/USAGE-2026-10-05-disc-support-variants.json)
+contains only this exact completed target, its original recovery source,
+boundaries, hash and explicit attribution. Import dry-run and actual import
+both succeeded with one added entry; the canonical record was reloaded and
+verified afterward. Every earlier app/shared/radial/service-radius observation
+keeps its original source and owner. The model/client version remain unknown.
+This follow-up's own bookkeeping counters are separate, active and excluded;
+older project coverage remains partial. No all-project/self-inclusive total is claimed.
+
+Final hosted [run37406272263](https://github.com/asalzburger/nodd/actions/runs/37406272263)
+was rechecked: build job112084462094 succeeded on exact head
+`b1b7565ba4b41d15aee6b36317f99e7744d523e9` at **2026-10-06T02:58:15Z**;
+run updated2026-10-06T02:58:16Z. Deploy was skipped for the PR. PR42 remained OPEN
+at this head with the expected branch/base and a clean checkout before accounting.
+No scientific rerun, PR description change, GitHub comment or lifecycle change
+was performed. The accounting schedule was paused before recovery; earlier
+accounting schedules remain paused.
+
+Before import, canonical pair bytes were saved in ignored
+`build/issue38/support-variants-recovery-preimage-20261006T0338Z-01.json`.
+The primary checkout's pair matched the exact expected pre-update hashes:
+JSON `a823b3fc6954545acfe7e34e1495ad3b585cda1de919ed2df6f9446c6ba7d59e`,
+Markdown `3e3103198c989b3e8c2fb5eb67ce66e994bec35ee887e51c1fd9291fa25d62f7`.
+Primary remained on original main `7b559d0fbe0287848c46cb1e05c833e0579c43d8`
+with unrelated uncommitted log copies preserved. Final validation and safe
+synchronization evidence is recorded below after it is observed.
+
+Post-import validation passed:101 task-checkout records; summary45/101 sessions
+with82 observed turns. Dashboard validates42 tasks/23 documents/19 review rounds
+and builds under `_site/disc-support-variants-resource-recovery`. Working and full
+`codex/issue38-disc-overlap...HEAD` / `origin/main...HEAD` whitespace checks pass
+at pre-accounting head `b1b7565ba4b41d15aee6b36317f99e7744d523e9`.
+
+Safe synchronization completed after rechecking the saved primary bytes. Only
+this updated canonical pair and the new curated usage inventory were copied;
+all other primary log bytes were checked and preserved. Primary logger validates
+**107** records. Original main and scientific files remain unchanged. This final
+validation annotation is synchronized with a fresh byte comparison against the
+first synchronized version. Publication is a normal log-only update to PR42;
+no merge or force-push is authorized.
