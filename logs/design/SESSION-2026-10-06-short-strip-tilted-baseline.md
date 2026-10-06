@@ -27,3 +27,7 @@ New PR is for baseline/default selection plus completed-turn accounting, depende
 ## Publication and primary preservation
 
 Scientific/default-selection commitdd9f91b46fa0429e5d3ec954f01865b35c063996 pushed normally; [PR50](https://github.com/asalzburger/nodd/pull/50) is OPEN for review, based on codex/short-strip-barrel(PR49). Actual initial hosted run37508520608/job112423269313 was queued; completed status is a later observation. Paired session and completed-turn inventory mirrors passed exact preimage guards; primary logger120/task116records validate, scientific files/branch and all unrelated logs unchanged. Full parent/main-relative and staged diffs passed. Project record is logically closed; actual active client completion remains unavailable and ended_at null until recovery. The scheduled follow-up will pause itself first, count only exact completed promotion turn once, and exclude its own later bookkeeping. No scientific rerun, merge or extra Slack notification is authorized by that accounting follow-up.
+
+### Tracking timestamp correction
+
+Dashboard rejected the new PR collection timestamp with fractional seconds. Corrected its format to required UTC seconds precision in an ordinary follow-up; no science/defaults/evidence changed. Initial metadata commit retained in history. Dependent shell checks now fail immediately if validation fails.
