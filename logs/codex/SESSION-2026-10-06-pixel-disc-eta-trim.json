@@ -25,7 +25,9 @@
     "start_commit": "f2af2714dadd30a722f5ece11d0fd04e92cbfd39",
     "branch": "codex/pixel-disc-eta-trim",
     "initial_changes": [],
-    "result_commits": [],
+    "result_commits": [
+      "b54899ade5054d2d9f98e792344ca58ef482b7c1"
+    ],
     "changed_files": [
       ".github/workflows/dashboard.yml",
       "docs/design/DES-018-pixel-disc-eta-apertures.md",
@@ -112,6 +114,15 @@
       "failures": 1,
       "duration_seconds": null,
       "evidence": "Native execution finished with final complete passing artifact; a subsequent polling call returned Unknown process id. This was a lost completed-process handle, not a failed scientific audit."
+    },
+    {
+      "kind": "tool",
+      "name": "GitHub PR publication and curated logger",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Committed b54899ade5054d2d9f98e792344ca58ef482b7c1, normally pushed and created/attached PR43 with full removal table. New canonical pair safely copied to primary and 108 records validated; exact active usage still pending."
     }
   ],
   "usage": [],
@@ -211,6 +222,48 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "All 22 staged paths pass; regenerated manifest and final 9-test retained-artifact regression also pass."
+    },
+    {
+      "command": "git diff origin/codex/issue38-disc-overlap...HEAD --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Full prototype-parent-relative scientific diff passes after b54899ade5054d2d9f98e792344ca58ef482b7c1."
+    },
+    {
+      "command": "git diff origin/main...HEAD --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Full main-relative scientific diff, including inherited prototype evidence, passes after b54899ade5054d2d9f98e792344ca58ef482b7c1."
+    },
+    {
+      "command": "Safe primary canonical-pair synchronization and python3 -B tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Created only the absent canonical pair on primary; validated 108 records. Verified original main/7b559d0fbe0287848c46cb1e05c833e0579c43d8 and no tracked diff. Ignored byte preimage supports later CAS sync; pre-existing logs preserved."
+    },
+    {
+      "command": "gh pr view 43 --repo asalzburger/nodd --json state,headRefName,headRefOid,baseRefName",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "PR43 OPEN at scientific head b54899ade5054d2d9f98e792344ca58ef482b7c1 on codex/pixel-disc-eta-trim, base codex/issue38-disc-overlap; created 2026-10-06T08:08:35Z and attached to this chat."
+    },
+    {
+      "command": "Hosted final PR43 Project dashboard build",
+      "status": "NOT RUN",
+      "exit_code": null,
+      "result": "Initial run37434150482/job112171724821 is in progress at scientific head. Final metadata-head hosted conclusion/time will be verified before task completion and recovered in the bounded post-turn log correction."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate (first PR43 snapshot)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "New PR snapshot omitted its stable id. Added PR-43; source/approval evidence and scientific inputs unchanged."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate and build --output _site/eta-trim (corrected PR43 snapshot)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Corrected stable PR-43 id; 43 tasks, 24 documents and 19 review rounds validate, dashboard builds successfully."
     }
   ]
 }

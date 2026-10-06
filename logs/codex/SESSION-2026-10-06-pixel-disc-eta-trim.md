@@ -108,3 +108,25 @@ correctly. This fixes accounting semantics without rerunning scientific inputs.
 The staged whitespace check exited 2 on Matplotlib SVG path lines. The report
 producer strips only trailing SVG whitespace; regenerated DES018 figures and
 manifest preserve all scientific screening/native/source inputs.
+
+## Publication and primary log synchronization — 2026-10-06
+
+Scientific deliverable b54899ade5054d2d9f98e792344ca58ef482b7c1 was normally
+pushed and PR43 created at 2026-10-06T08:08:35Z, verified OPEN on
+codex/pixel-disc-eta-trim with base codex/issue38-disc-overlap. Full parent and
+origin/main-relative whitespace checks pass. PR body contains all nine disc
+datums/counts/removals, scope, proof, witnesses, savings and unresolved failures;
+figures/full report are linked. New PR attached to this chat. Curated PR snapshot
+records the first published scientific head, without replacing execution hashes.
+
+Primary pair creation used exclusive writes after confirming absence, original
+main SHA and no tracked modifications. Only this task's pair was added; logger
+validated 108 records. Saved ignored byte preimages allow a comparison before
+subsequent task-record updates. All previous primary records stay untouched.
+Initial hosted run37434150482/job112171724821 is in progress. Final metadata-head
+hosted result will be verified before final response; exact conclusion/time and
+metadata result commit will be added by the bounded post-turn accounting update.
+No partial current-turn usage is recorded.
+
+The first PR43 dashboard snapshot lacked its stable ID; validation rejected it.
+Added PR-43 and reran strict validation/build. Scientific evidence unchanged.
