@@ -4,6 +4,7 @@
 import argparse
 from collections import Counter
 import hashlib
+import gzip
 import json
 import math
 from pathlib import Path
@@ -20,6 +21,7 @@ SOURCES = [
     "docs/validation/DES-019/summary.json",
     "docs/validation/DES-019/native.json",
     "docs/validation/DES-019/workflow.json",
+    "docs/validation/DES-013-pixel-z/data/packed-200um/layout.json.gz",
 ]
 
 
@@ -52,7 +54,11 @@ def table():
         result.append(
             f"{i} & \\num{{{d['datum_mm']:.3f}}} & {removed} & {counts['single']} & {counts['quad']} & {d['after']['chips']} & {d['after']['cooling']['number_circuits']} \\\\"
         )
-    return "\n".join(result) + "\n"
+    return (
+        "\\begin{tabular}{r r l r r r r}\n\\toprule\nDisc & $|z_d|$ [mm] & Removed & Single & Quad & Chips & Circuits\\\\\n\\midrule\n"
+        + "\n".join(result)
+        + "\n\\bottomrule\n\\end{tabular}\n"
+    )
 
 
 def facts():
@@ -77,6 +83,23 @@ def facts():
         data[label + "TrunkUtil"] = f"{side['trunk_utilization']:.4f}"
         data[label + "NeckUtil"] = f"{side['inherited_neck_utilization']:.4f}"
     return "".join(f"\\newcommand{{\\{k}}}{{{v}}}\n" for k, v in data.items())
+
+
+def barrel_table():
+    source = json.loads(gzip.decompress((ROOT / SOURCES[-1]).read_bytes()))
+    result = []
+    for i, layer in enumerate(source["layers"][:4], 1):
+        bodies = [b for b in source["bodies"] if b["layer_id"] == layer["id"]]
+        patches = [p for p in source["modules"] if p["layer_id"] == layer["id"]]
+        bound = max(abs(p["center_mm"][2]) + p["half_v_mm"] for p in patches)
+        result.append(
+            f"{i} & {layer['r_m']*1000:.0f} & {bodies[0]['family']} & {len(set(b['col'] for b in bodies))} & {len(bodies)} & {len(patches)} & \\num{{{bound:.3f}}} \\\\"
+        )
+    return (
+        "\\begin{tabular}{r r l r r r r}\n\\toprule\nLayer & $r_d$ [mm] & Family & Staves & Modules & Chips & $|z|_{\\max}$ [mm]\\\\\n\\midrule\n"
+        + "\n".join(result)
+        + "\n\\bottomrule\n\\end{tabular}\n"
+    )
 
 
 def figures(output):
@@ -208,6 +231,7 @@ def main():
     generated = {
         "generated/disc-inventory.tex": table(),
         "generated/pixel-facts.tex": facts(),
+        "generated/barrel-inventory.tex": barrel_table(),
     }
     if args.check:
         manifest = json.loads((output / "evidence.json").read_text())
