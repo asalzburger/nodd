@@ -1,0 +1,186 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-05-issue38-radial-revision",
+  "title": "Revise disc tiling with radial pixel axes and mixed module families",
+  "recorded_at": "2026-10-05T17:13:13Z",
+  "started_at": "2026-10-05T17:12:33Z",
+  "ended_at": "2026-10-05T18:05:14Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Execution model and client version are unknown.",
+    "Only this bounded radial revision turn is recovered here; earlier canonical attribution remains unchanged and older project coverage is partial.",
+    "Isolated unsigned prototype; orientation covariance screens do not qualify reconstructed track resolution or hardware."
+  ],
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": "01a10c6a-664d-72b1-afad-926c2c57312b"
+  },
+  "git": {
+    "start_commit": "bab2357e99ba4a7e5623b8362174b94e16ef2545",
+    "branch": "codex/issue38-disc-overlap",
+    "initial_changes": [],
+    "result_commits": [
+      "161feba6117b62cc6409f94770848a01b55738aa"
+    ],
+    "changed_files": [
+      "docs/design/DES-016-pixel-disc-module-optimization.md",
+      "project/tracking.json",
+      "tools/pixel_disc_optimization/README.md",
+      "tools/pixel_disc_optimization/radial-inputs.json",
+      "tools/pixel_disc_optimization/radial.py",
+      "tools/pixel_disc_optimization/radial_audit.py",
+      "tools/pixel_disc_optimization/radial_report.py",
+      "tools/pixel_disc_optimization/test_radial.py",
+      "logs/codex/SESSION-2026-10-05-issue38-radial-revision.json",
+      "logs/codex/SESSION-2026-10-05-issue38-radial-revision.md",
+      "docs/validation/DES-016/radial-revision/acts.json",
+      "docs/validation/DES-016/radial-revision/artifacts.json",
+      "docs/validation/DES-016/radial-revision/axis-covariance.png",
+      "docs/validation/DES-016/radial-revision/axis-covariance.svg",
+      "docs/validation/DES-016/radial-revision/disc-comparison.png",
+      "docs/validation/DES-016/radial-revision/disc-comparison.svg",
+      "docs/validation/DES-016/radial-revision/inputs.json",
+      "docs/validation/DES-016/radial-revision/module-levels.svg",
+      "docs/validation/DES-016/radial-revision/results.md",
+      "docs/validation/DES-016/radial-revision/screening.json",
+      "logs/usage/USAGE-2026-10-05-radial-revision.json"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "pixel endcaps",
+      "radial module orientation",
+      "mixed module families",
+      "ACTS validation"
+    ],
+    "related_ids": [
+      "issue-38",
+      "DES-016",
+      "DES-001"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-05-issue38-radial-revision.md",
+  "activities": [
+    {
+      "kind": "skill",
+      "name": "acts-spack",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Preflight fingerprint warning handled with actual environment/runtime verification."
+    }
+  ],
+  "usage": [
+    {
+      "client_thread_id": "01a10c6a-664d-72b1-afad-926c2c57312b",
+      "turn_id": "01a10d0d-89a2-74f3-ab78-cbf70a5057ab",
+      "model": null,
+      "source": "Usage-only local Codex recovery captured 2026-10-05T18:07:17.473307+00:00; logs/usage/USAGE-2026-10-05-radial-revision.json; verified event SHA-256 ca53e670d402e56448fd4c54ad3b4d009e1b82991eac828e465b27d06d9a7e81",
+      "limitations": [
+        "Execution model and client version were not exposed by recovered counters."
+      ],
+      "input_tokens": 8196394,
+      "cached_input_tokens": 7991552,
+      "output_tokens": 66397,
+      "reasoning_output_tokens": 31626,
+      "total_tokens": 8262791
+    }
+  ],
+  "checks": [
+    {
+      "command": "acts-spack preflight.py",
+      "status": "FAIL",
+      "exit_code": 0,
+      "result": "Recorded setup and Spack lock fingerprints changed. Reverified actual active environment before dependent work."
+    },
+    {
+      "command": "setup_spack; spack env status/find; acts run acts-nodd; verify active Python and runtime imports",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "DD4hep1.38, Geant411.4.2; installed acts-nodd Python3.14 environment; sensitive assignment API present; NumPy2.5.3, Shapely2.1.2 and Matplotlib3.11.2. Existing sister checkout is read-only for this task."
+    },
+    {
+      "command": "radial_audit.py initial datum consistency check",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "The reflected source includes1977.8075855308387 and1977.807585530839mm, differing by4.55e-13mm; an exact set comparison treated them as distinct datums. No transport ran. Corrected pairing with an explicit1e-9mm numerical tolerance, preserving actual source datums and all physical coverage/body limits."
+    },
+    {
+      "command": "python -B -m unittest discover -s tools/pixel_disc_optimization -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "16 independent controls pass, including active seams/shared outlines, whole-assembly staggering, near/far containment, reflection/periphery, anisotropic and square covariance and datum roundoff versus deliberately changed positions."
+    },
+    {
+      "command": "radial.py --output build/disc-optimization/radial-final",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "36 family/margin candidates;359 singles in9 rings selected. First15.593% whole/17.478% annular overlap, worst19.483% at all distances. Continuous straight-ray luminous interval certificates, body and centre-axis screens pass; mixed-family failures retained.0.5mm guard control fails; all service-trunk scenarios fail explicitly."
+    },
+    {
+      "command": "radial_audit.py with actual acts-nodd runtime/source",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "6462 candidate and8064 baseline sensitive planes;324 matched tracks per layout and6 exhaustive controls.2262 candidate and3172 baseline native target hits; zero target-disc misses or analytic/native ID/intersection mismatches."
+    },
+    {
+      "command": "radial_report.py; visual inspection of generated comparison/covariance PNGs",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Retained a new radial-revision evidence package and inspected both scientific figures. Original Cartesian files and hashes remain unchanged."
+    },
+    {
+      "command": "recover_usage.py usage-only active-turn observation",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Exact current turn 01a10d0d-89a2-74f3-ab78-cbf70a5057ab identified as active, started 2026-10-05T17:12:33Z; no partial counters imported and all earlier canonical sources preserved. Final recovery must wait until client closure."
+    },
+    {
+      "command": "session_log.py validate/summary; tools/dashboard/build.py validate/build; unittest tools/dashboard; git diff --check origin/main; artifact hash verification",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "99 paired records validate;79 existing observed turns in42 sessions,57 sessions without usage. Dashboard validates41 tasks,22 documents,19 review rounds;31 dashboard/document tests and ignored build pass. All new artifact/producer hashes match and full base-relative whitespace checks pass. Current revision usage remains unknown until closure."
+    },
+    {
+      "command": "gh run view 37349765493 --repo asalzburger/nodd",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Hosted build SUCCESS at exact scientific revision161feba6117b62cc6409f94770848a01b55738aa, completed2026-10-05T17:42:22Z. Naming/tracking, portable geometry controls,16 disc controls, dashboard/document/browser and static build all passed; deploy skipped. https://github.com/asalzburger/nodd/actions/runs/37349765493/job/111897970990"
+    },
+    {
+      "command": "gh pr edit 41 --title/--body-file; git push origin codex/issue38-disc-overlap; attach_artifact",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Existing PR41 revised and attached with final radial proposal and actual limits. PR40 positioning/movement table unchanged. Primary revision pair synchronized without altering main/scientific files;105 primary paired records validate."
+    },
+    {
+      "command": "recover_usage.py; import-usage --dry-run; import-usage",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Exact completed turn 01a10d0d-89a2-74f3-ab78-cbf70a5057ab, ordinals 1553..2022, 48 requests, usage hash ca53e670d402e56448fd4c54ad3b4d009e1b82991eac828e465b27d06d9a7e81; all increments reconcile. Tokens input8196394/cached7991552/output66397/reasoning31626/total8262791. Imported once into this canonical record; current service-radius/bookkeeping turn excluded."
+    },
+    {
+      "command": "gh run view 37350615469 --repo asalzburger/nodd",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Final logging-only head6daea6189bebd2cc7e3fb8d23ae569c3ffc174f4 hosted build SUCCESS at2026-10-05T17:49:59Z. https://github.com/asalzburger/nodd/actions/runs/37350615469/job/111900241459"
+    },
+    {
+      "command": "git diff --check origin/main...HEAD",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Full base-relative check passed at6daea6189bebd2cc7e3fb8d23ae569c3ffc174f4 before the next scientific revision."
+    },
+    {
+      "command": "session_log.py validate/summary; dashboard validate/build; byte-checked primary sync",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Recovered logs validate with100 paired overlap records and105 primary records. Dashboard41 tasks/22 documents/19 rounds validates and builds. Primary pair/inventory synchronized after pre-update byte checks; original main/scientific files unchanged."
+    }
+  ]
+}

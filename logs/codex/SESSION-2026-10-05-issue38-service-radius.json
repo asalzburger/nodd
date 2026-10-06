@@ -1,0 +1,192 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-05-issue38-service-radius",
+  "title": "Constrain revised radial pixel discs to the inherited cable and service radius",
+  "recorded_at": "2026-10-05T18:06:43Z",
+  "started_at": "2026-10-05T18:05:14Z",
+  "ended_at": "2026-10-05T20:11:29Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact completed service-radius turn recovered once; actual execution model and client version remain unknown.",
+    "Older project coverage remains partial. This recovery follow-up is a distinct current turn with unavailable final counters, excluded from the bounded implementation record.",
+    "Original-annulus coverage intentionally fails after authorized outer-ring removal. Radial clearance is not cable-packing, thermal/contact or routed-flex qualification."
+  ],
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": "01a10c6a-664d-72b1-afad-926c2c57312b"
+  },
+  "git": {
+    "start_commit": "6daea6189bebd2cc7e3fb8d23ae569c3ffc174f4",
+    "branch": "codex/issue38-disc-overlap",
+    "initial_changes": [],
+    "result_commits": [
+      "28cdf933d63090dea7bab2e834b4e1dc9fd74830",
+      "f13f80684d11bad45a0e9393e0b2fb2c83545c54"
+    ],
+    "changed_files": [
+      "docs/design/DES-016-pixel-disc-module-optimization.md",
+      "docs/validation/DES-016/service-radius/acts.json",
+      "docs/validation/DES-016/service-radius/artifacts.json",
+      "docs/validation/DES-016/service-radius/disc-comparison.png",
+      "docs/validation/DES-016/service-radius/disc-comparison.svg",
+      "docs/validation/DES-016/service-radius/inputs.json",
+      "docs/validation/DES-016/service-radius/layout.json",
+      "docs/validation/DES-016/service-radius/results.md",
+      "docs/validation/DES-016/service-radius/screening.json",
+      "logs/codex/SESSION-2026-10-05-issue38-radial-revision.json",
+      "logs/codex/SESSION-2026-10-05-issue38-radial-revision.md",
+      "logs/codex/SESSION-2026-10-05-issue38-service-radius.json",
+      "logs/codex/SESSION-2026-10-05-issue38-service-radius.md",
+      "logs/usage/USAGE-2026-10-05-radial-revision.json",
+      "logs/usage/USAGE-2026-10-05-service-radius.json",
+      "project/tracking.json",
+      "tools/pixel_disc_optimization/README.md",
+      "tools/pixel_disc_optimization/service-radius-inputs.json",
+      "tools/pixel_disc_optimization/service_radius.py",
+      "tools/pixel_disc_optimization/test_service_radius.py"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "pixel endcaps",
+      "cable/service radial bounds",
+      "ACTS validation"
+    ],
+    "related_ids": [
+      "issue-38",
+      "DES-016",
+      "DES-014",
+      "DES-015"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-05-issue38-service-radius.md",
+  "activities": [
+    {
+      "kind": "skill",
+      "name": "acts-spack",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Preflight fingerprints warned; actual installed environment reverified before dependent work."
+    }
+  ],
+  "usage": [
+    {
+      "client_thread_id": "01a10c6a-664d-72b1-afad-926c2c57312b",
+      "turn_id": "01a10d3d-c4e1-7483-b3e2-ac969270958a",
+      "model": null,
+      "source": "Usage-only local Codex recovery captured 2026-10-05T20:16:59.790585+00:00; logs/usage/USAGE-2026-10-05-service-radius.json; verified event SHA-256 e099635be74e18105efeb2eb45702bff32b59623b301a1896c1e49cf39175930",
+      "limitations": [
+        "Actual execution model and client version were not exposed by recovered counters."
+      ],
+      "input_tokens": 6452372,
+      "cached_input_tokens": 6046976,
+      "output_tokens": 45863,
+      "reasoning_output_tokens": 15021,
+      "total_tokens": 6498235
+    }
+  ],
+  "checks": [
+    {
+      "command": "acts-spack preflight.py",
+      "status": "FAIL",
+      "exit_code": 2,
+      "result": "Recorded setup/Spack lock fingerprints changed; actual installed environment reverified before dependent runs."
+    },
+    {
+      "command": "setup_spack; spack find; runtime/source state checks",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "DD4hep1.38/Geant411.4.2; active installed acts-nodd Python3.14, sensitivity API present, NumPy2.5.3/Shapely2.1.2/Matplotlib3.11.2; sister source changes preserved."
+    },
+    {
+      "command": "python -B -m unittest discover -s tools/pixel_disc_optimization -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "20 controls pass, including complete-row removal, exact survivor transforms, body/land/tube bounds, fixed trunk/neck capacity and unchanged-target acceptance loss."
+    },
+    {
+      "command": "service_radius.py screen",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "296 singles in8 rings;63 removed. Maximum reserved radius183.388628 mm, plate clearance5.111372 mm, r190 boundary clearance6.611372 mm. Worst overlap18.476%; all18 mirrored radial/body/overlap bounds pass."
+    },
+    {
+      "command": "Original-annulus coverage; inherited land control; fixed packing scenarios",
+      "status": "FAIL",
+      "exit_code": 0,
+      "result": "Original target unchanged: uncovered projected area2.5245\u20133.3284% in sampled vertices/distances; direct counterexamples disprove hermeticity. Inherited16 mm quad land offset reaches191.716115 mm and fails. Fixed reference trunk1.318x/neck1.785x and all adverse packing scenarios FAIL. Expected consequences retained without changing tolerances or service bounds."
+    },
+    {
+      "command": "service_radius.py audit with installed acts-nodd",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "5328 candidate/8064 baseline planes;378 matched tracks per layout plus6 exhaustive.2488 candidate/3556 baseline native hits; zero oracle/ID/intersection mismatches.54 candidate edge misses and18 baseline misses retained explicitly. Original324 candidate probes have no intended-disc misses."
+    },
+    {
+      "command": "service_radius.py report first attempt",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Virtual environment alone lacked Matplotlib. Sourced verified installed dependency environment and reran; no installation or source change."
+    },
+    {
+      "command": "service_radius.py report; view_image; artifact/native/source hash verification",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Retained7 artifacts plus hash inventory and surviving-transform file; scientific comparison figure inspected. All artifact/producer/screening/native-source hashes match. Original Cartesian/nine-ring inputs, reports and producer files unchanged."
+    },
+    {
+      "command": "Prior-turn usage-only recovery/import preparation",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Initial relative checkout-parent path stopped before usage preparation; resolved absolute paths fixed it. Subsequent missing-entry import commands exited without modifying logs."
+    },
+    {
+      "command": "recover_usage.py; prior radial import-usage dry-run/import; primary sync",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Prior completed radial turn imported once into its existing canonical record; full boundary/request/hash evidence retained. Log-only commit28cdf93 published to PR41. Current active service-radius counters excluded; model/version unknown; primary pre-update pair bytes checked before initial sync."
+    },
+    {
+      "command": "project/tracking.json first preparation",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Document registry uses validation_reports rather than evidence. Preparation failed before file write; corrected schema field and preserved unrelated tracking."
+    },
+    {
+      "command": "session_log.py validate/summary; dashboard validate/build; git diff --check; frozen-path diff",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "100 paired overlap records validate;80 observed turns in43 sessions,57 sessions without usage. Observed branch totals input142790703/output740508/total143531211 exclude current turn and are not complete project totals. Dashboard41 tasks/22 docs/19 rounds validates/builds. Full base-relative and working diff whitespace checks pass; no old scientific/production files modified."
+    },
+    {
+      "command": "gh run view 37354907923 --repo asalzburger/nodd",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Hosted build SUCCESS on exact scientific revisionf13f80684d11bad45a0e9393e0b2fb2c83545c54, completed2026-10-05T18:25:12Z. https://github.com/asalzburger/nodd/actions/runs/37354907923/job/111915050573"
+    },
+    {
+      "command": "recover_usage.py; service-radius import-usage --dry-run; import-usage",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Exact completed turn 01a10d3d-c4e1-7483-b3e2-ac969270958a, persisted ordinals 2023..2466, usage ordinals 2035..2465, 49 reconciled requests, verified usage SHA-256 e099635be74e18105efeb2eb45702bff32b59623b301a1896c1e49cf39175930; imported once. Input6452372/cached6046976/output45863/reasoning15021/total6498235. Earlier canonical turns/source remain unchanged; current recovery follow-up excluded."
+    },
+    {
+      "command": "git diff --check origin/main...HEAD at f13f806",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Full base-relative committed diff check passed before accounting edits; PR41 OPEN at expected clean branch/head and hosted evidence verified."
+    },
+    {
+      "command": "session_log.py validate/summary; dashboard validate/build; working and full base-relative git diff --check; primary logger validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "100 paired overlap records validate with81 observed turns in44 sessions;56 sessions remain without usage. Branch observed input149243075/output786371/total150029446 is partial, excludes this bookkeeping turn and is not an all-project total. Dashboard41 tasks/22 documents/19 review rounds validates and builds. Working/base-relative checks pass. Primary106 paired records validate on unchanged main7b559d0fbe0287848c46cb1e05c833e0579c43d8; byte-checked synchronization changed only this pair and new curated usage inventory."
+    }
+  ]
+}

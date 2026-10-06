@@ -51,6 +51,10 @@ add_custom_command(OUTPUT "${NODD_PIXEL_DIR}/pixel-detector.xml" "${NODD_PIXEL_D
   DEPENDS ${NODD_COMBINED_INPUTS} ${NODD_EXPORT_INPUTS}
     "${NODD_COMPACT_DIR}/pixel-barrel.xml"
     "${PROJECT_SOURCE_DIR}/docs/validation/DES-014-pixel-endcap-support/screening.json"
+    "${PROJECT_SOURCE_DIR}/docs/validation/DES-017/four-single-two-quad-layout.json"
+    "${PROJECT_SOURCE_DIR}/docs/validation/DES-018/screening.json"
+    "${PROJECT_SOURCE_DIR}/tools/pixel_disc_optimization/radial-inputs.json"
+    "${PROJECT_SOURCE_DIR}/tools/pixel_disc_support_variants/inputs.json"
   WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}" VERBATIM)
 add_custom_target(nodd-pixel-detector ALL DEPENDS "${NODD_PIXEL_DIR}/pixel-detector.xml" "${NODD_PIXEL_DIR}/expected.json")
 if(BUILD_TESTING)

@@ -1,0 +1,20 @@
+# Main baseline integration
+
+User-directed integration of the PR41 disc optimization lineage, PR42 mixed layout, PR43 inner-ring trim and PR44 DD4hep implementation through PR46. Four inner single rings and two outer quad rings are the source layout; outer discs retain the approved trimmed subsets. PR40 whole-millimetre datums apply as rigid complete-disc shifts, preserving local module geometry, axes and IDs.
+
+Initial gates exposed stale reviewed-input pins and then the old fractional datum list in the mixed exporter. Both failures are retained in the integration session. Explicit source reconciliation preserves all previous scientific artifacts and execution hashes; new evidence belongs here. Default CLI regression checks5362 modules/11806 active areas, all18 datums and first-disc single/quad ring families.
+
+Validation on 2026-10-06 passed:
+
+- All 11 combined exporter checks, including invocation without `--config`, the single/quad families and all 18 reviewed integer datums.
+- All 20 disc optimization, 7 support-variant and 9 eta-aperture controls. The historical producer-input check uses the original byte-identical DES018 `inputs.json` snapshot, while the live loader checks reconciled current pins. Historical artifacts and hashes were preserved.
+- Native CMake/Ninja build and all six CTests: construction, sensitive/ID/material checks and ROOT export/reopen for both barrel and combined assemblies. DD4hep 1.38, ROOT 6.40.04, Python 3.14.5. Zero ROOT overlaps at 0.00001 mm tolerance; 11,806 unique sensitive IDs; 100,334 expected entities; maximum sensor-centre residual 4.56e-13 mm. Exclusive assembly mass 202,753.4804 g; transport spans/masses deliberately follow the reviewed datums.
+- Geant4 11.4.2 conversion/FTFP_BERT initialization, 11,806 sensitive paths, seed 42, zero events. This is initialization, not a transport/performance qualification.
+- Independent comparison of 92,650 module components against the retained DES019 export. Every module component's IDs, axes, x/y, local z, dimensions and material are unchanged; global z differs only by the reviewed rigid shift. Barrel components are unchanged.
+- Continuous removed-patch exclusion proof recomputed at the new datums: minimum margin 1.563921 mm, exceeding the inherited 0.1 mm retention buffer. Removed rows on discs 1..9 are `[]`, `[]`, `[]`, `[]`, `[0]`, `[0]`, `[0,1]`, `[0,1,2]`, `[0,1,2]`; both ends are symmetric.
+
+Reproduce the inventory/exclusion check with `tools/pixel_detector_dd4hep/check_main_integration.py --previous <retained-DES019-expected.json> --current build/dd4hep-main-integration/detector/pixel-detector/expected.json --output <new-report.json>`. The report records both expected-inventory hashes and the helper/input hashes. Run the native workflow with `refresh.py --build build/dd4hep-main-integration --without-display --geant4-init` in the activated installed DD4hep/Geant4 shell. The frozen prior expected inventory hash is retained in `inventory-comparison.json`; its corresponding source/native provenance remains in the original DES019 evidence.
+
+Actual execution used dirty revision `88757da7466483d857b286496e2404f92315e18f` plus the exact input/producer hashes in `native-summary.json`. The workflow, six-test log, compressed full native validation, independent inventory comparison and their hashes are retained here. Publication commits must not be substituted for this execution state.
+
+Engineering guard, coverage, warm-thermal and service-packing failures remain inherited; DRAFT status is unchanged. The exclusion proof retains pT ≥ 1 GeV, |eta| ≤ 4, the ±150 mm longitudinal/±1 mm transverse vertex box and uniform axial field up to 4 T, on the first outward half-turn in vacuum. It does not establish full-detector hermeticity. No new ACTS propagation or optional nodehammer display run was performed. The Spack registry preflight reported changed setup/lock fingerprints; actual installed runtime imports and the build above succeeded without modifying dependencies. Early stale-pin, fractional-datum, missing-Shapely and historical-input regression failures are retained in the integration session rather than erased.

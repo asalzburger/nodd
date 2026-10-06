@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated": "2026-10-05",
+  "updated": "2026-10-06",
   "note": "Curated register. Stage B architecture is active. PR #4\u2019s envelope baseline has explicit human approval and is merged; its documents still declare DRAFT and no formal sign-off record exists. Role ownership does not imply active agents. Chore PRs and infrastructure chores are excluded from project progress. Pixel-module design dossier opened by human direction in parallel with architecture; final component-method gates remain pending.",
   "stages": [
     {
@@ -1666,6 +1666,170 @@
       "blocker": null,
       "disposition": "Implemented and validated as a preliminary standalone baseline: 5066 modules,14858 chips,zero ROOT overlaps,93 navigation rays,7 nodehammer projects,Geant4 initialization with zero events. Effective material approximations explicit; rear flange reference packing fails. No formal sign-off. On 2026-10-05 PR39 was rebased onto main 3db6876 by explicit user request. Native6/6 checks, seven combined and four barrel-only nodehammer views, 13 display safeguards and zero-event Geant4 initialization pass. Reconciled identifier-derived barrel/endcap module selection with PR33; factories/configuration remain identical to original PR39. Engineering limitations and DRAFT status preserved. Issue38 position amendment adopts exact whole-mm disc datums and reflected negative placements; first-disc shift not applied twice. Repeated native construction and zero-event Geant4 initialization pass.",
       "subsystem": "tracker"
+    },
+    {
+      "id": "TASK-TRK-PIXEL-DISC-OPTIMIZATION",
+      "title": "Keep radial pixel discs within inherited service bounds",
+      "scope": "Issue38 isolated radial/tangential layout with fixed cable/service radii: retain inner ring and survivor transforms, remove complete outer ring, expose original-annulus coverage loss, retain20% overlap maximum, native ACTS edge controls and fixed-trunk/flange capacity failures.",
+      "stage": "B",
+      "milestones": [
+        "M1",
+        "M3"
+      ],
+      "workstream": "WS-TRACK",
+      "role": "Tracker technician",
+      "owner": null,
+      "state": "completed",
+      "dependencies": [
+        "TASK-TRK-PIXEL-COMBINED"
+      ],
+      "deliverables": [
+        "docs/design/DES-016-pixel-disc-module-optimization.md",
+        "tools/pixel_disc_optimization/README.md",
+        "docs/validation/DES-016/results.md",
+        "docs/validation/DES-016/radial-revision/results.md",
+        "docs/validation/DES-016/service-radius/results.md",
+        "docs/validation/DES-016/service-radius/layout.json"
+      ],
+      "evidence": [
+        "docs/validation/DES-016/results.md",
+        "docs/validation/DES-016/screening.json",
+        "docs/validation/DES-016/acts.json",
+        "logs/codex/SESSION-2026-10-05-issue38-disc-overlap.md",
+        "docs/validation/DES-016/radial-revision/results.md",
+        "docs/validation/DES-016/radial-revision/screening.json",
+        "docs/validation/DES-016/radial-revision/acts.json",
+        "logs/codex/SESSION-2026-10-05-issue38-radial-revision.md",
+        "docs/validation/DES-016/service-radius/results.md",
+        "docs/validation/DES-016/service-radius/screening.json",
+        "docs/validation/DES-016/service-radius/acts.json",
+        "logs/codex/SESSION-2026-10-05-issue38-service-radius.md"
+      ],
+      "documents": [
+        "DES-016",
+        "DES-015",
+        "DES-014",
+        "DES-013"
+      ],
+      "updated": "2026-10-05",
+      "next_action": "Review bounded single-module pickup/routing and restore acceptance within inherited service radii; resolve guard/thermal and fixed-trunk/flange packing failures before adoption.",
+      "blocker": null,
+      "disposition": "User-directed service-radius revision removes63 outer modules:296 singles in8 rings; maximum reserved radius183.388628 mm,5.111372 mm inside188.5 mm plate and6.611372 mm inside190 mm service boundary. All survivor transforms/IDs/levels and inner18 retained. Original annulus unchanged; sampled uncovered area2.5245\u20133.3284%, full-annulus hermeticity explicitly FAILS. Worst silicon overlap18.476%.20 controls and378+378 matched native ACTS tracks plus6 exhaustive controls agree with the oracle;54 candidate edge misses retained. Tube/conditional land bounds fit; inherited quad land offset fails. Fixed192..231.7 trunk and222 flange neck reference utilizations1.318x/1.785x FAIL, adverse failures retained. DRAFT prototype without sign-off/integration; earlier Cartesian/nine-ring evidence frozen.",
+      "subsystem": "tracker"
+    },
+    {
+      "id": "TASK-TRK-PIXEL-DISC-SUPPORT-VARIANTS",
+      "title": "Compare eight single rings and four single plus two quad rings with local support",
+      "scope": "User-directed isolated variants retaining service radii, polar axes and original acceptance target; compare local two-face support, per-chip thermal pickups, cooling tracks, mounts and unresolved engineering limits.",
+      "stage": "B",
+      "milestones": [
+        "M1",
+        "M3"
+      ],
+      "workstream": "WS-TRACK",
+      "role": "Tracker technician",
+      "owner": null,
+      "state": "completed",
+      "dependencies": [
+        "TASK-TRK-PIXEL-DISC-OPTIMIZATION"
+      ],
+      "deliverables": [
+        "docs/design/DES-017-pixel-disc-support-variants.md",
+        "docs/validation/DES-017/results.md",
+        "tools/pixel_disc_support_variants/README.md"
+      ],
+      "evidence": [
+        "docs/validation/DES-017/results.md",
+        "docs/validation/DES-017/screening.json",
+        "docs/validation/DES-017/acts.json",
+        "logs/codex/SESSION-2026-10-05-pixel-disc-support-variants.md"
+      ],
+      "documents": [
+        "DES-017",
+        "DES-016",
+        "DES-014"
+      ],
+      "updated": "2026-10-06",
+      "next_action": "Review mixed working prototype, restore original-annulus gaps and resolve warm thermal and fixed service packing failures; qualify clamp/laminate/routing before adoption.",
+      "blocker": null,
+      "disposition": "DES017 isolated comparison delivered:296 singles versus102 singles+50quads (152 modules/302chips), fixed radii and polar axes. Two-face support/pickup/stem/core bounds pass all18 discs; max radii182.337/185.503 mm. Both silicon overlaps remain under20% with0.1mm guard;0.5mm guard fails. Mixed sampled gap improves but540-track native probes show92 target misses versus54, so hermeticity/acceptance unresolved. Two540-track matched audits and two6-track exhaustive controls agree with the oracle. Refined0.25/0.125mm thermal controls conserve heat;\u221235\u00b0C degraded cases and fixed trunk/neck packing still fail. Engineering concept and inventories remain unqualified, DRAFT without integration/sign-off.",
+      "subsystem": "tracker"
+    },
+    {
+      "id": "TASK-TRK-PIXEL-DISC-ETA-APERTURES",
+      "title": "Trim eta-inaccessible inner rings from outer pixel discs",
+      "scope": "User-authorized DES018 prototype: |eta|<=4, clarified pT>=1GeV and luminous-region exclusion; both frozen DES017 variants, continuous per-plane proof, unchanged survivor transforms and heterogeneous service consequences.",
+      "stage": "B",
+      "milestones": [
+        "M1",
+        "M3"
+      ],
+      "workstream": "WS-TRACK",
+      "role": "Tracker technician",
+      "owner": null,
+      "state": "completed",
+      "dependencies": [
+        "TASK-TRK-PIXEL-DISC-SUPPORT-VARIANTS"
+      ],
+      "deliverables": [
+        "docs/design/DES-018-pixel-disc-eta-apertures.md",
+        "docs/validation/DES-018/results.md",
+        "tools/pixel_disc_eta_apertures/README.md"
+      ],
+      "evidence": [
+        "docs/validation/DES-018/screening.json",
+        "docs/validation/DES-018/acts.json",
+        "docs/validation/DES-018/artifacts.json",
+        "logs/codex/SESSION-2026-10-06-pixel-disc-eta-trim.md"
+      ],
+      "documents": [
+        "DES-018",
+        "DES-017",
+        "ADR-006"
+      ],
+      "updated": "2026-10-06",
+      "next_action": "Review per-disc removal schedule and remaining in-scope baseline gaps; resolve fixed services, physical field/material validation, pickup-window closeouts and engineering qualifications before adoption.",
+      "blocker": null,
+      "disposition": "Isolated removal schedule delivered for both variants: rings1 on discs5\u20136,1\u20132 on7 and1\u20133 on8\u20139 at both ends,424 chips/modules and1139.712W nominal saved. All retained IDs/transforms/axes, datums and service radii unchanged. Continuous uniform-field exclusion proof plus1906 matched analytic and182 in-scope native tracks per variant preserve baseline hits, with out-of-scope losses and exhaustive controls retained. Mixed reference trunk still exceeds capacity at1.032x; original gaps and inherited thermal/engineering limits remain. DRAFT without sign-off or production integration.",
+      "subsystem": "tracker"
+    },
+    {
+      "id": "TASK-TRK-PIXEL-TRIMMED-DD4HEP",
+      "title": "Implement selected trimmed mixed pixel baseline in DD4hep",
+      "scope": "User-directed DES019 preliminary prototype; DES013 barrel unchanged, frozen DES017/018 survivor layout and heterogeneous passive/services inventories. Main integration includes the required DES016 radial/service-bound lineage and PR40 rigid disc datums.",
+      "stage": "B",
+      "milestones": [
+        "M3"
+      ],
+      "workstream": "WS-TRACK",
+      "role": "Tracker technician",
+      "owner": null,
+      "state": "completed",
+      "dependencies": [
+        "TASK-TRK-PIXEL-DISC-ETA-APERTURES"
+      ],
+      "deliverables": [
+        "detector/config/pixel-detector-trimmed.json",
+        "docs/design/DES-019-trimmed-mixed-pixel-dd4hep.md",
+        "docs/validation/DES-019/results.md"
+      ],
+      "evidence": [
+        "docs/validation/DES-019/native.json",
+        "logs/codex/SESSION-2026-10-06-pixel-baseline-dd4hep-tdr.md",
+        "docs/validation/DES-019/main-integration/results.md",
+        "logs/codex/SESSION-2026-10-06-pixel-baseline-main-integration.md"
+      ],
+      "documents": [
+        "DES-019",
+        "DES-018",
+        "DES-017",
+        "DES-016"
+      ],
+      "updated": "2026-10-06",
+      "next_action": "Use the trimmed four-single/two-quad endcap as the standard working baseline on main; resolve coverage, thermal, service packing and engineering qualification before sign-off.",
+      "blocker": null,
+      "disposition": "DD4hep default delivered with5362 modules/11806 active areas; frozen survivor frames/IDs and unchanged barrel. Native construction, material accounting, overlaps, ROOT/portable display and Geant4 initialization passed. Known coverage/thermal/service failures retained; DRAFT without sign-off. User-directed main integration via PR46 includes PR41 descendants and PR40 reviewed integer datums; source local module transforms and removal schedule preserved. No formal sign-off.",
+      "subsystem": "tracker"
     }
   ],
   "documents": [
@@ -1822,6 +1986,36 @@
       "path": "docs/design/DES-015-preliminary-pixel-detector.md",
       "validation_reports": [
         "docs/validation/DES-015/results.md"
+      ]
+    },
+    {
+      "id": "DES-016",
+      "path": "docs/design/DES-016-pixel-disc-module-optimization.md",
+      "validation_reports": [
+        "docs/validation/DES-016/results.md",
+        "docs/validation/DES-016/radial-revision/results.md",
+        "docs/validation/DES-016/service-radius/results.md"
+      ]
+    },
+    {
+      "id": "DES-017",
+      "path": "docs/design/DES-017-pixel-disc-support-variants.md",
+      "validation_reports": [
+        "docs/validation/DES-017/results.md"
+      ]
+    },
+    {
+      "id": "DES-018",
+      "path": "docs/design/DES-018-pixel-disc-eta-apertures.md",
+      "validation_reports": [
+        "docs/validation/DES-018/results.md"
+      ]
+    },
+    {
+      "id": "DES-019",
+      "path": "docs/design/DES-019-trimmed-mixed-pixel-dd4hep.md",
+      "validation_reports": [
+        "docs/validation/DES-019/results.md"
       ]
     }
   ],
@@ -2321,6 +2515,98 @@
         "DES-013"
       ],
       "scope": "Existing combined pixel implementation from merged PR37, now rebased onto main 3db6876. Observed rebased remote head, GitHub MERGEABLE, hosted checks running. Rebase validation is in pr39-rebase.json. Subsequent closeout updates tracking/session metadata only. No new geometry parameters, formal sign-off or resolved engineering-failure claim. Dashboard CI failure at cb76e51 reproduced in a clean single-branch clone: historical merged/review commits were absent. Explicit SHA fetch restores evidence before unchanged strict validation; this is a workflow correction, not new detector progress.",
+      "category": "project"
+    },
+    {
+      "id": "PR-42",
+      "number": 42,
+      "title": "Tracker: Compare eight-ring and mixed quad disc supports",
+      "url": "https://github.com/asalzburger/nodd/pull/42",
+      "state": "merged",
+      "head_revision": "f74f778bf666e533a81d9789e5b963433afb6cf0",
+      "merge_commit": "f2af2714dadd30a722f5ece11d0fd04e92cbfd39",
+      "merged_at": "2026-10-06T07:30:12Z",
+      "collected_at": "2026-10-06T08:01:41Z",
+      "task": "TASK-TRK-PIXEL-DISC-SUPPORT-VARIANTS",
+      "documents": [
+        "DES-017",
+        "DES-016",
+        "DES-014"
+      ],
+      "scope": "DES017 comparison merged into codex/issue38-disc-overlap, not main. Actual final head and merge retained; DRAFT and production/approval boundaries unchanged.",
+      "category": "project"
+    },
+    {
+      "number": 43,
+      "title": "Tracker: Trim eta-inaccessible inner pixel-disc rings",
+      "url": "https://github.com/asalzburger/nodd/pull/43",
+      "state": "merged",
+      "head_revision": "7c567f99888046e8500b177b820de1dcb3f397de",
+      "merge_commit": "7057861fa3c8c137833ecedddcae0856ebd91e4c",
+      "merged_at": "2026-10-06T08:23:13Z",
+      "collected_at": "2026-10-06T08:26:07Z",
+      "task": "TASK-TRK-PIXEL-DISC-ETA-APERTURES",
+      "documents": [
+        "DES-018",
+        "DES-017",
+        "ADR-006"
+      ],
+      "scope": "Whole-inner-ring aperture follow-up to merged PR42, based on codex/issue38-disc-overlap. First published scientific head; actual executed dirty source/producer hashes retained. pT>=1GeV and bounded luminous/field hypothesis; preserved baseline holes and service/qualification failures. DRAFT without sign-off or production integration.",
+      "category": "project",
+      "id": "PR-43"
+    },
+    {
+      "id": "PR-41",
+      "number": 41,
+      "title": "Tracker: constrain radial pixel discs to existing service bounds",
+      "url": "https://github.com/asalzburger/nodd/pull/41",
+      "state": "closed",
+      "head_revision": "8e593e32a97acc36b9a7850e1dfabc11d2175180",
+      "merge_commit": null,
+      "merged_at": null,
+      "collected_at": "2026-10-06T10:54:02Z",
+      "task": "TASK-TRK-PIXEL-DISC-OPTIMIZATION",
+      "documents": [
+        "DES-016"
+      ],
+      "scope": "PR41 closed without merge; its necessary revisions and PR42/43/44 descendants are integrated by PR46 into main. Snapshot precedes the current integration commit; record exact merge metadata after merge. Working-baseline adoption retains DRAFT/engineering boundaries.",
+      "category": "project"
+    },
+    {
+      "id": "PR-44",
+      "number": 44,
+      "title": "Tracker: Implement trimmed mixed pixel baseline in DD4hep",
+      "url": "https://github.com/asalzburger/nodd/pull/44",
+      "state": "merged",
+      "head_revision": "9a4632d8262fb7667be80c168635d4c9eac8317e",
+      "merge_commit": "38255171eaa3e211da3bc1eebfcaead3b749807a",
+      "merged_at": "2026-10-06T09:11:30Z",
+      "collected_at": "2026-10-06T10:54:02Z",
+      "task": "TASK-TRK-PIXEL-TRIMMED-DD4HEP",
+      "documents": [
+        "DES-019"
+      ],
+      "scope": "PR41 closed without merge; its necessary revisions and PR42/43/44 descendants are integrated by PR46 into main. Snapshot precedes the current integration commit; record exact merge metadata after merge. Working-baseline adoption retains DRAFT/engineering boundaries.",
+      "category": "project"
+    },
+    {
+      "id": "PR-46",
+      "number": 46,
+      "title": "Tracker: integrate trimmed single and quad pixel baseline into main",
+      "url": "https://github.com/asalzburger/nodd/pull/46",
+      "state": "open",
+      "head_revision": "38255171eaa3e211da3bc1eebfcaead3b749807a",
+      "merge_commit": null,
+      "merged_at": null,
+      "collected_at": "2026-10-06T10:54:02Z",
+      "task": "TASK-TRK-PIXEL-TRIMMED-DD4HEP",
+      "documents": [
+        "DES-019",
+        "DES-018",
+        "DES-017",
+        "DES-016"
+      ],
+      "scope": "PR41 closed without merge; its necessary revisions and PR42/43/44 descendants are integrated by PR46 into main. Snapshot precedes the current integration commit; record exact merge metadata after merge. Working-baseline adoption retains DRAFT/engineering boundaries.",
       "category": "project"
     }
   ]
