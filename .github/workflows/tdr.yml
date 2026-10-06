@@ -6,13 +6,11 @@ on:
       - 'docs/publication/tdr/**'
       - 'tools/tdr_baseline/**'
       - '.github/workflows/tdr.yml'
-  push:
-    branches: ['codex/pixel-baseline-tdr']
-    paths:
-      - 'docs/publication/tdr/**'
-      - 'tools/tdr_baseline/**'
-      - '.github/workflows/tdr.yml'
   workflow_dispatch:
+
+concurrency:
+  group: tdr-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: read
