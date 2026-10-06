@@ -13,7 +13,7 @@ from geometry import body_overlap_diagnostics
 from intersections import SurfaceIndex, ideal_layer_hits, _radial_paths
 
 
-def check(c,layout,expected,refined=False):
+def check(c,layout,expected,refined=False,input_path=INPUT):
     bodies=[dict(m,half_u_mm=24.5,half_v_mm=51.5,half_w_mm=.625,
                   center_mm=[m['center_mm'][i]-.4*m['n'][i] for i in range(3)],
                   level=m['row']%2,subsystem='short_strip') for m in layout['modules']]
@@ -67,7 +67,7 @@ def check(c,layout,expected,refined=False):
     return dict(scope='PROTOTYPE finite-sample coverage and simplified beam screen',
         occupied_bodies=collisions,coverage=result,beam=sag,
         source_hashes=dict(check_layout=sha(__file__),geometry=sha(ROOT/'tools/module_layout/geometry.py'),
-            oracle=sha(ROOT/'tools/module_layout/intersections.py'),input=sha(INPUT)),
+            oracle=sha(ROOT/'tools/module_layout/intersections.py'),input=sha(input_path),model=sha(Path(__file__).with_name('model.py'))),
         sample=dict(eta=[-4,4],eta_points=neta,phi_points=nphi,phi_phase=.371,
             origins_mm=[list(o) for o in ([0,0,-150],[0,0,0],[0,0,150],[-1,-1,-150],[1,1,150])],
             pt_GeV=1,field_T=4,random_seed=None),
@@ -81,7 +81,7 @@ if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--input',type=Path,default=INPUT)
     p.add_argument('--expected',type=Path,required=True);p.add_argument('--output',type=Path,required=True)
     p.add_argument('--refined',action='store_true');a=p.parse_args()
-    c=load(a.input);result=check(c,build(c),json.loads(a.expected.read_text()),a.refined)
+    c=load(a.input);result=check(c,build(c),json.loads(a.expected.read_text()),a.refined,a.input)
     a.output.parent.mkdir(parents=True,exist_ok=True);a.output.write_text(json.dumps(result,indent=2)+'\n')
     print(json.dumps(dict(collisions=result['occupied_bodies']['overlapping_body_pairs'],
         coverage=[(x['mode'],x['missed_ideal_crossings']) for x in result['coverage']],beam=result['beam']),indent=2))

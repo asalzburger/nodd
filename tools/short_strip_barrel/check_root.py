@@ -19,7 +19,7 @@ def check(rootfile,expectedfile,output):
     manager=ROOT.TGeoManager.Import(str(rootfile.resolve()))
     if not manager:raise ValueError('ROOT import failed')
     errors=[];counts=Counter();materials=defaultdict(lambda:dict(volume_mm3=0.,mass_g=0.))
-    pending=[(manager.GetTopNode(),ROOT.TGeoHMatrix())];sensors=0;maximum=0.
+    pending=[(manager.GetTopNode(),ROOT.TGeoHMatrix())];sensors=0;maximum=0.;max_axis=0.
     # DD4hep's persisted native geometry is in cm; expected values are mm.
     while pending:
         node,parent=pending.pop();volume=node.GetVolume();name=str(volume.GetName())
@@ -30,7 +30,12 @@ def check(rootfile,expectedfile,output):
             point=array('d',[0.,0.,0.]);transform.LocalToMaster(array('d',[0.,0.,0.]),point)
             residual=math.dist([v*10 for v in point],e['center_mm']);maximum=max(maximum,residual)
             if residual>1e-7:errors.append(name+': persisted centre mismatch')
-            if e['role']=='sensitive':sensors+=1
+            if e['role']=='sensitive':
+                sensors+=1
+                for key,axis in (('u',[1.,0.,0.]),('v',[0.,1.,0.]),('normal',[0.,0.,1.])):
+                    vector=array('d',[0.,0.,0.]);transform.LocalToMasterVect(array('d',axis),vector)
+                    residual=math.dist(vector,e[key]);max_axis=max(max_axis,residual)
+                    if residual>1e-9:errors.append(name+': persisted sensor axis mismatch')
             if 'volume_mm3' in e:
                 v=capacity(volume.GetShape())*1000
                 mat=str(volume.GetMaterial().GetName());mass=v*float(volume.GetMaterial().GetDensity())/1000
@@ -41,7 +46,7 @@ def check(rootfile,expectedfile,output):
     if counts!=expected['counts']:errors.append('Persisted role counts differ')
     report=dict(status='PASS' if not errors else 'FAIL',errors=errors,scope='Fresh ROOT process; no XML or factory load; names/centres/solids/materials, not packed ID persistence',
         root_version=str(ROOT.gROOT.GetVersion()),counts=dict(counts),sensors=sensors,
-        maximum_center_residual_mm=maximum,materials=dict(materials),
+        maximum_center_residual_mm=maximum,maximum_axis_residual=max_axis,materials=dict(materials),
         root_sha256=sha(rootfile),expected_sha256=sha(expectedfile),validator_sha256=sha(__file__))
     output.write_text(json.dumps(report,indent=2)+'\n')
     manager.Delete()

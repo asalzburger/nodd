@@ -55,8 +55,8 @@ def load(path=INPUT):
     tilt=c.get('phi_tilt_deg',0)
     if tilt and not (0 < tilt <= 18 and c['lane_step_mm']==0):
         raise ValueError('Phi alternative requires 0 < tilt <= 18 degrees and equal-radius staves')
-    if tilt and (c.get('foot_u_mm'),c['foot_width_mm']) != (14.5,2):
-        raise ValueError('Keep the off-bus CFRP mounting web at u=14.5 mm, width2 mm')
+    if tilt and c.get('foot_u_mm') != -18:
+        raise ValueError('Keep the off-bus CFRP mounting land at u=-18 mm')
     for key in ('collector_mm','trunk_mm'):
         a,b,zlo,zhi=c[key]
         if not (0<a<b and 0<zlo<zhi):raise ValueError('Invalid service bounds')

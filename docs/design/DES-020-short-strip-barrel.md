@@ -130,7 +130,64 @@ ROOT persistence and Geant4 smoke execution. Engineering failures remain
 failures. Human sign-off and full-detector integration remain pending.
 
 
+## Phi-tilted alternative requested 2026-10-06
+
+This amendment authorizes an isolated comparison, still DRAFT. Preserve the
+tangential two-lane input and all its retained evidence. The alternative puts
+all stave anchors of a layer at the same nominal radius and rotates the whole
+cold stave about the beam axis. Modules, pickups, flex, pipes and buses share
+that rotation; the 1.5 mm alternating axial-row lift remains. Recompute even
+stave counts from the angular span of the 40 mm active interior (48 mm minus
+the existing 8 mm phi margin), taking the smaller span of the two row heights.
+Do not obtain symmetry by rotating sensors independently of their support.
+
+| ID | Classification | Alternative contract |
+|---|---|---|
+| SB-F03 | FACT | SRC-ODD-PHI-LOCAL-2026: the clean installed-build ODD source at d70556f33b1c36abdf101a07ad8cf57eb56fbdf1 has `phi_tilt=-0.15` rad in TrackerShortStrips.xml layer0..3, and ODDStripBarrel_geo.cpp lines171–188 applies a common stave orientation while anchors stay at `(r cos(phi),r sin(phi),0)`. This is a separately inspected version, not a replacement of the older study snapshot. Its coordinate convention is not assumed to match ours. |
+| SB-F04 | FACT | SRC-ATLAS-ITK-PERFORMANCE-2025, section2.2/table1, reports phi tilts13/12/12/11 degrees for ITk strip layers. The text connects tilt/radius revisions to installation space and adjacent-stave overlap. These different strip assemblies do not prescribe an angle for our thicker strixel stack. |
+| SB-C14 | NODD DESIGN CHOICE | Survey12/15/18 degrees, retaining rejected clearances. Select the smallest surveyed angle clearing complete neighbouring stave and end-board solids, with the inherited active margin. Angles are about global+z: `N=cos(alpha) er+sin(alpha) ephi`, `U=cos(alpha) ephi-sin(alpha) er`, `V=ez`; `U cross V=N`. Positive alpha is a declared handedness; it is not sensor stereo. Fine75µm coordinate follows U,0.5mm coordinate follows z. |
+| SB-C15 | NODD DESIGN CHOICE | Same-radius shingling replaces the12mm alternating stave lanes only for this input. Cold plate, modules and all local services retain their dimensions. Use a2 mm-wide CFRP mounting web at u=+14.5 mm, on the3 mm-wide bare back-skin land between insulation edgeu13 and signal-bus edgeu16; leave0.5 mm to each. The web extrudes8 mm in z and stops at w=−6.8 mm, without bearing on a conductor. Bevel its inner face to the ring tangent plane. The tangential control retains its original4 mm feet. Web strength/bond/clamp/seat and off-centre torsion require qualification; no bolt-through-web assumption. A−18 mm/4 mm left-side shoe failed neighbour-core clearance and is retained separately. |
+| SB-I03 | INFERENCE | Equal radii and common tilt give exact discrete N-fold rotational covariance of local stave geometry at each layer's pitch. Different layer populations and12 sector services do not make the full detector continuously symmetric or reflection symmetric. Compare both charges, finite-plane coverage, orientation and material rays; claim no calibrated resolution improvement or continuum hermeticity. |
+
+Keep fixed nominal radii, axial endpoints, cells, collectors and trunks. Repeat
+construction/overlaps, transforms and anisotropic IDs, mass/material rays,
+fresh-process ROOT persistence, saved Geant4 hits and refined luminous-region
+coverage against the same ideal-cylinder denominator. Sector routing and
+rounding must be recalculated. Warm thermal, adverse packing, unqualified
+electronics/CTE, collector/endcap interface and original coverage limitations
+remain gates. A simple beam screen uses full gravity as a conservative normal
+load; it does not qualify the new torsional or in-plane load component.
+
+Recommend **+15°** for the next prototype iteration:12° gives602 native
+flex-to-neighbour-bus overlaps;15° and18° report zero at the unchanged tolerance.
+This is the smallest *surveyed* clearing angle, not a continuous optimum or
+installation-clearance qualification. The resulting44/56/80/108 staves carry
+8,064 modules (+112 versus the tangential control). Finite-plane sample losses
+fall substantially but remain nonzero near the ends; see the
+[alternative report](../validation/DES-020/phi-tilted/results.md).
+
+With alpha=15°, the normal is consistently15° from the anchor's radial vector,
+and U consistently15° from its tangent. Radial tracks traverse roughly
+0.2/cos(15°)=0.2071 mm silicon at a stave centre. V remains along z; this
+does not add an in-plane strip stereo angle or change the anisotropic readout.
+Charge sharing, Lorentz drift, incidence-dependent resolution and material
+ripple require response/tracking studies. Equal-radius placement improves the
+local geometric repetition, not a proven flat phi performance curve.
+
+For the beveled shoe, let R be the ring outer radius and r the anchor radius.
+The inner-face centre is at
+`w0 = -r cos(alpha) + sqrt(R² - (u0-r sin(alpha))²)` along N at u0=+14.5 mm. If theta is
+the azimuth of that contact point, the inner face is
+`w(u)=w0+(u-u0) tan(alpha-theta)` and the outer face is `w=-6.8 mm`.
+Extrude this quadrilateral over8 mm in z. The inner plane touches the cylinder
+tangentially, the outer plane meets the cold-plate back, and the foot has positive
+depth throughout its2 mm width. This represents contact and material without
+interpenetration; finite-area seating, clamps, friction and installation gaps
+remain unqualified.
+
 ## Drawings and evidence
+
+![Tangential control and phi-tilted alternative](figures/DES-020-phi-tilted-comparison.svg)
 
 ![Barrel placement, support and routing](figures/DES-020-barrel-overview.svg)
 

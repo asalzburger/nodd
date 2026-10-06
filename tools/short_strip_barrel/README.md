@@ -5,6 +5,29 @@ geometry. Read [DES-020](../../docs/design/DES-020-short-strip-barrel.md) and th
 [results](../../docs/validation/DES-020/results.md) before treating a software
 pass as detector feasibility.
 
+The **phi-tilted alternative** uses `inputs-phi-tilted.json`: same-radius
+staves, common+15° beam-axis tilt, unchanged local components, and beveled
+ring-contact feet. Default `inputs.json` and all historical reports remain the
+tangential control. New evidence is retained separately under
+[phi-tilted/](../../docs/validation/DES-020/phi-tilted/results.md).
+
+```sh
+python3 -B tools/short_strip_barrel/model.py --input tools/short_strip_barrel/inputs-phi-tilted.json --output build/short-strip-barrel-phi
+python3 -B tools/short_strip_barrel/export.py --input tools/short_strip_barrel/inputs-phi-tilted.json --output build/short-strip-barrel-phi/compact
+python3 -B tools/short_strip_barrel/check_layout.py --input tools/short_strip_barrel/inputs-phi-tilted.json --refined --expected build/short-strip-barrel-phi/compact/expected.json --output build/short-strip-barrel-phi/coverage-refined.json
+python3 -B tools/short_strip_barrel/compare_phi.py --output build/short-strip-barrel-phi/comparison.json
+MPLCONFIGDIR=/tmp/nodd-strip-phi-mpl python3 -B tools/short_strip_barrel/draw_phi.py --output build/short-strip-barrel-phi/figures
+```
+
+The same standalone CMake project builds both `compact/` and `compact-phi/`;
+CTest audits both and writes `native.json` and `native-phi.json`. For persistence
+use `native-phi.root` with `compact-phi/expected.json`. For DDSim select
+`compact-phi/short-strip-barrel.xml`; pass that expected inventory to
+`check_geant4.py --expected ...` so tilted path lengths are compared with the
+actual plane normal at the unchanged0.01 mm smoke tolerance. Controls12/18°
+have their own retained inputs/native reports. The12° collision is a failure;
+neither sampled coverage nor zero overlaps establishes detector acceptance.
+
 From the repository root:
 
 ```sh

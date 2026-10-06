@@ -1,6 +1,8 @@
 import copy
 import importlib.util
 import json
+import gzip
+import math
 from pathlib import Path
 import sys
 import tempfile
@@ -9,7 +11,7 @@ import xml.etree.ElementTree as ET
 
 HERE=Path(__file__).resolve().parent
 sys.path.insert(0,str(HERE))
-from model import load,build,screen
+from model import load,build,screen,frame,foot_profile,ROOT,sha
 spec=importlib.util.spec_from_file_location('ss_export',HERE/'export.py')
 generator=importlib.util.module_from_spec(spec);spec.loader.exec_module(generator)
 
@@ -36,6 +38,49 @@ class BarrelTests(unittest.TestCase):
             for a,b in zip(cross,m['n']):self.assertAlmostEqual(a,b)
         result=screen(self.c,self.layout)
         self.assertEqual(result['channels_per_module'],122880)
+
+    def test_tangential_control_matches_retained_placement(self):
+        control=json.loads(gzip.decompress((ROOT/'docs/validation/DES-020/layout.json.gz').read_bytes()))
+        self.assertEqual(self.layout,control)
+
+    def test_phi_alternative_is_rotationally_repeated_with_signed_axes(self):
+        c=load(HERE/'inputs-phi-tilted.json');layout=build(c)
+        for layer in layout['layers']:
+            staves=[s for s in layout['staves'] if s['layer']==layer['layer']]
+            self.assertEqual({s['radius_mm'] for s in staves},{layer['nominal_radius_mm']})
+            step=2*math.pi/len(staves)
+            modules=[m for m in layout['modules'] if m['layer']==layer['layer']]
+            for m in modules:
+                a=modules[((m['stave']+1)%len(staves))*c['rows']+m['row']]
+                for key in ('center_mm','u','n'):
+                    x,y,z=m[key];rot=[math.cos(step)*x-math.sin(step)*y,math.sin(step)*x+math.cos(step)*y,z]
+                    self.assertLess(math.dist(rot,a[key]),1e-9)
+                er=[math.cos(m['phi_rad']),math.sin(m['phi_rad']),0]
+                ep=[-er[1],er[0],0]
+                self.assertAlmostEqual(sum(x*y for x,y in zip(m['n'],er)),math.cos(math.radians(15)))
+                self.assertAlmostEqual(sum(x*y for x,y in zip(m['n'],ep)),math.sin(math.radians(15)))
+        with tempfile.TemporaryDirectory() as t:
+            inventory=generator.export(c,Path(t),HERE/'inputs-phi-tilted.json')
+            self.assertEqual(inventory['provenance']['input_sha256'],sha(HERE/'inputs-phi-tilted.json'))
+
+    def test_beveled_shoe_touches_ring_and_stave_without_penetration(self):
+        c=load(HERE/'inputs-phi-tilted.json');tilt=math.radians(c['phi_tilt_deg'])
+        for r in c['nominal_radii_mm']:
+            shoe=foot_profile(c,r);mid=shoe['center_w_mm'];h=shoe['height_mm'];ring=r-17
+            for u in (-c['foot_width_mm']/2,0,c['foot_width_mm']/2):
+                point=frame(0,r,[c['foot_u_mm']+u,0,mid-h/2+shoe['bottom_slope']*u],tilt)
+                self.assertGreaterEqual(math.hypot(*point[:2]),ring-1e-10)
+                if u==0:self.assertAlmostEqual(math.hypot(*point[:2]),ring)
+                self.assertAlmostEqual(mid+h/2,-6.8)
+            self.assertEqual(c['foot_u_mm']-c['foot_width_mm']/2,13.5)
+            self.assertEqual(c['foot_u_mm']+c['foot_width_mm']/2,15.5)
+
+    def test_phi_input_rejects_mixed_lanes_or_unsupported_angle(self):
+        for tilt,lane in ((15,12),(-15,0),(20,0)):
+            c=copy.deepcopy(self.c);c.update(phi_tilt_deg=tilt,lane_step_mm=lane)
+            with tempfile.TemporaryDirectory() as t:
+                p=Path(t)/'bad.json';p.write_text(json.dumps(c))
+                with self.assertRaisesRegex(ValueError,'Phi alternative'):load(p)
 
     def test_invalid_clearance_and_stale_sources_are_rejected(self):
         c=copy.deepcopy(self.c);c['pickup_mm'][1]=100

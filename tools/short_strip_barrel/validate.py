@@ -25,6 +25,7 @@ def capacity(s):
     """
     kind=str(s.ClassName())
     if kind=="TGeoBBox":return 8*float(s.GetDX())*float(s.GetDY())*float(s.GetDZ())
+    if kind=="TGeoXtru":return float(s.Capacity())  # exact polygon extrusion, no CSG sampling
     if kind in ("TGeoTube","TGeoTubeSeg"):
         angle=2*math.pi if kind=="TGeoTube" else math.radians(float(s.GetPhi2())-float(s.GetPhi1()))
         return angle*(float(s.GetRmax())**2-float(s.GetRmin())**2)*float(s.GetDz())

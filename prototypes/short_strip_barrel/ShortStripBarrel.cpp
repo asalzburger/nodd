@@ -14,13 +14,18 @@ double dim(Handle_t x, const char* key) {
 Solid shape(Handle_t x) {
   const auto kind=x.attr<std::string>("kind");
   if (kind=="box") return Box(dim(x,"sx")/2,dim(x,"sy")/2,dim(x,"sz")/2);
+  if (kind=="shoe") {
+    const double a=dim(x,"sx")/2,b=dim(x,"sz")/2,k=dim(x,"slope"),z=dim(x,"sy")/2;
+    return ExtrudedPolygon({-a,a,a,-a},{-b-k*a,-b+k*a,b,b},{-z,z},{0,0},{0,0},{1,1});
+  }
   if (kind=="tube") return Tube(dim(x,"rmin"),dim(x,"rmax"),dim(x,"length")/2);
   if (kind=="sector") return Tube(dim(x,"rmin"),dim(x,"rmax"),dim(x,"length")/2,dim(x,"start"),dim(x,"start")+dim(x,"angle"));
   if (kind=="torus") return Torus(dim(x,"major"),dim(x,"rmin"),dim(x,"rmax"),dim(x,"start"),dim(x,"angle"));
   throw std::runtime_error("Unsupported short-strip shape: "+kind);
 }
 Transform3D local(Handle_t x) {
-  const bool tube=x.attr<std::string>("kind")=="tube";
+  const auto kind=x.attr<std::string>("kind");
+  const bool tube=kind=="tube" || kind=="shoe";
   return Transform3D(RotationZYX(0,0,tube ? M_PI/2 : 0),Position(dim(x,"u"),dim(x,"v"),dim(x,"w")));
 }
 void parts(Detector& d, Volume parent, Handle_t x, SensitiveDetector sd, DetElement owner) {
@@ -61,8 +66,9 @@ Ref_t createShortStripBarrel(Detector& d, Handle_t x, SensitiveDetector sd) {
         auto pv=sv.placeVolume(mv,Position(0,dim(m,"z"),dim(m,"lift")));
         pv.addPhysVolID("module",m.attr<int>("id"));me.setPlacement(pv);
       }
-      const double phi=dim(s,"phi"),r=dim(s,"radius"),co=std::cos(phi),si=std::sin(phi);
-      auto pv=lv.placeVolume(sv,Transform3D(Rotation3D(-si,0,co,co,0,si,0,1,0),Position(r*co,r*si,0)));
+      const double phi=dim(s,"phi"),r=dim(s,"radius"),tilt=s.hasAttr("tilt") ? dim(s,"tilt") : 0;
+      const double co=std::cos(phi+tilt),si=std::sin(phi+tilt);
+      auto pv=lv.placeVolume(sv,Transform3D(Rotation3D(-si,0,co,co,0,si,0,1,0),Position(r*std::cos(phi),r*std::sin(phi),0)));
       pv.addPhysVolID("stave",s.attr<int>("id"));se.setPlacement(pv);
     }
     auto pv=barrel.placeVolume(lv);pv.addPhysVolID("layer",l.attr<int>("id"));le.setPlacement(pv);
