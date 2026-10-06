@@ -106,3 +106,14 @@ Staged diff check initially found Matplotlib SVG trailing whitespace (exit2).
 The drawing producer now strips trailing spaces and fixes SVG date/hash-salt
 metadata for reproducibility. Generated pycache files were removed from staging
 and the new tool directory ignores them. Geometry/input/native hashes are unchanged.
+
+## Publication closeout
+
+Scientific deliverable `1063dce1139d07b44b0db6f18040775f387834cb` pushed normally.
+[PR51](https://github.com/asalzburger/nodd/pull/51) is OPEN draft, stacked on PR50. Both full parent/main-relative
+diff checks passed; hosted run37514992249/job112445508331 initially observed
+IN_PROGRESS at2026-10-06T18:55:20Z, no success inferred. The PR is attached
+to this chat; drawings are in its description. No Slack message or merge.
+The project task is closed with partial measurements; actual client completion
+and final resource counters remain unavailable while this turn is active.
+Source/native/artifact execution hashes are preserved.
