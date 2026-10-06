@@ -1,0 +1,179 @@
+% !TeX root = ../main.tex
+\chapter{Preliminary pixel detector}
+\label{ch:pixel}
+\input{generated/pixel-facts}
+
+\section{Selected baseline and applicability}
+The preliminary baseline combines the unchanged four-layer DES013 barrel with
+nine discs at each end. Endcaps use the DES017 mixed single/quad template,
+trimmed by the DES018 luminous-region and track-envelope proof. The isolated
+DD4hep compact implements this selection under DES019; the old quad-only
+compact remains a historical control. Baseline selection does not grant
+engineering sign-off \cite{barrel,mixed,trim,model}.
+
+The combined inventory contains \num{\PixelModules} modules and
+\num{\PixelChips} active chip areas. The unchanged barrel contributes
+\num{3050} modules and \num{6794} active areas; the two endcaps contribute
+\num{\EndcapModules} modules and \num{\EndcapChips} active areas
+\cite{barrel,model}. These counts describe sensitive islands. Each quad shares
+one silicon substrate across four active islands.
+
+The trimming proof applies to primary charged tracks with
+$\pt\geq\qty{1}{\giga\electronvolt}$ and $\abseta\leq4$, luminous
+$z$ within $\pm\qty{150}{\milli\metre}$, and transverse vertex coordinates
+$x,y\in[-1,1]\,\unit{\milli\metre}$. It assumes a uniform axial field
+with magnitude at most \qty{4}{\tesla}, vacuum propagation, and the first
+outward half-turn before leaving the comparison host. The closed eta boundary
+conservatively implements the requested $\abseta<4$ \cite{trim}.
+This is a bounded geometric hypothesis, not a measured beam profile or full
+physical acceptance claim. Lower-momentum, secondary, scattered and returning
+trajectories require further study.
+
+\section{Endcap layout and inner-ring removal}
+The full mixed template has four single-module rings followed by two quad-module
+rings: six physical rings containing eight radial chip rows. Modules follow local
+tangential and radial axes, with alternating support faces and frozen height
+levels. Signed transverse compensation is retained at every disc datum
+\cite{mixed,model}.
+
+For positive datum $z_d$, luminous half-length $L$ and frozen local height
+$\delta z$, define $a=(z_d^2-L^2)/z_d$. Module centres obey
+$(x,y)=(x_0,y_0)(1+\delta z/a)$ and sensor plane $z_d+\delta z$.
+Negative placements reflect $z$ and retain the same transverse positions.
+Filtering never recolours, moves or compacts survivors \cite{mixed,trim,model}.
+
+Whole inner rings are removed only when every active-area corner lies below
+the continuous lower reachable-radius bound, including curvature and the vertex
+box, with a \qty{0.1}{\milli\metre} retention buffer. A reachable witness
+on the next ring prevents its removal. The selected prefix is maximal within
+this frozen catalogue, rather than a global layout optimum \cite{trim}.
+
+\begin{table}[htbp]
+\caption{Trimmed mixed endcap at each end. Displayed datums are rounded to
+\qty{0.001}{\milli\metre}; DD4hep retains source precision. Ring numbers
+refer to the original template. Generated from DES017/018 \cite{mixed,trim}.}
+\label{tab:pixel-discs}
+\centering\footnotesize
+\begin{tabular}{r r l r r r r}
+\toprule
+Disc & $|z_d|$ [mm] & Removed & Single & Quad & Chips & Circuits\\
+\midrule
+\input{generated/disc-inventory}
+\bottomrule
+\end{tabular}
+\end{table}
+
+The schedule removes \num{424} single modules/chips across both ends relative
+to the full mixed template, saving \qty{1139.712}{\watt} nominal heat at the
+provisional \qty{2.688}{\watt} per chip \cite{mixed,trim}. Plate and carrier
+envelopes stay full size; missing sensor rings do not imply a plate mass saving.
+
+\begin{figure}[htbp]
+\centering\includegraphics[width=\linewidth]{longitudinal-layout}
+\caption{Disc datums and nominal ring radii. Singles are blue and quads orange;
+grey lines show the unchanged plate annulus. The shaded band is the luminous
+$z$ envelope. Points indicate nominal radii, not individual compensated planes.
+The barrel is omitted to keep the trimming schedule visible.}
+\label{fig:pixel-longitudinal}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering\includegraphics[width=\linewidth]{disc-layouts}
+\caption{Active-area projections for positive discs 1, 7 and 9. Blue denotes
+single modules and orange quads; dashed circles mark plate radii. Projection
+overlaps are not volume collisions because modules use alternating faces and
+height levels. Inherited coverage gaps remain; hermeticity is not asserted.}
+\label{fig:pixel-discs}
+\end{figure}
+
+\section{Modules and readout orientation}
+Each active island is \qty{20}{\milli\metre} tangentially by
+\qty{19.2}{\milli\metre} radially, with conditional
+\qty{0.1}{\milli\metre} guard and \qty{0.2}{\milli\metre} inactive seams.
+Shared silicon outlines are $20.2\times19.4$ for singles and
+$40.4\times38.8\,\unit{\milli\metre^2}$ for quads. Occupied body reservations
+are $20.4\times21.4$ and $43.2\times44.2\,\unit{\milli\metre^2}$,
+respectively, with \qty{1}{\milli\metre} thickness \cite{radial,model}.
+These are project hypotheses, not procurement specifications.
+
+The reused stack has \qty{0.15}{\milli\metre} sensor and ASIC silicon,
+\qty{0.02}{\milli\metre} bump stand-off and inherited flex/glue layers.
+Nominal \qty{50}{\micro\metre} square segmentation remains unchanged and
+provisional \cite{barrel}. The physical tangential/radial convention supports
+future non-square segmentation without rotating measurement interpretation with
+global azimuth. Frame signs establish a proper rotation and place the ASIC side
+toward its pickup; tangential/radial dimensions are not swapped \cite{model}.
+
+\section{Local support, cooling and mounting}
+The common support retains $r=27$--$188.5\,\unit{\milli\metre}$ and the
+\qty{6.3}{\milli\metre} sandwich: two \qty{0.15}{\milli\metre} CFRP skins
+around a \qty{6}{\milli\metre} foam core. Three inherited tongues couple to
+rails and the carrier, whose outer radius remains \qty{232}{\milli\metre}.
+Coupling details and installation tolerances are unresolved \cite{mixed,model}.
+
+Every retained chip has a \qty{0.45}{\milli\metre} cradle/graphite/insulator/
+TIM/bond pickup. Graphite stems have $6\times8\,\unit{\milli\metre^2}$
+cross-section; quad stems move \qty{1}{\milli\metre} toward the module centre.
+Raised stems follow frozen \qty{1.65}{\milli\metre} level spacing. Removed
+rows delete their pickups and cooling demand. Closing unused skin/core windows
+while preserving structural and thermal interfaces remains a manufacturing task
+\cite{mixed,trim,model}.
+
+Each retained chip row uses two half-ring circuits, giving
+\num{\CoolingCircuits} circuits across both ends. Tube outer diameter is
+\qty{2.8}{\milli\metre}, with \qty{0.15}{\milli\metre} titanium wall;
+core routing planes lie at $\pm\qty{1.5}{\milli\metre}$. Transport feed/return
+diameter stays \qty{4}{\milli\metre} \cite{mixed,model}. Flow estimates inherit
+nominal/stress power and boiling-quality hypotheses, not measured hydraulics.
+
+DD4hep uses complete titanium/CO$_2$ tori to preserve summed half-ring length.
+Radial legs and thermal inserts use an explicit effective core allocation;
+torus daughters displace the core. Skin/cradle window inventories replace CFRP
+with graphite once per chip. Bend allowances, clips, mount hardware and retained
+flex inventories are normalized into local service cells. Constituent volumes
+and masses are conserved without stacking full foam and occupied solids
+\cite{model}. This allocation differs from DES017's approximate mass proxy;
+it is not detailed CAD, hydraulic connectivity or a manufactured bill of materials.
+
+\section{Services and qualification limits}
+Collectors retain $r=27$--$190\,\unit{\milli\metre}$; the trunk remains
+$r=192$--$231.7\,\unit{\milli\metre}$ and flange neck ends at
+\qty{222}{\milli\metre}. Heterogeneous inventories use each disc's actual
+chains, links and chip-row circuits. The first eight discs join the trunk;
+the last follows the inherited bypass \cite{trim,model}.
+
+Reference packing utilization is \num{\PositiveTrunkUtil} in the positive
+trunk and \num{\PositiveNeckUtil} at its neck. Negative values are
+\num{\NegativeTrunkUtil} and \num{\NegativeNeckUtil}. All exceed unity;
+conservative/stress scenarios also fail \cite{trim,model}. Effective cells
+preserve material demand but do not establish a feasible packed route.
+Connectors, manifolds, flange passage, bypass and cable topology require further
+engineering. Service radii are not enlarged to conceal these failures.
+
+\section{Implementation evidence and next steps}
+Native DD4hep construction checked all \num{\PixelChips} active placements,
+signed axes, normals, dimensions, unique identifiers and readouts. Maximum centre
+residual is \qty{\CentreResidual}{\milli\metre}. Exclusive material mass/volume
+and sampled radiation/interaction-length scans pass. ROOT finds no overlaps
+at \qty{1e-5}{\milli\metre}; ROOT and portable nodehammer roundtrips pass.
+Geant4 conversion and FTFP\_BERT initialization pass with seed42 and zero
+transported events \cite{model}.
+
+Simulation material inventory totals \qty{\ModelMassKg}{\kilogram}, including
+effective shared services; this is not a manufactured mass estimate. Native
+execution used the recorded dirty implementation tree, identified by actual
+compact/input/producer/plugin hashes. Its execution revision is distinct from
+the enclosing deliverable commit \cite{model}.
+
+DD4hep encodes template ID offsets without compacting survivors and retains
+their original global source IDs in the inventory. The inherited DES018 study
+compared \num{1906} analytic and \num{182} in-scope native tracks per variant,
+without removing an in-scope baseline hit \cite{trim}. This is not a
+DD4hep-to-ACTS conversion test. Material transport, realized field map,
+digitisation, reconstruction, alignment and efficiency/resolution studies remain.
+
+Original coverage gaps persist. The \qty{0.5}{\milli\metre} guard and warm
+$-35\,\unit{\degreeCelsius}$ thermal controls fail \cite{mixed,trim}.
+Thermal contacts, two-phase stability, mechanical tolerances, window closure
+and routing are principal engineering gates. The model provides a reproducible
+preliminary comparison baseline while these questions remain open.
