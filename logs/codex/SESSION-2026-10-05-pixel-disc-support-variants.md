@@ -69,12 +69,29 @@ clamps, cold coupons, hydraulic/pressure/laminate/FEA and passive transport are 
   A sandbox read-only process listing failed; no scientific result depended on it.
   Final logger/dashboard/diff and hosted checks will be added when observed.
 
+Closeout checks observed2026-10-06:7 new and20 inherited disc controls pass;
+31 dashboard controls pass. Logger validates101 records; summary has44/101
+sessions with81 observed turns, not a full-project/current-turn total. Dashboard
+validates42 tasks/23 documents/19 reviews and builds under_site/disc-support-variants.
+The first logger check used an incorrect lower-case status enum; corrected to
+PASS. The first dashboard output underbuild/ was rejected by the output guard;
+corrected to_site/ without weakening validation. Full staged and parent-relative
+whitespace checks pass. Generated probe bytecode was excluded before commit.
+
 ## Changes and revision links
 
 See paired JSON for actual file inventory. New DES017 document, isolated tools,
 retained evidence and CI controls, project tracking and this logger pair. Prior
 scientific inputs/reports, native hashes, production detector and PR40 movement
 table unchanged. Result commits will be listed after they exist.
+
+Scientific deliverable committed asdb4a47a5c19198dc641a31b89c467e3c392c83a4,
+normally pushed and published in[PR42](https://github.com/asalzburger/nodd/pull/42),
+basecodex/issue38-disc-overlap (PR41). PR42 attached to this app chat. Description
+contains comparison/drawings/reasons, explicit sensor-placement amendment and
+coverage/guard/thermal/service gates. A rounded gap value and report hyperlink
+were corrected in the hosted description. Public source IDs were reused with
+precise locators; no external paper or old evidence was overwritten.
 
 ## Token accounting
 

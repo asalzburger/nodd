@@ -22,7 +22,9 @@
     "start_commit": "8e593e32a97acc36b9a7850e1dfabc11d2175180",
     "branch": "codex/pixel-disc-support-variants",
     "initial_changes": [],
-    "result_commits": [],
+    "result_commits": [
+      "db4a47a5c19198dc641a31b89c467e3c392c83a4"
+    ],
     "changed_files": [
       ".github/workflows/dashboard.yml",
       "project/tracking.json",
@@ -188,6 +190,18 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "Full staged/new-file and parent-relative whitespace checks passed."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/dashboard -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "31 dashboard controls passed; expected missing-SHA negative-test stderr retained."
+    },
+    {
+      "command": "git diff codex/issue38-disc-overlap...HEAD --check; git diff origin/main...HEAD --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Full parent-relative and main-relative committed diffs pass at scientific head db4a47a5c19198dc641a31b89c467e3c392c83a4."
     }
   ]
 }
