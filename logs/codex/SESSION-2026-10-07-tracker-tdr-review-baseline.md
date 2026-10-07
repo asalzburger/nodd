@@ -105,3 +105,15 @@ directory gitlink as file evidence; deliverables now point at the curated
 publication files. Summary retains94 observed historical turns,57 records with
 usage and64 without. Current task remains unmeasured; sums are partial and do
 not include this active turn. Remote Overleaf main was verified at908e7e5.
+
+Actual publication commit `bdaac95378c9aab93dcf8f8602e7b298593316f9` was pushed
+normally. [PR54](https://github.com/asalzburger/nodd/pull/54) is OPEN, stacked on
+`codex/short-strip-endcap`, created2026-10-07T08:39:50Z and attached to this chat.
+
+Primary sync validation passed126 paired records, preserving its existing branch,
+HEAD, science and unrelated untracked logs. Only this new paired record was
+copied, with exact-byte checks before every update. Corrected PR54 tracking
+validation/build passed after adding its required stable ID. Hosted parent
+validation on the initial publication head was still running at this metadata
+closeout; the final parent check is observed separately. Overleaf compile and
+full page QA are already complete.
