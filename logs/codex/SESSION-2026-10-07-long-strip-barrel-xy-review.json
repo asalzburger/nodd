@@ -13,7 +13,8 @@
     "Actual client turn start/end, execution model and client version are not exposed; timestamps remain null.",
     "Current-turn final resource counters are unavailable until the turn closes; usage is empty, not zero. No partial counters or usage recovery were imported.",
     "Older project token coverage remains partial; observed summaries are not a complete or self-inclusive all-project total.",
-    "Drawing-only change. Original native execution remains dirty a9d6367bbe750f72545e933e620c0b53673da83c with its exact source/input/plugin hashes. Engineering and coverage limitations are unchanged."
+    "Drawing-only change. Original native execution remains dirty a9d6367bbe750f72545e933e620c0b53673da83c with its exact source/input/plugin hashes. Engineering and coverage limitations are unchanged.",
+    "55 actual changed paths include the47-path concurrent PR53 merge (one shared tracking path) preserved verbatim; only9 paths are newly authored for this drawing task. Original endcap scientific work remains attributed to its prior canonical session."
   ],
   "client": {
     "name": "Codex desktop app",
@@ -24,17 +25,66 @@
     "start_commit": "38142b13a6ffafcf5aae4467e523cc2e2412b814",
     "branch": "codex/long-strip-barrel",
     "initial_changes": [],
-    "result_commits": [],
+    "result_commits": [
+      "2ed5f9c8a1ca04275b6d29bd3c5a5a39b67c4eec",
+      "86a7d6773fee968c2cd52a625a60d1d4f22f6626"
+    ],
     "changed_files": [
+      ".github/workflows/dashboard.yml",
       "docs/design/DES-022-long-strip-barrel.md",
-      "docs/design/figures/DES-022-barrel-xy.svg",
+      "docs/design/DES-023-long-strip-endcap.md",
       "docs/design/figures/DES-022-barrel-xy.png",
+      "docs/design/figures/DES-022-barrel-xy.svg",
+      "docs/design/figures/DES-023-petals.png",
+      "docs/design/figures/DES-023-petals.svg",
+      "docs/design/figures/DES-023-structure-routes.png",
+      "docs/design/figures/DES-023-structure-routes.svg",
       "docs/validation/DES-022/xy-drawing.json",
-      "tools/long_strip_barrel/draw_xy.py",
-      "tools/long_strip_barrel/README.md",
-      "project/tracking.json",
+      "docs/validation/DES-023/coverage.json.gz",
+      "docs/validation/DES-023/geant4-negative.json.gz",
+      "docs/validation/DES-023/geant4-positive.json.gz",
+      "docs/validation/DES-023/inventory.json.gz",
+      "docs/validation/DES-023/native.json.gz",
+      "docs/validation/DES-023/pre-wrap-coverage.json.gz",
+      "docs/validation/DES-023/pre-wrap-geant4-negative.json.gz",
+      "docs/validation/DES-023/pre-wrap-geant4-positive.json.gz",
+      "docs/validation/DES-023/pre-wrap-inventory.json.gz",
+      "docs/validation/DES-023/pre-wrap-native.json.gz",
+      "docs/validation/DES-023/pre-wrap-reproducibility.json",
+      "docs/validation/DES-023/pre-wrap-root-roundtrip.json.gz",
+      "docs/validation/DES-023/rejected-corner-land-inputs.json.gz",
+      "docs/validation/DES-023/rejected-corner-land-native.json.gz",
+      "docs/validation/DES-023/rejected-corner-tail-exact-inputs.json.gz",
+      "docs/validation/DES-023/rejected-corner-tail-expected.json.gz",
+      "docs/validation/DES-023/rejected-corner-tail-native.json.gz",
+      "docs/validation/DES-023/rejected-electronics-expected.json.gz",
+      "docs/validation/DES-023/rejected-electronics-inputs.json.gz",
+      "docs/validation/DES-023/rejected-electronics-native.json.gz",
+      "docs/validation/DES-023/rejected-platform-inputs.json.gz",
+      "docs/validation/DES-023/rejected-platform-native.json.gz",
+      "docs/validation/DES-023/reproducibility.json",
+      "docs/validation/DES-023/results.md",
+      "docs/validation/DES-023/root-roundtrip.json.gz",
+      "docs/validation/DES-023/teardown-failure-native.json.gz",
+      "docs/validation/DES-023/three-loop-control-expected.json.gz",
+      "docs/validation/DES-023/three-loop-control-inputs.json.gz",
+      "docs/validation/DES-023/three-loop-control-native.json.gz",
       "logs/codex/SESSION-2026-10-07-long-strip-barrel-xy-review.json",
-      "logs/codex/SESSION-2026-10-07-long-strip-barrel-xy-review.md"
+      "logs/codex/SESSION-2026-10-07-long-strip-barrel-xy-review.md",
+      "project/tracking.json",
+      "prototypes/long_strip_endcap/CMakeLists.txt",
+      "tools/long_strip_barrel/README.md",
+      "tools/long_strip_barrel/check_geant4.py",
+      "tools/long_strip_barrel/draw_xy.py",
+      "tools/long_strip_barrel/validate.py",
+      "tools/long_strip_endcap/.gitignore",
+      "tools/long_strip_endcap/README.md",
+      "tools/long_strip_endcap/coverage.py",
+      "tools/long_strip_endcap/draw.py",
+      "tools/long_strip_endcap/export.py",
+      "tools/long_strip_endcap/inputs.json",
+      "tools/long_strip_endcap/model.py",
+      "tools/long_strip_endcap/test_model.py"
     ]
   },
   "work": {
@@ -158,6 +208,36 @@
       "status": "FAIL",
       "exit_code": null,
       "result": "Visual tool inspection has no process exit code; logger rejects PASS without observed zero. Kept visual outcome in narrative/activity evidence and removed its CLI-style check. Subsequent CLI validation is recorded separately."
+    },
+    {
+      "command": "Pre-publication remote-head assertion",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "PR53 had concurrently merged into PR52 at25635c2, advancing remote head. The combined shell did not stop at the guard; a local commit was made. Corrected subsequent publication steps are gated separately."
+    },
+    {
+      "command": "git push origin HEAD:codex/long-strip-barrel (initial attempt)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Non-fast-forward rejected by Git; no remote update occurred."
+    },
+    {
+      "command": "git fetch origin codex/long-strip-barrel; inspect remote changes",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Remote change is maintainer merge of PR53, not a change to the retained barrel geometry. PR52 is OPEN and now ready for review."
+    },
+    {
+      "command": "git merge --no-edit origin/codex/long-strip-barrel",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Ordinary86a7d6 merge preserves both the x-y addition and all remote endcap changes; tracking auto-merged, no conflicts."
+    },
+    {
+      "command": "Post-merge logger / dashboard and full parent/main-relative diff checks",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "120 logger records;51 tasks,29 documents,19 review rounds; full diffs clean. All six native geometry source hashes still match retained execution."
     }
   ]
 }

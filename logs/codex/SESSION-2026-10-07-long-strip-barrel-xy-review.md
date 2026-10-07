@@ -69,3 +69,20 @@ Reviewer can inspect the mounting connection in PR52. Ring/joint/torsional,
 thermal/dynamic and coverage qualifications remain those of DES-022. Primary
 logging synchronization is limited to this new pair, guarded against unexpected
 existing bytes; primary branch/scientific files and older records are preserved.
+
+## Concurrent remote update and correction
+
+At pre-publication inspection, PR53 had been merged by the maintainer into PR52
+as25635c22fcde50c7414cf23e153b8f98c34f4a9d at2026-10-07T07:39:06Z. PR52 was also
+made ready for review; its DES lifecycle remains DRAFT. The head guard rejected
+the changed head, but the combined shell continued and created the local drawing
+commit2ed5f9c8a1ca04275b6d29bd3c5a5a39b67c4eec. Git rejected its non-fast-forward
+push; no remote work was overwritten. Subsequent dependent steps are gated.
+Fetched/inspected the endcap merge and preserved it in ordinary merge
+86a7d6773fee968c2cd52a625a60d1d4f22f6626, with no conflicts. All six retained barrel
+geometry source hashes still match. Tracking reconciles PR53's actual merge;
+no design approval is inferred. The actual55-path start-relative inventory
+includes47 preserved remote paths and the9 new review paths (tracking overlaps).
+The imported endcap implementation and earlier token ownership are not this
+turn's scientific work. Post-merge dashboard has51 tasks/29 documents/19 rounds;
+logger remains120 records and full parent/main-relative diff checks pass.
