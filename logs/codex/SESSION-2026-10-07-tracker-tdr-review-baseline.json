@@ -1,0 +1,134 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-07-tracker-tdr-review-baseline",
+  "title": "Full tracker TDR review baseline",
+  "recorded_at": "2026-10-07T08:16:21Z",
+  "started_at": null,
+  "ended_at": null,
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact current client turn start/end, execution model, client version and per-turn token counters are not exposed. Usage is empty, unknown rather than zero; no cumulative counters or estimates imported.",
+    "Curated bounded task record; older project resource coverage remains partial.",
+    "Publication does not rerun science, integrate independent compacts or grant design sign-off."
+  ],
+  "client": {
+    "name": "Codex desktop app",
+    "version": null,
+    "thread_id": "01a10c6a-664d-72b1-afad-926c2c57312b"
+  },
+  "git": {
+    "start_commit": "0d74f228a51bfbfeef93e19d21b2e58585772817",
+    "branch": "codex/tracker-tdr-review-baseline",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      "docs/tdr",
+      "docs/publication/tracker-review-baseline.json",
+      "docs/publication/tracker-review-baseline.md",
+      "project/tracking.json",
+      "logs/codex/SESSION-2026-10-07-tracker-tdr-review-baseline.json",
+      "logs/codex/SESSION-2026-10-07-tracker-tdr-review-baseline.md"
+    ]
+  },
+  "work": {
+    "milestone": "M3",
+    "components": [
+      "tracker TDR",
+      "strip chapters",
+      "vector figures",
+      "Overleaf publication",
+      "publication provenance"
+    ],
+    "related_ids": [
+      "TASK-TRK-TDR-REVIEW-BASELINE",
+      "DES-019",
+      "DES-020",
+      "DES-021",
+      "DES-022",
+      "DES-023"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-07-tracker-tdr-review-baseline.md",
+  "activities": [
+    {
+      "kind": "skill",
+      "name": "pdf:pdf",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Eight vector figures and all compiled report pages rendered with isolated PyMuPDF because Poppler is unavailable; visual page corrections followed."
+    },
+    {
+      "kind": "tool",
+      "name": "matplotlib",
+      "version": "3.11.2",
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Bundled snapshot generation is self-contained; repeated artifacts and manifest byte-identical."
+    },
+    {
+      "kind": "tool",
+      "name": "Overleaf pdfLaTeX",
+      "version": "pdfTeX1.40.29 / TeX Live2026",
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Actual final source 908e7e5 compiled to 39 A4 pages. Downloaded optimized PDF and compiler log hashes retained in the publication inventory; UI and raw-log diagnostics clear."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 build/tracker-tdr/verify_publication.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "23 source hashes, 9 render artifacts, 29 unchanged pixel files, final 39-page compile diagnostics and scoped scientific-file preservation verified. All final pages rendered and visually inspected."
+    },
+    {
+      "command": "git diff 72bb502dfe09a1a1209acbf7b5c048094b652e1e HEAD --check (TDR)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Full TDR source-relative whitespace check passed; submodule working tree clean."
+    },
+    {
+      "command": "Initial full Overleaf compile; diagnostics inspection",
+      "status": "FAIL",
+      "exit_code": null,
+      "result": "Compilation succeeded, but initial review table had three Underfull box diagnostics. Ragged-right columns corrected them; final compile has no diagnostics."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate (first updated tracking pass)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Tracking deliverables require files; the submodule gitlink docs/tdr was listed as a deliverable directory. Replaced it with the actual publication inventory/narrative files; scientific sources unchanged."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate; summary --format json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "121 valid session pairs; summary reports 94 observed historical turns, 57 records with usage and 64 without. Current task has no observed counters; these are partial inventory totals, not all-project/self-inclusive totals."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate; build --output _site/tracker-tdr-review",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "52 tasks, 29 documents, 19 review rounds valid; dashboard built."
+    },
+    {
+      "command": "git diff --check; git diff --cached --check; git diff 0d74f228a51bfbfeef93e19d21b2e58585772817 --check; git diff origin/main --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Working tree, staged gitlink and full recorded-start/main-relative checks passed."
+    },
+    {
+      "command": "git ls-remote origin refs/heads/main (Overleaf)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Remote main equals final published/compiled TDR revision908e7e539d357738efe223a2d980ab2caa2e5144."
+    }
+  ]
+}
