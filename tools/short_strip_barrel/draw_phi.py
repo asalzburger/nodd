@@ -7,12 +7,12 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from matplotlib.patches import Circle,Polygon
-from model import ROOT,load,build,frame,foot_profile
+from model import ROOT,CONTROL_INPUT,load,build,frame,foot_profile
 from draw import COLORS
 
 
 def draw(output):
-    base=load();alt=load(Path(__file__).with_name('inputs-phi-tilted.json'))
+    base=load(CONTROL_INPUT);alt=load(Path(__file__).with_name('inputs-phi-tilted.json'))
     plt.rcParams.update({'font.family':'DejaVu Serif','font.size':10,'svg.fonttype':'none','axes.spines.top':False,'axes.spines.right':False})
     fig,axes=plt.subplots(2,2,figsize=(13,10),layout='constrained')
     for col,(c,label) in enumerate(((base,'Tangential control · alternating 12 mm lanes'),(alt,'Alternative · common radius, +15° phi tilt'))):
