@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated": "2026-10-06",
+  "updated": "2026-10-07",
   "note": "Curated register. Stage B architecture is active. PR #4\u2019s envelope baseline has explicit human approval and is merged; its documents still declare DRAFT and no formal sign-off record exists. Role ownership does not imply active agents. Chore PRs and infrastructure chores are excluded from project progress. Pixel-module design dossier opened by human direction in parallel with architecture; final component-method gates remain pending.",
   "stages": [
     {
@@ -2026,6 +2026,84 @@
       "blocker": null,
       "disposition": "Requested design and implementation completed as DRAFT/PROTOTYPE. Native and saved Geant4 checks passed; corrected coverage retains first-disc sole-hit losses and engineering failures. No sign-off or production integration.",
       "subsystem": "tracking and timing"
+    },
+    {
+      "id": "TASK-TRK-LONG-STRIP-BARREL",
+      "title": "Detailed long-strip barrel structural stave and routes",
+      "scope": "DES-022 isolated paired1D stereo barrel with continuous cooled load-bearing sandwich, quantitative anchor search, native geometry and cable/cooling routes. PR52 review addition supplies inventory-derived x-y barrel and mounting sections.",
+      "stage": "B",
+      "milestones": [
+        "M3"
+      ],
+      "workstream": "WS-TRACK",
+      "role": "Tracker technician",
+      "owner": null,
+      "state": "completed",
+      "dependencies": [
+        "TRK-LSTRIP",
+        "TASK-TRK-SHORT-STRIP-ENDCAP"
+      ],
+      "deliverables": [
+        "docs/design/DES-022-long-strip-barrel.md",
+        "tools/long_strip_barrel/README.md",
+        "docs/validation/DES-022/results.md",
+        "docs/validation/DES-022/xy-view.md"
+      ],
+      "evidence": [
+        "docs/validation/DES-022/reproducibility.json",
+        "logs/codex/SESSION-2026-10-07-long-strip-structures.md",
+        "https://github.com/asalzburger/nodd/pull/52",
+        "docs/validation/DES-022/xy-drawing.json",
+        "logs/codex/SESSION-2026-10-07-long-strip-barrel-xy-review.md",
+        "https://github.com/asalzburger/nodd/pull/52#issuecomment-6033236185"
+      ],
+      "documents": [
+        "DES-022",
+        "DES-008",
+        "DES-011"
+      ],
+      "updated": "2026-10-07",
+      "next_action": "Review the added x-y section and mounting load path, stave mass/overlap cost,17-station recommendation, joints/moduli and combined services before integration; endcap remains separate.",
+      "blocker": null,
+      "disposition": "DRAFT/PROTOTYPE; native and saved hits passed, finite coverage and engineering qualification remain incomplete.",
+      "subsystem": "tracking and timing"
+    },
+    {
+      "id": "TASK-TRK-LONG-STRIP-ENDCAP",
+      "title": "Detailed long-strip endcap structural petals and common services",
+      "scope": "DES023 isolated paired1D endcap with cooled structural petal, kinematic mounting and cumulative barrel/endcap cable/cooling routes.",
+      "stage": "B",
+      "milestones": [
+        "M3"
+      ],
+      "workstream": "WS-TRACK",
+      "role": "Tracker technician",
+      "owner": null,
+      "state": "completed",
+      "dependencies": [
+        "TASK-TRK-LONG-STRIP-BARREL"
+      ],
+      "deliverables": [
+        "docs/design/DES-023-long-strip-endcap.md",
+        "tools/long_strip_endcap/README.md",
+        "docs/validation/DES-023/results.md"
+      ],
+      "evidence": [
+        "docs/validation/DES-023/reproducibility.json",
+        "logs/codex/SESSION-2026-10-07-long-strip-structures.md",
+        "https://github.com/asalzburger/nodd/pull/53"
+      ],
+      "documents": [
+        "DES-023",
+        "DES-022",
+        "DES-008",
+        "DES-011"
+      ],
+      "updated": "2026-10-07",
+      "next_action": "Review narrow inner key/three-point plate FEA, shifted-first-disc losses, thermal heat paths and adverse cumulative service packing before baseline adoption.",
+      "blocker": null,
+      "disposition": "Separate requested DRAFT/PROTOTYPE completed; actual native and paired Geant4 hits pass, sampled hermeticity, handling, thermal and adverse packing gates remain open. No sign-off or integration.",
+      "subsystem": "tracking and timing"
     }
   ],
   "documents": [
@@ -2227,6 +2305,20 @@
       "path": "docs/design/DES-021-short-strip-endcap.md",
       "validation_reports": [
         "docs/validation/DES-021/results.md"
+      ]
+    },
+    {
+      "id": "DES-022",
+      "path": "docs/design/DES-022-long-strip-barrel.md",
+      "validation_reports": [
+        "docs/validation/DES-022/results.md"
+      ]
+    },
+    {
+      "id": "DES-023",
+      "path": "docs/design/DES-023-long-strip-endcap.md",
+      "validation_reports": [
+        "docs/validation/DES-023/results.md"
       ]
     }
   ],
@@ -2896,6 +2988,45 @@
         "DES-011"
       ],
       "scope": "Separate isolated DRAFT endcap prototype stacked on PR50; actual scientific head retained. Later logging metadata is located by Git history. Geometry/software passes and adverse coverage/engineering gates are distinct; no sign-off or integration.",
+      "category": "project"
+    },
+    {
+      "id": "PR-52",
+      "number": 52,
+      "title": "Tracker: Prototype long-strip barrel structural staves, anchors and routes",
+      "url": "https://github.com/asalzburger/nodd/pull/52",
+      "state": "open",
+      "head_revision": "2c6567871ae0117b6a8a0a6484f0cebb0f2f5dee",
+      "merge_commit": null,
+      "merged_at": null,
+      "collected_at": "2026-10-07T06:06:30Z",
+      "task": "TASK-TRK-LONG-STRIP-BARREL",
+      "documents": [
+        "DES-022",
+        "DES-008",
+        "DES-011"
+      ],
+      "scope": "Separate DRAFT isolated barrel prototype stacked on PR51; scientific deliverable head retained, later metadata located by Git history.17-station recommendation conditional on declared mechanics; no sign-off.",
+      "category": "project"
+    },
+    {
+      "id": "PR-53",
+      "number": 53,
+      "title": "Tracker: Prototype long-strip endcap structural petals and common routes",
+      "url": "https://github.com/asalzburger/nodd/pull/53",
+      "state": "merged",
+      "head_revision": "837b92bf7bff6cd6be42e9aa8a9c11e2e0a2abb7",
+      "merge_commit": "25635c22fcde50c7414cf23e153b8f98c34f4a9d",
+      "merged_at": "2026-10-07T07:39:06Z",
+      "collected_at": "2026-10-07T07:47:13Z",
+      "task": "TASK-TRK-LONG-STRIP-ENDCAP",
+      "documents": [
+        "DES-023",
+        "DES-022",
+        "DES-008",
+        "DES-011"
+      ],
+      "scope": "Separate DRAFT isolated endcap prototype merged into PR52 branch by the maintainer; no design sign-off or production integration. Actual software passes and retained coverage/engineering failures remain distinct.",
       "category": "project"
     }
   ]
