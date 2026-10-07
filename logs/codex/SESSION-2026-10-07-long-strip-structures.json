@@ -1,0 +1,196 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-07-long-strip-structures",
+  "title": "Long-strip barrel and endcap structural sandwiches, mounting and routes",
+  "recorded_at": "2026-10-07T05:14:09Z",
+  "started_at": null,
+  "ended_at": null,
+  "status": "open",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "This bounded implementation turn is active; exact closed-turn counters unavailable, usage remains empty and is not zero.",
+    "One canonical owner for both new barrel/endcap PRs; copies across checkouts never represent separate token observations.",
+    "Actual start/client completion time, execution model and client version unknown. Older project coverage remains partial."
+  ],
+  "client": {
+    "name": "Codex desktop app",
+    "version": null,
+    "thread_id": "01a10c6a-664d-72b1-afad-926c2c57312b"
+  },
+  "git": {
+    "start_commit": "a9d6367bbe750f72545e933e620c0b53673da83c",
+    "branch": "codex/long-strip-barrel",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      "docs/design/DES-022-long-strip-barrel.md",
+      "docs/design/figures/DES-022-anchors.png",
+      "docs/design/figures/DES-022-anchors.svg",
+      "docs/design/figures/DES-022-stave.png",
+      "docs/design/figures/DES-022-stave.svg",
+      "docs/validation/DES-022/coverage.json.gz",
+      "docs/validation/DES-022/geant4.json.gz",
+      "docs/validation/DES-022/inventory.json.gz",
+      "docs/validation/DES-022/native.json.gz",
+      "docs/validation/DES-022/rejected-28rows-coverage.json.gz",
+      "docs/validation/DES-022/rejected-28rows-inputs.json.gz",
+      "docs/validation/DES-022/rejected-margin20-coverage.json.gz",
+      "docs/validation/DES-022/rejected-margin20-inputs.json.gz",
+      "docs/validation/DES-022/rejected-mount-edge-inputs.json.gz",
+      "docs/validation/DES-022/rejected-mount-edge-native.json.gz",
+      "docs/validation/DES-022/reproducibility.json",
+      "docs/validation/DES-022/results.md",
+      "docs/validation/DES-022/root-roundtrip.json.gz",
+      "logs/codex/SESSION-2026-10-07-long-strip-structures.json",
+      "logs/codex/SESSION-2026-10-07-long-strip-structures.md",
+      "project/tracking.json",
+      "prototypes/long_strip_barrel/CMakeLists.txt",
+      "prototypes/long_strip_barrel/LongStrip.cpp",
+      "reference/manifest.yaml",
+      "tools/long_strip_barrel/.gitignore",
+      "tools/long_strip_barrel/README.md",
+      "tools/long_strip_barrel/check_geant4.py",
+      "tools/long_strip_barrel/check_root.py",
+      "tools/long_strip_barrel/components.py",
+      "tools/long_strip_barrel/coverage.py",
+      "tools/long_strip_barrel/draw.py",
+      "tools/long_strip_barrel/export.py",
+      "tools/long_strip_barrel/inputs.json",
+      "tools/long_strip_barrel/mechanics.py",
+      "tools/long_strip_barrel/model.py",
+      "tools/long_strip_barrel/test_model.py",
+      "tools/long_strip_barrel/validate.py"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [
+      "long-strip barrel",
+      "long-strip endcap",
+      "structural sandwich",
+      "mounting and sag",
+      "cooling and cables",
+      "DD4hep/ROOT/Geant4 prototype"
+    ],
+    "related_ids": [
+      "DES-022",
+      "DES-023",
+      "TRK-LSTRIP"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-07-long-strip-structures.md",
+  "activities": [
+    {
+      "kind": "skill",
+      "name": "acts-spack",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Preflight exit2: changed setup/lock fingerprints; actual activated DD4hep/DDG4 imports and all12 Geant4 datasets verified. Shared dependencies unchanged."
+    },
+    {
+      "kind": "tool",
+      "name": "native DD4hep/ROOT/Geant4",
+      "version": "DD4hep1.38;ROOT6.40.04;Geant411.4.2",
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Curated DES-022 reports and reproducibility hashes; exact failed attempts preserved."
+    },
+    {
+      "kind": "tool",
+      "name": "public web and local source inspection",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "MIT OCW sandwich PDF3/4/9, source catalogue; existing DES008/010/011/020/021 evidence read."
+    },
+    {
+      "kind": "tool",
+      "name": "shell/git/gh and Matplotlib",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Isolated worktree, deterministic exports/engineering/coverage and visually inspected figures; no Slack or GitHub comments."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "acts-spack preflight",
+      "status": "FAIL",
+      "exit_code": 2,
+      "result": "Known node registry unverified due changed setup/lock fingerprints; warned user, actual runtime verified separately."
+    },
+    {
+      "command": "activated DD4hep/DDG4 imports and geant4-config --check-datasets",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "DD4hep1.38,Geant411.4.2 and all12 datasets verified."
+    },
+    {
+      "command": "long-strip barrel initial native/export attempts",
+      "status": "FAIL",
+      "exit_code": null,
+      "result": "Factory naming/path, default strip field, flat voxel allocation, wrong mounting edge4696overlaps/duplicate ring names, missing Path import and mesh endpoint indexing fixed; all recorded in DES022 results."
+    },
+    {
+      "command": "ctest --test-dir build/long-strip-barrel/native --output-on-failure",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Eight controls and final native construction;13968 true1D sensors, zero overlaps1e-5mm,105 material rays."
+    },
+    {
+      "command": "fresh ROOT geometry import audit",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "13968 sensors; exact roles, constituent mass, positions and signed axes persisted."
+    },
+    {
+      "command": "DDSim and saved EDM4hep hit inspection",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Seed42,10GeV muon,FTFP_BERT,zero field:8 positive-energy hits, complete pairs in both layers."
+    },
+    {
+      "command": "77760 sampled vacuum tracks and164 oracle comparisons",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Fast planes agree with independent solver; fixed denominator retains end misses. Rejected28-row and20mm-margin controls preserved."
+    },
+    {
+      "command": "coverage/engineering acceptance",
+      "status": "FAIL",
+      "exit_code": null,
+      "result": "Finite hermeticity gate and warm-return voltage fail; CMS gross cable control fails. Moduli/joints/thermal/hydraulic/routing CAD and ACTS unqualified."
+    },
+    {
+      "command": "initial dashboard validation",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Document metadata missed canonical Status field; corrected to - Status: DRAFT."
+    },
+    {
+      "command": "session_log.py validate/summary",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "119 records;57 sessions/94 historical turns observed, current turn excluded; older coverage remains partial."
+    },
+    {
+      "command": "dashboard validate/build",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "50 tasks/28 documents/19 reviews; _site/long-strip-barrel built."
+    },
+    {
+      "command": "working-tree/staged/full parent and main-relative diff checks",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Passed on the final barrel deliverable."
+    }
+  ]
+}
