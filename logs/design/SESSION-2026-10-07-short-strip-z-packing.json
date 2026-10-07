@@ -1,0 +1,158 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-07-short-strip-z-packing",
+  "title": "PR49 review: longitudinal packing of both barrel prototypes",
+  "recorded_at": "2026-10-07T03:52:21Z",
+  "started_at": null,
+  "ended_at": null,
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Actual client turn start/end and final token counters are not exposed during this active implementation turn; usage is empty, not zero.",
+    "Execution model and client version are unknown; no configured-model inference.",
+    "Older project usage coverage remains partial; no all-project or self-inclusive total claim.",
+    "New axial arithmetic does not qualify full-track coverage, tolerances, support or service interfaces; historical failed gates and native execution hashes are preserved."
+  ],
+  "client": {
+    "name": "Codex desktop app",
+    "version": null,
+    "thread_id": "01a10c6a-664d-72b1-afad-926c2c57312b"
+  },
+  "git": {
+    "start_commit": "0f1ac4c622546535396d95c145d11fccf8b01755",
+    "branch": "codex/short-strip-barrel",
+    "initial_changes": [],
+    "result_commits": [
+      "8e2622df1ca9d3303020d93d128237f10dcdd9e1"
+    ],
+    "changed_files": [
+      "docs/design/DES-020-short-strip-barrel.md",
+      "docs/design/figures/DES-020-z-packing.png",
+      "docs/design/figures/DES-020-z-packing.svg",
+      "docs/validation/DES-020/z-packing.json",
+      "docs/validation/DES-020/z-packing.md",
+      "logs/design/SESSION-2026-10-07-short-strip-z-packing.json",
+      "logs/design/SESSION-2026-10-07-short-strip-z-packing.md",
+      "project/tracking.json",
+      "tools/short_strip_barrel/README.md",
+      "tools/short_strip_barrel/draw_z.py"
+    ]
+  },
+  "work": {
+    "milestone": "M3",
+    "components": [
+      "short-strip barrel",
+      "longitudinal packing",
+      "review drawing"
+    ],
+    "related_ids": [
+      "PR-49",
+      "DES-020",
+      "DES-007",
+      "DES-011",
+      "ISSUE-20"
+    ]
+  },
+  "narrative": "logs/design/SESSION-2026-10-07-short-strip-z-packing.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "gh pr view 49 --repo asalzburger/nodd --json state,headRefName,headRefOid,baseRefName,comments,body,url (sandboxed first attempt)",
+      "exit_code": 1,
+      "status": "FAIL",
+      "result": "Initial read could not reach api.github.com under network sandbox; authorized network read succeeded on expected OPEN0f1ac4c head/base main."
+    },
+    {
+      "command": "python -B tools/short_strip_barrel/draw_z.py (first attempt)",
+      "exit_code": 1,
+      "status": "FAIL",
+      "result": "New bounds helper consumed a generator for min before max. Materializing intervals fixed it; old producers unchanged."
+    },
+    {
+      "command": "python -B tools/short_strip_barrel/draw_z.py (first visual inspection)",
+      "exit_code": 0,
+      "status": "FAIL",
+      "result": "Inspection found the new report read ring stations in stave-local v instead of global layer-cylinder w. Corrected measurement/drawing to all nine actual global stations. No geometry change."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/short_strip_barrel -p test_*.py -v",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "Ten portable controls passed, including frozen layout and1e-8mm placement-shift rejection; no native rerun."
+    },
+    {
+      "command": "python3 (first pre-existing hash verification)",
+      "exit_code": 1,
+      "status": "FAIL",
+      "result": "Over-broad snapshot included intentionally edited tool README. Corrected exclusion is only that README; scientific producer and historical evidence bytes must remain exact."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "47 tasks,26 documents,19 review rounds validated; DRAFT and failed gates retained."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py build --output _site/short-strip-z-packing",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "Static dashboard built successfully."
+    },
+    {
+      "command": "python3 (final source/artifact/axial measurement audit and changed-frozen-row negative control)",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "Both frozen schedules and exported rows match; nine global bearing positions verified, every old producer/report/artifact/drawing byte-preserved;1e-8mm shifted frozen row rejected before export; published figure/source hashes exact."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate (first new-record validation)",
+      "exit_code": 1,
+      "status": "FAIL",
+      "result": "New check statuses used lowercase instead of schema-required PASS/FAIL. Corrected statuses; scientific evidence unaffected."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate and summary",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "115 session records validated;53/115 sessions contain90 older observed turns, input217035315,output1272392,total218307707. Current active turn and unobserved older work excluded; partial coverage, not complete project total."
+    },
+    {
+      "command": "git diff --check; git diff origin/main...HEAD --check; git diff 0f1ac4c622546535396d95c145d11fccf8b01755 --check",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "Working-tree, full recorded-start and main-relative checks passed before deliverable commit; staged new files checked separately."
+    },
+    {
+      "command": "python3 -B tools/short_strip_barrel/draw_z.py --report-only --output build/short-strip-z-packing/stdlib-reproduction; independently compare measured inventories",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "Standard-library-only reproduction matches both published prototype measurements and generated compact hashes exactly; new SVG XML parses."
+    },
+    {
+      "command": "git push origin codex/short-strip-barrel; gh pr edit 49 --body-file; gh pr view 49 (description verification)",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "Published8e2622df1ca9d3303020d93d128237f10dcdd9e1 normally and verified the preserved PR description with the pinned new drawing and packing summary. No review comments or Slack messages sent."
+    },
+    {
+      "command": "gh run view 37569292921 --repo asalzburger/nodd --json headSha,conclusion,jobs",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "Actual hosted build SUCCESS on exact8e2622df1ca9d3303020d93d128237f10dcdd9e1; run37569292921/job112624117773 completed2026-10-07T04:06:40Z, runupdated04:06:41Z. Deploy112625867936 SKIPPED. Earlier same-head run37569258522 cancelled when PR-body edit triggered replacement; not a scientific failure."
+    },
+    {
+      "command": "guarded primary session-pair sync; python3 -B tools/session_logging/session_log.py --repo ../nodd validate",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "Only the new pair mirrored after checking prior absence and primary branch/head/tracked-diff guards. Primary123 records validated; its branch/scientific files and unrelated work preserved."
+    },
+    {
+      "command": "git diff origin/main...HEAD --check; git diff 0f1ac4c622546535396d95c145d11fccf8b01755...HEAD --check",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "Full main/recorded-start-relative checks passed on published deliverable8e2622d; PR50 and PR51 checkouts remain clean and untouched."
+    }
+  ]
+}

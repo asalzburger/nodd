@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated": "2026-10-06",
+  "updated": "2026-10-07",
   "note": "Curated register. Stage B architecture is active. PR #4\u2019s envelope baseline has explicit human approval and is merged; its documents still declare DRAFT and no formal sign-off record exists. Role ownership does not imply active agents. Chore PRs and infrastructure chores are excluded from project progress. Pixel-module design dossier opened by human direction in parallel with architecture; final component-method gates remain pending.",
   "stages": [
     {
@@ -681,7 +681,10 @@
       "deliverables": [
         "docs/design/DES-007-short-strip-modules.md",
         "docs/validation/DES-007-ring-study.md",
-        "tools/short_strip/README.md"
+        "tools/short_strip/README.md",
+        "docs/design/DES-020-short-strip-barrel.md",
+        "docs/validation/DES-020/results.md",
+        "docs/validation/DES-020/phi-tilted/results.md"
       ],
       "evidence": [
         "docs/design/DES-005-tracker-system-plan.md",
@@ -689,14 +692,17 @@
         "logs/codex/SESSION-2026-09-25-short-strip-research.md",
         "logs/codex/SESSION-2026-09-25-short-strip-cell-choice.md",
         "logs/codex/SESSION-2026-10-05-pr21-merge-main.md",
-        "logs/codex/SESSION-2026-10-05-pr21-after-pr8.md"
+        "logs/codex/SESSION-2026-10-05-pr21-after-pr8.md",
+        "docs/validation/DES-020/results.md",
+        "docs/validation/DES-020/phi-tilted/results.md"
       ],
       "documents": [
         "DES-005",
-        "DES-007"
+        "DES-007",
+        "DES-020"
       ],
-      "updated": "2026-10-05",
-      "next_action": "Assess electronics feasibility for the user-agreed 75 \u00b5m \u00d7 0.5 mm research baseline and 75 \u00b5m \u00d7 1.5 mm fallback; review module family, support envelope and DES-006 measurement/identifier handoff before integration.",
+      "updated": "2026-10-06",
+      "next_action": "Review DES-020 barrel electronics, collector/endcap transition, local support/CTE and cooling/service qualification; retain the DES-007 research/fallback choices and resolve failures before production integration.",
       "blocker": null,
       "disposition": "User agreed on 2026-09-25 to keep 0.5 mm cells as the research baseline and 1.5 mm as the fallback. DES-007 remains DRAFT; electronics feasibility, module-family selection and formal design sign-off remain open. Main 5c4fe35 reconciled into PR #21 on 2026-10-05; scientific files and approval states preserved. Updated again after PR #8 merged into main at 5290b26; strip research remains unchanged. Main advanced again when PR #22 merged; reconciled both strip reading guides and evidence at 09b96ca.",
       "subsystem": "tracking and timing"
@@ -1862,10 +1868,97 @@
         "DES-016"
       ],
       "updated": "2026-10-06",
-      "next_action": "Review the revised TDR editorially and merge the parent pointer/evidence update; resolve retained engineering failures before design sign-off.",
+      "next_action": "PR48 parent pointer/evidence merged at a2493c458538d938971b2c3fbb00c1be719d6f60; review the published TDR editorially and resolve retained engineering failures before design sign-off.",
       "blocker": null,
       "disposition": "Existing Overleaf report updated and pushed at72bb502dfe09a1a1209acbf7b5c048094b652e1e. Actual pdfLaTeX build completed23A4pages; five revised figures and all pages inspected. Bounded editorial completion, without detector qualification or whole-report acceptance.",
       "subsystem": "publication"
+    },
+    {
+      "id": "TASK-TRK-SHORT-STRIP-BARREL",
+      "title": "Detailed short-strip barrel placement, support and service prototype",
+      "scope": "Four-layer isolated strixel barrel with explicit local components, mounting, cooling, cabling, route ledger and independent engineering screens. No production or pixel changes.",
+      "stage": "B",
+      "milestones": [
+        "M3"
+      ],
+      "workstream": "WS-TRACK",
+      "role": "Tracker technician",
+      "owner": null,
+      "state": "completed",
+      "dependencies": [
+        "TASK-B-TRACKER-PLAN"
+      ],
+      "deliverables": [
+        "docs/design/DES-020-short-strip-barrel.md",
+        "tools/short_strip_barrel/README.md",
+        "docs/validation/DES-020/results.md",
+        "docs/validation/DES-020/z-packing.md"
+      ],
+      "evidence": [
+        "docs/validation/DES-020/results.md",
+        "docs/validation/DES-020/native.json",
+        "docs/validation/DES-020/coverage-refined.json",
+        "docs/validation/DES-020/geant4-transverse.json",
+        "logs/design/SESSION-2026-10-06-short-strip-barrel.md",
+        "https://github.com/asalzburger/nodd/pull/49",
+        "docs/validation/DES-020/z-packing.json",
+        "logs/design/SESSION-2026-10-07-short-strip-z-packing.md",
+        "https://github.com/asalzburger/nodd/pull/49#issuecomment-6030478624"
+      ],
+      "documents": [
+        "DES-020",
+        "DES-007",
+        "DES-011"
+      ],
+      "updated": "2026-10-07",
+      "next_action": "Review electronics feasibility, collector/endcap conflict, original-boundary coverage losses, actual service packing/bends, thermal-cycle/hydraulic and structural qualification before integration.",
+      "blocker": null,
+      "disposition": "Bounded design/prototype prepared and exercised: native zero-overlap construction, saved Geant4 hits and finite-plane coverage. DES-020 remains DRAFT; engineering capacity/thermal/data and boundary coverage failures are retained, with no sign-off or detector acceptance. PR49 longitudinal-packing review adds measured common axial schedule, central/end allocations and a reproducible drawing; geometry and historical evidence preserved, DRAFT unchanged.",
+      "subsystem": "tracking and timing"
+    },
+    {
+      "id": "TASK-TRK-SHORT-STRIP-PHI",
+      "title": "Phi-tilted short-strip barrel alternative",
+      "scope": "Same-radius full-stave shingling with signed sensor axes, beveled ring feet and independently retained native/coverage/service comparison. Isolated DRAFT; default control and production unchanged.",
+      "stage": "B",
+      "milestones": [
+        "M3"
+      ],
+      "workstream": "WS-TRACK",
+      "role": "Tracker technician",
+      "owner": null,
+      "state": "completed",
+      "dependencies": [
+        "TASK-TRK-SHORT-STRIP-BARREL"
+      ],
+      "deliverables": [
+        "docs/design/DES-020-short-strip-barrel.md",
+        "tools/short_strip_barrel/inputs-phi-tilted.json",
+        "docs/validation/DES-020/phi-tilted/results.md",
+        "docs/validation/DES-020/z-packing.md"
+      ],
+      "evidence": [
+        "docs/validation/DES-020/phi-tilted/results.md",
+        "docs/validation/DES-020/phi-tilted/native.json",
+        "docs/validation/DES-020/phi-tilted/native-12deg-control.json",
+        "docs/validation/DES-020/phi-tilted/coverage-refined.json",
+        "docs/validation/DES-020/phi-tilted/geant4-transverse.json",
+        "logs/design/SESSION-2026-10-06-short-strip-phi-alternative.md",
+        "https://github.com/asalzburger/nodd/pull/49",
+        "docs/validation/DES-020/z-packing.json",
+        "logs/design/SESSION-2026-10-07-short-strip-z-packing.md",
+        "https://github.com/asalzburger/nodd/pull/49#issuecomment-6030478624"
+      ],
+      "documents": [
+        "DES-020",
+        "DES-007",
+        "DES-011"
+      ],
+      "updated": "2026-10-07",
+      "next_action": "Review15\u00b0 shingling and installation/contact geometry; close barrel/endcap boundary, collector/service, electronics/thermal/hydraulic and response/structural gates before integration.",
+      "blocker": null,
+      "disposition": "Requested alternative implemented and compared:15\u00b0 passes native zero-overlap and transport checks;12\u00b0 fails602 flex/bus overlaps. Same-radius local stave covariance verified. Full sampled coverage and adverse engineering gates still fail; no design sign-off. PR49 longitudinal-packing review adds measured common axial schedule, central/end allocations and a reproducible drawing; geometry and historical evidence preserved, DRAFT unchanged.",
+      "subsystem": "tracking and timing"
     }
   ],
   "documents": [
@@ -2052,6 +2145,15 @@
       "path": "docs/design/DES-019-trimmed-mixed-pixel-dd4hep.md",
       "validation_reports": [
         "docs/validation/DES-019/results.md"
+      ]
+    },
+    {
+      "id": "DES-020",
+      "path": "docs/design/DES-020-short-strip-barrel.md",
+      "validation_reports": [
+        "docs/validation/DES-020/results.md",
+        "docs/validation/DES-020/phi-tilted/results.md",
+        "docs/validation/DES-020/z-packing.md"
       ]
     }
   ],
@@ -2650,11 +2752,11 @@
       "number": 48,
       "title": "Documentation: Update Overleaf pixel chapter to the trimmed mixed baseline",
       "url": "https://github.com/asalzburger/nodd/pull/48",
-      "state": "open",
-      "head_revision": "14c3816ed7b531dd877f1b37cbabc47bcfee0cc8",
-      "merge_commit": null,
-      "merged_at": null,
-      "collected_at": "2026-10-06T13:08:22Z",
+      "state": "merged",
+      "head_revision": "a54df714d20e1a5249b1e5ba7d54286eeca15f20",
+      "merge_commit": "a2493c458538d938971b2c3fbb00c1be719d6f60",
+      "merged_at": "2026-10-06T13:13:44Z",
+      "collected_at": "2026-10-06T15:29:27Z",
       "task": "TASK-PXL-TDR-OVERLEAF",
       "documents": [
         "DES-019",
@@ -2663,6 +2765,25 @@
         "DES-016"
       ],
       "scope": "Pins already-published existing TDR report72bb502 and curated source/artifact/build evidence. Detailed barrel preserved; no scientific qualification or sign-off. Exact collected initial PR head retained; subsequent metadata is located by Git history.",
+      "category": "project"
+    },
+    {
+      "id": "PR-49",
+      "number": 49,
+      "title": "Tracker: Prototype detailed short-strip barrel support and services",
+      "url": "https://github.com/asalzburger/nodd/pull/49",
+      "state": "open",
+      "head_revision": "8e2622df1ca9d3303020d93d128237f10dcdd9e1",
+      "merge_commit": null,
+      "merged_at": null,
+      "collected_at": "2026-10-07T04:07:38Z",
+      "task": "TASK-TRK-SHORT-STRIP-BARREL",
+      "documents": [
+        "DES-020",
+        "DES-007",
+        "DES-011"
+      ],
+      "scope": "Detailed DRAFT barrel and common-radius15\u00b0 phi alternative; scientific result75c8df6 and observed portable-regression head0440f5b with successful hosted checks. Later logging/tracking closeout located in Git history. No production integration/sign-off. Observed pre-review head0f1ac4c; 2026-10-07 review requests axial packing information/drawing, added without geometry changes. Subsequent publication revisions remain in Git history. Longitudinal-packing deliverable8e2622d hosted run37569292921 SUCCESS; native source/input/artifact hashes and DRAFT preserved. Final logging-only revision located in Git history.",
       "category": "project"
     }
   ]
