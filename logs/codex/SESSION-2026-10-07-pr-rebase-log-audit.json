@@ -4,15 +4,16 @@
   "title": "Rebase PR45 PR47 PR55 and synchronize recovered logs",
   "recorded_at": "2026-10-07T11:42:56Z",
   "started_at": "2026-10-07T11:41:12Z",
-  "ended_at": null,
-  "status": "open",
+  "ended_at": "2026-10-07T12:16:00Z",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
     "Current cleanup turn01a1162a-e57d-72a1-9b85-d61f0abf60b5 is active at recovery capture. Its exact final counters and client completion timestamp are unavailable; usage stays empty, not zero.",
     "Model/client version remain unknown; configured identities are not execution evidence.",
     "Older project/store coverage remains partial; explicit illustration/history exclusions and unassigned historical/internal-review turns are preserved. No full-project, billing or self-inclusive current total.",
-    "The three user-requested rebases rewrite only the specified PR branches using exact leases. Original heads are preserved on archive refs; no PRs merged, design sign-off changed or scientific rerun performed."
+    "The three user-requested rebases rewrite only the specified PR branches using exact leases. Original heads are preserved on archive refs; no PRs merged, design sign-off changed or scientific rerun performed.",
+    "ended_at is the observed bounded bookkeeping/publication completion, not the still-unavailable final client-turn boundary; current-turn usage remains excluded."
   ],
   "client": {
     "name": "Codex desktop app",
@@ -27,7 +28,8 @@
       "88682b78717d3b584666e541a6bd5e170c604a82",
       "9bc545738370330130f3178115a8e1af201426cf",
       "975e58cedcb8f0b35edb773e31eef883411bb67f",
-      "8afec3f2e038f851de59927ffa435ec98649e9fe"
+      "8afec3f2e038f851de59927ffa435ec98649e9fe",
+      "07d9896f1a41da45f42cd51b844e4a900bab086d"
     ],
     "changed_files": [
       "logs/codex/SESSION-2026-09-17-itkpix-baseline.json",
@@ -131,7 +133,8 @@
       "ADR-004",
       "PR-45",
       "PR-47",
-      "PR-55"
+      "PR-55",
+      "PR-56"
     ]
   },
   "narrative": "logs/codex/SESSION-2026-10-07-pr-rebase-log-audit.md",
@@ -288,6 +291,24 @@
       "exit_code": 0,
       "status": "PASS",
       "result": "All10log add/add conflicts resolved only after confirming exact prior counters/checks/activities/result commits/narratives are retained. New PR diff contains logs only."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/dashboard -p test_*.py -v",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "All31controls passed in126.282s on the complete stacked tree with synchronized145journals."
+    },
+    {
+      "command": "git push -u origin codex/log-accounting-sync; gh pr create",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "Single logging-only PR56 created on published07d9896, basecodex/issue38-positioning-illustration; no new scientific progress tracking entry. Final audit publication CI is asynchronous, not falsely reported here."
+    },
+    {
+      "command": "Guarded clean user-checkout branch alignment",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "PR45local0fb22d3andPR55locala9d6367wereclean, expected and preserved by archives. Zero-commit rebases aligned them to88682b7and975e58c without discarding local edits."
     }
   ]
 }
