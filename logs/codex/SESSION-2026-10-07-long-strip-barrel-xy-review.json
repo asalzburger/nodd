@@ -1,0 +1,163 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-07-long-strip-barrel-xy-review",
+  "title": "PR52 barrel x-y mounting view",
+  "recorded_at": "2026-10-07T07:37:41Z",
+  "started_at": null,
+  "ended_at": null,
+  "status": "open",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "This bounded review task is separate from the earlier shared long-strip barrel/endcap implementation session; no observations are duplicated.",
+    "Actual client turn start/end, execution model and client version are not exposed; timestamps remain null.",
+    "Current-turn final resource counters are unavailable until the turn closes; usage is empty, not zero. No partial counters or usage recovery were imported.",
+    "Older project token coverage remains partial; observed summaries are not a complete or self-inclusive all-project total.",
+    "Drawing-only change. Original native execution remains dirty a9d6367bbe750f72545e933e620c0b53673da83c with its exact source/input/plugin hashes. Engineering and coverage limitations are unchanged."
+  ],
+  "client": {
+    "name": "Codex desktop app",
+    "version": null,
+    "thread_id": "01a10c6a-664d-72b1-afad-926c2c57312b"
+  },
+  "git": {
+    "start_commit": "38142b13a6ffafcf5aae4467e523cc2e2412b814",
+    "branch": "codex/long-strip-barrel",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      "docs/design/DES-022-long-strip-barrel.md",
+      "docs/design/figures/DES-022-barrel-xy.svg",
+      "docs/design/figures/DES-022-barrel-xy.png",
+      "docs/validation/DES-022/xy-drawing.json",
+      "tools/long_strip_barrel/draw_xy.py",
+      "tools/long_strip_barrel/README.md",
+      "project/tracking.json",
+      "logs/codex/SESSION-2026-10-07-long-strip-barrel-xy-review.json",
+      "logs/codex/SESSION-2026-10-07-long-strip-barrel-xy-review.md"
+    ]
+  },
+  "work": {
+    "milestone": "M3",
+    "components": [
+      "long-strip barrel",
+      "transverse assembly drawings",
+      "mounting",
+      "PR review response",
+      "session logging"
+    ],
+    "related_ids": [
+      "DES-022",
+      "PR-52",
+      "TASK-TRK-LONG-STRIP-BARREL"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-07-long-strip-barrel-xy-review.md",
+  "activities": [
+    {
+      "kind": "tool",
+      "name": "shell/git/gh",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Read PR52 review comment and retained prototype; normal branch publication prepared."
+    },
+    {
+      "kind": "tool",
+      "name": "NumPy/Matplotlib",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Inventory sections and deterministic SVG/PNG; actual versions in xy-drawing.json."
+    },
+    {
+      "kind": "tool",
+      "name": "view_image",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Inspected initial and corrected PNG; leaders target physical components."
+    },
+    {
+      "kind": "tool",
+      "name": "session logger and dashboard",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Curated bounded record and local validation/build; current usage unknown."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "draw_xy.py --inventory docs/validation/DES-022/inventory.json.gz --output docs/design/figures/DES-022-barrel-xy --receipt docs/validation/DES-022/xy-drawing.json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Generated exact z166.50mm sections:194 cores,388 Si faces,776 pipe legs,194 intersected bolts and both bearing rings."
+    },
+    {
+      "command": "Draw again under build/long-strip-xy/reproduction; compare SHA256",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "SVG and PNG byte-identical in an independent second generation."
+    },
+    {
+      "command": "Independent section-coordinate and historical-hash checks (initial attempt)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Incorrectly compared a decoded curated native report with its raw_preimage_sha256, which identifies pre-curation bytes. No evidence changed."
+    },
+    {
+      "command": "Corrected section-coordinate / historical-hash verification",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "4656 box sections /18624 vertices satisfy actual world/local boundary transforms.21 retained artifact hashes,6 native producer hashes,20 original scientific Git preimages and both new figure hashes verified."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "50 tasks,28 documents,19 review rounds."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py build --output _site/long-strip-xy-review",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Static dashboard built."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "120 records validated before publication."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py summary --format json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "120 partial sessions,57 with usage,94 recorded turns. Observed input265136032 /cached255975424 /output1670036 /reasoning562829 /total266806068. This review turn is excluded; no all-project completeness claim."
+    },
+    {
+      "command": "git diff --check; git diff origin/codex/short-strip-endcap...HEAD --check; git diff origin/main...HEAD --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Working-tree and full parent/main-relative checks passed before drawing commit."
+    },
+    {
+      "command": "New DD4hep/Geant4/coverage execution",
+      "status": "NOT RUN",
+      "exit_code": null,
+      "result": "Drawing reads immutable retained inventory. No geometry/input/native producer changed; existing scientific checks and failures remain."
+    },
+    {
+      "command": "session_log.py validate (first enriched record)",
+      "status": "FAIL",
+      "exit_code": null,
+      "result": "Visual tool inspection has no process exit code; logger rejects PASS without observed zero. Kept visual outcome in narrative/activity evidence and removed its CLI-style check. Subsequent CLI validation is recorded separately."
+    }
+  ]
+}
