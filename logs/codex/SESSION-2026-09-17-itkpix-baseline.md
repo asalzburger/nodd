@@ -58,3 +58,15 @@ Final checks: dashboard25tests and logging15tests passed; dashboard validates
 local-link audits, bothSVGXMLparses and git diff --check pass. Session validator
 passes all30records. Coordinator retains A1firstqualification and reopens A2
 versusB coverage selection; no demonstrated installed-material winner.
+
+## Resource synchronization — 2026-10-07
+
+The authorized cleanup imported 3 exact completed turn(s), after dry-run validation, into this canonical owner. Earlier narrative and original inventory sources remain intact; pending/unknown token statements above are historical and superseded for these observations only.
+
+| Client turn | Input | Cached input | Output | Reasoning output | Total | Requests |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| 01a0afe5-220a-7af0-9b65-999d7dccfdc6 | 1741636 | 1650560 | 6304 | 410 | 1747940 | 18 |
+| 01a0afe5-5302-71e1-8a45-b73bce3e7f0d | 395586 | 384640 | 2879 | 109 | 398465 | 6 |
+| 01a0afe6-5c35-7db1-a54a-b2e4ef371c42 | 309998 | 297344 | 2067 | 0 | 312065 | 6 |
+
+Persisted turn/usage ordinals, request counts, timestamps, verified usage-event hashes and original recovery sources are retained in [the synchronization inventory](../usage/USAGE-2026-10-07-synchronization.json). Each turn is counted once; cached input and reasoning output are subsets. No scientific input, execution hash or approval state changed. The current cleanup turn, explicitly excluded illustration/history turn and unassigned historical/internal review turns are excluded; this is partial project coverage, not billing.

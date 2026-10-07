@@ -1,0 +1,181 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-07-pr-rebase-log-audit",
+  "title": "Rebase PR45 PR47 PR55 and synchronize recovered logs",
+  "recorded_at": "2026-10-07T11:42:56Z",
+  "started_at": "2026-10-07T11:41:12Z",
+  "ended_at": null,
+  "status": "open",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Current cleanup turn01a1162a-e57d-72a1-9b85-d61f0abf60b5 is active at recovery capture. Its exact final counters and client completion timestamp are unavailable; usage stays empty, not zero.",
+    "Model/client version remain unknown; configured identities are not execution evidence.",
+    "Older project/store coverage remains partial; explicit illustration/history exclusions and unassigned historical/internal-review turns are preserved. No full-project, billing or self-inclusive current total.",
+    "The three user-requested rebases rewrite only the specified PR branches using exact leases. Original heads are preserved on archive refs; no PRs merged, design sign-off changed or scientific rerun performed."
+  ],
+  "client": {
+    "name": "Codex desktop app",
+    "version": null,
+    "thread_id": "01a10c6a-664d-72b1-afad-926c2c57312b"
+  },
+  "git": {
+    "start_commit": "0ce32f02977790f4b8433f2e838e3b8936773e1a",
+    "branch": "codex/log-accounting-sync",
+    "initial_changes": [],
+    "result_commits": [
+      "88682b78717d3b584666e541a6bd5e170c604a82",
+      "9bc545738370330130f3178115a8e1af201426cf",
+      "975e58cedcb8f0b35edb773e31eef883411bb67f"
+    ],
+    "changed_files": []
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [
+      "PR rebase",
+      "session logging",
+      "token accounting",
+      "dashboard",
+      "publication provenance"
+    ],
+    "related_ids": [
+      "ADR-004",
+      "PR-45",
+      "PR-47",
+      "PR-55"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-07-pr-rebase-log-audit.md",
+  "activities": [
+    {
+      "kind": "tool",
+      "name": "Git and GitHub CLI",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Observed archived heads, rebases, exact-lease branch pushes, concrete PR descriptions/bases and check metadata. No merge, comment or Slack message."
+    },
+    {
+      "kind": "tool",
+      "name": "Codex usage-only recovery",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Read only selected-project metadata/token_count events; every request increment and persisted turn boundary reconciles."
+    },
+    {
+      "kind": "tool",
+      "name": "Codex exposed task metadata",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Selected user-visible task requests/stable IDs and internal review thread titles establish attribution/exclusion; no raw conversation or private model state retained."
+    },
+    {
+      "kind": "tool",
+      "name": "Session logger and dashboard",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "35 dry-runs then35 imports, logger tests/validate/summary and dashboard validate/build actually run."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "git rebase; structured project/tracking.json reconciliation",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "PR55->PR45->PR47 stack retains independent metadata, exact scientific inputs and original archive refs."
+    },
+    {
+      "command": "Original strip/source/figure byte comparison",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "Original PR55 existing model/native/input/drawing files preserved; inherited README differs. Original PR47 SVG/PNG and original frozen pixel TDR manuscript/PDF/figures unchanged."
+    },
+    {
+      "command": "python3 -B tools/tdr_baseline/generate.py --check (initial main rebase)",
+      "exit_code": 1,
+      "status": "FAIL",
+      "result": "Live main inputs differ from the frozen preliminary TDR edition. Corrected by bundling12exact original input blobs; original execution and retained PDF pins unchanged."
+    },
+    {
+      "command": "Frozen TDR strict-source and mutation controls; generate.py --check",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "2 controls pass; original generated tables/facts/figure hashes match on the rebased stack."
+    },
+    {
+      "command": "Strip barrel/endcap regression suites",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "11short barrel+9short endcap+8long barrel+10long endcap controls pass, strictDES020pin remains2958cffd82660a4596683019ed9c774f5c3dd36dd0603a33bc515697d10e97cd."
+    },
+    {
+      "command": "Dashboard validation (first PR55 tracking edit)",
+      "exit_code": 2,
+      "status": "FAIL",
+      "result": "PR documents did not match the selected task; corrected with the existing full-tracker review task. No schema weakened."
+    },
+    {
+      "command": "Full relative whitespace check (first PR55 companion)",
+      "exit_code": 2,
+      "status": "FAIL",
+      "result": "Extra blank line at EOF; corrected by ordinary commit before final normal push."
+    },
+    {
+      "command": "New retrospective record validation (first attempt)",
+      "exit_code": 1,
+      "status": "FAIL",
+      "result": "Null historical start_commit rejected; preserved the actual retrospective recording revision and explicitly distinguished it from unknown historical execution."
+    },
+    {
+      "command": "Session-logger documentation-link controls (first audit)",
+      "exit_code": 1,
+      "status": "FAIL",
+      "result": "Ignored Markdown preimages were scanned out of context; renamed backups without losing bytes. Three genuine branch-specific links repaired with original source/snapshots."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p test_*.py -v",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "All32 controls passed after link/preimage corrections."
+    },
+    {
+      "command": "Usage inventory and global ownership audit",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "95original observations preserved;73new observations imported into35owners;168unique turns/145pairs/93recordswithusage;12older inventories byte-identical,0counter/source conflicts or duplicate owners."
+    },
+    {
+      "command": "session_log.py import-usage --dry-run then import-usage",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "All35 dry-run batches passed before actual imports; all35 imports passed. Reloaded records before dates/Markdown corrections."
+    },
+    {
+      "command": "session_log.py validate/summary; dashboard validate/build",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "145pairs validate; explicit coverage gaps retained. Dashboard built successfully before stacked audit rebase."
+    },
+    {
+      "command": "Hosted PR55 build37617391571/job112780817417",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "Exact975e58cedcb8f0b35edb773e31eef883411bb67f succeeded2026-10-07T12:05:12Z; deploy skipped. Earlier runs superseded/cancelled, not scientific failures."
+    },
+    {
+      "command": "Hosted PR45 frozen TDR compile37618294238/job112781898520",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "Exact88682b78717d3b584666e541a6bd5e170c604a82 succeeded2026-10-07T12:05:37Z. Final dashboard run still pending at this record update."
+    }
+  ]
+}

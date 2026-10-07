@@ -3,15 +3,16 @@
   "session_id": "SESSION-2026-10-07-tracker-tdr-review-baseline",
   "title": "Full tracker TDR review baseline",
   "recorded_at": "2026-10-07T08:16:21Z",
-  "started_at": null,
-  "ended_at": null,
+  "started_at": "2026-10-07T08:12:53Z",
+  "ended_at": "2026-10-07T08:50:31Z",
   "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
     "Exact current client turn start/end, execution model, client version and per-turn token counters are not exposed. Usage is empty, unknown rather than zero; no cumulative counters or estimates imported.",
     "Curated bounded task record; older project resource coverage remains partial.",
-    "Publication does not rerun science, integrate independent compacts or grant design sign-off."
+    "Publication does not rerun science, integrate independent compacts or grant design sign-off.",
+    "2026-10-07 correction: exact completed-turn counters are now recovered for the observations in USAGE-2026-10-07-synchronization.json. This supersedes earlier missing-token statements for these turns only. Model/client version and older coverage remain unknown; no complete project total is claimed."
   ],
   "client": {
     "name": "Codex desktop app",
@@ -31,7 +32,8 @@
       "docs/publication/tracker-review-baseline.md",
       "project/tracking.json",
       "logs/codex/SESSION-2026-10-07-tracker-tdr-review-baseline.json",
-      "logs/codex/SESSION-2026-10-07-tracker-tdr-review-baseline.md"
+      "logs/codex/SESSION-2026-10-07-tracker-tdr-review-baseline.md",
+      "logs/usage/USAGE-2026-10-07-synchronization.json"
     ]
   },
   "work": {
@@ -82,7 +84,38 @@
       "evidence": "Actual final source 908e7e5 compiled to 39 A4 pages. Downloaded optimized PDF and compiler log hashes retained in the publication inventory; UI and raw-log diagnostics clear."
     }
   ],
-  "usage": [],
+  "usage": [
+    {
+      "client_thread_id": "01a10c6a-664d-72b1-afad-926c2c57312b",
+      "turn_id": "01a1156c-2ede-7c40-8915-110eb6c0a8cc",
+      "model": null,
+      "source": "Usage-only local recovery captured 2026-10-07T11:43:21.681829+00:00; logs/usage/USAGE-2026-10-07-synchronization.json; verified event SHA-256 d1675e7bb2e7f9b7031c6578bc3cca3d8105632b5cb9a49925f81bea2fda24f9; persisted turn ordinals 13918..14771; 110 reconciled request increases.",
+      "limitations": [
+        "Execution model and client version are not exposed by the usage-only metadata.",
+        "This disjoint completed turn is counted once; cached input and reasoning output are subsets. Current cleanup usage and explicitly excluded illustration work are omitted; older project coverage remains partial."
+      ],
+      "input_tokens": 17090549,
+      "cached_input_tokens": 16733312,
+      "output_tokens": 71913,
+      "reasoning_output_tokens": 20875,
+      "total_tokens": 17162462
+    },
+    {
+      "client_thread_id": "01a10c6a-664d-72b1-afad-926c2c57312b",
+      "turn_id": "01a1158e-718c-7930-9bfb-4a110b2a6940",
+      "model": null,
+      "source": "Usage-only local recovery captured 2026-10-07T11:43:21.681829+00:00; logs/usage/USAGE-2026-10-07-synchronization.json; verified event SHA-256 cb545b823114089b2c70b6d60b847cdc4ad5eebcfda7752682811b4a043c2714; persisted turn ordinals 14772..14787; 2 reconciled request increases.",
+      "limitations": [
+        "Execution model and client version are not exposed by the usage-only metadata.",
+        "This disjoint completed turn is counted once; cached input and reasoning output are subsets. Current cleanup usage and explicitly excluded illustration work are omitted; older project coverage remains partial."
+      ],
+      "input_tokens": 298038,
+      "cached_input_tokens": 296960,
+      "output_tokens": 172,
+      "reasoning_output_tokens": 0,
+      "total_tokens": 298210
+    }
+  ],
   "checks": [
     {
       "command": "python3 build/tracker-tdr/verify_publication.py",
