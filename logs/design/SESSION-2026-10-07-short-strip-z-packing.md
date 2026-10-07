@@ -79,3 +79,23 @@ of115 sessions (input217035315, output1272392, total218307707). This is partial
 coverage and excludes this active turn. Dashboard47 tasks/26 documents/19
 review rounds validated/built. Working-tree and full start/main-relative diff
 checks passed.
+
+## Publication closeout — 2026-10-07T04:07:38Z
+
+Deliverable8e2622df1ca9d3303020d93d128237f10dcdd9e1 was pushed normally;
+PR49's preserved description now embeds the dimensioned PNG and links SVG/report.
+Hosted run37569292921 succeeded on that exact head; build112624117773
+completed2026-10-07T04:06:40Z, run updated04:06:41Z, deploy112625867936 skipped.
+Earlier same-head run37569258522 was automatically cancelled after the body edit.
+Full main/start-relative checks passed; all old geometry producers, native/coverage
+artifacts/reports and drawing bytes were verified unchanged. Standard-library-only
+reproduction matched the new measured inventories and compact hashes exactly.
+
+Primary pair sync was guarded by prior absence, branch/head and tracked-diff
+preimages; only this pair was copied. Primary123 records validated. PR50 and
+PR51 checkouts remained clean. A final log/tracking-only closeout is separate
+from the scientific/native execution hashes; its enclosing revision is in Git.
+The bounded deliverable is complete, so the record is closed. Actual client
+turn-end timestamp is still unavailable (`ended_at` null); usage remains empty
+until a disjoint completed-turn observation exists. No estimates, old turn
+reassignment or follow-up automation.

@@ -5,7 +5,7 @@
   "recorded_at": "2026-10-07T03:52:21Z",
   "started_at": null,
   "ended_at": null,
-  "status": "open",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
@@ -23,7 +23,9 @@
     "start_commit": "0f1ac4c622546535396d95c145d11fccf8b01755",
     "branch": "codex/short-strip-barrel",
     "initial_changes": [],
-    "result_commits": [],
+    "result_commits": [
+      "8e2622df1ca9d3303020d93d128237f10dcdd9e1"
+    ],
     "changed_files": [
       "docs/design/DES-020-short-strip-barrel.md",
       "docs/design/figures/DES-020-z-packing.png",
@@ -121,6 +123,36 @@
       "exit_code": 0,
       "status": "PASS",
       "result": "Working-tree, full recorded-start and main-relative checks passed before deliverable commit; staged new files checked separately."
+    },
+    {
+      "command": "python3 -B tools/short_strip_barrel/draw_z.py --report-only --output build/short-strip-z-packing/stdlib-reproduction; independently compare measured inventories",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "Standard-library-only reproduction matches both published prototype measurements and generated compact hashes exactly; new SVG XML parses."
+    },
+    {
+      "command": "git push origin codex/short-strip-barrel; gh pr edit 49 --body-file; gh pr view 49 (description verification)",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "Published8e2622df1ca9d3303020d93d128237f10dcdd9e1 normally and verified the preserved PR description with the pinned new drawing and packing summary. No review comments or Slack messages sent."
+    },
+    {
+      "command": "gh run view 37569292921 --repo asalzburger/nodd --json headSha,conclusion,jobs",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "Actual hosted build SUCCESS on exact8e2622df1ca9d3303020d93d128237f10dcdd9e1; run37569292921/job112624117773 completed2026-10-07T04:06:40Z, runupdated04:06:41Z. Deploy112625867936 SKIPPED. Earlier same-head run37569258522 cancelled when PR-body edit triggered replacement; not a scientific failure."
+    },
+    {
+      "command": "guarded primary session-pair sync; python3 -B tools/session_logging/session_log.py --repo ../nodd validate",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "Only the new pair mirrored after checking prior absence and primary branch/head/tracked-diff guards. Primary123 records validated; its branch/scientific files and unrelated work preserved."
+    },
+    {
+      "command": "git diff origin/main...HEAD --check; git diff 0f1ac4c622546535396d95c145d11fccf8b01755...HEAD --check",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "Full main/recorded-start-relative checks passed on published deliverable8e2622d; PR50 and PR51 checkouts remain clean and untouched."
     }
   ]
 }
