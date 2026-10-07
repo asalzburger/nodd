@@ -124,3 +124,19 @@ every parent item was verified exactly preserved along with additional endcap
 entries before resolution. Full origin/main...HEAD and parent...HEAD checks
 passed. No scientific input/artifact/native hash was rewritten by these metadata
 commits. Identical shared-pair copies still have one token owner, no second import.
+
+## Final passive correction after initial publication (2026-10-07)
+
+Final review found one-face-only foil insulation. Governing DES023 was amended
+before implementation:0.05mm Cu fully wrapped by0.15mm PI, preserving the
+intentional spine/collector conductor joint with partitioned rear dielectric.
+Core cuts are disjoint, no foil contacts foam, mass/volume conserved. Earlier
+pre-wrap reports/receipt are retained and historical source/figure paths resolve
+at977cdd2. Final fully wrapped actual execution is dirty43b970a plus exact
+hashes; the original dirty2c656787 evidence remains historical and unchanged.
+Ten controls/native/fresh ROOT pass;zero overlaps1e-5mm,7488 sensors,210 rays.
+Coverage116640/148 oracle and both saved-pair DDSim runs were repeated with final
+bytes;unchanged losses,25 positive hits per signed end/all6 paired layers.
+Updated complete petal mass1.4967kg,axial screen43.85µm,handling145.41µm FAIL.
+Sources/input/native/coverage/compact/plugin/figure receipts reconcile. This
+continues the same bounded task and single token owner;no partial counters added.

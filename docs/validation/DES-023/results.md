@@ -2,7 +2,7 @@
 
 DRAFT, isolated PROTOTYPE stacked on the separate DES-022 barrel PR52. Production
 and historical DES008/011/020/021/022 artifacts are unchanged. Native execution
-is dirty2c6567871ae0117b6a8a0a6484f0cebb0f2f5dee plus exact source/input/compact/
+is dirty43b970aed8f20fdeee77842dde3d6cd28598779f plus exact source/input/compact/
 plugin hashes in the receipts. The later enclosing commit does not replace it.
 DD4hep1.38, ROOT6.40.04, Geant411.4.2 were actually run on the existing installation.
 
@@ -22,10 +22,10 @@ assembly allowance, not machined CAD. Short-service outer radius783 mm is kept;
 the inner ring begins783.5 mm. This0.5 mm clearance and narrow key need review.
 Outer carrier1130 mm, bearing ring1140 mm and service outer1169 mm stay fixed.
 
-Worst full petal mass1.4950 kg, span338.1 mm, E70 GPa/G5 MPa hypotheses:
-0.25g axial screen gives14.40 µm bending +19.41 µm core shear +10 µm joints
-=43.82 µm, below the50 µm fixture limit. A1g horizontal handling screen gives
-145.26 µm and fails; even E140/G20 gives58.22 µm. Use a temporary handling
+Worst full petal mass1.4967 kg, span338.1 mm, E70 GPa/G5 MPa hypotheses:
+0.25g axial screen gives14.42 µm bending +19.43 µm core shear +10 µm joints
+=43.85 µm, below the50 µm fixture limit. A1g horizontal handling screen gives
+145.41 µm and fails; even E140/G20 gives58.27 µm. Use a temporary handling
 frame. The installed disc's in-plane gravity proxy is reported separately.
 These beam screens assume full-width distributed rim reactions: three discrete
 contacts, thin inner key, plate twisting, local indentation, rings, interfaces,
@@ -74,9 +74,9 @@ The200 kJ/kg enthalpy-derived flow is a proxy, not a hydraulic calculation.
 
 ## Actual native and transport checks
 
-Nine positive/negative controls passed: pinned drift, fixed envelope/collector
+Ten positive/negative controls passed: pinned drift, fixed envelope/collector
 rejection, proper stereo frames, local IDs, torus OD containment, web/collector
-clearance, complete circuit assignment and overfill rejection.
+clearance, complete circuit assignment overfill rejection and full bus-wrap/junction continuity.
 Final CTest native construction returns0:7488 true1D sensors, unique face/strip
 IDs, exact roles/positions/axes/constituent mass, zero overlaps at1e-5 mm,
 210 ROOT navigation/material rays exercising all12 layers.
@@ -123,3 +123,21 @@ The six-loop geometry passed scientific checks but initially aborted on ROOT's
 multithreaded teardown mutex. One overlap worker and explicit pool shutdown
 restore a successful process exit; final native/root runs passed. Initial three-
 loop native PASS is retained as a control, not substituted for the final model.
+
+## Final dielectric correction
+
+Final review found that the first draft foil had dielectric on only one normal
+face. It is now fully enclosed by0.15 mm polyimide around0.05 mm copper, with
+the spine and collector sharing their intentional r1115 mm conductor interface.
+Rear dielectric is partitioned outside that joint; core cutouts are disjoint,
+so no mass or foam volume is double-subtracted. The additional insulation is
+included in actual native material totals and petal gravity load. All active
+transforms/IDs, cooling legs, contacts and service limits remain fixed. Native/
+ROOT/coverage and both DDSim runs were repeated against these exact final bytes.
+
+Pre-wrap reports/receipt are retained under pre-wrap-*; historical source/XML/
+figure paths in that receipt resolve at scientific977cdd2e8822bbd037975dd133956cbd69a13bf1,
+whose native execution remains dirty2c656787. Final fully wrapped execution is
+dirty43b970aed8f20fdeee77842dde3d6cd28598779f plus exact hashes. Neither enclosing
+commit replaces the actual execution identity. Dielectric voltage/radiation
+qualification is still open despite eliminating the geometric bare-foil contact.
