@@ -22,7 +22,9 @@
     "start_commit": "0d74f228a51bfbfeef93e19d21b2e58585772817",
     "branch": "codex/tracker-tdr-review-baseline",
     "initial_changes": [],
-    "result_commits": [],
+    "result_commits": [
+      "bdaac95378c9aab93dcf8f8602e7b298593316f9"
+    ],
     "changed_files": [
       "docs/tdr",
       "docs/publication/tracker-review-baseline.json",
@@ -129,6 +131,24 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "Remote main equals final published/compiled TDR revision908e7e539d357738efe223a2d980ab2caa2e5144."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate (PR tracking closeout first pass)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "New actual PR54 entry lacked required stable id. Added PR-54 and reran validation/build; no scientific or TDR source changed."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate (primary after scoped journal sync)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "126 paired records validated after mirroring only the new journal pair. Primary remains on codex/overleaf-pixel-baseline a54df714d20e1a5249b1e5ba7d54286eeca15f20; scientific tracked paths unchanged and unrelated logs preserved."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate; build --output _site/tracker-tdr-review (corrected PR54 tracking)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "52 tasks,29 documents,19 review rounds validated; corrected PR-54 metadata and dashboard built."
     }
   ]
 }
