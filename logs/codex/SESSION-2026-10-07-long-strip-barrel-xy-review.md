@@ -86,3 +86,48 @@ includes47 preserved remote paths and the9 new review paths (tracking overlaps).
 The imported endcap implementation and earlier token ownership are not this
 turn's scientific work. Post-merge dashboard has51 tasks/29 documents/19 rounds;
 logger remains120 records and full parent/main-relative diff checks pass.
+
+## Publication evidence
+
+Normal push publishedc378413b76920628a33257ed449798cd85d06890 with the remote
+merge preserved. PR52 description now includes the PNG, immutable SVG/provenance
+links and physical-section caption; its published bytes matched the prepared
+body. The intro notes the merged endcap. No GitHub comment or Slack message was
+sent.43 imported endcap/scientific files match the remote merge bytes exactly.
+The initial synchronize run37589601134 was cancelled at2026-10-07T07:49:49Z when
+the body edit triggered run37589627746 on the samec378413 head; this is a superseded
+run, not a scientific failure. The active hosted outcome will be recorded after
+it completes. Primary pre-sync logger validates124 records and the new pair
+remains absent; its original branch/head and tracked science remain unchanged.
+
+## Hosted correction: preserve the pinned design document
+
+Run37589627746/job112688189403 failed at2026-10-07T07:53:57Z: DES-023's ten controls
+correctly rejected the changed byte hash of DES-022-long-strip-barrel.md. The
+merged endcap inputs pin that design document even for a caption-only addition.
+Moved the entire new figure/caption section to docs/validation/DES-022/xy-view.md
+and restored the original design bytes (SHA25613ad7f93b72a4d27741863cb04ea7fed08e8ab403eb83cca80793832c2f12eac).
+README/tracking link the companion view. No input pins, checks, tolerances or
+scientific receipts were changed. The figure and inventory/provenance are the
+same; the PR image is already published. This correction supersedes the earlier
+statement that the main DES document embeds the figure; the final deliverable
+is its companion review document. Native science was not rerun.
+
+## Corrected deliverable and record closeout
+
+Caption relocation/restoration commit5d0272f72b0e0e6518f22dcdc8d52f8423196d8b exists.
+Eight barrel and ten endcap controls now pass locally. All endcap input pins
+remain intact. Logger120 and dashboard51tasks/29documents/19rounds validate;
+the local dashboard builds and all diff checks pass. The final authored deliverable
+is the companion view, SVG/PNG, source/receipt, README, tracking and this pair;
+the main design document is identical to its starting bytes. The55-path inventory
+also includes the unchanged imported endcap merge, with no reassigned token usage.
+The bounded work record is closed, but the active client turn's exact timestamps
+and tokens remain unknown. Final correction-head hosted verification occurs after
+this record publication; no success is asserted here before observation. Its
+actual metadata is retained locally in ignored final-hosted-evidence.json.
+
+Primary synchronization copied only this pair after rechecking its absence and
+the unchanged original branch/head/scientific tracked state. Task logger120 and
+primary125 validate and both summaries run; older records and observations are
+preserved. Primary mirrors this pair only and creates no second token owner.
