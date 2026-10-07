@@ -116,3 +116,11 @@ Guarded sync completed: barrel pair matched saved preimages and primary pair was
 absent before first sync. Primary logger validates124 records, task119; primary
 remains codex/overleaf-pixel-baseline ata54df714 with no tracked scientific edits.
 Only the shared pair was synchronized, preserving every unrelated earlier file.
+
+Ordinary receiving-parent metadata merge8ba36905798e9432f6e32143cdb962be6f107559
+received barrel452f7492d3038d27dae59b8657e34aa56e997e60 after endcap closeout
+728a5e646d96ab2008873910bcfcd6c99871183e. The tracking-list append conflicted;
+every parent item was verified exactly preserved along with additional endcap
+entries before resolution. Full origin/main...HEAD and parent...HEAD checks
+passed. No scientific input/artifact/native hash was rewritten by these metadata
+commits. Identical shared-pair copies still have one token owner, no second import.
