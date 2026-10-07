@@ -45,3 +45,21 @@ fixtures, pinned source hashes reject silent drift. Raw XML/expected inventories
 ROOT files and runtime logs remain ignored under build/; curated reports/hashes
 are retained under docs/validation/DES-022. Never replace historical DES-008/011
 artifacts or equate an enclosing Git commit with a dirty native execution.
+
+For the PR #52 transverse mounting view, use the retained inventory directly;
+no native rebuild or new compact export is needed:
+
+```sh
+python3 -B tools/long_strip_barrel/draw_xy.py \
+  --inventory docs/validation/DES-022/inventory.json.gz \
+  --output docs/design/figures/DES-022-barrel-xy \
+  --receipt docs/validation/DES-022/xy-drawing.json
+```
+
+This requires NumPy and Matplotlib. It generates SVG and PNG with a separate
+drawing receipt, preserving the older figures and scientific receipts. All three
+panels are equal-scale x-y sections at z166.50 mm, within the first positive-z
+bearing station. The section includes one potted fastener, its tangent shoe/web,
+the bearing ring and cooling legs; it does not project remote z components into
+the section or claim manufactured slot details. The producer checks the complete
+194-stave/388-sensor section, both rings, four pipe legs and one bolt per stave.
