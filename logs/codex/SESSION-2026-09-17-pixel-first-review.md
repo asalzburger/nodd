@@ -39,3 +39,13 @@ Hosted CI for published fd9689c passed policy, records, tests, browser logic,
 static build and preview artifact upload. Run35239108986; Pages deploy skipped
 for PR. Final local metadata update validates11tasks/9documents/5reviewrounds,
 builds the snapshot and passes session validator32records and diff--check.
+
+## Resource synchronization — 2026-10-07
+
+The authorized cleanup imported 1 exact completed turn(s), after dry-run validation, into this canonical owner. Earlier narrative and original inventory sources remain intact; pending/unknown token statements above are historical and superseded for these observations only.
+
+| Client turn | Input | Cached input | Output | Reasoning output | Total | Requests |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| 01a0afef-5a11-7e42-97f2-37b22a4bdb87 | 1755966 | 1742464 | 4325 | 241 | 1760291 | 14 |
+
+Persisted turn/usage ordinals, request counts, timestamps, verified usage-event hashes and original recovery sources are retained in [the synchronization inventory](../usage/USAGE-2026-10-07-synchronization.json). Each turn is counted once; cached input and reasoning output are subsets. No scientific input, execution hash or approval state changed. The current cleanup turn, explicitly excluded illustration/history turn and unassigned historical/internal review turns are excluded; this is partial project coverage, not billing.

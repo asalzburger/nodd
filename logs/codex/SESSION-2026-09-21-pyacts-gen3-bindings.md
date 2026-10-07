@@ -67,3 +67,15 @@ When the user resumes tracker work, test one actual module family, inactive mask
 stereo semantics and field propagation. Physical module/material/field inputs
 and full simulation remain separate dependencies. Human design review and sign-off
 remain required before production integration; no approval is inferred here.
+
+## Resource synchronization — 2026-10-07
+
+The authorized cleanup imported 3 exact completed turn(s), after dry-run validation, into this canonical owner. Earlier narrative and original inventory sources remain intact; pending/unknown token statements above are historical and superseded for these observations only.
+
+| Client turn | Input | Cached input | Output | Reasoning output | Total | Requests |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| 01a0c332-7261-79f3-b92b-46d1545b913c | 9932308 | 9627008 | 27194 | 6385 | 9959502 | 65 |
+| 01a0c332-ac01-7691-88dc-06e9c247858c | 2816018 | 2701952 | 5684 | 343 | 2821702 | 27 |
+| 01a0c345-f657-7e90-b9bf-8f11704d4fec | 378122 | 370560 | 503 | 181 | 378625 | 3 |
+
+Persisted turn/usage ordinals, request counts, timestamps, verified usage-event hashes and original recovery sources are retained in [the synchronization inventory](../usage/USAGE-2026-10-07-synchronization.json). Each turn is counted once; cached input and reasoning output are subsets. No scientific input, execution hash or approval state changed. The current cleanup turn, explicitly excluded illustration/history turn and unassigned historical/internal review turns are excluded; this is partial project coverage, not billing.
