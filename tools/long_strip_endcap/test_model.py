@@ -48,6 +48,17 @@ class Controls(unittest.TestCase):
   from export import routes
   c=load();c['circuit_centers_u_mm']=[0]
   with self.assertRaisesRegex(ValueError,'Group cap'):routes(c,build(c))
+ def test_bus_wrap_and_junction(self):
+  from export import bus_geometry
+  c=load();bg=bus_geometry(c,.002,math.pi/6-.004);t=c['bus_PI_mm']
+  for name in ('spine','collection'):
+   cu,wrap=bg[name]
+   self.assertAlmostEqual((wrap['length']-cu['length'])/2,t)
+   self.assertGreater(cu['start'],wrap['start'])
+   self.assertLess(cu['start']+cu['angle'],wrap['start']+wrap['angle'])
+  self.assertAlmostEqual(bg['spine'][0]['rmax'],bg['collection'][0]['rmin'])
+  self.assertAlmostEqual(bg['backs'][0]['start']+bg['backs'][0]['angle'],bg['spine'][1]['start'])
+  self.assertAlmostEqual(bg['backs'][1]['start'],bg['spine'][1]['start']+bg['spine'][1]['angle'])
  def test_collector_rejection(self):
   c=load();c['disc_z_mm'][0]=1403.65
   with tempfile.TemporaryDirectory() as d:

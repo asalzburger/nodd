@@ -82,7 +82,11 @@ turn inward, contained within r784–1130 mm. Circuits service pairs assigned to
 and exit at the outer board/couplings. Hydraulic balancing, fittings and two-phase
 stability require proof. Two separately insulated Cu/PI buses are embedded in
 core seam channels at normal±1.8 mm, plus an outer collection strip1115–1118 mm;
-contained cutouts conserve material and avoid pipe/potting contacts. Dielectric
+contained cutouts conserve material and avoid pipe/potting contacts.
+Copper is0.05 mm, fully wrapped by0.15 mm polyimide on both normals and every
+exposed edge. The connected spine/collector copper shares the r1115 mm interface;
+partitioned rear dielectric closes the remaining collector edges without
+overlapping another wrap. This replaces the retained one-face-only draft. Dielectric
 isolation and local flex feedthroughs remain effective fixtures, not certified
 HV insulation or connector CAD.
 

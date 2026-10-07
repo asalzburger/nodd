@@ -9,18 +9,35 @@ from components import Export,I,TUBE,compose
 
 def sector(x,name,role,mat,side,z,ri,ro,start,angle,w,thick):return x.add(name,role,mat,[0,0,side*(z+w)],I,'sector',dict(rmin=ri,rmax=ro,length=thick,start=start,angle=angle))
 
+def bus_geometry(c,start,angle):
+ # Fully enclosed connected foil: radial/tangential margins >= insulation.
+ t=c['bus_PI_mm'];cu=c['bus_copper_mm'];wrap=cu+2*t;ds=t/(805-t);dc=t/1115
+ def spec(ri,ro,sa,ang,th):return dict(rmin=ri,rmax=ro,length=th,start=sa,angle=ang)
+ spine_cu=spec(805,1115,start+angle-.01,.007,cu)
+ spine_wrap=spec(805-t,1115,spine_cu['start']-ds,.007+2*ds,wrap)
+ collection_cu=spec(1115,1118,start+dc,angle-2*dc,cu)
+ collection_wrap=spec(1115,1118+t,start,angle,wrap)
+ backs=[spec(1115-t,1115,start,spine_wrap['start']-start,wrap),spec(1115-t,1115,spine_wrap['start']+spine_wrap['angle'],start+angle-spine_wrap['start']-spine_wrap['angle'],wrap)]
+ return dict(spine=(spine_cu,spine_wrap),collection=(collection_cu,collection_wrap),backs=backs)
+
 def petal(c,x,p):
  name=p['name'];side=p['side'];z=abs(p['z_mm']);phi=p['phi_rad'];f=axes(phi,side=side);o=[0,0,side*z];start=p['petal']*2*math.pi/12+c['seam_rad'];angle=2*math.pi/12-2*c['seam_rad']
  core,ce=sector(x,name+'_core','core','CarbonFoam',side,z,784,1130,start,angle,0,5)
  for sign in (-1,1):
   sector(x,name+f'_glue{sign}','support','Epoxy',side,z,784,1130,start,angle,sign*2.55,.1)
   sector(x,name+f'_skin{sign}','support','CFRP',side,z,784,1130,start,angle,sign*2.75,.3)
-  # Insulated core buses have explicit, disjoint cuts; no material occupies the
-  # same volume as foam or the neighbouring outer collection strip.
-  for label,ri,ro,sa,ang in [('spine',805,1115,start+angle-.01,.007),('collection',1115,1118,start,angle)]:
-   for label2,w,th,mat in [('PI',sign*1.775,.15,'Polyimide'),('Cu',sign*1.875,.05,'Copper')]:
-    node,e=sector(x,name+f'_{sign}_{label}_{label2}','bus',mat,side,z,ri,ro,sa,ang,w,th)
-    x.cut(core,ce,'sector',[0,0,side*w],I,dict(rmin=ri,rmax=ro,length=th,start=sa,angle=ang))
+  # Disjoint dielectric channels contain all foil surfaces except the deliberate
+  # spine/collector conductor junction; no copper contacts carbon foam.
+  bg=bus_geometry(c,start,angle);w=sign*1.875
+  for label in ('spine','collection'):
+   copper,wrap=bg[label]
+   x.add(name+f'_{sign}_{label}_Cu','bus','Copper',[0,0,side*(z+w)],I,'sector',copper)
+   node,e=x.add(name+f'_{sign}_{label}_PI','bus','Polyimide',[0,0,side*(z+w)],I,'sector',wrap)
+   x.cut(node,e,'sector',[0,0,0],I,copper)
+   x.cut(core,ce,'sector',[0,0,side*w],I,wrap)
+  for j,back in enumerate(bg['backs']):
+   x.add(name+f'_{sign}_collection_back{j}','bus','Polyimide',[0,0,side*(z+w)],I,'sector',back)
+   x.cut(core,ce,'sector',[0,0,side*w],I,back)
   board_o=[1123*math.cos(phi),1123*math.sin(phi),side*z]
   x.box(name+f'_board{sign}','end_board','Electronics',board_o,f,[0,0,sign*7.5],[20,12,2])
  for j,u in enumerate(c['web_u_mm']):
