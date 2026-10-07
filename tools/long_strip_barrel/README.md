@@ -63,3 +63,7 @@ bearing station. The section includes one potted fastener, its tangent shoe/web,
 the bearing ring and cooling legs; it does not project remote z components into
 the section or claim manufactured slot details. The producer checks the complete
 194-stave/388-sensor section, both rings, four pipe legs and one bolt per stave.
+
+The [review figure and caption](../../docs/validation/DES-022/xy-view.md) are a
+companion to the immutable design input. The original DES-022 document remains
+byte-identical so the DES-023 input pin and native execution receipts stay valid.
