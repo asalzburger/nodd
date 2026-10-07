@@ -80,4 +80,3 @@ Nominal seams, native zero-overlap checks and a drawing do not establish
 full-track hermeticity, mechanics or service qualification.
 
 ![Longitudinal packing, central seam and barrel-end allocation](figures/DES-020-z-packing.svg)
-
