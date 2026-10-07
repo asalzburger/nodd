@@ -10,6 +10,7 @@ import math
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
+SOURCE_ROOT = ROOT / "docs/publication/tdr/source-snapshot"
 BARREL_LAYOUT = "docs/validation/DES-013-pixel-z/data/packed-200um/layout.json.gz"
 SOURCES = [
     "detector/config/pixel-detector-trimmed.json",
@@ -28,11 +29,16 @@ SOURCES = [
 
 
 def read(path):
-    return json.loads((ROOT / path).read_text())
+    return json.loads((SOURCE_ROOT / path).read_text())
 
 
 def source_hashes():
-    return {p: hashlib.sha256((ROOT / p).read_bytes()).hexdigest() for p in SOURCES}
+    return {p: hashlib.sha256((SOURCE_ROOT / p).read_bytes()).hexdigest() for p in SOURCES}
+
+
+def verify_sources(manifest):
+    if manifest["source_sha256"] != source_hashes():
+        raise ValueError("Stale TDR evidence source")
 
 
 def table():
@@ -88,7 +94,7 @@ def facts():
 
 
 def barrel_table():
-    source = json.loads(gzip.decompress((ROOT / BARREL_LAYOUT).read_bytes()))
+    source = json.loads(gzip.decompress((SOURCE_ROOT / BARREL_LAYOUT).read_bytes()))
     result = []
     for i, layer in enumerate(source["layers"][:4], 1):
         bodies = [b for b in source["bodies"] if b["layer_id"] == layer["id"]]
@@ -237,8 +243,7 @@ def main():
     }
     if args.check:
         manifest = json.loads((output / "evidence.json").read_text())
-        if manifest["source_sha256"] != hashes:
-            raise ValueError("Stale TDR evidence source")
+        verify_sources(manifest)
         for path, content in generated.items():
             if (output / path).read_text() != content:
                 raise ValueError("Stale generated table: " + path)

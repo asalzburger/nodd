@@ -13,3 +13,12 @@ and preserve coverage qualifications.
 
 The manuscript and generated assets are self-contained for pdfLaTeX. No
 Overleaf mutation, scientific rerun, or design approval is performed.
+
+## Rebase onto current main — 2026-10-07
+
+The retained preliminary edition uses the exact twelve-file bundled
+`docs/publication/tdr/source-snapshot/`, verified against the unchanged original
+evidence manifest. This preserves the compiled edition when later live inputs
+change; it does not update native hashes or silently regenerate historical
+figures. Every snapshot hash is required. The source revision remains the
+original manuscript execution input, never the enclosing rebase commit.

@@ -44,3 +44,8 @@ detector configurations and frozen reports remain the parameter source of truth.
 
 The [retained compiled preview and review evidence](../../validation/DES-019-tdr/results.md)
 contain the final 11-page PDF, exact CI/source/artifact hashes and visual QA.
+
+This is the retained preliminary DES019 edition. Its frozen twelve-file input
+snapshot preserves the exact original manifest pins after rebasing onto current
+main. It is separate from the later full-tracker Overleaf review edition; no
+current-model or new native-execution equivalence is asserted.
