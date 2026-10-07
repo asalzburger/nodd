@@ -64,6 +64,8 @@ def run(args):
     import ROOT as R
     import dd4hep
     R.gROOT.SetBatch(True)
+    # Bound ROOT overlap workers and close their pool before geometry teardown.
+    R.EnableImplicitMT(1)
     if R.gSystem.Load(str(args.library.resolve()))<0:raise RuntimeError("Factory load failed")
     detector=dd4hep.Detector.getInstance()
     expected=json.loads(args.expected.read_text())
@@ -89,7 +91,7 @@ def run(args):
         paths={s["path"]:s for s in inventory["sensors"]}
         rays=[]
         for origin in ([0,0,0],[1,1,-150],[1,1,150]):
-            for eta in (-3,-2,-1,0,1,2,3):
+            for eta in ((-3,-2,-1,0,1,2,3) if expected['name']=='LongStripBarrel' else (-3,-2.2,-2,-1.8,-1.6,-1.4,-1.2,1.2,1.4,1.6,1.8,2,2.2,3)):
                 for phi in (0,.37,1.11,2.29,4.73):
                     ray=audit.trace_ray(manager,dd4hep,origin,audit.ray_direction(eta,phi),paths)
                     ray.update(origin_mm=origin,eta=eta,phi_rad=phi);rays.append(ray)
@@ -121,6 +123,7 @@ def run(args):
         print(f"{report['status']}: {len(paths)} sensors, {len(overlaps)} overlaps, {len(rays)} material rays")
         return 0 if not errors else 1
     finally:
+        R.DisableImplicitMT()
         dd4hep.Detector.destroyInstance()
         if R.gGeoManager:R.gGeoManager.Delete()
 
