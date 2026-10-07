@@ -50,3 +50,69 @@ Usage remains empty: current-turn final counters are not available. No estimate,
 partial import, duplicated owner or all-project total claim. Model/client version
 and actual conversation boundaries remain unknown. No Slack/GitHub comment or
 resource-recovery schedule was created. Earlier logs/science are preserved.
+
+## Endcap outcome and actual evidence
+
+DES023 DRAFT/PROTOTYPE: four rings72/72/84/84,312 pairs/disc,12 structural petals,
+26 pairs/petal and six discs/end;7488 true1D sensor faces. The continuous5mm
+core/.3mm skins and integral webs are the carrier, with one inner sliding key
+and two outer kinematic mounts. At1.495kg/petal, declared E70/G5/0.25g axial
+screen gives43.82µm including joints;1g handling145.26µm fails. Narrow inner key,
+plate/global-ring/joint mechanics and cold stress require qualification.
+Six distributed U-loops service4/4/6/4/4/4 complete pairs;three harnesses12/12/2.
+Core buses/EoS connect through reserved elbows to the fixed service corridor;
+combined barrel+upstream-disc accounting passes reference packing and fails
+adverse/gross controls. Lateral thermal proxy and inherited warm LV return fail.
+Handling frame, plate/joint FEA and thermal heat-bridge qualification recommended.
+
+First datum1403.65→1470mm (+66.35) clears barrel collector ending1435; final hybrid
+maximum8.95mm uses9mm depth reserve. Fixed old annulus/datum denominator retains
+192/576 missing intersections by mode and192/384 tracks losing all endcap hits;
+existing same-layout old-datum1GeV misses are separately reported.116640 tracks
+agree with independent finite planes on148 fixtures. Hermeticity remains FAIL.
+Native and fresh ROOT audit pass:zero overlaps1e-5mm,7488 sensors,210 material
+rays,exact roles/mass/axes/IDs. Two seeded displaced10GeV zero-field DDSim guns
+save25 positive hits each with complete same-pair faces in all6 target discs/end.
+Original barrel saved-hit default still passes8 hits/both layers.
+
+Initial passive placements produced15408/16992/9072/1584 overlaps; corner hybrid
+lands/tails and finite web ends fixed them. Initial six-loop native geometry
+passed scientific checks but aborted on worker teardown mutex; one overlap
+worker and pool shutdown restore exit0. Three-loop control retained, six-loop
+heat paths shorten to30mm nearest-leg maximum but thermal qualification stays
+open. A rejected corner-tail input was edited during the initial run; its exact
+prior byte preimage was reconstructed and verified against the exported hash,
+retained separately. Receipt-generation mkdir failed on an existing empty
+folder; corrected without losing evidence. Final9mm clearance-guard correction
+triggered fresh final native/root/coverage and both DDSim runs with exact hashes.
+SVG/PNG figures inspected; eight barrel and nine endcap controls pass. Native
+execution stays dirty2c656787 plus exact producer/input/plugin hashes; enclosing
+result commits do not replace it. No source science from previous designs was
+changed, no ACTS conversion, production integration or sign-off performed.
+
+## Implementation publication closeout (2026-10-07)
+
+Separate draft PR52 (2c6567871ae0117b6a8a0a6484f0cebb0f2f5dee) and PR53
+(977cdd2e8822bbd037975dd133956cbd69a13bf1) deliver the requested barrel/endcap
+prototypes; stacked on PR51 and PR52 respectively. Barrel scientific-head hosted
+run37577906716/build112650812831 succeeded2026-10-07T05:52:10Z,deploy skipped.
+Endcap scientific-head hosted run37580032220/build112657347246 was in progress
+at this metadata preparation; final publication checks are external on each PR.
+Their actual conclusions will be verified before the final user report; no
+unobserved hosted success is entered here. Exact final metadata-head receipts
+stay ignored under build/long-strip-endcap, separately from scientific evidence.
+
+Logger119 task records and dashboard51tasks/29documents/19reviews validate/build;
+full working/parent/main-relative diff checks pass. All final source/input/native/
+coverage/compact/plugin/figure hashes reconcile. The logical project task is
+closed; actual client completion time remains null because this turn is active.
+The one shared record owns both PRs once. Historical summary has57 observed
+sessions/94 turns; current turn excluded, older coverage partial. No recovery
+of partial counters, duplicated observation, all-project total, new automation,
+Slack message, GitHub comment, production integration or design sign-off.
+Primary journal sync preserves its branch/science and unrelated earlier files.
+
+Guarded sync completed: barrel pair matched saved preimages and primary pair was
+absent before first sync. Primary logger validates124 records, task119; primary
+remains codex/overleaf-pixel-baseline ata54df714 with no tracked scientific edits.
+Only the shared pair was synchronized, preserving every unrelated earlier file.
