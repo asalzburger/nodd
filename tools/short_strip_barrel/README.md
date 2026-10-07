@@ -35,6 +35,26 @@ actual plane normal at the unchanged0.01 mm smoke tolerance. Controls12/18°
 have their own retained inputs/native reports. The12° collision is a failure;
 neither sampled coverage nor zero overlaps establishes detector acceptance.
 
+The PR49 [longitudinal packing review](../../docs/validation/DES-020/z-packing.md)
+and [dimensioned drawing](../../docs/design/figures/DES-020-z-packing.svg) compare
+both frozen axial schedules and measure component bounds from freshly exported
+compact XML. They include the central overlap, pickup clearance, half-stave
+cooling returns, bearing positions and the barrel-end service allocation.
+Geometry and historical native evidence are unchanged. Reproduce under ignored
+`build/` (standard library for `--report-only`; Matplotlib for the SVG/PNG):
+
+```sh
+MPLCONFIGDIR="$PWD/build/short-strip-z-packing/mpl" python3 -B tools/short_strip_barrel/draw_z.py \
+  --output build/short-strip-z-packing
+python3 -B tools/short_strip_barrel/draw_z.py --report-only \
+  --output build/short-strip-z-packing-report
+```
+
+The generated `packing.json` pins the actual execution revision, input/layout/
+producer/compact hashes and figure hashes when drawn. Layer-level ring cylinders
+use global coordinates; stave-local V is global z after the stave rotation.
+This is projected axial accounting, not a new coverage or native validation.
+
 From the repository root:
 
 ```sh
