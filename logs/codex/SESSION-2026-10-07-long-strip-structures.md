@@ -50,3 +50,42 @@ Usage remains empty: current-turn final counters are not available. No estimate,
 partial import, duplicated owner or all-project total claim. Model/client version
 and actual conversation boundaries remain unknown. No Slack/GitHub comment or
 resource-recovery schedule was created. Earlier logs/science are preserved.
+
+## Endcap outcome and actual evidence
+
+DES023 DRAFT/PROTOTYPE: four rings72/72/84/84,312 pairs/disc,12 structural petals,
+26 pairs/petal and six discs/end;7488 true1D sensor faces. The continuous5mm
+core/.3mm skins and integral webs are the carrier, with one inner sliding key
+and two outer kinematic mounts. At1.495kg/petal, declared E70/G5/0.25g axial
+screen gives43.82µm including joints;1g handling145.26µm fails. Narrow inner key,
+plate/global-ring/joint mechanics and cold stress require qualification.
+Six distributed U-loops service4/4/6/4/4/4 complete pairs;three harnesses12/12/2.
+Core buses/EoS connect through reserved elbows to the fixed service corridor;
+combined barrel+upstream-disc accounting passes reference packing and fails
+adverse/gross controls. Lateral thermal proxy and inherited warm LV return fail.
+Handling frame, plate/joint FEA and thermal heat-bridge qualification recommended.
+
+First datum1403.65→1470mm (+66.35) clears barrel collector ending1435; final hybrid
+maximum8.95mm uses9mm depth reserve. Fixed old annulus/datum denominator retains
+192/576 missing intersections by mode and192/384 tracks losing all endcap hits;
+existing same-layout old-datum1GeV misses are separately reported.116640 tracks
+agree with independent finite planes on148 fixtures. Hermeticity remains FAIL.
+Native and fresh ROOT audit pass:zero overlaps1e-5mm,7488 sensors,210 material
+rays,exact roles/mass/axes/IDs. Two seeded displaced10GeV zero-field DDSim guns
+save25 positive hits each with complete same-pair faces in all6 target discs/end.
+Original barrel saved-hit default still passes8 hits/both layers.
+
+Initial passive placements produced15408/16992/9072/1584 overlaps; corner hybrid
+lands/tails and finite web ends fixed them. Initial six-loop native geometry
+passed scientific checks but aborted on worker teardown mutex; one overlap
+worker and pool shutdown restore exit0. Three-loop control retained, six-loop
+heat paths shorten to30mm nearest-leg maximum but thermal qualification stays
+open. A rejected corner-tail input was edited during the initial run; its exact
+prior byte preimage was reconstructed and verified against the exported hash,
+retained separately. Receipt-generation mkdir failed on an existing empty
+folder; corrected without losing evidence. Final9mm clearance-guard correction
+triggered fresh final native/root/coverage and both DDSim runs with exact hashes.
+SVG/PNG figures inspected; eight barrel and nine endcap controls pass. Native
+execution stays dirty2c656787 plus exact producer/input/plugin hashes; enclosing
+result commits do not replace it. No source science from previous designs was
+changed, no ACTS conversion, production integration or sign-off performed.

@@ -22,13 +22,21 @@
     "start_commit": "a9d6367bbe750f72545e933e620c0b53673da83c",
     "branch": "codex/long-strip-barrel",
     "initial_changes": [],
-    "result_commits": [],
+    "result_commits": [
+      "2c6567871ae0117b6a8a0a6484f0cebb0f2f5dee"
+    ],
     "changed_files": [
+      ".github/workflows/dashboard.yml",
       "docs/design/DES-022-long-strip-barrel.md",
+      "docs/design/DES-023-long-strip-endcap.md",
       "docs/design/figures/DES-022-anchors.png",
       "docs/design/figures/DES-022-anchors.svg",
       "docs/design/figures/DES-022-stave.png",
       "docs/design/figures/DES-022-stave.svg",
+      "docs/design/figures/DES-023-petals.png",
+      "docs/design/figures/DES-023-petals.svg",
+      "docs/design/figures/DES-023-structure-routes.png",
+      "docs/design/figures/DES-023-structure-routes.svg",
       "docs/validation/DES-022/coverage.json.gz",
       "docs/validation/DES-022/geant4.json.gz",
       "docs/validation/DES-022/inventory.json.gz",
@@ -42,11 +50,34 @@
       "docs/validation/DES-022/reproducibility.json",
       "docs/validation/DES-022/results.md",
       "docs/validation/DES-022/root-roundtrip.json.gz",
+      "docs/validation/DES-023/coverage.json.gz",
+      "docs/validation/DES-023/geant4-negative.json.gz",
+      "docs/validation/DES-023/geant4-positive.json.gz",
+      "docs/validation/DES-023/inventory.json.gz",
+      "docs/validation/DES-023/native.json.gz",
+      "docs/validation/DES-023/rejected-corner-land-inputs.json.gz",
+      "docs/validation/DES-023/rejected-corner-land-native.json.gz",
+      "docs/validation/DES-023/rejected-corner-tail-exact-inputs.json.gz",
+      "docs/validation/DES-023/rejected-corner-tail-expected.json.gz",
+      "docs/validation/DES-023/rejected-corner-tail-native.json.gz",
+      "docs/validation/DES-023/rejected-electronics-expected.json.gz",
+      "docs/validation/DES-023/rejected-electronics-inputs.json.gz",
+      "docs/validation/DES-023/rejected-electronics-native.json.gz",
+      "docs/validation/DES-023/rejected-platform-inputs.json.gz",
+      "docs/validation/DES-023/rejected-platform-native.json.gz",
+      "docs/validation/DES-023/reproducibility.json",
+      "docs/validation/DES-023/results.md",
+      "docs/validation/DES-023/root-roundtrip.json.gz",
+      "docs/validation/DES-023/teardown-failure-native.json.gz",
+      "docs/validation/DES-023/three-loop-control-expected.json.gz",
+      "docs/validation/DES-023/three-loop-control-inputs.json.gz",
+      "docs/validation/DES-023/three-loop-control-native.json.gz",
       "logs/codex/SESSION-2026-10-07-long-strip-structures.json",
       "logs/codex/SESSION-2026-10-07-long-strip-structures.md",
       "project/tracking.json",
       "prototypes/long_strip_barrel/CMakeLists.txt",
       "prototypes/long_strip_barrel/LongStrip.cpp",
+      "prototypes/long_strip_endcap/CMakeLists.txt",
       "reference/manifest.yaml",
       "tools/long_strip_barrel/.gitignore",
       "tools/long_strip_barrel/README.md",
@@ -60,7 +91,15 @@
       "tools/long_strip_barrel/mechanics.py",
       "tools/long_strip_barrel/model.py",
       "tools/long_strip_barrel/test_model.py",
-      "tools/long_strip_barrel/validate.py"
+      "tools/long_strip_barrel/validate.py",
+      "tools/long_strip_endcap/.gitignore",
+      "tools/long_strip_endcap/README.md",
+      "tools/long_strip_endcap/coverage.py",
+      "tools/long_strip_endcap/draw.py",
+      "tools/long_strip_endcap/export.py",
+      "tools/long_strip_endcap/inputs.json",
+      "tools/long_strip_endcap/model.py",
+      "tools/long_strip_endcap/test_model.py"
     ]
   },
   "work": {
@@ -191,6 +230,54 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "Passed on the final barrel deliverable."
+    },
+    {
+      "command": "PR52 hosted Project dashboard run37577906716",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Exact scientific2c656787 build112650812831 success2026-10-07T05:52:10Z; deploy112652530263 skipped05:52:11Z."
+    },
+    {
+      "command": "endcap rejected passive placement attempts",
+      "status": "FAIL",
+      "exit_code": 8,
+      "result": "15408/16992/9072/1584 overlaps; corner lands/tails and web ends corrected, initial snapshots/receipts retained."
+    },
+    {
+      "command": "endcap six-loop first native CTest",
+      "status": "FAIL",
+      "exit_code": 8,
+      "result": "Scientific checks passed, then ROOT worker teardown mutex aborted; one worker and explicit pool shutdown fixed process exit."
+    },
+    {
+      "command": "ctest long-strip-endcap and fresh ROOT audit",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Nine controls,7488 true1D sensors, exact roles/mass/positions/axes/IDs;zero overlaps1e-5mm,210 material rays and fresh persistence."
+    },
+    {
+      "command": "DDSim both signed ends and saved-pair inspection",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Two displaced10GeV zero-field muons,seed42 FTFP_BERT;each25 positive hits,complete same-pair faces in all6 target layers."
+    },
+    {
+      "command": "endcap116640 vacuum tracks /148 independent oracle fixtures",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Software/oracle agrees. Fixed old denominator retains192/576 intersections and192/384 all-hit track losses by mode; coverage gate remains FAIL."
+    },
+    {
+      "command": "endcap engineering/coverage qualification",
+      "status": "FAIL",
+      "exit_code": null,
+      "result": "Horizontal handling, lateral thermal, warm LV, adverse combined packing and CMS gross control fail. Narrow key/plate/joint/flow qualification pending; production unchanged."
+    },
+    {
+      "command": "barrel8 and endcap9 software controls / original saved-barrel-hit checker regression",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All controls pass; unchanged barrel default still requires complete pairs in both layers and8 saved positive hits."
     }
   ]
 }
