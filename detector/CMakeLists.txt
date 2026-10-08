@@ -70,3 +70,23 @@ if(BUILD_TESTING)
     --output "${CMAKE_CURRENT_BINARY_DIR}/pixel-detector.root")
 endif()
 install(DIRECTORY "${NODD_PIXEL_DIR}/" DESTINATION share/nODD/pixel-detector)
+
+# DES-024: independently testable interaction-region component.
+add_library(nODDBeamPipe SHARED src/BeamPipe.cpp)
+target_compile_features(nODDBeamPipe PUBLIC cxx_std_20)
+target_link_libraries(nODDBeamPipe PUBLIC DD4hep::DDCore)
+dd4hep_generate_rootmap(nODDBeamPipe)
+set(NODD_BEAMPIPE_DIR "${CMAKE_CURRENT_BINARY_DIR}/beampipe")
+add_custom_command(OUTPUT "${NODD_BEAMPIPE_DIR}/beampipe.xml" "${NODD_BEAMPIPE_DIR}/materials.xml" "${NODD_BEAMPIPE_DIR}/expected.json"
+  COMMAND "${Python3_EXECUTABLE}" -B "${PROJECT_SOURCE_DIR}/tools/beampipe/export.py" --output "${NODD_BEAMPIPE_DIR}"
+  DEPENDS "${PROJECT_SOURCE_DIR}/tools/beampipe/export.py" "${CMAKE_CURRENT_SOURCE_DIR}/config/beampipe.json" "${CMAKE_CURRENT_SOURCE_DIR}/config/elements.json"
+  VERBATIM)
+add_custom_target(nodd-beampipe-compact ALL DEPENDS "${NODD_BEAMPIPE_DIR}/beampipe.xml" "${NODD_BEAMPIPE_DIR}/materials.xml" "${NODD_BEAMPIPE_DIR}/expected.json")
+if(BUILD_TESTING)
+  add_test(NAME beampipe-export-tests COMMAND "${Python3_EXECUTABLE}" -B -m unittest discover -s "${PROJECT_SOURCE_DIR}/tools/beampipe" -p "test_*.py" -v)
+  add_test(NAME beampipe-dd4hep-validation COMMAND "${Python3_EXECUTABLE}" -B "${PROJECT_SOURCE_DIR}/tools/beampipe/validate.py"
+    --compact "${NODD_BEAMPIPE_DIR}/beampipe.xml" --expected "${NODD_BEAMPIPE_DIR}/expected.json"
+    --library "$<TARGET_FILE:nODDBeamPipe>" --output "${CMAKE_CURRENT_BINARY_DIR}/beampipe-validation.json")
+endif()
+install(TARGETS nODDBeamPipe LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
+install(DIRECTORY "${NODD_BEAMPIPE_DIR}/" DESTINATION share/nODD/beampipe)
