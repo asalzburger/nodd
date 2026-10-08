@@ -56,6 +56,12 @@ jobs:
         run: python3 -B -m unittest discover -s tools/pixel_detector_dd4hep -p 'test_*.py' -v
       - name: Test short-strip barrel prototype controls
         run: python3 -B -m unittest discover -s tools/short_strip_barrel -p 'test_*.py' -v
+      - name: Short-strip endcap controls
+        run: python3 -B -m unittest discover -s tools/short_strip_endcap -p 'test_*.py' -v
+      - name: Long-strip barrel and endcap structural prototype controls
+        run: |
+          python3 -B -m unittest discover -s tools/long_strip_barrel -p 'test_*.py' -v
+          python3 -B -m unittest discover -s tools/long_strip_endcap -p 'test_*.py' -v
       - name: Test optional nodehammer display safeguards
         run: python3 -B -m unittest discover -s tools/nodehammer -p 'test_*.py' -v
       - name: Test dashboard and documentation links

@@ -3,16 +3,16 @@
   "session_id": "SESSION-2026-10-06-short-strip-phi-alternative",
   "title": "Phi-tilted short-strip barrel alternative",
   "recorded_at": "2026-10-06T15:47:13Z",
-  "started_at": null,
-  "ended_at": null,
+  "started_at": "2026-10-06T15:46:15Z",
+  "ended_at": "2026-10-06T16:36:43Z",
   "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
-    "Exact active-turn start/end, execution model, client version and final token counters are unavailable; usage remains empty, unknown rather than zero.",
     "Selected curated journal and older project resource coverage are partial; no self-inclusive current-turn or full-project total.",
     "Native scientific execution used dirty c547209 plus exact input/producer/library hashes; enclosing publication commits never replace execution provenance.",
-    "No ACTS conversion, calibrated response, continuum coverage, full-detector integration or hardware qualification. Boundary and adverse engineering failures remain."
+    "No ACTS conversion, calibrated response, continuum coverage, full-detector integration or hardware qualification. Boundary and adverse engineering failures remain.",
+    "2026-10-06 correction: this completed turn now has exact recovered boundaries and five counters. Execution model/client version and older project coverage remain unknown/partial; later baseline-promotion and recovery bookkeeping counters are excluded."
   ],
   "client": {
     "name": "Codex desktop app",
@@ -25,7 +25,8 @@
     "initial_changes": [],
     "result_commits": [
       "75c8df68fac13b0db9dd4812c9404b1a24011437",
-      "0440f5b8d0854060ac1c9f2779f52647137dff2e"
+      "0440f5b8d0854060ac1c9f2779f52647137dff2e",
+      "0f1ac4c622546535396d95c145d11fccf8b01755"
     ],
     "changed_files": [
       "docs/design/DES-020-short-strip-barrel.md",
@@ -142,7 +143,23 @@
       "evidence": "Deterministic before/after SVG and PNG rendered and inspected."
     }
   ],
-  "usage": [],
+  "usage": [
+    {
+      "client_thread_id": "01a10c6a-664d-72b1-afad-926c2c57312b",
+      "turn_id": "01a111e4-e504-7782-81a7-68c6beefc7e5",
+      "model": null,
+      "source": "Usage-only local Codex recovery captured 2026-10-06T18:00:04.324314+00:00; logs/usage/USAGE-2026-10-06-short-strip-barrel-turns.json; verified event SHA-256 071fcdd30bc357b4accf6b10b1c849d35e1c04556914ca8e1476709358a89b26",
+      "limitations": [
+        "Execution model and client version were not exposed by usage-only metadata.",
+        "This exact completed turn is counted once; older project coverage and the active baseline-promotion turn are excluded."
+      ],
+      "input_tokens": 10898236,
+      "cached_input_tokens": 10569600,
+      "output_tokens": 110210,
+      "reasoning_output_tokens": 62780,
+      "total_tokens": 11008446
+    }
+  ],
   "checks": [
     {
       "command": "acts-spack preflight",
@@ -311,6 +328,18 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "Removed an unsupported assertion that ODD coordinate sign convention differs: only its numerical tilt/sign is not adopted; sensor/readout-side equivalence remains unclaimed. Public/local fact observations unchanged."
+    },
+    {
+      "command": "recover_usage.py; import-usage --dry-run; import-usage",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Closed persisted turn01a111e4-e504-7782-81a7-68c6beefc7e5; 75 request increments reconcile; ordinals8762..9531; verified usage SHA256071fcdd30bc357b4accf6b10b1c849d35e1c04556914ca8e1476709358a89b26. Imported once into this owner."
+    },
+    {
+      "command": "gh run view37496911539 --json final hosted metadata",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Final closeout0f1ac4c622546535396d95c145d11fccf8b01755 passed; buildjob112383679537 completed2026-10-06T16:42:14Z, run updated16:42:15Z; deploy112386678897 skipped. Previously pending check verified without scientific rerun."
     }
   ]
 }

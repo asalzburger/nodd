@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-06-short-strip-endcap-accounting",
+  "title": "Short-strip endcap completed-turn resource accounting",
+  "recorded_at": "2026-10-06T19:30:08Z",
+  "started_at": "2026-10-06T19:27:31Z",
+  "ended_at": null,
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "This resource-accounting turn01a112af-787a-7491-8ea4-01dfdcfe09e7 remains active; its completion time/counters are unknown, not imported or attributed to the earlier implementation.",
+    "Execution model/client version unknown; older project usage coverage remains partial.",
+    "Only the exact completed endcap implementation is recovered. Scientific inputs, design lifecycle and prior token ownership are preserved."
+  ],
+  "client": {
+    "name": "Codex desktop app",
+    "version": null,
+    "thread_id": "01a10c6a-664d-72b1-afad-926c2c57312b"
+  },
+  "git": {
+    "start_commit": "fd2ec9fafa026229a2d178424d980c0552e546f1",
+    "branch": "codex/short-strip-endcap",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      "logs/design/SESSION-2026-10-06-short-strip-endcap.json",
+      "logs/design/SESSION-2026-10-06-short-strip-endcap.md",
+      "logs/usage/USAGE-2026-10-06-short-strip-endcap.json",
+      "logs/codex/SESSION-2026-10-06-short-strip-endcap-accounting.json",
+      "logs/codex/SESSION-2026-10-06-short-strip-endcap-accounting.md"
+    ]
+  },
+  "work": {
+    "milestone": "M3",
+    "components": [
+      "resource accounting",
+      "session logger"
+    ],
+    "related_ids": [
+      "DES-021",
+      "PR-51"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-06-short-strip-endcap-accounting.md",
+  "activities": [
+    {
+      "kind": "tool",
+      "name": "recover_usage.py",
+      "version": null,
+      "calls": 1,
+      "failures": 0,
+      "duration_seconds": null,
+      "evidence": "User-authorized metadata/token_count-only recovery. One exact closed143-request implementation turn curated and imported; active bookkeeping turn excluded."
+    },
+    {
+      "kind": "tool",
+      "name": "session_log.py import-usage",
+      "version": null,
+      "calls": 3,
+      "failures": 0,
+      "duration_seconds": null,
+      "evidence": "Dry-run then import added one disjoint usage entry to its existing canonical owner; no reallocation or partial counters. A third identical dry-run returned added0/unchanged1, preserving source/counters."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "Completed-turn recovery and import dry-run/import",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "143 requests reconcile; target closed, exact owner unique; one entry added. Completion2026-10-06T19:27:31Z, usage hashd935e54471baf9d4789f32799a8179ea6b6e860763715dff211ae7a1d0f1fade."
+    },
+    {
+      "command": "Canonical/primary preimage verification before import",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Pair matched saved exact SHA256 values before import; ignored preimage backups retained. No unrelated primary changes touched."
+    },
+    {
+      "command": "Final scientific-head GitHub evidence",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "PR51 OPEN draft at exactfd2ec9f on expected branch/base; hosted37518389469 build112457127799 succeeded19:26:05Z. This accounting makes no scientific change."
+    },
+    {
+      "command": "Accounting logger validate/summary, dashboard validate/build and full diff checks",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "118 task/122 primary records validate; dashboard49 tasks/27 documents/19 reviews builds. Both full parent/main-relative and accounting-start diffs pass. Observed94 turns in57/118 sessions: input265136032/output1670036/total266806068; coverage remains partial, current bookkeeping excluded."
+    },
+    {
+      "command": "Import-usage identical replay --dry-run",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Added0/unchanged1; exact original source/counters preserved. No second import/owner."
+    },
+    {
+      "command": "Guarded primary5-file synchronization and validation",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Original pair matched saved byte hashes; new3 paths absent before copy. Five logging files only copied; head/branch/tracked edits unchanged; primary122 records validated. No geometry or unrelated logs overwritten."
+    }
+  ]
+}
