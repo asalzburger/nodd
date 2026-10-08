@@ -4,8 +4,8 @@
   "title": "Record the human-selected tracker working baseline and update PR28",
   "recorded_at": "2026-09-30T06:54:21Z",
   "started_at": null,
-  "ended_at": null,
-  "status": "open",
+  "ended_at": "2026-09-30T06:59:04Z",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
@@ -28,7 +28,9 @@
       "logs/usage/USAGE-2026-09-29-local.json",
       "logs/usage/USAGE-2026-09-29-project-summary.json"
     ],
-    "result_commits": [],
+    "result_commits": [
+      "655f47e44725a7aa30d8d9bd46266131254001b8"
+    ],
     "changed_files": [
       "docs/design/DES-011-service-constrained-tracker-optimization.md",
       "docs/validation/DES-011-service-constrained-optimization.md",
@@ -68,6 +70,18 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "62 local paired logs validate;33 tasks,12 documents,13 review rounds validate;dashboard builds and whitespace check passes."
+    },
+    {
+      "command": "git push origin study/tracker-service-optimization; gh pr edit28 --title/--body-file; gh pr comment28 --body-file",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Pushed decision commit 655f47e44725a7aa30d8d9bd46266131254001b8; updated PR28 title/body and published decision summary https://github.com/asalzburger/nodd/pull/28#issuecomment-5905908730."
+    },
+    {
+      "command": "session_log.py validate; session_log.py summary --format json; dashboard/build.py validate; dashboard/build.py build --output /tmp/nodd-baseline-selection-final-dashboard; git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Final62 local paired records validate;33 tasks,12 documents,13 review rounds validate; dashboard build and whitespace checks pass. Usage summary generated; no exact usage counters for this bounded task."
     }
   ]
 }

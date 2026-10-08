@@ -71,3 +71,16 @@ Hosted rewrite CI passed: https://github.com/asalzburger/nodd/actions/runs/35241
 A duplicate run was cancelled by workflow concurrency; successful run inspected.
 Final review-metadata checks validate11tasks/9documents/7rounds and33sessionrecords,
 build succeeds and whitespace checks pass. Pages deployment skipped for PR.
+
+## Resource synchronization — 2026-10-07
+
+The authorized cleanup imported 4 exact completed turn(s), after dry-run validation, into this canonical owner. Earlier narrative and original inventory sources remain intact; pending/unknown token statements above are historical and superseded for these observations only.
+
+| Client turn | Input | Cached input | Output | Reasoning output | Total | Requests |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| 01a0aff5-de10-7da2-8822-62b4aeaa3f19 | 6519114 | 6382592 | 20267 | 4861 | 6539381 | 37 |
+| 01a0aff6-fa9d-7a93-9e3b-ff198da124f6 | 775794 | 724480 | 7551 | 88 | 783345 | 17 |
+| 01a0aff7-12d9-7710-98c5-5752ffb4ff06 | 451292 | 413824 | 6319 | 133 | 457611 | 10 |
+| 01a0aff9-3a5b-7d71-a1cc-c954901ad620 | 945158 | 905472 | 3788 | 75 | 948946 | 21 |
+
+Persisted turn/usage ordinals, request counts, timestamps, verified usage-event hashes and original recovery sources are retained in [the synchronization inventory](../usage/USAGE-2026-10-07-synchronization.json). Each turn is counted once; cached input and reasoning output are subsets. No scientific input, execution hash or approval state changed. The current cleanup turn, explicitly excluded illustration/history turn and unassigned historical/internal review turns are excluded; this is partial project coverage, not billing.
