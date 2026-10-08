@@ -2219,9 +2219,46 @@
         "DES-024"
       ],
       "updated": "2026-10-08",
-      "next_action": "Review the radius interpretation and provisional length; integrate with the tracker in the follow-up.",
+      "next_action": "Review provisional radius interpretation, length and engineering interfaces; complete tracker integration is delivered by TASK-TRACKER-GEN3.",
       "blocker": null,
       "disposition": "Independent pipe built; two CTests, zero overlaps, analytical material paths and one Geant4 event passed. Engineering qualification absent.",
+      "subsystem": "tracker"
+    },
+    {
+      "id": "TASK-TRACKER-GEN3",
+      "title": "Assemble BeamPipe + Tracker and derive native ACTS Gen3 geometry",
+      "scope": "User-authorized complete selected tracker compact and DD4hep-backed Gen3 reconstruction geometry; DRAFT engineering baseline.",
+      "stage": "C",
+      "milestones": [
+        "M3"
+      ],
+      "workstream": "WS-SOFT",
+      "role": "Project software engineer",
+      "owner": null,
+      "state": "completed",
+      "dependencies": [
+        "TASK-BEAMPIPE"
+      ],
+      "deliverables": [
+        "docs/design/DES-025-tracker-dd4hep-gen3.md",
+        "tools/tracker_dd4hep/README.md",
+        "docs/validation/DES-025/results.md"
+      ],
+      "evidence": [
+        "docs/validation/DES-025/native.json",
+        "docs/validation/DES-025/gen3.json",
+        "docs/validation/DES-025/navigation.json",
+        "docs/validation/DES-025/integration.json",
+        "docs/validation/DES-025/failed-controls.json"
+      ],
+      "documents": [
+        "DES-025",
+        "DES-024"
+      ],
+      "updated": "2026-10-08",
+      "next_action": "Review the dependent nODD/ACTS PRs, provisional pipe convention and explicit passive-clearance/service ownership amendments; map remaining passive material separately.",
+      "blocker": null,
+      "disposition": "Complete DD4hep model built: 680700 nodes,45646 sensitives,zero overlaps,1mm pipe clearance. 117 Gen3 volumes and45646 source-matched surfaces;128 probes completed. Engineering/field/reconstruction qualifications remain open.",
       "subsystem": "tracker"
     }
   ],
@@ -2446,6 +2483,13 @@
       "path": "docs/design/DES-024-beryllium-beampipe.md",
       "validation_reports": [
         "docs/validation/DES-024/results.md"
+      ]
+    },
+    {
+      "id": "DES-025",
+      "path": "docs/design/DES-025-tracker-dd4hep-gen3.md",
+      "validation_reports": [
+        "docs/validation/DES-025/results.md"
       ]
     }
   ],
@@ -3245,6 +3289,41 @@
         "DES-013"
       ],
       "scope": "User-created publication PR for the already requested PR40 positioning illustration. Original source revision retained; rebase changes no image/science bytes.",
+      "category": "project"
+    },
+    {
+      "id": "PR-57",
+      "number": 57,
+      "title": "Tracker: Add 0.8 mm beryllium beampipe at 27 mm",
+      "url": "https://github.com/asalzburger/nodd/pull/57",
+      "state": "merged",
+      "head_revision": "7926b800ffafd0558fecc46aebd60c46822c377a",
+      "merge_commit": "0050cb80c80f396fc6d0a1bc70e8809613f0cfd8",
+      "merged_at": "2026-10-08T11:49:26Z",
+      "collected_at": "2026-10-08T12:29:15Z",
+      "task": "TASK-BEAMPIPE",
+      "documents": [
+        "DES-024"
+      ],
+      "scope": "Independent user-requested pipe component, native and Geant4 evidence; merge does not imply engineering sign-off.",
+      "category": "project"
+    },
+    {
+      "id": "PR-58",
+      "number": 58,
+      "title": "Tracker: Integrate beampipe and complete DD4hep tracker with Gen3",
+      "url": "https://github.com/asalzburger/nodd/pull/58",
+      "state": "open",
+      "head_revision": "c8d793023297dcd12bea23120ee9cd35260c7753",
+      "merge_commit": null,
+      "merged_at": null,
+      "collected_at": "2026-10-08T12:32:23Z",
+      "task": "TASK-TRACKER-GEN3",
+      "documents": [
+        "DES-025",
+        "DES-024"
+      ],
+      "scope": "Complete selected DD4hep tracker+pipe, explicit clearance/service/ID amendments and companion native ACTS Gen3 conversion; DRAFT engineering qualifications remain.",
       "category": "project"
     }
   ]

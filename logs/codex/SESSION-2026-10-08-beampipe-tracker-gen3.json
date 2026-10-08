@@ -5,11 +5,14 @@
   "recorded_at": "2026-10-08T11:26:01Z",
   "started_at": null,
   "ended_at": null,
-  "status": "open",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
-    "Task remains open for tracker/Gen3 follow-up. Exact current-turn counters and execution model/client version unavailable; usage left empty. No partial recovery or estimate."
+    "Exact current-turn token counters, actual execution model/client version and client completion timestamp are unavailable; usage remains empty and timestamps are not guessed.",
+    "This bounded software task is complete. Larger ACTS hosted platform matrix remains pending at the final publication snapshot; no failure observed.",
+    "Engineering/coverage, passive material mapping, field propagation and reconstruction qualifications remain incomplete; design states stay DRAFT.",
+    "Historical journal usage coverage remains partial; no self-inclusive or all-project total claim."
   ],
   "client": {
     "name": "Codex app",
@@ -20,14 +23,34 @@
     "start_commit": "3e0e706f2103e5ac1cb1d09b9807646ef453a35a",
     "branch": "codex/beryllium-beampipe",
     "initial_changes": [],
-    "result_commits": [],
+    "result_commits": [
+      "8197e8df95e92d2fbc1b36c979d9de02b7be19e3",
+      "7926b800ffafd0558fecc46aebd60c46822c377a",
+      "7c88fa742f54bddb049691526d9caf00f3c498f2",
+      "0050cb80c80f396fc6d0a1bc70e8809613f0cfd8",
+      "a8048ba5a0afad4446538bf634ffcb24cebca3b5",
+      "1d69d00478227dc6f5fb1479dec5f0f376f5d761",
+      "c8d793023297dcd12bea23120ee9cd35260c7753",
+      "30884a7e69f038226eac48900285c9d303bc5c69",
+      "37eec99ddb4747f9ad08014251f24ce51dae21ed"
+    ],
     "changed_files": [
+      ".github/workflows/dashboard.yml",
+      ".gitignore",
       "detector/CMakeLists.txt",
       "detector/config/beampipe.json",
+      "detector/config/tracker.json",
       "detector/src/BeamPipe.cpp",
       "docs/design/DES-024-beryllium-beampipe.md",
+      "docs/design/DES-025-tracker-dd4hep-gen3.md",
       "docs/validation/DES-024/native.json",
       "docs/validation/DES-024/results.md",
+      "docs/validation/DES-025/failed-controls.json",
+      "docs/validation/DES-025/gen3.json",
+      "docs/validation/DES-025/integration.json",
+      "docs/validation/DES-025/native.json",
+      "docs/validation/DES-025/navigation.json",
+      "docs/validation/DES-025/results.md",
       "logs/codex/SESSION-2026-10-08-beampipe-tracker-gen3.json",
       "logs/codex/SESSION-2026-10-08-beampipe-tracker-gen3.md",
       "project/tracking.json",
@@ -35,7 +58,17 @@
       "tools/beampipe/README.md",
       "tools/beampipe/export.py",
       "tools/beampipe/test_export.py",
-      "tools/beampipe/validate.py"
+      "tools/beampipe/validate.py",
+      "tools/tracker_dd4hep/README.md",
+      "tools/tracker_dd4hep/aperture.py",
+      "tools/tracker_dd4hep/check_gen3.py",
+      "tools/tracker_dd4hep/check_navigation.py",
+      "tools/tracker_dd4hep/export.py",
+      "tools/tracker_dd4hep/services.py",
+      "tools/tracker_dd4hep/test_gen3.py",
+      "tools/tracker_dd4hep/test_integration.py",
+      "tools/tracker_dd4hep/test_services.py",
+      "tools/tracker_dd4hep/validate.py"
     ]
   },
   "work": {
@@ -46,7 +79,8 @@
       "ACTS Gen3"
     ],
     "related_ids": [
-      "DES-024"
+      "DES-024",
+      "DES-025"
     ]
   },
   "narrative": "logs/codex/SESSION-2026-10-08-beampipe-tracker-gen3.md",
@@ -70,6 +104,114 @@
       "status": "FAIL",
       "exit_code": 1,
       "result": "Material medium handle, ROOT singleton cleanup, plugin discovery/cast, passive truth-handler failures corrected; results.md retains details."
+    },
+    {
+      "command": "acts build acts-nodd; target rebuild and install after corrections",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Native DD4hep Gen3 adapter built/installed; actual dirty source and installed hashes in DES025 integration report."
+    },
+    {
+      "command": "acts test acts-nodd",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "385/385 C++ tests passed,75.65s."
+    },
+    {
+      "command": "ctest --test-dir build/dd4hep --output-on-failure",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "10/10 passed,256.03s; full tracker zero overlaps,1156 material inventories,45646 unique sensitive IDs and27 material rays."
+    },
+    {
+      "command": "pytest Examples/Nodd/Tests/test_nodd.py -q with NODD_PATH",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "6passed,106.60s;8 Geant4 material probes saved with finite positive totals."
+    },
+    {
+      "command": "nodd_geometry_validation.py;check_gen3.py;check_navigation.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "45646 native frames/IDs/bounds matched;117 volumes;128 seeded saved straight probes completed and crossed all7 systems collectively; finite Be slab verified."
+    },
+    {
+      "command": "pre-commit run --files affected ACTS files --show-diff-on-failure",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All applicable scoped hooks passed."
+    },
+    {
+      "command": "pre-commit run --all-files --show-diff-on-failure",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Final run failed only existing zizmor findings in unmodified workflows:1low,2medium,1high; all other hooks passed. Gates preserved."
+    },
+    {
+      "command": "Unamended assembly/material-reference and early Gen3 controls",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Initial14 pipe intersections; later untranslated cooling references failed inventories despite zero overlaps; corrected material attributes, passive apertures and service ownership. API/alignment/writer corrections retained in results.md."
+    },
+    {
+      "command": "Independent stored native role-count comparison",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All50 source role counts match680292 expected entities;680700 physical nodes including unlabelled assemblies/world."
+    },
+    {
+      "command": "gh api: inspect PR57 hosted jobs",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Run37771347333/build113291428695 succeeded on7926b800 at2026-10-08T11:43:31Z; deploy113293414816 skipped. PR57 merged by maintainer at11:49:26Z as0050cb80."
+    },
+    {
+      "command": "ACTS PR3 initial hosted title check",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Run37776402754 rejected nODD Software prefix; corrected to conventional feat prefix as required by ACTS template/workflow. No gate changed."
+    },
+    {
+      "command": "Final tracker-export-tests CTest after adding conversion negative controls",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Six pure guards passed in0.12s; source namespace, inventory, IDs/frames and pipe-wall controls."
+    },
+    {
+      "command": "First follow-up logger validation",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Hosted-success entry lacked the schema-required CLI exit code; corrected to the observed successful GitHub metadata query. Initial generated bytecode was removed in a normal corrective commit and ignored."
+    },
+    {
+      "command": "Logger/dashboard validation and static site build",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "123session records;55tasks,31documents,19review rounds;_site/tracker-gen3 built. Full origin/main-relative and working diff checks passed."
+    },
+    {
+      "command": "gh api: inspect PR58 final integration hosted jobs",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Run37777612473 on exact37eec99ddb4747f9ad08014251f24ce51dae21ed succeeded. Build113312580752 completed2026-10-08T12:40:10Z; actual hosted conclusion observed. Initial c8d7930 run37777341787 cancelled by publication metadata push, not a scientific failure."
+    },
+    {
+      "command": "Independent assembled pipe inventory and retained artifact hashes",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Native pipe volume1101819.3754670133mm3,mass2036.1622058630405g,density1.848g/cm3,X0=352.7598204630057mm match the standalone pipe. All retained XML/expected/validator/factory hashes match current tested files."
+    },
+    {
+      "command": "Final base-relative diff checks",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Working-tree, origin/main...HEAD and codex/beryllium-beampipe...HEAD diff checks passed; generated bytecode excluded. Primary remainsa54df714; unrelated original ACTS edits preserved."
+    },
+    {
+      "command": "gh pr checks: corrected ACTS title and lint",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Corrected title check37777606234/job113312293009 succeeded; hosted lint/docs and other completed checks passed. Larger platform builds remain pending; not reported as passed."
     }
   ]
 }
