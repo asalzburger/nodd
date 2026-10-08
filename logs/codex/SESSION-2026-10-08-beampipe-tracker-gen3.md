@@ -38,3 +38,12 @@ linked PRs. Exact active-turn counters and client completion time are unavailabl
 usage stays empty. No partial import, token estimate or new accounting schedule.
 Passive mapping, field/acceptance/reconstruction and engineering qualifications
 remain open.
+
+PR57 was merged by the maintainer at2026-10-08T11:49:26Z as0050cb80; its
+hosted build passed at11:43:31Z. Normal receiving-main merge1d69d004 preserved
+all science and logs. PR58 now targets main; ACTS fork PR3 is its companion.
+ACTS initial title check rejected the nODD prefix, corrected to its conventional
+feat title. First follow-up logger check rejected a null exit code for a PASS
+entry; the actual successful metadata-query exit was recorded. Generated
+bytecode was removed and ignored in ordinary corrective commits.
+Publication snapshot 2026-10-08T12:32:23Z: hosted PR58 checks pending; local checks passed.
