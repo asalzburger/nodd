@@ -90,3 +90,37 @@ if(BUILD_TESTING)
 endif()
 install(TARGETS nODDBeamPipe LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
 install(DIRECTORY "${NODD_BEAMPIPE_DIR}/" DESTINATION share/nODD/beampipe)
+
+# DES-025 composes existing prototype factories without regenerating layouts.
+add_library(nODDShortStripBarrel SHARED "${PROJECT_SOURCE_DIR}/prototypes/short_strip_barrel/ShortStripBarrel.cpp")
+add_library(nODDShortStripEndcap SHARED "${PROJECT_SOURCE_DIR}/prototypes/short_strip_endcap/ShortStripEndcap.cpp")
+add_library(nODDLongStrip SHARED "${PROJECT_SOURCE_DIR}/prototypes/long_strip_barrel/LongStrip.cpp")
+foreach(factory nODDShortStripBarrel nODDShortStripEndcap nODDLongStrip)
+  target_compile_features(${factory} PUBLIC cxx_std_20)
+  target_link_libraries(${factory} PUBLIC DD4hep::DDCore)
+  dd4hep_generate_rootmap(${factory})
+  install(TARGETS ${factory} LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
+endforeach()
+set(NODD_TRACKER_DIR "${CMAKE_CURRENT_BINARY_DIR}/tracker")
+file(GLOB_RECURSE NODD_TRACKER_INPUTS CONFIGURE_DEPENDS
+  "${PROJECT_SOURCE_DIR}/tools/tracker_dd4hep/*.py"
+  "${PROJECT_SOURCE_DIR}/tools/short_strip_*/*.py"
+  "${PROJECT_SOURCE_DIR}/tools/short_strip_*/*.json"
+  "${PROJECT_SOURCE_DIR}/tools/long_strip_*/*.py"
+  "${PROJECT_SOURCE_DIR}/tools/long_strip_*/*.json"
+  "${PROJECT_SOURCE_DIR}/tools/beampipe/*.py")
+add_custom_command(OUTPUT "${NODD_TRACKER_DIR}/tracker.xml" "${NODD_TRACKER_DIR}/materials.xml" "${NODD_TRACKER_DIR}/expected.json"
+  COMMAND "${Python3_EXECUTABLE}" -B "${PROJECT_SOURCE_DIR}/tools/tracker_dd4hep/export.py" --output "${NODD_TRACKER_DIR}"
+  DEPENDS ${NODD_TRACKER_INPUTS} ${NODD_EXPORT_INPUTS} ${NODD_COMBINED_INPUTS}
+    "${NODD_PIXEL_DIR}/pixel-detector.xml" "${NODD_BEAMPIPE_DIR}/beampipe.xml"
+  WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}" VERBATIM)
+add_custom_target(nodd-tracker-compact ALL DEPENDS "${NODD_TRACKER_DIR}/tracker.xml" "${NODD_TRACKER_DIR}/materials.xml" "${NODD_TRACKER_DIR}/expected.json")
+install(DIRECTORY "${NODD_TRACKER_DIR}/" DESTINATION share/nODD/tracker)
+if(BUILD_TESTING)
+  add_test(NAME tracker-export-tests COMMAND "${Python3_EXECUTABLE}" -B -m unittest discover
+    -s "${PROJECT_SOURCE_DIR}/tools/tracker_dd4hep" -p "test_*.py" -v)
+  add_test(NAME tracker-dd4hep-validation COMMAND "${Python3_EXECUTABLE}" -B
+    "${PROJECT_SOURCE_DIR}/tools/tracker_dd4hep/validate.py"
+    --compact "${NODD_TRACKER_DIR}/tracker.xml" --expected "${NODD_TRACKER_DIR}/expected.json"
+    --library-dir "${CMAKE_CURRENT_BINARY_DIR}" --output "${CMAKE_CURRENT_BINARY_DIR}/tracker-validation.json")
+endif()

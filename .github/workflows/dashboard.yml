@@ -54,6 +54,10 @@ jobs:
         run: python3 -B -m unittest discover -s tools/pixel_barrel_dd4hep -p 'test_*.py' -v
       - name: Test combined preliminary pixel export
         run: python3 -B -m unittest discover -s tools/pixel_detector_dd4hep -p 'test_*.py' -v
+      - name: Test beampipe and combined tracker integration guards
+        run: |
+          python3 -B -m unittest discover -s tools/beampipe -p 'test_*.py' -v
+          python3 -B -m unittest discover -s tools/tracker_dd4hep -p 'test_*.py' -v
       - name: Test short-strip barrel prototype controls
         run: python3 -B -m unittest discover -s tools/short_strip_barrel -p 'test_*.py' -v
       - name: Short-strip endcap controls
