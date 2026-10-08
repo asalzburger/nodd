@@ -24,7 +24,7 @@ available; the assembly changes are explicit in [integration.json](integration.j
 - 1,156 named material inventories match their exclusive expected volume and
   mass at relative tolerance 1e-6 (absolute tolerance 1e-6). Full ROOT overlap
   audit at 1e-5 mm found zero overlaps/extrusions. Minimum analytical passive
-  pixel clearance to the pipe is exactly 1 mm. Twenty-seven ROOT rays over
+  pixel endcap-annulus clearance to the pipe is exactly 1 mm. Twenty-seven ROOT rays over
   eta [-4,4] and three azimuths reproduce the Be path 0.8*cosh(eta) mm within
   1e-7 mm and retain actual material/crossing records.
 - [Gen3 comparison](gen3.json): all 45,646 sensitive surfaces match native
@@ -121,3 +121,12 @@ Passive supports/services need dedicated material mapping; no ODD map is used.
 Luminous-region acceptance, magnetic-field propagation, alignment, response and
 reconstruction performance remain separate validation work. Length, vacuum,
 pipe supports/flanges and engineering clearance remain provisional/unqualified.
+
+## Hosted publication check
+
+PR58 head37eec99ddb4747f9ad08014251f24ce51dae21ed passed dashboard run
+37777612473, build113312580752 completed2026-10-08T12:40:10Z. The initial
+c8d7930 run37777341787 was superseded by publication metadata and cancelled.
+ACTS fork PR3 title/lint/docs checks passed; the wider platform matrix was still
+pending at this closeout, with no observed failure. Subsequent journal/curation
+metadata does not change the executed geometry, compact or library hashes.

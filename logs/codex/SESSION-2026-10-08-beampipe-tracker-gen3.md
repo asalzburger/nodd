@@ -39,7 +39,7 @@ usage stays empty. No partial import, token estimate or new accounting schedule.
 Passive mapping, field/acceptance/reconstruction and engineering qualifications
 remain open.
 
-PR57 was merged by the maintainer at2026-10-08T11:49:26Z as0050cb80; its
+PR57 was merged at2026-10-08T11:49:26Z as0050cb80; its
 hosted build passed at11:43:31Z. Normal receiving-main merge1d69d004 preserved
 all science and logs. PR58 now targets main; ACTS fork PR3 is its companion.
 ACTS initial title check rejected the nODD prefix, corrected to its conventional
@@ -47,3 +47,21 @@ feat title. First follow-up logger check rejected a null exit code for a PASS
 entry; the actual successful metadata-query exit was recorded. Generated
 bytecode was removed and ignored in ordinary corrective commits.
 Publication snapshot 2026-10-08T12:32:23Z: hosted PR58 checks pending; local checks passed.
+
+## Bounded task closeout — 2026-10-08T12:42:57Z
+
+PR58 science/publication head37eec99 passed hosted run37777612473;
+build113312580752 completed2026-10-08T12:40:10Z. Earlier c8d7930 run
+37777341787 was superseded/cancelled, not a scientific failure. ACTS corrected
+title/lint/docs checks passed; the larger platform matrix remains pending with
+no observed failure. The assembled pipe retains exact standalone volume/mass
+and native radiation length. Retained compact, expected, validator and factory
+hashes were rechecked and match the actual executed artifacts.
+
+The software task is closed; design documents remain DRAFT. Current client
+completion time and token counters are unavailable, so ended_at is null and
+usage empty. This is a task closeout timestamp, not an invented client boundary.
+No accounting automation or partial token import was created. Journal summary
+shows observed historical usage only, with incomplete coverage. No all-project
+or self-inclusive total is claimed. Final logger/dashboard and full parent/main
+diff checks passed; original primary/source edits are preserved.
