@@ -1,0 +1,242 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-09-pixel-tdr-short-publication",
+  "title": "Publish approved concise pixel chapter to Overleaf",
+  "recorded_at": "2026-10-09T11:14:24Z",
+  "started_at": null,
+  "ended_at": "2026-10-09T11:25:26Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Actual client turn start/end and execution model/client version are not exposed.",
+    "Current-turn exact input/cached/output/reasoning/total counters are unavailable; usage stays empty, meaning unknown. No active-turn recovery was attempted.",
+    "Historical resource coverage remains partial.",
+    "ended_at will record the observed bounded publication closeout, not recovered client completion.",
+    "Retained PDFs are pinned local builds of the exact published source; online compilation is separately verified in the UI.",
+    "Hosted checks had not yet appeared at the observed publication-head PR snapshot. Local checks and online Overleaf compilation passed; no final hosted CI conclusion is claimed."
+  ],
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": "01a10c6a-664d-72b1-afad-926c2c57312b"
+  },
+  "git": {
+    "start_commit": "1b18f2fd728edc2085cf222957e35d53c04d7c9a",
+    "branch": "codex/overleaf-online-sync",
+    "initial_changes": [
+      "docs/publication/pixel-short-test-20261009.json",
+      "docs/publication/pixel-short-test-20261009.md",
+      "logs/codex/SESSION-2026-10-09-pixel-tdr-short-test.json",
+      "logs/codex/SESSION-2026-10-09-pixel-tdr-short-test.md",
+      "output/pdf/tdr-short-test-20261009/README.md",
+      "output/pdf/tdr-short-test-20261009/comparison.json",
+      "output/pdf/tdr-short-test-20261009/nodd-pixel-short-test.pdf",
+      "output/pdf/tdr-short-test-20261009/nodd-tdr-short-test-source.zip",
+      "output/pdf/tdr-short-test-20261009/nodd-tdr-short-test.pdf",
+      "output/pdf/tdr-short-test-20261009/pixel-detector-short.tex",
+      "project/tracking.json"
+    ],
+    "result_commits": [
+      "5bd864b0f0615906a5030e76ba4685da065892d7"
+    ],
+    "changed_files": [
+      "docs/tdr",
+      "docs/publication/pixel-short-publication-20261009.json",
+      "docs/publication/pixel-short-publication-20261009.md",
+      "project/tracking.json",
+      "logs/codex/SESSION-2026-10-09-pixel-tdr-short-publication.json",
+      "logs/codex/SESSION-2026-10-09-pixel-tdr-short-publication.md",
+      "output/pdf/tdr-short-published-20261009/nodd-pixel.pdf",
+      "output/pdf/tdr-short-published-20261009/nodd-tdr.pdf",
+      "docs/publication/pixel-short-test-20261009.json",
+      "docs/publication/pixel-short-test-20261009.md",
+      "logs/codex/SESSION-2026-10-09-pixel-tdr-short-test.json",
+      "logs/codex/SESSION-2026-10-09-pixel-tdr-short-test.md"
+    ]
+  },
+  "work": {
+    "milestone": "M3",
+    "components": [
+      "TDR",
+      "publication",
+      "pixel chapter"
+    ],
+    "related_ids": [
+      "PUB-PIXEL-CONCISE-PUBLICATION-2026-10-09",
+      "TASK-PUB-PIXEL-CONCISE-PUBLICATION",
+      "PR59"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-09-pixel-tdr-short-publication.md",
+  "activities": [
+    {
+      "kind": "skill",
+      "name": "pdf",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Marker ran once before publication source authoring; final pages rendered/inspected."
+    },
+    {
+      "kind": "tool",
+      "name": "Git / GitHub CLI",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Latest source fetch, clean normal publication commit/push, remote verification and primary guarded fast-forward."
+    },
+    {
+      "kind": "tool",
+      "name": "Docker / pinned TeX Live",
+      "version": "29.3.1 / TeX Live 2026",
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Two isolated, network-disabled source builds; exact compiler digest in publication inventory."
+    },
+    {
+      "kind": "tool",
+      "name": "Python / Poppler",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Source preservation audits, artifact hashes, all-page renders and approved pixel render comparison."
+    },
+    {
+      "kind": "tool",
+      "name": "Overleaf browser UI",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Explicit main.tex recompile completed: 31 pages, Errors 0, Warnings 0, Info 1 (underfull box)."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "Initial rg path inspection",
+      "status": "FAIL",
+      "exit_code": null,
+      "result": "A repository-relative search was passed the umbrella-relative directory name. The path did not exist; corrected to the worktree root in the next inspection. Individual rg exit was not captured by the combined initial inspection shell."
+    },
+    {
+      "command": "gh pr view 59 --json state/head/base",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Existing documentation PR OPEN at expected branch/head and main base."
+    },
+    {
+      "command": "GIT_TERMINAL_PROMPT=0 git fetch origin (TDR, initial and pre-push)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Online source still 279d882; no authored edits occurred after the approved test or before publication."
+    },
+    {
+      "command": "Approved chapter/table/source byte audit",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Approved chapter hash and five table environments match; other chapters/data/assets/producers preserved."
+    },
+    {
+      "command": "Pinned latexmk publication main.tex",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "31 pages; final compiler log clean. Latexmk created its missing chapter auxiliary directory and retried automatically within the successful invocation."
+    },
+    {
+      "command": "Pinned latexmk publication pixel-detector.tex",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "13 pages; final compiler log clean."
+    },
+    {
+      "command": "Poppler rendering and approved pixel image comparison",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All publication pages rendered; full report inspected and all 13 pixel pages pixel-identical to approved inspected render."
+    },
+    {
+      "command": "Publication submodule commit / git diff --cached --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Normal commit 7625cf6054f5761228be6d8d2de24d43f155bd19, seven explicit source/documentation paths only."
+    },
+    {
+      "command": "GIT_TERMINAL_PROMPT=0 git push origin HEAD:main (Overleaf)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Approved editorial revision pushed normally; no force push."
+    },
+    {
+      "command": "Overleaf main ls-remote exact revision verification",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Online main is 7625cf6054f5761228be6d8d2de24d43f155bd19."
+    },
+    {
+      "command": "Guarded primary TDR fetch / merge --ff-only",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Primary clean TDR safely fast-forwarded; parent branch/head, unrelated diff SHA and all other status entries preserved."
+    },
+    {
+      "command": "Compiled-copy vs published source tree audit",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All source file bytes match the clean committed publication tree."
+    },
+    {
+      "command": "Initial combined whitespace/summary-evidence harness",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Whitespace checks passed, but dependent summary-file read ran in parallel before the summary file existed. Corrected by awaiting the completed summary before reading it; no source or accounting changed."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 126 paired records."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py summary --format json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "126 sessions; 94 historical observed turns, 57 sessions with usage, 69 without. Observed historical input 265136032 / output 1670036 / total 266806068. Both current publication and preceding local test usage unknown/excluded."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate/build",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "58 tasks, 31 documents, 19 review rounds validated; dashboard built under ignored _site/tdr-short-publication."
+    },
+    {
+      "command": "git diff --check / full origin/main...HEAD --check / no-index new-text checks",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Working-tree, earlier committed main-relative and all new curated text whitespace checks passed; full publication commit check remains to follow."
+    },
+    {
+      "command": "Sequential read of completed logger summary",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Summary evidence read successfully after producer completion; measurements unchanged."
+    },
+    {
+      "command": "git diff origin/main...HEAD --check (publication head)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Full committed main-relative diff passed on 5bd864b0f0615906a5030e76ba4685da065892d7."
+    },
+    {
+      "command": "git push origin codex/overleaf-online-sync; gh pr edit/view59",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Existing PR #59 normally updated; OPEN on expected main base and exact publication head 5bd864b0f0615906a5030e76ba4685da065892d7. Title/description reflect final published concise edition. Hosted check rollup was empty at observation."
+    }
+  ]
+}

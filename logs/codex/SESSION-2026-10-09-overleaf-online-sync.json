@@ -1,0 +1,175 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-09-overleaf-online-sync",
+  "title": "Synchronize online TDR edits and propose a concise pixel chapter",
+  "recorded_at": "2026-10-09T08:54:54Z",
+  "started_at": null,
+  "ended_at": "2026-10-09T09:05:42Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Actual client turn start/end and execution model/version are not exposed.",
+    "Current-turn exact input/cached/output/reasoning/total counters are unavailable; usage remains empty, meaning unknown. No recovery of an active turn was attempted.",
+    "Historical project resource coverage remains partial.",
+    "Overleaf compilation was checked in the UI; no new retained PDF or all-page visual QA is claimed.",
+    "ended_at is the observed bounded editorial closeout, not a recovered client turn completion. The GitHub dashboard run was in progress at this metadata update."
+  ],
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": "01a10c6a-664d-72b1-afad-926c2c57312b"
+  },
+  "git": {
+    "start_commit": "896730fd655f2efdfdf8120b27ae750cb3fbd570",
+    "branch": "codex/overleaf-online-sync",
+    "initial_changes": [],
+    "result_commits": [
+      "17fadaf54cad754036077fa6222e015923105b0e"
+    ],
+    "changed_files": [
+      "AGENTS.md",
+      "docs/tdr",
+      "docs/publication/TDR-writing-guide.md",
+      "docs/publication/pixel-chapter-shortening-proposal.md",
+      "docs/publication/overleaf-online-sync-20261009.json",
+      "project/tracking.json",
+      "logs/codex/SESSION-2026-10-09-overleaf-online-sync.json",
+      "logs/codex/SESSION-2026-10-09-overleaf-online-sync.md"
+    ]
+  },
+  "work": {
+    "milestone": "M3",
+    "components": [
+      "TDR",
+      "publication",
+      "pixel chapter"
+    ],
+    "related_ids": [
+      "PUB-OVERLEAF-SYNC-2026-10-09",
+      "PUB-WRITING-2026-10-09",
+      "PUB-PIXEL-CONCISE-2026-10-09",
+      "TASK-PUB-OVERLEAF-ONLINE-SYNC"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-09-overleaf-online-sync.md",
+  "activities": [
+    {
+      "kind": "tool",
+      "name": "Git / GitHub CLI",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Paired narrative and curated publication inventory."
+    },
+    {
+      "kind": "tool",
+      "name": "Overleaf browser UI",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Observed main.tex Recompile, UI errors/warnings and compiler output metadata."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "GIT_TERMINAL_PROMPT=0 git fetch origin (nODD and TDR)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Fetched latest main and online TDR; isolated branch starts at 896730fd, old/new TDR 908e7e5/279d882."
+    },
+    {
+      "command": "python3 build/tdr-online-sync-20261009/verify.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Exact clean TDR head, ancestor relationship, only three changed authored chapters, 35 manifest items, literal TeX inputs and figures verified."
+    },
+    {
+      "command": "Guarded primary TDR git merge --ff-only origin/main",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Clean submodule fast-forwarded 908e7e5→279d882. Parent branch/head and unrelated diff/status byte hashes unchanged."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate (initial journal)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "New activity entries used unsupported fields and omitted required schema fields. Corrected to the repository activity schema; no historical record changed."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py summary (before schema correction)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Blocked by the same new journal activity schema error; corrected before publication."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate (second attempt)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Validator requires an observed zero process exit for PASS. Removed the UI-only compile observation from CLI checks; its actual success remains in the publication evidence and narrative."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py summary --format json (before second correction)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Blocked by the same PASS/exit-code inconsistency. Attempt to parse its empty redirected output raised JSONDecodeError; summary rerun after correction."
+    },
+    {
+      "command": "New text whitespace check (first harness)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Harness mistook the normal no-index diff return code for whitespace failure despite empty diagnostics. Corrected to accept diff codes 0/1 only when no whitespace diagnostics exist."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate (corrected)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 124 paired session records."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py summary --format json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "124 sessions; 94 observed historical turns, 57 sessions with usage, 67 without. Observed historical input 265136032 / output 1670036 / total 266806068. This task has no usage observations; coverage remains partial."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 56 tasks, 31 documents and 19 review rounds."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py --output _site/tdr-online-sync build",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Dashboard built successfully in the ignored output directory."
+    },
+    {
+      "command": "git diff --check and corrected no-index new-text checks",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Working-tree and new-file whitespace checks passed."
+    },
+    {
+      "command": "git diff origin/main...HEAD --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Full main-relative documentation diff passed on 17fadaf54cad754036077fa6222e015923105b0e."
+    },
+    {
+      "command": "git push -u origin codex/overleaf-online-sync; gh pr create; gh pr view59",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "PR #59 created, attached, OPEN on expected main base and exact deliverable head 17fadaf54cad754036077fa6222e015923105b0e. Initial hosted run 37908863760 / job 113748873558 in progress; no completed CI claim."
+    },
+    {
+      "command": "GIT_TERMINAL_PROMPT=0 git -C docs/tdr ls-remote origin refs/heads/main",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Online main still 279d882179e93b56e522fd6b390c965f6ab18e84 after local synchronization and observed Overleaf compile."
+    }
+  ]
+}
