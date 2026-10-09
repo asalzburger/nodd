@@ -145,6 +145,13 @@ Validation output must record the commit SHA, configuration, tool versions, rand
 
 ## Documentation conventions
 
+For TDR writing, follow [the publication writing guide](docs/publication/TDR-writing-guide.md).
+Describe the current baseline and its simulation representation. Do not narrate
+unsuccessful attempts or intermediate layouts in the TDR. Keep mounting and
+cooling explanations proportional to their effect on geometry and material;
+use compact parameter tables for dimensions. Historical execution evidence
+continues to belong in the separate validation reports and session journal.
+
 - Design proposals: `docs/design/DES-NNN-short-name.md`
 - Architecture decisions: `docs/decisions/ADR-NNN-short-name.md`
 - Sign-off records: `docs/signoff/DES-NNN-signoff.md`
