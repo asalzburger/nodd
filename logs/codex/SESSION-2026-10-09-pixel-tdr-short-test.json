@@ -1,0 +1,187 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-09-pixel-tdr-short-test",
+  "title": "Local shortened pixel TDR test",
+  "recorded_at": "2026-10-09T10:42:11Z",
+  "started_at": null,
+  "ended_at": "2026-10-09T11:07:17Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Actual client turn start/end and execution model/version are not exposed.",
+    "Current-turn exact input/cached/output/reasoning/total counters are unavailable; usage is empty, meaning unknown. No active-turn recovery or accounting follow-up was scheduled.",
+    "Historical project resource coverage remains partial.",
+    "ended_at will identify observed local editorial closeout, not recovered client turn completion.",
+    "This local test has no result commit, hosted check or publication."
+  ],
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": "01a10c6a-664d-72b1-afad-926c2c57312b"
+  },
+  "git": {
+    "start_commit": "1b18f2fd728edc2085cf222957e35d53c04d7c9a",
+    "branch": "codex/overleaf-online-sync",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      "docs/publication/pixel-short-test-20261009.md",
+      "docs/publication/pixel-short-test-20261009.json",
+      "project/tracking.json",
+      "logs/codex/SESSION-2026-10-09-pixel-tdr-short-test.json",
+      "logs/codex/SESSION-2026-10-09-pixel-tdr-short-test.md",
+      "output/pdf/tdr-short-test-20261009/README.md",
+      "output/pdf/tdr-short-test-20261009/nodd-pixel-short-test.pdf",
+      "output/pdf/tdr-short-test-20261009/nodd-tdr-short-test-source.zip",
+      "output/pdf/tdr-short-test-20261009/nodd-tdr-short-test.pdf",
+      "output/pdf/tdr-short-test-20261009/pixel-detector-short.tex",
+      "output/pdf/tdr-short-test-20261009/comparison.json"
+    ]
+  },
+  "work": {
+    "milestone": "M3",
+    "components": [
+      "TDR",
+      "publication",
+      "pixel chapter"
+    ],
+    "related_ids": [
+      "PUB-PIXEL-SHORT-TEST-2026-10-09",
+      "PUB-PIXEL-CONCISE-2026-10-09",
+      "TASK-PUB-PIXEL-SHORT-TEST"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-09-pixel-tdr-short-test.md",
+  "activities": [
+    {
+      "kind": "skill",
+      "name": "pdf",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "PDF skill used; operation marker ran once before authoring. Final PDF pages rendered and inspected."
+    },
+    {
+      "kind": "tool",
+      "name": "Docker / pinned TeX Live",
+      "version": "29.3.1 / TeX Live 2026",
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Isolated local source copies compiled without network or credentials. See curated comparison for pinned compiler digest."
+    },
+    {
+      "kind": "tool",
+      "name": "Python / Poppler",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Source preservation audits, export hashes, source ZIP, page counts and final page rendering."
+    },
+    {
+      "kind": "tool",
+      "name": "Git / repository logger / dashboard",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Local-only journal and task register; original source submodule and parent commit preserved."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "Host TeX compiler discovery",
+      "status": "NOT RUN",
+      "exit_code": null,
+      "result": "No host pdflatex, latexmk or tectonic; used pinned repository CI compiler image."
+    },
+    {
+      "command": "Initial Docker access/daemon availability",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Sandbox socket access and then inactive daemon blocked initial probes. Docker app started; purpose-specific escalated local compilation proceeded."
+    },
+    {
+      "command": "Default-platform pinned compiler image pull",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Image has no ARM64 manifest; corrected platform to linux/amd64 using installed emulation."
+    },
+    {
+      "command": "Pinned latexmk original main.tex",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "36 pages; clean compiler log."
+    },
+    {
+      "command": "Pinned latexmk original pixel-detector.tex",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "17 pages; clean compiler log."
+    },
+    {
+      "command": "Pinned latexmk shortened main.tex (final)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "31 pages; no LaTeX warnings, undefined references or overfull boxes."
+    },
+    {
+      "command": "Pinned latexmk shortened pixel-detector.tex (final)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "13 pages; no LaTeX warnings, undefined references or overfull boxes."
+    },
+    {
+      "command": "Initial export table byte audit",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Whitespace-only differences in retained table were caught; original five table environments restored verbatim and test documents recompiled."
+    },
+    {
+      "command": "Bundled Python build/tdr-short-test-20261009/export.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Five original tables byte-preserved; only four copied source files differ; outputs/source ZIP and hashes produced."
+    },
+    {
+      "command": "Poppler final full and pixel PDF rendering",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "31 full-report and 13 pixel-extract pages rendered. All final pages visually inspected; figure/reference placement corrected before delivery."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 125 session records."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py summary --format json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "125 sessions, 94 observed historical turns, 57 sessions with usage and 68 without. Observed historical input 265136032 / output 1670036 / total 266806068. Current turn excluded; coverage partial."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 57 tasks, 31 documents and 19 review rounds."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py --output _site/tdr-short-test build",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Dashboard built in ignored local directory."
+    },
+    {
+      "command": "Final PDF/source archive hash, page count and Git/whitespace verification",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Both PDF page counts and output hashes match comparison inventory; ZIP CRC and all source hashes match. Parent HEAD and clean authored TDR submodule preserved. Working-tree and new text whitespace checks passed."
+    }
+  ]
+}
