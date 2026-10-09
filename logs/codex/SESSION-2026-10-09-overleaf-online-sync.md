@@ -65,3 +65,19 @@ older project coverage remains partial.
 
 Review and merge the documentation sync PR. Review the pixel editing proposal
 before applying it and publishing an agreed revision to Overleaf.
+
+## Publication closeout — 2026-10-09T09:05:42Z
+
+Deliverable commit `17fadaf54cad754036077fa6222e015923105b0e` was normally pushed and published as
+[PR #59](https://github.com/asalzburger/nodd/pull/59), OPEN against main.
+The PR is attached to this task. Full main-relative diff checks passed.
+Online main was rechecked at the exact synchronized revision after compilation.
+The initial hosted dashboard run 37908863760 / job 113748873558 was still running
+when this metadata was collected; no completed hosted result is claimed here.
+
+Logger validation passed 124 paired records; dashboard validation/build passed
+56 tasks / 31 documents / 19 reviews. Summary includes 94 historical observed turns:
+input 265136032 / output 1670036 / total 266806068, with 67 sessions lacking usage.
+These sums exclude this unknown current turn and are not a complete project total.
+The closeout timestamp marks local editorial delivery; the actual client turn
+completion and exact counters remain unknown.

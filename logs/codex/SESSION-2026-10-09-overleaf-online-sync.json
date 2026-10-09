@@ -4,15 +4,16 @@
   "title": "Synchronize online TDR edits and propose a concise pixel chapter",
   "recorded_at": "2026-10-09T08:54:54Z",
   "started_at": null,
-  "ended_at": null,
-  "status": "open",
+  "ended_at": "2026-10-09T09:05:42Z",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
     "Actual client turn start/end and execution model/version are not exposed.",
     "Current-turn exact input/cached/output/reasoning/total counters are unavailable; usage remains empty, meaning unknown. No recovery of an active turn was attempted.",
     "Historical project resource coverage remains partial.",
-    "Overleaf compilation was checked in the UI; no new retained PDF or all-page visual QA is claimed."
+    "Overleaf compilation was checked in the UI; no new retained PDF or all-page visual QA is claimed.",
+    "ended_at is the observed bounded editorial closeout, not a recovered client turn completion. The GitHub dashboard run was in progress at this metadata update."
   ],
   "client": {
     "name": "Codex desktop",
@@ -23,7 +24,9 @@
     "start_commit": "896730fd655f2efdfdf8120b27ae750cb3fbd570",
     "branch": "codex/overleaf-online-sync",
     "initial_changes": [],
-    "result_commits": [],
+    "result_commits": [
+      "17fadaf54cad754036077fa6222e015923105b0e"
+    ],
     "changed_files": [
       "AGENTS.md",
       "docs/tdr",
@@ -118,7 +121,7 @@
       "command": "New text whitespace check (first harness)",
       "status": "FAIL",
       "exit_code": 1,
-      "result": "Harness mistook the normal no-index diff return code for whitespace failure despite empty diagnostics. Corrected to accept diff codes0/1 only when no whitespace diagnostics exist."
+      "result": "Harness mistook the normal no-index diff return code for whitespace failure despite empty diagnostics. Corrected to accept diff codes 0/1 only when no whitespace diagnostics exist."
     },
     {
       "command": "python3 tools/session_logging/session_log.py validate (corrected)",
@@ -130,7 +133,7 @@
       "command": "python3 tools/session_logging/session_log.py summary --format json",
       "status": "PASS",
       "exit_code": 0,
-      "result": "124 sessions; 94 observed historical turns, 57 sessions with usage, 67 without. Observed historical input265136032/output1670036/total266806068. This task has no usage observations; coverage remains partial."
+      "result": "124 sessions; 94 observed historical turns, 57 sessions with usage, 67 without. Observed historical input 265136032 / output 1670036 / total 266806068. This task has no usage observations; coverage remains partial."
     },
     {
       "command": "python3 -B tools/dashboard/build.py validate",
@@ -149,6 +152,24 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "Working-tree and new-file whitespace checks passed."
+    },
+    {
+      "command": "git diff origin/main...HEAD --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Full main-relative documentation diff passed on 17fadaf54cad754036077fa6222e015923105b0e."
+    },
+    {
+      "command": "git push -u origin codex/overleaf-online-sync; gh pr create; gh pr view59",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "PR #59 created, attached, OPEN on expected main base and exact deliverable head 17fadaf54cad754036077fa6222e015923105b0e. Initial hosted run 37908863760 / job 113748873558 in progress; no completed CI claim."
+    },
+    {
+      "command": "GIT_TERMINAL_PROMPT=0 git -C docs/tdr ls-remote origin refs/heads/main",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Online main still 279d882179e93b56e522fd6b390c965f6ab18e84 after local synchronization and observed Overleaf compile."
     }
   ]
 }
