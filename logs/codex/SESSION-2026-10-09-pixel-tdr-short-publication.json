@@ -4,8 +4,8 @@
   "title": "Publish approved concise pixel chapter to Overleaf",
   "recorded_at": "2026-10-09T11:14:24Z",
   "started_at": null,
-  "ended_at": null,
-  "status": "open",
+  "ended_at": "2026-10-09T11:25:26Z",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
@@ -13,7 +13,8 @@
     "Current-turn exact input/cached/output/reasoning/total counters are unavailable; usage stays empty, meaning unknown. No active-turn recovery was attempted.",
     "Historical resource coverage remains partial.",
     "ended_at will record the observed bounded publication closeout, not recovered client completion.",
-    "Retained PDFs are pinned local builds of the exact published source; online compilation is separately verified in the UI."
+    "Retained PDFs are pinned local builds of the exact published source; online compilation is separately verified in the UI.",
+    "Hosted checks had not yet appeared at the observed publication-head PR snapshot. Local checks and online Overleaf compilation passed; no final hosted CI conclusion is claimed."
   ],
   "client": {
     "name": "Codex desktop",
@@ -36,7 +37,9 @@
       "output/pdf/tdr-short-test-20261009/pixel-detector-short.tex",
       "project/tracking.json"
     ],
-    "result_commits": [],
+    "result_commits": [
+      "5bd864b0f0615906a5030e76ba4685da065892d7"
+    ],
     "changed_files": [
       "docs/tdr",
       "docs/publication/pixel-short-publication-20261009.json",
@@ -45,7 +48,11 @@
       "logs/codex/SESSION-2026-10-09-pixel-tdr-short-publication.json",
       "logs/codex/SESSION-2026-10-09-pixel-tdr-short-publication.md",
       "output/pdf/tdr-short-published-20261009/nodd-pixel.pdf",
-      "output/pdf/tdr-short-published-20261009/nodd-tdr.pdf"
+      "output/pdf/tdr-short-published-20261009/nodd-tdr.pdf",
+      "docs/publication/pixel-short-test-20261009.json",
+      "docs/publication/pixel-short-test-20261009.md",
+      "logs/codex/SESSION-2026-10-09-pixel-tdr-short-test.json",
+      "logs/codex/SESSION-2026-10-09-pixel-tdr-short-test.md"
     ]
   },
   "work": {
@@ -218,6 +225,18 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "Summary evidence read successfully after producer completion; measurements unchanged."
+    },
+    {
+      "command": "git diff origin/main...HEAD --check (publication head)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Full committed main-relative diff passed on 5bd864b0f0615906a5030e76ba4685da065892d7."
+    },
+    {
+      "command": "git push origin codex/overleaf-online-sync; gh pr edit/view59",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Existing PR #59 normally updated; OPEN on expected main base and exact publication head 5bd864b0f0615906a5030e76ba4685da065892d7. Title/description reflect final published concise edition. Hosted check rollup was empty at observation."
     }
   ]
 }
