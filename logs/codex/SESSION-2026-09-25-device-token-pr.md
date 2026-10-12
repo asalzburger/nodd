@@ -43,3 +43,12 @@ Committed `3e594e265011c868dfebcf35894192a691d527ac`, pushed the branch, and ope
 and exact head. Hosted checks were not yet listed at that observation; local
 results remain as recorded above. The final logging commit records publication.
 No merge or approval was performed.
+
+## Token-accounting correction — 2026-10-12
+
+Imported 1 verified closed turns: **1,394,396 input** and
+**3,832 output** tokens. The [device audit inventory](../usage/USAGE-2026-10-12-device-audit.json)
+retains exact boundaries, request counts, event hashes and task attribution.
+Earlier missing-counter statements describe the original capture. Cached input
+and reasoning output are subsets; execution model/client version and total project
+coverage remain unknown. No design approval or scientific validation changes.

@@ -94,3 +94,12 @@ MERGEABLE/CLEAN, and hosted build run `36142049953` passed at that head.
 The local required token gate failed (exit 1) only for this new rebase session.
 Merge remains pending until its completed-turn accounting is available or the
 human explicitly authorizes an exception. A merge does not advance DES-006 out of DRAFT/PROTOTYPE.
+
+## Token-accounting correction — 2026-10-12
+
+Imported 2 verified closed turns: **8,259,815 input** and
+**21,167 output** tokens. The [device audit inventory](../usage/USAGE-2026-10-12-device-audit.json)
+retains exact boundaries, request counts, event hashes and task attribution.
+Earlier missing-counter statements describe the original capture. Cached input
+and reasoning output are subsets; execution model/client version and total project
+coverage remain unknown. No design approval or scientific validation changes.

@@ -52,3 +52,14 @@ review targets or design states. No new source lookup or scientific changes.
 Both strip suites and final dashboard/log validation were rerun; detailed
 results follow in the paired JSON. Existing dashboard/logging unit-test results
 remain applicable: their implementation did not change in this follow-up.
+
+## Token-accounting correction — 2026-10-12
+
+Imported 1 verified closed turns: **1,678,695 input** and
+**7,721 output** tokens. The [device audit inventory](../usage/USAGE-2026-10-12-device-audit.json)
+retains exact boundaries, request counts, event hashes and task attribution.
+The full shared PR21/22 follow-up turn is counted here once; the PR22 journal
+references this owner without additional usage. No division by task duration is made.
+Earlier missing-counter statements describe the original capture. Cached input
+and reasoning output are subsets; execution model/client version and total project
+coverage remain unknown. No design approval or scientific validation changes.

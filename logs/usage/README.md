@@ -1,5 +1,43 @@
 # Local token-usage recovery
 
+## Remaining-device audit — 2026-10-12
+
+The [audit inventory](USAGE-2026-10-12-device-audit.json) checks 16 local project
+threads and 69 turns, including a former checkout location. All 1,110 usage
+events reconcile; 51 repeated snapshots are ignored and no usage falls outside
+persisted turn boundaries. Twenty-six existing observations match exactly.
+
+Twenty-four additional closed turns add **61,905,180 input** and **230,774
+output** tokens, bringing the observed project subtotal to **615,073,285**
+(611,570,792 input plus 3,502,493 output), across **207 turns**. Three of the
+new turns are separately verified PubDoc child turns. Shared multi-PR turns
+have one owner and companion journal references, with no token allocation by PR.
+
+Eight historical publication journal pairs were restored from local branch
+revision `7ec9d05dc5ee9aefdf6c0da30549615ebc06a0b0`; original file hashes are
+retained. Only journals and accounting evidence were restored. The full
+[session record](../codex/SESSION-2026-10-12-device-accounting-audit.md)
+documents attribution, checks and limits.
+
+One closed token-gate turn has **1,758,566 input** and **14,946 output** tokens
+retained as import-ready evidence; it is not added to the subtotal because its
+journal is pre-existing untracked user work, preserved byte-for-byte. Thirteen
+orientation/discussion or early scaffold turns still lack a confident bounded
+record match. Four failed turns have no observations, and the current active
+turn remains uncounted. The prior desktop recovery ran against another device
+history, so its then-active October 12 turn cannot be finalized here. These are
+partial client observations, not complete project usage or billing.
+
+### Audit closeout during PR preparation
+
+The [follow-up inventory](USAGE-2026-10-12-device-audit-closeout.json) captures
+the audit turn after completion: **3,103,786 input + 19,016 output = 3,122,802
+tokens**. This adds one disjoint observation to the audit's own journal while
+preserving the original snapshot. The two device inventories therefore add
+**65,008,966 input + 249,790 output = 65,258,756 tokens**, bringing the project
+to **618,196,087 observed tokens across 208 turns**. The new PR-publication turn
+remains active and uncounted; all other exclusions above remain in force.
+
 ## Canonical synchronization — 2026-10-07
 
 The [audit](AUDIT-2026-10-07.md) and [new curated inventory](USAGE-2026-10-07-synchronization.json)

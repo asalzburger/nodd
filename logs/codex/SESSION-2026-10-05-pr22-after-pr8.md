@@ -38,3 +38,12 @@ estimated. Historical journal summaries overlap between branches and are not
 new-task usage. Push the ordinary merge commit and verify GitHub mergeability;
 CI provides the JavaScript check unavailable locally. Human design-review and
 sign-off requirements remain unchanged.
+
+## Token-accounting correction — 2026-10-12
+
+The complete shared turn is now counted once in
+[SESSION-2026-10-05-pr21-after-pr8](SESSION-2026-10-05-pr21-after-pr8.md).
+This record adds no usage; the shared turn cannot be split exactly by PR.
+The [device audit inventory](../usage/USAGE-2026-10-12-device-audit.json)
+retains its boundaries and verified counters. Earlier missing-usage statements
+describe the original capture.

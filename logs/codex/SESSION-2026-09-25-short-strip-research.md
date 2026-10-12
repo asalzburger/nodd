@@ -100,3 +100,12 @@ reviewers; realistic ASIC tiling, budgets and services; DES-006 covariance,
 envelope and identifier handoff. Import exact completed-turn token evidence
 before merge. Scientific design sign-off and production implementation remain
 separate future steps.
+
+## Token-accounting correction — 2026-10-12
+
+Imported 2 verified closed turns: **5,976,886 input** and
+**36,030 output** tokens. The [device audit inventory](../usage/USAGE-2026-10-12-device-audit.json)
+retains exact boundaries, request counts, event hashes and task attribution.
+Earlier missing-counter statements describe the original capture. Cached input
+and reasoning output are subsets; execution model/client version and total project
+coverage remain unknown. No design approval or scientific validation changes.
