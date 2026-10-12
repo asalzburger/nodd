@@ -23,7 +23,9 @@
     "initial_changes": [
       "docs/design/DES-029-calorimeter-assemblies.md"
     ],
-    "result_commits": [],
+    "result_commits": [
+      "5861a7e32cbe18bfa708e0bf0dd0089b2848c732"
+    ],
     "changed_files": [
       "project/tracking.json",
       "prototypes/calorimeter/Calorimeter.cpp",
@@ -48,7 +50,9 @@
       "tools/calorimeter_hardware/assembly_plot.py",
       "tools/calorimeter_hardware/assembly_transport.py",
       "tools/calorimeter_hardware/sector_fixture.py",
-      "tools/calorimeter_hardware/test_assemblies.py"
+      "tools/calorimeter_hardware/test_assemblies.py",
+      "tools/calorimeter_hardware/check_shapes.py",
+      "docs/validation/DES-029/shapes.json"
     ]
   },
   "work": {
@@ -61,7 +65,8 @@
     "related_ids": [
       "DES-028",
       "DES-029",
-      "PR67"
+      "PR67",
+      "PR69"
     ]
   },
   "narrative": "logs/codex/SESSION-2026-10-12-calorimeter-assemblies.md",
@@ -125,6 +130,12 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "170paired records validate."
+    },
+    {
+      "command": "python3 tools/calorimeter_hardware/check_shapes.py (README arguments)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "1045unique native material shapes and444CSG cutters agree in dimensions/vertices/transforms with the inventory; persisted full overlap-checked ROOT hash verified."
     }
   ]
 }

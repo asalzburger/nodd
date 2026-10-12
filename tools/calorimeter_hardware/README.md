@@ -95,3 +95,17 @@ orientations. Default DDSim calorimeter actions are smoke-test machinery, not a
 validated silicon/scintillator response model. Complete sectors first converted
 to Geant4, but their initialization was stopped after several minutes; only
 sparse fixtures completed event transport. Full detector transport remains open.
+
+The independent shape audit reads that exact persisted full ROOT artifact:
+
+```sh
+python3 -B tools/calorimeter_hardware/check_shapes.py \
+  --root build/calorimeter/full/native.root \
+  --native build/calorimeter/full/native.json \
+  --expected build/calorimeter/full/expected.json \
+  --output build/calorimeter/full/shapes.json
+```
+
+It requires both ROOT and expected-inventory hashes to match the completed
+overlap audit and verifies native primitive dimensions, polygon vertices/depth
+and Boolean cutter dimensions/transforms. It does not relax any overlap gate.

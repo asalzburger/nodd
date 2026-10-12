@@ -55,3 +55,9 @@ site build preserve existing observed totals and missing coverage.
 All three final sparse DDSim events completed; saved-hit parent IDs, cell ranges
 and positive energies passed the independent ROOT reader. Exact fixture/source/
 root/log hashes are retained in DES029 transport evidence.
+
+Delivery: [PR69](https://github.com/asalzburger/nodd/pull/69), initial revision
+5861a7e32cbe18bfa708e0bf0dd0089b2848c732, based on PR67. Supplemental independent persisted-ROOT
+dimension/vertex/cutter audit passes1045 unique material shapes and444 cutters;
+artifact hash ties it to the actual completed full overlap check. Parent PR67
+hosted build/token checks pass; PR69 hosted checks pending at this snapshot.

@@ -58,3 +58,9 @@ this isolated hardware prototype. No new external software was introduced.
 [DES029](../../design/DES-029-calorimeter-assemblies.md) and the
 [paired journal](../../../logs/codex/SESSION-2026-10-12-calorimeter-assemblies.md)
 retain commands, classifications, failures and limits.
+
+[Independent persisted-geometry dimension audit](shapes.json) checks1045 unique
+material shapes, polygon vertices/depth, primitive dimensions and444 CSG cutter
+translations/rotations at1e-7 mm tolerance. The imported ROOT hash must match
+the completed full native overlap report. This supplements the mass/capacity
+checks without repeating or replacing the full overlap scan. It passed.
