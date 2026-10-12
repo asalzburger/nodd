@@ -1,4 +1,9 @@
-# Project dashboard plan
+# Project dashboard plan (retired)
+
+The progress UI and its deployment were retired on 2026-10-12 by explicit human
+request. This proposal is retained as history; use the
+[token dashboard guide](../tools/token_usage/README.md) for current Pages behavior
+and [record validators](../tools/project_records/README.md) for retained governance.
 
 - ID: PLAN-NODD-DASHBOARD-001
 - Status: DRAFT — infrastructure proposal, not implementation or publication approval

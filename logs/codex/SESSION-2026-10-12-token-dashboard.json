@@ -1,0 +1,148 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-12-token-dashboard",
+  "title": "Replace progress dashboard with cumulative token usage on GitHub Pages",
+  "recorded_at": "2026-10-12T09:42:31Z",
+  "started_at": null,
+  "ended_at": "2026-10-12T10:09:58Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "This active October 12 client turn has no closed persisted boundary yet; its provisional usage is excluded and must be captured after completion.",
+    "Exact observed journal subtotal is 552937331 through October 10; earlier explicit no-counting scopes, unattributed/internal-review turns and other device history remain gaps.",
+    "Observed end time is local task closeout, not final client turn completion. No deployed Pages result is claimed before merge; PR builds are previews.",
+    "Desktop browser rendering and mode controls verified; no separate mobile viewport check is claimed."
+  ],
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": "01a12426-1fc9-73b0-94ed-40f3eaf1e83c"
+  },
+  "git": {
+    "start_commit": "276b6be7f1e05e8e3cc44f0e5546d2da5925c338",
+    "branch": "codex/token-usage-dashboard",
+    "initial_changes": [],
+    "result_commits": [
+      "8f6469baf263dfc566f8219caf8f65126c689c06"
+    ],
+    "changed_files": [
+      ".github/workflows/dashboard.yml",
+      ".github/workflows/token-usage.yml",
+      ".github/workflows/validation.yml",
+      ".gitignore",
+      "AGENTS.md",
+      "dashboard/app.js",
+      "dashboard/index.html",
+      "dashboard/style.css",
+      "docs/DASHBOARD_PLAN.md",
+      "docs/README.md",
+      "logs/codex/SESSION-2026-10-12-token-dashboard.json",
+      "logs/codex/SESSION-2026-10-12-token-dashboard.md",
+      "project/README.md",
+      "project/token-milestones.json",
+      "tools/dashboard/README.md",
+      "tools/dashboard/build.py",
+      "tools/dashboard/check_update.py",
+      "tools/dashboard/fetch_evidence.py",
+      "tools/dashboard/test_app.js",
+      "tools/dashboard/test_build.py",
+      "tools/dashboard/test_fetch_evidence.py",
+      "tools/dashboard/test_update.py",
+      "tools/project_records/README.md",
+      "tools/project_records/check_update.py",
+      "tools/project_records/fetch_evidence.py",
+      "tools/project_records/test_fetch_evidence.py",
+      "tools/project_records/test_records.py",
+      "tools/project_records/test_update.py",
+      "tools/project_records/validate.py",
+      "tools/token_usage/README.md",
+      "tools/token_usage/app.js",
+      "tools/token_usage/build.py",
+      "tools/token_usage/style.css",
+      "tools/token_usage/test_app.js",
+      "tools/token_usage/test_build.py"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [
+      "infrastructure",
+      "GitHub Pages",
+      "token accounting",
+      "project record validation"
+    ],
+    "related_ids": []
+  },
+  "narrative": "logs/codex/SESSION-2026-10-12-token-dashboard.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 -B -m unittest discover -s tools/token_usage -p test_*.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "8 accounting/site tests pass, including duplicate evidence, conflicting dates/counters, unknown measurements, closed interrupted turns, safe deterministic output and real-journal reconciliation."
+    },
+    {
+      "command": "node tools/token_usage/test_app.js",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Mode selection, ARIA state and keyboard tooltip checks pass."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/project_records -p test_*.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "28 retained scientific-record/review, PR policy and evidence-fetch tests pass; retired renderer-only tests removed."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p test_*.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "33 logging/recovery/documentation tests pass on updated base."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "58 tasks, 31 documents and 19 review rounds validate."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py build --output _site/pages",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "183 exact dated disjoint turns produce 552937331 observed total tokens; only allowlisted aggregate/static files emitted."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate and summary --format json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "152 paired records validate; 99 sessions with 183 owned turns; all five counters reconcile."
+    },
+    {
+      "command": "compare original dashboard workflow controls with validation.yml",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All 17 existing scientific/software unit-test commands retained unchanged."
+    },
+    {
+      "command": "browser reload, mode controls and screenshot inspection",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Latest recovered totals, feature labels and continued partial-coverage indication visibly present in the desktop preview."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Whitespace check passed."
+    },
+    {
+      "command": "git add including removed dashboard directory",
+      "status": "FAIL",
+      "exit_code": 128,
+      "result": "Removed directory pathspec did not exist. Only prior staged deletions entered the first commit; all replacement files are included in a subsequent ordinary commit before PR creation."
+    }
+  ]
+}
