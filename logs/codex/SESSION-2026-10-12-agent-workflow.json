@@ -1,0 +1,160 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-12-agent-workflow",
+  "title": "Operational role profiles, workflow skills and delegation pilot",
+  "recorded_at": "2026-10-12T14:36:17Z",
+  "started_at": null,
+  "ended_at": null,
+  "status": "open",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact per-turn input/output counters and stable desktop client thread/turn identifiers were not exposed; usage remains empty. Configured models are not execution-model measurements.",
+    "Native custom-agent profile selection is unavailable in this chat and remains unverified; the pilot uses explicit role mandates.",
+    "The pilot is a bounded read-only assessment of retained documents; no new detector validation, engineering qualification, design sign-off or formal scientific review is recorded."
+  ],
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "ed30e63fb0ab30b66d4084a9058906929006f792",
+    "branch": "codex/agent-workflow",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      ".agents/skills/nodd-coordinate/SKILL.md",
+      ".agents/skills/nodd-coordinate/agents/openai.yaml",
+      ".agents/skills/nodd-design-evidence/SKILL.md",
+      ".agents/skills/nodd-design-evidence/agents/openai.yaml",
+      ".agents/skills/nodd-review-validation/SKILL.md",
+      ".agents/skills/nodd-review-validation/agents/openai.yaml",
+      ".codex/agents/CaloTech.toml",
+      ".codex/agents/MuonTech.toml",
+      ".codex/agents/PhysVal.toml",
+      ".codex/agents/ProRes.toml",
+      ".codex/agents/PubDoc.toml",
+      ".codex/agents/SoftEng.toml",
+      ".codex/agents/SysArch.toml",
+      ".codex/agents/TrackTech.toml",
+      ".github/workflows/validation.yml",
+      "AGENTS.md",
+      "README.md",
+      "docs/AGENT_WORKFLOW.md",
+      "logs/codex/SESSION-2026-10-12-agent-workflow.json",
+      "logs/codex/SESSION-2026-10-12-agent-workflow.md",
+      "tools/agent_workflow/test_workflow.py",
+      "tools/agent_workflow/workflow.py"
+    ]
+  },
+  "work": {
+    "milestone": "Infrastructure",
+    "components": [
+      "agent workflow",
+      "repository infrastructure",
+      "session logging"
+    ],
+    "related_ids": [
+      "ADR-004",
+      "DES-020",
+      "DES-021",
+      "DES-010"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-12-agent-workflow.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 -B tools/agent_workflow/workflow.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Eight role profiles and three workflow skills validated."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/agent_workflow -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "14 tests passed, including pinned historical evidence, ownership, unsafe paths and mandate propagation."
+    },
+    {
+      "command": "skill-creator/scripts/quick_validate.py on each of the three workflow skills",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All three passed using PyYAML 6.0.3 in an isolated temporary environment; no repository dependency added."
+    },
+    {
+      "command": "codex --no-daemon -C CHECKOUT debug prompt-input (filtered in memory)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "codex-cli 0.161.0 exposed repository guidance and all three skill descriptions in its Available skills catalogue using aliased skill roots. No model request or raw prompt retention."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "169 paired session records validated."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "60 tasks, 32 documents and 19 review rounds validated."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py build --output _site/agent-workflow-token-preview",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Token dashboard preview built from 209 retained disjoint dated turns; no new usage counters were supplied."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py summary --format json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "169 sessions, 117 with usage and 52 without; 209 retained turns. Current task counters remain unavailable."
+    },
+    {
+      "command": "native role-profile loading through the desktop subagent selector",
+      "status": "NOT RUN",
+      "exit_code": null,
+      "result": "The available collaboration tool has no native profile-selection field; formatting and explicit dispatch are tested separately."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/project_records -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "28 tests passed."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "33 tests passed, including journal schema and repository documentation links."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/token_usage -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "10 tests passed."
+    },
+    {
+      "command": "node tools/token_usage/test_app.js (bundled Node executable)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Token chart mode and keyboard tooltip checks passed."
+    },
+    {
+      "command": "tools/project_records/check_update.py check() on actual changed paths",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Infrastructure title and all 22 changed paths passed the existing classification/tracking gate; no scientific tracking entries added."
+    },
+    {
+      "command": "local Markdown link and heading check on guidance/skills/journal",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All local target files and referenced headings exist."
+    }
+  ]
+}
