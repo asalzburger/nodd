@@ -7,21 +7,28 @@
   description as the tracker. Performance and reconstruction upgrades follow later.
 - Human design approval: pending. This assessment selects no new calorimeter technology.
 
-ODD supplies explicit electromagnetic and hadronic sampling stacks, sensitive
-slices, logical segmentation and barrel/endcap factories. It is a useful
-simulation starting point. It does **not** supply an equally explicit physical
-inventory of sensor/tile modules, cassettes, local cooling and power,
-load-bearing assemblies, service exits and installation interfaces.
-The maintained nODD detector currently builds **beam pipe + tracker**; its
-calorimeters remain architecture reservations and inherited reference models,
-not a newly implemented hardware baseline.
 
-The first work should establish a calorimeter bill of materials and interface
-contract. In particular, justify or replace the inherited copper-rich PCB
-mixture, define manufacturable assemblies, choose operating/cooling conditions,
-and allocate support and service volumes before moving or thickening stacks.
-The planned inner solenoid makes the ECAL entrance, cryostat ownership and
-magnetic properties of HCAL/support steel immediate integration questions.
+## Executive summary
+
+ODD already describes the calorimeter sampling layers and logical cells. To make nODD as
+physically explicit as its tracker, we need to describe the hardware that holds, cools,
+powers and reads out those layers. The maintained nODD assembly currently contains the
+beam pipe and tracker; a complete calorimeter hardware baseline is still to be
+established.
+
+The largest gaps are physical sensor/tile modules and cassettes, load-bearing supports,
+cooling circuits, electronics and power distribution, service routes, and their
+interfaces to the new inner solenoid. The inherited copper-rich HCAL PCB mixture also
+needs a hardware/material justification. Cryostat requirements depend on the chosen
+technology: silicon/scintillator calorimeters need an operating and cooling design,
+while the superconducting solenoid needs an explicit cryogenic vessel and service
+system.
+
+The proposed sequence is to agree the technology, operating conditions, material ledger
+and shared interfaces; design one realistic ECAL cassette and one HCAL cassette; then
+build sectors and complete barrel/endcap assemblies with reproducible geometry, mass and
+material checks. This PR supplies the assessment and that staged plan. Calorimeter
+response, reconstruction, jets and particle flow follow as a separate programme.
 
 ## Evidence boundary and meaning of “current”
 
