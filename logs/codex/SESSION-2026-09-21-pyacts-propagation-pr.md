@@ -63,3 +63,13 @@ permissions before publishing the complete PR.
 Physical
 module conversion, field maps, material response, acceptance and reconstruction
 remain open. The unrelated tracker-layout proposals in PR #13 remain on hold.
+
+## Resource synchronization — 2026-10-07
+
+The authorized cleanup imported 1 exact completed turn(s), after dry-run validation, into this canonical owner. Earlier narrative and original inventory sources remain intact; pending/unknown token statements above are historical and superseded for these observations only.
+
+| Client turn | Input | Cached input | Output | Reasoning output | Total | Requests |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| 01a0c39e-2cd3-7ac0-ba09-906bd55f5f89 | 3035638 | 2968192 | 19091 | 4124 | 3054729 | 32 |
+
+Persisted turn/usage ordinals, request counts, timestamps, verified usage-event hashes and original recovery sources are retained in [the synchronization inventory](../usage/USAGE-2026-10-07-synchronization.json). Each turn is counted once; cached input and reasoning output are subsets. No scientific input, execution hash or approval state changed. The current cleanup turn, explicitly excluded illustration/history turn and unassigned historical/internal review turns are excluded; this is partial project coverage, not billing.

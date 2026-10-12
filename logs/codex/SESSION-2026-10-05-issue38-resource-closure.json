@@ -3,18 +3,19 @@
   "session_id": "SESSION-2026-10-05-issue38-resource-closure",
   "title": "Recover final issue38 app usage after implementation closure",
   "recorded_at": "2026-10-05T16:20:20Z",
-  "started_at": null,
-  "ended_at": "2026-10-05T16:23:20Z",
+  "started_at": "2026-10-05T16:15:10Z",
+  "ended_at": "2026-10-05T17:06:34Z",
   "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
     "Actual client start/completion metadata and final tokens for this bookkeeping turn are unavailable while it is active; ended_at records observed bounded logging-task closure, not client-turn completion. Its usage is excluded, not treated as zero.",
     "Executed model and client version are unknown.",
-    "Implementation usage belongs once to SESSION-2026-10-05-issue38-shared-completion; older project coverage remains partial."
+    "Implementation usage belongs once to SESSION-2026-10-05-issue38-shared-completion; older project coverage remains partial.",
+    "2026-10-07 correction: exact completed-turn counters are now recovered for the observations in USAGE-2026-10-07-synchronization.json. This supersedes earlier missing-token statements for these turns only. Model/client version and older coverage remain unknown; no complete project total is claimed."
   ],
   "client": {
-    "name": "Codex desktop",
+    "name": "Codex desktop app",
     "version": null,
     "thread_id": "01a10c6a-664d-72b1-afad-926c2c57312b"
   },
@@ -28,7 +29,8 @@
       "logs/codex/SESSION-2026-10-05-issue38-shared-completion.json",
       "logs/usage/USAGE-2026-10-05-app.json",
       "logs/codex/SESSION-2026-10-05-issue38-resource-closure.json",
-      "logs/codex/SESSION-2026-10-05-issue38-resource-closure.md"
+      "logs/codex/SESSION-2026-10-05-issue38-resource-closure.md",
+      "logs/usage/USAGE-2026-10-07-synchronization.json"
     ]
   },
   "work": {
@@ -43,7 +45,38 @@
   },
   "narrative": "logs/codex/SESSION-2026-10-05-issue38-resource-closure.md",
   "activities": [],
-  "usage": [],
+  "usage": [
+    {
+      "client_thread_id": "01a10c6a-664d-72b1-afad-926c2c57312b",
+      "turn_id": "01a10cd9-01a2-7af0-9199-ecf09b8902e3",
+      "model": null,
+      "source": "Usage-only local recovery captured 2026-10-07T11:43:21.681829+00:00; logs/usage/USAGE-2026-10-07-synchronization.json; verified event SHA-256 0b6d8b490712b3b8341b9fde21c003c8c8da1d46bec2011eda86f5eac763698e; persisted turn ordinals 1320..1454; 13 reconciled request increases.",
+      "limitations": [
+        "Execution model and client version are not exposed by the usage-only metadata.",
+        "This disjoint completed turn is counted once; cached input and reasoning output are subsets. Current cleanup usage and explicitly excluded illustration work are omitted; older project coverage remains partial."
+      ],
+      "input_tokens": 967573,
+      "cached_input_tokens": 722816,
+      "output_tokens": 12395,
+      "reasoning_output_tokens": 3387,
+      "total_tokens": 979968
+    },
+    {
+      "client_thread_id": "01a10c6a-664d-72b1-afad-926c2c57312b",
+      "turn_id": "01a10d04-09e9-7e62-bdf0-57a7e532defe",
+      "model": null,
+      "source": "Usage-only local recovery captured 2026-10-07T11:43:21.681829+00:00; logs/usage/USAGE-2026-10-07-synchronization.json; verified event SHA-256 86cdd7589e104ac4c1afff3b071cbf7aa73b3a2a995776ea26621cd0163dfb66; persisted turn ordinals 1456..1521; 7 reconciled request increases.",
+      "limitations": [
+        "Execution model and client version are not exposed by the usage-only metadata.",
+        "This disjoint completed turn is counted once; cached input and reasoning output are subsets. Current cleanup usage and explicitly excluded illustration work are omitted; older project coverage remains partial."
+      ],
+      "input_tokens": 631685,
+      "cached_input_tokens": 549376,
+      "output_tokens": 4278,
+      "reasoning_output_tokens": 1959,
+      "total_tokens": 635963
+    }
+  ],
   "checks": [
     {
       "command": "recover_usage.py with new ignored output",

@@ -11,7 +11,8 @@
   "limitations": [
     "Exact token usage, actual conversation start time, client version and thread identity are unavailable; usage is unobserved, not zero.",
     "Curated tool activity and selected requests only; no private agent state. Only CPython 3.14.6/macOS arm64 was tested.",
-    "Synthetic straight-ray capability checks do not establish tracker acceptance, field propagation or reconstruction readiness."
+    "Synthetic straight-ray capability checks do not establish tracker acceptance, field propagation or reconstruction readiness.",
+    "2026-10-07 correction: exact completed-turn counters are now recovered for the observations in USAGE-2026-10-07-synchronization.json. This supersedes earlier missing-token statements for these turns only. Model/client version and older coverage remain unknown; no complete project total is claimed."
   ],
   "client": {
     "name": "Codex",
@@ -35,7 +36,8 @@
       "reference/manifest.yaml",
       "project/tracking.json",
       "logs/codex/SESSION-2026-09-21-pyacts-gen3-bindings.json",
-      "logs/codex/SESSION-2026-09-21-pyacts-gen3-bindings.md"
+      "logs/codex/SESSION-2026-09-21-pyacts-gen3-bindings.md",
+      "logs/usage/USAGE-2026-10-07-synchronization.json"
     ]
   },
   "work": {
@@ -54,7 +56,51 @@
   },
   "narrative": "logs/codex/SESSION-2026-09-21-pyacts-gen3-bindings.md",
   "activities": [],
-  "usage": [],
+  "usage": [
+    {
+      "client_thread_id": "01a0b3b0-f8f3-7de0-8854-ff1f156bebab",
+      "turn_id": "01a0c332-7261-79f3-b92b-46d1545b913c",
+      "model": null,
+      "source": "2026-09-24 local token_count recovery; logs/usage/USAGE-2026-09-24-local.json; usage SHA-256 bac60930efc821f21f62758fd9f9fe0a23730aae82b00c4e08fe63f168372361; cumulative increases equal last-request counters over persisted turn ordinals 1733..2236.",
+      "limitations": [
+        "Local client-reported usage only; other-machine coverage and billing equivalence are not established. Per-turn execution model was not reported."
+      ],
+      "input_tokens": 9932308,
+      "cached_input_tokens": 9627008,
+      "output_tokens": 27194,
+      "reasoning_output_tokens": 6385,
+      "total_tokens": 9959502
+    },
+    {
+      "client_thread_id": "01a0b44d-5bf2-7dd2-8928-b4c3711b73ad",
+      "turn_id": "01a0c332-ac01-7691-88dc-06e9c247858c",
+      "model": null,
+      "source": "2026-09-24 local token_count recovery; logs/usage/USAGE-2026-09-24-local.json; usage SHA-256 2ea016879a506fc47710d55eaa8a44101cbf3602f4f94acc0516996532e8ceda; cumulative increases equal last-request counters over persisted turn ordinals 270..455.",
+      "limitations": [
+        "Local client-reported usage only; other-machine coverage and billing equivalence are not established. Per-turn execution model was not reported.",
+        "Turn ended interrupted; counters cover reported requests through its persisted boundary only."
+      ],
+      "input_tokens": 2816018,
+      "cached_input_tokens": 2701952,
+      "output_tokens": 5684,
+      "reasoning_output_tokens": 343,
+      "total_tokens": 2821702
+    },
+    {
+      "client_thread_id": "01a0b44d-5bf2-7dd2-8928-b4c3711b73ad",
+      "turn_id": "01a0c345-f657-7e90-b9bf-8f11704d4fec",
+      "model": null,
+      "source": "2026-09-24 local token_count recovery; logs/usage/USAGE-2026-09-24-local.json; usage SHA-256 e0c7d8f580157f77b90ed413d18213f82fb0d5c237c34e92ab955b9ab0b630ca; cumulative increases equal last-request counters over persisted turn ordinals 456..492.",
+      "limitations": [
+        "Local client-reported usage only; other-machine coverage and billing equivalence are not established. Per-turn execution model was not reported."
+      ],
+      "input_tokens": 378122,
+      "cached_input_tokens": 370560,
+      "output_tokens": 503,
+      "reasoning_output_tokens": 181,
+      "total_tokens": 378625
+    }
+  ],
   "checks": [
     {
       "command": "reference/cache/pyacts-bindings-venv/bin/python -m pip index versions pyacts",

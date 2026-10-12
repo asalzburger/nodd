@@ -1,5 +1,26 @@
 # Local token-usage recovery
 
+## Canonical synchronization — 2026-10-07
+
+The [audit](AUDIT-2026-10-07.md) and [new curated inventory](USAGE-2026-10-07-synchronization.json)
+consolidate the available branch/local journals without importing unrelated
+scientific work. All 67 previously pending-branch entries from the two older
+inventories now have their exact original observations/source in canonical
+records; 12 were already present in the selected branch variants and 55 were
+newly imported. Eighteen additional completed app turns were recovered.
+
+All 95 existing observations reconcile. The 73 additions produce 168 disjoint
+observed turns in 93 of 145 paired records, with no duplicate ownership and
+all five observed counters. Every import passed dry-run first. The original
+inventories remain byte-identical; their pending labels describe the old capture
+and are superseded only by this dated correction.
+
+The current cleanup turn remains uncounted while active. The expressly excluded
+illustration/history turn cannot be split exactly, so it stays wholly excluded.
+Older unattributed turns and unobserved store/device history remain gaps; empty
+usage arrays are not zeros. Model/client identity and billing equivalence are
+unestablished. These are observed partial subtotals, not complete project usage.
+
 ## Second-device recovery — 2026-09-25
 
 At the user's request, [the second-device inventory](USAGE-2026-09-25-device.json)

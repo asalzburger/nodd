@@ -3,7 +3,7 @@
 - ID: PUB-PIXEL-CONCISE-2026-10-09
 - Date: 2026-10-09
 - Status: PROPOSED — editorial review
-- Source: TDR `279d882179e93b56e522fd6b390c965f6ab18e84`, [current pixel chapter](../tdr/chapters/pixel-detector.tex).
+- Source: TDR `279d882179e93b56e522fd6b390c965f6ab18e84`, `docs/tdr/chapters/pixel-detector.tex` in the separately initialized TDR submodule. The retained [publication inventory](pixel-short-publication-20261009.md) records the source and final revision.
 - Purpose: an accurate description of the selected full-simulation model.
 
 I recommend five subsections: **modules and readout**, **barrel layout**,
