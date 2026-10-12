@@ -42,3 +42,10 @@ validation, token-site build and link/artifact checks passed. Material figure
 visually inspected. Both PRs target main; current design remains DRAFT.
 Latest material-head hosted checks will be verified after push. Token summary
 retains unknown current-turn coverage; no new usage observation invented.
+
+Published material calculation/figure in5969102 and compact vector rendering
+inad7dc05. Delivery evidence target `ad7dc0532a0405ca9b5ff49089fd25f305236ff2`; metadata-only closeout follows.
+All2001 calculated samples remain retained; plotting keeps dense0.002 sampling
+at the finite ends and thins smooth central/zero regions to reduce generated
+SVG size. Final figures inspected and hashes checked. PR65 executive summary
+verified through a subsequent body read.
