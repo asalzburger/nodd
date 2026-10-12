@@ -211,7 +211,7 @@ All 28 project-record, 33 session-logging and 10 token-dashboard Python tests
 also passed (85 Python tests including the 14 helper tests). Token-chart keyboard
 and mode checks passed in the bundled Node runtime. Local guidance/journal links
 and headings, the existing infrastructure PR classification gate, and unchanged
-scientific sources were checked. Final PR metadata will be recorded at closeout.
+scientific sources were checked. PR creation and observed hosted-check state are recorded below.
 
 Exact per-turn counters and stable desktop thread/turn IDs are not exposed for
 this task or its children. `usage` is empty; this does not mean zero usage. The
@@ -225,3 +225,24 @@ No detector parameters, DES/ADR lifecycle states, human sign-off records or
 scientific provenance are changed. DES-020/DES-021/DES-010 are read-only pilot
 inputs; ADR-004 supplies the existing logging policy. Official Codex profile and
 skill-discovery references, accessed 2026-10-12, are linked from the usage guide.
+
+## Pull request and closeout
+
+The branch was pushed normally and
+[draft PR #68](https://github.com/asalzburger/nodd/pull/68) was opened against
+`main` with title `Infrastructure: Activate nODD specialist roles and workflow skills`.
+The GitHub connector returned HTTP 403 (integration lacks creation permission);
+the existing authenticated GitHub CLI successfully created the PR using the
+exact body file. The PR was attached to this chat. No external messages,
+reviewer pings, merge, deployment or recurring jobs were requested or performed.
+
+At creation inspection, the PR head was `e3395c263fc6bb2ccef9a9160595eaae1aca7de8`; project validation
+and token-site hosted checks were IN_PROGRESS. Local checks are reported
+separately. Follow later check state in the PR; this observation does not claim
+hosted success. The final logging commit records closeout without a self-referential
+hash; Git history identifies that enclosing revision.
+
+The infrastructure deliverable and explicit-dispatch pilot are complete. Native
+profile selection remains unverified and current-task token coverage remains
+unknown. Scientific qualification questions and source reconciliation observed
+in the pilot are retained for future project tasks, not silently implemented here.
