@@ -38,3 +38,12 @@ internal approval-review threads and uncertain task matches remain unallocated.
 The active October 12 turn has no final boundary and is not imported. This is
 recoverable local client accounting, not a complete project or billing total.
 Actual model/client version remain unknown. See paired JSON for final validation.
+
+## Calorimeter ownership correction — 2026-10-12
+
+The eight calorimeter observations originally imported here now belong solely
+to [SESSION-2026-10-10-calorimeter-software-chain](SESSION-2026-10-10-calorimeter-software-chain.md), with identical IDs, counters and source evidence. This record
+retains the two material-tool turns. The [dated transfer inventory](../usage/USAGE-2026-10-12-calorimeter-accounting.json)
+supersedes the original ownership labels only; the original inventory and
+project totals remain unchanged. The earlier narrative describes the initial
+import snapshot.

@@ -204,3 +204,13 @@ Directory-based recovery can miss desktop chats opened at a parent workspace.
 Use the opt-in explicit-thread mode, then curate project/task ownership. A stale
 inventory cutoff does not imply lost counters or zero subsequent consumption.
 The [backfill record](../codex/SESSION-2026-10-12-desktop-usage-backfill.md) documents scope and gaps.
+
+## Dedicated calorimeter accounting — 2026-10-12
+
+The [calorimeter record](../codex/SESSION-2026-10-10-calorimeter-software-chain.md) owns the eight
+October 10 software-chain observations already imported via PR59. Their subtotal
+is **27,882,303 input + 195,220 output = 28,077,523 tokens**. The
+[dated ownership correction](USAGE-2026-10-12-calorimeter-accounting.json)
+records the unchanged transfer from the mixed desktop backfill record.
+The original inventory remains intact; global totals stay at 552,937,331 across
+183 disjoint turns. Never add this subtotal to the project total again.
