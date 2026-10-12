@@ -24,3 +24,8 @@ Validation and actual delivery commits/PR recorded at closeout. Exact current
 client token counters unavailable; usage remains empty (unknown), with no guess
 or duplication of a shared-turn total. Existing significant-session logs and
 source/approval evidence are retained.
+
+Delivered [PR66](https://github.com/asalzburger/nodd/pull/66) at `94b93abc9f67097c13525615c2c3935460c9b57d` from merged upstream main.
+Local project/session/site/whitespace and historical-review checks passed.
+PR attached to chat. Following metadata-only commit records this closeout;
+no scientific sign-off inferred. Hosted CI pending at this snapshot.
