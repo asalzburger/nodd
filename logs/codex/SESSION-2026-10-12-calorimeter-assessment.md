@@ -62,3 +62,8 @@ WS-CALO role was applied before final validation.
 Final local checks passed: project records, paired session records, token-site
 build, subsystem controls, document links, artifact hashes and whitespace.
 No native detector execution is claimed for these draft/static changes.
+
+Delivered [Calorimeter: assess hardware realism and missing detector description](https://github.com/asalzburger/nodd/pull/65) at `122e8d340c64a5882992c818e612882d522c99ad`.
+A following metadata-only commit records this evidence and journal closeout.
+PR attached to current chat. Hosted CI pending at this snapshot; local checks
+passed. Journal curation closed 2026-10-12T13:05:57Z; actual client turn end remains unknown.

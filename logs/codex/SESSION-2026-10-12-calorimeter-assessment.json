@@ -4,15 +4,16 @@
   "title": "Calorimeter hardware description assessment",
   "recorded_at": "2026-10-12T12:38:00Z",
   "started_at": null,
-  "ended_at": null,
-  "status": "open",
+  "ended_at": "2026-10-12T13:05:57Z",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
     "Exact active-turn client token counters and model/version metadata are not exposed; usage is empty (unknown), not zero.",
     "This bounded task shares a client turn with the companion design task. No total is split or duplicated.",
     "The original client turn start/end timestamps are unavailable. Recorded times describe curation/closeout only.",
-    "Designs remain DRAFT; numerical/static checks are not human sign-off or engineering/performance qualification."
+    "Designs remain DRAFT; numerical/static checks are not human sign-off or engineering/performance qualification.",
+    "Hosted CI is pending at journal closeout; local checks passed. The final PR head will be a following metadata-only commit; scientific execution/figure hashes remain unchanged."
   ],
   "client": {
     "name": "Codex desktop",
@@ -23,7 +24,9 @@
     "start_commit": "da5c469f4d64a711c4f466cac79ff51e83244859",
     "branch": "codex/calorimeter-description-assessment",
     "initial_changes": [],
-    "result_commits": [],
+    "result_commits": [
+      "122e8d340c64a5882992c818e612882d522c99ad"
+    ],
     "changed_files": [
       ".github/workflows/validation.yml",
       "logs/codex/SESSION-2026-10-12-calorimeter-assessment.json",
@@ -44,7 +47,8 @@
       "calorimeter hardware assessment"
     ],
     "related_ids": [
-      "DES-027"
+      "DES-027",
+      "PR65"
     ]
   },
   "narrative": "logs/codex/SESSION-2026-10-12-calorimeter-assessment.md",
@@ -123,6 +127,12 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "All new document links resolve and calculation/auditor/figure/tracker source hashes match."
+    },
+    {
+      "command": "git merge-tree --write-tree codex/tracker-solenoid-baseline codex/calorimeter-description-assessment",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Independent scientific branches merge without conflicts; synthetic tree7ad5cca64f9e282e3af917ae5a0f0b034006898f. No checkout or branch merged."
     }
   ]
 }
