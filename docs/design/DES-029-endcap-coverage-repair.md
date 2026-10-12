@@ -120,3 +120,24 @@ exits there; then fill a complete layer and replicate the reviewed design.
 `python3 -B tools/calorimeter_hardware/endcap_review.py` from the repository root.
 The companion figure uses the existing Matplotlib environment with
 `endcap_review_plot.py`. No existing geometry inputs or native evidence changed.
+
+## Annotated concept drawing
+
+![Current packing and proposed repair architecture](figures/DES-029/endcap-repair-concept.svg)
+
+PanelA uses actual ECAL placement/sensor coordinates. PanelB illustrates intact
+90 mm sensors in full/half/single board families, an inner supported rim and a
+shared peripheral service bay. PanelC separates the existing119 mm/77 mm fit
+constraint from functional service routing and proposed HCAL tile subarrays.
+
+The proposed PCB margins, sensor/board gaps, edge allowance, inner clearance and
+service-bay depth are **NODD DESIGN CHOICE drawing fixtures**, recorded in
+[the drawing inputs](figures/DES-029/endcap-repair-concept.json). They have no
+engineering approval and are not detector input changes. The proposed support/
+absorber boundary differs from today's20 mm continuous rib; its mechanics,
+material and cooling still require design. Board corners stay inside the
+illustrative outline; that check does not qualify a physical assembly. No
+coverage percentage is predicted for the proposed panel.
+
+Reproduce with the existing Matplotlib environment:
+`python3 -B tools/calorimeter_hardware/endcap_repair_drawing.py`.
