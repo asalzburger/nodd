@@ -60,3 +60,8 @@ The initial working-tree whitespace check omitted untracked files. Staging
 revealed trailing spaces in Matplotlib SVG paths. The renderer now strips
 trailing spaces and pins SVG hash IDs/date metadata before output hashing.
 A normal correction commit precedes publication; no shared history rewritten.
+
+Delivered [Magnet System: baseline 3 T tracker solenoid with RZ view](https://github.com/asalzburger/nodd/pull/64) at `f9d226fe55e1016933385aa4dbad1f5a69e21e20`.
+A following metadata-only commit records this evidence and journal closeout.
+PR attached to current chat. Hosted CI pending at this snapshot; local checks
+passed. Journal curation closed 2026-10-12T13:05:57Z; actual client turn end remains unknown.
