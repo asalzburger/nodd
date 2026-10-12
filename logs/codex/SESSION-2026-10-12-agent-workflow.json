@@ -22,7 +22,9 @@
     "start_commit": "ed30e63fb0ab30b66d4084a9058906929006f792",
     "branch": "codex/agent-workflow",
     "initial_changes": [],
-    "result_commits": [],
+    "result_commits": [
+      "7d6ba6528a1633178512f78257e63defe358a6b5"
+    ],
     "changed_files": [
       ".agents/skills/nodd-coordinate/SKILL.md",
       ".agents/skills/nodd-coordinate/agents/openai.yaml",
@@ -63,7 +65,44 @@
     ]
   },
   "narrative": "logs/codex/SESSION-2026-10-12-agent-workflow.md",
-  "activities": [],
+  "activities": [
+    {
+      "kind": "tool",
+      "name": "collaboration.spawn_agent",
+      "version": null,
+      "calls": 5,
+      "failures": 0,
+      "duration_seconds": null,
+      "evidence": "Two bounded authoring assignments and three read-only pilot roles were dispatched; curated results and canonical task identifiers are in the narrative."
+    },
+    {
+      "kind": "skill",
+      "name": "skill-creator",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Instructions read and all three authored skills checked with quick_validate.py in an isolated temporary Python environment."
+    },
+    {
+      "kind": "skill",
+      "name": "nodd-design-evidence",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Explicitly supplied to the TrackTech pilot; its cited result and limits were returned to the coordinator."
+    },
+    {
+      "kind": "skill",
+      "name": "nodd-review-validation",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Explicitly supplied to separate SysArch and PhysVal pilot assessments; curated results are in the narrative."
+    }
+  ],
   "usage": [],
   "checks": [
     {
@@ -155,6 +194,18 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "All local target files and referenced headings exist."
+    },
+    {
+      "command": "workflow.py prepare --assignment ASSIGNMENT.json for TrackTech, SysArch and PhysVal",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Three complete explicit-role prompts prepared from validated contracts; all pilot roles verified pinned source hashes and returned cited read-only contributions."
+    },
+    {
+      "command": "git diff --exit-code ed30e63fb0ab30b66d4084a9058906929006f792 -- scientific sources, detector paths and project registers",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No changed detector parameters, design/sign-off documents, scientific evidence, source manifest or tracking/review registers."
     }
   ]
 }
