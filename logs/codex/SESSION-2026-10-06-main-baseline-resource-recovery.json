@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-06-main-baseline-resource-recovery",
+  "title": "Recover closed main pixel baseline integration usage",
+  "recorded_at": "2026-10-06T11:29:30Z",
+  "started_at": "2026-10-06T11:28:15Z",
+  "ended_at": "2026-10-06T11:33:20Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "This follow-up bookkeeping turn is separate from the completed implementation target; current final usage unavailable and deliberately excluded. Model/client version unknown.",
+    "Older project accounting coverage remains partial. This local record is not part of the three-file publication.",
+    "2026-10-07 correction: exact completed-turn counters are now recovered for the observations in USAGE-2026-10-07-synchronization.json. This supersedes earlier missing-token statements for these turns only. Model/client version and older coverage remain unknown; no complete project total is claimed."
+  ],
+  "client": {
+    "name": "Codex desktop app",
+    "version": null,
+    "thread_id": "01a10c6a-664d-72b1-afad-926c2c57312b"
+  },
+  "git": {
+    "start_commit": "056843e8846a3944ed6b8fc9e097bb27d8ca592e",
+    "branch": "main",
+    "initial_changes": [
+      "logs/codex/SESSION-2026-10-06-history-and-figures.json",
+      "logs/codex/SESSION-2026-10-06-history-and-figures.md",
+      "logs/codex/SESSION-2026-10-06-pixel-baseline-resource-recovery.json",
+      "logs/codex/SESSION-2026-10-06-pixel-baseline-resource-recovery.md"
+    ],
+    "result_commits": [
+      "e50ae6def313cae3d9be62ff1e299569965c1b35"
+    ],
+    "changed_files": [
+      "logs/codex/SESSION-2026-10-06-pixel-baseline-main-integration.json",
+      "logs/codex/SESSION-2026-10-06-pixel-baseline-main-integration.md",
+      "logs/usage/USAGE-2026-10-06-pixel-baseline-main-integration.json",
+      "logs/codex/SESSION-2026-10-06-main-baseline-resource-recovery.json",
+      "logs/codex/SESSION-2026-10-06-main-baseline-resource-recovery.md",
+      "logs/usage/USAGE-2026-10-07-synchronization.json"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [
+      "resource accounting",
+      "session logging"
+    ],
+    "related_ids": [
+      "ADR-004",
+      "PR-46",
+      "DES-019"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-06-main-baseline-resource-recovery.md",
+  "activities": [],
+  "usage": [
+    {
+      "client_thread_id": "01a10c6a-664d-72b1-afad-926c2c57312b",
+      "turn_id": "01a110f8-aefd-7a40-a1c2-e1bacf72af1f",
+      "model": null,
+      "source": "Usage-only local recovery captured 2026-10-07T11:43:21.681829+00:00; logs/usage/USAGE-2026-10-07-synchronization.json; verified event SHA-256 0ee895ce166f39008dce48f500bbcdcae6ba9df4ee1bcb5f628360f68863032e; persisted turn ordinals 6593..6686; 11 reconciled request increases.",
+      "limitations": [
+        "Execution model and client version are not exposed by the usage-only metadata.",
+        "This disjoint completed turn is counted once; cached input and reasoning output are subsets. Current cleanup usage and explicitly excluded illustration work are omitted; older project coverage remains partial."
+      ],
+      "input_tokens": 1772529,
+      "cached_input_tokens": 1621248,
+      "output_tokens": 10760,
+      "reasoning_output_tokens": 2982,
+      "total_tokens": 1783289
+    }
+  ],
+  "checks": [
+    {
+      "command": "bounded recover_usage/import and canonical updates",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Exact completed target imported once; closed client boundary/hash/counters verified; scientific files and all older logs unchanged."
+    },
+    {
+      "command": "logger/dashboard/diff checks and safe task sync",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Primary114/task111 records validated; dashboard build and full recorded-start diff checks passed; byte-checked mirror."
+    },
+    {
+      "command": "normal three-file log-only commit/push main",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Only canonical integration pair/new usage inventory committed and normally pushed ase50ae6def313cae3d9be62ff1e299569965c1b35. Earlier records/scientific files/tracking unchanged; no second owner or follow-up."
+    }
+  ]
+}

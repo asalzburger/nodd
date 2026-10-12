@@ -116,7 +116,10 @@ def reconcile(thread_id, turns, events):
             'final_cumulative': previous, 'turns': observations}
 
 
-def recover(client_home, project):
+def recover(client_home, project=None, thread_ids=None):
+    require((project is not None) != bool(thread_ids),
+            'select either a project directory or explicit thread IDs')
+    selected = set(thread_ids or [])
     def connect(name):
         db = sqlite3.connect((client_home / name).resolve().as_uri() + '?mode=ro', uri=True)
         db.row_factory = sqlite3.Row
@@ -126,9 +129,17 @@ def recover(client_home, project):
     try:
         parents = dict(state.execute('SELECT child_thread_id,parent_thread_id FROM thread_spawn_edges'))
         # Exact path/descendant comparison avoids SQL LIKE wildcard ambiguities.
-        threads = [dict(row) for row in state.execute(
-            'SELECT id,rollout_path,cwd,agent_path,git_sha FROM threads ORDER BY created_at,id')
-                   if Path(row['cwd']).resolve().is_relative_to(project.resolve())]
+        query = 'SELECT id,rollout_path,cwd,agent_path,git_sha FROM threads'
+        if selected:
+            rows = state.execute(query + ' WHERE id IN (' +
+                                 ','.join('?' for _ in selected) +
+                                 ') ORDER BY created_at,id', sorted(selected))
+            threads = [dict(row) for row in rows]
+            require({thread['id'] for thread in threads} == selected,
+                    'unknown selected thread ID')
+        else:
+            threads = [dict(row) for row in state.execute(query + ' ORDER BY created_at,id')
+                       if Path(row['cwd']).resolve().is_relative_to(project.resolve())]
         inventory = []
         for thread in threads:
             turns = [dict(row) for row in history.execute(
@@ -140,7 +151,9 @@ def recover(client_home, project):
                         agent_path=thread['agent_path'], initial_git_sha=thread['git_sha'])
             inventory.append(item)
         return {'format_version': 1, 'captured_at': datetime.now(timezone.utc).isoformat(),
-                'scope': 'Explicit local project directory and descendants; other machines/worktrees not included.',
+                'scope': ('Explicit thread IDs only; no automatic child or neighbouring workspace attribution.'
+                          if selected else
+                          'Explicit local project directory and descendants; other machines/worktrees not included.'),
                 'method': 'Cumulative increases verified against last-request counters, grouped by persisted turn ordinals; identical snapshots ignored.',
                 'threads': inventory}
     finally:
@@ -151,10 +164,13 @@ def recover(client_home, project):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--codex-home', type=Path, required=True)
-    parser.add_argument('--project', type=Path, required=True)
+    selection = parser.add_mutually_exclusive_group(required=True)
+    selection.add_argument('--project', type=Path)
+    selection.add_argument('--thread-id', action='append', dest='thread_ids',
+                           help='explicit desktop/workspace thread; repeat to select more than one')
     parser.add_argument('--output', type=Path, required=True)
     args = parser.parse_args()
-    report = recover(args.codex_home, args.project)
+    report = recover(args.codex_home, args.project, args.thread_ids)
     with args.output.open('x') as handle:
         json.dump(report, handle, indent=2)
         handle.write('\n')

@@ -2,14 +2,14 @@
   "schema_version": 1,
   "session_id": "SESSION-2026-10-06-short-strip-tilted-baseline",
   "title": "Select phi-tilted short-strip barrel baseline and recover completed usage",
-  "recorded_at": "2026-10-06T18:00:04Z",
+  "recorded_at": "2026-10-06T19:38:24Z",
   "started_at": "2026-10-06T17:59:05Z",
-  "ended_at": null,
+  "ended_at": "2026-10-06T18:14:48Z",
   "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
-    "Active baseline promotion turn01a1125e-812f-76f3-b7da-08dbd6b5ad3d is not closed; usage is unknown and empty until final bounded recovery. No partial counters imported.",
+    "Exact completed promotion turn recovered once with reconciled counters/boundaries. This later bookkeeping turn is separate, unknown and excluded.",
     "Execution model/client version and older project coverage remain unknown/partial. No complete all-project or self-inclusive total.",
     "Working baseline selection is explicit user preference; DES-020 remains DRAFT with existing engineering/integration gates."
   ],
@@ -24,7 +24,8 @@
     "initial_changes": [],
     "result_commits": [
       "dd9f91b46fa0429e5d3ec954f01865b35c063996",
-      "1b74460c47b622431e98093182c0cf5edb4bcb60"
+      "1b74460c47b622431e98093182c0cf5edb4bcb60",
+      "54523d9a22c539091f195c362d2542050315e385"
     ],
     "changed_files": [
       "docs/design/DES-020-short-strip-barrel.md",
@@ -40,6 +41,7 @@
       "logs/design/SESSION-2026-10-06-short-strip-tilted-baseline.json",
       "logs/design/SESSION-2026-10-06-short-strip-tilted-baseline.md",
       "logs/usage/USAGE-2026-10-06-short-strip-barrel-turns.json",
+      "logs/usage/USAGE-2026-10-06-short-strip-tilted-baseline.json",
       "project/tracking.json",
       "prototypes/short_strip_barrel/CMakeLists.txt",
       "tools/short_strip_barrel/README.md",
@@ -105,7 +107,23 @@
       "evidence": "Read scheduled-task guidance on learn.chatgpt.com/docs/automations?surface=app; one bounded same-thread recovery after implementation closes, with explicit stop condition."
     }
   ],
-  "usage": [],
+  "usage": [
+    {
+      "client_thread_id": "01a10c6a-664d-72b1-afad-926c2c57312b",
+      "turn_id": "01a1125e-812f-76f3-b7da-08dbd6b5ad3d",
+      "model": null,
+      "source": "Usage-only local Codex recovery captured 2026-10-06T19:34:44.176741+00:00; logs/usage/USAGE-2026-10-06-short-strip-tilted-baseline.json; verified event SHA-256 0d5a060eb36978541e0409a194d84a3b45696685b7dbf8cc4440a94499d5195c",
+      "limitations": [
+        "Execution model/client version were not exposed by usage-only metadata.",
+        "This exact completed promotion turn is counted once, including its earlier-turn resource recovery and review publication. Current bookkeeping excluded; older project coverage partial."
+      ],
+      "input_tokens": 6444816,
+      "cached_input_tokens": 6297344,
+      "output_tokens": 32275,
+      "reasoning_output_tokens": 9986,
+      "total_tokens": 6477091
+    }
+  ],
   "checks": [
     {
       "command": "gh pr view49; git fetch origin",
@@ -202,6 +220,60 @@
       "status": "FAIL",
       "exit_code": 1,
       "result": "collected_at included fractional seconds; dashboard requires UTC seconds precision. Replaced only the metadata formatting, preserving scientific inputs/evidence. Normal corrective commit; no history rewrite."
+    },
+    {
+      "command": "Completed promotion-turn recovery; import-usage --dry-run/import-usage",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Closed at2026-10-06T18:14:48Z; ordinals9559..9905,44 increments reconcile, usage hash0d5a060eb36978541e0409a194d84a3b45696685b7dbf8cc4440a94499d5195c. Imported exactly once: input6444816/cached6297344/output32275/reasoning9986/total6477091. Prior3 turns/28362996 and original owners/source preserved."
+    },
+    {
+      "command": "Final hosted run37508686474/job112423967229",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Exact54523d9a22c539091f195c362d2542050315e385 success; build completed2026-10-06T18:13:05Z, run updated18:13:07Z; deploy112426967572 skipped at18:13:05Z. Verified hosted metadata and retained final-hosted-evidence.json; no scientific rerun."
+    },
+    {
+      "command": "Superseded hosted run37508520608 on dd9f91b",
+      "status": "NOT RUN",
+      "exit_code": null,
+      "result": "Cancelled build112423269313/deploy112423964240 at2026-10-06T18:06:22Z; run updated18:06:23Z. Superseded publication event, not scientific failure."
+    },
+    {
+      "command": "Superseded hosted run37508650251 on1b74460",
+      "status": "NOT RUN",
+      "exit_code": null,
+      "result": "Cancelled; no jobs returned; run updated2026-10-06T18:06:07Z. Superseded metadata event, not scientific failure."
+    },
+    {
+      "command": "Original Slack review-notification initial attempt (retained receipt)",
+      "status": "FAIL",
+      "exit_code": null,
+      "result": "Automatic approval review rejected the larger message because token totals exceeded the requested review-ping scope. Private links/personal information omitted."
+    },
+    {
+      "command": "Read-only verify original minimal Slack review receipt",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Observed Python receipt verification passed: review_ping_sent true and prior initial_attempt_rejected true. Prior connector accepted verified mention/public PR link only. This follow-up did not send Slack; original connector action has no CLI exit-code claim."
+    },
+    {
+      "command": "Full parent/main-relative diff checks before accounting publication",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "origin/codex/short-strip-barrel...HEAD and origin/main...HEAD pass on54523d9; working diff passes. Native execution remains dirty0f1ac4c with original source/input/compact/library hashes; scientific artifacts/engineering failures unchanged."
+    },
+    {
+      "command": "Follow-up logger validation initial Slack-receipt entry",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "PASS requires observed CLI exit0; prior API-success receipt had null exit. Replaced with actual read-only Python receipt verification exit0; preserved original successful-send fact without inventing API exit status."
+    },
+    {
+      "command": "Final accounting logger/summary/dashboard/diffs and primary preservation",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "116 task/122 primary records validate;48 tasks/26 documents/19 reviews build under _site/tilted-baseline-accounting. Replay dry-run added0/unchanged1.94 observed turns in57/116 sessions, observed input251600140/output1547654/total253147794 with partial coverage. Only canonical pair/new inventory mirrored after exact old byte/absence guards; primarya54df71 branch/science and unrelated records preserved."
     }
   ]
 }

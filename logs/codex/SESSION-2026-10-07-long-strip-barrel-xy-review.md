@@ -131,3 +131,15 @@ Primary synchronization copied only this pair after rechecking its absence and
 the unchanged original branch/head/scientific tracked state. Task logger120 and
 primary125 validate and both summaries run; older records and observations are
 preserved. Primary mirrors this pair only and creates no second token owner.
+
+## Resource synchronization — 2026-10-07
+
+The authorized cleanup imported 1 exact completed turn(s), after dry-run validation, into this canonical owner. Earlier narrative and original inventory sources remain intact; pending/unknown token statements above are historical and superseded for these observations only.
+
+| Client turn | Input | Cached input | Output | Reasoning output | Total | Requests |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| 01a1154a-723b-79b0-80fa-5304a7a03481 | 8983290 | 8810752 | 57933 | 29337 | 9041223 | 62 |
+
+Persisted turn/usage ordinals, request counts, timestamps, verified usage-event hashes and original recovery sources are retained in [the synchronization inventory](../usage/USAGE-2026-10-07-synchronization.json). Each turn is counted once; cached input and reasoning output are subsets. No scientific input, execution hash or approval state changed. The current cleanup turn, explicitly excluded illustration/history turn and unassigned historical/internal review turns are excluded; this is partial project coverage, not billing.
+
+The exact client interval for the newly attributed bounded task is 2026-10-07T07:36:02Z through 2026-10-07T08:07:29Z. Execution model and client version remain null.

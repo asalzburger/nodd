@@ -99,3 +99,15 @@ The bounded deliverable is complete, so the record is closed. Actual client
 turn-end timestamp is still unavailable (`ended_at` null); usage remains empty
 until a disjoint completed-turn observation exists. No estimates, old turn
 reassignment or follow-up automation.
+
+## Resource synchronization — 2026-10-07
+
+The authorized cleanup imported 1 exact completed turn(s), after dry-run validation, into this canonical owner. Earlier narrative and original inventory sources remain intact; pending/unknown token statements above are historical and superseded for these observations only.
+
+| Client turn | Input | Cached input | Output | Reasoning output | Total | Requests |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| 01a1147b-e2f8-7740-b71a-88c47f71c6d6 | 7112669 | 6767360 | 43905 | 16470 | 7156574 | 52 |
+
+Persisted turn/usage ordinals, request counts, timestamps, verified usage-event hashes and original recovery sources are retained in [the synchronization inventory](../usage/USAGE-2026-10-07-synchronization.json). Each turn is counted once; cached input and reasoning output are subsets. No scientific input, execution hash or approval state changed. The current cleanup turn, explicitly excluded illustration/history turn and unassigned historical/internal review turns are excluded; this is partial project coverage, not billing.
+
+The exact client interval for the newly attributed bounded task is 2026-10-07T03:50:25Z through 2026-10-07T04:08:50Z. Execution model and client version remain null.
