@@ -14,8 +14,12 @@ summary=ROOT/'docs/validation/DES-026/material.json'
 r=json.loads(summary.read_text());profile=ROOT/r['profile_file']
 if hashlib.sha256(profile.read_bytes()).hexdigest()!=r['profile_sha256']:raise ValueError('profile hash mismatch')
 data=json.loads(gzip.decompress(profile.read_bytes()))
-ref=data['reference'];eta=np.array([x['eta'] for x in ref])
-lo=np.array([x['total'] for x in data['lean']]);hi=np.array([x['total'] for x in data['heavier']])
+# Retain dense0.002 sampling at the finite ends;0.01 is sufficient for the
+# smooth central curves. All2001 calculation samples remain in the data product.
+full=data['reference']
+indices=[i for i,x in enumerate(full) if (1.5<=x['eta']<=1.95) or (x['eta']<1.5 and i%5==0) or i==len(full)-1]
+ref=[full[i] for i in indices];eta=np.array([x['eta'] for x in ref])
+lo=np.array([data['lean'][i]['total'] for i in indices]);hi=np.array([data['heavier'][i]['total'] for i in indices])
 plt.rcParams.update({'svg.fonttype':'none','svg.hashsalt':'DES-026-material','font.size':10})
 fig,axes=plt.subplots(1,2,figsize=(12,5.8),layout='constrained',gridspec_kw={'width_ratios':[2.3,1]})
 components=['cold_mass','vessel','shield'];colors=['#d99732','#909ba5','#4d93bb']
