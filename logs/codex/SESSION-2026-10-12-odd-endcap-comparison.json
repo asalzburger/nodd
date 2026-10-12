@@ -1,0 +1,106 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-12-odd-endcap-comparison",
+  "title": "Compare upstream ODD endcap coverage with the cassette prototype",
+  "recorded_at": "2026-10-12T20:41:49Z",
+  "started_at": null,
+  "ended_at": "2026-10-12T20:45:44Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact current client token counters unavailable; usage is empty/unknown.",
+    "Comparison uses inspected source equations, not a fresh native ODD geometry/transport run; face fractions are not efficiencies."
+  ],
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "4dd968356ec709e671aceaa4f3fcdd20fba10ecf",
+    "branch": "codex/calorimeter-assemblies",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      "docs/design/DES-029-odd-endcap-comparison.md",
+      "docs/design/DES-029-endcap-coverage-repair.md",
+      "docs/design/figures/DES-029/odd-endcap-comparison.png",
+      "docs/design/figures/DES-029/odd-endcap-comparison.svg",
+      "docs/validation/DES-029/odd-endcap-comparison.json",
+      "tools/calorimeter_hardware/odd_endcap_comparison.py",
+      "reference/manifest.yaml",
+      "project/tracking.json",
+      "logs/codex/SESSION-2026-10-12-odd-endcap-comparison.json",
+      "logs/codex/SESSION-2026-10-12-odd-endcap-comparison.md"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "ODD endcap coverage comparison"
+    ],
+    "related_ids": [
+      "DES-029",
+      "PR69",
+      "SRC-ODD-UPSTREAM"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-12-odd-endcap-comparison.md",
+  "activities": [
+    {
+      "kind": "tool",
+      "name": "Public GitLab source API, Python source-derived arithmetic and Matplotlib figure",
+      "version": "Python3.14.6, Matplotlib3.11.2",
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Current public main revision and four file SHA256 verified; sensitive trapezoid area independently agrees with face-minus-seams expression; figure visually inspected."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "Public GitLab project/main API and raw source fetches at c167363; compare SHA256 with clean local checkout",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Main revision and four live source files match registered cache; browser fetch403 and default-shell DNS failure recovered via public API network access."
+    },
+    {
+      "command": "MPLCONFIGDIR=/tmp/nodd-mpl existing-envelope-venv/python -B tools/calorimeter_hardware/odd_endcap_comparison.py --source-dir pinned-ODD --plot",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Pinned source checks pass; face/trapezoid equations agree; fractions0.9859271032461776/0.9932518538491634; PNG/SVG visually inspected."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "62tasks/34documents/19review rounds valid."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate and summary --format json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "173paired records valid; current usage unavailable, no new observed turn counters."
+    },
+    {
+      "command": "python3 -B tools/calorimeter_hardware/odd_endcap_comparison.py --source-dir pinned-ODD",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Standard-library source hash and independent face-area arithmetic checks pass."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py build",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "209disjoint observed turns,620812827observed tokens; current task counters unavailable."
+    }
+  ]
+}

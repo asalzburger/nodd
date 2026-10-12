@@ -11,6 +11,11 @@ large empty wedges, unused outer radial strips and a much larger effective
 active aperture than the declared300 mm hole. Those results identify a layout
 problem that must be fixed before detector acceptance.
 
+[Current ODD comparison](DES-029-odd-endcap-comparison.md) shows how its
+continuous sensitive sheets avoid these packing holes, with source-derived
+98.59%/99.33% ECAL/HCAL face fractions and an aperture near |eta|=3. Those values
+are idealized geometric coverage, not an engineered module layout or efficiency.
+
 ## Where the reported area goes
 
 All values below are **INFERENCE** from the unchanged model at61ab5a4.
