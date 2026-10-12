@@ -161,6 +161,22 @@ interfaces together. Neither an old envelope drawing nor the ODD compact can
 be combined unchanged with this baseline. These are proposed interface
 amendments; this PR does not edit DES003's retained study or production geometry.
 
+## Added material estimate requested on PR64
+
+The [incremental material estimate](../validation/DES-026/material-estimate.md)
+gives an illustrative **1.40X₀ at eta=0**, rising to **3.75X₀ near |eta|=1.67**.
+Its explicit lean/heavier scenarios give **1.00–2.10X₀ centrally**. The cold
+assembly uses an ATLAS-calibrated material-per-length proxy; warm vessel walls,
+thermal shells and annular ends use assumed Al thicknesses. The range is a
+scenario spread, not an engineered uncertainty bound. The existing tracker,
+calorimeter and local supports/services are outside this incremental estimate.
+
+![Added solenoid material](figures/DES-026-solenoid-material-vs-eta.png)
+
+No complete conductor or cryostat bill of materials is implied. The finite-end
+ray calculation and its six additional controls are isolated prototypes; the
+assumptions are explicit in [material-assumptions.json](../../tools/solenoid_baseline/material-assumptions.json).
+
 ## Evidence, reproduction and decision gate
 
 [Results](../validation/DES-026/results.md) and

@@ -33,3 +33,21 @@ The conditional 7.2 m cold mass sizes to 143.174 MJ and 1.558656 m vessel outer
 radius; retain 1.64 m assembly reservation. Historical 6.6 m results are a control,
 not a tracker-compatible variant. No critical-current, structural or protection
 qualification is implied by numerical convergence.
+
+## Incremental material estimate
+
+`material.py` uses standard-library analytic intersections of straight IP rays
+with finite annuli/slabs. The source-calibrated cold proxy and assumed Al
+vessel/shield scenarios are centralized in `material-assumptions.json`. No
+material recipe or wall thickness is selected for production.
+
+```sh
+python3 -B tools/solenoid_baseline/material.py
+MPLCONFIGDIR=/tmp/nodd-mpl python tools/solenoid_baseline/plot_material.py
+```
+
+See [material estimate](../../docs/validation/DES-026/material-estimate.md) for
+sourced quantities, assumptions, component contributions, exclusions and the
+finite-length t/X0-versus-eta curve. Profiles are compressed deterministically
+with gzip; summary/profile/code/figure hashes are retained. The existing
+unittest command now runs twelve controls.
