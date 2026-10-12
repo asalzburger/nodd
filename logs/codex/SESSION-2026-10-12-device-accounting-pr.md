@@ -57,3 +57,12 @@ failed on an unused import; removing it allowed exact published-file validation:
 161 paired records, 208 observations and 618,196,087 tokens. All four unrelated
 untracked files remain unchanged. The current publication turn has no final
 counter boundary and contributes no estimated usage. No merge was requested.
+
+## Closed-turn accounting correction — 2026-10-12
+
+The follow-up check after PR63 merged recovered this publication turn's final
+boundary. The [publication closeout inventory](../usage/USAGE-2026-10-12-pr62-publication-closeout.json)
+records 19 verified request increases: **2,607,532 input + 9,208 output =
+2,616,740 tokens**, counted once here. The observed project subtotal becomes
+**620,812,827 tokens across 209 turns**. Earlier inventories remain unchanged;
+the distinct synchronization/check turn is still active and excluded.

@@ -287,9 +287,10 @@ silently choose one side when facts conflict. Validate merged logs and dashboard
 records and run relevant checks before pushing. Use ordinary merges; do not
 rewrite shared history or treat a conflict-resolution merge as design approval.
 
-## Dashboard maintenance
+## Project records and token dashboard
 
-The project dashboard must stay current with every project change. For each
+Scientific project/review records remain canonical after retirement of the progress
+dashboard on 2026-10-12. For each
 non-infrastructure PR, update `project/tracking.json` or `project/reviews.json`
 in the same PR with the affected work, dependencies, next actions, deliverables, reviews or
 evidence. Update the curated record date. Review requests and decisions retain
@@ -301,15 +302,18 @@ Use `Infrastructure: <description>` titles for repository/workflow maintenance
 PRs. **Infrastructure PRs are excluded from project progress tracking:** do
 not add chore work items, review rounds or PR entries, and do not count them as
 milestone or scientific progress. They still require logging, relevant checks
-and a successful dashboard build; tracking corrections may accompany an
+and a successful token-dashboard build; tracking corrections may accompany an
 infrastructure PR without tracking that PR itself. Scientific designs, detector changes and
 validation evidence must not be classified as infrastructure to bypass updates.
 
-Run `python3 -B tools/dashboard/build.py validate` and the relevant dashboard
-checks before completing project work. CI checks PR naming and project tracking
-updates and rebuilds/publishes the dashboard after every successful main-branch push.
-See [the tracking workflow](project/README.md) and
-[dashboard build/deployment guide](tools/dashboard/README.md).
+Run `python3 -B tools/project_records/validate.py` for project-record changes
+and `python3 -B tools/token_usage/build.py validate` for usage/site changes.
+The independent validation workflow retains PR naming, tracking and scientific
+prototype checks. The former dashboard UI, renderer and deployment are removed.
+GitHub Pages publishes the cumulative observed token timeline from main only;
+PR builds are previews. Preserve unknown counters and unique turn ownership.
+See [project records](project/README.md) and the
+[token dashboard guide](tools/token_usage/README.md).
 
 ## Stop conditions
 

@@ -38,6 +38,21 @@ preserving the original snapshot. The two device inventories therefore add
 to **618,196,087 observed tokens across 208 turns**. The new PR-publication turn
 remains active and uncounted; all other exclusions above remain in force.
 
+### Publication closeout and PR63 compatibility
+
+The [publication closeout inventory](USAGE-2026-10-12-pr62-publication-closeout.json)
+adds the now-completed PR62 publication turn: **2,607,532 input + 9,208 output =
+2,616,740 tokens**. PR62 now contributes **67,616,498 input + 258,998 output =
+67,875,496 tokens**, bringing the observed project subtotal to **620,812,827**
+across **209 turns**. The current compatibility-check turn remains uncounted.
+
+The token dashboard introduced by PR63 now accepts retained, explicitly
+in-progress snapshots as lower-bound evidence for later finalized observations.
+Such snapshots supply no final counters or completion date. Provisional counters
+above final counters and all conflicting finalized evidence still fail validation.
+The September 25 historical inventory is preserved byte-for-byte. See the
+[synchronization record](../codex/SESSION-2026-10-12-pr62-main-sync.md).
+
 ## Canonical synchronization — 2026-10-07
 
 The [audit](AUDIT-2026-10-07.md) and [new curated inventory](USAGE-2026-10-07-synchronization.json)
@@ -242,3 +257,13 @@ Directory-based recovery can miss desktop chats opened at a parent workspace.
 Use the opt-in explicit-thread mode, then curate project/task ownership. A stale
 inventory cutoff does not imply lost counters or zero subsequent consumption.
 The [backfill record](../codex/SESSION-2026-10-12-desktop-usage-backfill.md) documents scope and gaps.
+
+## Dedicated calorimeter accounting — 2026-10-12
+
+The [calorimeter record](../codex/SESSION-2026-10-10-calorimeter-software-chain.md) owns the eight
+October 10 software-chain observations already imported via PR59. Their subtotal
+is **27,882,303 input + 195,220 output = 28,077,523 tokens**. The
+[dated ownership correction](USAGE-2026-10-12-calorimeter-accounting.json)
+records the unchanged transfer from the mixed desktop backfill record.
+The original inventory remains intact; global totals stay at 552,937,331 across
+183 disjoint turns. Never add this subtotal to the project total again.
