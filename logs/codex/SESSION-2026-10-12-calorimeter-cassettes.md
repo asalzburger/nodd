@@ -48,3 +48,7 @@ Next: physical sector plates/support and cassette packing, complete barrels and
 both endcaps, conditional solenoid-envelope interface, aggregate service and
 material checks. Continuous HCAL electronics power, PCB/package and coolant
 assumptions require expert review; geometry checks are not engineering acceptance.
+
+Delivery: [PR67](https://github.com/asalzburger/nodd/pull/67), initial deliverable
+revision c96d7c36aadc7e12821c8472d7ba6c821aa71639; token-site hosted check passed, scientific hosted check pending
+at this metadata snapshot.
