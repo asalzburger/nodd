@@ -121,3 +121,7 @@ tracker/solenoid envelopes in the RZ figure are planning context. No transport
 through those components or combined detector clearance check is implied.
 [Executed evidence](../validation/DES-029/results.md) retains full overlap,
 component/constituent inventories, native identifiers and bounded material rays.
+
+[Endcap coverage diagnosis and repair proposal](DES-029-endcap-coverage-repair.md)
+separates packing loss from cassette inactive area and proposes endcap carriers,
+small board families and an inner-ring design. It changes no geometry inputs.
