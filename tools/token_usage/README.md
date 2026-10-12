@@ -16,9 +16,12 @@ python3 -m http.server 8000 --bind 127.0.0.1 --directory _site/pages
 Only validated `logs/codex` and `logs/design` turn entries contribute to totals.
 Thread/turn ownership must be unique. `logs/usage` inventories supply exact
 closed-turn end times and corroborating counters, never additional usage. Repeated
-inventory snapshots cannot inflate totals; conflicting counters/timestamps stop
-the build. Untimed observations remain in the headline subtotal but outside the
-curve. Session creation, import and commit dates are never substituted for usage
+inventory snapshots cannot inflate totals. Older explicitly in-progress snapshots
+with no closing boundary are checked as lower bounds; they supply neither final
+counters nor dates. Conflicting finalized counters/timestamps and provisional
+counters exceeding the recorded final counters stop the build. Untimed observations
+remain in the headline subtotal but outside the curve. Session creation, import
+and commit dates are never substituted for usage
 dates. Days use UTC and observations are grouped by closed-turn end day.
 
 Input plus output is the observed total. Cached input and reasoning output are

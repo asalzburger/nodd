@@ -77,11 +77,30 @@ def collect(root):
             if key not in owned:
                 continue  # Inventories are evidence, never extra usage.
             counters = turn.get("tokens") or entry
+            completed = turn.get("completed_at")
+            if (
+                turn.get("status") == "inProgress"
+                and turn.get("closed") is False
+                and completed is None
+                and turn.get("end_ordinal") is None
+            ):
+                # Retained recovery snapshots can predate a turn's completion.
+                # They corroborate lower bounds, never final counters or dates.
+                for field in FIELDS:
+                    partial = counters.get(field)
+                    final = owned[key][1][field]
+                    require(
+                        partial is None or (
+                            type(partial) is int and partial >= 0
+                            and (final is None or partial <= final)
+                        ),
+                        f"{path.name}: invalid provisional counters for an owned turn",
+                    )
+                continue
             require(
                 all(counters.get(field) == owned[key][1][field] for field in FIELDS),
                 f"{path.name}: conflicting counters for an owned turn",
             )
-            completed = turn.get("completed_at")
             if completed is None:
                 continue
             require(

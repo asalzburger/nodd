@@ -40,3 +40,12 @@ Usage is empty and unknown, not zero. No raw private client state was collected
 and no historical turn was assigned to this task. Proceed with electronics
 feasibility against the agreed baseline and fallback; no further preference
 confirmation is needed. Import exact completed-turn evidence before merge.
+
+## Token-accounting correction — 2026-10-12
+
+Imported 1 verified closed turns: **1,070,223 input** and
+**4,777 output** tokens. The [device audit inventory](../usage/USAGE-2026-10-12-device-audit.json)
+retains exact boundaries, request counts, event hashes and task attribution.
+Earlier missing-counter statements describe the original capture. Cached input
+and reasoning output are subsets; execution model/client version and total project
+coverage remain unknown. No design approval or scientific validation changes.

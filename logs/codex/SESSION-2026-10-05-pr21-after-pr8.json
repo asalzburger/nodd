@@ -10,7 +10,8 @@
   "completeness": "partial",
   "limitations": [
     "Actual conversation start time and exact client-reported per-turn token counters are unavailable; usage is empty, not zero.",
-    "No detector runtime executed: changes reconcile records and import existing main content. JavaScript dashboard checks require CI because Node is unavailable locally."
+    "No detector runtime executed: changes reconcile records and import existing main content. JavaScript dashboard checks require CI because Node is unavailable locally.",
+    "2026-10-12 device audit: imported 1 exact closed turns (1,678,695 input / 7,721 output) from logs/usage/USAGE-2026-10-12-device-audit.json. Earlier unavailable-usage statements describe the original capture. Model/client version and complete project coverage remain unknown."
   ],
   "client": {
     "name": "Codex",
@@ -50,7 +51,22 @@
   },
   "narrative": "logs/codex/SESSION-2026-10-05-pr21-after-pr8.md",
   "activities": [],
-  "usage": [],
+  "usage": [
+    {
+      "client_thread_id": "01a0fc8b-30bf-71e2-b9f9-d56074281781",
+      "turn_id": "01a10ba8-c86c-7d13-9f90-c2f659c01c72",
+      "model": null,
+      "source": "Usage-only local-device recovery captured 2026-10-12T11:26:10.963832+00:00; logs/usage/USAGE-2026-10-12-device-audit.json; verified event SHA-256 ea327176d205a8f5ef685ead352c3d630dd7be5ea0924d2650910dae8fe9f994; persisted turn ordinals 2167..2360; 23 reconciled request increases.",
+      "limitations": [
+        "Actual execution model and client version are not established. Whole closed turn counted once; cached input and reasoning output are subsets."
+      ],
+      "input_tokens": 1678695,
+      "cached_input_tokens": 1620864,
+      "output_tokens": 7721,
+      "reasoning_output_tokens": 288,
+      "total_tokens": 1686416
+    }
+  ],
   "checks": [
     {
       "command": "python3 -B -m unittest discover -s tools/dashboard -p 'test_*.py'",

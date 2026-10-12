@@ -1,0 +1,130 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-04-pixel-tdr-style",
+  "title": "Remove working name and harmonize module figure styling",
+  "recorded_at": "2026-10-04T06:15:18Z",
+  "started_at": null,
+  "ended_at": "2026-10-04T06:16:11Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact client-reported token counters are unavailable; usage is empty, not zero.",
+    "Overleaf server compilation is not observed; local PDFs and remote source revision are checked.",
+    "2026-10-12 device audit: imported 2 exact closed turns (1,925,319 input / 5,087 output) from logs/usage/USAGE-2026-10-12-device-audit.json. Earlier unavailable-usage statements describe the original capture. Model/client version and complete project coverage remain unknown. Original journal restored from local branch revision 7ec9d05dc5ee9aefdf6c0da30549615ebc06a0b0; historical artifacts/checks are not recreated or rerun."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "6b030a8cbc259f0b911311e5c4fd7d770b2a5242",
+    "branch": "documentation/pixel-detector-section",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      "docs/publication/pixel-detector/README.md",
+      "docs/publication/pixel-detector/artifacts.json",
+      "docs/publication/pixel-detector/main.pdf",
+      "docs/publication/pixel-detector/pixel-detector.pdf",
+      "docs/publication/pixel-detector/source/chapters/pixel-detector.tex",
+      "docs/publication/pixel-detector/source/data/pixel-editorial-provenance.json",
+      "docs/publication/pixel-detector/source/data/pixel-render-manifest.json",
+      "docs/publication/pixel-detector/source/figures/pixel-module-edge.pdf",
+      "docs/publication/pixel-detector/source/figures/pixel-module-edge.svg",
+      "docs/publication/pixel-detector/source/pixel-detector.tex",
+      "docs/publication/pixel-detector/source/style/odd-tdr.sty",
+      "docs/tdr",
+      "project/tracking.json",
+      "logs/codex/SESSION-2026-10-04-pixel-tdr-style.json",
+      "logs/codex/SESSION-2026-10-04-pixel-tdr-style.md"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "publication"
+    ],
+    "related_ids": [
+      "PUB-PIXEL-001",
+      "TASK-PUB-PIXEL"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-04-pixel-tdr-style.md",
+  "activities": [],
+  "usage": [
+    {
+      "client_thread_id": "01a0fc8b-30bf-71e2-b9f9-d56074281781",
+      "turn_id": "01a1058c-66f4-7b71-bf7e-bf514ab28a21",
+      "model": null,
+      "source": "Usage-only local-device recovery captured 2026-10-12T11:26:10.963832+00:00; logs/usage/USAGE-2026-10-12-device-audit.json; verified event SHA-256 0abf29416a749335943b5976212a0ee9583798139f8020011adee46c05d4cbe4; persisted turn ordinals 1728..1795; 8 reconciled request increases.",
+      "limitations": [
+        "Actual execution model and client version are not established. Whole closed turn counted once; cached input and reasoning output are subsets."
+      ],
+      "input_tokens": 1389927,
+      "cached_input_tokens": 1222272,
+      "output_tokens": 4889,
+      "reasoning_output_tokens": 705,
+      "total_tokens": 1394816
+    },
+    {
+      "client_thread_id": "01a0fc8b-30bf-71e2-b9f9-d56074281781",
+      "turn_id": "01a105f4-2ba4-70d2-b084-7acc4d1967e4",
+      "model": null,
+      "source": "Usage-only local-device recovery captured 2026-10-12T11:26:10.963832+00:00; logs/usage/USAGE-2026-10-12-device-audit.json; verified event SHA-256 9086dfdbe392afb805437cb9c01799853d11d6d375b0d997a955d4f58528562f; persisted turn ordinals 1797..1816; 3 reconciled request increases.",
+      "limitations": [
+        "Actual execution model and client version are not established. Whole closed turn counted once; cached input and reasoning output are subsets."
+      ],
+      "input_tokens": 535392,
+      "cached_input_tokens": 368640,
+      "output_tokens": 198,
+      "reasoning_output_tokens": 0,
+      "total_tokens": 535590
+    }
+  ],
+  "checks": [
+    {
+      "command": "latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex / pixel-detector.tex",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Both final wrappers rebuilt cleanly:22/18pages; no overfull boxes, warnings or undefined references."
+    },
+    {
+      "command": "pdftotext / pdfinfo checks",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No nODD name remains in either PDF text or document metadata."
+    },
+    {
+      "command": "pdftoppm and visual review of Figure2.3",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Lower panel matches upper material colors and font family; white background, grey leaders and legible white labels on dark silicon layers."
+    },
+    {
+      "command": "SHA256 package/source checks",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "42 package artifact hashes verified; adapted SVG provenance and render manifest refreshed."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate / build",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "40tasks,17documents,15review rounds validated; dashboard built."
+    },
+    {
+      "command": "git push origin HEAD:main; git ls-remote origin refs/heads/main",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Ordinary push succeeded; remote source revision 7476bc210e99f8b9916e492fec08e8ace476be17 verified."
+    },
+    {
+      "command": "session_log.py validate / summary",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "79 records validate. Historical input/output134594309/674111 across79turns in42/79sessions; current usage unavailable."
+    }
+  ]
+}

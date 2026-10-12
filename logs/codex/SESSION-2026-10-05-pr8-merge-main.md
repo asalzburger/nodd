@@ -65,3 +65,14 @@ The full staged whitespace check found pre-existing generated SVG whitespace
 imported unchanged from main. Those evidence files are preserved. An extra
 blank line in the new narrative was corrected; manual resolution files are
 checked separately.
+
+## Token-accounting correction — 2026-10-12
+
+Imported 1 verified closed turns: **2,788,187 input** and
+**9,699 output** tokens. The [device audit inventory](../usage/USAGE-2026-10-12-device-audit.json)
+retains exact boundaries, request counts, event hashes and task attribution.
+The full shared PR8/21/22 turn is counted here once; the PR21/22 journals
+carry references without additional usage. No division by task duration is made.
+Earlier missing-counter statements describe the original capture. Cached input
+and reasoning output are subsets; execution model/client version and total project
+coverage remain unknown. No design approval or scientific validation changes.

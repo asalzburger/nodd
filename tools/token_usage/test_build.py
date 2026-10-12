@@ -124,6 +124,41 @@ class UsageTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "conflicting"):
                 build.collect(self.root)
 
+    def test_provisional_snapshot_preserves_final_counters_and_dates(self):
+        final_path = self.root / "logs/usage/turn-one.json"
+        provisional = json.loads(final_path.read_text())["completed_turns"][0]
+        provisional.update(
+            status="inProgress", closed=False, completed_at=None, end_ordinal=None,
+            tokens=dict(zip(build.FIELDS, (50, 40, 10, 2, 60))),
+        )
+        provisional.pop("usage_entry")
+        evidence_path = self.root / "logs/usage/provisional.json"
+        evidence_path.write_text(json.dumps({"threads": [{"turns": [provisional]}]}))
+        original_bytes = evidence_path.read_bytes()
+        data = build.collect(self.root)
+        self.assertEqual(data["summary"]["tokens"]["total_tokens"]["sum"], 120)
+        self.assertEqual(data["dated_turns"], 1)
+        self.assertEqual(data["series"][0]["date"], "2026-09-16")
+        self.assertEqual(data["series"][0]["cumulative"]["total_tokens"], 120)
+        self.assertEqual(evidence_path.read_bytes(), original_bytes)
+
+        final_path.unlink()
+        data = build.collect(self.root)
+        self.assertEqual(data["summary"]["tokens"]["total_tokens"]["sum"], 120)
+        self.assertEqual(data["dated_turns"], 0)
+        self.assertEqual(data["undated_turns"], 1)
+        self.assertEqual(data["series"], [])
+
+    def test_provisional_counters_cannot_exceed_final_counters(self):
+        value = json.loads((self.root / "logs/usage/turn-one.json").read_text())
+        turn = value["completed_turns"][0]
+        turn.update(status="inProgress", closed=False, completed_at=None, end_ordinal=None)
+        turn["tokens"]["input_tokens"] = 101
+        turn["tokens"]["total_tokens"] = 121
+        (self.root / "logs/usage/provisional.json").write_text(json.dumps(value))
+        with self.assertRaisesRegex(ValueError, "provisional counters"):
+            build.collect(self.root)
+
     def test_duplicate_canonical_ownership_is_rejected(self):
         path = self.add_record(
             "SESSION-2026-09-17-two", "different-turn", 200, 40, 180, 10, None
