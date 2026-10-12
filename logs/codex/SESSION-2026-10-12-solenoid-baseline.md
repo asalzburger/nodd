@@ -65,3 +65,8 @@ Delivered [Magnet System: baseline 3 T tracker solenoid with RZ view](https://gi
 A following metadata-only commit records this evidence and journal closeout.
 PR attached to current chat. Hosted CI pending at this snapshot; local checks
 passed. Journal curation closed 2026-10-12T13:05:57Z; actual client turn end remains unknown.
+
+CI follow-up: run38253405304 at f2deb77 passed the solenoid controls but failed
+the repository review test, which expects PR4 as the first PR record. The
+new PR64 entry is placed immediately after PR4 to preserve that contract.
+No test, acceptance criterion or scientific data changed.

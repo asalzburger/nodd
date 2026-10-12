@@ -13,7 +13,8 @@
     "This bounded task shares a client turn with the companion design task. No total is split or duplicated.",
     "The original client turn start/end timestamps are unavailable. Recorded times describe curation/closeout only.",
     "Designs remain DRAFT; numerical/static checks are not human sign-off or engineering/performance qualification.",
-    "Hosted CI is pending at journal closeout; local checks passed. The final PR head will be a following metadata-only commit; scientific execution/figure hashes remain unchanged."
+    "Hosted CI is pending at journal closeout; local checks passed. The final PR head will be a following metadata-only commit; scientific execution/figure hashes remain unchanged.",
+    "CI correction: first final-head validation failed on historical PR array ordering; record-only correction is followed by the exact affected local test and a new hosted run."
   ],
   "client": {
     "name": "Codex desktop",
@@ -142,6 +143,18 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "Normalized renderer output passes staged whitespace check before the normal correction commit."
+    },
+    {
+      "command": "Hosted Project validation at f2deb77 (run38253405304)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Solenoid controls passed. Historical repository-review test expects PR4 as first array entry; new PR64 entry had been placed before it. Preserve PR4 at index0 and put PR64 immediately after it; no tests or scientific criteria changed."
+    },
+    {
+      "command": "PYTHONPATH=tools/project_records python3 -B -m unittest test_records.RepositoryReviewTests -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Exact historical PR4 review/approval-boundary test passes after preserving record ordering. Project records, session logs and token-site build also passed after the correction."
     }
   ]
 }
