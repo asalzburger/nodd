@@ -81,3 +81,11 @@ input 265136032 / output 1670036 / total 266806068, with 67 sessions lacking usa
 These sums exclude this unknown current turn and are not a complete project total.
 The closeout timestamp marks local editorial delivery; the actual client turn
 completion and exact counters remain unknown.
+
+## Token recovery correction — 2026-10-12
+
+The previously active desktop turn is now closed. Exact per-turn counters were
+reconciled from cumulative increases and last-request counters, then imported
+once from [USAGE-2026-10-12-desktop.json](../usage/USAGE-2026-10-12-desktop.json).
+The inventory records persisted completion time and the request-evidence digest.
+Original local closeout times and scientific conclusions are preserved.

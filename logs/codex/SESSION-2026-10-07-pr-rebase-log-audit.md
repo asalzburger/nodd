@@ -27,3 +27,11 @@ Final metadata correction: existing PR45/47/55 dashboard entries now carry their
 Final live-state correction: a guard detected PR45/47 had been merged during CI, at12:18:18Z/12:18:37Z as96f9da2/f988d8c. The latter illustration merge was stranded on the closed PR45 branch. Preserved both via ordinary receiving merge543c52b into still-open PR55; its tree exactly equals the already-tested PR47 tree. No closed PR rewritten or human commit overwritten. Rebased the unpublished local accounting continuation onto that receiving merge, then ordinarily merged original publishedb1546f3back to preserve every published commit and permit a normal push. PR56 now follows PR55; actual merged states are corrected without design sign-off. Its b1546f3hosted build passed12:26:41Z; newer metadata publication CI remains asynchronous at record update. Observed bookkeeping closure extended to2026-10-07T12:32:34Z; current client-turn counters stay unknown.
 
 Merge-order correction: earlier parent-first guidance was wrong when merged base branches remain in place. The final correct sequence is to merge child PR56 into receiving PR55 first, then merge PR55 into main. Both previously merged documentation contributions are already preserved in PR55. No retargeting after a parent merge is required in this sequence. Observed bookkeeping closure updated 2026-10-07T12:38:13Z; this client turn remains uncounted while active.
+
+## Token recovery correction — 2026-10-12
+
+The previously active desktop turn is now closed. Exact per-turn counters were
+reconciled from cumulative increases and last-request counters, then imported
+once from [USAGE-2026-10-12-desktop.json](../usage/USAGE-2026-10-12-desktop.json).
+The inventory records persisted completion time and the request-evidence digest.
+Original local closeout times and scientific conclusions are preserved.

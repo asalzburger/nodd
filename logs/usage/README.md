@@ -191,3 +191,16 @@ repeated snapshots. This permits comparison against a future extraction without
 retaining raw client content. Model names, costs and missing usage are not
 inferred. Historical narratives remain intact with dated token-accounting
 corrections appended.
+
+## Desktop workspace backfill — 2026-10-12
+
+The [new inventory](USAGE-2026-10-12-desktop.json) adds 15 exact closed turns
+through October 10 and verifies 34 existing desktop observations unchanged.
+The project subtotal rises by 94,563,853 to **552,937,331 observed tokens**.
+This includes explicitly nODD calorimeter prototype work in the ACTS sister
+checkout; it excludes prior no-counting scopes and the active October 12 turn.
+
+Directory-based recovery can miss desktop chats opened at a parent workspace.
+Use the opt-in explicit-thread mode, then curate project/task ownership. A stale
+inventory cutoff does not imply lost counters or zero subsequent consumption.
+The [backfill record](../codex/SESSION-2026-10-12-desktop-usage-backfill.md) documents scope and gaps.

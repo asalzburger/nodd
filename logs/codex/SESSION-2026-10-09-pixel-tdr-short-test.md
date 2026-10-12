@@ -90,3 +90,11 @@ usage or an all-project total. Dashboard validated 57 tasks, 31 documents and
 19 review rounds, then built. Final file hashes, source ZIP integrity, PDF page
 counts, unchanged HEAD/submodule and whitespace checks passed. Full-PDF open
 request was queued in Codex. No publication or new commit occurred.
+
+## Token recovery correction — 2026-10-12
+
+The previously active desktop turn is now closed. Exact per-turn counters were
+reconciled from cumulative increases and last-request counters, then imported
+once from [USAGE-2026-10-12-desktop.json](../usage/USAGE-2026-10-12-desktop.json).
+The inventory records persisted completion time and the request-evidence digest.
+Original local closeout times and scientific conclusions are preserved.

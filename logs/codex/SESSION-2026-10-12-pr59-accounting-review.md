@@ -33,3 +33,11 @@ This task's counters are unavailable and its usage is empty. The subtotal is
 observed historical usage, not complete telemetry or billing. The separate
 infrastructure PR will replace the dashboard and its deployment with the token
 timeline while preserving scientific records and independent validation checks.
+
+## Desktop backfill correction — 2026-10-12
+
+The user asked about the post-migration cutoff. Explicit desktop-thread recovery
+adds fifteen closed nODD turns through October 10 and verifies existing owners
+unchanged. The new observed subtotal is 552,937,331 tokens across 183 turns.
+See [backfill](SESSION-2026-10-12-desktop-usage-backfill.md) for task attribution
+and exclusions; earlier merge-audit arithmetic remains a historical snapshot.

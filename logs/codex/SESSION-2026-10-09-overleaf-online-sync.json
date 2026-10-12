@@ -9,11 +9,12 @@
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
-    "Actual client turn start/end and execution model/version are not exposed.",
-    "Current-turn exact input/cached/output/reasoning/total counters are unavailable; usage remains empty, meaning unknown. No recovery of an active turn was attempted.",
+    "At original closeout: Actual client turn start/end and execution model/version are not exposed.",
+    "At original closeout: Current-turn exact input/cached/output/reasoning/total counters are unavailable; usage remains empty, meaning unknown. No recovery of an active turn was attempted.",
     "Historical project resource coverage remains partial.",
     "Overleaf compilation was checked in the UI; no new retained PDF or all-page visual QA is claimed.",
-    "ended_at is the observed bounded editorial closeout, not a recovered client turn completion. The GitHub dashboard run was in progress at this metadata update."
+    "At original closeout: ended_at is the observed bounded editorial closeout, not a recovered client turn completion. The GitHub dashboard run was in progress at this metadata update.",
+    "2026-10-12 correction: exact closed-turn counters are now imported from logs/usage/USAGE-2026-10-12-desktop.json; original local closeout timestamps and scientific evidence are preserved."
   ],
   "client": {
     "name": "Codex desktop",
@@ -73,7 +74,22 @@
       "evidence": "Observed main.tex Recompile, UI errors/warnings and compiler output metadata."
     }
   ],
-  "usage": [],
+  "usage": [
+    {
+      "client_thread_id": "01a10c6a-664d-72b1-afad-926c2c57312b",
+      "turn_id": "01a11fdb-a862-7ef1-a94a-21af01697bba",
+      "model": null,
+      "source": "Usage-only desktop recovery captured 2026-10-12T10:03:10.122182+00:00; logs/usage/USAGE-2026-10-12-desktop.json; verified event SHA-256 6360e77652decc69e155d8f05239e6acac8cff5063f5555c784e3a7f9e2a0000",
+      "limitations": [
+        "Actual executed model and client version not established by usage counters."
+      ],
+      "input_tokens": 5285301,
+      "cached_input_tokens": 4960000,
+      "output_tokens": 21951,
+      "reasoning_output_tokens": 6769,
+      "total_tokens": 5307252
+    }
+  ],
   "checks": [
     {
       "command": "GIT_TERMINAL_PROMPT=0 git fetch origin (nODD and TDR)",
@@ -91,7 +107,7 @@
       "command": "Guarded primary TDR git merge --ff-only origin/main",
       "status": "PASS",
       "exit_code": 0,
-      "result": "Clean submodule fast-forwarded 908e7e5→279d882. Parent branch/head and unrelated diff/status byte hashes unchanged."
+      "result": "Clean submodule fast-forwarded 908e7e5\u2192279d882. Parent branch/head and unrelated diff/status byte hashes unchanged."
     },
     {
       "command": "python3 tools/session_logging/session_log.py validate (initial journal)",

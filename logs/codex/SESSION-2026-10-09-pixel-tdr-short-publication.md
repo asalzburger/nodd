@@ -94,3 +94,11 @@ retain their distinct canonical session and unknown counters.
 
 The observed editorial closeout timestamp is not recovered client completion.
 No raw client state, new recovery schedule, force push, PR merge or Slack message.
+
+## Token recovery correction — 2026-10-12
+
+The previously active desktop turn is now closed. Exact per-turn counters were
+reconciled from cumulative increases and last-request counters, then imported
+once from [USAGE-2026-10-12-desktop.json](../usage/USAGE-2026-10-12-desktop.json).
+The inventory records persisted completion time and the request-evidence digest.
+Original local closeout times and scientific conclusions are preserved.
