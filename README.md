@@ -5,6 +5,20 @@ OpenDataDetector for DD4hep simulation and ACTS-compatible reconstruction.
 See the [project scope](PROJECT.md), [development plan](docs/DEVELOPMENT_PLAN.md)
 and [documentation index](docs/README.md).
 
+## Current pixel baseline
+
+The standard combined pixel build uses the
+[trimmed single/quad configuration](detector/config/pixel-detector-trimmed.json):
+four inner rings of single modules and two outer rings of quad modules, with
+eta-inaccessible inner rings removed on the outer discs. It retains the selected
+barrel and PR40 whole-millimetre disc datums. The combined detector contains
+5,362 modules and 11,806 active chip areas.
+
+Use the [build and validation workflow](tools/pixel_detector_dd4hep/README.md).
+The quad-only configuration is an explicit historical control. This is the
+working baseline on main; the design remains DRAFT and its documented coverage,
+thermal and service-routing limitations remain open.
+
 The [TDR outline](docs/publication/TDR-outline.md) and
 [publication plan](docs/publication/publication-plan.md) organize chapters,
 evidence and review inputs as the detector design develops.
@@ -47,3 +61,12 @@ The [ACTS Spack skill](skills/acts-spack/SKILL.md) checks the
 [verified node registry](skills/acts-spack/references/nodes.json) before using
 preinstalled DD4hep/Geant4. It warns about unavailable nodes or capabilities;
 runtime availability and full source availability are recorded separately.
+
+For local ACTS development, use the authorized `acts-nodd` sister checkout and
+the [recorded build, test and Python runtime workflow](AGENTS.md#local-acts-sister-checkout).
+
+The [finite-module study workflow](tools/module_layout/README.md) regenerates
+isolated cobe/pint prototypes from versioned sensor and layer inputs, compares
+straight/curved-track coverage and silicon area, and audits intersections with
+ACTS. See [DES-009](docs/design/DES-009-module-populated-layouts.md) and the
+[coverage/support report](docs/validation/DES-009-module-populated-layouts.md).

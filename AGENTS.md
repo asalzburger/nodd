@@ -145,6 +145,13 @@ Validation output must record the commit SHA, configuration, tool versions, rand
 
 ## Documentation conventions
 
+For TDR writing, follow [the publication writing guide](docs/publication/TDR-writing-guide.md).
+Describe the current baseline and its simulation representation. Do not narrate
+unsuccessful attempts or intermediate layouts in the TDR. Keep mounting and
+cooling explanations proportional to their effect on geometry and material;
+use compact parameter tables for dimensions. Historical execution evidence
+continues to belong in the separate validation reports and session journal.
+
 - Design proposals: `docs/design/DES-NNN-short-name.md`
 - Architecture decisions: `docs/decisions/ADR-NNN-short-name.md`
 - Sign-off records: `docs/signoff/DES-NNN-signoff.md`
@@ -220,6 +227,53 @@ actual paths and required runtime behavior; a recorded hostname or the
 after testing them. Do not install or modify shared dependencies merely to make
 the preflight pass.
 
+### Local ACTS sister checkout
+
+On 2026-09-28 the user identified and authorized access to
+`/Users/salzburg/Documents/work/dev/acts-nodd` for nODD work. Use this existing
+ACTS checkout when local ACTS source, builds, tests or Python jobs are needed.
+Read its `AGENTS.md` before working there and preserve its local changes.
+This records the user's authorization; filesystem sandbox permissions still apply.
+
+The checkout's instructions and `/Users/salzburg/cernbox/configs/acts/acts_setup.sh`
+define the local workflow. After the ACTS Spack preflight above, the commands are:
+
+```sh
+source /Users/salzburg/cernbox/configs/acts/acts_setup.sh
+acts build acts-nodd
+acts test acts-nodd
+acts run acts-nodd
+```
+
+These are separate build, C++ test and runtime-setup operations; choose the
+operation needed by the task. For Python jobs, use `acts run acts-nodd` in the
+same shell before `python path/to/script.py`. Verify that the active Python
+environment is `/Users/salzburg/Documents/work/installed/acts-nodd/pyvenv/`;
+activate it if necessary. Run `pytest` from the ACTS checkout root in that
+environment. The default build and install directories are
+`/Users/salzburg/Documents/work/build/acts-nodd` and
+`/Users/salzburg/Documents/work/installed/acts-nodd`. The current build helper
+recreates the Python environment, and the runtime helper copies ODD data/config
+into the install tree; neither is a read-only availability check. Follow the
+sister checkout's pre-commit and ignored `_work_diffs/` reporting instructions
+when changing its files.
+
+At inspection, HEAD was `355ea68493b326956756c9386d2fd9eaf9328568` on
+`fix-clang21-on-macOs27-boost-nodiscard`, one correction commit beyond local
+`main` at `20f2e679d2fe8d500e1a810f0f138f395d4f6b9a`. Recheck branch, revision,
+working tree and required capabilities before use; this snapshot does not pin
+a production dependency or establish a passing build/runtime. Inspection and
+limitations are recorded in the
+[session record](logs/codex/SESSION-2026-09-28-acts-sister-checkout.md).
+
+The subsequent [PR #14 response](https://github.com/asalzburger/nodd/pull/14#issuecomment-5872518726)
+records execution using this installation and the sensitivity-binding patch in
+[ACTS PR #6176](https://github.com/acts-project/acts/pull/6176). Keep source HEAD,
+uncommitted patch content and installed artifacts distinct when reporting a run.
+That session observed changed Spack setup/lockfile fingerprints and a Geant4
+data-directory warning; rerun the preflight and task-specific checks instead of
+assuming the earlier node registry covers the current installation.
+
 ## Pull-request naming and conflict resolution
 
 Effective 2026-09-22 by explicit human instruction, every new or open PR title
@@ -255,9 +309,10 @@ silently choose one side when facts conflict. Validate merged logs and dashboard
 records and run relevant checks before pushing. Use ordinary merges; do not
 rewrite shared history or treat a conflict-resolution merge as design approval.
 
-## Dashboard maintenance
+## Project records and token dashboard
 
-The project dashboard must stay current with every project change. For each
+Scientific project/review records remain canonical after retirement of the progress
+dashboard on 2026-10-12. For each
 non-infrastructure PR, update `project/tracking.json` or `project/reviews.json`
 in the same PR with the affected work, dependencies, next actions, deliverables, reviews or
 evidence. Update the curated record date. Review requests and decisions retain
@@ -269,15 +324,18 @@ Use `Infrastructure: <description>` titles for repository/workflow maintenance
 PRs. **Infrastructure PRs are excluded from project progress tracking:** do
 not add chore work items, review rounds or PR entries, and do not count them as
 milestone or scientific progress. They still require logging, relevant checks
-and a successful dashboard build; tracking corrections may accompany an
+and a successful token-dashboard build; tracking corrections may accompany an
 infrastructure PR without tracking that PR itself. Scientific designs, detector changes and
 validation evidence must not be classified as infrastructure to bypass updates.
 
-Run `python3 -B tools/dashboard/build.py validate` and the relevant dashboard
-checks before completing project work. CI checks PR naming and project tracking
-updates and rebuilds/publishes the dashboard after every successful main-branch push.
-See [the tracking workflow](project/README.md) and
-[dashboard build/deployment guide](tools/dashboard/README.md).
+Run `python3 -B tools/project_records/validate.py` for project-record changes
+and `python3 -B tools/token_usage/build.py validate` for usage/site changes.
+The independent validation workflow retains PR naming, tracking and scientific
+prototype checks. The former dashboard UI, renderer and deployment are removed.
+GitHub Pages publishes the cumulative observed token timeline from main only;
+PR builds are previews. Preserve unknown counters and unique turn ownership.
+See [project records](project/README.md) and the
+[token dashboard guide](tools/token_usage/README.md).
 
 ## Stop conditions
 

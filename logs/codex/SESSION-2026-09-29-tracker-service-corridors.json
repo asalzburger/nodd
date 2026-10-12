@@ -1,0 +1,236 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-09-29-tracker-service-corridors",
+  "title": "Estimate tracker supports and services and reserve routing gaps",
+  "recorded_at": "2026-09-29T09:26:27Z",
+  "started_at": null,
+  "ended_at": "2026-09-29T10:10:29Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact client-reported root/subagent completed-turn token counters are unavailable; usage is empty, not zero.",
+    "PR24 is explicitly unapproved; this is only an isolated service-space working hypothesis, without production integration or position optimization.",
+    "Spack fingerprints changed; actual installed ACTS sensitivity import and NumPy/Matplotlib checked. Geant4 data-path warning persists; no transport claim.",
+    "TDR-era architecture comparators do not qualify nODD electronics, power, hydraulic or mechanical performance. Adverse capacity scenarios remain failures."
+  ],
+  "client": {
+    "name": "unspecified",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "1aa2aafd381fc37a9da3368686f2ca34d9f4dd0a",
+    "branch": "study/tracker-service-corridors",
+    "initial_changes": [
+      "logs/codex/SESSION-2026-09-29-project-usage-summary.json",
+      "logs/codex/SESSION-2026-09-29-project-usage-summary.md",
+      "logs/usage/USAGE-2026-09-29-local.json",
+      "logs/usage/USAGE-2026-09-29-project-summary.json"
+    ],
+    "result_commits": [
+      "d3265fa1e52f26b0aac556325eaa6d7a10442720",
+      "a588a6bec649eeb2f39ab5d3a0c3fece55bf16c7",
+      "175b065d47f0e99e4363ebfa6f59d2cb8dc75752"
+    ],
+    "changed_files": [
+      "docs/design/DES-009-module-populated-layouts.md",
+      "docs/design/DES-010-tracker-service-corridors.md",
+      "docs/design/inputs/DES-010-pixel-services.md",
+      "docs/design/inputs/DES-010-strip-services.md",
+      "docs/validation/DES-010-services/artifacts.json",
+      "docs/validation/DES-010-services/main/budget_inputs.json",
+      "docs/validation/DES-010-services/main/config.json",
+      "docs/validation/DES-010-services/main/envelopes.json",
+      "docs/validation/DES-010-services/main/layouts.json",
+      "docs/validation/DES-010-services/main/models.json",
+      "docs/validation/DES-010-services/main/native_tracks.json",
+      "docs/validation/DES-010-services/main/sampling.json",
+      "docs/validation/DES-010-services/main/summary.json",
+      "docs/validation/DES-010-services/rejected-throat-probe.json",
+      "docs/validation/DES-010-services/views/local-support-concept.pdf",
+      "docs/validation/DES-010-services/views/local-support-concept.png",
+      "docs/validation/DES-010-services/views/routing-rz.pdf",
+      "docs/validation/DES-010-services/views/routing-rz.png",
+      "docs/validation/DES-010-services/views/routing-xy.pdf",
+      "docs/validation/DES-010-services/views/routing-xy.png",
+      "docs/validation/DES-010-services/views/views.json",
+      "docs/validation/DES-010-tracker-services.md",
+      "logs/codex/SESSION-2026-09-29-tracker-service-corridors.json",
+      "logs/codex/SESSION-2026-09-29-tracker-service-corridors.md",
+      "project/tracking.json",
+      "reference/manifest.yaml",
+      "tools/module_layout/README.md",
+      "tools/module_layout/services.py",
+      "tools/module_layout/services_budget.py",
+      "tools/module_layout/services_budget_inputs.json",
+      "tools/module_layout/services_config.json",
+      "tools/module_layout/services_geometry.py",
+      "tools/module_layout/services_views.py",
+      "tools/module_layout/test_services_budget.py",
+      "tools/module_layout/test_services_driver.py",
+      "tools/module_layout/test_services_geometry.py"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "tracker support and service routes",
+      "public TDR estimates",
+      "finite module gaps"
+    ],
+    "related_ids": [
+      "DES-010",
+      "DES-009",
+      "DES-005",
+      "DES-003",
+      "ADR-006",
+      "PR-24",
+      "PR-25"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-09-29-tracker-service-corridors.md",
+  "activities": [
+    {
+      "kind": "skill",
+      "name": "acts-spack",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Read workflow, ran preflight, reported warning and reverified required runtime."
+    },
+    {
+      "kind": "tool",
+      "name": "collaboration",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Three delegated agents researched pixel/strip source budgets and implemented/reviewed geometry, budget and mockups."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 /Users/salzburg/.codex/skills/acts-spack/scripts/preflight.py",
+      "status": "FAIL",
+      "exit_code": 2,
+      "result": "Changed setup/lock fingerprints; direct runtime re-verification followed."
+    },
+    {
+      "command": "source acts_setup.sh; acts run acts-nodd; activate installed pyvenv; Python import probe",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Verified installed pyvenv interpreter, acts Surface.assignIsSensitive, NumPy2.5.3 and Matplotlib3.11.2. Runtime warns about absent Geant4 dataset path. Sister HEAD355ea684 retained with existing unrelated changes."
+    },
+    {
+      "command": "Delegated services_geometry, services_budget and driver focused unittest checks",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Geometry14 tests; budget15 tests including required-edge flow preservation; driver9 tests reported passed (later additions recorded at final run)."
+    },
+    {
+      "command": "python3 -B tools/module_layout/services.py --output reference/cache/DES-010-services-probe-01",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Space-only execution completed; reference junction capacity failed12 throats and was retained. No physics/engineering acceptance. Required-turn extents and intended flow graph amended."
+    },
+    {
+      "command": "python3 -B tools/module_layout/services.py --output reference/cache/DES-010-services-probe-02",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "3898 removed modules; all space exclusions clear, reference route/throat area passes. Conservative and stress capacity fail explicitly. Numerical coverage not yet run at this probe."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py build --output /tmp/nodd-des010-source-dashboard",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "A Python implementation file was mistakenly placed in the dashboard curated-text deliverables. Replaced that link with README and JSON inputs; no scientific changes."
+    },
+    {
+      "command": "python -B -m unittest discover -s tools/module_layout -p test_*.py -v (ACTS overlay runtime)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "80 tests passed in63.065s, including native ACTS, original legacy controls, and39 new services geometry/budget/driver tests."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py build --output /tmp/nodd-des010-source-dashboard-fixed",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Corrected curated-text deliverables; source dashboard built."
+    },
+    {
+      "command": "services.py --output reference/cache/DES-010-services-main-20260929 --coverage --native --acts-source /Users/salzburg/Documents/work/dev/acts-nodd --runtime-manifest /tmp/acts-python-step-size-overlay/manifest.json (verified ACTS overlay environment)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Clean source d3265fa. 53,952 trajectory evaluations, all geometric exclusions clear, reference capacity passes; conservative22 route/14 throat and stress48/24 failures retained. Native48/48 tracks,565 reached patches,zero mismatches,maxresidual9.211e-7mm."
+    },
+    {
+      "command": "services_views.py --run reference/cache/DES-010-services-main-20260929 --output docs/validation/DES-010-services/views",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Three PNG/PDF pairs plus hashed view metadata; final r-z and x-y visually inspected. Representative flow paths bounded by declared route graph."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/dashboard -p test_*.py -v (clean source worktree)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "27 tests passed in23.860s."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p test_*.py -v (clean source worktree)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "32 tests passed in0.747s."
+    },
+    {
+      "command": "/System/Library/Frameworks/JavaScriptCore.framework/Versions/A/Helpers/jsc tools/dashboard/test_app.js (clean source worktree)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "14 JavaScript assertions passed."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "32 tasks,11 documents,11 review rounds validated."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py build --output /tmp/nodd-des010-final-dashboard",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Report, routing artifacts and tracking exported successfully."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "57 local paired records validated; includes preserved unrelated usage-summary record."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py summary",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Observed historical input134594309/output674111;42/57 sessions,79 turns. Current task root/subagent usage unavailable, not zero."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors."
+    },
+    {
+      "command": "Verify retained artifact/input/executed Python source SHA-256 values",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Every retained artifact and six snapshots match recorded hashes; no source drift from canonical execution."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py build --output /tmp/nodd-des010-published-dashboard",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Final report and PR25 metadata exported successfully; dashboard validator32tasks/11docs/11rounds,session validator57localrecords and git diff check also passed."
+    }
+  ]
+}

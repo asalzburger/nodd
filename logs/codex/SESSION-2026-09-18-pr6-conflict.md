@@ -19,3 +19,13 @@ Token counts, actual conversation start time and client identity are unavailable
 ## Publication
 
 Pushed merge 35c3fff and repair 76b12eb without force-pushing. Hosted CI run 35360011972 passed, including browser interaction tests unavailable locally. GitHub reports MERGEABLE and CLEAN. No PR merge or reviewer approval was performed.
+
+## Resource synchronization — 2026-10-07
+
+The authorized cleanup imported 1 exact completed turn(s), after dry-run validation, into this canonical owner. Earlier narrative and original inventory sources remain intact; pending/unknown token statements above are historical and superseded for these observations only.
+
+| Client turn | Input | Cached input | Output | Reasoning output | Total | Requests |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| 01a0b508-8422-7cd2-918e-7d934229ce46 | 1225840 | 1160576 | 3735 | 202 | 1229575 | 19 |
+
+Persisted turn/usage ordinals, request counts, timestamps, verified usage-event hashes and original recovery sources are retained in [the synchronization inventory](../usage/USAGE-2026-10-07-synchronization.json). Each turn is counted once; cached input and reasoning output are subsets. No scientific input, execution hash or approval state changed. The current cleanup turn, explicitly excluded illustration/history turn and unassigned historical/internal review turns are excluded; this is partial project coverage, not billing.

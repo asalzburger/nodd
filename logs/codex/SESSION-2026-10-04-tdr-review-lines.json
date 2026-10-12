@@ -1,0 +1,107 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-04-tdr-review-lines",
+  "title": "Test review line numbering in TDR PDFs",
+  "recorded_at": "2026-10-04T15:10:28Z",
+  "started_at": null,
+  "ended_at": "2026-10-04T15:12:40Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact client-reported per-turn token counters unavailable; usage remains empty, not zero.",
+    "Server-side Overleaf compile not observed; local PDF builds checked.",
+    "2026-10-12 device audit: imported 1 exact closed turns (1,536,402 input / 4,035 output) from logs/usage/USAGE-2026-10-12-device-audit.json. Earlier unavailable-usage statements describe the original capture. Model/client version and complete project coverage remain unknown. Original journal restored from local branch revision 7ec9d05dc5ee9aefdf6c0da30549615ebc06a0b0; historical artifacts/checks are not recreated or rerun."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "e26ae72a464a1131ecb81cabe5da318e63a4145e",
+    "branch": "documentation/pixel-detector-section",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      "docs/publication/pixel-detector/README.md",
+      "docs/publication/pixel-detector/artifacts.json",
+      "docs/publication/pixel-detector/main.pdf",
+      "docs/publication/pixel-detector/pixel-detector.pdf",
+      "docs/publication/pixel-detector/source/README.md",
+      "docs/publication/pixel-detector/source/main.tex",
+      "docs/publication/pixel-detector/source/pixel-detector.tex",
+      "docs/publication/pixel-detector/source/style/odd-tdr.sty",
+      "docs/tdr",
+      "project/tracking.json",
+      "logs/codex/SESSION-2026-10-04-tdr-review-lines.json",
+      "logs/codex/SESSION-2026-10-04-tdr-review-lines.md"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "publication"
+    ],
+    "related_ids": [
+      "PUB-PIXEL-001",
+      "TASK-PUB-PIXEL"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-04-tdr-review-lines.md",
+  "activities": [],
+  "usage": [
+    {
+      "client_thread_id": "01a0fc8b-30bf-71e2-b9f9-d56074281781",
+      "turn_id": "01a10776-fb98-7863-9ea1-1697d81ae977",
+      "model": null,
+      "source": "Usage-only local-device recovery captured 2026-10-12T11:26:10.963832+00:00; logs/usage/USAGE-2026-10-12-device-audit.json; verified event SHA-256 2011bd6981558fa0ed3c58862fcc0b70adbb06db6be3bb0ff7eb85de56f00f6b; persisted turn ordinals 1882..1946; 8 reconciled request increases.",
+      "limitations": [
+        "Actual execution model and client version are not established. Whole closed turn counted once; cached input and reasoning output are subsets."
+      ],
+      "input_tokens": 1536402,
+      "cached_input_tokens": 1525632,
+      "output_tokens": 4035,
+      "reasoning_output_tokens": 550,
+      "total_tokens": 1540437
+    }
+  ],
+  "checks": [
+    {
+      "command": "latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex / pixel-detector.tex",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Both wrappers compile cleanly without warnings, overfull boxes or undefined references;22/18pages."
+    },
+    {
+      "command": "pdftoppm / visual inspection",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Continuous grey left-margin line numbers are legible and separated from body text; figure contents remain unnumbered."
+    },
+    {
+      "command": "git diff --cached --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors; only style, wrapper switches and README changed in the TDR."
+    },
+    {
+      "command": "git push origin HEAD:main; git ls-remote origin refs/heads/main",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Remote source 045445eb833cc0ce5a481c30c4220e1bf7af3e96 verified."
+    },
+    {
+      "command": "Artifact verification; dashboard validate/build",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "42 hashes verified;40 tasks,17 documents,15 rounds validated and dashboard built."
+    },
+    {
+      "command": "session_log.py validate / summary",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "81 records validate; historical input/output134594309/674111 across79 turns in42/81sessions. No current-task measurements."
+    }
+  ]
+}

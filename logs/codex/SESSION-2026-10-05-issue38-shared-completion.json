@@ -1,0 +1,120 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-05-issue38-shared-completion",
+  "title": "Shared issue38 PR work and final resource accounting",
+  "recorded_at": "2026-10-05T15:32:32Z",
+  "started_at": "2026-10-05T14:35:59Z",
+  "ended_at": "2026-10-05T16:13:08Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Client version and actual executed model identity unavailable.",
+    "Shared PR-work turns have one canonical owner; tokens are not divided across tasks or duplicated in per-PR records.",
+    "Final usage is complete for the exact shared implementation turn only; the later bookkeeping turn is separate and excluded.",
+    "Older project coverage and sessions outside the explicitly selected local project scope remain partial."
+  ],
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": "01a10c6a-664d-72b1-afad-926c2c57312b"
+  },
+  "git": {
+    "start_commit": "7b559d0fbe0287848c46cb1e05c833e0579c43d8",
+    "branch": "codex/issue38-disc-positions",
+    "initial_changes": [],
+    "result_commits": [
+      "e8bfc38fc6c3c723ff9aaf0bb7b7f87f73513b8e",
+      "c6f47f134dc7a8f2ff10aa8f70c997341a659ed6",
+      "e9221e26c5bfea66f0edc5650da2aaf6fb86ed06",
+      "bab2357e99ba4a7e5623b8362174b94e16ef2545"
+    ],
+    "changed_files": [
+      "logs/codex/SESSION-2026-10-05-issue38-shared-completion.md",
+      "logs/codex/SESSION-2026-10-05-issue38-shared-completion.json",
+      "logs/usage/USAGE-2026-10-05-app.json"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "session logging",
+      "exact token recovery",
+      "shared issue38 work"
+    ],
+    "related_ids": [
+      "issue-38",
+      "DES-015",
+      "DES-016"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-05-issue38-shared-completion.md",
+  "activities": [],
+  "usage": [
+    {
+      "client_thread_id": "01a10c6a-664d-72b1-afad-926c2c57312b",
+      "turn_id": "01a10c7e-30b8-7bb3-9087-727c229e0caa",
+      "model": null,
+      "source": "Usage-only local Codex recovery captured 2026-10-05T16:18:42.711123+00:00; logs/usage/USAGE-2026-10-05-app.json; verified event SHA-256 35499ff1b9bf41892c26f4816911e255fec807a8978fb12c3225d56b57cd9eb9",
+      "limitations": [
+        "Executed model and client version were not exposed by recovered turn metadata and token_count counters.",
+        "This shared implementation turn is accounted once; the later bookkeeping turn is excluded."
+      ],
+      "input_tokens": 12849168,
+      "cached_input_tokens": 12598784,
+      "output_tokens": 113940,
+      "reasoning_output_tokens": 66445,
+      "total_tokens": 12963108
+    }
+  ],
+  "checks": [
+    {
+      "command": "python3 -B tools/session_logging/recover_usage.py --codex-home ... --project ... --output ...",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Usage-only recovery reconciles every cumulative increment with last-request counters. Four completed app turns and one active turn detected; only closed turns are imported. No raw conversation read or retained."
+    },
+    {
+      "command": "gh pr create ... / attach_artifact",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Positioning PR40 and optimization PR41 created and attached to this chat. PR40 description contains all18 signed disc displacements. PR40 original hosted dashboard build passed."
+    },
+    {
+      "command": "python3 -B tools/session_logging/recover_usage.py --codex-home <authorized-client-home> --project <authorized-project-root> --output build/issue38/usage-recovery-closed-20261005T1615Z.json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Dated recovery 2026-10-05T16:18:42.711123+00:00: target completed at 2026-10-05T16:13:08Z, persisted boundaries 421..1318, usage ordinals 436..1317, 93 requests; verified usage SHA-256 35499ff1b9bf41892c26f4816911e255fec807a8978fb12c3225d56b57cd9eb9. All cumulative increments reconcile; two repeated snapshots ignored and zero outside-turn events. Four earlier entries match their original counters and hashes. Only turn/thread metadata and token_count events decoded; no conversations or private model state queried or retained."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py import-usage --id SESSION-2026-10-05-issue38-shared-completion --file build/issue38/shared-completion-usage-entry.json --dry-run; then the same command without --dry-run",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Dry-run and import each added exactly one canonical entry: input 12849168, cached input 12598784, output 113940, reasoning output 66445, total 12963108. Cache and reasoning are subsets. Record reloaded after import; no per-PR duplicates."
+    },
+    {
+      "command": "gh run view 37336301460 --repo asalzburger/nodd",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "PR40 final implementation head e9221e26c5bfea66f0edc5650da2aaf6fb86ed06: hosted build success, completed 2026-10-05T15:55:44Z; deployment skipped. https://github.com/asalzburger/nodd/actions/runs/37336301460/job/111851832989"
+    },
+    {
+      "command": "gh run view 37337230413 --repo asalzburger/nodd",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "PR41 final implementation head bab2357e99ba4a7e5623b8362174b94e16ef2545: hosted build success, completed 2026-10-05T16:05:20Z; deployment skipped. https://github.com/asalzburger/nodd/actions/runs/37337230413/job/111854969552"
+    },
+    {
+      "command": "git diff --check origin/main...HEAD (both issue38 worktrees)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Full base-relative diffs pass at PR40 e9221e26c5bfea66f0edc5650da2aaf6fb86ed06 and PR41 bab2357e99ba4a7e5623b8362174b94e16ef2545. Scientific inputs, native hashes, reports, limits and the PR40 movement table are unchanged by recovery."
+    },
+    {
+      "command": "session_log.py validate and summary --format json; tools/dashboard/build.py validate and build; git diff --check and git diff --check origin/main",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 104 paired records; summary has 84 observed turns in 47 sessions and 57 sessions without usage. Dashboard validated 40 tasks, 21 documents and 19 review rounds and built the ignored preview. Working-tree and full base-relative whitespace checks passed against origin/main 7b559d0fbe0287848c46cb1e05c833e0579c43d8. Aggregate observed coverage remains partial."
+    }
+  ]
+}

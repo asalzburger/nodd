@@ -1,0 +1,142 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-12-token-dashboard-main-integration",
+  "title": "Integrate merged PR60 token dashboard into main after PR61",
+  "recorded_at": "2026-10-12T11:43:21Z",
+  "started_at": null,
+  "ended_at": "2026-10-12T11:46:24Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact final counters and persisted completion time of this active integration turn are unavailable; usage remains empty, not zero.",
+    "Existing observed project totals and all PR61 usage owners are preserved. Historical gaps and explicit no-counting exclusions remain unchanged.",
+    "This record prepares a main-targeted integration PR; Pages publication occurs after merge and is not claimed here."
+  ],
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": "01a12426-1fc9-73b0-94ed-40f3eaf1e83c"
+  },
+  "git": {
+    "start_commit": "5d3cda65a4512fa88220f41f60d17d1f5ce56911",
+    "branch": "codex/token-dashboard-main",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      ".github/workflows/token-usage.yml",
+      ".github/workflows/validation.yml",
+      ".gitignore",
+      "AGENTS.md",
+      "dashboard/app.js",
+      "dashboard/index.html",
+      "dashboard/style.css",
+      "docs/DASHBOARD_PLAN.md",
+      "docs/README.md",
+      "logs/codex/SESSION-2026-10-12-token-dashboard-main-integration.json",
+      "logs/codex/SESSION-2026-10-12-token-dashboard-main-integration.md",
+      "logs/codex/SESSION-2026-10-12-token-dashboard.json",
+      "logs/codex/SESSION-2026-10-12-token-dashboard.md",
+      "project/README.md",
+      "project/token-milestones.json",
+      "tools/dashboard/README.md",
+      "tools/dashboard/test_app.js",
+      "tools/project_records/README.md",
+      "tools/project_records/check_update.py",
+      "tools/project_records/fetch_evidence.py",
+      "tools/project_records/test_fetch_evidence.py",
+      "tools/project_records/test_records.py",
+      "tools/project_records/test_update.py",
+      "tools/project_records/validate.py",
+      "tools/token_usage/README.md",
+      "tools/token_usage/app.js",
+      "tools/token_usage/build.py",
+      "tools/token_usage/style.css",
+      "tools/token_usage/test_app.js",
+      "tools/token_usage/test_build.py"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [
+      "infrastructure",
+      "GitHub Pages",
+      "token dashboard integration"
+    ],
+    "related_ids": [
+      "PR-60",
+      "PR-61"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-12-token-dashboard-main-integration.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "GitHub metadata and git merge-base --is-ancestor against main",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "PR60 head and recorded merge were absent from main; PR61 merge was present. Exact source commits fetched and verified."
+    },
+    {
+      "command": "git merge --no-commit --no-ff b2dc9e1504cb982a34d792225c4b00db472c4cd7",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Conflict-free ordinary merge preserving current main and PR60 history."
+    },
+    {
+      "command": "compare main journal/evidence bytes and PR60 source files",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All 328 existing main journal/evidence files byte-identical. PR60 tool/workflow/milestone files match original; 17 scientific/software unit-test commands retained."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/project_records -p test_*.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "28 retained project/review/policy/evidence tests pass."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p test_*.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "33 logging/recovery/documentation-link tests pass."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/token_usage -p test_*.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "8 token arithmetic, timeline, duplicate-evidence and output tests pass against integrated journal."
+    },
+    {
+      "command": "node tools/token_usage/test_app.js",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Mode and keyboard tooltip checks pass."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "58 tasks, 31 documents and 19 review rounds validate."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py validate and build --output _site/pages",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "183 dated disjoint turns reconcile to 552937331 observed tokens; token site builds successfully."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate and summary --format json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "155 paired records validate; 100 sessions with usage; existing 183 unique observations and all five totals unchanged."
+    },
+    {
+      "command": "git diff --cached --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Whitespace check passed."
+    }
+  ]
+}

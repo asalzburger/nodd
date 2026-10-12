@@ -1,0 +1,166 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-09-21-pyacts-gen3-bindings",
+  "title": "Assess latest pyacts module surfaces and Gen-3 geometry bindings",
+  "recorded_at": "2026-09-21T09:04:13Z",
+  "started_at": null,
+  "ended_at": "2026-09-21T09:25:25Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact token usage, actual conversation start time, client version and thread identity are unavailable; usage is unobserved, not zero.",
+    "Curated tool activity and selected requests only; no private agent state. Only CPython 3.14.6/macOS arm64 was tested.",
+    "Synthetic straight-ray capability checks do not establish tracker acceptance, field propagation or reconstruction readiness.",
+    "2026-10-07 correction: exact completed-turn counters are now recovered for the observations in USAGE-2026-10-07-synchronization.json. This supersedes earlier missing-token statements for these turns only. Model/client version and older coverage remain unknown; no complete project total is claimed."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "8472892bee490a7e04e58bab7d1332493cb615b9",
+    "branch": "study/pyacts-gen3-bindings",
+    "initial_changes": [
+      "tools/tracker_layout/__pycache__/covariance_control.cpython-314.pyc"
+    ],
+    "result_commits": [],
+    "changed_files": [
+      "docs/README.md",
+      "docs/validation/TRK-SE03-pyacts-bindings.md",
+      "docs/validation/TRK-SE03-pyacts-bindings.json",
+      "tools/acts_binding_probe/README.md",
+      "tools/acts_binding_probe/requirements.txt",
+      "tools/acts_binding_probe/probe.py",
+      "reference/manifest.yaml",
+      "project/tracking.json",
+      "logs/codex/SESSION-2026-09-21-pyacts-gen3-bindings.json",
+      "logs/codex/SESSION-2026-09-21-pyacts-gen3-bindings.md",
+      "logs/usage/USAGE-2026-10-07-synchronization.json"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "software",
+      "tracking"
+    ],
+    "related_ids": [
+      "DES-005",
+      "ADR-003",
+      "TRK-SE03",
+      "TRK-SE03-BINDINGS",
+      "PR-13"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-09-21-pyacts-gen3-bindings.md",
+  "activities": [],
+  "usage": [
+    {
+      "client_thread_id": "01a0b3b0-f8f3-7de0-8854-ff1f156bebab",
+      "turn_id": "01a0c332-7261-79f3-b92b-46d1545b913c",
+      "model": null,
+      "source": "2026-09-24 local token_count recovery; logs/usage/USAGE-2026-09-24-local.json; usage SHA-256 bac60930efc821f21f62758fd9f9fe0a23730aae82b00c4e08fe63f168372361; cumulative increases equal last-request counters over persisted turn ordinals 1733..2236.",
+      "limitations": [
+        "Local client-reported usage only; other-machine coverage and billing equivalence are not established. Per-turn execution model was not reported."
+      ],
+      "input_tokens": 9932308,
+      "cached_input_tokens": 9627008,
+      "output_tokens": 27194,
+      "reasoning_output_tokens": 6385,
+      "total_tokens": 9959502
+    },
+    {
+      "client_thread_id": "01a0b44d-5bf2-7dd2-8928-b4c3711b73ad",
+      "turn_id": "01a0c332-ac01-7691-88dc-06e9c247858c",
+      "model": null,
+      "source": "2026-09-24 local token_count recovery; logs/usage/USAGE-2026-09-24-local.json; usage SHA-256 2ea016879a506fc47710d55eaa8a44101cbf3602f4f94acc0516996532e8ceda; cumulative increases equal last-request counters over persisted turn ordinals 270..455.",
+      "limitations": [
+        "Local client-reported usage only; other-machine coverage and billing equivalence are not established. Per-turn execution model was not reported.",
+        "Turn ended interrupted; counters cover reported requests through its persisted boundary only."
+      ],
+      "input_tokens": 2816018,
+      "cached_input_tokens": 2701952,
+      "output_tokens": 5684,
+      "reasoning_output_tokens": 343,
+      "total_tokens": 2821702
+    },
+    {
+      "client_thread_id": "01a0b44d-5bf2-7dd2-8928-b4c3711b73ad",
+      "turn_id": "01a0c345-f657-7e90-b9bf-8f11704d4fec",
+      "model": null,
+      "source": "2026-09-24 local token_count recovery; logs/usage/USAGE-2026-09-24-local.json; usage SHA-256 e0c7d8f580157f77b90ed413d18213f82fb0d5c237c34e92ab955b9ab0b630ca; cumulative increases equal last-request counters over persisted turn ordinals 456..492.",
+      "limitations": [
+        "Local client-reported usage only; other-machine coverage and billing equivalence are not established. Per-turn execution model was not reported."
+      ],
+      "input_tokens": 378122,
+      "cached_input_tokens": 370560,
+      "output_tokens": 503,
+      "reasoning_output_tokens": 181,
+      "total_tokens": 378625
+    }
+  ],
+  "checks": [
+    {
+      "command": "reference/cache/pyacts-bindings-venv/bin/python -m pip index versions pyacts",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Live index reports latest 47.7.0. Initial sandbox DNS failure was retried with authorized network access."
+    },
+    {
+      "command": "reference/cache/pyacts-bindings-venv/bin/python -m pip install --upgrade pyacts --report reference/cache/pyacts-bindings-install.json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Installed 47.7.0 cp314 macOS arm64 wheel in a separate environment; digest retained."
+    },
+    {
+      "command": "reference/cache/pyacts-bindings-venv/bin/python -B tools/acts_binding_probe/probe.py --work reference/cache/pyacts-binding-probe --report docs/validation/TRK-SE03-pyacts-bindings.json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Both policies constructed 32 sensitive modules in two barrel and two disc layers; each matched all 200 analytic ray comparisons with 45 module crossings and no duplicates. Same seed/directions for both policies; position, normal and ID checks passed."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 28 tasks, 8 documents and 5 review rounds."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 35 session records."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "15 tests passed, including repository documentation links."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py build --output _site/pyacts-bindings",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Static dashboard build passed; ignored local output only."
+    },
+    {
+      "command": "Python SHA-256/source-ID/report-link audit",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Retained executable, inputs, navigation CSVs and cached source hashes match; policy CSVs identical, source IDs unique and local report links resolve."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/dashboard -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "25 dashboard and update-policy tests passed."
+    },
+    {
+      "command": "git diff --cached --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All ten staged task files passed whitespace checks; unrelated bytecode remains untracked."
+    }
+  ]
+}

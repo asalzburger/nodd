@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-05-app-usage-recovery",
+  "title": "Recover exact usage from completed Codex app turns",
+  "recorded_at": "2026-10-05T15:32:32Z",
+  "started_at": "2026-10-05T14:32:05Z",
+  "ended_at": "2026-10-05T14:35:21Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Client version and actual executed model identity unavailable.",
+    "Shared PR-work turns have one canonical owner; tokens are not divided across tasks or duplicated in per-PR records."
+  ],
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": "01a10c6a-664d-72b1-afad-926c2c57312b"
+  },
+  "git": {
+    "start_commit": "7b559d0fbe0287848c46cb1e05c833e0579c43d8",
+    "branch": "codex/issue38-disc-positions",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      "logs/codex/SESSION-2026-10-05-app-usage-recovery.md",
+      "logs/codex/SESSION-2026-10-05-app-usage-recovery.json",
+      "logs/usage/USAGE-2026-10-05-app.json"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "session logging",
+      "exact token recovery",
+      "shared issue38 work"
+    ],
+    "related_ids": [
+      "issue-38",
+      "DES-015",
+      "DES-016"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-05-app-usage-recovery.md",
+  "activities": [],
+  "usage": [
+    {
+      "client_thread_id": "01a10c6a-664d-72b1-afad-926c2c57312b",
+      "turn_id": "01a10c7a-9f97-7041-9594-4daa56c3cacb",
+      "model": null,
+      "source": "Usage-only local Codex recovery captured 2026-10-05T15:25:58.821236+00:00; logs/usage/USAGE-2026-10-05-app.json; verified event SHA-256 bdb80f4b4061b2c24eebd55d0d5ec7f9e80fc86d56a362d1a79c49b8705350f6",
+      "limitations": [
+        "Executed model and client version were not exposed by recovered counters."
+      ],
+      "input_tokens": 1521230,
+      "cached_input_tokens": 1496448,
+      "output_tokens": 9406,
+      "reasoning_output_tokens": 3993,
+      "total_tokens": 1530636
+    }
+  ],
+  "checks": [
+    {
+      "command": "python3 -B tools/session_logging/recover_usage.py --codex-home ... --project ... --output ...",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Usage-only recovery reconciles every cumulative increment with last-request counters. Four completed app turns and one active turn detected; only closed turns are imported. No raw conversation read or retained."
+    }
+  ]
+}

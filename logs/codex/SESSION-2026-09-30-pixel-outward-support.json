@@ -1,0 +1,146 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-09-30-pixel-outward-support",
+  "title": "Draw outward candidate A supports for all pixel barrels",
+  "recorded_at": "2026-09-30T11:16:46Z",
+  "started_at": null,
+  "ended_at": "2026-09-30T11:29:19Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact client-reported per-turn token counters are unavailable; usage is empty, not zero.",
+    "Drawings and nominal local geometry screening only; global support, manufacturing tolerances, end joints and tracking performance remain unqualified."
+  ],
+  "client": {
+    "name": "unspecified",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "f0ebdc4707aded2c0b774f73d2bf87409f1fce71",
+    "branch": "design/pixel-barrel-support",
+    "initial_changes": [
+      "logs/codex/SESSION-2026-09-29-project-usage-summary.json",
+      "logs/codex/SESSION-2026-09-29-project-usage-summary.md",
+      "logs/usage/USAGE-2026-09-29-local.json",
+      "logs/usage/USAGE-2026-09-29-project-summary.json"
+    ],
+    "result_commits": [
+      "ce913fe503a2f83cc7f62aa0680806a7d7fa8b10"
+    ],
+    "changed_files": [
+      "docs/design/DES-002-pixel-barrel-support-cooling.md",
+      "project/tracking.json",
+      "tools/pixel_support/README.md",
+      "tools/pixel_support/outward.py",
+      "tools/pixel_support/outward.json",
+      "tools/pixel_support/test_outward.py",
+      "logs/codex/SESSION-2026-09-30-pixel-outward-support.json",
+      "logs/codex/SESSION-2026-09-30-pixel-outward-support.md",
+      "docs/validation/DES-002/outward-A/artifacts.json",
+      "docs/validation/DES-002/outward-A/barrel-B1.pdf",
+      "docs/validation/DES-002/outward-A/barrel-B1.png",
+      "docs/validation/DES-002/outward-A/barrel-B1.svg",
+      "docs/validation/DES-002/outward-A/barrel-B2.pdf",
+      "docs/validation/DES-002/outward-A/barrel-B2.png",
+      "docs/validation/DES-002/outward-A/barrel-B2.svg",
+      "docs/validation/DES-002/outward-A/barrel-B3.pdf",
+      "docs/validation/DES-002/outward-A/barrel-B3.png",
+      "docs/validation/DES-002/outward-A/barrel-B3.svg",
+      "docs/validation/DES-002/outward-A/barrel-B4.pdf",
+      "docs/validation/DES-002/outward-A/barrel-B4.png",
+      "docs/validation/DES-002/outward-A/barrel-B4.svg",
+      "docs/validation/DES-002/outward-A/barrel-all.pdf",
+      "docs/validation/DES-002/outward-A/barrel-all.png",
+      "docs/validation/DES-002/outward-A/barrel-all.svg",
+      "docs/validation/DES-002/outward-A/results.md",
+      "docs/validation/DES-002/outward-A/screening.json"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "pixel local supports",
+      "transverse assembly drawings",
+      "nominal clearances"
+    ],
+    "related_ids": [
+      "DES-002",
+      "DES-010",
+      "DES-011",
+      "PR-29"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-09-30-pixel-outward-support.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "MPLCONFIGDIR=/tmp/nodd-des002-mpl python3 -B tools/pixel_support/outward.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Generated four individual and one combined x-y section at z=25 mm in PNG/PDF/SVG; 82 staves,164 tubes. No nominal support/body or support/support intersections. B4 outer radius189.482640 mm; projected trunk headroom0.517360 mm. First export footer overlapped x-axis label; adjusted spacing, regenerated and inspected final views."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/pixel_support -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All8 tests pass, including input preservation, outward orientation, tube containment, section rejection, broad-spine collision control and analytic polygon distances."
+    },
+    {
+      "command": "Verify SHA-256 files against both DES-002 artifact manifests",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "12 original inward artifact/producer hashes and20 new outward artifact/producer hashes verified. Original evidence unchanged."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate; build --output /tmp/nodd-des002-outward-dashboard; git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "33tasks,13documents,13reviewrounds validate; dashboard builds; whitespace check passes."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/dashboard -p 'test_*.py' -v",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "27 tests executed; one macOS temporary-fixture cleanup raised OSError66 Directory not empty after its assertions. All other tests passed. No scientific or dashboard assertion failed."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/dashboard -p 'test_*.py' -k missing_criteria -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "The affected test, including cleanup, passes on targeted rerun. No test or tolerance changed."
+    },
+    {
+      "command": "git diff --cached --check (first staging)",
+      "status": "FAIL",
+      "exit_code": 2,
+      "result": "New Matplotlib SVGs contain trailing spaces in path data; earlier unstaged check did not include new files. Generator now strips trailing whitespace before hashing; prior inward artifacts remain unchanged."
+    },
+    {
+      "command": "Final artifact hashes and XML parsing",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Both manifests match, all5 normalized SVG files parse; PNG/PDF content unaffected by SVG text cleanup."
+    },
+    {
+      "command": "session_log.py validate; session_log.py summary --format json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "64 paired records validate. Historical observed totals134594309 input/674111 output cover79 recorded turns across42 sessions;22 sessions have no usage observations, including this task. No historical totals attributed to this drawing work."
+    },
+    {
+      "command": "git diff --cached --check; git commit; git push; gh pr edit29 --body-file; gh pr comment29 --body-file",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Final whitespace check passes. Published drawings at ce913fe503a2f83cc7f62aa0680806a7d7fa8b10; updated draftPR29 description and posted summary with immutable drawing links. No merge or sign-off."
+    },
+    {
+      "command": "Post-publication dashboard validate/build; session_log.py validate/summary; git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Updated PR metadata validates; dashboard build succeeds;64 session records validate, usage summary generated and whitespace check passes. GitHub build was IN_PROGRESS at drawing commit ce913fe503a2f83cc7f62aa0680806a7d7fa8b10; no success claimed."
+    }
+  ]
+}

@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-05-issue38-pr-preparation",
+  "title": "Prepare separate PR worktrees for preliminary pixel review",
+  "recorded_at": "2026-10-05T14:33:23Z",
+  "started_at": "2026-10-05T14:25:16Z",
+  "ended_at": "2026-10-05T14:29:54Z",
+  "status": "closed",
+  "collection": "retrospective",
+  "completeness": "partial",
+  "limitations": [
+    "2026-10-05 correction: completed-turn token counters and client turn boundaries recovered from usage-only metadata. Client version and actual execution model remain unknown. Current in-progress recovery turn is excluded."
+  ],
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": "01a10c6a-664d-72b1-afad-926c2c57312b"
+  },
+  "git": {
+    "start_commit": "7b559d0fbe0287848c46cb1e05c833e0579c43d8",
+    "branch": "main",
+    "initial_changes": [
+      "logs/codex/SESSION-2026-10-05-fresh-clone-build.json",
+      "logs/codex/SESSION-2026-10-05-fresh-clone-build.md"
+    ],
+    "result_commits": [],
+    "changed_files": [
+      "logs/codex/SESSION-2026-10-05-issue38-pr-preparation.json",
+      "logs/codex/SESSION-2026-10-05-issue38-pr-preparation.md"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "issue38-coordination",
+      "disc-positions",
+      "disc-overlap",
+      "session-logging"
+    ],
+    "related_ids": [
+      "DES-014",
+      "DES-015",
+      "#38"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-05-issue38-pr-preparation.md",
+  "activities": [],
+  "usage": [
+    {
+      "client_thread_id": "01a10c6a-664d-72b1-afad-926c2c57312b",
+      "turn_id": "01a10c74-62c5-7a13-bf0c-5e2b4397fe77",
+      "model": null,
+      "source": "Usage-only local Codex recovery captured 2026-10-05T14:32:45.043599+00:00; logs/usage/USAGE-2026-10-05-app.json; verified event SHA-256 3d055511e9df6a58e23d87657ea70e9f4341036312d5730d745d628f2377fabd",
+      "limitations": [
+        "Actual per-turn execution model and client version were not exposed by the recovered counters."
+      ],
+      "input_tokens": 1312268,
+      "cached_input_tokens": 1255168,
+      "output_tokens": 6406,
+      "reasoning_output_tokens": 3242,
+      "total_tokens": 1318674
+    }
+  ],
+  "checks": [
+    {
+      "command": "gh issue view 38 --repo asalzburger/nodd --json number,title,body,url,comments",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Read both issue comments and the preliminary TDR attachment link."
+    },
+    {
+      "command": "python3 skills/acts-spack/scripts/preflight.py",
+      "status": "FAIL",
+      "exit_code": 2,
+      "result": "Registry fingerprints changed; warning reported before dependent work."
+    },
+    {
+      "command": "acts run acts-nodd runtime activation",
+      "status": "NOT RUN",
+      "exit_code": null,
+      "result": "Permission dialog rejected the external-install refresh command. User then requested stopping the task."
+    }
+  ]
+}

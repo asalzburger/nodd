@@ -1,8 +1,10 @@
 # Project tracking register
 
-The dashboard is a read-only view of Git records. Start with the
+The progress dashboard was retired on 2026-10-12. The records remain canonical;
+GitHub Pages now shows [cumulative token usage](../tools/token_usage/README.md).
+The historical context is in the
 [dashboard proposal](../docs/DASHBOARD_PLAN.md) and
-[build and preview instructions](../tools/dashboard/README.md).
+[record validation guide](../tools/project_records/README.md).
 The user's 2026-09-17 implementation request authorizes this infrastructure;
 it does not grant detector design sign-off. On 2026-09-17 the user additionally
 requested a chore PR for GitHub Pages deployment and ongoing dashboard updates.
@@ -25,7 +27,7 @@ substance. `Software:` and `Documentation:` work need tracking just like subsyst
 
 `Infrastructure:` replaces the former `chore:` / `chore(scope):` naming convention.
 Infrastructure PRs and their tasks/reviews remain excluded from progress tracking
-and totals, but require session logs, relevant checks and a dashboard build.
+and totals, but require session logs, relevant checks and a token-dashboard build.
 Scientific work cannot use this exemption. Metadata corrections may accompany an
 infrastructure PR without tracking the infrastructure work itself. The internal
 legacy `category: chore` remains excluded, as do historical chore-prefixed titles;

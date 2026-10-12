@@ -475,3 +475,12 @@ part of this report's reviewed configuration. PubDoc must refresh those snapshot
 when consuming the work and preserve their draft/prototype status. Additional
 software or layout studies enter the relevant rows only after their versions,
 scope and actual checks have been reconciled.
+
+## Preliminary pixel chapter review copy (2026-10-06)
+
+The user-selected DES019 trimmed single/quad pixel baseline is described in
+[self-contained TDR sources](tdr/README.md), with generated tables/figures tied
+to frozen DES017/018 and native DES019 evidence. This is a separate editorial
+PR stacked on the model implementation. It preserves preliminary status and
+coverage/thermal/service failures; it does not publish to Overleaf or modify
+the pinned submodule. Other chapters remain planned.

@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 3.20)
+project(nODD VERSION 0.1.0 LANGUAGES CXX)
+include(CTest)
+include(GNUInstallDirs)
+find_package(DD4hep 1.37 REQUIRED CONFIG COMPONENTS DDCore)
+find_package(Python3 REQUIRED COMPONENTS Interpreter)
+add_subdirectory(detector)

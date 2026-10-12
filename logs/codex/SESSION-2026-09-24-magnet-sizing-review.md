@@ -33,3 +33,13 @@ Expert confirmation of RCMi interpretation, axial allowance, cold-volume convent
 ## Publication and re-review
 
 Published `2b8c032fb9c6e8aa2333ae5a4c88818cacecc645`; [response](https://github.com/asalzburger/nodd/pull/6#issuecomment-5812130449). Requested re-review from mgtmentink; original asalzburger-review request retained. GitHub reports MERGEABLE. [Hosted CI](https://github.com/asalzburger/nodd/actions/runs/35985506596) passed at that code revision, including the newly enforced magnetic tests. Following commit updates review/PR/log metadata only and records this exact evidence target.
+
+## Resource synchronization — 2026-10-07
+
+The authorized cleanup imported 1 exact completed turn(s), after dry-run validation, into this canonical owner. Earlier narrative and original inventory sources remain intact; pending/unknown token statements above are historical and superseded for these observations only.
+
+| Client turn | Input | Cached input | Output | Reasoning output | Total | Requests |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| 01a0d2d7-0afa-7270-b891-a4e20b4b217b | 4878675 | 4696064 | 26077 | 4032 | 4904752 | 33 |
+
+Persisted turn/usage ordinals, request counts, timestamps, verified usage-event hashes and original recovery sources are retained in [the synchronization inventory](../usage/USAGE-2026-10-07-synchronization.json). Each turn is counted once; cached input and reasoning output are subsets. No scientific input, execution hash or approval state changed. The current cleanup turn, explicitly excluded illustration/history turn and unassigned historical/internal review turns are excluded; this is partial project coverage, not billing.

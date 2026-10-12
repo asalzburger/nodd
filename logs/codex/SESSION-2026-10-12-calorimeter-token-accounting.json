@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-12-calorimeter-token-accounting",
+  "title": "Account recent calorimeter software-chain tokens",
+  "recorded_at": "2026-10-12T11:28:31Z",
+  "started_at": null,
+  "ended_at": "2026-10-12T11:30:46Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "This active accounting turn has no closed final client boundary; its usage remains unknown and is not added to calorimeter development totals.",
+    "The requested eight calorimeter turns were already counted in main. This PR changes their canonical grouping, preserving every counter and the 552937331 project subtotal.",
+    "Other historical/token gaps and the dashboard branch integration are outside this token-only PR."
+  ],
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": "01a12426-1fc9-73b0-94ed-40f3eaf1e83c"
+  },
+  "git": {
+    "start_commit": "fdfa09a0fb58dd29af467054f9a7dc0b023e30f1",
+    "branch": "codex/calorimeter-token-accounting",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      "logs/codex/SESSION-2026-10-12-desktop-usage-backfill.json",
+      "logs/codex/SESSION-2026-10-12-desktop-usage-backfill.md",
+      "logs/codex/SESSION-2026-10-10-calorimeter-software-chain.json",
+      "logs/codex/SESSION-2026-10-10-calorimeter-software-chain.md",
+      "logs/codex/SESSION-2026-10-12-calorimeter-token-accounting.json",
+      "logs/codex/SESSION-2026-10-12-calorimeter-token-accounting.md",
+      "logs/usage/USAGE-2026-10-12-calorimeter-accounting.json",
+      "logs/usage/README.md"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [
+      "resource accounting",
+      "calorimeter software chain"
+    ],
+    "related_ids": []
+  },
+  "narrative": "logs/codex/SESSION-2026-10-12-calorimeter-token-accounting.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "explicit-thread usage-only recovery and canonical ownership comparison",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Eight unchanged canonical entries and all fresh persisted boundaries/digests/counters match; original inventory byte-identical; other two owner entries unchanged."
+    },
+    {
+      "command": "session_log.import_usage dry-run and import",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Eight observations moved to dedicated owner. All five project token totals and all 183 unique turn identities preserved."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p test_*.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "33 logging/recovery/documentation tests passed."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "153 paired records validate; no duplicate ownership."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate and build --output _site/calorimeter-accounting",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "58 tasks, 31 documents and 19 reviews validate; current main dashboard builds successfully."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Whitespace check passed."
+    }
+  ]
+}

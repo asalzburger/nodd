@@ -1,0 +1,99 @@
+{
+  "recorded_at": "2026-10-01T08:52:48.302168+00:00",
+  "nodd_revision": "ed78a3f76583b5061235d458b1cad68db21627d2",
+  "upstream_pin": {
+    "repository": "https://github.com/asalzburger/nodehammer.git",
+    "revision": "30b19dcbd9329b742d98b1383a1484600fc3e0c3",
+    "conan_version": "2.33.0",
+    "recipes": {
+      "cli11": "2.7.2",
+      "sokol": "2026.07.02",
+      "imgui": "1.92.8",
+      "implot": "1.0.0",
+      "nfd": "1.3.0",
+      "sokol-shdc": "2026.06.13"
+    }
+  },
+  "nodehammer_sha256": "431d5acda23d535183c2ba69c6e3a92201517bac99d08eb593fc1977d9e85863",
+  "workflow_sha256": {
+    "prepare.py": "c5f7253e426b22a2d993827f08a6535d79e483cfca0bf30142c2776260630f03",
+    "build.py": "fa28c0392c0a6882ee225c6860243df01de87afea410518a445d62b0c429fcb1",
+    "upstream.json": "39a30a0b56c14baf5ab337c6083726ef39dcb77fca0653e22bc71bc969031689",
+    "conan.lock": "aa56a4bf740d05ab4d1395bfb0ca45b80b14f36b2c52a1168489188ba2100967"
+  },
+  "palette_sha256": "b11c21a196858bab159c648f0f35572add429055430c3f71a3e725f8127c15ec",
+  "inputs_sha256": {
+    "expected.json": "804c0ede08d2a2766f2a912297edf0352f65b57691b705d4d2f3cc59c199fe15",
+    "config.json": "e3a9038919aeb596fa3bf2f994635533f82bad8c48a509cfb7c70090454e71e5",
+    "service-cells.json": "43371ddd26b34174ed580b125880f44962548398ee3347a651432011a1989da8",
+    "manifest.json": "7f0e3cdf89e46dbbacde4839355f4f9bd70332d5101656231e2248692f258fde",
+    "pixel-barrel.xml": "a1bb9d40f833e84c80c127ae9c46f6f843ac69d4e1870e60621547f98a2416f6",
+    "materials.xml": "295bc01e9de84121a89a7da2b970deb84a832527db8ed8a633301d1713745dc9"
+  },
+  "view": {
+    "mesh_placements": 8,
+    "mesh_assets": 7,
+    "glb_audit": {
+      "node_transforms_checked": 10,
+      "box_dimensions_checked": 8,
+      "length_tolerance_m": 1e-07,
+      "material_rgba_and_blend_checked": true
+    },
+    "project_bytes": 371540,
+    "glb_bytes": 11740
+  },
+  "selection": "m1 assembly and descendants only",
+  "outputs_sha256": {
+    "module.glb": "39a07499a76065c65fd82c66529284097097d4f99c687504a64fe4d19a16f76f",
+    "module.toml": "cdfc10593bd4fbd872ee2a2dfd8672cb1eea13237f493e4a28bbecb58f090272",
+    "module.nhproj": "9921aa6c1d39c149dcc0193be2fe7baa29e461ef2a56707ebbb0c41e789fb8df"
+  },
+  "commands": [
+    [
+      "$NODD/build/nodehammer/native/nodehammer",
+      "config",
+      "validate",
+      "-c",
+      "$NODD/build/nodehammer/independent-colours/module.toml"
+    ],
+    [
+      "$NODD/build/nodehammer/native/nodehammer",
+      "convert",
+      "-i",
+      "$NODD/build/nodehammer/independent-colours/pixel.nhb",
+      "-c",
+      "$NODD/build/nodehammer/independent-colours/module.toml",
+      "--output-format",
+      "render-json",
+      "-o",
+      "$NODD/build/nodehammer/independent-colours/module.render.json"
+    ],
+    [
+      "$NODD/build/nodehammer/native/nodehammer",
+      "convert",
+      "-i",
+      "$NODD/build/nodehammer/independent-colours/pixel.nhb",
+      "-c",
+      "$NODD/build/nodehammer/independent-colours/module.toml",
+      "-o",
+      "$NODD/build/nodehammer/independent-colours/module.glb"
+    ],
+    [
+      "$NODD/build/nodehammer/native/nodehammer",
+      "project",
+      "pack",
+      "-i",
+      "$NODD/build/nodehammer/independent-colours/pixel.nhb",
+      "-c",
+      "$NODD/build/nodehammer/independent-colours/module.toml",
+      "-o",
+      "$NODD/build/nodehammer/independent-colours/module.nhproj"
+    ],
+    [
+      "$NODD/build/nodehammer/native/nodehammer",
+      "project",
+      "info",
+      "$NODD/build/nodehammer/independent-colours/module.nhproj"
+    ]
+  ]
+}

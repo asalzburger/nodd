@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-04-overleaf-pull",
+  "title": "Synchronize human Overleaf text edits",
+  "recorded_at": "2026-10-04T15:01:14Z",
+  "started_at": null,
+  "ended_at": "2026-10-04T15:02:39Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact client-reported per-turn token counters are unavailable; usage remains empty, not zero.",
+    "Overleaf server-side compilation is not observed; local builds are verified.",
+    "2026-10-12 device audit: imported 1 exact closed turns (1,467,638 input / 3,287 output) from logs/usage/USAGE-2026-10-12-device-audit.json. Earlier unavailable-usage statements describe the original capture. Model/client version and complete project coverage remain unknown. Original journal restored from local branch revision 7ec9d05dc5ee9aefdf6c0da30549615ebc06a0b0; historical artifacts/checks are not recreated or rerun."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "b2763b8cf0b8293988492553876df6c1a92cc4b0",
+    "branch": "documentation/pixel-detector-section",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      "docs/publication/pixel-detector/README.md",
+      "docs/publication/pixel-detector/artifacts.json",
+      "docs/publication/pixel-detector/main.pdf",
+      "docs/publication/pixel-detector/pixel-detector.pdf",
+      "docs/publication/pixel-detector/source/chapters/pixel-detector.tex",
+      "docs/tdr",
+      "project/tracking.json",
+      "logs/codex/SESSION-2026-10-04-overleaf-pull.json",
+      "logs/codex/SESSION-2026-10-04-overleaf-pull.md"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "publication"
+    ],
+    "related_ids": [
+      "PUB-PIXEL-001",
+      "TASK-PUB-PIXEL"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-04-overleaf-pull.md",
+  "activities": [],
+  "usage": [
+    {
+      "client_thread_id": "01a0fc8b-30bf-71e2-b9f9-d56074281781",
+      "turn_id": "01a1076e-38aa-7ab2-b91b-318c3d4a2d3a",
+      "model": null,
+      "source": "Usage-only local-device recovery captured 2026-10-12T11:26:10.963832+00:00; logs/usage/USAGE-2026-10-12-device-audit.json; verified event SHA-256 11d8a0e79120eaebbe4eac9337e662b6c6e332f597b2edf9e12242154e3454a8; persisted turn ordinals 1818..1880; 8 reconciled request increases.",
+      "limitations": [
+        "Actual execution model and client version are not established. Whole closed turn counted once; cached input and reasoning output are subsets."
+      ],
+      "input_tokens": 1467638,
+      "cached_input_tokens": 1291904,
+      "output_tokens": 3287,
+      "reasoning_output_tokens": 200,
+      "total_tokens": 1470925
+    }
+  ],
+  "checks": [
+    {
+      "command": "git fetch origin main; git diff HEAD origin/main; git merge --ff-only origin/main",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Fast-forward7476bc2\u21929410b7f; only chapter prose changed upstream; human text edits preserved exactly."
+    },
+    {
+      "command": "latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex / pixel-detector.tex",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "22/18page builds clean; no warnings, overfull boxes or undefined references."
+    },
+    {
+      "command": "Artifact/source snapshot refresh",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "42 artifact hashes refreshed; source copy identical to TDR tracked files."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate / build",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "40tasks,17documents,15review rounds validated; dashboard built."
+    },
+    {
+      "command": "git ls-remote; source/hash equality; session_log.py validate / summary",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Remote9410b7f matches clean local TDR;42 package files match local source/PDF bytes and hashes.80 session records validate; historical usage input134594309/output674111 across79turns in42/80sessions. No current-task counters."
+    }
+  ]
+}

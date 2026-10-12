@@ -91,3 +91,12 @@ and the dashboard records validated; the dashboard build and whitespace check
 passed. Numeric capture evidence and historical-record preservation were checked.
 Changes are prepared locally on the infrastructure branch; no commit, push or
 new PR was made during this task.
+
+## Token-accounting correction — 2026-10-12
+
+Imported 1 verified closed turns: **1,546,521 input** and
+**16,322 output** tokens. The [device audit inventory](../usage/USAGE-2026-10-12-device-audit.json)
+retains exact boundaries, request counts, event hashes and task attribution.
+Earlier missing-counter statements describe the original capture. Cached input
+and reasoning output are subsets; execution model/client version and total project
+coverage remain unknown. No design approval or scientific validation changes.

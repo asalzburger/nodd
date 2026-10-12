@@ -1,0 +1,162 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-12-pr62-main-sync",
+  "title": "Check and synchronize PR62 after the token dashboard merge",
+  "recorded_at": "2026-10-12T11:56:52Z",
+  "started_at": null,
+  "ended_at": "2026-10-12T12:02:14Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "This current synchronization turn is active; final client counters are unavailable and usage remains empty, not zero.",
+    "Execution model and client version are unknown. The prior publication turn is counted once in its original session.",
+    "One pre-existing untracked token-gate journal is present locally but excluded from the PR; committed-tree session counts are one lower. All four unrelated token-gate files remain untouched.",
+    "Node is unavailable in the local shell, so the unchanged JavaScript interaction test is left to hosted CI. No browser UI code changed.",
+    "2026-10-12 correction: this task is now a closed client turn. Exact input 3,472,126 and output 14,452 (total 3,486,578) are imported from USAGE-2026-10-12-pr6-accounting-audit.json, superseding the earlier current-turn gap for this observation only."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": "01a12fdb-5a06-7020-b9e4-351946b80f31"
+  },
+  "git": {
+    "start_commit": "229e02aaddfe450af695dc221c624d7eaaf529c7",
+    "branch": "infrastructure/device-accounting-sync-20261012",
+    "initial_changes": [
+      "logs/codex/SESSION-2026-09-25-pr-token-gate.json",
+      "logs/codex/SESSION-2026-09-25-pr-token-gate.md",
+      "tools/session_logging/check_pr_usage.py",
+      "tools/session_logging/test_check_pr_usage.py"
+    ],
+    "result_commits": [],
+    "changed_files": [
+      "logs/codex/SESSION-2026-10-12-device-accounting-pr.json",
+      "logs/codex/SESSION-2026-10-12-device-accounting-pr.md",
+      "logs/codex/SESSION-2026-10-12-pr62-main-sync.json",
+      "logs/codex/SESSION-2026-10-12-pr62-main-sync.md",
+      "logs/usage/README.md",
+      "logs/usage/USAGE-2026-10-12-pr62-publication-closeout.json",
+      "tools/token_usage/README.md",
+      "tools/token_usage/build.py",
+      "tools/token_usage/test_build.py",
+      "logs/usage/USAGE-2026-10-12-pr6-accounting-audit.json"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [
+      "token accounting synchronization",
+      "provisional snapshot validation",
+      "PR62 compatibility"
+    ],
+    "related_ids": [
+      "ADR-004",
+      "PR-62",
+      "PR-63",
+      "PR-61"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-12-pr62-main-sync.md",
+  "activities": [
+    {
+      "kind": "tool",
+      "name": "exec_command and apply_patch",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "GitHub inspection, ordinary Git merge, isolated compatibility reproduction, usage-only recovery, collector correction and actual checks. Invocation counts/durations not measured."
+    }
+  ],
+  "usage": [
+    {
+      "client_thread_id": "01a12fdb-5a06-7020-b9e4-351946b80f31",
+      "turn_id": "01a12ff7-2856-71b0-a53d-0a015ce525c0",
+      "model": null,
+      "source": "Usage-only local-device recovery captured 2026-10-12T14:29:26.981822+00:00; logs/usage/USAGE-2026-10-12-pr6-accounting-audit.json; verified event SHA-256 bd6fa3c8c1b62060945cb9347257bb9ae3228794f616425d1156a98218b1b3aa; persisted turn ordinals 432..607; 21 reconciled request increases.",
+      "limitations": [
+        "Actual execution model and client version are not established. Whole closed turn counted once; cached input and reasoning output are subsets."
+      ],
+      "input_tokens": 3472126,
+      "cached_input_tokens": 3387136,
+      "output_tokens": 14452,
+      "reasoning_output_tokens": 4907,
+      "total_tokens": 3486578
+    }
+  ],
+  "checks": [
+    {
+      "command": "gh pr view 62 and 63; git fetch origin main",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "PR62 head 229e02aaddfe450af695dc221c624d7eaaf529c7 had a passing legacy dashboard job and GitHub reported MERGEABLE. PR63 merged as 2534ae86e89a10894ed3e7c47f3a83d451774de6; GitHub initially returned the pre-63 base snapshot, so local testing used the fetched exact merge."
+    },
+    {
+      "command": "git merge --no-commit --no-ff origin/main; tools/token_usage/build.py validate (isolated checkout)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Git merge was conflict-free. The new collector failed on USAGE-2026-09-25-device.json: a retained inProgress snapshot has 45825 provisional tokens versus the later 1562843-token final observation."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/token_usage -p 'test_*.py' (before correction)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "10 tests ran with two errors and one assertion failure, reproducing the historical provisional-snapshot failure and the new expected diagnostic."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/token_usage -p 'test_*.py' (after correction)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All 10 tests passed, including provisional lower-bound reconciliation, no inferred completion date, oversized provisional rejection, unchanged final conflict/duplicate checks and real-journal timeline reconciliation."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p 'test_session_log.py'; corresponding test_recover_usage.py suite",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "22 logger tests and 11 recovery tests passed."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 58 tasks, 31 documents and 19 review rounds using the retained post-PR63 validator."
+    },
+    {
+      "command": "recover_usage.py --thread-id; session_log.py import-usage --dry-run; import-usage",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Imported the prior completed PR-publication turn once: 2607532 input, 9208 output, 2616740 total across 19 verified request increases. Current turn excluded."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py validate; build --output /tmp/nodd-pr62-token-site",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "209 unique dated turns; observed subtotal 620812827. Site builds after correction without editing historical evidence."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate; summary --format json; git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "167 local paired records validate; 209 turns across 117 records; 50 records lack direct usage. Input 617282110 plus output 3530717 equals 620812827. Cached 595823744 and reasoning 1172631 are subsets. Whitespace check passed."
+    },
+    {
+      "command": "node tools/token_usage/test_app.js",
+      "status": "NOT RUN",
+      "exit_code": null,
+      "result": "Node is unavailable locally; interaction code is unchanged and the hosted workflow runs this test."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/project_records -p 'test_*.py'",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All 28 tests passed; synthetic missing-ref Git diagnostic was expected."
+    },
+    {
+      "command": "Main/PR observation, inventory, scientific-register and unrelated-file preservation audit",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All 183 main observations and owners remain exact; all 208 previous PR observations retain their counters/source. Every pre-existing JSON usage inventory, scientific register and the four unrelated untracked files are byte-identical."
+    }
+  ]
+}

@@ -1,0 +1,136 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-09-30-pixel-support-cooling",
+  "title": "Compare two pixel barrel local support and CO2 cooling concepts",
+  "recorded_at": "2026-09-30T07:16:24Z",
+  "started_at": null,
+  "ended_at": "2026-09-30T07:37:11Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact client-reported per-turn token counters unavailable; usage is empty, not zero.",
+    "Two design concepts and screening calculations; no engineering approval, FEA, hydraulic experiment or production changes."
+  ],
+  "client": {
+    "name": "unspecified",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "bb6ac9bae6c049d98f095fa4cfeee11bf8934049",
+    "branch": "design/pixel-barrel-support",
+    "initial_changes": [
+      "logs/codex/SESSION-2026-09-29-project-usage-summary.json",
+      "logs/codex/SESSION-2026-09-29-project-usage-summary.md",
+      "logs/usage/USAGE-2026-09-29-local.json",
+      "logs/usage/USAGE-2026-09-29-project-summary.json"
+    ],
+    "result_commits": [
+      "be0a47f345168220a365c30f4c2932e3ab5b0b9a"
+    ],
+    "changed_files": [
+      "docs/design/DES-002-pixel-barrel-support-cooling.md",
+      "reference/manifest.yaml",
+      "project/tracking.json",
+      "logs/codex/SESSION-2026-09-30-pixel-support-cooling.json",
+      "logs/codex/SESSION-2026-09-30-pixel-support-cooling.md",
+      "tools/pixel_support/README.md",
+      "tools/pixel_support/draw.py",
+      "tools/pixel_support/inputs.json",
+      "tools/pixel_support/screen.py",
+      "tools/pixel_support/test_screen.py",
+      "docs/validation/DES-002/artifacts.json",
+      "docs/validation/DES-002/cross-sections.pdf",
+      "docs/validation/DES-002/cross-sections.png",
+      "docs/validation/DES-002/cross-sections.svg",
+      "docs/validation/DES-002/longitudinal-routing.pdf",
+      "docs/validation/DES-002/longitudinal-routing.png",
+      "docs/validation/DES-002/longitudinal-routing.svg",
+      "docs/validation/DES-002/results.md",
+      "docs/validation/DES-002/screening.json"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "pixel local supports",
+      "CO2 cooling",
+      "literature review",
+      "technical drawings"
+    ],
+    "related_ids": [
+      "DES-002",
+      "DES-010",
+      "DES-011",
+      "PR-28",
+      "PR-26",
+      "PR-29"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-09-30-pixel-support-cooling.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "gh pr view26; gh pr view28; git fetch origin; git switch -c design/pixel-barrel-support origin/study/tracker-service-corridors",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "PR26 is branch-restoration infrastructure; used explicitly selected PR28 geometry. Merged PR28 lives on study/tracker-service-corridors; main is older. Preserved four unrelated usage files."
+    },
+    {
+      "command": "Public-source browsing and curl downloads; existing reference/cache/venv PDF extraction/rendering",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "IBL construction, ITk2022 supports, existing Pixel TDR and NIST CO2 table checked; IBL Table9/10 and ITk inner support figure visually inspected. Web-tool fetch misses and incorrect PDG oxygen URL404 resolved using primary oxygen-liquid table; no unsupported oxygen density transferred."
+    },
+    {
+      "command": "python3 -B tools/pixel_support/screen.py --output docs/validation/DES-002/screening.json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "82staves/2750modules/164circuits;16.682kW nominal25.023kW stress. Energybalance and beam/material screens complete. Narrow support boxes have no interior conflicts against repeated columns; broader CAD/thermal/pressure/stability remain unverified."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/pixel_support -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Four tests pass: energy conservation, baseline identity refusal, full-width collision control and beam span scaling."
+    },
+    {
+      "command": "MPLCONFIGDIR=/tmp/nodd-des002-mpl python3 -B tools/pixel_support/draw.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Two concept drawings in PNG/PDF/SVG. Both visually inspected; cross-section label spacing refined and re-rendered."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate; build --output /tmp/nodd-des002-dashboard; git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "33tasks,13documents,13reviewrounds validate; dashboard builds, whitespace check passes."
+    },
+    {
+      "command": "Verify retained artifact and producer SHA-256 hashes",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "12 artifact/producer hashes verified. Added explicit global-frame reaction limitation to the report and updated its artifact hash; no numerical change."
+    },
+    {
+      "command": "git push -u origin design/pixel-barrel-support; gh pr create --draft --base study/tracker-service-corridors",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Published https://github.com/asalzburger/nodd/pull/29 atbe0a47f345168220a365c30f4c2932e3ab5b0b9a. GitHub build in progress at observation. Reconciled PR28 actual merge metadata; no design approval inferred."
+    },
+    {
+      "command": "dashboard/build.py validate/build (initial PR metadata closeout)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "PR29 referenced governing DES011 but the support task lacked that document link. Added DES011 to both support/cooling task document lists; no scientific change."
+    },
+    {
+      "command": "dashboard/build.py validate; build --output /tmp/nodd-des002-publication-dashboard; session_log.py validate; session_log.py summary --format json; git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Corrected metadata validates:33tasks,13documents,13rounds; dashboard build succeeds;63 local paired logs validate. Usage summary generated with no exact observations for this task; historical totals are not allocated here. No whitespace errors."
+    }
+  ]
+}

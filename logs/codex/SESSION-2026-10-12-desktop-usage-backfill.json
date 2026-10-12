@@ -1,0 +1,137 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-12-desktop-usage-backfill",
+  "title": "Backfill closed nODD desktop turns after workspace migration",
+  "recorded_at": "2026-10-12T10:04:44Z",
+  "started_at": null,
+  "ended_at": "2026-10-12T10:04:48Z",
+  "status": "closed",
+  "collection": "retrospective",
+  "completeness": "partial",
+  "limitations": [
+    "At initial capture this record owned ten closed material-tool/calorimeter turns. The eight unchanged calorimeter observations now belong to SESSION-2026-10-10-calorimeter-software-chain; this record retains the two material-tool turns.",
+    "Actual execution model and client version remain unknown. This active recovery/dashboard turn is not included.",
+    "Coverage is an observed subtotal: explicit no-counting tasks, unattributed/internal-review turns and other device history remain gaps."
+  ],
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "276b6be7f1e05e8e3cc44f0e5546d2da5925c338",
+    "branch": "codex/overleaf-online-sync",
+    "initial_changes": [
+      "logs/README.md",
+      "output/pdf/tdr-short-published-20261009/nodd-pixel.pdf",
+      "output/pdf/tdr-short-published-20261009/nodd-tdr.pdf",
+      "output/pdf/tdr-short-test-20261009/README.md",
+      "output/pdf/tdr-short-test-20261009/comparison.json",
+      "output/pdf/tdr-short-test-20261009/nodd-pixel-short-test.pdf",
+      "output/pdf/tdr-short-test-20261009/nodd-tdr-short-test-source.zip",
+      "output/pdf/tdr-short-test-20261009/nodd-tdr-short-test.pdf",
+      "output/pdf/tdr-short-test-20261009/pixel-detector-short.tex",
+      "tools/session_logging/recover_usage.py",
+      "tools/session_logging/test_recover_usage.py"
+    ],
+    "result_commits": [],
+    "changed_files": [
+      "logs/usage/USAGE-2026-10-12-desktop.json",
+      "tools/session_logging/recover_usage.py",
+      "tools/session_logging/test_recover_usage.py",
+      "logs/README.md",
+      "logs/usage/README.md",
+      "logs/codex/SESSION-2026-10-07-pr-rebase-log-audit.json",
+      "logs/codex/SESSION-2026-10-07-pr-rebase-log-audit.md",
+      "logs/codex/SESSION-2026-10-08-beampipe-tracker-gen3.json",
+      "logs/codex/SESSION-2026-10-08-beampipe-tracker-gen3.md",
+      "logs/codex/SESSION-2026-10-12-desktop-usage-backfill.json",
+      "logs/codex/SESSION-2026-10-12-desktop-usage-backfill.md",
+      "logs/codex/SESSION-2026-10-09-overleaf-online-sync.json",
+      "logs/codex/SESSION-2026-10-09-overleaf-online-sync.md",
+      "logs/codex/SESSION-2026-10-09-pixel-tdr-short-test.json",
+      "logs/codex/SESSION-2026-10-09-pixel-tdr-short-test.md",
+      "logs/codex/SESSION-2026-10-09-pixel-tdr-short-publication.json",
+      "logs/codex/SESSION-2026-10-09-pixel-tdr-short-publication.md"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [
+      "session logging",
+      "exact token recovery",
+      "nODD material tools"
+    ],
+    "related_ids": []
+  },
+  "narrative": "logs/codex/SESSION-2026-10-12-desktop-usage-backfill.md",
+  "activities": [],
+  "usage": [
+    {
+      "client_thread_id": "01a10c6a-664d-72b1-afad-926c2c57312b",
+      "turn_id": "01a11beb-2c67-7c33-beb1-54497dbe614e",
+      "model": null,
+      "source": "Usage-only desktop recovery captured 2026-10-12T10:03:10.122182+00:00; logs/usage/USAGE-2026-10-12-desktop.json; verified event SHA-256 a89779122abd8d0fb584f4b55f076c538a28e42b2d1e676696ef894063f31a15",
+      "limitations": [
+        "Actual executed model and client version not established by usage counters."
+      ],
+      "input_tokens": 805468,
+      "cached_input_tokens": 795136,
+      "output_tokens": 2631,
+      "reasoning_output_tokens": 1570,
+      "total_tokens": 808099
+    },
+    {
+      "client_thread_id": "01a10c6a-664d-72b1-afad-926c2c57312b",
+      "turn_id": "01a11bfe-eff2-7160-8bcf-bdc43c96ccee",
+      "model": null,
+      "source": "Usage-only desktop recovery captured 2026-10-12T10:03:10.122182+00:00; logs/usage/USAGE-2026-10-12-desktop.json; verified event SHA-256 3a2043a9995a7aee66ce2d91ad6b889cbd995e8c70ac634cd09019423c975dce",
+      "limitations": [
+        "Actual executed model and client version not established by usage counters."
+      ],
+      "input_tokens": 9734005,
+      "cached_input_tokens": 9518208,
+      "output_tokens": 77640,
+      "reasoning_output_tokens": 33398,
+      "total_tokens": 9811645
+    }
+  ],
+  "checks": [
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p test_*.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "33 tests passed, including narrow explicit desktop-thread selection and unchanged recovery invariants."
+    },
+    {
+      "command": "recover_usage.py --thread-id (two selected desktop chats)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Both histories reconcile from zero; 34 existing owned turns match all five counters; no outside-turn usage events."
+    },
+    {
+      "command": "session_log.import_usage dry-run followed by import",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All 15 selected disjoint closed turns passed dry-run before import; no previously owned turns changed."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "151 paired records validated after backfill; 183 unique owned turns."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate and build --output _site/pr59-accounting",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "58 tasks, 31 documents and 19 review rounds valid; original Pages build remains valid before retirement."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Whitespace check passed."
+    }
+  ]
+}

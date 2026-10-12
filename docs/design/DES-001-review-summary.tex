@@ -1,0 +1,162 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[top=18mm,bottom=18mm,left=17mm,right=17mm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,graphicx,tabularx,array,booktabs,xcolor,hyperref,fancyhdr}
+\hypersetup{colorlinks=true,urlcolor=blue,linkcolor=blue,pdftitle={DES-001 RD53i module proposal: reviewer brief},pdfauthor={nODD project}}
+\pdfinfoomitdate=1
+\pdftrailerid{}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.18}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small nODD \quad DES-001 reviewer brief}
+\fancyhead[R]{\small DRAFT \quad 2026-09-17}
+\fancyfoot[L]{\small Module-only proposal; human review pending}
+\fancyfoot[R]{\small \thepage/3}
+\setlength{\headheight}{14pt}
+\newcommand{\repo}[2]{\href{https://github.com/asalzburger/nodd/blob/design/rd53-pixel-modules/#1}{#2}}
+\newcommand{\heading}[1]{\vspace{3pt}{\large\bfseries #1}\par}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\begin{document}
+{\LARGE\bfseries RD53i pixel modules}\par
+{\large First-review proposal summary}\par
+\textbf{Recommendation.} Qualify the single-chip A1 assembly first, then compare
+the two-chip A2 and four-chip B4 assemblies before choosing a coverage module.
+Use the fewest module types justified by evidence; A1 may remain a study unit.
+Neither a complete material budget nor a coverage winner is established.
+
+\heading{What is fixed, and what this review covers}
+RD53i is the selected chip, with its family and revision already resolved;
+terminology is defined once in the
+\repo{docs/design/DES-001-rd53-pixel-modules.md\#glossary}{DES-001 glossary}.
+The design principles are reusable structures, few module types, low accounted
+material and credible assembly. Independent Astra agents rewrote both
+alternatives; a separate Astra Coordinator assessed their tradeoffs.
+
+The assembly includes the planar sensor, chip substrates, bump interconnects,
+flex and adhesives, wire bonds, sensor-bias contact, local passives and
+module electrical termination. Any integral flex extension is part of the BOM.
+The boundary ends at that termination and bare chip backs.
+\textbf{Mounting structures, mounting adhesive, cooling infrastructure and
+external power/data distribution are excluded.} Pixel volume and placement
+remain deliberately open. No detector geometry is implemented.
+
+\heading{The alternatives at a glance}
+\begin{tabularx}{\linewidth}{@{}lYYY@{}}
+\toprule
+ & \textbf{A1 single chip} & \textbf{A2 two chips} & \textbf{B4 quad}\\
+\midrule
+Assembly & One sensor, chip and local flex & Two side-by-side chips under one sensor/flex & Four chips in a $2\times2$ sensor/flex assembly\\
+Nominal channels & 153,600 & 307,200 & 614,400\\
+Readout footprint & 384 mm$^2$ & 768 mm$^2$ & 1536 mm$^2$\\
+Approx. die-only span & $20\times21$ mm & $40\times21$ mm & $40\times42$ mm\\
+Main opportunity & Small qualification and rejected-area unit & Shares local components without a quad-sized assembly & Amortizes repeated module edges and termination\\
+Main challenge & More repeated edges/terminations per area & Separate sensor/flex and seam qualification & Larger shared sensor, more routing and correlated assembly losses\\
+\bottomrule
+\end{tabularx}
+\textbf{Read these numbers as bookkeeping.} They derive from the chip overview's
+$400\times384$ cells at 50 $\mu$m pitch and approximate die size (PM3-F01,
+PM3-I01). Die-only spans exclude gaps, guard regions, bond access, flex and
+termination. Readout footprint is not measured efficient area or a finished
+sensor/module outline. A shared sensor does not establish seamless response.
+
+\heading{What the reviewer is being asked to assess}
+Are the proposed hybrid topology and assembly sequence credible? Are the
+nominal thicknesses and component inventory a sound starting point? Does the
+A1 qualification-first programme collect the right evidence to compare A2 and
+B4 while avoiding an unjustified three-type family?
+\textbf{This is first technical review, not full design sign-off.}
+DES-001 and ADR-007 remain DRAFT; reviewers and numeric acceptance criteria
+are not yet assigned.
+
+\newpage
+{\LARGE\bfseries Material study and physical stack}\par
+\textbf{Proposed thicknesses; sourced radiation lengths; derived contributions.}
+The same nominal layer stack controls the comparison. These thicknesses are
+nODD study choices (PM3-C02--C07), not verified delivered parts. Material
+$X_0$ constants are public-source facts (PM3-F02--F05). Percentages are
+normal-crossing calculations (PM3-I02).
+
+{\small
+\begin{tabularx}{\linewidth}{@{}p{35mm}p{32mm}Yrr@{}}
+\toprule
+\textbf{Component} & \textbf{Thickness / geometry} & \textbf{Material} & \textbf{$X_0$ [mm]} & \textbf{\% $X_0$}\\
+\midrule
+Sensor bulk & 150 $\mu$m & Silicon & 93.70 & 0.1601\\
+Chip substrate & 150 $\mu$m per die & Silicon & 93.70 & 0.1601\\
+Flex core + coverlay & $25+2\times12.5=50$ $\mu$m & Specified polyimide film & 285.7 & 0.0175\\
+Copper routing & $2\times18=36$ $\mu$m & Copper, both layers crossed & 14.36 & 0.2507\\
+Flex-to-sensor bond & 25 $\mu$m nominal & Epoxy grade/filler TBD & TBD & TBD\\
+Bump interconnect & 20 $\mu$m standoff & Alloy/under-bump stack TBD & TBD & TBD\\
+Wire bonds & 25 $\mu$m diameter; loops TBD & Aluminum candidate & 88.97 & TBD\\
+Laminate adhesives & Thickness/coverage TBD & Supplier grades TBD & TBD & TBD\\
+Device films/finishes & Thickness/coverage TBD & Metals/passivation/plating & TBD & TBD\\
+Local parts/termination & Part volumes/masses TBD & Mixed spatial BOM & TBD & TBD\\
+\bottomrule
+\end{tabularx}}
+
+\textbf{Partial local reference subtotal: 0.5884\% $X_0$.}
+For the four calculable rows, $100\sum t_i/X_{0,i}$ uses matched units and
+unrounded inputs. It crosses the sensor, \emph{one} chip, all polyimide films and
+both copper layers. The four quad chips are lateral, not four stacked slabs.
+
+This is \textbf{not a complete module budget, an area average or a bound on the
+completed module}. Actual routed copper coverage changes the spatial result.
+Glue, bumps, laminate adhesives, films, wire loops and local parts are additional
+unresolved contributions, not zero. Bump standoff and wire diameter are not
+area-equivalent metal thicknesses. Integral flex extensions and termination
+must be counted, even outside the sensor projection.
+
+\heading{Cross-section at an accessible chip edge}
+\par\noindent\includegraphics[width=\linewidth]{cross-section.pdf}\par
+{\small Crop of the original compact schematic. Layer order is shared by both
+alternatives: sensor-backside flex, adhesive, sensor, discrete bumps and chip.
+Bond loops go around the sensor edge to accessible flex lands; exact drawings
+must establish pad access. Display heights are schematic; thickness labels are
+proposed study inputs. Unknown adhesive/film layers remain additional.}
+
+\textbf{Why equal subtotals do not rank the modules.} Material per useful area
+depends on sensor margins/seams, routed flex, local parts, bonds, termination and
+assembly yield. Complete each spatial BOM before claiming a saving.
+
+\newpage
+{\LARGE\bfseries Module layouts and review priorities}\par
+\textbf{A1 / optional A2:} common chip/interface principles, but A2 requires a
+qualified shared sensor, seam mapping and its own routed flex. Keep A1 as the
+smallest learning unit; justify any retained production variant.
+\par\noindent\includegraphics[width=\linewidth]{compact-plan.pdf}\par
+
+\textbf{B4:} four chips share a larger sensor and flex. Outward chip peripheries
+preserve proposed bond access; both seams and their intersection need response
+and assembly evidence. The A--A line identifies the opposing-chip section in the
+full quad drawing.
+\par\noindent\includegraphics[width=\linewidth]{quad-plan.pdf}\par
+{\small Original plan-view crops; schematic, not to scale. Colors identify
+components within each drawing. Exact sensor edges, gaps, loops and routing
+remain unresolved; nominal readout rectangles do not certify acceptance.}
+
+\heading{Priorities before a family recommendation}
+\begin{enumerate}
+\setlength{\itemsep}{1pt}
+\item Obtain authoritative die/pad/bump and electrical interfaces, delivered
+thinning and known-good-die evidence; confirm bond access and sensor compatibility.
+\item Define sensor process/bias and operating requirements; dimension seams,
+guard regions, flex, bonds and termination without hiding inactive regions.
+\item Complete component grades, thicknesses, volumes and spatial material
+maps; qualify module connectivity, data integrity, metrology and seam response.
+\item Compare accepted-area yield, rework and partial-operation behavior.
+Choose the minimum justified family; defer deployment suitability to pixel-volume work.
+\end{enumerate}
+
+{\small\textbf{Source record and detailed proposals.}
+\repo{docs/design/DES-001-rd53-pixel-modules.md}{DES-001 (PM3 claims and glossary)};
+\repo{docs/design/inputs/DES-001-compact-modules.md}{compact A};
+\repo{docs/design/inputs/DES-001-quad-modules.md}{quad B};
+\repo{docs/design/inputs/DES-001-coordinator-review.md}{Coordinator assessment};
+\repo{docs/design/DES-001-module-stack.json}{common inputs/unrounded arithmetic};
+\repo{reference/manifest.yaml}{source catalogue}.
+Radiation-length rows: PDG Si/Cu/Al 2025 and polyimide film 2020.
+This brief summarizes existing claims; it adds no approved parameters or hardware validation.}
+\end{document}

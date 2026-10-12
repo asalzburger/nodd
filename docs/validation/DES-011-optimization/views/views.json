@@ -1,0 +1,1409 @@
+{
+  "schema_version": 1,
+  "status": "PROTOTYPE views; no new geometry or sign-off",
+  "generated_utc": "2026-09-29T15:33:52.051272+00:00",
+  "run": "docs/validation/DES-011-optimization",
+  "source_run_commit": "ac61f766b34f9bb60748e8fc4258a41037ca1e33",
+  "baseline": "pr25",
+  "cases": [
+    "pr25",
+    "p170-s680-b1-l1287.33-front_loaded",
+    "p190-s680-b1-l1287.33-front_loaded-barrel-10",
+    "p190-s680-b1-l1287.33-front_loaded-original-pockets",
+    "p190-s720-b1-l1287.33-uniform"
+  ],
+  "command": [
+    "/Users/salzburg/Documents/work/projects/nodd/reference/cache/envelope-venv/bin/python",
+    "tools/module_layout/optimization_views.py",
+    "--run",
+    "docs/validation/DES-011-optimization",
+    "--output",
+    "docs/validation/DES-011-optimization/views"
+  ],
+  "input_sha256": {
+    "study.json.gz": "0c7cc9ea85888f70c7b3953ca59c9664ef644bf2e311834d5a1b195edf5ed40b",
+    "cases/pr25/summary.json": "ba9db3fabedefca2621f3f59024a009fc53cea0ca9e37b0ba29912a166bbeb1e",
+    "cases/pr25/layout.json.gz": "77b4e1923a9ee7bd0c79081fc8c90302f58b234c7c1cd16d0116e161ac07c7f1",
+    "cases/p170-s680-b1-l1287.33-front_loaded/summary.json": "1e2c899b55b200d974e2112c8d2e2500daba7f4eaf083417acbdf4de4c40249d",
+    "cases/p170-s680-b1-l1287.33-front_loaded/layout.json.gz": "a9c96f6cabe0dd0e066a14a08071bb41929b487efed56b2917806df160f97c55",
+    "cases/p190-s680-b1-l1287.33-front_loaded-barrel-10/summary.json": "83eabddc9ecb3b4aa479fa4e8797899e1266e736134c06ad2e1b129db102bbcc",
+    "cases/p190-s680-b1-l1287.33-front_loaded-barrel-10/layout.json.gz": "4a910affe1ea40181271f405bbd6b0c8fab3466b9010b96327a9519db54448aa",
+    "cases/p190-s680-b1-l1287.33-front_loaded-original-pockets/summary.json": "c5f4b3f6ef255e1532684c792846ef91fc777697c5e4b4d6f2909ab463bcf4d8",
+    "cases/p190-s680-b1-l1287.33-front_loaded-original-pockets/layout.json.gz": "89ce39dae6af7e1e69d40582a6c49e6e7f26dbcd6ce1dd3cc061e41e75419cbd",
+    "cases/p190-s720-b1-l1287.33-uniform/summary.json": "c2515740d1a82b1439a9166db064a64590389cc948fc97faf21290d56b7dd835",
+    "cases/p190-s720-b1-l1287.33-uniform/layout.json.gz": "558cf0c20bd858b164fea2fa2acae260f39e971008dbfa80df03cf4ef7ddf1fd",
+    "envelopes.json": "ac2fdcb9e3b9cc8378285e7a1d00eac4a5b46ccfd8f15e0e434bf48419f2cd8c"
+  },
+  "retained_artifact_manifest_sha256": "4834b3274e79d0654ef4a4bfa4575aebe93c2512ccf994ea43ac12f3781ed0e4",
+  "input_verification": "matched retained manifest",
+  "renderer_sha256": "2ab181bbd33e029ce28f2890abf00d731c994abd1286522b6382a7d5bbd17762",
+  "helper_sha256": {
+    "views.py": "64f63ea7fee32d73ee42bc243bc51e5abef2850fa3b2f909e0231cf2759cd0c8",
+    "geometry.py": "03da80de3ebdf7f2ff5f5e8046fdaf668ba2158bd7aee4059d44c0d7da972792",
+    "services_geometry.py": "23f24dd895b088367dad9a317e0cb0f43e06b4f25c9cb86a029498d9a4125dfd"
+  },
+  "python": "3.14.6",
+  "numpy": "2.5.3",
+  "matplotlib": "3.11.2",
+  "definitions": {
+    "body": "Actual saved oriented boxes; r-z combines occupied extrema over azimuth",
+    "support": "Saved finite annular keep-out, not structural material",
+    "service": "Saved finite constant corridor/collector/bypass envelopes; no individual cable placement",
+    "xy": "Exact barrel plane sections; full first/final positive-disc projections including stereo faces",
+    "vessel": "Shown only if retained envelopes.json supplies the magnet reservation"
+  },
+  "details": {
+    "pr25": {
+      "routing": {
+        "barrel_first_disc": [
+          {
+            "subsystem": "pixel",
+            "first_disc_id": "A-pixel-P1",
+            "barrel_occupied_end_mm": 552.8000000000001,
+            "first_disc_occupied_start_mm": 645.3,
+            "separation_mm": 92.49999999999989,
+            "bounds_zr_mm": [
+              510.0400000000001,
+              702.46,
+              6.007800290313774,
+              205.63819652165424
+            ]
+          },
+          {
+            "subsystem": "short_strip",
+            "first_disc_id": "A-short_strip-P1",
+            "barrel_occupied_end_mm": 1205.5,
+            "first_disc_occupied_start_mm": 1314.5,
+            "separation_mm": 109.0,
+            "bounds_zr_mm": [
+              1154.8600000000001,
+              1382.7399999999998,
+              225.64467262006576,
+              686.1144481009146
+            ]
+          },
+          {
+            "subsystem": "long_strip",
+            "first_disc_id": "A-long_strip-P1",
+            "barrel_occupied_end_mm": 1293.7935689912892,
+            "first_disc_occupied_start_mm": 1414.35,
+            "separation_mm": 120.55643100871066,
+            "bounds_zr_mm": [
+              1230.410996587805,
+              1515.6325724034843,
+              791.9397643420442,
+              1149.6789720033287
+            ]
+          }
+        ],
+        "bypass_route_ids": [],
+        "note": "Full view has equal scale; zooms have independently labelled axis scales. No reflection/symmetry assumption is made."
+      },
+      "transverse": [
+        {
+          "subsystem": "pixel",
+          "kind": "barrel_section",
+          "reference_layer_id": "A-pixel-B3",
+          "z_extent_mm": [
+            23.073913043478264,
+            23.073913043478264
+          ],
+          "body_polygons": 82,
+          "physical_sensor_polygons": 82,
+          "active_polygons": 34,
+          "visible_route_ids": [],
+          "visible_support_ids": [
+            "support:A-pixel-B1",
+            "support:A-pixel-B2",
+            "support:A-pixel-B3",
+            "support:A-pixel-B4",
+            "support:A-short_strip-B1",
+            "support:A-short_strip-B2",
+            "support:A-short_strip-B3",
+            "support:A-short_strip-B4",
+            "support:A-long_strip-B1",
+            "support:A-long_strip-B2"
+          ]
+        },
+        {
+          "subsystem": "pixel",
+          "kind": "endcap_projection",
+          "reference_layer_id": "A-pixel-P1",
+          "z_extent_mm": [
+            645.3,
+            654.7
+          ],
+          "body_polygons": 84,
+          "physical_sensor_polygons": 84,
+          "active_polygons": 336,
+          "visible_route_ids": [
+            "pixel-trunk-P"
+          ],
+          "visible_support_ids": [
+            "support:A-short_strip-B1",
+            "support:A-short_strip-B2",
+            "support:A-short_strip-B3",
+            "support:A-short_strip-B4",
+            "support:A-long_strip-B1",
+            "support:A-long_strip-B2",
+            "support:A-pixel-P1"
+          ]
+        },
+        {
+          "subsystem": "pixel",
+          "kind": "endcap_projection",
+          "reference_layer_id": "A-pixel-P9",
+          "z_extent_mm": [
+            3065.3,
+            3074.7
+          ],
+          "body_polygons": 84,
+          "physical_sensor_polygons": 84,
+          "active_polygons": 336,
+          "visible_route_ids": [
+            "pixel-trunk-P",
+            "short_strip-trunk-P",
+            "long_strip-trunk-P"
+          ],
+          "visible_support_ids": [
+            "support:A-pixel-P9"
+          ]
+        },
+        {
+          "subsystem": "short_strip",
+          "kind": "barrel_section",
+          "reference_layer_id": "A-short_strip-B1",
+          "z_extent_mm": [
+            40.666666666666664,
+            40.666666666666664
+          ],
+          "body_polygons": 242,
+          "physical_sensor_polygons": 242,
+          "active_polygons": 242,
+          "visible_route_ids": [],
+          "visible_support_ids": [
+            "support:A-pixel-B1",
+            "support:A-pixel-B2",
+            "support:A-pixel-B3",
+            "support:A-pixel-B4",
+            "support:A-short_strip-B1",
+            "support:A-short_strip-B2",
+            "support:A-short_strip-B3",
+            "support:A-short_strip-B4",
+            "support:A-long_strip-B1",
+            "support:A-long_strip-B2"
+          ]
+        },
+        {
+          "subsystem": "short_strip",
+          "kind": "endcap_projection",
+          "reference_layer_id": "A-short_strip-P1",
+          "z_extent_mm": [
+            1314.5,
+            1325.5
+          ],
+          "body_polygons": 276,
+          "physical_sensor_polygons": 276,
+          "active_polygons": 276,
+          "visible_route_ids": [
+            "pixel-trunk-P",
+            "short_strip-trunk-P",
+            "long_strip-trunk-P",
+            "long_strip-barrel-turn-0-P",
+            "long_strip-barrel-turn-1-P"
+          ],
+          "visible_support_ids": [
+            "support:A-short_strip-P1"
+          ]
+        },
+        {
+          "subsystem": "short_strip",
+          "kind": "endcap_projection",
+          "reference_layer_id": "A-short_strip-P6",
+          "z_extent_mm": [
+            3074.5,
+            3085.5
+          ],
+          "body_polygons": 276,
+          "physical_sensor_polygons": 276,
+          "active_polygons": 276,
+          "visible_route_ids": [
+            "pixel-trunk-P",
+            "short_strip-trunk-P",
+            "long_strip-trunk-P",
+            "A-pixel-P9-collector-P"
+          ],
+          "visible_support_ids": [
+            "support:A-pixel-P9",
+            "support:A-short_strip-P6"
+          ]
+        },
+        {
+          "subsystem": "long_strip",
+          "kind": "barrel_section",
+          "reference_layer_id": "A-long_strip-B1",
+          "z_extent_mm": [
+            0.0,
+            0.0
+          ],
+          "body_polygons": 137,
+          "physical_sensor_polygons": 274,
+          "active_polygons": 274,
+          "visible_route_ids": [],
+          "visible_support_ids": [
+            "support:A-pixel-B1",
+            "support:A-pixel-B2",
+            "support:A-pixel-B3",
+            "support:A-pixel-B4",
+            "support:A-short_strip-B1",
+            "support:A-short_strip-B2",
+            "support:A-short_strip-B3",
+            "support:A-short_strip-B4",
+            "support:A-long_strip-B1",
+            "support:A-long_strip-B2"
+          ]
+        },
+        {
+          "subsystem": "long_strip",
+          "kind": "endcap_projection",
+          "reference_layer_id": "A-long_strip-P1",
+          "z_extent_mm": [
+            1414.35,
+            1445.65
+          ],
+          "body_polygons": 288,
+          "physical_sensor_polygons": 576,
+          "active_polygons": 576,
+          "visible_route_ids": [
+            "pixel-trunk-P",
+            "short_strip-trunk-P",
+            "long_strip-trunk-P",
+            "A-pixel-P4-collector-P",
+            "A-short_strip-P1-collector-P"
+          ],
+          "visible_support_ids": [
+            "support:A-long_strip-P1"
+          ]
+        },
+        {
+          "subsystem": "long_strip",
+          "kind": "endcap_projection",
+          "reference_layer_id": "A-long_strip-P6",
+          "z_extent_mm": [
+            3104.35,
+            3135.65
+          ],
+          "body_polygons": 288,
+          "physical_sensor_polygons": 576,
+          "active_polygons": 576,
+          "visible_route_ids": [
+            "pixel-trunk-P",
+            "short_strip-trunk-P",
+            "long_strip-trunk-P",
+            "A-pixel-P9-collector-P",
+            "A-short_strip-P6-collector-P"
+          ],
+          "visible_support_ids": [
+            "support:A-long_strip-P6"
+          ]
+        }
+      ]
+    },
+    "p170-s680-b1-l1287.33-front_loaded": {
+      "routing": {
+        "barrel_first_disc": [
+          {
+            "subsystem": "pixel",
+            "first_disc_id": "A-pixel-P1",
+            "barrel_occupied_end_mm": 552.8000000000001,
+            "first_disc_occupied_start_mm": 601.0,
+            "separation_mm": 48.19999999999993,
+            "bounds_zr_mm": [
+              522.8000000000001,
+              645.4000000000001,
+              6.007800290313774,
+              205.63819652165424
+            ]
+          },
+          {
+            "subsystem": "short_strip",
+            "first_disc_id": "A-short_strip-P1",
+            "barrel_occupied_end_mm": 1205.5,
+            "first_disc_occupied_start_mm": 1270.0,
+            "separation_mm": 64.5,
+            "bounds_zr_mm": [
+              1172.66,
+              1320.4399999999998,
+              195.99999999999997,
+              698.0000000000002
+            ]
+          },
+          {
+            "subsystem": "long_strip",
+            "first_disc_id": "A-long_strip-P1",
+            "barrel_occupied_end_mm": 1293.793568991289,
+            "first_disc_occupied_start_mm": 1316.0,
+            "separation_mm": 22.20643100871098,
+            "bounds_zr_mm": [
+              1263.793568991289,
+              1383.9,
+              737.9999999999999,
+              1158.0000000000002
+            ]
+          }
+        ],
+        "bypass_route_ids": [
+          "pixel-last-disc-bypass-P",
+          "pixel-last-disc-bypass-turn-P",
+          "short_strip-last-disc-bypass-P",
+          "short_strip-last-disc-bypass-turn-P",
+          "long_strip-last-disc-bypass-P",
+          "long_strip-last-disc-bypass-turn-P"
+        ],
+        "note": "Full view has equal scale; zooms have independently labelled axis scales. No reflection/symmetry assumption is made."
+      },
+      "transverse": [
+        {
+          "subsystem": "pixel",
+          "kind": "barrel_section",
+          "reference_layer_id": "A-pixel-B3",
+          "z_extent_mm": [
+            23.073913043478264,
+            23.073913043478264
+          ],
+          "body_polygons": 82,
+          "physical_sensor_polygons": 82,
+          "active_polygons": 34,
+          "visible_route_ids": [],
+          "visible_support_ids": [
+            "support:A-pixel-B1",
+            "support:A-pixel-B2",
+            "support:A-pixel-B3",
+            "support:A-pixel-B4",
+            "support:A-short_strip-B1",
+            "support:A-short_strip-B2",
+            "support:A-short_strip-B3",
+            "support:A-short_strip-B4",
+            "support:A-long_strip-B1",
+            "support:A-long_strip-B2"
+          ]
+        },
+        {
+          "subsystem": "pixel",
+          "kind": "endcap_projection",
+          "reference_layer_id": "A-pixel-P1",
+          "z_extent_mm": [
+            601.0,
+            610.4000000000001
+          ],
+          "body_polygons": 84,
+          "physical_sensor_polygons": 84,
+          "active_polygons": 336,
+          "visible_route_ids": [
+            "pixel-trunk-P"
+          ],
+          "visible_support_ids": [
+            "support:A-short_strip-B1",
+            "support:A-short_strip-B2",
+            "support:A-short_strip-B3",
+            "support:A-short_strip-B4",
+            "support:A-long_strip-B1",
+            "support:A-long_strip-B2",
+            "support:A-pixel-P1"
+          ]
+        },
+        {
+          "subsystem": "pixel",
+          "kind": "endcap_projection",
+          "reference_layer_id": "A-pixel-P9",
+          "z_extent_mm": [
+            3065.3,
+            3074.7
+          ],
+          "body_polygons": 84,
+          "physical_sensor_polygons": 84,
+          "active_polygons": 336,
+          "visible_route_ids": [
+            "pixel-trunk-P",
+            "short_strip-trunk-P",
+            "long_strip-trunk-P"
+          ],
+          "visible_support_ids": [
+            "support:A-pixel-P9"
+          ]
+        },
+        {
+          "subsystem": "short_strip",
+          "kind": "barrel_section",
+          "reference_layer_id": "A-short_strip-B1",
+          "z_extent_mm": [
+            40.666666666666664,
+            40.666666666666664
+          ],
+          "body_polygons": 242,
+          "physical_sensor_polygons": 242,
+          "active_polygons": 242,
+          "visible_route_ids": [],
+          "visible_support_ids": [
+            "support:A-pixel-B1",
+            "support:A-pixel-B2",
+            "support:A-pixel-B3",
+            "support:A-pixel-B4",
+            "support:A-short_strip-B1",
+            "support:A-short_strip-B2",
+            "support:A-short_strip-B3",
+            "support:A-short_strip-B4",
+            "support:A-long_strip-B1",
+            "support:A-long_strip-B2"
+          ]
+        },
+        {
+          "subsystem": "short_strip",
+          "kind": "endcap_projection",
+          "reference_layer_id": "A-short_strip-P1",
+          "z_extent_mm": [
+            1270.0,
+            1281.0
+          ],
+          "body_polygons": 412,
+          "physical_sensor_polygons": 412,
+          "active_polygons": 412,
+          "visible_route_ids": [
+            "pixel-trunk-P",
+            "short_strip-trunk-P"
+          ],
+          "visible_support_ids": [
+            "support:A-long_strip-B1",
+            "support:A-long_strip-B2",
+            "support:A-short_strip-P1"
+          ]
+        },
+        {
+          "subsystem": "short_strip",
+          "kind": "endcap_projection",
+          "reference_layer_id": "A-short_strip-P6",
+          "z_extent_mm": [
+            3074.5,
+            3085.5
+          ],
+          "body_polygons": 412,
+          "physical_sensor_polygons": 412,
+          "active_polygons": 412,
+          "visible_route_ids": [
+            "pixel-trunk-P",
+            "pixel-last-disc-bypass-P",
+            "short_strip-trunk-P",
+            "long_strip-trunk-P"
+          ],
+          "visible_support_ids": [
+            "support:A-pixel-P9",
+            "support:A-short_strip-P6"
+          ]
+        },
+        {
+          "subsystem": "long_strip",
+          "kind": "barrel_section",
+          "reference_layer_id": "A-long_strip-B1",
+          "z_extent_mm": [
+            0.0,
+            0.0
+          ],
+          "body_polygons": 137,
+          "physical_sensor_polygons": 274,
+          "active_polygons": 274,
+          "visible_route_ids": [],
+          "visible_support_ids": [
+            "support:A-pixel-B1",
+            "support:A-pixel-B2",
+            "support:A-pixel-B3",
+            "support:A-pixel-B4",
+            "support:A-short_strip-B1",
+            "support:A-short_strip-B2",
+            "support:A-short_strip-B3",
+            "support:A-short_strip-B4",
+            "support:A-long_strip-B1",
+            "support:A-long_strip-B2"
+          ]
+        },
+        {
+          "subsystem": "long_strip",
+          "kind": "endcap_projection",
+          "reference_layer_id": "A-long_strip-P1",
+          "z_extent_mm": [
+            1316.0,
+            1347.3000000000002
+          ],
+          "body_polygons": 354,
+          "physical_sensor_polygons": 708,
+          "active_polygons": 708,
+          "visible_route_ids": [
+            "pixel-trunk-P",
+            "A-pixel-P4-collector-P",
+            "short_strip-trunk-P",
+            "long_strip-trunk-P"
+          ],
+          "visible_support_ids": [
+            "support:A-pixel-P4",
+            "support:A-long_strip-P1"
+          ]
+        },
+        {
+          "subsystem": "long_strip",
+          "kind": "endcap_projection",
+          "reference_layer_id": "A-long_strip-P6",
+          "z_extent_mm": [
+            3104.35,
+            3135.65
+          ],
+          "body_polygons": 354,
+          "physical_sensor_polygons": 708,
+          "active_polygons": 708,
+          "visible_route_ids": [
+            "pixel-trunk-P",
+            "pixel-last-disc-bypass-P",
+            "short_strip-trunk-P",
+            "short_strip-last-disc-bypass-P",
+            "long_strip-trunk-P"
+          ],
+          "visible_support_ids": [
+            "support:A-long_strip-P6"
+          ]
+        }
+      ]
+    },
+    "p190-s680-b1-l1287.33-front_loaded-barrel-10": {
+      "routing": {
+        "barrel_first_disc": [
+          {
+            "subsystem": "pixel",
+            "first_disc_id": "A-pixel-P1",
+            "barrel_occupied_end_mm": 552.8000000000001,
+            "first_disc_occupied_start_mm": 601.0,
+            "separation_mm": 48.19999999999993,
+            "bounds_zr_mm": [
+              522.8000000000001,
+              645.4000000000001,
+              6.007800290313774,
+              208.00000000000006
+            ]
+          },
+          {
+            "subsystem": "short_strip",
+            "first_disc_id": "A-short_strip-P1",
+            "barrel_occupied_end_mm": 1205.5,
+            "first_disc_occupied_start_mm": 1270.0,
+            "separation_mm": 64.5,
+            "bounds_zr_mm": [
+              1172.66,
+              1320.4399999999998,
+              215.99999999999997,
+              698.0000000000001
+            ]
+          },
+          {
+            "subsystem": "long_strip",
+            "first_disc_id": "A-long_strip-P1",
+            "barrel_occupied_end_mm": 1293.793568991289,
+            "first_disc_occupied_start_mm": 1316.0,
+            "separation_mm": 22.20643100871098,
+            "bounds_zr_mm": [
+              1263.793568991289,
+              1383.9,
+              736.9999999999999,
+              1158.0000000000002
+            ]
+          }
+        ],
+        "bypass_route_ids": [
+          "pixel-last-disc-bypass-P",
+          "pixel-last-disc-bypass-turn-P",
+          "short_strip-last-disc-bypass-P",
+          "short_strip-last-disc-bypass-turn-P",
+          "long_strip-last-disc-bypass-P",
+          "long_strip-last-disc-bypass-turn-P"
+        ],
+        "note": "Full view has equal scale; zooms have independently labelled axis scales. No reflection/symmetry assumption is made."
+      },
+      "transverse": [
+        {
+          "subsystem": "pixel",
+          "kind": "barrel_section",
+          "reference_layer_id": "A-pixel-B3",
+          "z_extent_mm": [
+            23.073913043478264,
+            23.073913043478264
+          ],
+          "body_polygons": 80,
+          "physical_sensor_polygons": 80,
+          "active_polygons": 34,
+          "visible_route_ids": [],
+          "visible_support_ids": [
+            "support:A-pixel-B1",
+            "support:A-pixel-B2",
+            "support:A-pixel-B3",
+            "support:A-pixel-B4",
+            "support:A-short_strip-B1",
+            "support:A-short_strip-B2",
+            "support:A-short_strip-B3",
+            "support:A-short_strip-B4",
+            "support:A-long_strip-B1",
+            "support:A-long_strip-B2"
+          ]
+        },
+        {
+          "subsystem": "pixel",
+          "kind": "endcap_projection",
+          "reference_layer_id": "A-pixel-P1",
+          "z_extent_mm": [
+            601.0,
+            610.4000000000001
+          ],
+          "body_polygons": 112,
+          "physical_sensor_polygons": 112,
+          "active_polygons": 448,
+          "visible_route_ids": [
+            "pixel-trunk-P"
+          ],
+          "visible_support_ids": [
+            "support:A-short_strip-B1",
+            "support:A-short_strip-B2",
+            "support:A-short_strip-B3",
+            "support:A-short_strip-B4",
+            "support:A-long_strip-B1",
+            "support:A-long_strip-B2",
+            "support:A-pixel-P1"
+          ]
+        },
+        {
+          "subsystem": "pixel",
+          "kind": "endcap_projection",
+          "reference_layer_id": "A-pixel-P9",
+          "z_extent_mm": [
+            3065.3,
+            3074.7
+          ],
+          "body_polygons": 112,
+          "physical_sensor_polygons": 112,
+          "active_polygons": 448,
+          "visible_route_ids": [
+            "pixel-trunk-P",
+            "short_strip-trunk-P",
+            "long_strip-trunk-P"
+          ],
+          "visible_support_ids": [
+            "support:A-pixel-P9"
+          ]
+        },
+        {
+          "subsystem": "short_strip",
+          "kind": "barrel_section",
+          "reference_layer_id": "A-short_strip-B1",
+          "z_extent_mm": [
+            40.666666666666664,
+            40.666666666666664
+          ],
+          "body_polygons": 240,
+          "physical_sensor_polygons": 240,
+          "active_polygons": 240,
+          "visible_route_ids": [],
+          "visible_support_ids": [
+            "support:A-pixel-B1",
+            "support:A-pixel-B2",
+            "support:A-pixel-B3",
+            "support:A-pixel-B4",
+            "support:A-short_strip-B1",
+            "support:A-short_strip-B2",
+            "support:A-short_strip-B3",
+            "support:A-short_strip-B4",
+            "support:A-long_strip-B1",
+            "support:A-long_strip-B2"
+          ]
+        },
+        {
+          "subsystem": "short_strip",
+          "kind": "endcap_projection",
+          "reference_layer_id": "A-short_strip-P1",
+          "z_extent_mm": [
+            1270.0,
+            1281.0
+          ],
+          "body_polygons": 350,
+          "physical_sensor_polygons": 350,
+          "active_polygons": 350,
+          "visible_route_ids": [
+            "pixel-trunk-P",
+            "short_strip-trunk-P"
+          ],
+          "visible_support_ids": [
+            "support:A-long_strip-B1",
+            "support:A-long_strip-B2",
+            "support:A-short_strip-P1"
+          ]
+        },
+        {
+          "subsystem": "short_strip",
+          "kind": "endcap_projection",
+          "reference_layer_id": "A-short_strip-P6",
+          "z_extent_mm": [
+            3074.5,
+            3085.5
+          ],
+          "body_polygons": 350,
+          "physical_sensor_polygons": 350,
+          "active_polygons": 350,
+          "visible_route_ids": [
+            "pixel-trunk-P",
+            "pixel-last-disc-bypass-P",
+            "short_strip-trunk-P",
+            "long_strip-trunk-P"
+          ],
+          "visible_support_ids": [
+            "support:A-pixel-P9",
+            "support:A-short_strip-P6"
+          ]
+        },
+        {
+          "subsystem": "long_strip",
+          "kind": "barrel_section",
+          "reference_layer_id": "A-long_strip-B1",
+          "z_extent_mm": [
+            0.0,
+            0.0
+          ],
+          "body_polygons": 136,
+          "physical_sensor_polygons": 272,
+          "active_polygons": 272,
+          "visible_route_ids": [],
+          "visible_support_ids": [
+            "support:A-pixel-B1",
+            "support:A-pixel-B2",
+            "support:A-pixel-B3",
+            "support:A-pixel-B4",
+            "support:A-short_strip-B1",
+            "support:A-short_strip-B2",
+            "support:A-short_strip-B3",
+            "support:A-short_strip-B4",
+            "support:A-long_strip-B1",
+            "support:A-long_strip-B2"
+          ]
+        },
+        {
+          "subsystem": "long_strip",
+          "kind": "endcap_projection",
+          "reference_layer_id": "A-long_strip-P1",
+          "z_extent_mm": [
+            1316.0,
+            1347.3000000000002
+          ],
+          "body_polygons": 354,
+          "physical_sensor_polygons": 708,
+          "active_polygons": 708,
+          "visible_route_ids": [
+            "pixel-trunk-P",
+            "A-pixel-P4-collector-P",
+            "short_strip-trunk-P",
+            "long_strip-trunk-P"
+          ],
+          "visible_support_ids": [
+            "support:A-pixel-P4",
+            "support:A-long_strip-P1"
+          ]
+        },
+        {
+          "subsystem": "long_strip",
+          "kind": "endcap_projection",
+          "reference_layer_id": "A-long_strip-P6",
+          "z_extent_mm": [
+            3104.35,
+            3135.65
+          ],
+          "body_polygons": 354,
+          "physical_sensor_polygons": 708,
+          "active_polygons": 708,
+          "visible_route_ids": [
+            "pixel-trunk-P",
+            "pixel-last-disc-bypass-P",
+            "short_strip-trunk-P",
+            "short_strip-last-disc-bypass-P",
+            "long_strip-trunk-P"
+          ],
+          "visible_support_ids": [
+            "support:A-long_strip-P6"
+          ]
+        }
+      ]
+    },
+    "p190-s680-b1-l1287.33-front_loaded-original-pockets": {
+      "routing": {
+        "barrel_first_disc": [
+          {
+            "subsystem": "pixel",
+            "first_disc_id": "A-pixel-P1",
+            "barrel_occupied_end_mm": 552.8000000000001,
+            "first_disc_occupied_start_mm": 607.0,
+            "separation_mm": 54.19999999999993,
+            "bounds_zr_mm": [
+              522.8000000000001,
+              651.4000000000001,
+              6.007800290313774,
+              208.00000000000006
+            ]
+          },
+          {
+            "subsystem": "short_strip",
+            "first_disc_id": "A-short_strip-P1",
+            "barrel_occupied_end_mm": 1205.5,
+            "first_disc_occupied_start_mm": 1290.0,
+            "separation_mm": 84.5,
+            "bounds_zr_mm": [
+              1164.66,
+              1348.4399999999998,
+              215.99999999999997,
+              698.0000000000001
+            ]
+          },
+          {
+            "subsystem": "long_strip",
+            "first_disc_id": "A-long_strip-P1",
+            "barrel_occupied_end_mm": 1293.793568991289,
+            "first_disc_occupied_start_mm": 1388.0,
+            "separation_mm": 94.20643100871098,
+            "bounds_zr_mm": [
+              1240.9509965878046,
+              1478.7425724034845,
+              737.9999999999999,
+              1158.0000000000002
+            ]
+          }
+        ],
+        "bypass_route_ids": [
+          "pixel-last-disc-bypass-P",
+          "pixel-last-disc-bypass-turn-P",
+          "short_strip-last-disc-bypass-P",
+          "short_strip-last-disc-bypass-turn-P",
+          "long_strip-last-disc-bypass-P",
+          "long_strip-last-disc-bypass-turn-P"
+        ],
+        "note": "Full view has equal scale; zooms have independently labelled axis scales. No reflection/symmetry assumption is made."
+      },
+      "transverse": [
+        {
+          "subsystem": "pixel",
+          "kind": "barrel_section",
+          "reference_layer_id": "A-pixel-B3",
+          "z_extent_mm": [
+            23.073913043478264,
+            23.073913043478264
+          ],
+          "body_polygons": 82,
+          "physical_sensor_polygons": 82,
+          "active_polygons": 34,
+          "visible_route_ids": [],
+          "visible_support_ids": [
+            "support:A-pixel-B1",
+            "support:A-pixel-B2",
+            "support:A-pixel-B3",
+            "support:A-pixel-B4",
+            "support:A-short_strip-B1",
+            "support:A-short_strip-B2",
+            "support:A-short_strip-B3",
+            "support:A-short_strip-B4",
+            "support:A-long_strip-B1",
+            "support:A-long_strip-B2"
+          ]
+        },
+        {
+          "subsystem": "pixel",
+          "kind": "endcap_projection",
+          "reference_layer_id": "A-pixel-P1",
+          "z_extent_mm": [
+            607.0,
+            616.4000000000001
+          ],
+          "body_polygons": 112,
+          "physical_sensor_polygons": 112,
+          "active_polygons": 448,
+          "visible_route_ids": [
+            "pixel-trunk-P"
+          ],
+          "visible_support_ids": [
+            "support:A-short_strip-B1",
+            "support:A-short_strip-B2",
+            "support:A-short_strip-B3",
+            "support:A-short_strip-B4",
+            "support:A-long_strip-B1",
+            "support:A-long_strip-B2",
+            "support:A-pixel-P1"
+          ]
+        },
+        {
+          "subsystem": "pixel",
+          "kind": "endcap_projection",
+          "reference_layer_id": "A-pixel-P9",
+          "z_extent_mm": [
+            3065.3,
+            3074.7
+          ],
+          "body_polygons": 112,
+          "physical_sensor_polygons": 112,
+          "active_polygons": 448,
+          "visible_route_ids": [
+            "pixel-trunk-P",
+            "short_strip-trunk-P",
+            "long_strip-trunk-P"
+          ],
+          "visible_support_ids": [
+            "support:A-pixel-P9"
+          ]
+        },
+        {
+          "subsystem": "short_strip",
+          "kind": "barrel_section",
+          "reference_layer_id": "A-short_strip-B1",
+          "z_extent_mm": [
+            40.666666666666664,
+            40.666666666666664
+          ],
+          "body_polygons": 242,
+          "physical_sensor_polygons": 242,
+          "active_polygons": 242,
+          "visible_route_ids": [],
+          "visible_support_ids": [
+            "support:A-pixel-B1",
+            "support:A-pixel-B2",
+            "support:A-pixel-B3",
+            "support:A-pixel-B4",
+            "support:A-short_strip-B1",
+            "support:A-short_strip-B2",
+            "support:A-short_strip-B3",
+            "support:A-short_strip-B4",
+            "support:A-long_strip-B1",
+            "support:A-long_strip-B2"
+          ]
+        },
+        {
+          "subsystem": "short_strip",
+          "kind": "endcap_projection",
+          "reference_layer_id": "A-short_strip-P1",
+          "z_extent_mm": [
+            1290.0,
+            1301.0
+          ],
+          "body_polygons": 350,
+          "physical_sensor_polygons": 350,
+          "active_polygons": 350,
+          "visible_route_ids": [
+            "pixel-trunk-P",
+            "short_strip-trunk-P",
+            "long_strip-trunk-P",
+            "long_strip-barrel-turn-0-P",
+            "long_strip-barrel-turn-1-P"
+          ],
+          "visible_support_ids": [
+            "support:A-long_strip-B1",
+            "support:A-long_strip-B2",
+            "support:A-short_strip-P1"
+          ]
+        },
+        {
+          "subsystem": "short_strip",
+          "kind": "endcap_projection",
+          "reference_layer_id": "A-short_strip-P6",
+          "z_extent_mm": [
+            3074.5,
+            3085.5
+          ],
+          "body_polygons": 350,
+          "physical_sensor_polygons": 350,
+          "active_polygons": 350,
+          "visible_route_ids": [
+            "pixel-trunk-P",
+            "pixel-last-disc-bypass-P",
+            "short_strip-trunk-P",
+            "long_strip-trunk-P"
+          ],
+          "visible_support_ids": [
+            "support:A-pixel-P9",
+            "support:A-short_strip-P6"
+          ]
+        },
+        {
+          "subsystem": "long_strip",
+          "kind": "barrel_section",
+          "reference_layer_id": "A-long_strip-B1",
+          "z_extent_mm": [
+            0.0,
+            0.0
+          ],
+          "body_polygons": 137,
+          "physical_sensor_polygons": 274,
+          "active_polygons": 274,
+          "visible_route_ids": [],
+          "visible_support_ids": [
+            "support:A-pixel-B1",
+            "support:A-pixel-B2",
+            "support:A-pixel-B3",
+            "support:A-pixel-B4",
+            "support:A-short_strip-B1",
+            "support:A-short_strip-B2",
+            "support:A-short_strip-B3",
+            "support:A-short_strip-B4",
+            "support:A-long_strip-B1",
+            "support:A-long_strip-B2"
+          ]
+        },
+        {
+          "subsystem": "long_strip",
+          "kind": "endcap_projection",
+          "reference_layer_id": "A-long_strip-P1",
+          "z_extent_mm": [
+            1388.0,
+            1419.3000000000002
+          ],
+          "body_polygons": 354,
+          "physical_sensor_polygons": 708,
+          "active_polygons": 708,
+          "visible_route_ids": [
+            "pixel-trunk-P",
+            "A-pixel-P4-collector-P",
+            "short_strip-trunk-P",
+            "A-short_strip-P1-collector-P",
+            "long_strip-trunk-P"
+          ],
+          "visible_support_ids": [
+            "support:A-long_strip-P1"
+          ]
+        },
+        {
+          "subsystem": "long_strip",
+          "kind": "endcap_projection",
+          "reference_layer_id": "A-long_strip-P6",
+          "z_extent_mm": [
+            3104.35,
+            3135.65
+          ],
+          "body_polygons": 354,
+          "physical_sensor_polygons": 708,
+          "active_polygons": 708,
+          "visible_route_ids": [
+            "pixel-trunk-P",
+            "pixel-last-disc-bypass-P",
+            "short_strip-trunk-P",
+            "short_strip-last-disc-bypass-P",
+            "long_strip-trunk-P"
+          ],
+          "visible_support_ids": [
+            "support:A-long_strip-P6"
+          ]
+        }
+      ]
+    },
+    "p190-s720-b1-l1287.33-uniform": {
+      "routing": {
+        "barrel_first_disc": [
+          {
+            "subsystem": "pixel",
+            "first_disc_id": "A-pixel-P1",
+            "barrel_occupied_end_mm": 552.8000000000001,
+            "first_disc_occupied_start_mm": 601.0,
+            "separation_mm": 48.19999999999993,
+            "bounds_zr_mm": [
+              522.8000000000001,
+              645.4000000000001,
+              6.007800290313774,
+              208.00000000000006
+            ]
+          },
+          {
+            "subsystem": "short_strip",
+            "first_disc_id": "A-short_strip-P1",
+            "barrel_occupied_end_mm": 1205.5,
+            "first_disc_occupied_start_mm": 1270.0,
+            "separation_mm": 64.5,
+            "bounds_zr_mm": [
+              1172.66,
+              1320.4399999999998,
+              215.99999999999997,
+              738.0
+            ]
+          },
+          {
+            "subsystem": "long_strip",
+            "first_disc_id": "A-long_strip-P1",
+            "barrel_occupied_end_mm": 1293.793568991289,
+            "first_disc_occupied_start_mm": 1316.0,
+            "separation_mm": 22.20643100871098,
+            "bounds_zr_mm": [
+              1263.793568991289,
+              1383.9,
+              775.9999999999998,
+              1158.0000000000002
+            ]
+          }
+        ],
+        "bypass_route_ids": [
+          "pixel-last-disc-bypass-P",
+          "pixel-last-disc-bypass-turn-P",
+          "short_strip-last-disc-bypass-P",
+          "short_strip-last-disc-bypass-turn-P",
+          "long_strip-last-disc-bypass-P",
+          "long_strip-last-disc-bypass-turn-P"
+        ],
+        "note": "Full view has equal scale; zooms have independently labelled axis scales. No reflection/symmetry assumption is made."
+      },
+      "transverse": [
+        {
+          "subsystem": "pixel",
+          "kind": "barrel_section",
+          "reference_layer_id": "A-pixel-B3",
+          "z_extent_mm": [
+            23.073913043478264,
+            23.073913043478264
+          ],
+          "body_polygons": 82,
+          "physical_sensor_polygons": 82,
+          "active_polygons": 34,
+          "visible_route_ids": [],
+          "visible_support_ids": [
+            "support:A-pixel-B1",
+            "support:A-pixel-B2",
+            "support:A-pixel-B3",
+            "support:A-pixel-B4",
+            "support:A-short_strip-B1",
+            "support:A-short_strip-B2",
+            "support:A-short_strip-B3",
+            "support:A-short_strip-B4",
+            "support:A-long_strip-B1",
+            "support:A-long_strip-B2"
+          ]
+        },
+        {
+          "subsystem": "pixel",
+          "kind": "endcap_projection",
+          "reference_layer_id": "A-pixel-P1",
+          "z_extent_mm": [
+            601.0,
+            610.4000000000001
+          ],
+          "body_polygons": 112,
+          "physical_sensor_polygons": 112,
+          "active_polygons": 448,
+          "visible_route_ids": [
+            "pixel-trunk-P"
+          ],
+          "visible_support_ids": [
+            "support:A-short_strip-B1",
+            "support:A-short_strip-B2",
+            "support:A-short_strip-B3",
+            "support:A-short_strip-B4",
+            "support:A-long_strip-B1",
+            "support:A-long_strip-B2",
+            "support:A-pixel-P1"
+          ]
+        },
+        {
+          "subsystem": "pixel",
+          "kind": "endcap_projection",
+          "reference_layer_id": "A-pixel-P9",
+          "z_extent_mm": [
+            3065.3,
+            3074.7
+          ],
+          "body_polygons": 112,
+          "physical_sensor_polygons": 112,
+          "active_polygons": 448,
+          "visible_route_ids": [
+            "pixel-trunk-P",
+            "short_strip-trunk-P",
+            "long_strip-trunk-P"
+          ],
+          "visible_support_ids": [
+            "support:A-pixel-P9"
+          ]
+        },
+        {
+          "subsystem": "short_strip",
+          "kind": "barrel_section",
+          "reference_layer_id": "A-short_strip-B1",
+          "z_extent_mm": [
+            40.666666666666664,
+            40.666666666666664
+          ],
+          "body_polygons": 242,
+          "physical_sensor_polygons": 242,
+          "active_polygons": 242,
+          "visible_route_ids": [],
+          "visible_support_ids": [
+            "support:A-pixel-B1",
+            "support:A-pixel-B2",
+            "support:A-pixel-B3",
+            "support:A-pixel-B4",
+            "support:A-short_strip-B1",
+            "support:A-short_strip-B2",
+            "support:A-short_strip-B3",
+            "support:A-short_strip-B4",
+            "support:A-long_strip-B1",
+            "support:A-long_strip-B2"
+          ]
+        },
+        {
+          "subsystem": "short_strip",
+          "kind": "endcap_projection",
+          "reference_layer_id": "A-short_strip-P1",
+          "z_extent_mm": [
+            1270.0,
+            1281.0
+          ],
+          "body_polygons": 438,
+          "physical_sensor_polygons": 438,
+          "active_polygons": 438,
+          "visible_route_ids": [
+            "pixel-trunk-P",
+            "short_strip-trunk-P"
+          ],
+          "visible_support_ids": [
+            "support:A-long_strip-B1",
+            "support:A-long_strip-B2",
+            "support:A-short_strip-P1"
+          ]
+        },
+        {
+          "subsystem": "short_strip",
+          "kind": "endcap_projection",
+          "reference_layer_id": "A-short_strip-P6",
+          "z_extent_mm": [
+            3074.5,
+            3085.5
+          ],
+          "body_polygons": 438,
+          "physical_sensor_polygons": 438,
+          "active_polygons": 438,
+          "visible_route_ids": [
+            "pixel-trunk-P",
+            "pixel-last-disc-bypass-P",
+            "short_strip-trunk-P",
+            "long_strip-trunk-P"
+          ],
+          "visible_support_ids": [
+            "support:A-pixel-P9",
+            "support:A-short_strip-P6"
+          ]
+        },
+        {
+          "subsystem": "long_strip",
+          "kind": "barrel_section",
+          "reference_layer_id": "A-long_strip-B1",
+          "z_extent_mm": [
+            0.0,
+            0.0
+          ],
+          "body_polygons": 137,
+          "physical_sensor_polygons": 274,
+          "active_polygons": 274,
+          "visible_route_ids": [],
+          "visible_support_ids": [
+            "support:A-pixel-B1",
+            "support:A-pixel-B2",
+            "support:A-pixel-B3",
+            "support:A-pixel-B4",
+            "support:A-short_strip-B1",
+            "support:A-short_strip-B2",
+            "support:A-short_strip-B3",
+            "support:A-short_strip-B4",
+            "support:A-long_strip-B1",
+            "support:A-long_strip-B2"
+          ]
+        },
+        {
+          "subsystem": "long_strip",
+          "kind": "endcap_projection",
+          "reference_layer_id": "A-long_strip-P1",
+          "z_extent_mm": [
+            1316.0,
+            1347.3000000000002
+          ],
+          "body_polygons": 288,
+          "physical_sensor_polygons": 576,
+          "active_polygons": 576,
+          "visible_route_ids": [
+            "pixel-trunk-P",
+            "short_strip-trunk-P",
+            "long_strip-trunk-P"
+          ],
+          "visible_support_ids": [
+            "support:A-long_strip-P1"
+          ]
+        },
+        {
+          "subsystem": "long_strip",
+          "kind": "endcap_projection",
+          "reference_layer_id": "A-long_strip-P6",
+          "z_extent_mm": [
+            3104.35,
+            3135.65
+          ],
+          "body_polygons": 288,
+          "physical_sensor_polygons": 576,
+          "active_polygons": 576,
+          "visible_route_ids": [
+            "pixel-trunk-P",
+            "pixel-last-disc-bypass-P",
+            "short_strip-trunk-P",
+            "short_strip-last-disc-bypass-P",
+            "long_strip-trunk-P"
+          ],
+          "visible_support_ids": [
+            "support:A-long_strip-P6"
+          ]
+        }
+      ]
+    }
+  },
+  "comparison": {
+    "labels": {
+      "B": "pr25",
+      "S1": "p170-s680-b1-l1287.33-front_loaded",
+      "S2": "p190-s680-b1-l1287.33-front_loaded-barrel-10",
+      "S3": "p190-s680-b1-l1287.33-front_loaded-original-pockets",
+      "S4": "p190-s720-b1-l1287.33-uniform"
+    },
+    "modes": [
+      "straight",
+      "positive",
+      "negative"
+    ],
+    "scopes": [
+      "total",
+      "pixel",
+      "short_strip",
+      "long_strip"
+    ],
+    "missing_reference": "Frozen original ideal-layer denominator from spacing report",
+    "area_definition": "Sum over physical sensors/active islands; geometric overlaps count repeatedly, not unique covered area",
+    "gap_weighting": "p95 across per-track maximum 3D arc gaps; null tracks excluded only from undefined inter-hit statistic"
+  },
+  "files": {
+    "comparison.pdf": "d1d2ed19374fe4a239b8709c144d220cb9dfc6a308b2496b9443fea7a6cd28e1",
+    "comparison.png": "9b737c1739d4b2678014332bc2a31e1e3869ba8606412414c475d7c3f2a77918",
+    "p170-s680-b1-l1287.33-front_loaded/routing-rz.pdf": "ed4147dd1343b94579ca647d2bd9f6851f06d5b529074e8627d292cb3f8c7369",
+    "p170-s680-b1-l1287.33-front_loaded/routing-rz.png": "3d221da7a168849ac3fcaad6e0a37ef9b920676b7182bc601e61fc8e1850910c",
+    "p170-s680-b1-l1287.33-front_loaded/transverse-sections.pdf": "3dd580ea17c7e04aa03911b170aaca10ffa43414fa1ee5f861e13aeedcd72517",
+    "p170-s680-b1-l1287.33-front_loaded/transverse-sections.png": "1a50bf0cc143ff0517e6b9a229dc645baf54516c92e1f4813489097986e52ca3",
+    "p190-s680-b1-l1287.33-front_loaded-barrel-10/routing-rz.pdf": "a4e01002535a4a9670b976813521e378b50afaf2e4bb8e421851c3c8fdc29db4",
+    "p190-s680-b1-l1287.33-front_loaded-barrel-10/routing-rz.png": "72829661fd638494f732566a5a8be5f0bcab54910968a23f179889b9463fa329",
+    "p190-s680-b1-l1287.33-front_loaded-barrel-10/transverse-sections.pdf": "820c29c0dd707c4475d6f1b5e85edf5bfd997266e27b71f1385cd12d6abd0c92",
+    "p190-s680-b1-l1287.33-front_loaded-barrel-10/transverse-sections.png": "e98634c5afdf815cb1641c8a05a0d0946bd1cd49b4ae01cde15bbf5166a6cde1",
+    "p190-s680-b1-l1287.33-front_loaded-original-pockets/routing-rz.pdf": "a5216fc584dfe1b580f7f8ff508d42073c5f9fe174f3d1955e9b1d91ed339df4",
+    "p190-s680-b1-l1287.33-front_loaded-original-pockets/routing-rz.png": "e72a2c4917543eedd72c56b34297b2834fa1e1ae531eabdbab7310c0210b41c6",
+    "p190-s680-b1-l1287.33-front_loaded-original-pockets/transverse-sections.pdf": "b8d3574b1816426b056df6b06c4c4161d90fbd14b075952a739689122d1cfbea",
+    "p190-s680-b1-l1287.33-front_loaded-original-pockets/transverse-sections.png": "e49ba9ee86b7173e9f49aaee5528e8529fb4e1fb4f5ae34ff5709a8533d78506",
+    "p190-s720-b1-l1287.33-uniform/routing-rz.pdf": "05651a0b581380de0a7413cd66b416f59a0014bb05d9a4789027f726534fe94f",
+    "p190-s720-b1-l1287.33-uniform/routing-rz.png": "3a282c928743fa5263ad6a619fb70cccad751c7dc5681c8ad14c88005796858b",
+    "p190-s720-b1-l1287.33-uniform/transverse-sections.pdf": "72e9e792c5c0dad7fe259c02e58c21bc13d45649c8ff97ff1eed548a0bd3b7fa",
+    "p190-s720-b1-l1287.33-uniform/transverse-sections.png": "b50ad9b5dc068f2e2971d504545204e7a5d073b17ae009df1b402fae9d419c8e",
+    "pr25/routing-rz.pdf": "3b866b3a1521b90427a674ca4f4efc979f334c5071bc5e98a83611a713b70d9d",
+    "pr25/routing-rz.png": "4e7144daaec09a556fe04f3b23ae3f4033018b46b3eae168e4a4fe28a9b112c7",
+    "pr25/transverse-sections.pdf": "947c2514deafc64f77999f2fdf11bae21c69a3ba9439ef3336dc1eede21b027e",
+    "pr25/transverse-sections.png": "41006e95bc27d2c99eae47462df34834a8a78481336c56a61b9a381cd14a3652"
+  }
+}

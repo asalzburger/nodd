@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-05-issue38-disc-positions",
+  "title": "Issue 38: adopt whole-millimetre preliminary pixel disc positions",
+  "recorded_at": "2026-10-05T15:14:53Z",
+  "started_at": null,
+  "ended_at": "2026-10-05T15:14:53Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Client version and executed model identity are unavailable.",
+    "Initial shared preparation usage is counted once in SESSION-2026-10-05-issue38-pr-preparation in canonical shared records on this PR. Continued shared work is recovered separately; no per-PR token allocation is inferred. The current active turn cannot have final usage until it closes."
+  ],
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": "01a10c6a-664d-72b1-afad-926c2c57312b"
+  },
+  "git": {
+    "start_commit": "7b559d0fbe0287848c46cb1e05c833e0579c43d8",
+    "branch": "codex/issue38-disc-positions",
+    "initial_changes": [],
+    "result_commits": [
+      "e8bfc38fc6c3c723ff9aaf0bb7b7f87f73513b8e"
+    ],
+    "changed_files": [
+      "detector/config/pixel-detector.json",
+      "docs/design/DES-015-preliminary-pixel-detector.md",
+      "project/tracking.json",
+      "tools/module_layout/optimization.py",
+      "tools/module_layout/test_optimization.py",
+      "tools/pixel_detector_dd4hep/test_export.py",
+      "tools/pixel_endcap_support/README.md",
+      "tools/pixel_endcap_support/inputs.json",
+      "tools/pixel_endcap_support/model.py",
+      "tools/pixel_endcap_support/report.py",
+      "tools/pixel_endcap_support/test_support.py",
+      "docs/validation/DES-015/issue38-disc-positions/",
+      "logs/codex/SESSION-2026-10-05-issue38-disc-positions.json",
+      "logs/codex/SESSION-2026-10-05-issue38-disc-positions.md"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "pixel endcaps",
+      "preliminary pixel prototype"
+    ],
+    "related_ids": [
+      "DES-015",
+      "DES-014",
+      "DES-013",
+      "issue-38"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-05-issue38-disc-positions.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python -B -m unittest discover -s tools/pixel_endcap_support -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Support placement regressions: 12 tests passed"
+    },
+    {
+      "command": "python -B -m unittest discover -s tools/module_layout -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Module-layout regression suite: 137 tests passed in 69.784 s"
+    },
+    {
+      "command": "python3 -B tools/pixel_detector_dd4hep/refresh.py --without-display --geant4-init",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "DD4hep and Geant4 refresh: docs/validation/DES-015/issue38-disc-positions/workflow.json"
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate; python3 -B tools/dashboard/build.py build",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Dashboard validation/build: 40 tasks,21 documents,19 rounds; successful build"
+    }
+  ]
+}

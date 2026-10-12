@@ -70,3 +70,21 @@ The dashboard records a pending technical review at that exact design revision.
 Seven ACTS propagation fixtures and five axis comparisons passed the final root
 run; all 15 documentation/logging tests passed after integration. The bounded
 first-increment session is closed; the wider magnetic research remains active.
+
+## Resource synchronization — 2026-10-07
+
+The authorized cleanup imported 9 exact completed turn(s), after dry-run validation, into this canonical owner. Earlier narrative and original inventory sources remain intact; pending/unknown token statements above are historical and superseded for these observations only.
+
+| Client turn | Input | Cached input | Output | Reasoning output | Total | Requests |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| 01a0afa7-65c3-7f60-b5e8-281b240c59c3 | 6661114 | 6520064 | 24621 | 5542 | 6685735 | 86 |
+| 01a0afb3-59f4-7d00-b937-b4dc63e42ec9 | 525580 | 444160 | 2435 | 14 | 528015 | 6 |
+| 01a0afb1-8e7a-7831-b58c-a65f4a7f6959 | 781834 | 690816 | 2354 | 18 | 784188 | 8 |
+| 01a0afb2-76b1-7493-b97f-25765c22a9b7 | 576469 | 468480 | 1806 | 17 | 578275 | 5 |
+| 01a0afaf-2a3f-7a02-8217-06cac2424a94 | 897242 | 886144 | 6171 | 264 | 903413 | 8 |
+| 01a0afaf-49f2-75e0-a5bf-e35feaef948d | 902584 | 891008 | 3212 | 256 | 905796 | 7 |
+| 01a0afb3-c9b7-76a2-82b0-d88b3647ae55 | 841743 | 832256 | 1737 | 98 | 843480 | 6 |
+| 01a0afaf-0df1-79e0-ad1c-c047213363f0 | 349621 | 346368 | 378 | 20 | 349999 | 3 |
+| 01a0afb3-8deb-7362-a9f1-bad8244799b1 | 3931416 | 3909376 | 8250 | 630 | 3939666 | 31 |
+
+Persisted turn/usage ordinals, request counts, timestamps, verified usage-event hashes and original recovery sources are retained in [the synchronization inventory](../usage/USAGE-2026-10-07-synchronization.json). Each turn is counted once; cached input and reasoning output are subsets. No scientific input, execution hash or approval state changed. The current cleanup turn, explicitly excluded illustration/history turn and unassigned historical/internal review turns are excluded; this is partial project coverage, not billing.

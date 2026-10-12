@@ -157,6 +157,14 @@ and descendants, reads thread/turn metadata, and decodes only `token_count`
 event lines. It does not query conversation items or retain non-usage lines.
 Other client layouts fail explicitly; this is not a stable vendor API.
 
+Desktop chats may run from a parent workspace directory outside the repository.
+For those, replace `--project` with repeatable `--thread-id` arguments after
+identifying the relevant project chats. This selects only the named threads,
+does not include child or neighbouring chats, and rejects unknown IDs. Recovery
+still does not assign usage to a project: match each closed turn to its task,
+preserve counting exclusions, and compare all existing owners before import.
+An active turn remains provisional until a later capture sees its closed boundary.
+
 Each cumulative increase must equal the last-request counters. Repeated
 cumulative snapshots are ignored, including context-accounting snapshots that
 change the last figure without increasing usage. Decreases, unexplained jumps,

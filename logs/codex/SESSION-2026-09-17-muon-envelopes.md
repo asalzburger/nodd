@@ -53,3 +53,15 @@ usage remains unknown. Commands and results are in the paired JSON record.
 Delivered candidate adaptations at `10a918e835eb2d74a16990980bdc68bcebb99e58` in [PR #6](https://github.com/asalzburger/nodd/pull/6),
 with an updated executive summary, table and six-option drawing. Refreshed the
 pending review revision. The conditional baseline issue remains uncreated.
+
+## Resource synchronization — 2026-10-07
+
+The authorized cleanup imported 3 exact completed turn(s), after dry-run validation, into this canonical owner. Earlier narrative and original inventory sources remain intact; pending/unknown token statements above are historical and superseded for these observations only.
+
+| Client turn | Input | Cached input | Output | Reasoning output | Total | Requests |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| 01a0afde-d1b5-7443-ab85-857e1bbcc0b4 | 3491061 | 3425536 | 16681 | 4341 | 3507742 | 18 |
+| 01a0afdf-1d27-7c70-8895-9224332922f2 | 1193853 | 1186944 | 3822 | 286 | 1197675 | 9 |
+| 01a0afdf-4793-7951-9322-cd4080908f5c | 915863 | 908672 | 3163 | 106 | 919026 | 7 |
+
+Persisted turn/usage ordinals, request counts, timestamps, verified usage-event hashes and original recovery sources are retained in [the synchronization inventory](../usage/USAGE-2026-10-07-synchronization.json). Each turn is counted once; cached input and reasoning output are subsets. No scientific input, execution hash or approval state changed. The current cleanup turn, explicitly excluded illustration/history turn and unassigned historical/internal review turns are excluded; this is partial project coverage, not billing.

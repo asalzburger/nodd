@@ -9,7 +9,8 @@
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
-    "Actual conversation start time, client identity details and token usage have not been recorded."
+    "Actual conversation start time, client identity details and token usage have not been recorded.",
+    "2026-10-07 correction: exact completed-turn counters are now recovered for the observations in USAGE-2026-10-07-synchronization.json. This supersedes earlier missing-token statements for these turns only. Model/client version and older coverage remain unknown; no complete project total is claimed."
   ],
   "client": {
     "name": "Codex",
@@ -77,7 +78,8 @@
       "tools/magnetic_study/sizing-policy.json",
       "tools/magnetic_study/sizing.py",
       "tools/magnetic_study/test_sizing.py",
-      "tools/magnetic_study/windings.json"
+      "tools/magnetic_study/windings.json",
+      "logs/usage/USAGE-2026-10-07-synchronization.json"
     ]
   },
   "work": {
@@ -97,7 +99,22 @@
   },
   "narrative": "logs/codex/SESSION-2026-09-24-magnet-sizing-review.md",
   "activities": [],
-  "usage": [],
+  "usage": [
+    {
+      "client_thread_id": "01a0b3b0-f8f3-7de0-8854-ff1f156bebab",
+      "turn_id": "01a0d2d7-0afa-7270-b891-a4e20b4b217b",
+      "model": null,
+      "source": "2026-09-24 local token_count recovery; logs/usage/USAGE-2026-09-24-local.json; usage SHA-256 488e4f236e5ea197b1e494bd668212d590669782be9a0a3737737de8897390dd; cumulative increases equal last-request counters over persisted turn ordinals 3793..4064.",
+      "limitations": [
+        "Local client-reported usage only; other-machine coverage and billing equivalence are not established. Per-turn execution model was not reported."
+      ],
+      "input_tokens": 4878675,
+      "cached_input_tokens": 4696064,
+      "output_tokens": 26077,
+      "reasoning_output_tokens": 4032,
+      "total_tokens": 4904752
+    }
+  ],
   "checks": [
     {
       "command": "shared envelope-venv/bin/python -B tools/magnetic_study/sizing.py",

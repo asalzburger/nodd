@@ -1,0 +1,118 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-02-pixel-tdr-remove-figure",
+  "title": "Remove trivial sensor figure from the TDR",
+  "recorded_at": "2026-10-02T19:31:44Z",
+  "started_at": null,
+  "ended_at": "2026-10-02T19:33:55Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact client-reported per-turn token counters are unavailable; usage is empty, not zero.",
+    "Overleaf server-side compilation was not observed; source push and remote revision were verified.",
+    "2026-10-12 device audit: imported 2 exact closed turns (995,620 input / 3,790 output) from logs/usage/USAGE-2026-10-12-device-audit.json. Earlier unavailable-usage statements describe the original capture. Model/client version and complete project coverage remain unknown. Original journal restored from local branch revision 7ec9d05dc5ee9aefdf6c0da30549615ebc06a0b0; historical artifacts/checks are not recreated or rerun."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "859d0a474eabc3884969e674e56ce67592833bcd",
+    "branch": "documentation/pixel-detector-section",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      "docs/publication/pixel-detector/README.md",
+      "docs/publication/pixel-detector/artifacts.json",
+      "docs/publication/pixel-detector/main.pdf",
+      "docs/publication/pixel-detector/pixel-detector.pdf",
+      "docs/publication/pixel-detector/source/README.md",
+      "docs/publication/pixel-detector/source/chapters/pixel-detector.tex",
+      "docs/tdr",
+      "project/tracking.json",
+      "logs/codex/SESSION-2026-10-02-pixel-tdr-remove-figure.json",
+      "logs/codex/SESSION-2026-10-02-pixel-tdr-remove-figure.md"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [],
+    "related_ids": [
+      "PUB-PIXEL-001",
+      "TASK-PUB-PIXEL",
+      "DES-015"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-02-pixel-tdr-remove-figure.md",
+  "activities": [],
+  "usage": [
+    {
+      "client_thread_id": "01a0fc8b-30bf-71e2-b9f9-d56074281781",
+      "turn_id": "01a0fe19-31e2-7660-ba34-8cd6025b67cf",
+      "model": null,
+      "source": "Usage-only local-device recovery captured 2026-10-12T11:26:10.963832+00:00; logs/usage/USAGE-2026-10-12-device-audit.json; verified event SHA-256 f8bbd05b2f9fd7ebd2c59d0aff7405bc3f8721ac2da5b6014eefebecbfcc2e3c; persisted turn ordinals 1342..1416; 10 reconciled request increases.",
+      "limitations": [
+        "Actual execution model and client version are not established. Whole closed turn counted once; cached input and reasoning output are subsets."
+      ],
+      "input_tokens": 901341,
+      "cached_input_tokens": 863616,
+      "output_tokens": 3750,
+      "reasoning_output_tokens": 148,
+      "total_tokens": 905091
+    },
+    {
+      "client_thread_id": "01a0fc8b-30bf-71e2-b9f9-d56074281781",
+      "turn_id": "01a0fe60-67da-7002-8353-96410884b13c",
+      "model": null,
+      "source": "Usage-only local-device recovery captured 2026-10-12T11:26:10.963832+00:00; logs/usage/USAGE-2026-10-12-device-audit.json; verified event SHA-256 bcf83267763f47e6189c2320c64a5927adad35fcd490a102857ea33aaa3518fc; persisted turn ordinals 1418..1426; 1 reconciled request increases.",
+      "limitations": [
+        "Actual execution model and client version are not established. Whole closed turn counted once; cached input and reasoning output are subsets."
+      ],
+      "input_tokens": 94279,
+      "cached_input_tokens": 94080,
+      "output_tokens": 40,
+      "reasoning_output_tokens": 0,
+      "total_tokens": 94319
+    }
+  ],
+  "checks": [
+    {
+      "command": "latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex / pixel-detector.tex",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Both rebuilt cleanly without warnings, overfull boxes or undefined references; 26/22 pages."
+    },
+    {
+      "command": "Inspect LaTeX source and tracker.aux",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Former sensor/grid figure removed; 13 figure environments; module-stack figure renumbered 2.3."
+    },
+    {
+      "command": "SHA-256 package verification",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All 38 artifact hashes match; source snapshot updated."
+    },
+    {
+      "command": "git diff --cached --check; git push origin HEAD:main; git ls-remote origin refs/heads/main",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Whitespace clean; ordinary Overleaf push and remote revision 952483261d24c3a856ab8f9f33e26a039fa1ec9a verified."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate / build",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "40 tasks, 17 documents, 15 review rounds validated; dashboard built."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate / summary",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "77 session records validate. Historical observed input/output totals 134594309 / 674111 across 79 turns in 42/77 sessions; no new usage measurements."
+    }
+  ]
+}

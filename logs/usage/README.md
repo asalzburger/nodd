@@ -1,5 +1,79 @@
 # Local token-usage recovery
 
+## Remaining-device audit — 2026-10-12
+
+The [audit inventory](USAGE-2026-10-12-device-audit.json) checks 16 local project
+threads and 69 turns, including a former checkout location. All 1,110 usage
+events reconcile; 51 repeated snapshots are ignored and no usage falls outside
+persisted turn boundaries. Twenty-six existing observations match exactly.
+
+Twenty-four additional closed turns add **61,905,180 input** and **230,774
+output** tokens, bringing the observed project subtotal to **615,073,285**
+(611,570,792 input plus 3,502,493 output), across **207 turns**. Three of the
+new turns are separately verified PubDoc child turns. Shared multi-PR turns
+have one owner and companion journal references, with no token allocation by PR.
+
+Eight historical publication journal pairs were restored from local branch
+revision `7ec9d05dc5ee9aefdf6c0da30549615ebc06a0b0`; original file hashes are
+retained. Only journals and accounting evidence were restored. The full
+[session record](../codex/SESSION-2026-10-12-device-accounting-audit.md)
+documents attribution, checks and limits.
+
+One closed token-gate turn has **1,758,566 input** and **14,946 output** tokens
+retained as import-ready evidence; it is not added to the subtotal because its
+journal is pre-existing untracked user work, preserved byte-for-byte. Thirteen
+orientation/discussion or early scaffold turns still lack a confident bounded
+record match. Four failed turns have no observations, and the current active
+turn remains uncounted. The prior desktop recovery ran against another device
+history, so its then-active October 12 turn cannot be finalized here. These are
+partial client observations, not complete project usage or billing.
+
+### Audit closeout during PR preparation
+
+The [follow-up inventory](USAGE-2026-10-12-device-audit-closeout.json) captures
+the audit turn after completion: **3,103,786 input + 19,016 output = 3,122,802
+tokens**. This adds one disjoint observation to the audit's own journal while
+preserving the original snapshot. The two device inventories therefore add
+**65,008,966 input + 249,790 output = 65,258,756 tokens**, bringing the project
+to **618,196,087 observed tokens across 208 turns**. The new PR-publication turn
+remains active and uncounted; all other exclusions above remain in force.
+
+### Publication closeout and PR63 compatibility
+
+The [publication closeout inventory](USAGE-2026-10-12-pr62-publication-closeout.json)
+adds the now-completed PR62 publication turn: **2,607,532 input + 9,208 output =
+2,616,740 tokens**. PR62 now contributes **67,616,498 input + 258,998 output =
+67,875,496 tokens**, bringing the observed project subtotal to **620,812,827**
+across **209 turns**. The current compatibility-check turn remains uncounted.
+
+The token dashboard introduced by PR63 now accepts retained, explicitly
+in-progress snapshots as lower-bound evidence for later finalized observations.
+Such snapshots supply no final counters or completion date. Provisional counters
+above final counters and all conflicting finalized evidence still fail validation.
+The September 25 historical inventory is preserved byte-for-byte. See the
+[synchronization record](../codex/SESSION-2026-10-12-pr62-main-sync.md).
+
+## Canonical synchronization — 2026-10-07
+
+The [audit](AUDIT-2026-10-07.md) and [new curated inventory](USAGE-2026-10-07-synchronization.json)
+consolidate the available branch/local journals without importing unrelated
+scientific work. All 67 previously pending-branch entries from the two older
+inventories now have their exact original observations/source in canonical
+records; 12 were already present in the selected branch variants and 55 were
+newly imported. Eighteen additional completed app turns were recovered.
+
+All 95 existing observations reconcile. The 73 additions produce 168 disjoint
+observed turns in 93 of 145 paired records, with no duplicate ownership and
+all five observed counters. Every import passed dry-run first. The original
+inventories remain byte-identical; their pending labels describe the old capture
+and are superseded only by this dated correction.
+
+The current cleanup turn remains uncounted while active. The expressly excluded
+illustration/history turn cannot be split exactly, so it stays wholly excluded.
+Older unattributed turns and unobserved store/device history remain gaps; empty
+usage arrays are not zeros. Model/client identity and billing equivalence are
+unestablished. These are observed partial subtotals, not complete project usage.
+
 ## Second-device recovery — 2026-09-25
 
 At the user's request, [the second-device inventory](USAGE-2026-09-25-device.json)
@@ -170,3 +244,42 @@ repeated snapshots. This permits comparison against a future extraction without
 retaining raw client content. Model names, costs and missing usage are not
 inferred. Historical narratives remain intact with dated token-accounting
 corrections appended.
+
+## Desktop workspace backfill — 2026-10-12
+
+The [new inventory](USAGE-2026-10-12-desktop.json) adds 15 exact closed turns
+through October 10 and verifies 34 existing desktop observations unchanged.
+The project subtotal rises by 94,563,853 to **552,937,331 observed tokens**.
+This includes explicitly nODD calorimeter prototype work in the ACTS sister
+checkout; it excludes prior no-counting scopes and the active October 12 turn.
+
+Directory-based recovery can miss desktop chats opened at a parent workspace.
+Use the opt-in explicit-thread mode, then curate project/task ownership. A stale
+inventory cutoff does not imply lost counters or zero subsequent consumption.
+The [backfill record](../codex/SESSION-2026-10-12-desktop-usage-backfill.md) documents scope and gaps.
+
+## Dedicated calorimeter accounting — 2026-10-12
+
+The [calorimeter record](../codex/SESSION-2026-10-10-calorimeter-software-chain.md) owns the eight
+October 10 software-chain observations already imported via PR59. Their subtotal
+is **27,882,303 input + 195,220 output = 28,077,523 tokens**. The
+[dated ownership correction](USAGE-2026-10-12-calorimeter-accounting.json)
+records the unchanged transfer from the mixed desktop backfill record.
+The original inventory remains intact; global totals stay at 552,937,331 across
+183 disjoint turns. Never add this subtotal to the project total again.
+
+## PR6 conflict-resolution audit — 2026-10-12
+
+[The PR6 audit](USAGE-2026-10-12-pr6-accounting-audit.json) verifies both known
+local project locations (16 threads, 72 turns) against canonical owners. All
+52 already recorded local observations match their five counters. The normal
+main merge brings 36 historical observations across eleven magnetic-research
+session records into PR6: input 56,250,297, output 211,577, total 56,461,874.
+These were already in main and must not be imported or counted again.
+
+No additional historical PR6 counters could be confidently attributed locally.
+The September 28 PR6 merge-maintenance task still has unknown usage. The
+current PR6 update turn is active and excluded. One newly closed preceding
+PR62 synchronization turn was imported into its own original record, adding
+3,472,126 input and 14,452 output tokens (3,486,578 total) to project accounting.
+Unassigned historical observations retain their earlier disposition.

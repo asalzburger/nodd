@@ -3,6 +3,7 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
+import sqlite3
 
 import recover_usage as recovery
 import session_log as log
@@ -82,6 +83,41 @@ class RecoveryTests(unittest.TestCase):
         self.assertEqual(first['turns'][0]['usage_sha256'], again['turns'][0]['usage_sha256'])
         other = recovery.reconcile('test', [self.turn()], [self.event(total=self.usage(200,40), last=self.usage(200,40))])
         self.assertNotEqual(first['turns'][0]['usage_sha256'], other['turns'][0]['usage_sha256'])
+
+    def test_explicit_workspace_selection_is_narrow_and_requires_existing_ids(self):
+        with tempfile.TemporaryDirectory() as directory:
+            home = Path(directory)
+            selected = home / 'selected.jsonl'
+            selected.write_text(json.dumps({'type': 'event_msg',
+                'timestamp': '2026-10-10T00:00:00Z', 'payload': {
+                'type': 'token_count', 'info': {'total_token_usage': self.usage(),
+                                             'last_token_usage': self.usage()}}}) + '\n')
+            unread = home / 'must-not-read.jsonl'
+            unread.write_text('"type": "token_count" INVALID SYNTHETIC PRIVATE CONTENT\n')
+            with sqlite3.connect(home / 'state_5.sqlite') as db:
+                db.execute('CREATE TABLE threads (id TEXT, rollout_path TEXT, cwd TEXT, '
+                           'agent_path TEXT, git_sha TEXT, created_at INTEGER)')
+                db.execute('CREATE TABLE thread_spawn_edges (child_thread_id TEXT, parent_thread_id TEXT)')
+                db.executemany('INSERT INTO threads VALUES (?,?,?,?,?,?)', [
+                    ('workspace', str(selected), str(home), None, None, 1),
+                    ('other', str(unread), str(home), None, None, 2)])
+            db.close()
+            with sqlite3.connect(home / 'thread_history_1.sqlite') as db:
+                db.execute('CREATE TABLE thread_turns (thread_id TEXT, turn_id TEXT, '
+                           'rollout_ordinal INTEGER, rollout_end_ordinal INTEGER, '
+                           'status TEXT, started_at INTEGER, completed_at INTEGER)')
+                db.execute('INSERT INTO thread_turns VALUES (?,?,?,?,?,?,?)',
+                           ('workspace', 'task', 0, 1, 'completed', 1, 2))
+            db.close()
+            result = recovery.recover(home, thread_ids=['workspace'])
+            self.assertEqual([t['thread_id'] for t in result['threads']], ['workspace'])
+            self.assertEqual(result['threads'][0]['turns'][0]['tokens']['total_tokens'], 120)
+            with self.assertRaisesRegex(ValueError, 'unknown selected'):
+                recovery.recover(home, thread_ids=['workspace', 'missing'])
+            with self.assertRaisesRegex(ValueError, 'either'):
+                recovery.recover(home, project=home, thread_ids=['workspace'])
+            with self.assertRaisesRegex(ValueError, 'either'):
+                recovery.recover(home)
 
     def test_retained_inventory_reconciles_and_imported_entries_match_logs(self):
         for name in ['USAGE-2026-09-24-local.json', 'USAGE-2026-09-25-device.json']:

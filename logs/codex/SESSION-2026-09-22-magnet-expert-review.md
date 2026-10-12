@@ -86,3 +86,13 @@ GitHub [build passed](https://github.com/asalzburger/nodd/actions/runs/357199946
 for the scientific revision; PR deployment was skipped as intended. Local session
 and dashboard validation and the post-publication preview build passed. Task
 closed after publication verification; expert approval remains pending.
+
+## Resource synchronization — 2026-10-07
+
+The authorized cleanup imported 1 exact completed turn(s), after dry-run validation, into this canonical owner. Earlier narrative and original inventory sources remain intact; pending/unknown token statements above are historical and superseded for these observations only.
+
+| Client turn | Input | Cached input | Output | Reasoning output | Total | Requests |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| 01a0c879-778e-7512-8c57-919a3c8fdf59 | 4503757 | 4394752 | 25189 | 2317 | 4528946 | 38 |
+
+Persisted turn/usage ordinals, request counts, timestamps, verified usage-event hashes and original recovery sources are retained in [the synchronization inventory](../usage/USAGE-2026-10-07-synchronization.json). Each turn is counted once; cached input and reasoning output are subsets. No scientific input, execution hash or approval state changed. The current cleanup turn, explicitly excluded illustration/history turn and unassigned historical/internal review turns are excluded; this is partial project coverage, not billing.

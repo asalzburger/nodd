@@ -1,0 +1,331 @@
+{
+  "status": "DRAFT; static source inspection, not native construction",
+  "upstream_revision": "c167363f3d4ad1540a577af99071283caf54f3a6",
+  "source_sha256": {
+    "xml/detectors/CalorimeterECal.xml": "b8d248a0b4afc49381b3d5211e99dea59ebc5920836f0dd2512ae79dd9cabbdd",
+    "xml/detectors/CalorimeterHCal.xml": "f7ae7005d5b2f5cf78e59a652b6f94c85786ac41b426974753029168a326ce3c",
+    "xml/OpenDataDetectorEnvelopes.xml": "f6d7f905fc6abc1437b1953d365d6faeb6ad0f1fd92ba82f21c774bca6bf05a4",
+    "xml/OpenDataDetectorMaterials.xml": "b54be00d28a7d049d1066c9151b50ad036ca8b87ea74db6a6a38ff7fb9d707a1",
+    "xml/OpenDataDetectorCalorimeter.xml": "66216df514a05339ffc360d6da39fbcd81c7c8e37242ad2881befc5a7166a621",
+    "factory/calorimeter/ODDPolyhedraBarrelCalorimeter_geo.cpp": "79a1d9afa3742467282b99d6f94331e638f7a13a9fbd1fad6e1218067435a4ee",
+    "factory/calorimeter/ODDPolyhedraEndcapCalorimeter_geo.cpp": "03fba144f0f1afbcd8bc352115defe1199672af6882b9672098b5b78a6a021e0"
+  },
+  "python": "3.14.6",
+  "nodd_base_revision": "da5c469f4d64a711c4f466cac79ff51e83244859",
+  "nodd_inspected_sha256": {
+    "detector/CMakeLists.txt": "93614ec6731e943fb68bc7dd102e2059c935507cd2b3e67450d5be92ba4cff4f",
+    "tools/tracker_dd4hep/export.py": "f381b0712206f426b1e4eef2681a65e7b6a2d32fac3651d6bafc977fb3666b60",
+    "detector/src/BeamPipe.cpp": "453cfbb16eae63958ee8db9b9d7a60ca18f5fe206cb1526e85579fae97428759",
+    "detector/src/PixelBarrel.cpp": "268a67574a745cba90e52ff6a764c07baf79cb3da1e2a6ef5288e0fd2746d2db",
+    "detector/src/PixelComponents.cpp": "4bde8b9934b072bd6f34e7d15c0d2aa1132228a0de3cbf0b974dfc46ebc0aab2",
+    "detector/src/PixelEndcap.cpp": "3f54ea4cb9a4c755ef14a8f6ed6cf84f7899cce273c139c344ab78c3a88d8dc7",
+    "detector/src/PixelEndcapParts.cpp": "ac9ed791a23c41b42c64d372a580a1edfde992a9d09eb9e3fc659c84b0f1a685",
+    "detector/src/PixelServices.cpp": "c231fde4e405dc81b1f598821cd24df81fd9f22e0adbb738b1ba3183d4563ac2",
+    "detector/config/beampipe.json": "98c12e11357d1997d00906aa694c9cf38698fdc40972f6601a8a0fd0937b590c",
+    "detector/config/display.json": "886317344cd0fad2395d6696e6a20faa32d349dc9313229d09be34f5702d735c",
+    "detector/config/elements.json": "22f2968258a363e8bed8bda4aed741485579441926d850ef4b54bbf7aba66c90",
+    "detector/config/pixel-barrel-pr29.json": "e3a9038919aeb596fa3bf2f994635533f82bad8c48a509cfb7c70090454e71e5",
+    "detector/config/pixel-barrel-support.json": "77bca4f0c165f28644568b3cb7dc7c06c0c19f484c733637476e4f6cc131b366",
+    "detector/config/pixel-barrel.json": "e7be5a4bd00e9aecbc54ecec85218f50d2953ef68967d80eb117fc5069967b75",
+    "detector/config/pixel-detector-trimmed.json": "d2f73a62e5ba9419cc6b8ff18f855d875f0bab21d1dd01a5ed713376e7e8d8fe",
+    "detector/config/pixel-detector.json": "d3972b4236843be2aa03a7147e1ae92aa0e1980a0038ea33d2c8da643a605c90",
+    "detector/config/tracker.json": "b3af03e6961454a7616bc71d235fd922afd30cdf63513b501c3ac3ffad96ec87"
+  },
+  "auditor_sha256": "ea4e7f94121fe760b24c5697af252c38fed75731d6089d450c644eb3960f440c",
+  "radius_convention": "Barrel dimensions.rmin is an apothem; stack thickness sets outer apothem. Endcap dimensions.rmax is converted to an apothem by the factory. Outer corner = apothem/cos(pi/numsides).",
+  "pcb_mixture": {
+    "density_g_cm3": 5.05076923076923,
+    "element_mass_fractions": {
+      "Cl": 0.014498933901919,
+      "O": 0.083477099995865,
+      "Si": 0.0654857498400853,
+      "H": 0.00351122019083304,
+      "C": 0.0142636698452849,
+      "Cu": 0.818763326226013
+    }
+  },
+  "detectors": [
+    {
+      "layers": 48,
+      "sensitive_planes_per_stave": 48,
+      "slices": [
+        {
+          "material": "TungstenDens24",
+          "thickness_mm": 1.9,
+          "repeat": 48,
+          "sensitive": false
+        },
+        {
+          "material": "G10",
+          "thickness_mm": 0.15,
+          "repeat": 48,
+          "sensitive": false
+        },
+        {
+          "material": "GroundOrHVMix",
+          "thickness_mm": 0.1,
+          "repeat": 48,
+          "sensitive": false
+        },
+        {
+          "material": "Silicon",
+          "thickness_mm": 0.5,
+          "repeat": 48,
+          "sensitive": true
+        },
+        {
+          "material": "Air",
+          "thickness_mm": 0.1,
+          "repeat": 48,
+          "sensitive": false
+        },
+        {
+          "material": "siPCBMix",
+          "thickness_mm": 1.3,
+          "repeat": 48,
+          "sensitive": false
+        },
+        {
+          "material": "Air",
+          "thickness_mm": 0.25,
+          "repeat": 48,
+          "sensitive": false
+        },
+        {
+          "material": "G10",
+          "thickness_mm": 0.75,
+          "repeat": 48,
+          "sensitive": false
+        }
+      ],
+      "material_normal_depth_mm": {
+        "TungstenDens24": 91.19999999999999,
+        "G10": 43.2,
+        "GroundOrHVMix": 4.800000000000001,
+        "Silicon": 24.0,
+        "Air": 16.8,
+        "siPCBMix": 62.400000000000006
+      },
+      "total_normal_depth_mm": 242.4,
+      "name": "ECalBarrel",
+      "source": "xml/detectors/CalorimeterECal.xml",
+      "numsides": 16,
+      "factory": "ODDPolyhedraBarrelCalorimeter",
+      "readout": "ECalBarrelCollection",
+      "stave_half_gap_mm": 0.0,
+      "r_inner_apothem_mm": 1250.0,
+      "z_half_length_mm": 3050.0,
+      "r_outer_apothem_mm": 1492.4,
+      "r_outer_corner_mm": 1521.6378445100945,
+      "segmentation": {
+        "type": "CartesianGridXY",
+        "grid_sizes_mm": {
+          "grid_size_x": 5.1,
+          "grid_size_y": 5.1
+        },
+        "id": "system:8,barrel:3,module:4,stave:1,layer:6,slice:5,x:32:-16,y:-16"
+      },
+      "pcb_normal_areal_mass_g_cm2": 31.5168,
+      "pcb_copper_normal_areal_mass_g_cm2": 25.804800000000007
+    },
+    {
+      "layers": 48,
+      "sensitive_planes_per_stave": 48,
+      "slices": [
+        {
+          "material": "TungstenDens24",
+          "thickness_mm": 1.9,
+          "repeat": 48,
+          "sensitive": false
+        },
+        {
+          "material": "G10",
+          "thickness_mm": 0.15,
+          "repeat": 48,
+          "sensitive": false
+        },
+        {
+          "material": "GroundOrHVMix",
+          "thickness_mm": 0.1,
+          "repeat": 48,
+          "sensitive": false
+        },
+        {
+          "material": "Silicon",
+          "thickness_mm": 0.5,
+          "repeat": 48,
+          "sensitive": true
+        },
+        {
+          "material": "Air",
+          "thickness_mm": 0.1,
+          "repeat": 48,
+          "sensitive": false
+        },
+        {
+          "material": "siPCBMix",
+          "thickness_mm": 1.3,
+          "repeat": 48,
+          "sensitive": false
+        },
+        {
+          "material": "Air",
+          "thickness_mm": 0.25,
+          "repeat": 48,
+          "sensitive": false
+        },
+        {
+          "material": "G10",
+          "thickness_mm": 0.75,
+          "repeat": 48,
+          "sensitive": false
+        }
+      ],
+      "material_normal_depth_mm": {
+        "TungstenDens24": 91.19999999999999,
+        "G10": 43.2,
+        "GroundOrHVMix": 4.800000000000001,
+        "Silicon": 24.0,
+        "Air": 16.8,
+        "siPCBMix": 62.400000000000006
+      },
+      "total_normal_depth_mm": 242.4,
+      "name": "ECalEndcap",
+      "source": "xml/detectors/CalorimeterECal.xml",
+      "numsides": 16,
+      "factory": "ODDPolyhedraEndcapCalorimeter",
+      "readout": "ECalEndcapCollection",
+      "stave_half_gap_mm": 2.5,
+      "r_inner_apothem_mm": 315.0,
+      "r_outer_apothem_mm": 1471.1779206048457,
+      "r_outer_corner_mm": 1500.0,
+      "z_front_mm": 3200.0,
+      "z_back_from_stack_mm": 3442.4,
+      "segmentation": {
+        "type": "CartesianGridXZ",
+        "grid_sizes_mm": {
+          "grid_size_x": 5.1,
+          "grid_size_z": 5.1
+        },
+        "id": "system:8,barrel:3,module:4,stave:1,layer:6,slice:5,x:32:-16,z:-16"
+      },
+      "pcb_normal_areal_mass_g_cm2": 31.5168,
+      "pcb_copper_normal_areal_mass_g_cm2": 25.804800000000007
+    },
+    {
+      "layers": 36,
+      "sensitive_planes_per_stave": 36,
+      "slices": [
+        {
+          "material": "Steel235",
+          "thickness_mm": 30.0,
+          "repeat": 36,
+          "sensitive": false
+        },
+        {
+          "material": "siPCBMix",
+          "thickness_mm": 16.0,
+          "repeat": 36,
+          "sensitive": false
+        },
+        {
+          "material": "Polystyrene",
+          "thickness_mm": 3.0,
+          "repeat": 36,
+          "sensitive": true
+        },
+        {
+          "material": "Air",
+          "thickness_mm": 2.0,
+          "repeat": 36,
+          "sensitive": false
+        }
+      ],
+      "material_normal_depth_mm": {
+        "Steel235": 1080.0,
+        "siPCBMix": 576.0,
+        "Polystyrene": 108.0,
+        "Air": 72.0
+      },
+      "total_normal_depth_mm": 1836.0,
+      "name": "HCalBarrel",
+      "source": "xml/detectors/CalorimeterHCal.xml",
+      "numsides": 16,
+      "factory": "ODDPolyhedraBarrelCalorimeter",
+      "readout": "HCalBarrelCollection",
+      "stave_half_gap_mm": 0.0,
+      "r_inner_apothem_mm": 1600.0,
+      "z_half_length_mm": 3450.0,
+      "r_outer_apothem_mm": 3436.0,
+      "r_outer_corner_mm": 3503.3152196037818,
+      "segmentation": {
+        "type": "CartesianGridXY",
+        "grid_sizes_mm": {
+          "grid_size_x": 30.0,
+          "grid_size_y": 30.0
+        },
+        "id": "system:8,barrel:3,module:4,stave:1,layer:6,slice:5,x:32:-16,y:-16"
+      },
+      "pcb_normal_areal_mass_g_cm2": 290.9243076923077,
+      "pcb_copper_normal_areal_mass_g_cm2": 238.19815384615393
+    },
+    {
+      "layers": 36,
+      "sensitive_planes_per_stave": 36,
+      "slices": [
+        {
+          "material": "Steel235",
+          "thickness_mm": 30.0,
+          "repeat": 36,
+          "sensitive": false
+        },
+        {
+          "material": "siPCBMix",
+          "thickness_mm": 16.0,
+          "repeat": 36,
+          "sensitive": false
+        },
+        {
+          "material": "Polystyrene",
+          "thickness_mm": 3.0,
+          "repeat": 36,
+          "sensitive": true
+        },
+        {
+          "material": "Air",
+          "thickness_mm": 2.0,
+          "repeat": 36,
+          "sensitive": false
+        }
+      ],
+      "material_normal_depth_mm": {
+        "Steel235": 1080.0,
+        "siPCBMix": 576.0,
+        "Polystyrene": 108.0,
+        "Air": 72.0
+      },
+      "total_normal_depth_mm": 1836.0,
+      "name": "HCalEndcap",
+      "source": "xml/detectors/CalorimeterHCal.xml",
+      "numsides": 16,
+      "factory": "ODDPolyhedraEndcapCalorimeter",
+      "readout": "HCalEndcapCollection",
+      "stave_half_gap_mm": 2.5,
+      "r_inner_apothem_mm": 355.0,
+      "r_outer_apothem_mm": 3369.9782234655,
+      "r_outer_corner_mm": 3436.0,
+      "z_front_mm": 3600.0,
+      "z_back_from_stack_mm": 5436.0,
+      "segmentation": {
+        "type": "CartesianGridXZ",
+        "grid_sizes_mm": {
+          "grid_size_x": 30.0,
+          "grid_size_z": 30.0
+        },
+        "id": "system:8,barrel:3,module:4,stave:1,layer:6,slice:5,x:32:-16,z:-16"
+      },
+      "pcb_normal_areal_mass_g_cm2": 290.9243076923077,
+      "pcb_copper_normal_areal_mass_g_cm2": 238.19815384615393
+    }
+  ]
+}

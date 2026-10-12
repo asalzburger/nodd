@@ -9,7 +9,7 @@ The ODD general design features are a guideline, but can be overhauled if well s
 
 ## Current phase
 
-**Active work: stage B — full-detector architecture.** The user closed stage A for progression on 2026-09-16, relying on ODD/ColliderML evidence; see the [plan](DEVELOPMENT_PLAN.md). Outstanding governance and design sign-off requirements remain applicable before production changes. The repository is the canonical record; see [repository instructions](../AGENTS.md) and [project scope](../PROJECT.md).
+**Active work: stage B — full-detector architecture, with stage C pixel-module design drafting in parallel.** The user closed stage A for progression on 2026-09-16, relying on ODD/ColliderML evidence; see the [plan](DEVELOPMENT_PLAN.md). Outstanding governance and design sign-off requirements remain applicable before production changes. The repository is the canonical record; see [repository instructions](../AGENTS.md) and [project scope](../PROJECT.md).
 
 The documents below establish proposals and recording formats. Their presence does not constitute human approval or completion of M0.
 
@@ -19,10 +19,15 @@ The documents below establish proposals and recording formats. Their presence do
 
 - [DES-004: magnetic candidates and first research increment](design/DES-004-magnetic-configurations.md)
 - [Magnetic research protocol](MAGNET_RESEARCH_PLAN.md)
+- [DES-007: short-strip sensors, reusable modules and endcap ring comparison](design/DES-007-short-strip-modules.md)
 
 - [Full-detector development plan and TDR programme](DEVELOPMENT_PLAN.md)
+- [DES-001: reusable RD53i module-only proposals and material tables, alternatives and drawings](design/DES-001-rd53-pixel-modules.md)
+- [DES-001: three-page reviewer brief (PDF, recommendation and material summary)](design/DES-001-review-summary.md)
+- [TRK-SE03: pyacts module and Gen-3 binding assessment](validation/TRK-SE03-pyacts-bindings.md)
 - [TDR chapter and subsection outline with evidence coverage](publication/TDR-outline.md)
 - [Publication plan, priorities and review gates](publication/publication-plan.md)
+- [DES-008: stereo long-strip sandwiches, ring layouts and mounting/cooling constraints](design/DES-008-long-strip-modules.md)
 - [DES-005: whole-tracker design, work packages and staged performance studies](design/DES-005-tracker-system-plan.md)
 - [DES-006: first tracker placement proposals, two-page briefs and prototype evidence](design/DES-006-first-tracker-layouts.md)
 - [DES-003: global envelope proposal, r–z drawing and review questions](design/DES-003-global-envelopes.md)
@@ -31,7 +36,7 @@ The documents below establish proposals and recording formats. Their presence do
 - [Validation study catalogue](validation/DES-003-study-catalogue.md)
 - [Envelope study tool and reproduction commands](../tools/envelope_study/README.md)
 - [Project tracking and review dashboard plan](DASHBOARD_PLAN.md)
-- [Dashboard build, preview and GitHub Pages deployment](../tools/dashboard/README.md)
+- [Token usage dashboard and GitHub Pages deployment](../tools/token_usage/README.md)
 - [Dashboard publication target](https://asalzburger.github.io/nodd/) — published after the deployment chore PR is merged
 - [Project tracking register and update workflow](../project/README.md)
 - [ODD realism assessment](validation/ODD-realism-assessment.md)

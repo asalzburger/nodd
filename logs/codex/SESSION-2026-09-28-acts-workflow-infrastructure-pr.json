@@ -1,0 +1,103 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-09-28-acts-workflow-infrastructure-pr",
+  "title": "Publish ACTS sister-checkout workflow as infrastructure PR",
+  "recorded_at": "2026-09-28T14:59:39Z",
+  "started_at": null,
+  "ended_at": "2026-09-28T15:02:37Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact client-reported per-turn counters, client version, thread/turn IDs and actual conversation start time were unavailable. Usage is empty and unknown, not zero.",
+    "Documentation/publication task only. ACTS execution evidence belongs to PR #14 and ACTS #6176; no runtime checks or scientific validation rerun for this infrastructure change."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "0d90d75d6f998f732adaad2f0a49787b5cbc46fa",
+    "branch": "infrastructure/acts-local-workflow",
+    "initial_changes": [
+      "AGENTS.md",
+      "logs/codex/SESSION-2026-09-28-acts-sister-checkout.json",
+      "logs/codex/SESSION-2026-09-28-acts-sister-checkout.md"
+    ],
+    "result_commits": [
+      "918d6dd4ec555c9662c03aab8042a507a9f8714f"
+    ],
+    "changed_files": [
+      "AGENTS.md",
+      "README.md",
+      "logs/codex/SESSION-2026-09-28-acts-sister-checkout.md",
+      "logs/codex/SESSION-2026-09-28-acts-sister-checkout.json",
+      "logs/codex/SESSION-2026-09-28-acts-workflow-infrastructure-pr.json",
+      "logs/codex/SESSION-2026-09-28-acts-workflow-infrastructure-pr.md"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [
+      "infrastructure",
+      "local development workflow"
+    ],
+    "related_ids": [
+      "ADR-004"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-09-28-acts-workflow-infrastructure-pr.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "49 session records validated."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "29 tasks, 9 documents and 10 review rounds validated."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p 'test_*.py' -q",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "32 tests passed."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/dashboard -p 'test_update.py' -q",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "7 PR naming/update-policy tests passed."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py build --output /tmp/nodd-acts-workflow-infra-dashboard",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Static dashboard built successfully."
+    },
+    {
+      "command": "check_update.check with requested Infrastructure title and changed-file inventory; git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Infrastructure scope exempt from progress tracking; no scientific evidence paths or whitespace errors."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py summary --format json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Historical observed input 134594309/output 674111 tokens across 79 turns and 42/49 sessions. Seven sessions, including this task, lack observations."
+    },
+    {
+      "command": "gh pr checks 23 --repo asalzburger/nodd --watch --interval 10",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "CI build passed at documentation revision 918d6dd4ec555c9662c03aab8042a507a9f8714f; PR deployment skipped as intended."
+    }
+  ]
+}

@@ -1,0 +1,135 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-09-30-pixel-mounting-rings",
+  "title": "Address PR29 mounting rings and barrel r-z drawing review",
+  "recorded_at": "2026-09-30T11:55:47Z",
+  "started_at": null,
+  "ended_at": "2026-09-30T12:16:25Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact client-reported per-turn token counters unavailable; usage is empty, not zero.",
+    "Nominal prototype geometry/material only; global cage/end-mount stiffness, joints and manufacturing allowances remain unqualified."
+  ],
+  "client": {
+    "name": "unspecified",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "e35d8b79d84d7acc480cb9fc95ddb13c435cb1d0",
+    "branch": "design/pixel-barrel-support",
+    "initial_changes": [
+      "logs/codex/SESSION-2026-09-29-project-usage-summary.json",
+      "logs/codex/SESSION-2026-09-29-project-usage-summary.md",
+      "logs/usage/USAGE-2026-09-29-local.json",
+      "logs/usage/USAGE-2026-09-29-project-summary.json"
+    ],
+    "result_commits": [
+      "9b916d7ad7dcfa013a8673f2c394069ebdedbdfd"
+    ],
+    "changed_files": [
+      "docs/design/DES-002-pixel-barrel-support-cooling.md",
+      "project/tracking.json",
+      "project/reviews.json",
+      "reference/manifest.yaml",
+      "tools/pixel_support/README.md",
+      "tools/pixel_support/mounting.py",
+      "tools/pixel_support/mounting.json",
+      "tools/pixel_support/test_mounting.py",
+      "logs/codex/SESSION-2026-09-30-pixel-mounting-rings.json",
+      "logs/codex/SESSION-2026-09-30-pixel-mounting-rings.md",
+      "docs/validation/DES-002/outward-A-mounted/artifacts.json",
+      "docs/validation/DES-002/outward-A-mounted/barrel-B1.pdf",
+      "docs/validation/DES-002/outward-A-mounted/barrel-B1.png",
+      "docs/validation/DES-002/outward-A-mounted/barrel-B1.svg",
+      "docs/validation/DES-002/outward-A-mounted/barrel-B2.pdf",
+      "docs/validation/DES-002/outward-A-mounted/barrel-B2.png",
+      "docs/validation/DES-002/outward-A-mounted/barrel-B2.svg",
+      "docs/validation/DES-002/outward-A-mounted/barrel-B3.pdf",
+      "docs/validation/DES-002/outward-A-mounted/barrel-B3.png",
+      "docs/validation/DES-002/outward-A-mounted/barrel-B3.svg",
+      "docs/validation/DES-002/outward-A-mounted/barrel-B4.pdf",
+      "docs/validation/DES-002/outward-A-mounted/barrel-B4.png",
+      "docs/validation/DES-002/outward-A-mounted/barrel-B4.svg",
+      "docs/validation/DES-002/outward-A-mounted/barrel-all.pdf",
+      "docs/validation/DES-002/outward-A-mounted/barrel-all.png",
+      "docs/validation/DES-002/outward-A-mounted/barrel-all.svg",
+      "docs/validation/DES-002/outward-A-mounted/barrels-rz.pdf",
+      "docs/validation/DES-002/outward-A-mounted/barrels-rz.png",
+      "docs/validation/DES-002/outward-A-mounted/barrels-rz.svg",
+      "docs/validation/DES-002/outward-A-mounted/results.md",
+      "docs/validation/DES-002/outward-A-mounted/screening.json"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "pixel local supports",
+      "mounting rings",
+      "PR review response",
+      "barrel technical drawings"
+    ],
+    "related_ids": [
+      "DES-002",
+      "DES-010",
+      "DES-011",
+      "REVIEW-DES-002-1",
+      "PR-29"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-09-30-pixel-mounting-rings.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "gh pr view29; gh api pulls/29/comments; public IBL HTML and cached PDF p75 extraction/rendering",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Identified human mounting-ring request at issuecomment-5910690174. Cross-checked ring/foot precedent against IBL section7.3, printed/PDF p75; web PDF size limit resolved with HTML and cached source."
+    },
+    {
+      "command": "MPLCONFIGDIR=/tmp/nodd-des002-mpl python3 -B tools/pixel_support/mounting.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "24 rings,492 feet; max pitch220 mm; end ring-to-service axial gap5 mm. Ring217.6949 g + foot-envelope81.1408 g. Zero nominal intersections in11 reported categories. Six PNG/PDF/SVG drawings generated and visually checked; no engineering acceptance."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/pixel_support -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All12 tests pass, including new ring/service control, no input mutation, inventory/contact, old-end/oversize-foot refusal and independent curved-foot mass integration."
+    },
+    {
+      "command": "python3 -B tools/dashboard/build.py validate; build --output /tmp/nodd-des002-mounted-dashboard; unittest discover -s tools/dashboard -p 'test_*.py' -k deterministic_escaped_build_and_all_internal_links -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "33tasks,13documents,14reviewrounds validate. Dashboard builds; one targeted deterministic-build/all-internal-links test passes."
+    },
+    {
+      "command": "Verify three artifact manifests; parse new SVG exports",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "12 inward +20 outward-between-ring +25 mounted-ring artifact/producer hashes verified;6 SVGs parse. Prior evidence unchanged."
+    },
+    {
+      "command": "session_log.py validate; session_log.py summary --format json; git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "65 paired session records validate. Summary observes134594309 input/674111 output historical tokens over79 turns in42 sessions;23 sessions lack usage, including this task. Those totals are not assigned to this task. Whitespace check passes."
+    },
+    {
+      "command": "git diff --cached --check; git commit; git push; gh pr edit29; gh pr comment29",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Published 9b916d7ad7dcfa013a8673f2c394069ebdedbdfd with mounting drawings and review response. Updated PR29 body and replied with immutable evidence links. No merge or engineering approval; final staged whitespace check passes."
+    },
+    {
+      "command": "Post-publication dashboard validate/build; session_log.py validate/summary; git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "33tasks/13documents/14reviewrounds validate; dashboard builds;65 paired logs validate; summary generated with this task usage missing. GitHub build IN_PROGRESS when observed at9b916d7; no remote success claimed. Reply: https://github.com/asalzburger/nodd/pull/29#issuecomment-5911114398"
+    }
+  ]
+}
