@@ -9,33 +9,18 @@ import tempfile
 import unittest
 from urllib.parse import unquote, urlsplit
 
-import build
+import validate as build
 
 
-class Page(HTMLParser):
-    def __init__(self, content):
-        super().__init__()
-        self.ids, self.links = set(), []
-        self.feed(content)
-
-    def handle_starttag(self, tag, attrs):
-        values = dict(attrs)
-        if 'id' in values:
-            if values['id'] in self.ids:
-                raise AssertionError('Duplicate HTML ID')
-            self.ids.add(values['id'])
-        for key in ('href','src'):
-            if key in values:
-                self.links.append(values[key])
 
 
-class DashboardTests(unittest.TestCase):
+class ProjectRecordTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name) / 'repo'
         self.root.mkdir()
-        for directory in ('project','docs','reference','dashboard','logs','tools','skills','detector'):
+        for directory in ('project','docs','reference','logs','tools','skills','detector'):
             shutil.copytree(build.ROOT / directory, self.root / directory)
         shutil.copy(build.ROOT / 'PROJECT.md', self.root / 'PROJECT.md')
         shutil.copy(build.ROOT / '.gitignore', self.root / '.gitignore')
@@ -145,11 +130,6 @@ class DashboardTests(unittest.TestCase):
                          deliverables=[self.doc['path']])
         self.assertEqual(self.normalize()['tracking']['documents'][0]['state'],'DRAFT')
 
-    def test_missing_criteria_are_preserved_in_source_evidence(self):
-        out=self.root / '_site/test'
-        build.build(self.root,out,'2026-09-17T12:00:00Z')
-        baseline=out / 'evidence' / build.evidence_name('docs/validation/M0-baseline-specification.md')
-        self.assertIn('No numerical acceptance limits have been selected', baseline.read_text())
 
     def pr(self, **updates):
         record=dict(id='TEST-PR-1',number=1,title='Synthetic PR',
@@ -248,38 +228,7 @@ class DashboardTests(unittest.TestCase):
         with self.assertRaisesRegex(build.Invalid,'cycle'):
             self.normalize()
 
-    def test_deterministic_escaped_build_and_all_internal_links(self):
-        self.task['title']='<script>synthetic test</script>'
-        self.save()
-        first=self.root / '_site/first'
-        second=self.root / '_site/second'
-        for out in (first,second):
-            build.build(self.root,out,'2026-09-17T12:00:00Z')
-        files={x.relative_to(first) for x in first.rglob('*') if x.is_file()}
-        for rel in files:
-            self.assertEqual((first / rel).read_bytes(),(second / rel).read_bytes())
-        html=(first / 'index.html').read_text()
-        self.assertNotIn('<script>synthetic',html)
-        self.assertIn('&lt;script&gt;synthetic',html)
-        pages={x.resolve():Page(x.read_text()) for x in first.rglob('*.html')}
-        for path,page in pages.items():
-            for link in page.links:
-                parsed=urlsplit(link)
-                if parsed.scheme:
-                    continue
-                target=(path.parent / unquote(parsed.path)).resolve() if parsed.path else path
-                self.assertTrue(target.is_file(),link)
-                if parsed.fragment:
-                    self.assertIn(unquote(parsed.fragment),pages[target].ids,link)
 
-    def test_output_cannot_overwrite_canonical_files_or_retain_unexpected_files(self):
-        with self.assertRaisesRegex(build.Invalid,'inside _site'):
-            build.build(self.root,self.root / 'project','2026-09-17T12:00:00Z')
-        output=self.root / '_site/test'
-        output.mkdir(parents=True)
-        (output / 'unexpected.txt').write_text('Synthetic stale output')
-        with self.assertRaisesRegex(build.Invalid,'Unexpected/stale'):
-            build.build(self.root,output,'2026-09-17T12:00:00Z')
 
 
 class RepositoryReviewTests(unittest.TestCase):
@@ -298,10 +247,6 @@ class RepositoryReviewTests(unittest.TestCase):
         doc=next(d for d in data['tracking']['documents'] if d['id']=='DES-003')
         self.assertEqual(doc['state'],'DRAFT')
         self.assertTrue(any('Formal sign-off is not established' in w for w in doc['warnings']))
-        html=build.render(data,{})
-        page=Page(html)
-        self.assertIn('PR-4',page.ids)
-        self.assertTrue(all(r['id'] in page.ids for r in rounds))
 
 
 if __name__ == '__main__':

@@ -31,7 +31,7 @@ def check(title, paths):
         if scientific:
             raise ValueError('Infrastructure PR changes project/scientific evidence; use the relevant area and update tracking: '
                              + ', '.join(scientific))
-        return 'Infrastructure PR: excluded from progress tracking; dashboard build still required.'
+        return 'Infrastructure PR: excluded from progress tracking; usage dashboard build still required.'
     if not paths & TRACKING:
         raise ValueError('Project PR must update project/tracking.json or project/reviews.json '
                          'with work, review or evidence changes.')
@@ -58,7 +58,7 @@ def main():
         paths = result.stdout.decode().split('\0')
         print(check(pr['title'], filter(None, paths)))
     except (ValueError, KeyError, OSError, subprocess.CalledProcessError) as exc:
-        print('Dashboard update policy: ' + str(exc), file=sys.stderr)
+        print('Project record policy: ' + str(exc), file=sys.stderr)
         return 1
     return 0
 

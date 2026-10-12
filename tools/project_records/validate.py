@@ -1,4 +1,4 @@
-"""Validate curated records and build the dashboard using the standard library."""
+"""Validate scientific project/review records without building a website."""
 import argparse
 from datetime import date, datetime, timezone
 import hashlib
@@ -287,176 +287,17 @@ def normalize(root):
     return records
 
 
-def text(value):
-    return escape(str(value if value is not None else 'Unassigned'), quote=True)
-
-
-def evidence_name(path):
-    return hashlib.sha256(path.encode()).hexdigest()[:20] + '.html'
-
-
-def href(path):
-    return path if urlsplit(path).scheme else 'evidence/' + evidence_name(path)
-
-
-def links(paths):
-    return ' · '.join(f'<a href="{text(href(p))}">{text(p)}</a>' for p in paths) or 'None recorded'
-
-
-def badge(state):
-    return f'<span class="badge {text(state.lower().replace(" ", "-"))}">{text(state)}</span>'
-
-
-def warnings(items):
-    return ''.join(f'<p class="warning">{text(w)}</p>' for w in items)
-
-
-def render(records, metadata):
-    t, r = records['tracking'], records['reviews']
-    parts = []
-    def add(s):
-        parts.append(s)
-    add('<section id="overview"><p class="eyebrow">PROJECT CONTROL ROOM</p><h1>A coherent detector.<br>A traceable programme.</h1>')
-    add('<p class="lead">Track architecture, parallel work and human review across the ODD → nODD programme.</p>')
-    add(f'<p class="notice">{text(t["note"])}</p><div class="metrics">')
-    for title, count, detail in [('Active tasks',sum(x['state']=='active' for x in t['tasks']),f'of {len(t["tasks"])} tracked tasks'),('Blocked tasks',sum(x['state']=='blocked' for x in t['tasks']),'Reasons and next actions below'),('Open reviews',sum(x['state'] in ('requested','open') for x in r['rounds']),'Formal recorded rounds only'),('Draft decisions',sum(x['state']=='DRAFT' for x in t['documents']),f'of {len(t["documents"])} tracked documents')]:
-        add(f'<article><strong>{count}</strong><h2>{title}</h2><p>{detail}</p></article>')
-    add('</div><h2>Current focus</h2><div class="cards">')
-    for stage in t['stages']:
-        if stage['state'] == 'active':
-            add(f'<article><p class="eyebrow">STAGE {text(stage["id"])}</p><h3>{text(stage["title"])}</h3>{badge(stage["state"])}<p>{text(stage["disposition"])}</p>{links(stage["evidence"])}</article>')
-    add('</div>')
-    add('<h2>Recorded pull requests</h2>')
-    if not t.get('pull_requests'):
-        add('<p class="empty">No pull request snapshots recorded.</p>')
-    for pr in t.get('pull_requests', []):
-        related = [x for x in r['rounds'] if x['task'] == pr['task'] and x['outcome'] == 'approved'
-                   and x['target_matches_current'] and x['target_revision'] == pr['head_revision']]
-        approval_badge = badge('Review approved') if related else ''
-        add(f'<article id="{text(pr["id"])}"><p class="eyebrow">PR #{pr["number"]}</p><h3><a href="{text(pr["url"])}">{text(pr["title"])}</a></h3>{badge(pr["state"])} {approval_badge}<p>{text(pr["scope"])}</p><p><a href="#{text(pr["task"])}">Work item &amp; deliverables</a></p><dl><dt>Recorded approval</dt><dd>'+(' · '.join(f'<a href="#{text(x["id"])}">{text(x["type"])} review approved</a>' for x in related) or 'None recorded')+f'</dd><dt>Merged at</dt><dd>{text(pr["merged_at"] or "Not merged")}</dd><dt>Merge commit</dt><dd>{text(pr["merge_commit"] or "None")}</dd><dt>Snapshot collected</dt><dd>{text(pr["collected_at"])}</dd></dl><p class="notice">Merge state and review outcome are distinct from the declared design lifecycle.</p></article>')
-    add('</section><section id="programme"><p class="eyebrow">DIRECTION & GATES</p><h2>Programme</h2><p>Stages describe execution. Milestones describe deliverables and acceptance; their completion is tracked separately.</p><div class="stage-grid">')
-    for stage in t['stages']:
-        stage_dependencies = ' · '.join(f'<a href="#stage-{text(d)}">{text(d)}</a>' for d in stage['dependencies']) or 'None'
-        add(f'<article id="stage-{text(stage["id"])}"><p class="eyebrow">STAGE {text(stage["id"])}</p><h3>{text(stage["title"])}</h3>{badge(stage["state"])}<p>{text(stage["disposition"])}</p><dl><dt>Milestones</dt><dd>{text(", ".join(stage["milestones"]))}</dd><dt>Depends on</dt><dd>{stage_dependencies}</dd><dt>Entry</dt><dd>{text(stage["entry"])}</dd><dt>Exit / disposition</dt><dd>{text(stage["exit"])}</dd></dl>{links(stage["evidence"])}</article>')
-    add('</div><h3>Milestones</h3><div class="table-wrap"><table><thead><tr><th>ID</th><th>Milestone</th><th>State</th><th>Disposition</th></tr></thead><tbody>')
-    for m in t['milestones']:
-        add(f'<tr><th scope="row">{text(m["id"])}</th><td>{text(m["title"])}</td><td>{badge(m["state"])}</td><td>{text(m["disposition"])} {links(m["evidence"])}</td></tr>')
-    add('</tbody></table></div></section><section id="work"><p class="eyebrow">PARALLEL DELIVERY</p><h2>Workstreams</h2><p>Role mandates are proposed assignments. Human owners and running agents are not inferred.</p><form class="filters" id="work-filters">')
-    for key,label,values in [('stage','Stage',[x['id'] for x in t['stages']]),('milestone','Milestone',[x['id'] for x in t['milestones']]),('role','Role',[x['role'] for x in t['workstreams']]),('subsystem','Subsystem',sorted({x['subsystem'] for x in t['tasks']})),('state','Work state',['planned','ready','active','blocked','completed','cancelled'])]:
-        add(f'<label>{label}<select name="{key}"><option value="">All</option>'+''.join(f'<option>{text(v)}</option>' for v in values)+'</select></label>')
-    add('<label>Search<input name="q" type="search" placeholder="Task, scope or ID"></label><button type="reset">Reset</button></form><p id="work-count" role="status"></p><div class="lanes">')
-    for stream in t['workstreams']:
-        add(f'<section class="lane"><h3>{text(stream["title"])}</h3>')
-        for task in t['tasks']:
-            if task['workstream'] != stream['id']:
-                continue
-            attrs = ' '.join(f'data-{k}="{text(v)}"' for k,v in [('stage',task['stage']),('milestone',' '.join(task['milestones'])),('role',task['role']),('subsystem',task['subsystem']),('state',task['state'])])
-            add(f'<article class="task" id="{text(task["id"])}" {attrs}><p class="eyebrow">{text(task["id"])}</p><h4>{text(task["title"])}</h4>{badge(task["state"])}<p>{text(task["scope"])}</p><p class="next">Next: {text(task["next_action"])}</p><details><summary>Details & evidence</summary><dl>')
-            for key,value in [('Owner',task['owner']),('Subsystem',task['subsystem']),('Stage / milestones',task['stage']+' / '+', '.join(task['milestones'])),('Last record update',task['updated']),('Blocker',task['blocker'] or 'None recorded'),('Disposition',task['disposition'] or 'None recorded')]:
-                add(f'<dt>{key}</dt><dd>{text(value)}</dd>')
-            deps=' · '.join(f'<a href="#{text(d)}">{text(d)}</a>' for d in task['dependencies']) or 'None'
-            document_links = links([d['path'] for d in t['documents'] if d['id'] in task['documents']])
-            add(f'<dt>Dependencies</dt><dd>{deps}</dd><dt>Deliverables</dt><dd>{links(task["deliverables"])}</dd><dt>Evidence</dt><dd>{links(task["evidence"])}</dd><dt>Documents</dt><dd>{document_links}</dd><dt>Review rounds</dt><dd>')
-            add(' · '.join(f'<a href="#{text(x["id"])}">{text(x["id"])}</a>' for x in r['rounds'] if x['task']==task['id']) or 'None recorded')
-            add('</dd></dl></details><a class="permalink" href="#'+text(task['id'])+'">Link to task</a></article>')
-        add('</section>')
-    add('</div><p class="empty" id="work-empty" hidden>No tasks match these filters.</p></section><section id="reviews"><p class="eyebrow">HUMAN REVIEW</p><h2>Review queue & archive</h2><p>Review closure, task completion and human sign-off have independent meanings.</p><form class="filters" id="review-filters">')
-    for key,label,values in [('review-type','Review type',['technical','expert','sign-off','validation','acceptance']),('review-state','Round state',['requested','open','closed','withdrawn'])]:
-        add(f'<label>{label}<select name="{key}"><option value="">All</option>'+''.join(f'<option>{text(v)}</option>' for v in values)+'</select></label>')
-    add('<button type="reset">Reset</button></form><p id="review-count" role="status"></p>')
-    add(f'<p class="notice">{text(r["note"])}</p>')
-    for title,states in [('Open queue',('requested','open')),('Closed / withdrawn archive',('closed','withdrawn'))]:
-        add(f'<h3>{title}</h3>')
-        group=[x for x in r['rounds'] if x['state'] in states]
-        if not group:
-            add('<p class="empty">No recorded rounds.</p>')
-        for rev in group:
-            add(f'<article class="review" id="{text(rev["id"])}" data-review-type="{text(rev["type"])}" data-review-state="{text(rev["state"])}"><h4>{text(rev["id"])} · {text(rev["document"])}</h4>{badge(rev["state"])} {badge(rev["outcome"])}<p>{text(rev["type"])} review · <a href="#{text(rev["task"])}">{text(rev["task"])}</a></p><dl>')
-            for label,value in [('Scope',rev.get('scope','See review evidence')),('Review summary',rev.get('summary','See review evidence')),('Exact target revision',rev['target_revision']),('Requested',rev['requested_at'] or 'Unknown'),('Completed',rev['completed_at'] or 'Not recorded'),('Reviewers',', '.join(x['name']+' ('+x['role']+')' for x in rev['reviewers']) or 'Unassigned'),('Conditions','; '.join(rev['conditions']) or 'None recorded'),('Supersedes',rev['supersedes'] or 'None'),('Formal approval support','Recorded for target revision' if rev['approval_supported'] else 'Not established')]:
-                add(f'<dt>{label}</dt><dd>{text(value)}</dd>')
-            add(f'</dl>{warnings(rev["warnings"])}{links(rev["evidence"] + ([rev["approval_record"]] if rev["approval_record"] else []))}</article>')
-    add('<p class="empty" id="review-empty" hidden>No review rounds match these filters.</p><h3>Document lifecycle</h3><div class="cards">')
-    for doc in t['documents']:
-        validation_links = links(doc['validation_reports'])
-        add(f'<article><h4>{text(doc["id"])}</h4>{badge(doc["state"])}{warnings(doc["warnings"])}<p>{links([doc["path"]])}</p><p>Validation reports: {validation_links}</p></article>')
-    add('</div></section><section id="evidence"><p class="eyebrow">CANONICAL RECORD</p><h2>Evidence & history</h2><p>Selected evidence pointers; this is not an exhaustive claim or TDR coverage audit. Check execution and scientific acceptance in the linked reports.</p><div class="cards">')
-    for ev in t['evidence']:
-        add(f'<article><p class="eyebrow">{text(ev["kind"])}</p><h3>{text(ev["title"])}</h3>{links([ev["path"]])}</article>')
-    add('</div></section>')
-    return '\n'.join(parts)
-
-
-def build(root, output, built_at):
-    root, output = root.resolve(), output.resolve()
-    # Never let a caller overwrite canonical input with generated files.
-    if output.is_relative_to(root):
-        rel = output.relative_to(root)
-        require(rel.parts and rel.parts[0] == '_site', 'Repository output must be inside _site/')
-    require(not root.is_relative_to(output), 'Output cannot contain the repository')
-    data = normalize(root)
-    sha = git(root, 'rev-parse', 'HEAD').decode().strip()
-    dirty = bool(git(root, 'status', '--porcelain').strip())
-    metadata = {'source_commit':sha,'working_tree_dirty':dirty,'built_at':built_at,
-                'data_updated':data['tracking']['updated'],'external_snapshot_at':None}
-    template = (root / 'dashboard/index.html').read_text()
-    require(template.count('{{CONTENT}}') == template.count('{{METADATA}}') == 1,
-            'Invalid dashboard template')
-    footer = (f'Source <code>{sha}</code> · {"Working tree includes uncommitted changes" if dirty else "Clean checkout"}'
-              f'<br>Built {text(built_at)} · Tracking last updated {text(metadata["data_updated"])}'
-              '<br>Git-backed snapshot; external GitHub collection is not enabled. '
-              '<a href="snapshot.json">Download snapshot</a>')
-    # Only generated allowlisted files are part of this snapshot. Reusing an output
-    # directory must not retain superseded evidence or unexpected files.
-    expected = {'index.html','style.css','app.js','snapshot.json'} | {
-        'evidence/'+evidence_name(p) for p in data['paths'] if not urlsplit(p).scheme}
-    for existing in output.rglob('*'):
-        require(not existing.is_symlink(), 'Symlink in output')
-        if existing.is_file() and existing.relative_to(output).as_posix() not in expected:
-            raise Invalid('Unexpected/stale output file; use a fresh output directory: '+str(existing))
-    source_pages = {}
-    for path in data['paths']:
-        source = evidence_path(root, path)
-        if source is not None:
-            require(source.suffix in ('.md','.json','.yaml'), 'Only curated text evidence can be exported')
-            source_pages[path] = source.read_text()
-    output.mkdir(parents=True, exist_ok=True)
-    (output / 'index.html').write_text(template.replace('{{CONTENT}}',render(data,metadata)).replace('{{METADATA}}',footer))
-    for name in ('style.css','app.js'):
-        (output / name).write_bytes((root / 'dashboard' / name).read_bytes())
-    evidence_dir = output / 'evidence'
-    evidence_dir.mkdir(exist_ok=True)
-    for path in data['paths']:
-        source = evidence_path(root, path)
-        if source is None:
-            continue
-        content = source_pages[path]
-        page = '<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="../style.css"><title>'+text(path)+' · nODD</title><body><main><a href="../index.html#evidence">← Dashboard</a><h1>'+text(path)+'</h1><p class="notice">Escaped source document from this build. Relative Markdown links remain source text.</p><pre class="source">'+text(content)+'</pre><footer>'+footer.replace('href="snapshot.json"','href="../snapshot.json"')+'</footer></main></body></html>'
-        (evidence_dir / evidence_name(path)).write_text(page)
-    (output / 'snapshot.json').write_text(json.dumps({'metadata':metadata,**data},indent=2)+'\n')
-    return output
-
-
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('command',choices=('validate','build'))
     parser.add_argument('--repo',type=Path,default=ROOT)
-    parser.add_argument('--output',type=Path,default=ROOT / '_site/pages')
-    parser.add_argument('--built-at',default=None,help='Fixed UTC timestamp for reproducible builds')
     args=parser.parse_args()
     try:
-        if args.command == 'validate':
-            data=normalize(args.repo)
-            print(f'Validated {len(data["tracking"]["tasks"])} tasks, {len(data["tracking"]["documents"])} documents and {len(data["reviews"]["rounds"])} review rounds.')
-        else:
-            timestamp=args.built_at or datetime.now(timezone.utc).isoformat(timespec='seconds').replace('+00:00','Z')
-            require(timestamp.endswith('Z'), 'Build time must be UTC with Z suffix')
-            datetime.fromisoformat(timestamp.replace('Z','+00:00'))
-            print('Built '+str(build(args.repo,args.output,timestamp)))
-    except (Invalid,ValueError,OSError,KeyError) as exc:
-        print('Dashboard error: '+str(exc),file=sys.stderr)
+        data=normalize(args.repo.resolve())
+        print(f"Validated {len(data['tracking']['tasks'])} tasks, {len(data['tracking']['documents'])} documents and {len(data['reviews']['rounds'])} review rounds.")
+    except (Invalid,ValueError,OSError,subprocess.CalledProcessError) as error:
+        print(str(error),file=sys.stderr)
         return 1
     return 0
 
-
-if __name__ == '__main__':
+if __name__=='__main__':
     sys.exit(main())
