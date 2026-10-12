@@ -52,3 +52,8 @@ assumptions require expert review; geometry checks are not engineering acceptanc
 Delivery: [PR67](https://github.com/asalzburger/nodd/pull/67), initial deliverable
 revision c96d7c36aadc7e12821c8472d7ba6c821aa71639; token-site hosted check passed, scientific hosted check pending
 at this metadata snapshot.
+
+Hosted scientific CI initially failed because synthetic project-record fixtures
+copied detector/ but omitted prototypes/, now referenced as a task deliverable.
+Fixture copy includes prototypes/; validation criteria are unchanged. Full
+project-record controls rerun before the corrective push.
