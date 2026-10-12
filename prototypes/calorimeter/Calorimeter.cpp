@@ -2,6 +2,8 @@
 #include <DD4hep/DetFactoryHelper.h>
 #include <cmath>
 #include <stdexcept>
+#include <map>
+#include <vector>
 
 namespace {
 using namespace dd4hep;
@@ -20,6 +22,14 @@ Solid shape(Handle_t h) {
   }
   if (kind == "tube") {
     return Tube(value(h, "rmin"), value(h, "rmax"), value(h, "length") / 2);
+  }
+  if (kind == "xtru") {
+    std::vector<double> x, y;
+    for (xml::Collection_t vertex(h, "vertex"); vertex; ++vertex) {
+      x.push_back(value(vertex, "x")); y.push_back(value(vertex, "y"));
+    }
+    double half = value(h, "depth") / 2;
+    return ExtrudedPolygon(x, y, {-half, half}, {0, 0}, {0, 0}, {1, 1});
   }
   throw std::runtime_error("Unsupported primitive");
 }
@@ -55,6 +65,31 @@ Ref_t createCalorimeter(Detector& detector, Handle_t h, SensitiveDetector sd) {
         value(placement, "y"), value(placement, "z")));
     for (auto key : {"side", "sector", "layer", "cassette"}) {
       placed.addPhysVolID(key, placement.attr<int>(key));
+    }
+  }
+  std::map<std::string, Assembly> regions;
+  for (xml::Collection_t region(h, "region"); region; ++region) {
+    std::string regionName = region.attr<std::string>("name");
+    Assembly sector(regionName);
+    for (xml::Collection_t piece(region, "passive"); piece; ++piece) {
+      Volume volume(piece.attr<std::string>("name"), shape(piece),
+                    detector.material(piece.attr<std::string>("material")));
+      sector.placeVolume(volume, pose(piece));
+    }
+    for (xml::Collection_t placement(region, "placement"); placement; ++placement) {
+      auto placed = sector.placeVolume(unit, pose(placement));
+      for (auto key : {"layer", "cassette"}) {
+        placed.addPhysVolID(key, placement.attr<int>(key));
+      }
+    }
+    if (!regions.emplace(regionName, sector).second) {
+      throw std::runtime_error("Duplicate sector template");
+    }
+  }
+  for (xml::Collection_t replica(h, "replica"); replica; ++replica) {
+    auto placed = assembly.placeVolume(regions.at(replica.attr<std::string>("region")), pose(replica));
+    for (auto key : {"side", "sector"}) {
+      placed.addPhysVolID(key, replica.attr<int>(key));
     }
   }
   auto placed = detector.pickMotherVolume(result).placeVolume(assembly);

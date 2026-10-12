@@ -1,0 +1,130 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-12-calorimeter-assemblies",
+  "title": "Calorimeter sector and full-assembly prototypes",
+  "recorded_at": "2026-10-12T14:56:02Z",
+  "started_at": null,
+  "ended_at": "2026-10-12T15:27:17Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact current client token counters unavailable; usage stays empty/unknown, not zero or an estimate.",
+    "Geometric validity is distinct from layout, engineering or calorimeter performance acceptance. Full external services and complete detector Geant4 transport remain unqualified."
+  ],
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "9b409b71eb2cfa0b4df1cd9fcd15ff5058b8f3a1",
+    "branch": "codex/calorimeter-assemblies",
+    "initial_changes": [
+      "docs/design/DES-029-calorimeter-assemblies.md"
+    ],
+    "result_commits": [],
+    "changed_files": [
+      "project/tracking.json",
+      "prototypes/calorimeter/Calorimeter.cpp",
+      "tools/calorimeter_hardware/README.md",
+      "tools/calorimeter_hardware/model.py",
+      "docs/design/DES-029-calorimeter-assemblies.md",
+      "docs/design/figures/DES-029/assemblies.png",
+      "docs/design/figures/DES-029/assemblies.svg",
+      "docs/design/figures/DES-029/material.png",
+      "docs/design/figures/DES-029/material.svg",
+      "docs/validation/DES-029/budgets.json",
+      "docs/validation/DES-029/native.json",
+      "docs/validation/DES-029/results.md",
+      "docs/validation/DES-029/transport.json",
+      "docs/validation/DES-029/units-ports.json",
+      "logs/codex/SESSION-2026-10-12-calorimeter-assemblies.json",
+      "logs/codex/SESSION-2026-10-12-calorimeter-assemblies.md",
+      "tools/calorimeter_hardware/assemblies.json",
+      "tools/calorimeter_hardware/assembly.py",
+      "tools/calorimeter_hardware/assembly_export.py",
+      "tools/calorimeter_hardware/assembly_native.py",
+      "tools/calorimeter_hardware/assembly_plot.py",
+      "tools/calorimeter_hardware/assembly_transport.py",
+      "tools/calorimeter_hardware/sector_fixture.py",
+      "tools/calorimeter_hardware/test_assemblies.py"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "calorimeter sectors",
+      "barrels and both endcaps",
+      "native material and mass checks"
+    ],
+    "related_ids": [
+      "DES-028",
+      "DES-029",
+      "PR67"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-12-calorimeter-assemblies.md",
+  "activities": [
+    {
+      "kind": "tool",
+      "name": "Python/CMake/DD4hep/ROOT/Geant4/Git",
+      "version": "Python3.14.5/3.14.6; DD4hep1.38; ROOT6.40.04; Geant4 11.4.2",
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Reuse verified existing runtime; full native overlap/material/ID audits and sparse DDSim fixtures. No shared software changed."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 -B -m unittest discover -s tools/calorimeter_hardware -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "14physical/negative/conservation/reproducible-export/sparse-fixture controls pass."
+    },
+    {
+      "command": "cmake --build build/calorimeter/factory",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Updated isolated Xtru/shared-sector factory compiled."
+    },
+    {
+      "command": "python3 tools/calorimeter_hardware/assembly_native.py (README arguments)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "127680cassettes;5,608,960sensitive elements; all logical/native replica transforms and masses agree;384nativeID samples;0full overlaps at10nm;57materialrays."
+    },
+    {
+      "command": "python3 tools/calorimeter_hardware/native.py (units-ports fixture)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "859parts;148sensitives;1168cells;constituent fractions and masses agree;0overlaps."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "62tasks/34documents/19review rounds valid."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py build",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "209disjoint observed turns; current task usage unknown."
+    },
+    {
+      "command": "python3 tools/calorimeter_hardware/assembly_transport.py --directory build/calorimeter/full --output build/calorimeter/full/transport.json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Three sparse-sector seeded muon events pass saved-hit parent/readout/cell/positive-energy checks, barrel and both endcap signs. Full detector transport not claimed."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "170paired records validate."
+    }
+  ]
+}

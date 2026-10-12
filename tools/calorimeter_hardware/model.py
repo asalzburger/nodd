@@ -54,9 +54,12 @@ class Cassette:
         r=self.common['rail_mm']
         for side in (-1,1):
             self.box('u_rail'+str(side),'frame','Aluminium',[side*(w-r)/2,0,d/2],[r,h,d])
-            self.box('v_rail'+str(side),'frame','Aluminium',[0,side*(h-r)/2,d/2],[w-2*r,r,d])
+            ports=[];diameter=2*self.common['tube_outer_radius_mm']
+            for tube_x in c['tube_x_mm']:
+                cut=cut_box([diameter,r,diameter]);cut['center_mm']=[tube_x,0,c['tube_z_mm']-d/2];ports.append(cut)
+            self.box('v_rail'+str(side),'frame','Aluminium',[0,side*(h-r)/2,d/2],[w-2*r,r,d],cuts=ports)
     def tube(self,name,x,z):
-        c=self.config;length=c['height_mm']-2*self.common['rail_mm']
+        c=self.config;length=c['height_mm']
         for role,mat,r0,r1 in [('pipe','Titanium',self.common['tube_inner_radius_mm'],self.common['tube_outer_radius_mm']),('coolant',self.common['coolant'],0,self.common['tube_inner_radius_mm'])]:
             self.add(name+'_'+role,role,mat,[x,0,z],'tube',dict(rmin=r0,rmax=r1,length=length),frame=TUBE_Y)
 
