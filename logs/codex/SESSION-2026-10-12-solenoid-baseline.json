@@ -1,0 +1,160 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-12-solenoid-baseline",
+  "title": "3 T tracker solenoid baseline",
+  "recorded_at": "2026-10-12T12:37:58Z",
+  "started_at": null,
+  "ended_at": "2026-10-12T13:05:57Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact active-turn client token counters and model/version metadata are not exposed; usage is empty (unknown), not zero.",
+    "This bounded task shares a client turn with the companion design task. No total is split or duplicated.",
+    "The original client turn start/end timestamps are unavailable. Recorded times describe curation/closeout only.",
+    "Designs remain DRAFT; numerical/static checks are not human sign-off or engineering/performance qualification.",
+    "Hosted CI is pending at journal closeout; local checks passed. The final PR head will be a following metadata-only commit; scientific execution/figure hashes remain unchanged.",
+    "CI correction: first final-head validation failed on historical PR array ordering; record-only correction is followed by the exact affected local test and a new hosted run."
+  ],
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "da5c469f4d64a711c4f466cac79ff51e83244859",
+    "branch": "codex/tracker-solenoid-baseline",
+    "initial_changes": [],
+    "result_commits": [
+      "d23209e0fbbee6fde6d179038b03b156e7c442b5",
+      "f9d226fe55e1016933385aa4dbad1f5a69e21e20"
+    ],
+    "changed_files": [
+      ".github/workflows/validation.yml",
+      "logs/codex/SESSION-2026-10-12-solenoid-baseline.json",
+      "logs/codex/SESSION-2026-10-12-solenoid-baseline.md",
+      "project/tracking.json",
+      "reference/manifest.yaml",
+      "tools/solenoid_baseline/README.md",
+      "tools/solenoid_baseline/baseline.json",
+      "tools/solenoid_baseline/model.py",
+      "tools/solenoid_baseline/plot.py",
+      "tools/solenoid_baseline/run.py",
+      "tools/solenoid_baseline/test_model.py",
+      "tools/solenoid_baseline/tracker_snapshot.py",
+      "docs/validation/DES-026/tracker-rz.json",
+      "docs/validation/DES-026/sizing.json",
+      "docs/validation/DES-026/results.md",
+      "docs/validation/DES-026/figure.json",
+      "docs/design/DES-026-tracker-solenoid-baseline.md",
+      "docs/design/figures/DES-026-tracker-solenoid-rz.png",
+      "docs/design/figures/DES-026-tracker-solenoid-rz.svg"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "magnet baseline"
+    ],
+    "related_ids": [
+      "DES-026",
+      "PR64"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-12-solenoid-baseline.md",
+  "activities": [
+    {
+      "kind": "skill",
+      "name": "pdf",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Read registered primary PDF passages with bundled pypdf6.10.0; no PDF/source media redistributed."
+    },
+    {
+      "kind": "tool",
+      "name": "Git/GitHub CLI, Python and web primary-source inspection",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Dedicated clean worktree from main da5c469; preserve unrelated primary changes. Independent review of repository, PR6 and public hardware references."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python -B -m unittest discover -s tools/solenoid_baseline -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Six physical/interface controls passed; 143.173758 MJ and 1.558656 m vessel radius; 69 tracker source/input hashes matched, 45,646 sensors plotted; final PNG/SVG visually inspected."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 59 tasks, 32 documents and 19 review rounds."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 167 session records."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py build",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Build: 209 disjoint turns; 620,812,827 observed tokens; 209 dated turns."
+    },
+    {
+      "command": "/Users/salzburg/Documents/work/projects/nodd/reference/cache/envelope-venv/bin/python -B -m unittest discover -s tools/solenoid_baseline -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "odelTests.test_analytic_axial_integral) ... ok\ntest_axis_normalization_symmetry_and_reversal (test_model.ModelTests.test_axis_normalization_symmetry_and_reversal) ... ok\ntest_baseline_root_refinement_and_clearances (test_model.ModelTests.test_baseline_root_refinement_and_clearances) ... ok\ntest_energy_field_and_length_scaling (test_model.ModelTests.test_energy_field_and_length_scaling) ... ok\ntest_infinite_solenoid_energy_limit (test_model.ModelTests.test_infinite_solenoid_energy_limit) ... ok\ntest_invalid_winding_and_quadrature (test_model.ModelTests.test_invalid_winding_and_quadrature) ... ok\n\n----------------------------------------------------------------------\nRan 6 tests in 0.520s\n\nOK"
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors"
+    },
+    {
+      "command": "Local Markdown links and persisted code/input/artifact hashes",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All new document links resolve and calculation/auditor/figure/tracker source hashes match."
+    },
+    {
+      "command": "git diff --check HEAD^ HEAD (first publication commit)",
+      "status": "FAIL",
+      "exit_code": 2,
+      "result": "Initial untracked Matplotlib SVG was missed by the working-tree check; staged check caught trailing whitespace. Normalizing output in renderer and rerendering before push."
+    },
+    {
+      "command": "git merge-tree --write-tree codex/tracker-solenoid-baseline codex/calorimeter-description-assessment",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Independent scientific branches merge without conflicts; synthetic tree7ad5cca64f9e282e3af917ae5a0f0b034006898f. No checkout or branch merged."
+    },
+    {
+      "command": "git diff --cached --check (SVG correction)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Normalized renderer output passes staged whitespace check before the normal correction commit."
+    },
+    {
+      "command": "Hosted Project validation at f2deb77 (run38253405304)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Solenoid controls passed. Historical repository-review test expects PR4 as first array entry; new PR64 entry had been placed before it. Preserve PR4 at index0 and put PR64 immediately after it; no tests or scientific criteria changed."
+    },
+    {
+      "command": "PYTHONPATH=tools/project_records python3 -B -m unittest test_records.RepositoryReviewTests -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Exact historical PR4 review/approval-boundary test passes after preserving record ordering. Project records, session logs and token-site build also passed after the correction."
+    }
+  ]
+}
