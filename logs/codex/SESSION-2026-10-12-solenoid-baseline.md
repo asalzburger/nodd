@@ -55,3 +55,8 @@ Repository/logging/site checks and actual commit/PR metadata follow at closeout.
 Final local checks passed: project records, paired session records, token-site
 build, subsystem controls, document links, artifact hashes and whitespace.
 No native detector execution is claimed for these draft/static changes.
+
+The initial working-tree whitespace check omitted untracked files. Staging
+revealed trailing spaces in Matplotlib SVG paths. The renderer now strips
+trailing spaces and pins SVG hash IDs/date metadata before output hashing.
+A normal correction commit precedes publication; no shared history rewritten.

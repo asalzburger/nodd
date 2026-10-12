@@ -10,7 +10,7 @@ import numpy as np
 from model import axis_field
 
 ROOT=Path(__file__).resolve().parents[2]
-plt.rcParams.update({'svg.fonttype':'none','font.size':10})
+plt.rcParams.update({'svg.fonttype':'none','svg.hashsalt':'DES-026','font.size':10})
 sizing=ROOT/'docs/validation/DES-026/sizing.json'
 tracker=ROOT/'docs/validation/DES-026/tracker-rz.json'
 r=json.loads(sizing.read_text())['result']; t=json.loads(tracker.read_text())
@@ -69,7 +69,9 @@ fig.supxlabel('45,646 sensitive planes grouped into bounds; passive tracker soli
 outputs=[]
 for ext in ('svg','png'):
     p=ROOT/f'docs/design/figures/DES-026-tracker-solenoid-rz.{ext}'
-    fig.savefig(p,dpi=180,metadata={'Creator':'nODD tools/solenoid_baseline/plot.py'} if ext=='svg' else {})
+    fig.savefig(p,dpi=180,metadata={'Creator':'nODD tools/solenoid_baseline/plot.py','Date':None} if ext=='svg' else {})
+    if ext=='svg':
+        p.write_text('\n'.join(line.rstrip() for line in p.read_text().splitlines())+'\n')
     outputs.append(p)
 report={'status':'DRAFT schematic','matplotlib':matplotlib.__version__,'numpy':np.__version__,
         'input_sha256':{str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for p in (sizing,tracker,Path(__file__))},
