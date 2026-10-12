@@ -42,3 +42,18 @@ summary, dashboard validation/build, PR naming/scope checks and whitespace check
 The initial GitHub PR61 read failed under sandbox networking; approved retry
 succeeded. Actual results, commit and PR identifiers are recorded below and in
 the paired JSON after observation. No scientific tests or source claims change.
+
+## Publication outcome
+
+Published commit `25baed3f3c2e679a8990fa9b8e9ab3e69b6e7838` and opened
+[PR #62 — Infrastructure: Synchronize remaining device token accounting](https://github.com/asalzburger/nodd/pull/62)
+against main. GitHub verified the exact head, open state and mergeability; the
+hosted dashboard build was in progress at that observation. The enclosing
+closeout commit is discoverable in Git history rather than self-referenced.
+
+Local session validation and summary, dashboard validation/build, title/scope
+and cached whitespace checks passed. A temporary committed-tree checker initially
+failed on an unused import; removing it allowed exact published-file validation:
+161 paired records, 208 observations and 618,196,087 tokens. All four unrelated
+untracked files remain unchanged. The current publication turn has no final
+counter boundary and contributes no estimated usage. No merge was requested.

@@ -4,8 +4,8 @@
   "title": "Publish remaining-device token accounting PR",
   "recorded_at": "2026-10-12T11:38:34Z",
   "started_at": null,
-  "ended_at": null,
-  "status": "open",
+  "ended_at": "2026-10-12T11:42:46Z",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
@@ -68,7 +68,9 @@
       "tools/session_logging/check_pr_usage.py",
       "tools/session_logging/test_check_pr_usage.py"
     ],
-    "result_commits": [],
+    "result_commits": [
+      "25baed3f3c2e679a8990fa9b8e9ab3e69b6e7838"
+    ],
     "changed_files": [
       "logs/codex/SESSION-2026-10-12-device-accounting-audit.json",
       "logs/codex/SESSION-2026-10-12-device-accounting-audit.md",
@@ -86,7 +88,8 @@
       "PR publication"
     ],
     "related_ids": [
-      "ADR-004"
+      "ADR-004",
+      "PR-62"
     ]
   },
   "narrative": "logs/codex/SESSION-2026-10-12-device-accounting-pr.md",
@@ -150,6 +153,30 @@
       "status": "FAIL",
       "exit_code": 128,
       "result": "Initial Git index write was denied by the sandbox. Approved retry staged exactly the 43-file allowlist; subsequent cached whitespace check passed."
+    },
+    {
+      "command": "Committed-tree session validation (first helper invocation)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "The temporary helper imported an unused nonexistent summary symbol; removed that import before rerunning. Repository code was unchanged."
+    },
+    {
+      "command": "Validate session records extracted from git HEAD",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "The exact committed tree has 161 paired records and 208 disjoint observations totaling 618196087 tokens, excluding the local untracked gate journal."
+    },
+    {
+      "command": "git commit; git push -u origin infrastructure/device-accounting-sync-20261012",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Committed and pushed 25baed3f3c2e679a8990fa9b8e9ab3e69b6e7838. Only the four original unrelated untracked files remained."
+    },
+    {
+      "command": "gh pr create; gh pr view 62 --json number,title,url,state,headRefOid,baseRefName,mergeable,statusCheckRollup",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Opened https://github.com/asalzburger/nodd/pull/62 with the required Infrastructure title and main base; verified exact head and MERGEABLE state. Hosted dashboard build was IN_PROGRESS at this observation; no CI success is claimed here."
     }
   ]
 }
