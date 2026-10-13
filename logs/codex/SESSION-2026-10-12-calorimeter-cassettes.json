@@ -1,0 +1,135 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-12-calorimeter-cassettes",
+  "title": "Realistic ECAL and HCAL cassette prototypes",
+  "recorded_at": "2026-10-12T14:08:53Z",
+  "started_at": null,
+  "ended_at": "2026-10-12T14:43:59Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact client per-turn token counters are unavailable. Usage is empty and unknown, never estimated or shared with other task records.",
+    "Prototype dimensions and engineering hypotheses remain unsigned; this task confirms geometry rather than detector performance."
+  ],
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "ed30e63fb0ab30b66d4084a9058906929006f792",
+    "branch": "codex/calorimeter-cassettes",
+    "initial_changes": [],
+    "result_commits": [
+      "c96d7c36aadc7e12821c8472d7ba6c821aa71639"
+    ],
+    "changed_files": [
+      ".github/workflows/validation.yml",
+      "project/tracking.json",
+      "reference/manifest.yaml",
+      "docs/design/DES-028-calorimeter-cassettes.md",
+      "docs/design/figures/DES-028/cassettes.png",
+      "docs/design/figures/DES-028/cassettes.svg",
+      "docs/validation/DES-028/budgets.json",
+      "docs/validation/DES-028/native.json",
+      "docs/validation/DES-028/results.md",
+      "docs/validation/DES-028/transport.json",
+      "logs/codex/SESSION-2026-10-12-calorimeter-cassettes.json",
+      "logs/codex/SESSION-2026-10-12-calorimeter-cassettes.md",
+      "prototypes/calorimeter/CMakeLists.txt",
+      "prototypes/calorimeter/Calorimeter.cpp",
+      "tools/calorimeter_hardware/README.md",
+      "tools/calorimeter_hardware/cassettes.json",
+      "tools/calorimeter_hardware/check_transport.py",
+      "tools/calorimeter_hardware/export.py",
+      "tools/calorimeter_hardware/model.py",
+      "tools/calorimeter_hardware/native.py",
+      "tools/calorimeter_hardware/plot.py",
+      "tools/calorimeter_hardware/test_hardware.py",
+      "tools/project_records/test_records.py"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "calorimeter cassettes",
+      "native hardware checks"
+    ],
+    "related_ids": [
+      "DES-027",
+      "DES-028",
+      "PR66",
+      "PR67"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-12-calorimeter-cassettes.md",
+  "activities": [
+    {
+      "kind": "tool",
+      "name": "Python, CMake, DD4hep/ROOT/Geant4, Git",
+      "version": "Python3.14.5/3.14.6; DD4hep1.38; ROOT6.40.04; Geant4 11.4.2",
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Source PDFs checked; skill preflight drift warned, actual runtime/imports and13 datasets verified. Native overlap/material/readout and saved-hit fixture checks executed."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 -B -m unittest discover -s tools/calorimeter_hardware -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Seven physical/readout/service/CSG/ownership/determinism controls passed."
+    },
+    {
+      "command": "cmake -S prototypes/calorimeter -B build/calorimeter/factory; cmake --build build/calorimeter/factory",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Isolated plugin built with existing dependencies."
+    },
+    {
+      "command": "python3 -B tools/calorimeter_hardware/native.py (arguments in README)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "859parts;148unique sensitive IDs;1168cells;material capacities/masses/elemental fractions agree;0overlaps at1e-5 mm;10bounded rays."
+    },
+    {
+      "command": "python3 tools/calorimeter_hardware/check_transport.py --directory build/calorimeter/units --output build/calorimeter/units/transport.json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Two independent seeded muon events completed and saved positive-energy hits with valid calorimeter IDs; other cassette empty."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "61tasks/33documents/19review rounds valid."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "169paired records valid."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py build",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "209disjoint observed turns; current task counters remain unavailable."
+    },
+    {
+      "command": "PYTHONPATH=tools/project_records python3 -B -m unittest test_records.RepositoryReviewTests -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Historical PR4 first entry and exact approval scope preserved."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/project_records -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All28controls pass after adding prototypes/ to the synthetic fixture copy. Hosted failure was missing deliverable, not scientific geometry."
+    }
+  ]
+}
