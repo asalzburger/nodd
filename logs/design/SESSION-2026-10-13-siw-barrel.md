@@ -64,3 +64,35 @@ Explicit generic role assignment; native profile loading not claimed. Workflow i
   "completion": "Concrete candidate packed inside existing envelope with alternatives and explicit mechanical/thermal/service limitations. Identify any unavoidable change needing human choice; do not infer design approval."
 }
 ```
+
+## SysArch handoff and implementation choices
+
+BARREL-SysArch read5664d16 and primary CALICE source under main7c6d453
+instructions. Independent checks support retained sixteen-sector/48-layer
+geometry, compact94 mm boards,6/7/8 columns, seven1000 mm slabs and short ends;
+minimum PCB side clearance1.440 mm. A centered short grid collided with the
+40 mm bay when preserving5 mm frames;5 mm inward shift leaves3 mm clearance.
+359904 sensors,92135424 channels,15648 complete-lane interfaces give188.40 kW
+under inherited continuous hypotheses. Headers/ports cannot be inferred from
+material-filled allocations. The sector-centre eta0 ray samples only22 layers.
+No native/thermal/performance qualification was supplied by that contribution.
+
+Coordinator's aligned control exposed an entirely blind eta0.25 band. Before
+extending implementation, DES031 records an unsigned physical-joint staggering
+choice:alternate−96/+96 mm slab phases, retaining board count and envelope,
+with276/468 mm end-slab families exchanged between ends. The central sensor row
+remains present. This is a separate coordinator amendment, not an independently
+reviewed SysArch conclusion. Native checks and separate PhysVal review follow.
+
+Initial script/export failures were corrected before any scientific evidence:
+a duplicated center_mm keyword prevented export; a unit test confused radial
+cold-plate thickness with axial prism extrusion, and a zero-shift negative fixture
+failed generic positivity before its intended bay check. The tests now check
+actual radial vertices and a positive1 mm inward shift that physically overlaps
+its bay. No tolerance or production input was relaxed.
+
+All30 hardware controls pass, including eight new packing/cooling/ownership/
+crack controls. The new standalone factory compiles against verified DD4hep1.38;
+CMake reports upstream policy/CLHEP warnings, preserved without suppression.
+No new dependencies. Native execution remains pending at this initial source
+commit; results are not claimed from successful compilation.
