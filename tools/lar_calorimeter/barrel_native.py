@@ -311,6 +311,11 @@ def run(args):
                     distance += length;steps+=1
                     if steps > 100000: raise RuntimeError('Ray navigation did not terminate')
                 ray['active_LAr_path_mm'] = active
+                expected_active=abs(eta)<math.asinh(expected['sampling']['half_z_mm']/expected['sampling']['radii_mm'][0])
+                if (active>1e-6)!=expected_active:errors.append('finite-volume ray active crossing')
+                if not all(math.isfinite(ray[k]) and ray[k]>=0 for k in ('x_over_x0','l_over_lambda','active_LAr_path_mm')):errors.append('nonfinite/negative material ray')
+                if active>ray['material_path_mm'].get('LAr',0)+1e-5:errors.append('active LAr exceeds total LAr path')
+                if abs(eta)<math.asinh(expected['sampling']['half_z_mm']/expected['sampling']['radii_mm'][-1]) and ray['crossed_layers']!=11:errors.append('full-depth ray misses compartment')
                 rays.append(ray)
         root_file = args.output.with_suffix('.root')
         args.output.parent.mkdir(parents=True,exist_ok=True)

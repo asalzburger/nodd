@@ -53,8 +53,8 @@ def budget(config=None):
         axial = 2*radius*math.sin(angle)+c['installation_clearance_mm']
         rear = radius+od/2+c['installation_clearance_mm']
         bends[str(od)] = dict(radial_shift_mm=shift, bend_radius_mm=radius,
-            axial_s_bend_mm=axial, rear_quarter_turn_mm=rear)
-        if axial > c['front_service_gap_mm'] or rear > c['rear_service_gap_mm']:
+            axial_centreline_with_clearance_mm=axial, axial_s_bend_envelope_mm=axial+od, rear_quarter_turn_mm=rear)
+        if axial+od > c['front_service_gap_mm'] or rear > c['rear_service_gap_mm']:
             raise ValueError('Axial service gap fails minimum bend allocation')
     result['bends'] = bends
     q = c['barrel_cooling_reference_kW']+2*c['endcap_cooling_planning_kW_each']
@@ -62,17 +62,17 @@ def budget(config=None):
         source_flow_kg_s=c['barrel_cooling_reference_flow_kg_s'], planning_total_kW=q,
         inferred_flow_kg_s=q/c['barrel_cooling_reference_kW']*c['barrel_cooling_reference_flow_kg_s'],
         electronics_total_kW_scenarios=[(c['barrel_channel_budget']+2*c['endcap_channel_budget_each'])*p/1e6 for p in c['electronics_power_mW_per_channel_scenarios']],
-        limitation='Scaling one published nitrogen scenario; no pressure-drop, dry-out, header or bath-load certification.')
+        adverse_total_shortfall_kW=max(0,(c['barrel_channel_budget']+2*c['endcap_channel_budget_each'])*max(c['electronics_power_mW_per_channel_scenarios'])/1e6-q), limitation='Scaling one published nitrogen scenario; no pressure-drop, dry-out, header or bath-load certification.')
     current = c['barrel_cooling_reference_kW']*1000/c['barrel_stations']/c['supply_V']/c['conversion_efficiency']
     resistance = c['copper_room_resistivity_ohm_m']*c['power_loop_length_m']/(c['parallel_conductors']*c['conductor_area_mm2']*1e-6)
     result['power_example'] = dict(current_A=current, loop_resistance_ohm=resistance,
         voltage_drop_V=current*resistance, dissipation_W=current**2*resistance,
         scope='Room-temperature 48V copper loop only; return length included, connectors and cryogenic leads excluded.')
-    result['bandwidth'] = dict(barrel_uncompressed_Tbit_s=c['barrel_channel_budget']*c['bandwidth_sample_rate_Hz']*c['bandwidth_bits_per_sample']/1e12,
-        aggregator_Gbit_s=c['channels_per_board']*c['boards_per_aggregator']*c['bandwidth_sample_rate_Hz']*c['bandwidth_bits_per_sample']/1e9,
+    result['bandwidth'] = dict(barrel_uncompressed_Tbit_s=c['barrel_channel_budget']*c['bandwidth_max_hit_rate_Hz']*c['bandwidth_bits_per_hit']/1e12,
+        aggregator_Gbit_s=c['channels_per_board']*c['boards_per_aggregator']*c['bandwidth_max_hit_rate_Hz']*c['bandwidth_bits_per_hit']/1e9,
         electrical_capacity_Gbit_s=4*c['electrical_link_Gbit_s'],
         optical_capacity_Gbit_s=2*c['optical_link_Gbit_s'],
-        limitation='R&D sample-rate capability scenario before protocol overhead, occupancy or compression.')
+        limitation='Maximum triggering-rate scenario with64-bit hit payload choice; excludes multi-sample waveforms, protocol overhead, occupancy and compression.')
     result['source_sha256']={str(CONFIG.relative_to(ROOT)):sha(CONFIG),str(Path(__file__).relative_to(ROOT)):sha(__file__)}
     return result
 
