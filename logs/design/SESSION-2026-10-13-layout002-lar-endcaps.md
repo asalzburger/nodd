@@ -137,3 +137,36 @@ passed0overlaps/405rays; it is superseded, not presented as final evidence.
 Initial endcap DDSim run failed1: building only the library target omitted
 DD4hep's plugin component map. Build all isolated CMake targets before retry;
 no external installation or geometry gate changed.
+
+SysArch exact44ddd54 assessment found no P1 default placement defect;10endcap
+and12parent tests pass.139128 board separating-axis comparisons in one repeated
+plane findzero overlaps; board corners reach2565.976mm, with6mm clearance to
+radial cooling and59mm rear-wall clearance. P2 disposition: explicitly declare
+30mm unported full Al rear annulus (1.953598t/end) as a new conservative proxy;
+it blocks direct signal/HV routes and has no openings/attachments. This does
+not reproduce source rings/spokes or preserve their mass. P3 corrected:
+1495.9mm is1485.9mm sampling+10mm cover. All previously identified barrel
+corrections at5f8c505 are rechecked by both roles. No design/engineering signoff.
+
+## Actual final execution and visual integration
+
+Corrected endcap source464e3937808e8427f27ad2dcb3bed1bc717cb763:
+131.172858t bothends withservices,9856raw IDs,1,203,200logicalcells,zero10nm
+overlaps,60 native rays pass independent physical-face/cylinder intervals.
+Source1.1mm lead keeps all3 wheels. Taper deviations0.11685/0.03442/0.00968mm,
+minimum gaps0.99488/1.15426/1.20102mm. Complete build includescomponentmaps;
+both signed sparse DDSim fixtures save one valid positive-energy LAr hit,
+with exactargv/source/artifacts and observed42/FTFP_BERT controls.
+
+Ordinary finalparent merge7894524 contains unchanged scientific producers.
+Actual complete ECAL-only native audit passeszero10nm overlapsseed43 and405
+signed material rays. It excludestracker/magnet/HCAL/FCal/muons/field. Dirty
+execution flags refer to ongoing documentation/figure work; perfile scientific
+hashes match. All28 standard-library controls pass. Own plots and002RZ were
+rendered and inspected; gaps/collar/FCal are explicitlyempty, paired001 preserved.
+README/index featurepage, ADR009 and source-pinned JSON supportthealternative.
+
+PR73 isready, mainprojectvalidationandtokensiteCI passedat48e9725.
+Currentroot/childusage remainsunexposed, no newcountersestimated or historical
+observationsduplicated. The separateendcapjournal preserves assignmentcontracts,
+sourcecorrections, actual failures and bounded checks; nohumanapprovalrecorded.

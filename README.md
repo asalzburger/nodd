@@ -7,10 +7,12 @@ and [documentation index](docs/README.md).
 
 ## Current detector layouts
 
-**[Open the layout main page](docs/layouts/README.md)** for the current candidate,
+**[Open the layout main page](docs/layouts/README.md)** for the current candidates,
 its R–Z view and concise links to component decisions and pull requests.
 
 [![Current layout: tracker, inner 3 T solenoid, Si–W ECAL and HCAL outline](docs/layouts/figures/LAYOUT-001-rz.png)](docs/layouts/LAYOUT-001-tracker-3t-siw.md)
+
+[![LAYOUT-002: ALLEGRO-style LAr ECAL, larger HCAL and later FCal reservations](docs/layouts/figures/LAYOUT-002-rz.png)](docs/layouts/LAYOUT-002-tracker-3t-lar.md)
 
 The selected candidate combines the maintained tracker with proposed solenoid
 and ECAL components. Open prototypes and remaining systems are identified on the

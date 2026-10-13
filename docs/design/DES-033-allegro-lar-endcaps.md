@@ -50,7 +50,8 @@ owners. The expanded rear bath and external corridor must contain board/pipe
 reservations separately from actual installed material. Wall ports, seals,
 headers and hydraulic/thermal/load qualification remain open.
 
-Retain the steel/scintillator HCAL sampling thickness1495.9mm. Its barrel starts
+Retain the steel/scintillator HCAL total depth1495.9mm
+(1485.9mm sampling plus10mm back cover). Its barrel starts
 at3130mm apothem, ends at4625.9mm apothem and extends to|z|5860mm, wrapping the
 LAr endcaps while leaving an external routing annulus. HCAL endcaps start at
 6360mm, end7855.9mm, retain300mm aperture and4615.9mm outer apothem (10mm
@@ -87,18 +88,23 @@ main page alongside LAYOUT-001 with concise status and reproducible RZ input.
 
 **NODD DESIGN CHOICE:** lead thickness varies linearly in local Cartesian
 radial x within each tilted blade, rather than cylindrical radius rho. Sampled
-maximum thickness differences from the latter intent are recomputed in the
-source-bound validation inventory
-for inner/middle/outer wheels; this is an explicit approximation, especially
+maximum thickness differences from the latter intent are
+0.11685/0.03442/0.00968mm for inner/middle/outer wheels; this is an explicit approximation, especially
 for the inner wheel. This independently written physical model is ALLEGRO-style,
 not a byte-identical reproduction of the external factory. Faces have positive
-sampled LAr gaps, recomputed after the lead/cladding amendment, with circular clipping and conserved
+sampled minimum LAr gaps0.99488/1.15426/1.20102mm, with circular clipping and conserved
 annular partition. Axial volume quadrature refines to64–128 slices with2e-9
 relative convergence. Source5/1/1 calibration compartments are distinct from
 our virtual radial×axial readout grids.
 
 **NODD DESIGN CHOICES:** each rear bath begins with10mm LAr access then30mm
-Al-equivalent rear support. Three35mm board planes with10mm gaps follow.
+Al-equivalent rear support. This is a continuous unportedR400–2800mm
+annulus at|z|5470–5500mm,1.953598t per endcap: a new conservative
+material proxy, not the source rings-and-spokes topology or preserved support
+mass. It blocks direct electrode-to-board signal/HV paths; openings,
+attachments and passages are absent, and wheel-support tubes end10mm
+before the plate. These interfaces require physical redesign before any
+routing qualification. Three35mm board planes with10mm gaps follow.
 Six radial rows of350×75mm faces,5mm radial gaps and80mm tangential pitch fit
 16 wedges, with1/3/5/6/8/10 slots per row per wedge. This gives528 slots/plane,
 1584 per endcap, or811,008-channel slot capacity at the hypothetical512 channels
