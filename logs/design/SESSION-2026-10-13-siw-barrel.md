@@ -175,3 +175,30 @@ not engineering/performance. Original report is retained before strengthened
 execution; geometry inputs are unchanged. Supplementary all-module segmentation
 and three seeded sparse transport cases are separate checks, never substituted
 for full overlaps or complete transport.
+
+## Executed closeout
+
+The strengthened native audit at abb836f5fbf0a2141106d222e6950dc0473410f2
+passed with seed31, explicit helper identities and strict centred/unscaled
+two-section prisms. Zero overlaps at10 nm,299.002915 t,359904 physical IDs and
+all native shape/placement checks passed on unchanged producer3d95e0b. The dirty
+flag at this rerun reflects untracked documentation figures. Readout checker
+ran uncommitted earlier, with its recorded hash matching the subsequent commit.
+All552 module addresses/141312 electrodes/4416 ties pass. Three sparse Geant4
+muon events with seeds45/46/47 produce positive saved energy and expected parent/
+pad IDs; complete barrel transport is untested. All60 independent finite-box
+rays reproduce native crossings, with five explained plane boundary differences.
+
+Retained native/readout/finite-ray/transport/fixture/reproduction JSONs and
+initial audit history accompany DES031. Source-bound layout and material plots
+were regenerated after the strengthened audit and visually checked. All32
+hardware controls pass. Existing Spack/Matplotlib/rsvg tools are reused; no new
+software dependencies or production changes. PR71 is created on the dedicated
+branch and attached; final evidence/helper commits follow the initial observed
+remote head. README/layout work remains a separate PR against main.
+
+Observed historical token totals remain624299405 (input620754236,output3545169),
+with210 disjoint observations. This task's root and specialist usage are unknown
+and add no invented observations. Final project/journal/token-build checks are
+recorded with their actual outputs before publication; hosted checks are assessed
+on the final push and do not imply design or engineering approval.

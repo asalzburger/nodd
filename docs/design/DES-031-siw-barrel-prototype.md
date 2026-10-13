@@ -100,5 +100,43 @@ service bays and slab gaps are real losses, not calorimeter efficiencies.
 Full geometric acceptance, engineering qualification and realistic shower/jet/
 particle-flow response remain future work.
 
-Executed budgets, drawings, hashes and validation results will accompany the
-implemented prototype; passing controls do not grant human sign-off.
+## Executed prototype budgets
+
+The complete isolated barrel contains 359,904 square sensor boards in 16 sectors.
+The following are **INFERENCES** from the unsigned component choices, verified
+against the native geometry where applicable.
+
+| Quantity | Result | Interpretation |
+| --- | --- | --- |
+| Logical channels / ASIC packages | 92,135,424 / 1,439,616 | 256 pads and four 64-channel packages per board |
+| Shared interfaces | 15,648 | Complete lanes, each at most 8,192 channels |
+| Barrel mass | 299.003 t | Native and analytic constituent sums agree |
+| Tungsten alloy / copper | 149.228 t / 119.693 t | Copper is dominated by the proposed 3 mm cooling plates |
+| Continuous heat / ideal water flow | 188.401 kW / 9.014 kg/s | Inherited power hypotheses; water rises by 5 K |
+| Active face fraction | 54.88–64.57% | Layer-dependent planar area, including side/end allocations; not efficiency |
+| Minimum PCB side / bay clearance | 1.440 mm / 3 mm | Geometric clearances, without manufacturing tolerances |
+
+The copper mass and continuous power make the cooling choice a substantial
+engineering decision. Plate manufacture, load paths, headers, connectors,
+hydraulic pressure drop, thermal gradients and power/data routing need further
+design. The 46,944 individual coolant runs imply up to 93,888 endpoints before
+any sharing or collector redesign. The 30 mm barrel–endcap handoff is an
+allocation rather than a qualified service connection.
+
+![Barrel sectors and one detailed slab](figures/DES-031/barrel-layout.png)
+
+![Native barrel material and sensitive-layer rays](figures/DES-031/barrel-material.png)
+
+[Vector slab drawing](figures/DES-031/barrel-layout.svg) ·
+[Vector material plot](figures/DES-031/barrel-material.svg) ·
+[Source-bound plot inputs](figures/DES-031/plot-inputs.json).
+
+Native construction, mass/material checks, every physical sensor ID and complete
+overlaps passed at 10 nm tolerance with seed 31. Supplemental checks cover all
+552 logical module addresses and three sparse Geant4 events. Independent
+finite-thickness intersections reproduce all 60 native rays; five centre-plane
+approximations differ by one or two layers at sensor boundaries. These checks
+establish the bounded prototype implementation, while acceptance and engineering
+qualification remain open. See [the executed report](../validation/DES-031/results.md)
+for exact source revisions, commands, evidence and limitations. No human sign-off
+is recorded.

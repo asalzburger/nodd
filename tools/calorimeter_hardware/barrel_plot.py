@@ -46,6 +46,10 @@ def plot(directory,output):
     fig.text(.07,.015,'Includes barrel absorber, local readout/cooling and supports; excludes tracker, solenoid, endcaps and external services. Geometric sampling, not efficiency.',fontsize=9);fig.tight_layout(rect=(0,.06,1,1))
     for ext in ('svg','png'):fig.savefig(output/('barrel-material.'+ext),dpi=160,metadata={'Date':None} if ext=='svg' else None)
     plt.close(fig)
+    # Matplotlib emits trailing spaces inside multiline SVG paths. Normalize
+    # them without changing the XML geometry, so retained figures pass Git QA.
+    for path in output.glob('barrel-*.svg'):
+        path.write_text('\n'.join(line.rstrip() for line in path.read_text().splitlines())+'\n')
     current=coverage(r);c=copy.deepcopy(r['config']);c['layer_panel_phases_mm']=[0];aligned,_=build(c);control=coverage(aligned);witness=dict(status='INFERENCE / geometric samples only',summary=r['summary'],aligned_control=control,staggered=current,native_rays= len(native['material_rays']),native_source_sha256=sha(directory/'native.json'),plotter_sha256=sha(__file__),source_sha256=r['source_sha256']);(output/'plot-inputs.json').write_text(json.dumps(witness,indent=2)+'\n')
     print('Wrote layout and native material/coverage SVG/PNG, plus source-bound plot inputs.')
 
