@@ -23,7 +23,10 @@ be mixed with these pinned simulation inputs.
 **NODD DESIGN CHOICE:** retain these sampling radii/plane counts instead of
 shrinking gaps to the SiW slot. Replace the SiW technology only within this
 separate candidate; retain nODD's inner3T magnet and omit ALLEGRO's outer70mm
-solenoid proxy. Keep ALLEGRO's material proxies explicitly identified. The PCB
+solenoid proxy. Keep ALLEGRO's material proxies explicitly identified. The physical prototype adopts0.1mm steel per face (0.2mm total), following
+the published cold-test baseline rather than the thinner XML proxy. This is an
+explicit **NODD DESIGN CHOICE**: fixed radius/count/angle reduce the initial
+gap to approximately1.196mm per side. The PCB
 proxy omits actual patterned electrode metallization, so realistic response and
 its material amendment remain open. No published22X0 or resolution is transferred
 without a native scan and response validation.
@@ -52,9 +55,12 @@ bath. Rear bath may increase to fit cold boards, heat spreaders and exchangers;
 its final ledger is established by the service packing study, before final
 geometry export. The ordinary coilless rear radial budget is40mm bath,30mm cold
 wall,49mm vacuum,2.7mm warm wall: outer radius2700mm before service enlargement.
-The axial warm half-length is3900mm. Warm30mm/vacuum49mm/cold3.8mm end layers
-leave3817.2mm half-length for sampling; the explicit vacuum allowance is a new
-nODD choice rather than an ALLEGRO mechanical qualification.
+The axial warm half-length is4100mm. Warm30mm/vacuum49mm/cold3.8mm end layers
+and107.2mm cold access/bath at each end leave3910mm sampling half-length. The
+rear bath is enlarged to170mm to contain the120mm H-ring precedent, two35mm
+cold-board banks and a separate exchanger lane, including corner clearance for
+flat sector grids. The warm outer radius is2830mm. These are new nODD choices,
+not an ALLEGRO mechanical qualification.
 
 Published mechanical/source studies and a separate SysArch assignment inform
 support/electronics/cooling and external cable-service reservations. Counts,
@@ -71,12 +77,17 @@ its envelopes. No new magnetic field solution is implied by changing HCAL.
 **NODD DESIGN CHOICE:** independently generated polygon/extrusion primitives
 represent complete inclined absorber/electrode periods and two active LAr gaps
 per electrode per longitudinal segment. Material definition, segmentation,
-volume IDs and prototype factory remain isolated from production. Cells group
+volume IDs and prototype factory remain isolated from production. Source path endpoints define named annular compartment boundaries in this
+prototype. This is an explicit NODD segmentation-boundary convention; exact
+annular clipping preserves plate/gap ownership without claiming the source
+factory's segmentation implementation. Cells group
 two neighbouring electrodes in phi and use the pinned10mrad-scale theta grid
 with fourfold-finer layer1 strips, extended to the nODD axial extent. Raw parent
 volume IDs stay distinct; any grouped-cell mapping must declare its canonical
 volume/reference point and prove every reported reference lies in active LAr.
-Channel counts are derived from the constructed boundaries rather than rounded
+The source theta origin may be retained with a signed12-bit index, explicitly
+handling negative bins in the longer nODD barrel; it must not reuse the source
+unsigned10-bit field. Channel counts are derived from the constructed boundaries rather than rounded
 2million source counts. This is readout geometry, not charge transport,
 digitization or calibrated calorimeter response.
 
