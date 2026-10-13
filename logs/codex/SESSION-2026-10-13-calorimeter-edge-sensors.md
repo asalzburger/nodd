@@ -78,3 +78,12 @@ is added after creation; no human review or sign-off is inferred.
 
 Exact current client token counters are unavailable; usage stays empty/unknown,
 not zero. No previous observations or private client state are copied.
+
+Published implementation f8e7756df0c44803554f9943c212f12962c52901 on the dedicated
+upstream branch. Created draft [PR70](https://github.com/asalzburger/nodd/pull/70),
+stacked on open PR69/67, and attached it to this task. Initial PR token preview
+passed while project validation was running. A gh view --head option was
+unsupported; querying the actual PR number succeeded. Final metadata records
+the observed source revision, not a guessed future merge or human approval.
+Repository summary retains209 disjoint observed turns and620812827 observed
+tokens, with no available measurement for this task.
