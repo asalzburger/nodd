@@ -170,3 +170,27 @@ PR73 isready, mainprojectvalidationandtokensiteCI passedat48e9725.
 Currentroot/childusage remainsunexposed, no newcountersestimated or historical
 observationsduplicated. The separateendcapjournal preserves assignmentcontracts,
 sourcecorrections, actual failures and bounded checks; nohumanapprovalrecorded.
+
+## Prepared final correction recheck
+
+```json
+{
+  "id": "LAYOUT002-PhysVal-final-corrections",
+  "role": "PhysVal",
+  "input_revision": "cbb129f1e611909ebe1eb3bfc60f3f3383a8a727",
+  "inputs": [
+    "tools/lar_calorimeter/endcaps.json",
+    "tools/lar_calorimeter/endcap_ray_reference.py",
+    "tools/lar_calorimeter/endcap_native.py",
+    "docs/validation/DES-033/native.json",
+    "docs/validation/DES-033/combined.json",
+    "docs/validation/DES-033/transport-positive.json",
+    "docs/validation/DES-033/transport-negative.json"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Narrow recheck of your two previousP2 corrections: source lead1.1mm and actual independentface/cylinder ray PASS gates. Verify retained final geometry/readout/material evidence and sourcehash correspondence; inspect signed savedhit andcombined scope claims. No broad repeat ofpassedtests, no edits/nativejobs/acceptance. Exactcbb129f includes scientific producer464e393 plus normal parentmerge anddocs. Return remaining concrete defects or confirmation of addressed findings and actualboundedchecks.",
+  "deliverable": "Fixed-revision review of sourcecorrection andregressiongates, with artifactscope consistency.",
+  "completion": "Finalsource corrections assessed, no humanapprovalclaim."
+}
+```
