@@ -56,3 +56,84 @@ comparison for6e9mm³. It failed on6.68e-6mm³ floating summation difference,
 about1.1e-15 relative. Corrected that new assertion to1e-12 relative, stricter
 than the existing1e-10 mother-conservation gate; no established physical gate
 or overlap tolerance changed. The actual failed check remains recorded.
+
+## Prepared SysArch endcap review
+
+```json
+{
+  "id": "LAYOUT002-SysArch-endcap-review",
+  "role": "SysArch",
+  "input_revision": "44ddd54aef096cff9d019dd6b9ee55c06f7b9d7b",
+  "inputs": [
+    "docs/design/DES-033-allegro-lar-endcaps.md",
+    "tools/lar_calorimeter/endcap_geometry.py",
+    "tools/lar_calorimeter/endcap_services.py",
+    "tools/lar_calorimeter/endcap_native.py",
+    "prototypes/calorimeter/LArEndcap.cpp"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Review the exact committed endcap implementation and service/material/readout/forward/interface claims under your existing profile. Also inspect remediation of your previous barrel findings at exact parent5f8c505e26f0f325f17d801583042849f06f62a2. SysArch focuses physical placement/service/cable/HCAL/cryostat/forward interfaces; PhysVal on faces/circular capacities/readout/rawIDs/gates/claim consistency and taper limits. Complete endcap native pass observed0overlaps10nm; exact44ddd54 rerun underway. No editing/native jobs/install/signoff/delegation. Return concrete severity findings and actual checks, identify exact revisions assessed.",
+  "deliverable": "Read-only exact-revision findings plus recheck of barrel corrections; no human approval.",
+  "completion": "Actual defects corrected or bounded engineering/performance limitations retained before ready."
+}
+```
+
+## Prepared PhysVal endcap review
+
+```json
+{
+  "id": "LAYOUT002-PhysVal-endcap-review",
+  "role": "PhysVal",
+  "input_revision": "44ddd54aef096cff9d019dd6b9ee55c06f7b9d7b",
+  "inputs": [
+    "docs/design/DES-033-allegro-lar-endcaps.md",
+    "tools/lar_calorimeter/endcap_geometry.py",
+    "tools/lar_calorimeter/endcap_services.py",
+    "tools/lar_calorimeter/endcap_native.py",
+    "prototypes/calorimeter/LArEndcap.cpp"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Review the exact committed endcap implementation and service/material/readout/forward/interface claims under your existing profile. Also inspect remediation of your previous barrel findings at exact parent5f8c505e26f0f325f17d801583042849f06f62a2. SysArch focuses physical placement/service/cable/HCAL/cryostat/forward interfaces; PhysVal on faces/circular capacities/readout/rawIDs/gates/claim consistency and taper limits. Complete endcap native pass observed0overlaps10nm; exact44ddd54 rerun underway. No editing/native jobs/install/signoff/delegation. Return concrete severity findings and actual checks, identify exact revisions assessed.",
+  "deliverable": "Read-only exact-revision findings plus recheck of barrel corrections; no human approval.",
+  "completion": "Actual defects corrected or bounded engineering/performance limitations retained before ready."
+}
+```
+
+## Prepared transport/combination assignment
+
+```json
+{
+  "id": "LAYOUT002-SoftEng-transport-combination",
+  "role": "SoftEng",
+  "input_revision": "44ddd54aef096cff9d019dd6b9ee55c06f7b9d7b",
+  "inputs": [
+    "tools/lar_calorimeter/endcap_geometry.py",
+    "tools/lar_calorimeter/endcap_export.py",
+    "tools/lar_calorimeter/run_transport.py",
+    "tools/lar_calorimeter/check_transport.py"
+  ],
+  "mode": "write",
+  "writable_paths": [
+    "tools/lar_calorimeter/endcap_transport.py",
+    "tools/lar_calorimeter/combined_native.py",
+    "tools/lar_calorimeter/test_endcap_transport.py"
+  ],
+  "task": "Implement bounded reproducible signed-endcap sparse saved-hit fixtures/runner/checker and actual combined LAr ECAL-only native envelope/overlap/ray audit. Retain all3 wheels but one physical period perwheel perend, omit cryostat/services; generate side1/2 fixtures, startmuon inside middle-wheel gap, proper transformed point/direction. Runner bindsexactargv/exit/artifact/sourcehash; checkerrequiresfinished1event, observedseed42/FTFP_BERT, actual savedpositivefiniteenergy IDs with system11/side/wheel/plane/gap/rho/z validconstructedcells, no highunusedbits, requestparticle/energy labeledrequested. Testghostboundaries. Combined toolmerges actualbarrel/endcapcompact inreadout/detector lists withidentical materialdefinitions, loads both factorylibraries, fromXML buildswholeECAL, full10nmoverlap seed43 andsigneddenseeta/fixedphi native rays, activepaths via native sensitive flags (separatelybarrel/endcap). Hashbindcompacts/materials/libraries/model scientificsources. Gatefinite/nonnegativerays, active<=LAr; eta4activezero, no extrapolatedefficiency. Otherdetector/HCAL/field absent. No newexternals/install/nativejobs/commit/delegation; rootrunsevidence. Root owns allotherfiles.",
+  "deliverable": "Ownedfiles with standard-library tests/AST and exactCLI, rootexecutesnative/Geant4.",
+  "completion": "Correctsignedfixturehitvalidation and boundednativeECAL-onlycombination ready; no production/performanceapproval."
+}
+```
+
+PhysVal exact44ddd54 review independently integrates24 volumes to1.007e-10
+relative agreement and60 native active paths/counts to2.99e-11mm. It found
+two P2 corrections: source1.3mm absorber includes glue/steel, leaving1.1mm
+lead (driver line114); adopt that lead core with the already deliberate0.2mm
+total steel. Recompute all material/ray/transport evidence. Add independent
+straight-face/cylinder ray-interval gates, finite/nonnegative and active<=LAr
+controls to endcap native PASS. First combined run at the prior lead value
+passed0overlaps/405rays; it is superseded, not presented as final evidence.
+Initial endcap DDSim run failed1: building only the library target omitted
+DD4hep's plugin component map. Build all isolated CMake targets before retry;
+no external installation or geometry gate changed.

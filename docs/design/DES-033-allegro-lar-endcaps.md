@@ -11,8 +11,9 @@
 **FACT:** official k4geo e1ba7bc3e0d7291ebe3f6a02abfa784f879e36cb turbine v03
 uses three wheels with actual blade radial intervals410–764.260mm,
 774.260–1460.235mm and1470.235–2790mm,49degree tilt,384/720/1360 periods,
-1.3mm inner lead/electrode thickness and increasing lead thickness across each
-wheel. Radial support tubes occupy the intervening10mm strips. Nominal XML
+1.3mm inner total absorber and1.3mm electrode thickness and increasing lead thickness across each
+wheel. The source driver subtracts0.1mm glue and0.1mm steel from that absorber
+value, leaving1.1mm inner lead. Radial support tubes occupy the intervening10mm strips. Nominal XML
 400–2750mm is not the full constructed blade envelope. Readout has10/14/34
 radial bins and10 axial bins, giving601600 combinatorial addresses per side;
 this is a grid count, not a qualified installed electronics bill. Source
@@ -20,7 +21,8 @@ calibration subdivisions5/1/1 are not universal longitudinal shower layers.
 Different older papers use different wheel counts/angles and are not combined.
 
 **NODD DESIGN CHOICE:** retain actual wheel/period geometry, sampling depth450mm
-and source electrode thickness. Adopt0.2mm total steel (100um per face) and0.1mm
+and source electrode thickness. Retain1.1mm lead core after the source glue/steel subtraction.
+Adopt0.2mm total steel (100um per face) and0.1mm
 total glue, explicitly distinguishing mechanical precedent from the thinner
 simulation cladding. Own tilted-face/annular geometry is implemented without
 importing the external GPL factory or FCC software. Any planar taper convention
@@ -85,11 +87,12 @@ main page alongside LAYOUT-001 with concise status and reproducible RZ input.
 
 **NODD DESIGN CHOICE:** lead thickness varies linearly in local Cartesian
 radial x within each tilted blade, rather than cylindrical radius rho. Sampled
-maximum thickness differences from the latter intent are0.1381/0.04067/0.01144mm
+maximum thickness differences from the latter intent are recomputed in the
+source-bound validation inventory
 for inner/middle/outer wheels; this is an explicit approximation, especially
 for the inner wheel. This independently written physical model is ALLEGRO-style,
 not a byte-identical reproduction of the external factory. Faces have positive
-sampled LAr gaps0.8810/1.0509/1.1001mm, with circular clipping and conserved
+sampled LAr gaps, recomputed after the lead/cladding amendment, with circular clipping and conserved
 annular partition. Axial volume quadrature refines to64–128 slices with2e-9
 relative convergence. Source5/1/1 calibration compartments are distinct from
 our virtual radial×axial readout grids.
