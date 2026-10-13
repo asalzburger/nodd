@@ -80,3 +80,13 @@ in DES029 and its evidence. PR70 remains a separate dependent proposal.
 Local closeout: all28 project-record controls passed (expected negative Git
 fetch fixtures emit invalid-ref diagnostics; overall suite exit0). The staged
 PR diff against main passed whitespace checks. Native evidence remains unchanged.
+
+## Integration closeout
+
+Merge ceae48ed49f0331f85467f224f587c945a1aebff was pushed successfully. PR69
+now targets main; its obsolete parent-merge paragraph was replaced while
+preserving the scientific description. GitHub reports MERGEABLE. Project and
+token CI were IN_PROGRESS (UNSTABLE), not failed, when observed. This record
+closes the bounded conflict resolution; hosted completion is checked separately.
+The subsequent metadata commit records this observed implementation revision
+and does not change geometry. Actual PR merge is left to the user.
