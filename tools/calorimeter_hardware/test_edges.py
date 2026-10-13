@@ -5,7 +5,7 @@ import math
 import unittest
 from pathlib import Path
 
-from edge_layout import ROOT, area, build, circle_intersection_area, contains, intersect, rectangle
+from edge_layout import ROOT, area, build, circle_intersection_area, contains, intersect, rectangle, wedge
 
 
 class EdgeControls(unittest.TestCase):
@@ -60,10 +60,21 @@ class EdgeControls(unittest.TestCase):
         self.assertGreater(self.report['summary']['edges']['active_face_fraction'],self.report['summary']['squares']['active_face_fraction'])
 
     def test_forward_aperture_and_actual_cracks(self):
-        r=self.report['eta4_front_radius_mm'];c=self.report['config'];self.assertLess(math.sqrt(2)*(c['inner_square_apothem_mm']+c['inner_support_mm']),r)
-        self.assertFalse(self.layouts['edges']['hit'](r,0))
-        self.assertTrue(self.layouts['edges']['hit'](r/math.sqrt(2),r/math.sqrt(2)))
+        r=self.report['eta4_front_radius_mm'];c=self.report['config'];self.assertLess((c['inner_apothem_mm']+c['inner_support_mm'])/math.cos(math.pi/16),r)
+        self.assertEqual(c['carriers'],16)
+        self.assertFalse(self.layouts['squares']['hit'](r,0))
+        self.assertTrue(self.layouts['edges']['hit'](r,0))
+        self.assertFalse(self.layouts['edges']['hit'](r*math.cos(math.pi/16),r*math.sin(math.pi/16)))
         self.assertGreater(300,r)
+
+    def test_independent_wedges_and_service_bays(self):
+        c=self.report['config'];A=self.report['outer_apothem_mm'];t=math.tan(math.pi/16)
+        carrier=wedge(c['inner_apothem_mm']+c['inner_support_mm'],A-c['outer_support_mm']-c['outer_service_band_mm'],t,c['seam_half_gap_mm']+c['carrier_side_reserve_mm'])
+        for m in self.layouts['edges']['modules']:
+            for x,y in m['board']:self.assertTrue(contains(carrier,x+m['center_mm'][0],y+m['center_mm'][1]))
+        # Side/inner partials are real custom masks; none cross a wedge seam.
+        inner=[m for m in self.layouts['edges']['modules'] if m['grid'][0]==0]
+        self.assertTrue(inner);self.assertTrue(all(not m['full'] for m in inner))
 
     def test_circle_area_reference_cases(self):
         self.assertAlmostEqual(circle_intersection_area(rectangle(-2,-2,4,4),1),math.pi,places=10)

@@ -89,6 +89,12 @@ def regular(apothem,n=16):
 def quarter(p,side):return clip(clip(p,-1,0,-side),0,-1,-side)
 
 
+def wedge(inner,outer,tangent,side):
+    """One radial-x/tangential-y carrier; side is a tangential offset in mm."""
+    return clean([[inner,-inner*tangent+side],[outer,-outer*tangent+side],
+                  [outer,outer*tangent-side],[inner,inner*tangent-side]])
+
+
 def circle_intersection_area(p,r):
     """Exact polygon/disc intersection by directed triangle/sector integration."""
     total=0.
@@ -155,15 +161,21 @@ def asic_slots(board,count,c,e):
 
 
 def pack(c,e,outer,phase,edges,detail=True):
-    size=e['sensor_outer_mm'];board_size=size+2*c['board_margin_mm'];step=board_size+c['board_gap_mm'];start=c['carrier_side_reserve_mm']+phase
-    face=quarter(inset(outer,c['outer_service_band_mm']+c['inner_support_mm']),c['carrier_side_reserve_mm'])
-    hole=c['inner_square_apothem_mm']+c['inner_support_mm'];modules=[];rejected=Counter();grid={}
-    n=math.ceil(max(p[0] for p in outer)/step)
-    for ix in range(n):
-        for iy in range(n):
-            x,y=start+ix*step,start+iy*step;blank=rectangle(x,y,board_size,board_size);board=intersect(blank,face)
+    size=e['sensor_outer_mm'];board_size=size+2*c['board_margin_mm'];step=board_size+c['board_gap_mm']
+    tangent=math.tan(math.pi/c['carriers']);A=max(p[0] for p in outer)
+    inner=c['inner_apothem_mm']+c['inner_support_mm'];start=inner+phase
+    face=wedge(inner,A-c['outer_support_mm']-c['outer_service_band_mm'],tangent,c['seam_half_gap_mm']+c['carrier_side_reserve_mm'])
+    modules=[];rejected=Counter();grid={};row_phases={};ny=math.ceil(A*tangent/step);stride=2*ny+1
+    for ix in range(math.ceil((A-start)/step)):
+        x=start+ix*step;span=2*(x*tangent-c['seam_half_gap_mm']-c['carrier_side_reserve_mm'])
+        full_columns=max(0,math.floor((span+c['board_gap_mm'])/step))
+        # Panel B centres each row; even rows use a half-pitch shift. The same
+        # centres/IDs remain when shaped side and inner sensors are added.
+        row_phase=step/2 if full_columns and full_columns%2==0 else 0.
+        row_phases[ix]=row_phase
+        for iy in range(-ny,ny+1):
+            y=iy*step+row_phase-board_size/2;blank=rectangle(x,y,board_size,board_size);board=intersect(blank,face)
             if not board:continue
-            if x<hole-EPS and y<hole-EPS:rejected['inner_support_cell']+=1;continue
             full=math.isclose(area(board),board_size**2,rel_tol=1e-10)
             if not full and not edges:rejected['needs_edge_profile']+=1;continue
             sensor=inset(board,c['board_margin_mm'])
@@ -174,7 +186,7 @@ def pack(c,e,outer,phase,edges,detail=True):
             origin=[x+board_size/2,y+board_size/2]
             local=lambda p:[[a-origin[0],b-origin[1]] for a,b in p]
             # The grid address preserves existing square IDs when edge units are added.
-            m=dict(index=ix*n+iy,grid=[ix,iy],center_mm=origin,board=local(board),sensor=local(sensor),active=local(active),full=full,sensitive_area_mm2=area(active),family='square' if full else {3:'triangle',4:'trapezoid',5:'chamfered',6:'double_chamfer'}.get(len(sensor),'polygon'))
+            m=dict(index=ix*stride+iy+ny,grid=[ix,iy],center_mm=origin,board=local(board),sensor=local(sensor),active=local(active),full=full,sensitive_area_mm2=area(active),family='square' if full else {3:'triangle',4:'trapezoid',5:'chamfered',6:'double_chamfer'}.get(len(sensor),'polygon'))
             if detail:
                 m['pads']=pad_mask(m['active'],e['pitch_mm'],c['minimum_pad_fraction']*e['pitch_mm']**2)
                 m['asics']=asic_slots(m['board'],math.ceil(len(m['pads'])/e['asic_channels']),c,e)
@@ -182,35 +194,36 @@ def pack(c,e,outer,phase,edges,detail=True):
             modules.append(m);grid[(ix,iy)]=m
     if any(m['index']>=1024 for m in modules):raise ValueError('module ID field capacity')
     def hit(x,y):
-        m=grid.get((math.floor((x-start)/step),math.floor((y-start)/step)))
+        row=math.floor((x-start)/step);m=grid.get((row,math.floor((y-row_phases.get(row,0)+board_size/2)/step)))
         return bool(m and contains(m['active'],x-m['center_mm'][0],y-m['center_mm'][1]))
-    return dict(modules=modules,phase_mm=phase,rejected=dict(rejected),active_area_mm2=sum(m['sensitive_area_mm2'] for m in modules),hit=hit)
+    return dict(modules=modules,phase_mm=phase,rejected=dict(rejected),active_area_mm2=sum(m['sensitive_area_mm2'] for m in modules),face_mm=face,hit=hit)
 
 
 def build():
     c=json.loads((ROOT/'tools/calorimeter_hardware/edge_sensors.json').read_text());base,_=inventory();e=base['units'][0];econfig=json.loads((ROOT/'tools/calorimeter_hardware/cassettes.json').read_text())['ecal']
-    for key in ('target_abs_eta','inner_square_apothem_mm','inner_support_mm','carrier_side_reserve_mm','outer_service_band_mm','board_margin_mm','board_gap_mm','edge_guard_mm','minimum_sensor_area_mm2','minimum_sensor_width_mm','minimum_pad_fraction','cooling_plate_mm'):
+    for key in ('target_abs_eta','inner_apothem_mm','inner_support_mm','outer_support_mm','seam_half_gap_mm','carrier_side_reserve_mm','outer_service_band_mm','board_margin_mm','board_gap_mm','edge_guard_mm','minimum_sensor_area_mm2','minimum_sensor_width_mm','minimum_pad_fraction','cooling_plate_mm'):
         if not math.isfinite(c[key]) or c[key]<=0:raise ValueError('invalid '+key)
-    if c['carriers']!=4:raise ValueError('this prototype has four quadrant carriers')
+    if c['carriers']!=16:raise ValueError('this prototype retains sixteen wedge carriers')
     front=base['envelopes']['ecal_endcap_front_mm'];radius=base['envelopes']['ecal_barrel_outer_mm'];outer=regular(radius);target_r=front/math.sinh(c['target_abs_eta'])
-    if math.sqrt(2)*(c['inner_square_apothem_mm']+c['inner_support_mm'])>=target_r:raise ValueError('supported aperture blocks eta target')
+    if (c['inner_apothem_mm']+c['inner_support_mm'])/math.cos(math.pi/c['carriers'])>=target_r:raise ValueError('supported aperture blocks eta target')
     search=[]
     for phase in c['grid_phase_candidates_mm']:
-        p=pack(c,econfig,outer,phase,False,False);coverage=sum(p['hit'](target_r*math.cos((i+.5)*math.pi/360),target_r*math.sin((i+.5)*math.pi/360)) for i in range(180))/180
-        search.append(dict(phase_mm=phase,target_front_active_phi_fraction=coverage,quarter_active_area_mm2=p['active_area_mm2']))
-    phase=max(search,key=lambda q:(q['target_front_active_phi_fraction'],q['quarter_active_area_mm2']))['phase_mm']
+        p=pack(c,econfig,outer,phase,True,False);squares=pack(c,econfig,outer,phase,False,False)
+        coverage=sum(p['hit'](target_r*math.cos(theta),target_r*math.sin(theta)) for theta in ((i+.5)*2*math.pi/c['carriers']/180-math.pi/c['carriers'] for i in range(180)))/180
+        search.append(dict(phase_mm=phase,edge_target_front_active_phi_fraction=coverage,wedge_square_active_area_mm2=squares['active_area_mm2']))
+    phase=max(search,key=lambda q:(q['edge_target_front_active_phi_fraction'],q['wedge_square_active_area_mm2']))['phase_mm']
     layouts={name:pack(c,econfig,outer,phase,edges) for name,edges in (('squares',False),('edges',True))}
-    face=area(outer)-4*c['inner_square_apothem_mm']**2;fiducial=area(outer)-math.pi*target_r**2;summary={}
+    carriers=c['carriers'];face=area(outer)-area(regular(c['inner_apothem_mm'],carriers));fiducial=area(outer)-math.pi*target_r**2;summary={}
     for name,p in layouts.items():
         modules=p['modules'];pads=sum(len(m['pads']) for m in modules);asics=sum(len(m['asics']) for m in modules);interfaces=math.ceil(pads/8192);powered=asics*econfig['asic_channels'];lv=(powered*econfig['asic_continuous_W_channel']+interfaces*econfig['interface_W'])/.9;bias=pads*econfig['bias_V']*econfig['leakage_A_channel']
-        target_active=sum(area([[x+m['center_mm'][0],y+m['center_mm'][1]] for x,y in m['active']])-circle_intersection_area([[x+m['center_mm'][0],y+m['center_mm'][1]] for x,y in m['active']],target_r) for m in modules)*4
-        summary[name]=dict(quarter_sensors=len(modules),quarter_edge_sensors=sum(not m['full'] for m in modules),quarter_channels=pads,quarter_asic_packages=asics,quarter_powered_asic_channels=powered,quarter_unused_asic_channels=powered-pads,quarter_interfaces=interfaces,active_face_fraction=4*p['active_area_mm2']/face,active_eta4_fiducial_face_fraction=target_active/fiducial,rejected=p['rejected'],families=dict(Counter(m['family'] for m in modules)),channels_both_endcaps=pads*4*2*48,continuous_heat_both_endcaps_W=(lv+bias)*4*2*48,minimum_pad_area_mm2=min(g['area_mm2'] for m in modules for g in m['pads']),merged_electrodes=sum(len(g['members'])>1 for m in modules for g in m['pads']))
+        target_active=sum(area([[x+m['center_mm'][0],y+m['center_mm'][1]] for x,y in m['active']])-circle_intersection_area([[x+m['center_mm'][0],y+m['center_mm'][1]] for x,y in m['active']],target_r) for m in modules)*carriers
+        summary[name]=dict(wedge_sensors=len(modules),wedge_edge_sensors=sum(not m['full'] for m in modules),wedge_channels=pads,wedge_asic_packages=asics,wedge_powered_asic_channels=powered,wedge_unused_asic_channels=powered-pads,wedge_interfaces=interfaces,active_face_fraction=carriers*p['active_area_mm2']/face,active_eta4_fiducial_face_fraction=target_active/fiducial,rejected=p['rejected'],families=dict(Counter(m['family'] for m in modules)),channels_both_endcaps=pads*carriers*2*48,continuous_heat_both_endcaps_W=(lv+bias)*carriers*2*48,minimum_pad_area_mm2=min(g['area_mm2'] for m in modules for g in m['pads']),merged_electrodes=sum(len(g['members'])>1 for m in modules for g in m['pads']))
     profiles={}
     for m in layouts['edges']['modules']:
         if m['full']:continue
-        key=tuple(tuple(round(v,7) for v in p) for p in m['sensor']);profiles.setdefault(key,dict(family=m['family'],sensor_mm=m['sensor'],active_mm=m['active'],board_mm=m['board'],occurrences_per_quarter=0,pad_channels=len(m['pads']),asic_packages=len(m['asics'])))['occurrences_per_quarter']+=1
+        key=tuple(tuple(round(v,7) for v in p) for p in m['sensor']);profiles.setdefault(key,dict(family=m['family'],sensor_mm=m['sensor'],active_mm=m['active'],board_mm=m['board'],occurrences_per_wedge=0,pad_channels=len(m['pads']),asic_packages=len(m['asics'])))['occurrences_per_wedge']+=1
     for i,p in enumerate(profiles.values()):p['id']=f'E{i:03d}'
-    report=dict(status='DRAFT / PROTOTYPE',config=c,front_mm=front,outer_apothem_mm=radius,outer_polygon_mm=outer,layer_pitch_mm=base['regions'][1]['pitch_mm'],layers=48,back_cover_mm=base['config']['back_cover_mm'],eta4_front_radius_mm=target_r,nominal_face_area_mm2=face,eta4_fiducial_face_area_mm2=fiducial,grid_phase_search=search,summary=summary,edge_profiles=list(profiles.values()),source_sha256={**base['source_sha256'],**{str(p.relative_to(ROOT)):sha(p) for p in (Path(__file__),ROOT/'tools/calorimeter_hardware/edge_sensors.json')}})
+    report=dict(status='DRAFT / PROTOTYPE; sixteen wedges, corrected from panel B',config=c,front_mm=front,outer_apothem_mm=radius,outer_polygon_mm=outer,carrier_face_mm=layouts['edges']['face_mm'],layer_pitch_mm=base['regions'][1]['pitch_mm'],layers=48,back_cover_mm=base['config']['back_cover_mm'],eta4_front_radius_mm=target_r,nominal_face_area_mm2=face,eta4_fiducial_face_area_mm2=fiducial,grid_phase_search=search,summary=summary,edge_profiles=list(profiles.values()),source_sha256={**base['source_sha256'],**{str(p.relative_to(ROOT)):sha(p) for p in (Path(__file__),ROOT/'tools/calorimeter_hardware/edge_sensors.json')}})
     return report,layouts,base
 
 

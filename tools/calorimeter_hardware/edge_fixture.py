@@ -8,7 +8,7 @@ from export import write
 
 
 def fixture(directory):
-    report=json.loads((directory/'expected.json').read_text());module=next(m for m in report['modules'] if m['family']=='triangle');pad=max(module['pads'],key=lambda q:q['area_mm2']);tree=ET.parse(directory/'calorimeter.xml');det=tree.getroot().find('detectors/detector')
+    report=json.loads((directory/'expected.json').read_text());module=next(m for m in report['modules'] if not m['full'] and m['grid'][0]==0);pad=max(module['pads'],key=lambda q:q['area_mm2']);tree=ET.parse(directory/'calorimeter.xml');det=tree.getroot().find('detectors/detector')
     for region in list(det.findall('region')):
         if region.get('name')=='edge_frame':det.remove(region);continue
         for p in list(region.findall('piece')):

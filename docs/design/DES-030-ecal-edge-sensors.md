@@ -10,120 +10,132 @@
 - Engineering approval: pending. Implementation permission is not design sign-off.
 - Aperture/carrier decision: [ADR008](../decisions/ADR-008-prototype-ecal-forward-aperture.md)
 
-## Scope and provenance
+## Wedge carrier architecture
 
-**FACT:** Existing ODD ECAL sources at c167363 use continuous sensitive sheets;
-DES029's actual first cassette packer gives31.85% active absorber-plate area.
-Those historical geometries/evidence remain unchanged. Their apertures do not
-provide front-face coverage to|eta|4. **INFERENCE:** at z=3950mm, that direction
-reaches r=3950/sinh(4), approximately144.75mm.
+The human clarified that DES029 drawing **B — Proposed carrier approach** is
+that baseline: keep wedge carriers and augment them with edge sensors. The
+initial four-quadrant alternative at commit69b044e is superseded and retained in
+[its validation archive](../validation/DES-030/quadrant-study/results.md) and
+[its drawing](figures/DES-030/quadrant-study/four-stage-coverage.svg).
 
-**FACT / architectural precedent:** SRC-CMS-HGCAL-PARTIAL-2025, latest inspected
-arXiv2510.17280v4 §2/Figs1–3, describes manufactured partial sensors with
-dedicated dicing/HV/guard structures. SRC-CALICE-SIW-2022 PDF4/6 describes
-compact sensor boards, quarter endcaps and shared interfaces. Their geometries
-and operating modes are not transferred as approved nODD parameters.
+**FACT:** B shows sixteen22.5-degree wedge carriers, smaller full/half/single
+board families, an inner supported rim and shared electronics at the outer end.
+Its PCB/gap/support/service dimensions were illustrative unsigned choices,
+not an engineered detector. **NODD DESIGN CHOICE:** carry its topology and named
+2mm PCB margins,2mm board gaps,5mm tangential side allowance,30mm inner rim and
+120mm outer service bay into this isolated ECAL prototype. The inherited1mm
+half-seam is additional; the sloping board boundary is
+`abs(y) <= x*tan(pi/16) - 6mm` in radial-x/tangential-y coordinates.
+
+Use individual sensor boards as the first independently validated member of
+B's full/half/single family. Rows are centred like B; an even number of squares
+uses a half-pitch tangential offset. Boards never cross a wedge boundary.
+Grouped full/half-board routing and mechanics remain open. A radial-phase
+search over0/2/4/6mm offsets prioritizes custom-mask eta4 azimuth coverage and
+then intact-square area; it selects2mm. This is a bounded optimization, not a
+global packing optimum. Edge addition retains every square placement and ID.
+
+Retain90mm silicon blanks,0.5mm Si,5.5mm nominal pad pitch,1.9mm tungsten,
+48layers,10.9mm layer pitch,front3950mm,outer16-gon apothem2223.2mm and10mm
+rear cover from DES028/029. No HCAL, barrel, production entry point or tracker
+geometry changes. The existing HCAL forward hole is not repaired by this work.
+
+## Forward aperture and custom inner sensors
+
+**INFERENCE:** at3950mm,|eta|4 reaches144.7421mm. The original300mm aperture
+blocks that direction. The human authorized extending the prototype toward
+eta4. **NODD DESIGN CHOICE:** use a100mm-apothem16-sided aperture; retain B's
+30mm inner supported rim. Its supported corner radius is
+`130/cos(pi/16)=132.55mm`, leaving12.19mm radially to the target at the front.
+Machine/forward/shielding clearance and support strength remain unsigned.
+
+At that radius, a22.5-degree wedge is approximately57mm wide before side
+reservations, so a90mm sensor cannot fit. Custom inner trapezoids cover the
+narrow region. Additional partial boards/sensors fill sloping sides and the
+remainder below the outer service bay. The same aperture, supports, row centres
+and service reservation apply to both square-only and square-plus-edge cases.
+They isolate the contribution of custom silicon, including forward reach.
+
+## Sensor masks, electrodes and readout
+
+**FACT / architectural precedent:** SRC-CMS-HGCAL-PARTIAL-2025 arXiv2510.17280v4
+§2/Figs1–3 describes manufactured partial sensors with dedicated dicing/HV/guard
+structures. SRC-CALICE-SIW-2022 PDF4/6 supports compact boards and shared
+interfaces. These sources do not qualify these nODD masks or operating modes.
 
 All new parameters in `tools/calorimeter_hardware/edge_sensors.json` are unsigned
-**NODD DESIGN CHOICE** proposals. Retain90mm sensor blanks,0.5mm silicon,
-5.5mm nominal pad pitch,1.9mm tungsten,48 layers and10.9mm layer pitch from
-DES028/029. Preserve the outer sixteen-sided ECAL envelope and front z.
-Replace sixteen narrow cassette-packing boundaries by four physical quadrants;
-logical/physical carrier IDs remain explicit.
+**NODD DESIGN CHOICE** proposals. Distinct outer silicon, matching PCB and active
+inset polygons specify new manufactured masks, not fictitious clipped standard
+sensors. Keep the inherited1mm square guard; reserve2mm along every custom edge
+for dicing/HV termination. Reject silicon area<1200mm2, minimum Feret width<20mm,
+and boards unable to hold the required10×12mm packages with1mm clearance.
+Sensor outlines fit within90×90mm blanks. Dicing tolerances, edge termination,
+wafer yield, irradiation and guard electrical behaviour need process review.
 
-The new aperture is a90mm-apothem square, surrounded by5mm inner support;
-its supported corner reaches134.35mm, below the eta4 front radius. This is a
-prototype aperture contract requiring beam-pipe, shielding and forward-service
-integration review. It is not a claim that the present machine interface fits.
-Five-mm side reserves and a25mm outer service band retain explicit dead space.
+Clip the nominal pad lattice to each active mask. Merge fragments smaller than
+20% of a nominal pad with connected neighbours, preserving active area. Record
+electrode outlines, merged keys, bounds and reference positions within their
+physical union. The dedicated `nODDEdgeGrid` segmentation maps hits to those
+IDs and interior positions, including closed-boundary ties. It does not model
+charge sharing or electrical fields. There are29 oriented profiles and36 custom
+placements per wedge/layer;14 small/narrow candidates are rejected. Catalogue
+minimum pad area is6.068449mm2;158 electrode groups per wedge merge fragments.
 
-## Custom sensor and electrode design
+The ID descriptor is
+`system:8,side:2,sector:4,layer:6,module:10,x:-6,y:-6`.
+Four sector bits represent all16 wedges. Linearized row/column addresses retain
+square IDs when custom masks are enabled. IDs from the superseded four-quadrant
+architecture are not a compatible detector baseline. Negative-end transforms
+are proper rotations, including Rx(pi), with no handedness reflection.
 
-The complete sensor blank, matching PCB, active inset and pad mask are separate
-polygons. Boundary outlines are generated as convex intersections of90mm blank
-windows with the reserved carrier face. These specify **new manufactured masks
-and dicing profiles**; standard silicon sensors are not clipped in the simulation.
-Full squares keep their inherited1mm guard. New boundary sensors reserve2mm
-along all edges for dicing/HV termination, subject to electrical qualification.
-Triangular profiles contain acute corners; tip bevel/radius, dicing damage and
-guard termination require process review. The polygon proposal is not a claim
-of established wafer yield or breakdown voltage.
+## Material, cooling and budgets
 
-Reject less than1200mm2 sensor area, less than20mm minimum Feret width, or
-boards that cannot hold the necessary10×12mm readout packages with1mm clearance.
-Every retained profile fits inside its90mm blank and hence a6-inch wafer.
-Record profile count, family, outline and discarded remainders; mask/procurement
-complexity is a result, not hidden by calling all partials one sensor.
+Each wedge owns absorber plates and the supported frame once. Explicit PCBs,
+ASIC constituents, thermal contacts and skins remain behind the active face.
+**NODD DESIGN CHOICE:** retain the3mm copper cooling plate with2mm-OD Ti/water
+runs. Radial runs at tangential0/±250mm fit inside each wedge; account for the
+removed copper. Tube endpoints stop5mm inside the plate. External fittings,
+headers, hydraulics, heat removal and stiffness remain unqualified.
 
-Clip the nominal pad lattice to the **active** mask to form custom electrode
-outlines. Merge pads smaller than20% of a nominal pad with connected neighbours;
-record channel mapping and the representative point inside each electrode.
-Some merged pads are nonrectangular. A dedicated segmentation returns these
-points and merged IDs; it must not return positions outside the physical mask.
-This is geometry/readout topology, not an electric-field or charge-sharing model.
-Module IDs use the linearized grid address, preserving square sensor IDs when
-edge variants are added. Closed boundaries that coincide with a grid edge map
-to an existing interior electrode; no positions outside the active mask are
-returned. Tiny-pad merging preserves active area and connected electrode groups.
+Use the inherited continuous channel-power, leakage, voltage,2W shared-interface
+and0.9 converter hypotheses, with8192 logical channels/interface. Count all
+64channels per installed ASIC, including914 unbonded channels per wedge/layer
+in the edge case. No power-pulsing or unverified unused-channel savings.
 
-## Hardware and validation boundaries
-
-PCBs and package/thermal-contact footprints remain behind the sensor face.
-The carrier owns absorber/cooling material once per layer; readout interfaces
-are shared at its peripheral service zone. Continuous-power/channel and bias
-hypotheses remain those of DES028. A3mm copper cooling plate can contain2mm
-outer-diameter Ti/water runs; preserve material displaced by the channels.
-External manifold/connector details, hydraulic flow/thermal analysis, stiffness,
-HV breakdown, wafer yield and radiation response remain unqualified.
-The10mm DES029 rear cover is retained. Straight cooling runs account for tube,
-water and displaced copper; their external hydraulic connections are not
-implemented. The new3mm plate is a layout proposal, not thermal qualification.
-
-Shared interface capacity is a proposed8192 logical channels/interface at the
-inherited2W interface hypothesis. Continuous ASIC power counts every channel of
-every installed64-channel package, including unbonded channels. No unverified
-power saving is credited to those channels; bias current counts sensor pads.
-
-Publish deterministic square-only and square-plus-edge layouts, native geometry
-checks, mass/material/channel/power ledgers and eta/phi active-layer counts.
-Use the same new aperture, carrier, pitch and reservations for the two optimized
-panels, isolating the contribution of custom edge sensors. Show historical
-aperture/size differences and denominator definitions on the SVG.
-High active area does not mean100% efficiency or an absence of narrow cracks.
-
-## Delivered layouts
-
-| Single layer, one quadrant | Compact squares | Squares + edge sensors |
+| One wedge/layer unless stated | Compact squares | Squares + custom masks |
 | --- | ---: | ---: |
-| Sensors | 423 | 462 (39 custom) |
-| Logical pad channels | 108288 | 114813 |
-| ASIC packages | 1692 | 1812 |
-| Unbonded powered ASIC channels | 0 | 1155 |
-| Nominal face active fraction | 83.47% | 88.12% |
+| Sensors | 76 | 112 (36 custom) |
+| Logical channels | 19456 | 22830 |
+| ASIC packages | 304 | 371 |
+| Shared interfaces | 3 | 3 |
+| Full-face active fraction | 59.98% | 69.47% |
+| Both48-layer endcap channels | 29884416 | 35066880 |
+| Both endcap native mass | 97.928245t | 98.948639t |
+| Both endcap continuous heat hypothesis | 60.070kW | 71.051kW |
 
-There are22 distinct oriented edge profiles: trapezoidal, chamfered and
-triangular variants, with6 small/narrow remainder candidates rejected. The
-catalogue records every outline, guard, PCB, channel count and package count.
-The phase optimizer enumerates0/2/4/6mm equal x/y offsets, prioritizes eta4
-front-plane azimuth coverage, then active area; it selects0mm. This is an
-optimization within that declared search/family, not a global packing optimum.
+## Drawings and coverage interpretation
 
-![Four requested ECAL packing stages](figures/DES-030/four-stage-coverage.svg)
+![One wedge before/after custom masks](figures/DES-030/wedge-carrier-with-edge-sensors.svg)
 
-Historical ODD and nODD use their own dimensions and denominators. C/D retain
-the same new envelope, aperture and reservations; their4.65 percentage-point
-difference isolates edge sensors. Their denominator includes support/services:
-outer sixteen-sided polygon minus the90mm-apothem square aperture. The separate
-eta4 fiducial-face denominator subtracts a144.742mm-radius disc and gives
-83.49%/88.15%. These area fractions are not particle efficiencies.
+![Four requested stages](figures/DES-030/four-stage-coverage.svg)
 
-The360 azimuth samples at eta4 have43.58 active layers on average;95.56% cross
-at least one layer and80% cross at least40 of48 layers in both optimized masks.
-Some rays along seams have zero crossings. The improvement at the inner edge
-comes from the aperture/carrier/grid change; these custom edge sensors recover
-the outer perimeter. No layer staggering or uniform eta4 acceptance is claimed.
+The single-wedge drawing follows B and adds orange custom masks while keeping
+all green squares unchanged. Its close-up shows the supported rim, inner sensor
+and eta4 circle. The four-stage drawing keeps historical ODD/first-nODD geometry
+and their original denominators. Their source-derived fractions are98.59% and
+31.85%; no new native ODD run is claimed. C/D both divide by the complete outer
+16-gon face minus the100mm-apothem16-gon aperture, including support/service
+losses. The custom-mask gain is9.48percentage points. The eta4-fiducial face
+outside the144.742mm disc gives60.11%/69.59%. These are geometric areas, not
+particle efficiencies.
 
-[Profile catalogue](inputs/DES-030-edge-profiles.json),
-[directional masks](../validation/DES-030/directional-coverage.json) and
-[validation report](../validation/DES-030/results.md) retain exact inputs,
-coverage limits and the completed native checks.
+At eta4,360 one-degree-centred azimuth samples give square-only zero active
+layers; custom masks average32.36/48 layers,68.89% with at least one and64.44%
+with at least40. Identical masks repeat through depth; seams/guards/gaps still
+produce zero-hit directions. The endcap-only scan excludes the unchanged barrel.
+Uniform eta4 acceptance and realistic calorimetric performance are not claimed.
+
+[Mask catalogue](inputs/DES-030-edge-profiles.json),
+[directional samples](../validation/DES-030/directional-coverage.json) and
+[native/transport evidence](../validation/DES-030/results.md) record exact inputs,
+actual checks and the remaining engineering questions.

@@ -7,7 +7,7 @@ from collections import defaultdict
 from pathlib import Path
 import xml.etree.ElementTree as ET
 
-from edge_layout import area, build, contains, intersect, quarter, rectangle, inset
+from edge_layout import area, build, contains, rectangle, wedge
 from assembly import frame_rotation
 from assembly_export import transform
 from model import ROOT, I, materials, sha
@@ -34,18 +34,19 @@ def hardware(report,layout):
         if module is not None:p['module']=module
         target.append(p);return p
     def cut_polygon(p,depth):return dict(shape_kind='xtru',vertices_mm=p,depth_mm=depth,center_mm=[0,0,0],frame=I,cuts=[])
-    outer=report['outer_polygon_mm'];side=c['carrier_side_reserve_mm'];hole=c['inner_square_apothem_mm']+c['inner_support_mm'];rim=c['inner_support_mm'];A=report['outer_apothem_mm'];depth=report['layers']*report['layer_pitch_mm']
-    plate=quarter(inset(outer,rim),side);hole_polygon=intersect(rectangle(-hole,-hole,2*hole,2*hole),plate)
-    depth_cut=lambda d:[cut_polygon(hole_polygon,d)]
+    side=c['seam_half_gap_mm']+c['carrier_side_reserve_mm'];hole=c['inner_apothem_mm']+c['inner_support_mm'];A=report['outer_apothem_mm'];depth=report['layers']*report['layer_pitch_mm'];tangent=math.tan(math.pi/c['carriers'])
+    plate=wedge(hole,A-c['outer_support_mm'],tangent,side)
     body=e['absorber_mm']
-    add(layer,'edge_absorber','absorber','TungstenDens24',plate,body/2,body,cuts=depth_cut(body))
+    add(layer,'edge_absorber','absorber','TungstenDens24',plate,body/2,body)
     for name,z in (('front_skin',.1),('back_skin',7.9)):
-        add(layer,'edge_'+name,'skin','Aluminium',plate,body+z,.2,cuts=depth_cut(.2))
-    tube_rows=[];cold_cuts=depth_cut(c['cooling_plate_mm']);zcold=body+4.8+c['cooling_plate_mm']/2
-    from edge_layout import planes
-    for i in range(math.ceil(A/c['cooling_pipe_pitch_mm'])):
-        y=c['cooling_pipe_start_y_mm']+i*c['cooling_pipe_pitch_mm'];r=config['tube_outer_radius_mm'];low=(hole if y-r<hole else side)+c['cooling_port_inset_mm']
-        upper=min((offset-b*v)/a for a,b,offset in planes(plate) if a>1e-8 for v in (y-r,y+r))-c['cooling_port_inset_mm']
+        add(layer,'edge_'+name,'skin','Aluminium',plate,body+z,.2)
+    tube_rows=[];cold_cuts=[];zcold=body+4.8+c['cooling_plate_mm']/2
+    # Radial runs, including the wedge centre, stay inside the copper plate.
+    # Physical end fittings/manifolds remain an explicit engineering omission.
+    extent=math.floor((A*tangent-side)/c['cooling_pipe_pitch_mm'])
+    for i,j in enumerate(range(-extent,extent+1)):
+        y=c['cooling_pipe_start_y_mm']+j*c['cooling_pipe_pitch_mm'];r=config['tube_outer_radius_mm'];low=max(hole,(abs(y)+r+side)/tangent)+c['cooling_port_inset_mm']
+        upper=A-c['outer_support_mm']-c['cooling_port_inset_mm']
         if upper-low<20 or not all(contains(plate,x,v) for x,v in rectangle(low,y-r,upper-low,2*r)):continue
         center=[(low+upper)/2,y,0];dims=dict(rmin=0,rmax=r,length=upper-low)
         cold_cuts.append(dict(shape_kind='tube',dimensions_mm=dims,center_mm=center,frame=TUBE_X,cuts=[]));tube_rows.append(dict(center_mm=center[:2]+[zcold],length_mm=upper-low,port_x_mm=[low,upper],y_mm=y))
@@ -66,23 +67,18 @@ def hardware(report,layout):
             for p in e['asic_stack']:
                 dims=dict(zip(('sx','sy','sz'),e['asic_package_xy_mm']+[p['thickness_mm']]))
                 add(layer,prefix+f'a{j}_'+p['name'],p['role'],p['material'],None,body+p['center_z_mm'],0,center=[origin[0]+x,origin[1]+y],kind='box',dims=dims)
-    available=quarter(inset(outer,rim+c['outer_service_band_mm']),side)
-    # available includes the aperture: separate hole subtraction would overlap it.
-    add(layer,'edge_shared_PCB','interface','G10',plate,body+e['pcb_front_mm']+e['pcb_mm']/2,e['pcb_mm'],cuts=[cut_polygon(available,e['pcb_mm'])])
+    bay=wedge(A-c['outer_support_mm']-c['outer_service_band_mm'],A-c['outer_support_mm'],tangent,side)
+    add(layer,'edge_shared_PCB','interface','G10',bay,body+e['pcb_front_mm']+e['pcb_mm']/2,e['pcb_mm'])
     n=math.ceil(sum(len(q['pads']) for q in modules)/8192)
     for j in range(n):
-        phi=(j+.5)*math.pi/(2*n);normal=round(phi/(math.pi/8))*math.pi/8;rad=(A-rim-c['outer_service_band_mm']/2)/math.cos(phi-normal);x,y=rad*math.cos(phi),rad*math.sin(phi);co,si=math.cos(normal),math.sin(normal);rot=[[co,si,0],[-si,co,0],[0,0,1]]
+        x=A-c['outer_support_mm']-c['outer_service_band_mm']/2;y=((j+.5)/n*2-1)*(x*tangent-side-20)
         for tag,role,mat,z,t in (('chip','interface','HCalPackage',3.28,1.4),('pad','thermal_pad','Graphite',4.08,.2),('post','thermal_post','Aluminium',4.49,.62)):
-            add(layer,f'interface_{j}_{tag}',role,mat,None,body+z,0,center=[x,y],kind='box',dims=dict(sx=20,sy=20,sz=t),orientation=rot)
-    seam=.5
-    for tag,p in (('x_rib',rectangle(seam,hole,side-seam,A-rim-hole)),('y_rib',rectangle(hole,seam,A-rim-hole,side-seam)),('inner_x',rectangle(c['inner_square_apothem_mm'],side,rim,hole-side)),('inner_y',rectangle(side,c['inner_square_apothem_mm'],c['inner_square_apothem_mm']-side,rim))):
-        add(frame,'frame_'+tag,'support','Aluminium',p,depth/2,depth)
-    rim_outer=quarter(outer,side)
-    add(frame,'frame_outer_rim','support','Aluminium',rim_outer,depth/2,depth,cuts=[cut_polygon(plate,depth)])
-    back=quarter(outer,seam);aperture=intersect(rectangle(-c['inner_square_apothem_mm'],-c['inner_square_apothem_mm'],2*c['inner_square_apothem_mm'],2*c['inner_square_apothem_mm']),back);t=report['back_cover_mm']
-    add(frame,'frame_back_cover','back_cover','Aluminium',back,depth+t/2,t,cuts=[cut_polygon(aperture,t)])
+            add(layer,f'interface_{j}_{tag}',role,mat,None,body+z,0,center=[x,y],kind='box',dims=dict(sx=20,sy=20,sz=t))
+    carrier=wedge(c['inner_apothem_mm'],A,tangent,c['seam_half_gap_mm'])
+    add(frame,'frame_supported_wedge','support','Aluminium',carrier,depth/2,depth,cuts=[cut_polygon(plate,depth)])
+    t=report['back_cover_mm'];add(frame,'frame_back_cover','back_cover','Aluminium',carrier,depth+t/2,t)
     totals=defaultdict(lambda:dict(volume_mm3=0.,mass_g=0.))
-    for pieces,mult in ((layer,8*48),(frame,8)):
+    for pieces,mult in ((layer,2*c['carriers']*48),(frame,2*c['carriers'])):
         for p in pieces:
             for k in ('volume_mm3','mass_g'):totals[p['material']][k]+=mult*p[k]
     return dict(layer_parts=layer,frame_parts=frame,cooling_runs=tube_rows,material_totals=dict(totals),mass_g=sum(q['mass_g'] for q in totals.values()),materials=m.recipes),m
@@ -109,7 +105,7 @@ def export(output,name='edges',layers=48):
         if q['full']:continue
         for g in q['pads']:
             for raw in g['members']:cells += [q['index'],*raw,*g['key'],*g['reference_mm'],*g['bbox_mm']]
-    ET.SubElement(ro,'segmentation',type='nODDEdgeGrid',grid_size_x='5.5*mm',grid_size_y='5.5*mm',offset_x='2.75*mm',offset_y='2.75*mm',cell_table_mm=' '.join(format(v,'.17g') for v in cells),sensor_polygons_mm=' '.join(format(v,'.17g') for v in polys));ET.SubElement(ro,'id').text='system:8,side:2,sector:3,layer:6,module:10,x:-6,y:-6'
+    ET.SubElement(ro,'segmentation',type='nODDEdgeGrid',grid_size_x='5.5*mm',grid_size_y='5.5*mm',offset_x='2.75*mm',offset_y='2.75*mm',cell_table_mm=' '.join(format(v,'.17g') for v in cells),sensor_polygons_mm=' '.join(format(v,'.17g') for v in polys));ET.SubElement(ro,'id').text='system:8,side:2,sector:4,layer:6,module:10,x:-6,y:-6'
     d=ET.SubElement(ET.SubElement(doc,'detectors'),'detector',name='EDGE',id='8',type='nODDEcalEdgePrototype',readout='EDGEHits');ET.SubElement(d,'sensitive',type='calorimeter')
     for region,pieces in (('edge_layer',hw['layer_parts']),('edge_frame',hw['frame_parts'])):
         node=ET.SubElement(d,'region',name=region)
@@ -118,15 +114,15 @@ def export(output,name='edges',layers=48):
             if 'module' in p:child.set('module',str(p['module']))
     replicas=[]
     for side in (1,2):
-        for sector in range(4):
-            rot=frame_rotation(sector*math.pi/2,side==2)
+        for sector in range(report['config']['carriers']):
+            rot=frame_rotation(sector*2*math.pi/report['config']['carriers'],side==2)
             for region,ls in (('edge_layer',range(layers)),('edge_frame',(0,))):
                 for layer in ls:
                     z=report['front_mm']+(layer*report['layer_pitch_mm'] if region=='edge_layer' else 0);p=dict(region=region,side=side,sector=sector,layer=layer,center_mm=[0,0,z if side==1 else -z],frame=rot);replicas.append(p)
                     node=ET.SubElement(d,'replica',region=region,side=str(side),sector=str(sector),layer=str(layer));transform(node,p)
     write(output/'calorimeter.xml',doc)
     expected=dict(status='DRAFT / PROTOTYPE',layout_name=name,layout_report=report,modules=layout['modules'],hardware=hw,replicas=replicas,layers=layers,execution=dict(commit=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),dirty=bool(subprocess.check_output(['git','status','--porcelain'],text=True))),source_sha256={str(p.relative_to(ROOT)):sha(p) for p in (Path(__file__),ROOT/'prototypes/calorimeter/EdgeCalorimeter.cpp',ROOT/'tools/calorimeter_hardware/edge_layout.py',ROOT/'tools/calorimeter_hardware/edge_sensors.json',ROOT/'tools/pixel_barrel_dd4hep/materials.py',ROOT/'detector/config/elements.json')})
-    (output/'expected.json').write_text(json.dumps(expected,indent=2)+'\n');print(name,len(layout['modules']),'modules/quarter/layer',hw['mass_g']/1e6,'t both complete endcaps');return expected
+    (output/'expected.json').write_text(json.dumps(expected,indent=2)+'\n');print(name,len(layout['modules']),'modules/wedge/layer',hw['mass_g']/1e6,'t both complete endcaps');return expected
 
 
 if __name__=='__main__':
