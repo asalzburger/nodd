@@ -4,8 +4,8 @@
   "title": "Resolve PR67 conflicts with upstream main",
   "recorded_at": "2026-10-13T07:43:36Z",
   "started_at": null,
-  "ended_at": null,
-  "status": "open",
+  "ended_at": "2026-10-13T08:00:51Z",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
@@ -22,7 +22,9 @@
     "start_commit": "b725f4359dc18d34424598cca5dd646b2491dd90",
     "branch": "codex/calorimeter-cassettes",
     "initial_changes": [],
-    "result_commits": [],
+    "result_commits": [
+      "38051e4c71eb75c368d437beea6b85193cc7dc99"
+    ],
     "changed_files": [
       ".github/workflows/validation.yml",
       "project/tracking.json",
@@ -132,6 +134,18 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "210 disjoint dated turns /624299405 observed tokens; no current-turn estimates or duplicate owners."
+    },
+    {
+      "command": "git diff --cached --check against the pre-merge PR parent",
+      "status": "FAIL",
+      "exit_code": null,
+      "result": "Reported existing trailing whitespace in generated DES004 SVGs imported unchanged from main. Broad output was truncated; no figure/evidence bytes changed. PR diff against current main is clean."
+    },
+    {
+      "command": "git diff origin/main HEAD --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Actual PR67 difference has no whitespace errors."
     }
   ]
 }

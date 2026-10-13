@@ -53,6 +53,11 @@ and unknown, never zero or estimated. All172 paired session records validate.
 
 ## Delivery snapshot
 
-The resolution is prepared for an ordinary merge commit and upstream push.
+Ordinary merge commit38051e4c71eb75c368d437beea6b85193cc7dc99 has parents
+b725f43 and d2cf216. The actual PR diff against main passes whitespace checks.
+A broad staged check against the old PR parent exposed existing whitespace in
+unchanged incoming DES004 generated SVGs and produced truncated output. Preserve
+those upstream evidence bytes; no cleanup or scientific regeneration is included.
+The resolution and this closeout are prepared for an ordinary upstream push.
 Hosted CI and GitHub mergeability are checked after publication. No human design
 sign-off, topology selection or performance acceptance is implied.
