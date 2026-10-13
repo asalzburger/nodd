@@ -194,3 +194,15 @@ sourcecorrections, actual failures and bounded checks; nohumanapprovalrecorded.
   "completion": "Finalsource corrections assessed, no humanapprovalclaim."
 }
 ```
+
+## Final bounded correction confirmation
+
+LAYOUT002-PhysVal-final-corrections read cbb129f1e611909ebe1eb3bfc60f3f3383a8a727
+without edits/native jobs or broad test repeats. Both prior P2 findings are
+addressed; no remaining concrete defect in this narrow recheck. Re-evaluated60
+retained face/cylinder references, maximum native path difference2.706e-11mm;
+68source/artifact hash comparisons pass. All405 combined-ray guards pass on
+retained data; both signed saved-hit bindings/canonical fields pass. Producer
+revisions464e393 and7894524 are explicitly distinct from reviewed cbb129f.
+Scope remainsECAL-only native/sparse transport, with no engineering, forward
+response or complete-field acceptance.
