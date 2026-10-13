@@ -80,3 +80,60 @@ resolution, jets or particle-flow performance. Retained3T is the inner-coil
 target from PR64; source2T field is not copied and enlarged HCAL needs MagSys
 reassessment. Production remains unchanged. Add this candidate to the layout
 main page alongside LAYOUT-001 with concise status and reproducible RZ input.
+
+## Physical approximation and cold services
+
+**NODD DESIGN CHOICE:** lead thickness varies linearly in local Cartesian
+radial x within each tilted blade, rather than cylindrical radius rho. Sampled
+maximum thickness differences from the latter intent are0.1381/0.04067/0.01144mm
+for inner/middle/outer wheels; this is an explicit approximation, especially
+for the inner wheel. This independently written physical model is ALLEGRO-style,
+not a byte-identical reproduction of the external factory. Faces have positive
+sampled LAr gaps0.8810/1.0509/1.1001mm, with circular clipping and conserved
+annular partition. Axial volume quadrature refines to64–128 slices with2e-9
+relative convergence. Source5/1/1 calibration compartments are distinct from
+our virtual radial×axial readout grids.
+
+**NODD DESIGN CHOICES:** each rear bath begins with10mm LAr access then30mm
+Al-equivalent rear support. Three35mm board planes with10mm gaps follow.
+Six radial rows of350×75mm faces,5mm radial gaps and80mm tangential pitch fit
+16 wedges, with1/3/5/6/8/10 slots per row per wedge. This gives528 slots/plane,
+1584 per endcap, or811,008-channel slot capacity at the hypothetical512 channels
+per CFEB. Material-filled PCB/Cu/silicon-package/Al-spreader proxies represent
+all slots conservatively; a selected ASIC, package/HV connections and cold
+thermal contact are not engineered. Installed readout has601,600 geometric
+cells;650,000 planning channels govern the external cable allowance.
+
+Each endcap has48 radial18mm-ID/20mm-OD N2 branch proxies, separated axially
+from boards. The remaining bath permits access and headers, but headers, wall
+penetrations/seals and a valid hydraulic return circuit are not implemented.
+All service daughters displace bath LAr explicitly, including nested wet-board
+envelopes. The effective N2 density0.02g/cm3 is the common nODD mass choice;
+no temperature/quality equation-of-state inference is claimed.
+
+**INFERENCE / unresolved scenario:** with all811,008 slot channels powered,
+20/40/60mW/channel gives16.22/32.44/48.66kW per endcap. The48.66kW case
+exceeds the provisional40kW/endcap cooling allocation before static heat.
+The650k cable budget, board spare capacity and source120kW barrel scenario
+must not be confused with a qualified electronics/cryogenics bill. Common
+cable/fibre/HV/power estimates, warm-cable comparison, bend-radius and adverse
+power cases are defined in DES032 and shared services.json.
+
+## Forward and transition geometry interpretation
+
+**INFERENCE:** the actual sampling envelopes admit any intersection roughly
+1.348<|eta|<3.284; full axial-depth annular containment requires approximately
+1.424<|eta|<3.198. Radial10mm support strips and turbine faces still change
+the active path; these envelope bounds are not efficiency thresholds.
+The barrel's full radial depth ends around|eta|1.204, while any barrel
+intersection ends around1.350. Thus the barrel/endcap transition contains
+partial-depth directions despite an almost touching envelope intersection
+range. It needs a later response/material design; the800mm routing gap
+does not establish seamless calorimeter depth.
+
+**INFERENCE:** HCAL sampling/cover envelope volume grows from224.78 to432.76m³
+for the barrel (×1.925), and from66.49 to101.01m³ per endcap (×1.519) versus
+LAYOUT-001. The total outline grows×1.774. These16-gon calculations retain
+the same1495.9mm depth and300mm endcap inner apothem; they are size/load
+indicators, not an installed HCAL mass or strength prediction. A detailed
+HCAL cassette count, material, support and complete field solution is pending.
