@@ -4,10 +4,32 @@ import math
 import unittest
 from barrel_layout import build, crossings
 from barrel_export import hardware
+from native_prism import native_capacity
+from barrel_compare import intersects
 
 class BarrelControls(unittest.TestCase):
     @classmethod
     def setUpClass(cls):cls.report,cls.base=build();cls.hw,_=hardware(cls.report,cls.base)
+    def test_native_scaled_shifted_prism_is_rejected(self):
+        class Prism:
+            scale=1.;offset=0.;zoffset=0.;sections=2
+            def ClassName(self):return 'TGeoXtru'
+            def GetNz(self):return self.sections
+            def GetNvert(self):return 4
+            def GetX(self,i):return (0,2,2,0)[i]
+            def GetY(self,i):return (0,0,2,2)[i]
+            def GetZ(self,i):return (-5,5)[i]+self.zoffset
+            def GetXOffset(self,i):return self.offset
+            def GetYOffset(self,i):return 0.
+            def GetScale(self,i):return self.scale
+        p=Prism();self.assertAlmostEqual(native_capacity(p),40)
+        for key,value in [('scale',2.),('offset',1.),('zoffset',2.),('sections',3)]:
+            p=Prism();setattr(p,key,value)
+            with self.assertRaises(ValueError):native_capacity(p)
+    def test_finite_volume_boundary_and_parallel_miss(self):
+        self.assertTrue(intersects([(9.5,10.5),(10.1,11.1),(-1,1)],[1,1,0]))
+        self.assertFalse(intersects([(9.5,10.5),(10.6,11.6),(-1,1)],[1,1,0]))
+        self.assertFalse(intersects([(9.5,10.5),(10.1,11.1),(1,2)],[1,1,0]))
     def test_retained_envelope_and_counts(self):
         r=self.report;self.assertEqual(len(r['layers']),48);self.assertEqual(r['summary']['sensors'],359904);self.assertEqual(r['summary']['channels'],92135424)
         self.assertAlmostEqual(r['envelopes']['ecal_barrel_outer_mm'],2223.2);self.assertAlmostEqual(r['envelopes']['hcal_barrel_front_mm'],2263.2)

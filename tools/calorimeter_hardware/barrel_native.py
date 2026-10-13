@@ -8,14 +8,15 @@ from pathlib import Path
 import platform
 import subprocess
 
-from edge_native import audit, native_capacity
+from edge_native import audit
+from native_prism import check_sections, native_capacity
 from model import ROOT, sha
 from materials import ELEMENTS
 
 
 def run(args):
     import ROOT as R,dd4hep
-    R.gROOT.SetBatch(True);R.EnableImplicitMT(1)
+    R.gROOT.SetBatch(True);R.gRandom.SetSeed(args.overlap_seed);R.EnableImplicitMT(1)
     if R.gSystem.Load(str(args.library.resolve()))<0:raise RuntimeError('factory load')
     d=dd4hep.Detector.getInstance();e=json.loads(args.expected.read_text());report=e['layout_report'];mm=float(dd4hep.mm);errors=[];counts=Counter();totals=defaultdict(lambda:dict(volume_mm3=0.,mass_g=0.));parents={};board_names={};volume_ids=set();templates={};composition={};shape_checks=0;placement_checks=0
     for path,h in e['source_sha256'].items():
@@ -48,6 +49,7 @@ def run(args):
         for (cut,matrix),q in zip(reversed(cuts),p.get('cuts',[])):shape(cut,q);pose(matrix,q)
         kind=str(base.ClassName())
         if p['shape_kind']=='xtru':
+            check_sections(base)
             if kind!='TGeoXtru':errors.append('prism type');return
             if base.GetNvert()!=len(p['vertices_mm']):errors.append('vertex count')
             for i,(x,y) in enumerate(p['vertices_mm']):agree(base.GetX(i)/mm,x,'vertex x');agree(base.GetY(i)/mm,y,'vertex y')
@@ -140,9 +142,9 @@ def run(args):
             for sign in ((1,) if eta==0 else (-1,1)):
                 for phi in (0,.03,math.pi/16-.003,math.pi/16+.003):
                     E=sign*eta;direction=[math.cos(phi)/math.cosh(E),math.sin(phi)/math.cosh(E),math.tanh(E)];ray=audit.trace_ray(manager,dd4hep,[0,0,0],direction,Paths(),max_length_mm=6000);ray.update(eta=E,phi=phi);rays.append(ray)
-        rootfile=args.output.with_suffix('.root');manager.Export(str(rootfile.resolve()));result=dict(status='PASS' if not errors else 'FAIL',errors=errors[:100],scope='Complete isolated SiW barrel; native dimensions/CSG/materials, logical placements, all physical sensor volume IDs, logical electrodes/boundaries and full overlap check. No engineering or performance acceptance.',execution=dict(commit=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),dirty=bool(subprocess.check_output(['git','status','--porcelain'],text=True)),python=platform.python_version(),ROOT=R.gROOT.GetVersion(),compact_sha256=sha(args.compact),expected_sha256=sha(args.expected),validator_sha256=sha(__file__),factory_sha256=sha(ROOT/'prototypes/calorimeter/BarrelCalorimeter.cpp'),segmentation_source_sha256=sha(ROOT/'prototypes/calorimeter/EdgeCalorimeter.cpp'),library_sha256=sha(args.library)),native_shape_checks=shape_checks,native_placement_checks=placement_checks,physical_sensor_volume_ID_roundtrips=len(volume_ids),logical_electrodes_checked=len(cells),boundary_points_checked=boundary,physical_counts=dict(counts),material_totals=dict(totals),mass_g=sum(q['mass_g'] for q in totals.values()),composition_max_abs_delta=max(composition.values()),overlap_tolerance_mm=report['config']['overlap_tolerance_mm'],overlaps=overlaps,material_rays=rays,root_sha256=sha(rootfile));args.output.write_text(json.dumps(result,indent=2)+'\n');print(result['status'],len(overlaps),'overlaps',errors[:8]);return 0 if not errors else 1
+        rootfile=args.output.with_suffix('.root');manager.Export(str(rootfile.resolve()));result=dict(status='PASS' if not errors else 'FAIL',errors=errors[:100],scope='Complete isolated SiW barrel; native dimensions/CSG/materials, logical placements, all physical sensor volume IDs, logical electrodes/boundaries and full overlap check. No engineering or performance acceptance.',execution=dict(commit=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),dirty=bool(subprocess.check_output(['git','status','--porcelain'],text=True)),python=platform.python_version(),ROOT=R.gROOT.GetVersion(),compact_sha256=sha(args.compact),expected_sha256=sha(args.expected),validator_sha256=sha(__file__),helper_sha256={str(p.relative_to(ROOT)):sha(p) for p in (ROOT/'tools/calorimeter_hardware/native_prism.py',ROOT/'tools/calorimeter_hardware/edge_native.py',ROOT/'tools/pixel_barrel_dd4hep/validate.py',ROOT/'tools/calorimeter_hardware/edge_layout.py')},factory_sha256=sha(ROOT/'prototypes/calorimeter/BarrelCalorimeter.cpp'),segmentation_source_sha256=sha(ROOT/'prototypes/calorimeter/EdgeCalorimeter.cpp'),library_sha256=sha(args.library)),native_shape_checks=shape_checks,native_placement_checks=placement_checks,physical_sensor_volume_ID_roundtrips=len(volume_ids),logical_electrodes_checked=len(cells),boundary_points_checked=boundary,physical_counts=dict(counts),material_totals=dict(totals),mass_g=sum(q['mass_g'] for q in totals.values()),composition_max_abs_delta=max(composition.values()),overlap_tolerance_mm=report['config']['overlap_tolerance_mm'],overlap_random_seed=args.overlap_seed,overlaps=overlaps,material_rays=rays,root_sha256=sha(rootfile));args.output.write_text(json.dumps(result,indent=2)+'\n');print(result['status'],len(overlaps),'overlaps',errors[:8]);return 0 if not errors else 1
     finally:R.DisableImplicitMT();dd4hep.Detector.destroyInstance()
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--compact',type=Path,required=True);p.add_argument('--expected',type=Path,required=True);p.add_argument('--library',type=Path,required=True);p.add_argument('--output',type=Path,required=True);raise SystemExit(run(p.parse_args()))
+    p=argparse.ArgumentParser();p.add_argument('--compact',type=Path,required=True);p.add_argument('--expected',type=Path,required=True);p.add_argument('--library',type=Path,required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--overlap-seed',type=int,default=31);raise SystemExit(run(p.parse_args()))

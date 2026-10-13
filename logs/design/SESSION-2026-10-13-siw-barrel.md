@@ -96,3 +96,82 @@ crack controls. The new standalone factory compiles against verified DD4hep1.38;
 CMake reports upstream policy/CLHEP warnings, preserved without suppression.
 No new dependencies. Native execution remains pending at this initial source
 commit; results are not claimed from successful compilation.
+
+## Fixed-revision PhysVal implementation assignment
+
+```json
+{
+  "id": "BARREL-PhysVal-implementation",
+  "role": "PhysVal",
+  "input_revision": "3d95e0b4485783fd3f62712527adc5b49869d277",
+  "inputs": [
+    "docs/design/DES-031-siw-barrel-prototype.md",
+    "tools/calorimeter_hardware/barrel.json",
+    "tools/calorimeter_hardware/barrel_layout.py",
+    "tools/calorimeter_hardware/barrel_export.py",
+    "tools/calorimeter_hardware/barrel_native.py",
+    "tools/calorimeter_hardware/test_barrel.py",
+    "prototypes/calorimeter/BarrelCalorimeter.cpp",
+    "prototypes/calorimeter/EdgeCalorimeter.cpp"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Independently assess scientific definitions, readout/native validator soundness, geometric coverage, counts/power/mass, uncertainty and claim limits of this complete barrel implementation. Read exact committed inputs via git show; no substitution of dirty files. Native ROOT execution runs concurrently under coordinator; do not launch native jobs or edit files. Standard-library read-only scripts/tests are allowed. No further agents or external/task messages. Do not infer engineering/design approval. Inspect extra inherited docs at parent654b85a if needed and report the revision.",
+  "deliverable": "Return exact-revision cited findings, actual independent checks and remaining risks to coordinator for remediation and journal. No file writes.",
+  "completion": "Flag material defects and unsupported claims before final PR ready; distinguish algorithm/input checks from native/engineering performance qualification."
+}
+```
+
+## Fixed-revision SysArch implementation assignment
+
+```json
+{
+  "id": "BARREL-SysArch-implementation",
+  "role": "SysArch",
+  "input_revision": "3d95e0b4485783fd3f62712527adc5b49869d277",
+  "inputs": [
+    "docs/design/DES-031-siw-barrel-prototype.md",
+    "tools/calorimeter_hardware/barrel.json",
+    "tools/calorimeter_hardware/barrel_layout.py",
+    "tools/calorimeter_hardware/barrel_export.py",
+    "tools/calorimeter_hardware/barrel_native.py",
+    "tools/calorimeter_hardware/test_barrel.py",
+    "prototypes/calorimeter/BarrelCalorimeter.cpp",
+    "prototypes/calorimeter/EdgeCalorimeter.cpp"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Assess the implemented staggered axial slabs (alternate phases\u221296/+96,276/468mm short families), actual PCB/bay/frame/cooling clearances, retained envelopes and unmodeled service routes. This supersedes the initially centered SysArch proposal only as an unsigned coordinator choice; independently identify defects. Read exact committed inputs via git show; no substitution of dirty files. Native ROOT execution runs concurrently under coordinator; do not launch native jobs or edit files. Standard-library read-only scripts/tests are allowed. No further agents or external/task messages. Do not infer engineering/design approval. Inspect extra inherited docs at parent654b85a if needed and report the revision.",
+  "deliverable": "Return exact-revision cited findings, actual independent checks and remaining risks to coordinator for remediation and journal. No file writes.",
+  "completion": "Flag material defects and unsupported claims before final PR ready; distinguish algorithm/input checks from native/engineering performance qualification."
+}
+```
+
+## Independent implementation reviews and remedies
+
+SysArch reviewed3d95e0b: no blocking packing/ownership defect. Independent bounds
+cover22494 board placements,539856 transformed parts,2934 coolant cutters and
+3366 interface boxes. Staggered panels preserve±3880 mm and69 rows, with1.440 mm
+PCB/3 mm bay/0.5 mm coolant-to-Cu clearance. Headers/ports and299 t load support
+remain unqualified;46944 runs imply up to93888 endpoints. The role did not run
+native jobs. It verified the separately supplied original native artifact and
+all60 finite-thickness ray intersections, with five explained plane differences.
+
+PhysVal reviewed the same fixed revision, independently reproducing counts,
+power,299.002915 t (149.228232 t tungsten alloy and119.692560 t Cu),517 plane
+samples and60 finite-box intersections. It found two P2 validator gaps: native
+prism scales/offsets/absolute section bounds were not checked, and inherited
+capacity/ray helper hashes were absent. These are validation gaps, not observed
+geometry defects. Coordinator adds strict two-section/centred/unscaled prism
+guards with scaled/shifted/count negative controls, retains helper hashes and
+sets/records ROOT overlap seed31. Complete native audit is rerun with these
+stronger checks. A separately retained finite-box comparison enforces agreement
+with all native rays; centre-plane approximation is deliberately distinct.
+
+Initial native audit:PASS,14406 shape/37684 placement checks,359904 sensor IDs,
+256 shared-board electrodes/eight ties,zero overlaps at1e-5 mm over9181538
+physical placements and9792627 candidates. Scope is isolated geometry/material,
+not engineering/performance. Original report is retained before strengthened
+execution; geometry inputs are unchanged. Supplementary all-module segmentation
+and three seeded sparse transport cases are separate checks, never substituted
+for full overlaps or complete transport.
