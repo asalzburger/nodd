@@ -34,12 +34,18 @@ jobs:
         run: python3 -B tools/project_records/validate.py
       - name: Test calorimeter hardware ownership and physical controls
         run: python3 -B -m unittest discover -s tools/calorimeter_hardware -p 'test_*.py' -v
+      - name: Validate specialist profiles, skills and assignment controls
+        run: |
+          python3 -B tools/agent_workflow/workflow.py validate
+          python3 -B -m unittest discover -s tools/agent_workflow -p 'test_*.py' -v
       - name: Test calorimeter source audit arithmetic and accounting
         run: python3 -B -m unittest discover -s tools/calorimeter_audit -p 'test_*.py' -v
       - name: Test public tracker prototype controls
         run: |
           python3 -m pip install -r tools/tracker_layout/requirements-controls.txt
           python3 -B -m unittest discover -s tools/tracker_layout -p 'test_*.py' -v
+      - name: Test magnetic sizing and field controls
+        run: python3 -B -m unittest discover -s tools/magnetic_study -p 'test_*.py' -v
       - name: Test finite-module geometry and coverage controls
         run: python3 -B -m unittest discover -s tools/module_layout -p 'test_*.py' -v
       - name: Test pixel barrel z-packing controls

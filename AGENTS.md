@@ -161,6 +161,36 @@ continues to belong in the separate validation reports and session journal.
 
 Documents must use stable IDs, ISO dates (`YYYY-MM-DD`), SI/DD4hep units, and repository-relative links. State uncertainties and unresolved questions explicitly.
 
+## Specialist assignments
+
+Use the eight existing [role mandates](docs/DEVELOPMENT_PLAN.md#6-stage-b-agent-organization-and-responsibility-boundaries)
+through the [agent workflow](docs/AGENT_WORKFLOW.md). Profiles live in
+`.codex/agents/`; reusable procedures live in `.agents/skills/`. These define
+roles and procedures, not permanently running processes.
+
+Keep small or tightly dependent tasks with the main agent. For substantial
+subsystem work, delegate bounded contributions to the relevant specialist roles
+when subagents are available. Delegate cross-system physical interface assessment
+to SysArch and scientific assumptions/results assessment to a separate PhysVal
+agent when those are material to the task. Use SoftEng for implementation and
+reproducible execution, and PubDoc for substantial TDR/claim-consistency work.
+The coordinator starts only needed roles, reconciles their results and delivers
+the complete task. Specialist children do not need to delegate further.
+
+Each assignment records an ID, role, full source commit, inputs, read/write mode,
+owned files, deliverable and completion condition. Parallel writers use disjoint
+files or worktrees; reviews identify the exact revision assessed. If native role
+selection is unavailable, explicitly pass the profile's developer instructions
+and assignment to the generic subagent tool. If no delegation tool is available,
+work sequentially and report the missing separate assessment. Never claim
+native loading or independent review merely because a profile exists.
+
+Use `nodd-coordinate`, `nodd-design-evidence` and `nodd-review-validation` when
+their task descriptions apply. Curate assignments, checks and results into the
+existing journal; keep scientific tracking, observed token accounting and
+human-only sign-off under their existing rules. Agent assignments do not
+authorize recurring jobs, external messages, publication or permission changes.
+
 ## Work reporting
 
 At the end of a task, report:
@@ -191,6 +221,28 @@ logging workflow. Include separately reported subagent turns without overlapping
 parent totals. If counters are unavailable, leave `usage` empty and explain the
 missing measurements; never estimate them. Run `session_log.py summary` at task
 completion and distinguish observed input/output totals from missing coverage.
+
+## Magnetic sizing constraints
+
+For all current and future magnetic candidates, apply the review-directed
+[DES-004 sizing policy](docs/design/inputs/DES-004-magnet-sizing-review.md) and
+[machine-readable constants](tools/magnetic_study/sizing-policy.json):
+`RCMi = 1.065 RVi + 0.0072 m`, `U = (30 MJ/m³) Vcold`, and
+`RVo = RCMo + 1.75 (RCMi − RVi)` (the expert's undefined `RCM` is provisionally
+interpreted as `RCMi`; confirmation remains open). State cold-mass and vessel
+axial lengths separately; do not infer an axial scaling from these radial rules.
+Maintain homogeneous winding-pack current density. Require the magnitude of the
+**complete central field** to be at most 5 T; 1–4 T is the preferred study range.
+This central cap does not certify peak conductor field or NbTi operating margin.
+
+Use computed stored field energy, not a uniform-bore energy proxy. Iterate winding,
+current normalization and cold-mass size consistently. For nonlinear iron, coupled
+coils or non-solenoidal geometry, obtain the complete energy/field solution and
+an applicable cold-volume allocation; do not certify compliance from an isolated
+vacuum coil. Missing inputs must remain explicit blockers. Apply the checks to
+all active layouts; preserve dated historical fixtures as controls, clearly
+superseded. Changes to these review constraints require explicit human direction.
+No numerical study or CI pass grants detector design approval.
 
 ## Node-specific software workflows
 

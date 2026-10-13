@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated": "2026-10-12",
+  "updated": "2026-10-13",
   "note": "Curated register. Stage B architecture is active. PR #4\u2019s envelope baseline has explicit human approval and is merged; its documents still declare DRAFT and no formal sign-off record exists. Role ownership does not imply active agents. Chore PRs and infrastructure chores are excluded from project progress. Pixel-module design dossier opened by human direction in parallel with architecture; final component-method gates remain pending.",
   "stages": [
     {
@@ -2451,11 +2451,66 @@
       "documents": [
         "DES-028"
       ],
-      "updated": "2026-10-12",
+      "updated": "2026-10-13",
       "next_action": "Review operating/material/packaging hypotheses; build parameterized sectors and complete barrel/endcap assemblies without duplicating sector absorber.",
       "blocker": null,
       "disposition": "DRAFT isolated geometry and service-budget prototype. No human engineering sign-off or production integration.",
       "subsystem": "calorimetry"
+    },
+    {
+      "id": "TASK-B-MAGNET",
+      "title": "Magnetic configuration research \u2014 five active options",
+      "scope": "Five active candidates under review-directed cold-mass/vessel scaling, all-space vacuum energy closure and 5 T central cap. Outer-family muon envelope amendment; installed-field and mechanical validation remain open.",
+      "stage": "B",
+      "milestones": [
+        "M1"
+      ],
+      "workstream": "WS-ARCH",
+      "role": "System Architect",
+      "owner": null,
+      "state": "active",
+      "dependencies": [
+        "TASK-B-ENVELOPES"
+      ],
+      "deliverables": [
+        "docs/design/DES-004-magnetic-configurations.md",
+        "docs/MAGNET_RESEARCH_PLAN.md",
+        "tools/magnetic_study/README.md",
+        "docs/design/DES-004-options-summary.md",
+        "docs/design/inputs/DES-004-muon-envelope-amendments.md",
+        "docs/design/inputs/DES-004-magnet-expert-review.md",
+        "docs/design/inputs/DES-004-magnet-sizing-review.md",
+        "docs/validation/DES-004-magnet-sizing.json",
+        "docs/validation/DES-004-sized-winding-benchmark.json",
+        "tools/magnetic_study/sizing-policy.json"
+      ],
+      "evidence": [
+        "docs/validation/DES-004-solenoid-benchmark.json",
+        "docs/validation/DES-004-acts-checks.json",
+        "https://github.com/asalzburger/nodd/pull/6",
+        "docs/validation/DES-004-system-layouts.json",
+        "docs/validation/DES-004-option-screen.json",
+        "docs/design/inputs/DES-004-option-physics-review.md",
+        "docs/design/inputs/DES-004-option-software-review.md",
+        "docs/validation/DES-004-muon-envelope-proposals.json",
+        "https://github.com/asalzburger/nodd/issues/9",
+        "docs/design/inputs/DES-004-muon-field-tradeoffs.md",
+        "docs/validation/DES-004-finite-winding-benchmark.json",
+        "https://github.com/asalzburger/nodd/pull/6#issuecomment-5774198540",
+        "https://github.com/asalzburger/nodd/pull/6#issuecomment-5775404465",
+        "https://github.com/asalzburger/nodd/pull/6#issuecomment-5809476152",
+        "https://github.com/asalzburger/nodd/pull/6#issuecomment-5812130449",
+        "logs/codex/SESSION-2026-10-12-pr6-main-sync.md"
+      ],
+      "documents": [
+        "DES-004",
+        "ADR-006"
+      ],
+      "updated": "2026-10-13",
+      "next_action": "Expert confirmation of RCM=RCMi interpretation, axial allowances and winding/support closure; conductor margin, complete nonlinear/coupled field energy and muon acceptance before selecting a layout.",
+      "blocker": null,
+      "disposition": "Research execution authorized by user; PR6 is merged upstream and its unsigned research tracks are retained. No magnetic architecture decision, selection or sign-off is recorded.",
+      "subsystem": "magnets and global interfaces"
     }
   ],
   "documents": [
@@ -2700,6 +2755,21 @@
       "path": "docs/design/DES-028-calorimeter-cassettes.md",
       "validation_reports": [
         "docs/validation/DES-028/results.md"
+      ]
+    },
+    {
+      "id": "DES-004",
+      "path": "docs/design/DES-004-magnetic-configurations.md",
+      "validation_reports": [
+        "docs/validation/DES-004-solenoid-benchmark.json",
+        "docs/validation/DES-004-acts-checks.json",
+        "docs/validation/DES-004-acts-setup.md",
+        "docs/validation/DES-004-system-layouts.json",
+        "docs/validation/DES-004-option-screen.json",
+        "docs/validation/DES-004-muon-envelope-proposals.json",
+        "docs/validation/DES-004-finite-winding-benchmark.json",
+        "docs/validation/DES-004-magnet-sizing.json",
+        "docs/validation/DES-004-sized-winding-benchmark.json"
       ]
     }
   ],
@@ -3601,15 +3671,32 @@
       "title": "Calorimeter: prototype physical ECAL and HCAL cassettes",
       "url": "https://github.com/asalzburger/nodd/pull/67",
       "state": "open",
-      "head_revision": "c96d7c36aadc7e12821c8472d7ba6c821aa71639",
+      "head_revision": "b725f4359dc18d34424598cca5dd646b2491dd90",
       "merge_commit": null,
       "merged_at": null,
-      "collected_at": "2026-10-12T14:46:55Z",
+      "collected_at": "2026-10-13T07:47:17Z",
       "task": "TASK-B-CALO-CASSETTES",
       "documents": [
         "DES-028"
       ],
-      "scope": "Two physical cassette units with continuous-power hypotheses, native geometry/material/readout and saved Geant4 hit evidence. DRAFT; no production integration or engineering acceptance.",
+      "scope": "Two physical cassette units with continuous-power hypotheses, native geometry/material/readout and saved Geant4 hit evidence. DRAFT; no production integration or engineering acceptance. Ordinary merge with main d2cf216 preserves cassette implementation/evidence, magnet records/sources and both CI gates; head observed before the conflict-resolution push.",
+      "category": "project"
+    },
+    {
+      "id": "PR-6",
+      "number": 6,
+      "title": "Magnet System: Evaluate magnetic layouts with candidate-specific muon envelopes",
+      "url": "https://github.com/asalzburger/nodd/pull/6",
+      "state": "merged",
+      "head_revision": "a580b1364389635171afde6d38775bdcf9c06411",
+      "merge_commit": "365482c6e2f5b6add1206571b12ab5c4af6478a7",
+      "merged_at": "2026-10-13T07:27:31Z",
+      "collected_at": "2026-10-13T07:47:17Z",
+      "task": "TASK-B-MAGNET",
+      "documents": [
+        "DES-004"
+      ],
+      "scope": "PR6 merge observed at365482c on2026-10-13; retains unsigned magnetic research tracks. Dated scientific review evidence remains at2b8c032fb9c6e8aa2333ae5a4c88818cacecc645 and historical reviews are unchanged. Merge is repository integration, not topology selection or design sign-off.",
       "category": "project"
     }
   ]
