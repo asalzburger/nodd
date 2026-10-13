@@ -202,3 +202,15 @@ with210 disjoint observations. This task's root and specialist usage are unknown
 and add no invented observations. Final project/journal/token-build checks are
 recorded with their actual outputs before publication; hosted checks are assessed
 on the final push and do not imply design or engineering approval.
+
+## Final publication and drawing reconciliation
+
+Executed evidence committed/pushed as19d20f843e0ccebf4fb34dffcf51a89ce1e8e62a.
+PR71 marked ready and linked to independent [PR72](https://github.com/asalzburger/nodd/pull/72).
+The initial push used nonexistent remote alias upstream and failed; configured
+origin is asalzburger/nodd, and ordinary push there succeeded. No history rewrite.
+Final drawing check corrected a five-millimetre schematic cooling-endpoint
+shortening: endpoint extent now derives directly from panel length, end-frame
+and port-setback parameters (±490mm for the shown slab). SVG whitespace is
+normalized by the plotter; outputs/source bindings regenerated. No physical
+geometry, material or audit input changed. Final hosted checks follow the push.

@@ -32,7 +32,8 @@ def plot(directory,output):
     for q in layer['interfaces']:
         if q['panel']!=p['index']:continue
         u=sum(layer['column_centers_mm'][j] for j in q['lanes'])/len(q['lanes']);ax.add_patch(Rectangle((bay-10,u-10),20,20,color='#79569f'))
-    for u in layer['column_centers_mm']:ax.plot([-490+5,490-5],[u,u],color='#b4744e',ls='--',lw=.7,alpha=.7)
+    pipe_half=p['length_mm']/2-r['config']['panel_end_frame_mm']-r['config']['cooling_port_inset_mm']
+    for u in layer['column_centers_mm']:ax.plot([-pipe_half,pipe_half],[u,u],color='#b4744e',ls='--',lw=.7,alpha=.7)
     ax.set(xlim=(-540,540),ylim=(-355,355),xlabel='Axial position within slab [mm]',ylabel='Tangential position [mm]',title='One 1000 mm slab · inner layer\n54 sensors, shared lane interfaces and cooling');ax.set_aspect('equal');ax.grid(alpha=.15)
     fig.suptitle('DES031 · detailed isolated SiW barrel prototype',fontsize=15);fig.text(.06,.055,'Green: active silicon with guards; grey: PCB/frame; purple: shared bay. Dashed cooling runs lie behind the sensors.\n48-layer slab shifts alternate −96/+96 mm; 276/468 mm end slabs preserve ±3880 mm bounds. External headers/ports are absent.',fontsize=10);fig.subplots_adjust(bottom=.16,top=.85,wspace=.3)
     for ext in ('svg','png'):fig.savefig(output/('barrel-layout.'+ext),dpi=160,metadata={'Date':None} if ext=='svg' else None)
