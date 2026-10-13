@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-12-endcap-repair-drawing",
+  "title": "Annotated endcap repair concept drawing",
+  "recorded_at": "2026-10-12T19:55:59Z",
+  "started_at": null,
+  "ended_at": "2026-10-12T19:58:37Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact current client token counters unavailable; usage is empty/unknown.",
+    "Proposed layout, board margins, ribs and services are conceptual drawing fixtures, not engineered geometry or predicted coverage."
+  ],
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "4e7f0fc3dc3f19ad12bb18a4e2bd98ede139a2e0",
+    "branch": "codex/calorimeter-assemblies",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      "docs/design/DES-029-endcap-coverage-repair.md",
+      "project/tracking.json",
+      "docs/design/figures/DES-029/endcap-repair-concept.json",
+      "docs/design/figures/DES-029/endcap-repair-concept.png",
+      "docs/design/figures/DES-029/endcap-repair-concept.svg",
+      "logs/codex/SESSION-2026-10-12-endcap-repair-drawing.json",
+      "logs/codex/SESSION-2026-10-12-endcap-repair-drawing.md",
+      "tools/calorimeter_hardware/endcap_repair_drawing.py"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "endcap repair illustration"
+    ],
+    "related_ids": [
+      "DES-029",
+      "PR69"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-12-endcap-repair-drawing.md",
+  "activities": [
+    {
+      "kind": "tool",
+      "name": "Python/Matplotlib drawing and visual inspection",
+      "version": "Matplotlib3.11.2, Python3.14.6",
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Actual baseline placements compared with annotated conceptual board/carrier/services; SVG/PNG inspected and footer collision corrected."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "MPLCONFIGDIR=/tmp/nodd-mpl existing-envelope-venv/python -B tools/calorimeter_hardware/endcap_repair_drawing.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "PNG/SVG/fixture-input JSON generated; sketch board corners contained; visual inspection passes after correcting Polygon keyword and footer overlap."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "62tasks/34documents/19review rounds valid."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "172paired records valid."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py build",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "209disjoint observed turns; drawing token counters unavailable."
+    }
+  ]
+}

@@ -526,10 +526,12 @@
         "DES-012 PB-C10: xml/OpenDataDetectorMaterials.xml Air .0012g/cm3 N/O/Ar recipe, Epoxy C15H44O7 and CarbonFiber/CarbonFoam65%carbon35%epoxy composition used as explicit provisional comparators. nODD densities remain separately selected. xml/OpenDataDetectorElements.xml numerical element definitions retained with exact sourcehash in detector/config/elements.json.",
         "DES-008 F01-F02/I01: TrackerLongStrips.xml endcap and barrel paired sensor rotations, offsets, dimensions, readouts and cooling; ODDModuleHelper.cpp thickness/box conventions and rotation axes, at c167363f3d4ad1540a577af99071283caf54f3a6. Source interpretation, not a new detector construction test.",
         "DES-007 F01-F03/I01: xml/detectors/TrackerShortStrips.xml segmentation, dimensions, three rings and IDs; factory/tracker/ODDModuleHelper.cpp half-dimension interpretation; factory/tracker/ODDStripEndcap_geo.cpp placements; config/odd-digi-geometric-config.json different 80 micrometre pitch. Four file hashes matched the existing pinned snapshot on 2026-09-25; no runtime validation.",
-        "DES027: pinned c167363 calorimeter ECal/HCal XML repeated slices/readouts/gaps, Envelopes constants, Materials siPCBMix and absorber recipe, barrel/endcap factory create_detector/placeStaves conventions. Exact seven file hashes, source-normal depths and inferred polygon bounds in docs/validation/DES-027/odd-inventory.json. Static inspection only; no nODD hardware adoption."
+        "DES027: pinned c167363 calorimeter ECal/HCal XML repeated slices/readouts/gaps, Envelopes constants, Materials siPCBMix and absorber recipe, barrel/endcap factory create_detector/placeStaves conventions. Exact seven file hashes, source-normal depths and inferred polygon bounds in docs/validation/DES-027/odd-inventory.json. Static inspection only; no nODD hardware adoption.",
+        "DES029 endcap comparison: current GitLab main c167363f3d4ad1540a577af99071283caf54f3a6 verified 2026-10-12; four live raw files match the clean pinned cache. Envelopes lines51-66 give inner apothems315/355mm and front3200/3600mm; ECal/HCal XML defines16-sector continuous sensitive sheets with logical5.1/30mm cells; endcap factory lines43-67,111-149 subtracts2.5mm from each transverse half-width. Source-derived sensitive face fractions98.59%/99.33% and front aperture near|eta|3 are geometry estimates, not native/performance validation. Locators, equations and hashes in docs/design/DES-029-odd-endcap-comparison.md and docs/validation/DES-029/odd-endcap-comparison.json."
       ],
       "supported_infrastructure_or_metadata": [
-        "Inspected clean study checkout at c167363f3d4ad1540a577af99071283caf54f3a6; README, factories/XML inventory, CMake, CI, config and assets. Not an approved baseline."
+        "Inspected clean study checkout at c167363f3d4ad1540a577af99071283caf54f3a6; README, factories/XML inventory, CMake, CI, config and assets. Not an approved baseline.",
+        "2026-10-12 public GitLab API verified main at c167363f3d4ad1540a577af99071283caf54f3a6; project121973. Exact-revision raw Envelopes, ECal, HCal and endcap factory bytes agree with the registered snapshot."
       ],
       "reading_guide": "reference/guides/ODD-resources.md",
       "revision": "c167363f3d4ad1540a577af99071283caf54f3a6",
@@ -1946,14 +1948,16 @@
       ],
       "public_url": "https://arxiv.org/abs/2211.07457",
       "publication_or_version_date": "2022-11-14",
-      "access_date": "2026-10-12",
+      "access_date": "2026-10-13",
       "local_file": "reference/pdfs/CALICE-SiW-ECAL-2022.pdf",
       "sha256": "2d6d3ca946688622f87607ecf8a0345bbb5e6d2d3997d0aa7beb9537ceea8161",
       "size_bytes": 9366623,
       "verification": "Downloaded public PDF and read selected pages with pypdf6.10.0. See DES028 for precise facts and limits.",
       "license_or_redistribution": "PDF1 states CC-BY4.0. Local reference PDF remains ignored and is not committed.",
       "supported_design_facts": [
-        "PDF4\u20136 \u00a7\u00a73/3.1: ASU/sensor/pad dimensions, embedded readout, ASIC die/channels and continuous/pulsed consumption; design alternatives, not a detector requirement."
+        "PDF4\u20136 \u00a7\u00a73/3.1: ASU/sensor/pad dimensions, embedded readout, ASIC die/channels and continuous/pulsed consumption; design alternatives, not a detector requirement.",
+        "DES029 endcap repair proposal: PDF4 section3 quarter endcaps/multiple180mm ASUs; PDF6 compact40x180mm SL-Board and shared ASU readout. Public PDF rechecked2026-10-12; carrier-level service precedent only, no nODD hardware/performance qualification.",
+        "DES029 packing-precedent review: primary PDF4 section3 quarter endcap structures,180x180mm ASUs/four90x90mm sensors and embedded front-end;PDF6 section3.1 shared compact slab-end readout. Rechecked2026-10-13. Architecture/prototype facts, not complete engineered FCC continuous-power qualification."
       ]
     },
     {
@@ -1986,6 +1990,77 @@
       "license_or_redistribution": "Public data page; no page copy committed.",
       "supported_design_facts": [
         "DES028 F05: density1.400 g/cm\u00b3, formulaC10H8O4 from density/composition rows; no optical properties inferred."
+      ]
+    },
+    {
+      "id": "SRC-FCC-CLD-2019-v3",
+      "title": "CLD -- A Detector Concept for the FCC-ee",
+      "authors_or_collaboration": "N. Bacchetta et al.",
+      "verified_identifiers": [
+        "arXiv:1911.12230v3",
+        "LCD-Note-2019-001"
+      ],
+      "public_url": "https://arxiv.org/abs/1911.12230v3",
+      "publication_or_version_date": "2019-12-12",
+      "access_date": "2026-10-13",
+      "local_file": null,
+      "sha256": null,
+      "license_or_redistribution": "Primary public paper read online and paraphrased; no PDF or figures redistributed.",
+      "verification": "Primary arXiv metadata and 75-page PDF text inspected through web tools; exact selected locators below.",
+      "supported_design_facts": [
+        "DES029 packing precedents: PDF27-29 section5.5 assumes ILD/CALICE technology; distributed ASICs/thin Cu heat path/slab-end water cooling and explicitly unresolved cooling redesign without power pulsing; no completed CLD endcap hardware qualification claimed. PDF22 section5.2 states simulation sampling/sensor/electronics stack."
+      ]
+    },
+    {
+      "id": "SRC-FCC-CLD-2026",
+      "title": "CLD Detector Concept",
+      "authors_or_collaboration": null,
+      "public_url": "https://indico.cern.ch/event/1588696/contributions/6871125/attachments/3208703/5714489/FCC_PW_CLD_2026.pdf",
+      "publication_or_version_date": "2026",
+      "access_date": "2026-10-13",
+      "local_file": null,
+      "sha256": null,
+      "license_or_redistribution": "Indexed public primary slide text paraphrased; no slide redistributed.",
+      "verification": "Primary PDF indexed slide7 text available; direct web retrieval403. Exact author/date and whole-file bytes not verified.",
+      "supported_design_facts": [
+        "DES029: slide7 lists front-end electronics for high rates/continuous operation and ECAL cooling without additional heterogeneities among R&D needs; narrow observation only, not a complete 2026 design assessment."
+      ]
+    },
+    {
+      "id": "SRC-CMS-HGCAL-ENGINEERING-2025",
+      "title": "An overview of the CMS High Granularity Calorimeter, and the engineering challenges in its construction",
+      "authors_or_collaboration": "Thomas French on behalf of the CMS Collaboration",
+      "verified_identifiers": [
+        "EPJ Web Conf.320 (2025)00066",
+        "10.1051/epjconf/202532000066"
+      ],
+      "public_url": "https://doi.org/10.1051/epjconf/202532000066",
+      "publication_or_version_date": "2025-03-07",
+      "access_date": "2026-10-13",
+      "local_file": null,
+      "sha256": null,
+      "license_or_redistribution": "CC-BY4.0 verified primary publication metadata; no paper figures redistributed.",
+      "verification": "CDS record2927899/EPJ publication metadata and indexed primary PDF text read. Direct CDS PDF challenged and EPJ request403; no direct complete-PDF inspection claimed.",
+      "supported_design_facts": [
+        "DES029 packing precedents: PDF2 sections2.3/2.4 hexagonal modules/partial boundary modules;60-degree double-sided CE-E and30-degree single-sided CE-H cassettes;Cu plate with embedded CO2 pipes and5.9mm service space above modules. PDF1 section2.2 Pb/CuW/Cu sampling is a different absorber recipe from nODD SiW. Values specific to this paper, no nODD parameter adoption."
+      ]
+    },
+    {
+      "id": "SRC-CMS-HGCAL-PARTIAL-2025",
+      "title": "Leakage current of high-fluence neutron-irradiated 8-inch silicon sensors for the CMS Endcap Calorimeter Upgrade",
+      "authors_or_collaboration": "CMS HGCAL collaboration",
+      "verified_identifiers": [
+        "arXiv:2510.17280v4"
+      ],
+      "public_url": "https://arxiv.org/html/2510.17280v4",
+      "publication_or_version_date": "2026-07-24",
+      "access_date": "2026-10-13",
+      "local_file": null,
+      "sha256": null,
+      "license_or_redistribution": "CC-BY4.0 stated in primary arXiv HTML; no source figures redistributed.",
+      "verification": "Primary v1 HTML and latest v4 HTML inspected; arXiv metadata identifies collaboration and v4 date2026-07-24. Section2/Figs1-3 manufacturing and guard/dicing statements retained in v4. Source ID records initial2025 publication year.",
+      "supported_design_facts": [
+        "DES029: partial sensors are cut from multi-geometry wafers with dedicated internal dicing lines, HV and floating/grounded guard structures; section2 sensor geometry/figures1-3 provide physically manufactured alternatives rather than computational clipping of full sensors."
       ]
     },
     {

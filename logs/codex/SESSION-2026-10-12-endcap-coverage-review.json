@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-12-endcap-coverage-review",
+  "title": "Endcap coverage diagnosis and repair proposal",
+  "recorded_at": "2026-10-12T19:46:15Z",
+  "started_at": null,
+  "ended_at": "2026-10-12T19:49:15Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact current client per-turn token counters unavailable; usage empty/unknown.",
+    "Packing counterfactuals have logical corner checks only; no alternative native detector or engineering/performance acceptance claimed."
+  ],
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "61ab5a4c2461d573b0932c12620c5a7bed876a19",
+    "branch": "codex/calorimeter-assemblies",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      "docs/design/DES-029-calorimeter-assemblies.md",
+      "project/tracking.json",
+      "reference/manifest.yaml",
+      "docs/design/DES-029-endcap-coverage-repair.md",
+      "docs/design/figures/DES-029/endcap-coverage-review.png",
+      "docs/design/figures/DES-029/endcap-coverage-review.svg",
+      "docs/validation/DES-029/endcap-coverage-review.json",
+      "logs/codex/SESSION-2026-10-12-endcap-coverage-review.json",
+      "logs/codex/SESSION-2026-10-12-endcap-coverage-review.md",
+      "tools/calorimeter_hardware/endcap_review.py",
+      "tools/calorimeter_hardware/endcap_review_plot.py"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "endcap coverage review",
+      "hardware repair proposal"
+    ],
+    "related_ids": [
+      "DES-028",
+      "DES-029",
+      "PR69"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-12-endcap-coverage-review.md",
+  "activities": [
+    {
+      "kind": "tool",
+      "name": "Python standard library, Matplotlib and public primary-source browser inspection",
+      "version": "Python3.14.6; Matplotlib3.11.2",
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Unchanged geometry inspected; five packing counterfactuals checked; source/public PDF and face plot inspected."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 -B tools/calorimeter_hardware/endcap_review.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Coverage decomposition and inner/outer gaps reproduced; five counterfactual logical corner checks passed. No geometry inputs changed."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "62tasks/34documents/19review rounds valid."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "171paired records valid."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py build",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "209disjoint observed turns; review token counters unavailable."
+    }
+  ]
+}
