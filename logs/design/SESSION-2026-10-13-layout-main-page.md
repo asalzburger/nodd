@@ -99,3 +99,13 @@ Explicit generic role assignment; native profile loading not claimed. Workflow i
   "completion": "All owned files coherent, sources/revisions pinned and statuses accurate; generated SVG inspected structurally and PNG visually if renderer available, documentation links checked. Clearly report unavailable rendering or source data instead of inventing dimensions."
 }
 ```
+
+## Publication closeout
+
+Page implementation committed asa234dc2140bd70c9d2b058d12b372853a7d650ea; branch codex/layout-main-page
+pushed normally to asalzburger/nodd. [PR72](https://github.com/asalzburger/nodd/pull/72)
+created against main and attached to the task. This record-only closeout adds
+observed PR/source metadata without altering geometry/drawing inputs. Hosted
+checks are verified after the final push. Local179 paired journals and token
+Pages build pass;210 observations total624299405(input620754236,output3545169),
+with61 records missing usage. This task adds no fabricated counters.
