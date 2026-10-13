@@ -1,14 +1,13 @@
 # DES032 — executed LAYOUT-002 barrel prototype checks
 
-Status: **PROTOTYPE**, no engineering/response acceptance. Execution source:
-ced5a39183f4335b426a6b10fd03eb83a603df42; the recorded dirty flag includes the
-prepared review journal. Scientific producer files are bound individually by
+Status: **PROTOTYPE**, no engineering/response acceptance. Final execution source:
+5f8c505e26f0f325f17d801583042849f06f62a2, with a clean tracked tree. Scientific producer files are bound individually by
 SHA-256 in the retained reports and ignored compact/expected artifacts.
 
 | Actual check | Result |
 | --- | --- |
 | C++ build, isolated DD4hep barrel plugin | PASS after qualified DDSegmentation base-name correction |
-| Python geometry/readout/service negative controls |12 passed |
+| Python geometry/readout/service negative controls |13 passed |
 | Complete native barrel, both end closures and all service daughters | PASS |
 | Full ROOT overlaps/extrusions,10nm,seed37 |0 |
 | Native sensitive raw volume IDs / logical merged channels |33,792 /2,285,568 |
