@@ -161,6 +161,18 @@ continues to belong in the separate validation reports and session journal.
 
 Documents must use stable IDs, ISO dates (`YYYY-MM-DD`), SI/DD4hep units, and repository-relative links. State uncertainties and unresolved questions explicitly.
 
+## Layout main-page maintenance
+
+The user requested the [layout main page](docs/layouts/README.md) on 2026-10-13.
+Keep it directly accessible from the root README. When an approved change is
+merged into a layout prototype, update its candidate feature page, component
+status and decision/PR links; update the named drawing inputs and regenerate the
+R–Z view whenever geometry changes. Do this in the same change when the final
+metadata is available, or in the immediate post-merge reconciliation when the
+merge SHA/date cannot yet be known. Preserve distinct candidate IDs and source
+revisions. Show open proposals, conditional outlines and absent systems accurately.
+A merge by itself grants no engineering sign-off or production acceptance.
+
 ## Specialist assignments
 
 Use the eight existing [role mandates](docs/DEVELOPMENT_PLAN.md#6-stage-b-agent-organization-and-responsibility-boundaries)

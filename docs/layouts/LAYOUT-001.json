@@ -1,0 +1,869 @@
+{
+  "schema_version": 1,
+  "layout_id": "LAYOUT-001",
+  "title": "Tracker + inner 3 T solenoid + Si\u2013W ECAL",
+  "updated": "2026-10-13",
+  "status": "Human-selected layout candidate / DRAFT component prototypes; no engineering sign-off",
+  "units": "m",
+  "view": {
+    "section": "sector-centre R\u2013Z envelope section, positive r and both signs of z",
+    "z_min_m": -6.4,
+    "z_max_m": 6.4,
+    "r_max_m": 4.2,
+    "equal_axis_scale": true
+  },
+  "sources": {
+    "tracker_design": {
+      "revision": "7c6d453fef12c3207b468c4fc99633fb393072a4",
+      "path": "docs/design/DES-025-tracker-dd4hep-gen3.md",
+      "sha256": "0569e49038b25a4d983f68f45103e2d0287049bbfa2e995dc0131abc8bc0c6a5",
+      "url": "https://github.com/asalzburger/nodd/blob/7c6d453fef12c3207b468c4fc99633fb393072a4/docs/design/DES-025-tracker-dd4hep-gen3.md"
+    },
+    "tracker_snapshot": {
+      "revision": "4e44d7c650ac0a2931f7fc1637b5b3f2dfbe4c95",
+      "path": "docs/validation/DES-026/tracker-rz.json",
+      "sha256": "3e84db5e9eed08ccec519fa0baf6a5a5c469d67cc86d134f0457c2130cb46a5e",
+      "url": "https://github.com/asalzburger/nodd/blob/4e44d7c650ac0a2931f7fc1637b5b3f2dfbe4c95/docs/validation/DES-026/tracker-rz.json"
+    },
+    "tracker_configuration": {
+      "revision": "7c6d453fef12c3207b468c4fc99633fb393072a4",
+      "path": "detector/config/tracker.json",
+      "sha256": "b3af03e6961454a7616bc71d235fd922afd30cdf63513b501c3ac3ffad96ec87",
+      "url": "https://github.com/asalzburger/nodd/blob/7c6d453fef12c3207b468c4fc99633fb393072a4/detector/config/tracker.json"
+    },
+    "solenoid_design": {
+      "revision": "4e44d7c650ac0a2931f7fc1637b5b3f2dfbe4c95",
+      "path": "docs/design/DES-026-tracker-solenoid-baseline.md",
+      "sha256": "9ecc1b5a056c920db2b333b950383d4680dc61b637d6cfac55a32d80407d3c29",
+      "url": "https://github.com/asalzburger/nodd/blob/4e44d7c650ac0a2931f7fc1637b5b3f2dfbe4c95/docs/design/DES-026-tracker-solenoid-baseline.md"
+    },
+    "solenoid_parameters": {
+      "revision": "4e44d7c650ac0a2931f7fc1637b5b3f2dfbe4c95",
+      "path": "tools/solenoid_baseline/baseline.json",
+      "sha256": "1f9eda0b4f6fd59afd62db80631c40f76322c83f44455f1c42f852c2e890df80",
+      "url": "https://github.com/asalzburger/nodd/blob/4e44d7c650ac0a2931f7fc1637b5b3f2dfbe4c95/tools/solenoid_baseline/baseline.json"
+    },
+    "solenoid_sizing": {
+      "revision": "4e44d7c650ac0a2931f7fc1637b5b3f2dfbe4c95",
+      "path": "docs/validation/DES-026/sizing.json",
+      "sha256": "41f5fbc8518492abc86a82138e3f87a38f13418ce96b8368fe6b45ea29a6d26c",
+      "url": "https://github.com/asalzburger/nodd/blob/4e44d7c650ac0a2931f7fc1637b5b3f2dfbe4c95/docs/validation/DES-026/sizing.json"
+    },
+    "calorimeter_assembly_design": {
+      "revision": "7c6d453fef12c3207b468c4fc99633fb393072a4",
+      "path": "docs/design/DES-029-calorimeter-assemblies.md",
+      "sha256": "3a2fc7b553e03274233066fb2389b97816a85b5f08513def204ae64377733666",
+      "url": "https://github.com/asalzburger/nodd/blob/7c6d453fef12c3207b468c4fc99633fb393072a4/docs/design/DES-029-calorimeter-assemblies.md"
+    },
+    "calorimeter_parameters": {
+      "revision": "7c6d453fef12c3207b468c4fc99633fb393072a4",
+      "path": "tools/calorimeter_hardware/assemblies.json",
+      "sha256": "7e86001a340d39d5ce7a933b63dfc0ea60da32d684ab426502c7c6e32c87668b",
+      "url": "https://github.com/asalzburger/nodd/blob/7c6d453fef12c3207b468c4fc99633fb393072a4/tools/calorimeter_hardware/assemblies.json"
+    },
+    "calorimeter_generator": {
+      "revision": "7c6d453fef12c3207b468c4fc99633fb393072a4",
+      "path": "tools/calorimeter_hardware/assembly.py",
+      "sha256": "77947659b086837a16c3850d09c2c50dd89bbe9edcc27613251ac5d658eccacf",
+      "url": "https://github.com/asalzburger/nodd/blob/7c6d453fef12c3207b468c4fc99633fb393072a4/tools/calorimeter_hardware/assembly.py"
+    },
+    "calorimeter_cassettes": {
+      "revision": "7c6d453fef12c3207b468c4fc99633fb393072a4",
+      "path": "tools/calorimeter_hardware/cassettes.json",
+      "sha256": "50554e5be4ae1cc2df986ad5cb850a654c7e370999fee2c2bab27db7ba8b2d2f",
+      "url": "https://github.com/asalzburger/nodd/blob/7c6d453fef12c3207b468c4fc99633fb393072a4/tools/calorimeter_hardware/cassettes.json"
+    },
+    "ecal_endcap_design": {
+      "revision": "5664d16aea2df36222dc0099ba18594cf506304d",
+      "path": "docs/design/DES-030-ecal-edge-sensors.md",
+      "sha256": "1823331684da5943cb51e2d78800025275928b4cb896b0184302991821bb9193",
+      "url": "https://github.com/asalzburger/nodd/blob/5664d16aea2df36222dc0099ba18594cf506304d/docs/design/DES-030-ecal-edge-sensors.md"
+    },
+    "ecal_endcap_parameters": {
+      "revision": "5664d16aea2df36222dc0099ba18594cf506304d",
+      "path": "tools/calorimeter_hardware/edge_sensors.json",
+      "sha256": "8904445460ce55fa6ae8d49494f468e85529cdc506b35eec4e63187914fe5408",
+      "url": "https://github.com/asalzburger/nodd/blob/5664d16aea2df36222dc0099ba18594cf506304d/tools/calorimeter_hardware/edge_sensors.json"
+    },
+    "ecal_forward_decision": {
+      "revision": "5664d16aea2df36222dc0099ba18594cf506304d",
+      "path": "docs/decisions/ADR-008-prototype-ecal-forward-aperture.md",
+      "sha256": "4d959773672ab89e13130606a761d95d75660f5f932cfef196ac932edabdeaf9",
+      "url": "https://github.com/asalzburger/nodd/blob/5664d16aea2df36222dc0099ba18594cf506304d/docs/decisions/ADR-008-prototype-ecal-forward-aperture.md"
+    },
+    "ecal_barrel_design": {
+      "revision": "19d20f843e0ccebf4fb34dffcf51a89ce1e8e62a",
+      "path": "docs/design/DES-031-siw-barrel-prototype.md",
+      "sha256": "773e0cf0f9992d0c1760c63fa7721a83e5815d269214c01822c7139f4a392264",
+      "url": "https://github.com/asalzburger/nodd/blob/19d20f843e0ccebf4fb34dffcf51a89ce1e8e62a/docs/design/DES-031-siw-barrel-prototype.md"
+    },
+    "ecal_barrel_parameters": {
+      "revision": "19d20f843e0ccebf4fb34dffcf51a89ce1e8e62a",
+      "path": "tools/calorimeter_hardware/barrel.json",
+      "sha256": "3c4e7ccf2576679c4a4d80e20ffdfc067755b512a0ab79052c2932f58051859c",
+      "url": "https://github.com/asalzburger/nodd/blob/19d20f843e0ccebf4fb34dffcf51a89ce1e8e62a/tools/calorimeter_hardware/barrel.json"
+    },
+    "beam_pipe_configuration": {
+      "revision": "7c6d453fef12c3207b468c4fc99633fb393072a4",
+      "path": "detector/config/beampipe.json",
+      "sha256": "98c12e11357d1997d00906aa694c9cf38698fdc40972f6601a8a0fd0937b590c",
+      "url": "https://github.com/asalzburger/nodd/blob/7c6d453fef12c3207b468c4fc99633fb393072a4/detector/config/beampipe.json"
+    }
+  },
+  "claim_classification": {
+    "source_geometry": "FACT about pinned repository prototype inputs and recorded results; not engineering measurements",
+    "combined_drawing": "INFERENCE from component bounds; no new native construction or combined overlap check",
+    "candidate_selection": "NODD DESIGN CHOICE explicitly requested by the user, with technical sign-off pending"
+  },
+  "tracker": {
+    "display": "Recorded sensitive-plane group bounds; passive solids omitted",
+    "sensitive_elements": 45646,
+    "snapshot_expected_sha256": "6c00ff4a1b3def0f613adcc361307d30186402245e9ca3c1147fc728d855d771",
+    "snapshot_extract_sha256": "3fcae2d12d80aa6b6b25775137287e3ee02e5b7ad44d3657913213d3d0291b46",
+    "bound_convention": "Conservative triangle-inequality radial minimum; sensor-corner radial maximum and z limits; grouped bounding boxes, not passive solids.",
+    "matched_source_sha256": {
+      "tools/tracker_dd4hep/export.py": "f381b0712206f426b1e4eef2681a65e7b6a2d32fac3651d6bafc977fb3666b60",
+      "tools/tracker_dd4hep/services.py": "65909c87e1098d1dbef59fc86819cd7263ac7708487096b1cbe4301a612f9ecf",
+      "tools/tracker_dd4hep/aperture.py": "dc527faaab74b2a1c99ed91e7e27a7818e49f0021cf65837d4d92cd6ccc30612",
+      "detector/config/tracker.json": "b3af03e6961454a7616bc71d235fd922afd30cdf63513b501c3ac3ffad96ec87",
+      "detector/config/pixel-barrel-support.json": "77bca4f0c165f28644568b3cb7dc7c06c0c19f484c733637476e4f6cc131b366",
+      "docs/validation/DES-013-pixel-z/data/packed-200um/layout.json.gz": "e3abb11dd779daef410290186318f9e696c7d7a9a330841badb9a1773c17a842",
+      "tools/pixel_support/mounting.json": "58ebdd76254d2d233e2e9d191eeb29e57ba81847f7e77f65358db690c8421d4e",
+      "tools/pixel_support/services.json": "999cd91713987aa05ea1d61a5be6c3abd3034f5a26bbc5dcf247420906148fe6",
+      "tools/module_layout/review_models.json": "a9a5e5de2a06261b817d08d80235cce66a2de422afd2ff2126ad878d82092623",
+      "tools/module_layout/services_budget_inputs.json": "60bd232e539dbecc4580c6239d5537e111c15db55a3e10246d58d0941df45e1e",
+      "docs/validation/DES-012/PR34/engineering/routing.json.gz": "3c78c12760094f595d20428b95d235a42c012386b5984e35f0ce10e0ba558bc9",
+      "docs/validation/DES-012/PR34/engineering/screening.json": "c98d819533f1a58835d41f749f41ecfc1dca5a5b89f0c0369ee2ce0b3cc9d517",
+      "detector/config/elements.json": "22f2968258a363e8bed8bda4aed741485579441926d850ef4b54bbf7aba66c90",
+      "detector/config/display.json": "886317344cd0fad2395d6696e6a20faa32d349dc9313229d09be34f5702d735c",
+      "detector/config/pixel-barrel.json": "e7be5a4bd00e9aecbc54ecec85218f50d2953ef68967d80eb117fc5069967b75",
+      "tools/pixel_barrel_dd4hep/export.py": "d810922c23cc2351455c149118f3e62d80a13fbfe840d02a94e3e59da9b0711a",
+      "tools/pixel_barrel_dd4hep/materials.py": "1d11107f7dda39420ccbb8c328d32a9087ac51d9da69f9aa492f29fc8f673ca6",
+      "tools/pixel_barrel_dd4hep/module_geometry.py": "7653fcbfd183906eadbde891ae0f7f8b79539d8273d7b0c3d7c55cafae7ffcbe",
+      "tools/pixel_support/mounting.py": "fcb6eeacf826c0a7970b5696ce1a937d1897f57e7561c4ebcf93c2ce56f24f3c",
+      "tools/pixel_support/outward.py": "7e2ada41bdcd5bc6e25a47b1a1b71329286bd1a8af64de8e5ff438c7db324e69",
+      "detector/src/PixelBarrel.cpp": "268a67574a745cba90e52ff6a764c07baf79cb3da1e2a6ef5288e0fd2746d2db",
+      "detector/src/PixelComponents.cpp": "4bde8b9934b072bd6f34e7d15c0d2aa1132228a0de3cbf0b974dfc46ebc0aab2",
+      "detector/src/PixelServices.cpp": "c231fde4e405dc81b1f598821cd24df81fd9f22e0adbb738b1ba3183d4563ac2",
+      "detector/include/nodd/PixelComponents.hpp": "c2c1b4b396fe57515890fcaa849034808bfbd367cc8d541737149e184c68ec02",
+      "detector/include/nodd/PixelDisplay.hpp": "ef38f84431f98c27eafbf17b5166db43b052be93ae09d4d86f1d3c0844d7cf0f",
+      "detector/include/nodd/PixelServices.hpp": "3db95554a1023a8b9e9a997de5456ba8801394d3cb071fd8af92c4344c0e0d05",
+      "tools/pixel_endcap_support/inputs.json": "64d6777ffb0164aa8082aeec551d9e3ffe33b9c83fbaef8e52d7e96a3d500b81",
+      "docs/validation/DES-014-pixel-endcap-support/screening.json": "00fbd9b6f5628f6bb0f6203cb1c55f5d75f0c597a29896b28a60f7bcc0a520c0",
+      "docs/validation/DES-017/four-single-two-quad-layout.json": "97a4e39224789cf1105a12b0c43d4d0a6d7d7113aa74402d8c57f5e91c154f27",
+      "docs/validation/DES-018/screening.json": "d77f6eefe01291009a4a18d62a1c8d48eae1c601d7cf1af4aa3bc92b65c54d88",
+      "tools/pixel_disc_optimization/radial-inputs.json": "7233366e4491f3e8c3e397c066cb20de69cd5c6feb5dd71e3e4d1f73581d6ed6",
+      "tools/pixel_disc_support_variants/inputs.json": "774ce59f16e0c70cbec2db06abd33d7187f29b11adae197935d9c674223fcbca",
+      "tools/pixel_support/inputs.json": "b294ca8b4960c656f22480e2a07c1909aa3aeeaba123fca4fa9d10e4a997e44f",
+      "tools/pixel_detector_dd4hep/check_main_integration.py": "dc1b7a9a22d1c295dc223d928bd9172ae746bca09917950d000fdc36aafa7cc9",
+      "tools/pixel_detector_dd4hep/endcap_modules.py": "11adc39860e1e34dc9c06456d95f96653efb348c24d1062353df3117c203ff8b",
+      "tools/pixel_detector_dd4hep/endcap_parts.py": "e9102c7540a5b82b37f6b75adedcb8093de96de128728d19f0f511c11669aa6b",
+      "tools/pixel_detector_dd4hep/endcap_services.py": "cef8813e01c5ec8b78df47d52d08f449b5cf05ced37c4159aea436d3721e43b7",
+      "tools/pixel_detector_dd4hep/export.py": "e5c6cb6733e4dc92d432cc241269e6a89d496d5bef2d536114c8c2695cca0281",
+      "tools/pixel_detector_dd4hep/refresh.py": "8284a8a99e83e36e7848bdfb13d8a9d805c0f2990122339ce2b74d11432c30b6",
+      "tools/pixel_detector_dd4hep/report.py": "1172bdf7bb7d77ba67e2ae0bf617fed06f64d6e5978469c7e0883ead477f0446",
+      "tools/pixel_detector_dd4hep/test_export.py": "7a56fb4204989a7f37eb4a290e6c0ff06fc3e243d135ac4b8e13392e59f4e2db",
+      "tools/pixel_detector_dd4hep/test_trimmed.py": "19649fa92ad285e71ef0a3d5ba71df69b75f589f5e8fe3078a73f8df0fdea18a",
+      "tools/pixel_detector_dd4hep/trimmed_export.py": "6b836801f01217d7323ec4e1b9af0b155954452db36d73c150be7a6d368d4c6f",
+      "tools/pixel_detector_dd4hep/trimmed_modules.py": "95312c8b91b822026354956e39ca028a85b2c9a1b711a633f0bc126120d29535",
+      "tools/pixel_detector_dd4hep/trimmed_services.py": "50256c15124644c0b877a4801b1da440af9f52a80e98d03281bbd4864f349145",
+      "detector/src/PixelEndcap.cpp": "3f54ea4cb9a4c755ef14a8f6ed6cf84f7899cce273c139c344ab78c3a88d8dc7",
+      "detector/src/PixelEndcapParts.cpp": "ac9ed791a23c41b42c64d372a580a1edfde992a9d09eb9e3fc659c84b0f1a685",
+      "docs/design/DES-007-short-strip-modules.md": "678c140c762effd0aae1462732a4a774d26285bf7ae9c8f879c7665974e2d978",
+      "docs/design/DES-011-service-constrained-tracker-optimization.md": "6076e321876a5b60e56b33cb278968295fb355cd3ea6a599e3909d9eac1e9e24",
+      "docs/design/inputs/DES-010-strip-services.md": "8534694f7c936443bb93ea3a68b24c75634f766e3f0815d2258057155f4b7e36",
+      "docs/validation/DES-011-optimization/cases/p190-s680-b1-l1287.33-front_loaded-original-pockets/layout.json.gz": "89ce39dae6af7e1e69d40582a6c49e6e7f26dbcd6ce1dd3cc061e41e75419cbd",
+      "tools/short_strip_barrel/inputs-phi-tilted.json": "8cf2e44ae392bf727e1671ec728452a5ef3de741729e4c8118be2ba81c55c52b",
+      "docs/design/DES-020-short-strip-barrel.md": "2958cffd82660a4596683019ed9c774f5c3dd36dd0603a33bc515697d10e97cd",
+      "docs/design/DES-008-long-strip-modules.md": "8224086962b7f14400edac5d04ed22fd937a3dc2047cc48f17cbc6ecfee188a9",
+      "tools/long_strip/inputs.json": "10c7ca2ec2f94a349151106d650786506b20e32420c710d7d1d4fefa2205032d",
+      "tools/long_strip_barrel/components.py": "f7cb53e60d44032cb4e10a6e6ab3aded3fb291571ffec709f73f098a87d95ebd",
+      "tools/long_strip_barrel/model.py": "a41d8804b79f788b4db20b19f64de49a55dcc9b880fbdfdc8acfbb10c585b6af",
+      "tools/long_strip_barrel/mechanics.py": "45e08760ed2579c19eba73531bf6370b4aacc2f57dd6f37453adb00ab8a7060c",
+      "tools/long_strip_barrel/export.py": "bbe7941919b1aff2304906227cc587efcdb8b11653903831b4b03b5d23e43a3b",
+      "prototypes/long_strip_barrel/LongStrip.cpp": "4651044c6aa7eeae14c1948278da0f804a6626f2861b48b39b1a92c00f153c64",
+      "docs/design/DES-022-long-strip-barrel.md": "13ad7f93b72a4d27741863cb04ea7fed08e8ab403eb83cca80793832c2f12eac",
+      "tools/long_strip_barrel/inputs.json": "1a14b64fd55fa4e5c4387e423e63dc058ea5b05ead3293a1e32a24ce5da4f061",
+      "docs/validation/DES-022/reproducibility.json": "7a8ac4a067d231b89341c46b629bdcbc573b9c56cd713c03426bb011081e3fa1",
+      "docs/validation/DES-022/inventory.json.gz": "efceb23729e177251dc9b2f3d948c345dde409200cedbb8ab5ec47b36fe244f5",
+      "tools/long_strip_endcap/test_model.py": "bf1bef803ad73cc465273adeee8c712a6e54a23fd9b3d7bb0c4befcee2473873",
+      "tools/long_strip_endcap/coverage.py": "a6fba612a155f850573279638a544c4289d2e14d0332b5d473c3a829c55d5cdc",
+      "tools/long_strip_endcap/export.py": "4e4dc9fd0623a9307b6b9e56aed79cdf558c2dc89a111dbab295d6a513344df7",
+      "tools/long_strip_endcap/model.py": "f1a1d1d31aae157bedf0c640b2696b39275209582fa017f9048f875214aeaac5",
+      "tools/long_strip_endcap/draw.py": "3fac765bc58408e6440543306683b0d435e070414c94e95fc86efdec1c67d527"
+    },
+    "source_hash_comparison": {
+      "revision": "7c6d453fef12c3207b468c4fc99633fb393072a4",
+      "matched_count": 69,
+      "mismatches": []
+    },
+    "planning_reservation": {
+      "radius_m": 1.2,
+      "half_length_m": 3.6,
+      "interpretation": "DES025 software truth region carried as a conditional reservation, not a passive-service envelope"
+    },
+    "sensitive_groups": [
+      {
+        "component": "long_barrel",
+        "system": 6,
+        "layer": 0,
+        "side": 0,
+        "count": 6192,
+        "r_min_m": 0.7863060266744568,
+        "r_max_m": 0.8563501144697943,
+        "z_min_m": -1.2873333333333332,
+        "z_max_m": 1.2873333333333332
+      },
+      {
+        "component": "long_barrel",
+        "system": 6,
+        "layer": 1,
+        "side": 0,
+        "count": 7776,
+        "r_min_m": 1.0063058997760463,
+        "r_max_m": 1.076088042884007,
+        "z_min_m": -1.2873333333333332,
+        "z_max_m": 1.2873333333333332
+      },
+      {
+        "component": "long_endcap",
+        "system": 7,
+        "layer": 0,
+        "side": 1,
+        "count": 624,
+        "r_min_m": 0.7675283209853226,
+        "r_max_m": 1.1093273367996157,
+        "z_min_m": 1.4618999999999998,
+        "z_max_m": 1.4781000000000002
+      },
+      {
+        "component": "long_endcap",
+        "system": 7,
+        "layer": 1,
+        "side": 1,
+        "count": 624,
+        "r_min_m": 0.7675283209853226,
+        "r_max_m": 1.1093273367996157,
+        "z_min_m": 1.6251084844892565,
+        "z_max_m": 1.6413084844892567
+      },
+      {
+        "component": "long_endcap",
+        "system": 7,
+        "layer": 2,
+        "side": 1,
+        "count": 624,
+        "r_min_m": 0.7675283209853226,
+        "r_max_m": 1.1093273367996157,
+        "z_min_m": 1.941535166127731,
+        "z_max_m": 1.9577351661277311
+      },
+      {
+        "component": "long_endcap",
+        "system": 7,
+        "layer": 3,
+        "side": 1,
+        "count": 624,
+        "r_min_m": 0.7675283209853226,
+        "r_max_m": 1.1093273367996157,
+        "z_min_m": 2.3018978676672046,
+        "z_max_m": 2.318097867667204
+      },
+      {
+        "component": "long_endcap",
+        "system": 7,
+        "layer": 4,
+        "side": 1,
+        "count": 624,
+        "r_min_m": 0.7675283209853226,
+        "r_max_m": 1.1093273367996157,
+        "z_min_m": 2.694128888490081,
+        "z_max_m": 2.7103288884900807
+      },
+      {
+        "component": "long_endcap",
+        "system": 7,
+        "layer": 5,
+        "side": 1,
+        "count": 624,
+        "r_min_m": 0.7675283209853226,
+        "r_max_m": 1.1093273367996157,
+        "z_min_m": 3.1119,
+        "z_max_m": 3.1281
+      },
+      {
+        "component": "long_endcap",
+        "system": 7,
+        "layer": 6,
+        "side": -1,
+        "count": 624,
+        "r_min_m": 0.7675283209853226,
+        "r_max_m": 1.1093273367996157,
+        "z_min_m": -1.4781000000000002,
+        "z_max_m": -1.4618999999999998
+      },
+      {
+        "component": "long_endcap",
+        "system": 7,
+        "layer": 7,
+        "side": -1,
+        "count": 624,
+        "r_min_m": 0.7675283209853226,
+        "r_max_m": 1.1093273367996157,
+        "z_min_m": -1.6413084844892567,
+        "z_max_m": -1.6251084844892565
+      },
+      {
+        "component": "long_endcap",
+        "system": 7,
+        "layer": 8,
+        "side": -1,
+        "count": 624,
+        "r_min_m": 0.7675283209853226,
+        "r_max_m": 1.1093273367996157,
+        "z_min_m": -1.9577351661277311,
+        "z_max_m": -1.941535166127731
+      },
+      {
+        "component": "long_endcap",
+        "system": 7,
+        "layer": 9,
+        "side": -1,
+        "count": 624,
+        "r_min_m": 0.7675283209853226,
+        "r_max_m": 1.1093273367996157,
+        "z_min_m": -2.318097867667204,
+        "z_max_m": -2.3018978676672046
+      },
+      {
+        "component": "long_endcap",
+        "system": 7,
+        "layer": 10,
+        "side": -1,
+        "count": 624,
+        "r_min_m": 0.7675283209853226,
+        "r_max_m": 1.1093273367996157,
+        "z_min_m": -2.7103288884900807,
+        "z_max_m": -2.694128888490081
+      },
+      {
+        "component": "long_endcap",
+        "system": 7,
+        "layer": 11,
+        "side": -1,
+        "count": 624,
+        "r_min_m": 0.7675283209853226,
+        "r_max_m": 1.1093273367996157,
+        "z_min_m": -3.1281,
+        "z_max_m": -3.1119
+      },
+      {
+        "component": "pixel",
+        "system": 1,
+        "layer": 1,
+        "side": 0,
+        "count": 636,
+        "r_min_m": 0.021907507326033988,
+        "r_max_m": 0.03780634992442509,
+        "z_min_m": -0.5455999999999999,
+        "z_max_m": 0.5455999999999999
+      },
+      {
+        "component": "pixel",
+        "system": 1,
+        "layer": 2,
+        "side": 0,
+        "count": 1166,
+        "r_min_m": 0.048707563514642144,
+        "r_max_m": 0.06250871954178439,
+        "z_min_m": -0.5455999999999999,
+        "z_max_m": 0.5455999999999999
+      },
+      {
+        "component": "pixel",
+        "system": 1,
+        "layer": 3,
+        "side": 0,
+        "count": 1872,
+        "r_min_m": 0.09407610091502552,
+        "r_max_m": 0.11055110323351901,
+        "z_min_m": -0.5404000000000001,
+        "z_max_m": 0.5198
+      },
+      {
+        "component": "pixel",
+        "system": 1,
+        "layer": 4,
+        "side": 0,
+        "count": 3120,
+        "r_min_m": 0.170783424707012,
+        "r_max_m": 0.18496196892327824,
+        "z_min_m": -0.5404000000000001,
+        "z_max_m": 0.5198
+      },
+      {
+        "component": "pixel",
+        "system": 2,
+        "layer": 1,
+        "side": -1,
+        "count": 302,
+        "r_min_m": 0.02687890030550115,
+        "r_max_m": 0.1825507482765496,
+        "z_min_m": -0.6208250000000001,
+        "z_max_m": -0.6091749999999999
+      },
+      {
+        "component": "pixel",
+        "system": 2,
+        "layer": 2,
+        "side": -1,
+        "count": 302,
+        "r_min_m": 0.026978964523572124,
+        "r_max_m": 0.18227328970604068,
+        "z_min_m": -0.800825,
+        "z_max_m": -0.789175
+      },
+      {
+        "component": "pixel",
+        "system": 2,
+        "layer": 3,
+        "side": -1,
+        "count": 302,
+        "r_min_m": 0.02705692688122046,
+        "r_max_m": 0.1820571188881664,
+        "z_min_m": -1.051825,
+        "z_max_m": -1.0401749999999998
+      },
+      {
+        "component": "pixel",
+        "system": 2,
+        "layer": 4,
+        "side": -1,
+        "count": 302,
+        "r_min_m": 0.027108054339181096,
+        "r_max_m": 0.1819153564950509,
+        "z_min_m": -1.3388250000000002,
+        "z_max_m": -1.327175
+      },
+      {
+        "component": "pixel",
+        "system": 2,
+        "layer": 5,
+        "side": -1,
+        "count": 284,
+        "r_min_m": 0.045212337389047744,
+        "r_max_m": 0.1818190069864153,
+        "z_min_m": -1.650825,
+        "z_max_m": -1.639175
+      },
+      {
+        "component": "pixel",
+        "system": 2,
+        "layer": 6,
+        "side": -1,
+        "count": 284,
+        "r_min_m": 0.04524790997668477,
+        "r_max_m": 0.18175054447859978,
+        "z_min_m": -1.982825,
+        "z_max_m": -1.971175
+      },
+      {
+        "component": "pixel",
+        "system": 2,
+        "layer": 7,
+        "side": -1,
+        "count": 262,
+        "r_min_m": 0.06344587299977043,
+        "r_max_m": 0.18169996690344217,
+        "z_min_m": -2.333825,
+        "z_max_m": -2.322175
+      },
+      {
+        "component": "pixel",
+        "system": 2,
+        "layer": 8,
+        "side": -1,
+        "count": 234,
+        "r_min_m": 0.08171137060518657,
+        "r_max_m": 0.181661374222391,
+        "z_min_m": -2.697825,
+        "z_max_m": -2.686175
+      },
+      {
+        "component": "pixel",
+        "system": 2,
+        "layer": 9,
+        "side": -1,
+        "count": 234,
+        "r_min_m": 0.08173676076551865,
+        "r_max_m": 0.1816311285763505,
+        "z_min_m": -3.075825,
+        "z_max_m": -3.064175
+      },
+      {
+        "component": "pixel",
+        "system": 3,
+        "layer": 1,
+        "side": 1,
+        "count": 302,
+        "r_min_m": 0.02687890030550115,
+        "r_max_m": 0.1825507482765496,
+        "z_min_m": 0.6091749999999999,
+        "z_max_m": 0.6208250000000001
+      },
+      {
+        "component": "pixel",
+        "system": 3,
+        "layer": 2,
+        "side": 1,
+        "count": 302,
+        "r_min_m": 0.026978964523572124,
+        "r_max_m": 0.18227328970604068,
+        "z_min_m": 0.789175,
+        "z_max_m": 0.800825
+      },
+      {
+        "component": "pixel",
+        "system": 3,
+        "layer": 3,
+        "side": 1,
+        "count": 302,
+        "r_min_m": 0.02705692688122046,
+        "r_max_m": 0.1820571188881664,
+        "z_min_m": 1.0401749999999998,
+        "z_max_m": 1.051825
+      },
+      {
+        "component": "pixel",
+        "system": 3,
+        "layer": 4,
+        "side": 1,
+        "count": 302,
+        "r_min_m": 0.027108054339181096,
+        "r_max_m": 0.1819153564950509,
+        "z_min_m": 1.327175,
+        "z_max_m": 1.3388250000000002
+      },
+      {
+        "component": "pixel",
+        "system": 3,
+        "layer": 5,
+        "side": 1,
+        "count": 284,
+        "r_min_m": 0.045212337389047744,
+        "r_max_m": 0.1818190069864153,
+        "z_min_m": 1.639175,
+        "z_max_m": 1.650825
+      },
+      {
+        "component": "pixel",
+        "system": 3,
+        "layer": 6,
+        "side": 1,
+        "count": 284,
+        "r_min_m": 0.04524790997668477,
+        "r_max_m": 0.18175054447859978,
+        "z_min_m": 1.971175,
+        "z_max_m": 1.982825
+      },
+      {
+        "component": "pixel",
+        "system": 3,
+        "layer": 7,
+        "side": 1,
+        "count": 262,
+        "r_min_m": 0.06344587299977043,
+        "r_max_m": 0.18169996690344217,
+        "z_min_m": 2.322175,
+        "z_max_m": 2.333825
+      },
+      {
+        "component": "pixel",
+        "system": 3,
+        "layer": 8,
+        "side": 1,
+        "count": 234,
+        "r_min_m": 0.08171137060518657,
+        "r_max_m": 0.181661374222391,
+        "z_min_m": 2.686175,
+        "z_max_m": 2.697825
+      },
+      {
+        "component": "pixel",
+        "system": 3,
+        "layer": 9,
+        "side": 1,
+        "count": 234,
+        "r_min_m": 0.08173676076551865,
+        "r_max_m": 0.1816311285763505,
+        "z_min_m": 3.064175,
+        "z_max_m": 3.075825
+      },
+      {
+        "component": "short_barrel",
+        "system": 4,
+        "layer": 0,
+        "side": 0,
+        "count": 1232,
+        "r_min_m": 0.23599979166757085,
+        "r_max_m": 0.2687234116528591,
+        "z_min_m": -1.2,
+        "z_max_m": 1.2
+      },
+      {
+        "component": "short_barrel",
+        "system": 4,
+        "layer": 1,
+        "side": 0,
+        "count": 1568,
+        "r_min_m": 0.3159997916675708,
+        "r_max_m": 0.3485016701754465,
+        "z_min_m": -1.2,
+        "z_max_m": 1.2
+      },
+      {
+        "component": "short_barrel",
+        "system": 4,
+        "layer": 2,
+        "side": 0,
+        "count": 2240,
+        "r_min_m": 0.4559997916675708,
+        "r_max_m": 0.48828824772703894,
+        "z_min_m": -1.2,
+        "z_max_m": 1.2
+      },
+      {
+        "component": "short_barrel",
+        "system": 4,
+        "layer": 3,
+        "side": 0,
+        "count": 3024,
+        "r_min_m": 0.6359997916675708,
+        "r_max_m": 0.668145180850667,
+        "z_min_m": -1.2,
+        "z_max_m": 1.2
+      },
+      {
+        "component": "short_endcap",
+        "system": 5,
+        "layer": 0,
+        "side": 1,
+        "count": 360,
+        "r_min_m": 0.235834368540005,
+        "r_max_m": 0.6724855915744691,
+        "z_min_m": 1.3349000000000002,
+        "z_max_m": 1.3396
+      },
+      {
+        "component": "short_endcap",
+        "system": 5,
+        "layer": 1,
+        "side": 1,
+        "count": 360,
+        "r_min_m": 0.235834368540005,
+        "r_max_m": 0.6724855915744691,
+        "z_min_m": 1.534073414846085,
+        "z_max_m": 1.538773414846085
+      },
+      {
+        "component": "short_endcap",
+        "system": 5,
+        "layer": 2,
+        "side": 1,
+        "count": 360,
+        "r_min_m": 0.235834368540005,
+        "r_max_m": 0.6724855915744691,
+        "z_min_m": 1.8630642461939209,
+        "z_max_m": 1.8677642461939206
+      },
+      {
+        "component": "short_endcap",
+        "system": 5,
+        "layer": 3,
+        "side": 1,
+        "count": 360,
+        "r_min_m": 0.235834368540005,
+        "r_max_m": 0.6724855915744691,
+        "z_min_m": 2.237735636584686,
+        "z_max_m": 2.2424356365846863
+      },
+      {
+        "component": "short_endcap",
+        "system": 5,
+        "layer": 4,
+        "side": 1,
+        "count": 360,
+        "r_min_m": 0.235834368540005,
+        "r_max_m": 0.6724855915744691,
+        "z_min_m": 2.645540721012934,
+        "z_max_m": 2.6502407210129335
+      },
+      {
+        "component": "short_endcap",
+        "system": 5,
+        "layer": 5,
+        "side": 1,
+        "count": 360,
+        "r_min_m": 0.235834368540005,
+        "r_max_m": 0.6724855915744691,
+        "z_min_m": 3.0799000000000003,
+        "z_max_m": 3.0846
+      },
+      {
+        "component": "short_endcap",
+        "system": 5,
+        "layer": 6,
+        "side": -1,
+        "count": 360,
+        "r_min_m": 0.235834368540005,
+        "r_max_m": 0.6724855915744691,
+        "z_min_m": -1.3396,
+        "z_max_m": -1.3349000000000002
+      },
+      {
+        "component": "short_endcap",
+        "system": 5,
+        "layer": 7,
+        "side": -1,
+        "count": 360,
+        "r_min_m": 0.235834368540005,
+        "r_max_m": 0.6724855915744691,
+        "z_min_m": -1.538773414846085,
+        "z_max_m": -1.534073414846085
+      },
+      {
+        "component": "short_endcap",
+        "system": 5,
+        "layer": 8,
+        "side": -1,
+        "count": 360,
+        "r_min_m": 0.235834368540005,
+        "r_max_m": 0.6724855915744691,
+        "z_min_m": -1.8677642461939206,
+        "z_max_m": -1.8630642461939209
+      },
+      {
+        "component": "short_endcap",
+        "system": 5,
+        "layer": 9,
+        "side": -1,
+        "count": 360,
+        "r_min_m": 0.235834368540005,
+        "r_max_m": 0.6724855915744691,
+        "z_min_m": -2.2424356365846863,
+        "z_max_m": -2.237735636584686
+      },
+      {
+        "component": "short_endcap",
+        "system": 5,
+        "layer": 10,
+        "side": -1,
+        "count": 360,
+        "r_min_m": 0.235834368540005,
+        "r_max_m": 0.6724855915744691,
+        "z_min_m": -2.6502407210129335,
+        "z_max_m": -2.645540721012934
+      },
+      {
+        "component": "short_endcap",
+        "system": 5,
+        "layer": 11,
+        "side": -1,
+        "count": 360,
+        "r_min_m": 0.235834368540005,
+        "r_max_m": 0.6724855915744691,
+        "z_min_m": -3.0846,
+        "z_max_m": -3.0799000000000003
+      }
+    ]
+  },
+  "solenoid": {
+    "central_field_T": 3.0,
+    "vessel_inner_radius_m": 1.24,
+    "vessel_outer_radius_m": 1.558656,
+    "vessel_half_length_m": 3.85,
+    "cold_inner_radius_m": 1.3278,
+    "cold_outer_radius_m": 1.405006,
+    "winding_outer_radius_m": 1.379271,
+    "cold_half_length_m": 3.6,
+    "assembly_outer_reservation_m": 1.64,
+    "display": "Conditional vessel/cold/winding allocations; voids and constituent material not resolved",
+    "pr": {
+      "number": 64,
+      "url": "https://github.com/asalzburger/nodd/pull/64",
+      "state": "open",
+      "head_revision": "4e44d7c650ac0a2931f7fc1637b5b3f2dfbe4c95"
+    }
+  },
+  "ecal": {
+    "technology": "silicon\u2013tungsten",
+    "layers": 48,
+    "absorber_mm": 1.9,
+    "cassette_mm": 8.0,
+    "installation_gap_mm": 1.0,
+    "sampling_depth_m": 0.5232,
+    "back_cover_m": 0.01,
+    "barrel_front_apothem_m": 1.7,
+    "barrel_outer_apothem_m": 2.2332,
+    "barrel_half_length_m": 3.9,
+    "barrel_flange_half_length_m": 3.92,
+    "endcap_front_abs_z_m": 3.95,
+    "endcap_back_abs_z_m": 4.4832,
+    "endcap_inner_apothem_m": 0.1,
+    "endcap_outer_apothem_m": 2.2232,
+    "endcap_carriers": 16,
+    "endcap_target_abs_eta": 4,
+    "display": "Package envelopes only; wedge seams, sensor guards and inactive service regions remain inside",
+    "endcap_pr": {
+      "number": 70,
+      "url": "https://github.com/asalzburger/nodd/pull/70",
+      "state": "open",
+      "head_revision": "654b85a48abeb38735ad7fe0866c5d1082882df7"
+    },
+    "barrel_pr": {
+      "number": 71,
+      "url": "https://github.com/asalzburger/nodd/pull/71",
+      "state": "open",
+      "head_revision": "19d20f843e0ccebf4fb34dffcf51a89ce1e8e62a",
+      "draft": false
+    }
+  },
+  "hcal": {
+    "technology": "steel\u2013scintillator",
+    "status": "Rough outline only in this selected candidate; detailed hardware follow-up pending",
+    "barrel_front_apothem_m": 2.2632,
+    "barrel_outer_apothem_m": 3.7591,
+    "barrel_half_length_m": 3.92,
+    "endcap_front_abs_z_m": 4.5132,
+    "endcap_back_abs_z_m": 6.0091,
+    "endcap_inner_apothem_m": 0.3,
+    "endcap_outer_apothem_m": 3.7491,
+    "display": "Dashed DES029 envelope, not a selected detailed HCAL implementation"
+  },
+  "absent_systems": [
+    "FCal",
+    "Muon system",
+    "Muon-system magnets"
+  ],
+  "limitations": [
+    "Combination has not been constructed or checked for native cross-system overlaps.",
+    "Radial calorimeter values are 16-gon apothems in a sector-centre section, not all-azimuth cylindrical bounds; corners extend farther.",
+    "Grouped tracker boxes do not show individual sensor gaps or passive services.",
+    "ECAL |eta|=4 is a prototype exploration target; no uniform acceptance is claimed.",
+    "No field map, calorimeter performance or engineering qualification is established by this drawing.",
+    "HCAL outline retains the DES029 300 mm aperture; no forward-coverage repair is implied."
+  ],
+  "reproduction": {
+    "svg": "python3 -B tools/layout_overview/draw.py",
+    "svg_check": "python3 -B tools/layout_overview/draw.py --check",
+    "png": "rsvg-convert -o docs/layouts/figures/LAYOUT-001-rz.png docs/layouts/figures/LAYOUT-001-rz.svg",
+    "dependencies": "Python standard library for SVG; optional existing rsvg-convert for PNG preview; no packages added"
+  },
+  "beam_pipe": {
+    "inner_radius_m": 0.027,
+    "outer_radius_m": 0.0278,
+    "display_radius_m": 0.0274,
+    "half_length_m": 4.0,
+    "display": "Wall centre line at overview scale; dimensions from pinned tracker beam-pipe configuration."
+  }
+}

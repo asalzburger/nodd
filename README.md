@@ -5,6 +5,17 @@ OpenDataDetector for DD4hep simulation and ACTS-compatible reconstruction.
 See the [project scope](PROJECT.md), [development plan](docs/DEVELOPMENT_PLAN.md)
 and [documentation index](docs/README.md).
 
+## Current detector layouts
+
+**[Open the layout main page](docs/layouts/README.md)** for the current candidate,
+its R–Z view and concise links to component decisions and pull requests.
+
+[![Current layout: tracker, inner 3 T solenoid, Si–W ECAL and HCAL outline](docs/layouts/figures/LAYOUT-001-rz.png)](docs/layouts/LAYOUT-001-tracker-3t-siw.md)
+
+The selected candidate combines the maintained tracker with proposed solenoid
+and ECAL components. Open prototypes and remaining systems are identified on the
+main page; the combined layout has no engineering sign-off.
+
 ## Current pixel baseline
 
 The standard combined pixel build uses the
