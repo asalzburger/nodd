@@ -105,3 +105,102 @@ manufacturing/cooling/structural qualification and forward coverage are separate
 The endcap/turbine and forward insertion are the second PR under DES033. The
 LAYOUT-002 main-page status must distinguish barrel-only work from the completed
 candidate. LAYOUT-001 remains the separate SiW candidate.
+
+## Service packing and amended HCAL interface
+
+**FACT:** SRC-ALLEGRO-COOLING-20250714 p7/p9 provides a studied H-ring
+120mm radial height,100mm axial width,12mm flanges,20mm web and500mm spacing.
+Page44 supplies a350×75mm CFEB footprint and a120kW/1.07kg/s nitrogen study
+with18mm-ID exchangers. Page20 excludes global cooling. These are R&D
+precedents. SRC-ALLEGRO-READOUT-20260129 p11 distinguishes warm millions of
+analog cables from cold electronics; its ASIC analog power is not whole-chain
+power. SRC-ALLEGRO-FEEDTHROUGH-202509 p38 describes20k-wire R&D feedthroughs,
+not installed nODD vacuum flanges.
+
+**NODD DESIGN CHOICES:** use16 aluminium-equivalent H-rings at500mm pitch,
+two35mm radial CFEB banks in16 sectors,350mm axial board length,75mm
+tangential width,80mm column pitch. Fifteen board rows fit *between* the100mm
+rings; end-bath slots turn boards tangentially. This provides5760 rear slots
+and128 end slots,5888 total. At the explicitly hypothetical512channels/board,
+capacity is3,014,656channels, above the3million planning allowance and the
+2,285,568 physical-grid-derived channels. The radial/end-bath mother
+volumes retain LAr after daughter displacement; individual CFEB envelopes are
+wet, not fictitious air boxes. PCB,0.105mm equivalent Cu, eight20×20×1mm silicon
+package proxies and5mm Al spreaders represent material only. ASIC selection,
+electrode metallurgy, connectors and thermal coupling remain unresolved.
+
+**NODD DESIGN CHOICES:**96 cooling half-branches use18mm bore/20mm OD tubes
+at radius2735.3mm. Effective two-phase N2 density0.02g/cm3 is a provisional
+mass hypothesis, not a pressure/temperature equation-of-state result. Branch
+headers, cryostat ports, seals and manifolds are absent. The170mm rear bath
+permits rings, flat-board corner radii and a separate pipe lane; tube materials
+displace the parent LAr exactly. The cold test's0.2mm total steel is retained
+separately from the source XML0.1mm proxy.
+
+**INFERENCE with planning assumptions:** cold cable counts per barrel station
+are92 data pairs,92 fibres (including100% spare fibres),12 HV,4 power,2 grounds
+and4 controls. Bundle diameters2.5/2/3/12/8/3mm and40% fill are choices.
+Each station also reserves two80mm N2 jackets and two25mm warm-water pipes.
+At32 barrel stations the ordinary footprint is31,104mm², within a700×150mm
+lane. One utility station at each end additionally reserves four100mm LAr
+fill/return/purge/relief jackets:109,644mm² within1100×150mm. An endcap's
+16 stations require30,199mm² each, with analogous utility reservation. Packed
+area includes pipe jackets and installation void; it is not copper area.
+
+A20m cable length per barrel station gives58.9km of data-pair cable,58.9km
+of fibre,7.68km HV,2.56km power,1.28km ground and2.56km controls. Per endcap,
+12m/station gives7.68/7.68/3.84/0.768/0.384/0.768km respectively. These are
+route budgets with±50% length uncertainty; packed cable volumes are2.25m³
+for barrel and0.50m³ per endcap. Boards have capacity, but no installed cable
+routing graph or feedthrough bill is claimed. A warm analog alternative
+(1.2mm cable per channel) needs265,072mm² per barrel station for3million
+channels, exceeding this cold-option lane. It is not interchangeable without
+redesign.
+
+**INFERENCE:** service centres atR3029mm clear the endcap's2949mm outer wall
+by20mm for100mm utility jackets. Minimum bend radius4×OD and20mm installation
+clearance give an approximately740mm axial S-bend for100mm pipe and470mm
+rear turn. Thus reserve800mm before the endcap and500mm behind it, rather
+than the SiW's small installation gaps. External lanes are empty reservations;
+wall penetrations and cryogenic connections are not modelled as valid routes.
+
+**NODD DESIGN CHOICES:** move HCAL barrel front apothem to3130mm, retain
+1495.9mm sampling/cover depth, extend barrel half-length to5860mm. Its outer
+apothem is4625.9mm (16-gon corners reach farther). Endcap front is6360mm,
+back7855.9mm, inner radius/apothem300mm and outer apothem4615.9mm. The
+barrel–ECAL corridor is300mm at barrel outer wall2830mm; beside the LAr
+endcap it is181mm wide. Both800mm front and500mm rear endcap gaps are
+reserved for cable/pipe bends and access. These are HCAL envelopes only;
+cassette counts, structural mass, showers, field/return-steel and corner
+interfaces require the detailed HCAL follow-up. The enlarged iron must be
+included in a new complete magnetic solution before claiming3T operation.
+
+**INFERENCE / scenarios:**20/40/60mW whole-chain power per planning channel
+gives86/172/258kW for3million barrel plus650k per endcap. Source120kW barrel
+plus a new40kW/endcap allowance gives200kW planning cooling, and a purely
+proportional1.783kg/s nitrogen flow. No hydraulic proof or bath-static heat
+budget is implied. A48V,90%-efficient barrel supply at120kW gives86.8A per
+station; a20m room-temperature loop with two parallel25mm² Cu conductors
+has0.60V drop and51.8W dissipation. The assumed3million channels at50kHz and
+64bit/sample need9.6Tbit/s before overhead/compression;4096-channel
+aggregation needs13.1Gbit/s. The4×5Gbit/s electrical and2×10Gbit/s optical
+capacity hypotheses need protocol, radiation and cryogenic qualification.
+
+All values and arithmetic are reproducible through
+[services.json](../../tools/lar_calorimeter/services.json) and
+[services.py](../../tools/lar_calorimeter/services.py). Source parameters,
+new choices and uncertainty remain separate. No new external software is
+adopted; k4geo is read as a public parameter reference, not imported.
+
+## Executed prototype checks
+
+The native isolated barrel with supports/boards/pipes has252.508t total model
+mass; this is a material ledger with equivalent walls/PCB/packages, not a
+fabricated mass prediction. All33,792 raw sensitive IDs,2,976 canonical
+reference keys and2,285,568 logical channels were checked. Full ROOT overlaps
+at10nm found zero;45 fixed eta/phi rays traverse actual native boundaries.
+The eta0/phi0 ray has22.639X0 across the entire isolated package, including
+passives; it does not establish a universal22X0 sampling depth or response.
+Saved Geant4 hit checks, executed source identities and review findings are
+recorded in the validation report. Combined detector overlaps, forward
+response, field and production/ACTS integration remain open.

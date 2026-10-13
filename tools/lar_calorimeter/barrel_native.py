@@ -84,8 +84,10 @@ def run(args):
             if str(boolean.ClassName()) != 'TGeoIntersection':
                 raise ValueError('Expected circular annulus intersection')
             a = boolean.GetRightShape()
-            if str(a.ClassName()) != 'TGeoTube':
+            if str(a.ClassName()) not in ('TGeoTube', 'TGeoTubeSeg'):
                 raise ValueError('Expected native annular clipping tube')
+            if str(a.ClassName()) == 'TGeoTubeSeg':
+                agree(a.GetPhi2()-a.GetPhi1(), 360, 'clip full azimuth')
             radii = piece['clip_annulus_mm']
             agree(a.GetRmin()/mm, radii['rmin'], 'clip inner circle')
             agree(a.GetRmax()/mm, radii['rmax'], 'clip outer circle')
@@ -95,6 +97,11 @@ def run(args):
                 for i in range(3):
                     agree(matrix.GetTranslation()[i], 0, 'clip translation')
                     for j in range(3): agree(matrix.GetRotationMatrix()[3*i+j], int(i == j), 'clip rotation')
+            matrix = boolean.GetLeftMatrix()
+            if matrix:
+                for i in range(3):
+                    agree(matrix.GetTranslation()[i], 0, 'primitive translation')
+                    for j in range(3): agree(matrix.GetRotationMatrix()[3*i+j], int(i == j), 'primitive rotation')
             primitive = boolean.GetLeftShape()
             plain = dict(piece); plain.pop('clip_annulus_mm')
             shape_capacity(primitive, plain)
@@ -103,6 +110,11 @@ def run(args):
         kind = piece['shape_kind']
         if kind == 'xtru':
             if str(shape.ClassName()) != 'TGeoXtru': raise ValueError('Expected extrusion')
+            if shape.GetNz() != 2: raise ValueError('Extrusion must have exactly two sections')
+            for section in range(2):
+                agree(shape.GetXOffset(section)/mm, 0, 'extrusion x offset')
+                agree(shape.GetYOffset(section)/mm, 0, 'extrusion y offset')
+                agree(shape.GetScale(section), 1, 'extrusion section scale')
             if shape.GetNvert() != len(piece['vertices_mm']): raise ValueError('Extrusion vertex count')
             vertices = []
             for i, want in enumerate(piece['vertices_mm']):
@@ -114,7 +126,8 @@ def run(args):
             area = abs(sum(a[0]*b[1]-b[0]*a[1] for a,b in zip(vertices,vertices[1:]+vertices[:1])))/2
             return area*piece['depth_mm']
         if kind == 'tube':
-            if str(shape.ClassName()) != 'TGeoTube': raise ValueError('Expected tube')
+            if str(shape.ClassName()) not in ('TGeoTube','TGeoTubeSeg'): raise ValueError('Expected tube')
+            if str(shape.ClassName()) == 'TGeoTubeSeg': agree(shape.GetPhi2()-shape.GetPhi1(), 360, 'tube full azimuth')
             dims = piece['dimensions_mm']
             for actual, key in ((shape.GetRmin()/mm, 'rmin'), (shape.GetRmax()/mm, 'rmax'), (2*shape.GetDz()/mm, 'length')):
                 agree(actual, dims[key], 'tube '+key)

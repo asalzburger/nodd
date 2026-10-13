@@ -14,7 +14,8 @@ using namespace dd4hep;
 using namespace dd4hep::DDSegmentation;
 using xml::Handle_t;
 
-class LArBarrelMerged : public Segmentation {
+using SegmentationBase = dd4hep::DDSegmentation::Segmentation;
+class LArBarrelMerged : public SegmentationBase {
   double pitch = 0, offset = 0;
   int planes = 0, phiMerge = 0;
   std::vector<int> thetaMerge;
@@ -35,7 +36,7 @@ class LArBarrelMerged : public Segmentation {
     });
   }
  public:
-  explicit LArBarrelMerged(const BitFieldCoder* decoder) : Segmentation(decoder) {
+  explicit LArBarrelMerged(const BitFieldCoder* decoder) : SegmentationBase(decoder) {
     _type = "nODDLArBarrelMerged";
     _description = "Two-electrode/two-gap grouping, layer-dependent theta; canonical active-volume references";
     registerParameter("theta_fine_pitch_rad", "Fine physical theta-bin pitch in radians", pitch, 0.);
