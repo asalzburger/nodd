@@ -267,3 +267,19 @@ is **27,882,303 input + 195,220 output = 28,077,523 tokens**. The
 records the unchanged transfer from the mixed desktop backfill record.
 The original inventory remains intact; global totals stay at 552,937,331 across
 183 disjoint turns. Never add this subtotal to the project total again.
+
+## PR6 conflict-resolution audit — 2026-10-12
+
+[The PR6 audit](USAGE-2026-10-12-pr6-accounting-audit.json) verifies both known
+local project locations (16 threads, 72 turns) against canonical owners. All
+52 already recorded local observations match their five counters. The normal
+main merge brings 36 historical observations across eleven magnetic-research
+session records into PR6: input 56,250,297, output 211,577, total 56,461,874.
+These were already in main and must not be imported or counted again.
+
+No additional historical PR6 counters could be confidently attributed locally.
+The September 28 PR6 merge-maintenance task still has unknown usage. The
+current PR6 update turn is active and excluded. One newly closed preceding
+PR62 synchronization turn was imported into its own original record, adding
+3,472,126 input and 14,452 output tokens (3,486,578 total) to project accounting.
+Unassigned historical observations retain their earlier disposition.
