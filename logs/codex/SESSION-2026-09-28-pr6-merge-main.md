@@ -52,3 +52,12 @@ Exact client token counters are unavailable; `usage` remains empty. The summary
 reports only retained observed totals and missing coverage, not a complete project
 total. No physics simulation or binding-runtime regeneration was needed for this
 conflict resolution. Existing design review/sign-off questions remain open.
+
+## Token coverage check — 2026-10-12
+
+The [PR6 device audit](../usage/USAGE-2026-10-12-pr6-accounting-audit.json)
+found no matching completed-turn counters for this maintenance task in either
+known local project store location or relevant thread metadata. The eleven
+historical research records now contain 36 separately owned observations, but
+those do not cover this September 28 task. Its usage stays empty, meaning
+unknown, and another device may hold the missing evidence.

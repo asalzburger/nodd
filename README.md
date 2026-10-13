@@ -43,6 +43,13 @@ defines their full mandates and responsibility boundaries.
 These are responsibility roles, not a requirement for eight simultaneous agent
 processes. Only identified humans may grant design sign-off or acceptance.
 
+The [agent workflow](docs/AGENT_WORKFLOW.md) connects these mandates to reusable
+Codex profiles and skills, bounded assignments and revision-specific handoffs.
+Start Codex in the nODD checkout (or its worktree) to discover project guidance.
+The workflow supports explicit role instructions when native profile selection
+is unavailable; its [pilot record](logs/codex/SESSION-2026-10-12-agent-workflow.md)
+states which behavior was actually exercised.
+
 ## Human review 
 
 Guidelines for human review can be found in [REVIEW.md](REVIEW.md) 
