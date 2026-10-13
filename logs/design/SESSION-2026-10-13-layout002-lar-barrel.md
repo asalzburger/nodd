@@ -127,3 +127,65 @@ registry preflight returned2 for changed fingerprints; root warned before
 dependent commands and actually verified installed DD4hep1.38 /7deaacd,
 Geant411.4.2 /cpge6jj, ROOT6.40.04, Matplotlib3.11.2 and all listed datasets.
 Full source staging and new external framework adoption were not performed.
+
+## Prepared fixed-revision SysArch review
+
+```json
+{
+  "id": "LAYOUT002-SysArch-barrel-review",
+  "role": "SysArch",
+  "input_revision": "ced5a39183f4335b426a6b10fd03eb83a603df42",
+  "inputs": [
+    "docs/design/DES-032-allegro-lar-barrel.md",
+    "tools/lar_calorimeter",
+    "prototypes/calorimeter/LArBarrel.cpp"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Independently review actual barrel support/electronics/pipe placements, service arithmetic, HCAL/service-envelope interfaces, ownership and dimensional/power claims. Check choices versus primary facts; no filled-space route/engineering acceptance claim. Read the fixed revision in nodd-lar-barrel using git show. Previous native run source hashes matched geometry but later budget code changed; exact-revision rerun is now underway. Do not claim final native evidence until coordinator supplies it. Do not edit, install, adopt dependencies, delegate or approve/signoff. Existing profile instructions continue. Return severity findings with files/lines and exact source commit; root integrates corrections.",
+  "deliverable": "Exact-revision independent findings and bounded actual checks, no engineering sign-off.",
+  "completion": "Concrete defects resolved or explicitly retained bounded limitations before PR ready."
+}
+```
+
+## Prepared fixed-revision PhysVal review
+
+```json
+{
+  "id": "LAYOUT002-PhysVal-barrel-review",
+  "role": "PhysVal",
+  "input_revision": "ced5a39183f4335b426a6b10fd03eb83a603df42",
+  "inputs": [
+    "docs/design/DES-032-allegro-lar-barrel.md",
+    "tools/lar_calorimeter",
+    "prototypes/calorimeter/LArBarrel.cpp"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Independently review inclined plate/material/readout geometry, exact circle capacity and native audit/gates, signed theta/merged canonical mappings, sparse hit checker, service material accounting and scientific claims. Identify actual implementation defects or unsupported conclusions. Read the fixed revision in nodd-lar-barrel using git show. Previous native run source hashes matched geometry but later budget code changed; exact-revision rerun is now underway. Do not claim final native evidence until coordinator supplies it. Do not edit, install, adopt dependencies, delegate or approve/signoff. Existing profile instructions continue. Return severity findings with files/lines and exact source commit; root integrates corrections.",
+  "deliverable": "Exact-revision independent findings and bounded actual checks, no engineering sign-off.",
+  "completion": "Concrete defects resolved or explicitly retained bounded limitations before PR ready."
+}
+```
+
+## Actual independent results and remediation
+
+At ced5a39183f4335b426a6b10fd03eb83a603df42, SysArch found no P1 default
+placement defect; PhysVal independently integrated88 shapes with4.88e-11
+maximum relative capacity disagreement. Both ran12 standard-library tests
+from fixed Git blobs in memory. They did not run native jobs. Their prior
+input contributions are acknowledged; this is a distinct-role check of root's
+implementation, not a claim of fully independent design origin.
+
+P2 corrections: reject unsupported fixed board/ring/tube packing parameters;
+reconcile20m one-way cables with40m electrical loop; distinguish source1.246mm
+gap from prototype1.196mm; use50k maxtrigger/hit rate and64-bit payload choice;
+record639.4mm centreline-plus-clearance versus739.4mm inflated S-bend envelope.
+Saved hits now require real canonical theta membership, bound successful
+DDSim run/artifacts and observed seed/physics. Ghosttheta2047 is rejected.
+Rays enforce finite/nonnegative material, active path bounds and expected
+finite-volume/full-depth crossings. The258kW adverse case versus200kW cooling,
+fully populated slot power, converter location/loss and missing thermal
+contact remain explicit unmet engineering scenarios. No tolerance/gate relaxed.
+A PR metadata timestamp initially included fractional seconds; validator
+correctly rejected it; canonical UTC second timestamps now pass.

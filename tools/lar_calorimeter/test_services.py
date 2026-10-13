@@ -20,6 +20,10 @@ class ServiceTests(unittest.TestCase):
         self.assertEqual(r['services']['physical_barrel']['capacity_channels'],3014656)
         self.assertEqual(r['services']['physical_barrel']['cooling_half_branches'],96)
         self.assertGreater(r['mass_g'],249e6)
+        for key,value in [('board_radial_depth_mm',36),('barrel_ring_axial_width_mm',120),('barrel_ring_web_mm',30),('nitrogen_pipe_id_mm',16),('nitrogen_pipe_od_mm',22)]:
+            c=copy.deepcopy(r['services']['config']);c[key]=value
+            base,materials=build()
+            with self.assertRaises(ValueError):augment(base,materials,c)
         roots={p['name']:p for p in r['passive']}
         for p in r['passive']:
             if p.get('parent_name') in ('rear_bath','end_bath_1','end_bath_-1'):

@@ -10,8 +10,16 @@ from barrel_geometry import I, rotation, sha, ROOT
 from services import budget
 
 
-def augment(report, m):
-    b = budget(); c = b['config']
+def augment(report, m, config=None):
+    b = budget(config); c = b['config']
+    # Named but not yet generalized geometry is guarded rather than ignored.
+    # Changing these values requires a reviewed packing amendment.
+    fixed = dict(board_face_mm=[350,75], board_radial_depth_mm=35,
+        board_grid_pitch_mm=[500,80],board_gap_mm=10,
+        barrel_ring_axial_width_mm=100,barrel_ring_web_mm=20,
+        nitrogen_pipe_id_mm=18,nitrogen_pipe_od_mm=20)
+    for key,value in fixed.items():
+        if c[key] != value: raise ValueError('Unsupported physical packing amendment: '+key)
     m.add('PrototypeNitrogenTwoPhase', c['nitrogen_effective_density_g_cm3'], {'N':1.})
     m.recipes['PrototypeNitrogenTwoPhase']['note']='NODD effective density hypothesis 0.02g/cm3; source flow scenario does not determine density. No EOS/transport claim.'
     m.add('Copper',8.96,{'Cu':1.})

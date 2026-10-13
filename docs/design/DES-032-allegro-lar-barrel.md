@@ -35,8 +35,9 @@ without a native scan and response validation.
 the inner cylinder at the selected inclination with the outer cylinder:
 `L=-r0*cos(alpha)+sqrt(r1²-r0²*sin²(alpha))=573.937151mm`. The tabulated segment
 sum573.9371mm differs by only0.000051mm; a named final-segment remainder closes
-the boundary rather than overlapping it. A1536-plane period gives an initial
-single LAr gap of approximately1.246mm, growing outward. Newly generated
+the boundary rather than overlapping it. The thinner source-XML steel control gives an initial
+single LAr gap of approximately1.246mm. The adopted0.2mm steel prototype
+gives approximately1.196mm per side, growing outward. Newly generated
 polygons must reproduce real adjacent plate/electrode faces and be checked
 independently; the external factory is not imported.
 
@@ -178,11 +179,16 @@ included in a new complete magnetic solution before claiming3T operation.
 **INFERENCE / scenarios:**20/40/60mW whole-chain power per planning channel
 gives86/172/258kW for3million barrel plus650k per endcap. Source120kW barrel
 plus a new40kW/endcap allowance gives200kW planning cooling, and a purely
-proportional1.783kg/s nitrogen flow. No hydraulic proof or bath-static heat
-budget is implied. A48V,90%-efficient barrel supply at120kW gives86.8A per
-station; a20m room-temperature loop with two parallel25mm² Cu conductors
-has0.60V drop and51.8W dissipation. The assumed3million channels at50kHz and
-64bit/sample need9.6Tbit/s before overhead/compression;4096-channel
+proportional1.783kg/s nitrogen flow. The258kW adverse case exceeds200kW by58kW (29%); fully populated
+barrel slots need180.879kW at60mW and120.586kW at40mW, exceeding
+the120kW reference even before bath heat. These are unmet scenarios.
+No hydraulic proof or bath-static heat budget is implied. Conversion is
+provisionally warm; locating90%-efficient converters cold would add13.3kW
+for120kW delivered power and requires a new cooling allocation. Chip proxies
+and spreaders do not implement a qualified thermal contact. A48V,90%-efficient barrel supply at120kW gives86.8A per
+station; a40m room-temperature supply-plus-return loop (20m one way) with two parallel25mm² Cu conductors
+has1.19V drop and103.7W dissipation. The assumed3million channels at the source maximum50k hits/channel/s and
+a chosen64bit/hit payload need9.6Tbit/s before overhead/compression;4096-channel
 aggregation needs13.1Gbit/s. The4×5Gbit/s electrical and2×10Gbit/s optical
 capacity hypotheses need protocol, radiation and cryogenic qualification.
 
