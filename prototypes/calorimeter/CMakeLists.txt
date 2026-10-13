@@ -11,3 +11,9 @@ add_library(nODDLArBarrelPrototype SHARED LArBarrel.cpp)
 target_compile_features(nODDLArBarrelPrototype PRIVATE cxx_std_20)
 target_link_libraries(nODDLArBarrelPrototype PUBLIC DD4hep::DDCore)
 dd4hep_generate_rootmap(nODDLArBarrelPrototype)
+
+# DES033 isolated turbine prototype, independent of the barrel library.
+add_library(nODDLArEndcapPrototype SHARED LArEndcap.cpp)
+target_compile_features(nODDLArEndcapPrototype PRIVATE cxx_std_20)
+target_link_libraries(nODDLArEndcapPrototype PUBLIC DD4hep::DDCore)
+dd4hep_generate_rootmap(nODDLArEndcapPrototype)

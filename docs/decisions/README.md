@@ -27,3 +27,4 @@ Preserve historical decisions and evidence. A replacement ADR must link the prio
 | [ADR-005](ADR-005-reference-reading-pilot.md) | Reusable reference reading pilot | DRAFT | TBD |
 | [ADR-006](ADR-006-global-envelope-and-field-hypotheses.md) | Global envelope and field hypotheses | DRAFT | TBD |
 | [ADR-007](ADR-007-itkpix-pixel-baseline.md) | RD53i pixel-module baseline | DRAFT | TBD |
+| [ADR-009](ADR-009-layout002-lar-calorimeter.md) | LAYOUT-002 LAr alternative, larger service/HCAL envelopes and later FCal | DRAFT / PROTOTYPE | TBD |
