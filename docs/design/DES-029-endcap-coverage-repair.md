@@ -16,6 +16,10 @@ continuous sensitive sheets avoid these packing holes, with source-derived
 98.59%/99.33% ECAL/HCAL face fractions and an aperture near |eta|=3. Those values
 are idealized geometric coverage, not an engineered module layout or efficiency.
 
+[CLD/CALICE and HGCal packing precedents](DES-029-endcap-packing-precedents.md)
+explain broad carriers, compact readout units, physically manufactured partial
+modules and shared services, with their engineering and operating-mode limits.
+
 ## Where the reported area goes
 
 All values below are **INFERENCE** from the unchanged model at61ab5a4.
