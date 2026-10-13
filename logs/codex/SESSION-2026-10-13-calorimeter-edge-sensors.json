@@ -1,0 +1,175 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-13-calorimeter-edge-sensors",
+  "title": "Design physical ECAL edge sensors and optimize endcap layout with four-stage comparison",
+  "recorded_at": "2026-10-13T05:04:13Z",
+  "started_at": null,
+  "ended_at": null,
+  "status": "open",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact current client per-turn token counters unavailable; usage is empty/unknown.",
+    "Draft physical mask/geometry prototype, not process, machine-interface, thermal/structural or performance qualification; eta4 sampling has cracks.",
+    "Complete ROOT geometry checks; only sparse single-layer Geant4 transport completed."
+  ],
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "cfa20cf6e02572bc90485c78966e6d61b15d1025",
+    "branch": "codex/calorimeter-edge-sensors",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      "docs/decisions/ADR-008-prototype-ecal-forward-aperture.md",
+      "docs/design/DES-030-ecal-edge-sensors.md",
+      "docs/design/figures/DES-030/four-stage-coverage.png",
+      "docs/design/figures/DES-030/four-stage-coverage.svg",
+      "docs/design/inputs/DES-030-edge-profiles.json",
+      "docs/validation/DES-030/directional-coverage.json",
+      "docs/validation/DES-030/native-edges.json",
+      "docs/validation/DES-030/native-squares.json",
+      "docs/validation/DES-030/results.md",
+      "docs/validation/DES-030/transport.json",
+      "logs/codex/SESSION-2026-10-13-calorimeter-edge-sensors.json",
+      "logs/codex/SESSION-2026-10-13-calorimeter-edge-sensors.md",
+      "project/tracking.json",
+      "prototypes/calorimeter/CMakeLists.txt",
+      "prototypes/calorimeter/EdgeCalorimeter.cpp",
+      "reference/manifest.yaml",
+      "tools/calorimeter_hardware/README.md",
+      "tools/calorimeter_hardware/edge_export.py",
+      "tools/calorimeter_hardware/edge_fixture.py",
+      "tools/calorimeter_hardware/edge_layout.py",
+      "tools/calorimeter_hardware/edge_native.py",
+      "tools/calorimeter_hardware/edge_plot.py",
+      "tools/calorimeter_hardware/edge_sensors.json",
+      "tools/calorimeter_hardware/edge_transport.py",
+      "tools/calorimeter_hardware/test_edges.py"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "custom ECAL edge sensors",
+      "optimized endcap geometry",
+      "four-stage SVG"
+    ],
+    "related_ids": [
+      "DES-030",
+      "ADR-008",
+      "PR69"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-13-calorimeter-edge-sensors.md",
+  "activities": [
+    {
+      "kind": "skill",
+      "name": "acts-spack",
+      "version": null,
+      "calls": 1,
+      "failures": 1,
+      "duration_seconds": null,
+      "evidence": "Preflight reported changed setup/lock; actual fresh DD4hep1.38/ROOT6.40.04/DDG4/Geant4 11.4.2 runtime and configured datasets verified."
+    },
+    {
+      "kind": "tool",
+      "name": "Physical mask generation, C++ compilation, full ROOT audits, sparse Geant4 and SVG inspection",
+      "version": "DD4hep1.38, ROOT6.40.04, Geant4 11.4.2; Python3.14.5/3.14.6, Matplotlib3.11.2",
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Exact hashes/outputs in DES030 validation; zero overlaps,21 hardware controls,28 project controls,2 saved fixture events."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 acts-spack/scripts/preflight.py",
+      "status": "FAIL",
+      "exit_code": 2,
+      "result": "Registry fingerprints changed; actual dependency capabilities subsequently reverified, no installation modified."
+    },
+    {
+      "command": "cmake configure/build prototypes/calorimeter with existing verified runtime",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Existing library and new edge segmentation/factory compiled; CMake policy/CLHEP warnings retained."
+    },
+    {
+      "command": "edge_native.py for release and release-squares complete endcaps",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All native parts/compositions/replicas/volume IDs and logical electrodes/boundaries checked;0 ROOT overlaps at1e-5mm in both layouts;64 bounded rays each."
+    },
+    {
+      "command": "edge_transport.py for release positive/negative seeded fixture outputs",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Both events saved positive-energy hits with expected module/electrode IDs."
+    },
+    {
+      "command": "native.py legacy-unit regression using updated library",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "859parts/148sensitive IDs/1168cells/0overlaps."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/calorimeter_hardware -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "21controls pass, including board/guard/electrode/ASIC fit, stable square IDs and honest eta4 cracks."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/project_records -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "28controls pass."
+    },
+    {
+      "command": "Matplotlib edge_plot.py, PNG/SVG visual inspection",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Four requested panels, eta contours and mask/electrode details; text layout repaired after inspection."
+    },
+    {
+      "command": "Initial native audit (TubeSeg unhandled)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Added explicit full-circle TubeSeg check; all subsequent native audits pass."
+    },
+    {
+      "command": "Initial full dictionary ID-stability assertion run",
+      "status": "FAIL",
+      "exit_code": 130,
+      "result": "Large failure diff formatter interrupted; grid-derived stable module IDs and bounded comparison fixed; final controls pass."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "63tasks/36documents/19review rounds valid."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate and summary --format json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "175paired records; current counters unknown; no new usage observations."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py build",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "209disjoint observed turns;620812827observed tokens; this task has no measurements."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors."
+    }
+  ]
+}

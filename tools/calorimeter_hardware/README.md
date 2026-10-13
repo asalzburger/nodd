@@ -109,3 +109,41 @@ python3 -B tools/calorimeter_hardware/check_shapes.py \
 It requires both ROOT and expected-inventory hashes to match the completed
 overlap audit and verifies native primitive dimensions, polygon vertices/depth
 and Boolean cutter dimensions/transforms. It does not relax any overlap gate.
+
+## Custom ECAL edge masks and optimized endcaps (DES030)
+
+The new DRAFT prototype is isolated from DES029's historical cassette assemblies
+and production entry points. Four quadrant carriers retain the outer16-gon;
+a new90mm-apothem square aperture explores the user-requested|eta|4 target.
+Square and custom-edge cases share the same reservations. Custom sensor/guard/
+PCB/electrode polygons are explicit; small connected pad fragments are merged.
+`nODDEdgeGrid` preserves their real ID mapping and interior reference points.
+
+```sh
+python3 -B tools/calorimeter_hardware/edge_export.py --output build/calorimeter/edges/release
+python3 -B tools/calorimeter_hardware/edge_export.py \
+  --output build/calorimeter/edges/release-squares --layout squares
+# Activate and verify the existing acts-spack runtime in this shell.
+cmake -S prototypes/calorimeter -B build/calorimeter/factory
+cmake --build build/calorimeter/factory
+python3 -B tools/calorimeter_hardware/edge_native.py \
+  --compact build/calorimeter/edges/release/calorimeter.xml \
+  --expected build/calorimeter/edges/release/expected.json \
+  --library build/calorimeter/factory/libnODDCalorimeterPrototype.dylib \
+  --output build/calorimeter/edges/release/native.json
+# Repeat for release-squares; Linux uses .so.
+```
+
+With the existing Matplotlib environment, `edge_plot.py` produces the requested
+four-stageSVG/PNG, the profile catalogue and eta/phi layer-count samples. Native
+checks audit actual shapes/materials/replicas, every volume ID and every logical
+electrode/raw fragment, closed-boundary ties, full overlaps and bounded material
+rays. No native ODD construction is claimed by the source-derived ODD panel.
+
+`edge_fixture.py --directory build/calorimeter/edges/release` creates a sparse
+single-layer triangle-module fixture on each side for two10GeV mu- events.
+Directions/expected electrode are saved in `fixture.json`; DDSim seeds43/44.
+`edge_transport.py` checks saved positive energies and full parent/pad IDs.
+The fixture retains plates/cooling/interface material; it removes other sensor
+boards and structural frames. It does not validate complete-detector transport.
+See DES030 for masks, operating assumptions, aperture and engineering limits.
