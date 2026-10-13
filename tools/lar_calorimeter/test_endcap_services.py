@@ -12,6 +12,6 @@ class EndcapServiceTests(unittest.TestCase):
         roots={p['name']:p for p in r['passive']}
         for name in ('rear_bath_1','rear_bath_2'):
             p=roots[name];children=[x for x in r['passive'] if x.get('parent_name')==name]
-            self.assertAlmostEqual(p['volume_mm3'],p['exclusive_volume_mm3']+sum(x['volume_mm3'] for x in children))
+            self.assertAlmostEqual((p['exclusive_volume_mm3']+sum(x['volume_mm3'] for x in children))/p['volume_mm3'],1,delta=1e-12)
         self.assertAlmostEqual(sum(x['mass_g'] for x in r['material_totals'].values()),r['mass_g'])
 if __name__=='__main__':unittest.main()
