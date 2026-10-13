@@ -4,14 +4,14 @@
   "title": "Detailed SiW barrel prototype following wedge endcaps",
   "recorded_at": "2026-10-13T09:56:30Z",
   "started_at": null,
-  "ended_at": null,
-  "status": "open",
+  "ended_at": "2026-10-13T11:18:30Z",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
     "Exact current root/child per-turn counters and client thread/version are not exposed; usage remains unknown.",
     "Native runtime preflight reports changed setup/lock fingerprints; installed DD4hep1.38/ROOT6.40.04/Geant411.4.2 imports and datasets were actually reverified. No dependency installation.",
-    "Task is in progress. Initial phase brings PR70 to merged PR69/main before the dedicated barrel branch. No design sign-off inferred."
+    "Bounded prototype complete; no production integration or engineering/performance acceptance. Initial branch was PR70; dedicated barrel work continues on codex/siw-barrel-prototype."
   ],
   "client": {
     "name": "Codex desktop",
@@ -22,12 +22,45 @@
     "start_commit": "5664d16aea2df36222dc0099ba18594cf506304d",
     "branch": "codex/calorimeter-edge-sensors",
     "initial_changes": [],
-    "result_commits": [],
+    "result_commits": [
+      "654b85a48abeb38735ad7fe0866c5d1082882df7",
+      "3d95e0b4485783fd3f62712527adc5b49869d277",
+      "abb836f5fbf0a2141106d222e6950dc0473410f2",
+      "19d20f843e0ccebf4fb34dffcf51a89ce1e8e62a"
+    ],
     "changed_files": [
-      "project/tracking.json",
-      "reference/manifest.yaml",
+      "docs/design/DES-031-siw-barrel-prototype.md",
+      "docs/design/figures/DES-031/barrel-layout.png",
+      "docs/design/figures/DES-031/barrel-layout.svg",
+      "docs/design/figures/DES-031/barrel-material.png",
+      "docs/design/figures/DES-031/barrel-material.svg",
+      "docs/design/figures/DES-031/plot-inputs.json",
+      "docs/validation/DES-031/fixtures.json",
+      "docs/validation/DES-031/history/native-initial.json",
+      "docs/validation/DES-031/native.json",
+      "docs/validation/DES-031/ray-comparison.json",
+      "docs/validation/DES-031/readout.json",
+      "docs/validation/DES-031/reproducibility.json",
+      "docs/validation/DES-031/results.md",
+      "docs/validation/DES-031/transport.json",
       "logs/design/SESSION-2026-10-13-siw-barrel.json",
-      "logs/design/SESSION-2026-10-13-siw-barrel.md"
+      "logs/design/SESSION-2026-10-13-siw-barrel.md",
+      "project/tracking.json",
+      "prototypes/calorimeter/BarrelCalorimeter.cpp",
+      "prototypes/calorimeter/CMakeLists.txt",
+      "reference/manifest.yaml",
+      "tools/calorimeter_hardware/README.md",
+      "tools/calorimeter_hardware/barrel.json",
+      "tools/calorimeter_hardware/barrel_compare.py",
+      "tools/calorimeter_hardware/barrel_export.py",
+      "tools/calorimeter_hardware/barrel_fixture.py",
+      "tools/calorimeter_hardware/barrel_layout.py",
+      "tools/calorimeter_hardware/barrel_native.py",
+      "tools/calorimeter_hardware/barrel_plot.py",
+      "tools/calorimeter_hardware/barrel_readout.py",
+      "tools/calorimeter_hardware/barrel_transport.py",
+      "tools/calorimeter_hardware/native_prism.py",
+      "tools/calorimeter_hardware/test_barrel.py"
     ]
   },
   "work": {
@@ -39,11 +72,51 @@
     "related_ids": [
       "DES-029",
       "DES-030",
-      "PR-70"
+      "PR-70",
+      "DES-031",
+      "PR-71",
+      "TASK-B-CALO-BARREL"
     ]
   },
   "narrative": "logs/design/SESSION-2026-10-13-siw-barrel.md",
-  "activities": [],
+  "activities": [
+    {
+      "kind": "skill",
+      "name": "acts-spack",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Runtime warning/re-verification and command evidence in narrative."
+    },
+    {
+      "kind": "skill",
+      "name": "nodd-coordinate / nodd-design-evidence / nodd-review-validation",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Generic bounded SysArch/PhysVal contracts and handoffs curated in narrative."
+    },
+    {
+      "kind": "tool",
+      "name": "DD4hep/ROOT/Geant4 and scientific plotting",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "docs/validation/DES-031/results.md"
+    },
+    {
+      "kind": "tool",
+      "name": "Generic subagents: SysArch and PhysVal",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Fixed geometry revision review; no native profile loading or human sign-off claimed."
+    }
+  ],
   "usage": [],
   "checks": [
     {
@@ -81,6 +154,102 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "PR70 diff against main whitespace check passes."
+    },
+    {
+      "command": "Standalone CMake configure/build barrel-factory",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Native factory compiled against existing DD4hep1.38; upstream warnings preserved."
+    },
+    {
+      "command": "barrel_native.py --overlap-seed 31 at abb836f",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "PASS full native construction/dimensions/materials/IDs; zero overlaps at 10 nm; 9181538 nodes/9792627 candidates; helper hashes and strengthened prism checks retained."
+    },
+    {
+      "command": "barrel_readout.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "552 module addresses,141312 electrode references,4416 tie points passed; checker hash retained."
+    },
+    {
+      "command": "barrel_compare.py after strengthened native report",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "60 finite0.5mm silicon intersections match ROOT; five centre-plane boundary differences explained."
+    },
+    {
+      "command": "Three DDSim single-board/single-layer 10 GeV mu- events; barrel_transport.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Seeds45/46/47,zero field,FTFP_BERT; saved positive energies and expected full IDs/pads pass; not complete transport."
+    },
+    {
+      "command": "barrel_plot.py and visual inspection of both generated PNGs",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Source-bound layout and native material/coverage SVG/PNG generated and inspected; readable labels and no clipping."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/calorimeter_hardware -p test_*.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "32 controls passed, including scaled/offset/section prism negative tests and independent finite-box control."
+    },
+    {
+      "command": "tools/token_usage/build.py build --output build/token-pages-pr71",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Output policy requires repository builds under _site; corrected without changing guard."
+    },
+    {
+      "command": "tools/token_usage/build.py build --output _site/pr71",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Token Pages build passes with 210 observations and624299405 observed tokens; current root/child usage unknown."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "65 tasks,38 documents,21 review rounds pass after prototype completion."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate; summary",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "181 paired records validate;210 observations,input620754236,output3545169,total624299405;63 records lack usage."
+    },
+    {
+      "command": "git diff --check 654b85a48abeb38735ad7fe0866c5d1082882df7",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Actual barrel PR diff whitespace passes."
+    },
+    {
+      "command": "Pinned producer/helper/readout hashes and local Markdown links",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "16 producer hashes,4 native helpers,committed supplemental checker and19 links validated."
+    },
+    {
+      "command": "git diff --cached --check after staging generated SVGs",
+      "status": "FAIL",
+      "exit_code": 2,
+      "result": "Matplotlib emits trailing spaces in SVG path lines; plotter now normalizes them without changing geometry and plots were regenerated. Earlier tracked-only whitespace check did not cover untracked figures."
+    },
+    {
+      "command": "Initial git push upstream codex/siw-barrel-prototype",
+      "status": "FAIL",
+      "exit_code": null,
+      "result": "No remote named upstream; actual configured origin is asalzburger/nodd. Ordinary push origin then succeeds, as observed at19d20f8."
+    },
+    {
+      "command": "Final source-bound plotting / SVG XML / native input binding / staged whitespace",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Cooling endpoints now derived from panel/frame/setback inputs (\u00b1490mm for the pictured slab); illustration-only correction. Source/validator/native geometry unchanged. Regenerated XML and source-bound plot inputs pass."
     }
   ]
 }
