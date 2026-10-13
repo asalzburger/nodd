@@ -1,0 +1,182 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-13-calorimeter-wedge-correction",
+  "title": "Correct ECAL edge-sensor prototype to wedge carriers",
+  "recorded_at": "2026-10-13T06:34:00Z",
+  "started_at": null,
+  "ended_at": "2026-10-13T06:52:28Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact client per-turn token counters unavailable; usage remains empty/unknown.",
+    "Isolated unsigned wedge/mask prototype; machine, mechanical, thermal, hydraulic and sensor-process qualification remain open.",
+    "Only sparse single-layer Geant4 transport completed. Hosted CI refresh was pending when this implementation record closed."
+  ],
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "69b044e682856563f08d07ea34ce98e77510cd41",
+    "branch": "codex/calorimeter-edge-sensors",
+    "initial_changes": [],
+    "result_commits": [
+      "1593bc5e25b8b297c348aa43559d88606bf87968"
+    ],
+    "changed_files": [
+      "docs/decisions/ADR-008-prototype-ecal-forward-aperture.md",
+      "docs/design/DES-030-ecal-edge-sensors.md",
+      "docs/design/figures/DES-030/four-stage-coverage.png",
+      "docs/design/figures/DES-030/four-stage-coverage.svg",
+      "docs/design/figures/DES-030/quadrant-study/four-stage-coverage.png",
+      "docs/design/figures/DES-030/quadrant-study/four-stage-coverage.svg",
+      "docs/design/figures/DES-030/wedge-carrier-with-edge-sensors.png",
+      "docs/design/figures/DES-030/wedge-carrier-with-edge-sensors.svg",
+      "docs/design/inputs/DES-030-edge-profiles.json",
+      "docs/design/inputs/DES-030-quadrant-profiles.json",
+      "docs/validation/DES-030/directional-coverage.json",
+      "docs/validation/DES-030/native-edges.json",
+      "docs/validation/DES-030/native-squares.json",
+      "docs/validation/DES-030/quadrant-study/directional-coverage.json",
+      "docs/validation/DES-030/quadrant-study/native-edges.json",
+      "docs/validation/DES-030/quadrant-study/native-squares.json",
+      "docs/validation/DES-030/quadrant-study/results.md",
+      "docs/validation/DES-030/quadrant-study/transport.json",
+      "docs/validation/DES-030/results.md",
+      "docs/validation/DES-030/transport.json",
+      "logs/codex/SESSION-2026-10-13-calorimeter-wedge-correction.json",
+      "logs/codex/SESSION-2026-10-13-calorimeter-wedge-correction.md",
+      "project/tracking.json",
+      "tools/calorimeter_hardware/README.md",
+      "tools/calorimeter_hardware/edge_export.py",
+      "tools/calorimeter_hardware/edge_fixture.py",
+      "tools/calorimeter_hardware/edge_layout.py",
+      "tools/calorimeter_hardware/edge_native.py",
+      "tools/calorimeter_hardware/edge_plot.py",
+      "tools/calorimeter_hardware/edge_sensors.json",
+      "tools/calorimeter_hardware/edge_transport.py",
+      "tools/calorimeter_hardware/test_edges.py"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "ECAL wedge carriers",
+      "custom inner and edge sensors",
+      "wedge detail and four-stage SVGs"
+    ],
+    "related_ids": [
+      "DES-029",
+      "DES-030",
+      "ADR-008",
+      "PR70"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-13-calorimeter-wedge-correction.md",
+  "activities": [
+    {
+      "kind": "skill",
+      "name": "acts-spack",
+      "version": null,
+      "calls": 1,
+      "failures": 1,
+      "duration_seconds": null,
+      "evidence": "Registry fingerprint drift warned; fresh actual runtime/package/data verification succeeded without installation changes."
+    },
+    {
+      "kind": "tool",
+      "name": "Native DD4hep/ROOT, sparse Geant4, deterministic mask generation and SVG inspection",
+      "version": "DD4hep1.38/7deaacd, ROOT6.40.04, Geant4 11.4.2/cpge6jj",
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Both complete wedge geometries pass native audits with0 overlaps;22 hardware and28 project controls pass;2 saved custom-inner-mask fixture events."
+    },
+    {
+      "kind": "tool",
+      "name": "view_image",
+      "version": null,
+      "calls": 2,
+      "failures": 0,
+      "duration_seconds": null,
+      "evidence": "Both revised PNGs were successfully inspected; this is visual QA, not a shell check."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "acts-spack preflight",
+      "status": "FAIL",
+      "exit_code": 2,
+      "result": "Recorded setup/lock fingerprints differ; relevant installed capabilities subsequently reverified."
+    },
+    {
+      "command": "Fresh setup_spack, DD4hep/DDG4 imports, spack package hashes, geant4-config runtime/data checks",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Existing1.38/11.4.2 runtimes and configured datasets available; no new external dependency."
+    },
+    {
+      "command": "edge_native.py for wedges and wedge-squares complete endcaps",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Final-input/source hashes match; all placements/volume IDs/logical pads/fragments/boundaries/materials checked;0 ROOT overlaps at1e-5mm;64 bounded native rays per case including seams."
+    },
+    {
+      "command": "DDSim seeds43/44 and edge_transport.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Both custom-inner trapezoid fixtures save expected positive-energy module5/pad[-3,3] hits; final fixture hash matches."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/calorimeter_hardware -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "22 controls passed; final run2.577s."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/project_records -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "28 controls passed in105.002s."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "63 tasks/36 documents/19 review rounds accepted."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate and summary",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "176 paired records;209 disjoint observed turns,620812827 observed tokens; no invented current counters."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "209 disjoint dated observations and unchanged620812827 observed tokens."
+    },
+    {
+      "command": "git diff --cached --check and commit/push correction",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "1593bc5 source correction committed and pushed to asalzburger upstream; ordinary push, no rewrite/merge."
+    },
+    {
+      "command": "Documentation apply_patch first attempt",
+      "status": "FAIL",
+      "exit_code": null,
+      "result": "A context mismatch applied no changes; corrected patch succeeded."
+    },
+    {
+      "command": "Initial curated journal validate/summary after manual inspection entry",
+      "status": "FAIL",
+      "exit_code": null,
+      "result": "Validator requires an observed shell exit0 for PASS checks. Manual image inspection had no shell exit code; moved to tool activity rather than inventing one. Final validators rerun successfully."
+    }
+  ]
+}
