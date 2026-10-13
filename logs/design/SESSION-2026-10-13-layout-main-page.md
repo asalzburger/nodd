@@ -52,7 +52,7 @@ checks are recorded in the paired JSON after execution.
 
 PR64 remains open at4e44d7c; PR70 remains open at654b85a. The barrel geometry
 producer3d95e0b and strengthened validator abb836f are documented in PR71;
-this page pins completed design/budget evidence19d20f8. The coordinator's first
+this page pins completed design/budget/drawing closeout2776266570dda13386a16863e5b0e97432f27217. The coordinator's first
 publication command used a nonexistent remote alias 'upstream'; the configured
 origin is asalzburger/nodd and the ordinary push there succeeded. No force push
 or shared dependency modification occurred. Hosted checks are inspected on each
