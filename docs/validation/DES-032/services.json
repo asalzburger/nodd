@@ -42,7 +42,6 @@
     "endcap_cooling_planning_kW_each": 40,
     "external_route_radius_mm": 3029,
     "hcal_barrel_front_apothem_mm": 3130,
-    "hcal_sampling_depth_mm": 1495.9,
     "hcal_barrel_half_z_mm": 5860,
     "hcal_endcap_front_z_mm": 6360,
     "hcal_endcap_inner_radius_mm": 300,
@@ -93,13 +92,11 @@
         "endcap_count": 4
       }
     },
-    "bandwidth_sample_rate_Hz": 50000,
-    "bandwidth_bits_per_sample": 64,
     "electrical_link_Gbit_s": 5,
     "optical_link_Gbit_s": 10,
     "supply_V": 48,
     "conversion_efficiency": 0.9,
-    "power_loop_length_m": 20,
+    "power_loop_length_m": 40,
     "parallel_conductors": 2,
     "conductor_area_mm2": 25,
     "copper_room_resistivity_ohm_m": 1.72e-08,
@@ -119,7 +116,10 @@
       "rmax": 290,
       "zmin": 4850,
       "zmax": 7855.9
-    }
+    },
+    "bandwidth_max_hit_rate_Hz": 50000,
+    "bandwidth_bits_per_hit": 64,
+    "hcal_total_depth_mm": 1495.9
   },
   "stations": {
     "barrel": {
@@ -197,13 +197,15 @@
     "80": {
       "radial_shift_mm": 293.6999999999998,
       "bend_radius_mm": 320,
-      "axial_s_bend_mm": 558.2158581833128,
+      "axial_centreline_with_clearance_mm": 558.2158581833128,
+      "axial_s_bend_envelope_mm": 638.2158581833128,
       "rear_quarter_turn_mm": 380.0
     },
     "100": {
       "radial_shift_mm": 293.6999999999998,
       "bend_radius_mm": 400,
-      "axial_s_bend_mm": 639.4031885613762,
+      "axial_centreline_with_clearance_mm": 639.4031885613762,
+      "axial_s_bend_envelope_mm": 739.4031885613762,
       "rear_quarter_turn_mm": 470.0
     }
   },
@@ -217,13 +219,14 @@
       172.0,
       258.0
     ],
+    "adverse_total_shortfall_kW": 58.0,
     "limitation": "Scaling one published nitrogen scenario; no pressure-drop, dry-out, header or bath-load certification."
   },
   "power_example": {
     "current_A": 86.80555555555556,
-    "loop_resistance_ohm": 0.00688,
-    "voltage_drop_V": 0.5972222222222222,
-    "dissipation_W": 51.842206790123456,
+    "loop_resistance_ohm": 0.01376,
+    "voltage_drop_V": 1.1944444444444444,
+    "dissipation_W": 103.68441358024691,
     "scope": "Room-temperature 48V copper loop only; return length included, connectors and cryogenic leads excluded."
   },
   "bandwidth": {
@@ -231,10 +234,10 @@
     "aggregator_Gbit_s": 13.1072,
     "electrical_capacity_Gbit_s": 20,
     "optical_capacity_Gbit_s": 20,
-    "limitation": "R&D sample-rate capability scenario before protocol overhead, occupancy or compression."
+    "limitation": "Maximum triggering-rate scenario with64-bit hit payload choice; excludes multi-sample waveforms, protocol overhead, occupancy and compression."
   },
   "source_sha256": {
-    "tools/lar_calorimeter/services.json": "a24c0c764f4e695c2e1a6314cdde3dc370a83e4a47259608756e57af8ebb0d13",
-    "tools/lar_calorimeter/services.py": "80c24f548647337087bc90a11c5793cfc11264190d5f03a63cef4c8ac057716e"
+    "tools/lar_calorimeter/services.json": "4b8ad1c805e7fe9421a8edbb2ce05e0daf077fdd9088af4ef2d15edc319a76c8",
+    "tools/lar_calorimeter/services.py": "24abd9179be897ee2c9b756fab900b6a4217db8c13beccae182d8bc4774efe33"
   }
 }
