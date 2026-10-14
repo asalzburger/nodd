@@ -34,6 +34,11 @@ jobs:
         run: python3 -B tools/project_records/validate.py
       - name: Test calorimeter hardware ownership and physical controls
         run: python3 -B -m unittest discover -s tools/calorimeter_hardware -p 'test_*.py' -v
+      - name: Test Si-W service and forward envelope allocations
+        run: |
+          python3 -B -m unittest discover -s tools/siw_services -p 'test_*.py' -v
+          python3 -B tools/siw_services/study.py --check
+          python3 -B tools/layout_overview/draw.py --check
       - name: Validate specialist profiles, skills and assignment controls
         run: |
           python3 -B tools/agent_workflow/workflow.py validate

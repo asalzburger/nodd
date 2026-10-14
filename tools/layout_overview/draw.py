@@ -34,13 +34,13 @@ def draw(data):
     out = [
         '<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="855" viewBox="0 0 1500 855" role="img" aria-labelledby="title description">',
         '<title id="title">LAYOUT-001: tracker, inner 3 T solenoid, Si–W ECAL and HCAL outline</title>',
-        '<desc id="description">Equal-scale R–Z section, positive radius and both signs of z. Recorded tracker sensitive bounds; conditional magnet and ECAL envelopes; dashed rough HCAL outline. No FCal or muon system is included.</desc>',
+        '<desc id="description">Equal-scale R-Z envelope section. Recorded tracker bounds, conditional magnet/ECAL, amended HCAL outline, cyan empty external service annulus/rear break and red empty FCal reservations. No installed FCal or muon system.</desc>',
         '<metadata>' + html.escape(json.dumps({"layout_id": data["layout_id"], "input_sha256": hashlib.sha256(INPUT.read_bytes()).hexdigest(), "generator_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(), "source_revisions": sorted({v["revision"] for v in data["sources"].values()}), "scope": "Envelope illustration; no new native simulation"}, sort_keys=True)) + '</metadata>',
         '<defs><pattern id="magnet" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="#f0ecfb"/><path d="M-2,2 l4,-4 M0,8 l8,-8 M6,10 l4,-4" stroke="#c5b8e3" stroke-width="1"/></pattern></defs>',
         '<style>text{font-family:Arial,Helvetica,sans-serif;fill:#203047} .title{font-size:29px;font-weight:700} .subtitle{font-size:19px} .label{font-size:17px} .tick{font-size:16px} .small{font-size:16px} .fine{font-size:15px} .grid{stroke:#e7ebef;stroke-width:1} .outline{fill:none;stroke:#637187;stroke-width:1.5;stroke-dasharray:7 5}</style>',
         '<rect width="1500" height="855" fill="white"/>',
         '<text x="75" y="49" class="title">LAYOUT-001 · Tracker + inner 3 T solenoid + Si–W ECAL</text>',
-        '<text x="75" y="82" class="subtitle">Selected working candidate · open component prototypes · combined engineering sign-off pending</text>',
+        '<text x="75" y="82" class="subtitle">Cyan: empty service space · red: empty FCal reservation · open prototypes, engineering sign-off pending</text>',
     ]
 
     def text(z, r, label, klass="label", anchor="middle"):
@@ -80,12 +80,25 @@ def draw(data):
     for side in (-1, 1):
         a, b = h["endcap_front_abs_z_m"], h["endcap_back_abs_z_m"]
         box(a if side > 0 else -b, b if side > 0 else -a, h["endcap_inner_apothem_m"], h["endcap_outer_apothem_m"], "#f4f6f8", "#8893a3", "7 5")
-    text(0, 3.25, "HCAL · outline only", "subtitle")
+    text(0, 3.45, "HCAL · amended outline only", "subtitle")
     for side in (-1, 1):
-        text(side*5.26, 2.9, "HCAL", "subtitle")
-        text(side*5.26, 2.64, "outline", "small")
+        centre = side*(h["endcap_front_abs_z_m"]+h["endcap_back_abs_z_m"])/2
+        text(centre, 2.9, "HCAL", "subtitle")
+        text(centre, 2.64, "outline", "small")
 
+    s = data["services"]
     e = data["ecal"]
+    box(-h["barrel_half_length_m"], h["barrel_half_length_m"], s["inner_radius_m"], s["outer_radius_m"], "#d5eff3", "#7da7b1")
+    text(0, 2.48, "300 mm external collection / backbone annulus", "fine")
+    for side in (-1, 1):
+        lo, hi = e["endcap_back_abs_z_m"], h["endcap_front_abs_z_m"]
+        box(lo if side > 0 else -hi, hi if side > 0 else -lo, .3, s["egress_radius_m"], "#e7f4f6", "#7da7b1")
+        mid = side*(lo+hi)/2
+        out.append(f'<text x="{x(mid):.3f}" y="{y(2.0):.3f}" class="small" text-anchor="middle" transform="rotate(-90 {x(mid):.3f} {y(2.0):.3f})">400 mm radial egress break</text>')
+        for f in data["forward_reservations"]:
+            a, b = f["z_min_abs_m"], f["z_max_abs_m"]
+            box(a if side > 0 else -b, b if side > 0 else -a, f["r_min_m"], f["r_max_m"], "#fff0f1", "#bf4257", "4 3")
+
     box(-e["barrel_flange_half_length_m"], e["barrel_flange_half_length_m"], e["barrel_front_apothem_m"], e["barrel_outer_apothem_m"], "#f3c56b", "#b67b16")
     for side in (-1, 1):
         a, b = e["endcap_front_abs_z_m"], e["endcap_back_abs_z_m"]
@@ -115,9 +128,9 @@ def draw(data):
 
     out += [
         '<text x="110" y="721" class="small">Calorimeter section uses 16-gon apothems; corners extend farther. Blocks include inactive regions.</text>',
-        '<text x="110" y="749" class="small">Tracker passive services and detailed ECAL gaps are omitted; η = 4 is an exploration target with uncovered directions.</text>',
-        '<text x="110" y="777" class="small">FCal, muon system and muon-system magnets: not yet included.</text>',
-        '<text x="110" y="811" class="fine">Inputs: DES025 tracker snapshot, DES026 / PR64 magnet allocation, DES029 envelopes; DES030 / PR70 endcaps; DES031 / PR71 barrel.</text>',
+        '<text x="110" y="749" class="small">Local cassette collector ports remain absent; cyan lanes are backbone allocations, not an installed hydraulic/cable network.</text>',
+        '<text x="110" y="777" class="small">Red FCal reservation: r = 0.080–0.290 m, |z| = 4.533–6.379 m; no hardware, acceptance or containment. No muon system.</text>',
+        '<text x="110" y="811" class="fine">Inputs: DES025 tracker; DES026 / PR64 magnet; DES030 / PR70 + DES031 / PR71 unchanged ECAL; DES034 service-constrained HCAL outline.</text>',
         '<text x="110" y="835" class="fine">Pinned sources + reproduction: docs/layouts/LAYOUT-001.json · Envelope illustration; no combined native overlap or performance result.</text>',
         '</svg>',
     ]
