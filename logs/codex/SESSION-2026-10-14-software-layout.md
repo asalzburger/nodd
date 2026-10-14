@@ -25,7 +25,7 @@ Source initialisation skips LFS data; existing node runtime assets stay external
 The IdRes intake pin has no publishable URL; a question remains pending.
 
 The existing Spack environment was reverified after the preflight reported stale
-fingerprints: DD4hep1.38/DDG4 imports, Geant4 11.4.2 and12 datasets work. The new
+fingerprints: DD4hep 1.38/DDG4 imports, Geant4 11.4.2 and12 datasets work. The new
 make doctor records current setup/lock fingerprints without changing Spack.
 Sandbox sysctl/ps warnings are separate from successful runtime availability.
 Makefiles, directory ownership and the optional viewer's source default now use
@@ -55,7 +55,7 @@ symlinks retain the historical detector directory and prototype factory paths.
 The detector CMake project now configures independently of ACTS and still uses
 the retained repository design/validation resources for compact generation.
 Five standalone libraries compiled and linked; before/after root builds passed.
-All16 tracker XML files and680292 entity records matched exactly. Full CTest
+All16 tracker XML files and 680292 entity records matched exactly. Full CTest
 was still running at this commit;9 checks had passed and the complete tracker
 validator was pending. The final result is recorded by a later stage.
 
@@ -118,7 +118,7 @@ nodehammer build also completed against the current Spack runtime:602/602
 upstream tests passed in24.04s, and its source submodule remained clean.
 
 The repository node registry now records the reverified current setup/lock
-fingerprints, DD4hep1.38 and Geant4 11.4.2 package hashes. Its preflight returns
+fingerprints, DD4hep 1.38 and Geant4 11.4.2 package hashes. Its preflight returns
 prerequisites-present with no warnings;5 node preflight unit tests pass. Geant4
 simulation capability is explicitly limited to the observed8-track material
 recording smoke. No shared installation or installed personal skill copy was
@@ -132,3 +132,23 @@ scientific-path README rather than a rename, and PR78's existing policy gate
 rejected it. The marker is now .gitkeep; the actual detector README remains in the
 next stage. No policy gate is changed or weakened. Downstream ordinary merges
 retain the real README and make Git's source relocation visible as a rename.
+
+## Final result and PR stack
+
+The requested migration is published as PR77 (pinned dependencies and Makefiles),
+PR78 (independent DD4hep source component), PR79 (local ActsExamples, Python
+steering and analysis), and PR80 (calorimeter/EDM/persistence and external glue).
+Merge in that order. Ordinary downstream merges preserve each independent
+contribution and logging pair; no branch history was rewritten. Existing source
+checkouts, shared Spack dependencies, scientific parameters and accepted evidence
+are preserved. ACTS remains a clean gitlink containing no nODD adapter.
+
+All four actual branch diffs pass the unchanged project-record policy after the
+README marker correction. Native validation includes 10 detector tests,10 adapter/
+sensitivity tests,10 calorimeter controls,128 navigation tracks, a zero-error
+45646-sensor native/Gen3 comparison,22 IdRes runs with 729 complete rows each and
+602 nodehammer tests. Full DD4hep/Geant4 source-dir queries still report unstaged
+sources; no staging was performed because installed dependencies suffice.
+Final session validation and token preview/summary are run after this update.
+Exact task token counters are unavailable; the repository summary reports only
+previously observed disjoint turns, without estimating this task's usage.
