@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-14-software-layout",
+  "title": "Infrastructure: isolate dependencies, detector sources and ActsExamples jobs",
+  "recorded_at": "2026-10-14T14:29:11Z",
+  "started_at": null,
+  "ended_at": null,
+  "status": "open",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact client per-turn token counters are unavailable; usage remains empty.",
+    "IdRes clone URL requested from the user; its recorded commit pin is retained.",
+    "Spack setup/lock fingerprints differ from the old skill registry; current imports, packages and datasets reverified."
+  ],
+  "client": {
+    "name": "unspecified",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "b4387ae3efcc0f8904b634789964b2c7062056bf",
+    "branch": "codex/software-submodules",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      ".gitignore",
+      ".gitmodules",
+      "Makefile",
+      "docs/decisions/ADR-008-software-source-layout.md",
+      "logs/codex/SESSION-2026-10-14-software-layout.json",
+      "logs/codex/SESSION-2026-10-14-software-layout.md",
+      "software/Makefile",
+      "software/README.md",
+      "software/analysis/README.md",
+      "software/env/build_idres.py",
+      "software/env/check_layout.py",
+      "software/env/doctor.py",
+      "software/env/run.sh",
+      "software/running/README.md",
+      "software/source/ActsExamples/README.md",
+      "software/source/EDM/README.md",
+      "software/source/detectors/.gitkeep",
+      "software/source/detectors/README.md",
+      "software/submodules/OpenDataDetector",
+      "software/submodules/acts",
+      "software/submodules/nodehammer",
+      "tools/nodehammer/build.py"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [
+      "software-layout",
+      "spack",
+      "git-submodules"
+    ],
+    "related_ids": [
+      "ADR-008"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-14-software-layout.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 /Users/salzburg/.codex/skills/acts-spack/scripts/preflight.py",
+      "exit_code": 2,
+      "status": "FAIL",
+      "result": "Recognized node, stale setup/Spack lock fingerprints; actual runtime verification followed."
+    },
+    {
+      "command": "make doctor",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "Existing CI Spack environment, DD4hep1.38/DDG4 imports, Geant4 11.4.2 and12 datasets verified."
+    },
+    {
+      "command": "make check",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "Software gitlinks/directories,181 session records,65 tasks/36 documents/21 reviews and token records validated."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/nodehammer -p 'test_*.py' -v",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "Optional viewer safeguards passed."
+    }
+  ]
+}

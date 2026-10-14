@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-14-idres-submodule",
+  "title": "Infrastructure: pin the supplied IdRes fork and preserve clean source builds",
+  "recorded_at": "2026-10-14T15:03:50Z",
+  "started_at": null,
+  "ended_at": "2026-10-14T15:03:50.821806Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact client per-turn token counters unavailable; usage remains empty.",
+    "Authenticated clone verified; no inference about anonymous access or redistribution license."
+  ],
+  "client": {
+    "name": "unspecified",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "896bca6eb3db6fd1e1b03d4f66c42b5446f494c6",
+    "branch": "codex/software-submodules",
+    "initial_changes": [
+      ".gitmodules",
+      "Makefile",
+      "docs/decisions/ADR-008-software-source-layout.md",
+      "software/Makefile",
+      "software/README.md",
+      "software/env/check_layout.py",
+      "software/submodules/IdRes",
+      "tools/tracker_layout/IDRES.md",
+      "tools/tracker_layout/idres_adapter.py"
+    ],
+    "result_commits": [],
+    "changed_files": [
+      ".gitmodules",
+      "Makefile",
+      "docs/decisions/ADR-008-software-source-layout.md",
+      "software/Makefile",
+      "software/README.md",
+      "software/env/check_layout.py",
+      "software/submodules/IdRes",
+      "tools/tracker_layout/IDRES.md",
+      "tools/tracker_layout/idres_adapter.py",
+      "logs/codex/SESSION-2026-10-14-idres-submodule.json",
+      "logs/codex/SESSION-2026-10-14-idres-submodule.md"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [
+      "software-layout",
+      "IdRes"
+    ],
+    "related_ids": [
+      "ADR-008"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-14-idres-submodule.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "Clone user-supplied IdRes fork and inspect HEAD/working tree",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Clean recorded d54d0e3c465cc0308becb737b04364ce5c68ce16 source available."
+    },
+    {
+      "command": "make idres",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Built outside source checkout using GSL2.8 from ACTS Spack CI dependencies."
+    },
+    {
+      "command": "make idres-run",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "22 runs passed, each with729 complete rows; new outputs under build/idres."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/tracker_layout -p 'test_idres_adapter.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "4 adapter controls passed."
+    }
+  ]
+}

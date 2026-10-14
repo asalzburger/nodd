@@ -18,7 +18,7 @@ def run(*args, **kwargs):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--source", type=Path, default=ROOT / "reference/cache/nodehammer")
+    parser.add_argument("--source", type=Path, default=ROOT / "software/submodules/nodehammer")
     parser.add_argument("--build", type=Path, default=ROOT / "build/nodehammer")
     parser.add_argument("--jobs", type=int, default=4)
     args = parser.parse_args()
@@ -28,9 +28,8 @@ def main():
             parser.error(f"{executable} missing; activate the documented DD4hep environment first")
     source, build = args.source.resolve(), args.build.resolve()
     build.mkdir(parents=True, exist_ok=True)
-    if not source.exists():
-        run("git", "clone", pin["repository"], source)
-        run("git", "-C", source, "checkout", "--detach", pin["revision"])
+    if not (source / "CMakeLists.txt").is_file():
+        parser.error("initialise software/submodules/nodehammer with make submodules")
     head = subprocess.check_output(["git", "-C", str(source), "rev-parse", "HEAD"], text=True).strip()
     dirty = subprocess.check_output(["git", "-C", str(source), "status", "--porcelain", "--untracked-files=no"], text=True)
     if head != pin["revision"] or dirty:
