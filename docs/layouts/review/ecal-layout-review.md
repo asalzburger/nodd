@@ -10,7 +10,7 @@ Both candidates retain the documented tracker (45,646 sensitive planes) and the 
 
 ![Si-W candidate R-Z view with tracker, conditional solenoid and HCAL outline](https://raw.githubusercontent.com/asalzburger/nodd/codex/ecal-layout-review-entry/docs/layouts/review/figures/layout001-rz.png)
 
-LAYOUT-001: Si-W ECAL and rough HCAL outline. FCal and muon systems remain absent.
+LAYOUT-001: Si-W ECAL, enlarged HCAL outline and empty service/FCal reservations. FCal and muon systems remain unbuilt.
 
 ![LAr candidate R-Z view with enlarged calorimeter and service allocations](https://raw.githubusercontent.com/asalzburger/nodd/codex/ecal-layout-review-entry/docs/layouts/review/figures/layout002-rz.png)
 
@@ -18,18 +18,18 @@ LAYOUT-002: LAr ECAL, enlarged HCAL outline and empty service/forward reservatio
 
 ## 2 - Si-W ECAL prototype
 
-Open component proposals: [PR #71](https://github.com/asalzburger/nodd/pull/71) (Si-W ECAL barrel prototype) and [PR #70](https://github.com/asalzburger/nodd/pull/70) (Si-W ECAL endcap prototype). The same sampling and board stack is carried through sixteen barrel sectors and sixteen wedge carriers per endcap.
+Open component proposals: [PR #71](https://github.com/asalzburger/nodd/pull/71) (Si-W ECAL barrel prototype) and [PR #70](https://github.com/asalzburger/nodd/pull/70) (Si-W ECAL endcap prototype). The same sampling and board stack is carried through sixteen barrel sectors and sixteen wedge carriers per endcap. [PR #76](https://github.com/asalzburger/nodd/pull/76) adds service/forward envelopes under [DES034](https://github.com/asalzburger/nodd/blob/78cfa3fe8ac56e4b48a11870ca2758bdae25ed6c/docs/design/DES-034-siw-service-envelopes.md).
 
 | Element | Current prototype choice |
 | --- | --- |
 | Sampling / sensors | 48 layers; 1.9 mm tungsten alloy and 0.5 mm silicon. Standard 90 mm blanks have an 88 mm active window and 5.5 mm pad pitch; physical guards remain passive. |
 | Barrel construction | Seven 1 m slabs plus two short end slabs per sector/layer. Alternating ±96 mm shifts move service joints through depth; 94 mm boards on a 96 mm pitch retain real gaps. |
 | Endcap packing | 76 squares plus 36 custom edge sensors per wedge/layer; 29 mask profiles. The 100 mm aperture apothem, 30 mm inner support and 120 mm outer service bay are unsigned allocations. |
-| Support / cooling | Aluminium skins and frames, explicit PCB/ASIC/thermal contacts; a 3 mm copper plate with 2 mm-OD Ti/water runs. External collectors, connectors and cable routing are excluded. |
+| Support / cooling | Aluminium skins and frames, explicit PCB/ASIC/thermal contacts; a 3 mm copper plate with 2 mm-OD Ti/water runs. External collectors/ports remain absent; PR76 reserves an outer backbone and HCAL rear egress. |
 
 ### Material and service drivers
 
-Recorded model masses are 299.003 t for the barrel and 98.949 t for both endcaps. Copper contributes 119.693/40.591 t, dominated by the cooling plates. Continuous heat hypotheses give 188.40/71.05 kW; the summed ideal water flow is 12.414 kg/s for a 5 K rise. These are inventory/power calculations, not thermal or hydraulic qualification.
+Recorded model masses are 299.003 t for the barrel and 98.949 t for both endcaps. Copper contributes 119.693/40.591 t, dominated by the cooling plates. Continuous heat hypotheses give 188.40/71.05 kW; the summed ideal water flow is 12.414 kg/s for a 5 K rise. These are inventory/power calculations, not thermal or hydraulic qualification. A 300 mm annulus and 400 mm rear break reserve cable/water exits; local cassette ports and support loads remain open.
 
 ### Coverage and evidence limits
 
@@ -64,20 +64,21 @@ Native component checks and the ECAL-only combined audit do not qualify the trac
 | Principal material inventory | 198.595 t W alloy; 160.284 t Cu | 187.692 t Pb; 98.668 t LAr; 58.636 t Al |
 | Barrel ECAL package bounds | Apothem 1.700-2.233 m; &#124;z&#124;≤3.920 m | Radius 2.100-2.830 m; &#124;z&#124;≤4.100 m |
 | Endcap ECAL package bounds | &#124;z&#124;=3.950-4.483 m; outer apothem 2.223 m | &#124;z&#124;=4.900-5.860 m; outer radius 2.949 m |
-| ECAL / HCAL routing allocations | 30 mm interface gaps; collectors unbuilt | 300 mm barrel radial; 181 mm beside endcap; 800/500 mm axial before/after endcap |
-| HCAL outline extent | Outer apothem 3.759 m; &#124;z&#124;max=6.009 m | Outer apothem 4.626 m; &#124;z&#124;max=7.856 m |
-| Outline max corner radius / full axial length | 3.833 m / 12.018 m | 4.717 m / 15.712 m |
+| ECAL / HCAL routing allocations | 300 mm circular annulus; 400 mm rear egress break; 30 mm front seam is installation-only | 300 mm barrel radial; 181 mm beside endcap; 800/500 mm axial before/after endcap |
+| Forward reservation | R=0.080-0.290 m; &#124;z&#124;=4.533-6.379 m; empty FCal | Empty EM collar and FCal; no active η=4 LAr coverage |
+| HCAL outline extent | Outer apothem 4.096 m; &#124;z&#124;max=6.379 m | Outer apothem 4.626 m; &#124;z&#124;max=7.856 m |
+| Outline max corner radius / full axial length | 4.176 m / 12.758 m | 4.717 m / 15.712 m |
 
-ECAL masses are native-ledger sums with different passive/service hypotheses; shared tracker/solenoid, detailed HCAL and absent systems are excluded. Aluminium totals include walls, supports and boards. Masses do not rank performance. HCAL outline volume grows ×1.77; loads and magnetic effects remain unvalidated.
+ECAL masses are native-ledger sums with different passive/service hypotheses; shared tracker/solenoid, detailed HCAL and absent systems are excluded. Aluminium totals include walls, supports and boards. Masses do not rank performance. Compared with the service-amended Si-W layout, LAr HCAL outline volume is ×1.43; loads and magnetic effects remain unvalidated.
 
 Shared tracker+Be inventory: 2.860 t (Be 2.036 kg); planning region r≤1.20 m, |z|≤3.60 m does not bound passive services. At η=0, separate examples are tracker 0.329-0.418 X0 and illustrative solenoid 1.402 X0 (1.00-2.10 scenarios). These are not a combined pre-ECAL map. Solenoid mass/support inventory remains unassigned. [Solenoid material assumptions](https://github.com/asalzburger/nodd/blob/4e44d7c650ac0a2931f7fc1637b5b3f2dfbe4c95/docs/validation/DES-026/material-estimate.md).
 
 ### Bounded reviewer decisions
 
-Review the Si-W copper/cooling choice, manifold endpoints, seams and custom-mask process; review LAr vessel/support approximations, blocked service paths, spare-board power and cryogenic heat margin. Confirm space/interface ownership before detailed HCAL work. Forward acceptance, shielding and the machine/beam-pipe continuation need a separate design. No FCal or muon system/magnets are yet implemented.
+Review Si-W copper cooling, collector ports, balanced station wiring and custom-mask seams/process; review LAr vessel/support proxies, blocked service paths and cryogenic heat margin. Both have explicit external/forward space, with no installed FCal. Si-W merged lanes reserve 880×220 mm for a 166,698 mm² adverse load; its partial feed Cu/water estimates are 0.918/1.005 t, excluding other cables and supports. Routing, loads, shielding and beam-pipe continuation need separate design.
 
 ### Status and traceability
 
-All four component PRs remain open in this 2026-10-14 snapshot. Dimensions/services are unsigned nODD choices; native budgets are model inferences. Recorded checks grant no engineering sign-off, installed field or shower/jet/particle-flow validation. This brief is a common review entry; the pinned component records remain authoritative.
+All four ECAL component PRs and service PR76 remain open in this 2026-10-14 snapshot. Dimensions/services are unsigned nODD choices; native budgets are model inferences. Recorded checks grant no engineering sign-off, installed field or shower/jet/particle-flow validation. This brief is a common review entry; the pinned component records remain authoritative.
 
 [Frozen source and evidence catalogue](https://github.com/asalzburger/nodd/blob/codex/ecal-layout-review-entry/docs/layouts/review/sources.json) · [Si-W layout inputs](https://github.com/asalzburger/nodd/blob/codex/ecal-layout-review-entry/docs/layouts/review/layout001.json) · [LAr layout inputs](https://github.com/asalzburger/nodd/blob/codex/ecal-layout-review-entry/docs/layouts/review/layout002.json)

@@ -41,7 +41,13 @@ def drawing(data):
             box(a if side>0 else -b,b if side>0 else -a,e['endcap_outer_radius_m'],h['barrel_front_apothem_m'],'#d3edf2')
             for lo,hi,top in [(half,a,h['barrel_front_apothem_m']),(b,h['endcap_front_abs_z_m'],h['barrel_outer_apothem_m'])]:
                 box(lo if side>0 else -hi,hi if side>0 else -lo,.30,top,'#e8f5f7')
-    else:half=e['barrel_flange_half_length_m'];r0=e['barrel_front_apothem_m'];r1=e['barrel_outer_apothem_m']
+    else:
+        half=e['barrel_flange_half_length_m'];r0=e['barrel_front_apothem_m'];r1=e['barrel_outer_apothem_m']
+        s=data['services']
+        box(-h['barrel_half_length_m'],h['barrel_half_length_m'],s['inner_radius_m'],s['outer_radius_m'],'#d3edf2')
+        for side in (-1,1):
+            lo,hi=e['endcap_back_abs_z_m'],h['endcap_front_abs_z_m']
+            box(lo if side>0 else -hi,hi if side>0 else -lo,.30,s['egress_radius_m'],'#e8f5f7')
     box(-half,half,r0,r1,'#f6d78e','#aa7c26');text(0,(r0+r1)/2,('LAr' if lar else 'Si-W')+' barrel')
     for side in (-1,1):
         a,b=e['endcap_front_abs_z_m'],e['endcap_back_abs_z_m']
@@ -53,13 +59,13 @@ def drawing(data):
     for g in t['sensitive_groups']:
         box(g['z_min_m'],g['z_max_m'],g['r_min_m'],g['r_max_m'],'#319778','#319778')
     out.append(f'<path d="M{x(-4):.3f},{y(data['beam_pipe']['display_radius_m']):.3f} H{x(4):.3f}" stroke="#46566f"/>')
-    if lar:
+    if data.get('forward_reservations'):
         for f in data['forward_reservations']:
             for side in (-1,1):
                 a,b=f['z_min_abs_m'],f['z_max_abs_m']
                 box(a if side>0 else -b,b if side>0 else -a,f['r_min_m'],f['r_max_m'],'#fff5f5','#bf4257','4 3')
     out.append('<text x="135" y="59" class="small">Gold: ECAL | Purple: 3 T magnet | Green: tracker | Dashed gray: HCAL</text>')
-    if lar:out.append('<text x="135" y="85" class="small">Cyan: service space | Red: empty forward reservations</text>')
+    out.append('<text x="135" y="85" class="small">Cyan: service space | Red: empty forward reservations</text>')
     out.append('<metadata>'+html.escape(json.dumps(dict(layout_id=data['layout_id'],generator_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),scope='Envelope illustration; circular LAr radii / sector-centre SiW and HCAL apothems.')) )+'</metadata>')
     out.append('</svg>');return '\n'.join(out)+'\n'
 if __name__=='__main__':
