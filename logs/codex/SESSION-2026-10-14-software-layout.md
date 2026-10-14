@@ -58,3 +58,12 @@ Five standalone libraries compiled and linked; before/after root builds passed.
 All16 tracker XML files and680292 entity records matched exactly. Full CTest
 was still running at this commit;9 checks had passed and the complete tracker
 validator was pending. The final result is recorded by a later stage.
+
+## Directory marker correction
+
+The stage-one detector directory README shadowed the destination filename of the
+real detector README. Git consequently classified the later move as deleting a
+scientific-path README rather than a rename, and PR78's existing policy gate
+rejected it. The marker is now .gitkeep; the actual detector README remains in the
+next stage. No policy gate is changed or weakened. Downstream ordinary merges
+retain the real README and make Git's source relocation visible as a rename.
