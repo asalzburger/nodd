@@ -109,10 +109,10 @@ and token-site build are required at closeout.
 
 ## Follow-up
 
-Freeze the authored content, obtain a bounded exact-revision assessment, finish
-journal/tracking validation, publish one documentation PR and verify its body
-against the common-source Markdown. Human component/engineering decisions remain
-with the component PRs; this summary grants no sign-off.
+Review PR75 and the linked component/engineering choices. Maintain the entry
+after approved component changes merge. HCAL installed budgets, service routing,
+thermal qualification and forward acceptance remain separate work; this summary
+grants no sign-off.
 
 ## Prepared ECAL-REVIEW-PubDoc-draft
 
@@ -180,3 +180,92 @@ with the component PRs; this summary grants no sign-off.
   "completion": "All material findings and missing evidence reported for the exact supplied snapshot; no silently changed design or approval."
 }
 ```
+
+## Publication checkpoint
+
+PR75 created as a documentation-only draft against main:
+https://github.com/asalzburger/nodd/pull/75, head
+`512dca36d8467b401345ff78e9bf0c8d86aa4b06`. It is attached to the calling task;
+PDF preview request queued in Codex. GitHub body is exactly equal (including final
+newline) to retained Markdown: 8,984 characters. The PDF remains four pages with
+72 matched text blocks and 14 public clickable links. Ordinary branch push;
+no merge, force-push or new software dependency.
+
+Regenerating both SVG/PNG views and the PDF from retained inputs produced no
+artifact diff. PDF SHA256
+`4d79bf9b111a86128fcb70321f872c5286e217572665998aac218574365939a8`;
+Markdown SHA256
+`fb31627f9270e9f968e451a819a25c87578a174ce629454d7db0fc1787bea057`.
+
+Repository checks at this checkpoint: 65 tasks / 35 documents / 21 review rounds;
+180 paired session records. Token-site build passed with 210 disjoint dated
+turns and 624,299,405 observed tokens (620,754,236 input + 3,545,169 output).
+Cached 599,210,880 input and 1,177,538 reasoning output are subsets, not added.
+This current task has no exact completed-turn counters and contributes no invented
+usage; session counts are coverage, not a complete lifetime token measurement.
+
+### Artifact runtime
+
+Existing bundled runtime: reportlab 4.4.9, pypdf 6.10.0, Pillow 12.3.0;
+no installation. Embedded font files are LiberationSans-Regular.ttf
+(SHA256 f8ace1f892b2bd9dc1792ba7f097fa7588f84fed48321480e04de5390828221f)
+and LiberationSans-Bold.ttf
+(SHA256 361c61b82d575c5c35fd9157fda8b0194bcfcd0d88ea8521a4fb5dd53d33dddc).
+Font source is the existing bundled pdfjs-dist standard_fonts directory.
+
+## Final claim review and correction
+
+`ECAL-REVIEW-PhysVal-final`, `/root/lar_fit_physval`, read-only review of
+`b67b0fc2f611e0a0e93984199f92173ebd1ca0d1`: no P1/P2 numerical or scope defect;
+one P3 on overview line 36/PDF page 2 requested the sample basis of the 68.89%
+endcap geometric coverage. Coordinator added 360 one-degree-centred azimuth
+rays and the at-least-one-layer condition, matching pinned DES030 results.md.
+This is a source clarification, not a new efficiency or acceptance claim.
+
+Reviewer checks: four PDF pages, all 72 text blocks/14 links, exact Markdown
+rendering, matching retained source/renderer/figure hashes and both embedded PNG
+pixel arrays; all 10 primary Git source hashes; ECAL mass sums, polygon corner
+radii/full axial lengths and 1.7743 HCAL outline-volume ratio recalculated.
+Existing four rendered page previews were inspected. No native jobs, edits or
+human approval. Earlier LAr author involvement remains explicitly disclosed.
+
+## Prepared ECAL-REVIEW-PhysVal-P3
+
+```json
+{
+  "id": "ECAL-REVIEW-PhysVal-P3",
+  "role": "PhysVal",
+  "input_revision": "e7ab36eb660b83e91d42356b915e22c33c81c071",
+  "inputs": [
+    "docs/layouts/review/brief.json",
+    "docs/layouts/review/ecal-layout-review.md",
+    "docs/layouts/review/ecal-layout-review.pdf",
+    "docs/layouts/review/content-check.json"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Check only the P3 sample-basis clarification introduced after your final review of b67b0fc2f611e0a0e93984199f92173ebd1ca0d1. Compare the frozen page-2 paragraph with pinned DES030 results.md at654b85a48abeb38735ad7fe0866c5d1082882df7, and verify regenerated Markdown/PDF still correspond. Do not repeat the full source audit. Read-only exact Git objects; no edits, installs, native jobs or delegation. Return the actual correction assessment, reviewed revision and any remaining material finding; no human sign-off.",
+  "deliverable": "Narrow closure or remaining finding for P3 against this new exact revision, returned for the session record.",
+  "completion": "Sample basis and at-least-one-layer condition assessed against the same source; regenerated four-page common content checked."
+}
+```
+
+## Closeout
+
+`ECAL-REVIEW-PhysVal-P3` reviewed
+`e7ab36eb660b83e91d42356b915e22c33c81c071`: the added 360-ray sampling basis and
+at-least-one-layer condition match DES030; P3 is addressed with no remaining
+finding in the narrow scope. Reviewer verified the corrected PDF sentence on
+page 2, four pages, all 72 text blocks / 14 links, exact Markdown correspondence
+and retained hashes; updated page 2 visually fits. Coordinator rendered and
+inspected all four latest pages after correction. No new physics run or sign-off.
+
+Final common content: PDF SHA256
+`624ff5f20163b25d7f1d8b5417f6d6f6a21450edc8e1d36005d9f02a08618718`,
+Markdown SHA256
+`faed177c9f629f67e52d4ad972d1193b25343e25b5062e5d330c8567d346f98a`.
+The PR description is updated from the corrected Markdown; PR75 is marked ready
+for review. Retained source/rendering checks and paired journal/project checks
+pass. GitHub CI results are read from the PR after the final ordinary branch
+push; pending checks are not preclaimed here. The documentation completion state
+covers this bounded deliverable, not implementation merge or detector acceptance.
