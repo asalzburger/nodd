@@ -7,7 +7,7 @@ root = Path(__file__).resolve().parents[2]
 modules = configparser.ConfigParser()
 modules.read(root / ".gitmodules")
 paths = {modules[s]["path"]: modules[s]["url"] for s in modules.sections()}
-for name in ("acts", "nodehammer", "OpenDataDetector"):
+for name in ("acts", "IdRes", "nodehammer", "OpenDataDetector"):
     path = "software/submodules/" + name
     assert path in paths, f"Missing submodule: {path}"
     entry = subprocess.check_output(["git", "-C", str(root), "ls-files", "--stage", "--", path], text=True)

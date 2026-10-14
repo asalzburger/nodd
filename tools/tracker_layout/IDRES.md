@@ -133,3 +133,15 @@ See the [PhysVal input](../../docs/design/inputs/DES-006-physval.md) and
 [independent control](../../docs/validation/DES-006-covariance-control.json).
 This validates a limited transverse covariance/control convention; it does not
 validate all material scattering, longitudinal covariance or full tracking.
+
+
+## Source ownership update (2026-10-14)
+
+The user supplied the CERN GitLab asalzbur/idres fork for the software migration.
+It is now pinned at the same d54d0e3c revision in software/submodules/IdRes.
+`make idres` compiles a build-owned source copy with the active Spack GSL;
+`make idres-run` passes that external binary to this adapter and records new
+outputs under build/idres. Neither source objects nor generated reports are
+written into the submodule or the retained scientific evidence directory.
+Authenticated clone access was verified; anonymous access and licensing claims
+are not inferred from that successful checkout.

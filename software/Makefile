@@ -34,3 +34,7 @@ check:
 	cd "$(NODD_ROOT)" && python3 -B tools/session_logging/session_log.py validate
 	cd "$(NODD_ROOT)" && python3 -B tools/project_records/validate.py
 	cd "$(NODD_ROOT)" && python3 -B tools/token_usage/build.py validate
+
+.PHONY: idres-run
+idres-run: idres
+	"$(ENV_RUN)" python3 -B "$(NODD_ROOT)/tools/tracker_layout/idres_adapter.py" --configuration "$(NODD_ROOT)/docs/design/DES-006-layouts.json" --checkout "$(NODD_ROOT)/software/submodules/IdRes" --binary "$(BUILD_DIR)/idres/bin/idres" --work "$(BUILD_DIR)/idres/study" --output "$(BUILD_DIR)/idres/results.json"
