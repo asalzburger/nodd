@@ -5,6 +5,8 @@ OpenDataDetector for DD4hep simulation and ACTS-compatible reconstruction.
 See the [project scope](PROJECT.md), [development plan](docs/DEVELOPMENT_PLAN.md)
 and [documentation index](docs/README.md).
 
+**[ECAL layout reviewer overview](docs/layouts/review/ecal-layout-review.md)** - both Si-W and LAr proposals, R-Z views, material/space/support budgets and a four-page PDF.
+
 ## Current detector layouts
 
 **[Open the layout main page](docs/layouts/README.md)** for the current candidate,

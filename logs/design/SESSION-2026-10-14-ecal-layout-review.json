@@ -9,10 +9,11 @@
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
-    "Actual conversation start time, client identity details and token usage have not been recorded."
+    "Actual conversation start time, client version/thread identity and exact parent/child completed-turn token counters are unavailable. Usage is unknown, not zero.",
+    "Summary of recorded prototype evidence; no new detector runtime or performance qualification in this documentation task."
   ],
   "client": {
-    "name": "unspecified",
+    "name": "Codex desktop",
     "version": null,
     "thread_id": null
   },
@@ -20,16 +21,53 @@
     "start_commit": "e33ae62ce16592c26c581c5311c4dc493d9714b1",
     "branch": "codex/ecal-layout-review-entry",
     "initial_changes": [],
-    "result_commits": [],
+    "result_commits": [
+      "a53c29867130b4c36658a9aa5f6f14dd5650130f"
+    ],
     "changed_files": []
   },
   "work": {
     "milestone": "M1",
-    "components": [],
-    "related_ids": []
+    "components": [
+      "publication",
+      "calorimeter layouts"
+    ],
+    "related_ids": [
+      "TASK-PUB-ECAL-LAYOUT-REVIEW",
+      "PR-64",
+      "PR-70",
+      "PR-71",
+      "PR-73",
+      "PR-74"
+    ]
   },
   "narrative": "logs/design/SESSION-2026-10-14-ecal-layout-review.md",
   "activities": [],
   "usage": [],
-  "checks": []
+  "checks": [
+    {
+      "command": "python3 -B tools/layout_review/build.py --check-sources --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Ten pinned Git hashes and two layout snapshots matched; PDF has four pages, 72 common text blocks and 14 clickable links; Markdown equals common-source rendering."
+    },
+    {
+      "command": "pdftoppm -scale-to 1500 -png docs/layouts/review/ecal-layout-review.pdf build/layout-review/png/page; visual inspection of four PNG pages",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All four final pages rendered and were inspected: legible figures/tables, no clipping, overlap or missing glyphs."
+    },
+    {
+      "command": "gh pr view 64/69/70/71/72/73/74 --json ...",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Authorized GitHub read verified open component pins and merged PR69/72 metadata on 2026-10-14."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors."
+    }
+  ]
 }
