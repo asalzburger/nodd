@@ -1,0 +1,205 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-14-ecal-layout-review",
+  "title": "Single reviewer entry for Si-W and LAr ECAL layouts",
+  "recorded_at": "2026-10-14T05:10:04Z",
+  "started_at": null,
+  "ended_at": "2026-10-14T05:34:41Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Actual conversation start time, client version/thread identity and exact parent/child completed-turn token counters are unavailable. Usage is unknown, not zero.",
+    "Summary of recorded prototype evidence; no new detector runtime or performance qualification in this documentation task."
+  ],
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "e33ae62ce16592c26c581c5311c4dc493d9714b1",
+    "branch": "codex/ecal-layout-review-entry",
+    "initial_changes": [],
+    "result_commits": [
+      "a53c29867130b4c36658a9aa5f6f14dd5650130f",
+      "b67b0fc2f611e0a0e93984199f92173ebd1ca0d1",
+      "512dca36d8467b401345ff78e9bf0c8d86aa4b06",
+      "e7ab36eb660b83e91d42356b915e22c33c81c071",
+      "12e0288fc58a122504499894830f8782ed0f3b7e"
+    ],
+    "changed_files": [
+      "README.md",
+      "docs/layouts/README.md",
+      "docs/layouts/review/.gitattributes",
+      "docs/layouts/review/brief.json",
+      "docs/layouts/review/content-check.json",
+      "docs/layouts/review/ecal-layout-review.md",
+      "docs/layouts/review/ecal-layout-review.pdf",
+      "docs/layouts/review/figures/layout001-rz.png",
+      "docs/layouts/review/figures/layout001-rz.svg",
+      "docs/layouts/review/figures/layout002-rz.png",
+      "docs/layouts/review/figures/layout002-rz.svg",
+      "docs/layouts/review/layout001.json",
+      "docs/layouts/review/layout002.json",
+      "docs/layouts/review/sources.json",
+      "logs/design/SESSION-2026-10-14-ecal-layout-review.json",
+      "logs/design/SESSION-2026-10-14-ecal-layout-review.md",
+      "project/tracking.json",
+      "tools/layout_review/README.md",
+      "tools/layout_review/build.py",
+      "tools/layout_review/draw.py"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "publication",
+      "calorimeter layouts"
+    ],
+    "related_ids": [
+      "TASK-PUB-ECAL-LAYOUT-REVIEW",
+      "PR-64",
+      "PR-70",
+      "PR-71",
+      "PR-73",
+      "PR-74",
+      "PR-75"
+    ]
+  },
+  "narrative": "logs/design/SESSION-2026-10-14-ecal-layout-review.md",
+  "activities": [
+    {
+      "kind": "skill",
+      "name": "pdf:pdf",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Applied in this bounded task; instructions and assignments are curated in the paired narrative."
+    },
+    {
+      "kind": "skill",
+      "name": "nodd-coordinate",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Applied in this bounded task; instructions and assignments are curated in the paired narrative."
+    },
+    {
+      "kind": "skill",
+      "name": "nodd-design-evidence",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Applied in this bounded task; instructions and assignments are curated in the paired narrative."
+    },
+    {
+      "kind": "skill",
+      "name": "nodd-review-validation",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Applied in this bounded task; instructions and assignments are curated in the paired narrative."
+    },
+    {
+      "kind": "tool",
+      "name": "Generic PhysVal read-only assessments",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Budget, final claim and P3 assignments/results are curated in the paired narrative with exact source revisions; no native profile loading or human approval claimed."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 -B tools/layout_review/build.py --check-sources --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Ten pinned Git hashes and two layout snapshots matched; PDF has four pages, 72 common text blocks and 14 clickable links; Markdown equals common-source rendering."
+    },
+    {
+      "command": "pdftoppm -scale-to 1500 -png docs/layouts/review/ecal-layout-review.pdf build/layout-review/png/page; visual inspection of four PNG pages",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All four final pages rendered and were inspected: legible figures/tables, no clipping, overlap or missing glyphs."
+    },
+    {
+      "command": "gh pr view 64/69/70/71/72/73/74 --json ...",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Authorized GitHub read verified open component pins and merged PR69/72 metadata on 2026-10-14."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "65 tasks, 35 documents, 21 review rounds."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "180 paired session records."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py summary --format json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "210 disjoint observed turns; input 620754236 + output 3545169 = 624299405. Current task counters remain unknown. Cached/reasoning subsets not added."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py build --output _site/pages",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "210 dated turns, 624299405 observed tokens. No new current-task counter was estimated."
+    },
+    {
+      "command": "Regenerate draw.py and PDF with existing font directory, then git diff of generated artifacts",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No generated-artifact diff; source snapshots/drawings/Markdown/PDF/content hashes reproduce."
+    },
+    {
+      "command": "gh pr view 75 --json body; exact equality against ecal-layout-review.md",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "8,984 characters including final newline match exactly."
+    },
+    {
+      "command": "git diff e33ae62ce16592c26c581c5311c4dc493d9714b1 --check (scoped PDF marked binary)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Authored text has no whitespace errors. Initial staged check treated ReportLab binary PDF streams/xref as text; scoped binary attribute corrected that classification without changing PDF bytes."
+    },
+    {
+      "command": "python3 -B tools/agent_workflow/workflow.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Eight nODD role profiles and three skills valid."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate (first closeout with reviewer assessments entered as checks)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Two PASS assessment entries had no command exit code. Removed them from command checks; role results with exact revisions remain in the narrative. Do not invent a shell exit for a subagent assessment."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate (after closeout-format correction)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "180 paired session records valid. Narrative/activity records retain reviewer assessments without fabricated command exit codes. Token-site build and session summary subsequently passed with unchanged observed totals."
+    }
+  ]
+}

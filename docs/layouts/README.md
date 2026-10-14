@@ -1,5 +1,7 @@
 # Current layout candidates
 
+**[Central ECAL reviewer entry](review/ecal-layout-review.md)** compares the Si-W and LAr proposals and links their barrel/endcap PRs; the same content is available as a [four-page PDF](review/ecal-layout-review.pdf).
+
 **One candidate: [LAYOUT-001 — Tracker + inner 3 T solenoid + Si–W ECAL](LAYOUT-001-tracker-3t-siw.md).**
 
 This is the human-selected working layout. The tracker is on main; the solenoid
