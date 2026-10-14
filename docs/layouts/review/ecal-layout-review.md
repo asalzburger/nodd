@@ -18,7 +18,7 @@ LAYOUT-002: LAr ECAL, enlarged HCAL outline and empty service/forward reservatio
 
 ## 2 - Si-W ECAL prototype
 
-Open component proposals: [PR #71](https://github.com/asalzburger/nodd/pull/71) (Si-W ECAL barrel prototype) and [PR #70](https://github.com/asalzburger/nodd/pull/70) (Si-W ECAL endcap prototype). The same sampling and board stack is carried through sixteen barrel sectors and sixteen wedge carriers per endcap. [PR #76](https://github.com/asalzburger/nodd/pull/76) adds service/forward envelopes under [DES034](https://github.com/asalzburger/nodd/blob/78cfa3fe8ac56e4b48a11870ca2758bdae25ed6c/docs/design/DES-034-siw-service-envelopes.md).
+Open component proposals: [PR #71](https://github.com/asalzburger/nodd/pull/71) (Si-W ECAL barrel prototype) and [PR #70](https://github.com/asalzburger/nodd/pull/70) (Si-W ECAL endcap prototype). The same sampling and board stack is carried through sixteen barrel sectors and sixteen wedge carriers per endcap. [PR #76](https://github.com/asalzburger/nodd/pull/76) adds service/forward envelopes under [DES034](https://github.com/asalzburger/nodd/blob/0a26796518d690bf26934d2864d63ecad7582675/docs/design/DES-034-siw-service-envelopes.md).
 
 | Element | Current prototype choice |
 | --- | --- |
