@@ -85,3 +85,26 @@ notices, job steering and Makefiles are retained. Project-record28 tests and
 token-usage10 tests passed; all relevant validators and token preview build pass.
 The user supplied the IdRes fork while this stage ran; its first-PR completion
 and downstream merges follow separately.
+
+## Calorimeter/EDM parity stage
+
+Copied the existing ACTS fork8adca5eec calorimeter reconstruction, FastJet, hit/
+cluster/jet persistence and their controls into nODD-owned sources. Core helpers
+live in software/source/Calorimeter; framework algorithms/converters under
+ActsExamples/Calorimeter; transient data headers under EDM. All40 C++/header
+files, including the retained tests, are byte-identical to that source revision.
+Only ownership/build paths and documentation are adapted. Source/MPL notices
+and the original prototype/response-calibration limitations are preserved.
+
+The local build completed46 steps. All10 calorimeter tests passed in1.60s,
+including digitization, clustering, jet finding, EDM4hep persistence and relation/
+metadata roundtrips. The Python-steered EDM4hep jet pipeline passed; saved input
+and output ROOT files each have3 events and1 metadata entry. Six standalone
+header-check targets compiled13 header translation units. The original upstream
+header helper uses directory-relative paths; local includes require a wrapper to
+keep generated stubs inside the build directory. The first generated stubs were
+preserved under build/legacy-generated-headers after correcting the local helper.
+
+The user-provided IdRes fork is pinned at the original d54d0e3c state in PR77.
+Its dedicated paired session record retains the clean build and22x729-row run
+checks. Downstream branches receive that addition via ordinary merges.

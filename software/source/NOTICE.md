@@ -11,3 +11,10 @@ tracker/Gen3 changes present on 2026-10-14. The original checkout is preserved.
 The later calorimeter migration records its source revision separately.
 DD4hep factories and configuration were moved within nODD without changing
 scientific inputs, material definitions or source contents.
+
+Calorimeter source provenance: asalzburger/acts revision
+8adca5eec180515a23d58d132a1e17e317a59e67. Core reconstruction lives in Calorimeter,
+ActsExamples algorithms/converters in ActsExamples/Calorimeter, and transient
+hit/cluster/jet data in EDM. Existing C++ controls are retained under Calorimeter/
+tests. Source code is relocated with unchanged contents; build path declarations
+are adjusted. Persistent data remains the external Spack EDM4hep/podio model.

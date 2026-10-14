@@ -62,3 +62,19 @@ The algorithms retain ActsExamples framework interfaces. ACTS adapters live in
 `source/ActsExamples`; Python job entry points live in `running`; the independent
 geometry audit lives in `analysis` with a compatibility link from its old tools
 path. Imported source notices and provenance are recorded in `source/NOTICE.md`.
+
+
+## Prepared calorimeter functionality
+
+The fourth migration step retains the prepared calorimeter, jet and EDM4hep
+capabilities from ACTS fork8adca5eec. `source/Calorimeter` owns pure reconstruction,
+`source/EDM` owns transient data, and `source/ActsExamples/Calorimeter` owns framework
+algorithms/converters. `make calorimeter-test` runs the ten retained C++/pipeline
+controls. `make calorimeter-run` steers the synthetic EDM4hep/jet example through
+Python; `CALORIMETER_MODE=basic|jets|edm4hep|edm4hep-jets` selects the entry point.
+`make calorimeter-analysis` lists persisted event/metadata entries.
+
+These prototype algorithms and their existing limitations are retained. Moving
+them does not change detector response, calibrate a calorimeter, or grant a design
+review. Local options NODD_BUILD_CALORIMETER, NODD_BUILD_CALORIMETER_JETS and
+NODD_BUILD_CALORIMETER_EDM4HEP can be overridden at software configuration time.
