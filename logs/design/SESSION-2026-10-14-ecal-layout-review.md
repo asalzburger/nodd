@@ -86,7 +86,10 @@ source 10, and changed the endcap support shorthand to wheel support tubes.
   occurred before shell execution and was reissued; no artifact was lost.
 - Initial sandboxed `gh pr view` requests could not access api.github.com;
   authorized read requests with network permission succeeded.
-- `git diff --check`: passed. Documentation uses recorded component evidence;
+- The first staged whitespace check treated the ReportLab PDF as text and
+  reported PDF stream/xref whitespace. Mark the scoped PDF artifact as binary
+  using `docs/layouts/review/.gitattributes`; do not rewrite binary PDF bytes.
+- `git diff --check` for authored text passed. Documentation uses recorded component evidence;
   no detector/native/shower jobs were run in this task.
 
 ## Changes and revision links
@@ -151,5 +154,29 @@ with the component PRs; this summary grants no sign-off.
   "task": "Audit concise reviewer-entry budget facts for both existinglayouts, no designchange. Identify trustworthy commontracker/solenoid mass/material/supportvalues; collect ECALmass/material/support/space/heatbudgets frompinnedPR70/71/73/74primarydocs/reports (fullrevs insources.json). DeriveHCALmaxcylindricalcornerradius,totalaxialenvelopes andradial/axialservicegaps, distinguishapothemsvsradii. Clarifywhichquantitiesarecomparable, whichmassesaremodelproxies, absentHCALoverallmass, material-before-ECALsupport/infrastructurestatus, eta4/seam/transitionlimits. Four-pagetotal targetonlycentralreviewentry notTDR. Return compactcitedfacttable suitableforPubDoc; do not runnative/build/install/edit/newliterature/delegate/signoff. ExistingroleinstructionsscontinuebutpreviousLArdesign contribution acknowledged. Use gitshowexactprimarycommits; no dirtysource substitutions.",
   "deliverable": "Read-only budget/envelope/claim facttable and corrections withexactrevision/file/locators.",
   "completion": "Concretefacts/derivations/missingbudgetsidentified forbothlayouts without falseengineering/performanceapproval."
+}
+```
+
+## Prepared ECAL-REVIEW-PhysVal-final
+
+```json
+{
+  "id": "ECAL-REVIEW-PhysVal-final",
+  "role": "PhysVal",
+  "input_revision": "b67b0fc2f611e0a0e93984199f92173ebd1ca0d1",
+  "inputs": [
+    "docs/layouts/review/brief.json",
+    "docs/layouts/review/ecal-layout-review.md",
+    "docs/layouts/review/ecal-layout-review.pdf",
+    "docs/layouts/review/content-check.json",
+    "docs/layouts/review/sources.json",
+    "docs/layouts/review/layout001.json",
+    "docs/layouts/review/layout002.json"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Review the frozen authored four-page reviewer overview of BOTH ECAL candidates for factual and scientific scope errors. Inspect primary inputs at the pinned source revisions before conclusions. Check material/support/envelope/space/heat and coverage claims in the final brief and Markdown against component DES/reports; review figures as envelope illustrations. Assess if the user-requested central entry connects both barrel/endcap PRs with clear limits and identical four-page PDF content. Use exact Git objects at assigned revision; no dirty substitutions, edits, native geometry jobs, installs or further delegation. Existing PhysVal profile instructions apply. Your earlier LAr contribution and budget assessment are disclosed; this final check is of PubDoc/root-authored documentation, not independent re-approval of your prior design work. Return findings with severity and exact file/source locators, actual checks, revision, limitations. Do not prescribe a conclusion or grant human approval.",
+  "deliverable": "Bounded final claim/content review returned to coordinator and curated in session record.",
+  "completion": "All material findings and missing evidence reported for the exact supplied snapshot; no silently changed design or approval."
 }
 ```
