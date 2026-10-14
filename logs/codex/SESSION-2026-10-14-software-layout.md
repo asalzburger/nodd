@@ -47,6 +47,18 @@ Exact client per-turn counters are unavailable. usage is empty; no estimate or
 private client-state collection was performed. IdRes access and all unexecuted
 capabilities stay explicit. ADR-008 records the human-requested source ownership.
 
+## Detector encapsulation stage
+
+Moved detector factories/configuration into software/source/detectors, including
+all existing strip and calorimeter prototype factories. Relative compatibility
+symlinks retain the historical detector directory and prototype factory paths.
+The detector CMake project now configures independently of ACTS and still uses
+the retained repository design/validation resources for compact generation.
+Five standalone libraries compiled and linked; before/after root builds passed.
+All16 tracker XML files and680292 entity records matched exactly. Full CTest
+was still running at this commit;9 checks had passed and the complete tracker
+validator was pending. The final result is recorded by a later stage.
+
 ## Directory marker correction
 
 The stage-one detector directory README shadowed the destination filename of the

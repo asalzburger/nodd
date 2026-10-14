@@ -1,28 +1,28 @@
 # Pixel barrel DD4hep prototype
 
 The combined preliminary pixel barrel **and endcaps** are now available through
-[the DES019 workflow](../tools/pixel_detector_dd4hep/README.md). It builds the
+[the DES019 workflow](../../../tools/pixel_detector_dd4hep/README.md). It builds the
 separate `pixel-detector/pixel-detector.xml` entry point and nodehammer projects,
 including a single disc. Its default is the trimmed four-single/two-quad source
 layout with the reviewed PR40 disc datums. The barrel-only workflow below remains
 supported. DES015 quad-only is an explicit control; see the
-[main integration evidence](../docs/validation/DES-019/main-integration/results.md).
+[main integration evidence](../../../docs/validation/DES-019/main-integration/results.md).
 
 
 This standalone assembly implements the human-selected PR #34 `packed-200um`
 baseline at `ac56d6db1dd2dc40882f5ed39a76125096171a06`, retaining the PR29 outward
 support architecture. It contains 3,050 modules and 6,794 active chip patches. Its implementation contract is
-[DES-012](../docs/design/DES-012-dd4hep-pixel-barrels.md). It is a **PROTOTYPE**:
+[DES-012](../../../docs/design/DES-012-dd4hep-pixel-barrels.md). It is a **PROTOTYPE**:
 engineering qualification, material review and full-detector integration remain
 open. It does not replace the production ODD description.
 
 For an optional viewer with selection, cutaways and portable scene files, see
-the [nodehammer workflow](../tools/nodehammer/README.md) and its
-[tested capabilities and limitations](../docs/validation/nodehammer/results.md).
+the [nodehammer workflow](../../../tools/nodehammer/README.md) and its
+[tested capabilities and limitations](../../../docs/validation/nodehammer/results.md).
 
 ## Current drawings and regeneration
 
-The [drawing index and validation report](../docs/validation/DES-012/PR34/results.md)
+The [drawing index and validation report](../../../docs/validation/DES-012/PR34/results.md)
 contains single/quad module faces and sections, a dimensioned longitudinal joint,
 four barrel sections, full assembly views, mounting and cable/cooling routing.
 Drawings are technical layouts, not manufacturing drawings.
@@ -56,7 +56,7 @@ exports after rebuilding; old viewer projects retain their old geometry.
 
 ## Build and validate
 
-Run the [Spack preflight](../skills/acts-spack/SKILL.md) first. On the verified
+Run the [Spack preflight](../../../skills/acts-spack/SKILL.md) first. On the verified
 local node, activate the existing dependencies in the same shell as the build:
 
 ```sh
@@ -247,11 +247,34 @@ compares XML output with actual ROOT placements and capacities.
 
 Geant4 transport, ACTS conversion, field propagation, omitted bonds/bump metals/
 passives, endcap integration, electronics detail and support engineering are
-future work. See the [retained validation report](../docs/validation/DES-012/results.md)
+future work. See the [retained validation report](../../../docs/validation/DES-012/results.md)
 for actual results and limitations, and [NOTICE](NOTICE.md) for element provenance.
 The maintained combined pixel entry point now defaults to the **trimmed mixed
-single/quad endcap** under [DES019](../docs/design/DES-019-trimmed-mixed-pixel-dd4hep.md).
+single/quad endcap** under [DES019](../../../docs/design/DES-019-trimmed-mixed-pixel-dd4hep.md).
 It remains an isolated preliminary prototype. The DES015 quad-only configuration
 and its report are retained as explicit legacy controls. See the
-[combined workflow](../tools/pixel_detector_dd4hep/README.md) for export, native
+[combined workflow](../../../tools/pixel_detector_dd4hep/README.md) for export, native
 DD4hep checks, ROOT roundtrip, optional display and Geant4 initialization.
+
+
+## Source ownership and standalone build
+
+All DD4hep factories and detector configuration live here. ACTS adapters live
+in `../ActsExamples`. This CMake project needs DD4hep and Python, and does not
+configure or link ACTS. Exporters use the retained repository design inputs and
+validation assets. The repository root delegates here with the historical
+`build/dd4hep/detector` output path.
+
+The top-level `detector` directory and the old prototype factory filenames are
+relative compatibility symlinks. They preserve existing input hash keys and
+historical tools/evidence links; the sources have one owner and one copy.
+No accepted detector value, source hash, identifier, material or reference output
+is regenerated merely because its file location changed.
+
+Use `make detector` or, after activating the same Spack environment:
+
+```sh
+cmake -S software/source/detectors -B build/dd4hep-standalone -G Ninja
+cmake --build build/dd4hep-standalone --parallel 6
+ctest --test-dir build/dd4hep-standalone --output-on-failure
+```

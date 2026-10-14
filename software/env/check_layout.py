@@ -15,3 +15,12 @@ for name in ("acts", "IdRes", "nodehammer", "OpenDataDetector"):
 for path in ("source/ActsExamples", "source/detectors", "source/EDM", "running", "analysis"):
     assert (root / "software" / path).is_dir(), f"Missing software directory: {path}"
 print("Software directory and gitlink checks passed")
+
+if (root / "detector").is_symlink():
+    assert (root / "detector").resolve() == root / "software/source/detectors"
+    for name, filename in (("short_strip_barrel", "ShortStripBarrel.cpp"),
+                           ("short_strip_endcap", "ShortStripEndcap.cpp"),
+                           ("long_strip_barrel", "LongStrip.cpp"),
+                           ("calorimeter", "Calorimeter.cpp")):
+        assert (root / "prototypes" / name / filename).resolve() == root / "software/source/detectors/src" / filename
+    print("Detector compatibility paths resolve to their software source owner")
