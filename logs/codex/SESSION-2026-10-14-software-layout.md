@@ -160,3 +160,20 @@ navigation and the independent native sensor-frame/bounds/pipe-material audit.
 The final Make target passed with0 errors for45646 sensors and117 volumes. This
 makes the intended ACTS gitlink-update compatibility check part of the normal
 software regression command, before the retained adapter/sensitivity tests.
+
+## Documentation CI correction and reproduction
+
+After the policy gate passed, CI exposed10 relative links in the moved detector
+README with one extra parent-directory level. Corrected them to the actual
+software/source/detectors depth, then ran all33 session/documentation tests in
+the stage-two checkout: PASS. A viewer README sibling link was also corrected
+for its new external-glue location. All33 tests passed again in a fresh final
+checkout matching CI's source-only/submodules-uninitialized setup.
+
+The broad existing documentation test recursively scans the full filesystem.
+Running it in the populated build checkout also scans third-party cache/submodule
+Markdown (including Doxygen/lambda syntax), which produces unrelated false link
+failures. No test or gate was changed to accommodate those documents; clean
+checkouts verify the owned repository content with the existing check. GitHub CI
+reruns independently on the corrected heads. All native build/test results remain
+as recorded; these corrections change documentation paths only.
