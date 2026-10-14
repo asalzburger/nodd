@@ -85,3 +85,12 @@ notices, job steering and Makefiles are retained. Project-record28 tests and
 token-usage10 tests passed; all relevant validators and token preview build pass.
 The user supplied the IdRes fork while this stage ran; its first-PR completion
 and downstream merges follow separately.
+
+## Directory marker correction
+
+The stage-one detector directory README shadowed the destination filename of the
+real detector README. Git consequently classified the later move as deleting a
+scientific-path README rather than a rename, and PR78's existing policy gate
+rejected it. The marker is now .gitkeep; the actual detector README remains in the
+next stage. No policy gate is changed or weakened. Downstream ordinary merges
+retain the real README and make Git's source relocation visible as a rename.
