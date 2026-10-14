@@ -33,7 +33,7 @@ Recorded model masses are 299.003 t for the barrel and 98.949 t for both endcaps
 
 ### Coverage and evidence limits
 
-Barrel active-face area is 54.88-64.57% by layer; aligned sector-centre cracks remain. Custom masks give 69.47% endcap active-face area. At η=4, the endcap-only azimuth sample has active silicon in 68.89% of directions, with blind seams/guards. Native construction, IDs, mass and overlap checks plus sparse saved hits establish the isolated implementation; efficiencies and showers remain unvalidated.
+Barrel active-face area is 54.88-64.57% by layer; aligned sector-centre cracks remain. Custom masks give 69.47% endcap active-face area. At η=4, 68.89% of 360 one-degree-centred azimuth rays cross active silicon in at least one endcap layer; seams and guards leave blind directions. Native construction, IDs, mass and overlap checks plus sparse saved hits establish the isolated implementation; efficiencies and showers remain unvalidated.
 
 [Barrel design and evidence](https://github.com/asalzburger/nodd/blob/2776266570dda13386a16863e5b0e97432f27217/docs/design/DES-031-siw-barrel-prototype.md) · [Endcap design and evidence](https://github.com/asalzburger/nodd/blob/654b85a48abeb38735ad7fe0866c5d1082882df7/docs/design/DES-030-ecal-edge-sensors.md)
 
