@@ -67,7 +67,7 @@ software-configure: software-python
 software: software-python
 	@test -f "$(ACTS_BUILD_DIR)/build.ninja" || $(MAKE) software-configure
 	"$(ENV_RUN)" cmake --build "$(ACTS_BUILD_DIR)" --parallel $(JOBS) --target nodd-software
-software-test: software detector
+software-test: software detector geometry-test
 	$(ACTS_RUN) env NODD_PATH="$(NODD_ROOT)" NODD_BUILD_DIR="$(BUILD_DIR)/dd4hep" "$(PYTHON)" -m pytest -q "$(NODD_ROOT)/software/source/ActsExamples/Nodd/Tests"
 geometry: software detector
 	$(ACTS_RUN) "$(PYTHON)" "$(NODD_ROOT)/software/running/nodd_geometry_validation.py" --nodd-dir "$(NODD_ROOT)" --build-dir "$(BUILD_DIR)/dd4hep" --output "$(BUILD_DIR)/jobs/geometry" --tracks 128
@@ -96,3 +96,7 @@ calorimeter-analysis:
 .PHONY: idres-run
 idres-run: idres
 	"$(ENV_RUN)" python3 -B "$(NODD_ROOT)/software/source/externals/IdRes/idres_adapter.py" --configuration "$(NODD_ROOT)/docs/design/DES-006-layouts.json" --checkout "$(NODD_ROOT)/software/submodules/IdRes" --binary "$(BUILD_DIR)/idres/bin/idres" --work "$(BUILD_DIR)/idres/study" --output "$(BUILD_DIR)/idres/results.json"
+
+.PHONY: geometry-test
+geometry-test: geometry
+	$(ACTS_RUN) "$(PYTHON)" "$(NODD_ROOT)/software/analysis/check_geometry.py" --report "$(BUILD_DIR)/jobs/geometry/surfaces.json" --expected "$(BUILD_DIR)/dd4hep/detector/tracker/expected.json" --output "$(BUILD_DIR)/jobs/geometry/comparison.json"

@@ -152,3 +152,11 @@ sources; no staging was performed because installed dependencies suffice.
 Final session validation and token preview/summary are run after this update.
 Exact task token counters are unavailable; the repository summary reports only
 previously observed disjoint turns, without estimating this task's usage.
+
+## Upgrade regression entry point
+
+software-test now depends on geometry-test, which executes fresh128-track
+navigation and the independent native sensor-frame/bounds/pipe-material audit.
+The final Make target passed with0 errors for45646 sensors and117 volumes. This
+makes the intended ACTS gitlink-update compatibility check part of the normal
+software regression command, before the retained adapter/sensitivity tests.

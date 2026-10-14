@@ -50,7 +50,9 @@ recorded in a resolved build-local lock. Compiled dependencies remain in Spack.
 A matching bootstrap fingerprint avoids repeated installation. `PYTHON`,
 `BUILD_DIR`, `ACTS_BUILD_DIR`, `JOBS` and `CMAKE_ARGS` provide local overrides.
 
-`make software-test` runs path guards, sensitive-surface controls, full tracker
+`make software-test` first runs `make geometry-test`, including the128-track
+navigation job and independent native frame/bounds/material comparison. It also
+runs path guards, sensitive-surface controls, full tracker
 Gen3 construction and a Geant4 material-recording smoke job. `make geometry`
 executes128 deterministic straight tracks, `make analysis` compares its saved
 surfaces with native DD4hep, and `make material` records8 geantino tracks.
