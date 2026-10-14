@@ -79,3 +79,23 @@ Current parent/child completed-turn counters remain unexposed; usage is empty,
 unknown rather than zero. No native checks or geometry tests were needed for this
 bounded reply/documentation clarification. Proposed service-interface redesign
 requires a separate prototype change, actual routes and review.
+
+## Publication and closeout
+
+Published reply:
+https://github.com/asalzburger/nodd/pull/75#issuecomment-6163783411
+
+Clarification/source note committed at84c565a2134884cabd790eff159f55af7d6828c2
+and pushed ordinarily. The GitHub description exactly equals retained common
+Markdown after updating. The PDF remains4 pages/75 matched blocks/16 links;
+all12 pinned sources and2 exact layout snapshots match. Latest PDF SHA256
+1aedcd496fa72f3c9a4e81e3eb5f88fc0fd21cfdc807bebc9a2806c6d8cd7aa2;
+Markdown SHA256f129b3a9a3e8a234a3439c8cdb6348639bdf91e2e590b93d9cdde358a84f97b4.
+Root inspected all four fresh page PNGs. No native job, geometry change, additional
+prototype PR, external package or human sign-off. Further route optimization is
+proposed in the response and project next_action, not silently implemented.
+
+Existing observed usage remains210 disjoint turns:620,754,236 input +3,545,169
+output =624,299,405 total, with cached/reasoning counters as subsets. The current
+turn has no exact exposed counters and no estimate or duplicate observation is
+added. Journal/project/token-site validation and summary are run at closeout.
