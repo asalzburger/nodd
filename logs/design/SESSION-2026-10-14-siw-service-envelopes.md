@@ -135,3 +135,41 @@ Report serialization now declares nine decimal places per labelled unit;
 physical constraints remain unrounded and exact source/producer hashes and
 serialized replay remain strict. This changes numerical presentation, not
 physical tolerances, capacities or proposal geometry.
+
+## Prepared SIW-SERVICE-PhysVal-closure
+
+```json
+{
+  "id": "SIW-SERVICE-PhysVal-closure",
+  "role": "PhysVal",
+  "input_revision": "0a26796518d690bf26934d2864d63ecad7582675",
+  "inputs": [
+    "tools/siw_services/study.py",
+    "tools/siw_services/inputs.json",
+    "tools/siw_services/test_study.py",
+    "docs/validation/DES-034/allocations.json",
+    "docs/design/DES-034-siw-service-envelopes.md"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Narrow closure of your P2/P3 at78cfa3fe. Check that endcap feed Cu inventory and electrical drop now share12m one-way/24m loop while barrel uses20m/40m. Assess accurate ten-test/eight-negative wording, added axial FCal intrusion control and numeric report serialization9decimal places (physical constraints remain unrounded and exact hashes/replay retained). No full repeated source audit, edits, native jobs, installs or delegation. Return exact revision, correction findings and actual checks; no approval.",
+  "deliverable": "Bounded P2/P3 and numerical-report closure to root for session record.",
+  "completion": "Consistency and negative-control claims resolved or remaining concrete issue reported at this frozen revision."
+}
+```
+
+## Closeout
+
+SIW-SERVICE-PhysVal-closure reviewed0a26796518d690bf26934d2864d63ecad7582675.
+P2/P3 addressed with no remaining narrow-scope finding. The feed calculation
+now consistently gives0.381899V/17.665540W per endcap station and7.189820kW
+external total, matching0.917504t Cu. Ten tests pass (eight negative, two nominal).
+Reviewer confirmed a1e-10mm clearance violation still fails before report rounding.
+No edits/native jobs/sign-off. Role assessments remain narrative, not fabricated
+command exits. Linux CI38519491101's new Si-W allocation/replay/drawing step passed
+at0a267965; broader inherited checks were still running at collection.
+
+PR76 is the additional main-based prototype; PR75 consumes it as a dependency so
+its review diff remains documentation. All changes stay public/reviewable, with
+no new externals and no merge performed by the agent. Current exact usage stays
+unavailable; the token-site build must retain observed sums without estimation.
