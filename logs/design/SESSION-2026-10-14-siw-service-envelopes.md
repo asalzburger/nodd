@@ -100,3 +100,38 @@ reproduction passes. No geometry was changed to remove a physics failure.
   "completion": "Material scientific/numerical/scope findings and missing evidence identified for the frozen source set, without treating allocation arithmetic as native geometry or engineering acceptance."
 }
 ```
+
+## Publication and CI diagnostics
+
+Additional PR76 created on main at78cfa3fe, attached to the parent task. Its
+initial project run38518977245 failed report replay on Linux after all eight
+controls passed; token preview passed. The updated drawing producer had remained
+unstaged although generated figures were committed, so it was retained in normal
+commit66bb10d. Replay diagnostics were added without relaxing comparison to
+identify actual differing fields. Local report and SVG replay pass; Linux result
+is still pending at this checkpoint. Native/engineering checks are not claimed.
+
+Project-record/documentation tests passed:28 tests in106.011s. Prototype project
+validation passed65 tasks/36 documents/21 review rounds; paired journal validation
+passed180 records before companion overview merge.
+
+## PhysVal findings and correction
+
+SIW-SERVICE-PhysVal-review, /root/lar_fit_physval, reviewed exact78cfa3fe read-only.
+P2: endcap inventory used12m one-way while electrical loss used40m round-trip.
+Root now derives each loop as twice its station length:40m barrel /24m endcap.
+Cu remains0.917504t; endcap drop/loss become0.382V/17.7W and aggregate external
+loss7.190kW. Added a regression cross-check between feed copper and voltage loops.
+P3: the initial suite had seven negative tests plus one nominal, not eight
+negative tests. Added a missing axial FCal/ECAL intrusion control; the final suite
+has eight negative and two nominal tests, reported exactly. Existing bounds,
+counts/area/flow/HCAL/FCal arithmetic otherwise agreed; reviewer independently
+checked continuous single-elbow bounds and all11 source hashes. No native jobs,
+edits or sign-off; earlier LAr contribution remains disclosed.
+
+Diagnostic CI38519327533 at66bb10d identified only last-bit Linux/macOS libm
+variation: e.g. previous HCAL barrel224.78264632630692 vs224.78264632630695m3.
+Report serialization now declares nine decimal places per labelled unit;
+physical constraints remain unrounded and exact source/producer hashes and
+serialized replay remain strict. This changes numerical presentation, not
+physical tolerances, capacities or proposal geometry.

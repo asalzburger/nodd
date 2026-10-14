@@ -22,3 +22,7 @@ Source-count reconciliation, choice provenance, interfaces and limits are in
 [DES034](../../docs/design/DES-034-siw-service-envelopes.md). Local cassette
 ports/collectors and the full junction routing are missing; empty corridors
 are not installed material or a hydraulic/throughput/thermal qualification.
+
+Numeric output is serialized to nine decimal places in each labelled unit for
+cross-platform libm portability. Physical checks remain unrounded; hashes and
+serialized report replay are still exact.
