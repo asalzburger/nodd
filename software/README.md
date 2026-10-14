@@ -10,7 +10,7 @@ Geant4 datasets, and reports setup/lockfile fingerprints.
 | `submodules/acts` | ACTS framework, libraries and its existing vendored dependencies |
 | `submodules/OpenDataDetector` | Existing ODD comparison source, pinned separately |
 | `submodules/nodehammer` | Optional display toolkit |
-| `submodules/IdRes` | Optional resolution tool, pending confirmed clone URL |
+| `submodules/IdRes` | Optional resolution tool, user-supplied CERN GitLab fork |
 | `source/ActsExamples` | nODD algorithms, ACTS detector adapters and external glue |
 | `source/detectors` | Self-contained DD4hep factories, materials and detector configuration |
 | `source/EDM` | nODD event data extensions |

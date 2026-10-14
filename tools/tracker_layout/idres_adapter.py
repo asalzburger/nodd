@@ -84,13 +84,13 @@ def convert(row, hits):
             "effective_station_count": int(hits["nPixHits"] + hits["nStripHits"] / 2)}
 
 
-def run(configuration, checkout, work, output):
+def run(configuration, checkout, work, output, binary=None):
     revision = subprocess.check_output(["git", "-C", str(checkout), "rev-parse", "HEAD"], text=True).strip()
     if revision != PIN:
         raise ValueError(f"Unvalidated upstream revision {revision}; expected {PIN}")
     if subprocess.check_output(["git", "-C", str(checkout), "diff", "HEAD", "--", "src"], text=True):
         raise ValueError("Upstream source modifications must be separately qualified")
-    binary = checkout / "bin/idres"
+    binary = Path(binary).resolve() if binary is not None else checkout / "bin/idres"
     config = json.loads(configuration.read_text())
     work.mkdir(parents=True, exist_ok=True)
     report = {"status": "PROTOTYPE; ideal covariance estimates, not validated tracking performance",
@@ -103,7 +103,7 @@ def run(configuration, checkout, work, output):
               "project_revision": subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip(),
               "project_worktree": "DES-006 study files uncommitted during generation; exact input and adapter hashes retained",
               "random_seed": None, "sampling": "deterministic eta 0..4 step0.05; z=-0.15,0,0.15m; pT1,10,100GeV",
-              "build": "make -C <checkout>/src CPPFLAGS=-I/opt/homebrew/opt/gsl/include LDFLAGS=-L/opt/homebrew/opt/gsl/lib",
+              "build": "make idres (Spack GSL, build-owned source copy)" if binary != checkout / "bin/idres" else "make -C <checkout>/src with the selected GSL include/library flags",
               "compiler": "Apple clang17.0.0 (clang-1700.6.4.2)", "gsl": "2.8",
               "limitations": ["Straight-line intersections; field affects covariance, not curved trajectories",
                   "No beam pipe, remote services, gaps, inefficiency, occupancy or reconstruction",
@@ -158,7 +158,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--configuration", type=Path, default=Path("docs/design/DES-006-layouts.json"))
     parser.add_argument("--checkout", type=Path, required=True)
+    parser.add_argument("--binary", type=Path, help="Executable built outside the source checkout")
     parser.add_argument("--work", type=Path, required=True)
     parser.add_argument("--output", type=Path, default=Path("docs/validation/DES-006-idres-results.json"))
     args = parser.parse_args()
-    run(args.configuration, args.checkout.resolve(), args.work.resolve(), args.output)
+    run(args.configuration, args.checkout.resolve(), args.work.resolve(), args.output, args.binary)
