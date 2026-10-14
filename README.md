@@ -88,3 +88,12 @@ isolated cobe/pint prototypes from versioned sensor and layer inputs, compares
 straight/curved-track coverage and silicon area, and audits intersections with
 ACTS. See [DES-009](docs/design/DES-009-module-populated-layouts.md) and the
 [coverage/support report](docs/validation/DES-009-module-populated-layouts.md).
+
+
+## Software build and source ownership
+
+See [software/README.md](software/README.md) for pinned dependencies, Makefiles,
+local ActsExamples extensions and node-bound runtime setup. The independent
+[DD4hep component](software/source/detectors/README.md) owns factories and
+configuration; its old detector/prototype paths are compatibility symlinks.
+Start with `make doctor`, `make detector` and `make detector-test`.
