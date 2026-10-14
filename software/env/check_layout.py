@@ -31,3 +31,8 @@ if (acts / 'CMakeLists.txt').is_file():
     dirty = subprocess.check_output(['git', '-C', str(acts), 'status', '--porcelain'], text=True)
     assert not dirty, 'ACTS submodule must remain clean: ' + dirty
     print('ACTS source checkout is pristine and contains no nODD adapter')
+
+if (root / "software/source/externals").is_dir():
+    assert (root / "tools/nodehammer").resolve() == root / "software/source/externals/nodehammer"
+    assert (root / "tools/tracker_layout/idres_adapter.py").resolve() == root / "software/source/externals/IdRes/idres_adapter.py"
+    print("External tool glue resolves to its software source owner")

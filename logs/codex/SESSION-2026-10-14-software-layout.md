@@ -25,7 +25,7 @@ Source initialisation skips LFS data; existing node runtime assets stay external
 The IdRes intake pin has no publishable URL; a question remains pending.
 
 The existing Spack environment was reverified after the preflight reported stale
-fingerprints: DD4hep1.38/DDG4 imports, Geant4 11.4.2 and12 datasets work. The new
+fingerprints: DD4hep 1.38/DDG4 imports, Geant4 11.4.2 and12 datasets work. The new
 make doctor records current setup/lock fingerprints without changing Spack.
 Sandbox sysctl/ps warnings are separate from successful runtime availability.
 Makefiles, directory ownership and the optional viewer's source default now use
@@ -55,7 +55,7 @@ symlinks retain the historical detector directory and prototype factory paths.
 The detector CMake project now configures independently of ACTS and still uses
 the retained repository design/validation resources for compact generation.
 Five standalone libraries compiled and linked; before/after root builds passed.
-All16 tracker XML files and680292 entity records matched exactly. Full CTest
+All16 tracker XML files and 680292 entity records matched exactly. Full CTest
 was still running at this commit;9 checks had passed and the complete tracker
 validator was pending. The final result is recorded by a later stage.
 
@@ -86,6 +86,44 @@ token-usage10 tests passed; all relevant validators and token preview build pass
 The user supplied the IdRes fork while this stage ran; its first-PR completion
 and downstream merges follow separately.
 
+## Calorimeter/EDM parity stage
+
+Copied the existing ACTS fork8adca5eec calorimeter reconstruction, FastJet, hit/
+cluster/jet persistence and their controls into nODD-owned sources. Core helpers
+live in software/source/Calorimeter; framework algorithms/converters under
+ActsExamples/Calorimeter; transient data headers under EDM. All40 C++/header
+files, including the retained tests, are byte-identical to that source revision.
+Only ownership/build paths and documentation are adapted. Source/MPL notices
+and the original prototype/response-calibration limitations are preserved.
+
+The local build completed46 steps. All10 calorimeter tests passed in1.60s,
+including digitization, clustering, jet finding, EDM4hep persistence and relation/
+metadata roundtrips. The Python-steered EDM4hep jet pipeline passed; saved input
+and output ROOT files each have3 events and1 metadata entry. Six standalone
+header-check targets compiled13 header translation units. The original upstream
+header helper uses directory-relative paths; local includes require a wrapper to
+keep generated stubs inside the build directory. The first generated stubs were
+preserved under build/legacy-generated-headers after correcting the local helper.
+
+The user-provided IdRes fork is pinned at the original d54d0e3c state in PR77.
+Its dedicated paired session record retains the clean build and22x729-row run
+checks. Downstream branches receive that addition via ordinary merges.
+
+## External glue and current node verification
+
+The remaining IdRes adapter and nodehammer native-build/display glue are owned
+under software/source/externals, with compatibility links at the former tools
+paths.17 boundary controls passed after relocation. The optional native
+nodehammer build also completed against the current Spack runtime:602/602
+upstream tests passed in24.04s, and its source submodule remained clean.
+
+The repository node registry now records the reverified current setup/lock
+fingerprints, DD4hep 1.38 and Geant4 11.4.2 package hashes. Its preflight returns
+prerequisites-present with no warnings;5 node preflight unit tests pass. Geant4
+simulation capability is explicitly limited to the observed8-track material
+recording smoke. No shared installation or installed personal skill copy was
+changed. Previous verified snapshot evidence remains in Git history.
+
 ## Directory marker correction
 
 The stage-one detector directory README shadowed the destination filename of the
@@ -94,3 +132,48 @@ scientific-path README rather than a rename, and PR78's existing policy gate
 rejected it. The marker is now .gitkeep; the actual detector README remains in the
 next stage. No policy gate is changed or weakened. Downstream ordinary merges
 retain the real README and make Git's source relocation visible as a rename.
+
+## Final result and PR stack
+
+The requested migration is published as PR77 (pinned dependencies and Makefiles),
+PR78 (independent DD4hep source component), PR79 (local ActsExamples, Python
+steering and analysis), and PR80 (calorimeter/EDM/persistence and external glue).
+Merge in that order. Ordinary downstream merges preserve each independent
+contribution and logging pair; no branch history was rewritten. Existing source
+checkouts, shared Spack dependencies, scientific parameters and accepted evidence
+are preserved. ACTS remains a clean gitlink containing no nODD adapter.
+
+All four actual branch diffs pass the unchanged project-record policy after the
+README marker correction. Native validation includes 10 detector tests,10 adapter/
+sensitivity tests,10 calorimeter controls,128 navigation tracks, a zero-error
+45646-sensor native/Gen3 comparison,22 IdRes runs with 729 complete rows each and
+602 nodehammer tests. Full DD4hep/Geant4 source-dir queries still report unstaged
+sources; no staging was performed because installed dependencies suffice.
+Final session validation and token preview/summary are run after this update.
+Exact task token counters are unavailable; the repository summary reports only
+previously observed disjoint turns, without estimating this task's usage.
+
+## Upgrade regression entry point
+
+software-test now depends on geometry-test, which executes fresh128-track
+navigation and the independent native sensor-frame/bounds/pipe-material audit.
+The final Make target passed with0 errors for45646 sensors and117 volumes. This
+makes the intended ACTS gitlink-update compatibility check part of the normal
+software regression command, before the retained adapter/sensitivity tests.
+
+## Documentation CI correction and reproduction
+
+After the policy gate passed, CI exposed10 relative links in the moved detector
+README with one extra parent-directory level. Corrected them to the actual
+software/source/detectors depth, then ran all33 session/documentation tests in
+the stage-two checkout: PASS. A viewer README sibling link was also corrected
+for its new external-glue location. All33 tests passed again in a fresh final
+checkout matching CI's source-only/submodules-uninitialized setup.
+
+The broad existing documentation test recursively scans the full filesystem.
+Running it in the populated build checkout also scans third-party cache/submodule
+Markdown (including Doxygen/lambda syntax), which produces unrelated false link
+failures. No test or gate was changed to accommodate those documents; clean
+checkouts verify the owned repository content with the existing check. GitHub CI
+reruns independently on the corrected heads. All native build/test results remain
+as recorded; these corrections change documentation paths only.

@@ -12,7 +12,7 @@ import struct
 import subprocess
 import sys
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[4]
 sys.path.insert(0, str(ROOT / "tools/pixel_barrel_dd4hep"))
 from export_root import style_name
 

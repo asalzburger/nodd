@@ -18,6 +18,8 @@ help:
 	@echo 'geometry/material  execute Python steering jobs'
 	@echo 'analysis           compare saved Gen3 report with native inventory'
 	@echo 'install            install into the local build prefix'
+	@echo 'calorimeter-test   run migrated reconstruction/EDM4hep controls'
+	@echo 'calorimeter-run    run a Python-steered synthetic calorimeter job'
 	@echo 'check              validate infrastructure and project records'
 doctor:
 	"$(ENV_RUN)" python3 "$(NODD_ROOT)/software/env/doctor.py"
@@ -31,7 +33,7 @@ detector:
 detector-test: detector
 	"$(ENV_RUN)" ctest --test-dir "$(BUILD_DIR)/dd4hep" --output-on-failure -j $(JOBS)
 nodehammer:
-	"$(ENV_RUN)" python3 "$(NODD_ROOT)/tools/nodehammer/build.py" --source "$(NODD_ROOT)/software/submodules/nodehammer" --build "$(BUILD_DIR)/nodehammer" --jobs $(JOBS)
+	"$(ENV_RUN)" python3 "$(NODD_ROOT)/software/source/externals/nodehammer/build.py" --source "$(NODD_ROOT)/software/submodules/nodehammer" --build "$(BUILD_DIR)/nodehammer" --jobs $(JOBS)
 idres:
 	"$(ENV_RUN)" python3 "$(NODD_ROOT)/software/env/build_idres.py" --source "$(NODD_ROOT)/software/submodules/IdRes" --build "$(BUILD_DIR)/idres" --jobs $(JOBS)
 check:
@@ -64,8 +66,8 @@ software-configure: software-python
 	"$(ENV_RUN)" cmake -S "$(NODD_ROOT)/software/submodules/acts" -B "$(ACTS_BUILD_DIR)" -G Ninja $(ACTS_OPTIONS) -DCMAKE_PROJECT_Acts_INCLUDE="$(NODD_ROOT)/software/source/ActsExamples/cmake/Inject.cmake" $(CMAKE_ARGS)
 software: software-python
 	@test -f "$(ACTS_BUILD_DIR)/build.ninja" || $(MAKE) software-configure
-	"$(ENV_RUN)" cmake --build "$(ACTS_BUILD_DIR)" --parallel $(JOBS) --target nodd-extensions
-software-test: software detector
+	"$(ENV_RUN)" cmake --build "$(ACTS_BUILD_DIR)" --parallel $(JOBS) --target nodd-software
+software-test: software detector geometry-test
 	$(ACTS_RUN) env NODD_PATH="$(NODD_ROOT)" NODD_BUILD_DIR="$(BUILD_DIR)/dd4hep" "$(PYTHON)" -m pytest -q "$(NODD_ROOT)/software/source/ActsExamples/Nodd/Tests"
 geometry: software detector
 	$(ACTS_RUN) "$(PYTHON)" "$(NODD_ROOT)/software/running/nodd_geometry_validation.py" --nodd-dir "$(NODD_ROOT)" --build-dir "$(BUILD_DIR)/dd4hep" --output "$(BUILD_DIR)/jobs/geometry" --tracks 128
@@ -79,8 +81,22 @@ install: software detector
 
 .PHONY: all test
 all: detector software
-test: detector-test software-test
+test: detector-test software-test calorimeter-test
+
+.PHONY: calorimeter calorimeter-test calorimeter-run calorimeter-analysis
+calorimeter: software
+calorimeter-test: calorimeter
+	"$(ENV_RUN)" ctest --test-dir "$(ACTS_BUILD_DIR)" -R '^Calorimeter' --output-on-failure -j $(JOBS)
+CALORIMETER_MODE ?= edm4hep-jets
+calorimeter-run: calorimeter
+	$(ACTS_RUN) "$(PYTHON)" "$(NODD_ROOT)/software/running/calorimeter.py" --build-dir "$(ACTS_BUILD_DIR)" --mode $(CALORIMETER_MODE) --output "$(BUILD_DIR)/jobs/calorimeter/$(CALORIMETER_MODE)"
+calorimeter-analysis:
+	$(ACTS_RUN) "$(PYTHON)" "$(NODD_ROOT)/software/analysis/inspect_calorimeter.py" --input "$(BUILD_DIR)/jobs/calorimeter/$(CALORIMETER_MODE)" --output "$(BUILD_DIR)/jobs/calorimeter/$(CALORIMETER_MODE)/inspection.json"
 
 .PHONY: idres-run
 idres-run: idres
-	"$(ENV_RUN)" python3 -B "$(NODD_ROOT)/tools/tracker_layout/idres_adapter.py" --configuration "$(NODD_ROOT)/docs/design/DES-006-layouts.json" --checkout "$(NODD_ROOT)/software/submodules/IdRes" --binary "$(BUILD_DIR)/idres/bin/idres" --work "$(BUILD_DIR)/idres/study" --output "$(BUILD_DIR)/idres/results.json"
+	"$(ENV_RUN)" python3 -B "$(NODD_ROOT)/software/source/externals/IdRes/idres_adapter.py" --configuration "$(NODD_ROOT)/docs/design/DES-006-layouts.json" --checkout "$(NODD_ROOT)/software/submodules/IdRes" --binary "$(BUILD_DIR)/idres/bin/idres" --work "$(BUILD_DIR)/idres/study" --output "$(BUILD_DIR)/idres/results.json"
+
+.PHONY: geometry-test
+geometry-test: geometry
+	$(ACTS_RUN) "$(PYTHON)" "$(NODD_ROOT)/software/analysis/check_geometry.py" --report "$(BUILD_DIR)/jobs/geometry/surfaces.json" --expected "$(BUILD_DIR)/dd4hep/detector/tracker/expected.json" --output "$(BUILD_DIR)/jobs/geometry/comparison.json"
