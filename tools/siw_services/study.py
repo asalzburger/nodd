@@ -148,7 +148,18 @@ if __name__ == "__main__":
     args = parser.parse_args()
     result = retained(json.loads(INPUT.read_text()))
     if args.check:
-        if json.loads(OUTPUT.read_text()) != result:
+        saved = json.loads(OUTPUT.read_text())
+        if saved != result:
+            def differences(old, new, path="root"):
+                if isinstance(old, dict) and isinstance(new, dict):
+                    for key in old:
+                        yield from differences(old[key],new[key],path+"."+key)
+                elif isinstance(old, list) and isinstance(new, list):
+                    for index,(left,right) in enumerate(zip(old,new)):
+                        yield from differences(left,right,path+"["+str(index)+"]")
+                elif old != new:
+                    yield path,old,new
+            print("First differing fields:",list(differences(saved,result))[:8])
             raise SystemExit("Retained allocation differs from source")
         layout = json.loads((ROOT / "docs/layouts/LAYOUT-001.json").read_text())
         for key, value in layout["hcal"].items():
