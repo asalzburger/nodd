@@ -4,8 +4,8 @@
   "title": "LAYOUT-001 service and forward envelope parity",
   "recorded_at": "2026-10-14T05:38:12Z",
   "started_at": null,
-  "ended_at": null,
-  "status": "open",
+  "ended_at": "2026-10-14T06:01:24Z",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
@@ -24,9 +24,29 @@
     "result_commits": [
       "62b8b35765ff55163c504e3d551f4366a536948b",
       "78cfa3fe8ac56e4b48a11870ca2758bdae25ed6c",
-      "66bb10d52abb606644de6266ecd099fd6f4bb80c"
+      "66bb10d52abb606644de6266ecd099fd6f4bb80c",
+      "0a26796518d690bf26934d2864d63ecad7582675"
     ],
-    "changed_files": []
+    "changed_files": [
+      ".github/workflows/validation.yml",
+      "docs/design/DES-034-siw-service-envelopes.md",
+      "docs/design/inputs/DES-034-sources.json",
+      "docs/layouts/LAYOUT-001-tracker-3t-siw.md",
+      "docs/layouts/LAYOUT-001.json",
+      "docs/layouts/README.md",
+      "docs/layouts/figures/LAYOUT-001-rz.png",
+      "docs/layouts/figures/LAYOUT-001-rz.svg",
+      "docs/validation/DES-034/allocations.json",
+      "docs/validation/DES-034/results.md",
+      "logs/design/SESSION-2026-10-14-siw-service-envelopes.json",
+      "logs/design/SESSION-2026-10-14-siw-service-envelopes.md",
+      "project/tracking.json",
+      "tools/layout_overview/draw.py",
+      "tools/siw_services/README.md",
+      "tools/siw_services/inputs.json",
+      "tools/siw_services/study.py",
+      "tools/siw_services/test_study.py"
+    ]
   },
   "work": {
     "milestone": "M1",
@@ -79,6 +99,30 @@
       "status": "FAIL",
       "exit_code": 1,
       "result": "Eight controls passed; retained report replay differed on Linux. Diagnostics added without relaxing validation. Missing staged drawing producer also identified and retained normally."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/siw_services -p test_*.py -v (after P2/P3 corrections)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Ten tests passed: eight physical negative controls and two nominal consistency cases."
+    },
+    {
+      "command": "gh run view 38519327533 --log-failed",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Diagnostics identify only last-bit libm variation in volume/ratio/eta4 reporting; no physical guard or hash mismatch. Declared serialization fixes presentation, not physical criteria."
+    },
+    {
+      "command": "gh run view 38519491101 --json jobs --jq new allocation step",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Corrected source0a267965 passed new Linux allocation tests, exact report replay and deterministic SVG step; broad inherited job still running."
+    },
+    {
+      "command": "python3 -B tools/siw_services/study.py --check (corrected source)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Exact canonical report and HCAL/FCal layout values reproduce locally; physical checks unrounded."
     }
   ]
 }
