@@ -40,6 +40,17 @@ class EnvelopeControls(unittest.TestCase):
     def test_forward_reservation_cannot_enter_HCAL(self):
         self.reject(forward_outer_radius_mm=310)
 
+    def test_LAr_upstream_collar_cannot_overlap_SiW_endcap(self):
+        self.reject(forward_front_clearance_mm=-83.2)
+
+    def test_feed_inventory_and_voltage_use_same_loop(self):
+        r = study(self.data)
+        end, barrel = r["endcap_each"], r["barrel"]
+        end_resistance = end["power_loop_drop_V"] / end["input_current_A_per_station"]
+        barrel_resistance = barrel["power_loop_drop_V"] / barrel["input_current_A_per_station"]
+        self.assertAlmostEqual(end_resistance/barrel_resistance,24/40)
+        self.assertAlmostEqual(end["power_copper_kg"],172.032)
+
     def test_passive_interface_boards_are_not_powered_chips(self):
         d = copy.deepcopy(self.data)
         d["source_facts"]["barrel_powered_interfaces"] = 22560

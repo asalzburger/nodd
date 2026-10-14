@@ -104,9 +104,9 @@ local coolant runs (103,104 endpoints) still need hierarchical collection,
 connections, pressure-drop and thermal-contact design.
 
 **NODD DESIGN CHOICES / INFERENCE:** a 48 V input, two parallel 25 mm2 Cu
-conductors per polarity, 40 m supply-plus-return loop and rho=1.72e-8 ohm m give
-122.66/46.26 A per station, 1.688/0.636 V drop and 207.0/29.4 W loss. Nominal
-external cable loss totals 7.567 kW, additional to local ECAL heat; heat-removal
+conductors per polarity, 40/24 m barrel/endcap supply-plus-return loops and rho=1.72e-8 ohm m give
+122.66/46.26 A per station, 1.688/0.382 V drop and 207.0/17.7 W loss. Nominal
+external cable loss totals 7.190 kW, additional to local ECAL heat; heat-removal
 ownership and warm conversion remain open. Hypothetical feed copper is 0.918 t
 at the inherited 8.96 g/cm3 density, and filled external water is 1.005 t under
 the length hypotheses. These are partial planning inventories, not native or
@@ -141,8 +141,7 @@ remain unresolved. No FCal or muon system is installed.
 [inputs.json](../../tools/siw_services/inputs.json) separates inherited facts and
 new planning choices; [allocation report](../validation/DES-034/allocations.json)
 retains producer/input hashes, area/flow/power/volume arithmetic, corner bounds,
-forward intervals and a 70-point single-pipe backbone sweep. Eight negative
-controls reject the old 30 mm turn gap, apothem-as-radius clearance, overlapping
+forward intervals and a 70-point single-pipe backbone sweep. Ten tests (eight negative controls plus two nominal consistency cases) reject the old 30 mm turn gap, apothem-as-radius clearance, overlapping
 sector lanes, undersized adverse/merged lanes, FCal/HCAL intrusion and powered-
 interface double counting. The candidate RZ input and SVG reproduce exactly.
 
@@ -151,3 +150,8 @@ geometry, pressure-vessel, cable-routing, load, field or response qualification
 is claimed. Existing isolated ECAL native evidence still describes PR70/71.
 The retained input values and new derived HCAL bounds are not silently applied
 to production or to those standalone component exports.
+
+Numeric report serialization uses nine decimal places in each labelled unit to
+remove final-bit cross-platform libm differences. Physical clearance and capacity
+checks use unrounded values; producer/input hashes and serialized replay remain
+exact. No physical validation tolerance is relaxed.

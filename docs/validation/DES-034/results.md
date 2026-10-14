@@ -19,9 +19,9 @@ python3 -B tools/layout_overview/draw.py
 python3 -B tools/layout_overview/draw.py --check
 ```
 
-Eight controls pass. They reject the 30 mm rear gap, treating polygon apothem as
+Ten tests pass: eight negative controls plus two nominal consistency tests. They reject the 30 mm rear gap, treating polygon apothem as
 corner radius, sector lane interference, the 700 mm adverse-data lane, failing
-merged junction capacity, FCal intrusion into HCAL and powered-interface double
+merged junction capacity, FCal intrusion into HCAL or the Si-W endcap and powered-interface double
 counting. Exact report reproduction and HCAL/FCal layout correspondence pass.
 The valid SVG and existing rsvg-convert PNG were regenerated and visually inspected.
 All eleven primary Git-object SHA256 bindings were recomputed and matched.
@@ -37,7 +37,7 @@ These are conservative bounds and sampled elbow points, not a native union audit
 The FCal interval is 50 mm behind ECAL and 10 mm inside HCAL's minimum circular
 aperture. It has no installed material or acceptance. The retained ECAL heat
 hypotheses imply 259.452 kW and ideal 12.414 kg/s local water. External feed
-copper/water examples and 7.567 kW power-loop loss remain planning estimates;
+copper/water examples and 7.190 kW power-loop loss remain planning estimates;
 no thermal, hydraulic, cable, support, field or shower qualification is implied.
 
 The separate SysArch input and frozen-proposal PhysVal assessment are curated in

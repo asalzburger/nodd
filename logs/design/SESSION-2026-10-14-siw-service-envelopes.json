@@ -9,10 +9,11 @@
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
-    "Actual conversation start time, client identity details and token usage have not been recorded."
+    "Exact client version, thread identity, start time and current parent/child completed-turn counters are unavailable. Usage unknown, not zero.",
+    "Empty-envelope proposal and analytic packing only; no native combined detector, hydraulic, load, field or response qualification."
   ],
   "client": {
-    "name": "unspecified",
+    "name": "Codex desktop",
     "version": null,
     "thread_id": null
   },
@@ -20,16 +21,64 @@
     "start_commit": "e33ae62ce16592c26c581c5311c4dc493d9714b1",
     "branch": "codex/layout001-service-envelopes",
     "initial_changes": [],
-    "result_commits": [],
+    "result_commits": [
+      "62b8b35765ff55163c504e3d551f4366a536948b",
+      "78cfa3fe8ac56e4b48a11870ca2758bdae25ed6c",
+      "66bb10d52abb606644de6266ecd099fd6f4bb80c"
+    ],
     "changed_files": []
   },
   "work": {
     "milestone": "M1",
-    "components": [],
-    "related_ids": []
+    "components": [
+      "calorimetry",
+      "shared service and forward interfaces"
+    ],
+    "related_ids": [
+      "DES-034",
+      "PR-76",
+      "PR-75"
+    ]
   },
   "narrative": "logs/design/SESSION-2026-10-14-siw-service-envelopes.md",
   "activities": [],
   "usage": [],
-  "checks": []
+  "checks": [
+    {
+      "command": "python3 -B -m unittest discover -s tools/siw_services -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Eight physical failure-mode controls pass."
+    },
+    {
+      "command": "python3 -B tools/siw_services/study.py --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Retained report matches local input/producer and HCAL/FCal values match layout."
+    },
+    {
+      "command": "python3 -B tools/layout_overview/draw.py --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Deterministic SVG including all source groups and new service/forward allocations matches."
+    },
+    {
+      "command": "Primary Git-object SHA256 checks against DES034 source catalogue",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All eleven exact source bindings matched."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/project_records -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "28 controls passed in 106.011 seconds, including repository documentation links and historical evidence."
+    },
+    {
+      "command": "GitHub Project validation run 38518977245 at78cfa3fe",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Eight controls passed; retained report replay differed on Linux. Diagnostics added without relaxing validation. Missing staged drawing producer also identified and retained normally."
+    }
+  ]
 }

@@ -76,3 +76,62 @@ layout values reproduce, all eleven pinned primary SHA256 values match, updated
 RZ SVG reproduces and PNG visually fits. An initial tuple/list serialization
 mismatch made report --check fail; retained route points now use JSON lists and
 reproduction passes. No geometry was changed to remove a physics failure.
+
+## Prepared SIW-SERVICE-PhysVal-review
+
+```json
+{
+  "id": "SIW-SERVICE-PhysVal-review",
+  "role": "PhysVal",
+  "input_revision": "78cfa3fe8ac56e4b48a11870ca2758bdae25ed6c",
+  "inputs": [
+    "docs/design/DES-034-siw-service-envelopes.md",
+    "docs/design/inputs/DES-034-sources.json",
+    "tools/siw_services/inputs.json",
+    "tools/siw_services/study.py",
+    "docs/validation/DES-034/allocations.json",
+    "docs/validation/DES-034/results.md",
+    "docs/layouts/LAYOUT-001.json"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Assess this exact implemented EMPTY-ENVELOPE proposal for Si-W service/forward parity with LAr. Check primary-count reconciliation, packing/merged junction, circular-vs-polygon clearances, HCAL depth/envelope/volume, single-pipe bend and reserved route scope, heat/flow/power and partial material/length assumptions, FCal non-overlap and acceptance wording. Inputs preserve actual source pointers; inspect pinned primary objects and report numerical or interpretation defects with severity and locators. Run relevant standard-library controls if helpful. No edits/native geometry jobs/installs/delegation or approval. Prior LAr work is disclosed, but this Si-W proposal is root-authored following a separate SysArch input. Return exact revision, actual checks and remaining limitations. Do not prescribe a conclusion.",
+  "deliverable": "Read-only scientific claim and allocation review to root, curated in paired session record before publication.",
+  "completion": "Material scientific/numerical/scope findings and missing evidence identified for the frozen source set, without treating allocation arithmetic as native geometry or engineering acceptance."
+}
+```
+
+## Publication and CI diagnostics
+
+Additional PR76 created on main at78cfa3fe, attached to the parent task. Its
+initial project run38518977245 failed report replay on Linux after all eight
+controls passed; token preview passed. The updated drawing producer had remained
+unstaged although generated figures were committed, so it was retained in normal
+commit66bb10d. Replay diagnostics were added without relaxing comparison to
+identify actual differing fields. Local report and SVG replay pass; Linux result
+is still pending at this checkpoint. Native/engineering checks are not claimed.
+
+Project-record/documentation tests passed:28 tests in106.011s. Prototype project
+validation passed65 tasks/36 documents/21 review rounds; paired journal validation
+passed180 records before companion overview merge.
+
+## PhysVal findings and correction
+
+SIW-SERVICE-PhysVal-review, /root/lar_fit_physval, reviewed exact78cfa3fe read-only.
+P2: endcap inventory used12m one-way while electrical loss used40m round-trip.
+Root now derives each loop as twice its station length:40m barrel /24m endcap.
+Cu remains0.917504t; endcap drop/loss become0.382V/17.7W and aggregate external
+loss7.190kW. Added a regression cross-check between feed copper and voltage loops.
+P3: the initial suite had seven negative tests plus one nominal, not eight
+negative tests. Added a missing axial FCal/ECAL intrusion control; the final suite
+has eight negative and two nominal tests, reported exactly. Existing bounds,
+counts/area/flow/HCAL/FCal arithmetic otherwise agreed; reviewer independently
+checked continuous single-elbow bounds and all11 source hashes. No native jobs,
+edits or sign-off; earlier LAr contribution remains disclosed.
+
+Diagnostic CI38519327533 at66bb10d identified only last-bit Linux/macOS libm
+variation: e.g. previous HCAL barrel224.78264632630692 vs224.78264632630695m3.
+Report serialization now declares nine decimal places per labelled unit;
+physical constraints remain unrounded and exact source/producer hashes and
+serialized replay remain strict. This changes numerical presentation, not
+physical tolerances, capacities or proposal geometry.

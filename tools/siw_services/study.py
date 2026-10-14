@@ -42,6 +42,7 @@ def study(data):
     require(c["egress_radius_mm"] - c["water_jacket_mm"] / 2 - clearance > hcorner, "Egress clears all HCAL corners")
     require(c["forward_outer_radius_mm"] + clearance / 2 <= f["hcal_endcap_inner_apothem_mm"], "Forward fits all-azimuth HCAL aperture")
     require(c["forward_inner_radius_mm"] < c["forward_outer_radius_mm"], "Forward ordering")
+    require(c["forward_front_clearance_mm"] >= clearance, "Forward cannot overlap ECAL axially")
 
     def station(kind):
         barrel = kind == "barrel"
@@ -64,8 +65,8 @@ def study(data):
         flow = heat / (c["water_cp_J_kg_K"] * c["water_delta_K"])
         velocity = flow / stations / (c["water_density_kg_m3"] * math.pi * (c["water_bore_mm"] / 2000)**2)
         current = heat / stations / c["power_voltage_V"]  # Heat includes source converter loss.
-        resistance = c["copper_resistivity_ohm_m"] * c["power_loop_length_m"] / (c["power_parallel_conductors_each_leg"] * c["power_conductor_mm2"] * 1e-6)
         length = c["barrel_cable_length_m"] if barrel else c["endcap_cable_length_m"]
+        resistance = c["copper_resistivity_ohm_m"] * (2*length) / (c["power_parallel_conductors_each_leg"] * c["power_conductor_mm2"] * 1e-6)
         return dict(stations=stations, powered_interfaces_per_station=chips, cable_count_per_station=count,
                     cable_length_m={key: value * stations * length for key, value in count.items()},
                     nominal_area_mm2=nominal, adverse_area_mm2=adverse, reserved_area_mm2=capacity,
@@ -136,7 +137,15 @@ def study(data):
 
 
 def retained(data):
-    result = study(data)
+    def canonical(value):
+        if isinstance(value,float):return round(value,9)
+        if isinstance(value,list):return [canonical(x) for x in value]
+        if isinstance(value,dict):return {k:canonical(v) for k,v in value.items()}
+        return value
+    # Reporting precision only: physical checks above use unrounded values.
+    # Suppress final-bit libm differences; hashes and canonical replay stay exact.
+    result = canonical(study(data))
+    result["numeric_serialization"] = "Nine decimal places in each labelled output unit; physical constraints are evaluated before rounding."
     result["input_sha256"] = hashlib.sha256(INPUT.read_bytes()).hexdigest()
     result["producer_sha256"] = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
     return result
@@ -148,7 +157,18 @@ if __name__ == "__main__":
     args = parser.parse_args()
     result = retained(json.loads(INPUT.read_text()))
     if args.check:
-        if json.loads(OUTPUT.read_text()) != result:
+        saved = json.loads(OUTPUT.read_text())
+        if saved != result:
+            def differences(old, new, path="root"):
+                if isinstance(old, dict) and isinstance(new, dict):
+                    for key in old:
+                        yield from differences(old[key],new[key],path+"."+key)
+                elif isinstance(old, list) and isinstance(new, list):
+                    for index,(left,right) in enumerate(zip(old,new)):
+                        yield from differences(left,right,path+"["+str(index)+"]")
+                elif old != new:
+                    yield path,old,new
+            print("First differing fields:",list(differences(saved,result))[:8])
             raise SystemExit("Retained allocation differs from source")
         layout = json.loads((ROOT / "docs/layouts/LAYOUT-001.json").read_text())
         for key, value in layout["hcal"].items():
