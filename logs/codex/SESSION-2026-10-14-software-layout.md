@@ -123,3 +123,12 @@ prerequisites-present with no warnings;5 node preflight unit tests pass. Geant4
 simulation capability is explicitly limited to the observed8-track material
 recording smoke. No shared installation or installed personal skill copy was
 changed. Previous verified snapshot evidence remains in Git history.
+
+## Directory marker correction
+
+The stage-one detector directory README shadowed the destination filename of the
+real detector README. Git consequently classified the later move as deleting a
+scientific-path README rather than a rename, and PR78's existing policy gate
+rejected it. The marker is now .gitkeep; the actual detector README remains in the
+next stage. No policy gate is changed or weakened. Downstream ordinary merges
+retain the real README and make Git's source relocation visible as a rename.
