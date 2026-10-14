@@ -80,3 +80,7 @@ install: software detector
 .PHONY: all test
 all: detector software
 test: detector-test software-test
+
+.PHONY: idres-run
+idres-run: idres
+	"$(ENV_RUN)" python3 -B "$(NODD_ROOT)/tools/tracker_layout/idres_adapter.py" --configuration "$(NODD_ROOT)/docs/design/DES-006-layouts.json" --checkout "$(NODD_ROOT)/software/submodules/IdRes" --binary "$(BUILD_DIR)/idres/bin/idres" --work "$(BUILD_DIR)/idres/study" --output "$(BUILD_DIR)/idres/results.json"
