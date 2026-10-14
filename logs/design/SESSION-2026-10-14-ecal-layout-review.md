@@ -269,3 +269,21 @@ for review. Retained source/rendering checks and paired journal/project checks
 pass. GitHub CI results are read from the PR after the final ordinary branch
 push; pending checks are not preclaimed here. The documentation completion state
 covers this bounded deliverable, not implementation merge or detector acceptance.
+
+### Closeout-format correction
+
+Initial closeout journal validation rejected two PASS entries without observed
+zero exit codes: subagent assessments have no shell exit code. Retain those role
+results in the narrative/activity evidence and remove them from command checks.
+The first publication of this metadata correction happened despite the error
+because the shell block continued; preserve that ordinary Git history. Standalone
+validator then reproduced exit 1. Token-site building in that block also stopped
+on the invalid journal. Correct the schema rather than fabricate exit codes, then
+rerun paired-session validation, token summary/site build and project checks.
+
+Correction verified: paired-session validator exit 0 (180 records), token-site
+build exit 0 (210 disjoint dated turns, 624,299,405 observed tokens), project
+validator exit 0 (65 tasks / 35 documents / 21 review rounds), and whitespace
+check exit 0. Session summary has 118 records with observations / 62 without;
+this task stays unknown. The final correction changes only the curated journal;
+reviewed PDF/content bytes and detector sources are unchanged.

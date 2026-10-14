@@ -4,7 +4,7 @@
   "title": "Single reviewer entry for Si-W and LAr ECAL layouts",
   "recorded_at": "2026-10-14T05:10:04Z",
   "started_at": null,
-  "ended_at": "2026-10-14T05:33:28Z",
+  "ended_at": "2026-10-14T05:34:41Z",
   "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
@@ -25,7 +25,8 @@
       "a53c29867130b4c36658a9aa5f6f14dd5650130f",
       "b67b0fc2f611e0a0e93984199f92173ebd1ca0d1",
       "512dca36d8467b401345ff78e9bf0c8d86aa4b06",
-      "e7ab36eb660b83e91d42356b915e22c33c81c071"
+      "e7ab36eb660b83e91d42356b915e22c33c81c071",
+      "12e0288fc58a122504499894830f8782ed0f3b7e"
     ],
     "changed_files": [
       "README.md",
@@ -103,6 +104,15 @@
       "failures": null,
       "duration_seconds": null,
       "evidence": "Applied in this bounded task; instructions and assignments are curated in the paired narrative."
+    },
+    {
+      "kind": "tool",
+      "name": "Generic PhysVal read-only assessments",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Budget, final claim and P3 assignments/results are curated in the paired narrative with exact source revisions; no native profile loading or human approval claimed."
     }
   ],
   "usage": [],
@@ -168,18 +178,6 @@
       "result": "8,984 characters including final newline match exactly."
     },
     {
-      "command": "ECAL-REVIEW-PhysVal-final read-only exact-revision assessment at b67b0fc2f611e0a0e93984199f92173ebd1ca0d1",
-      "status": "PASS",
-      "exit_code": null,
-      "result": "No P1/P2 findings. P3 requested coverage-sample basis; later addressed. Ten sources and mass/envelope/volume sums agree; four-page/PDF-content/drawing checks passed. Earlier LAr contribution disclosed; no sign-off."
-    },
-    {
-      "command": "ECAL-REVIEW-PhysVal-P3 read-only assessment at e7ab36eb660b83e91d42356b915e22c33c81c071",
-      "status": "PASS",
-      "exit_code": null,
-      "result": "P3 addressed: 360 one-degree-centred azimuth samples and at-least-one-layer condition match DES030. Corrected PDF/Markdown still match, four pages/72 blocks/14 links; page-2 visual check clean."
-    },
-    {
       "command": "git diff e33ae62ce16592c26c581c5311c4dc493d9714b1 --check (scoped PDF marked binary)",
       "status": "PASS",
       "exit_code": 0,
@@ -190,6 +188,18 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "Eight nODD role profiles and three skills valid."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate (first closeout with reviewer assessments entered as checks)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Two PASS assessment entries had no command exit code. Removed them from command checks; role results with exact revisions remain in the narrative. Do not invent a shell exit for a subagent assessment."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate (after closeout-format correction)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "180 paired session records valid. Narrative/activity records retain reviewer assessments without fabricated command exit codes. Token-site build and session summary subsequently passed with unchanged observed totals."
     }
   ]
 }
