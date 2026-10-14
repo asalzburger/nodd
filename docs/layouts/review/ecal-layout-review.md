@@ -29,7 +29,7 @@ Open component proposals: [PR #71](https://github.com/asalzburger/nodd/pull/71) 
 
 ### Material and service drivers
 
-Recorded model masses are 299.003 t for the barrel and 98.949 t for both endcaps. Copper contributes 119.693/40.591 t, dominated by the cooling plates. Continuous heat hypotheses give 188.40/71.05 kW; the summed ideal water flow is 12.414 kg/s for a 5 K rise. These are inventory/power calculations, not thermal or hydraulic qualification. A 300 mm annulus and 400 mm rear break reserve cable/water exits; local cassette ports and support loads remain open.
+Recorded model masses are 299.003 t for the barrel and 98.949 t for both endcaps. Copper contributes 119.693/40.591 t, dominated by the cooling plates. Continuous heat hypotheses give 188.40/71.05 kW; the summed ideal water flow is 12.414 kg/s for a 5 K rise. These are inventory/power calculations, not thermal or hydraulic qualification. A 300 mm annulus and 400 mm rear break reserve cable/water exits; local cassette ports and support loads remain open. The 30 mm front seam is installation-only; services are allocated outside the endcap.
 
 ### Coverage and evidence limits
 
@@ -52,7 +52,7 @@ Open component proposals: [PR #73](https://github.com/asalzburger/nodd/pull/73) 
 
 The model has 2.286 million barrel cells and 601,600 per endcap. The Cartesian turbine taper differs from cylindrical-radius intent by up to 0.117 mm in the inner wheel. Physical mass includes bath displacement and cold service proxies. A 200 kW cooling allowance falls 58 kW short of the 258 kW adverse planning scenario, before complete static-heat qualification.
 
-Native component checks and the ECAL-only combined audit do not qualify the tracker/coil/HCAL union. LAr remains uncovered at η=4; forward reservations contain no hardware. Barrel/endcap transition directions have partial depth, requiring later material/response design.
+The 800 mm front gap budgets provisional cryogenic S-bends; this nODD routing choice is not an intrinsic LAr requirement. Native component checks and the ECAL-only combined audit do not qualify the tracker/coil/HCAL union. LAr remains uncovered at η=4; forward reservations contain no hardware. Barrel/endcap transition directions have partial depth, requiring later material/response design.
 
 [Barrel/service design](https://github.com/asalzburger/nodd/blob/48e97256f8badd75c022a84ab1c4ff71977c56a2/docs/design/DES-032-allegro-lar-barrel.md) · [Endcap/forward design](https://github.com/asalzburger/nodd/blob/72d37ee9a56182e4ba974791a848a738c19cf092/docs/design/DES-033-allegro-lar-endcaps.md)
 
