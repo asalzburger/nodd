@@ -1,7 +1,7 @@
 # Optional nodehammer display
 
 For the preliminary barrel plus PR36 endcaps, use the
-[combined pixel workflow](../pixel_detector_dd4hep/README.md). It generates full,
+[combined pixel workflow](../../../../tools/pixel_detector_dd4hep/README.md). It generates full,
 barrel, endcap, disc, stave, module and sensitive-only projects with the same
 import/round-trip audits. The instructions below retain the barrel-only defaults.
 
