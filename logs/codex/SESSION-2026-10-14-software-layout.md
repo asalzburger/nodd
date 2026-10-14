@@ -46,3 +46,12 @@ later stage updates. This is infrastructure work and grants no design sign-off.
 Exact client per-turn counters are unavailable. usage is empty; no estimate or
 private client-state collection was performed. IdRes access and all unexecuted
 capabilities stay explicit. ADR-008 records the human-requested source ownership.
+
+## Directory marker correction
+
+The stage-one detector directory README shadowed the destination filename of the
+real detector README. Git consequently classified the later move as deleting a
+scientific-path README rather than a rename, and PR78's existing policy gate
+rejected it. The marker is now .gitkeep; the actual detector README remains in the
+next stage. No policy gate is changed or weakened. Downstream ordinary merges
+retain the real README and make Git's source relocation visible as a rename.
