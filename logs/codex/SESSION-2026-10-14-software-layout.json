@@ -24,6 +24,7 @@
     "initial_changes": [],
     "result_commits": [],
     "changed_files": [
+      ".github/workflows/validation.yml",
       ".gitignore",
       ".gitmodules",
       "Makefile",
@@ -32,19 +33,43 @@
       "logs/codex/SESSION-2026-10-14-software-layout.md",
       "software/Makefile",
       "software/README.md",
+      "software/analysis/Makefile",
       "software/analysis/README.md",
+      "software/analysis/check_geometry.py",
+      "software/env/acts-run.sh",
+      "software/env/bootstrap_python.py",
       "software/env/build_idres.py",
       "software/env/check_layout.py",
       "software/env/doctor.py",
+      "software/env/requirements.txt",
       "software/env/run.sh",
+      "software/running/Makefile",
       "software/running/README.md",
+      "software/running/nodd_geometry_validation.py",
+      "software/running/nodd_material_recording.py",
+      "software/source/ActsExamples/CMakeLists.txt",
+      "software/source/ActsExamples/Makefile",
+      "software/source/ActsExamples/Nodd/CMakeLists.txt",
+      "software/source/ActsExamples/Nodd/README.md",
+      "software/source/ActsExamples/Nodd/Tests/test_nodd.py",
+      "software/source/ActsExamples/Nodd/Tests/test_sensitivity.py",
+      "software/source/ActsExamples/Nodd/include/ActsExamples/Nodd/DD4hepNoddDetector.hpp",
+      "software/source/ActsExamples/Nodd/python/Nodd.cpp",
+      "software/source/ActsExamples/Nodd/python/nodd.py",
+      "software/source/ActsExamples/Nodd/src/DD4hepNoddDetector.cpp",
       "software/source/ActsExamples/README.md",
+      "software/source/ActsExamples/cmake/Inject.cmake",
       "software/source/EDM/README.md",
+      "software/source/LICENSE-ACTS-MPL-2.0",
+      "software/source/Makefile",
+      "software/source/NOTICE.md",
       "software/source/detectors/README.md",
+      "software/submodules/Makefile",
       "software/submodules/OpenDataDetector",
       "software/submodules/acts",
       "software/submodules/nodehammer",
-      "tools/nodehammer/build.py"
+      "tools/nodehammer/build.py",
+      "tools/tracker_dd4hep/check_gen3.py"
     ]
   },
   "work": {
@@ -106,9 +131,45 @@
     },
     {
       "command": "ctest --test-dir build/dd4hep --output-on-failure -j6",
-      "status": "NOT RUN",
-      "exit_code": null,
-      "result": "Full suite still running at the stage-two commit;9 of10 checks completed successfully. Final results follow in the later migration record."
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "10/10 exporter, DD4hep, ROOT roundtrip and complete tracker checks passed in216.06s."
+    },
+    {
+      "command": "Clean ACTS build with local project hook, target nodd-extensions",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Compiled/linked upstream and local targets against clean355ea6849 ACTS source."
+    },
+    {
+      "command": "pytest -q software/source/ActsExamples/Nodd/Tests in new build runtime",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "10 tests passed in107.83s, including complete tracker Gen3 and8-track Geant4 material recording."
+    },
+    {
+      "command": "Python geometry steering:128 tracks, seed42",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "45646 sensors and117 volumes;128 straight navigation tracks completed."
+    },
+    {
+      "command": "Independent software/analysis/check_geometry.py native inventory audit",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "PASS with0 errors,45646 unique sensor IDs and all7 tracker systems."
+    },
+    {
+      "command": "tools/project_records tests",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "28 tests passed."
+    },
+    {
+      "command": "tools/token_usage tests and preview build",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "10 tests passed; token preview built successfully."
     }
   ]
 }

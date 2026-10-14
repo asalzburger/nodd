@@ -24,3 +24,10 @@ if (root / "detector").is_symlink():
                            ("calorimeter", "Calorimeter.cpp")):
         assert (root / "prototypes" / name / filename).resolve() == root / "software/source/detectors/src" / filename
     print("Detector compatibility paths resolve to their software source owner")
+# Fragment appended to the layout checker after local extension migration.
+acts = root / 'software/submodules/acts'
+if (acts / 'CMakeLists.txt').is_file():
+    assert not (acts / 'Examples/Nodd').exists(), 'nODD code must live outside ACTS'
+    dirty = subprocess.check_output(['git', '-C', str(acts), 'status', '--porcelain'], text=True)
+    assert not dirty, 'ACTS submodule must remain clean: ' + dirty
+    print('ACTS source checkout is pristine and contains no nODD adapter')

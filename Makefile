@@ -1,5 +1,5 @@
 # All software recipes live with their source tree.
 .DEFAULT_GOAL := help
-.PHONY: help doctor submodules submodule-status detector detector-test nodehammer idres check
-help doctor submodules submodule-status detector detector-test nodehammer idres check:
+.PHONY: all test help doctor submodules submodule-status detector detector-test nodehammer idres check software-python software-configure software software-test geometry material analysis install
+all test help doctor submodules submodule-status detector detector-test nodehammer idres check software-python software-configure software software-test geometry material analysis install:
 	+$(MAKE) -C software $@

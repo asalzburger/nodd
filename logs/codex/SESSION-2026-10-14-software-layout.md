@@ -58,3 +58,30 @@ Five standalone libraries compiled and linked; before/after root builds passed.
 All16 tracker XML files and680292 entity records matched exactly. Full CTest
 was still running at this commit;9 checks had passed and the complete tracker
 validator was pending. The final result is recorded by a later stage.
+
+## Local ActsExamples, steering and analysis stage
+
+The full detector suite completed:10/10 passed. The independent XML/entity
+comparison and direct detector build results remain unchanged. The clean ACTS
+build links the local adapter after upstream targets are configured through the
+CMake project hook. Deferred includes with absolute source paths are used;
+CMake disallows creating subdirectories during deferred execution. ACTS source
+and its package commit metadata stay independent of the parent project.
+
+The build-owned Python environment now follows upstream's pinned codegen
+requirements and installs the ACTS-local codegen package, rather than the
+unrelated PyPI package with the same name. The initial bootstrap was corrected
+and synchronized before building. No shared Spack or acts-nodd install changed.
+The local Python sensitivity helper and its four controls are migrated out of
+Core bindings. DD4hep dictionaries must be initialized before downstream
+factory loading on this node; that runtime order is now explicit in the helper.
+
+10 adapter/sensitivity tests passed in107.83s, including complete tracker Gen3
+construction and8-track Geant4 recording. The128-track navigation job produced
+45646 sensors and117 volumes; independent native comparison returned PASS,
+0 errors and all7 tracker systems. Analysis code now has one owner under software/
+analysis and retains a compatibility symlink from its old tool path. Source/MPL
+notices, job steering and Makefiles are retained. Project-record28 tests and
+token-usage10 tests passed; all relevant validators and token preview build pass.
+The user supplied the IdRes fork while this stage ran; its first-PR completion
+and downstream merges follow separately.

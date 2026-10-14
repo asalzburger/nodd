@@ -38,3 +38,27 @@ DD4hep, Geant4, ROOT, podio, EDM4hep and GSL remain Spack dependencies.
 
 The staged migration is recorded in
 [ADR-008](../docs/decisions/ADR-008-software-source-layout.md).
+
+
+## Local ActsExamples build and jobs
+
+`make software` configures a clean ACTS build under `build/acts`, adding local
+extensions through CMake's project hook. It creates `build/pyvenv` with the active
+Spack Python interpreter. Generator dependencies follow the ACTS submodule's
+requirements and its local codegen package; Python-only test/analysis tools are
+recorded in a resolved build-local lock. Compiled dependencies remain in Spack.
+A matching bootstrap fingerprint avoids repeated installation. `PYTHON`,
+`BUILD_DIR`, `ACTS_BUILD_DIR`, `JOBS` and `CMAKE_ARGS` provide local overrides.
+
+`make software-test` runs path guards, sensitive-surface controls, full tracker
+Gen3 construction and a Geant4 material-recording smoke job. `make geometry`
+executes128 deterministic straight tracks, `make analysis` compares its saved
+surfaces with native DD4hep, and `make material` records8 geantino tracks.
+`make all` builds detector and software; `make test` exercises both. Generated
+outputs are kept under `build/jobs`. `make install` uses `build/installed` rather
+than modifying the existing acts-nodd installation.
+
+The algorithms retain ActsExamples framework interfaces. ACTS adapters live in
+`source/ActsExamples`; Python job entry points live in `running`; the independent
+geometry audit lives in `analysis` with a compatibility link from its old tools
+path. Imported source notices and provenance are recorded in `source/NOTICE.md`.
