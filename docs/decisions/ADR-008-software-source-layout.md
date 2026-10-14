@@ -30,9 +30,10 @@ DD4hep/DDG4 Python imports; the older node registry fingerprints are stale.
 The new doctor command records the current fingerprints without editing that
 shared installation. No additional node is implied to work.
 
-IdRes has a recorded pin but no publishable clone URL in the intake record.
-Its submodule registration awaits the user's URL; unrelated stages can proceed.
-The existing optional source-access/redistribution limitations remain recorded.
+The user supplied the CERN GitLab IdRes fork on 2026-10-14 and explicitly
+requested using it. It contains the existing recorded revision d54d0e3c.
+Clone access was verified with the current user's authorization; anonymous access
+and redistribution remain separate from using a source-reference gitlink.
 
 Validation must exercise detector exports/build, source identities, Gen3
 conversion/navigation, Geant4 material recording and prepared calorimeter/EDM4hep
