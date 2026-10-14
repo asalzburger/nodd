@@ -108,3 +108,18 @@ preserved under build/legacy-generated-headers after correcting the local helper
 The user-provided IdRes fork is pinned at the original d54d0e3c state in PR77.
 Its dedicated paired session record retains the clean build and22x729-row run
 checks. Downstream branches receive that addition via ordinary merges.
+
+## External glue and current node verification
+
+The remaining IdRes adapter and nodehammer native-build/display glue are owned
+under software/source/externals, with compatibility links at the former tools
+paths.17 boundary controls passed after relocation. The optional native
+nodehammer build also completed against the current Spack runtime:602/602
+upstream tests passed in24.04s, and its source submodule remained clean.
+
+The repository node registry now records the reverified current setup/lock
+fingerprints, DD4hep1.38 and Geant4 11.4.2 package hashes. Its preflight returns
+prerequisites-present with no warnings;5 node preflight unit tests pass. Geant4
+simulation capability is explicitly limited to the observed8-track material
+recording smoke. No shared installation or installed personal skill copy was
+changed. Previous verified snapshot evidence remains in Git history.

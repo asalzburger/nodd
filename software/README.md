@@ -78,3 +78,8 @@ These prototype algorithms and their existing limitations are retained. Moving
 them does not change detector response, calibrate a calorimeter, or grant a design
 review. Local options NODD_BUILD_CALORIMETER, NODD_BUILD_CALORIMETER_JETS and
 NODD_BUILD_CALORIMETER_EDM4HEP can be overridden at software configuration time.
+
+
+`source/externals` owns the retained IdRes adapter and nodehammer build/display
+glue. Their legacy tools entry points are compatibility links; no duplicate
+source or generated code is maintained in the dependency submodules.

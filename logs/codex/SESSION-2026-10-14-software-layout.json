@@ -10,7 +10,6 @@
   "completeness": "partial",
   "limitations": [
     "Exact client per-turn token counters are unavailable; usage remains empty.",
-    "IdRes clone URL requested from the user; its recorded commit pin is retained.",
     "Spack setup/lock fingerprints differ from the old skill registry; current imports, packages and datasets reverified."
   ],
   "client": {
@@ -31,6 +30,7 @@
       "docs/decisions/ADR-008-software-source-layout.md",
       "logs/codex/SESSION-2026-10-14-software-layout.json",
       "logs/codex/SESSION-2026-10-14-software-layout.md",
+      "skills/acts-spack/references/nodes.json",
       "software/Makefile",
       "software/README.md",
       "software/analysis/Makefile",
@@ -64,12 +64,26 @@
       "software/source/Makefile",
       "software/source/NOTICE.md",
       "software/source/detectors/README.md",
+      "software/source/externals/IdRes/idres_adapter.py",
+      "software/source/externals/Makefile",
+      "software/source/externals/README.md",
+      "software/source/externals/nodehammer/README.md",
+      "software/source/externals/nodehammer/build.py",
+      "software/source/externals/nodehammer/conan.lock",
+      "software/source/externals/nodehammer/prepare.py",
+      "software/source/externals/nodehammer/test_prepare.py",
+      "software/source/externals/nodehammer/test_rescale.py",
+      "software/source/externals/nodehammer/upstream.json",
       "software/submodules/Makefile",
       "software/submodules/OpenDataDetector",
       "software/submodules/acts",
       "software/submodules/nodehammer",
+      "tools/nodehammer",
+      "tools/nodehammer/README.md",
       "tools/nodehammer/build.py",
-      "tools/tracker_dd4hep/check_gen3.py"
+      "tools/nodehammer/prepare.py",
+      "tools/tracker_dd4hep/check_gen3.py",
+      "tools/tracker_layout/idres_adapter.py"
     ]
   },
   "work": {
@@ -200,6 +214,24 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "Synthetic pipeline passed; input/output ROOT files each contain3 event entries and1 metadata entry."
+    },
+    {
+      "command": "make nodehammer against the current Spack runtime",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Native viewer/importer built;602/602 upstream CTest checks passed in24.04s. Source submodule clean."
+    },
+    {
+      "command": "Relocated external tool glue boundary tests",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "13 nodehammer and4 IdRes checks passed through legacy compatibility entry points."
+    },
+    {
+      "command": "Repository ACTS Spack preflight and unit checks",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Refreshed current node fingerprints/package records; preflight has no warnings and5 tests pass."
     }
   ]
 }

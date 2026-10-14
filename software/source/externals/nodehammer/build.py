@@ -9,7 +9,7 @@ from pathlib import Path
 import shutil
 import subprocess
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[4]
 
 
 def run(*args, **kwargs):

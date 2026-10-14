@@ -8,16 +8,16 @@ import/round-trip audits. The instructions below retain the barrel-only defaults
 
 Nodehammer is useful for interactive geometry selection, cutaways and sharing a
 portable pixel-barrel scene. Use it alongside DD4hep `geoDisplay` and the
-[geometry validation](../../detector/README.md), whose physics checks remain
+[geometry validation](../../../../detector/README.md), whose physics checks remain
 authoritative. This workflow changes no detector dimensions or materials.
 
-The [assessment](../../docs/validation/nodehammer/results.md) records the tested
+The [assessment](../../../../docs/validation/nodehammer/results.md) records the tested
 revision, screenshots and limitations. The input remains the **PROTOTYPE** of
-[DES-012](../../docs/design/DES-012-dd4hep-pixel-barrels.md).
+[DES-012](../../../../docs/design/DES-012-dd4hep-pixel-barrels.md).
 
 ## Build once
 
-Use the [ACTS Spack skill](../../skills/acts-spack/SKILL.md) and run its preflight
+Use the [ACTS Spack skill](../../../../skills/acts-spack/SKILL.md) and run its preflight
 before relying on local libraries. Activate ROOT/DD4hep in the same shell used
 for these commands. On the current Mac:
 
@@ -52,7 +52,7 @@ No nodehammer dependency is added to the detector factory or normal CMake build.
 
 ## Refresh after detector updates
 
-First rebuild/export the current compact using the [detector instructions](../../detector/README.md).
+First rebuild/export the current compact using the [detector instructions](../../../../detector/README.md).
 Then, in the activated shell:
 
 ```sh

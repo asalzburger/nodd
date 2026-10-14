@@ -67,3 +67,17 @@ material. It does not construct nODD or transport events. CMake emitted develope
 policy warnings and a CLHEP directory mismatch; the view and original
 `CLHEPConfig.cmake` resolve to the same file. No warning suppression or shared
 installation modification was needed. Keep build results out of the skill folder.
+
+
+## Verification refresh, 2026-10-14
+
+The software-layout migration reverified the same node and existing CI Spack
+environment after setup/lock fingerprints changed. The current registry records
+DD4hep1.38 and Geant4 11.4.2;12 datasets and DD4hep/DDG4 imports pass. Standalone
+nODD factories, native/Gen3 comparison, an8-track Geant4 material-recording smoke
+and a native nodehammer build were exercised. The simulation observation is a
+smoke test, not a detector-response/performance certification. The installed
+personal skill copy is independent; this refresh changes repository records only.
+See logs/codex/SESSION-2026-10-14-software-layout.md from the repository root for
+commands, stage revisions and exact check scopes. The older dated results above
+remain historical evidence; shared dependencies were not modified.

@@ -33,7 +33,7 @@ detector:
 detector-test: detector
 	"$(ENV_RUN)" ctest --test-dir "$(BUILD_DIR)/dd4hep" --output-on-failure -j $(JOBS)
 nodehammer:
-	"$(ENV_RUN)" python3 "$(NODD_ROOT)/tools/nodehammer/build.py" --source "$(NODD_ROOT)/software/submodules/nodehammer" --build "$(BUILD_DIR)/nodehammer" --jobs $(JOBS)
+	"$(ENV_RUN)" python3 "$(NODD_ROOT)/software/source/externals/nodehammer/build.py" --source "$(NODD_ROOT)/software/submodules/nodehammer" --build "$(BUILD_DIR)/nodehammer" --jobs $(JOBS)
 idres:
 	"$(ENV_RUN)" python3 "$(NODD_ROOT)/software/env/build_idres.py" --source "$(NODD_ROOT)/software/submodules/IdRes" --build "$(BUILD_DIR)/idres" --jobs $(JOBS)
 check:
@@ -95,4 +95,4 @@ calorimeter-analysis:
 
 .PHONY: idres-run
 idres-run: idres
-	"$(ENV_RUN)" python3 -B "$(NODD_ROOT)/tools/tracker_layout/idres_adapter.py" --configuration "$(NODD_ROOT)/docs/design/DES-006-layouts.json" --checkout "$(NODD_ROOT)/software/submodules/IdRes" --binary "$(BUILD_DIR)/idres/bin/idres" --work "$(BUILD_DIR)/idres/study" --output "$(BUILD_DIR)/idres/results.json"
+	"$(ENV_RUN)" python3 -B "$(NODD_ROOT)/software/source/externals/IdRes/idres_adapter.py" --configuration "$(NODD_ROOT)/docs/design/DES-006-layouts.json" --checkout "$(NODD_ROOT)/software/submodules/IdRes" --binary "$(BUILD_DIR)/idres/bin/idres" --work "$(BUILD_DIR)/idres/study" --output "$(BUILD_DIR)/idres/results.json"
