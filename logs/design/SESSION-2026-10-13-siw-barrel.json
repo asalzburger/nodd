@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-13-siw-barrel",
+  "title": "Detailed SiW barrel prototype following wedge endcaps",
+  "recorded_at": "2026-10-13T09:56:30Z",
+  "started_at": null,
+  "ended_at": null,
+  "status": "open",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact current root/child per-turn counters and client thread/version are not exposed; usage remains unknown.",
+    "Native runtime preflight reports changed setup/lock fingerprints; installed DD4hep1.38/ROOT6.40.04/Geant411.4.2 imports and datasets were actually reverified. No dependency installation.",
+    "Task is in progress. Initial phase brings PR70 to merged PR69/main before the dedicated barrel branch. No design sign-off inferred."
+  ],
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "5664d16aea2df36222dc0099ba18594cf506304d",
+    "branch": "codex/calorimeter-edge-sensors",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      "project/tracking.json",
+      "reference/manifest.yaml",
+      "logs/design/SESSION-2026-10-13-siw-barrel.json",
+      "logs/design/SESSION-2026-10-13-siw-barrel.md"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "SiW barrel prototype",
+      "dependent endcap baseline"
+    ],
+    "related_ids": [
+      "DES-029",
+      "DES-030",
+      "PR-70"
+    ]
+  },
+  "narrative": "logs/design/SESSION-2026-10-13-siw-barrel.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 -B skills/acts-spack/scripts/preflight.py",
+      "status": "FAIL",
+      "exit_code": 2,
+      "result": "Changed setup/lockfile fingerprints; warning reported, installed runtime then actually reverified in fresh shell."
+    },
+    {
+      "command": "Fresh setup_spack activation, package/runtime imports and geant4-config --check-datasets",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Installed DD4hep1.38,ROOT6.40.04,Geant411.4.2 imports and all listed datasets verified; no installs or full-source staging."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/calorimeter_hardware -p 'test_*.py'",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "22 inherited hardware/endcap controls passed after ordinary main integration."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "64 tasks,37 documents,21 review rounds validated after parent integration."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "181 paired records validated; current usage unknown."
+    },
+    {
+      "command": "git diff --cached --check origin/main",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "PR70 diff against main whitespace check passes."
+    }
+  ]
+}
