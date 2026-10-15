@@ -165,7 +165,21 @@ fresh-output and verified `--plot-only` commands. Initial probe/output artifacts
 were preserved in the task scratch directory before the final producer rerun;
 only the final matched producer and artifacts are delivered here.
 
-The remaining reviewer requests for field-dependent tracking, response,
-digitization, reconstruction and engineering qualification remain separate
-work. Finite native rays and a passing software consistency check do not close
+Field-dependent tracking, response, digitization, reconstruction and
+engineering qualification remain separate validation work. Finite native rays and a passing software consistency check do not close
 them or authorize detector design acceptance.
+
+## Independent scientific consistency assessment
+
+PhysVal reviewed `fbed1779adef22f659152200b9c35d84f2c22d71` in a separate agent
+context. No actionable findings were returned. In addition to the six unit
+controls, the assessment verified producer/archive/ideal-input hashes and all
+8,448 rows for count identities, ideal eligibility, stack/path reintegration
+and analytic beam-wall length. An independent finite oriented-box intersection
+calculation against all45,646 sensitive elements for262selected rays found
+zero differences in crossings, pair/orphan/station/hole/extra counts or missing
+IDs. It covered every two-hole ray, eta=0 phase controls, the maximum-material
+ray and a distributed deterministic sample. Inspected figures matched the
+reviewed commit. This separate assessment checked retained data and independent
+intersections; it did not repeat native ROOT navigation and is not human
+scientific acceptance or material-model qualification.

@@ -1,0 +1,137 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-15-issue38-validation",
+  "title": "Issue 38 tracker coverage and material review responses",
+  "recorded_at": "2026-10-15T11:20:11Z",
+  "started_at": null,
+  "ended_at": null,
+  "status": "open",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact client per-turn and child-agent token counters unavailable; usage empty means unknown, not zero.",
+    "Finite B=0 rays are geometric characterization, not continuous acceptance, reconstructed hits or material-model/engineering qualification."
+  ],
+  "client": {
+    "name": "unspecified",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "5b4e5d9e563505aea17e9b792458708c3175ec4a",
+    "branch": "codex/issue38-validation-review",
+    "initial_changes": [],
+    "result_commits": [
+      "fbed1779adef22f659152200b9c35d84f2c22d71"
+    ],
+    "changed_files": [
+      ".github/workflows/validation.yml",
+      "docs/validation/issue38-review/coverage.png",
+      "docs/validation/issue38-review/material.png",
+      "docs/validation/issue38-review/rays.json.gz",
+      "docs/validation/issue38-review/results.md",
+      "docs/validation/issue38-review/summary.json",
+      "logs/codex/SESSION-2026-10-15-issue38-validation.json",
+      "logs/codex/SESSION-2026-10-15-issue38-validation.md",
+      "project/tracking.json",
+      "tools/issue38_validation/README.md",
+      "tools/issue38_validation/scan.py",
+      "tools/issue38_validation/test_scan.py"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [
+      "tracker",
+      "native validation",
+      "review response"
+    ],
+    "related_ids": [
+      "issue-38",
+      "DES-019",
+      "DES-020",
+      "DES-021",
+      "DES-022",
+      "DES-023",
+      "DES-025"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-15-issue38-validation.md",
+  "activities": [
+    {
+      "kind": "skill",
+      "name": "nodd-coordinate",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Instructions read and applied; explicit assignments/checks curated in narrative."
+    },
+    {
+      "kind": "skill",
+      "name": "nodd-design-evidence",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Instructions read and applied; explicit assignments/checks curated in narrative."
+    },
+    {
+      "kind": "skill",
+      "name": "nodd-review-validation",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Instructions read and applied; explicit assignments/checks curated in narrative."
+    },
+    {
+      "kind": "skill",
+      "name": "acts-spack",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Instructions read and applied; explicit assignments/checks curated in narrative."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 -B -m unittest discover -s tools/issue38_validation -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "6counting/reference controls pass; included in hosted Project validation workflow."
+    },
+    {
+      "command": "Activated compatible DD4hep runtime; tools/issue38_validation/scan.py (exact arguments in results.md)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "7872main+576control rays;45646native sensitive patches matched; no invalid/zero steps. Pipe residual2.31e-13mm; stack7.11e-15; independent material-path reintegration7.99e-15. Repeated ray arrays exactly equal."
+    },
+    {
+      "command": "tools/issue38_validation/scan.py --plot-only; retained producer/archive hash checks",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Both plots regenerated and visually inspected; retained producer and compressed archive hashes match."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "66tasks,36documents,21review rounds validated after correcting task workstream/role mismatch."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "183session records validated before final closeout."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py validate; build --output _site/pages",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Historical210disjoint turns validate and site builds; no new observed usage counters."
+    }
+  ]
+}
