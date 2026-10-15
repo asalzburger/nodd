@@ -136,3 +136,13 @@ The per-layer full-face denominator is the entire 300…4148 mm polygon annulus,
 including frames, seams and packing losses. A separate packable denominator is
 310…4128 mm. The common carrier itself has only 72 × 29.7² / (380 × 240) ≈ 69.64%
 core area. Rotating layers changes directional sampling, not that area ceiling.
+
+
+The source-bound regional drawing uses an existing Matplotlib environment:
+
+```sh
+python3 -B tools/hcal_endcap/draw.py --directory build/hcal-endcap --output docs/design/figures/DES-038
+```
+
+Its SVG/PNG and input hashes accompany DES038; they are design illustrations,
+not native detector renders.

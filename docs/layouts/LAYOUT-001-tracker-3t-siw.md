@@ -29,3 +29,15 @@ implied.
 
 Reproduce with `python3 -B tools/layout_overview/draw.py`; use `--check` to verify
 that the SVG matches its inputs. The JSON also records the optional PNG command.
+
+
+## Open HCAL endcap design proposal
+
+[DES038](../design/DES-038-hcal-endcap-common-module.md) uses the common
+readout module from [PR81](https://github.com/asalzburger/nodd/pull/81) as its
+working basis. It proposes a 1.558 m HCAL stack,62.1 mm beyond the outline above,
+with regional packing, partial material/services budgets and core-plane masks.
+Its [regional R–Z drawing](../design/figures/DES-038/endcap-design.png) shows
+the amendment separately. The selected candidate inputs and existing R–Z image
+remain unchanged pending review. This is an open DRAFT assembly proposal; residual
+cracks, forward handover and engineering qualification remain unresolved.
