@@ -161,7 +161,9 @@ def endcap(d):
         d.text(x+13, 127, title, 11, True)
         y = 233-lift
         d.box(x, y, 112, 24, SI); d.text(x+9, y+16, "Module body", 9)
-        for h, fill in [(5, GLUE), (5, FLEX), (5, GRAPHITE), (9, CARBON), (14, GRAPHITE)]:
+        # From module toward plate: bond, TIM, insulation, graphite, cradle.
+        # trimmed_export.py builds the reverse order from the plate outward.
+        for h, fill in [(5, GLUE), (5, GLUE), (5, FLEX), (14, GRAPHITE), (9, CARBON)]:
             d.box(x, y+24, 112, h, fill); y += h
         if lift:
             d.box(x+41, y+24, 30, lift, GRAPHITE)
@@ -183,7 +185,7 @@ def endcap(d):
         d.line([(x0,y0), (x1,y1)], CARBON, 8)
         d.circle(x1,y1,5,None,OPEN,True)
         d.text(x1+(10 if a != 210 else -46), y1+3, label, 10, ink=OPEN)
-    d.text(475, 124, "Full annular sandwich r = 27..188.5 mm", 10)
+    d.text(475, 124, "Standalone DES019 plate r = 27..188.5 mm", 10)
     d.text(475, 385, "Tongues: 10 mm wide, r = 186..228 mm; angles 90/210/330 deg.\nRails: 8 x 8 mm boxes, wall 0.4 mm, on closed CFRP shell.\nCone/slot/plane is a proposed 6-constraint kinematic coupling.", 9)
     d.card(30, 444, 840, 144, "C. Load transfer beyond the disc")
     d.flow(48, 485, ["Module cradle /\ngraphite foot", "Common disc\nsandwich", "Three radial\ntongues", "Three box rails\n+ closed shell", "End flanges /\nexternal support"], 804)
@@ -236,7 +238,8 @@ def strips(d):
     d.box(55,140,159,18,SI);d.box(84,158,25,18,GRAPHITE);d.box(160,158,25,18,GRAPHITE)
     d.box(55,176,159,6,CARBON);d.box(55,182,159,26,FOAM);d.box(55,208,159,6,CARBON)
     d.box(179,214,10,31,CARBON);d.box(55,245,159,10,CARBON)
-    d.text(230,153,"Module -> pickups ->\nsandwich -> bare skin land\n-> 2 mm beveled web\n-> outer bearing ring",10)
+    d.arrow(44,225,44,144,CARBON);d.text(51,131,"Radially outward",8)
+    d.text(230,153,"Module -> pickups ->\nsandwich -> bare skin land\n-> 2 mm beveled web\n-> inner bearing ring",10)
     d.text(49,280,"9 stations. Centre fixes z; others slide/comply.\nRing/cage reaction and web joint need qualification.",10)
     # Long barrel sandwich with both faces.
     d.box(479,139,161,12,SI);d.box(516,151,39,13,GRAPHITE)
