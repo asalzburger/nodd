@@ -207,3 +207,27 @@ The coordinator compiles the replacement within a temporary copy of the pinned
 TDR and records the full build separately. Compilation and rendering do not
 grant engineering approval. No new thermal, structural FEA, pressure, electrical
 or mechanical qualification test is claimed.
+
+## Compiled review extract
+
+Start with the [18-page compiled review](review.pdf). The [compiler manifest](compile.json)
+records the exact overlay hashes, PDF hash and pinned offline compiler image.
+The complete extract was rendered and inspected; there are no overfull boxes
+or unresolved citations/references. One inherited underfull table-cell message
+remains, without clipping. This is a review artifact for this PR.
+
+Prepare the same extract from an accessible checkout containing the pinned TDR
+commit, without changing that checkout:
+
+```sh
+python3 -B tools/issue38_mechanics/build_review.py \
+  --tdr docs/tdr --output build/NEW-issue38-review
+cd build/NEW-issue38-review
+latexmk -pdf -file-line-error -halt-on-error -interaction=nonstopmode issue38-review.tex
+```
+
+Use the compiler image in `compile.json` when the host has no TeX installation.
+The preparation command refuses to overwrite an existing output directory.
+The strip insert has a page group around its final qualification paragraph;
+this last pagination-only edit follows the physical-interface review and does
+not change its scientific wording.

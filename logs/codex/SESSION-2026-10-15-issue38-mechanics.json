@@ -1,0 +1,136 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-15-issue38-mechanics",
+  "title": "Issue 38 mechanical and services review responses",
+  "recorded_at": "2026-10-15T11:20:11Z",
+  "started_at": null,
+  "ended_at": null,
+  "status": "open",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact client per-turn and child-agent token counters are unavailable; no estimates or duplicate observations added.",
+    "Mechanical/thermal/hydraulic/electrical qualification and human design sign-off are outside this editorial response."
+  ],
+  "client": {
+    "name": "unspecified",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "5b4e5d9e563505aea17e9b792458708c3175ec4a",
+    "branch": "codex/issue38-mechanics-review",
+    "initial_changes": [],
+    "result_commits": [
+      "b544717730a4d2df5d0bdbc7da251949ad756015",
+      "6f84c651a956af311c46c462b7ed9252f1ee27bc",
+      "a25ed830daf1c62c4a1248df967fab6fd135c40a"
+    ],
+    "changed_files": [
+      ".gitattributes",
+      "docs/publication/issue38-mechanics/README.md",
+      "docs/publication/issue38-mechanics/compile.json",
+      "docs/publication/issue38-mechanics/figures/mechanics.pdf",
+      "docs/publication/issue38-mechanics/figures/mechanics.png",
+      "docs/publication/issue38-mechanics/pixel-detector.tex",
+      "docs/publication/issue38-mechanics/review.pdf",
+      "docs/publication/issue38-mechanics/strip-mounting.tex",
+      "logs/codex/SESSION-2026-10-15-issue38-mechanics.json",
+      "logs/codex/SESSION-2026-10-15-issue38-mechanics.md",
+      "project/tracking.json",
+      "tools/issue38_mechanics/build_review.py",
+      "tools/issue38_mechanics/drawings.py"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [
+      "tracker",
+      "publication",
+      "review response"
+    ],
+    "related_ids": [
+      "issue-38",
+      "DES-012",
+      "DES-014",
+      "DES-019",
+      "DES-020",
+      "DES-021",
+      "DES-022",
+      "DES-023",
+      "DES-025"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-15-issue38-mechanics.md",
+  "activities": [
+    {
+      "kind": "skill",
+      "name": "nodd-coordinate",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Read and applied; bounded assignments and actual checks curated in narrative."
+    },
+    {
+      "kind": "skill",
+      "name": "nodd-design-evidence",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Read and applied; bounded assignments and actual checks curated in narrative."
+    },
+    {
+      "kind": "skill",
+      "name": "nodd-review-validation",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Read and applied; bounded assignments and actual checks curated in narrative."
+    },
+    {
+      "kind": "skill",
+      "name": "pdf",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Read and applied; bounded assignments and actual checks curated in narrative."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "Pinned offline Docker pdfLaTeX/latexmk compile and PDF render/inspection",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "18pages;0overfull boxes;0undefined references;1inherited underfull cell message without clipping; all pages inspected and final paragraph pagination verified."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/project_records -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "28tests passed."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "66tasks,36documents,21review rounds validated."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "183session records validated."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py validate; build --output _site/pages",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Historical210disjoint turns validated and site built; no new usage observations."
+    }
+  ]
+}
