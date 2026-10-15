@@ -29,7 +29,7 @@ The source manifest retains links and exact inspected locators. The actual H2GCR
 
 ## Common board and channel ownership
 
-**NODD DESIGN CHOICE:** use one 184 × 184 mm board with a 6 × 6 tile lattice at 30 mm pitch. Retain 29.7 × 29.7 × 3 mm scintillator cores and 0.1 mm reflector allowance. The wrapped tile field spans 179.9 mm, leaving 2.05 mm of PCB border per side. A named cylindrical effective recess of radius 3.5 mm and depth 0.9 mm accommodates the candidate SiPM and an adjacent LED envelope. The recess is a prototype optical-coupling hypothesis, not a manufactured dimple drawing. Preserve a nominal 0.26 mm SiPM-package offset so the active centre follows the tile centre; verify direction against the chosen package orientation.
+**NODD DESIGN CHOICE:** use one 184 × 184 mm board with a 6 × 6 tile lattice at 30 mm pitch. Retain 29.7 × 29.7 × 3 mm scintillator cores and 0.1 mm reflector allowance. The wrapped tile field spans 179.9 mm, leaving 2.05 mm of PCB border per side. A named cylindrical effective recess of radius 3.5 mm and depth 1.1 mm accommodates the candidate SiPM and an adjacent LED envelope. The recess is a prototype optical-coupling hypothesis, not a manufactured dimple drawing. Preserve a nominal 0.26 mm SiPM-package offset so the active centre follows the tile centre; verify direction against the chosen package orientation. The recess accommodates the nominal 0.85 mm height and the sourced 1.00 mm upper-height case anchored to the same board/solder plane; this is one bounded tolerance check, not a complete tolerance stack.
 
 Each module owns 36 tiles, SiPM packages, adjacent calibration LEDs, a PCB, one front-end envelope, thermal contact and local support-electronics allowance. It has one H2GCROC-class chip: 36 ordinary inputs connected, 36 ordinary inputs unconnected, six auxiliary channels. Budget all 78 channels as powered; disabling savings are not assumed. Physical tiles map to module-local addresses independently of carrier placement. A 6 × 12 alternative would use all 72 ordinary inputs, but doubles one board dimension and constrains packing. The compact first module deliberately retains that utilization cost.
 
@@ -41,7 +41,7 @@ All dimensions in this section are **NODD DESIGN CHOICE — unsigned fixture par
 | --- | --- |
 | 0–0.2 | Aluminium front skin, carrier |
 | 0.4–3.6 | Wrapped tile; active core 0.5–3.5, module |
-| 2.6–3.5 | Effective rear recess cut in scintillator; opening continues through rear reflector |
+| 2.4–3.5 | Effective rear recess cut in scintillator; opening continues through rear reflector |
 | 2.70–3.55 | Nominal SiPM package; 0.15 mm solder-equivalent contact reaches PCB at 3.70 |
 | 3.10–3.70 | Adjacent 1 × 1 × 0.6 mm LED envelope in the common recess, module |
 | 3.70–4.90 | 1.2 mm PCB with 0.105 mm explicit equivalent copper, module/shared-interface board |
@@ -76,3 +76,24 @@ The isolated code must provide deterministic material/compact and inventory expo
 Require analytic/native agreement on dimensions, constituent masses, tile counts and all identifier/cell round trips, plus native overlaps at the existing 1e−5 mm tolerance. Trace both tile centres and the board/service seams; include a seeded saved-hit muon check for the standalone fixture. Test negative controls for invalid channel roles, hidden power-pulsing, inadequate memory, invalid mixtures, module/connector overlap, wrapper clearance, duplicated shared parts and blocked cooling handoffs. Inspect the generated face/section drawing. ACTS conversion is not applicable to this local calorimeter module.
 
 Independent review must distinguish these checks from radiation, thermal/hydraulic, fabrication, sustained readout and shower-response qualification. All remain future gates. Human review and sign-off of exact dimensions and operating choices are pending; this prototype begins the common-module work without accepting the full HCAL.
+
+## First prototype budgets and evidence
+
+These values are **INFERENCE from the explicit unsigned inventory and planning scenarios**. The reference steel patch is excluded from board/carrier totals.
+
+| Quantity | Result | Interpretation |
+| --- | ---: | --- |
+| One common board | 36 tiles / 207.355 g | 184 mm square PCB and one front-end envelope |
+| Paired carrier | 72 tiles / 156 powered channels | Two identical 78-channel allocations; 72 unused ordinary inputs and 12 auxiliary inputs |
+| Shared carrier / complete paired unit | 2.603 kg / 3.018 kg | Dominated by the proposed 3 mm copper plate; no lightweight optimum or stiffness qualification claimed |
+| Nominal heat / ideal water flow | 5.939 W / 0.2842 g/s | 2 µA/SiPM and 5 K water rise; excludes bias-regulator loss |
+| 100 µA / 1 mA current stress | 6.236 W / 8.957 W | Conditional current inputs, not end-of-life predictions |
+| Shared-interface saving | 2.222 W input | Comparison with two separate 2 W interface allowances under the same efficiency |
+| DAQ screen at 750 kHz / 1 MHz | 93.75% / 125% utilization | The overload remains visible; chip-lane sum is not qualified carrier egress or queue performance |
+| Ideal latency margin | 12 samples / 300 ns | Arithmetic only |
+
+The [tool guide](../../tools/hcal_readout/README.md) reproduces the exporter, controls and isolated native factory. [Executed evidence](../validation/DES-036/results.md) records the source/config/library identities, actual native checks and saved-hit smoke scope. Optical coupling, component selection, EOL behavior and sustained electronics/engineering validation remain open.
+
+![Common board, shared carrier and physical sections](figures/DES-036/common-module.png)
+
+[Vector drawing](figures/DES-036/common-module.svg). The two cooling branches terminate at four declared external handoffs. Board removal in +z requires disconnecting those handoffs and removing the rear cover/common plate and thermal contacts first; independent board extraction with the plate installed is not claimed.
