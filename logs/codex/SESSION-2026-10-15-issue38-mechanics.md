@@ -116,7 +116,7 @@ already cached repository-pinned TeX image verified. No software was installed.
 
 ## Specialist handoff and correction review
 
-MECH-PUBDOC authored against parent5b4e5d9 and TDR7625cf6 using explicit PubDoc
+MECH-PUBDOC authored against parent 5b4e5d9 and TDR 7625cf6 using explicit PubDoc
 mandate (generic child `/root/pubdoc`). All ten requested point responses, source
 hash audit, stiffness requirement derivation and four schematic pages delivered.
 Actual checks: syntax, LaTeX environments/labels, source hashes, historic beam
@@ -142,7 +142,7 @@ are delivered. SysArch verified all three corrections at6f84c65 with no remainin
 actionable factual finding; later changes only keep the qualification paragraph
 together on the page. The final PDF was rendered and inspected, with zero
 overfull/unresolved-reference warnings and one inherited benign underfull cell.
-28project-record tests pass. Project records,183session records and token-site
+28 project-record tests pass. Project records,183 session records and token-site
 validation/build pass. The complete diff uses binary PDF attributes to avoid
 misidentifying valid PDF xref padding as source whitespace. The exact original
 failed sandbox GitHub read and the initial missing-deliverable validation were
@@ -153,3 +153,20 @@ formal sign-off states are preserved. The editable overlay is for PR review;
 Overleaf publication remains a deliberate subsequent human editorial action.
 Usage summary was executed: historical project observations remain separate;
 this task has no newly observed input/output counters, so its totals are unknown.
+
+## External delivery and closeout
+
+Opened [PR #82](https://github.com/asalzburger/nodd/pull/82) and attached it
+to the user chat. Posted the requested
+[reviewer reply](https://github.com/asalzburger/nodd/issues/38#issuecomment-6191131921).
+Issue #38 remains open for reviewer assessment and engineering questions; no PR
+was merged and no TDR publication was performed. Both PRs were mergeable at the
+initial snapshot. Hosted token-site checks passed; full Project validation was
+still running then. Local required checks passed; the final user report will
+identify any later hosted outcome separately.
+
+The final usage summary contains historical observed input 620,754,236 and
+output 3,545,169 tokens across 210 dated/disjoint recorded turns. These are project
+history, not this task's usage. This new session and specialist turns have no
+available exact per-turn counters; input/output totals for this work remain
+unknown, with `usage` empty.
