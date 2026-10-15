@@ -130,11 +130,11 @@ step, project tracking and session closeout files. Geometry inputs remain fixed.
 ## Specialist outcomes and independent assessment
 
 VAL-SOFTENG (/root/softeng, explicit SoftEng mandate) re-verified changed Spack
-fingerprints with actual DD4hep/DDG4 imports and12Geant4datasets. Existing
+fingerprints with actual DD4hep/DDG4 imports and12 Geant4datasets. Existing
 DD4hep1.38/Geant4 11.4.2/ROOT6.40.04/Python3.14.5 environment used; fresh compact
-is byte-identical and factory sources match the separate clean530080c build
+is byte-identical and factory sources match the separate clean 530080c build
 source. Libraries are independently hashed and unchanged. No shared install.
-The current producer ran7872main+576offset rays, with all45646native sensitive
+The current producer ran7,872 main+576 offset rays, with all 45,646 native sensitive
 transforms/bounds matching and successful material/pipe closure. Repeated full
 ray arrays are exactly identical. Figures, compressed per-ray archive and
 provenance are retained. Initial probe reference-key typo was corrected before
@@ -142,13 +142,13 @@ rays; its scratch output was preserved. A final plot legend correction moved
 the material legend outside data; native rerun kept producer hashes exact.
 
 VAL-PHYSVAL-DEFINITIONS (/root/physval) independently established station-ID
-set subtraction, same-module paired strip faces and active32.3..181.455mm pixel
+set subtraction, same-module paired strip faces and active 32.3..181.455mm pixel
 ideal annuli rather than service radii. Current disc datums remain explicitly
 distinct from historical coverage denominators.
 VAL-PHYSVAL-IMPLEMENTATION reviewed fixed
 fbed1779adef22f659152200b9c35d84f2c22d71: no actionable findings. It verified all
-8448ray count/ideal/material/pipe identities, source/archive hashes and an
-independent oriented-box oracle for262selected rays against45646sensitive
+8,448 ray count/ideal/material/pipe identities, source/archive hashes and an
+independent oriented-box oracle for262 selected rays against45,646 sensitive
 patches, with zero differences. It did not rerun ROOT navigation or grant human
 acceptance. Reviewer commands were read-only; no reviewer files changed.
 
@@ -156,17 +156,34 @@ acceptance. Reviewer commands were read-only; no reviewer files changed.
 
 Reviewer plots now exist: direct eta/phi maps and projections with patch,
 physical-sensor, logical-station and ideal/hole definitions, plus stacked native
-X/X0 and L/lambda_I versus eta. Holes average0.07622/max2; offset sampling exposes
-gaps missed by one grid. Maximum4.87848X0 is retained, dominated by represented
+X/X0 and L/lambda_I versus eta. Holes average 0.07622/max 2; offset sampling exposes
+gaps missed by one grid. Maximum 4.87848 X0 is retained, dominated by represented
 services. Finite x=y=0,z=−150/0/+150mm and B=0 sampling is not continuous luminous
 acceptance or tracking efficiency. No physical parameter tuning, new overlap or
 Geant4/ACTS reconstruction test is claimed. Native ROOT material closure does
 not validate physical recipes.
 
-Six unit controls pass and are wired into CI. Project records,183session records
+Six unit controls pass and are wired into CI. Project records,183 session records
 and token-site validation/build pass. An initial tracking role/workstream mismatch
 was corrected to WS-SOFT; early missing-deliverable validation happened before
 the author files existed and is not hidden as a scientific result. No tests,
 tolerances or acceptance criteria were weakened. Usage summary was executed;
 this task/children have no newly exposed input/output token observations. The
 historical project totals cannot be allocated to this task.
+
+## External delivery and closeout
+
+Opened [PR #83](https://github.com/asalzburger/nodd/pull/83) and attached it
+to the user chat. Posted the requested
+[reviewer reply](https://github.com/asalzburger/nodd/issues/38#issuecomment-6191132307).
+Issue #38 remains open for reviewer assessment and engineering questions; no PR
+was merged and no TDR publication was performed. Both PRs were mergeable at the
+initial snapshot. Hosted token-site checks passed; full Project validation was
+still running then. Local required checks passed; the final user report will
+identify any later hosted outcome separately.
+
+The final usage summary contains historical observed input 620,754,236 and
+output 3,545,169 tokens across 210 dated/disjoint recorded turns. These are project
+history, not this task's usage. This new session and specialist turns have no
+available exact per-turn counters; input/output totals for this work remain
+unknown, with `usage` empty.
