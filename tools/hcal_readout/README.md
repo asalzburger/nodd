@@ -13,7 +13,7 @@ From the repository root, using only the Python standard library:
 
 ```sh
 python3 -B tools/hcal_readout/export.py --output /private/tmp/nodd-hcal-readout
-python3 -B -m unittest discover -s tools/hcal_readout -p test_readout.py -v
+python3 -B -m unittest discover -s tools/hcal_readout -p 'test_*.py' -v
 ```
 
 `--no-absorber` removes the optional, once-only, sector-owned 30 mm steel
@@ -28,8 +28,25 @@ cmake --build /private/tmp/nodd-hcal-readout-build
 DD4hep 1.38 or later and the node-specific environment preflight are required for
 those CMake commands. The library/factory is `nODDHCALReadoutPrototype`; load it
 before loading `readout.xml`. No production CMake includes this directory.
-Native/transport checks are maintained by the coordinator in separate tools;
-the standard-library tests alone do not establish their success.
+With that verified environment active, the independent native audit and bounded
+saved-hit smoke runner are:
+
+```sh
+python3 -B tools/hcal_readout/native.py --compact /private/tmp/nodd-hcal-readout/readout.xml --expected /private/tmp/nodd-hcal-readout/expected.json --library /private/tmp/nodd-hcal-readout-build/libnODDHCALReadoutPrototype.dylib --output /private/tmp/nodd-hcal-readout/native.json
+python3 -B tools/hcal_readout/smoke.py --directory /private/tmp/nodd-hcal-readout --library /private/tmp/nodd-hcal-readout-build/libnODDHCALReadoutPrototype.dylib
+```
+
+Use `.so` for the library on Linux. Native results include actual Boolean shapes,
+materials, placement, IDs, overlap and coolant-bore navigation. The runner records
+each executed argv/exit status and hashes the XML, expected inventory, loaded
+library, DDSim, Python executable and runner, plus saved ROOT/log files.
+`transport.py` checks these identities against the passing native fixture,
+inspects the saved primary (PDG 13, momentum 10 GeV/c along +z), and requires
+finite positive hit energy and finite positions. Seed 42 and FTFP_BERT are checked
+against recorded execution arguments; they are not independently inferred from
+the hit data. The compact contains no field. This scope does not qualify detector
+response or rate performance. The standard-library tests alone do not establish
+native or transport success.
 
 ## Inventory and representation
 
