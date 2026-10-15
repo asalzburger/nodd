@@ -41,3 +41,5 @@ Its [regional R–Z drawing](../design/figures/DES-037/barrel-design.png) shows
 the amendment separately. The selected candidate inputs and existing R–Z image
 remain unchanged pending review. This is an open DRAFT assembly proposal; residual
 cracks, forward handover and engineering qualification remain unresolved.
+
+[Draft regional PR84](https://github.com/asalzburger/nodd/pull/84) · [Companion PR85](https://github.com/asalzburger/nodd/pull/85). Both depend on the common-module PR81.

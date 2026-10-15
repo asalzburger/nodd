@@ -147,7 +147,7 @@ Explicit role-prompt fallback; native profile loading unverified.
   ],
   "mode": "read-only",
   "writable_paths": [],
-  "task": "Review newdraft HCALbarrel design DES037 in /Users/salzburg/Documents/ChatGPT/agentic-detector/nodd-hcal-barrel and endcap DES038 atsecondaryfixedrevision516151c6e962d481efffde95eea9a9ab0f162098 in sibling /Users/salzburg/Documents/ChatGPT/agentic-detector/nodd-hcal-endcap. User takes DES036commonmodule asworkingbasis at14TeV andrequests separatePRs. Read actualfull primarybarrel HEAD from git if givenSHA doesnotexist andreportcorrection; no substitute neweruncommittedproposal. Checkdepthamend62.1mm(36*(30+12+1)+10=1558),mass/coverageprovenance,wholecarrierinsteadnarrowwedges endcap,alignedversusstagger controls,frames/IDs/servicereservation vsconnected claims,20mm endcaprowandcolumntrunks,apertureadaptiveoriginandstaggerrotations0/22.5/45/67.5deg withrotatedsteeljoints. Assessqualifiedcore-plane samplesatlocalz2(physical29.7rects,aheadofrecess) versusfinitevolume/response,steelpathscreenifreported,unchangedFCalnoncoverageeta4. No genericdemandfor finishedengineering outsideprototype; concrete bugs,math/semantic errors and necessary limitationcorrections only. Currentcompactdraftprose will beformattedlater, do notspendtime styleediting. Read sources beforeauthorconclusions. No files/runtime/delegation/publication. Later exact code review followsseparately. Return initialfindings withinabout5minutes.",
+  "task": "Review newdraft HCALbarrel design DES037 in <barrel-worktree> and endcap DES038 atsecondaryfixedrevision516151c6e962d481efffde95eea9a9ab0f162098 in sibling <endcap-worktree>. User takes DES036commonmodule asworkingbasis at14TeV andrequests separatePRs. Read actualfull primarybarrel HEAD from git if givenSHA doesnotexist andreportcorrection; no substitute neweruncommittedproposal. Checkdepthamend62.1mm(36*(30+12+1)+10=1558),mass/coverageprovenance,wholecarrierinsteadnarrowwedges endcap,alignedversusstagger controls,frames/IDs/servicereservation vsconnected claims,20mm endcaprowandcolumntrunks,apertureadaptiveoriginandstaggerrotations0/22.5/45/67.5deg withrotatedsteeljoints. Assessqualifiedcore-plane samplesatlocalz2(physical29.7rects,aheadofrecess) versusfinitevolume/response,steelpathscreenifreported,unchangedFCalnoncoverageeta4. No genericdemandfor finishedengineering outsideprototype; concrete bugs,math/semantic errors and necessary limitationcorrections only. Currentcompactdraftprose will beformattedlater, do notspendtime styleediting. Read sources beforeauthorconclusions. No files/runtime/delegation/publication. Later exact code review followsseparately. Return initialfindings withinabout5minutes.",
   "deliverable": "Independent bounded design/claim findings for bothregions with exactrevisions and locators; noapproval.",
   "completion": "Concrete actionablefindings orno findings within assignedscope; actualchecks/limitations explicit."
 }
@@ -166,7 +166,7 @@ Explicit role-prompt fallback; native profile loading unverified.
     "tools/hcal_barrel/test_design.py",
     "tools/hcal_readout/config.json"
   ],
-  "task": "Review completed analytical barrel/endcap HCAL design source at exact revisions: primarybarrelc83e6f4eaebdaa354217b79b963df15c6c3c0a96 in /Users/salzburg/Documents/ChatGPT/agentic-detector/nodd-hcal-barrel; secondaryendcap7c7f0ba96b69dd754d6e25bd97cef4cfe502bcae in siblingnodd-hcal-endcap. Inspect source via gitshow/pinnedworkingbytes beforeauthorreports. Assess counts,sharedmaterialmass/steelownership,channelpowerstress/DAQscale,cornerandaperturecontainment,frame/IDmasks andcomparisonclaims. Barrelfixretainsmaxcentredcounts acrossphasecontrols byboundingactualrequestedshift; reportsactualvsrequested. Core-plane samplesatlocalz2 are explicit; no fullsolid/recess/nativewholeassembly/showerclaims. Scalarsteellengthbarrelanalytical;endcapsteelpathNOTRUN. Checkactualcorelookup againstindependentdirectpoints/finiteframes, signedeta andpropernegativeend mirror. Rerunonlyappropriatestandardlibchecks; no native/runtime/dependencies. Main addingdrawings/reports/governance withsamecode, notyetpresent linksdonot bythemselvesconstitutescientificfinding. Report concretecorrectness/claim bugs andscope limits withinabout8minutes; noedits/delegation/publication/humansignoff.",
+  "task": "Review completed analytical barrel/endcap HCAL design source at exact revisions: primarybarrelc83e6f4eaebdaa354217b79b963df15c6c3c0a96 in <barrel-worktree>; secondaryendcap7c7f0ba96b69dd754d6e25bd97cef4cfe502bcae in siblingnodd-hcal-endcap. Inspect source via gitshow/pinnedworkingbytes beforeauthorreports. Assess counts,sharedmaterialmass/steelownership,channelpowerstress/DAQscale,cornerandaperturecontainment,frame/IDmasks andcomparisonclaims. Barrelfixretainsmaxcentredcounts acrossphasecontrols byboundingactualrequestedshift; reportsactualvsrequested. Core-plane samplesatlocalz2 are explicit; no fullsolid/recess/nativewholeassembly/showerclaims. Scalarsteellengthbarrelanalytical;endcapsteelpathNOTRUN. Checkactualcorelookup againstindependentdirectpoints/finiteframes, signedeta andpropernegativeend mirror. Rerunonlyappropriatestandardlibchecks; no native/runtime/dependencies. Main addingdrawings/reports/governance withsamecode, notyetpresent linksdonot bythemselvesconstitutescientificfinding. Report concretecorrectness/claim bugs andscope limits withinabout8minutes; noedits/delegation/publication/humansignoff.",
   "deliverable": "Exact-revision independent code/scientific findings for bothnewregionaldesigns andactual controls run.",
   "completion": "Actionable findings orno findings withprecise source/impact andreview limits; noengineeringapproval.",
   "input_revision": "c83e6f4eaebdaa354217b79b963df15c6c3c0a96",
@@ -188,7 +188,7 @@ Explicit role-prompt fallback; native profile loading unverified.
     "tools/hcal_readout/config.json",
     "docs/design/DES-034-siw-service-envelopes.md"
   ],
-  "task": "Read-only exactimplementationinterface review: barrelc83e6f4eaebdaa354217b79b963df15c6c3c0a96 in /Users/salzburg/Documents/ChatGPT/agentic-detector/nodd-hcal-barrel andendcap7c7f0ba96b69dd754d6e25bd97cef4cfe502bcae in siblingnodd-hcal-endcap. Inspect physicaldomain/clearance/serviceownershipsource againstyourpreviousenvelopecontract. BarrelAlrails/endflanges/backcover disjoint fromsectorsteel/carriers,depth1558,corner4239.46,emptyrowcollector20mm andmatchedphaseclamping. Endcapannularframes,steelquarterjoint20mm vsrowstripsdoNOTremovesteel,adaptiveaperturepacking no clipping,properport/originRx(pi)androtatedlayerjoints. Quantitativepartial mass anddefaultcollectoractualunconnected versus claimedfeasible mustbeconsistent. Fullnativeengineeringnotrequiredatdesignstage. Readsourceatcommit, notuncommittednewdrawings; report realbugs/semanticinterface issues,notgenericfuturework alreadyexplicit. Noedits/delegation/runtime/publication. About6minutes.",
+  "task": "Read-only exactimplementationinterface review: barrelc83e6f4eaebdaa354217b79b963df15c6c3c0a96 in <barrel-worktree> andendcap7c7f0ba96b69dd754d6e25bd97cef4cfe502bcae in siblingnodd-hcal-endcap. Inspect physicaldomain/clearance/serviceownershipsource againstyourpreviousenvelopecontract. BarrelAlrails/endflanges/backcover disjoint fromsectorsteel/carriers,depth1558,corner4239.46,emptyrowcollector20mm andmatchedphaseclamping. Endcapannularframes,steelquarterjoint20mm vsrowstripsdoNOTremovesteel,adaptiveaperturepacking no clipping,properport/originRx(pi)androtatedlayerjoints. Quantitativepartial mass anddefaultcollectoractualunconnected versus claimedfeasible mustbeconsistent. Fullnativeengineeringnotrequiredatdesignstage. Readsourceatcommit, notuncommittednewdrawings; report realbugs/semanticinterface issues,notgenericfuturework alreadyexplicit. Noedits/delegation/runtime/publication. About6minutes.",
   "deliverable": "Exact-revision physical/service interface findings forbothregionalproposals.",
   "completion": "Concrete defects orboundedno-findings withactualcheckscope; noengineeringorhumanapproval.",
   "input_revision": "c83e6f4eaebdaa354217b79b963df15c6c3c0a96",
@@ -210,3 +210,21 @@ and specialist usage remainunknown; these are partial project observations.
 
 Regional implementation/evidence is ready. Publication and final PRnumber/state
 will be appended after the actual create/attach/push operations.
+
+
+## Published regional PR
+
+Created [draft PR84](https://github.com/asalzburger/nodd/pull/84),
+“Calorimeter: design a barrel HCAL around the common readout module”, based on
+`codex/hcal-realism-assessment` (common-module PR81). Attached it to this task.
+Companion [PR85](https://github.com/asalzburger/nodd/pull/85) is a sibling,
+not included in this diff. Published design/evidence head`9141a49cddc554adbf72187aed0dc3ef8ca2d233`.
+GitHub reportedOPEN,draft,MERGEABLE,token-siteSUCCESS,deploySKIPPED andProject
+validationIN_PROGRESS at that snapshot. This is not final-head hosted acceptance.
+
+Tracking and candidateproposal links now record actualPR identifiers. The bounded
+regionaldesign task is complete; engineering/detectoracceptance remainsopen.
+Retarget regionalPRs to main afterPR81 merges, preserving bothindependent
+contributions. Record-only publicationcloseout is located by this journal's
+enclosingcommit. Local checkoutpaths inassignmenttext are normalized aliases;
+full prepared prompts remained in tasktemporaryfiles.
