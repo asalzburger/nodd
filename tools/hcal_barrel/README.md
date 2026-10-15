@@ -41,3 +41,13 @@ sector steel plates, distinct aluminium rails/end flanges/back cover. External
 collector/cable/plant material, fasteners, bearings and additional concentration
 losses are excluded explicitly. No tolerance stack, thermal/hydraulic, load,
 radiation, sustained-rate or engineering approval is implied.
+
+
+The source-bound regional drawing uses an existing Matplotlib environment:
+
+```sh
+python3 -B tools/hcal_barrel/draw.py --directory build/hcal-barrel --output docs/design/figures/DES-037
+```
+
+Its SVG/PNG and input hashes accompany DES037; they are design illustrations,
+not native detector renders.
