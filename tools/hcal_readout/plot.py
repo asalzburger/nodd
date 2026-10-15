@@ -117,6 +117,8 @@ def draw(expected_path, output):
     note.text(0, .95, text, va="top", fontsize=10, linespacing=1.5, color="#37453e")
     for suffix in ("svg", "png"):
         fig.savefig(output / ("common-module." + suffix), dpi=170, facecolor=fig.get_facecolor())
+    svg = output / "common-module.svg"
+    svg.write_text("\n".join(line.rstrip() for line in svg.read_text().splitlines()) + "\n")
     plt.close(fig)
     (output / "inputs.json").write_text(json.dumps({"expected_sha256": hashlib.sha256(expected_path.read_bytes()).hexdigest(),
                                                   "producer_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
