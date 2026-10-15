@@ -60,3 +60,10 @@ Project token observations remain620,754,236 input and3,545,169 output across210
 recorded turns (624,299,405 total). There are185 session records,67 without usage;
 this publication task is one of the unknown records. These partial project sums
 do not measure this task. No new counters are inferred.
+
+
+The publication-record commit is `5ba13c314eed769eeb00909ae620cfc7252e82c8`.
+Its first push failed with exit128 because sandboxed SSH could not resolve
+GitHub. Retrying the same push with approved network access succeeded, exit0.
+This final journal correction preserves the transient failure and remedy;
+its enclosing commit makes no scientific change.
