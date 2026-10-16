@@ -49,3 +49,13 @@ checks/publication follow.
 ## Token accounting
 
 Exact root/child per-turn counters unavailable; usage is unknown, not zero.
+
+## Published response
+
+Published source/evidence commit 679774e16b94e211652358e59dd67bcb634745ba and updated PR86's description.
+Posted the [reviewer response](https://github.com/asalzburger/nodd/pull/86#issuecomment-6211025997)
+with 3m/5m comparison, target distinction, material assumptions and the1T/1.4T
+candidate comparisons. C2independent physics review passed with exact file hashes
+in compact-span/review.json. Numerical controls,33document/session tests and
+project/session validation passed. GitHubCI is running; no pass is claimed for
+the new revision. No source/field topology adopted and no human sign-off inferred.
