@@ -29,3 +29,15 @@ implied.
 
 Reproduce with `python3 -B tools/layout_overview/draw.py`; use `--check` to verify
 that the SVG matches its inputs. The JSON also records the optional PNG command.
+
+## Muon-system design input
+
+[MUON-001](../validation/MUON-001/results.md) combines this layout's pinned
+component inputs with the open common-module HCAL barrel/endcap proposals
+([PR81](https://github.com/asalzburger/nodd/pull/81),
+[PR84](https://github.com/asalzburger/nodd/pull/84),
+[PR85](https://github.com/asalzburger/nodd/pull/85)) for an analytical muon reach
+and field-sizing study. It uses ATLAS MDT hit, fitted-chamber and alignment
+benchmarks. Its [magnetic-system handoff](../validation/MUON-001/results.md#magnetic-system-design-handoff)
+defines the starting comparisons for subsequent magnet design. The candidate
+R–Z view and installed-system status above are unaffected by this study.
