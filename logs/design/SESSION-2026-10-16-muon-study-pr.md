@@ -56,3 +56,10 @@ Attached the PR to the current chat. The layout feature page and project registe
 link it as input to subsequent magnetic-system design. Project validation and
 token-site GitHub CI were initially running; no remote pass is claimed here.
 This closes the PR-publication task, with no merge or design sign-off performed.
+
+PR metadata check caught DES004 listed as a PR document even though the muon
+task publishes MUON-001 rather than modifying the magnet task's DES004. Removed
+that PR-document association; the governing reference in the study is unchanged.
+PR collection time was normalized to the register's required UTC second
+precision. Final project validation passes with66tasks/36documents/21reviews;
+all186session pairs validate.
