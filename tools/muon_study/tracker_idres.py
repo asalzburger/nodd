@@ -8,6 +8,8 @@ parser.add_argument("--source",type=pathlib.Path,default=pathlib.Path(__file__).
 parser.add_argument("--idres",type=pathlib.Path,required=True)
 parser.add_argument("--idres-source",type=pathlib.Path,required=True)
 parser.add_argument("--output",type=pathlib.Path,required=True)
+parser.add_argument("--momenta",type=float,nargs='+',default=[3,5,10,20,50,100],
+                    help='Total momenta in GeV; pT is computed separately at each eta')
 args=parser.parse_args()
 SOURCE=args.source.resolve()
 TRACKER_REV='7c6d453fef12c3207b468c4fc99633fb393072a4'
@@ -15,7 +17,9 @@ LAYOUT_REV='5b4e5d9e563505aea17e9b792458708c3175ec4a'
 IDRES=args.idres.resolve()
 IDRES_SOURCE=args.idres_source.resolve()
 OUT=args.output.resolve();OUT.mkdir(parents=True,exist_ok=True)
-P_VALUES=[3,5,10,20,50,100]
+P_VALUES=args.momenta
+if any(not math.isfinite(p) or p <= 0 for p in P_VALUES):
+ parser.error('momenta must be finite and positive')
 read=lambda p: json.loads(subprocess.check_output(['git','-C',str(SOURCE),'show',TRACKER_REV+':'+p],text=True))
 sha=lambda p: hashlib.sha256(pathlib.Path(p).read_bytes()).hexdigest()
 layout_bytes=subprocess.check_output(['git','-C',str(SOURCE),'show',LAYOUT_REV+':docs/layouts/LAYOUT-001.json'])

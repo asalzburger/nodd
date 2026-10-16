@@ -25,6 +25,12 @@ scattering term raises the field to 1.35 T.
 An explicit target momentum and internal material distribution are necessary
 to turn these benchmarks into a magnet requirement.
 
+The [compact-span follow-up](compact-span/results.md) addresses the PR86 request
+for a 3 m span and 10% combined resolution at 500 GeV. The central 3 T tracker
+proxy gives 6.75% there; the combined target alone does not determine a positive
+minimum muon field. As an additional standalone benchmark, 3 m and about 0.86 T
+give 10% at local 500 GeV, while 1 T gives an ideal combined estimate of 5.31%.
+
 ## Pinned component inputs and evidence
 
 | Input | Revision / status |

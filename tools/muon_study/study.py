@@ -28,6 +28,9 @@ STATION_SIGMA_M = math.hypot(MDT_CHAMBER_SIGMA_M, ALIGNMENT_SIGMA_M)
 
 def interpolate(rows, kinetic):
     xs = [r[0] for r in rows]
+    if kinetic > xs[-1]:
+        raise ValueError(f'Kinetic energy {kinetic:g} GeV exceeds retained PDG limit '
+                         f'{xs[-1]:g} GeV; obtain sourced rows before extending transport')
     i = max(0, min(len(rows)-2, bisect.bisect_right(xs, kinetic)-1))
     f = (math.log(max(kinetic, xs[0]))-math.log(xs[i])) / math.log(xs[i+1]/xs[i])
     return rows[i][1] + f*(rows[i+1][1]-rows[i][1])
