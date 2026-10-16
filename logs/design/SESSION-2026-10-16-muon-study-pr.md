@@ -47,3 +47,12 @@ while preserving original archived bytes in gzip.
 Stable post-merge checks completed:28project-record tests pass,33session-log tests
 pass,66tasks/36documents/21reviews validate and186session pairs validate.
 Whitespace check against main passes. Publication follows these checks.
+
+## Published outcome
+
+Created [PR86](https://github.com/asalzburger/nodd/pull/86), open and ready for
+review, at source/evidence head1f57d3c6d5fd2102c1133effb4a118800f942a60.
+Attached the PR to the current chat. The layout feature page and project register
+link it as input to subsequent magnetic-system design. Project validation and
+token-site GitHub CI were initially running; no remote pass is claimed here.
+This closes the PR-publication task, with no merge or design sign-off performed.

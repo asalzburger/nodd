@@ -1,6 +1,6 @@
 # LAYOUT-001 — Tracker + inner 3 T solenoid + Si–W ECAL
 
-**Current human-selected candidate · DRAFT / PROTOTYPE · updated 2026-10-14.**
+**Current human-selected candidate · DRAFT / PROTOTYPE · updated 2026-10-16.**
 The tracker is maintained on main. Open component proposals are included in this
 candidate for review; combined detector construction and engineering sign-off
 remain pending.
@@ -32,7 +32,8 @@ that the SVG matches its inputs. The JSON also records the optional PNG command.
 
 ## Muon-system design input
 
-[MUON-001](../validation/MUON-001/results.md) combines this layout's pinned
+[MUON-001](../validation/MUON-001/results.md), proposed in
+[PR86](https://github.com/asalzburger/nodd/pull/86), combines this layout's pinned
 component inputs with the open common-module HCAL barrel/endcap proposals
 ([PR81](https://github.com/asalzburger/nodd/pull/81),
 [PR84](https://github.com/asalzburger/nodd/pull/84),
