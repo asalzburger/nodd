@@ -169,6 +169,8 @@ def main():
         for ax in axes: ax.grid(alpha=.18,which='both')
         fig.savefig(OUT/'muon-reach-field.png',dpi=180)
         fig.savefig(OUT/'muon-reach-field.svg')
+        svg = OUT/'muon-reach-field.svg'
+        svg.write_text('\n'.join(line.rstrip() for line in svg.read_text().splitlines())+'\n')
 
 
 if __name__ == '__main__': main()

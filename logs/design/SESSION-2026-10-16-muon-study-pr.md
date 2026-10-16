@@ -34,3 +34,16 @@ PR82; ordinary integration and PR publication follow.
 ## Token accounting
 
 Exact per-turn root/child token counters unavailable; usage stays empty, not zero.
+
+Post-merge check notes: the coordinator merged while the project-record test
+fixtures were still copying live inputs; three tests read transient conflict
+markers. This was an execution-order error, not a validated scientific failure;
+rerun the suite after resolving the ordinary date conflict and preserving all
+66tasks. Also corrected a journal schema entry that incorrectly pairedPASS with
+a null exit code for the non-shell independent review; retain that review in
+pr-review.json and the narrative instead. Generated SVG whitespace was normalized
+while preserving original archived bytes in gzip.
+
+Stable post-merge checks completed:28project-record tests pass,33session-log tests
+pass,66tasks/36documents/21reviews validate and186session pairs validate.
+Whitespace check against main passes. Publication follows these checks.

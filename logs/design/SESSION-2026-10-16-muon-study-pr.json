@@ -156,7 +156,10 @@
       "tools/muon_study/study.py",
       "tools/muon_study/tracker_idres.py"
     ],
-    "result_commits": [],
+    "result_commits": [
+      "b23a2c41330827572f66a450222e74717ccd305f",
+      "292b1eaac67d3697799b95b4ba58348fe070c0fd"
+    ],
     "changed_files": [
       ".github/workflows/validation.yml",
       ".gitignore",
@@ -170,7 +173,8 @@
       "tools/muon_study/hcal_material.py",
       "project/tracking.json",
       "logs/design/SESSION-2026-10-16-muon-study-pr.json",
-      "logs/design/SESSION-2026-10-16-muon-study-pr.md"
+      "logs/design/SESSION-2026-10-16-muon-study-pr.md",
+      "docs/validation/MUON-001/historical-180um/muon-reach-field.svg.gz"
     ]
   },
   "work": {
@@ -192,12 +196,6 @@
   "activities": [],
   "usage": [],
   "checks": [
-    {
-      "command": "PR1 independent PhysVal/SoftEng replay",
-      "status": "PASS",
-      "exit_code": null,
-      "result": "No blockers;72IdRes cases, HCAL3rays4native comparisons5controls, full retained transport/field replay."
-    },
     {
       "command": "python3 -B tools/muon_study/study.py",
       "status": "PASS",
@@ -233,6 +231,42 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "Existing geometry drawing deterministic and unchanged."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/project_records -p test_*.py -v",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "28tests ran;3errors because the coordinator merged main while fixtures were still copying project/tracking.json. Ordinary merge resolved; rerun on stable tree."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/project_records -p test_*.py -v (stable post-merge rerun)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "28tests pass in114.791s."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p test_*.py -v (post-merge)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "33tests pass."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate (post-merge)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "186session records valid."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py (post-merge)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "66tasks36documents21reviews."
+    },
+    {
+      "command": "git diff origin/main --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors after normalization; archived original SVG preserved in gzip."
     }
   ]
 }
