@@ -118,3 +118,10 @@ uniform0.20×0.30m; cold reservation~0.275745×0.402127m andwarm0.50×0.60m.
 Final fine transition grid has2051/2511clear rays, Bsag min0.896511T andworst
 500GeV standalone proxy8.79769%. This is a grid fraction/proxy, not efficiency
 or continuum coverage. Narrowseam andforward aperture shadows remain visible.
+
+
+P1 fixed-commit review found a raw-energy reference SHA captured before S1
+finished its final metadata write. All five rescaled matrices agreed exactly
+(0J difference); only the provenance link was stale. Root corrected the
+operating-point reference SHA to the committed raw-energy file and froze a
+follow-up revision. No field or energy recalculation was required.
