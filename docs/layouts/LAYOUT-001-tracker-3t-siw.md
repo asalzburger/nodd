@@ -1,6 +1,6 @@
 # LAYOUT-001 — Tracker + inner 3 T solenoid + Si–W ECAL
 
-**Current human-selected candidate · DRAFT / PROTOTYPE · updated 2026-10-14.**
+**Current human-selected candidate · DRAFT / PROTOTYPE · updated 2026-10-16.**
 The tracker is maintained on main. Open component proposals are included in this
 candidate for review; combined detector construction and engineering sign-off
 remain pending.
@@ -29,3 +29,16 @@ implied.
 
 Reproduce with `python3 -B tools/layout_overview/draw.py`; use `--check` to verify
 that the SVG matches its inputs. The JSON also records the optional PNG command.
+
+## Muon-system design input
+
+[MUON-001](../validation/MUON-001/results.md), proposed in
+[PR86](https://github.com/asalzburger/nodd/pull/86), combines this layout's pinned
+component inputs with the open common-module HCAL barrel/endcap proposals
+([PR81](https://github.com/asalzburger/nodd/pull/81),
+[PR84](https://github.com/asalzburger/nodd/pull/84),
+[PR85](https://github.com/asalzburger/nodd/pull/85)) for an analytical muon reach
+and field-sizing study. It uses ATLAS MDT hit, fitted-chamber and alignment
+benchmarks. Its [magnetic-system handoff](../validation/MUON-001/results.md#magnetic-system-design-handoff)
+defines the starting comparisons for subsequent magnet design. The candidate
+R–Z view and installed-system status above are unaffected by this study.
