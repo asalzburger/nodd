@@ -125,3 +125,23 @@ finished its final metadata write. All five rescaled matrices agreed exactly
 (0J difference); only the provenance link was stale. Root corrected the
 operating-point reference SHA to the committed raw-energy file and froze a
 follow-up revision. No field or energy recalculation was required.
+
+
+Final P1 review at2457c6e4b87007794cf8c1b3b70b7c9a2c4acdc2 records no
+outstanding tested-scope defect. It reconciles38immutable file hashes, all36
+controls, independent sagitta/MS covariance, exact five-matrix energy rescaling,
+2472serialized-grid probes and coarse-source decomposition. Catalogue/control
+authorship is disclosed and human_approval=false. Broad map interpolation is
+0.894mT RMS,9.75mT maximum and1.16%maximum relative norm at sampled points.
+The review preserves the resolved energy-provenance finding and engineering
+limits. Registry validation:67tasks,37documents,21reviewrounds PASS.
+
+
+Published draft PR87 https://github.com/asalzburger/nodd/pull/87, stacked on
+codex/muon-reach-field-study (PR86, head e8108f997bb663670db745e57d61d66c2cea9437).
+Observed publication head b8e6c9ab2a753121207a0dec17a8c28fc134ad2b. PR attachment
+added to this chat. GitHub Project validation and Token usage Pages were still
+in progress at publication capture; no remote success is inferred here.
+Final local registry/session checks and journal summary were run. No merge or
+production integration was attempted. Root/child exact token counters remain
+unavailable; usage is unknown, not zero.
