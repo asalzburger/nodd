@@ -70,6 +70,6 @@ Native CheckOverlaps(1e-5mm) found no overlaps/extrusions in either isolated lay
 
 See [tool instructions](../../../tools/forward_calorimeter/README.md). Retained report generation is deterministic for identical source bytes. The package and two layout PNGs were visually inspected; corrected cartridge polygon ordering and small text before delivery.
 
-A separate PhysVal assessment of a fixed revision follows; its findings and dispositions are retained alongside this report. No AI assessment grants human design sign-off.
+A [separate PhysVal assessment](physval.md) of exact revision `3c5eded29c1186e7dbd213ac5aab913376babc05` found no blocking issue for the scoped prototype fit. Two minor dossier allocation/rotation wording issues were corrected without changing scientific geometry. The reviewer independently checked38finite-cylinder rays and source hashes. No AI assessment grants human design sign-off.
 
 Not run: full combined native construction, DD4hep/readout integration, Geant4 optical/shower transport, detector performance, dose/EOL tests, deposited beam heat, thermal/hydraulic calculations, structural/access and machine qualification.

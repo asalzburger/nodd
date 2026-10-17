@@ -27,8 +27,7 @@ implied.
 
 [FCAL vector drawing](figures/LAYOUT-001-FCAL-rz.svg) · [FCAL named inputs](LAYOUT-001-FCAL.json) · [Pre-FCAL baseline inputs](LAYOUT-001.json) · [All candidates](README.md)
 
-Reproduce with `python3 -B tools/layout_overview/draw.py`; use `--check` to verify
-that the SVG matches its inputs. The JSON also records the optional PNG command.
+The retained pre-FCAL baseline is reproduced with `python3 -B tools/layout_overview/draw.py --check`. The current DES039 view uses the forward-calorimeter generator below.
 
 ## DES039 forward integration proposal
 

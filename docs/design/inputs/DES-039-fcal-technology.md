@@ -21,10 +21,10 @@ These are **FACTS about repository proposals**, not facts establishing construct
 
 | Input | Exact revision and locator | Relevant statement |
 | --- | --- | --- |
-| Si–W alternative | `33a607b70214532cd265623241b0c250ca0da361:docs/design/DES-034-siw-service-envelopes.md`, “Forward reservation” | R=80–290 mm, |z|=4533.2–6379.1 mm is empty; machine/pipe, shielding and supports unresolved. |
-| LAYOUT-001 | Same revision, `docs/layouts/LAYOUT-001.json`, `forward_reservations[0]`, `beam_pipe` | Reservation matches DES-034; pipe R_outer=27.8 mm, described only to |z|=4000 mm. |
-| LAr alternative | `72d37ee9a56182e4ba974791a848a738c19cf092:docs/design/DES-033-allegro-lar-endcaps.md`, “Forward region and response limits” | Empty insert R=80–290 mm, |z|=4850–7855.9 mm; separate prospective collar R=80–450 mm, |z|=4400–4850 mm. |
-| Coverage direction | Input revision, `docs/decisions/ADR-006-global-envelope-and-field-hypotheses.md`, “Context” and proposed decision 6 | Investigate calorimetry to |eta|<5; drawings do not establish installed coverage or services. |
+| Si–W alternative | `33a607b70214532cd265623241b0c250ca0da361:docs/design/DES-034-siw-service-envelopes.md`, “Forward reservation” | R=80–290 mm, abs(z)=4533.2–6379.1 mm is empty; machine/pipe, shielding and supports unresolved. |
+| LAYOUT-001 | Same revision, `docs/layouts/LAYOUT-001.json`, `forward_reservations[0]`, `beam_pipe` | Reservation matches DES-034; pipe R_outer=27.8 mm, described only to abs(z)=4000 mm. |
+| LAr alternative | `72d37ee9a56182e4ba974791a848a738c19cf092:docs/design/DES-033-allegro-lar-endcaps.md`, “Forward region and response limits” | Empty insert R=80–290 mm, abs(z)=4850–7855.9 mm; separate prospective collar R=80–450 mm, abs(z)=4400–4850 mm. |
+| Coverage direction | Input revision, `docs/decisions/ADR-006-global-envelope-and-field-hypotheses.md`, “Context” and proposed decision 6 | Investigate calorimetry to abs(eta)<5; drawings do not establish installed coverage or services. |
 | Source catalogue | Input revision, `reference/manifest.yaml`, `SRC-PDG-TUNGSTEN-2025` and `SRC-CMS-HCAL-CALIBRATION-2020` | Existing source IDs inspected; new source metadata below is for coordinator integration. |
 
 Working-tree `AGENTS.md`, `PROJECT.md`, `.agents/skills/nodd-design-evidence/SKILL.md`, complete saved assignment prompt and JSON contract were read. The workflow instructions are distinct from the pinned scientific/layout evidence.
@@ -56,7 +56,7 @@ All entries in this table are **NODD DESIGN CHOICES C02–C05**, subject to huma
 | Fibre materials |600µm fused-silica core;630µm hard-clad outside;800µm buffered outside | Silica is sensitive optical medium; polymer cladding/buffer are passive and must be included explicitly or with declared composition. |
 | Depth populations |AlternatingL/S lattice sites;L starts at0,S starts at100mm | First100mm has half the fibre population; short-fibre sites contain tungsten plugs ahead of their start, as in the coordinator's final finite-lattice model. |
 | Tower partition |16phi sectors; radial boundaries55,125,195,270mm |48transverse towers, each withL/S outputs:96optical tower signals/end. This is a physical radial partition, not equalDeltaeta segmentation. |
-| Supports / services |R50–55inner wall/clearance;R270–276sampling-case allowance;R276–288rear services;R288–290rear housing | Proposed allocations reconciled with the SysArch input. Sensor cartridges and cooling pipes use distinct axial bays. Constituent masses and load paths remain unresolved. |
+| Supports / services |R50–55inner wall/clearance;R270–278sampling cradle;R278–290sampling housing;R281–287rear pipe bay;R288–290rear housing | Proposed allocations reconciled with the SysArch input. Sensor cartridges and cooling pipes use distinct axial bays. Constituent masses and load paths remain unresolved. |
 
 **INFERENCE I01:** the bulk lattice cell fractions downstream of the S start are
 
@@ -74,7 +74,7 @@ The lattice orientation, groove cross sections, laminate thickness, positive mod
 
 ## Exact installed allocation and optical path
 
-**NODD DESIGN CHOICE C06:** use the same1800mm per-end assembly in both layouts. Local coordinateu increases downstream from the front package face; the negative-z assembly is reflected as a whole.
+**NODD DESIGN CHOICE C06:** use the same1800mm per-end assembly in both layouts. Local coordinateu increases downstream from the front package face; the negative-z assembly uses a proper Rx(180°) rotation of the whole assembly.
 
 | u interval / mm | Depth / mm | Allocation |
 | --- | ---: | --- |
@@ -150,7 +150,7 @@ The choice of Cherenkov-only active medium entails noncompensation and a reduced
 
 | Collar parameter | Proposed value / rationale |
 | --- | --- |
-| Installed envelope | |z| = 4400–4840 mm, R = 50–450 mm; 440 mm total length. The rear housing inner radius is448mm, reserving2mm housing thickness inside the R450mm boundary; axial gap to the main insert is10mm. |
+| Installed envelope | abs(z) = 4400–4840 mm, R = 50–450 mm; 440 mm total length. The rear housing inner radius is448mm, reserving2mm housing thickness inside the R450mm boundary; axial gap to the main insert is10mm. |
 | Sampling | 100 mm axial; R55–430 mm; 5.0 mm transverse pitch, 0.900 mm passages, same 600/630/800 µm core/clad/buffer dimensions. The pitch is the source HF scale deliberately adapted to tungsten. |
 | Longitudinal weighting | L spans all 100 mm; S begins 50 mm behind the sampling front. The start is a project choice; L/S remain overlapping measurements. |
 | Transverse towers | 16 phi sectors and radial edges 55,185,315,430 mm; 48 towers × 2 populations = 96 optical signals per end. |

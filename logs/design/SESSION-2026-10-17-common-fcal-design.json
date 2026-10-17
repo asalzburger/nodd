@@ -9,10 +9,12 @@
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
-    "Actual conversation start time, client identity details and token usage have not been recorded."
+    "Contemporaneous curated record; exact conversation start, client version/thread ID and exact per-turn parent/child usage counters unavailable. Usage remains empty, not zero.",
+    "Native evidence is isolated ROOT/TGeo construction with envelope guards, not DD4hep/Geant4 full-detector, optical/shower, machine or engineering validation.",
+    "Profiles were explicitly passed through prepared prompts; native role-profile loading is not claimed."
   ],
   "client": {
-    "name": "unspecified",
+    "name": "Codex",
     "version": null,
     "thread_id": null
   },
@@ -25,11 +27,142 @@
   },
   "work": {
     "milestone": "B",
-    "components": [],
-    "related_ids": []
+    "components": [
+      "forward calorimeter",
+      "layout interfaces",
+      "services and readout",
+      "native geometry"
+    ],
+    "related_ids": [
+      "DES-039",
+      "ADR-010",
+      "LAYOUT-001",
+      "LAYOUT-002",
+      "DES-034",
+      "DES-033"
+    ]
   },
   "narrative": "logs/design/SESSION-2026-10-17-common-fcal-design.md",
-  "activities": [],
+  "activities": [
+    {
+      "kind": "skill",
+      "name": "nodd-coordinate",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Bounded assignments prepared before dispatch; explicit CaloTech,SysArch,SoftEng,PhysVal mandates."
+    },
+    {
+      "kind": "skill",
+      "name": "nodd-design-evidence",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Classified source facts,inferences and unsigned choices; primary sources catalogued."
+    },
+    {
+      "kind": "skill",
+      "name": "nodd-review-validation",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Separate read-only PhysVal assessment of3c5eded; twoP3editorialfindings corrected."
+    },
+    {
+      "kind": "skill",
+      "name": "acts-spack",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "SoftEng read skill,preflight warned of changed fingerprints; actualruntimeimports andgeometry capability verified without dependencychanges."
+    },
+    {
+      "kind": "tool",
+      "name": "exec_command",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Parameterization,tests,ROOTgeometry,sourcechecks,staticfigures,Git andrecordchecks."
+    },
+    {
+      "kind": "tool",
+      "name": "web.run",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Primary CMS,PDG andmanufacturerreferences inspected; unavailable2025quartz/water HTML resolved with2020tables."
+    },
+    {
+      "kind": "tool",
+      "name": "collaboration",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "CaloTech /root/fcal_calotech;SysArch /root/fcal_sysarch;SoftEng /root/fcal_softeng;PhysVal /root/fcal_physval. Exact token counters absent."
+    }
+  ],
   "usage": [],
-  "checks": []
+  "checks": [
+    {
+      "command": "python3 -B -m unittest discover -s tools/forward_calorimeter -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "10 meaningful finite-geometry,readout,mass/heatconservation,identifierandadversecontrols;rerunonfinalscientificfiles."
+    },
+    {
+      "command": "python3 -B tools/forward_calorimeter/study.py --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Retained deterministic geometry/material/serviceoutputmatches;alsoexecutedwithbundledPython3.12.14 againstauthorPython3.14.6."
+    },
+    {
+      "command": "python3 -B tools/forward_calorimeter/native.py (verifiedSpackruntime)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Bothchildexits0;zerooverlaps1e-5mm;72IPrays+18axialcontrols;maxpathresidual8.57e-11mm.Executedhashesretainedin native.json."
+    },
+    {
+      "command": "Native ROOT initial execution",
+      "status": "FAIL",
+      "exit_code": 129,
+      "result": "GeometrycheckscompletedbutPyROOTownershipteardownfailed;ownershipfixed,runnerrejectsnonzeroprocessexit,andcleanfullrunsretained."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py (firstnewtaskrecord)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Task/streamrolemismatch;correctedWS-ARCHtoWS-CALOandrerunpassed."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py build --output build/fcal-token-site",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Builderrequiresrepositoryoutputunder_site;correctedoutputto_site/fcal-designandrerunpassed."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py build --output _site/fcal-design",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Builtfrom210disjointobservedturns;currentparent/childturnsnotmeasuredandnotestimated."
+    },
+    {
+      "command": "python3 -B tools/agent_workflow/workflow.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Eightrolesandthreeworkflowskillsvalidate;assignmentsuseexplicitpreparedprompts."
+    },
+    {
+      "command": "PhysValFCAL-PhysVal-01fixedrevision3c5eded29c1186e7dbd213ac5aab913376babc05",
+      "status": "PASS",
+      "exit_code": null,
+      "result": "Noblockingissueforscopedprototypefit;10tests,sourcecontexthashesand38independentquadraticcylinderraysagree;twoP3dossierissuescorrected."
+    }
+  ]
 }
