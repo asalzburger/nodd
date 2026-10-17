@@ -3,6 +3,7 @@ from copy import deepcopy
 import json
 import math
 import unittest
+from study import canonical_report
 from model import (HERE, build, collar_config, fibre_endpoint, fibre_id, inventory,
                    intervals, load_config, ray_sample, routing, service_screen,
                    thermal, validate_config)
@@ -98,6 +99,17 @@ class ForwardCalorimeter(unittest.TestCase):
                     self.assertEqual((ident>>30)&3,1 if side>0 else 2)
                     self.assertEqual((ident>>22)&1,int(model['config'].get('component')=='collar'))
                     self.assertEqual(ident&65535,f['index'])
+
+    def test_report_format_preserves_counts_and_rejects_physical_changes(self):
+        sample={'path_mm':1234.56789012345,'count':24324,'source':'exact-hash'}
+        low_bit=dict(sample,path_mm=math.nextafter(sample['path_mm'],math.inf))
+        self.assertEqual(canonical_report(sample),canonical_report(low_bit))
+        physical=dict(sample,path_mm=sample['path_mm']+.001)
+        self.assertNotEqual(canonical_report(sample),canonical_report(physical))
+        self.assertEqual(canonical_report(sample)['count'],24324)
+        self.assertEqual(canonical_report(sample)['source'],'exact-hash')
+        with self.assertRaisesRegex(ValueError,'Non-finite'):
+            canonical_report({'invalid':float('nan')})
 
     def test_conversion_and_flow_conserve_heat(self):
         t=thermal(self.model);c=self.config['thermal']

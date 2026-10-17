@@ -8,7 +8,7 @@
 
 A common 1.8 m body fits both pinned layout envelopes. The LAr candidate additionally needs the short, wider EM collar. The physical bore changes from the prior empty80 mm reservation to50 mm. The added collar collector, R298 mm service neck and rear outboard handoff planes are explicit draft amendments. Downstream machine, optical/shower, irradiation and engineering qualification remain open.
 
-Ten standard-library adverse/conservation controls pass. ROOT constructs both signs in each layout, including the02collar and straight service neck, with zero reported overlaps at1e-5mm. The neighbouring calorimeters are conservative circular guards, not complete imported detectors.
+Eleven standard-library controls pass: ten geometry/adverse/conservation controls plus a portable report-format control. ROOT constructs both signs in each layout, including the02collar and straight service neck, with zero reported overlaps at1e-5mm. The neighbouring calorimeters are conservative circular guards, not complete imported detectors.
 
 ## Counts, material and local electronics budgets
 
@@ -68,7 +68,7 @@ Native CheckOverlaps(1e-5mm) found no overlaps/extrusions in either isolated lay
 
 ## Reproduction and independent assessment
 
-See [tool instructions](../../../tools/forward_calorimeter/README.md). Retained report generation is deterministic for identical source bytes. The package and two layout PNGs were visually inspected; corrected cartridge polygon ordering and small text before delivery.
+See [tool instructions](../../../tools/forward_calorimeter/README.md). Retained report generation uses twelve significant decimal digits for floating results across platform math libraries; its comparison remains byte-for-byte exact. Full-precision calculations, native tolerances, integer counts and source hashes are unchanged. The Linux CI correction and original failure are retained in the session record. The package and two layout PNGs were visually inspected; corrected cartridge polygon ordering and small text before delivery.
 
 A [separate PhysVal assessment](physval.md) of exact revision `3c5eded29c1186e7dbd213ac5aab913376babc05` found no blocking issue for the scoped prototype fit. Two minor dossier allocation/rotation wording issues were corrected without changing scientific geometry. The reviewer independently checked38finite-cylinder rays and source hashes. No AI assessment grants human design sign-off.
 

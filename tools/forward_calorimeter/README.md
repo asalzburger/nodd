@@ -15,6 +15,8 @@ python3 -B tools/forward_calorimeter/study.py --model build/forward_calorimeter/
 python3 -B tools/forward_calorimeter/study.py --check
 ```
 
+Retained floating results use twelve significant decimal digits for portability across C/Python math libraries; calculations/native tolerances retain full precision. The snapshot comparison remains exact, and counts/IDs/source hashes are not rounded.
+
 The detailed model is an ignored export; the retained summary is
 `docs/validation/DES-039/geometry.json`. Straight-ray paths intersect actual
 finite cylindrical holes, buffered fibres and silica cores. Negative placements

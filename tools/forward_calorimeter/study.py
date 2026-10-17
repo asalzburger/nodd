@@ -2,8 +2,28 @@
 """Generate/check retained DES039 FCAL design evidence and optional detailed model."""
 import argparse
 import json
+import math
 from pathlib import Path
-from model import HERE, ROOT, build, report, collar_config, service_screen
+from model import HERE, ROOT, build, report, collar_config, service_screen, sha
+
+
+
+def canonical_report(value):
+    """Portable reporting precision; calculations/tests retain their full floats.
+
+    Twelve significant decimal digits keep dimension rounding far below the
+    native1e-5mm tolerance. Exact integers, identifiers, hashes and strings are
+    untouched. The retained report comparison remains byte-for-byte strict.
+    """
+    if isinstance(value, float):
+        if not math.isfinite(value):
+            raise ValueError('Non-finite design result')
+        return float(format(value, '.12g'))
+    if isinstance(value, dict):
+        return {key:canonical_report(item) for key,item in value.items()}
+    if isinstance(value, list):
+        return [canonical_report(item) for item in value]
+    return value
 
 
 def main():
@@ -26,6 +46,9 @@ def main():
         collar_path=a.model.with_name("collar-model.json")
         collar_path.parent.mkdir(parents=True,exist_ok=True)
         collar_path.write_text(json.dumps(collar,indent=2)+"\n")
+    result['report_generator_sha256']=sha(__file__)
+    result['floating_point_serialization']='12 significant decimal digits for portable reporting; full calculation and native tolerances unchanged; exact integer/hash/string values retained.'
+    result=canonical_report(result)
     content=json.dumps(result,indent=2)+'\n'
     if a.check:
         if a.output.read_text()!=content:raise SystemExit('FAIL: retained design evidence differs from inputs/model')
