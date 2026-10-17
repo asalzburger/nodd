@@ -28,3 +28,7 @@ FCAL-SoftEng-01 / SoftEng / 33a607b70214532cd265623241b0c250ca0da361 / read-only
 ## Bounded assignment continuation
 
 CaloTech and SysArch retained their single owned files and assessed the additional 02 EM collar and explicit collector/service neck under their original assignments. The amendment was made to close a quantified EM transition gap, without changing ECAL/tracker/magnet source geometry.
+
+## Native construction assignment before dispatch
+
+FCAL-SoftEng-02 / SoftEng / 0964b60a3d19b13b91abc48e30bd18d66feb66d2 / write tools/forward_calorimeter/native.py and docs/validation/DES-039/native.json only; ignored exports allowed. Explicit ROOT-native geometry scope, no DD4hep or shower acceptance claim.

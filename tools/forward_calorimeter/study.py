@@ -3,7 +3,7 @@
 import argparse
 import json
 from pathlib import Path
-from model import HERE, ROOT, build, report, collar_config
+from model import HERE, ROOT, build, report, collar_config, service_screen
 
 
 def main():
@@ -16,6 +16,11 @@ def main():
     result=report(model,contexts)
     collar=build(collar_config(model["config"]))
     result["collar"]=report(collar,contexts)
+    result["service_interfaces"]=service_screen(model["config"],contexts)
+    result["aggregate_layout_budgets"]={}
+    for name in model["config"]["layouts"]:
+        n=2 if name=="LAYOUT-002" else 1
+        result["aggregate_layout_budgets"][name]={"bodies":2,"collars":2 if n==2 else 0,"optical_tower_signals":192*n,"physical_sipm_pixels":3072*n,"partial_mass_kg":2*(result["inventory"]["partial_mass_per_end_kg"]+(result["collar"]["inventory"]["partial_mass_per_end_kg"] if n==2 else 0)),"nominal_electronics_heat_w":2*n*result["thermal"]["nominal"]["local_heat_per_end_w"],"stress_electronics_heat_w":2*n*result["thermal"]["stress"]["local_heat_per_end_w"],"beam_heat_w":None}
     result["collar"]["role"]="LAYOUT-002 EM transition; distinct short component in the same technology family"
     if a.model:
         collar_path=a.model.with_name("collar-model.json")

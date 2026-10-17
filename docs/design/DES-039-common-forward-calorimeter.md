@@ -6,6 +6,10 @@
 - Related: [ADR010](../decisions/ADR-010-common-forward-calorimeter.md), [DES034](DES-034-siw-service-envelopes.md), [technology input](inputs/DES-039-fcal-technology.md), [interface input](inputs/DES-039-fcal-layout-interfaces.md).
 - Human technology, machine-interface and engineering owners: unassigned; sign-off pending.
 
+![Common package, readout and material paths](figures/DES-039/common-fcal.png)
+
+[LAYOUT-001 integration](../layouts/LAYOUT-001-tracker-3t-siw.md) · [LAYOUT-002 integration](../layouts/LAYOUT-002-tracker-3t-lar.md)
+
 ## Design and scope
 
 **NODD DESIGN CHOICE:** use a common warm tungsten matrix with beam-parallel fused-silica Cherenkov fibres and rear cooled SiPM readout. Two interleaved fibre populations, full-depth L and S starting 100 mm into the core, give overlapping shower-depth weightings. They are not independent EM and hadronic compartments. Calibrated combinations require optical/shower evidence; no compensation, energy resolution, timing or high-pileup performance is specified.

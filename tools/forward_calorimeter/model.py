@@ -38,7 +38,7 @@ def slot_vertices(config, radius, phi):
     half = config['readout']['cartridge_side_mm'] / 2
     c, s = math.cos(phi), math.sin(phi)
     return [((radius + dr)*c - dt*s, (radius + dr)*s + dt*c)
-            for dr in (-half, half) for dt in (-half, half)]
+            for dr,dt in ((-half,-half),(half,-half),(half,half),(-half,half))]
 
 
 def validate_config(c):
@@ -295,13 +295,15 @@ def layout_report(model, name, context):
             'original_bore_radius_mm':p['original_bore_radius_mm'],'proposed_bore_radius_mm':m['bore_radius_mm'],
             'radial_amendment_mm':p['original_bore_radius_mm']-m['bore_radius_mm'],
             'remaining_rear_allocation_mm':p['original_back_abs_z_mm']-end,
-            'clearances_mm':{'hcal':1000*h['endcap_inner_apothem_m']-m['outer_radius_mm'],'ecal_radial_where_axial_overlap':1000*bore_ec-m['outer_radius_mm'] if front<1000*ec['endcap_back_abs_z_m'] and end>1000*ec['endcap_front_abs_z_m'] else None,
+            'clearances_mm':{'hcal':1000*h['endcap_inner_apothem_m']-m['outer_radius_mm'] if end>1000*h['endcap_front_abs_z_m'] else None,'ecal_radial_where_axial_overlap':1000*bore_ec-m['outer_radius_mm'] if front<1000*ec['endcap_back_abs_z_m'] and end>1000*ec['endcap_front_abs_z_m'] else None,
                              'hypothetical_straight_pipe':m['bore_radius_mm']-1000*pipe['outer_radius_m']},
             'full_sampling_envelope_eta':[math.asinh(sb/m['sampling_outer_radius_mm']),math.asinh(sf/m['sampling_inner_radius_mm'])],
             'eta5_front_inner_margin_mm':sf/math.sinh(5)-m['sampling_inner_radius_mm'],
             'eta5_path_retained_R80_sampling_mm':max(0.,sb-max(sf,original_entry))*math.cosh(5)/math.sinh(5),
             'proper_negative_rotation':{'axis':'x','angle_deg':180.,'determinant':1},
-            'service_route':{'axial_radius_interval_mm':[281.,287.],'begins_after_sensor_cassette_abs_z_mm':front+z['electronics_cooling'][0]+6.,
+            'service_route':{'local_axial_radius_interval_mm':[c['thermal']['pipe_radius_mm']-3.,c['thermal']['pipe_radius_mm']+3.],'external_axial_radius_interval_mm':[291.,297.] if c.get('component')=='collar' else [281.,287.],
+                             'collar_collector_abs_z_mm':[4840.,4890.] if c.get('component')=='collar' else None,
+                             'begins_after_sensor_cassette_abs_z_mm':front+z['electronics_cooling'][0]+6.,
                              'radial_handoff_abs_z_mm':[1000*h['endcap_back_abs_z_m']+p['external_handoff_clearance_mm'],1000*h['endcap_back_abs_z_m']+p['external_handoff_clearance_mm']+p['external_handoff_length_mm']],
                              'handoff_radius_mm':p['handoff_radius_mm'],'status':'NEW empty service/load interface beyond HCAL; pipes and cable connector allocations explicit, complete radial manifold and engineering pending.'},
             'directional_sampling':scans,'claim':'FCAL finite-solid material paths; HCAL envelope lengths only. Phase sample excludes deliberately aligned seams, whose zero-material control is separately retained. No jets, efficiency or containment claim.'}
@@ -339,3 +341,42 @@ def report(model, contexts):
             'controls':{'aligned_clamshell_seam_eta4':ray_sample(model,4.,math.pi/2,4553.2),
                         'note':'Exact phi=90/270 degree clamshell seams have zero matrix sampling. Report them separately, never hide them with azimuth averages.'},
             'not_run':['DD4hep/Geant4 full detector construction','Geant4 optical response and attenuation','Shower response / leakage / energy calibration','Complete 3D fanout fibre collision check','Radiation EOL / thermal hydraulic / mechanical and machine qualification']}
+
+
+def fibre_id(model, fibre, side):
+    """Proposed 64-bit design identifier; not a DD4hep decoder validation."""
+    component = int(model['config'].get('component') == 'collar')
+    return ((model['config']['readout']['system_id'] << 32) | ((1 if side > 0 else 2) << 30)
+            | (fibre['sector'] << 26) | (fibre['ring'] << 24)
+            | (fibre['population'] << 23) | (component << 22) | fibre['index'])
+
+
+def service_screen(config, contexts):
+    """Finite tube/bundle bounds, explicit collector and longitudinal ownership."""
+    a=config['collar'];h=contexts['LAYOUT-002']['hcal'];ec=contexts['LAYOUT-002']['ecal']
+    tube=config['thermal']['pipe_outer_diameter_mm']/2
+    r=a['neck_pipe_center_radius_mm'];neck=a['neck_outer_radius_mm'];bend=a['radial_bend_radius_mm']
+    z0,z1=a['collector_abs_z_mm']
+    points=[[435.,4847.],[417.,4865.],[312.,4865.],[294.,4883.]]
+    bounds={'z_mm':[points[0][1]-tube,points[-1][1]+tube], 'r_mm':[r-tube,points[0][0]+tube]}
+    errors=[]
+    if not z0 < bounds['z_mm'][0] < bounds['z_mm'][1] < z1:errors.append('Collector tube outside axial reservation')
+    if bounds['r_mm'][0] <= config['module']['outer_radius_mm']:errors.append('Collector tube intersects core')
+    if r+tube >= neck:errors.append('Neck tube outside declared envelope')
+    if neck >= min(1000*ec['endcap_inner_radius_m'],1000*h['endcap_inner_apothem_m']):errors.append('Neck envelope intersects calorimeter')
+    if z1 >= 1000*ec['endcap_front_abs_z_m']:errors.append('Collector intersects ECAL front')
+    if 2*bend+2*tube >= z1-z0:errors.append('Elbow bounding depth exceeds collector')
+    if errors:raise ValueError('; '.join(errors))
+    # Separate supply/return at opposite phi; dry gas and electrical at distinct phi.
+    azimuths=config['thermal']['pipe_phi_deg']
+    return {'collar_collector_centerline_rz_mm':points,'collar_collector_tube_bounds':bounds,
+            'radial_straight_length_mm':105.,'elbow_centerline_radius_mm':bend,'pipe_od_id_mm':[2*tube,config['thermal']['pipe_inner_diameter_mm']],
+            'supply_return_phi_deg':azimuths,'external_neck_outer_radius_mm':neck,
+            'clearances_mm':{'tube_to_core':r-tube-config['module']['outer_radius_mm'],
+                             'neck_to_hcal':1000*h['endcap_inner_apothem_m']-neck,
+                             'neck_to_lar':1000*ec['endcap_inner_radius_m']-neck,
+                             'collector_to_lar_front':1000*ec['endcap_front_abs_z_m']-z1},
+            'electrical_bundle':{'allocation_mm':[6.,6.],'radius_mm':r,'phi_deg':config['thermal']['electrical_sector_phi_deg'],
+                                 'outer_corner_radius_mm':math.hypot(r+3,3),'contents':'8-fibre data bundle plus LV/bias/control conductor allocations; pinout/copper area/voltage drop unqualified'},
+            'dry_purge':{'od_mm':4.,'radius_mm':r,'phi_deg':config['thermal']['purge_line_phi_deg']},
+            'scope':'Finite independent coolant route bounds and distinct azimuths; complete manifold/ports, hydraulic performance and load-bearing frame remain engineering work.'}
