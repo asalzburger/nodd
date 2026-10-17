@@ -4,8 +4,8 @@
   "title": "Design and fit a common tungsten-quartz forward calorimeter into layouts 01 and 02",
   "recorded_at": "2026-10-17T11:39:48Z",
   "started_at": null,
-  "ended_at": null,
-  "status": "open",
+  "ended_at": "2026-10-17T12:00:04Z",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
@@ -22,8 +22,56 @@
     "start_commit": "33a607b70214532cd265623241b0c250ca0da361",
     "branch": "codex/common-fcal-design",
     "initial_changes": [],
-    "result_commits": [],
-    "changed_files": []
+    "result_commits": [
+      "0964b60a3d19b13b91abc48e30bd18d66feb66d2",
+      "3c5eded29c1186e7dbd213ac5aab913376babc05",
+      "12613538b7cf70bed0423e89df8592d362db8ada"
+    ],
+    "changed_files": [
+      ".github/workflows/validation.yml",
+      "README.md",
+      "docs/decisions/ADR-010-common-forward-calorimeter.md",
+      "docs/design/DES-039-common-forward-calorimeter.md",
+      "docs/design/figures/DES-039/common-fcal.png",
+      "docs/design/figures/DES-039/common-fcal.svg",
+      "docs/design/inputs/DES-039-fcal-layout-interfaces.md",
+      "docs/design/inputs/DES-039-fcal-technology.md",
+      "docs/layouts/LAYOUT-001-FCAL.json",
+      "docs/layouts/LAYOUT-001-tracker-3t-siw.md",
+      "docs/layouts/LAYOUT-002-FCAL.json",
+      "docs/layouts/LAYOUT-002-tracker-3t-lar.md",
+      "docs/layouts/README.md",
+      "docs/layouts/figures/LAYOUT-001-FCAL-rz.png",
+      "docs/layouts/figures/LAYOUT-001-FCAL-rz.svg",
+      "docs/layouts/figures/LAYOUT-002-FCAL-rz.png",
+      "docs/layouts/figures/LAYOUT-002-FCAL-rz.svg",
+      "docs/validation/DES-039/geometry.json",
+      "docs/validation/DES-039/native.json",
+      "docs/validation/DES-039/physval.md",
+      "docs/validation/DES-039/results.md",
+      "logs/design/SESSION-2026-10-17-common-fcal-design.json",
+      "logs/design/SESSION-2026-10-17-common-fcal-design.md",
+      "logs/design/SESSION-2026-10-17-common-fcal-design/FCAL-CaloTech-01.json",
+      "logs/design/SESSION-2026-10-17-common-fcal-design/FCAL-CaloTech-01.txt",
+      "logs/design/SESSION-2026-10-17-common-fcal-design/FCAL-PhysVal-01.json",
+      "logs/design/SESSION-2026-10-17-common-fcal-design/FCAL-PhysVal-01.txt",
+      "logs/design/SESSION-2026-10-17-common-fcal-design/FCAL-SoftEng-01.json",
+      "logs/design/SESSION-2026-10-17-common-fcal-design/FCAL-SoftEng-01.txt",
+      "logs/design/SESSION-2026-10-17-common-fcal-design/FCAL-SoftEng-02.json",
+      "logs/design/SESSION-2026-10-17-common-fcal-design/FCAL-SoftEng-02.txt",
+      "logs/design/SESSION-2026-10-17-common-fcal-design/FCAL-SysArch-01.json",
+      "logs/design/SESSION-2026-10-17-common-fcal-design/FCAL-SysArch-01.txt",
+      "project/tracking.json",
+      "reference/manifest.yaml",
+      "tools/forward_calorimeter/README.md",
+      "tools/forward_calorimeter/draw.py",
+      "tools/forward_calorimeter/inputs.json",
+      "tools/forward_calorimeter/layout-contexts.json",
+      "tools/forward_calorimeter/model.py",
+      "tools/forward_calorimeter/native.py",
+      "tools/forward_calorimeter/study.py",
+      "tools/forward_calorimeter/test_model.py"
+    ]
   },
   "work": {
     "milestone": "B",
@@ -114,55 +162,79 @@
       "command": "python3 -B -m unittest discover -s tools/forward_calorimeter -p test_*.py -v",
       "status": "PASS",
       "exit_code": 0,
-      "result": "10 meaningful finite-geometry,readout,mass/heatconservation,identifierandadversecontrols;rerunonfinalscientificfiles."
+      "result": "Ten meaningful finite-geometry, readout, mass/heat conservation, identifier and adverse controls; rerun on final scientific files."
     },
     {
       "command": "python3 -B tools/forward_calorimeter/study.py --check",
       "status": "PASS",
       "exit_code": 0,
-      "result": "Retained deterministic geometry/material/serviceoutputmatches;alsoexecutedwithbundledPython3.12.14 againstauthorPython3.14.6."
+      "result": "Retained geometry/material/service output matches. Also executed with bundled Python 3.12.14 against author Python 3.14.6."
     },
     {
       "command": "python3 -B tools/forward_calorimeter/native.py (verifiedSpackruntime)",
       "status": "PASS",
       "exit_code": 0,
-      "result": "Bothchildexits0;zerooverlaps1e-5mm;72IPrays+18axialcontrols;maxpathresidual8.57e-11mm.Executedhashesretainedin native.json."
+      "result": "Both child exits zero; no overlaps at 1e-5 mm; 72 IP rays plus 18 axial controls; maximum path residual 8.57e-11 mm. Executed hashes are retained in native.json."
     },
     {
       "command": "Native ROOT initial execution",
       "status": "FAIL",
       "exit_code": 129,
-      "result": "GeometrycheckscompletedbutPyROOTownershipteardownfailed;ownershipfixed,runnerrejectsnonzeroprocessexit,andcleanfullrunsretained."
+      "result": "Geometry checks completed but PyROOT ownership teardown failed. Ownership was fixed, the runner now rejects nonzero process exits, and clean full runs were retained."
     },
     {
       "command": "python3 -B tools/project_records/validate.py (firstnewtaskrecord)",
       "status": "FAIL",
       "exit_code": 1,
-      "result": "Task/streamrolemismatch;correctedWS-ARCHtoWS-CALOandrerunpassed."
+      "result": "Task/stream role mismatch; corrected WS-ARCH to WS-CALO and the rerun passed."
     },
     {
       "command": "python3 -B tools/token_usage/build.py build --output build/fcal-token-site",
       "status": "FAIL",
       "exit_code": 1,
-      "result": "Builderrequiresrepositoryoutputunder_site;correctedoutputto_site/fcal-designandrerunpassed."
+      "result": "Builder requires repository output under _site; corrected output to _site/fcal-design and reran successfully."
     },
     {
       "command": "python3 -B tools/token_usage/build.py build --output _site/fcal-design",
       "status": "PASS",
       "exit_code": 0,
-      "result": "Builtfrom210disjointobservedturns;currentparent/childturnsnotmeasuredandnotestimated."
+      "result": "Built from 210 disjoint observed turns. Current parent/child turns have no exact measurements and were not estimated."
     },
     {
       "command": "python3 -B tools/agent_workflow/workflow.py validate",
       "status": "PASS",
       "exit_code": 0,
-      "result": "Eightrolesandthreeworkflowskillsvalidate;assignmentsuseexplicitpreparedprompts."
+      "result": "Eight roles and three workflow skills validate; assignments use explicitly prepared prompts."
     },
     {
-      "command": "PhysValFCAL-PhysVal-01fixedrevision3c5eded29c1186e7dbd213ac5aab913376babc05",
+      "command": "python3 -B -m unittest discover -s tools/project_records -p test_*.py -v",
       "status": "PASS",
-      "exit_code": null,
-      "result": "Noblockingissueforscopedprototypefit;10tests,sourcecontexthashesand38independentquadraticcylinderraysagree;twoP3dossierissuescorrected."
+      "exit_code": 0,
+      "result": "All 28 project-record regression tests passed in 109.108 seconds."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate (pre-closeout record)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "An AI assessment was placed among command checks as PASS without a process exit. Removed that non-command entry; separate assessment remains in its own report."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py (after correction)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 67 tasks, 38 documents and21review rounds before adding finalPRsnapshot."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate (after correction)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated184session records after removing the non-command review entry."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors."
     }
   ]
 }

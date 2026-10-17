@@ -58,3 +58,11 @@ The fixed-revision PhysVal report is retained at docs/validation/DES-039/physval
 ## User-visible outcome
 
 DES039, ADR010, source catalogue, component/interface inputs, two integrated candidate views, numerical evidence, native checks, tests, CI step and scientific task tracking are delivered on codex/common-fcal-design. A draft pull request is prepared for review; production integration and human approval remain separate.
+
+The 28 project-record regression tests passed in109.108seconds. CI then exposed a journal schema mistake: the separate AI assessment was entered as a PASS command check with no observed process exit. It was removed from command checks and retained as an assessment in physval.md. Scientific source hashes did not change.
+
+## Review delivery and final accounting
+
+Draft [PR88](https://github.com/asalzburger/nodd/pull/88) was created and attached to the chat. Its initial head12613538b7cf70bed0423e89df8592d362db8ada is retained as the observed PR snapshot; this record-only closeout follows. All scientific lifecycle states remain DRAFT.
+
+The journal validator passes184records after the metadata correction; token-site build succeeds. The summary contains118sessions with usage and66without; this session and its separate child turns have no exact observations. Its input/output sums are unknown, not zero. Hosted CI was started for the draft; its initial token-site failure was the corrected journal schema issue. No scientific source bytes changed in that repair.
