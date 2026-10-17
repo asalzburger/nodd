@@ -39,6 +39,10 @@ jobs:
           python3 -B -m unittest discover -s tools/siw_services -p 'test_*.py' -v
           python3 -B tools/siw_services/study.py --check
           python3 -B tools/layout_overview/draw.py --check
+      - name: Test common FCAL finite geometry and readout controls
+        run: |
+          python3 -B -m unittest discover -s tools/forward_calorimeter -p 'test_*.py' -v
+          python3 -B tools/forward_calorimeter/study.py --check
       - name: Validate specialist profiles, skills and assignment controls
         run: |
           python3 -B tools/agent_workflow/workflow.py validate

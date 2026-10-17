@@ -1,22 +1,18 @@
-# Current layout candidates
+# Detector layout candidates
 
-**One candidate: [LAYOUT-001 — Tracker + inner 3 T solenoid + Si–W ECAL](LAYOUT-001-tracker-3t-siw.md).**
+The two candidate views now include the [DES039 forward-calorimeter proposal](../design/DES-039-common-forward-calorimeter.md). They remain DRAFT / PROTOTYPE. Native FCAL geometry and envelope guards are checked; combined detector response and engineering qualification remain pending.
 
-This is the human-selected working layout. The tracker is on main; the solenoid
-and detailed ECAL remain open prototypes. HCAL is a service-constrained outline. External cooling/cable space and a future
-FCal insertion have empty reservations; installed FCal, the muon system and its
-magnets have not yet been added. Engineering sign-off
-for the combined detector remains pending.
+| Candidate | EM technology | Forward calorimeter proposal |
+| --- | --- | --- |
+| [LAYOUT-001](LAYOUT-001-tracker-3t-siw.md) | Si–W | Common 1.8 m tungsten/quartz-fibre body at abs(z)=4.5332–6.3332 m |
+| [LAYOUT-002](LAYOUT-002-tracker-3t-lar.md) | ALLEGRO-style LAr | Same body at4.850–6.650 m, plus short wider EM collar |
 
-[![LAYOUT-001: R–Z view, with both endcaps and component status](figures/LAYOUT-001-rz.png)](LAYOUT-001-tracker-3t-siw.md)
+[![LAYOUT-001 with common FCAL](figures/LAYOUT-001-FCAL-rz.png)](LAYOUT-001-tracker-3t-siw.md)
 
-Click the drawing for the concise features, decisions and PRs.
-[Vector drawing](figures/LAYOUT-001-rz.svg).
+[![LAYOUT-002 with common FCAL and EM collar](figures/LAYOUT-002-FCAL-rz.png)](LAYOUT-002-tracker-3t-lar.md)
 
-The view combines recorded tracker sensitive bounds with proposed component
-envelopes. Dashed HCAL contours are planning context. It does not establish a
-combined geometry, continuous acceptance or calorimeter performance.
+Click either drawing for dimensions, interfaces, source revisions and limitations. The shared R50 mm aperture and added service routes are explicit unsigned amendments. The downstream machine pipe, shower/optical performance, irradiation, full cooling/load design and muon interfaces remain open.
 
-Approved changes merged into this layout are reflected here and on its feature
-page. Source revisions and reproducible drawing inputs live in
-[LAYOUT-001.json](LAYOUT-001.json).
+[Common FCAL assembly](../design/figures/DES-039/common-fcal.png) · [Validation](../validation/DES-039/results.md) · [Design decision](../decisions/ADR-010-common-forward-calorimeter.md)
+
+Reproduce with `python3 -B tools/forward_calorimeter/draw.py`. Named inputs are [LAYOUT-001-FCAL.json](LAYOUT-001-FCAL.json) and [LAYOUT-002-FCAL.json](LAYOUT-002-FCAL.json). The earlier [LAYOUT-001.json](LAYOUT-001.json) and its drawing remain a reproducible pre-FCAL envelope baseline.
