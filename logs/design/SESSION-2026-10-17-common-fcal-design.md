@@ -70,3 +70,13 @@ The journal validator passes184records after the metadata correction; token-site
 ## Linux report portability correction
 
 Hosted run39030830079 at7c6dd68 passed all ten geometry controls but failed the exact retained JSON comparison. Mac Python3.12 and3.14 agreed. Reporting now serializes finite floating values to12significant decimal digits while keeping integer counts/IDs,sourcehashes andstrings exact. Executable geometry, native source and numerical tolerances remain unchanged; the snapshot comparison is still exact. A new adverse report-format control rejects physical1micrometre changes and non-finite results while accepting a singleULPserializationdifference. This is a report-format amendment, not a detector-parameter or tolerance change.
+
+FCAL-PhysVal-02 was recorded before dispatch at exact revisionf6e1ef9433c06f4ca274fb0c912c383b6d846e5f to independently assess report precision/portability. Read-only; scientific model/input/native bytes remain fixed.
+
+## Portable report review and hosted replay
+
+FCAL-PhysVal-02 reviewed `f6e1ef9433c06f4ca274fb0c912c383b6d846e5f` independently: no blocking finding; all 11 controls and the exact snapshot check pass. Scientific model, input and native bytes match the original reviewed revision. Across 459 floating values, rounding changes are at most 4.81e-12 relative and 4.95e-9 mm for spatial dimensions and paths; the native tolerance remains 1e-5 mm. The strict comparison is retained and source hashes remain exact.
+
+Hosted Linux/Python 3.12.15 run 39030964508 passed the corrected FCAL controls and snapshot step; the broader workflow was still running at this observation. Token-site validation passed. The report-format amendment changes no detector parameter or scientific acceptance state. Final record validators and the local token-site build also passed after retaining the follow-up assessment.
+
+The completed global usage summary contains 620,754,236 observed input tokens and 3,545,169 observed output tokens across 210 disjoint recorded turns in 118 sessions; 66 sessions lack observations. These are historical project totals, not this task's usage. This parent turn and its child turns have no exact counters, so task input/output totals remain unknown and no values were fabricated.

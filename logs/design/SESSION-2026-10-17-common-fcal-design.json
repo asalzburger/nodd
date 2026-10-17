@@ -4,8 +4,8 @@
   "title": "Design and fit a common tungsten-quartz forward calorimeter into layouts 01 and 02",
   "recorded_at": "2026-10-17T11:39:48Z",
   "started_at": null,
-  "ended_at": null,
-  "status": "open",
+  "ended_at": "2026-10-17T12:04:55Z",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
@@ -25,7 +25,9 @@
     "result_commits": [
       "0964b60a3d19b13b91abc48e30bd18d66feb66d2",
       "3c5eded29c1186e7dbd213ac5aab913376babc05",
-      "12613538b7cf70bed0423e89df8592d362db8ada"
+      "12613538b7cf70bed0423e89df8592d362db8ada",
+      "7c6dd6807f26de697188d7fc369c8e696d915808",
+      "f6e1ef9433c06f4ca274fb0c912c383b6d846e5f"
     ],
     "changed_files": [
       ".github/workflows/validation.yml",
@@ -55,6 +57,8 @@
       "logs/design/SESSION-2026-10-17-common-fcal-design/FCAL-CaloTech-01.txt",
       "logs/design/SESSION-2026-10-17-common-fcal-design/FCAL-PhysVal-01.json",
       "logs/design/SESSION-2026-10-17-common-fcal-design/FCAL-PhysVal-01.txt",
+      "logs/design/SESSION-2026-10-17-common-fcal-design/FCAL-PhysVal-02.json",
+      "logs/design/SESSION-2026-10-17-common-fcal-design/FCAL-PhysVal-02.txt",
       "logs/design/SESSION-2026-10-17-common-fcal-design/FCAL-SoftEng-01.json",
       "logs/design/SESSION-2026-10-17-common-fcal-design/FCAL-SoftEng-01.txt",
       "logs/design/SESSION-2026-10-17-common-fcal-design/FCAL-SoftEng-02.json",
@@ -241,6 +245,24 @@
       "status": "FAIL",
       "exit_code": 1,
       "result": "All10geometrycontrols passed on Linux/Python3.12.15; exact retained-report text comparison differed from Mac output. Added portable12-significant-digit reporting while retaining full calculation precision and exact snapshot comparison."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/forward_calorimeter -p test_*.py -v (portable report revision)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Eleven controls passed, including rejection of nonfinite reports and a physical one-micrometre change."
+    },
+    {
+      "command": "python3 -B tools/forward_calorimeter/study.py --check (portable report, Python3.14.6 and3.12.14)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Exact canonical snapshot matches in both local Python versions."
+    },
+    {
+      "command": "gh run view 39030964508 --repo asalzburger/nodd --json status,conclusion,jobs",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Observed Linux FCAL geometry/readout controls step success; broader workflow still running at observation. Token-site check passed."
     }
   ]
 }
