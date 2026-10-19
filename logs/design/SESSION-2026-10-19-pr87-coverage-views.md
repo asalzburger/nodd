@@ -193,3 +193,68 @@ S2 runtimePython3.14.5/NumPy2.5.3/Matplotlib3.11.2; noACTS/DD4hep/Geant4use.
 First implementation commit freezes the source and evidence for separate V3
 read-only review; the follow-up review record is explicitly pending until that
 review completes. No PR publication or human approval has occurred at this point.
+
+## V3 frozen-revision assignment (recorded before dispatch)
+
+```json
+{
+  "id": "V3",
+  "role": "PhysVal",
+  "input_revision": "67ca473f35ed1469f40eed6183dadd5e5c0bd6f7",
+  "inputs": [
+    "docs/design/DES-039-twelvefold-toroid.md",
+    "docs/validation/DES-039/results.md",
+    "tools/toroid_prototype/design.json",
+    "tools/toroid_prototype/geometry.py",
+    "tools/toroid_prototype/run.py",
+    "tools/toroid_prototype/review_views.py",
+    "tools/toroid_prototype/test_review_views.py",
+    "tools/toroid_prototype/test_geometry.py",
+    "tools/toroid_prototype/test_system.py",
+    "docs/validation/DES-039/results.json",
+    "docs/validation/DES-039/energy.json",
+    "docs/validation/DES-039/operating-point-energy.json",
+    "docs/validation/DES-039/map-metadata.json",
+    "docs/validation/DES-039/joint-field.npz",
+    "docs/validation/DES-039/field-components.npz",
+    "docs/validation/DES-039/chamber-outlines.json",
+    "docs/validation/DES-039/geometry.vtp",
+    "docs/validation/DES-039/review-coverage/coverage.json",
+    "docs/validation/DES-039/review-coverage/coverage.csv",
+    "docs/validation/DES-039/review-coverage/xy-envelope.png",
+    "docs/validation/DES-039/review-coverage/rz-envelope.png",
+    "docs/validation/DES-039/review-coverage/coverage.png",
+    "docs/validation/DES-039/review-coverage/response-comparison.py",
+    "docs/validation/DES-039/review-coverage/response-comparison.json",
+    "docs/validation/DES-039/review-coverage/independent-spotchecks.json",
+    "docs/validation/DES-039/independent-grid-study.py",
+    "docs/validation/DES-039/independent-grid-study.json",
+    "docs/validation/DES-039/independent-response-controls.py",
+    "docs/validation/DES-039/independent-response-controls.json",
+    "tools/toroid_prototype/README.md"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Review the fixed PR87 follow-up revision for actual finite coil-space/chamber interleaving, coverage accounting, new source geometry field/current/energy/cold-volume consistency, source/map/input hashes and report/lifecycle claims. Read exact git-show revision primary inputs before author conclusions. Check all source snapshots reconcile to commit, raw reference and current energy scaling geometry identity, complete coupled energy30MJ/m3 globalunion, source-component sum, field masks and fine-gridcontrols. Independently inspect true XY/RZ/coverage figures and clear3/retained/upstream separation; coverage fractions must not be efficiencies. Check local gains/losses and baseline preservation. Run appropriate49targetedtests and consistencychecks at immutable source, no fullmap/energy regeneration needed absent discrepancy. You authored pairedresponse/spotcheck evidence; disclose that and do not claim independent review of own controls. Root authored corrections to legacycontrol scripts. No repository edits, external messages or nested delegation; /private/tmp report scratch allowed.",
+  "deliverable": "Return /private/tmp/pr87-V3-review.json with full reviewedrevision, exact reviewedfile hashes, actual checks/exits, findings and evidence, authorship/independence boundaries and limits; concise message to root. No human approval or expertise claim.",
+  "completion": "Exact-revision technical assessment with no unreported adverse findings; identify any required correction precisely. Human acceptance, installed nonlinear HCAL and engineering/reconstruction qualification remain open."
+}
+```
+
+## V3 independent technical review outcome
+
+V3 reviewed exactsource67ca473f35ed1469f40eed6183dadd5e5c0bd6f7 via gitshow,
+with49tests passing in an immutable scratchsnapshot. Allassignedhashes,
+sourceconfigurations, energy matrices, component sums/masks, JSON/CSV counts
+and exactsolid-angleweights reconcile. Independentfixedinputcheck sees5882
+gained and154lost finerays, confirming the change is not a strictsuperset.
+Actualsizedcoldunion agrees with262144sample/family MC controlwithin.37sigma.
+9chamberobjects/45VTPobjects are boundary/lineonly; exportedboth-depthfaces clear.
+All3figures independentlyinspected. No blockingtechnicalcorrectionfound.
+The report discloses reviewer-authoredpairedresponse/spotcheck/legacycontrols
+and root’s legacycontrol adaptations; this is not an independent review of
+those authoredcontrols, a secondmagnetostaticsolver, humanexpertise or acceptance.
+Report incorporated unchanged into review-coverage/review.json.
+
+The implementation sourcecommit is fixed; reviewrecord/publicationbookkeeping
+follows it. PR87 remains open/non-draft; physicalproposal remainsDRAFT.
