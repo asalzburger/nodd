@@ -19,7 +19,7 @@ The existing DES026 solenoid and PR81/84/85 HCAL prototypes remain pinned inputs
 [DES004 sizing policy](inputs/DES-004-magnet-sizing-review.md) governs central
 field, all-space energy and cold-volume accounting.
 
-## Prototype choices before field calculation
+## Initial prototype choices (superseded by the coverage amendment)
 
 **NODD DESIGN CHOICE, proposed:** use air-core racetrack coils in meridional
 planes: twelve around the barrel and twelve in each endcap. Endcap coil planes
@@ -74,6 +74,54 @@ human design acceptance.
 
 ## Calculated proposal
 
+### 2026-10-19 PR87 coverage amendment — DRAFT
+
+The two PR87 comments request true XY/RZ sections of finite occupied coil space,
+its interleaving with the chambers, and coverage over the acceptance range.
+The reviewed starting point is immutable revision
+`71406b09fa2d3fbfa119dba61e436f8fad1d11ac`; its calculations remain reproducible
+from that revision. The following proposal supersedes its physical dimensions
+before recalculation. It is not human acceptance or construction approval.
+
+**NODD DESIGN CHOICE:** enlarge the barrel coil window to leg centres
+4.60/8.80 m and move the three 500 mm chamber envelopes to radii
+5.20/6.70/8.20 m. The old 4.85–7.85 m warm window could accommodate only a
+2.40 m measurement span after chamber half-depth and 50 mm clearance, so it
+could not provide the requested 3 m span at every azimuth. The enlarged window
+leaves 100 mm chamber-to-case separation in the straight-leg coil plane
+(about 91 mm minimum radial separation after the inner leg's full tangential
+extent is included).
+Retain three disks per end, at |z|=8.00/9.50/11.00 m, with outer radii
+R_station+0.250 m and inner radius 0.700 m. End the corresponding barrels
+0.300 m before the disk centres: this leaves 50 mm between their full-depth
+faces while closing the nominal centre-surface barrel/disk gaps.
+
+Set each endcap coil's leg centres to 0.70/7.60 m and axial bounds to
+|z|=6.80–11.70 m, retaining its 0.60 m corner radius. Moving the first disk past
+the front rounded return reduces forward chamber exclusions; the outer endcap
+leg stays 100 mm inside the outer barrel chamber's inner face in its coil plane
+(about 94 mm including tangential extent). The complete
+warm magnet still fits within |z|≤12.05 m, with its radial bound increased to
+approximately 9.06 m. HCAL minimum clearances are retained. The smaller endcap
+inner leg leaves only about 21 mm between adjacent current packs; shared
+cold/warm sleeves are union reservations, not qualified independent vessels.
+
+Keep the 12-fold symmetry, 15-degree staggering, uniform 0.20×0.30 m packs,
+0.50×0.60 m warm reservations and signed 1.0/1.6 T response targets. Recompute
+currents, all-space energy, energy-sized cold volume and the full joint vacuum
+map for the new source geometry. Geometry and field plots must use that same
+normalized configuration. Plot actual sections, not projected coil centrelines
+presented as slices. Show winding/cold/warm occupancy and retained/excluded
+chamber envelopes separately from the numerical field-map guard.
+
+Acceptance is not yet an adopted eta requirement. Compare the old and revised
+proposals over 0≤|eta|≤3 using equal azimuth bins, with explicit eta bands and
+solid-angle weights. Distinguish nominal three surfaces, three retained chamber
+envelopes, interstation coil material, and upstream coil shadows. Remaining
+transition/forward exclusions must be visible; a case crossing alone does not
+prove failure to reconstruct a muon. These are straight-ray geometric studies,
+not reconstruction efficiency or full material transport.
+
 The [calculation report](../validation/DES-039/results.md) contains the dimensions,
 current normalization, field grid, energy accounting and limitations. The
 [3D outline](../validation/DES-039/geometry-3d.png),
@@ -88,16 +136,16 @@ not an ATLAS operating-field claim.
 |---|---:|---:|
 | Coils | 12 | 12 |
 | Coil-plane azimuth | 30° k | 15° + 30° k |
-| Straight-leg centre radii [m] | 4.60 / 8.10 | 0.80 / 7.80 |
-| Axial coil-centre bounds [m] | −11.8 to +11.8 | ±(6.8 to 11.2) |
+| Straight-leg centre radii [m] | 4.60 / 8.80 | 0.70 / 7.60 |
+| Axial coil-centre bounds [m] | −11.8 to +11.8 | ±(6.8 to 11.7) |
 | Rounded-corner radius [m] | 1.0 | 0.6 |
 | Uniform current-pack section [m] | 0.20 × 0.30 | 0.20 × 0.30 |
-| Ampere-turns per coil [MA-turn] | 2.88509 | 1.65132 |
-| Averaged winding-pack J [A/mm²] | 48.0848 | 27.5219 |
+| Ampere-turns per coil [MA-turn] | 2.98534 | 1.74540 |
+| Averaged winding-pack J [A/mm²] | 49.7557 | 29.0899 |
 
-The three barrel measurement radii are 4.7, 6.2 and 7.7 m. Corresponding disk
-centres are at |z|=7.5, 9.0 and 10.5 m, with inner radius 0.70 m and outer radius
-R_station+0.250 m. Each barrel ends 0.500 m before its disk centre. All chamber
+The three barrel measurement radii are 5.2, 6.7 and 8.2 m. Corresponding disk
+centres are at |z|=8.0, 9.5 and 11.0 m, with inner radius 0.70 m and outer radius
+R_station+0.250 m. Each barrel ends 0.300 m before its disk centre. All chamber
 reservations are 0.500 m thick; exported geometry consists only of their clipped
 boundaries. There are three disks **per side**, six total. The first-to-last
 radial/axial spans are each 3 m, with two 1.5 m station intervals. Actual path
@@ -113,7 +161,7 @@ annular ATLAS endcap vessel cannot be substituted without relocating chambers.
 
 **NODD DESIGN CHOICE:** this is an air-core racetrack topology inspired by ATLAS,
 with a separate, unqualified conductor/insulation assumption. The barrel pack's
-48.1 A/mm² cannot accommodate the cited ATLAS 57 × 12 mm² conductor at 20.5 kA
+49.8 A/mm² cannot accommodate the cited ATLAS 57 × 12 mm² conductor at 20.5 kA
 with the required ampere-turns. Neither ATLAS conductor adoption nor critical
 current/temperature margin is established. Turns, circuit current, forces,
 quench protection and mechanical support remain to be engineered.

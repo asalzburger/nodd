@@ -1,5 +1,6 @@
 """Independent observable controls for DES-039 (pure math; no ACTS runtime)."""
 import math
+import copy
 import unittest
 import numpy as np
 from .system import (load_design,normalize_currents,toroid_sources,response_points,
@@ -7,6 +8,15 @@ from .system import (load_design,normalize_currents,toroid_sources,response_poin
 from .field import evaluate
 
 class SystemTests(unittest.TestCase):
+    def test_stale_energy_matrix_rejected_after_geometry_change(self):
+        from .run import check_energy_geometry
+        c=load_design();energy={'source_configuration':copy.deepcopy(c)}
+        # Changing only operating currents remains valid exact vacuum scaling.
+        normalize_currents(c);check_energy_geometry(energy,c)
+        c['coil_groups']['barrel']['half_r_m']+=.1
+        with self.assertRaisesRegex(ValueError,'rerun energy_study'):
+            check_energy_geometry(energy,c)
+
     def test_uniform_field_unequal_station_interpolation(self):
         c=load_design()
         for eta in [0.,1.10,1.14,2.]:

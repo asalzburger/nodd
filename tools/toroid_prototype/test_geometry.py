@@ -59,11 +59,36 @@ class GeometryTests(unittest.TestCase):
         for eta,phi,kind in [(0,15,'BBB'),(1.10,7.5,'BBD'),(1.14,7.5,'BDD'),(2.,0,'DDD')]:
             r=g.station_intersections(eta,phi,self.c)
             self.assertEqual(r['hit_types'],kind); self.assertTrue(r['valid'],r)
-        self.assertFalse(g.station_intersections(0,0,self.c)['valid'])
-        self.assertFalse(g.station_intersections(3.1,0,self.c)['three_hits'])
+        self.assertTrue(g.station_intersections(0,0,self.c)['valid'])
+        self.assertFalse(g.station_intersections(3.2,0,self.c)['three_hits'])
+
+    def test_revised_window_fits_full_depth_three_m_span(self):
+        c=self.c;h=c['stations']['outline_thickness_m']/2;w=c['warm']['normal_m']/2
+        b=c['coil_groups']['barrel'];r=c['stations']['barrel_radii_m']
+        self.assertAlmostEqual(r[0]-h-(b['center_r_m']-b['half_r_m']+w),.1)
+        self.assertAlmostEqual(b['center_r_m']+b['half_r_m']-w-(r[-1]+h),.1)
+        # Sweep a full independent sector, including both coil planes. The old
+        # layout excluded these near-leg chambers even at eta=0.
+        for phi in np.arange(0,30,.5):
+            for eta in [0.,2.7]:
+                self.assertTrue(g.station_intersections(eta,float(phi),c)['valid'],(eta,phi))
+
+    def test_closed_nominal_seams_with_fifty_mm_face_gap(self):
+        s=self.c['stations'];h=s['outline_thickness_m']/2;gap=s['barrel_end_shortening_m']
+        self.assertAlmostEqual(gap-h,.05)
+        for r,z in zip(s['barrel_radii_m'],s['disk_abs_z_m']):
+            barrel_max=math.asinh((z-gap)/r)
+            disk_min=math.asinh(z/(r+h))
+            self.assertGreaterEqual(barrel_max,disk_min)
 
     def test_path_crosses_coil_between_clear_stations(self):
         fixture=copy.deepcopy(self.c)
+        # Frozen historical geometry isolates the material crossing regression
+        # from the revised station locations.
+        fixture['stations'].update(barrel_radii_m=[4.7,6.2,7.7],disk_abs_z_m=[7.5,9.,10.5])
+        fixture['coil_groups']['barrel'].update(center_r_m=6.35,half_r_m=1.75)
+        for name,side in [('endcap_plus',1),('endcap_minus',-1)]:
+            fixture['coil_groups'][name].update(center_r_m=4.3,half_r_m=3.5,center_z_m=side*9.,half_z_m=2.2)
         fixture['stations'].update(outline_thickness_m=.05,barrel_end_shortening_m=.05)
         r=g.station_intersections(1.,12.,fixture)
         self.assertTrue(r['three_hits']); self.assertFalse(r['excluded_hits'])
@@ -80,14 +105,27 @@ class GeometryTests(unittest.TestCase):
         cold=g.group_mask(p,e,12,normal_m=.3,tangent_m=.4,return_count=True)
         self.assertEqual(pack.max(),1); self.assertEqual(cold.max(),2)
         # Deliberately broader TEST sleeve exercises the shared-allocation path;
-        # the energy-sized candidate may legitimately have zero cold overlap.
+        # retain the historical inner-leg fixture for its <1% overlap control.
+        # The revised smaller inner leg has greater overlap, accounted as union.
         fixture=copy.deepcopy(self.c);fixture['cold']={'normal_m':.3,'tangent_m':.4}
+        for name in ['endcap_plus','endcap_minus']:
+            fixture['coil_groups'][name].update(center_r_m=4.3,half_r_m=3.5)
         v=g.sweep_union_volumes(fixture,samples=131072)
         self.assertFalse(v['cross_group_overlap_detected'])
         for name in ['endcap_plus','endcap_minus']:
             x=v['groups'][name]
             self.assertGreater(x['overlap_correction_m3'],0)
             self.assertLess(x['overlap_correction_m3'],.01*x['summed_sleeve_volume_m3'])
+
+    def test_revised_inner_leg_union_against_independent_mc(self):
+        # Near the energy-sized final sleeve, including enlarged tangent width.
+        fixture=copy.deepcopy(self.c);fixture['cold']={'normal_m':.301,'tangent_m':.439}
+        exact=g.analytic_sweep_union_volumes(fixture,order=128)
+        mc=g.sweep_union_volumes(fixture,samples=524288)
+        error=math.sqrt(sum(x['one_sigma_statistical_error_m3']**2 for x in mc['groups'].values()))
+        self.assertLess(abs(exact['sum_group_union_volume_m3']-mc['sum_group_union_volume_m3']),5*error)
+        for proof in exact['cross_group_separation_proofs']:
+            self.assertGreater(proof['separation_lower_bound_m'],0)
 
     def test_outlines_are_only_clear_external_boundaries(self):
         outlines=g.chamber_outline_polylines(self.c,phi_step_deg=3,longitudinal_step_m=.25,radial_step_m=.25)
@@ -120,10 +158,9 @@ class GeometryTests(unittest.TestCase):
     def test_analytic_union_refinement_and_independent_multiplicity_mc(self):
         fixture=copy.deepcopy(self.c);fixture['cold']={'normal_m':.3,'tangent_m':.4}
         # Frozen numerical TEST geometry for independent overlap control.
-        fixture['coil_groups']['barrel']['half_z_m']=10.8
+        fixture['coil_groups']['barrel'].update(center_r_m=6.35,half_r_m=1.75,half_z_m=10.8)
         for name,side in [('endcap_plus',1),('endcap_minus',-1)]:
-            fixture['coil_groups'][name]['half_z_m']=1.9
-            fixture['coil_groups'][name]['center_z_m']=side*8.7
+            fixture['coil_groups'][name].update(center_r_m=4.3,half_r_m=3.5,half_z_m=1.9,center_z_m=side*8.7)
         low=g.analytic_sweep_union_volumes(fixture,order=32)
         high=g.analytic_sweep_union_volumes(fixture,order=128)
         self.assertAlmostEqual(high['sum_group_union_volume_m3'],128.8778104360228,places=8)

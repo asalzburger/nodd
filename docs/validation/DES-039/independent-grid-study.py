@@ -58,16 +58,17 @@ selected_path=ROOT/'docs/validation/DES-039/joint-field.npz'
 selected_reader=FieldMap(selected_path)
 assert np.isclose(selected_reader.r[1]-selected_reader.r[0],.0625)
 assert np.isclose(selected_reader.phi[1]-selected_reader.phi[0],.625)
-loaded_cart=selected_reader.field(p)
-angle=np.arctan2(p[:,1],p[:,0]);co=np.cos(angle);si=np.sin(angle)
+selected_points=p[valid]
+loaded_cart=selected_reader.field(selected_points)
+angle=np.arctan2(selected_points[:,1],selected_points[:,0]);co=np.cos(angle);si=np.sin(angle)
 loaded=np.column_stack((loaded_cart[:,0]*co+loaded_cart[:,1]*si,-loaded_cart[:,0]*si+loaded_cart[:,1]*co,loaded_cart[:,2]))
-serialization_delta=np.linalg.norm(loaded-interp,axis=1)
+serialization_delta=np.linalg.norm(loaded-interp[valid],axis=1)
 assert serialization_delta.max()<2e-6,serialization_delta.max()
-loaded_error=np.linalg.norm(loaded-truth,axis=1)
+loaded_error=np.linalg.norm(loaded-truth[valid],axis=1)
 selected_sha=hashlib.sha256(selected_path.read_bytes()).hexdigest()
 metadata_path=ROOT/'docs/validation/DES-039/map-metadata.json'
 assert json.loads(metadata_path.read_text())['sha256']==selected_sha
-serialized_check={'filename':'joint-field.npz','sha256':selected_sha,'metadata_hash_matches':True,'sample_count':len(p),'max_difference_from_independent_local_eight_corner_T':float(serialization_delta.max()),'max_absolute_error_against_direct_T':float(loaded_error.max()),'rms_absolute_error_against_direct_T':float(np.sqrt(np.mean(loaded_error**2))),'maximum_relative_norm_error_against_direct':float(np.max(loaded_error/np.linalg.norm(truth,axis=1)))}
+serialized_check={'filename':'joint-field.npz','sha256':selected_sha,'metadata_hash_matches':True,'candidate_points':len(p),'sample_count':len(selected_points),'masked_stencils':int((~valid).sum()),'max_difference_from_independent_local_eight_corner_T':float(serialization_delta.max()),'max_absolute_error_against_direct_T':float(loaded_error.max()),'rms_absolute_error_against_direct_T':float(np.sqrt(np.mean(loaded_error**2))),'maximum_relative_norm_error_against_direct':float(np.max(loaded_error/np.linalg.norm(truth[valid],axis=1)))}
 common=np.logical_and.reduce(retained)
 for row,error in zip(reports,errors):row['common_stencil_points']=int(common.sum());row['common_stencil_max_absolute_T']=float(error[common].max());row['common_stencil_rms_absolute_T']=float(np.sqrt(np.mean(error[common]**2)))
 report={'status':'Independent local direct-eight-corner grid refinement diagnostic for final1.6Tendcap vacuum source; no extra warm-distance filter','normalization_Aturn':{k:v['ampere_turns_per_coil'] for k,v in c['coil_groups'].items()},'probe_generation':'3000deterministicrandomrays, uniformlyrandomfractionbetween actualclear3stationcrossings, pluseta1.4–1.8phi0–30fractions.1/.5/.9 and historicalworstpoint; sourcepackguardstencilsrejected','seed':39086,'studies':reports,'selected_grid':{'r_z_step_m':.0625,'phi_step_deg':.625},'serialized_selected_map_check':serialized_check,'input_sha256':{**{str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for p in [ROOT/'tools/toroid_prototype'/x for x in ['system.py','field.py','field_backend.cpp','geometry.py','solenoid-input.json','map.py']]},str(configuration_path.relative_to(ROOT)):hashlib.sha256(configuration_bytes).hexdigest()},'script_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),'reproduction_command':'python3 docs/validation/DES-039/independent-grid-study.py','limits':['Finite deterministic sampling is not a global interpolation bound.','Compared to the same source-pack4x4/corner16 and solenoid3x96/polygon192 source approximations.','Test uses analytic meridional rotation for axisymmetric solenoid, matching exportedmap convention.']}

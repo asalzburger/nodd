@@ -7,7 +7,7 @@ reservations. No chamber internals, iron response or production integration.
 From repository root, with Python + NumPy:
 
 ```sh
-python3 -B -m unittest tools.toroid_prototype.test_field tools.toroid_prototype.test_energy tools.toroid_prototype.test_geometry tools.toroid_prototype.test_system tools.toroid_prototype.test_map
+python3 -B -m unittest tools.toroid_prototype.test_field tools.toroid_prototype.test_energy tools.toroid_prototype.test_geometry tools.toroid_prototype.test_system tools.toroid_prototype.test_map tools.toroid_prototype.test_review_views
 python3 -B -m tools.toroid_prototype.energy_study
 python3 -B -m tools.toroid_prototype.run --skip-plots
 ```
@@ -15,7 +15,11 @@ python3 -B -m tools.toroid_prototype.run --skip-plots
 The energy study takes several minutes. It retains a **1T barrel /1T endcap
 reference** coupling matrix; the main run rescales every self/mutual term to the
 chosen **1T barrel /1.6T endcap sagitta reference**. Linear vacuum current scaling
-is exact. Source geometry and current packs stay identical.
+is exact at fixed source geometry. Changing coils requires a fresh energy study;
+the runner rejects rescaling a matrix from a different source geometry. Wait for
+the energy command to finish before starting the main calculation. Cold-volume
+sizing uses a verified bracket inside the adjacent-overlap union solver's domain;
+an unsupported allocation raises an error rather than extrapolating the formula.
 
 With matplotlib, omit `--skip-plots`, or run `--plots-only` after calculation.
 A local C++17 compiler accelerates the exact segment kernels; the ignored build
@@ -23,6 +27,24 @@ cache is generated from the checked-in `field_backend.cpp`. NumPy backend is
 available for independent controls. No SciPy, ACTS, DD4hep, Geant4 or Spack setup
 is required. `design.json` specifies geometry/targets; all units are SI except
 explicit degree and A/mm² fields.
+
+For the PR87 occupied-space views and before/after coverage, after the map run:
+
+```sh
+python3 -B -m tools.toroid_prototype.review_views --baseline-revision 71406b09fa2d3fbfa119dba61e436f8fad1d11ac --eta-step .0125 --phi-step-deg .25
+python3 -B docs/validation/DES-039/independent-response-controls.py
+python3 -B docs/validation/DES-039/independent-grid-study.py
+```
+
+The renderer uses energy-sized cold dimensions and currents from `results.json`
+and verifies the joint-map hash. It draws true XY and fixed-phi RZ sections of
+finite packs/cold/warm sweeps and full-depth retained/excluded chamber envelopes.
+The earlier `geometry-rz-xy.png` is explicitly an axial projection, not a slice.
+Cell-centred eta/phi bins avoid duplicated periodic boundaries. Three geometric
+surfaces, three usable chamber envelopes, clear interstation paths and upstream
+toroid shadows are separate diagnostics. Coverage uses a half-step path guard;
+it is not reconstruction efficiency. Coarse/fine differences are retained in
+the `sampling_sensitivity` section of `review-coverage/coverage.json`.
 
 `docs/validation/DES-039/joint-field.npz` stores axes `(r,z,phi)` and cylindrical
 `(Br,Bphi,Bz)` for the complete joint field, at0.0625m /0.625° spacing.

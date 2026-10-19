@@ -26,6 +26,16 @@ OUT=Path('docs/validation/DES-039')
 def sha(path):return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 def write_json(path,value):Path(path).write_text(json.dumps(value,indent=2,allow_nan=False)+'\n')
 
+def check_energy_geometry(energy,config):
+    """Current scaling cannot reuse an energy matrix after a source-geometry edit."""
+    reference=energy['source_configuration']
+    def geometry(c):
+        return {key:c[key] for key in ('folds','pack')} | {
+            'coil_groups':{name:{k:v for k,v in group.items() if k!='ampere_turns_per_coil'}
+                           for name,group in c['coil_groups'].items()}}
+    if geometry(reference)!=geometry(config):
+        raise ValueError('energy source geometry changed; rerun energy_study before current rescaling')
+
 def central_check(toroid,solenoid):
     r=np.linspace(0,1.2,13);z=np.linspace(-3.6,3.6,49);ph=np.radians(np.arange(0,30,2.5))
     rr,zz,pp=np.meshgrid(r,z,ph,indexing='ij')
@@ -154,8 +164,8 @@ def plots(out,c):
     # Solenoid outer reservation outline only.
     for z in [-3.85,3.85]:
         ph=np.linspace(0,2*np.pi,120);ax.plot(0*ph+z,1.558656*np.cos(ph),1.558656*np.sin(ph),color='#7966ad',lw=1)
-    ax.set(xlabel='z [m]',ylabel='x [m]',zlabel='y [m]',xlim=(-12.5,12.5),ylim=(-8.6,8.6),zlim=(-8.6,8.6))
-    ax.set_box_aspect((25,17.2,17.2));ax.view_init(elev=21,azim=-57)
+    ax.set(xlabel='z [m]',ylabel='x [m]',zlabel='y [m]',xlim=(-12.5,12.5),ylim=(-9.5,9.5),zlim=(-9.5,9.5))
+    ax.set_box_aspect((25,19,19));ax.view_init(elev=21,azim=-57)
     ax.set_title('DES-039:12 barrel +12 toroid coils per end;3 nested chamber outlines\nCoil centre lines shown; chamber cutouts include warm reservations')
     fig.savefig(out/'geometry-3d.png',dpi=170);plt.close(fig)
     fig,(ax,xy)=plt.subplots(1,2,figsize=(13,6),layout='constrained')
@@ -168,13 +178,14 @@ def plots(out,c):
     ax.add_patch(plt.Rectangle((-4.4832,2.6),8.9664,4.23946-2.6,color='0.65',alpha=.4,label='HCAL envelope'))
     for z in [-6.4412,4.8832]:ax.add_patch(plt.Rectangle((z,.3),1.558,4.229-.3,color='0.65',alpha=.4))
     ax.add_patch(plt.Rectangle((-3.85,1.24),7.7,.318656,color='#7966ad',alpha=.5,label='solenoid vessel'))
-    ax.set(xlabel='z [m]',ylabel='R [m]',title='Meridional envelopes (azimuths superposed)',xlim=(-12.5,12.5),ylim=(0,8.6));ax.legend(fontsize=8,loc='lower center')
+    ax.set(xlabel='z [m]',ylabel='R [m]',title='Axial projection (azimuths superposed; not a slice)',xlim=(-12.5,12.5),ylim=(0,9.5));ax.legend(fontsize=8,loc='lower center')
     ph=np.linspace(0,2*np.pi,361)
     for r in c['stations']['barrel_radii_m']:xy.plot(r*np.cos(ph),r*np.sin(ph),color='#258b83',lw=.8)
     for k in range(12):
-        a=k*np.pi/6;xy.plot([4.6*np.cos(a),8.1*np.cos(a)],[4.6*np.sin(a),8.1*np.sin(a)],color=colors['barrel'],lw=3)
+        a=k*np.pi/6;g=c['coil_groups']['barrel'];ri=g['center_r_m']-g['half_r_m'];ro=g['center_r_m']+g['half_r_m']
+        xy.plot([ri*np.cos(a),ro*np.cos(a)],[ri*np.sin(a),ro*np.sin(a)],color=colors['barrel'],lw=3)
     xy.add_patch(plt.Circle((0,0),4.23946,color='0.65',alpha=.3));xy.add_patch(plt.Circle((0,0),1.558656,color='#7966ad',alpha=.4))
-    xy.set(xlabel='x [m]',ylabel='y [m]',title='Barrel12fold coil planes; station radii',aspect='equal',xlim=(-8.6,8.6),ylim=(-8.6,8.6))
+    xy.set(xlabel='x [m]',ylabel='y [m]',title='Axial projection of BT returns (not z=0 slice)',aspect='equal',xlim=(-9.5,9.5),ylim=(-9.5,9.5))
     fig.savefig(out/'geometry-rz-xy.png',dpi=170);plt.close(fig)
     if (out/'joint-field.npz').exists():
         with np.load(out/'joint-field.npz') as f:
@@ -186,7 +197,7 @@ def plots(out,c):
                 for ri,zi in zip(c['stations']['barrel_radii_m'],c['stations']['disk_abs_z_m']):
                     ax.plot([-zi,zi],[ri,ri],color='k',lw=.5);ax.vlines([-zi,zi],.7,ri,color='k',lw=.5)
             ax=axes[1,0];im=ax.pcolormesh(z,r,b[:,:,int(np.argmin(abs(f['phi_deg']-7.5))),2],cmap='RdBu_r',vmin=-3,vmax=3,shading='nearest');fig.colorbar(im,ax=ax,label='T');ax.set(title='Joint Bz atφ=7.5°',xlabel='z [m]',ylabel='R [m]')
-            ax=axes[1,1];i=np.argmin(abs(r-6.2));j=np.argmin(abs(z));ax.plot(f['phi_deg'],b[i,j,:,1]);ax.set(xlabel='φ [degree]',ylabel='Bφ [T]',title='Barrel mid-span ripple,R=6.2m,z=0');ax.grid(alpha=.2)
+            ax=axes[1,1];mid=c['stations']['barrel_radii_m'][1];i=np.argmin(abs(r-mid));j=np.argmin(abs(z));ax.plot(f['phi_deg'],b[i,j,:,1]);ax.set(xlabel='φ [degree]',ylabel='Bφ [T]',title=f'Barrel mid-span ripple,R≈{r[i]:g}m,z=0');ax.grid(alpha=.2)
             fig.suptitle('Joint3T solenoid +36 toroid coils: VACUUM field; white areas mask current packs+0.10m guard')
             fig.savefig(out/'joint-field.png',dpi=170);plt.close(fig)
     result=json.loads((out/'results.json').read_text());rows=result['acceptance_performance_scan']
@@ -210,6 +221,7 @@ def main():
     energy_path=out/'energy.json';cold=None
     if energy_path.exists():
         energy=json.loads(energy_path.read_text())
+        check_energy_geometry(energy,c)
         # Exact energy scalar selected by the independent energy study, not map-volume energy.
         selected=rescale_energy(energy['selected'],normalization['currents_Aturn'])
         scaled_rows=[rescale_energy(row,normalization['currents_Aturn']) for row in energy['studies']]
@@ -227,7 +239,16 @@ def main():
         write_json(out/'operating-point-energy.json',operating)
         U=selected['total_energy_J']
         # Constant aspect ratio, global system budget. Include UNION of shared ECT supports.
-        target=U/30e6;lo,hi=.06001,.15
+        # The smaller endcap inner leg limits the adjacent-pair-only union
+        # reduction. Keep a verified valid bracket; never evaluate or silently
+        # extrapolate the union formula beyond its geometric guards.
+        target=U/30e6;lo,hi=.06001,.133
+        bracket=[]
+        for area in (lo,hi):
+            c['cold']={'normal_m':math.sqrt(area*.24/.35),'tangent_m':math.sqrt(area*.35/.24)}
+            bracket.append(analytic_sweep_union_volumes(c,width='cold',order=128)['sum_group_union_volume_m3'])
+        if not bracket[0]<=target<=bracket[1]:
+            raise ValueError('cold-volume target outside verified union bracket; revise allocation geometry')
         for _ in range(17):
             area=(lo+hi)/2;c['cold']={'normal_m':math.sqrt(area*.24/.35),'tangent_m':math.sqrt(area*.35/.24)}
             v=analytic_sweep_union_volumes(c,width='cold',order=128)
@@ -237,6 +258,8 @@ def main():
         c['cold']={'normal_m':math.sqrt((lo+hi)/2*.24/.35),'tangent_m':math.sqrt((lo+hi)/2*.35/.24)}
         cold=analytic_sweep_union_volumes(c,width='cold',order=256)
         cold['global_toroid_target_volume_m3']=target
+        cold['area_bracket_m2']=[.06001,.133]
+        cold['normal_to_tangent_aspect_ratio']=.24/.35
         cold['complete_energy_J']=coupled
         cold['complete_cold_volume_m3']=cold['sum_group_union_volume_m3']+solenoid_parameters()['cold_volume_m3']
         cold['complete_energy_density_MJ_m3']=coupled/cold['complete_cold_volume_m3']/1e6

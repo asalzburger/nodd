@@ -4,7 +4,7 @@ Integrates the equation of motion twice rather than calling the implementation
 weight generator. Source evaluation is shared and is separately controlled by
 the exact-wire, loop, Maxwell and energy tests. Writes the paired JSON report.
 """
-import sys,math,json,hashlib
+import sys,math,json,hashlib,copy
 from pathlib import Path
 import numpy as np
 ROOT=Path(__file__).resolve().parents[3]
@@ -40,18 +40,27 @@ for eta,phi in [(0,15),(.8,15),(1.10,7.5),(1.14,7.5),(1.22,22.5),(2,0),(-2,0),(m
     exact=(b-a)**2*(d-b)**2/(3*(d-a))
     assert math.isclose(variance_weight,exact,rel_tol=1e-12)
     out.append({'eta':eta,'phi_deg':phi,'types':types, 'stations_s_m':stations.tolist(),'independent_integral_T_m2':float(direct),'authored_integral_T_m2':authored['integral_T_m2'],'relative_difference':rel,'uniform_scattering_variance_weight_m3':float(variance_weight)})
-# The finite corner seam must not silently create an idealized third hit.
-sr=cfg['stations']['barrel_radii_m'][0];sz=cfg['stations']['disk_abs_z_m'][0]
-seam_barrel_end=math.asinh((sz-cfg['stations']['barrel_end_shortening_m'])/sr)
-seam_disk_start=math.asinh(sz/(sr+cfg['stations']['outline_thickness_m']/2))
+# The revised nominal seams overlap in angular coverage while their full-depth
+# faces retain50mm separation. Preserve missing-hit rejection with a deliberately
+# gapped TEST fixture, rather than asserting that the physical revision has gaps.
+nominal_seams=[]
+for sr,sz in zip(cfg['stations']['barrel_radii_m'],cfg['stations']['disk_abs_z_m']):
+    barrel_end=math.asinh((sz-cfg['stations']['barrel_end_shortening_m'])/sr)
+    disk_start=math.asinh(sz/(sr+cfg['stations']['outline_thickness_m']/2))
+    assert barrel_end>=disk_start
+    nominal_seams.append({'barrel_max_eta':barrel_end,'disk_min_eta':disk_start,'overlap_eta':barrel_end-disk_start})
+gap_fixture=copy.deepcopy(cfg);gap_fixture['stations']['barrel_end_shortening_m']=.5
+sr=gap_fixture['stations']['barrel_radii_m'][0];sz=gap_fixture['stations']['disk_abs_z_m'][0]
+seam_barrel_end=math.asinh((sz-gap_fixture['stations']['barrel_end_shortening_m'])/sr)
+seam_disk_start=math.asinh(sz/(sr+gap_fixture['stations']['outline_thickness_m']/2))
 assert seam_disk_start>seam_barrel_end
 seam_eta=(seam_disk_start+seam_barrel_end)/2
-seam_missing=[i+1 for i,(r,z) in enumerate(zip(cfg['stations']['barrel_radii_m'],cfg['stations']['disk_abs_z_m'])) if r*math.sinh(seam_eta)>z-cfg['stations']['barrel_end_shortening_m'] and z/math.sinh(seam_eta)>r+cfg['stations']['outline_thickness_m']/2]
+seam_missing=[i+1 for i,(r,z) in enumerate(zip(gap_fixture['stations']['barrel_radii_m'],gap_fixture['stations']['disk_abs_z_m'])) if r*math.sinh(seam_eta)>z-gap_fixture['stations']['barrel_end_shortening_m'] and z/math.sinh(seam_eta)>r+gap_fixture['stations']['outline_thickness_m']/2]
 assert seam_missing
 try:
-    system.response_points(seam_eta,7.5,cfg)
+    system.response_points(seam_eta,7.5,gap_fixture)
 except ValueError:
-    seam_control={'eta':seam_eta,'phi_deg':7.5,'independently_missing_stations':seam_missing,'implementation_rejects_missing_station':True}
+    seam_control={'fixture':'revised dimensions with deliberately gapped500mm barrel shortening, not physical proposal','eta':seam_eta,'phi_deg':7.5,'independently_missing_stations':seam_missing,'implementation_rejects_missing_station':True,'revised_nominal_seams':nominal_seams}
 else:
     raise AssertionError('finite seam was replaced with an idealized station')
 # True signed cancellation control: Bphi positive then equally negative around midpoint.
