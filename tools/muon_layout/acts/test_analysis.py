@@ -52,6 +52,14 @@ class CounterControls(unittest.TestCase):
         h,c=fixture([(0,1,1,[1,0,0])]);r=count_events(h,c,[True])
         self.assertEqual(r['orphan_transitions'],1);self.assertEqual(r['outer_paired_stations'],0)
 
+    def test_tangent_contacts_cannot_satisfy_crossing_threshold(self):
+        h,c=fixture([(p,f,1+2*p+f,[0,1,0]) for p in range(3) for f in [0,1]])
+        r=count_events(h,c,np.ones(len(h),bool))
+        self.assertEqual(r['tangent_events'],6)
+        self.assertEqual(r['outer_unique_faces'],0)
+        self.assertEqual(r['active_unique_faces'],0)
+        self.assertEqual(r['outer_paired_stations'],0)
+
     def test_full_64bit_native_ids_are_not_float_rounded(self):
         h,_=fixture([(0,0,1,[1,0,0]),(0,1,2,[1,0,0])])
         self.assertEqual(int(h['geometry_id'][1]),2**60+1)

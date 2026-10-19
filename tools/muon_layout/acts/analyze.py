@@ -65,12 +65,15 @@ def count_events(events,face_info,border_flags,tol=2e-6):
             duplicates+=1;continue
         last[key]=(path,point);keep.append(i)
         active=bool(border_flags[i]);is_large=info['large']
+        direction=np.array([event[x] for x in ['dx','dy','dz']]);sense=float(direction@info['normal'])
+        if abs(sense)<1e-10:
+            touches+=1
+            if not is_large:side+=1
+            continue
         if is_large:
             large.add(key)
             if active:active_large.add(key)
         else:side+=1
-        direction=np.array([event[x] for x in ['dx','dy','dz']]);sense=float(direction@info['normal'])
-        if abs(sense)<1e-10:touches+=1;continue
         if sense<0:
             if p in visits:orphans+=1
             if seen_visits.get(p,0):reentries+=1
