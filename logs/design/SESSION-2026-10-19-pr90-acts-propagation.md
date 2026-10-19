@@ -26,7 +26,7 @@ The Spack preflight warned of changed setup/lock and unavailable staged DD4hep/G
 
 Final native controls pass4111field queries, all geometry/IDs/corners,256unique zeroB ray clips, charge/field helices and curved/parallel/coplanar fixtures,160bounded indexed/exhaustive tracks, and800-track step/surface/RK refinements. Worst coordinate delta1.188µm<unchanged10µm. The current unbounded diagnostic happens to agree at tight RK; earlier failures are preserved, not re-labelled.
 
-Root corrected two output-bookkeeping defects before final evidence: a fingerprint variable collision in the merger and duplicate summary keyword. Separate R1 also identified pure tangent contacts in crossing sets; corrected with a regression,11counter/entrance tests pass. There are no production tangencies, so fractions are unchanged. Native acquisition is77c652e, final postprocessingff5ad3e, with separate acquisition/final control records.81combined science tests, retained layout/hash checks, artifact integrity, project records, journal validation and token-preview build passed. Final R2 assessment at b33403ac7476fd8392542d28f984a426660527b3 found no unresolved material findings within its bounded scope. It independently reconstructed every track counter from all 464397 events and reproduced all 80 availability bounds; raw CSV/NPZ identities, all 32 manifest entries and 52 magnetic files agree. Publication is being prepared.
+Root corrected two output-bookkeeping defects before final evidence: a fingerprint variable collision in the merger and duplicate summary keyword. Separate R1 also identified pure tangent contacts in crossing sets; corrected with a regression,11counter/entrance tests pass. There are no production tangencies, so fractions are unchanged. Native acquisition is77c652e, final postprocessingff5ad3e, with separate acquisition/final control records.81combined science tests, retained layout/hash checks, artifact integrity, project records, journal validation and token-preview build passed. Final R2 assessment at b33403ac7476fd8392542d28f984a426660527b3 found no unresolved material findings within its bounded scope. It independently reconstructed every track counter from all 464397 events and reproduced all 80 availability bounds; raw CSV/NPZ identities, all 32 manifest entries and 52 magnetic files agree. Evidence and the independent assessment were published on PR90.
 
 ## Changes and revision links
 
@@ -38,7 +38,7 @@ Exact root/child per-turn token counters were unavailable. Usage is empty and un
 
 ## Follow-up
 
-Publish the completed R2 assessment and reviewer response on PR90. Human review must choose required eta acceptance and any future chamber changes. Material-capable transport/field handling, reconstruction response and engineering qualification remain open; no human sign-off is inferred.
+PR90 title/body and the completed R2 assessment are published; [reviewer response](https://github.com/asalzburger/nodd/pull/90#issuecomment-6270564000). Human review must choose required eta acceptance and any future chamber changes. Material-capable transport/field handling, reconstruction response and engineering qualification remain open; no human sign-off is inferred.
 
 ## Assignment A1 recorded before dispatch
 
@@ -243,3 +243,9 @@ R1separatesourceassessmentcaughtpurecontactsbeingincludedinliteralcrossingcounte
 PhysVal returned the final read-only assessment of b33403ac7476fd8392542d28f984a426660527b3. Copied the reviewer-authored Markdown/JSON and portable independent artifact checker/results byte-for-byte to docs/validation/DES-040/acts-propagation/review.md/.json and independent-artifact-check.py/.json. R1 findings are resolved; all event-derived counters, 80 bounds, table cells, provenance and four plots were checked. This is an AI technical assessment with disclosed P1 planning overlap, not human design approval. The frozen scientific manifest/source/data are unchanged. Final direct preservation check also confirms all 15 pre-existing ACTS file hashes and rebuilt library identity.
 
 The closeout journal initially used an invalid WARN status for the exit-2 preflight. Corrected to FAIL with the original cause retained; subsequent validation passed.
+
+## Publication and closeout
+
+Pushed c2ab8ffe6aa16a71e8d0a0a90b173c20d523d7b0 to the existing PR90 branch. Updated its title to `Muon System: fit chambers and validate coverage with ACTS`, linked immutable scientific evidence/review and posted [the reviewer response](https://github.com/asalzburger/nodd/pull/90#issuecomment-6270564000). Verified the published head, title and comment. Remote project-validation/token checks were running at this observation; the final client response reports the later observed check state. No merge or human sign-off was recorded. This record-only closeout follows the collected published revision.
+
+The bounded rebuild, requested ACTS study, final independent assessment and reviewer response are complete. Remaining detector acceptance/material/reconstruction questions are stated in the scientific report. Usage remains unknown.
