@@ -258,3 +258,32 @@ Report incorporated unchanged into review-coverage/review.json.
 
 The implementation sourcecommit is fixed; reviewrecord/publicationbookkeeping
 follows it. PR87 remains open/non-draft; physicalproposal remainsDRAFT.
+
+## Publication and completion
+
+Implementation67ca473f35ed1469f40eed6183dadd5e5c0bd6f7 and independentreview
+875a2db7a8510bcc553b6864a282542a4ac161d0 pushed normally to the existing PR87
+branch; noforcepush/merge/draft-statechange. GitHubconnector writes returned403
+(Resource not accessible by integration); repository-authenticatedghCLI fallback
+succeeded for bothbodyupdate and comment. This was a connectorcapabilitylimit,
+not an automaticapprovalreviewrejection or a remainingblocker.
+
+Reply: https://github.com/asalzburger/nodd/pull/87#issuecomment-6266290111
+It links bothoriginalcomments, includes immutableXY/RZimages andcoverage/report,
+explains the2.4moldwindowconstraint, revised3mspan, weightedcoveragegain and
+20.4%energycost, and retains geometry/efficiency and engineering limitations.
+PRbodyrewrittenaroundthefinalproposalwithupdateddimensions/field/energy/tests.
+Observedpublicationhead875a2db is recorded; thisrecord-onlycloseoutcommit follows
+andislocatedbyGit history ratherthan trying to include its own hash.
+
+Requestedreviewfollow-up is complete. Furtheretaacceptance, installedHCALB-H,
+conductor/support/commonvessel/force/quench engineering and full muontransport
+remain designrequirements, not uncompleted partsofthiscommentresponse.
+Finalrequiredrecordvalidators andM1summary are rerun for closeout; remoteCI
+status is checked at the finalpublicationhead and reported to the user.
+
+Finalcloseoutchecks: projectrecords67tasks/37documents/21reviews pass;189session
+records pass; gitdiffwhitespacecheck passes; allreviewedsource/artifacthashes
+stillmatch67ca473 afterpublication. M1summary:76/76sessionsclosed(allpartial),
+35/76withusage,69recordedturns; observedinput178024582/output893575/total178918157,
+unchangedfrombeforecloseout. This taskusage remainsunknown.
