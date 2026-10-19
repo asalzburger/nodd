@@ -26,8 +26,7 @@ def run(work, executable, output, controls, workers=4):
     if control.get('configuration_sha256') != sha(Path(__file__).parent/'config.json'):
         raise ValueError('study configuration changed since the executed controls')
     c = configuration()
-    source_files=sorted(Path(__file__).parent.glob('*.py'))
-    source_files += [Path(__file__).parent/name for name in ('config.json','CMakeLists.txt','propagate.cpp')]
+    source_files=[Path(__file__).parent/name for name in ('run.py','prepare.py','config.json','CMakeLists.txt','propagate.cpp')]
     fingerprints={str(p.relative_to(ROOT)):sha(p) for p in source_files}
     revision=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()
     tracked=set(subprocess.check_output(['git','ls-files'],cwd=ROOT,text=True).splitlines())

@@ -5,6 +5,7 @@ import csv
 import json
 from pathlib import Path
 import sys
+import subprocess
 import numpy as np
 
 ROOT=Path(__file__).resolve().parents[3]
@@ -169,7 +170,7 @@ def analyze(work,run,output):
                                                      plane_residual_m=residual,finite_excess_m=finite_excess)
     np.savez_compressed(output/'hits.npz',**h)
     summary=dict(configuration=c,cases=summarize(c,data),native_metadata=json.loads((run/'metadata.json').read_text()),
-        audit=dict(**geocheck,tracks=N,raw_boundary_hits=len(hits),unique_crossing_events=int(clean.sum()),
+        audit=dict(geocheck,tracks=N,raw_boundary_hits=len(hits),unique_crossing_events=int(clean.sum()),
                    max_plane_residual_m=float(residual.max()) if len(hits) else 0.,
                    max_finite_face_excess_m=float(finite_excess.max()) if len(hits) else 0.,
                    orphan_transitions=int(counters['orphan_transitions'].sum()),
@@ -178,6 +179,8 @@ def analyze(work,run,output):
         inputs=dict(geometry_sha256=c['geometry_sha256'],map_sha256=c['map_sha256'],primaries_sha256=sha(work/'primaries.npz'),
                     raw_hits_sha256=sha(run/'hits.csv'),raw_tracks_sha256=sha(run/'tracks.csv')),
         artifacts={name:sha(output/name) for name in ['tracks.npz','hits.npz']},
+        postprocessing=dict(source_revision=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
+                            source_files_sha256={str(p.relative_to(ROOT)):sha(p) for p in [Path(__file__).resolve(),ROOT/'tools/muon_layout/geometry.py',ROOT/'tools/muon_layout/acts/prepare.py']}),
         scope='native ACTS vacuum boundary-event proxies; all failures remain in generated denominators; no efficiency or physical threshold certification')
     save(output/'summary.json',summary)
     print(json.dumps(summary['audit'],indent=2))
