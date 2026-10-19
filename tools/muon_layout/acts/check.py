@@ -21,6 +21,9 @@ def check(capture=False):
         raise ValueError('configuration differs or native controls did not pass')
     if summary['native_metadata']['executable_sha256']!=controls['executable_sha256']:
         raise ValueError('native scan executable differs from executed controls')
+    used=summary['native_metadata']['controls_sha256']
+    if used not in {sha(p) for p in (OUTPUT/'controls.json',OUTPUT/'controls-acquisition.json') if p.exists()}:
+        raise ValueError('native acquisition control record is not retained')
     if summary['audit']['orphan_transitions'] or summary['audit']['navigation_unqualified_tracks']:
         raise ValueError('unresolved chamber boundary navigation')
     expected=(c['map_grid']['eta_bins']*c['map_grid']['phi_bins']+c['full_sphere_directions'])*len(c['momentum_GeV'])*len(c['charge_e'])
@@ -52,7 +55,9 @@ def check(capture=False):
     manifest=OUTPUT/'artifact-manifest.json'
     if capture:
         names=['summary.json','tracks.npz','hits.npz','controls.json','controls-initial.json',
-               'rebuild.md','rebuild.json','provenance.json','results.md',
+               'controls-acquisition.json','controls-refinement-failure.json',
+               'rebuild.md','rebuild.json','provenance.json','results.md','figures.json',
+               'review-code-85b.md','review-code-85b.json','independent-code-checks.py','independent-code-checks.json',
                'hit-positions.png','entrance-segments.png','entrance-paired-stations.png','momentum-coverage.png']
         files=[OUTPUT/name for name in names]+sorted(Path(__file__).parent.glob('*.py'))
         files += [Path(__file__).parent/name for name in ['config.json','CMakeLists.txt','propagate.cpp','README.md','README-engine.md']]

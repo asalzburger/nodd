@@ -187,3 +187,30 @@ Initial audit controls retained in controls-initial.json: field4111queries,max1.
 S1native-stepdiagnostic: missed1nmxentryremained3.9936nmahead; configuredsurfaceTolerancewas1nm butindependentNavigatornearLimitdefault100nmdroppedforwardcandidate. DocumentednearLimit0beforenativeoptionfix. No hitorcontroltolerancerelaxation.
 
 Secondgate92ff retained:counts/statuses800refinementagree, coordinatesup90umfail10umgate; grazingamplifiesfewumtrajectorydrift. Unboundedexhaustivesupportsteststallsonghostplaneswhosefinitefaces9.9–18.5maway. DocumentedboundedfullAABBscanversusgridandindependent10pmRK/1pmrefinementBEFOREimplementation. No controlthreshold, physicalgeometryormapchanges.
+
+## Assignment R1 recorded before dispatch
+
+```json
+{
+  "id": "R1",
+  "role": "PhysVal",
+  "input_revision": "8ad71821a27c22a88b90ba1b56d732dd449b351c",
+  "inputs": [
+    "docs/design/DES-040-muon-chambers-frame.md",
+    "tools/muon_layout/acts",
+    "docs/validation/DES-040/acts-propagation/controls.json",
+    "docs/validation/DES-040/acts-propagation/rebuild.json",
+    "docs/validation/DES-040/geometry.json",
+    "docs/validation/DES-039/joint-field.npz"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Separate exact-revision assessment of committed ACTS implementation/method/controls at8ad7182; mainproductionrunongoing, do notclaimresultreviewyet. Apply previouslypassedfullPhysValmandate, no predeterminedfinding. Inspect nativegeometry/field/APIunits/finitefaceaudit correctness, candidatebound+guard+targettolerances, pathologicallimits, counters/reentry/samestationdedup anddenominators/thresholdsemantics; inspectnegativecontrolclaimconsistency. Runboundedread-onlychecks/scratch only. No edits/shareddependencychanges/nestedagents/externalmessages. Laterrootprovidessecondfrozenartifactrevisionforfinalscientificassessment.",
+  "deliverable": "Scratch /private/tmp/pr90-acts-R1-review.md/json with exacttargetcommit, actualchecks, concretefindingsorpassandlimitations; finalartifactreviewremainsseparatepending.",
+  "completion": "Evidence-basedcode/methodassessment of8ad7182 withoutauthorshipclaimorhumansignoff; sendblockingissuesearly."
+}
+```
+
+R1target corrected BEFORE dispatch to 85b044d2a5591828efe492a651b8aee11593a42b (onlyrunmergerfingerprintvariablerenameafter8ad7182). Firstnative149kscancompletedall10shards,butmergerguardincorrectlycomparedoverwrittengeometrysettosourcehashdict; correctedat85b044dandrerequestedfreshsamebinaryscanbeforeanalysis. No nativecontrolthresholdorfieldgeometrychange.
+
+R1separatesourceassessmentcaughtpurecontactsbeingincludedinliteralcrossingcounter; fixedandexcludedbeforelarge-facesets, added6contactregression. All11unittests pass. Productiontangent_eventssum0, soresultsunchanged. Originalacquisitioncontrolrecordpreservedascontrols-acquisition.json; postprocessinggateandanalysisrerunwithcounterfix. R1alsoindependentlyvalidated1037newfieldpoints,all1560nativeprismsand3analyticcylinderreturncases. FormalR2artifactassessmentpending.
