@@ -87,3 +87,73 @@ List remaining work, missing measurements and any human review needed.
   "completion": "Concrete faithful interpretation of >5largeface segments and representative entrance maps, numerical/failure scope explicit, no unmeasured response claims."
 }
 ```
+
+## Assignment S1 recorded before dispatch
+
+```json
+{
+  "id": "S1",
+  "role": "SoftEng",
+  "input_revision": "a4d3788f89a79af8b31ff694e811b543af792d3c",
+  "inputs": [
+    "docs/design/DES-040-muon-chambers-frame.md",
+    "docs/validation/DES-040/geometry.json",
+    "docs/validation/DES-039/map-metadata.json",
+    "tools/toroid_prototype/map.py",
+    "docs/validation/MUON-001/results.md"
+  ],
+  "mode": "write",
+  "writable_paths": [
+    "tools/muon_layout/acts/CMakeLists.txt",
+    "tools/muon_layout/acts/propagate.cpp",
+    "tools/muon_layout/acts/README-engine.md"
+  ],
+  "task": "Implement native C++ ACTS chamber-boundary propagation engine against EXISTING installed ActsCore, no sharedACTS edits/build/install. Read A1 source findings. Preserve exact1560JSONprisms asnativeTrackingVolumes(GenericCuboid8vertices), actual6finiteportals each, worldcylinderR9.1m halfZ11.5m, fulluniqueIDs despite8bitvolumefield viavolume2/layer(panel+1) andboundaryIDs. Native EigenStepper+Navigator and surface-reached actor hits; no postprocessedpolylineasprimary. Local stateful position-refresh navpolicy and conservative spatialportal index allowed: compareindexed/exhaustive controls, tightmaxsteps; disclose pitfalls. Include allsidefaces raw but2largefaceflags onlysegments. Geometry/magnet fixed; vacuum no matter. InstalledcriticalheadersmatchACTS555c66e71d0639665c2fa3d5574a0fe7f3f62cde andlibActsCorehashc540a14dabe6af18d2264823d816a326b6d96d925884cccb6ecc74c52a7e1066; dirtyACTSfilespreserve. Root verified Spackactivationenv andsetup/lockfreshhash, no source install, willbuildengine/task-localruntimeverify. No dependenciesinstall/sourceedits; rootownsprepare/analyze/plot. INPUT/OUTPUT CONTRACT BELOW. No nestedagents/externalmessages. Implementfastenoughfullscan~100krays; sendAPI/compileissuesearly.\nI/O agreed with root (metres/Tesla/GeV externally; ACTS mm/Tconverted internally):\n--geometry path (text whitespace): first unsigned N; each row id(no whitespace,slashesallowed) station depth_m origin3 basis9(ROWMAJOR) vertices8(localx,y4CCW). Engine computes exact8cornerworld points.\n--map path binary: 8 ASCIIbytes \"NODDMAP1\"; uint64LE nr,nz,nphi; float64LE r_m[nr], z_m[nz],phi_deg[nphi]; float32LE B[nr*nz*nphi*3] Corder(r,z,phi,Br/Bphi/Bz); uint8valid[nr*nz*nphi]. Exact trilinearcyl12fold%30 thenCartrotation; ANYmaskedcorner=>ACTSResultfailure; nozero/extrap. --field map(default)/zero/constant with --bz T supportanalyticcontrols.\n--tracks path: firstN; rows track_id p_GeV charge x_m y_m z_m dx dy dz (directionsunit). Seed/generatedgridhandledroot.\n--output-dir path write hits.csv,tracks.csv,geometry.csv,metadata.json (simplemanualjson okaynojsondep).\nhits.csv: track_id,sequence,panel_index,face_index,is_large,geometry_id,x_m,y_m,z_m,path_m,dx,dy,dz (panel_index0based; facesourceorder0..5; enginecomputeis_largebyabsnormaldotprism.normal\u22481). Record actualACTScurrentSurface actorpositions only. No world/virtualentrancefacesasmuonhits.\ntracks.csv: track_id,status,error,path_m,steps,x_m,y_m,z_m,field_queries; externalCapturemustretainpartialhits/stepsonpropagationfailure. statuses: completed,field_masked,outside_map,navigation_error,step_limit,path_limit,returned_to_entrance ifimplemented. Neverthrowouttrack;outputexactinputN rows, nonfinitefailureexplicit.\ngeometry.csv: panel_index,face_index,is_large,geometry_id,cx_m,cy_m,cz_m,nx,ny,nz (actualnativefacecentre+normal foraudit); additionalnativecornerexport/metadata counts useful.\nmetadata.json: ACTSgeometry counts(unique1560chambers+world/9360faces), IDuniqueness,worldbounds,step/tolerance settings/CLI,queryfail counters etc.\n--max-step-m default0.05, --tolerance-m default1e-6 ifACTStolerance unitsmeaning doc; --path-limit-m100; --max-steps20000; --policy indexed(default)/exhaustive (same refreshedfiniteportalswithoutspatialindex).\n--inspect-only no tracks buildsandexportsgeometry, verifiescounts/includescorners; --query-field inputpointsfile (N; xyz_m rows) outputfield.csv point_index,status,Bx_T,By_T,Bz_T for numericreadercontrols (skipgeom/tracks whenquerymode).\nOptional entrance abort at inward recrossing closedcylR4.35/H6.5 usingnativevirtualsurfaces or accuratelyboundedactor check; otherwisefieldfail catches return andreportlimit. Primarylaunchpointsare10umoutside entrance so no initialboundary ambiguity.\nNativepolicy candidateball/AABBindex mustconservativelycovermaxstep plusstepback budget; everyactualpositionchangeinvalidatespolicy, exhaustivecontrolsmandatory. If curvedfiniteboundsstale/unexpectedmiss discussrootbeforebroadscan. No hand-fabricated hits.\n",
+  "deliverable": "CMake/onecpp/readme engine with portableCLI and nativefieldprovider plus geometry/hit/track inspectors; ROOT willcompile/runcontrols. Scratch onlytemporarysmokes asneeded, ownedrepo3files only.",
+  "completion": "EnginecompilesagainstinstalledActsCore or preciseAPIissuesreported; actual ACTSnativesurface-intersections, stablefaceIDs, strictmaplookupandrecordedfailures, step/path budgets and spatial/exhaustive modecontrols. No engineering/responseclaim."
+}
+```
+
+## Assignment S2 recorded before dispatch
+
+```json
+{
+  "id": "S2",
+  "role": "SoftEng",
+  "input_revision": "a4d3788f89a79af8b31ff694e811b543af792d3c",
+  "inputs": [
+    "docs/design/DES-040-muon-chambers-frame.md",
+    "docs/validation/DES-040/geometry.json",
+    "docs/validation/DES-040/results.md"
+  ],
+  "mode": "write",
+  "writable_paths": [
+    "tools/muon_layout/acts/draw.py",
+    "docs/validation/DES-040/acts-propagation/hit-positions.png",
+    "docs/validation/DES-040/acts-propagation/entrance-segments.png",
+    "docs/validation/DES-040/acts-propagation/entrance-paired-stations.png",
+    "docs/validation/DES-040/acts-propagation/momentum-coverage.png"
+  ],
+  "task": "Create/read-onlyrenderACTS reviewerplots, onlyowneddraw.pyand4PNGs. Root/S1buildnativeACTSengineandanalysis; you MUSTplotactualreturnedACTShits, nevergenerate/inventhits orretunegeometry. Input API: draw(workdir, outputdir) loads tracks.npz,hits.npz,summary.json. tracks.npz: arrays track_id (rowindex),momentum_GeV,charge,sample(0phi-etamap,1iidfullsphere),eta_bin,phi_bin,eta_pos,phi_pos_deg,outer_unique_faces,active_unique_faces,outer_paired_stations,active_paired_stations,incomplete(bool),eta_edges,phi_edges_deg. Extraarrayspossibleignore. hits.npz: track_id,panel_index,station,face_index,is_large,active,x_m,y_m,z_m,path_m. summary.json['configuration'] containsplot_momentum_GeV[2.65,100,1000], fullcaseparams; configrootuncommittedtools/muon_layout/acts/config.json method alreadygovernedcommittedDES040. Alllocalp; initialentranceclosedR4.35/H6.5 radialdir,noIPtransport/matter. Reports\u22656uniqueouterlargefaces,andpaired3stationsseparate; failuresunknownkeptdenom. hit-positions.png 3rows(low/mid/1TeV)\u00d72colsXY/signedZ-r projections actualhits coloredstation, sidesgrey/separatemarker; bothchargeslabelled, noefficiencyfromdensity. entrance-segments.png 2charges\u00d73momenta phi0..360/eta\u22123..3 segmentmultiplicity 0..6(6+ bin) fromgrid sample0 rows; hatch/markincompleteevents, evenifthresholdalreadyproven keepvisible. Maponejitteredray/cell notconvergedefficiency; unknownbefore6notzeroinefficiency. entrance-paired-stations.png sameforactive_paired_stations0..3, physical30mmborderproxy explicit. momentum-coverage.png forsample1 fullsphere all5p/bothq lower/upperavailabilitybands: provenpasslower=sum(pass)/N, upper=(sum(pass)+sum(incomplete&~pass))/N; >5largeface and3pairedstationouter/activecurves informative; bandsnotstatCI. Goodtitlesunitslegendsreadablemargin; noAPIimplementationdetailinplotexceptneededscientificscope. UsepureMatplotlibinstalledPythonwithoutACTS, noSpackdependency. Frozendatawillarrivelater; preparecode/fixturesinscratch, NOTrepresentfixturesasfinal. Norepootheredits/nestedagents/externalmessages.",
+  "deliverable": "Parameterizeddraw.py API+CLI andfourvisuallyinspectedfinaldataPNGs; reportsource/runtime/hashesandlimits.",
+  "completion": "FourclearreviewplotsderivedfromrootactualACTSarrays; nofakeprojection/counter/denominators, visiblecharge/momentum/failure/localvacuumdefinitions."
+}
+```
+
+## User-directed prerequisite: rebuild ACTS (2026-10-19)
+
+User requested rebuilding acts-nodd against the updated Spack dependencies before resuming muon work. The external source/build/install operations are now explicitly authorized. Existing dirty ACTS source file hashes were captured in task-local scratch before the rebuild; preserve all edits. Preflight again reports changed setup/lock and absent staged DD4hep/Geant4 full sources; installed packages and the user's ACTS source checkout are the required capabilities here.
+
+Assignment A2 (SoftEng, read-only, same source555c66e71d0639665c2fa3d5574a0fe7f3f62cde plus preserved dirty source): inspect ACTS current CMake/preset versus updated Spack environment/cache for stale explicit dependency version/path pins. Inputs are the user setup script, ACTS presets and external CMake cache. No source/build/install modifications or dependency installs; scratch /private/tmp/pr90-acts-A2-*. Deliver precise likely compatibility hazards and verification recommendations. Completion is a read-only audit, never a claimed runtime pass. Root separately executes the authorized build.
+
+### Rebuild observations (in progress)
+
+- `acts build acts-nodd 8` recreated its prescribed Python venv, then configuration failed on stale EXPAT2.8.5 cached paths; current Geant4 requires EXPAT2.9.0. Full log kept in task scratch.
+- Saved the existing cache and ran `cmake --fresh` with the same github-ci preset, RelWithDebInfo, ODD, C++20, install prefix and Python executable. Fresh configure completed; full 8-worker install build is in progress. No dependency requirements or source tests were relaxed.
+- Updated installed environment observed: DD4hep1.38/3yd4hz3, Geant4 11.4.3/wfg55xi, Eigen5.0.1/4hly7in, Boost1.90.0/yi2vs77, vecmem1.28.0/rs6hy7v and Python3.14.5/t4h4oe7.
+- A2 separately audited caches and the Spack view: both missing vecmem1.27 paths and existing stale EXPAT/ROOT/Python absolute paths required fresh resolution. Fresh cache resolves current prefixes. The CLHEP warning compares an alias to the same resolved installation. A2 performed no runtime/tests or ACTS modifications. Scratch report SHA2568caf6b2b0e0e79a0918c91188153f88ebfadd5e6c6d2652546b1b9c8cd55c6e9.
+- Existing15dirty source files were hash-captured before the build and remain unchanged at the intermediate check. Final preservation and runtime/test results are pending.
+
+Rebuild prerequisite completed successfully: full install,385C++ tests,3integration suites,28Python passes/2optional-input skips, installed runtime imports and12Geant4 dataset presence checks. All15pre-existing source edits preserved. Evidence: docs/validation/DES-040/acts-propagation/rebuild.md and rebuild.json. Muon work resumes against rebuilt libActsCore SHA256f4c040fa6c331fca6180dc75589fbc95ec30fc485c2edbefb891fda46cdf7088.
+
+Finite-portal adverse control after rebuild: normal aggregate package configuration/build nowpasses. Inspect reports1561nativevolumes/9360uniquechamberfaces/3120largefaces. Initial1umtargeting aborts finiteportalassert; tightened10nmtargeting completes butrecords onlyexitwhereanalytichelixtwoboundariesrequired. Preserved negativecontrol; DES040 face-audit amendment drafted BEFORE new policy implementation. S1 extension: same three owned engine files and same SoftEng mandate; implement explicit surface-audit primary mode retaining finite-portal negative control, native infinite-support plane roots with finite face ownership/coplanar fanout, no manufactured polyline roots. Record actualmode and do not claim validatedportalvolume transitions.

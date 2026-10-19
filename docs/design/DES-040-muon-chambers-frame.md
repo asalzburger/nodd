@@ -256,3 +256,11 @@ Numerical refinement may change sampling, not the physical chamber/field design.
 Retain ACTS source/installed-header/library identities, dirty-source boundaries,
 commands, raw hit/track arrays, maps, controls and an independent fixed-revision
 assessment before updating the PR.
+
+### Native face-audit numerical amendment (2026-10-19, before implementation)
+
+**FACT from the adverse control:** in a synthetic constant+3T fixture, a5GeV positive muon starts at (4.35,0.500001,0)m along+x. An exact prism occupies x4.36–4.86m and y/z±0.5m. The helix crosses both large faces, although the initial tangent misses the finite entry face. The initial finite-portal policy at50mmsteps and10nm targeting records only the exit. The original1micrometre targeting also exceeds ACTS portal lookup's tighter default check and aborts an assertion; assertions must remain enabled. These observations invalidate finite-tangent navigation as the scan's primary discovery method. This fixture changes no detector parameters.
+
+**NODD DESIGN CHOICE, revised numerical method:** retain the exact finite ACTS volumes/portals as the geometric source, but use an explicit boundary-surface audit policy: propose supporting planes with infinite candidate-boundary tolerance, obtain the roots using native ACTS EigenStepper/Navigator integration, and accept an event only if the actual finite native face contains that native root. Fan out coincident-plane roots to all finite owning faces to avoid losing coplanar panels. Exclude all outside-footprint roots. This tests native face crossings in a real tracking geometry; it does not claim validation of native portal volume-switching through every chamber. No post-processed trajectory segments or fabricated roots are allowed. Retain the finite-portal mode as the adverse negative control.
+
+Use10nm initial targeting/RK length tolerance (a tightened numerical parameter) with50mm maximum steps. Verify actual face residuals, bounds, exact straight/constant-field roots, adverse edge recovery, charge-field reversal, indexed/exhaustive agreement and half/quarter-step plus tighter-tolerance controls. Preserve mode and failure metadata and distinguish native geometry construction from the audited navigation semantics. Numerical fixes must not tune physical chamber geometry or fill masked field values.
