@@ -46,3 +46,36 @@ OBJ-A1 confirmed the native API color output, /256 color convention, absolute-pa
 Source b553824a2ecd6d11527ac4f1e5a12753a1a14cc1 supplied all seven exact source hashes. Actual unchanged native ACTS inspection completed in0.075s (zero tracks by design), followed by ObjVisualization3D output of1596objects:1560blue chambers and36grey warm toroids. Final OBJ has46800quads/187200vertices. Every object is closed with consistent outward winding; maximum native-source corner residual3.6621e-15m, OBJ roundtriperror0, chamber volume residual6.3228e-14m3. Curve chord sagitta9.4123e-5m. Deduplicated identical ACTS material blocks to exactlytwo colors, preserving /256 conversion and sibling MTL. ZIP members are byte-identical to OBJ/MTL. Root visually inspected the full preview; transparent chambers are preview-only.
 
 All33journal/documentation tests and the retained ACTS artifact/hash check passed. Executable and Core library match the earlier run, and all15pre-existing ACTS source-file hashes are preserved. No physical geometry, field, MDT resolution, old propagation source or scientific output changed. Frozen output assessment/publication pending.
+
+## Assignment OBJ-R1 recorded before dispatch
+
+```json
+{
+  "id": "OBJ-R1",
+  "role": "PhysVal",
+  "input_revision": "8b24dc692713d27bbfbfac04209e095437cc8c13",
+  "inputs": [
+    "docs/validation/DES-040/obj/chambers-and-coils.obj",
+    "docs/validation/DES-040/obj/chambers-and-coils.mtl",
+    "docs/validation/DES-040/obj/chambers-and-coils.zip",
+    "docs/validation/DES-040/obj/export.json",
+    "docs/validation/DES-040/obj/README.md",
+    "docs/validation/DES-040/geometry.json",
+    "tools/muon_layout/export_obj.py",
+    "tools/muon_layout/obj_writer/writer.cpp"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Bounded separate assessment of actual current colored OBJ, using full PhysVal mandate. Independently parse immutable Git OBJ/MTL (do not dump12MB text), confirm1560native chamber objects blue and36toroid warm envelopes grey, only intended categories/no frame/world/entrance/tracks, metres and relativeMTL, ZIP exact payload. Check native-source chamber corner/face matches and closed/outward mesh winding, coil faithful dimensions/12fold placements/closed seams/analyticwarmrepresentation/chordbounds; no missing world-clipped coils. Review export source/provenance and unchanged original propagation/geometry/field artifacts. Independent parser/math for results, no importing exporter to derive production checks. No new ACTS run, dependencies, edits, nested agents or external messages. Scratch /private/tmp/pr90-obj-R1-*. Disclosure: prior PhysVal planning/review is not authorship of this export. No human design acceptance.",
+  "deliverable": "Concise exact-revision review JSON/Markdown in scratch with actual checks/findings/limits, and any portable independent checker if helpful.",
+  "completion": "Actual artifact fidelity/colors/portable materials and fixed-geometry scope checked at8b24dc6; send blockers early. No broader performance or engineering approval."
+}
+```
+
+## Final separate assessment and publication
+
+OBJ-R1 independently parsed the actual immutable OBJ/MTL/ZIP at8b24dc692713d27bbfbfac04209e095437cc8c13, with no material findings. It checked every chamber face/native corner, all36coil analytic normals/dimensions/full extents/C12placements, exactlytwo colors, matching ZIP bytes, outward winding and closure after1nm geometric welding. Measured chord deviation94.123um;91original scientific files unchanged. Raw OBJ indices remain face-local; the README now explicitly clarifies the welding-based topology check. Copied the reviewer-authored records, checker and results byte-for-byte; root verified their fingerprints and frozen input hashes. No new ACTS transport or human approval was inferred.
+
+Pushed8b24dc6, updated PR90 body with immutable downloads and posted [comment1 response](https://github.com/asalzburger/nodd/pull/90#issuecomment-6276824797). Verified the published head and comment. Token check passed and project CI was in progress at collection; local export/documentation/source-preservation checks passed. This record-only closeout follows. The requested current-geometry export is complete. Subsequent layout modifications/propagation requests remain outside this step.
+
+Assignment preparation initially rejected field aliases and an external absolute path in the inputs array; corrected before validated dispatch. Exact root/child token counters remain unavailable; usage is empty and unknown.

@@ -28,6 +28,10 @@ RGB integers by 256 and emits repeated identical material definitions; the
 export retains that colour conversion and removes only duplicate definitions.
 The `mtllib` reference is a portable sibling filename.
 
+The native OBJ writer stores face-local vertices. Closure and orientation checks
+identify coincident positions on a 1 nm grid within each object; they do not claim
+that the raw OBJ indices already form a shared-vertex manifold mesh.
+
 Reproduce from the repository root after the prescribed ACTS/Spack setup:
 
 ```sh
@@ -47,3 +51,10 @@ capturing final provenance. [Export evidence](export.json) records source/input,
 executable/library and output hashes, native geometry metadata, mesh and material
 checks. [Preview](chambers-and-coils.png) uses transparent chambers for visibility;
 the OBJ materials are opaque. This visualization grants no engineering approval.
+
+The separate [technical assessment](review.md), [check results](independent-check.json)
+and [portable checker](independent-check.py) assess the exact artifact revision
+`8b24dc692713d27bbfbfac04209e095437cc8c13`. They confirm the object colours,
+native/source chamber corners, coil dimensions and placement, portable materials
+and ZIP payload, geometric closure and curve approximation. No material findings
+were reported within this visualization scope; this is not human design approval.
