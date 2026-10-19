@@ -75,7 +75,10 @@ font-cache warnings were handled through the local writable plotting cache.
 Files are inventoried in the paired JSON. This task adds the study under
 `docs/validation/ODD-idres/` and `tools/odd_idres/`, a CI verification step,
 README link, source-catalogue observations and project task TASK-PUB-ODD-IDRES.
-PR creation and the final enclosing commit are recorded after they exist.
+Scientific/documentation commit: `e777e84e6062e800db8a9fbe69a510a2ee6ae0dd`.
+Opened and attached [Documentation PR89](https://github.com/asalzburger/nodd/pull/89),
+base main; no merge performed. All local validation passed; hosted CI was pending
+at the first PR snapshot. This closeout is recorded by ordinary follow-up commit.
 
 ## Token accounting
 
