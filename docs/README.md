@@ -15,6 +15,7 @@ The documents below establish proposals and recording formats. Their presence do
 
 ## Index
 
+- [DES-040: modular muon chambers, connected frame and feet](design/DES-040-muon-chambers-frame.md)
 - [DES-039: twelvefold barrel/endcap toroids, chamber outlines and joint field map](design/DES-039-twelvefold-toroid.md)
 
 - [Magnetic options: two-page team evaluation and six one-page proposals](design/DES-004-options-summary.md)
