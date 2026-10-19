@@ -1,42 +1,44 @@
-# SESSION-2026-10-19-pr90-acts-propagation — PR90 ACTS chamber boundary propagation and momentum coverage
+# SESSION-2026-10-19-pr90-acts-propagation — PR90 ACTS chamber propagation and momentum coverage
 
 ## Scope and evidence
 
-State collection method, available context, limitations, related IDs and starting
-revision. Identify uncommitted user changes present before work.
+Contemporaneous follow-up to PR90 comments6268359299/6268670798, starting at b3ff6a3b2ae111251fbc126d5ad489114877c3c7 on codex/muon-chamber-layout. The worktree began clean. The separate toroid worktree's dirty chamber-outlines file and all15pre-existing ACTS dirty source files were preserved. DES040 remains DRAFT; this isolated vacuum validation changes no physical chamber/magnetic inputs and grants no human approval.
+
+Used the acts-spack skill and the repository coordinate, design-evidence and review-validation workflows. Assignments below record full roles, exact inputs, ownership and completion criteria before dispatch; generic explicit mandates were used, not claimed native profile loading. P1 authored planning recommendations, S1 the C++ engine, S2/S3 plotting/native controls, and PhysVal R1/R2 supplied separate bounded assessments. Planning/review overlap is disclosed.
 
 ## Selected conversation
 
-Attribute requests to the user and outcomes to the assistant. Mark exact quotes
-and paraphrases explicitly. Include corrections and changes in direction.
-Exclude private model state, confidential content, and irrelevant system context.
+User: “More comments on PR #90 landed.” Reviewer requests: actual ACTS envelope geometry and joint-field propagation; native boundary hit coordinates, XY/RZ views and representative entrance phi/eta maps; only two large faces as segment proxies, minimum momentum through1TeV.
+
+User steering: “the spack dependencies have updated, so the acts checkout needs to be rebuilt against the new depenencies”; “If that's done, continue with your Muon System work.” Rebuild was performed first with the prescribed helper, then muon work resumed.
 
 ## Decisions and outcomes
 
-State rationale, alternatives, consequences and what remains unresolved. Never
-convert implementation authorization into human design sign-off.
+The fixed strict map masks solenoid/winding stencils, so the benchmark starts at a closed virtual entrance R4.35m/half-z6.50m, including caps,10µm forward with radial directions. Local total momenta2.65/5/10/100/1000GeV and both charges remain distinct from the earlier central5GeV-IP mean-loss estimate. No scattering/eloss, response or reconstructed efficiency is inferred.
+
+ACTS constructs1560finite chamber prisms,9360unique finite faces and3120large faces. Actual EigenStepper/Navigator roots with finite-owner audit supply the hits; no postprocessed polyline does. Failed finite-tangent/remote-support controls were preserved; the governing method was amended before corrections. Native negative corrections, explicit nearLimit0, bounded AABB candidate enumeration, conservative curvature step guard and independent10pm RK tolerance retain strict10nm targeting and10µm comparison gates. The method is a face audit, not chamber portal qualification.
+
+The retained run has148960tracks/464397native events, with0orphans/0parallel ambiguities/0tangencies and22reentries. Six-outer-face fractions over independent4pi samples are39–44%proven,77–80%unfinished-aware upper bounds; three border-inset paired stations22–27%proven. All unfinished cases are strict field-mask failures, kept in denominators. The fixed layout does not establish consistent six-proxy coverage. Four final plots and typed datasets retain outcomes; source/library/input/stage hashes are explicit.
 
 ## Commands and validation
 
-Record relevant commands, actual exits/results, failed attempts and remedies.
-Distinguish structural checks from detector acceptance.
+The Spack preflight warned of changed setup/lock and unavailable staged DD4hep/Geant4 full sources; needed installed/source capabilities were checked directly. `acts build acts-nodd 8` initially failed on stale EXPAT2.8.5 cached paths. Saved the old cache, reconfigured with `cmake --fresh` and the same github-ci feature scope, then built/installed successfully. Current DD4hep1.38/Geant4 11.4.3/vecmem1.28 dependencies and Python/ROOT installation hashes resolved; no source requirement was relaxed.385C++tests,3native integration suites,28Pythonchecks/2optional-inputskips, installed runtime imports and12dataset-presence checks passed. All ACTS source changes were preserved.
+
+Final native controls pass4111field queries, all geometry/IDs/corners,256unique zeroB ray clips, charge/field helices and curved/parallel/coplanar fixtures,160bounded indexed/exhaustive tracks, and800-track step/surface/RK refinements. Worst coordinate delta1.188µm<unchanged10µm. The current unbounded diagnostic happens to agree at tight RK; earlier failures are preserved, not re-labelled.
+
+Root corrected two output-bookkeeping defects before final evidence: a fingerprint variable collision in the merger and duplicate summary keyword. Separate R1 also identified pure tangent contacts in crossing sets; corrected with a regression,11counter/entrance tests pass. There are no production tangencies, so fractions are unchanged. Native acquisition is77c652e, final postprocessingff5ad3e, with separate acquisition/final control records.81combined science tests, retained layout/hash checks, artifact integrity, project records, journal validation and token-preview build passed. Final R2 assessment at b33403ac7476fd8392542d28f984a426660527b3 found no unresolved material findings within its bounded scope. It independently reconstructed every track counter from all 464397 events and reproduced all 80 availability bounds; raw CSV/NPZ identities, all 32 manifest entries and 52 magnetic files agree. Publication is being prepared.
 
 ## Changes and revision links
 
-List changed files or refer to the paired JSON inventory. Result commits are
-recorded only once they exist; Git history locates this record's enclosing commit.
+Implementation/method revisions are in Git; scientific frozen artifact target b33403ac7476fd8392542d28f984a426660527b3. The paired JSON inventories files, actual checks and existing result commits. All52inherited magnetic artifacts remain unchanged; the original geometry/field hashes are checked in prepare.py and provenance.json. Rebuild report and native datasets are under docs/validation/DES-040/acts-propagation/.
 
 ## Token accounting
 
-Record the client-provided per-turn usage source and import command, or state why
-exact counters are unavailable. Report observed input/output sums and missing
-coverage from `session_log.py summary`; empty usage means unknown, not zero.
-Never copy raw client archives or private model state. Do not duplicate turns
-across tasks or add cached/reasoning subsets to the input/output totals.
+Exact root/child per-turn token counters were unavailable. Usage is empty and unknown, never zero or estimated. The milestone summary and token preview include earlier observed project counters only; no inferred counters were added for this task.
 
 ## Follow-up
 
-List remaining work, missing measurements and any human review needed.
+Publish the completed R2 assessment and reviewer response on PR90. Human review must choose required eta acceptance and any future chamber changes. Material-capable transport/field handling, reconstruction response and engineering qualification remain open; no human sign-off is inferred.
 
 ## Assignment A1 recorded before dispatch
 
@@ -214,3 +216,30 @@ Secondgate92ff retained:counts/statuses800refinementagree, coordinatesup90umfail
 R1target corrected BEFORE dispatch to 85b044d2a5591828efe492a651b8aee11593a42b (onlyrunmergerfingerprintvariablerenameafter8ad7182). Firstnative149kscancompletedall10shards,butmergerguardincorrectlycomparedoverwrittengeometrysettosourcehashdict; correctedat85b044dandrerequestedfreshsamebinaryscanbeforeanalysis. No nativecontrolthresholdorfieldgeometrychange.
 
 R1separatesourceassessmentcaughtpurecontactsbeingincludedinliteralcrossingcounter; fixedandexcludedbeforelarge-facesets, added6contactregression. All11unittests pass. Productiontangent_eventssum0, soresultsunchanged. Originalacquisitioncontrolrecordpreservedascontrols-acquisition.json; postprocessinggateandanalysisrerunwithcounterfix. R1alsoindependentlyvalidated1037newfieldpoints,all1560nativeprismsand3analyticcylinderreturncases. FormalR2artifactassessmentpending.
+
+## Assignment R2 recorded before dispatch
+
+```json
+{
+  "id": "R2",
+  "role": "PhysVal",
+  "input_revision": "b33403ac7476fd8392542d28f984a426660527b3",
+  "inputs": [
+    "docs/validation/DES-040/acts-propagation",
+    "tools/muon_layout/acts",
+    "docs/design/DES-040-muon-chambers-frame.md",
+    "project/tracking.json"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Final immutable scientific artifact assessment atb33403ac7476fd8392542d28f984a426660527b3. SamefullPhysValmandate, authoroverlapP1planningdisclosed. VerifyR1F1summaryassembly andR1F2pure-tangentcounterfix atactualtarget; independent scientificcounter/denominator/mapclaimassessment oftypedNPZs andfourplots/report. Recomputeproven/upperbounds preferablyfromrawhits+statusindependently, verifylargefaces/sides/contiguousvisits/stations/deadborder masks,fieldfailureskeptandactualtangents0. Confirmacquisition77c vspostprocessingff5actualstageprovenance,currentcontrolsshaandretainedacquisitioncontrols, source/library identities,fixedphysicalinputs,weightedeta-displayvsuntruncated4pi,drawsamplenoquietfailuremasking. ReviewP1source/newnative1037queries/cylinderchecksretained butdonotclaimbroadglobalproof. Runmeaningfulnarrowchecks, no repeatfullrebuildneeded. No expectedconclusion; sendblockingfindingsimmediately. No repoedits/shareddependencychanges/nestedagents/externalmessages; scratch /private/tmp/pr90-acts-R2-*.",
+  "deliverable": "Finalreview.md/json in scratch plus reproducible independent artifactcheckscript/results, exacttargetSHA, findings/resolution andactualchecks, independence+limits, nohumnapproval. Rootwillpublishcopiesafterassessment.",
+  "completion": "Finalexactrevisionassessmentcoveringartifactnumbers/plots/counterfixesandclaims; no unperformedtests orhumanapproval."
+}
+```
+
+## R2 completion
+
+PhysVal returned the final read-only assessment of b33403ac7476fd8392542d28f984a426660527b3. Copied the reviewer-authored Markdown/JSON and portable independent artifact checker/results byte-for-byte to docs/validation/DES-040/acts-propagation/review.md/.json and independent-artifact-check.py/.json. R1 findings are resolved; all event-derived counters, 80 bounds, table cells, provenance and four plots were checked. This is an AI technical assessment with disclosed P1 planning overlap, not human design approval. The frozen scientific manifest/source/data are unchanged. Final direct preservation check also confirms all 15 pre-existing ACTS file hashes and rebuilt library identity.
+
+The closeout journal initially used an invalid WARN status for the exit-2 preflight. Corrected to FAIL with the original cause retained; subsequent validation passed.
