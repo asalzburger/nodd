@@ -77,8 +77,8 @@ def run(work, executable, output, controls, workers=4):
                     for line in source:
                         result.write(line)
     for name in ('geometry.csv','geometry-corners.csv'):
-        fingerprints = {sha(d/name) for d in shards}
-        if len(fingerprints) != 1:
+        geometry_fingerprints = {sha(d/name) for d in shards}
+        if len(geometry_fingerprints) != 1:
             raise ValueError('native shard geometry differs')
         (output/name).write_bytes((shards[0]/name).read_bytes())
     metadata = [json.loads((d/'metadata.json').read_text()) for d in shards]
