@@ -188,3 +188,71 @@ the map grid converged or attach the iid sampling error to geometric uncertainty
 Similarly retain two independently seeded support-mass union sample sizes,
 262,144 and 1,048,576 per material, with sampling errors separated from unknown
 material/dimension uncertainty. These method refinements change no geometry.
+
+## PR90 ACTS propagation amendment (2026-10-19, before implementation)
+
+**FACT about the request:** comments
+[6268359299](https://github.com/asalzburger/nodd/pull/90#issuecomment-6268359299) and
+[6268670798](https://github.com/asalzburger/nodd/pull/90#issuecomment-6268670798)
+request an ACTS tracking geometry of the chamber envelopes, propagation in the
+joint solenoid/toroid field, recorded global boundary intersections, XY/RZ hit
+views, and entrance phi/eta maps comparing low through 1 TeV momenta. Only the
+two large faces count as provisional MDT multilayer segment proxies; sides do not.
+This extends validation only, preserving all chamber and magnetic input bytes.
+
+**NODD DESIGN CHOICE, virtual study setup:** construct actual finite ACTS chamber
+volumes from the retained eight vertices, with six finite native boundary portals
+per chamber in a vacuum world. Use ACTS EigenStepper and Navigator; record actual
+surface-reached actor positions and face ownership, including side events. A local
+navigation policy may refresh candidates after position changes and conservatively
+index nearby portal bounds. Validate this against exhaustive candidates and curved
+fixtures; do not substitute post-processed polyline intersections for ACTS hits.
+The tracking geometry contains chamber envelopes only, with no material/response,
+mounts, frames or coil solids. The field still comes from the fixed joint map.
+
+**INFERENCE and NODD DESIGN CHOICE:** the joint map rejects any eight-corner
+stencil touching its winding/guard mask. A central IP ray crosses the masked
+solenoid, so an IP-origin vacuum propagation cannot be the complete strict-map
+benchmark. Launch on a virtual closed entrance cylinder R=4.35 m, half-z=6.50 m,
+outside the pinned HCAL bounds and before the first chambers. Include barrel
+and both endcaps, and label them separately. Move the start 10 micrometres forward
+along the outward initial direction to avoid an on-surface ambiguity. This is a
+study surface, not a changed detector envelope. Directions initially point away
+from the IP; they do not claim a reconstructed incoming tracker trajectory.
+
+**FACT about the inherited threshold:** MUON-001's 5 GeV total IP momentum is a
+central candidate working point. Its central mean-loss surrogate gives about
+2.65 GeV at the muon system; it is not a universal local or pT threshold.
+**NODD DESIGN CHOICE:** test local total momenta 2.65, 5, 10, 100 and 1000 GeV,
+both charges, with 2.65/100/1000 GeV as low/intermediate/ultimate views. These are
+vacuum geometric coverage tests. No eta-dependent energy loss, scattering,
+segment precision, reconstruction efficiency or material-qualified threshold is
+inferred. Upstream material transport remains a separate open requirement.
+
+**INFERENCE, counters:** literal >5 means at least six unique (chamber, large-face)
+crossings. Also count three distinct stations each having both large faces of the
+same chamber in a contiguous traversal. Reentries or several panels in one station
+must not manufacture independent station measurements. Retain side hits, raw
+events, duplicate/reentry counts, and outer-face versus 30 mm border-inset results.
+An ACTS boundary crossing is only a segment proxy, not a fitted segment.
+
+**NODD DESIGN CHOICE, numerical protocol:** use common seeded entrance directions
+across momentum/charge cases, full-azimuth maps with explicit eta plotting range
+and an independent full-sphere direction control. Preserve all generated tracks,
+including navigation/step/path/return errors and masked/out-of-domain field lookups.
+Never fill masked field nodes with zero, silently extrapolate, or drop failed
+tracks. A threshold reached before a later field failure is proven, but the final
+event multiplicity remains incomplete. Report lower/upper availability bounds
+for unfinished tracks and conditional complete-track diagnostics separately.
+
+The world must contain all chamber corners while remaining inside the map domain.
+Use no more than 50 mm field steps initially, tighter surface/RK tolerances,
+and explicit step/path budgets; compare half-step/tighter-tolerance controls.
+Check field lookup against the retained Python reader including C12 seams,
+mask/outside failures and SI-to-ACTS units. Validate zero/constant-field analytic
+fixtures, all ACTS prism faces/IDs, native hit residuals and finite bounds, charge
+reversal, side-entry/reentry counters and indexed/exhaustive navigation agreement.
+Numerical refinement may change sampling, not the physical chamber/field design.
+Retain ACTS source/installed-header/library identities, dirty-source boundaries,
+commands, raw hit/track arrays, maps, controls and an independent fixed-revision
+assessment before updating the PR.
