@@ -157,3 +157,29 @@ Assignment A2 (SoftEng, read-only, same source555c66e71d0639665c2fa3d5574a0fe7f3
 Rebuild prerequisite completed successfully: full install,385C++ tests,3integration suites,28Python passes/2optional-input skips, installed runtime imports and12Geant4 dataset presence checks. All15pre-existing source edits preserved. Evidence: docs/validation/DES-040/acts-propagation/rebuild.md and rebuild.json. Muon work resumes against rebuilt libActsCore SHA256f4c040fa6c331fca6180dc75589fbc95ec30fc485c2edbefb891fda46cdf7088.
 
 Finite-portal adverse control after rebuild: normal aggregate package configuration/build nowpasses. Inspect reports1561nativevolumes/9360uniquechamberfaces/3120largefaces. Initial1umtargeting aborts finiteportalassert; tightened10nmtargeting completes butrecords onlyexitwhereanalytichelixtwoboundariesrequired. Preserved negativecontrol; DES040 face-audit amendment drafted BEFORE new policy implementation. S1 extension: same three owned engine files and same SoftEng mandate; implement explicit surface-audit primary mode retaining finite-portal negative control, native infinite-support plane roots with finite face ownership/coplanar fanout, no manufactured polyline roots. Record actualmode and do not claim validatedportalvolume transitions.
+
+## Assignment S3 recorded before dispatch
+
+```json
+{
+  "id": "S3",
+  "role": "SoftEng",
+  "input_revision": "faa544a1fa424906c68b27bcf37db181d783b84e",
+  "inputs": [
+    "tools/muon_layout/acts/prepare.py",
+    "tools/muon_layout/acts/analyze.py",
+    "tools/muon_layout/acts/config.json",
+    "docs/design/DES-040-muon-chambers-frame.md"
+  ],
+  "mode": "write",
+  "writable_paths": [
+    "tools/muon_layout/acts/controls.py",
+    "docs/validation/DES-040/acts-propagation/controls.json"
+  ],
+  "task": "Extend same fully passed SoftEng mandate: implement and execute reproducible native ACTS field/geometry/boundary controls against root/S1 actual engine. No edits to otherfiles. Preserve physicalgeometry/map. S1 changes engine independently; roothandlesproduction/provenance. Nativecontrols detailed in dispatch. No nestedagents/externalmessages/dependencychanges; scratch ignoredreference/cache/pr90-acts controls subdirs.",
+  "deliverable": "controls.py runnableCLI --work/--executable/--output and actualcontrols.json with exactcommands/settings/passmetrics; no fakeclaims ifblocked.",
+  "completion": "Actual executable controls strictfield parity,finitegeometryIDs/corners,zerofieldexactrayclips,constantfieldhelix qB flips,adversecurvededge2faces,finiteportalnegative retained,indexed/exhaustive,maxstep/tolerance refinements with sequence/counter/status comparisons."
+}
+```
+
+Initial audit controls retained in controls-initial.json: field4111queries,max1.64e-14Tresidual; native1560prisms/9360faces/corners≤3.7e-15m; zeroB40rayspassed. Tightroot/parallel-side/indexed-exhaustive/refinement controls FAILED; production remainsgated. Source trace identifies lostnativebackstepwhenrefreshdiscardsovershottarget. S1proposed preservingACTSnativecorrection plusconservativecurvatureActorsteplimiter fornoforwardtangentroots; methodamendmentrecordedbeforeimplementation. No tolerance enlargement/assertiondisable orphysicalretuning.
