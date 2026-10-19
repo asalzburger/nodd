@@ -253,3 +253,29 @@ The bounded rebuild, requested ACTS study, final independent assessment and revi
 ## CI documentation correction
 
 Reopened this record after final GitHub run [39275993986](https://github.com/asalzburger/nodd/actions/runs/39275993986) failed only the documentation-link check: two links in tools/muon_layout/acts/README.md used four parents instead of three. All science/geometry suites and all 28 project-record tests passed. Corrected both relative links. Updated only that README hash in artifact-manifest.json and recorded its old hash and the documentation-only reason. Frozen R2 scientific target b33403a remains unchanged in Git; no code/data/control/figure was regenerated. The full local 33-test journal/documentation suite then passed in 1.512s, as did captured-artifact integrity and journal validation. No gate or tolerance changed.
+
+## Assignment R3 recorded before dispatch
+
+```json
+{
+  "id": "R3",
+  "role": "PhysVal",
+  "input_revision": "2f1d12b440b2d4e6c34bfeb88133fd4161c240df",
+  "inputs": [
+    "tools/muon_layout/acts/README.md",
+    "docs/validation/DES-040/acts-propagation/artifact-manifest.json",
+    "b33403ac7476fd8392542d28f984a426660527b3"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Bounded documentation-only delta assessment under the previously passed full PhysVal mandate. Check both relative links resolve, manifest only changes README hash plus explicit correction note, and scientific source/data/control/figures remain identical to frozen R2 target. Scratch only; no shared dependencies, edits, nested agents or external messages. This is not a repeat full scientific assessment.",
+  "deliverable": "Short exact-revision check result and limitations in scratch /private/tmp/pr90-acts-R3-doccheck.json",
+  "completion": "Verify documentation correction and unchanged scientific evidence, report actual bounded checks, no human approval."
+}
+```
+
+R3 completed at 2f1d12b440b2d4e6c34bfeb88133fd4161c240df: both corrected links and the method anchor resolve; all 32 current manifest entries match, all 85 checked scientific files and published R2 records are unchanged. Copied its report byte-for-byte to docs/validation/DES-040/acts-propagation/review-docfix.json. This bounded follow-up repeated no numerical study and grants no human approval. Root also ran all five node-preflight tests successfully.
+
+Published and verified the corrected head 2f1d12b440b2d4e6c34bfeb88133fd4161c240df on PR90. Both remote checks queued at collection; this record-only closeout follows, and the final response reports the later observed CI state. Documentation correction and its independent check are complete. The prior failed remote check remains recorded.
+
+The closeout validator rejected a PASS check with null exit code for the agent assessment. Root then executed R3 record assertions and the captured-artifact check with observed exit 0, and recorded that command separately from the independent assessment. No scientific input or claimed native execution changed.
