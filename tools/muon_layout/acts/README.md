@@ -2,9 +2,9 @@
 
 This isolated DES040 validation uses the fixed 1,560 chamber prisms and the
 retained joint solenoid/toroid map. It does not integrate a detector component.
-Read the [method amendment](../../../../docs/design/DES-040-muon-chambers-frame.md#pr90-acts-propagation-amendment-2026-10-19-before-implementation),
+Read the [method amendment](../../../docs/design/DES-040-muon-chambers-frame.md#pr90-acts-propagation-amendment-2026-10-19-before-implementation),
 [engine contract](README-engine.md), and
-[ACTS rebuild evidence](../../../../docs/validation/DES-040/acts-propagation/rebuild.md).
+[ACTS rebuild evidence](../../../docs/validation/DES-040/acts-propagation/rebuild.md).
 
 Only the two large faces of a chamber count as provisional segment proxies.
 Sides remain in the raw boundary-event arrays for navigation checks. Six unique
