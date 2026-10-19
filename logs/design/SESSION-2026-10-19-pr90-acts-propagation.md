@@ -183,3 +183,5 @@ Finite-portal adverse control after rebuild: normal aggregate package configurat
 ```
 
 Initial audit controls retained in controls-initial.json: field4111queries,max1.64e-14Tresidual; native1560prisms/9360faces/corners≤3.7e-15m; zeroB40rayspassed. Tightroot/parallel-side/indexed-exhaustive/refinement controls FAILED; production remainsgated. Source trace identifies lostnativebackstepwhenrefreshdiscardsovershottarget. S1proposed preservingACTSnativecorrection plusconservativecurvatureActorsteplimiter fornoforwardtangentroots; methodamendmentrecordedbeforeimplementation. No tolerance enlargement/assertiondisable orphysicalretuning.
+
+S1native-stepdiagnostic: missed1nmxentryremained3.9936nmahead; configuredsurfaceTolerancewas1nm butindependentNavigatornearLimitdefault100nmdroppedforwardcandidate. DocumentednearLimit0beforenativeoptionfix. No hitorcontroltolerancerelaxation.
