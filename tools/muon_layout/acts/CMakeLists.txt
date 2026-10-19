@@ -1,0 +1,20 @@
+cmake_minimum_required(VERSION 3.24)
+project(nodd_muon_acts_boundary LANGUAGES CXX)
+set(ACTS_CORE_PREFIX "" CACHE PATH "Optional verified ACTS install prefix; import Core target only")
+if(ACTS_CORE_PREFIX)
+  # The installed aggregate ActsConfig may request unrelated plugin versions.
+  # This mode imports the existing Core target without weakening those requests.
+  find_package(Boost CONFIG REQUIRED)
+  find_package(Eigen3 CONFIG REQUIRED)
+  include("${ACTS_CORE_PREFIX}/lib/cmake/Acts/ActsCoreTargets.cmake")
+  set(NODD_ACTS_DISCOVERY "explicit-core-prefix")
+else()
+  find_package(Acts CONFIG REQUIRED COMPONENTS Core)
+  set(NODD_ACTS_DISCOVERY "normal-config")
+endif()
+add_executable(nodd-muon-propagate propagate.cpp)
+target_compile_features(nodd-muon-propagate PRIVATE cxx_std_20)
+target_link_libraries(nodd-muon-propagate PRIVATE Acts::Core)
+target_compile_options(nodd-muon-propagate PRIVATE -Wall -Wextra -Wpedantic)
+target_compile_definitions(nodd-muon-propagate PRIVATE
+  NODD_ACTS_DISCOVERY="${NODD_ACTS_DISCOVERY}")

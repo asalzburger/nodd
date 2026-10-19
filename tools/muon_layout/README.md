@@ -52,3 +52,5 @@ No magnet dimensions/currents, field solve, MDT resolution or inherited response
 model is changed here. Frame stiffness, magnetic forces, cold force closure,
 case walls, chamber mounts/services/deadloads, forward technology and installed
 HCAL B–H remain engineering inputs for future proposals.
+
+The separate [ACTS propagation prototype](acts/README.md) constructs native chamber envelopes, propagates in the retained joint map, and audits large-face segment proxies versus local entrance momentum. It retains its own native controls and failure denominators; the original straight-ray artifacts above remain historical geometry evidence.
