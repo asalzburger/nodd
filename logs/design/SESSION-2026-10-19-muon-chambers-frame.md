@@ -204,3 +204,63 @@ unknown, not zero.
 Review coverage losses and physical chamber/field envelope tradeoffs; qualify
 chamber technology, services/mounts/deadloads and energized magnet supports before
 production integration. A realistic full-angle study is not perfect4pi coverage.
+
+## Frozen revision assignment V1, recorded before dispatch
+
+```json
+{
+  "id": "V1",
+  "role": "PhysVal",
+  "task": "Independently review the complete DES040 modular chamber/frame prototype at exact commit 8e93a131aa5f6d186f27a1a050221d5be50d0633 (resolve full SHA from git). Primary inputs first, then conclusions. Verify whole rectangular barrel/trapezoidal endcap prism geometry, fixed magnetic inheritance, finite-volume coil/support separation, realistic hollow material support contact graph/ports/feet, full4pi denominator and distinct station counting, border vs full-depth definitions, material-route tags and actual plane lever arms, source classification, MC union mass/sampling scope, reproducibility and honest nonconverged image-grid claims. Use git show REV:path for fixed source; working tree may contain record-only coordinator changes. Run selected meaningful independent checks and at least 21 new controls/source checks. Do not substitute author's conclusions for checks. Read-only repository, scratch /private/tmp/muon-layout-V1-* only. No nestedagents/externalmessages. State that P1 authored planning/math criteria but no implemented root/S1/S2 source, and review is technical not human approval.",
+  "deliverable": "Return structured review at exact full commit: findings with priority/file/locator/impact/correction, actual commands/checks/results and limits; scratch JSON and any independent spotcheck code. Identify blockers promptly.",
+  "completion": "Independent exact-revision assessment of requested claims, no unresolved material implementation bug; adverse results explicit and no invented human acceptance.",
+  "input_revision": "8e93a131aa5f6d186f27a1a050221d5be50d0633",
+  "inputs": [
+    "docs/design/DES-040-muon-chambers-frame.md",
+    "tools/muon_layout/design.json",
+    "docs/validation/DES-040/support-input.json",
+    "tools/muon_layout/geometry.py",
+    "tools/muon_layout/layout.py",
+    "tools/muon_layout/coverage.py",
+    "tools/muon_layout/support.py",
+    "tools/muon_layout/study.py",
+    "tools/muon_layout/draw.py",
+    "docs/validation/DES-040/geometry.json",
+    "docs/validation/DES-040/results.json",
+    "docs/validation/DES-040/results.md",
+    "docs/validation/DES-040/sources.json",
+    "docs/validation/DES-040/magnetic-invariance.json",
+    "docs/validation/DES-040/figures.json",
+    "reference/manifest.yaml"
+  ],
+  "mode": "read-only",
+  "writable_paths": []
+}
+```
+
+## Frozen technical review and publication
+
+V1 reviewed exactly8e93a131aa5f6d186f27a1a050221d5be50d0633 using git-show blobs,
+all16assigned source hashes and additional artifacts. No blocking correction was
+identified. It reran21newcontrols and the artifact check, separately derived SAT
+for2016panel and1348support candidate pairs, independently checked signed-edge
+plane/depth arithmetic on16384full-sphere rays, reconciled all1310actual contacts
+and the530-node grounded graph, and recomputed47full-volume certificates. The
+review discloses P1 planning/historical authorship and reused helpers. Root reran
+the portable checker successfully after curating it. Raw client context was not
+copied. Structured review, portable code and bounded outputs are in DES040.
+No prototype source or generated result changed after the reviewed commit.
+
+Created and attached https://github.com/asalzburger/nodd/pull/90, stacked on
+codex/twelvefold-toroid-prototype. It was initially GitHub draft while V1 ran;
+after the nonblocking review, publication closeout marks it ready for human
+review. The physical DES040 status stays DRAFT. The original PR87 review thread
+receives a link to90 and explicit residual coverage/engineering limits; it is
+not resolved as human acceptance. Final commit changes only review evidence,
+publication/project metadata and this paired journal. Token-site preview build
+39251158765 succeeded; the full repository workflow is separately visible on PR90.
+
+The old toroid worktree's unrelated dirty chamber-outlines.json remains present.
+There is no merge, production integration, source/map regeneration or engineering
+approval. Future CI observations remain available on the PR after this record
+closeout; record-only changes do not extend the fixed scientific review target.

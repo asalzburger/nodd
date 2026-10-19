@@ -4,8 +4,8 @@
   "title": "Rectangular barrel and trapezoidal endcap chamber prototype with support frame and feet",
   "recorded_at": "2026-10-19T11:52:43Z",
   "started_at": null,
-  "ended_at": null,
-  "status": "open",
+  "ended_at": "2026-10-19T12:28:27Z",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
@@ -21,7 +21,9 @@
     "start_commit": "fe372194038ed2af9617c27defffba09ae6d683f",
     "branch": "codex/muon-chamber-layout",
     "initial_changes": [],
-    "result_commits": [],
+    "result_commits": [
+      "8e93a131aa5f6d186f27a1a050221d5be50d0633"
+    ],
     "changed_files": [
       ".github/workflows/validation.yml",
       "docs/README.md",
@@ -32,10 +34,14 @@
       "docs/validation/DES-040/coverage.png",
       "docs/validation/DES-040/figures.json",
       "docs/validation/DES-040/geometry.json",
+      "docs/validation/DES-040/independent-spotchecks.json",
+      "docs/validation/DES-040/independent-spotchecks.py",
       "docs/validation/DES-040/layout-3d.png",
       "docs/validation/DES-040/magnetic-invariance.json",
       "docs/validation/DES-040/results.json",
       "docs/validation/DES-040/results.md",
+      "docs/validation/DES-040/review.json",
+      "docs/validation/DES-040/review.md",
       "docs/validation/DES-040/rz-sections.png",
       "docs/validation/DES-040/sources.json",
       "docs/validation/DES-040/support-input.json",
@@ -67,7 +73,8 @@
       "DES-040",
       "TASK-B-MUON-CHAMBERS",
       "DES-039",
-      "PR-87"
+      "PR-87",
+      "PR-90"
     ]
   },
   "narrative": "logs/design/SESSION-2026-10-19-muon-chambers-frame.md",
@@ -109,6 +116,48 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "All unchanged; magnetic-invariance.json retains each SHA-256."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "68 tasks,38 documents,21 review rounds valid; scientific task and DES040 registered."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "190 session records valid."
+    },
+    {
+      "command": "python3 -B tools/agent_workflow/workflow.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Eight roles and three workflow skills valid."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py summary --milestone M1",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Usage remains unknown for this task; observed prior project totals recorded in narrative, no invented task tokens."
+    },
+    {
+      "command": "git push -u origin codex/muon-chamber-layout; gh pr create --base codex/twelvefold-toroid-prototype --draft; attach_artifact",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Created/attached PR90, initially draft pending independent review; unchanged PR87 branch and map."
+    },
+    {
+      "command": "V1 immutable git-show review8e93a131 plus portable independent spotchecks, then root repeat",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No blocking findings. 21controls,52byte-equal inherited files,2016panel/1348support pairs,1310contacts,530-node grounded graph,16384independent rays and47recomputed certificates. Limits/authorship retained in review.json; root repeat6.322s."
+    },
+    {
+      "command": "GitHub Actions token-site run39251158765",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Usage validation, tests and token dashboard preview build succeeded; no main Pages publication."
     }
   ]
 }
