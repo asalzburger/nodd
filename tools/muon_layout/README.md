@@ -54,3 +54,8 @@ case walls, chamber mounts/services/deadloads, forward technology and installed
 HCAL B–H remain engineering inputs for future proposals.
 
 The separate [ACTS propagation prototype](acts/README.md) constructs native chamber envelopes, propagates in the retained joint map, and audits large-face segment proxies versus local entrance momentum. It retains its own native controls and failure denominators; the original straight-ray artifacts above remain historical geometry evidence.
+
+The [coloured OBJ export](../../docs/validation/DES-040/obj/README.md) contains the
+current native chamber envelopes in blue and the fixed toroid warm envelopes in
+grey, with a portable companion MTL and ZIP bundle. It changes no geometry or
+propagation evidence.
