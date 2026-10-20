@@ -36,6 +36,11 @@ The [TDR outline](docs/publication/TDR-outline.md) and
 [publication plan](docs/publication/publication-plan.md) organize chapters,
 evidence and review inputs as the detector design develops.
 
+The [ODD IdRes comparison](docs/validation/ODD-idres/README.md) provides
+reproducible SVGs and complete JSON/CSV data for original ODD and the extended
+tracker prototype before/after pixel aperture adaptation: hits, local layer
+material and pitch/√12 momentum-resolution estimates versus eta.
+
 ## Agent roles
 
 Use these short address names when referring to the project's eight agent roles.
