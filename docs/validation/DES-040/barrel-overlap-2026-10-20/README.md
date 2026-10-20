@@ -46,7 +46,7 @@ This is also the true nearest distance of the full templates. It exceeds the new
 
 A provisional **4m maximum z seed**, replacing2m, retains the barrel half-z limits6.4456/9.2/12.5m and nominal20mm seams. Adaptive packing checks the complete volume against the fixed coils and all484 supports with50mm clearance. Identical tangent lanes can fill an adjacent20mm z seam only after a fresh whole-union clearance proof and within4m length:264 such merges are accepted. Rejected hardware corridors are never bridged. Hard coil/frame interruptions remain, visible in the longitudinal drawing: odd B3 full-width support intersections near abs(z)=6.1–6.5 and12.1–12.5m, odd B2 near6.1–7.1m, and even B3 BT return cuts near11.06–12.09m. Partial side strips can survive these intervals.
 
-The inherited useful-size policy limits prospective z subdivisions to0.5m and all areas to0.25m²; it has no universal0.5m tangential-width floor. After packing,48B2 and96B3 fragments are narrower than0.5m; minimum B3 width is0.318498m. Such outlines require engineering evaluation. The seven endcap families and192endcap source objects are value-identical to the comparison baseline. Author-only [3m/6m seed diagnostics](seed-diagnostics.json) produce816/672barrels;4m was provisionally retained for better sampled geometric coverage with fewer families than6m. This is a bounded comparison, not an optimization or mechanical qualification.
+The inherited useful-size policy limits prospective z subdivisions to0.5m and all areas to0.25m²; it has no universal0.5m tangential-width floor. After packing,48B2 and96B3 fragments are narrower than0.5m; minimum B3 width is0.318498m. Such outlines require engineering evaluation. The seven endcap families and192endcap source objects are value-identical to the comparison baseline. Author-only [3m/6m seed diagnostics](seed-diagnostics.json) ([reproduction method](seed-diagnostics-method.md)) produce816/672barrels;4m was provisionally retained for better sampled geometric coverage with fewer families than6m. This is a bounded comparison, not an optimization or mechanical qualification.
 
 The source boundaries `origin_m`, `basis`, `vertices_m`, `depth_m` are authoritative. Retained historical wheel metadata describes unchanged endcap input. The original `configuration.chambers.barrel_apothems_m` gives the base radii; the new `barrel_overlap_dimensions` supplies the odd-B3 override, explicitly identified in `barrel_apothem_scope`. Do not reconstruct the stagger from the base-radius array alone.
 
@@ -74,11 +74,15 @@ All1,024 zero-field native tracks complete and match the independent same-chambe
 | All three barrel stations |56.6040|69.3878|
 | All three,30mm border proxy |48.2971|61.8225|
 
+The independent paired comparison also records local losses. Of the 32,768 independent directions, **6,198 gain and 2,009 lose** the three-station outline crossing: 18.9148% gained, 6.1310% lost, net +12.7838 percentage points. With the 30 mm border, 6,655 gain and 2,223 lose, net +13.5254 points. Conditional paired Monte Carlo standard errors on these net gains are 0.2673 and 0.2777 percentage points; they exclude design and response uncertainty. The mirrored rows duplicate those counts across both ends. This is a combined radial-stagger/z-packing tradeoff, not a pointwise improvement. Among outline losses, 508 miss only B1, 605 miss B1+B3, 896 miss only B3, and none lose B2.
+
+Relocated axial seams can prevent both depth crossings from fitting in one cassette. Example zero-based row 13 in the 32,768-iid geometric bank (seed 906320; not the native-track bank), eta 0.579953 / phi 147.857819 degrees, passed old B1/F10/Z05; its new depth crossings span z 3.036546–3.343268 m, straddling seam 3.2178–3.2378 m. Row 163 (eta 0.204720, phi 316.731763 degrees) passed old B3/F21/Z07; new depth crossings 1.753103–1.856227 m straddle seam 1.777143–1.797143 m. Adjacent partial traversals therefore fail the strict same-cassette observable. These are physically explained packing/proxy effects, not geometry-overlap failures. A reconstruction study could use different crossing criteria but is outside this prototype.
+
 These are straight geometry fractions in a declared band. They include actual cuts but no coil/material veto, multiple scattering, energy loss, hit response or reconstruction. They are not full-4pi acceptance or efficiency. Old endcap and large native studies remain historical, not recalculated performance for this candidate.
 
 The unchanged-map curved smoke retains **all256tracks**,5/100GeV and both charges:197complete and59field-masked, with maximum finite plane residual9.70e-9m. Masked rows and IDs are retained; no extrapolation or zero replacement is used. This is a bounded event-consistency check, not an efficiency estimate. The [449-file prior source/evidence identity manifest](prior-evidence-identity.json) confirms historical files remain byte-exact.
 
-Independent final PhysVal assessment is pending at this artifact freeze. No automated check grants human engineering acceptance.
+The [separate final PhysVal assessment](review/physics-review.md), [portable checker](review/physics-check.py) and [actual results](review/physics-check.json) assess exact frozen artifact revision `0933e439a69e199fb17e250d792ba35d0feaf9ab`. All 39 focused checks pass across 495 pinned blobs. Its bounded assessment finds no new blocking implementation defect; it identifies the paired local-loss and sampling-precision tradeoffs, now clarified above without changing source, geometry or acquired artifacts. It independently checks finite pairs/supports/events/banks/meshes/views and historical identities; it inspects retained coil certificates but does not independently rerun their distance kernel or native transport. Uniform middle eta3 and engineering/response requirements remain unresolved. No automated check grants human engineering acceptance.
 
 ## Reproduction
 
@@ -92,3 +96,11 @@ python3 -B -m tools.muon_layout.barrel_validation
 ```
 
 The node preflight warned that setup/Spack-lock fingerprints changed. Fresh same-shell Spack activation, native executable/library fingerprints, NumPy/Matplotlib imports and actual construction/transport passed. No ACTS installation or library was modified.
+
+Independent actual-artifact check, without ACTS or scratch-path dependencies:
+
+```sh
+python3 -B docs/validation/DES-040/barrel-overlap-2026-10-20/review/physics-check.py \
+ --repo . --revision 0933e439a69e199fb17e250d792ba35d0feaf9ab \
+ --output /tmp/barrel-physics-check.json
+```

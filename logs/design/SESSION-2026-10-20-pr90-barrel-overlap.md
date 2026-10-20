@@ -97,3 +97,12 @@ Actually viewed barrel XY comparison, longitudinal comparison and combined OBJ P
   "completion": "Root can reconcile final geometry/native/OBJ/figures/coverage claims against actual frozen data and preserve unresolved physics/engineering limits."
 }
 ```
+
+
+## Independent assessment and claim reconciliation
+
+BO-P1 runs a separate NumPy/stdlib checker against exact frozen artifact revision0933e439a69e199fb17e250d792ba35d0feaf9ab. Actual39checks pass across495pinned blobs, including888source volumes/393828pairs,696×484support envelopes, native event pairing, independent finite-rectangle bank, mesh/ZIP/view hashes and449prior blob identities. It does not rerun native transport or the coil distance kernel, and grants no human approval.
+
+The separate paired bank comparison finds6198gained/2009lost outline directions out of32768iid, net+12.783813pp (conditional paired MCSE0.267298pp); border6655gained/2223lost, net+13.525391pp (MCSE0.277673pp). Among outline losses508missB1only,605B1+B3,896B3only, noneB2. Representative zero-based geometric-bank rows13/163 cross relocated zseams and no longer fit both depth faces in the same cassette. This explains local proxy losses; it does not establish reconstruction loss. Root adds this combined stagger/z-packing tradeoff prominently to README and PR text instead of claiming pointwise improvement. No source, geometry, native data, maps, OBJ or plots change after review target. Added separate author seed-diagnostics method documents signed-mu seed40090/16384bank, distinct from final seed906320/32768iid mirroredbank.
+
+Initial BO-P1 preparer rejected a directory input; listed regular pinned files and prepared successfully before dispatch. Reviewer checker-only2D-cross/NumPy compatibility, nonconvexcoil centroid orientation and1e-10drawing rounding checks were corrected within scratch; no repository scientific gate was weakened. Root draft sessioncheck-status capitalization was corrected, and session/project/token/workflow validators then pass. Token preview uses210disjoint historical turns/624299405observedtokens; this root/specialist turn has no exact client counters and adds no usage observation.
