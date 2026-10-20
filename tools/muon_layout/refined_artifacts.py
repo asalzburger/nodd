@@ -104,6 +104,13 @@ def produce(args):
         result = subprocess.run([str(args.writer.resolve()), str(object_input), str(target)],
                                 check=True, capture_output=True, text=True)
         original_material = assets.material_cleanup(target.with_suffix('.mtl'), {o[1] for o in objects})
+        # ACTS writes trailing blanks in MTL. Preserve every material token
+        # while making this new export conform to repository whitespace rules.
+        material = target.with_suffix('.mtl')
+        raw = material.read_text()
+        cleaned = '\n'.join(line.rstrip() for line in raw.splitlines()).rstrip() + '\n'
+        assert cleaned.split() == raw.split()
+        material.write_text(cleaned)
         checks[name] = assets.verify_obj(target, objects, volumes)
         checks[name].update(assets.preview(out / (name + '.png'), objects, label, has_frame),
                             raw_native_material_sha256=original_material,
@@ -142,6 +149,7 @@ def produce(args):
         maximum_native_corner_residual_m=native_error, counts=dict(chambers=len(chambers), coils=len(coils), frame=len(frame)),
         checks=checks, zip_checks=zip_checks, obj_artifacts=artifacts,
         inventory_counts=change['counts'], inventory_families=change['shape_families'], xy_checks=xy_checks,
+        material_processing='Deduplicate identical ACTS blocks and normalize trailing/EOF whitespace; all material tokens preserved.',
         xy_artifacts={p.name: sha(p) for p in sorted(drawing_dir.iterdir()) if p.suffix in ('.png', '.svg', '.json')},
         runtime=dict(python=platform.python_version(), numpy=np.__version__, matplotlib=matplotlib.__version__),
         limits=[assets.FRAME_SCOPE, 'Blue outlines are native finite chamber volumes; gray coils are warm-envelope sweeps.',
