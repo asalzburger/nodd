@@ -1,0 +1,136 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-20-fcal-3d-svg",
+  "title": "LAYOUT-001 FCAL 3D cutaway SVG and concise technology summary",
+  "recorded_at": "2026-10-20T14:20:23Z",
+  "started_at": null,
+  "ended_at": "2026-10-20T14:26:47Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Curated contemporaneous task record; exact conversation start, client version/thread ID and per-turn token counters unavailable. Usage is empty, not zero.",
+    "SVG is an explanatory orthographic projection of the existing draft model; cut surfaces, sparse enlarged fibres and wireframe enclosure are display choices. No new physical design, native run, performance validation or sign-off is inferred."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "165d297ac6f45c37cb8e996f26a6115c119cf7de",
+    "branch": "codex/common-fcal-design",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      "docs/design/DES-039-common-forward-calorimeter.md",
+      "docs/design/figures/DES-039/LAYOUT-001-FCAL-3d.png",
+      "docs/design/figures/DES-039/LAYOUT-001-FCAL-3d.svg",
+      "docs/design/figures/DES-039/LAYOUT-001-FCAL-summary.txt",
+      "docs/layouts/LAYOUT-001-tracker-3t-siw.md",
+      "logs/design/SESSION-2026-10-20-fcal-3d-svg.json",
+      "logs/design/SESSION-2026-10-20-fcal-3d-svg.md",
+      "project/tracking.json",
+      "tools/forward_calorimeter/README.md",
+      "tools/forward_calorimeter/draw_3d.py"
+    ]
+  },
+  "work": {
+    "milestone": "B",
+    "components": [
+      "forward calorimeter",
+      "3D vector illustration",
+      "technology summary"
+    ],
+    "related_ids": [
+      "DES-039",
+      "ADR-010",
+      "LAYOUT-001",
+      "TASK-B-CALO-FCAL"
+    ]
+  },
+  "narrative": "logs/design/SESSION-2026-10-20-fcal-3d-svg.md",
+  "activities": [
+    {
+      "kind": "tool",
+      "name": "exec_command",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Read pinned design and source data; generated and checked self-contained SVG, rendered with existing rsvg-convert and inspected PNG."
+    },
+    {
+      "kind": "tool",
+      "name": "web.run",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Rechecked existing primary PDG tungsten table and CMS HF paper. CASTOR experimental HTML was unavailable; no claim relies on it."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 -B tools/forward_calorimeter/draw_3d.py --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Retained SVG exactly matches the deterministic generator and design input."
+    },
+    {
+      "command": "rsvg-convert -w 1800 -o docs/design/figures/DES-039/LAYOUT-001-FCAL-3d.png docs/design/figures/DES-039/LAYOUT-001-FCAL-3d.svg",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Rendered successfully with rsvg-convert 2.62.3; both visual iterations inspected, final callouts do not cross text."
+    },
+    {
+      "command": "python3 - (SVG XML/provenance/camera/caption controls)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Self-contained XML has no script or embedded raster; orthonormal camera, source hash, physical envelopes, axial intervals, 24,324 fibres and 96 cartridges match the model. All eight caption lines contain one sentence each; 74 actual lattice fibres are shown as enlarged representatives."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/forward_calorimeter -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All 11 existing controls passed in 1.831 seconds."
+    },
+    {
+      "command": "python3 -B tools/forward_calorimeter/study.py --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Both retained physical reports unchanged and exact comparison passes; no native run was needed for an illustration."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 67 tasks, 38 documents and 21 review rounds."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py summary --format json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "185 records; this task has no exact token observations."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated all 185 session records."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py build --output _site/fcal-3d-svg",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Token site built successfully from 210 disjoint observed historical turns; no task usage estimated."
+    }
+  ]
+}

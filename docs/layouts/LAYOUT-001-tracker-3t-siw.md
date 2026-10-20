@@ -1,6 +1,6 @@
 # LAYOUT-001 — Tracker + inner 3 T solenoid + Si–W ECAL
 
-**Current human-selected candidate · DRAFT / PROTOTYPE · updated 2026-10-17.**
+**Current human-selected candidate · DRAFT / PROTOTYPE · updated 2026-10-20.**
 The tracker is maintained on main. Open component proposals are included in this
 candidate for review; combined detector construction and engineering sign-off
 remain pending.
@@ -30,6 +30,8 @@ implied.
 The retained pre-FCAL baseline is reproduced with `python3 -B tools/layout_overview/draw.py --check`. The current DES039 view uses the forward-calorimeter generator below.
 
 ## DES039 forward integration proposal
+
+[FCAL 3D cutaway (SVG)](../design/figures/DES-039/LAYOUT-001-FCAL-3d.svg) · [Eight-sentence technology summary](../design/figures/DES-039/LAYOUT-001-FCAL-summary.txt).
 
 The common 1.8 m package fits the current rear/radial bounds, with 10 mm to the HCAL minimum bore. Its R50 mm physical aperture replaces the former empty R80 mm allocation as a draft choice. The current pipe ends at four metres; downstream machine clearance remains open. New rear services turn outward at abs(z)=6.4291–6.5791 m. The existing ECAL service break remains separately owned.
 

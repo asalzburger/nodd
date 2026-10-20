@@ -10,6 +10,9 @@
 
 [LAYOUT-001 integration](../layouts/LAYOUT-001-tracker-3t-siw.md) · [LAYOUT-002 integration](../layouts/LAYOUT-002-tracker-3t-lar.md)
 
+[LAYOUT-001 3D cutaway SVG](figures/DES-039/LAYOUT-001-FCAL-3d.svg) · [Technology and features in eight sentences](figures/DES-039/LAYOUT-001-FCAL-summary.txt).
+The orthographic illustration retains the named design dimensions; an upper quadrant is removed, selected fibres are enlarged and the rear enclosure is shown in wireframe for visibility. Small clamshell joints, support ribs and full service hardware are omitted from the illustration; this changes no design parameter or validation evidence.
+
 ## Design and scope
 
 **NODD DESIGN CHOICE:** use a common warm tungsten matrix with beam-parallel fused-silica Cherenkov fibres and rear cooled SiPM readout. Two interleaved fibre populations, full-depth L and S starting 100 mm into the core, give overlapping shower-depth weightings. They are not independent EM and hadronic compartments. Calibrated combinations require optical/shower evidence; no compensation, energy resolution, timing or high-pileup performance is specified.

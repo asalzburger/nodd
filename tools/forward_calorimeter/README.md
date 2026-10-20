@@ -35,6 +35,20 @@ The local execution used the existing ACTS Python environment for matplotlib
 only; no ACTS build or runtime modification was needed. Figures are static
 scientific SVG/PNG artifacts; their named input files retain source hashes.
 
+The LAYOUT-001 orthographic 3D cutaway needs only the Python standard library:
+
+```sh
+python3 -B tools/forward_calorimeter/draw_3d.py
+python3 -B tools/forward_calorimeter/draw_3d.py --check
+rsvg-convert -w 1800 -o docs/design/figures/DES-039/LAYOUT-001-FCAL-3d.png docs/design/figures/DES-039/LAYOUT-001-FCAL-3d.svg
+```
+
+The SVG contains input/model/generator hashes and dimensional provenance in its
+metadata. Its camera, removed quadrant, sparse enlarged fibres and wireframe
+rear housing are display choices. Tiny clamshell joints, ribs and complete
+service hardware are omitted for clarity; the physical model is unchanged.
+The rear inset shows all 96 cartridge footprints from the exact model.
+
 For actual native construction, first run the established `acts-spack` skill's
 preflight and verify runtime imports in the same shell. On this node the checked
 activation was:
