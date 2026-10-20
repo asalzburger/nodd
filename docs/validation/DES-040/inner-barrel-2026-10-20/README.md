@@ -95,4 +95,14 @@ python3 -B -m tools.muon_layout.inner_barrel_views
 
 The conditional checker automatically extracts its eight pinned Python/data inputs into a temporary tree before imports. Its [CLI portability replay](conditional-reproduction-check.json) reproduced all scientific results, IDs and byte-identical outlines. The plotting module records its own frozen source revision, all input hashes and actual displayed polygons in views.json. NumPy/Matplotlib run in the re-verified local runtime; no native simulation is required for unchanged active physics.
 
-[All687 previous source/evidence files remain byte-exact](unchanged-evidence.json), including the active888geometry, OBJ, field maps and earlier native results. Independent final assessment of this new report and its actual figures is pending at acquisition. No automated result is human approval.
+[All687 previous source/evidence files remain byte-exact](unchanged-evidence.json), including the active888geometry, OBJ, field maps and earlier native results. The [independent final PhysVal assessment](review/physics-review.md), [portable checker](review/physics-check.py) and [actual results](review/physics-check.json) review exact artifact revision `94d474906660619587b66e850019f0f0fb8e03bd`. The audit independently reproduces the occupied-HCAL obstruction, all conditional coverage counts and paired loss classes,437,580 chamber pairs,69,696 B1/support comparisons,700 unique displayed polygons,1,932 actual SVG polygons,12 source-archive blobs and all687 historical identities. No material correction to the report's conclusions was identified. Physical infeasibility of the inward proposal and the outward option's adverse tradeoff remain explicit; neither option is selected. No automated result is human approval.
+
+The review notes that generating plotting-runtime metadata was absent at its target revision. A supplemental [runtime record](plotting-runtime.json), added after that review without changing source, figures or physics, records coordinator observations: Python3.14.5, NumPy2.5.4, Matplotlib3.11.2 in the activated local environment. NumPy/Matplotlib imports and environment were checked before plotting; the Python version was read back from the same executable afterward. This does not claim an independent byte-identical plot regeneration or that the supplemental file was part of the review target.
+
+Independent artifact check (Python + NumPy, no ACTS):
+
+```sh
+python3 -B docs/validation/DES-040/inner-barrel-2026-10-20/review/physics-check.py \
+ --repo . --revision 94d474906660619587b66e850019f0f0fb8e03bd \
+ --output /tmp/inner-barrel-physics-check.json
+```

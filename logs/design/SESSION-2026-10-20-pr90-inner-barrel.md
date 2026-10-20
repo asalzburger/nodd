@@ -58,3 +58,38 @@ IB-A1 SysArch completed pinned56f12ef withHCAL0e8530d56d171f38c9d53d3c60c8b48803
 IB-M1 MuonTech completed conditionalunselectedintercoilR5.75trial usingexistingpackkernel andfresh144uncachedorientationcoilproofs,484supportmembers,437580finalchamberpairs. Current792nonB1objects fixedvalueequal. B1count96→144 andfamilies1→4,total936ifselected. Full65536iid4pi samecassettefinitebankseed40087 (allbarrel/endcapalternativesORwithin3stationIDs) findsoutline65.615845→64.266968%,border57.440186→56.398010%; notthepriorcentral-onlybank. Border1245gain/1928lose,delta−1.042175pp (pairedSE0.085856pp). Losses565framepacking,1034zseam/samecassette,329finitebarrelreach; allphysicallylocalized. StandaloneB1borderarea grows60.0174→63.9252% butthree-stationproxyworsens, soalternative isnotadopted/recommendedasoverallcoverageimprovement. PortableCLIextractionreplay matchesallscientificresults/lossIDs andoutlinesbytes. No nativeACTS/DD4hep/Geant4 orfieldsolve needed becauseactivecandidateunchanged; no shareddependenciesmodified.
 
 Plottingruntime preflight warned changedsetup/Spacklockfingerprints; freshsameshell setup_spack, actualactiveci-dependencies andinstalledNumPy2.5.4/Matplotlib3.11.2 importsverified before plotting. DefaultPythonNumPy2.5.1/stdlib sufficesforcontributioncheckers. InitialparentworkspaceGitqueryhadnoHEAD; changedimmediatelytoexplicitknownPRcheckout, nobranch/filemodifiedthere. Existing888currentcandidate,bluegreyOBJ,jointmap,frame,endcaps andpreviousscientificevidence remainimmutable.
+
+
+## IB-P1 before dispatch
+
+```json
+{
+  "id": "IB-P1",
+  "role": "PhysVal",
+  "input_revision": "94d474906660619587b66e850019f0f0fb8e03bd",
+  "inputs": [
+    "docs/design/DES-040-muon-chambers-frame.md",
+    "tools/muon_layout/inner_barrel_views.py",
+    "docs/validation/DES-040/barrel-overlap-2026-10-20/candidate/geometry.json",
+    "docs/validation/DES-040/inner-barrel-2026-10-20/README.md",
+    "docs/validation/DES-040/inner-barrel-2026-10-20/interface-check.py",
+    "docs/validation/DES-040/inner-barrel-2026-10-20/interface-check.json",
+    "docs/validation/DES-040/inner-barrel-2026-10-20/conditional-check.py",
+    "docs/validation/DES-040/inner-barrel-2026-10-20/conditional-check.json",
+    "docs/validation/DES-040/inner-barrel-2026-10-20/conditional-B1-outlines.json",
+    "docs/validation/DES-040/inner-barrel-2026-10-20/views/views.json",
+    "docs/validation/DES-040/inner-barrel-2026-10-20/unchanged-evidence.json",
+    "docs/validation/DES-040/inner-barrel-2026-10-20/inputs/source-manifest.json"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Independent actual-artifact assessment of PR90 latestinnerbarrelproposal feasibility, at exactrevision. Inspect primarygeometry/magnetic/HCALsource before authorconclusions. Evaluate requestedbelow-BTinnerleg B1 placement against real finite16sectorHCALsteel/cover and retained500mmdepth/50mmmargins, notjustcornercircle; identify any incorrectcollision/no-fit claim with source/polygon/witness. Extra HCALsource0e8530d56d171f38c9d53d3c60c8b48803680bbd is pinned in baselineMUON001 andnewarchive/manifest; gitobjectavailable, mustreadexactblobs notdirtysibling. Evaluate unselectedoutwardintercoiltrial: finitegeometry/cert/source identity, changedB1outlines only with fixedotherobjects, wholevolume/corner separation and actual reportedcounts/families. Recompute boundedfull4pi geometricbank independently (notrepository kernel): stationarysamecassettebothdepthfaces; unionbarrel/endcapwithin3stationIDs, exposegained/lost/SE denominators andlocalcut/seam/end classifications. Do not confusewithpriorcentral-onlybank, efficiencyortransport. CheckactualPNG/SVG/displaypolygons/sourcehashes/geometrymetadata, invalidcounterfactual vsunselectedalternative vsactivecandidate. Verify old687source/evidenceblobidentities andactive888geometry/OBJ/mapsunchanged. Scope is boundedstandard-library/NumPy geometry/artifactaudit, no nativeACTS/DD4hep/Geant4 reruns, fieldsolve, packages, broadoptimization orauthorimplementationreviewofowncode. No repositorywrites; scratch portable checker/report/results /private/tmp/pr90-IB-P1-*, --repo --revision --output frompinnedgitblobs. No nestedagents/Gitcommits/externalmessages. Return earlymaterialfindings andfinalcheckedsource/result/limits, nohumanapproval. Rootwillhandleclaimedphysicaldecision andpublicresponse;do notsilentlyselectanyalternative.",
+  "deliverable": "ExactrevisionPhysVal report and portable focused artifactchecker/results in scratch, concretefindings orboundedassessment ofphysicalobstruction/conditionaladversetradeoff andunchangedactivecandidate.",
+  "completion": "Root can answernewreviewercomment using independently assessedfinitegeometry anddeclaredcoverage scope; anyunsupportedclaim corrected, allopenphysicalchoicesandengineeringlimits preserved."
+}
+```
+
+
+## Independent final actual-artifact assessment
+
+IB-P1 reviewed exact94d474906660619587b66e850019f0f0fb8e03bd without importing authoredrepositorykernels. Successful final27.8191s checker independently reproduces all65536full4pi bankcounts/pairedSE/lossclasses;437580conditionalchamberpairs,69696B1/supportpairs,3456straightlegpairs;actual48inwardHCALconflicts;700uniqueplotpolygons and1932actualSVGpolygons;all12archiveblobs and687prioridentities. No materialconclusioncorrection identified. Four adverse/observablecontrols pass. No physics/geometry/figure correction required; active888unchanged. Reviewer's unverified adjective'dirty' for unusedsiblingtree removed asrecord-onlycorrection (rootobservedsiblingclean0e). Lowimpactprovenancenote: viewsruntimeversionsmissingat94target. Rootadds supplementalplotting-runtime.json fromactualobservations: generatingNumPy2.5.4/Matplotlib3.11.2 verifiedbeforeplotting, samePythonexecutableversion3.14.5readbackafterplotting. Exactreviewtargetunchanged; supplementalmetadataisoutsideassessment, no byte-identicalplotregenerationclaimed. No simulation/dependencychange or humanapproval.
