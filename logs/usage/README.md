@@ -1,5 +1,29 @@
 # Local token-usage recovery
 
+## PR88 FCAL accounting — 2026-10-20
+
+The [usage-only inventory](USAGE-2026-10-20-pr88-accounting.json) reconciles
+five explicitly selected threads: the parent FCAL chat and its four recorded
+specialist children. Eleven completed turns add **40,048,091 input + 215,814
+output = 40,263,905 observed tokens** from 262 requests. Cached input
+39,084,928 and reasoning output 74,935 are subsets. Twenty-six repeated
+cumulative snapshots are excluded; no usage event falls outside persisted
+turn boundaries. Parent and child request streams reconcile separately from
+zero; no parent aggregate or inherited prefix is added again.
+
+| Canonical task owner | Closed turns | Input | Output | Total |
+| --- | ---: | ---: | ---: | ---: |
+| Common FCAL recommendation | 1 | 1,592,557 | 13,860 | 1,606,417 |
+| Common design, including eight specialist turns | 9 | 35,895,875 | 178,317 | 36,074,192 |
+| LAYOUT-001 SVG and summary | 1 | 2,559,659 | 23,637 | 2,583,296 |
+
+The original recommendation journal pair was copied from its existing authored
+record in the sister checkout without changing that checkout; original hashes
+are retained. Existing unknown-usage statements remain with dated corrections.
+Dry-run/import/replay confirms 11 additions and no duplicate ownership.
+The current accounting/conflict-resolution turn remains active and excluded.
+These are client observations, not a billing estimate or complete device history.
+
 ## Remaining-device audit — 2026-10-12
 
 The [audit inventory](USAGE-2026-10-12-device-audit.json) checks 16 local project

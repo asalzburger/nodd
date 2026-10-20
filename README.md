@@ -7,10 +7,12 @@ and [documentation index](docs/README.md).
 
 ## Current detector layouts
 
-**[Open the layout main page](docs/layouts/README.md)** for the current candidate,
+The [DES039 common tungsten/quartz forward calorimeter](docs/design/DES-039-common-forward-calorimeter.md) is shown in both candidates, with an additional EM collar in the LAr alternative. It remains a DRAFT / PROTOTYPE with explicit aperture and service amendments.
+
+**[Open the layout main page](docs/layouts/README.md)** for both current candidates,
 its R–Z view and concise links to component decisions and pull requests.
 
-[![Current layout: tracker, inner 3 T solenoid, Si–W ECAL and HCAL outline](docs/layouts/figures/LAYOUT-001-rz.png)](docs/layouts/LAYOUT-001-tracker-3t-siw.md)
+[![LAYOUT-001: tracker, inner 3 T solenoid, Si–W ECAL and common FCAL proposal](docs/layouts/figures/LAYOUT-001-FCAL-rz.png)](docs/layouts/LAYOUT-001-tracker-3t-siw.md)
 
 The selected candidate combines the maintained tracker with proposed solenoid
 and ECAL components. Open prototypes and remaining systems are identified on the
