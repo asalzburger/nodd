@@ -26,7 +26,8 @@
     "result_commits": [
       "6089993659d58ae46aa5fb7cb700e231535410f2",
       "a32558a419404dfe741182b6713ce1f31062fd37",
-      "22a3f8c113a276b1321adeb9b994107594eb3c7d"
+      "22a3f8c113a276b1321adeb9b994107594eb3c7d",
+      "0576b7a615c81d1687f0cf7a3ceb0ca310478481"
     ],
     "changed_files": [
       "docs/design/DES-040-muon-chambers-frame.md",
@@ -60,9 +61,10 @@
   "work": {
     "milestone": "M1",
     "components": [
-      "muon chambers",
+      "muon chamber wheels and barrel packing",
       "magnet/HCAL/support interfaces",
-      "inventory and coverage planning"
+      "joint vacuum field and energy/cold sizing",
+      "native ACTS coverage and OBJ/inventories"
     ],
     "related_ids": [
       "DES-040",
@@ -89,7 +91,7 @@
       "calls": null,
       "failures": null,
       "duration_seconds": null,
-      "evidence": "Prepared full fallback mandates W-A1 SysArch, W-M1 MuonTech, W-P1 PhysVal recorded in paired narrative; read-only exact-revision contributions. Resumed W-A2/W-F1/W-G1/W-S1/W-O1/W-P2 full explicit fallback assignments; finalartifactreview pending."
+      "evidence": "Prepared full fallback mandates W-A1 SysArch, W-M1 MuonTech, W-P1 PhysVal recorded in paired narrative; read-only exact-revision contributions. Resumed W-A2/W-F1/W-G1/W-S1/W-O1/W-P2 full explicit fallback assignments; W-P3finalactualartifactassessment complete at0576b7a; no unresolvedmaterialfinding."
     }
   ],
   "usage": [],
@@ -137,10 +139,10 @@
       "result": "Captured148960tracks, native control gate and artifact hashes passed; no native rerun."
     },
     {
-      "command": "Candidate geometry, newOBJ, after-coverage, new magnetic field/sizing",
+      "command": "Historical preparation stage: candidate geometry, newOBJ, after-coverage, magnetic field/sizing",
       "status": "NOT RUN",
       "exit_code": null,
-      "result": "Required physical choice pending; baseline data are not candidate results."
+      "result": "At preparation stage before human selection, required choice was pending. Superseded by actual selected-candidate execution/results below."
     },
     {
       "command": "set -e; baseline-check.py --root . --output scratch; cmp baseline-check.json scratch; cmp interface-check.json original-A1-check.json; git diff --check",
@@ -237,6 +239,66 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "Original148960tracksevidence/controlgate/hashes pass, no native rerun."
+    },
+    {
+      "command": "W-G1 independent-check.py --root . --output /private/tmp/pr90-final-independent-wheel.json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "524288iid directions/wheel independent controls pass; exactmiddle216/436unchangedmembers retained."
+    },
+    {
+      "command": "External ACTS HEAD and15pre-existing file hash comparison with runtime.json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All unchanged; no external source/dependency modifications."
+    },
+    {
+      "command": "python3 -B -m unittest tools.muon_layout.acts.test_analysis",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "11counter tests pass afternewartifactfreeze."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p test_*.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "33journal tests pass."
+    },
+    {
+      "command": "python3 -B tools/agent_workflow/workflow.py validate; relative README/report link check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "8roles/3skills valid; maintained README/report relative links resolve."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py build --output _site/pr90-wheels-token-preview",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "210historical disjointturns/624299405observedtokens; notcurrent task usage, which remains unobserved."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/project_records -p test_*.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "28project/governance tests pass in251.882seconds; expected unavailable-history negativefixture emits its expectedgiterror."
+    },
+    {
+      "command": "git push origin codex/muon-chamber-layout; GitHub get_pr_info",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Scientific/artifacthead0576b7a615c81d1687f0cf7a3ceb0ca310478481 pushed and confirmed open/non-draft PR90."
+    },
+    {
+      "command": "gh pr checks90 --repo asalzburger/nodd --json name,state,link; connector combinedstatus at0576b7a",
+      "status": "NOT RUN",
+      "exit_code": null,
+      "result": "No remotejobs reported: actual gh query exit1 saysno checks; connectorcombinedstatuses empty. No remoteCIpass inferred."
+    },
+    {
+      "command": "W-P3 native-artifact-check.py andasset-check.py at0576b7a615c81d1687f0cf7a3ceb0ca310478481",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Independentactualchecks: all26counterarrays,2240availability/1120pairedentries, rawCSVidentities/failureaudits,4OBJexports/ZIPs andinventories; no unresolvedmaterialfinding. Scripts/results/reports copiedunchanged toreview/."
     }
   ]
 }

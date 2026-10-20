@@ -141,7 +141,9 @@ residual is below10 nm. Before has5,878 repeated numerical reports, explicitly
 deduplicated as crossing events. No synthetic trajectory point is used.
 
 The separate [source/input assessment](review/source-review.md) and portable
-controls assess frozen22a3f8c; final artifact assessment is recorded separately.
+controls assess frozen22a3f8c; the [final actual-artifact assessment](review/artifact-review.md) assesses
+`0576b7a615c81d1687f0cf7a3ceb0ca310478481` with no unresolved material finding.
+Portable native/asset checks and their actual results are retained beside it.
 The geometry report retains its generation-time DES040 hash; the later frozen
 document adds only the numerical corridor/base-dimension paragraph, already
 implemented in the generation configuration. It is not an all-source hash match.
@@ -169,6 +171,9 @@ field, OBJ, ACTS study, preparation manifest and before inventories are unchange
 
 Historical preparation: [original gap alternatives](interface-audit.md),
 [MuonTech concept](chamber-concepts.md), [coverage protocol](coverage-plan.md),
-[preparation manifest](preparation-manifest.json) and [before inventory](before-inventory/endcap.md).
+[preparation manifest](preparation-manifest.json), its [original README](preparation-README.md)
+and [before inventory](before-inventory/endcap.md). The manifest README fingerprint
+is for the original page at6089993, preserved byte-exact in preparation-README.md;
+the current result page supersedes it.
 Earlier pending-choice statements in these pinned historical inputs are superseded
 by the selected DES040 contract, not rewritten as completed evidence.

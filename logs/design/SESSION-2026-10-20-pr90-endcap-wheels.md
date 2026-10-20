@@ -350,3 +350,41 @@ W-O1complete: nativeOBJ1344bluechambers+36greycoils, separatecomponentOBJpairs/Z
 W-P2source/inputassessment at22a3f8c found no materialphysical/software defect. IndependentSAT1512panelpairs/1692expandedsupports,216middleexact/48changedlugs, oldfieldnodeparity,23088validlaunchstencils persystem,4096independentmaskqueries/map, original14896directions and16pairedBooleanboundcontrols passed. Scope excludes newnativeartifacts reservedforW-P3. Minorprovenance finding clarified by W-G1 exacthashproof: DES040generationhash differs fromfreezeonlyby8lineaffinecorridor/basedimensionrestatement alreadyinconfig/geometry.11/12sourcematchesplusseparatemagnetichash; do notcallallhashmatch. Rootretains originalcontrolsunchanged and portablehashproof. Laterdoccleanup labels originalpre-shortening sections historical.
 
 Initial staged whitespacecheck flagged nativeMTLtrailingformat and standardPythonCSVCRLF. Added scoped artifactformat attributes to preserve actualnativeMTL/ZIPbytes and CSVhashes; no numericalgate or data altered.
+
+## Assignment W-P3 (before dispatch)
+
+```json
+{
+  "id": "W-P3",
+  "role": "PhysVal",
+  "input_revision": "0576b7a615c81d1687f0cf7a3ceb0ca310478481",
+  "inputs": [
+    "docs/validation/DES-040/wheels-2026-10-20/README.md",
+    "docs/validation/DES-040/wheels-2026-10-20/propagation/before/summary.json",
+    "docs/validation/DES-040/wheels-2026-10-20/propagation/before/tracks.npz",
+    "docs/validation/DES-040/wheels-2026-10-20/propagation/before/hits.npz",
+    "docs/validation/DES-040/wheels-2026-10-20/propagation/after/summary.json",
+    "docs/validation/DES-040/wheels-2026-10-20/propagation/after/tracks.npz",
+    "docs/validation/DES-040/wheels-2026-10-20/propagation/after/hits.npz",
+    "docs/validation/DES-040/wheels-2026-10-20/propagation/comparison/comparison.json",
+    "docs/validation/DES-040/wheels-2026-10-20/propagation/failure-audit/audit.json",
+    "docs/validation/DES-040/wheels-2026-10-20/obj-revised/export.json",
+    "docs/validation/DES-040/wheels-2026-10-20/inventory-comparison/comparison.json",
+    "docs/validation/DES-040/wheels-2026-10-20/magnetic/controls.json",
+    "tools/muon_layout/wheels_acts/analyze.py",
+    "tools/muon_layout/wheels_acts/compare.py",
+    "tools/muon_layout/wheels_acts/failure_audit.py"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Final actualartifact assessment at exact commit 0576b7a615c81d1687f0cf7a3ceb0ca310478481. Continue prior W-P2scope/disclose P1/A2planning overlap; no implementationauthorship or nativeprofileclaim. Inspect actual committedtypednative arrays/64bitIDs/status/source/hashmetadata and rawboundarycoordinates, recompute meaningful nativecount/station/event/border/paireduncertainty controls from actual arrays with independent arithmetic, denominator/p/q/seeds/bankweights and source22 acquisition identity. Check both12gate reports, no loosened numericalgates, quantify before88059 andafter28149 step_limit and frozenretention; inspect actualcompressedrootaudit diagnosis for original/exhaustive/halfstep/tightsurface/tightRK no primaryreplacement. Fieldmaskedunknownbounds dominate; no overall improvementclaim and no scattering/eloss/MDTresponse. Inspect candidateOBJ actualvertices/material/closure/orientation and ZIPbytes/inventories/shapecounts, geometry/field/energy consistency using P2 frozeninputs and new actualassets. W-P2DEShashnote reconciled by 8lineproof (11/12sources+separatemagnetichash). Source22, artifactfreeze0576b7a615c81d1687f0cf7a3ceb0ca310478481 distinct; laterdocs/review/trackingedits mustnotalter scientificsource/data. Return prompt materialfindings to root; retained reportJSON/MD+portablechecker scratch /private/tmp/pr90-W-P3-* only. No repo/dependency/source edits,nestedagents,externalmessages or engineeringapproval. Visualinspection of selected actualfigures when useful. Can access original raw CSVs in ignored reference/cache/pr90-wheels/{before,after}-run as supplementalhashverified evidence, not claim tracked. Must state actualchecks vs recorded solver/nativeexecution and limits. Do not rerun all simulations; relevantindependent counters/geometry proofs appropriate.",
+  "deliverable": "Exactrevision actualartifact PhysVal report/JSON and portableindependentchecks with source/filehashes in scratch; findings and limitations.",
+  "completion": "Independent assessment of actual pairednative/OBJ/inventory/field evidence with failure/uncertainty honest; no unresolved materialclaim defect."
+}
+```
+
+Scientific/artifactfreeze0576b7a615c81d1687f0cf7a3ceb0ca310478481 pushed and open/non-draft PR90head verified.28projecttests pass in251.882s;33journal+11countertests pass. Remoteghprchecks reports no checks (exit1), connectorstatuses empty; no remoteCIpass claim. ExacthistoricalpreparationREADME at6089993 reproduces its manifestSHA; currentREADME supersedes that page. Rootmanifestchecks194canonicalfiles/sourcehashes pass.
+
+## Final actual-artifact assessment
+
+W-P3 exacttarget0576b7a615c81d1687f0cf7a3ceb0ca310478481 complete, no unresolvedmaterialfinding. Separateagent authoredP1/A2planning butnone oftheimplementation; fallbackmandateandplanningoverlap disclosed. All26counterarrays agreeindependently,2240availabilitymetric-regionchecks and1120pairedchecks includingendpoint/conservativeSE pass; all actualrawCSVevent/trackpayloads hashverified/exactlycompared and64bitIDs preserved. Compressedfailureauditrawidentities/hashchecks pass. All4OBJexports/materials/closures/ZIPmembers and744/288/1056inventoryentries pass.6actualfigures inspected. Limits: recordedsolver/nativeexecutionsnotrerunbyreviewer, installedmaterial/response/engineeringnotqualified, masksdominatewidebounds. Portablecode/reports copiedunchanged toreview/. RootlaterREADMEonlylinksfinalreport andpreserveshistoricalpreparationREADMEbyteexact; no scientificdata/sourcechanges afterreview. Canonicalmanifestrefreshedwithlaterreviewdocs explicitlylisted.
