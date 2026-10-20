@@ -1,0 +1,1899 @@
+{
+  "assignment": "IB-A1",
+  "role": "SysArch explicit-instruction fallback",
+  "input_revision": "56f12ef5b2a9bd410cb77e95ac3140557d92f1b2",
+  "hcal_source_revision": "0e8530d56d171f38c9d53d3c60c8b48803680bbd",
+  "status": "PROTOTYPE feasibility evidence; requested central below-BT placement is infeasible; no implementation or approval",
+  "sources": {
+    "56f12ef5b2a9bd410cb77e95ac3140557d92f1b2:docs/design/DES-040-muon-chambers-frame.md": {
+      "sha256": "a068f493811a562e147d09b32a6095bb52ab70b2a18265249f9e4eefe95bc452",
+      "bytes": 38069
+    },
+    "56f12ef5b2a9bd410cb77e95ac3140557d92f1b2:docs/validation/DES-040/barrel-overlap-2026-10-20/candidate/geometry.json": {
+      "sha256": "f4aebc7d5e1476d6f40f331d2aef0673fa6840ee1883015570089be6e79ad328",
+      "bytes": 4585831
+    },
+    "56f12ef5b2a9bd410cb77e95ac3140557d92f1b2:tools/muon_layout/barrel_overlap.py": {
+      "sha256": "e57597636d2634bd93f8cd38e00a1ca63500d7ebaff85751288e9a86471899ac",
+      "bytes": 25473
+    },
+    "56f12ef5b2a9bd410cb77e95ac3140557d92f1b2:tools/muon_layout/layout.py": {
+      "sha256": "137fe25dcfd4eb7ebde8c966a903dddb88e0976e339934edadb0d622aacf4b17",
+      "bytes": 7418
+    },
+    "56f12ef5b2a9bd410cb77e95ac3140557d92f1b2:tools/muon_layout/geometry.py": {
+      "sha256": "162aeafae3775d0483d770556286485be9333523227b6160af0265d74f5cc230",
+      "bytes": 12193
+    },
+    "56f12ef5b2a9bd410cb77e95ac3140557d92f1b2:tools/muon_layout/support.py": {
+      "sha256": "14f294c0250166239caca055436ffe9c3f664b246f7d14baabd7eab62c75d7af",
+      "bytes": 21835
+    },
+    "56f12ef5b2a9bd410cb77e95ac3140557d92f1b2:tools/toroid_prototype/geometry.py": {
+      "sha256": "e831bbc59054713f23dca5367df51f70360d80e52614ac1fe0b0e8d8943f049f",
+      "bytes": 23975
+    },
+    "56f12ef5b2a9bd410cb77e95ac3140557d92f1b2:docs/validation/MUON-001/hcal-material.json": {
+      "sha256": "a962aab1f75ee331acc9a42364376bb1bcf1f352bd99e618d139ad0808ad983f",
+      "bytes": 289915
+    },
+    "56f12ef5b2a9bd410cb77e95ac3140557d92f1b2:docs/validation/DES-039/sources.json": {
+      "sha256": "eee83521f0bb917563a0514233a53f0e4aa5f0bf2e00804943b781c6d285793f",
+      "bytes": 17118
+    },
+    "0e8530d56d171f38c9d53d3c60c8b48803680bbd:tools/hcal_barrel/design.py": {
+      "sha256": "14692cff976bef5bdb19aa5d9897b5fd89297ecc9f9bb2e89cc1a69928a9d3e6",
+      "bytes": 20748
+    },
+    "0e8530d56d171f38c9d53d3c60c8b48803680bbd:tools/hcal_barrel/config.json": {
+      "sha256": "969f05111039de2686d9454a29fe348c56a91a5316716515fdfedafea5479d64",
+      "bytes": 1118
+    },
+    "0e8530d56d171f38c9d53d3c60c8b48803680bbd:docs/validation/DES-037/summary.json": {
+      "sha256": "68c4aa00a43b4e813d6c88552e000caf67cdb178e668b223c21f377b88117753",
+      "bytes": 58600
+    }
+  },
+  "baseline": {
+    "panel_count": 888,
+    "barrel_count": 696,
+    "endcap_count": 192,
+    "B1_count": 96,
+    "support_member_count": 484
+  },
+  "hard_bounds": {
+    "BT_inner_centerline_m": 4.6,
+    "BT_warm_inner_face_m": 4.35,
+    "depth_m": 0.5,
+    "coil_clearance_m": 0.05,
+    "below_coil_R_max_m": 4.05,
+    "HCAL_conservative_corner_bound_m": 4.23946,
+    "HCAL_conservative_R_min_m": 4.53946,
+    "conservative_interval_empty_by_m": 0.48946000000000023,
+    "actual_HCAL_outer_apothem_m": 4.158,
+    "actual_finite_cover_max_corner_m": 4.239265058964133,
+    "actual_vs_nominal_corner_scope": "source-rounded corner bound encloses finite covers after1mm seam inset; not a filled HCAL cylinder",
+    "actual_HCAL_barrel_usable_half_z_m": 4.4632,
+    "actual_cover_plane_bounds": [
+      {
+        "coil_index": 0,
+        "phi_deg": 0.0,
+        "maximum_actual_hcal_projection_m": 4.158,
+        "cover_id": "HCAL/S00/RearCover",
+        "cover_vertex_xy_m": [
+          4.158,
+          -0.6416798630576094
+        ],
+        "minimum_R_from_actual_cover_m": 4.458,
+        "deficit_m": 0.40800000000000036,
+        "maximum_depth_with_both_50mm_margins_m": 0.09199999999999928
+      },
+      {
+        "coil_index": 1,
+        "phi_deg": 29.999999999999996,
+        "maximum_actual_hcal_projection_m": 4.230252500274383,
+        "cover_id": "HCAL/S01/RearCover",
+        "cover_vertex_xy_m": [
+          3.525364875796226,
+          2.354393920450957
+        ],
+        "minimum_R_from_actual_cover_m": 4.530252500274383,
+        "deficit_m": 0.48025250027438293,
+        "maximum_depth_with_both_50mm_margins_m": 0.019747499725616707
+      },
+      {
+        "coil_index": 2,
+        "phi_deg": 59.99999999999999,
+        "maximum_actual_hcal_projection_m": 4.230252500274383,
+        "cover_id": "HCAL/S03/RearCover",
+        "cover_vertex_xy_m": [
+          2.3543939204509576,
+          3.525364875796226
+        ],
+        "minimum_R_from_actual_cover_m": 4.530252500274383,
+        "deficit_m": 0.48025250027438293,
+        "maximum_depth_with_both_50mm_margins_m": 0.019747499725616707
+      },
+      {
+        "coil_index": 3,
+        "phi_deg": 90.0,
+        "maximum_actual_hcal_projection_m": 4.158,
+        "cover_id": "HCAL/S04/RearCover",
+        "cover_vertex_xy_m": [
+          0.6416798630576096,
+          4.158
+        ],
+        "minimum_R_from_actual_cover_m": 4.458,
+        "deficit_m": 0.40800000000000036,
+        "maximum_depth_with_both_50mm_margins_m": 0.09199999999999928
+      },
+      {
+        "coil_index": 4,
+        "phi_deg": 119.99999999999999,
+        "maximum_actual_hcal_projection_m": 4.230252500274382,
+        "cover_id": "HCAL/S05/RearCover",
+        "cover_vertex_xy_m": [
+          -2.354393920450957,
+          3.525364875796226
+        ],
+        "minimum_R_from_actual_cover_m": 4.530252500274382,
+        "deficit_m": 0.48025250027438204,
+        "maximum_depth_with_both_50mm_margins_m": 0.019747499725617595
+      },
+      {
+        "coil_index": 5,
+        "phi_deg": 150.0,
+        "maximum_actual_hcal_projection_m": 4.230252500274383,
+        "cover_id": "HCAL/S07/RearCover",
+        "cover_vertex_xy_m": [
+          -3.525364875796226,
+          2.3543939204509576
+        ],
+        "minimum_R_from_actual_cover_m": 4.530252500274383,
+        "deficit_m": 0.48025250027438293,
+        "maximum_depth_with_both_50mm_margins_m": 0.019747499725616707
+      },
+      {
+        "coil_index": 6,
+        "phi_deg": 180.0,
+        "maximum_actual_hcal_projection_m": 4.158,
+        "cover_id": "HCAL/S08/RearCover",
+        "cover_vertex_xy_m": [
+          -4.158,
+          0.6416798630576099
+        ],
+        "minimum_R_from_actual_cover_m": 4.458,
+        "deficit_m": 0.40800000000000036,
+        "maximum_depth_with_both_50mm_margins_m": 0.09199999999999928
+      },
+      {
+        "coil_index": 7,
+        "phi_deg": 210.00000000000003,
+        "maximum_actual_hcal_projection_m": 4.230252500274383,
+        "cover_id": "HCAL/S09/RearCover",
+        "cover_vertex_xy_m": [
+          -3.5253648757962264,
+          -2.354393920450957
+        ],
+        "minimum_R_from_actual_cover_m": 4.530252500274383,
+        "deficit_m": 0.48025250027438293,
+        "maximum_depth_with_both_50mm_margins_m": 0.019747499725616707
+      },
+      {
+        "coil_index": 8,
+        "phi_deg": 239.99999999999997,
+        "maximum_actual_hcal_projection_m": 4.230252500274382,
+        "cover_id": "HCAL/S11/RearCover",
+        "cover_vertex_xy_m": [
+          -2.3543939204509594,
+          -3.5253648757962246
+        ],
+        "minimum_R_from_actual_cover_m": 4.530252500274382,
+        "deficit_m": 0.48025250027438204,
+        "maximum_depth_with_both_50mm_margins_m": 0.019747499725617595
+      },
+      {
+        "coil_index": 9,
+        "phi_deg": 270.0,
+        "maximum_actual_hcal_projection_m": 4.158,
+        "cover_id": "HCAL/S12/RearCover",
+        "cover_vertex_xy_m": [
+          -0.6416798630576102,
+          -4.158
+        ],
+        "minimum_R_from_actual_cover_m": 4.458,
+        "deficit_m": 0.40800000000000036,
+        "maximum_depth_with_both_50mm_margins_m": 0.09199999999999928
+      },
+      {
+        "coil_index": 10,
+        "phi_deg": 300.0,
+        "maximum_actual_hcal_projection_m": 4.230252500274383,
+        "cover_id": "HCAL/S13/RearCover",
+        "cover_vertex_xy_m": [
+          2.354393920450958,
+          -3.5253648757962255
+        ],
+        "minimum_R_from_actual_cover_m": 4.530252500274383,
+        "deficit_m": 0.48025250027438293,
+        "maximum_depth_with_both_50mm_margins_m": 0.019747499725616707
+      },
+      {
+        "coil_index": 11,
+        "phi_deg": 330.0,
+        "maximum_actual_hcal_projection_m": 4.230252500274383,
+        "cover_id": "HCAL/S15/RearCover",
+        "cover_vertex_xy_m": [
+          3.5253648757962246,
+          -2.35439392045096
+        ],
+        "minimum_R_from_actual_cover_m": 4.530252500274383,
+        "deficit_m": 0.48025250027438293,
+        "maximum_depth_with_both_50mm_margins_m": 0.019747499725616707
+      }
+    ]
+  },
+  "witnesses": {
+    "steel": {
+      "point_m": [
+        4.12,
+        0,
+        1
+      ],
+      "panel_id": "UNSELECTED/BELOW/B1/F00/Z02",
+      "material_id": "HCAL/S00/Steel35",
+      "inside_trial": true,
+      "inside_actual_material": true
+    },
+    "rear_cover": {
+      "point_m": [
+        4.1530000000000005,
+        0,
+        1
+      ],
+      "panel_id": "UNSELECTED/BELOW/B1/F00/Z02",
+      "material_id": "HCAL/S00/RearCover",
+      "inside_trial": true,
+      "inside_actual_material": true
+    },
+    "coil_if_raised_to_HCAL_bound": {
+      "R_m": 4.53946,
+      "point_m": [
+        4.6,
+        0,
+        1
+      ],
+      "inside_panel": true,
+      "warm_coils": [
+        [
+          "barrel",
+          0
+        ]
+      ],
+      "pack_coils": [
+        [
+          "barrel",
+          0
+        ]
+      ]
+    }
+  },
+  "actual_HCAL_XY_geometry": {
+    "unit": "m",
+    "z_witness_m": 1.0,
+    "source_revision": "0e8530d56d171f38c9d53d3c60c8b48803680bbd",
+    "sector_count": 16,
+    "steel_bands_m": [
+      [
+        2.6,
+        2.63
+      ],
+      [
+        2.643,
+        2.673
+      ],
+      [
+        2.686,
+        2.716
+      ],
+      [
+        2.729,
+        2.759
+      ],
+      [
+        2.772,
+        2.802
+      ],
+      [
+        2.815,
+        2.845
+      ],
+      [
+        2.858,
+        2.888
+      ],
+      [
+        2.901,
+        2.931
+      ],
+      [
+        2.944,
+        2.974
+      ],
+      [
+        2.987,
+        3.017
+      ],
+      [
+        3.03,
+        3.06
+      ],
+      [
+        3.073,
+        3.103
+      ],
+      [
+        3.116,
+        3.146
+      ],
+      [
+        3.159,
+        3.189
+      ],
+      [
+        3.202,
+        3.232
+      ],
+      [
+        3.245,
+        3.275
+      ],
+      [
+        3.288,
+        3.318
+      ],
+      [
+        3.331,
+        3.361
+      ],
+      [
+        3.374,
+        3.404
+      ],
+      [
+        3.417,
+        3.447
+      ],
+      [
+        3.46,
+        3.49
+      ],
+      [
+        3.503,
+        3.533
+      ],
+      [
+        3.546,
+        3.576
+      ],
+      [
+        3.589,
+        3.619
+      ],
+      [
+        3.632,
+        3.662
+      ],
+      [
+        3.675,
+        3.705
+      ],
+      [
+        3.718,
+        3.748
+      ],
+      [
+        3.761,
+        3.791
+      ],
+      [
+        3.804,
+        3.834
+      ],
+      [
+        3.847,
+        3.877
+      ],
+      [
+        3.89,
+        3.92
+      ],
+      [
+        3.933,
+        3.963
+      ],
+      [
+        3.976,
+        4.006
+      ],
+      [
+        4.019,
+        4.049
+      ],
+      [
+        4.062,
+        4.092
+      ],
+      [
+        4.105,
+        4.135
+      ]
+    ],
+    "steel_tangent_half_angle_rad": 0.19634954084936207,
+    "steel_edge_inset_m": 0.021,
+    "steel_and_cover_abs_z_limit_m": 4.4632,
+    "back_cover_bodies": [
+      {
+        "id": "HCAL/S00/RearCover",
+        "origin_m": [
+          0,
+          0,
+          0
+        ],
+        "basis": [
+          [
+            1.0,
+            -0.0,
+            0
+          ],
+          [
+            0.0,
+            1.0,
+            0
+          ],
+          [
+            0,
+            0,
+            1
+          ]
+        ],
+        "vertices_m": [
+          [
+            4.148000000000001,
+            -0.8240884998908214
+          ],
+          [
+            4.158,
+            -0.8260776235646179
+          ],
+          [
+            4.158,
+            0.8260776235646179
+          ],
+          [
+            4.148000000000001,
+            0.8240884998908214
+          ]
+        ],
+        "depth_m": 8.9264,
+        "material": "Aluminium"
+      },
+      {
+        "id": "HCAL/S01/RearCover",
+        "origin_m": [
+          0,
+          0,
+          0
+        ],
+        "basis": [
+          [
+            0.9238795325112867,
+            -0.3826834323650898,
+            0
+          ],
+          [
+            0.3826834323650898,
+            0.9238795325112867,
+            0
+          ],
+          [
+            0,
+            0,
+            1
+          ]
+        ],
+        "vertices_m": [
+          [
+            4.148000000000001,
+            -0.8240884998908214
+          ],
+          [
+            4.158,
+            -0.8260776235646179
+          ],
+          [
+            4.158,
+            0.8260776235646179
+          ],
+          [
+            4.148000000000001,
+            0.8240884998908214
+          ]
+        ],
+        "depth_m": 8.9264,
+        "material": "Aluminium"
+      },
+      {
+        "id": "HCAL/S02/RearCover",
+        "origin_m": [
+          0,
+          0,
+          0
+        ],
+        "basis": [
+          [
+            0.7071067811865476,
+            -0.7071067811865475,
+            0
+          ],
+          [
+            0.7071067811865475,
+            0.7071067811865476,
+            0
+          ],
+          [
+            0,
+            0,
+            1
+          ]
+        ],
+        "vertices_m": [
+          [
+            4.148000000000001,
+            -0.8240884998908214
+          ],
+          [
+            4.158,
+            -0.8260776235646179
+          ],
+          [
+            4.158,
+            0.8260776235646179
+          ],
+          [
+            4.148000000000001,
+            0.8240884998908214
+          ]
+        ],
+        "depth_m": 8.9264,
+        "material": "Aluminium"
+      },
+      {
+        "id": "HCAL/S03/RearCover",
+        "origin_m": [
+          0,
+          0,
+          0
+        ],
+        "basis": [
+          [
+            0.38268343236508984,
+            -0.9238795325112867,
+            0
+          ],
+          [
+            0.9238795325112867,
+            0.38268343236508984,
+            0
+          ],
+          [
+            0,
+            0,
+            1
+          ]
+        ],
+        "vertices_m": [
+          [
+            4.148000000000001,
+            -0.8240884998908214
+          ],
+          [
+            4.158,
+            -0.8260776235646179
+          ],
+          [
+            4.158,
+            0.8260776235646179
+          ],
+          [
+            4.148000000000001,
+            0.8240884998908214
+          ]
+        ],
+        "depth_m": 8.9264,
+        "material": "Aluminium"
+      },
+      {
+        "id": "HCAL/S04/RearCover",
+        "origin_m": [
+          0,
+          0,
+          0
+        ],
+        "basis": [
+          [
+            6.123233995736766e-17,
+            -1.0,
+            0
+          ],
+          [
+            1.0,
+            6.123233995736766e-17,
+            0
+          ],
+          [
+            0,
+            0,
+            1
+          ]
+        ],
+        "vertices_m": [
+          [
+            4.148000000000001,
+            -0.8240884998908214
+          ],
+          [
+            4.158,
+            -0.8260776235646179
+          ],
+          [
+            4.158,
+            0.8260776235646179
+          ],
+          [
+            4.148000000000001,
+            0.8240884998908214
+          ]
+        ],
+        "depth_m": 8.9264,
+        "material": "Aluminium"
+      },
+      {
+        "id": "HCAL/S05/RearCover",
+        "origin_m": [
+          0,
+          0,
+          0
+        ],
+        "basis": [
+          [
+            -0.3826834323650897,
+            -0.9238795325112867,
+            0
+          ],
+          [
+            0.9238795325112867,
+            -0.3826834323650897,
+            0
+          ],
+          [
+            0,
+            0,
+            1
+          ]
+        ],
+        "vertices_m": [
+          [
+            4.148000000000001,
+            -0.8240884998908214
+          ],
+          [
+            4.158,
+            -0.8260776235646179
+          ],
+          [
+            4.158,
+            0.8260776235646179
+          ],
+          [
+            4.148000000000001,
+            0.8240884998908214
+          ]
+        ],
+        "depth_m": 8.9264,
+        "material": "Aluminium"
+      },
+      {
+        "id": "HCAL/S06/RearCover",
+        "origin_m": [
+          0,
+          0,
+          0
+        ],
+        "basis": [
+          [
+            -0.7071067811865475,
+            -0.7071067811865476,
+            0
+          ],
+          [
+            0.7071067811865476,
+            -0.7071067811865475,
+            0
+          ],
+          [
+            0,
+            0,
+            1
+          ]
+        ],
+        "vertices_m": [
+          [
+            4.148000000000001,
+            -0.8240884998908214
+          ],
+          [
+            4.158,
+            -0.8260776235646179
+          ],
+          [
+            4.158,
+            0.8260776235646179
+          ],
+          [
+            4.148000000000001,
+            0.8240884998908214
+          ]
+        ],
+        "depth_m": 8.9264,
+        "material": "Aluminium"
+      },
+      {
+        "id": "HCAL/S07/RearCover",
+        "origin_m": [
+          0,
+          0,
+          0
+        ],
+        "basis": [
+          [
+            -0.9238795325112867,
+            -0.3826834323650899,
+            0
+          ],
+          [
+            0.3826834323650899,
+            -0.9238795325112867,
+            0
+          ],
+          [
+            0,
+            0,
+            1
+          ]
+        ],
+        "vertices_m": [
+          [
+            4.148000000000001,
+            -0.8240884998908214
+          ],
+          [
+            4.158,
+            -0.8260776235646179
+          ],
+          [
+            4.158,
+            0.8260776235646179
+          ],
+          [
+            4.148000000000001,
+            0.8240884998908214
+          ]
+        ],
+        "depth_m": 8.9264,
+        "material": "Aluminium"
+      },
+      {
+        "id": "HCAL/S08/RearCover",
+        "origin_m": [
+          0,
+          0,
+          0
+        ],
+        "basis": [
+          [
+            -1.0,
+            -1.2246467991473532e-16,
+            0
+          ],
+          [
+            1.2246467991473532e-16,
+            -1.0,
+            0
+          ],
+          [
+            0,
+            0,
+            1
+          ]
+        ],
+        "vertices_m": [
+          [
+            4.148000000000001,
+            -0.8240884998908214
+          ],
+          [
+            4.158,
+            -0.8260776235646179
+          ],
+          [
+            4.158,
+            0.8260776235646179
+          ],
+          [
+            4.148000000000001,
+            0.8240884998908214
+          ]
+        ],
+        "depth_m": 8.9264,
+        "material": "Aluminium"
+      },
+      {
+        "id": "HCAL/S09/RearCover",
+        "origin_m": [
+          0,
+          0,
+          0
+        ],
+        "basis": [
+          [
+            -0.9238795325112868,
+            0.38268343236508967,
+            0
+          ],
+          [
+            -0.38268343236508967,
+            -0.9238795325112868,
+            0
+          ],
+          [
+            0,
+            0,
+            1
+          ]
+        ],
+        "vertices_m": [
+          [
+            4.148000000000001,
+            -0.8240884998908214
+          ],
+          [
+            4.158,
+            -0.8260776235646179
+          ],
+          [
+            4.158,
+            0.8260776235646179
+          ],
+          [
+            4.148000000000001,
+            0.8240884998908214
+          ]
+        ],
+        "depth_m": 8.9264,
+        "material": "Aluminium"
+      },
+      {
+        "id": "HCAL/S10/RearCover",
+        "origin_m": [
+          0,
+          0,
+          0
+        ],
+        "basis": [
+          [
+            -0.7071067811865477,
+            0.7071067811865475,
+            0
+          ],
+          [
+            -0.7071067811865475,
+            -0.7071067811865477,
+            0
+          ],
+          [
+            0,
+            0,
+            1
+          ]
+        ],
+        "vertices_m": [
+          [
+            4.148000000000001,
+            -0.8240884998908214
+          ],
+          [
+            4.158,
+            -0.8260776235646179
+          ],
+          [
+            4.158,
+            0.8260776235646179
+          ],
+          [
+            4.148000000000001,
+            0.8240884998908214
+          ]
+        ],
+        "depth_m": 8.9264,
+        "material": "Aluminium"
+      },
+      {
+        "id": "HCAL/S11/RearCover",
+        "origin_m": [
+          0,
+          0,
+          0
+        ],
+        "basis": [
+          [
+            -0.38268343236509034,
+            0.9238795325112865,
+            0
+          ],
+          [
+            -0.9238795325112865,
+            -0.38268343236509034,
+            0
+          ],
+          [
+            0,
+            0,
+            1
+          ]
+        ],
+        "vertices_m": [
+          [
+            4.148000000000001,
+            -0.8240884998908214
+          ],
+          [
+            4.158,
+            -0.8260776235646179
+          ],
+          [
+            4.158,
+            0.8260776235646179
+          ],
+          [
+            4.148000000000001,
+            0.8240884998908214
+          ]
+        ],
+        "depth_m": 8.9264,
+        "material": "Aluminium"
+      },
+      {
+        "id": "HCAL/S12/RearCover",
+        "origin_m": [
+          0,
+          0,
+          0
+        ],
+        "basis": [
+          [
+            -1.8369701987210297e-16,
+            1.0,
+            0
+          ],
+          [
+            -1.0,
+            -1.8369701987210297e-16,
+            0
+          ],
+          [
+            0,
+            0,
+            1
+          ]
+        ],
+        "vertices_m": [
+          [
+            4.148000000000001,
+            -0.8240884998908214
+          ],
+          [
+            4.158,
+            -0.8260776235646179
+          ],
+          [
+            4.158,
+            0.8260776235646179
+          ],
+          [
+            4.148000000000001,
+            0.8240884998908214
+          ]
+        ],
+        "depth_m": 8.9264,
+        "material": "Aluminium"
+      },
+      {
+        "id": "HCAL/S13/RearCover",
+        "origin_m": [
+          0,
+          0,
+          0
+        ],
+        "basis": [
+          [
+            0.38268343236509,
+            0.9238795325112866,
+            0
+          ],
+          [
+            -0.9238795325112866,
+            0.38268343236509,
+            0
+          ],
+          [
+            0,
+            0,
+            1
+          ]
+        ],
+        "vertices_m": [
+          [
+            4.148000000000001,
+            -0.8240884998908214
+          ],
+          [
+            4.158,
+            -0.8260776235646179
+          ],
+          [
+            4.158,
+            0.8260776235646179
+          ],
+          [
+            4.148000000000001,
+            0.8240884998908214
+          ]
+        ],
+        "depth_m": 8.9264,
+        "material": "Aluminium"
+      },
+      {
+        "id": "HCAL/S14/RearCover",
+        "origin_m": [
+          0,
+          0,
+          0
+        ],
+        "basis": [
+          [
+            0.7071067811865474,
+            0.7071067811865477,
+            0
+          ],
+          [
+            -0.7071067811865477,
+            0.7071067811865474,
+            0
+          ],
+          [
+            0,
+            0,
+            1
+          ]
+        ],
+        "vertices_m": [
+          [
+            4.148000000000001,
+            -0.8240884998908214
+          ],
+          [
+            4.158,
+            -0.8260776235646179
+          ],
+          [
+            4.158,
+            0.8260776235646179
+          ],
+          [
+            4.148000000000001,
+            0.8240884998908214
+          ]
+        ],
+        "depth_m": 8.9264,
+        "material": "Aluminium"
+      },
+      {
+        "id": "HCAL/S15/RearCover",
+        "origin_m": [
+          0,
+          0,
+          0
+        ],
+        "basis": [
+          [
+            0.9238795325112865,
+            0.3826834323650904,
+            0
+          ],
+          [
+            -0.3826834323650904,
+            0.9238795325112865,
+            0
+          ],
+          [
+            0,
+            0,
+            1
+          ]
+        ],
+        "vertices_m": [
+          [
+            4.148000000000001,
+            -0.8240884998908214
+          ],
+          [
+            4.158,
+            -0.8260776235646179
+          ],
+          [
+            4.158,
+            0.8260776235646179
+          ],
+          [
+            4.148000000000001,
+            0.8240884998908214
+          ]
+        ],
+        "depth_m": 8.9264,
+        "material": "Aluminium"
+      }
+    ]
+  },
+  "full_volume_checks": {
+    "moved_coil_plane_B1_count": 48,
+    "actual_hcal_material_prisms": 592,
+    "HCAL_SAT_pair_count": 28416,
+    "moved_panels_with_actual_hcal_conflicts": [
+      {
+        "panel": "UNSELECTED/BELOW/B1/F00/Z00",
+        "actual_material_conflict_count": 9,
+        "first_four_material_ids": [
+          "HCAL/S00/Steel28",
+          "HCAL/S00/Steel29",
+          "HCAL/S00/Steel30",
+          "HCAL/S00/Steel31"
+        ]
+      },
+      {
+        "panel": "UNSELECTED/BELOW/B1/F00/Z01",
+        "actual_material_conflict_count": 9,
+        "first_four_material_ids": [
+          "HCAL/S00/Steel28",
+          "HCAL/S00/Steel29",
+          "HCAL/S00/Steel30",
+          "HCAL/S00/Steel31"
+        ]
+      },
+      {
+        "panel": "UNSELECTED/BELOW/B1/F00/Z02",
+        "actual_material_conflict_count": 9,
+        "first_four_material_ids": [
+          "HCAL/S00/Steel28",
+          "HCAL/S00/Steel29",
+          "HCAL/S00/Steel30",
+          "HCAL/S00/Steel31"
+        ]
+      },
+      {
+        "panel": "UNSELECTED/BELOW/B1/F00/Z03",
+        "actual_material_conflict_count": 9,
+        "first_four_material_ids": [
+          "HCAL/S00/Steel28",
+          "HCAL/S00/Steel29",
+          "HCAL/S00/Steel30",
+          "HCAL/S00/Steel31"
+        ]
+      },
+      {
+        "panel": "UNSELECTED/BELOW/B1/F02/Z00",
+        "actual_material_conflict_count": 22,
+        "first_four_material_ids": [
+          "HCAL/S01/Steel26",
+          "HCAL/S01/Steel27",
+          "HCAL/S01/Steel28",
+          "HCAL/S01/Steel29"
+        ]
+      },
+      {
+        "panel": "UNSELECTED/BELOW/B1/F02/Z01",
+        "actual_material_conflict_count": 22,
+        "first_four_material_ids": [
+          "HCAL/S01/Steel26",
+          "HCAL/S01/Steel27",
+          "HCAL/S01/Steel28",
+          "HCAL/S01/Steel29"
+        ]
+      },
+      {
+        "panel": "UNSELECTED/BELOW/B1/F02/Z02",
+        "actual_material_conflict_count": 22,
+        "first_four_material_ids": [
+          "HCAL/S01/Steel26",
+          "HCAL/S01/Steel27",
+          "HCAL/S01/Steel28",
+          "HCAL/S01/Steel29"
+        ]
+      },
+      {
+        "panel": "UNSELECTED/BELOW/B1/F02/Z03",
+        "actual_material_conflict_count": 22,
+        "first_four_material_ids": [
+          "HCAL/S01/Steel26",
+          "HCAL/S01/Steel27",
+          "HCAL/S01/Steel28",
+          "HCAL/S01/Steel29"
+        ]
+      },
+      {
+        "panel": "UNSELECTED/BELOW/B1/F04/Z00",
+        "actual_material_conflict_count": 22,
+        "first_four_material_ids": [
+          "HCAL/S02/Steel26",
+          "HCAL/S02/Steel27",
+          "HCAL/S02/Steel28",
+          "HCAL/S02/Steel29"
+        ]
+      },
+      {
+        "panel": "UNSELECTED/BELOW/B1/F04/Z01",
+        "actual_material_conflict_count": 22,
+        "first_four_material_ids": [
+          "HCAL/S02/Steel26",
+          "HCAL/S02/Steel27",
+          "HCAL/S02/Steel28",
+          "HCAL/S02/Steel29"
+        ]
+      },
+      {
+        "panel": "UNSELECTED/BELOW/B1/F04/Z02",
+        "actual_material_conflict_count": 22,
+        "first_four_material_ids": [
+          "HCAL/S02/Steel26",
+          "HCAL/S02/Steel27",
+          "HCAL/S02/Steel28",
+          "HCAL/S02/Steel29"
+        ]
+      },
+      {
+        "panel": "UNSELECTED/BELOW/B1/F04/Z03",
+        "actual_material_conflict_count": 22,
+        "first_four_material_ids": [
+          "HCAL/S02/Steel26",
+          "HCAL/S02/Steel27",
+          "HCAL/S02/Steel28",
+          "HCAL/S02/Steel29"
+        ]
+      },
+      {
+        "panel": "UNSELECTED/BELOW/B1/F06/Z00",
+        "actual_material_conflict_count": 9,
+        "first_four_material_ids": [
+          "HCAL/S04/Steel28",
+          "HCAL/S04/Steel29",
+          "HCAL/S04/Steel30",
+          "HCAL/S04/Steel31"
+        ]
+      },
+      {
+        "panel": "UNSELECTED/BELOW/B1/F06/Z01",
+        "actual_material_conflict_count": 9,
+        "first_four_material_ids": [
+          "HCAL/S04/Steel28",
+          "HCAL/S04/Steel29",
+          "HCAL/S04/Steel30",
+          "HCAL/S04/Steel31"
+        ]
+      },
+      {
+        "panel": "UNSELECTED/BELOW/B1/F06/Z02",
+        "actual_material_conflict_count": 9,
+        "first_four_material_ids": [
+          "HCAL/S04/Steel28",
+          "HCAL/S04/Steel29",
+          "HCAL/S04/Steel30",
+          "HCAL/S04/Steel31"
+        ]
+      },
+      {
+        "panel": "UNSELECTED/BELOW/B1/F06/Z03",
+        "actual_material_conflict_count": 9,
+        "first_four_material_ids": [
+          "HCAL/S04/Steel28",
+          "HCAL/S04/Steel29",
+          "HCAL/S04/Steel30",
+          "HCAL/S04/Steel31"
+        ]
+      },
+      {
+        "panel": "UNSELECTED/BELOW/B1/F08/Z00",
+        "actual_material_conflict_count": 22,
+        "first_four_material_ids": [
+          "HCAL/S05/Steel26",
+          "HCAL/S05/Steel27",
+          "HCAL/S05/Steel28",
+          "HCAL/S05/Steel29"
+        ]
+      },
+      {
+        "panel": "UNSELECTED/BELOW/B1/F08/Z01",
+        "actual_material_conflict_count": 22,
+        "first_four_material_ids": [
+          "HCAL/S05/Steel26",
+          "HCAL/S05/Steel27",
+          "HCAL/S05/Steel28",
+          "HCAL/S05/Steel29"
+        ]
+      },
+      {
+        "panel": "UNSELECTED/BELOW/B1/F08/Z02",
+        "actual_material_conflict_count": 22,
+        "first_four_material_ids": [
+          "HCAL/S05/Steel26",
+          "HCAL/S05/Steel27",
+          "HCAL/S05/Steel28",
+          "HCAL/S05/Steel29"
+        ]
+      },
+      {
+        "panel": "UNSELECTED/BELOW/B1/F08/Z03",
+        "actual_material_conflict_count": 22,
+        "first_four_material_ids": [
+          "HCAL/S05/Steel26",
+          "HCAL/S05/Steel27",
+          "HCAL/S05/Steel28",
+          "HCAL/S05/Steel29"
+        ]
+      },
+      {
+        "panel": "UNSELECTED/BELOW/B1/F10/Z00",
+        "actual_material_conflict_count": 22,
+        "first_four_material_ids": [
+          "HCAL/S06/Steel26",
+          "HCAL/S06/Steel27",
+          "HCAL/S06/Steel28",
+          "HCAL/S06/Steel29"
+        ]
+      },
+      {
+        "panel": "UNSELECTED/BELOW/B1/F10/Z01",
+        "actual_material_conflict_count": 22,
+        "first_four_material_ids": [
+          "HCAL/S06/Steel26",
+          "HCAL/S06/Steel27",
+          "HCAL/S06/Steel28",
+          "HCAL/S06/Steel29"
+        ]
+      },
+      {
+        "panel": "UNSELECTED/BELOW/B1/F10/Z02",
+        "actual_material_conflict_count": 22,
+        "first_four_material_ids": [
+          "HCAL/S06/Steel26",
+          "HCAL/S06/Steel27",
+          "HCAL/S06/Steel28",
+          "HCAL/S06/Steel29"
+        ]
+      },
+      {
+        "panel": "UNSELECTED/BELOW/B1/F10/Z03",
+        "actual_material_conflict_count": 22,
+        "first_four_material_ids": [
+          "HCAL/S06/Steel26",
+          "HCAL/S06/Steel27",
+          "HCAL/S06/Steel28",
+          "HCAL/S06/Steel29"
+        ]
+      },
+      {
+        "panel": "UNSELECTED/BELOW/B1/F12/Z00",
+        "actual_material_conflict_count": 9,
+        "first_four_material_ids": [
+          "HCAL/S08/Steel28",
+          "HCAL/S08/Steel29",
+          "HCAL/S08/Steel30",
+          "HCAL/S08/Steel31"
+        ]
+      },
+      {
+        "panel": "UNSELECTED/BELOW/B1/F12/Z01",
+        "actual_material_conflict_count": 9,
+        "first_four_material_ids": [
+          "HCAL/S08/Steel28",
+          "HCAL/S08/Steel29",
+          "HCAL/S08/Steel30",
+          "HCAL/S08/Steel31"
+        ]
+      },
+      {
+        "panel": "UNSELECTED/BELOW/B1/F12/Z02",
+        "actual_material_conflict_count": 9,
+        "first_four_material_ids": [
+          "HCAL/S08/Steel28",
+          "HCAL/S08/Steel29",
+          "HCAL/S08/Steel30",
+          "HCAL/S08/Steel31"
+        ]
+      },
+      {
+        "panel": "UNSELECTED/BELOW/B1/F12/Z03",
+        "actual_material_conflict_count": 9,
+        "first_four_material_ids": [
+          "HCAL/S08/Steel28",
+          "HCAL/S08/Steel29",
+          "HCAL/S08/Steel30",
+          "HCAL/S08/Steel31"
+        ]
+      },
+      {
+        "panel": "UNSELECTED/BELOW/B1/F14/Z00",
+        "actual_material_conflict_count": 22,
+        "first_four_material_ids": [
+          "HCAL/S09/Steel26",
+          "HCAL/S09/Steel27",
+          "HCAL/S09/Steel28",
+          "HCAL/S09/Steel29"
+        ]
+      },
+      {
+        "panel": "UNSELECTED/BELOW/B1/F14/Z01",
+        "actual_material_conflict_count": 22,
+        "first_four_material_ids": [
+          "HCAL/S09/Steel26",
+          "HCAL/S09/Steel27",
+          "HCAL/S09/Steel28",
+          "HCAL/S09/Steel29"
+        ]
+      },
+      {
+        "panel": "UNSELECTED/BELOW/B1/F14/Z02",
+        "actual_material_conflict_count": 22,
+        "first_four_material_ids": [
+          "HCAL/S09/Steel26",
+          "HCAL/S09/Steel27",
+          "HCAL/S09/Steel28",
+          "HCAL/S09/Steel29"
+        ]
+      },
+      {
+        "panel": "UNSELECTED/BELOW/B1/F14/Z03",
+        "actual_material_conflict_count": 22,
+        "first_four_material_ids": [
+          "HCAL/S09/Steel26",
+          "HCAL/S09/Steel27",
+          "HCAL/S09/Steel28",
+          "HCAL/S09/Steel29"
+        ]
+      },
+      {
+        "panel": "UNSELECTED/BELOW/B1/F16/Z00",
+        "actual_material_conflict_count": 22,
+        "first_four_material_ids": [
+          "HCAL/S10/Steel26",
+          "HCAL/S10/Steel27",
+          "HCAL/S10/Steel28",
+          "HCAL/S10/Steel29"
+        ]
+      },
+      {
+        "panel": "UNSELECTED/BELOW/B1/F16/Z01",
+        "actual_material_conflict_count": 22,
+        "first_four_material_ids": [
+          "HCAL/S10/Steel26",
+          "HCAL/S10/Steel27",
+          "HCAL/S10/Steel28",
+          "HCAL/S10/Steel29"
+        ]
+      },
+      {
+        "panel": "UNSELECTED/BELOW/B1/F16/Z02",
+        "actual_material_conflict_count": 22,
+        "first_four_material_ids": [
+          "HCAL/S10/Steel26",
+          "HCAL/S10/Steel27",
+          "HCAL/S10/Steel28",
+          "HCAL/S10/Steel29"
+        ]
+      },
+      {
+        "panel": "UNSELECTED/BELOW/B1/F16/Z03",
+        "actual_material_conflict_count": 22,
+        "first_four_material_ids": [
+          "HCAL/S10/Steel26",
+          "HCAL/S10/Steel27",
+          "HCAL/S10/Steel28",
+          "HCAL/S10/Steel29"
+        ]
+      },
+      {
+        "panel": "UNSELECTED/BELOW/B1/F18/Z00",
+        "actual_material_conflict_count": 9,
+        "first_four_material_ids": [
+          "HCAL/S12/Steel28",
+          "HCAL/S12/Steel29",
+          "HCAL/S12/Steel30",
+          "HCAL/S12/Steel31"
+        ]
+      },
+      {
+        "panel": "UNSELECTED/BELOW/B1/F18/Z01",
+        "actual_material_conflict_count": 9,
+        "first_four_material_ids": [
+          "HCAL/S12/Steel28",
+          "HCAL/S12/Steel29",
+          "HCAL/S12/Steel30",
+          "HCAL/S12/Steel31"
+        ]
+      },
+      {
+        "panel": "UNSELECTED/BELOW/B1/F18/Z02",
+        "actual_material_conflict_count": 9,
+        "first_four_material_ids": [
+          "HCAL/S12/Steel28",
+          "HCAL/S12/Steel29",
+          "HCAL/S12/Steel30",
+          "HCAL/S12/Steel31"
+        ]
+      },
+      {
+        "panel": "UNSELECTED/BELOW/B1/F18/Z03",
+        "actual_material_conflict_count": 9,
+        "first_four_material_ids": [
+          "HCAL/S12/Steel28",
+          "HCAL/S12/Steel29",
+          "HCAL/S12/Steel30",
+          "HCAL/S12/Steel31"
+        ]
+      },
+      {
+        "panel": "UNSELECTED/BELOW/B1/F20/Z00",
+        "actual_material_conflict_count": 22,
+        "first_four_material_ids": [
+          "HCAL/S13/Steel26",
+          "HCAL/S13/Steel27",
+          "HCAL/S13/Steel28",
+          "HCAL/S13/Steel29"
+        ]
+      },
+      {
+        "panel": "UNSELECTED/BELOW/B1/F20/Z01",
+        "actual_material_conflict_count": 22,
+        "first_four_material_ids": [
+          "HCAL/S13/Steel26",
+          "HCAL/S13/Steel27",
+          "HCAL/S13/Steel28",
+          "HCAL/S13/Steel29"
+        ]
+      },
+      {
+        "panel": "UNSELECTED/BELOW/B1/F20/Z02",
+        "actual_material_conflict_count": 22,
+        "first_four_material_ids": [
+          "HCAL/S13/Steel26",
+          "HCAL/S13/Steel27",
+          "HCAL/S13/Steel28",
+          "HCAL/S13/Steel29"
+        ]
+      },
+      {
+        "panel": "UNSELECTED/BELOW/B1/F20/Z03",
+        "actual_material_conflict_count": 22,
+        "first_four_material_ids": [
+          "HCAL/S13/Steel26",
+          "HCAL/S13/Steel27",
+          "HCAL/S13/Steel28",
+          "HCAL/S13/Steel29"
+        ]
+      },
+      {
+        "panel": "UNSELECTED/BELOW/B1/F22/Z00",
+        "actual_material_conflict_count": 22,
+        "first_four_material_ids": [
+          "HCAL/S14/Steel26",
+          "HCAL/S14/Steel27",
+          "HCAL/S14/Steel28",
+          "HCAL/S14/Steel29"
+        ]
+      },
+      {
+        "panel": "UNSELECTED/BELOW/B1/F22/Z01",
+        "actual_material_conflict_count": 22,
+        "first_four_material_ids": [
+          "HCAL/S14/Steel26",
+          "HCAL/S14/Steel27",
+          "HCAL/S14/Steel28",
+          "HCAL/S14/Steel29"
+        ]
+      },
+      {
+        "panel": "UNSELECTED/BELOW/B1/F22/Z02",
+        "actual_material_conflict_count": 22,
+        "first_four_material_ids": [
+          "HCAL/S14/Steel26",
+          "HCAL/S14/Steel27",
+          "HCAL/S14/Steel28",
+          "HCAL/S14/Steel29"
+        ]
+      },
+      {
+        "panel": "UNSELECTED/BELOW/B1/F22/Z03",
+        "actual_material_conflict_count": 22,
+        "first_four_material_ids": [
+          "HCAL/S14/Steel26",
+          "HCAL/S14/Steel27",
+          "HCAL/S14/Steel28",
+          "HCAL/S14/Steel29"
+        ]
+      }
+    ],
+    "support_envelopes_per_trial": 484,
+    "support_SAT_pair_count": 23232,
+    "support_conflicts_at50mm": [],
+    "B1_panel_pair_count": 4560,
+    "B1_pair_conflicts": [],
+    "other_chamber_pair_count": 38016,
+    "other_chamber_conflicts": [],
+    "method": "Independent stdlib 3D convex-prism SAT; support faces offset by50mm, touching conflicts. HCAL includes all36plates+rearcover for16sectors; otherHCALcomponents omitted, so detected intersections are actual source-model witnesses and clearance is not certified."
+  },
+  "angular_projection": {
+    "scope": "Unselected counterfactual below-coil trial; retained fullwidth B1 intercoil; no HCAL clearance implied; same30mm border",
+    "even_below_R_m": 4.05,
+    "odd_retained_R_m": 5.2,
+    "half_width_m": 0.6416798630576094,
+    "full_depth_border_overlap_deg": -0.5001445533621585,
+    "midplane_overlap_deg": 1.0378101847192873,
+    "independent_radial_supporting_plane_gap_m": 0.63043997753892,
+    "widened_intercoil_half_width_for_0p1deg_full_depth_overlap_m": 0.6995551276278248,
+    "widened_intercoil_full_width_m": 1.3991102552556496,
+    "widened_B1_pair_count": 4560,
+    "widened_B1_pair_conflicts": [],
+    "widened_odd_support_SAT_pair_count": 23232,
+    "widened_odd_support_conflicts": [],
+    "warm_straight_BT_SAT_pair_count": 2304,
+    "warm_straight_BT_physical_conflicts": [],
+    "warm_straight_BT_50mm_expanded_touch_conflicts": [
+      [
+        "UNSELECTED/BELOW/B1/F00/Z00",
+        "BT/00/inner/straight"
+      ],
+      [
+        "UNSELECTED/BELOW/B1/F00/Z01",
+        "BT/00/inner/straight"
+      ],
+      [
+        "UNSELECTED/BELOW/B1/F00/Z02",
+        "BT/00/inner/straight"
+      ],
+      [
+        "UNSELECTED/BELOW/B1/F00/Z03",
+        "BT/00/inner/straight"
+      ],
+      [
+        "UNSELECTED/BELOW/B1/F02/Z00",
+        "BT/01/inner/straight"
+      ],
+      [
+        "UNSELECTED/BELOW/B1/F02/Z01",
+        "BT/01/inner/straight"
+      ],
+      [
+        "UNSELECTED/BELOW/B1/F02/Z02",
+        "BT/01/inner/straight"
+      ],
+      [
+        "UNSELECTED/BELOW/B1/F02/Z03",
+        "BT/01/inner/straight"
+      ],
+      [
+        "UNSELECTED/BELOW/B1/F04/Z00",
+        "BT/02/inner/straight"
+      ],
+      [
+        "UNSELECTED/BELOW/B1/F04/Z01",
+        "BT/02/inner/straight"
+      ],
+      [
+        "UNSELECTED/BELOW/B1/F04/Z02",
+        "BT/02/inner/straight"
+      ],
+      [
+        "UNSELECTED/BELOW/B1/F04/Z03",
+        "BT/02/inner/straight"
+      ],
+      [
+        "UNSELECTED/BELOW/B1/F06/Z00",
+        "BT/03/inner/straight"
+      ],
+      [
+        "UNSELECTED/BELOW/B1/F06/Z01",
+        "BT/03/inner/straight"
+      ],
+      [
+        "UNSELECTED/BELOW/B1/F06/Z02",
+        "BT/03/inner/straight"
+      ],
+      [
+        "UNSELECTED/BELOW/B1/F06/Z03",
+        "BT/03/inner/straight"
+      ],
+      [
+        "UNSELECTED/BELOW/B1/F08/Z00",
+        "BT/04/inner/straight"
+      ],
+      [
+        "UNSELECTED/BELOW/B1/F08/Z01",
+        "BT/04/inner/straight"
+      ],
+      [
+        "UNSELECTED/BELOW/B1/F08/Z02",
+        "BT/04/inner/straight"
+      ],
+      [
+        "UNSELECTED/BELOW/B1/F08/Z03",
+        "BT/04/inner/straight"
+      ],
+      [
+        "UNSELECTED/BELOW/B1/F10/Z00",
+        "BT/05/inner/straight"
+      ],
+      [
+        "UNSELECTED/BELOW/B1/F10/Z01",
+        "BT/05/inner/straight"
+      ],
+      [
+        "UNSELECTED/BELOW/B1/F10/Z02",
+        "BT/05/inner/straight"
+      ],
+      [
+        "UNSELECTED/BELOW/B1/F10/Z03",
+        "BT/05/inner/straight"
+      ],
+      [
+        "UNSELECTED/BELOW/B1/F12/Z00",
+        "BT/06/inner/straight"
+      ],
+      [
+        "UNSELECTED/BELOW/B1/F12/Z01",
+        "BT/06/inner/straight"
+      ],
+      [
+        "UNSELECTED/BELOW/B1/F12/Z02",
+        "BT/06/inner/straight"
+      ],
+      [
+        "UNSELECTED/BELOW/B1/F12/Z03",
+        "BT/06/inner/straight"
+      ],
+      [
+        "UNSELECTED/BELOW/B1/F14/Z00",
+        "BT/07/inner/straight"
+      ],
+      [
+        "UNSELECTED/BELOW/B1/F14/Z01",
+        "BT/07/inner/straight"
+      ],
+      [
+        "UNSELECTED/BELOW/B1/F14/Z02",
+        "BT/07/inner/straight"
+      ],
+      [
+        "UNSELECTED/BELOW/B1/F14/Z03",
+        "BT/07/inner/straight"
+      ],
+      [
+        "UNSELECTED/BELOW/B1/F16/Z00",
+        "BT/08/inner/straight"
+      ],
+      [
+        "UNSELECTED/BELOW/B1/F16/Z01",
+        "BT/08/inner/straight"
+      ],
+      [
+        "UNSELECTED/BELOW/B1/F16/Z02",
+        "BT/08/inner/straight"
+      ],
+      [
+        "UNSELECTED/BELOW/B1/F16/Z03",
+        "BT/08/inner/straight"
+      ],
+      [
+        "UNSELECTED/BELOW/B1/F18/Z00",
+        "BT/09/inner/straight"
+      ],
+      [
+        "UNSELECTED/BELOW/B1/F18/Z01",
+        "BT/09/inner/straight"
+      ],
+      [
+        "UNSELECTED/BELOW/B1/F18/Z02",
+        "BT/09/inner/straight"
+      ],
+      [
+        "UNSELECTED/BELOW/B1/F18/Z03",
+        "BT/09/inner/straight"
+      ],
+      [
+        "UNSELECTED/BELOW/B1/F20/Z00",
+        "BT/10/inner/straight"
+      ],
+      [
+        "UNSELECTED/BELOW/B1/F20/Z01",
+        "BT/10/inner/straight"
+      ],
+      [
+        "UNSELECTED/BELOW/B1/F20/Z02",
+        "BT/10/inner/straight"
+      ],
+      [
+        "UNSELECTED/BELOW/B1/F20/Z03",
+        "BT/10/inner/straight"
+      ],
+      [
+        "UNSELECTED/BELOW/B1/F22/Z00",
+        "BT/11/inner/straight"
+      ],
+      [
+        "UNSELECTED/BELOW/B1/F22/Z01",
+        "BT/11/inner/straight"
+      ],
+      [
+        "UNSELECTED/BELOW/B1/F22/Z02",
+        "BT/11/inner/straight"
+      ],
+      [
+        "UNSELECTED/BELOW/B1/F22/Z03",
+        "BT/11/inner/straight"
+      ]
+    ],
+    "warm_check_scope": "AtB1absz<=6.4456 allBTcoils areexactstraightlegs; returnsstartabsz10.8, ECTwarmfront7.05 isaxiallyseparated. R4.05 islimiting50mmcontact, so conservative touching-is-conflict kernel rejects equality; smallerR cannotrescueHCAL.",
+    "widening_scope": "Unselected mathematical width for retained30mm border and0.1deg full-depth angular target; all48inwardpanels remainHCAL-intersecting, no feasiblecandidateorapproval"
+  },
+  "controls": {
+    "duplicate_prism_detected": true,
+    "distant_prism_separated": true,
+    "occupied_steel_detected": true,
+    "occupied_cover_detected": true,
+    "all_48_moved_panels_have_actual_hcal_conflict": true,
+    "warm_coil_point_detected": true,
+    "source_hashes_match": true,
+    "steel_point_inside_material_and_trial": true,
+    "cover_point_inside_material_and_trial": true,
+    "coil_point_inside_HCAL_clear_panel": true
+  },
+  "limits": [
+    "No DD4hep, Geant4, ACTS, native runtime, external service or dependency was invoked.",
+    "Warm and winding-pack sweeps are finite source-model reservations/current allocations; no engineered case/conductor material qualification.",
+    "Finite HCAL steel/Al witnesses are from hash-matched pinned prototype sources; not a measured installed detector.",
+    "All changed-radius certificates from original geometry are discarded in the hypothetical trial; no source layout is generated or selected.",
+    "500mm depth and50mm margins are fixed; all lower-depth/HCAL/magnet redesigns are unselected alternatives."
+  ],
+  "runtime": {
+    "python": "3.14.6",
+    "implementation": "CPython",
+    "seconds": 0.5272638749884209,
+    "argv": [
+      "/private/tmp/pr90-IB-A1-checker.py",
+      "--repo",
+      "/Users/salzburg/Documents/ChatGPT/agentic-detector/nodd-muon-chamber-layout",
+      "--revision",
+      "56f12ef5b2a9bd410cb77e95ac3140557d92f1b2",
+      "--output",
+      "/private/tmp/pr90-IB-A1-results.json"
+    ]
+  }
+}
