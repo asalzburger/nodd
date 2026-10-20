@@ -185,3 +185,10 @@ show the actual positive-wheel planes in blue, with grey intersecting coil/frame
 context. PNG, vector SVG, individual wheel views and source polygons are included.
 This drawing-only addition preserves the earlier scientific inputs/results and
 frozen artifact manifest; the earlier index fingerprint is available at99bb67a.
+
+## Why the inner sectors remain open (PR90 follow-up)
+
+[BT-slot and radial-band feasibility study](../inner-closure-2026-10-20/README.md)
+explains the fixed coil obstruction and avoidable fan gaps. Optional segmentation
+figures and geometric ray/area diagnostics are separate from this candidate;
+no current geometry, fields, OBJ or native coverage result is replaced.

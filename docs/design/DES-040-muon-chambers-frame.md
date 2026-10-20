@@ -388,3 +388,19 @@ not the original3 m. This does not establish the corresponding momentum
 resolution or preserve a3 m bending path. Unresolved field-mask/native-failure
 rows remain in the coverage denominators. DRAFT status and human-only engineering
 acceptance are unchanged.
+
+## Inner-sector closure feasibility (PR90 follow-up, 2026-10-20)
+
+The [review question](https://github.com/asalzburger/nodd/pull/90#issuecomment-6285814869)
+asks why inner sectors do not close and whether closure is possible. The
+[bounded feasibility study](../validation/DES-040/inner-closure-2026-10-20/README.md)
+separates fixed BT warm-envelope obstructions from excess gaps caused by one
+long trapezoid per sector. Before generating comparison views, it records an
+unadopted two-band simple-trapezoid option with the existing20 mm seams,
+50 mm clearance and10 mm certification margin, and a three-band diagnostic
+that violates the0.50 m useful-span rule. Both must remain separate from the
+selected12-sector candidate. Radial tiling/cassette exemptions require an
+explicit amendment before adoption; no minimum-span exception is granted.
+Report same-module full-depth ray losses as well as planar closure, with no
+transport/reconstruction improvement claim. Keep all current physical inputs,
+fields, OBJ and ACTS artifacts immutable.
