@@ -139,7 +139,14 @@ def render(cuts, limit, output):
     import matplotlib.pyplot as plt
     from matplotlib.collections import PolyCollection
     from matplotlib.patches import Patch
-    plt.rcParams.update({'font.family': 'DejaVu Sans', 'svg.hashsalt': 'DES040-three-wheel-xy'})
+    plt.rcParams.update({'font.family': 'DejaVu Sans', 'svg.fonttype': 'path', 'svg.hashsalt': 'DES040-three-wheel-xy'})
+
+    def save(fig, path):
+        fig.savefig(path, dpi=200, facecolor='white', metadata={'Date': None} if path.suffix == '.svg' else None)
+        if path.suffix == '.svg':
+            # Matplotlib's multiline SVG path attributes contain trailing blanks.
+            # Keep line breaks (XML attribute whitespace) and all path numbers.
+            path.write_text('\n'.join(line.rstrip() for line in path.read_text().splitlines())+'\n')
 
     def panel(ax, cut):
         for key, color, edge, hatch, order in [('warm_coils', COIL, '#707070', None, 2),
@@ -166,13 +173,13 @@ def render(cuts, limit, output):
         panel(ax, cut)
     decorate(fig); fig.subplots_adjust(left=.045, right=.988, top=.81, bottom=.18, wspace=.20)
     for ext in ('png', 'svg'):
-        fig.savefig(output/f'endcap-wheels-xy.{ext}', dpi=200, facecolor='white', metadata={'Date': None} if ext == 'svg' else None)
+        save(fig, output/f'endcap-wheels-xy.{ext}')
     plt.close(fig)
     for cut in cuts:
         fig, ax = plt.subplots(figsize=(8.0, 9.3)); panel(ax, cut); decorate(fig, True)
         fig.subplots_adjust(left=.10, right=.96, top=.82, bottom=.23)
         for ext in ('png', 'svg'):
-            fig.savefig(output/f"wheel-{cut['station']}-xy.{ext}", dpi=200, facecolor='white', metadata={'Date': None} if ext == 'svg' else None)
+            save(fig, output/f"wheel-{cut['station']}-xy.{ext}")
         plt.close(fig)
 
 
