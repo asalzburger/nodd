@@ -6,6 +6,40 @@
 - Governing magnetic input: PR87, `fe372194038ed2af9617c27defffba09ae6d683f`
 - Human engineering acceptance: none
 
+## Review-directed wheel revision under study (2026-10-20)
+
+The agreed [PR90 decision](https://github.com/asalzburger/nodd/pull/90#issuecomment-6283618592)
+requests full trapezoid wheels for the inner and outer endcap stations, placed
+longitudinally outside the endcap toroids, with no chamber overlaps. It also
+requests a new OBJ, full/endcap coverage, before/after endcap shape lists and
+blue 2D inventories, and the current barrel shape inventory. This authorizes an
+isolated prototype investigation; it grants no engineering acceptance.
+
+**FACT about fixed inputs:** the current HCAL endcap back is at |z|=6.4412 m;
+the endcap warm coil front is at 6.55 m. The proposed chamber depth is 0.5 m
+and existing coil clearance is 0.05 m. These values are recorded in the retained
+geometry/configuration and support inputs above.
+
+**INFERENCE:** a full radial inner wheel behind the HCAL and before the toroid
+has only 0.1088 m gross axial space, less than the 0.5 m chamber even with zero
+clearance. With the existing 0.05 m coil clearance and a provisionally equal
+HCAL margin, 0.0088 m remains, a 0.4912 m deficit. That HCAL margin is an open
+interface choice, not an existing accepted calorimeter requirement. A radial
+or magnet-interface change must be explicitly selected before implementing that
+wheel. Barrel coil legs and the carrier frame also require full-volume checks.
+The [interface study and baseline inventories](../validation/DES-040/wheels-2026-10-20/README.md)
+retain the quantified alternatives and common coverage protocol.
+The meaning of “adapt the longitudinal length” is being clarified with the user;
+new station coordinates and any permitted magnetic change will be recorded here
+before geometry generation. Preserve all previous configurations and evidence.
+
+**NODD display choice:** inventory rectangle shapes by tangential width, axial
+length and depth; inventory trapezoids by radial span, inner/outer base widths
+and depth. Group numerical construction duplicates on a 1 nm dimension grid,
+while retaining each actual panel's full-precision dimensions and ID. These
+display families confer no manufacturing tolerance or chamber response. Use
+the existing blue material colour in all requested 2D shape views.
+
 ## Requested follow-up
 
 The user requests a new PR following the PR87 reviews

@@ -1,0 +1,183 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-20-pr90-endcap-wheels",
+  "title": "PR90 review decision: endcap wheels outside toroids",
+  "recorded_at": "2026-10-20T04:50:37Z",
+  "started_at": null,
+  "ended_at": null,
+  "status": "open",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact root/child per-turn token counters are unavailable; usage remains empty, not zero.",
+    "Start/end times, client version and thread ID are not exposed.",
+    "The requested candidate geometry/OBJ/after-coverage await a required physical interface choice."
+  ],
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "5674a7688319d6dd5179c04cd381cb59f48d36bb",
+    "branch": "codex/muon-chamber-layout",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      "docs/design/DES-040-muon-chambers-frame.md",
+      "docs/validation/DES-040/wheels-2026-10-20/README.md",
+      "docs/validation/DES-040/wheels-2026-10-20/baseline-check.json",
+      "docs/validation/DES-040/wheels-2026-10-20/baseline-check.py",
+      "docs/validation/DES-040/wheels-2026-10-20/before-inventory/barrel.csv",
+      "docs/validation/DES-040/wheels-2026-10-20/before-inventory/barrel.json",
+      "docs/validation/DES-040/wheels-2026-10-20/before-inventory/barrel.md",
+      "docs/validation/DES-040/wheels-2026-10-20/before-inventory/barrel.png",
+      "docs/validation/DES-040/wheels-2026-10-20/before-inventory/endcap.csv",
+      "docs/validation/DES-040/wheels-2026-10-20/before-inventory/endcap.json",
+      "docs/validation/DES-040/wheels-2026-10-20/before-inventory/endcap.md",
+      "docs/validation/DES-040/wheels-2026-10-20/before-inventory/endcap.png",
+      "docs/validation/DES-040/wheels-2026-10-20/chamber-concepts.json",
+      "docs/validation/DES-040/wheels-2026-10-20/chamber-concepts.md",
+      "docs/validation/DES-040/wheels-2026-10-20/coverage-plan.json",
+      "docs/validation/DES-040/wheels-2026-10-20/coverage-plan.md",
+      "docs/validation/DES-040/wheels-2026-10-20/interface-audit.md",
+      "docs/validation/DES-040/wheels-2026-10-20/interface-check.json",
+      "docs/validation/DES-040/wheels-2026-10-20/interface-check.py",
+      "docs/validation/DES-040/wheels-2026-10-20/inventory-check.json",
+      "docs/validation/DES-040/wheels-2026-10-20/inventory-check.py",
+      "docs/validation/DES-040/wheels-2026-10-20/preparation-manifest.json",
+      "logs/design/SESSION-2026-10-20-pr90-endcap-wheels.json",
+      "logs/design/SESSION-2026-10-20-pr90-endcap-wheels.md",
+      "project/tracking.json",
+      "tools/muon_layout/wheel_inventory.py"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "muon chambers",
+      "magnet/HCAL/support interfaces",
+      "inventory and coverage planning"
+    ],
+    "related_ids": [
+      "DES-040",
+      "DES-039",
+      "PR-90",
+      "TASK-B-MUON-WHEELS"
+    ]
+  },
+  "narrative": "logs/design/SESSION-2026-10-20-pr90-endcap-wheels.md",
+  "activities": [
+    {
+      "kind": "skill",
+      "name": "acts-spack",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Node preflight warning followed by direct current environment/package/import verification; no installs."
+    },
+    {
+      "kind": "tool",
+      "name": "collaboration specialist assignments",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Prepared full fallback mandates W-A1 SysArch, W-M1 MuonTech, W-P1 PhysVal recorded in paired narrative; read-only exact-revision contributions."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 tools/muon_layout/wheel_inventory.py (default and bundled Python)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Both attempts lacked Matplotlib; no scientific artifact accepted from these attempts."
+    },
+    {
+      "command": "python3 acts-spack/scripts/preflight.py",
+      "status": "FAIL",
+      "exit_code": 2,
+      "result": "Registry setup/lock fingerprints stale; warned before dependent work and verified actual current environment/imports."
+    },
+    {
+      "command": "fresh source acts_setup.sh; setup_spack; spack env status/find; installed acts-nodd Python NumPy/Matplotlib import",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Active ci-dependencies, DD4hep1.38, Geant4 11.4.3, installed Python NumPy2.5.4 and Matplotlib3.11.2 observed."
+    },
+    {
+      "command": "installed acts-nodd Python -B tools/muon_layout/wheel_inventory.py --geometry docs/validation/DES-040/geometry.json --output docs/validation/DES-040/wheels-2026-10-20/before-inventory --kind both --label PR90-before-revision",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "816/6barrel and744/18endcap inventories; both final sheets visually inspected."
+    },
+    {
+      "command": "python3 -B docs/validation/DES-040/wheels-2026-10-20/inventory-check.py --root . --output docs/validation/DES-040/wheels-2026-10-20/inventory-check.json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All1560source footprints reconstruct within1nm; max4.972781229871069e-10m, quantities/CSV/stations/sides match."
+    },
+    {
+      "command": "python3 -B docs/validation/DES-040/wheels-2026-10-20/interface-check.py --root . --output docs/validation/DES-040/wheels-2026-10-20/interface-check.json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Pinned source bounds, contradictory axial inequalities,484support envelopes and bounded alternatives verified."
+    },
+    {
+      "command": "python3 -B tools/muon_layout/acts/check.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Captured148960tracks, native control gate and artifact hashes passed; no native rerun."
+    },
+    {
+      "command": "Candidate geometry, newOBJ, after-coverage, new magnetic field/sizing",
+      "status": "NOT RUN",
+      "exit_code": null,
+      "result": "Required physical choice pending; baseline data are not candidate results."
+    },
+    {
+      "command": "set -e; baseline-check.py --root . --output scratch; cmp baseline-check.json scratch; cmp interface-check.json original-A1-check.json; git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Retained baseline reproduction and portable A1 calculation match original independent outputs exactly; whitespace check passes."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "69tasks,38documents,21reviewrounds validated."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "193paired session records validated."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py summary --milestone M1",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "80M1sessions,35withobservations; this open task has no token observations."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py build --output _site/pr90-wheels-token-preview",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Local preview built;210historical disjoint turns/624299405observed tokens, not this task usage."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/project_records -p 'test_*.py' -v; python3 -B -m unittest discover -s tools/session_logging -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "28project/documentation tests and33journal tests passed; unavailable-history negative fixture emitted its expected git error and passed."
+    },
+    {
+      "command": "Regenerate LF inventories; inventory-check.py; git add scoped paths; git diff --cached --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "After correcting new CSV CRLF endings, footprint/quantity checks and staged whitespace check passed."
+    }
+  ]
+}
