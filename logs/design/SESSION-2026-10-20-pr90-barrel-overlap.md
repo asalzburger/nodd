@@ -55,3 +55,12 @@ User asks addressing newcomment6287612852. Startclean e0fd6ad0e4cd8df96356c00ab3
   "completion": "Rootcanreconcileproposalwithactualfixedhardwareandmap; nocorneronlyorazimuthalonefalseclearanceclaim."
 }
 ```
+
+
+## Source and acquired results
+
+Source freeze `7d8c51f304dc79bd187279580b4e1cb5464f7974` follows the preimplementation contract. Eight focused tests pass; selected4m candidate has696 barrels (96/168/432),192unchanged endcaps,888total.264 freshly certified z-seam merges; all484supports fixed and checked per barrel;393828panel pairs clear;696actual-orientation uncached coil audits pass. Barrel dimension families7→13, including96B3 and48B2 widths below0.5m under the inherited area/z policy. Odd B3 radial stagger0.55m, bordered template angular overlap0.1degrees, true finite neighbor gap69.625277mm. Actual max chamber radius9.099797510m leaves0.20249mm within the native9.1m world; this is only a numerical chamber world, not passive material or installation qualification.
+
+Fresh-shell activation used acts_setup.sh, unset ACTS_SPACK_SETUP, setup_spack, then installed acts-nodd Python with task-local MPLCONFIGDIR/XDG_CACHE_HOME. Preflight warns changed setup/lockfile fingerprints; NumPy/Matplotlib and actual baseline/current native construction pass. No shared dependencies changed. Propagator397ca6d59d2798cd5ab53e1faa78bccf8250de6d324d2eafe9be14c39c7a005d; writerf4c9842fd7534b7adb64b086495c25092bc6d1e6022665dfbc621aeeb024ee62; coref4c040fa6c331fca6180dc75589fbc95ec30fc485c2edbefb891fda46cdf7088. All new geometry/artifact/native modules exit0 at source freeze.1024zero-field tracks complete and agree with independent finite prism tests;256curved-smoke rows retain197complete/59field-masked.65536mirrored rows from32768iid central-band directions yield three-station56.6040→69.3878%, border48.2971→61.8225%. No reconstruction/material-response claim.449prior source/evidence files remain byte-exact; magnets/frame/endcaps fixed, uniform middle eta3 remains UNMET.
+
+Actually viewed barrel XY comparison, longitudinal comparison and combined OBJ PNG; common axes/source polygons agree visually. Initial staged whitespace check stopped on one blank EOF in this journal; normalized and passed before commit. Initial session validator rejected draft activity fields; corrected to the required tool/skill schema. Earlier web attachment cache failure was bypassed by rendering the public attachment directly in the browser; no image download or private URL entered in Git.
