@@ -32,12 +32,35 @@ jobs:
         run: python3 -B tools/project_records/fetch_evidence.py
       - name: Validate project records
         run: python3 -B tools/project_records/validate.py
+      - name: Test calorimeter hardware ownership and physical controls
+        run: python3 -B -m unittest discover -s tools/calorimeter_hardware -p 'test_*.py' -v
+      - name: Test Si-W service and forward envelope allocations
+        run: |
+          python3 -B -m unittest discover -s tools/siw_services -p 'test_*.py' -v
+          python3 -B tools/siw_services/study.py --check
+          python3 -B tools/layout_overview/draw.py --check
+      - name: Test common FCAL finite geometry and readout controls
+        run: |
+          python3 -B -m unittest discover -s tools/forward_calorimeter -p 'test_*.py' -v
+          python3 -B tools/forward_calorimeter/study.py --check
+      - name: Validate specialist profiles, skills and assignment controls
+        run: |
+          python3 -B tools/agent_workflow/workflow.py validate
+          python3 -B -m unittest discover -s tools/agent_workflow -p 'test_*.py' -v
+      - name: Test calorimeter source audit arithmetic and accounting
+        run: python3 -B -m unittest discover -s tools/calorimeter_audit -p 'test_*.py' -v
       - name: Test public tracker prototype controls
         run: |
           python3 -m pip install -r tools/tracker_layout/requirements-controls.txt
           python3 -B -m unittest discover -s tools/tracker_layout -p 'test_*.py' -v
       - name: Test solenoid vacuum sizing and interface controls
         run: python3 -B -m unittest discover -s tools/solenoid_baseline -p 'test_*.py' -v
+      - name: Verify retained ODD IdRes documentation data
+        run: |
+          python3 -B -m unittest discover -s tools/odd_idres -p 'test_*.py' -v
+          python3 -B tools/odd_idres/verify.py
+      - name: Test magnetic sizing and field controls
+        run: python3 -B -m unittest discover -s tools/magnetic_study -p 'test_*.py' -v
       - name: Test finite-module geometry and coverage controls
         run: python3 -B -m unittest discover -s tools/module_layout -p 'test_*.py' -v
       - name: Test pixel barrel z-packing controls

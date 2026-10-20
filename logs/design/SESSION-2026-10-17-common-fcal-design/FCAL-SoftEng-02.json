@@ -1,0 +1,19 @@
+{
+  "id": "FCAL-SoftEng-02",
+  "role": "SoftEng",
+  "input_revision": "0964b60a3d19b13b91abc48e30bd18d66feb66d2",
+  "inputs": [
+    "tools/forward_calorimeter/model.py",
+    "tools/forward_calorimeter/inputs.json",
+    "tools/forward_calorimeter/layout-contexts.json",
+    "docs/design/DES-039-common-forward-calorimeter.md"
+  ],
+  "mode": "write",
+  "writable_paths": [
+    "tools/forward_calorimeter/native.py",
+    "docs/validation/DES-039/native.json"
+  ],
+  "task": "Implement and run isolated native ROOT/TGeo construction and overlaps for the new parametric FCAL, both signs in both layouts, and 02 collar. This is ROOT-native only; do not claim DD4hep/Geant4 integration. Consume model.py build(),collar_config(),zones, fibre/channel dicts. Main produces build/forward_calorimeter/model.json and collar-model.json from same inputs. Work from pinned source0964b60 scientific snapshot; pending updates to model only improve generic bounds and do not change current dimensions. Use ROOT directly (runtime already verified). Construct two matrix halfTubeSegs with half_gap_deg .2: right(-89.8,89.8),left(90.2,269.8), R55\u2013270 length1200; collarR55\u2013430 length100. Insert finite airhole daughterradius.45 at actual model x/y and local z; nested buffer radius.4 with silica radius.3; short starts100 /50 inside sampling, W plugs ahead. Count exclusive volumes subtract daughters once. Add innerAl sleeveR50\u201355, sampling outerAl shellR278\u2013290 core/R438\u2013450 collar to samplingback, rear shellR288\u2013290/R448\u2013450 thereafter, front2mmcapR55\u2013278/R438, rear2mmcapR55\u2013280/R440. Add18mm rearloadring R270\u2013278/R430\u2013438 aftersamplingback,4ribs radially270.1\u2013277.9 /430.1\u2013437.9,tangential6mm, sample1200/100. Add sensor cartridgeairboxes30x30 (96) with25x25x1.35 device proxy at sensorfront;16Si pixels6x6x.3 at6.2pitch. Add rearAlcoldplateR55\u2013287 /447,6mmthick at FEbayfront;coolantpipesOD6ID4 centredR284/coreR444/collar startAFTERcoldplate (no sensoroverlap) throughrear to externalroute. If unimplementedaux parts/opticalcurves clearly exclude from actual geometryclaim. Place commonbodyat4533.2 and4850, negative side properRx180deg. 02collarfront4400 plus supply/returnexternalneck pipesR294 (OD6) afterz4883 toHCALback+50 (sourceHCALback7855.9); optional implementtwo18mmtoruselbowsand105mmradialtube usinggivencentreline(R435,z4847)->(417,4865)->(312,4865)->(294,4883),\u03c611.25/191.25; ensure collectorvolumeoutsidecoreR290 beforeLArfront4900. Nativecheck mayuse surrounding ECAL/HCAL annular envelopeguards notfullcomplexgeometry, report asguards only. Main doesservice analytic andshell exactchecks; no missingreadout/opticsperformanceclaim. Run overlap tolerance1e-5mm, counts/masses and several independent ROOT boundary rays vsmodel finitecylinder results (core/absorber-centred and \u00b1eta controls). You may adapt complexity but return actualcoverage andunrunparts honestly. Do not edit otherfiles or shareddependencies; exports inignored build/forward_calorimeter allowed, noothertrackedwrites.",
+  "deliverable": "Native script and small retained JSON with input/code/source hashes,runtimeversions,counts,exclusive constituentmass checks,overlap findings andnavigation comparisons; report failuresandfixes.",
+  "completion": "Core and collar constructs atboth signs, native checks actuallyrun andexactlimitationsreported. No parent geometrychange withoutcoordination. Do notdelegate."
+}

@@ -5,6 +5,19 @@ OpenDataDetector for DD4hep simulation and ACTS-compatible reconstruction.
 See the [project scope](PROJECT.md), [development plan](docs/DEVELOPMENT_PLAN.md)
 and [documentation index](docs/README.md).
 
+## Current detector layouts
+
+The [DES039 common tungsten/quartz forward calorimeter](docs/design/DES-039-common-forward-calorimeter.md) is shown in both candidates, with an additional EM collar in the LAr alternative. It remains a DRAFT / PROTOTYPE with explicit aperture and service amendments.
+
+**[Open the layout main page](docs/layouts/README.md)** for both current candidates,
+its R–Z view and concise links to component decisions and pull requests.
+
+[![LAYOUT-001: tracker, inner 3 T solenoid, Si–W ECAL and common FCAL proposal](docs/layouts/figures/LAYOUT-001-FCAL-rz.png)](docs/layouts/LAYOUT-001-tracker-3t-siw.md)
+
+The selected candidate combines the maintained tracker with proposed solenoid
+and ECAL components. Open prototypes and remaining systems are identified on the
+main page; the combined layout has no engineering sign-off.
+
 ## Current pixel baseline
 
 The standard combined pixel build uses the
@@ -22,6 +35,11 @@ thermal and service-routing limitations remain open.
 The [TDR outline](docs/publication/TDR-outline.md) and
 [publication plan](docs/publication/publication-plan.md) organize chapters,
 evidence and review inputs as the detector design develops.
+
+The [ODD IdRes comparison](docs/validation/ODD-idres/README.md) provides
+reproducible SVGs and complete JSON/CSV data for original ODD and the extended
+tracker prototype before/after pixel aperture adaptation: hits, local layer
+material and pitch/√12 momentum-resolution estimates versus eta.
 
 ## Agent roles
 
@@ -42,6 +60,13 @@ defines their full mandates and responsibility boundaries.
 
 These are responsibility roles, not a requirement for eight simultaneous agent
 processes. Only identified humans may grant design sign-off or acceptance.
+
+The [agent workflow](docs/AGENT_WORKFLOW.md) connects these mandates to reusable
+Codex profiles and skills, bounded assignments and revision-specific handoffs.
+Start Codex in the nODD checkout (or its worktree) to discover project guidance.
+The workflow supports explicit role instructions when native profile selection
+is unavailable; its [pilot record](logs/codex/SESSION-2026-10-12-agent-workflow.md)
+states which behavior was actually exercised.
 
 ## Human review 
 

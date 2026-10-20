@@ -74,3 +74,13 @@ the scientific registers and the four unrelated local files. Session validation,
 summary, token-site validation/build and whitespace checks passed after the
 closed publication-turn import. The compatibility update uses a normal merge
 commit and an ordinary push; both published histories are retained.
+
+## Completed-turn accounting correction — 2026-10-12
+
+The following PR6 synchronization audit recovered this preceding task's closed
+turn, `01a12ff7-2856-71b0-a53d-0a015ce525c0`, and imported it once into this
+original owner after a successful dry run. Observed input is 3,472,126, cached
+input 3,387,136, output 14,452, reasoning output 4,907 and total 3,486,578.
+Cached and reasoning tokens are subsets. The [usage audit](../usage/USAGE-2026-10-12-pr6-accounting-audit.json)
+retains verified boundaries and hashes. Earlier missing-counter statements are
+historical for this turn; these tokens do not belong to the magnetic research.

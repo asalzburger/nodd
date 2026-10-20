@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-12-calorimeter-executive-summary-followup",
+  "title": "Calorimeter executive summary follow-up after PR65 merge",
+  "recorded_at": "2026-10-12T13:46:55Z",
+  "started_at": null,
+  "ended_at": "2026-10-12T13:49:41Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "At original closeout: Exact client turn token counters, model/version and client timing are unavailable; usage remains empty and unknown. Superseded for token coverage by the 2026-10-20 shared-turn correction.",
+    "No shared client totals are estimated, divided or duplicated with companion records.",
+    "This is an editorial follow-up; source geometry/material/performance evidence and human approval boundaries remain unchanged.",
+    "Hosted checks are pending at this closeout snapshot; local checks passed. A following metadata-only commit records PR66 delivery.",
+    "2026-10-20: complete shared turn 01a1300e-1534-7811-a25b-5aee273646df is owned once by SESSION-2026-10-12-solenoid-baseline; its 14,916,040 tokens cover PR64 and companion PR65/66 work, without a per-PR split. Original journal closeout times describe curation, not the full client turn boundary."
+  ],
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": "01a12426-1fc9-73b0-94ed-40f3eaf1e83c"
+  },
+  "git": {
+    "start_commit": "26258c9ea1f9d3ee5f05476b4d059bc48c39c19e",
+    "branch": "codex/calorimeter-executive-summary",
+    "initial_changes": [],
+    "result_commits": [
+      "94b93abc9f67097c13525615c2c3935460c9b57d"
+    ],
+    "changed_files": [
+      "docs/design/DES-027-calorimeter-description-assessment.md",
+      "project/tracking.json",
+      "logs/codex/SESSION-2026-10-12-calorimeter-executive-summary-followup.json",
+      "logs/codex/SESSION-2026-10-12-calorimeter-executive-summary-followup.md"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "calorimeter executive summary",
+      "post-merge delivery"
+    ],
+    "related_ids": [
+      "DES-027",
+      "PR65",
+      "PR66"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-12-calorimeter-executive-summary-followup.md",
+  "activities": [
+    {
+      "kind": "tool",
+      "name": "Git/GitHub CLI and Python standard library",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Verified merged PR65 head353dc4c/merge26258c9; reused clean worktree on a new branch from upstream main. Executed repository/session/site checks before push."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 -B tools/project_records/validate.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "60tasks/32documents/19review rounds validate, including real PR65 merge metadata."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "168paired session records validate."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py build",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Token-site builds209disjoint observed turns; current task usage remains unknown."
+    },
+    {
+      "command": "PYTHONPATH=tools/project_records python3 -B -m unittest test_records.RepositoryReviewTests -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Historical PR4 review and approval scope remains valid."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors."
+    }
+  ]
+}

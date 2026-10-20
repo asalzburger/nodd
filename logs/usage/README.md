@@ -1,5 +1,29 @@
 # Local token-usage recovery
 
+## PR88 FCAL accounting — 2026-10-20
+
+The [usage-only inventory](USAGE-2026-10-20-pr88-accounting.json) reconciles
+five explicitly selected threads: the parent FCAL chat and its four recorded
+specialist children. Eleven completed turns add **40,048,091 input + 215,814
+output = 40,263,905 observed tokens** from 262 requests. Cached input
+39,084,928 and reasoning output 74,935 are subsets. Twenty-six repeated
+cumulative snapshots are excluded; no usage event falls outside persisted
+turn boundaries. Parent and child request streams reconcile separately from
+zero; no parent aggregate or inherited prefix is added again.
+
+| Canonical task owner | Closed turns | Input | Output | Total |
+| --- | ---: | ---: | ---: | ---: |
+| Common FCAL recommendation | 1 | 1,592,557 | 13,860 | 1,606,417 |
+| Common design, including eight specialist turns | 9 | 35,895,875 | 178,317 | 36,074,192 |
+| LAYOUT-001 SVG and summary | 1 | 2,559,659 | 23,637 | 2,583,296 |
+
+The original recommendation journal pair was copied from its existing authored
+record in the sister checkout without changing that checkout; original hashes
+are retained. Existing unknown-usage statements remain with dated corrections.
+Dry-run/import/replay confirms 11 additions and no duplicate ownership.
+The current accounting/conflict-resolution turn remains active and excluded.
+These are client observations, not a billing estimate or complete device history.
+
 ## Remaining-device audit — 2026-10-12
 
 The [audit inventory](USAGE-2026-10-12-device-audit.json) checks 16 local project
@@ -267,3 +291,37 @@ is **27,882,303 input + 195,220 output = 28,077,523 tokens**. The
 records the unchanged transfer from the mixed desktop backfill record.
 The original inventory remains intact; global totals stay at 552,937,331 across
 183 disjoint turns. Never add this subtotal to the project total again.
+
+## PR6 conflict-resolution audit — 2026-10-12
+
+[The PR6 audit](USAGE-2026-10-12-pr6-accounting-audit.json) verifies both known
+local project locations (16 threads, 72 turns) against canonical owners. All
+52 already recorded local observations match their five counters. The normal
+main merge brings 36 historical observations across eleven magnetic-research
+session records into PR6: input 56,250,297, output 211,577, total 56,461,874.
+These were already in main and must not be imported or counted again.
+
+No additional historical PR6 counters could be confidently attributed locally.
+The September 28 PR6 merge-maintenance task still has unknown usage. The
+current PR6 update turn is active and excluded. One newly closed preceding
+PR62 synchronization turn was imported into its own original record, adding
+3,472,126 input and 14,452 output tokens (3,486,578 total) to project accounting.
+Unassigned historical observations retain their earlier disposition.
+
+
+## PR89 IdRes study accounting — 2026-10-20
+
+[The PR89 inventory](USAGE-2026-10-20-pr89-accounting.json) recovers three closed
+turns from the explicitly selected desktop chat:67 observed requests, with two
+repeated cumulative snapshots excluded and no outside-turn observations.
+All three turns belong to the original IdRes comparison and its continuation;
+none had an existing canonical owner. Interrupted/failed client statuses retain
+their observed consumption.
+
+The [original IdRes session](../codex/SESSION-2026-10-19-odd-idres-comparison.md)
+now owns **12,783,549 input + 53,939 output = 12,837,488 observed tokens**.
+Cached input12,530,816 and reasoning output15,583 are subsets, not additions.
+Dry-run/import/replay verified unique ownership; replay adds nothing.
+The active accounting/readiness follow-up remains excluded until it closes.
+The inventory is supporting evidence and must never be added again to the
+journal subtotal. Client version and actual execution model remain unknown.

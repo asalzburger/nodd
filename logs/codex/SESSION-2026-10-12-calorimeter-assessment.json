@@ -1,0 +1,139 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-12-calorimeter-assessment",
+  "title": "Calorimeter hardware description assessment",
+  "recorded_at": "2026-10-12T12:38:00Z",
+  "started_at": null,
+  "ended_at": "2026-10-12T13:05:57Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "At original closeout: Exact active-turn client token counters and model/version metadata are not exposed; usage is empty (unknown), not zero. Superseded for token coverage by the 2026-10-20 shared-turn correction.",
+    "This bounded task shares a client turn with the companion design task. No total is split or duplicated.",
+    "At original closeout: The original client turn start/end timestamps are unavailable. Recorded times describe curation/closeout only. Full shared-turn boundaries are now retained in the 2026-10-20 accounting inventory.",
+    "Designs remain DRAFT; numerical/static checks are not human sign-off or engineering/performance qualification.",
+    "Hosted CI is pending at journal closeout; local checks passed. The final PR head will be a following metadata-only commit; scientific execution/figure hashes remain unchanged.",
+    "2026-10-20: complete shared turn 01a1300e-1534-7811-a25b-5aee273646df is owned once by SESSION-2026-10-12-solenoid-baseline; its 14,916,040 tokens cover PR64 and companion PR65/66 work, without a per-PR split. Original journal closeout times describe curation, not the full client turn boundary."
+  ],
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": "01a12426-1fc9-73b0-94ed-40f3eaf1e83c"
+  },
+  "git": {
+    "start_commit": "da5c469f4d64a711c4f466cac79ff51e83244859",
+    "branch": "codex/calorimeter-description-assessment",
+    "initial_changes": [],
+    "result_commits": [
+      "122e8d340c64a5882992c818e612882d522c99ad"
+    ],
+    "changed_files": [
+      ".github/workflows/validation.yml",
+      "logs/codex/SESSION-2026-10-12-calorimeter-assessment.json",
+      "logs/codex/SESSION-2026-10-12-calorimeter-assessment.md",
+      "project/tracking.json",
+      "reference/manifest.yaml",
+      "tools/calorimeter_audit/README.md",
+      "tools/calorimeter_audit/audit.py",
+      "tools/calorimeter_audit/test_audit.py",
+      "docs/validation/DES-027/odd-inventory.json",
+      "docs/validation/DES-027/results.md",
+      "docs/design/DES-027-calorimeter-description-assessment.md"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "calorimeter hardware assessment"
+    ],
+    "related_ids": [
+      "DES-027",
+      "PR65"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-12-calorimeter-assessment.md",
+  "activities": [
+    {
+      "kind": "skill",
+      "name": "pdf",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Read registered primary PDF passages with bundled pypdf6.10.0; no PDF/source media redistributed."
+    },
+    {
+      "kind": "tool",
+      "name": "Git/GitHub CLI, Python and web primary-source inspection",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Dedicated clean worktree from main da5c469; preserve unrelated primary changes. Independent review of repository, PR6 and public hardware references."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python -B -m unittest discover -s tools/calorimeter_audit -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Four arithmetic/accounting controls passed; seven ODD files match pinned Git source; both public v6.0.2 sampling XML files are byte-identical; reference PDF hashes match catalogue."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py (initial tracking update)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Changing the parent calorimeter programme to active violated unfinished dependency readiness. Restored planned state; the completed assessment is a separate bounded task."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py (role correction)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "New task role spelling did not match its canonical workstream role. Corrected by reading WS-CALO.role directly."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 59 tasks, 32 documents and 19 review rounds."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 167 session records."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py build",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Build: 209 disjoint turns; 620,812,827 observed tokens; 209 dated turns."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/calorimeter_audit -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "test_invalid_slice_or_repeat (test_audit.AuditTests.test_invalid_slice_or_repeat) ... ok\ntest_nonuniform_repeated_stacks (test_audit.AuditTests.test_nonuniform_repeated_stacks) ... ok\ntest_unit_conversion (test_audit.AuditTests.test_unit_conversion) ... ok\ntest_unsafe_or_unknown_expressions (test_audit.AuditTests.test_unsafe_or_unknown_expressions) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 0.000s\n\nOK"
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors"
+    },
+    {
+      "command": "Local Markdown links and persisted code/input/artifact hashes",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All new document links resolve and calculation/auditor/figure/tracker source hashes match."
+    },
+    {
+      "command": "git merge-tree --write-tree codex/tracker-solenoid-baseline codex/calorimeter-description-assessment",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Independent scientific branches merge without conflicts; synthetic tree7ad5cca64f9e282e3af917ae5a0f0b034006898f. No checkout or branch merged."
+    }
+  ]
+}
