@@ -74,3 +74,43 @@ CR-A1 portable independent sourcepinned contribution retained in review/interfac
 Source freeze dcd49de80519a6d206599682f329f708b0e8465d generates final192endcaps/1248total;3/3/1families. FreshinstalledPython construction and all192adaptive/analytic/supportedinterfacecontrols pass. Nativezero run1024/1024completed; no outline/border pairedstation mismatches against independent sourceprisms. Curvedsmoke256rows:93complete/163strictfieldmasked retained, no unknown changedtozero and no efficiencyclaim. Fixedbinarymap exactlymatches conversionfromtrackedjoint-fieldNPZ. Fixed65536row mirroredcapbank (32768iid) over1.3<abs(eta)<3 yieldsgeometricall3pair fractions44.5160→81.7932%, border36.1603→66.1194%; notfull4pi orreconstruction.
 
 Root visuallyinspected actualcompositeXY and7familyinventory PNGs; labels/dimensionsreadable, currentcoils/frame contextvalid. OBJ/nativefullvolumechecks pass. Initialstagedwhitespace gatecaughtnativeMTLblanks andpreventedcommit; wrapperfix4cc2b08 onlystripstrailing/EOFspaceswithmaterialtokenidentity assertion. Regeneratingartifactsunderthatfrozencode; nativecrossingdata/scienceunchanged. All369priorphysicalsource/scientificevidencefiles preserved exactly.
+
+## CR-P1 before dispatch
+
+```json
+{
+  "id": "CR-P1",
+  "role": "PhysVal",
+  "input_revision": "81eba5c59e811fc61eb6179526db70e61c717be5",
+  "inputs": [
+    "docs/design/DES-040-muon-chambers-frame.md",
+    "tools/muon_layout/refined_wheels.py",
+    "tools/muon_layout/refined-wheels-config.json",
+    "tools/muon_layout/refined_validation.py",
+    "tools/muon_layout/refined_artifacts.py",
+    "tools/muon_layout/test_refined_wheels.py",
+    "docs/validation/DES-040/refined-wheels-2026-10-20/README.md",
+    "docs/validation/DES-040/refined-wheels-2026-10-20/candidate/geometry.json",
+    "docs/validation/DES-040/refined-wheels-2026-10-20/candidate/geometry-controls.json",
+    "docs/validation/DES-040/refined-wheels-2026-10-20/artifacts.json",
+    "docs/validation/DES-040/refined-wheels-2026-10-20/native-validation/validation.json",
+    "docs/validation/DES-040/refined-wheels-2026-10-20/unchanged-evidence.json",
+    "docs/validation/DES-040/refined-wheels-2026-10-20/review/interface-report.md",
+    "docs/validation/DES-040/refined-wheels-2026-10-20/xy-sections/endcap-wheels-xy.png",
+    "docs/validation/DES-040/refined-wheels-2026-10-20/inventory/after-endcap.png"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Independent final technical assessment of reviewer-directed PR90 chamber refinement at exact81eba5c. You did not author it. Read primaryactualcandidate/magnetic/source beforeauthorclaims. Verify allrequestedtopologyclaims inner3families36/end (core+pre/postBTslotfillers) withreal20mmnormalphysicalseams andresidual.535997m2 extra localizedslotreservation (notfullyphysicallyrequired); middle3families36/end,outer24/end1family ->192endcaps1248total, barrel/support/magnetsunchanged. Verifyfinitevolume coil/support/pairproof strategies and actualnegative/adaptivecontrols; usefocusedindependentSAT/ray/math ratherthanbroadACTSrerun. Apertureclaimcritical: nominalRnear=zfront/sinh3circumscribedholes avoidfull-deptheta>3 whilepolygonlimitsandfixedECT blockmiddleeta3; actualbores1.01/1.066512492 implysectorcentreeta2.91079/2.85668. Requesteduniformeta3 NOT claimedsatisfied. Independentlytest nearfaceeta3circleECTwarmunion, nominal/actual/aperturecentervscorners. Checkmovingmiddleoutside12.35 conflictsrearframe/outer and geometricchordfactor onlynotmomentumresolution. Verifyactualnative1024straightrows complete andzeroanalyticpairs/border mismatch; independentfromrawfiniteevents ifbounded,256curvedrowsretain163fieldmasked/93completed withnoimprovementclaim.65,536geometricrowsare32768iidmirroredcap1.3<abs(eta)<3, notfullsphere/efficiency. Reproducekeycapcounts independentlyifuseful. Checksource/geometry/native/OBJ/ZIP/inventory/actualSVGsourcepolygons+PNGfigures, all369priorblobidentity. ReviewactualPNGs visually. No shareddependencies,nativeACTSrunorbuildneeded; data/sourceaudits adequate. Return concise report + portablechecker/results (--repo/--revision/--output) scratchonly/private/tmp/pr90-CR-P1-*. Ifmaterialfindingpromptroot; do notmodifyrepo,commit,externalmessage,nestedagent orgrantapproval. Aftertarget onlyreportlinks/journal/trackingcloseoutanticipated; source/data mustremainbyteexact. Note geometry/nativeacquisitiondcd49de; exportwhitespace4cc2b08distinct fromreviewtarget81eba5c.",
+  "deliverable": "Independent exact-revision report and actualfocusedportable evidence, unresolvedfindings/limitations, no engineeringacceptance.",
+  "completion": "Assess actualrefinedcandidate,requestconstraints andallscientificclaims; materialdefects promptlyidentified andresolvedbeforepublicationreply."
+}
+```
+
+## CR-P1 independent actual-artifact outcome
+
+Live child identities: `/root/refined_chambers` (CR-M1 MuonTech author), `/root/refined_interfaces` (CR-A1 source-pinned SysArch reader), `/root/refined_validation` (CR-P1 independent PhysVal). Explicit fallback mandates were recorded before dispatch; no native profile or human sign-off is inferred. CR-P1 read actual pinned primary inputs before claims at81eba5c59e811fc61eb6179526db70e61c717be5. Its portable independent checker passes5184inflatedcoilboxSATtests,92928supportbroadpairs/160SAT,778128chamberbroadpairs/1448SAT, exactnativeevent recounts, capbankcounts, actualOBJ/ZIP/inventory/SVG/PNG and369oldblob/SHAidentities. All1024straighttracks complete withzerooutline/border mismatch;256curvedrows retain93completed/163fieldmasked. NativeDAT/NPZinputrows match; straightnativehits followinputrays to4.23e-14m. Authoradaptive/unittests were inspected, not falselyclaimedrerun.
+
+The independent report finds no new blocking implementation defect within the constrained prototype, but explicitly retains uniformmiddleeta3 as a material UNMET physical requirement. This must remain open in PR reply, tracking and final user answer. No engineeringacceptance granted. Coarseparentcompartment metadata is a minor documentation ambiguity; rootclarifiesparentreservations vs actualvertices andhistoricalwheel_revision vs authoritative refined_* inREADME aftertarget, leavingallsource/data exact. Retainedportablecheckerreplay producesbyte-identical JSON.
+
+InitialREADME apply_patch attempted delete/add tosamepath and was rejected beforemutation; rewrittennormally. InitialMTLwhitespace gate preventedartifactcommit; sourcefix4cc2b08/regen resolvesit withunchangedmaterialtokens. Final hashes/source/ZIP/links reconcile andartifactssource81eba5c waspushednormally; reviewerpublication followsindependentreviewretention.

@@ -31,6 +31,12 @@ Each inner wheel has twelve core trapezoids, twelve pre-slot fillers and twelve 
 
 The middle wheel has twelve full 15-degree sectors centred at 15+30k degrees and twelve BT-centred sectors at 0+30k degrees split into lower/upper chambers around the BT slot: exactly three dimension families. The ordinary 1.50 m span limit is explicitly exempted for these cassette envelopes, as recorded before construction. Tube segmentation, sag, alignment, services and mechanical suitability remain unqualified.
 
+The authoritative chamber boundaries are `vertices_m`, `basis` and `depth_m`.
+`compartment.phi_deg` records a conservative parent/repetition-sector reservation,
+not the exact angular extent of a filler or half-sector. Retained `wheel_revision`
+and `wheel_dimensions` describe the historical input; `refined_wheel_revision`
+and `refined_wheel_dimensions` govern this new candidate.
+
 ## Aperture target and actual limitation
 
 **INFERENCE:** for the nearest face, `R3=(abs(zcentre)-0.25 m)/sinh(3)`. The chosen constant inner-base apothem is at least R3: a circumscribed polygonal hole avoids full-depth straight-ray coverage beyond eta=3, while polygon corners and seams reduce acceptance below it. This is a finite-prism approximation, not an exact conical sensitive boundary or response model.
@@ -73,7 +79,7 @@ These are geometry-only fractions in the stated bank, not full-4pi coverage or e
 
 The unchanged-map curved smoke run retains **all 256 tracks** at 5/100 GeV and both charges: 93 complete and 163 stop at strict field masks. No mask is extrapolated or replaced by zero. Its finite events are checked; masks and the small bank prevent an overall efficiency or momentum-improvement claim. Original joint-field NPZ and native binary-map conversion agree exactly. No new magnetic solve is needed or claimed.
 
-[369 prior scientific/source files remain byte-exact](unchanged-evidence.json). Previous candidate, OBJ, field, study and native results are preserved. Independent assessment of the exact generated candidate is recorded separately; automated checks grant no engineering acceptance.
+[369 prior scientific/source files remain byte-exact](unchanged-evidence.json). Previous candidate, OBJ, field, study and native results are preserved. The [independent PhysVal assessment](review/physics-review.md), [portable checker](review/physics-check.py) and [actual results](review/physics-check.json) examine exact artifact revision `81eba5c59e811fc61eb6179526db70e61c717be5`. It finds no new blocking implementation defect and retains the middle eta=3 requirement as unmet. Automated checks grant no engineering acceptance.
 
 ## Reproduction
 
@@ -87,3 +93,10 @@ python3 -B -m tools.muon_layout.refined_validation
 ```
 
 Native binary/library fingerprints are checked. Executed sources must be frozen in Git before final acquisition. Portable SysArch checks use `--repo`, `--revision` and `--output`; no scratch path is needed to reproduce them.
+
+Independent check reproduction (Python + NumPy only):
+
+```sh
+python3 -B docs/validation/DES-040/refined-wheels-2026-10-20/review/physics-check.py \
+ --repo . --revision 81eba5c59e811fc61eb6179526db70e61c717be5 --output /tmp/refined-physics-check.json
+```
