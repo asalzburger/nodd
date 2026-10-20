@@ -1,0 +1,44 @@
+{
+  "status": "DRAFT / isolated ACTS vacuum face audit",
+  "layout_source_revision": "b3ff6a3b2ae111251fbc126d5ad489114877c3c7",
+  "native_acquisition_source_revision": "77c652e8b55a33d6fcfa897c2b250a81df9c52f1",
+  "native_source_files_match_revision": true,
+  "postprocessing": {
+    "source_revision": "ff5ad3e467ae8f80c755c53289a78256c1478d50",
+    "source_files_sha256": {
+      "tools/muon_layout/acts/analyze.py": "5c0317e0f000b6a41283d8e799fecded35b78e13dee0482908cc3c97970a91f3",
+      "tools/muon_layout/geometry.py": "162aeafae3775d0483d770556286485be9333523227b6160af0265d74f5cc230",
+      "tools/muon_layout/acts/prepare.py": "f4af4b8f04779bdde9f6fbc582c2b8f86173b2a871db4f25a7b65a3312472cce"
+    }
+  },
+  "native_executable_sha256": "22b30c472ea1d62f1d401761763a7759f6869b3684e95e2eb3650ba73250de44",
+  "controls_sha256": "11561b4f8e999d11927b6cbc0e0748d343f9bad9a4a773c1cac647b97a1cb815",
+  "rebuild_record_sha256": "77891b3dd41c7095659b9c9fba7906e7a111cad8c82a1d5b5e13a59b72bfb3e4",
+  "fixed_geometry_sha256": "a6603b9a395e8faef2f02850e6ab5e400f946013da02e5ee4f3c48299940cfcd",
+  "fixed_field_map_sha256": "1219470d0246dd5d5facc81c34d84a572bd1509407a8d76c8273a03a1c48f493",
+  "inherited_magnetic_artifacts_checked": 52,
+  "all_inherited_magnetic_artifacts_unchanged": true,
+  "analysis_runtime": {
+    "python": "3.14.6",
+    "numpy": "2.5.1"
+  },
+  "observed_event_totals": {
+    "side_events": 85705,
+    "reentries": 22,
+    "numerical_duplicates": 0,
+    "native_corrections": 331031,
+    "guard_caps": 346,
+    "parallel_ambiguities": 0,
+    "large_face_events": 378692,
+    "tangent_events": 0
+  },
+  "execution_scope": "Real Gen3 chamber TrackingGeometry; native EigenStepper/Navigator supporting-surface roots and strict finite-owner audits. Chamber portal transitions are not qualified.",
+  "commands": [
+    "python3 -B tools/muon_layout/acts/controls.py --work reference/cache/pr90-acts --executable reference/cache/pr90-acts/build/nodd-muon-propagate --output docs/validation/DES-040/acts-propagation/controls.json",
+    "python3 -B -m tools.muon_layout.acts.run --work reference/cache/pr90-acts --executable reference/cache/pr90-acts/build/nodd-muon-propagate --output reference/cache/pr90-acts/production --controls docs/validation/DES-040/acts-propagation/controls.json --workers 4",
+    "python3 -B tools/muon_layout/acts/analyze.py --work reference/cache/pr90-acts --run reference/cache/pr90-acts/production --output docs/validation/DES-040/acts-propagation"
+  ],
+  "acquisition_controls_sha256": "fd888148a4c0ea2e2ca529553be3cebfb7c5e41ba5ff1927dd8073c75c2bb10a",
+  "plot_record_sha256": "df3fa636207aed298d61704a82053cf15aa2b5604e94f18277cc9f0edc367ccb",
+  "tangent_contacts_excluded_from_crossings": true
+}

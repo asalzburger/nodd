@@ -1,0 +1,25 @@
+{
+  "status": "DRAFT / isolated prototype; source precedent is not design approval",
+  "source_id": "SRC-ATLAS-JINST-2008",
+  "access_date": "2026-10-19",
+  "facts": [
+    {"locator": "chapter 6, section 6.3.2, printed p.171", "url": "https://jinst.sissa.it/LHC/ATLAS/ch06.pdf", "fact": "Barrel MDT chamber faces are rectangular and endcap faces trapezoidal.", "use": "Shape precedent only; nODD dimensions and packing are separate choices."},
+    {"locator": "chapter 6, tables 6.3 and 6.4, printed p.174", "url": "https://jinst.sissa.it/LHC/ATLAS/ch06.pdf", "fact": "Listed chamber/tube dimensions are metre scale, with special smaller chambers.", "use": "Scale precedent, not complete installed chamber envelope/depth or adopted nODD dimensions."},
+    {"locator": "chapter 6, sections 6.1 and 6.2, printed pp.164–166", "url": "https://jinst.sissa.it/LHC/ATLAS/ch06.pdf", "fact": "Sector overlap and support/service openings affect spectrometer coverage.", "use": "Evaluate whole-angle coverage and expose gaps; no borrowed ATLAS efficiency."},
+    {"locator": "chapter 9, section 9.5.1, printed p.275; section 9.6.2, pp.279–280", "url": "https://jinst.sissa.it/LHC/ATLAS/ch09.pdf", "fact": "Feet, girders, rails and struts provide assembly/load paths; nonmagnetic austenitic steel is used for feet.", "use": "Topology/material-family precedent only; no nODD strength/stiffness/load qualification."},
+    {"locator": "chapter 2, section 2.1.2, printed pp.21–23", "url": "https://jinst.sissa.it/LHC/ATLAS/ch02.pdf", "fact": "Warm aluminium struts connect and brace the barrel toroid.", "use": "Warm aluminium frame precedent only; no nODD energized-force calculation."}
+  ],
+  "nodD_design_choices": [
+    {"input": "tools/muon_layout/design.json:chambers", "classification": "NODD DESIGN CHOICE", "scope": "All 24-sector/facet phases, module bounds, gaps, edge borders, fixed station positions/depth and clearance values. No claim that these reproduce installed ATLAS dimensions."},
+    {"input": "docs/validation/DES-040/support-input.json", "classification": "NODD DESIGN CHOICE", "scope": "All finite frame/port/foot dimensions, topology, alloy density and mu_r=1 proxies, floor level, section sizes and material assumptions. No chamber or magnet weight inferred from envelope volume."},
+    {"input": "tools/muon_layout/design.json:coverage", "classification": "NUMERICAL METHOD CHOICE", "scope": "Full-sphere grids and independent iid integration, fixed seeds, geometry-only station counts."}
+  ],
+  "inferences": [
+    "Literal uninterrupted 4pi coverage is incompatible with the beam opening. The full 4pi denominator remains mandatory; further losses are computed, not silently removed.",
+    "Full-depth traversal of a border-inset convex chamber is stricter than a measurement-plane footprint. Neither is detector efficiency.",
+    "Finite full-volume separation and material contact connectivity are necessary but insufficient engineering checks.",
+    "Vacuum field remains inherited only under the explicit nonmagnetic support proxy; installed HCAL/steel field and chamber response are not recalculated.",
+    "Periodic image grids can alias narrow module gaps. Independent iid solid-angle integration supplies headline fractions and sampling errors, excluding geometry uncertainty."
+  ],
+  "verification": "Primary publisher chapters inspected through web tools; selected locators crosschecked by MuonTech/SysArch. No public PDF bytes redistributed. Catalogue PDF hash is a different earlier acquisition and is not asserted equal to the inspected chapter URLs."
+}

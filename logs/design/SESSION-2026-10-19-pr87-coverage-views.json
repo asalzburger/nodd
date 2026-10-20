@@ -1,0 +1,166 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-19-pr87-coverage-views",
+  "title": "Address PR87 coil-space and chamber-coverage comments",
+  "recorded_at": "2026-10-19T11:11:59Z",
+  "started_at": null,
+  "ended_at": "2026-10-19T11:36:53Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact conversation start time, client version and root/child per-turn token counters unavailable; usage unknown, not zero.",
+    "Vacuum field and empty chamber-envelope geometry only; no human engineering acceptance, installed nonlinear steel response or reconstruction efficiency."
+  ],
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "71406b09fa2d3fbfa119dba61e436f8fad1d11ac",
+    "branch": "codex/twelvefold-toroid-prototype",
+    "initial_changes": [],
+    "result_commits": [
+      "67ca473f35ed1469f40eed6183dadd5e5c0bd6f7",
+      "875a2db7a8510bcc553b6864a282542a4ac161d0"
+    ],
+    "changed_files": [
+      ".github/workflows/validation.yml",
+      "docs/design/DES-039-twelvefold-toroid.md",
+      "docs/validation/DES-039/chamber-outlines.json",
+      "docs/validation/DES-039/energy.json",
+      "docs/validation/DES-039/field-components.npz",
+      "docs/validation/DES-039/geometry-3d.png",
+      "docs/validation/DES-039/geometry-rz-xy.png",
+      "docs/validation/DES-039/geometry.vtp",
+      "docs/validation/DES-039/independent-grid-study.json",
+      "docs/validation/DES-039/independent-grid-study.py",
+      "docs/validation/DES-039/independent-response-controls.json",
+      "docs/validation/DES-039/independent-response-controls.py",
+      "docs/validation/DES-039/joint-field.npz",
+      "docs/validation/DES-039/joint-field.png",
+      "docs/validation/DES-039/map-metadata.json",
+      "docs/validation/DES-039/muon-response.png",
+      "docs/validation/DES-039/operating-point-energy.json",
+      "docs/validation/DES-039/results.json",
+      "docs/validation/DES-039/results.md",
+      "docs/validation/DES-039/review-coverage/coverage.csv",
+      "docs/validation/DES-039/review-coverage/coverage.json",
+      "docs/validation/DES-039/review-coverage/coverage.png",
+      "docs/validation/DES-039/review-coverage/independent-spotchecks.json",
+      "docs/validation/DES-039/review-coverage/response-comparison.json",
+      "docs/validation/DES-039/review-coverage/response-comparison.py",
+      "docs/validation/DES-039/review-coverage/review.json",
+      "docs/validation/DES-039/review-coverage/rz-envelope.png",
+      "docs/validation/DES-039/review-coverage/xy-envelope.png",
+      "docs/validation/DES-039/transition-scan.csv",
+      "logs/design/SESSION-2026-10-19-pr87-coverage-views.json",
+      "logs/design/SESSION-2026-10-19-pr87-coverage-views.md",
+      "project/tracking.json",
+      "tools/toroid_prototype/README.md",
+      "tools/toroid_prototype/design.json",
+      "tools/toroid_prototype/review_views.py",
+      "tools/toroid_prototype/run.py",
+      "tools/toroid_prototype/test_geometry.py",
+      "tools/toroid_prototype/test_review_views.py",
+      "tools/toroid_prototype/test_system.py"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "magnets",
+      "muon chamber outlines"
+    ],
+    "related_ids": [
+      "DES-039",
+      "TASK-B-TOROID-12",
+      "PR-86",
+      "PR-87"
+    ]
+  },
+  "narrative": "logs/design/SESSION-2026-10-19-pr87-coverage-views.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 -B -m tools.toroid_prototype.energy_study",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Fresh complete5-row all-space energy study at changed coil geometry; waited for final process completion before runner."
+    },
+    {
+      "command": "python3 -B -m unittest tools.toroid_prototype.test_field tools.toroid_prototype.test_energy tools.toroid_prototype.test_geometry tools.toroid_prototype.test_system tools.toroid_prototype.test_map tools.toroid_prototype.test_review_views",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "49controls pass at the frozen source after slice-context addition;4.08s."
+    },
+    {
+      "command": "python3 -B docs/validation/DES-039/independent-response-controls.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "8response cases; maxrelative independently integrated response difference4.85e-14, source-refinementchange3.53e-6; newphysicalseamoverlap and deliberatelygappedfixturebothchecked."
+    },
+    {
+      "command": "python3 -B -m tools.toroid_prototype.run --skip-plots",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Fresh3,006,297-node joint vacuum field/current/energy/cold/response outputs;106.20s; mapSHA1219470d0246dd5d5facc81c34d84a572bd1509407a8d76c8273a03a1c48f493."
+    },
+    {
+      "command": "python3 -B docs/validation/DES-039/independent-grid-study.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "3066sampledprobes; max9.61mT/1.60%, RMS.800mT; exportedmap/local-eight-corner serializationdelta\u22641.12e-7T."
+    },
+    {
+      "command": "env MPLCONFIGDIR=/private/tmp/nodd-toroid-mpl XDG_CACHE_HOME=/private/tmp/nodd-toroid-cache /Users/salzburg/Documents/work/installed/acts-nodd/pyvenv/bin/python -B -m tools.toroid_prototype.run --plots-only",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "4existingfiguresregenerated; rootinspectedjointfield."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "67tasks/37documents/21reviewroundsvalidate."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "189curatedsessionrecordsvalidate."
+    },
+    {
+      "command": "python3 -B tools/agent_workflow/workflow.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Eightrolesandthreeworkflow skillsvalidate."
+    },
+    {
+      "command": "python -B -m tools.toroid_prototype.review_views --baseline-revision 71406b09fa2d3fbfa119dba61e436f8fad1d11ac --eta-step .0125 --phi-step-deg .25",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Final3scientificfigures+28800rayJSON/CSV+coarse/finesensitivity;60.526s; S2androotvisualQA; exactexecutedconfig/map/sourcehash checks pass."
+    },
+    {
+      "command": "V3 immutable git-show revision67ca473f35ed1469f40eed6183dadd5e5c0bd6f7 review and bounded consistency checks",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "49tests; allsource/artifact/controlhashes, sixenergymatrixscalings, coldunionMC.37sigma, componentmaps/masks/directnodes, 28800CSVrows/weights and figuresemantics pass. No blockingfindings. Authorship and scope limits disclosed in retainedreview.json."
+    },
+    {
+      "command": "git push origin codex/twelvefold-toroid-prototype; gh pr edit87 --body-file; gh pr comment87 --body-file",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Reviewedsource/reviewcommits published; PRbodyupdated and reply6266290111 posted. Connectorwrite403resolvedusingauthenticatedCLI; no automaticapprovalrejection."
+    },
+    {
+      "command": "Final project_records validate; session_log validate; session_log summary --milestone M1; git diff --check; reviewed-file SHA check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "67tasks/37documents/21reviewrounds;189sessionsvalidate;76M1sessionsclosed,35withusage,69knownturns. Allreviewedscientificfiles unchanged; usage for this taskunknown."
+    }
+  ]
+}

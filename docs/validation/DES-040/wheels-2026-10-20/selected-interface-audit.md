@@ -1,0 +1,9 @@
+W-A2 is a read-only SysArch planning assessment of base `a32558a419404dfe741182b6713ce1f31062fd37` plus the selected dirty DES039/040 contracts (full hashes in the paired JSON). The fallback mandate was supplied explicitly; native profile loading and human approval are not claimed.
+
+The selected axial arrangement is arithmetically feasible: the inner wheel has54.4mm nominal clearance to both HCAL and the moved ECT warm front, the barrel/endcap seams are50mm, and the outer wheel clears the rear carrier by100mm and world by250mm.
+
+Implementation must recertify the inner BT corridors and B2/B3 modules. A naive full radial inner wedge intersects BT legs; tilted straight edges are feasible but need whole-prism certification. A continuous B3 extension intersects the BT rounded return (15.1mm distance from centreline at R8.2,z11.7,phi0). The longer front lugs overlap B2's radial shell, so unchanged B2 length does not imply unchanged clearance.48front lugs grow from0.10m to0.60m, adding1.44m³ gross Al proxy/3888kg before union; update their actual endpoints and contact graph.
+
+Retained currents require a fresh shortened-geometry self/mutual energy calculation and joint map. Do not reuse the old geometry's inductance matrix or call current normalisation against superseded response targets. Verify energy-sized cold allocation fits warm. Both before/after layouts need the same new entrance/world/map domain and honest failure-aware denominators; the physical comparison changes both geometry and field.
+
+Actual checks were pinned-source/selected-contract reading and independent scalar/interface arithmetic in `pr90-W-A2-check.py`. No repository files changed. This is not a frozen implementation, native propagation, field-convergence, engineering-strength or final scientific-result assessment. A later PhysVal review must disclose this planning overlap.
