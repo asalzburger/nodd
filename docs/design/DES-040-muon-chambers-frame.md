@@ -40,6 +40,66 @@ while retaining each actual panel's full-precision dimensions and ID. These
 display families confer no manufacturing tolerance or chamber response. Use
 the existing blue material colour in all requested 2D shape views.
 
+## Selected wheel revision contract (2026-10-20, before implementation)
+
+**NODD DESIGN CHOICE, human-directed prototype:** the user selected “shorten the
+Endcap toroidal to make wheel fit” after the quantified alternatives above.
+Move each ECT front return outward by0.50 m, keeping the rear return fixed:
+centre abs(z)=9.50 m, half-length2.20 m, centreline ends7.30/11.70 m.
+Retain12-fold symmetry, phases, radii,0.60 m corner, uniform0.20×0.30 m current
+packs, and0.50×0.60 m warm reservations. The warm front becomes7.05 m.
+This authorizes the isolated numerical/outline candidate, not engineering sign-off.
+
+**NODD DESIGN CHOICE:** retain the exact existing operating ampere-turns and
+3 T solenoid source. Recompute the complete self/mutual vacuum energy and its
+energy-sized cold allocation for the shortened source; require that allocation
+to fit the retained warm reservation. Preserve homogeneous winding density.
+Do not retune current against the superseded8/9.5/11 m disk response targets;
+report actual changed-field/station consequences. HCAL magnetization and all
+engineering qualifications remain unresolved as in DES039. Historical magnetic
+artifacts stay immutable; the revised configuration/map is stored separately.
+
+**NODD DESIGN CHOICE:** keep500 mm chamber envelopes and0.70 m endcap bore.
+Put the inner wheel at abs(z)=6.7456 m, giving54.4 mm axial space to both HCAL
+and the new ECT warm front; the50 mm HCAL margin remains a provisional choice.
+Use12 whole trapezoids with centres15°+30°k and explicit corridors for the BT
+inner legs. Select straight trapezoid edges from physical full-volume clearance,
+not performance-plot tuning; record the final gap dimensions before generation.
+The recorded affine corridor has10 mm half-seam at the0.70 m bore base and
+360 mm half-corridor at the BT clearance-box inner edge R4.30 m; its extra10 mm
+beyond the required350 mm is a prototype certification margin. Exact inner
+wheel base-distance4.666416782 m and base widths0.354423346/1.901652879 m follow
+from mirrored straight sides and the5.45 m outer-vertex bound. Outer-wheel
+base-distance7.679008474 m and widths0.164140917/2.186062207 m follow from the
+8.45 m outer-vertex bound and20 mm seams. Source inputs/configuration retain
+full-precision values; no arbitrary shaped coil holes or radial fragments.
+Put the outer wheel beyond the fixed rear carrier at abs(z)=12.80 m, with24
+non-overlapping whole trapezoids,20 mm seams and outer bound8.45 m. The inner
+wheel retains outer bound5.45 m. These whole-sector outlines supersede the1.5 m
+ordinary-module radial cap only for the two new wheels; no monolithic MDT
+manufacturing, sag or response claim follows. Retain the middle wheel if its
+full-volume checks pass. Shorten B1 to half-length6.4456 m for the50 mm seam;
+study B3 extension to12.50 m using the original whole-module packing certificates
+to close the changed transition. Recalculate the actual inventory. Extend only
+front ECT frame attachments to the relocated case and verify connectivity and
+all physical chamber/coil/support interfaces.
+
+**NODD computational choice:** rerun before and after geometries with common
+entrance R4.35 m, half-z6.4684 m (midpoint between HCAL back6.4412 and inner
+wheel front6.4956), plus the retained10 µm forward offset. The original6.50 m
+cap would start inside the new wheel. Use common world half-z13.30 m and maps
+extending to abs(z)=14.3125 m on the existing0.0625 m grid, with unchanged
+strict invalid-stencil behavior. Extend the old field without altering old
+nodes; recompute the candidate field from the changed source. Compare the
+physical before/after systems honestly: geometry and field both change.
+Add a separately weighted4096 iid directions per endcap cap at seed906269 for
+precision, keeping the original display/4096sphere bank at seed906268.
+Keep the baseline endcap angular cut abs(eta)>=1.191571051278059 and all failure
+states in denominators, common direction IDs/local momenta/charges and the
+existing numerical controls. A fixed-field attribution control may supplement
+this physical comparison. Retain sector-gap geometric diagnostics separately
+from vacuum transport availability; neither is reconstructed efficiency.
+
 ## Requested follow-up
 
 The user requests a new PR following the PR87 reviews

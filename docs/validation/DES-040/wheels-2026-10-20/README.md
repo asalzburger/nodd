@@ -3,9 +3,12 @@
 DRAFT isolated PROTOTYPE. Starting revision `5674a7688319d6dd5179c04cd381cb59f48d36bb`.
 The [agreed reviewer decision](https://github.com/asalzburger/nodd/pull/90#issuecomment-6283618592)
 requests inner/outer endcap wheels outside the toroids, no overlap, a new OBJ,
-full/endcap coverage and blue shape inventories. The physical interface choice
-below remains pending. This directory contains preparatory evidence; no revised
-layout, new OBJ or after-layout coverage has been generated.
+full/endcap coverage and blue shape inventories. The user has now selected the0.50 m inner-end ECT shortening. The selected
+prototype geometry and new magnetic calculation are complete; native paired
+acquisition and revised export are in progress. The sections below retain the
+preparatory alternatives and before inventory; their earlier pending-choice
+statements are historical. See the governing selected contract in DES040.
+No reconstructed efficiency or engineering acceptance is claimed.
 
 ## Completed inventories
 
