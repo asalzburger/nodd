@@ -93,3 +93,7 @@ The portable interface checker extracts pinned sources from Git objects; it requ
 [All709 prior scientific source/evidence files](unchanged-evidence.json) in DES040/DES039/MUON001 and the muon/toroid tool paths remain byte-exact. Earlier dated candidates, OBJ/maps and broad ACTS studies remain historical controls. Uniform middle-wheel eta3 remains **UNMET**, and chamber internals, backgrounds, response, sag, alignment, construction and complete service integration remain open. DES039/DES040 remain DRAFT; no automatic check grants human acceptance.
 
 Separate exact-artifact PhysVal review is required before publication; its result will be linked here after the frozen artifact assessment.
+
+## Scope-label correction after artifact freeze
+
+SS-P1 identified one inherited global-limit sentence in the frozen validation JSON: it called all geometric fractions central-barrel quantities even though the full_sphere block correctly declares full4pi. The current JSON scopes that limit to geometric_bank; full_sphere retains its explicit full4pi definition. The future validation wrapper receives the same string-only correction. All scientific fields, raw data, masks, geometry, export and figure bytes remain unchanged, with the original report hash and a canonical scientific-field hash recorded in metadata_amendment. Execution source_revision/source_sha256 intentionally remain the actual65cf274 sources; this correction is not new acquisition. The independent assessment distinguishes the original11ec9bb target from this metadata amendment.

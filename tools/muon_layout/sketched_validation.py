@@ -292,7 +292,7 @@ def run(args):
         seed=SEED, native_reports=reports, native_commands=commands, full_sphere=sphere,
         geometric_bank=dict(directions=65536, sampling='32768 iid uniform cos(theta) within 0<abs(eta)<1, mirrored to 65536 rows; geometric barrel proxy',
                             eta_abs_range=[ETA_MIN, ETA_MAX], results=geometric),
-        limits=['Geometric fractions use the declared barrel band, not full 4pi.',
+        limits=['Only geometric_bank uses the declared central barrel band; full_sphere uses the separately declared full4pi iid bank.',
                 'Curved run is only a 256-track smoke check; unfinished and field-masked rows are retained.',
                 'No material scattering, energy loss, chamber response, segment fit or reconstructed efficiency.'])
     save(args.output / 'validation.json', report)
