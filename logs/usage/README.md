@@ -283,3 +283,21 @@ current PR6 update turn is active and excluded. One newly closed preceding
 PR62 synchronization turn was imported into its own original record, adding
 3,472,126 input and 14,452 output tokens (3,486,578 total) to project accounting.
 Unassigned historical observations retain their earlier disposition.
+
+
+## PR89 IdRes study accounting — 2026-10-20
+
+[The PR89 inventory](USAGE-2026-10-20-pr89-accounting.json) recovers three closed
+turns from the explicitly selected desktop chat:67 observed requests, with two
+repeated cumulative snapshots excluded and no outside-turn observations.
+All three turns belong to the original IdRes comparison and its continuation;
+none had an existing canonical owner. Interrupted/failed client statuses retain
+their observed consumption.
+
+The [original IdRes session](../codex/SESSION-2026-10-19-odd-idres-comparison.md)
+now owns **12,783,549 input + 53,939 output = 12,837,488 observed tokens**.
+Cached input12,530,816 and reasoning output15,583 are subsets, not additions.
+Dry-run/import/replay verified unique ownership; replay adds nothing.
+The active accounting/readiness follow-up remains excluded until it closes.
+The inventory is supporting evidence and must never be added again to the
+journal subtotal. Client version and actual execution model remain unknown.
