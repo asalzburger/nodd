@@ -109,3 +109,7 @@ Project validation passes69tasks/38documents/21reviewrounds; journal validation 
 Staged whitespace check found default CSV CRLF line endings in new files. Generator now emits LF; inventories regenerated without numerical changes and footprint check repeated successfully. Original unstaged whitespace check had not covered untracked files.
 
 Completed28project/documentation and33journal tests: all61pass. Expected unavailable-history negative fixture emits a git error before passing; it is not an unresolved remote failure. Final staged whitespace check passes after LF correction.
+
+## Publication and still-pending work
+
+Preparation commit6089993659d58ae46aa5fb7cb700e231535410f2 pushed and PRhead verified. GitHub connector comment write returned403integration-permission error; existing authorized GitHub CLI session posted the prepared partial-status reply athttps://github.com/asalzburger/nodd/pull/90#issuecomment-6283825776 (exit0). No automatic approval rejection occurred. The reply links the blue inventories and physical alternatives, expressly leaving candidate geometry/newOBJ/aftercoverage pending. Follow-up record-only commit retains this publication evidence. Session remains open and task blocked on the same physical choice. No design approval or task completion claimed.
