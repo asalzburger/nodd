@@ -51,3 +51,14 @@ No ACTS runtime or new propagation is needed. The original geometry, field,
 OBJ, inventories, coverage and dated scientific evidence are preserved. The
 parent evidence-index README gains a link; its earlier manifest fingerprint
 remains reproducible at the baseline revision rather than being rewritten.
+
+[Independent final-figure assessment](review/figure-review.md) at
+`a914323fdc6a7fed15468e396c0a583041862530` found no unresolved material finding.
+[Actual figure checks](review/figure-check.json) compare every displayed polygon
+with independent plane cuts, verify all artifacts/source hashes and vector SVGs,
+and confirm preservation of prior scientific evidence.
+
+Portable checkers: [input/display checks](review/input-check.py)
+and [final figure checks](review/figure-check.py), each accepts
+`--repo REPOSITORY --revision FULL_SHA --output RESULTS.json`.
+They read immutable Git inputs and need NumPy; no ACTS execution is performed.

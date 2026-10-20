@@ -36,3 +36,39 @@ Preflight exit2 flags changedsetup/lock; warned beforedependentwork. Freshsetup 
 XY-P1 source99bb independent16,332body/planechecks and2,359,296analyticcoilqueries pass, adverseface/outside/tangentfixtures pass; no blockingfinding. Itassessesinput/displaycontract, notfinalfiguresorengineeringacceptance. Portableinputchecker requestedforretention; finalfigureassessment follows exactcommitfreeze.
 
 Firststagedwhitespacecheck exited2 onMatplotlibSVGtrailingblanks; the batchedcommandsequencecontinuedtocommitd26599c. Thiswasnotyetpushed. CorrectednewgeneratorSVGformattingto stripline-endblankswhilepreservinglinebreaks/pathnumbers andexplicitpathfontmode; ordinaryfollowupcommitbeforereview/publication, nohistoryrewrite. Allnumericaloutputs/PNGpixels mustmatch; finalSVGpathsemanticcomparisonandstagedcheck requiredbeforepush.
+
+## XY-P2 assignment (before dispatch)
+
+```json
+{
+  "id": "XY-P2",
+  "role": "PhysVal",
+  "input_revision": "a914323fdc6a7fed15468e396c0a583041862530",
+  "inputs": [
+    "tools/muon_layout/wheels_xy.py",
+    "docs/validation/DES-040/wheels-2026-10-20/xy-sections/README.md",
+    "docs/validation/DES-040/wheels-2026-10-20/xy-sections/sections.json",
+    "docs/validation/DES-040/wheels-2026-10-20/xy-sections/provenance.json",
+    "docs/validation/DES-040/wheels-2026-10-20/xy-sections/endcap-wheels-xy.png",
+    "docs/validation/DES-040/wheels-2026-10-20/xy-sections/endcap-wheels-xy.svg",
+    "docs/validation/DES-040/wheels-2026-10-20/xy-sections/unchanged-inputs.json"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Final bounded actualfigure assessment at exacta914323fdc6a7fed15468e396c0a583041862530. You authoredXY-P1independentinputchecks, none ofrootplotimplementation; disclosecontext. InspectactualcommittedsectionsJSON versuspinnedgeometry99bb andindependentXY-P1expectedcuts/IDs/supportstockcounts/coils. Verifyactualartifacts/provenancehashes, common\u00b110mequalaxes, bluechambers/greycoil andhollowframestocksections; no projections/cropping/mirrors/physicschanges. VisuallyinspectcompositePNG andoneindividualPNG, verifyallSVGXMLparse andno rasterimage tags. Rootalreadyprovedall4PNGs/sectionsbyteidenticalandSVGpathsemanticidenticalbefore/afterformatfix. Reuseyourindependentexpectedcuts, no newbroadtests/ACTS. NeedconciseMD/JSON withactualcheckresults, no unresolvedmaterialfindingsifnone andlimitations, scratchonly /private/tmp/pr90-XY-P2-*. No repo/source/dependencyedits,nestedagents,externalmessages/humanapproval. Finalcurrentdocsaddlinksrecordonlyafterthisreview; allactualfigurebytes/sourcefrozenhere.",
+  "deliverable": "Briefexactrevisionactualfigure report/JSON andmeaningfulcheckevidence in scratch.",
+  "completion": "CorrectactualthreewheelXYsectionsandlegibilityverified; materialfindingsreportedbeforepublication; no engineeringapproval."
+}
+```
+
+## Actual final-figure review and publication
+
+XY-P2 at a914323fdc6a7fed15468e396c0a583041862530 finds no unresolvedmaterialfinding. Independentcuts matchactual144chamber/216stock/72coilpolygons,0vertexresidualafterpinnedrounding; all9artifacthashes/sizes,5sourcehashes, all4SVGXML/no-rasterchecks pass. CompositeandmiddlePNG visuallyinspectedlegible/uncropped. All201baselineevidenceGitblobs unchanged; parentREADMEindexoldbytesprefix retained. SourceexecuteduncommittedatgenerationHEADbutactualSHA matchesreviewedfrozenbytes; no cleancommittedgenerationclaim. Reports copiedunchanged; rootrequestsportableadaptationoffinalchecker toremove scratch-only dependencies beforefinalretention.
+
+PR90head a914323 verifiedafterpush; bodyaddsPNG/SVG/individualviewlinks withoutremovingexistingcontent. Reply posted: https://github.com/asalzburger/nodd/pull/90#issuecomment-6285801467 . DirectpublicPNGembedusesimmutablea914source. No merge, geometry/field/OBJ/inventory/propagationrerun ordesignsignoff.
+
+## Closeout
+
+FinalportableXY-P2adaptation gitshowsallinputs andindependentmath, CLIrepo/revision/outputonly; rerunresultJSONbyte-identicaltooriginalassessment. Retainedsource/results inxy-sections/review withoriginalreportunmodified; scratchfilenames mappedbyREADME. All9drawingartifact/5sourcehashes unchanged afterreview; maintainedlinksresolve. Current69task/38document/21round and194session validators pass; sessionusage summary/tokenpreviewbuilt. Exactcurrentroot/childtokens unavailable:usageempty, notzero. Historicalpreview210disjointturns/624299405observedtokens mustnotbeallocatedtocurrenttask.
+
+Publicationreply https://github.com/asalzburger/nodd/pull/90#issuecomment-6285801467; PRbodyaddsimmutablePNG/SVG/indexlinks, a914323publishedheadverified. At2026-10-20T07:32:54Z remotechecksbuildIN_PROGRESS/token-siteSUCCESS/deploySKIPPED; no scientificbuildpassclaim. Finalrecord/review-onlycommit follows inGit history. Thisboundeddisplaytaskclosed denotesdeliveredreviewfigures, no physicaldesignchange/signoff/engineeringacceptance. Datedgeometry/magnetics/OBJ/inventories/propagation andbaselineartifactmanifest remainunchanged; onlyparentindexappendlinkisdocumentedexception.
