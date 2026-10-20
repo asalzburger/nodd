@@ -92,7 +92,16 @@ The portable interface checker extracts pinned sources from Git objects; it requ
 
 [All709 prior scientific source/evidence files](unchanged-evidence.json) in DES040/DES039/MUON001 and the muon/toroid tool paths remain byte-exact. Earlier dated candidates, OBJ/maps and broad ACTS studies remain historical controls. Uniform middle-wheel eta3 remains **UNMET**, and chamber internals, backgrounds, response, sag, alignment, construction and complete service integration remain open. DES039/DES040 remain DRAFT; no automatic check grants human acceptance.
 
-Separate exact-artifact PhysVal review is required before publication; its result will be linked here after the frozen artifact assessment.
+The separate [PhysVal assessment](review/physics-review.md), [portable checker](review/physics-check.py) and [actual results](review/physics-check.json) assess exact artifact revision `11ec9bb670bca2b882929d1d2b4ef7d9da534da6`. Independent ray/SAT/native-event/SVG mathematics reproduce the reported counts, masks, spacing, 437,580 chamber pairs, 151,008 changed-panel/support considerations, native events, four OBJ exports and both ZIPs. Coil-distance proof replay reuses the declared implementation kernel and is explicitly not independent coil mathematics. The sole minor scope-label finding is resolved in the [exact amendment assessment](review/amendment-review.md), [checker](review/amendment-check.py) and [results](review/amendment-check.json) at `1d9a49fee5651e41855bd5ad6fdb6adc475b0407`; all 80 other dated raw/artifact files remain byte-identical. No numerical correction or engineering acceptance is claimed.
+
+Portable independent checks (Python + NumPy; no ACTS runtime):
+
+```sh
+python3 -B docs/validation/DES-040/sketched-stagger-2026-10-20/review/physics-check.py \
+ --repo . --output /private/tmp/pr90-SS-P1-independent-replay.json
+python3 -B docs/validation/DES-040/sketched-stagger-2026-10-20/review/amendment-check.py \
+ --repo . --output /private/tmp/pr90-SS-P1-amendment-replay.json
+```
 
 ## Scope-label correction after artifact freeze
 

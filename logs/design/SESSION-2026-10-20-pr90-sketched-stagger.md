@@ -110,3 +110,33 @@ Artifact freeze11ec9bb670bca2b882929d1d2b4ef7d9da534da6 precedes this separate f
 ```
 
 SS-P1 reproduced primary rays/SAT/spacing and found a minor stale global-limit sentence in validation JSON, inherited from the old central-only wrapper. Root corrects only its scope string and the future source string; JSON metadata_amendment preserves original11ec9bb reportSHA, actual65cf274 execution source and a canonical hash of all unchanged scientific fields. Raw native/ray/geometry/OBJ/figure bytes are unchanged. No numerical rerun is warranted for this label correction. Exact amendment review follows the committed change.
+
+## SS-P2 before dispatch
+
+String-only scope amendment committed before follow-up assessment.
+
+```json
+{
+  "id": "SS-P2",
+  "role": "PhysVal",
+  "input_revision": "1d9a49fee5651e41855bd5ad6fdb6adc475b0407",
+  "inputs": [
+    "docs/validation/DES-040/sketched-stagger-2026-10-20/README.md",
+    "docs/validation/DES-040/sketched-stagger-2026-10-20/native-validation/validation.json",
+    "tools/muon_layout/sketched_validation.py"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Bounded follow-up to independent SS-P1 assessment of original11ec9bb670bca2b882929d1d2b4ef7d9da534da6. Assess exact1d9a49fee5651e41855bd5ad6fdb6adc475b0407 scope-label amendment: compare source validation module and validationJSON against original11ec9bb, confirm only global limits sentence and explicit metadata_amendment changed, all scientific fields equal with canonicalhash and originalreportSHA correct. Retained execution source65cf274 remains factual; future source change string-only, no new execution implied. Verify raw geometry/NPZ/nativeevents/OBJ/figures and all other scientific files value/byte-identical to11ec9bb. README scope clarification correct, no newphysics needed. Use exactGitobjects only, repo read-only; scratch /private/tmp/pr90-SS-P1-* only. No rerun whole numerical/native scan or dependencies, commits, nestedagents/externalmessages. Return portable metadata-amendment checker/report/JSON or same finalreport preciseaddendum; note originalstale sentence nowresolved. Originalrolemandate remainsfullyapplicable; noengineeringacceptance.",
+  "deliverable": "Exact-commit metadata correction addendum with actual checks/hashes and unchanged-science evidence.",
+  "completion": "Scope-label finding resolved without altered scientific results or false source/acquisition claim."
+}
+```
+
+## Independent assessment reconciliation
+
+SS-P1 exact11ec9bb independently reproduces all primary rays/paireduncertainties/componentcontrols/lossclasses/spacing,437580panels pairs,151008changed-panel/support comparisons, nativefiniteevents/corners,4OBJexports/ZIPs/inventories/SVG,20sourcearchiveblobs and709prioridentities. Coil-distance helper reproduction is explicitly not independent coil mathematics. Final normalized-edge checkerSHA25627bbd537db22348598ad796c63a911d8cbd7f2ead6545761878867731ccc4fd6 passes in60.252s in independent systemPython3.14.6/NumPy2.5.1; prior3d6checker is superseded. Parser-only initial curved-depth/input-header fixes and unit normalization are documented in reviewerreport; no sourcephysics/rawartifact/tolerance requirement changed.
+
+SS-P2 exact1d9a49fee5651e41855bd5ad6fdb6adc475b0407 verifies the scope-label correction and resolvesF1: all80other dated artifactfiles unchanged, scientificJSON canonicalhash23af330273597f01e3643f8470e5e1a5903178c7b2fcc46e6a0b138d2783776b equal; actual65cf274 executed-source identity remains correct. Root standard-library amendment replay also passes. No newfield/native scan for this metadata-only correction. No engineeringapproval is inferred.
+
+Coordinator final27bbd537 portablechecker replay passes at exact11ec9bb in59.731s; finalresult/log retained underreview/coordinator-*. Earlier intermediate3d6replay also exited0 but is not the publishedfinalchecker. Root validators pass199sessionrecords,69tasks/38documents/21reviewrounds and8roles/3skills. Usage/site checks retain210disjoint historicalobservedturns/624299405tokens; this task has no exactcounter observation.
