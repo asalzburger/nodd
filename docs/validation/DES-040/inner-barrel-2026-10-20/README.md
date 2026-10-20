@@ -8,6 +8,8 @@ DRAFT / isolated PROTOTYPE responding to [PR90 comment6288294033](https://github
 
 [Vector version](views/inner-barrel-feasibility.svg) · [Actual displayed source polygons and hashes](views/views.json)
 
+The upper panels show a common cropped XY detail around one inner C12 cell at z=+1m. All24source facet cuts are retained in JSON. Steel/cover are actual occupied source subsets; the fixed frame is omitted only from this transverse detail. Plotting source freeze: `5d50357ce7c564ddab9fbd1b0eb7361b04b07ccd`.
+
 ## What prevents the proposed inward stagger
 
 The coil-plane B1 chambers currently sit at apothem5.20m with radial depth0.50m, their inner face4.95m above the BT warm outer face4.85m. The proposal moves those twelve facet columns beneath the BT inner straight legs, retaining and widening the inter-coil columns. The second bullet is interpreted as tangential extent, consistent with the requested transverse stagger; the current4m maximum z seed is retained.
