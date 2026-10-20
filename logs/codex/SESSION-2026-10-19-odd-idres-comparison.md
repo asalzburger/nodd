@@ -93,3 +93,38 @@ private client store was inspected and no counters were estimated.
 Review the Documentation PR and the stated ideal-layer/material/response scope.
 Physical DD4hep material comparison, source licence/access closure and full
 reconstruction remain separate tasks. No sign-off is requested or inferred.
+
+
+## Dated accounting correction — 2026-10-20
+
+At the user's request for PR89 accounting, the existing read-only usage recovery
+verified the explicitly selected desktop chat. Three closed turns (one
+interrupted, one client-labelled failed, one completed) all belong to the same
+original IdRes task and its continuation. Their 67 observed requests reconcile
+against cumulative increases; two repeated snapshots add nothing. No existing
+canonical record owned these turn IDs. The failed/interrupted labels do not
+erase their observed consumption. The match is based on the user-visible task,
+this journal and the PR89 creation/continuation in the retained conversation,
+with exact ordinal/time boundaries in the evidence inventory.
+
+Imported into this original session, once:
+
+| Counter | Observed tokens |
+| --- | ---: |
+| Input | 12,783,549 |
+| Cached input (subset) | 12,530,816 |
+| Output | 53,939 |
+| Reasoning output (subset) | 15,583 |
+| Input + output | **12,837,488** |
+
+The [curated inventory](../usage/USAGE-2026-10-20-pr89-accounting.json) retains
+all five exact counters, client turn boundaries, request counts, event digests,
+matching rationale and canonical ownership. `import-usage --dry-run` passed;
+the actual import added3 entries; replay found3 unchanged and0 additions.
+The earlier statement that usage was unavailable describes the initial closeout
+and is superseded by this dated correction. No earlier evidence is discarded.
+
+The active 2026-10-20 accounting/readiness follow-up is expressly excluded;
+its final counters are not yet available. Model identity and client version
+remain unknown. This is observed usage, not a billing/cost estimate. Inventories
+are evidence copies, never extra usage added to canonical journal totals.
