@@ -43,3 +43,11 @@ All **117 relevant Python tests** pass: 12 solenoid, 26 magnetic, 8 IdRes,
 28 project-record, 33 logging/recovery and 10 token-site controls. Chart
 interaction, retained data/artifact hashes, project/session validators and
 token-site preview also pass. No native geometry/runtime check is claimed.
+
+Published ordinary merge `6c98618b9ab0eee62be1c1e4c72f2c03ae8aa0af` and updated PR64 description with the
+shared-turn count and ownership. GitHub publication snapshot reports
+mergeable `MERGEABLE` and state `UNSTABLE`; hosted CI remains
+pending. This following journal-only closeout records the real merge revision;
+it does not change scientific evidence or token counters. The PR stays open.
+Journal closeout 2026-10-20T15:40:56Z is curation, not an active-turn usage boundary.
+Final-head hosted results are verified separately before reporting readiness.
