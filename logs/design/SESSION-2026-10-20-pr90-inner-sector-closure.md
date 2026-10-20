@@ -55,3 +55,41 @@ IC-A1source15015independentlyproveslocalBTwarm[4.35,4.85]×±.30and50mmreserved[
 Beforeviewimplementation, DES040andstudypagerecordoptional2band/3diagnosticrules,classificationsandlimits. Newinner_closure_views.py usesretainedcheckdimensions andSHA-guardedcurrentphysics, outputsseparatedisplaypolygons/PNG/SVG/provenance only. BothPNGsrootvisuallyinspected, labelcontrastfixedbeforefreeze. Comparisonclearlylabelsunadoptedandfailedminspan; planarareaandfull-depthraylossdifferentdenominators, noACTS/efficiencyclaim. NegativeclosinggapfixturefailsBTcertificateasexpected.350oldscientific/sourceblobsexactlyunchanged; onlyoldindexappendlinkandDES040unadopted-studycontractarechangesoutsidethenewdirectory.
 
 InitialassignmentJSwrapperhadsyntaxerrorbeforeanymutation, retriedsuccessfully. Nodepreflightagainwarnssetup/lockfingerprints; warnedbeforefreshsetupverification andplottingruntimeNumPy2.5.4/Matplotlib3.11.2. Nonfatalsysctlrestriction; cachesprivate/tmp. NoACTStransport/build/source/shareddependencychanges.
+
+## IC-P1 beforedispatch
+
+{
+  "id": "IC-P1",
+  "role": "PhysVal",
+  "input_revision": "0d7a815fc299c971be1c6af3911c50e9f0a9b585",
+  "inputs": [
+    "docs/design/DES-040-muon-chambers-frame.md",
+    "docs/validation/DES-040/inner-closure-2026-10-20/README.md",
+    "docs/validation/DES-040/inner-closure-2026-10-20/review/module-check.py",
+    "docs/validation/DES-040/inner-closure-2026-10-20/review/module-check.json",
+    "docs/validation/DES-040/inner-closure-2026-10-20/review/interface-report.md",
+    "docs/validation/DES-040/inner-closure-2026-10-20/review/interface-check.json",
+    "docs/validation/DES-040/inner-closure-2026-10-20/views-provenance.json",
+    "docs/validation/DES-040/inner-closure-2026-10-20/display-polygons.json",
+    "docs/validation/DES-040/inner-closure-2026-10-20/unchanged-evidence.json",
+    "docs/validation/DES-040/inner-closure-2026-10-20/inner-closure-comparison.png",
+    "docs/validation/DES-040/inner-closure-2026-10-20/bt-clearance-detail.png",
+    "tools/muon_layout/inner_closure_views.py",
+    "docs/validation/DES-040/wheels-2026-10-20/candidate/geometry.json"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Independent final scientific/claim/figure assessment at exact0d7a815fc299c971be1c6af3911c50e9f0a9b585 forPR90comment6285814869. You didnotauthor closurestudy/implementation. Primarysourcefirst: current12longtraps fixed BT50mmclearance slots vs unavoidablegeometry; optional2bands24/end2families and3slot36/end3families notadopted. Independently derive full-depthsame-module straightIPsolidangle/planararea fromactualdimensions/bases, checkidealannulusdenominator/borderproxy/seamradialcrossing effects andclaimed30.1538/19.1703/27.9720percentloss. Sourceconstructvalidconvexfootprints; verifynegativewitness20mmseamclosingcollidesactualBT acrossdepth, distinctA1conservativeouterbandzero vsM1optimized0.410664 nonzero clearlylabelled. Reviewactualsourcehashes/polygons/PNG+SVG/provenance,3bandfailsold0.50minimum and2bandrequiresno-tiling/cassetteamendment, no newACTS/efficiency/engineeringclaim. Check350oldscientificsourceGitblobidentities andindexappendexception, DES040onlyunadoptedstudyappend. M1actualfullvolumecoil/SAT and1,048,576commonraybankpassed; A1independentinterfacepassed; no needbroadscientific/ACTSrerun. Usefocusedindependentmath/counterchecks (samplebankifneeded), selectedoccupiedcorner/fullvolumeboxchecks; visuallyinspectbothactualPNGs. Promptmaterialfindings to root; conciseMD/JSON andportablecheckerifneeded scratchonly /private/tmp/pr90-IC-P1-*, no absoluteprivatepaths inretainedoutputs. No repo/source/dependencyedits,nestedagents,externalmessages/approval. Futureeditonlydoclink/logcloseout withdata/sourcebyteproof; thisisFeasibilityQuestionanswer notchosennewcandidate.",
+  "deliverable": "Exactrevision independentPhysValreport/JSON and actualfocusedcheck evidence, with findings/limits and no approval claim.",
+  "completion": "Numbers, physicalcause/conditionalclosureanswer, unadoptedlimits anddrawings independently assessed; no unresolvedmaterialclaim defect."
+}
+
+## Independent IC-P1 outcome and publication preparation
+
+Child contexts: `/root/inner_closure_modules` (IC-M1), `/root/inner_closure_interfaces` (IC-A1), and `/root/inner_closure_validation` (IC-P1). Complete fallback contracts preceded dispatch. IC-P1 did not author the closure study. At exact `0d7a815fc299c971be1c6af3911c50e9f0a9b585`, independent halfspace clipping and Green-theorem integration reproduce every headline area/ray/border value; the separate 65,536-ray bank agrees within 0.61 sigma. It confirms 864 BT-box separation checks, adverse occupied and rotated-bound fixtures, the distinct thin-band examples, actual display vertices/SVG transforms, all artifact/source hashes and 350 unchanged scientific blobs. Both actual PNGs were visually inspected. No material defect was found within this bounded technical assessment; this is not human sign-off.
+
+The system-Python scratch rerender stopped because Matplotlib is absent; no dependency changed and direct SVG/PNG evidence checks completed. A transient capacity failure occurred after the completed check/results; the child was asked only to finish its concise report. The retained portable checker rerun passed. After the frozen target, README spacing was improved and the final denominator wording clarified: common across layouts for each metric, with distinct planar-area and whole-depth solid-angle denominators. Numeric evidence, plots, executed code and current geometry remain byte-identical to the reviewed target.
+
+Normal push of `0d7a815` succeeded and GitHub metadata confirmed the exact PR head. The reviewer reply/body are prepared with immutable figure links; no adoption or ACTS efficiency claim.
+
+IC-P1's concise report was successfully delivered after retry. The final portable checker explicitly includes M1 script hash and every A1 input identity; replay of this retained version passes with byte-identical result JSON. All five plot artifacts, six plot-source hashes and maintained links reconcile. Final technical assessment remains no unresolved material finding within scope. The denominator editorial observation is resolved in the study README without changing the numerical evidence.
