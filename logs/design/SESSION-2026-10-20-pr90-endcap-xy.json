@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-20-pr90-endcap-xy",
+  "title": "PR90 three endcap wheel x-y cross-sections",
+  "recorded_at": "2026-10-20T07:23:12Z",
+  "started_at": null,
+  "ended_at": null,
+  "status": "open",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact per-turn root/child token counters and original conversation start/client version are unavailable; usage remains empty, not zero."
+  ],
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": "01a142fe-aeff-7a72-a51f-edbcc74643b8"
+  },
+  "git": {
+    "start_commit": "99bb67a6d3a65d4ef6de30ff2def8698b3ed053d",
+    "branch": "codex/muon-chamber-layout",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": []
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "muon endcap wheel visualization"
+    ],
+    "related_ids": [
+      "DES-040",
+      "PR-90",
+      "TASK-B-MUON-WHEELS"
+    ]
+  },
+  "narrative": "logs/design/SESSION-2026-10-20-pr90-endcap-xy.md",
+  "activities": [
+    {
+      "kind": "skill",
+      "name": "nodd-coordinate and nodd-review-validation",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Explicit bounded PhysVal fallback XY-P1 input/display assignment; source99bb. No native profile loading claim."
+    },
+    {
+      "kind": "skill",
+      "name": "acts-spack",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Preflight warns changed setup/lock; warned then freshsetup/runtime verified plotting imports only. No ACTS transport/build/source changes."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "acts-spack preflight.py",
+      "status": "FAIL",
+      "exit_code": 2,
+      "result": "Recorded setup/lock fingerprints changed; warning reported beforedependentplottingruntime use."
+    },
+    {
+      "command": "fresh source acts_setup.sh; setup_spack; spack env status; installedPython NumPy/Matplotlib import",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Active ci-dependencies; installedPython NumPy2.5.4/Matplotlib3.11.2. Restricted sysctl anddefaultfontcachewarnings nonfatal; actualplot useswritableprivate/tmp caches."
+    },
+    {
+      "command": "installedPython -B -m tools.muon_layout.wheels_xy",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "3positivewheelcuts;12/108/24chambers,24/48/0coils,120/96/0stockparts; all150000membershipqueries and144offplanechecks pass; globalnegativefootprints match. CompositePNG visuallyinspected; common\u00b110m axes."
+    },
+    {
+      "command": "XY-P1 portable independentinputchecker at99bb67a6d3a65d4ef6de30ff2def8698b3ed053d",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "16332body-plane comparisons, adverseface/outside/tangentfixtures and2359296coilqueriespass; portableadaptation preservesall numericalresults."
+    },
+    {
+      "command": "Allbaseline artifactmanifest fingerprints exceptappendedindexlink; originalindexprefix comparison",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "201baselinefiles unchanged; oldindexbyte-exactprefix retained, manifestimmutable."
+    }
+  ]
+}

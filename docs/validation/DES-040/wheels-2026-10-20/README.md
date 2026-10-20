@@ -177,3 +177,11 @@ is for the original page at6089993, preserved byte-exact in preparation-README.m
 the current result page supersedes it.
 Earlier pending-choice statements in these pinned historical inputs are superseded
 by the selected DES040 contract, not rewritten as completed evidence.
+
+## Three-wheel x–y cross-sections (PR90 follow-up)
+
+[Common-scale inner, middle and outer endcap sections](xy-sections/README.md)
+show the actual positive-wheel planes in blue, with grey intersecting coil/frame
+context. PNG, vector SVG, individual wheel views and source polygons are included.
+This drawing-only addition preserves the earlier scientific inputs/results and
+frozen artifact manifest; the earlier index fingerprint is available at99bb67a.
