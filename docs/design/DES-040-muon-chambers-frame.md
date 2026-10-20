@@ -3,10 +3,10 @@
 - Status: DRAFT
 - Scope: isolated chamber and warm-frame PROTOTYPE
 - Created: 2026-10-19
-- Governing magnetic input: PR87, `fe372194038ed2af9617c27defffba09ae6d683f`
+- Original magnetic input: PR87, `fe372194038ed2af9617c27defffba09ae6d683f`; current shortened-ECT candidate below
 - Human engineering acceptance: none
 
-## Review-directed wheel revision under study (2026-10-20)
+## Review request and original interface conflict (2026-10-20)
 
 The agreed [PR90 decision](https://github.com/asalzburger/nodd/pull/90#issuecomment-6283618592)
 requests full trapezoid wheels for the inner and outer endcap stations, placed
@@ -29,9 +29,9 @@ or magnet-interface change must be explicitly selected before implementing that
 wheel. Barrel coil legs and the carrier frame also require full-volume checks.
 The [interface study and baseline inventories](../validation/DES-040/wheels-2026-10-20/README.md)
 retain the quantified alternatives and common coverage protocol.
-The meaning of “adapt the longitudinal length” is being clarified with the user;
-new station coordinates and any permitted magnetic change will be recorded here
-before geometry generation. Preserve all previous configurations and evidence.
+The user subsequently selected ECT shortening; the pre-implementation contract
+below records the permitted changes. Previous configurations and evidence remain
+immutable historical controls.
 
 **NODD display choice:** inventory rectangle shapes by tangential width, axial
 length and depth; inventory trapezoids by radial span, inner/outer base widths
@@ -100,14 +100,15 @@ existing numerical controls. A fixed-field attribution control may supplement
 this physical comparison. Retain sector-gap geometric diagnostics separately
 from vacuum transport availability; neither is reconstructed efficiency.
 
-## Requested follow-up
+## Original chamber/frame proposal (before ECT shortening)
 
 The user requests a new PR following the PR87 reviews
 [4313407952](https://github.com/asalzburger/nodd/pull/87#discussion_r4313407952)
 and [4313456506](https://github.com/asalzburger/nodd/pull/87#discussion_r4313456506):
 rectangular barrel chambers, trapezoidal endcap chambers, a realistic layout
 covering the full solid angle, and a frame with feet connecting and holding the
-coils. This proposal is stacked on PR87 and does not amend its magnetic system.
+coils. This original proposal was stacked on PR87 without changing its magnetic
+system; the selected wheel amendment above now changes the ECT axial extent.
 
 **FACT about recorded input:** [DES-039](DES-039-twelvefold-toroid.md) fixes
 12 barrel and 12 coils per endcap, their finite winding/cold/warm reservations,
@@ -117,7 +118,7 @@ The nominal three station radii are 5.2/6.7/8.2 m and disk planes are at
 choices, not measured ATLAS dimensions. The present study replaces the ideal
 continuous chamber shells by individually identified planar chamber envelopes.
 
-## Geometry contract before implementation
+## Original geometry contract before implementation
 
 **NODD DESIGN CHOICE, proposed:** represent each chamber by one whole finite
 convex prism: a rectangular face in a tangential/longitudinal barrel plane, or
@@ -188,7 +189,7 @@ corner disks. Analytic ray/slab and ray/circle intervals therefore give the
 warm path intervals without coarse path sampling. Cross-check this equivalent
 representation against the existing exact distance mask at random points.
 
-## Bounded prototype choices before generation
+## Original bounded prototype choices before generation
 
 **FACT, public precedent:** ATLAS JINST 3 S08003 (2008), chapter 6 §6.3.2,
 printed p.171, specifies rectangular barrel and trapezoidal endcap chambers.
@@ -376,3 +377,14 @@ Explicitly set `NavigatorPlainOptions::nearLimit=0`: its independent default is 
 **FACT from the800-track refinement:** counts/statuses agree after the native corrections, but micron trajectory integration differences amplify to66–90µm for grazing faces (|u·n|≈0.012–0.039), despite negligible face-normal residual. The10µm coordinate comparison gate stays fixed. **NODD DESIGN CHOICE:** separate numerical RK length tolerance from surface targeting: initially10pm(1e-11m) RK versus10nm targeting. Test1pm RK independently, as well as half/quarter maximum steps and1nm targeting. ACTS's native RKN local error acceptance is up to4times its step tolerance; a chosen local parameter is not a claim of global accuracy. Retain failed controls and only run the scan after the unchanged coordinate/count/status gates pass.
 
 Pure tangential finite-face contacts remain raw events and have a separate tangent counter, but contribute to neither unique large-face crossings nor paired stations. This clarifies the declared crossing observable; a tangential touch is not a provisional segment crossing.
+
+## Executed shortened-ECT candidate
+
+The [selected candidate and evidence](../validation/DES-040/wheels-2026-10-20/README.md)
+contain the revised joint map, 1,344 chamber outlines, connected frame, native
+OBJ and paired ACTS results. B1/B2/B3 contain168/360/528 panels; both endcaps
+contain24/216/48 inner/middle/outer panels. Endcap centre span is now6.0544 m,
+not the original3 m. This does not establish the corresponding momentum
+resolution or preserve a3 m bending path. Unresolved field-mask/native-failure
+rows remain in the coverage denominators. DRAFT status and human-only engineering
+acceptance are unchanged.

@@ -86,7 +86,7 @@ trial inputs distinguished from the final prototype. No computation grants
 human design acceptance.
 
 
-## Calculated proposal
+## Historical PR87 calculated proposal (before ECT shortening)
 
 ### 2026-10-19 PR87 coverage amendment — DRAFT
 

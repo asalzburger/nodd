@@ -306,3 +306,47 @@ W-F1 reports complete fixed-current vacuum energy4.598715882532644GJ, cold0.2973
 W-G1 finalsource/inputsfrozen:1344panels=1056barrel+288endcap; B1/B2/B3=168/360/528 andinner/middle/outer=24/216/48 overbothends. All1344individualcoil/supportcertificates, no pair/HCALconflicts/unresolvedacceptedcells,36groundedcases; unchangedframebytes copiedexactly, only48frontlugreplacements. Newwheeltrapsgapderivationrecordedbeforegeneration;72independentfullvolume analytic/adaptive cross-checks plus adverse fixtures and21inheritedcontrols pass. FinalgeometrySHA621b5cb9d45906b338251d527d932abd6b9aca86c84ffaa0918c7e535a17781f. MaxchamberR8.513349341m/z13.05m insidecommonworld9.1/13.3.
 
 W-S1 sourcefrozen after11inheritedcountertests, CLI/syntax and focusedstratified-paired-bound/typedCSV/NPZ/negative-metadata/syntheticfigure checks. Plain/bundled Python lackedMatplotlib; installedPython plotted successfully. Synthetic fixtures remain in scratch and are not scientific ACTS evidence. Root acquires real native arrays next.
+
+## Assignment W-P2 (before dispatch)
+
+```json
+{
+  "id": "W-P2",
+  "role": "PhysVal",
+  "input_revision": "22a3f8c113a276b1321adeb9b994107594eb3c7d",
+  "inputs": [
+    "docs/design/DES-039-twelvefold-toroid.md",
+    "docs/design/DES-040-muon-chambers-frame.md",
+    "tools/muon_layout/wheels.py",
+    "tools/muon_layout/wheels-config.json",
+    "tools/muon_layout/wheels_field.py",
+    "tools/muon_layout/wheels_acts/variant.py",
+    "tools/muon_layout/wheels_acts/controls.py",
+    "tools/muon_layout/wheels_acts/prepare.py",
+    "tools/muon_layout/wheels_acts/analyze.py",
+    "tools/muon_layout/wheels_acts/compare.py",
+    "docs/validation/DES-040/wheels-2026-10-20/magnetic/configuration.json",
+    "docs/validation/DES-040/wheels-2026-10-20/magnetic/energy.json",
+    "docs/validation/DES-040/wheels-2026-10-20/magnetic/controls.json",
+    "docs/validation/DES-040/wheels-2026-10-20/candidate/geometry.json",
+    "docs/validation/DES-040/wheels-2026-10-20/candidate/geometry-controls.json"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Independent source/input assessment at exact frozen22a3f8c revision before/alongside real paired nativeacquisition. You previously authored P1protocol and A2selected-interfaceplanning; disclose overlap, no implementationauthorship. Reviewprimarysources first, newECT geometry/current policy/coupledenergy/coldvolume/centralcap/maps truejointvacuum andbaselineextendedparity; allsource/quantity/mask semantics, actualwholewheel shapes andframephysicalcertificates includingB2extendedfrontlugs/B3returnexclusions, fullboreHCALmargins, nooverlaps/newwheelunfragmented. ReviewSHAguarded C++domainvariant for unchangedroot/actorcode andexplicitworld/entry, seedpreservation/capdenominators/strictfailureunknownbounds, eventpair/counterpostprocessing/pairedchangesstratifiederrors. Numericalgates/tolerancesmustnotbeweakened. Rootbeforedevelopment12nativegatespass (cache report); fullscan source willbe thiscommit withnewcontrols/outputs retainedlater. Actualfinalartifacts willbe a separate frozen W-P3followup; do not reviewlive-uncommitted outputs as ifatthiscommit. Need prompt materialfindings with reproducible independent focusedcalculations/controls; scratchonly /private/tmp/pr90-W-P2-*. No repo/source/dependency edits,nestedagents,externalmessages or humanapprovalclaim.",
+  "deliverable": "Exact-revision PhysVal source/input report+JSON and portablefocusedindependentchecks in /private/tmp/pr90-W-P2-*; materialfindingsorboundedno-findings and limitations.",
+  "completion": "Independent scientificsource/input assessment ofselectedcontract with actualcheckevidence, laterfrozenrealnativeartifactsreview explicitlypending."
+}
+```
+
+## Real paired acquisition and export results
+
+Both real native scans executed frozen source22a3f8c113a276b1321adeb9b994107594eb3c7d with230880 tracks each, after12/12before and12/12after numerical gates. Before662154raw/656276unique events; after805628raw/unique. All native finitepositions/64bitIDs retained;0orphan/parallel/navigation-uncertain/tangent rows, finiteface residual<10nm. Both allgenerateddenominators include actual fieldmaskstates (131587before/127018after) and one20kstep_limit each. Before88059/after28149 are reproducible nativecorrection cycles, not proven physicalorbits. Supplemental original/exhaustive, halfstep, tighter surface and RK reruns executed; only tighterRK resolves cycles (beforemasked/aftercompleted), no primaryreplacement. Complete deterministicgz nativeaudits/metadata/commands retained. Earlier scratch diagnostic print failed indexing61etaedges asiftrackarray; corrected extracting actualinputrow; no scientific scan altered.
+
+Analyze/compare/draw completed for actual arrays:9figuresperlayout+pairedchange, full/endcap/side/wheel/p/q uncertaintybounds and separate iidSE. Root inspected combined/positiveendcapOBJ previews, revisedendcapshapes, actualnativehitpositions/endcapmap andpairedchange plot; no visualclipping. Fieldmasks dominatewidebounds, so no overallreconstruction/coverageimprovement claim. At100GeV,+e active3station4pi26.32–61.45%before/25.46–59.52%after; endcapcap5.20–63.28%/10.06–65.66%. Geometryandfieldbothchange.
+
+W-O1complete: nativeOBJ1344bluechambers+36greycoils, separatecomponentOBJpairs/ZIP, before18/current8endcap andcurrent7barrelfamilies; exactnativecorners≤3.56e−15m, closed/orientedweldedmeshes, relativeMTLs/colors/roundtrip/ZIPchecks pass. Regenerable27MBinspection/writerstaging ignored, canonicalexports/checks retained. OldOBJ/scientificevidence unchanged; originalacts/check.py passes148960tracks/artifacthashes afternewwork.
+
+W-P2source/inputassessment at22a3f8c found no materialphysical/software defect. IndependentSAT1512panelpairs/1692expandedsupports,216middleexact/48changedlugs, oldfieldnodeparity,23088validlaunchstencils persystem,4096independentmaskqueries/map, original14896directions and16pairedBooleanboundcontrols passed. Scope excludes newnativeartifacts reservedforW-P3. Minorprovenance finding clarified by W-G1 exacthashproof: DES040generationhash differs fromfreezeonlyby8lineaffinecorridor/basedimensionrestatement alreadyinconfig/geometry.11/12sourcematchesplusseparatemagnetichash; do notcallallhashmatch. Rootretains originalcontrolsunchanged and portablehashproof. Laterdoccleanup labels originalpre-shortening sections historical.
+
+Initial staged whitespacecheck flagged nativeMTLtrailingformat and standardPythonCSVCRLF. Added scoped artifactformat attributes to preserve actualnativeMTL/ZIPbytes and CSVhashes; no numericalgate or data altered.
