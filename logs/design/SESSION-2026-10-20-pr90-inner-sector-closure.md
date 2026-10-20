@@ -93,3 +93,11 @@ The system-Python scratch rerender stopped because Matplotlib is absent; no depe
 Normal push of `0d7a815` succeeded and GitHub metadata confirmed the exact PR head. The reviewer reply/body are prepared with immutable figure links; no adoption or ACTS efficiency claim.
 
 IC-P1's concise report was successfully delivered after retry. The final portable checker explicitly includes M1 script hash and every A1 input identity; replay of this retained version passes with byte-identical result JSON. All five plot artifacts, six plot-source hashes and maintained links reconcile. Final technical assessment remains no unresolved material finding within scope. The denominator editorial observation is resolved in the study README without changing the numerical evidence.
+
+## Published outcome and closeout
+
+The separate study was pushed at `0d7a815`; independent evidence/clarified study index was pushed at `ae9141d95136cc20f853bbe3b234f5b1a8b5c634`. GitHub confirmed the published head. The existing PR body was fetched immediately before editing, retained and supplemented with the study/immutable comparison and BT-detail links. Reviewer reply: https://github.com/asalzburger/nodd/pull/90#issuecomment-6286412829. Complete closure at fixed BT legs is impossible; the checked two-band option recovers avoidable wedges and remains unadopted under the current whole-sector/no-radial-tiling and cassette rules. DES040, TASK-B-MUON-WHEELS and PR90 records link the evidence. No current geometry, OBJ, fields, native transport, or engineering status changed.
+
+The last CI snapshot reports build IN_PROGRESS, token-site SUCCESS, deploy SKIPPED; no build pass is inferred. Closure recorded at 2026-10-20T08:06:50Z. This final record-only closeout commit is located by Git history after the listed result commits; exact root/child token counters remain unavailable, with usage empty rather than zero.
+
+Final project/session validation passes: 69 tasks, 38 documents, 21 review rounds, 195 sessions. M1 usage summary and token preview build pass. The preview contains 210 historical disjoint turns and 624,299,405 observed tokens, not a measurement of this task; current root/child counters remain unavailable. After `ae9141d`, only this paired journal and project tracking changed.
