@@ -80,3 +80,7 @@ FCAL-PhysVal-02 reviewed `f6e1ef9433c06f4ca274fb0c912c383b6d846e5f` independentl
 Hosted Linux/Python 3.12.15 run 39030964508 passed the corrected FCAL controls and snapshot step; the broader workflow was still running at this observation. Token-site validation passed. The report-format amendment changes no detector parameter or scientific acceptance state. Final record validators and the local token-site build also passed after retaining the follow-up assessment.
 
 The completed global usage summary contains 620,754,236 observed input tokens and 3,545,169 observed output tokens across 210 disjoint recorded turns in 118 sessions; 66 sessions lack observations. These are historical project totals, not this task's usage. This parent turn and its child turns have no exact counters, so task input/output totals remain unknown and no values were fabricated.
+
+## Token-accounting correction — 2026-10-20
+
+Recovered 9 disjoint completed client turns for this bounded task: **35,895,875 input + 178,317 output = 36,074,192 observed tokens**. Cached input (35,182,208) and reasoning output (60,657) are subsets, not additional usage. The initial unknown-usage statement above is historical and is superseded only for these now-observed turns. The [curated recovery inventory](../usage/USAGE-2026-10-20-pr88-accounting.json) retains exact boundaries, event hashes, parent/role attribution and exclusions; dry-run/import/replay found no duplicate ownership. No counters were estimated and the current accounting/readiness turn remains excluded while active.

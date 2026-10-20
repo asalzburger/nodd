@@ -25,3 +25,7 @@ Generated SVG, parsed XML, checked source hash/dimensions/counts, verified the p
 Exact client per-turn counters are unavailable, so usage remains empty and this task's input/output totals remain unknown. The journal summary validated 185 records; historical observed usage is not allocated to this task. The paired JSON inventory covers all new and modified files. Git history identifies the enclosing commit without a self-reference.
 
 Final journal validation passed all 185 records, the token-site build succeeded and project-record validation passed again. These record checks grant no detector approval.
+
+## Token-accounting correction — 2026-10-20
+
+Recovered 1 disjoint completed client turns for this bounded task: **2,559,659 input + 23,637 output = 2,583,296 observed tokens**. Cached input (2,433,920) and reasoning output (10,096) are subsets, not additional usage. The initial unknown-usage statement above is historical and is superseded only for these now-observed turns. The [curated recovery inventory](../usage/USAGE-2026-10-20-pr88-accounting.json) retains exact boundaries, event hashes, parent/role attribution and exclusions; dry-run/import/replay found no duplicate ownership. No counters were estimated and the current accounting/readiness turn remains excluded while active.
