@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-20-pr90-token-closeout",
+  "title": "PR90 token accounting and confirmed B2 scope closeout",
+  "recorded_at": "2026-10-20T12:55:33Z",
+  "started_at": null,
+  "ended_at": null,
+  "status": "open",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Current parent accounting turn remains active; its counters are provisional and excluded from final usage.",
+    "Execution models/client version and other-device completeness are unknown.",
+    "Only disjoint closed local client observations are imported; cached/reasoning subsets are not additions or cost estimates."
+  ],
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": "01a142fe-aeff-7a72-a51f-edbcc74643b8"
+  },
+  "git": {
+    "start_commit": "f1089e3ece830dbbb2bdaaf86ade19e13585a471",
+    "branch": "codex/muon-chamber-layout",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": []
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "PR90 token accounting",
+      "B2 scope documentation"
+    ],
+    "related_ids": [
+      "PR-90",
+      "DES-040",
+      "TASK-B-MUON-WHEELS"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-20-pr90-token-closeout.md",
+  "activities": [
+    {
+      "kind": "skill",
+      "name": "nodd-coordinate and nodd-review-validation",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Bounded explicit SoftEngfallback assignmentTA-A1 and exactrevision accounting audit; no native engineeringwork."
+    }
+  ],
+  "usage": [
+    {
+      "client_thread_id": "01a15961-b332-70f1-96a7-2024f489ee2a",
+      "turn_id": "01a15961-b396-70e3-b3e9-c0841259677c",
+      "model": null,
+      "source": "Authorized usage-only local recovery; logs/usage/USAGE-2026-10-20-pr90.json; capture 2026-10-20T13:00:58.397888+00:00; event SHA256 802ffc9d325844217443743fff6dd73718b99f2e6bbaace9e7e4a5d5625dc1d0; persisted ordinals 1..176; 24 reconciled request increases.",
+      "limitations": [
+        "Execution model and client version are unavailable from the selected counter observations. Observed local client tokens are not a billing or complete cross-device total."
+      ],
+      "input_tokens": 2333510,
+      "cached_input_tokens": 2218240,
+      "output_tokens": 9582,
+      "reasoning_output_tokens": 1684,
+      "total_tokens": 2343092
+    }
+  ],
+  "checks": [
+    {
+      "command": "recover_usage.py explicit named root/PR90 child threads, then import-usage dry-run and import for11batches (read-only recovery, sequential imports)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "40closed unique observations imported:39priorPR90science/delivery +onefinalizedaccountingspecialist. Activeparentexcluded; cumulative/last/turn-boundary integrity reconciles."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "200records validated after firstimport."
+    },
+    {
+      "command": "python3 tools/token_usage/build.py validate; build --output _site/pr90-token-closeout (separatecommands)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "250disjointdatedturns;871993378observedtokens; ignoredlocalpreview built."
+    }
+  ]
+}

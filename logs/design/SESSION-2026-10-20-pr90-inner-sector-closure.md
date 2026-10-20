@@ -101,3 +101,7 @@ The separate study was pushed at `0d7a815`; independent evidence/clarified study
 The last CI snapshot reports build IN_PROGRESS, token-site SUCCESS, deploy SKIPPED; no build pass is inferred. Closure recorded at 2026-10-20T08:06:50Z. This final record-only closeout commit is located by Git history after the listed result commits; exact root/child token counters remain unavailable, with usage empty rather than zero.
 
 Final project/session validation passes: 69 tasks, 38 documents, 21 review rounds, 195 sessions. M1 usage summary and token preview build pass. The preview contains 210 historical disjoint turns and 624,299,405 observed tokens, not a measurement of this task; current root/child counters remain unavailable. After `ae9141d`, only this paired journal and project tracking changed.
+
+## Token-accounting correction — 2026-10-20
+
+The authorized usage-only recovery [PR90 inventory](../usage/USAGE-2026-10-20-pr90.json) supplies 5 disjoint closed client turns: 17,425,959 input + 93,692 output = **17,519,651 observed tokens**. Cached input 16,987,392 and reasoning output 32,500 are subsets. All imports passed dry-run first. Direct visible-request/session-ID metadata and pinned task narratives identify the owner; specialist edges/root-turn IDs corroborate child ownership. No time-only allocation or duplicate parent/child aggregate was used. Earlier empty-usage notes remain historical; active closeout, model/client identity and other-device completeness remain unknown. Scientific artifacts and design status are unchanged.

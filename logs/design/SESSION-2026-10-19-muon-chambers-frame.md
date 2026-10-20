@@ -264,3 +264,7 @@ The old toroid worktree's unrelated dirty chamber-outlines.json remains present.
 There is no merge, production integration, source/map regeneration or engineering
 approval. Future CI observations remain available on the PR after this record
 closeout; record-only changes do not extend the fixed scientific review target.
+
+## Token-accounting correction — 2026-10-20
+
+The authorized usage-only recovery [PR90 inventory](../usage/USAGE-2026-10-20-pr90.json) supplies 1 disjoint closed client turns: 16,075,166 input + 84,330 output = **16,159,496 observed tokens**. Cached input 15,769,728 and reasoning output 36,657 are subsets. All imports passed dry-run first. Direct visible-request/session-ID metadata and pinned task narratives identify the owner; specialist edges/root-turn IDs corroborate child ownership. No time-only allocation or duplicate parent/child aggregate was used. Earlier empty-usage notes remain historical; active closeout, model/client identity and other-device completeness remain unknown. Scientific artifacts and design status are unchanged.

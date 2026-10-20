@@ -279,3 +279,7 @@ R3 completed at 2f1d12b440b2d4e6c34bfeb88133fd4161c240df: both corrected links a
 Published and verified the corrected head 2f1d12b440b2d4e6c34bfeb88133fd4161c240df on PR90. Both remote checks queued at collection; this record-only closeout follows, and the final response reports the later observed CI state. Documentation correction and its independent check are complete. The prior failed remote check remains recorded.
 
 The closeout validator rejected a PASS check with null exit code for the agent assessment. Root then executed R3 record assertions and the captured-artifact check with observed exit 0, and recorded that command separately from the independent assessment. No scientific input or claimed native execution changed.
+
+## Token-accounting correction — 2026-10-20
+
+The authorized usage-only recovery [PR90 inventory](../usage/USAGE-2026-10-20-pr90.json) supplies 2 disjoint closed client turns: 46,973,838 input + 154,965 output = **47,128,803 observed tokens**. Cached input 46,461,184 and reasoning output 70,859 are subsets. All imports passed dry-run first. Direct visible-request/session-ID metadata and pinned task narratives identify the owner; specialist edges/root-turn IDs corroborate child ownership. No time-only allocation or duplicate parent/child aggregate was used. Earlier empty-usage notes remain historical; active closeout, model/client identity and other-device completeness remain unknown. Scientific artifacts and design status are unchanged.

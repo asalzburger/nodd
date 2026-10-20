@@ -148,3 +148,11 @@ Normalpush publishes reviewedscience/reviewheadec575d2e41e95e6b3ba059932a222fc1a
 Readback at2026-10-20T12:42:14Z: CIbuildIN_PROGRESS,token-siteSUCCESS,deploySKIPPED. No merge/forcepush/signoff/productionintegration orshareddependencychange. Projecttask/DES040reports/PR90snapshot updated in samePR. Record-onlycloseout follows; recordedpublishedheadis the observedscientific/reviewhead beforethatcloseout, not a self-referencingclaim about itsfuturecommit. Exacttokenusage remainsunavailable; summaryhas199sessions/210disjointobservedturns and624299405historicalobservedtokens. Newtask/root/childusage ismissing,notzero.
 
 Final closeout validation:199pairedsession records (194closed),69tasks/38documents/21reviewrounds,8roleprofiles/3workflow skills, tokenvalidate/build andlocalignoredsitepreview allpass. Observedusagecountersremainunchanged andmissingcurrenttaskcoverageisexplicit. gitdiffwhitespacegate passes beforeeachcommit.
+
+## Token-accounting correction — 2026-10-20
+
+The authorized usage-only recovery [PR90 inventory](../usage/USAGE-2026-10-20-pr90.json) supplies 5 disjoint closed client turns: 32,076,087 input + 138,571 output = **32,214,658 observed tokens**. Cached input 31,476,736 and reasoning output 46,400 are subsets. All imports passed dry-run first. Direct visible-request/session-ID metadata and pinned task narratives identify the owner; specialist edges/root-turn IDs corroborate child ownership. No time-only allocation or duplicate parent/child aggregate was used. Earlier empty-usage notes remain historical; active closeout, model/client identity and other-device completeness remain unknown. Scientific artifacts and design status are unchanged.
+
+## Human scope confirmation — 2026-10-20
+
+The user answered the outstanding question: “Middle barrel B2 only.” This confirms the implemented scope; the endcap wheels stay fixed. Documentation/PR scope wording is updated without a geometry, map, raw-evidence or design-acceptance change.

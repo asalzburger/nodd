@@ -79,3 +79,7 @@ OBJ-R1 independently parsed the actual immutable OBJ/MTL/ZIP at8b24dc692713d27bb
 Pushed8b24dc6, updated PR90 body with immutable downloads and posted [comment1 response](https://github.com/asalzburger/nodd/pull/90#issuecomment-6276824797). Verified the published head and comment. Token check passed and project CI was in progress at collection; local export/documentation/source-preservation checks passed. This record-only closeout follows. The requested current-geometry export is complete. Subsequent layout modifications/propagation requests remain outside this step.
 
 Assignment preparation initially rejected field aliases and an external absolute path in the inputs array; corrected before validated dispatch. Exact root/child token counters remain unavailable; usage is empty and unknown.
+
+## Token-accounting correction — 2026-10-20
+
+The authorized usage-only recovery [PR90 inventory](../usage/USAGE-2026-10-20-pr90.json) supplies 1 disjoint closed client turns: 8,791,162 input + 47,041 output = **8,838,203 observed tokens**. Cached input 8,576,640 and reasoning output 27,137 are subsets. All imports passed dry-run first. Direct visible-request/session-ID metadata and pinned task narratives identify the owner; specialist edges/root-turn IDs corroborate child ownership. No time-only allocation or duplicate parent/child aggregate was used. Earlier empty-usage notes remain historical; active closeout, model/client identity and other-device completeness remain unknown. Scientific artifacts and design status are unchanged.

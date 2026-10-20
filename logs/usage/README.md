@@ -1,5 +1,10 @@
 # Local token-usage recovery
 
+## PR90 closeout — 2026-10-20
+
+The [PR90 accounting report](PR90-2026-10-20.md), [curated usage inventory](USAGE-2026-10-20-pr90.json) and [machine-readable summary](PR90-2026-10-20-summary.json) recover the closed local muon chamber work. The original ten PR90 task records now own39 distinct design/validation/publication turns totaling245,350,881 observed tokens; finalized accounting-specialist usage is separate. The current active parent turn remains provisional and excluded. Earlier PR86/PR87 turns are outside this request. No science or engineering approval changes.
+
+
 ## Remaining-device audit — 2026-10-12
 
 The [audit inventory](USAGE-2026-10-12-device-audit.json) checks 16 local project
