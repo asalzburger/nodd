@@ -1,6 +1,10 @@
 # PR90 updated sketch and half-sector middle station offset
 
-User said nextcommentarrived, thenexplicitlycorrected that thecommentwasupdated. Readlatestcomment6290378667 edited2026-10-20T12:12:08Z. Itsolderoutward-selectionwordingwassupersededbeforeanymutation. Visuallyinspectedpublicasset c3b4672b-c7e1-468b-94ee-01314dc2a8ee directlyinbrowser; signedredirectURLnotretained/downloaded. GreenintercoilB1facetsmoveinward; bluecoilplaneB1staysoutsideBT. Newrequestrotatesmiddlestationshalfsector. OptionalscopequestionaskedwhetherB2onlyoralsomiddleendcaps; B1workindependent. Cleanstarta12efbb5f169e5e02cd1f36aee48c1e748b6ce6f. NewDESappendbeforeimplementation labelsprototypechoicesandlimits. Exactroot/childusageunavailable,notzero.
+The user asked to address the next PR90 comment and then said the comment was updated. The authoritative edit is comment6290378667 at2026-10-20T12:12:08Z. Its earlier outward-selection wording was superseded before implementation. The coordinator visually inspected the public sketch c3b4672b-c7e1-468b-94ee-01314dc2a8ee: inter-coil B1 moves inward; coil-plane B1 stays outside BT. No signed redirect URL or downloaded remote image is retained in Git.
+
+A preimplementation DES040 amendment declares the R4.63 trial, full-depth overlap, clearances, fixed hardware, phase7.5 B2 and limits. An optional question asked whether “middle stations” includes endcap wheels. No answer arrived before construction; the documented minimal scope is B2 only, with endcaps fixed. A15degree rotation would leave the24-facet edge set unchanged. This is a prototype assumption, not a human endcap decision.
+
+Start was clean at a12efbb5f169e5e02cd1f36aee48c1e748b6ce6f on codex/muon-chamber-layout. Repository nodd-coordinate, nodd-design-evidence and nodd-review-validation workflows apply. The acts-spack skill governs native runtime reliance. No exact root/subagent token counters are exposed; missing usage is not zero.
 
 ## SS-A1 before dispatch
 
@@ -57,3 +61,15 @@ User said nextcommentarrived, thenexplicitlycorrected that thecommentwasupdated.
   "completion": "Physicalfull-volumeconstraints/IDs/fixed-objectidentitypass; freshchangedpanelproofsandnegativecontrolsverified, updatedsketchandB2phaseimplementedorspecificphysicalblockerreported."
 }
 ```
+
+## Execution through source/artifact freeze
+
+SS-A1 and SS-M1 were dispatched as fresh generic contexts with the full saved role mandate/contract after these assignments were recorded. No native role-profile loading is claimed. SS-A1 delivered a pinned read-only SysArch assessment and20-source portable checker. SS-M1 owned only its three new source/config/test files and returned936 panels,312 fresh changed-panel proofs and9 passing tests; no child commit, native run or dependency change occurred.
+
+The coordinator reconciled source services: the knownR4.325 bound is DES034 ECAL water-egress reservation, not installedHCAL material or complete externalHCAL routing. R4.63 lies in the sufficient(4.625,4.645246881422)m interval with55mm service-bound and35.33094mm neighbor margin. B2 hardware requires48 more chambers. Endcaps/B3/maps/frame stay fixed. Retained native entranceR4.35 is safe for the finalR4.63 choice; the R4.60 diagnostic has an inside-start witness.
+
+Source freeze65cf2741bd697ddb8c4022a751f275b41f63241e includes construction, wrappers, config/tests, design contract and journal. Root reran9unittests (6.505s) and compiled the3wrappers. Final generator and native/export wrappers executed from this freeze; wrapper guards match source bytes to Git. Geometry SHA2567b2b0de109a5ec4a908e4f91a05e9caf9bdedfa6141b09d7c82a98b56e7cfc02. Root generated new candidate,4nativeOBJ bundles/2ZIPs, inventories, finite XY/longitudinal plots and bounded native/geometric results in sketched-stagger-2026-10-20. Figures were visually inspected. All709 prior declared scientific source/evidence files remain byte-exact.
+
+ACTS Spack preflight returned warningexit2 for changed setup/lock fingerprints; user warned before dependent work. Fresh activation verified ci-dependencies. An initial acts import before setting installed python/setup.sh failed; corrected setup imports successfully. Python3.14.5,NumPy2.5.4,Matplotlib3.11.2 and all3retained native/core SHA256s were verified. Restricted sysctl warnings were nonfatal. No shared rebuild/install or mutation was used.
+
+Generator passes437580panelpairs,312freshuncachedcoil audits and484supports per changed panel;9focused tests include adversarial/deterministic controls. SysArch root replay with finalcandidate passes. Native1024zero tracks allcomplete/nooutlineorborder mismatch;256curved smoke has197complete/59fieldmasked, withallrows retained. Newfull4pi iid65536/seed40088 three-stationborder57.7698→59.0866%,5608gain/4745lose; no material/response/reconstruction claim. Middle-wheel uniformeta3 remains UNMET. Actual per-track chord/spacing distributions and component controls prevent a blanket improvement or constant-lever-arm claim.
