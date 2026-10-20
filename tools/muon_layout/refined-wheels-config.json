@@ -1,0 +1,35 @@
+{
+  "status": "DRAFT / isolated reviewer-directed chamber-outline PROTOTYPE; no engineering acceptance",
+  "input_revision": "5f42c4b9649619771e8d5ec70247c99b10d8e80f",
+  "base_geometry": "docs/validation/DES-040/wheels-2026-10-20/candidate/geometry.json",
+  "base_geometry_sha256": "621b5cb9d45906b338251d527d932abd6b9aca86c84ffaa0918c7e535a17781f",
+  "governing_design": "DES-040 reviewer-directed chamber refinement, 2026-10-20",
+  "classification": "NODD DESIGN CHOICES: seams and certification guards; INFERENCES: dimensions from fixed coils, nearest faces and eta=3. Unsigned cassette exceptions are explicit below.",
+  "eta_limit": 3.0,
+  "aperture_convention": "circumscribed polygon hole: every inner base apothem is at least (abs(z)-depth/2)/sinh(eta_limit); no volume at eta>3 can enter the nearest face. Polygon corners, seams and coil slots can reduce acceptance below eta=3 and are reported separately.",
+  "depth_m": 0.5,
+  "coil_clearance_m": 0.05,
+  "support_clearance_m": 0.05,
+  "seam_width_m": 0.02,
+  "certification_guard_m": 0.01,
+  "inner_core_bore_half_gap_m": 0.03,
+  "stations": {
+    "1": {"name": "inner_wheel", "abs_z_m": 6.7456, "outer_radius_m": 5.45, "sectors": 12, "phase_deg": 15.0},
+    "2": {"name": "middle_wheel", "abs_z_m": 9.5, "outer_radius_m": 6.95, "sectors": 24, "phase_deg": 0.0},
+    "3": {"name": "outer_wheel", "abs_z_m": 12.8, "outer_radius_m": 8.45, "sectors": 24, "phase_deg": 0.0}
+  },
+  "middle_aperture_strategy": "fixed-z-three-families-explicit-ECT-loss",
+  "cassette_size_exemptions": {
+    "all_refined_endcap_families": "Outline reservation only: ordinary 1.50m radial cap does not constrain these whole-sector/gap-fill cassettes. Narrow filler bases are allowed explicitly; MDT tube segmentation, sag, readout, support and service design remain unresolved.",
+    "inner_gap_fillers": "Pre-slot filler has a narrow bore base; post-slot filler retains over0.50m radial span. No qualified monolithic MDT module is claimed.",
+    "middle_wheel": "Three dimension families supersede the old adaptively packed small modules; long cassettes require later internal module design. Local ECT clearance forces additional aperture loss at fixed station z."
+  },
+  "numerics": {"comparison_tolerance_m": 1e-9, "adaptive_resolution_m": 0.005, "max_certificate_cells": 500000},
+  "limits": [
+    "No MDT internals, active response, timing, background or service qualification.",
+    "Fixed magnetic_configuration, all484support members and all barrel panels are retained exactly.",
+    "Nominal eta3 aperture does not mean complete all-phi eta3 coverage: finite polygon bases, seams, ECT and BT slots are explicit losses.",
+    "Inner slot-band affine guard wedges remain bounded conservative clearance reservations; two simple gap-filler families recover the large pre/post-slot fans.",
+    "No ACTS, Geant4, structural or magnetic-field calculation is performed by this generator."
+  ]
+}

@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 3.24)
+project(nodd_muon_obj LANGUAGES CXX)
+find_package(Acts CONFIG REQUIRED COMPONENTS Core)
+add_executable(nodd-muon-obj writer.cpp)
+target_compile_features(nodd-muon-obj PRIVATE cxx_std_20)
+target_link_libraries(nodd-muon-obj PRIVATE Acts::Core)
+target_compile_options(nodd-muon-obj PRIVATE -Wall -Wextra -Wpedantic)

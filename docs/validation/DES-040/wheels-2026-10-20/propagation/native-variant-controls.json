@@ -1,0 +1,86 @@
+{
+  "passed": true,
+  "scope": "Frozen original engine versus configurable-domain variant with original default world/entrance, same40original control tracks and oldfield; no algorithm changes.",
+  "metrics": {
+    "same_track_ids": true,
+    "tracks": 40,
+    "status_differences": [],
+    "boundary_sequence_differences": [],
+    "counter_differences": [],
+    "position_differences": [],
+    "max_boundary_position_delta_m": 0.0,
+    "max_matched_event_path_delta_m": 0.0,
+    "position_tolerance_m": 1e-05,
+    "left_audit": {
+      "native_faces": 9360,
+      "unique_64bit_ids": 9360,
+      "max_plane_residual_m": 9.146289947636888e-09,
+      "raw_hits": 138,
+      "unique_events": 138,
+      "max_finite_face_excess_m": 9.146289947636888e-09
+    },
+    "right_audit": {
+      "native_faces": 9360,
+      "unique_64bit_ids": 9360,
+      "max_plane_residual_m": 9.146289947636888e-09,
+      "raw_hits": 138,
+      "unique_events": 138,
+      "max_finite_face_excess_m": 9.146289947636888e-09
+    }
+  },
+  "original_executable_sha256": "22b30c472ea1d62f1d401761763a7759f6869b3684e95e2eb3650ba73250de44",
+  "variant_executable_sha256": "397ca6d59d2798cd5ab53e1faa78bccf8250de6d324d2eafe9be14c39c7a005d",
+  "transformation": {
+    "base_source_sha256": "1215ae28efebfa8e969d5197bbb9e4cc58adf3e6a1bcdff5b34053d30c073349",
+    "variant_generator_sha256": "92adefb214f7a12e258fbb7da21e539f3cafef74ebe84b20bb6ebd707b7478b1",
+    "generated_source_sha256": "b6d19f7569e441417717a18b9a3bd80a31cc382cbfb0b42a15f44d22ed9ba377",
+    "scope": "Only world/virtual entrance dimensions, CLI validation and corresponding metadata change.",
+    "transformations": [
+      {
+        "old": "constexpr double worldRadiusM = 9.1, worldHalfZM = 11.5;",
+        "new": "double worldRadiusM = 9.1, worldHalfZM = 11.5, entranceRadiusM = 4.35, entranceHalfZM = 6.5;",
+        "occurrences": 1
+      },
+      {
+        "old": "struct Options {",
+        "new": "struct Options {\n  double worldR=9.1, worldH=11.5, entranceR=4.35, entranceH=6.5;",
+        "occurrences": 1
+      },
+      {
+        "old": "    else if(k==\"--max-step-m\")",
+        "new": "    else if(k==\"--world-radius-m\") o.worldR=std::stod(value());\n    else if(k==\"--world-half-z-m\") o.worldH=std::stod(value());\n    else if(k==\"--entrance-radius-m\") o.entranceR=std::stod(value());\n    else if(k==\"--entrance-half-z-m\") o.entranceH=std::stod(value());\n    else if(k==\"--max-step-m\")",
+        "occurrences": 1
+      },
+      {
+        "old": "  return o;\n}",
+        "new": "  if(!(o.worldR>o.entranceR && o.worldH>o.entranceH && o.entranceR>0 && o.entranceH>0) ||\n     !std::isfinite(o.worldR+o.worldH+o.entranceR+o.entranceH)) throw std::runtime_error(\"invalid world/entrance dimensions\");\n  return o;\n}",
+        "occurrences": 1
+      },
+      {
+        "old": "4.35*U::m",
+        "new": "entranceRadiusM*U::m",
+        "occurrences": 2
+      },
+      {
+        "old": "6.5*U::m",
+        "new": "entranceHalfZM*U::m",
+        "occurrences": 2
+      },
+      {
+        "old": "\\\"entrance_radius_m\\\": 4.35",
+        "new": "\\\"entrance_radius_m\\\": \"<<entranceRadiusM<<\"",
+        "occurrences": 1
+      },
+      {
+        "old": "\\\"entrance_half_z_m\\\": 6.5",
+        "new": "\\\"entrance_half_z_m\\\": \"<<entranceHalfZM<<\"",
+        "occurrences": 1
+      },
+      {
+        "old": "auto started=std::chrono::steady_clock::now();auto o=arguments(argc,argv);",
+        "new": "auto started=std::chrono::steady_clock::now();auto o=arguments(argc,argv);\n    worldRadiusM=o.worldR;worldHalfZM=o.worldH;entranceRadiusM=o.entranceR;entranceHalfZM=o.entranceH;",
+        "occurrences": 1
+      }
+    ]
+  }
+}

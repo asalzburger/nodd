@@ -1,0 +1,179 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-19-muon-chambers-frame",
+  "title": "Rectangular barrel and trapezoidal endcap chamber prototype with support frame and feet",
+  "recorded_at": "2026-10-19T11:52:43Z",
+  "started_at": null,
+  "ended_at": "2026-10-19T12:28:27Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact conversation start time, client version and root/child per-turn token counters unavailable; usage unknown, not zero.",
+    "DRAFT geometric chamber/frame proposal; no structural or detector-efficiency acceptance.",
+    "2026-10-20 accounting correction: exact closed local PR90 turns were subsequently recovered and imported from logs/usage/USAGE-2026-10-20-pr90.json. Earlier unavailable-usage statements describe the original capture; current active accounting turn is excluded."
+  ],
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "fe372194038ed2af9617c27defffba09ae6d683f",
+    "branch": "codex/muon-chamber-layout",
+    "initial_changes": [],
+    "result_commits": [
+      "8e93a131aa5f6d186f27a1a050221d5be50d0633"
+    ],
+    "changed_files": [
+      ".github/workflows/validation.yml",
+      "docs/README.md",
+      "docs/design/DES-040-muon-chambers-frame.md",
+      "docs/validation/DES-040/chamber-outlines.obj",
+      "docs/validation/DES-040/coverage-summary.json",
+      "docs/validation/DES-040/coverage.npz",
+      "docs/validation/DES-040/coverage.png",
+      "docs/validation/DES-040/figures.json",
+      "docs/validation/DES-040/geometry.json",
+      "docs/validation/DES-040/independent-spotchecks.json",
+      "docs/validation/DES-040/independent-spotchecks.py",
+      "docs/validation/DES-040/layout-3d.png",
+      "docs/validation/DES-040/magnetic-invariance.json",
+      "docs/validation/DES-040/results.json",
+      "docs/validation/DES-040/results.md",
+      "docs/validation/DES-040/review.json",
+      "docs/validation/DES-040/review.md",
+      "docs/validation/DES-040/rz-sections.png",
+      "docs/validation/DES-040/sources.json",
+      "docs/validation/DES-040/support-input.json",
+      "docs/validation/DES-040/xy-sections.png",
+      "logs/design/SESSION-2026-10-19-muon-chambers-frame.json",
+      "logs/design/SESSION-2026-10-19-muon-chambers-frame.md",
+      "project/tracking.json",
+      "reference/manifest.yaml",
+      "tools/muon_layout/README.md",
+      "tools/muon_layout/coverage.py",
+      "tools/muon_layout/design.json",
+      "tools/muon_layout/draw.py",
+      "tools/muon_layout/geometry.py",
+      "tools/muon_layout/layout.py",
+      "tools/muon_layout/study.py",
+      "tools/muon_layout/support.py",
+      "tools/muon_layout/test_geometry.py",
+      "tools/muon_layout/test_layout.py",
+      "tools/muon_layout/test_support.py"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "muon chamber envelopes",
+      "coil support frame and feet"
+    ],
+    "related_ids": [
+      "DES-040",
+      "TASK-B-MUON-CHAMBERS",
+      "DES-039",
+      "PR-87",
+      "PR-90"
+    ]
+  },
+  "narrative": "logs/design/SESSION-2026-10-19-muon-chambers-frame.md",
+  "activities": [],
+  "usage": [
+    {
+      "client_thread_id": "01a142fe-aeff-7a72-a51f-edbcc74643b8",
+      "turn_id": "01a15400-8bb9-7783-9d6c-50e6e8ea075b",
+      "model": null,
+      "source": "Authorized usage-only local recovery; logs/usage/USAGE-2026-10-20-pr90.json; capture 2026-10-20T13:00:58.397888+00:00; event SHA256 f70cd761bc055f4e72cc6f76efccf5ae6f01469360b4bc8a95c1850fb3abab38; persisted ordinals 3394..4391; 102 reconciled request increases.",
+      "limitations": [
+        "Execution model and client version are unavailable from the selected counter observations. Observed local client tokens are not a billing or complete cross-device total."
+      ],
+      "input_tokens": 16075166,
+      "cached_input_tokens": 15769728,
+      "output_tokens": 84330,
+      "reasoning_output_tokens": 36657,
+      "total_tokens": 16159496
+    }
+  ],
+  "checks": [
+    {
+      "command": "python3 -B tools/muon_layout/study.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "48.466 s; final sources; 1560 modules; full-volume certificates; 484 grounded members; full-sphere map plus iid integral and two mass union samples."
+    },
+    {
+      "command": "python3 -B -m unittest tools.muon_layout.test_geometry tools.muon_layout.test_layout tools.muon_layout.test_support -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "21 controls passed in 8.834 s, including corner-only failure, finite-depth side entry, unique station count, positive-area contacts, inward lug rejection and mass-union controls."
+    },
+    {
+      "command": "python3 -B tools/muon_layout/study.py --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Saved source/artifact hashes and full-sphere station accounting passed."
+    },
+    {
+      "command": "python3 -B -m unittest tools.toroid_prototype.test_field tools.toroid_prototype.test_energy tools.toroid_prototype.test_geometry tools.toroid_prototype.test_system tools.toroid_prototype.test_map tools.toroid_prototype.test_review_views",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All 49 inherited controls passed in 6.839 s; no magnetic artifacts regenerated."
+    },
+    {
+      "command": "python -B -m tools.muon_layout.draw --geometry docs/validation/DES-040/geometry.json --coverage docs/validation/DES-040/coverage.npz --output docs/validation/DES-040",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Four final PNGs regenerated with Matplotlib3.11.2. Inputs/output hashes in figures.json; S2 and root visual checks."
+    },
+    {
+      "command": "git-show base byte comparisons for all inherited DES039/toroid/muon-study files",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All unchanged; magnetic-invariance.json retains each SHA-256."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "68 tasks,38 documents,21 review rounds valid; scientific task and DES040 registered."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "190 session records valid."
+    },
+    {
+      "command": "python3 -B tools/agent_workflow/workflow.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Eight roles and three workflow skills valid."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py summary --milestone M1",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Usage remains unknown for this task; observed prior project totals recorded in narrative, no invented task tokens."
+    },
+    {
+      "command": "git push -u origin codex/muon-chamber-layout; gh pr create --base codex/twelvefold-toroid-prototype --draft; attach_artifact",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Created/attached PR90, initially draft pending independent review; unchanged PR87 branch and map."
+    },
+    {
+      "command": "V1 immutable git-show review8e93a131 plus portable independent spotchecks, then root repeat",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No blocking findings. 21controls,52byte-equal inherited files,2016panel/1348support pairs,1310contacts,530-node grounded graph,16384independent rays and47recomputed certificates. Limits/authorship retained in review.json; root repeat6.322s."
+    },
+    {
+      "command": "GitHub Actions token-site run39251158765",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Usage validation, tests and token dashboard preview build succeeded; no main Pages publication."
+    }
+  ]
+}

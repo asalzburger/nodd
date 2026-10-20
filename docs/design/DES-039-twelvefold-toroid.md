@@ -19,6 +19,20 @@ The existing DES026 solenoid and PR81/84/85 HCAL prototypes remain pinned inputs
 [DES004 sizing policy](inputs/DES-004-magnet-sizing-review.md) governs central
 field, all-space energy and cold-volume accounting.
 
+## PR90 shortened-ECT candidate (2026-10-20)
+
+**NODD DESIGN CHOICE, human-directed isolated PROTOTYPE:** after the documented
+HCAL/first-wheel axial conflict, the user selected shortening the ECT. Keep its
+rear centreline at abs(z)=11.70 m and move the front centreline from6.80 to7.30 m;
+new centre abs(z)=9.50 m and half-length2.20 m. Retain all other coil/radial/phase/
+pack/warm dimensions and exact operating currents for the controlled study.
+The [DES040 selected contract](DES-040-muon-chambers-frame.md#selected-wheel-revision-contract-2026-10-20-before-implementation)
+governs the new wheels, attachments and paired transport domains. Recalculate
+the joint vacuum field, complete self/mutual energy, cold allocation, and central
+field cap; preserve all historical DES039 outputs and clearly label the old
+response normalization as superseded for the new station positions. This is no
+engineering approval, nonlinear HCAL solution or production integration.
+
 ## Initial prototype choices (superseded by the coverage amendment)
 
 **NODD DESIGN CHOICE, proposed:** use air-core racetrack coils in meridional
@@ -72,7 +86,7 @@ trial inputs distinguished from the final prototype. No computation grants
 human design acceptance.
 
 
-## Calculated proposal
+## Historical PR87 calculated proposal (before ECT shortening)
 
 ### 2026-10-19 PR87 coverage amendment — DRAFT
 
