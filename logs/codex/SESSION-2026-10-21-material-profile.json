@@ -1,0 +1,187 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-21-material-profile",
+  "title": "Profile matched ODD and nODD tracker material recording",
+  "recorded_at": "2026-10-21T10:54:54Z",
+  "started_at": null,
+  "ended_at": null,
+  "status": "open",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Actual conversation start time, client version and exact per-turn token counters are not exposed; usage remains empty, meaning unknown rather than zero.",
+    "Full DD4hep/Geant4 sources are not staged locally; official v11.4.3 source was read through GitHub for algorithm interpretation.",
+    "One primary benchmark per detector on a shared host, unpinned CPU affinity; profiler and short diagnostic windows are identified in the report.",
+    "Earlier steering versions differ only in diagnostics/metadata; per-run hashes identify recorded versions. The original no-preload steering was not hashed; its full output is compared against the final matched run."
+  ],
+  "client": {
+    "name": "unspecified",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "e980c41f47605091e94d85a463e31cf0bdf2edd8",
+    "branch": "codex/material-recording-profile",
+    "initial_changes": [],
+    "result_commits": [
+      "937422566fe0da577ec51862edf258631602026f",
+      "f9826ca004a7d61c01a057472a975d28cfb0a602",
+      "68d0ce9c40d4051c8655cbe59ca18c8d16f5ca75",
+      "47ee8b0b32d5ba17d5db10c3f8dc44277d4716a1",
+      "e2a01ae90f376914d53942ef81d64d424d2d13f1"
+    ],
+    "changed_files": [
+      ".github/workflows/validation.yml",
+      "docs/validation/material-recording-profile/README.md",
+      "docs/validation/material-recording-profile/bootstrap-output-equality.json",
+      "docs/validation/material-recording-profile/bootstrap-steady-profiler.json",
+      "docs/validation/material-recording-profile/first-event-profiler.json",
+      "docs/validation/material-recording-profile/framework-timing.json",
+      "docs/validation/material-recording-profile/guard-checks.json",
+      "docs/validation/material-recording-profile/native-phases.json",
+      "docs/validation/material-recording-profile/nodd-exact-output.json",
+      "docs/validation/material-recording-profile/nodd-inventory.json",
+      "docs/validation/material-recording-profile/odd-compact-inputs.json",
+      "docs/validation/material-recording-profile/odd-exact-output.json",
+      "docs/validation/material-recording-profile/odd-inventory.json",
+      "docs/validation/material-recording-profile/original-startup-reuse-equality.json",
+      "docs/validation/material-recording-profile/provenance.json",
+      "docs/validation/material-recording-profile/results.json",
+      "docs/validation/material-recording-profile/reuse-results.json",
+      "docs/validation/material-recording-profile/steady-profiler.json",
+      "docs/validation/material-recording-profile/stepping-control-equality.json",
+      "logs/codex/SESSION-2026-10-21-material-profile.json",
+      "logs/codex/SESSION-2026-10-21-material-profile.md",
+      "project/tracking.json",
+      "software/README.md",
+      "tools/material_recording_profile/README.md",
+      "tools/material_recording_profile/build_native.sh",
+      "tools/material_recording_profile/build_odd.sh",
+      "tools/material_recording_profile/compare_output.py",
+      "tools/material_recording_profile/energy_cut_client.cpp",
+      "tools/material_recording_profile/inventory.hpp",
+      "tools/material_recording_profile/native_timing.cpp",
+      "tools/material_recording_profile/one.sh",
+      "tools/material_recording_profile/prepare_odd.py",
+      "tools/material_recording_profile/run.py",
+      "tools/material_recording_profile/sample_summary.py",
+      "tools/material_recording_profile/summarize.py",
+      "tools/material_recording_profile/test_tools.py"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "software",
+      "tracker",
+      "beampipe",
+      "material-recording",
+      "profiling"
+    ],
+    "related_ids": [
+      "TASK-SOFT-MATERIAL-PROFILE",
+      "DES-024",
+      "DES-025",
+      "ADR-008"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-21-material-profile.md",
+  "activities": [
+    {
+      "kind": "skill",
+      "name": "acts-spack",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Preflight warnings reported, runtime/libraries/datasets verified directly without shared dependency changes."
+    },
+    {
+      "kind": "skill",
+      "name": "nodd-coordinate",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Bounded explicit SoftEng and PhysVal assignments with revision-specific contracts; no claim of native profile loading."
+    },
+    {
+      "kind": "skill",
+      "name": "nodd-review-validation",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Independent source/scientific review of9374225 and f9826ca; actual output evidence and final follow-up retained."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "acts-spack preflight.py --require-sources",
+      "status": "FAIL",
+      "exit_code": 2,
+      "result": "Registry fingerprints changed and full sources absent; warned before runtime work, then verified actual installations."
+    },
+    {
+      "command": "software/env/run.sh: spack env/find, DD4hep/DDG4/ACTS imports, geant4-config --check-datasets",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "DD4hep1.38, Geant4 11.4.3, all12 dataset directories; actual primary loaded-image UUIDs match the installed libraries."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/material_recording_profile -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Three meaningful selection/profiler-accounting controls passed."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "33 logging/document controls passed."
+    },
+    {
+      "command": "Native opt-in guard and separate-client API/fallback controls",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All14 corrected controls passed in nodd-validated-guard; prior incorrect absent-gamma expectation is retained in the narrative."
+    },
+    {
+      "command": "compare_output.py hidden-control versus stepping diagnostic, --events2",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Exact numeric equality for200 probes in all32 scalar/jagged branches."
+    },
+    {
+      "command": "python3 -B tools/agent_workflow/workflow.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Eight profiles and three workflow skills valid."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "70 tasks,39 documents and21 reviews valid."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py validate and build --output /private/tmp/material-token-pages",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "225 disjoint observed project turns; this task has no exposed exact usage counters."
+    },
+    {
+      "command": "Matched DDG4-first ODD and nODD100-event \u00d7100-geantino benchmark, summarize.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "ODD13.534725s, nODD810.953076s wall;10000 probes each, identical generator-bank hashes,100 probes/event, positive finite and recomputed material totals."
+    },
+    {
+      "command": "Final guarded100\u00d7100 controls and compare_output.py across all32 branches",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "nODD101.904982s wall; all14 guards pass for both detectors. Exact numeric equality for10000 probes each: nODD baseline/reuse, ODD baseline/reuse and nODD original/final bootstrap."
+    }
+  ]
+}

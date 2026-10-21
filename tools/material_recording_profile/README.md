@@ -22,8 +22,8 @@ out="$PWD/build/jobs/material-profile"
 mkdir -p "$out"
 zsh tools/material_recording_profile/build_odd.sh "$runtime" "$PWD/build/odd"
 
-# Matched primary comparison, sequentially, with explicit100×100 defaults.
-zsh tools/material_recording_profile/one.sh "$runtime" nodd "$out/nodd-100" > "$out/nodd-100.log" 2>&1
+# Matched primary comparison, sequentially, with explicit 100 × 100 defaults.
+zsh tools/material_recording_profile/one.sh "$runtime" nodd "$out/nodd-100" --inventory > "$out/nodd-100.log" 2>&1
 zsh tools/material_recording_profile/one.sh "$runtime" odd "$out/odd-100" --inventory > "$out/odd-100.log" 2>&1
 
 "$runtime/build/pyvenv/bin/python" tools/material_recording_profile/summarize.py \
@@ -37,8 +37,9 @@ The ODD wrapper preserves native definitions and all tracker/PST/passive
 components, removes the explicit Solenoid include, and excludes calorimeter,
 muon and fields. Its provenance file hashes the entire source XML tree.
 
-`metrics.json` records wall and CPU intervals, event markers and Darwin peak RSS
-in bytes. Framework `timing.csv` separately records writer cost. `--inventory`
+`metrics.json` records wall/phase CPU intervals, cumulative total process CPU,
+event markers and Darwin peak RSS in bytes. Total CPU includes interpreter and
+preload startup before the wall interval. Framework `timing.csv` separately records writer cost. `--inventory`
 collects native TGeo and Geant4 counts after the timed interval;
 `--inventory-only` constructs the pipeline without transporting events.
 `loaded-libraries.json` audits resolved images after timing.
@@ -58,8 +59,9 @@ and event processing. Not every virtual/internal call can be intercepted;
 Python/framework intervals supply the containing phases. Timers are inclusive;
 do not sum nested entries. `--step-timing` wraps the existing material stepping
 callback and includes measurement overhead; use it for diagnostic attribution,
-not the primary uninstrumented timing. Hidden inline visibility is essential:
-otherwise emitted Geant4 inline functions can change weak-symbol selection.
+not the primary uninstrumented timing. The helper uses hidden inline visibility.
+Keep DDG4 first even with the helper: startup order measurably affects timings
+and parsing in this environment, with its precise native mechanism unresolved.
 
 The opt-in reuse prototype is restricted to this immutable, single-world
 neutral-geantino harness. It validates the existing material/cut association of
