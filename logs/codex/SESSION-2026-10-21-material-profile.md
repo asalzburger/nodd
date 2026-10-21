@@ -203,3 +203,13 @@ The separate read-only review assessed25fa2d01ca9b135f070a8549d50dfe3b5af4ced2 a
 Reviewer checked committed JSON, arithmetic/RSS/native summaries, frozen-helper source hash, shared image hashes and retained hashes of seven metric files, four ROOT files and four native timing files. No simulations or ROOT comparisons were rerun by the reviewer; no files changed. Working-tree journal/library-check additions were explicitly excluded from that reviewed snapshot. The added library-check JSON records the coordinator's separately executed81-image check.
 
 The only P3 finding is corrected in the final report/tool guide/provenance/journal: post-run loaded-library audit hashing is outside timing; initial source/factory hashes remain included. Native helper and generator/recorder code are unchanged from the reviewed revision. The unresolved bootstrap mechanism, two Xerces images, first-cut16.506s versus7.409s and shared-host limits remain explicit. This assessment supplies no mutable-Geant4, production or detector approval.
+
+## Journal schema correction
+
+The first manual-review closeout incorrectly encoded the assessment as a PASS command with no exit code. Session validation rejected it, and two session/document tests errored for the same metadata issue. The dependent shell sequence continued and committeda145727; this mistake is corrected in a normal follow-up commit rather than rewriting history. The assessment belongs in activities/narrative, without an invented process exit. The actual failed validator/test outcomes are retained and checks are rerun. Benchmark numbers, comparisons and source are unchanged.
+
+## Closeout
+
+Corrected session validation and all33 logging/document tests pass. Local tool controls3/3, project-record controls28/28, project validator70 tasks/39 documents/21 reviews, workflow validation and observed-token dashboard validate/build pass. Session summary contains193 partial-coverage records and225 observed project turns (688392720 input,3924118 output); this task's exact input/output remain unknown and are not inferred from those historical totals.
+
+Software PR91 contains the completed report/tools/evidence and paired journal, with independent review target25fa2d0 and normal metadata corrections retained in history. Tracking marks the requested capability/evidence task completed; no design states advance. Initial hosted token-site succeeded and project build was still running when this journal closed. Final metadata push will rerun checks; no unobserved hosted success is recorded. No runtime jobs remain active. Human PR review and optional upstream/environment/factory follow-ups remain separate from this completed measurement.

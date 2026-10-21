@@ -4,15 +4,16 @@
   "title": "Profile matched ODD and nODD tracker material recording",
   "recorded_at": "2026-10-21T10:54:54Z",
   "started_at": null,
-  "ended_at": null,
-  "status": "open",
+  "ended_at": "2026-10-21T11:44:28Z",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
     "Actual conversation start time, client version and exact per-turn token counters are not exposed; usage remains empty, meaning unknown rather than zero.",
     "Full DD4hep/Geant4 sources are not staged locally; official v11.4.3 source was read through GitHub for algorithm interpretation.",
     "One primary benchmark per detector on a shared host, unpinned CPU affinity; profiler and short diagnostic windows are identified in the report.",
-    "Earlier steering versions differ only in diagnostics/metadata; per-run hashes identify recorded versions. The original no-preload steering was not hashed; its full output is compared against the final matched run."
+    "Earlier steering versions differ only in diagnostics/metadata; per-run hashes identify recorded versions. The original no-preload steering was not hashed; its full output is compared against the final matched run.",
+    "Hosted project validation for reviewed source25fa2d0 was still running at journal closeout; token-site succeeded. Final metadata push will run hosted checks again; no unobserved success is asserted here."
   ],
   "client": {
     "name": "unspecified",
@@ -29,7 +30,8 @@
       "68d0ce9c40d4051c8655cbe59ca18c8d16f5ca75",
       "47ee8b0b32d5ba17d5db10c3f8dc44277d4716a1",
       "e2a01ae90f376914d53942ef81d64d424d2d13f1",
-      "25fa2d01ca9b135f070a8549d50dfe3b5af4ced2"
+      "25fa2d01ca9b135f070a8549d50dfe3b5af4ced2",
+      "a145727bf89322909facc973d7d0910ac6404305"
     ],
     "changed_files": [
       ".github/workflows/validation.yml",
@@ -115,6 +117,15 @@
       "failures": null,
       "duration_seconds": null,
       "evidence": "Independent source/scientific review of9374225 and f9826ca; actual output evidence and final follow-up retained."
+    },
+    {
+      "kind": "tool",
+      "name": "collaboration.followup_task: MATPROF-PhysVal-03",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Independent read-only assessment of25fa2d01ca9b135f070a8549d50dfe3b5af4ced2: no P1/P2 blocker in scope; P3 timing-boundary wording corrected. This is a manual assessment, not a command with an observed process exit."
     }
   ],
   "usage": [],
@@ -192,16 +203,34 @@
       "result": "All28 project-record controls passed in115.921s."
     },
     {
-      "command": "MATPROF-PhysVal-03 independent read-only source/evidence assessment at25fa2d01ca9b135f070a8549d50dfe3b5af4ced2",
-      "status": "PASS",
-      "exit_code": null,
-      "result": "No P1/P2 blocker within immutable-geantino characterization. All prior conditions resolved; P3 timing-boundary wording corrected without changing measured values."
-    },
-    {
       "command": "Coordinator shared loaded-image SHA-256 comparison",
       "status": "PASS",
       "exit_code": 0,
       "result": "All81 shared image names have matching hash sets across baseline detectors."
+    },
+    {
+      "command": "session_log.py validate during manual-review record closeout",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "PASS without observed zero process exit was rejected; manual assessment moved to activities without inventing an exit code."
+    },
+    {
+      "command": "33 session/document controls during the same invalid-metadata closeout",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Two errors from the invalid review check metadata; corrected in a normal follow-up commit and rerun."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate after schema correction",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "193 paired session records valid."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p 'test_*.py' -v after schema correction",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All33 controls passed; invalid manual-review metadata corrected."
     }
   ]
 }
