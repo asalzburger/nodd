@@ -49,9 +49,12 @@ DD4hep1.38 and Geant4 11.4.3. ACTS and both detector factory builds are
 RelWithDebInfo (`-O2 -g -DNDEBUG`). Runtime nODD source is
 `530080cfe16c7513228bf60238b99d4b9938538a`; ODD source is
 `d70556f33b1c36abdf101a07ad8cf57eb56fbdf1`. The separate sister ACTS checkout is
-dirty and is not the ACTS framework comparator. Only its independently verified
-ODD factory binary is reused. Exact binary hashes and matched loaded-image UUIDs
-distinguish source pins from executed artifacts.
+dirty and is not the ACTS framework comparator. The unchanged ODD factory is
+rebuilt task-locally against the same dependency view. An initial sister-factory
+run and the first local rebuild both exposed mixed Xerces initialization. Both
+final comparators therefore explicitly load DDG4 before PyROOT. Exact binary
+hashes and matched loaded-image UUIDs distinguish source pins from executed
+artifacts. The earlier nODD run is retained as a diagnostic repeat.
 
 This task starts from fetched main
 `e980c41f47605091e94d85a463e31cf0bdf2edd8`. PRs77–80 are marked merged through

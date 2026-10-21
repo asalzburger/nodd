@@ -20,14 +20,15 @@ case "$detector" in
     compact="$output/odd-tracker.xml"
     python3 "$source_dir/prepare_odd.py" \
       "$runtime/software/submodules/OpenDataDetector/xml" "$compact"
-    factories=(--factory "${ODD_FACTORY:-/Users/salzburg/Documents/work/installed/acts-nodd/lib/libOpenDataDetector.dylib}")
+    factories=(--factory "${ODD_FACTORY:-$source_dir/../../build/odd/factory/libOpenDataDetector.dylib}")
     ;;
   *) print -u2 'detector must be odd or nodd'; exit 2 ;;
 esac
-native_env=()
+view=${DEPENDENCY_VIEW:-/Users/salzburg/Documents/work/externals/ci-dependencies/.spack-env/view}
+# Initialize DDG4's XML runtime before PyROOT, identically for both detectors.
+native_env=("DYLD_INSERT_LIBRARIES=$view/lib/libDDG4.dylib")
 if [[ -n ${NATIVE_TIMING_LIBRARY:-} ]]; then
-  view=${DEPENDENCY_VIEW:-/Users/salzburg/Documents/work/externals/ci-dependencies/.spack-env/view}
-  native_env+=("DYLD_INSERT_LIBRARIES=$NATIVE_TIMING_LIBRARY:$view/lib/libDDG4.dylib" \
+  native_env=("DYLD_INSERT_LIBRARIES=$NATIVE_TIMING_LIBRARY:$view/lib/libDDG4.dylib" \
                "MATERIAL_NATIVE_TIMING=$output.native.jsonl" \
                "MATERIAL_ENERGY_CUT_CLIENT=$NATIVE_TIMING_LIBRARY.energy-client.dylib")
 fi

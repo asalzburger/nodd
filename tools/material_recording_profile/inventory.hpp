@@ -41,6 +41,10 @@ std::string materialProfileInventory() {
     {"unique_daughter_edges",edges}, {"max_daughters",maxDaughters},
     {"world_daughters",geo->GetTopVolume()->GetNdaughters()},
     {"expanded_nodes_including_world",nodes},{"max_depth",depth},{"shapes",shapes}};
+  result["tgeo"]["world_children"]=json::array();
+  for (int i=0; i<geo->GetTopVolume()->GetNdaughters(); ++i) {
+    result["tgeo"]["world_children"].push_back(geo->GetTopVolume()->GetNode(i)->GetVolume()->GetName());
+  }
   auto* store=G4LogicalVolumeStore::GetInstance();
   shapes.clear(); maxDaughters=0; edges=0;
   json heavy=json::array();
@@ -70,6 +74,7 @@ std::string materialProfileInventory() {
     {"world_daughters",world->GetLogicalVolume()->GetNoDaughters()},
     {"expanded_nodes_including_world",gnodes},{"max_depth",gdepth},
     {"large_mothers",heavy},{"shapes",shapes}};
+  result["geant4"]["world_material"]=world->GetLogicalVolume()->GetMaterial()->GetName();
   result["geant4"]["regions"]=json::array();
   for (auto* r : *G4RegionStore::GetInstance()) {
     result["geant4"]["regions"].push_back({{"name",r->GetName()},

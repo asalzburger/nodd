@@ -9,14 +9,18 @@ The runtime argument explicitly selects the existing software-layout source,
 ACTS build, Python environment and nODD factories. It does not run an installer,
 copy ODD data into a shared installation, or modify a dependency. Read the
 repository's acts-spack instructions and run their preflight first. The ODD
-factory defaults to the authorized sister installation; `ODD_FACTORY` overrides
-that exact library path. Source/binary identity must be verified separately.
+factory defaults to this task's `build/odd/factory/libOpenDataDetector.dylib`;
+`ODD_FACTORY` overrides that exact library path. Source/binary identity must be
+verified separately. Both detectors load DDG4 before PyROOT to give their XML
+runtime the same initialization order. A factory rebuild alone does not fix
+mixed Xerces initialization in the existing dependency environment.
 
 ```sh
 runtime=/Users/salzburg/Documents/ChatGPT/agentic-detector/nodd-software-layout
 view=/Users/salzburg/Documents/work/externals/ci-dependencies/.spack-env/view
 out="$PWD/build/jobs/material-profile"
 mkdir -p "$out"
+zsh tools/material_recording_profile/build_odd.sh "$runtime" "$PWD/build/odd"
 
 # Matched primary comparison, sequentially, with explicit100×100 defaults.
 zsh tools/material_recording_profile/one.sh "$runtime" nodd "$out/nodd-100" > "$out/nodd-100.log" 2>&1

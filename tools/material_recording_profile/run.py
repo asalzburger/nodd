@@ -143,7 +143,7 @@ def main():
         raw = dyld._dyld_get_image_name(i)
         path = Path(raw.decode()) if raw else None
         if path and path.is_file() and any(token in path.name for token in
-                ('Acts', 'G4', 'DDCore', 'DDG4', 'nODD', 'OpenDataDetector', 'libpython', 'libCore.', 'NativeTiming')):
+                ('Acts', 'G4', 'DDCore', 'DDG4', 'nODD', 'OpenDataDetector', 'libpython', 'libCore.', 'NativeTiming', 'xerces')):
             loaded.append({'path':str(path.resolve()),
                 'sha256':hashlib.sha256(path.read_bytes()).hexdigest()})
     (a.output/'loaded-libraries.json').write_text(json.dumps(loaded,indent=2)+'\n')
