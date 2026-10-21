@@ -42,7 +42,8 @@ event markers and Darwin peak RSS in bytes. Total CPU includes interpreter and
 preload startup before the wall interval. Framework `timing.csv` separately records writer cost. `--inventory`
 collects native TGeo and Geant4 counts after the timed interval;
 `--inventory-only` constructs the pipeline without transporting events.
-`loaded-libraries.json` audits resolved images after timing.
+`loaded-libraries.json` audits and hashes resolved images after timing. Initial
+steering/runtime and factory hashes remain inside the timed phases.
 
 For macOS native phase timing:
 

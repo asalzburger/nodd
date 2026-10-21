@@ -226,8 +226,10 @@ Wall timing starts before Python framework imports and ends after sequencer
 finalization. Total CPU is the cumulative process counter through that endpoint,
 including interpreter/preload startup before the wall interval; phase/event CPU
 values are differences over their own intervals. Environment activation,
-process teardown, hashing, inventory and post-transport adverse checks are
-outside the reported benchmark interval. Component timers
+process teardown, post-run loaded-library audit hashing, inventory and adverse
+checks are outside the reported benchmark interval. Initial steering/runtime
+and factory hashes remain included in total wall/process CPU counters; factory
+hashes also enter the loading phase. Component timers
 are inclusive/nested and must not be summed. Parsing is the actual Xerces DOM
 parse; the remaining DD4hep construction interval includes factory construction
 and volume-manager setup. Other pipeline initialization is reported as a

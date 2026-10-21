@@ -28,7 +28,8 @@
       "f9826ca004a7d61c01a057472a975d28cfb0a602",
       "68d0ce9c40d4051c8655cbe59ca18c8d16f5ca75",
       "47ee8b0b32d5ba17d5db10c3f8dc44277d4716a1",
-      "e2a01ae90f376914d53942ef81d64d424d2d13f1"
+      "e2a01ae90f376914d53942ef81d64d424d2d13f1",
+      "25fa2d01ca9b135f070a8549d50dfe3b5af4ced2"
     ],
     "changed_files": [
       ".github/workflows/validation.yml",
@@ -38,6 +39,7 @@
       "docs/validation/material-recording-profile/first-event-profiler.json",
       "docs/validation/material-recording-profile/framework-timing.json",
       "docs/validation/material-recording-profile/guard-checks.json",
+      "docs/validation/material-recording-profile/matched-library-check.json",
       "docs/validation/material-recording-profile/native-phases.json",
       "docs/validation/material-recording-profile/nodd-exact-output.json",
       "docs/validation/material-recording-profile/nodd-inventory.json",
@@ -182,6 +184,24 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "nODD101.904982s wall; all14 guards pass for both detectors. Exact numeric equality for10000 probes each: nODD baseline/reuse, ODD baseline/reuse and nODD original/final bootstrap."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/project_records -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All28 project-record controls passed in115.921s."
+    },
+    {
+      "command": "MATPROF-PhysVal-03 independent read-only source/evidence assessment at25fa2d01ca9b135f070a8549d50dfe3b5af4ced2",
+      "status": "PASS",
+      "exit_code": null,
+      "result": "No P1/P2 blocker within immutable-geantino characterization. All prior conditions resolved; P3 timing-boundary wording corrected without changing measured values."
+    },
+    {
+      "command": "Coordinator shared loaded-image SHA-256 comparison",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All81 shared image names have matching hash sets across baseline detectors."
     }
   ]
 }

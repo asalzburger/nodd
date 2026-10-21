@@ -159,4 +159,47 @@ Both DDG4-first100×100 baselines completed successfully: ODD13.534724875s wall/
 
 Summarize.py verifies10000 probes per detector,100 per event, matching generated-bank hashes, origin, finite positive totals and sums recomputed from all steps. Compare_output.py passes all32 scalar/jagged branches at zero numeric tolerance for nODD baseline/reuse, ODD baseline/reuse and original-startup/final-bootstrap nODD. ROOT bytes differ by metadata and are not claimed equal. Native steady profile5816/5881 main samples under UpdateCoupleTable. Final two-event timers separate12.576s parsing,24.329s containing DD4hep build,2.870s conversion,35.748s voxelization,7.368s recurring cut update and0.0622s transport/recording; ROOT writer0.888s for the primary100-event nODD job.
 
-The total CPU counter includes interpreter/preload startup before Python wall START; phase/event CPU values are interval differences. Timing ends before hashing, inventory and adverse checks. Final report preserves these boundaries and the unresolved load-order mechanism. Geometry/materials/identifiers remain unchanged, DES-024/025 stay DRAFT.
+The total CPU counter includes interpreter/preload startup before Python wall START; phase/event CPU values are interval differences. Timing ends before post-run loaded-library audit hashing, inventory and adverse checks; initial source/factory hashes remain included. Final report preserves these boundaries and the unresolved load-order mechanism. Geometry/materials/identifiers remain unchanged, DES-024/025 stay DRAFT.
+
+## Specialist follow-up MATPROF-PhysVal-03
+
+```json
+{
+  "id": "MATPROF-PhysVal-03",
+  "role": "PhysVal",
+  "input_revision": "25fa2d01ca9b135f070a8549d50dfe3b5af4ced2",
+  "inputs": [
+    "tools/material_recording_profile/native_timing.cpp",
+    "tools/material_recording_profile/run.py",
+    "tools/material_recording_profile/compare_output.py",
+    "docs/validation/material-recording-profile/README.md",
+    "docs/validation/material-recording-profile/results.json",
+    "docs/validation/material-recording-profile/reuse-results.json",
+    "docs/validation/material-recording-profile/guard-checks.json",
+    "docs/validation/material-recording-profile/nodd-exact-output.json",
+    "docs/validation/material-recording-profile/odd-exact-output.json",
+    "docs/validation/material-recording-profile/bootstrap-output-equality.json",
+    "docs/validation/material-recording-profile/provenance.json",
+    "docs/validation/material-recording-profile/native-phases.json"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Final independent assessment of completed matched100\u00d7100 scientific evidence and immutable-harness guard. Inspect committed primary source/data before conclusions. Reassess prior conditions: separate ordinary SetEnergyCutVector client interception, fallback and native absent-gamma semantics; exact all32-branch numeric equivalence across all10000 probes for both detectors; integrity and source/binary/bootstrap identity; accurately qualified timing boundaries and load-order mechanism. Final DDG4-first baseline ODD13.5347s/nODD810.9531s; guarded nODD101.9050s. Guarded first scan remains16.506s versus7.409s native uncached; report states this unresolved sensitivity. Native review did NOT establish weak-accessor cause; both orders retain two Xerces libraries. No runtime simulations, edits, installations or further delegation. Review current committed revision using git show, no substituted working tree. Scope is an opt-in immutable single-world neutral-geantino harness only; no general mutable Geant4 claim or detector sign-off.",
+  "deliverable": "Return findings with severity and exact locators, fixed/unfixed earlier review conditions, actual read-only checks and scope limits. Coordinator curates result into existing journal.",
+  "completion": "Assess whether committed source and completed evidence support reported scoped results; identify material corrections needed without granting design/production acceptance."
+}
+```
+
+## Publishing and repository checks
+
+All28 project-record tests passed (115.921s), all33 logging/document controls passed after evidence curation, and session/project validators pass. Final loaded-image comparison finds all81 shared image names have equal SHA-256 between the two baseline processes. Tool integration creation returned GitHub403 Resource not accessible by integration; the authenticated local gh CLI is the fallback. This is a connector permission limitation, not an automatic approval-review rejection. No dependency or account permission was changed.
+
+PR91 opened as a draft while final independent assessment completes: https://github.com/asalzburger/nodd/pull/91 . It is attached to this chat. PhysVal-03 confirms complete evidence checks and requests a timing-boundary clarification: initial steering/runtime and factory hashes occur inside total timing, while post-run loaded-library audit hashing is excluded. Report, tool guide, provenance and journal now state the actual boundary; measured values are unchanged.
+
+## MATPROF-PhysVal-03 result and remediation
+
+The separate read-only review assessed25fa2d01ca9b135f070a8549d50dfe3b5af4ced2 and supports the scoped immutable-geantino characterization. Earlier review conditions are resolved: four100×100 outputs, matching settings/generated banks, both detectors plus startup-order full10000-track ×32-branch exact numeric comparison records, all14 controls, separate ordinary energy-vector API interception, original fallback and absent-gamma semantics. Recalculated ratios59.916× baseline detector ratio,7.958× total reuse improvement and49.440× steady improvement agree. No remaining P1/P2 blocker was found within this scope.
+
+Reviewer checked committed JSON, arithmetic/RSS/native summaries, frozen-helper source hash, shared image hashes and retained hashes of seven metric files, four ROOT files and four native timing files. No simulations or ROOT comparisons were rerun by the reviewer; no files changed. Working-tree journal/library-check additions were explicitly excluded from that reviewed snapshot. The added library-check JSON records the coordinator's separately executed81-image check.
+
+The only P3 finding is corrected in the final report/tool guide/provenance/journal: post-run loaded-library audit hashing is outside timing; initial source/factory hashes remain included. Native helper and generator/recorder code are unchanged from the reviewed revision. The unresolved bootstrap mechanism, two Xerces images, first-cut16.506s versus7.409s and shared-host limits remain explicit. This assessment supplies no mutable-Geant4, production or detector approval.
