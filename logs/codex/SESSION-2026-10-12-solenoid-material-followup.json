@@ -1,0 +1,135 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-12-solenoid-material-followup",
+  "title": "Solenoid added material and calorimeter PR executive summary",
+  "recorded_at": "2026-10-12T13:17:57Z",
+  "started_at": null,
+  "ended_at": "2026-10-12T13:36:23Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "At original closeout: Exact client per-turn token counters/model/client version are unavailable; usage remains empty and unknown. No shared-turn usage is split or duplicated. Superseded for token coverage by the 2026-10-20 shared-turn correction.",
+    "Materials and walls are illustrative scenarios, not an approved conductor/cryostat BOM or native material scan.",
+    "Local/phi-dependent supports, chimney, cables and calorimeter/tracker material are excluded; scenario spread is not a confidence interval or rigorous upper/lower bound.",
+    "Recorded closeout time is curation, not client turn completion; latest hosted CI will rerun after publication.",
+    "2026-10-20: complete shared turn 01a1300e-1534-7811-a25b-5aee273646df is owned once by SESSION-2026-10-12-solenoid-baseline; its 14,916,040 tokens cover PR64 and companion PR65/66 work, without a per-PR split. Original journal closeout times describe curation, not the full client turn boundary."
+  ],
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": "01a12426-1fc9-73b0-94ed-40f3eaf1e83c"
+  },
+  "git": {
+    "start_commit": "1bc3e39a62b88b62d23ca3606760d66798d2624c",
+    "branch": "codex/tracker-solenoid-baseline",
+    "initial_changes": [],
+    "result_commits": [
+      "596910254675daf3ec3a30d9a1375bc386717a50",
+      "ad7dc0532a0405ca9b5ff49089fd25f305236ff2"
+    ],
+    "changed_files": [
+      "docs/design/DES-026-tracker-solenoid-baseline.md",
+      "project/tracking.json",
+      "reference/manifest.yaml",
+      "tools/solenoid_baseline/README.md",
+      "docs/design/figures/DES-026-solenoid-material-vs-eta.png",
+      "docs/design/figures/DES-026-solenoid-material-vs-eta.svg",
+      "docs/validation/DES-026/material-estimate.md",
+      "docs/validation/DES-026/material-figure.json",
+      "docs/validation/DES-026/material-profile.json.gz",
+      "docs/validation/DES-026/material.json",
+      "logs/codex/SESSION-2026-10-12-solenoid-material-followup.json",
+      "logs/codex/SESSION-2026-10-12-solenoid-material-followup.md",
+      "tools/solenoid_baseline/material-assumptions.json",
+      "tools/solenoid_baseline/material.py",
+      "tools/solenoid_baseline/plot_material.py",
+      "tools/solenoid_baseline/test_material.py"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "solenoid added material",
+      "calorimeter PR executive summary"
+    ],
+    "related_ids": [
+      "DES-026",
+      "DES-027",
+      "PR64",
+      "PR65"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-12-solenoid-material-followup.md",
+  "activities": [
+    {
+      "kind": "skill",
+      "name": "pdf",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "ATLAS solenoid sectionI PDF1 and detector-paper PDF50 passages read with bundled pypdf6.10.0; existing registered source copies."
+    },
+    {
+      "kind": "tool",
+      "name": "Python/Matplotlib and GitHub CLI",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Standard-library finite-ray material calculator, existing NumPy/Matplotlib environment; primary PDG Al page; direct PR65 executive-summary edit."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "Material ray/control suite after rejection-test extension (first attempt)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "A missing closing parenthesis in the new NaN rejection test prevented import. Corrected without changing test criteria."
+    },
+    {
+      "command": "python -B -m unittest discover -s tools/solenoid_baseline -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Twelve controls passed: six retained energy/field and six analytic material/finite-edge/joint/symmetry/ordering/input controls."
+    },
+    {
+      "command": "python3 -B tools/solenoid_baseline/material.py; plot_material.py with existing Matplotlib",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Reference1.402108 X0 centrally and3.750593 X0 at sampled |eta|1.67. Lean/heavier central1.002652/2.103163 X0. Source/code/profile/image hashes retained; final plot visually inspected after initial footer/legend overlap correction."
+    },
+    {
+      "command": "gh pr edit 65 --body-file /tmp/nodd-calorimeter-pr-body.md",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "High-level executive summary added at top of the existing PR description; source code/head unchanged."
+    },
+    {
+      "command": "Hosted checks for PR64 head1bc3e39 prior to material changes",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Project build and token-site passed; subsequent added-material commit requires a fresh hosted run."
+    },
+    {
+      "command": "Project/session validation, token-site build, material links/profile/code/image hashes",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Project records59tasks/32documents/19reviews and168 session records validate; token-site builds209disjoint turns. All new material links/hashes and2001-point profiles match."
+    },
+    {
+      "command": "PYTHONPATH=tools/project_records python3 -B -m unittest test_records.RepositoryReviewTests -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Historical PR4 review/approval scope still passes with the material follow-up."
+    },
+    {
+      "command": "Compact SVG render, visual inspection and persisted hash check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All2001 calculated samples retained; rendering thins only smooth central/zero regions and preserves0.002 sampling at finite ends. Final PNG/SVG visually checked and hashes match."
+    }
+  ]
+}
