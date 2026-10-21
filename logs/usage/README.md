@@ -1,5 +1,30 @@
 # Local token-usage recovery
 
+## PR91 material-recording profiling accounting — 2026-10-21
+
+[The usage-only inventory](USAGE-2026-10-21-pr91-accounting.json) reconciles the
+explicitly selected PR91 desktop chat and its two recorded specialist children.
+Eight completed turns cover 267 observed requests: the original profiling/PR
+turn, two explanations, two SoftEng assignments and three PhysVal assessments.
+Ten repeated cumulative snapshots are excluded; no usage falls outside persisted
+turn boundaries. Each parent/child stream reconciles independently from zero;
+no inherited prefix or parent aggregate is counted twice.
+
+| Contribution | Closed turns | Input | Output | Total |
+| --- | ---: | ---: | ---: | ---: |
+| Main work and two explanations | 3 | 33,052,857 | 170,249 | 33,223,106 |
+| SoftEng specialist | 2 | 3,828,921 | 17,317 | 3,846,238 |
+| PhysVal specialist | 3 | 4,426,350 | 18,001 | 4,444,351 |
+| **Total** | **8** | **41,308,128** | **205,567** | **41,513,695** |
+
+Cached input 40,301,824 and reasoning output 100,184 are subsets. Input includes
+repeated/cached context; this is observed client accounting, not a billing or
+unique-text estimate. The [original journal](../codex/SESSION-2026-10-21-material-profile.md)
+owns all eight entries once. The current accounting turn is active and excluded.
+Dry-run/import/replay confirms eight additions and zero duplicate ownership.
+Actual execution model/client version and other-device completeness remain
+unknown. The inventory corroborates the journal; never add both to totals.
+
 ## PR88 FCAL accounting — 2026-10-20
 
 The [usage-only inventory](USAGE-2026-10-20-pr88-accounting.json) reconciles

@@ -1,0 +1,117 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-21-pr91-token-accounting",
+  "title": "PR91 exact token accounting and merge readiness",
+  "recorded_at": "2026-10-21T13:35:18Z",
+  "started_at": null,
+  "ended_at": "2026-10-21T13:37:54Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "The current accounting turn is active and has no final persisted boundary; its usage is intentionally empty, meaning unknown rather than zero.",
+    "Actual execution model/client version, other-device completeness and billing equivalence are not established.",
+    "Only usage metadata/token-count events from this exact parent chat and its two recorded specialists were recovered; no conversation items or private model state were queried.",
+    "Journal closeout records local accounting checks. Publishing this metadata commit triggers hosted CI; its result will be checked separately before reporting merge readiness."
+  ],
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": "01a15e18-aee8-7080-a61e-ed35d0448960"
+  },
+  "git": {
+    "start_commit": "d11e8bb43aa5b4473974f234da08092cc5934705",
+    "branch": "codex/material-recording-profile",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      "docs/validation/material-recording-profile/README.md",
+      "logs/codex/SESSION-2026-10-21-material-profile.json",
+      "logs/codex/SESSION-2026-10-21-material-profile.md",
+      "logs/codex/SESSION-2026-10-21-pr91-token-accounting.json",
+      "logs/codex/SESSION-2026-10-21-pr91-token-accounting.md",
+      "logs/usage/README.md",
+      "logs/usage/USAGE-2026-10-21-pr91-accounting.json"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [
+      "PR91 maintenance",
+      "exact observed token accounting"
+    ],
+    "related_ids": [
+      "PR91",
+      "ADR-004"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-21-pr91-token-accounting.md",
+  "activities": [
+    {
+      "kind": "tool",
+      "name": "Read-only usage recovery, logging import and Git/GitHub tools",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Eight closed turns attributed to original material-profile record. No scientific progress entry, source change, design approval or merge is performed."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "recover_usage.py with three explicit thread IDs",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Eight completed turns, one active excluded, ten repeated snapshots ignored, zero outside-turn events; independent cumulative streams reconcile with last-request counters."
+    },
+    {
+      "command": "session_log.py import-usage dry-run, import and identical dry-run replay",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Eight new disjoint observations, then zero additions/eight unchanged; all five counters retained."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "194 paired records valid;233 disjoint observed turns."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "33 logging/recovery/document controls pass."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/token_usage -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "10 dashboard/usage integrity controls pass."
+    },
+    {
+      "command": "node tools/token_usage/test_app.js",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Chart mode and keyboard tooltip checks pass."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py validate and build --output _site/pr91-token-accounting",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "233 disjoint dated turns;733830533 observed project tokens. PR91 contributes41513695 once."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "70 tasks,39 documents and21 reviews valid; no maintenance progress entry added."
+    },
+    {
+      "command": "git fetch origin main codex/material-recording-profile; git rev-list --left-right --count HEAD...origin/main; git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Main is an ancestor (8/0 divergence before accounting commit); no unrelated changes or whitespace errors."
+    }
+  ]
+}

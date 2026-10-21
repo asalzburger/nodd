@@ -260,8 +260,8 @@ directories were verified without modifying shared dependencies.
 Commands and implementation are in
 [the profiling-tool guide](../../../tools/material_recording_profile/README.md).
 The paired [session journal](../../../logs/codex/SESSION-2026-10-21-material-profile.md)
-retains assignment/review targets, actual checks, excluded attempts and unknown
-token coverage. No overlap, engineering, material-realism or reconstruction
+retains assignment/review targets, actual checks, excluded attempts and the dated exact
+token-accounting correction. No overlap, engineering, material-realism or reconstruction
 acceptance is inferred from these timings.
 
 ## Software response and remaining work
