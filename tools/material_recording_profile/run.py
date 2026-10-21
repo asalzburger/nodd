@@ -28,6 +28,12 @@ def main():
     a = p.parse_args()
     if min(a.events, a.tracks) <= 0 or a.seed < 0:
         p.error('events/tracks must be positive and seed nonnegative')
+    if (a.guard_check or a.step_timing) and not os.environ.get('NATIVE_TIMING_LIBRARY'):
+        p.error('guard/step diagnostics require NATIVE_TIMING_LIBRARY')
+    if a.inventory_only and (a.guard_check or a.step_timing):
+        p.error('guard/step diagnostics require transported events')
+    if (a.output/'metrics.json').exists() or (a.output/'tracks.root').exists():
+        p.error('output already contains evidence; choose a fresh output directory')
     a.output.mkdir(parents=True, exist_ok=True)
     metrics = {'pid': os.getpid(), 'phases': [], 'events': [], 'settings': {
         'events': a.events, 'tracks_per_event': a.tracks, 'seed': a.seed,
@@ -35,7 +41,9 @@ def main():
         'vertex_mm': [0, 0, 0, 0], 'threads': 1, 'charge': 0, 'pdg': 0,
         'momentum_GeV': [1, 10], 'recordElementFractions': False,
         'prePostStep': True, 'recalculateTotals': True},
-        'compact': str(a.compact.resolve()), 'factories': []}
+        'compact': str(a.compact.resolve()), 'factories': [],
+        'steering_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+        'runtime_pipeline_sha256':hashlib.sha256((a.runtime/'software/running/nodd_material_recording.py').read_bytes()).hexdigest()}
 
     def save():
         (a.output / 'metrics.json').write_text(json.dumps(metrics, indent=2)+'\n')

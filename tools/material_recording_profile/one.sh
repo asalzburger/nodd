@@ -17,7 +17,7 @@ case "$detector" in
     done
     ;;
   odd)
-    compact="${output:h}/odd-tracker.xml"
+    compact="$output/odd-tracker.xml"
     python3 "$source_dir/prepare_odd.py" \
       "$runtime/software/submodules/OpenDataDetector/xml" "$compact"
     factories=(--factory "${ODD_FACTORY:-/Users/salzburg/Documents/work/installed/acts-nodd/lib/libOpenDataDetector.dylib}")
@@ -28,7 +28,8 @@ native_env=()
 if [[ -n ${NATIVE_TIMING_LIBRARY:-} ]]; then
   view=${DEPENDENCY_VIEW:-/Users/salzburg/Documents/work/externals/ci-dependencies/.spack-env/view}
   native_env+=("DYLD_INSERT_LIBRARIES=$NATIVE_TIMING_LIBRARY:$view/lib/libDDG4.dylib" \
-               "MATERIAL_NATIVE_TIMING=$output.native.jsonl")
+               "MATERIAL_NATIVE_TIMING=$output.native.jsonl" \
+               "MATERIAL_ENERGY_CUT_CLIENT=$NATIVE_TIMING_LIBRARY.energy-client.dylib")
 fi
 exec "$runtime/software/env/run.sh" /bin/zsh "$runtime/software/env/acts-run.sh" \
   "$runtime/build/acts" /usr/bin/env "${native_env[@]}" "$runtime/build/pyvenv/bin/python" \

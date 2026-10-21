@@ -38,3 +38,11 @@ DD4hep, Geant4, ROOT, podio, EDM4hep and GSL remain Spack dependencies.
 
 The staged migration is recorded in
 [ADR-008](../docs/decisions/ADR-008-software-source-layout.md).
+
+## Material-recording profiling
+
+The [matched ODD/nODD profiler](../tools/material_recording_profile/README.md)
+uses an explicitly selected existing software runtime. The
+[measured findings](../docs/validation/material-recording-profile/README.md)
+separate recurring Geant4 association scans, first-run voxelization and transport,
+with an opt-in immutable-geometry association-reuse experiment.

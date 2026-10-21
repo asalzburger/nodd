@@ -7,6 +7,7 @@
 #include <G4Material.hh>
 #include <G4ProductionCutsTable.hh>
 #include <G4ProductionCuts.hh>
+#include <G4ParticleTable.hh>
 #include <G4Region.hh>
 #include <G4RegionStore.hh>
 #include <G4TransportationManager.hh>
@@ -26,6 +27,7 @@ reinterpret_cast<const void*>(&REPLACEMENT), reinterpret_cast<const void*>(&TARG
 namespace {
 using Clock = std::chrono::steady_clock;
 bool userEnergyCutsConfigured=false;
+size_t userEnergyCutCalls=0;
 size_t originalCoupleUpdates=0;
 struct StepStats { size_t count=0; double wall=0, cpu=0; } stepStats;
 struct ObservedStepping final : G4UserSteppingAction {
@@ -87,6 +89,7 @@ extern "C" void target_energy_cuts(void*,const std::vector<double>&,size_t)
   asm("__ZN21G4ProductionCutsTable18SetEnergyCutVectorERKNSt3__16vectorIdNS0_9allocatorIdEEEEm");
 extern "C" void observe_energy_cuts(void* self,const std::vector<double>& values,size_t index) {
   userEnergyCutsConfigured=true;
+  ++userEnergyCutCalls;
   target_energy_cuts(self,values,index);
 }
 DYLD_INTERPOSE(observe_energy_cuts,target_energy_cuts);
@@ -152,14 +155,24 @@ extern "C" const char* materialProfileGuardChecks() {
   const bool restored=check();
   // Last control deliberately disables the optimization for the remaining
   // process lifetime. No further event is transported after these controls.
-  observe_energy_cuts(table,std::vector<double>(table->GetTableSize(),0.001),0);
+  const auto callsBefore=userEnergyCutCalls;
+  const char* clientPath=std::getenv("MATERIAL_ENERGY_CUT_CLIENT");
+  void* client=clientPath?dlopen(clientPath,RTLD_NOW|RTLD_LOCAL):nullptr;
+  auto configure=client?reinterpret_cast<void(*)(void*,size_t)>(
+      dlsym(client,"materialProfileClientEnergyCutVector")):nullptr;
+  if (!configure) std::abort();
+  configure(table,table->GetTableSize());
+  const bool clientIntercepted=userEnergyCutCalls==callsBefore+1;
   const bool energyVectorRejected=!check();
   const auto updatesBefore=originalCoupleUpdates;
   observe_couples(table,world);
   const bool fallbackExecuted=originalCoupleUpdates==updatesBefore+1;
   const auto* energy=table->GetEnergyCutsVector(0);
+  // Geantinos do not instantiate gamma range-to-energy conversion. Geant4
+  // deliberately retains -1 for that absent species, even with a user vector.
+  const double expectedEnergy=G4ParticleTable::GetParticleTable()->FindParticle("gamma")?0.001:-1.;
   const bool energyValuesUpdated=energy && energy->size()==table->GetTableSize() &&
-    std::all_of(energy->begin(),energy->end(),[](double value) { return value==0.001; });
+    std::all_of(energy->begin(),energy->end(),[&](double value) { return value==expectedEnergy; });
   static std::string result;
   result=std::string("{\"initial_valid\":")+(initial?"true":"false")+
     ",\"changed_material_rejected\":"+(materialRejected?"true":"false")+
@@ -172,8 +185,9 @@ extern "C" const char* materialProfileGuardChecks() {
     ",\"open_geometry_rejected\":"+(openGeometryRejected?"true":"false")+
     ",\"restored_valid\":"+(restored?"true":"false")+
     ",\"energy_vector_config_rejected\":"+(energyVectorRejected?"true":"false")+
+    ",\"external_energy_vector_api_intercepted\":"+(clientIntercepted?"true":"false")+
     ",\"energy_vector_fallback_executed\":"+(fallbackExecuted?"true":"false")+
-    ",\"energy_vector_values_updated\":"+(energyValuesUpdated?"true":"false")+"}";
+    ",\"energy_vector_values_match_native\":"+(energyValuesUpdated?"true":"false")+"}";
   return result.c_str();
 }
 
