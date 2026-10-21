@@ -24,6 +24,7 @@ def main():
     p.add_argument('--inventory', action='store_true', help='Collect native hierarchy after timing')
     p.add_argument('--inventory-only', action='store_true', help='Construct without processing events')
     p.add_argument('--guard-check', action='store_true', help='Run post-transport cache adverse controls')
+    p.add_argument('--step-timing', action='store_true', help='Instrument each material stepping callback')
     a = p.parse_args()
     if min(a.events, a.tracks) <= 0 or a.seed < 0:
         p.error('events/tracks must be positive and seed nonnegative')
@@ -115,6 +116,9 @@ def main():
     module.runMaterialRecording(detector=detector, s=Proxy(),
         tracksPerEvent=a.tracks, seed=a.seed, outputFileBase=a.output/'tracks')
     t = stamp('pipeline_construction_including_g4_conversion_initialize', t)
+    if a.step_timing:
+        import ctypes
+        ctypes.CDLL(os.environ['NATIVE_TIMING_LIBRARY']).materialProfileInstallSteppingTimer()
     if not a.inventory_only:
         seq.run()
     t = stamp('sequencer_run', t)
@@ -131,7 +135,7 @@ def main():
         raw = dyld._dyld_get_image_name(i)
         path = Path(raw.decode()) if raw else None
         if path and path.is_file() and any(token in path.name for token in
-                ('Acts', 'G4', 'DDCore', 'DDG4', 'nODD', 'OpenDataDetector', 'libpython', 'libCore.')):
+                ('Acts', 'G4', 'DDCore', 'DDG4', 'nODD', 'OpenDataDetector', 'libpython', 'libCore.', 'NativeTiming')):
             loaded.append({'path':str(path.resolve()),
                 'sha256':hashlib.sha256(path.read_bytes()).hexdigest()})
     (a.output/'loaded-libraries.json').write_text(json.dumps(loaded,indent=2)+'\n')

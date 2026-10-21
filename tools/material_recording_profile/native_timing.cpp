@@ -10,6 +10,8 @@
 #include <G4Region.hh>
 #include <G4RegionStore.hh>
 #include <G4TransportationManager.hh>
+#include <G4RunManager.hh>
+#include <G4UserSteppingAction.hh>
 #include <chrono>
 #include <cstdio>
 #include <cstdlib>
@@ -23,6 +25,22 @@ reinterpret_cast<const void*>(&REPLACEMENT), reinterpret_cast<const void*>(&TARG
 
 namespace {
 using Clock = std::chrono::steady_clock;
+bool userEnergyCutsConfigured=false;
+size_t originalCoupleUpdates=0;
+struct StepStats { size_t count=0; double wall=0, cpu=0; } stepStats;
+struct ObservedStepping final : G4UserSteppingAction {
+  G4UserSteppingAction* inner;
+  explicit ObservedStepping(G4UserSteppingAction* action) : inner(action) {}
+  ~ObservedStepping() override { delete inner; }
+  void UserSteppingAction(const G4Step* step) override {
+    const auto wall=Clock::now();
+    const auto cpu=std::clock();
+    inner->UserSteppingAction(step);
+    stepStats.cpu+=double(std::clock()-cpu)/CLOCKS_PER_SEC;
+    stepStats.wall+=std::chrono::duration<double>(Clock::now()-wall).count();
+    ++stepStats.count;
+  }
+};
 struct Timer {
   const char* name;
   Clock::time_point wall=Clock::now();
@@ -41,7 +59,7 @@ struct Timer {
 // Opt-in prototype for immutable, single-world material recording. Validate
 // the actual association of EVERY volume; a count-only cache would be unsafe.
 bool associationsAlreadyCorrect(G4ProductionCutsTable* table, G4VPhysicalVolume* world) {
-  if (!G4GeometryManager::GetInstance()->IsGeometryClosed() || table->IsModified() ||
+  if (userEnergyCutsConfigured || !G4GeometryManager::GetInstance()->IsGeometryClosed() || table->IsModified() ||
       table->GetTableSize()==0 ||
       G4TransportationManager::GetTransportationManager()->GetNoWorlds()!=1) return false;
   G4Region* region=nullptr;
@@ -55,6 +73,8 @@ bool associationsAlreadyCorrect(G4ProductionCutsTable* table, G4VPhysicalVolume*
   for (auto* volume : *G4LogicalVolumeStore::GetInstance()) {
     auto* couple=volume->GetMaterialCutsCouple();
     if (volume->GetRegion()!=region || !couple || !couple->IsUsed() ||
+        couple->GetIndex()<0 || size_t(couple->GetIndex())>=table->GetTableSize() ||
+        table->GetMaterialCutsCouple(couple->GetIndex())!=couple ||
         couple->GetMaterial()!=volume->GetMaterial() ||
         couple->GetProductionCuts()!=region->GetProductionCuts() ||
         region->FindCouple(volume->GetMaterial())!=couple) return false;
@@ -63,8 +83,30 @@ bool associationsAlreadyCorrect(G4ProductionCutsTable* table, G4VPhysicalVolume*
 }
 }
 
+extern "C" void target_energy_cuts(void*,const std::vector<double>&,size_t)
+  asm("__ZN21G4ProductionCutsTable18SetEnergyCutVectorERKNSt3__16vectorIdNS0_9allocatorIdEEEEm");
+extern "C" void observe_energy_cuts(void* self,const std::vector<double>& values,size_t index) {
+  userEnergyCutsConfigured=true;
+  target_energy_cuts(self,values,index);
+}
+DYLD_INTERPOSE(observe_energy_cuts,target_energy_cuts);
+
+extern "C" void materialProfileInstallSteppingTimer() {
+  auto* run=G4RunManager::GetRunManager();
+  auto* original=const_cast<G4UserSteppingAction*>(run->GetUserSteppingAction());
+  if (!original) std::abort();
+  run->SetUserAction(new ObservedStepping(original));
+}
+
 // Adverse controls run only AFTER transport and restore each changed pointer.
+extern "C" void observe_couples(void*,void*);
 extern "C" const char* materialProfileGuardChecks() {
+  if (const auto* path=std::getenv("MATERIAL_NATIVE_TIMING")) {
+    if (auto* f=std::fopen(path,"a")) {
+      std::fprintf(f,"{\"name\":\"post_transport_checks_begin\"}\n");
+      std::fclose(f);
+    }
+  }
   auto* world=G4TransportationManager::GetTransportationManager()->GetNavigatorForTracking()->GetWorldVolume();
   auto* table=G4ProductionCutsTable::GetProductionCutsTable();
   auto check=[&] { return associationsAlreadyCorrect(table,world); };
@@ -85,12 +127,53 @@ extern "C" const char* materialProfileGuardChecks() {
   region->SetProductionCuts(&alternateCuts);
   const bool cutsRejected=!check();
   region->SetProductionCuts(cuts);
+  const double originalCut=cuts->GetProductionCut(0);
+  cuts->SetProductionCut(originalCut+1.0,0);  // post-transport adverse fixture only
+  const bool cutValueRejected=!check();
+  cuts->SetProductionCut(originalCut,0);
+  table->PhysicsTableUpdated();  // initial guard required all flags unmodified
+  auto* couple=const_cast<G4MaterialCutsCouple*>(volume->GetMaterialCutsCouple());
+  volume->SetMaterialCutsCouple(nullptr);
+  const bool nullCoupleRejected=!check();
+  volume->SetMaterialCutsCouple(couple);
+  const auto originalIndex=couple->GetIndex();
+  couple->SetIndex(int(table->GetTableSize()));
+  const bool staleIndexRejected=!check();
+  couple->SetIndex(originalIndex);
+  bool extraRegionRejected=false;
+  {
+    G4Region extra("material-profile-adverse-extra-region");
+    extra.UsedInMassGeometry(true);
+    extraRegionRejected=!check();
+  }
+  G4GeometryManager::GetInstance()->OpenGeometry();
+  const bool openGeometryRejected=!check();
+  G4GeometryManager::GetInstance()->CloseGeometry(true,false);
+  const bool restored=check();
+  // Last control deliberately disables the optimization for the remaining
+  // process lifetime. No further event is transported after these controls.
+  observe_energy_cuts(table,std::vector<double>(table->GetTableSize(),0.001),0);
+  const bool energyVectorRejected=!check();
+  const auto updatesBefore=originalCoupleUpdates;
+  observe_couples(table,world);
+  const bool fallbackExecuted=originalCoupleUpdates==updatesBefore+1;
+  const auto* energy=table->GetEnergyCutsVector(0);
+  const bool energyValuesUpdated=energy && energy->size()==table->GetTableSize() &&
+    std::all_of(energy->begin(),energy->end(),[](double value) { return value==0.001; });
   static std::string result;
   result=std::string("{\"initial_valid\":")+(initial?"true":"false")+
     ",\"changed_material_rejected\":"+(materialRejected?"true":"false")+
     ",\"changed_region_rejected\":"+(regionRejected?"true":"false")+
     ",\"changed_cuts_rejected\":"+(cutsRejected?"true":"false")+
-    ",\"restored_valid\":"+(check()?"true":"false")+"}";
+    ",\"changed_cut_value_rejected\":"+(cutValueRejected?"true":"false")+
+    ",\"null_couple_rejected\":"+(nullCoupleRejected?"true":"false")+
+    ",\"stale_index_rejected\":"+(staleIndexRejected?"true":"false")+
+    ",\"extra_region_rejected\":"+(extraRegionRejected?"true":"false")+
+    ",\"open_geometry_rejected\":"+(openGeometryRejected?"true":"false")+
+    ",\"restored_valid\":"+(restored?"true":"false")+
+    ",\"energy_vector_config_rejected\":"+(energyVectorRejected?"true":"false")+
+    ",\"energy_vector_fallback_executed\":"+(fallbackExecuted?"true":"false")+
+    ",\"energy_vector_values_updated\":"+(energyValuesUpdated?"true":"false")+"}";
   return result.c_str();
 }
 
@@ -116,6 +199,7 @@ extern "C" void observe_couples(void* self,void* world) {
     if (associationsAlreadyCorrect(static_cast<G4ProductionCutsTable*>(self),
                                   static_cast<G4VPhysicalVolume*>(world))) return;
   }
+  ++originalCoupleUpdates;
   target_couples(self,world);
 }
 DYLD_INTERPOSE(observe_couples,target_couples);
@@ -129,7 +213,15 @@ DYLD_INTERPOSE(observe_close,target_close);
 
 extern "C" void target_event(void*,void*) asm("__ZN14G4EventManager15ProcessOneEventEP7G4Event");
 extern "C" void observe_event(void* self,void* event) {
+  const auto before=stepStats;
   Timer t{"g4_event_transport_and_recording"}; target_event(self,event);
+  if (stepStats.count>before.count) {
+    if (auto* f=std::fopen(std::getenv("MATERIAL_NATIVE_TIMING"),"a")) {
+      std::fprintf(f,"{\"name\":\"material_stepping_recording_instrumented\",\"steps\":%zu,\"wall_s\":%.9f,\"cpu_s\":%.9f}\n",
+        stepStats.count-before.count,stepStats.wall-before.wall,stepStats.cpu-before.cpu);
+      std::fclose(f);
+    }
+  }
 }
 DYLD_INTERPOSE(observe_event,target_event);
 
