@@ -28,7 +28,7 @@ view=${DEPENDENCY_VIEW:-/Users/salzburg/Documents/work/externals/ci-dependencies
 # Initialize DDG4's XML runtime before PyROOT, identically for both detectors.
 native_env=("DYLD_INSERT_LIBRARIES=$view/lib/libDDG4.dylib")
 if [[ -n ${NATIVE_TIMING_LIBRARY:-} ]]; then
-  native_env=("DYLD_INSERT_LIBRARIES=$NATIVE_TIMING_LIBRARY:$view/lib/libDDG4.dylib" \
+  native_env=("DYLD_INSERT_LIBRARIES=$view/lib/libDDG4.dylib:$NATIVE_TIMING_LIBRARY" \
                "MATERIAL_NATIVE_TIMING=$output.native.jsonl" \
                "MATERIAL_ENERGY_CUT_CLIENT=$NATIVE_TIMING_LIBRARY.energy-client.dylib")
 fi

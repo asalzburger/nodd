@@ -42,6 +42,10 @@ def main():
         'momentum_GeV': [1, 10], 'recordElementFractions': False,
         'prePostStep': True, 'recalculateTotals': True},
         'compact': str(a.compact.resolve()), 'factories': [],
+        'preloaded_libraries':os.environ.get('DYLD_INSERT_LIBRARIES','').split(os.pathsep),
+        'diagnostics':{'native_helper':bool(os.environ.get('NATIVE_TIMING_LIBRARY')),
+            'static_couple_reuse':os.environ.get('MATERIAL_REUSE_STATIC_COUPLES')=='1',
+            'step_timing':a.step_timing,'post_transport_guard_check':a.guard_check},
         'steering_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
         'runtime_pipeline_sha256':hashlib.sha256((a.runtime/'software/running/nodd_material_recording.py').read_bytes()).hexdigest()}
 
