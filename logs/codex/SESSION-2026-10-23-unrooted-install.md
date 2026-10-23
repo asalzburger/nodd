@@ -63,6 +63,8 @@ detector parameters and design approval states are unchanged.
   fixture to copy software sources while excluding build environments and
   third-party submodules, retaining all strict evidence checks. All 28 tests
   passed on the final run (114.774 seconds).
+- Closeout initially wrote a UTC offset timestamp; the journal requires a `Z`
+  suffix. Corrected the same timestamp and reran session validation successfully.
 - Final record, session, token-preview and whitespace checks are recorded in
   the paired JSON with their observed results. Hosted checks remain separate.
 
