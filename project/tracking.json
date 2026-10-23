@@ -2856,15 +2856,16 @@
         "https://github.com/asalzburger/nodd/pull/96",
         "https://github.com/asalzburger/nodd/pull/96#issuecomment-6361616493",
         "logs/usage/USAGE-2026-10-23-pr96-accounting.json",
-        "logs/codex/SESSION-2026-10-23-pr96-accounting.md"
+        "logs/codex/SESSION-2026-10-23-pr96-accounting.md",
+        "logs/usage/USAGE-2026-10-23-pr96-closeout.json"
       ],
       "documents": [
         "ADR-003"
       ],
       "updated": "2026-10-23",
-      "next_action": "Review Software PR96 after its accounting-update hosted checks pass, then use the pinned environment for documentation plots. Current accounting-turn usage is provisional until its closed boundary is available.",
+      "next_action": "PR96 merged on 2026-10-23; use the source-pinned environment for repeatable scientific plots. New tracker propagation work is tracked separately.",
       "blocker": null,
-      "disposition": "Installed unrooted 0.1.0rc1 at upstream 728465dce0c5cd5b876e67392e3858de6e982d05 in a dedicated CPython 3.11.15 macOS arm64 environment. Exact synthetic ROOT values/variances/edges, ODD styling, ratio overlay, PNG/PDF/SVG, self-contained Plotly HTML and CLI passed; dependency compatibility passed. No detector performance or design acceptance inferred. Token-accounting update on 2026-10-23: one completed issue95/PR96 turn, 60 observed requests, 7137997 input + 24680 output = 7162677 tokens; counted once in the original session. Cached and reasoning subsets are not added. Original hosted checks passed; final metadata-head checks remain separately tracked.",
+      "disposition": "Installed unrooted 0.1.0rc1 at upstream 728465dce0c5cd5b876e67392e3858de6e982d05 in a dedicated CPython 3.11.15 macOS arm64 environment. Exact synthetic ROOT values/variances/edges, ODD styling, ratio overlay, PNG/PDF/SVG, self-contained Plotly HTML and CLI passed; dependency compatibility passed. No detector performance or design acceptance inferred. Token-accounting update on 2026-10-23: one completed issue95/PR96 turn, 60 observed requests, 7137997 input + 24680 output = 7162677 tokens; counted once in the original session. Cached and reasoning subsets are not added. Original hosted checks passed; final metadata-head checks remain separately tracked. PR96 merged at fbf81c4c72469c1bda0cd6122f9912af6f17228d on2026-10-23T10:38:56Z; merge grants no design acceptance. Closed-boundary follow-up reconciled: implementation plus accounting total14,443,192 observed tokens across96 requests, counted under two disjoint original sessions. New tracker work excluded.",
       "subsystem": "software"
     },
     {
@@ -3017,6 +3018,46 @@
       "next_action": "Maintainer merge after final accounting/interaction checks. Retain intermediate material-location discrepancies for future investigation before sensor-order or tracking use.",
       "blocker": null,
       "disposition": "Requested prototype diagnostic generated:all five cumulative comparisons,configurable slices/checkpoints,per-ray means/SEM and zeros;100k rays per sample. Independent PhysVal atbffaba61 reproduces sampled means/SEM,all endpoints/CSV and finds no blocker. Max forward difference0.36268X0 at1330mm is retained without acceptance criteria. Physical geometry/native map unchanged. Expert noemina commented Good enough at the time being on 2026-10-26 (6416466956); positive discussion feedback, with no formal review submission or design sign-off.",
+      "subsystem": "tracker"
+    },
+    {
+      "id": "TASK-SOFT-TRACKER-PROPAGATION",
+      "title": "Repeatable ACTS tracker crossing profiles in the current 3T solenoid field",
+      "scope": "Current DD4hep-backed ACTS TrackingGeometry, generated DES026 finite-winding RZ map, pT1/10/100GeV sensitive-plane crossing profiles with unrooted and complete probe accounting.",
+      "stage": "C",
+      "milestones": [
+        "M3"
+      ],
+      "workstream": "WS-SOFT",
+      "role": "Project software engineer",
+      "owner": null,
+      "state": "completed",
+      "dependencies": [
+        "TASK-TRACKER-GEN3",
+        "TASK-SOFT-UNROOTED"
+      ],
+      "deliverables": [
+        "tools/tracker_propagation/README.md",
+        "software/running/tracker_propagation.py",
+        "docs/validation/tracker-propagation/README.md"
+      ],
+      "evidence": [
+        "docs/validation/tracker-propagation/profiles.json",
+        "docs/validation/tracker-propagation/field-report.json",
+        "docs/validation/tracker-propagation/controls/diagnostics.json",
+        "docs/validation/tracker-propagation/physval.md",
+        "docs/validation/tracker-propagation/software-review.md",
+        "logs/codex/SESSION-2026-10-23-tracker-propagation.md"
+      ],
+      "documents": [
+        "DES-025",
+        "DES-026",
+        "ADR-003"
+      ],
+      "updated": "2026-10-23",
+      "next_action": "Review the Software PR. Reuse the explicit configuration and retained counts; strengthen map convergence/statistics before interpreting precision acceptance differences.",
+      "blocker": null,
+      "disposition": "24576 nominal probes at pT1/10/100GeV fully accounted with45646 source-matched sensitive planes/117 volumes; zero-inclusive unrooted profiles and repeatable field/propagation/replot workflow delivered. Half-step512-per-pT controls unchanged. Finer map changes7/512 forward1GeV probes at finite sensor edges; this1.37% control fraction and non-convergence qualification are retained. Separate PhysVal at5181bd317e6b369388805e1567d695a22a4e33aa found no blocker for prototype overview; no human sign-off.",
       "subsystem": "tracker"
     }
   ],
@@ -4371,6 +4412,23 @@
         "DES-025"
       ],
       "scope": "Configurable 65-portal Gen3 material-mapping prototype and expert-requested cumulative comparisons. Observed head 568d8a4 passed both hosted workflows before merge-preparation record updates. Expert noemina feedback 6416466956 is positive; no formal review submission. Mapping PhysVal 2fff94b and cumulative PhysVal bffaba61 remain distinct exact-revision assessments. Intermediate differences and prototype limitations retained; no design sign-off or production acceptance.",
+      "category": "project"
+    },
+    {
+      "id": "PR-96",
+      "number": 96,
+      "title": "Software: install unrooted for documentation plots",
+      "url": "https://github.com/asalzburger/nodd/pull/96",
+      "state": "merged",
+      "head_revision": "505b84e41e4e190c91780abcaf52000684698459",
+      "merge_commit": "fbf81c4c72469c1bda0cd6122f9912af6f17228d",
+      "merged_at": "2026-10-23T10:38:56Z",
+      "collected_at": "2026-10-23T13:01:41Z",
+      "task": "TASK-SOFT-UNROOTED",
+      "documents": [
+        "ADR-003"
+      ],
+      "scope": "Issue95 plotting environment and exact observed token accounting; actual merge reconciled in the subsequent tracker characterization task.",
       "category": "project"
     }
   ]

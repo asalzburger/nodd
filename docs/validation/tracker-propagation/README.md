@@ -72,13 +72,14 @@ is included.
 [Numerical diagnostics](controls/diagnostics.json) retain paired controls and
 all affected source surfaces. Halving the maximum step to 25 mm changes no
 per-system counts in 512 paired probes at any momentum. Halving map spacing
-to 5/10 mm changes seven 1 GeV probes by one crossing each, with zero changes
+to 5/10 mm changes seven of 512 1 GeV probes (1.37%) by one crossing each, with zero changes
 at 10 and 100 GeV. These forward probes (|η|≈2.9–3.8) lie close to pixel/strip
 sensor edges: adjacent-step interpolation gives signed local edge clearances
 that cross zero, with common-surface trajectory shifts of 0.029–0.066 mm.
 The edge distances are diagnostic linear interpolations, not exact propagated
-miss distances. The net full-tracker mean shift in that paired subset is
-+1/512 crossings; this is not a claim of per-track map convergence. The diagnostic
+miss distances. The mean absolute change is 7/512 crossings per probe; affected control-bin means
+change by up to 0.2 crossings. Four gains and three losses give a net full-tracker
+mean shift of +1/512 crossings in that paired subset; this is not a claim of per-track map convergence. The diagnostic
 status deliberately remains `DIFFERENCES_REQUIRE_REVIEW` so downstream users
 inspect these effects before using fine acceptance differences.
 
@@ -121,3 +122,11 @@ is context, not proof of the installed binaries' exact source tree. DD4hep 1.38,
 Geant4 11.4.3 and the required imports were checked after stale Spack setup/lock
 fingerprints were reported. This is a measured supported-node reproduction,
 not a claim that an arbitrary ACTS release or unverified node will run it.
+
+The [separate PhysVal assessment](physval.md) reproduces the retained profiles,
+native accounting and edge-flip controls at its exact review revision. The
+[software assessment](software-review.md) preserves earlier defects and fixes.
+
+An [end-to-end Make replay](replay.json) with 2,048 probes per momentum passed.
+Every saved count-table field exactly matches the first 2,048 nominal probes,
+and the regenerated field-map bytes are identical.
