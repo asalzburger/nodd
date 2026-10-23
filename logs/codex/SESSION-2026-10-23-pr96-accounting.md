@@ -82,3 +82,7 @@ Review PR96 after checks pass on the accounting commit. Recover this accounting
 turn after its completed boundary becomes available; assign it only to this
 follow-up journal without reimporting the original issue95/PR96 turn. The current
 request prepares the PR for merge and does not itself merge it.
+
+## Closed-boundary accounting correction, 2026-10-23
+
+A later usage-only capture observed the accounting follow-up closed. Imported its exact36-request counters under this session, retaining the earlier provisional snapshot as history. Together issue95/PR96 implementation and accounting contain14,400,520 input +42,672 output =14,443,192 observed tokens across96 requests. Cached14,241,792 and reasoning15,554 are subsets. The new tracker-propagation task and its children are excluded. See [closed evidence](../usage/USAGE-2026-10-23-pr96-closeout.json).

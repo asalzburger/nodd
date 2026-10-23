@@ -19,12 +19,17 @@ found. Dry-run/import/replay yields one addition followed by zero additions and
 one unchanged entry. The inventory corroborates the journal and is not another
 contribution to totals.
 
-The current accounting follow-up is still active; its retained snapshot is a
-provisional lower bound excluded from finalized totals. Recover its closed
-boundary in a later accounting pass, using the separate
-[accounting journal](../codex/SESSION-2026-10-23-pr96-accounting.md), without
-reimporting the original turn. Actual execution model/client version, billing
-and other-device completeness remain unknown.
+A later [closed-boundary capture](USAGE-2026-10-23-pr96-closeout.json) observes
+the accounting follow-up complete: 7,262,523 input + 17,992 output = 7,280,515
+additional tokens over 36 requests, owned by its existing accounting journal.
+Together the two issue95/PR96 turns contain **14,400,520 input + 42,672 output =
+14,443,192 tokens** across 96 requests. Cached 14,241,792 and reasoning 15,554 are
+subsets. The original provisional snapshot remains historical evidence.
+
+The new tracker-propagation task is separate. Its [specialist usage capture](USAGE-2026-10-23-tracker-propagation.json)
+is owned by the tracker journal, with the active scientific parent excluded from
+finalized totals. Execution model/client version, billing and other-device
+completeness remain unknown.
 
 ## PR91 material-recording profiling accounting — 2026-10-21
 
