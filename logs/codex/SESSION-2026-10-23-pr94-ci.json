@@ -1,0 +1,180 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-23-pr94-ci",
+  "title": "PR94 CI failure correction",
+  "recorded_at": "2026-10-23T10:12:51Z",
+  "started_at": null,
+  "ended_at": "2026-10-23T10:21:38Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact finalized per-turn client token counters are unavailable; usage is empty, not zero.",
+    "This tightly dependent CI correction is handled by the coordinator; no new independent specialist assessment is claimed.",
+    "The final evidence-only commit triggers a fresh remote CI run; consult GitHub checks for its terminal status."
+  ],
+  "client": {
+    "name": "unspecified",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "5263d48c211eda91191e9c7470dc4c92dfe0f7ba",
+    "branch": "codex/muon-dd4hep-prototype",
+    "initial_changes": [],
+    "result_commits": [
+      "4605ad6ba160c478a324ca1aa30a7cd3c934cd4e"
+    ],
+    "changed_files": [
+      "docs/validation/DES-040/dd4hep-ci-2026-10-23/README.md",
+      "docs/validation/DES-040/dd4hep-ci-2026-10-23/checkOverlaps.log",
+      "docs/validation/DES-040/dd4hep-ci-2026-10-23/ddsim.log.gz",
+      "docs/validation/DES-040/dd4hep-ci-2026-10-23/geometry-validation.json",
+      "docs/validation/DES-040/dd4hep-ci-2026-10-23/geometry-validation.log",
+      "docs/validation/DES-040/dd4hep-ci-2026-10-23/run.json",
+      "docs/validation/DES-040/dd4hep-ci-2026-10-23/source-comparison.json",
+      "docs/validation/DES-040/dd4hep-ci-2026-10-23/transport-comparison.json",
+      "logs/codex/SESSION-2026-10-23-pr94-ci.json",
+      "logs/codex/SESSION-2026-10-23-pr94-ci.md",
+      "project/tracking.json",
+      "prototypes/muon/README.md",
+      "prototypes/muon/compact/expected.json",
+      "prototypes/muon/compact/muon-system.xml",
+      "tools/muon_dd4hep/templates.py",
+      "tools/muon_dd4hep/test_export.py"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "muon DD4hep export",
+      "CI reproducibility"
+    ],
+    "related_ids": [
+      "PR-94",
+      "ISSUE-92",
+      "ISSUE-93",
+      "DES-040"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-23-pr94-ci.md",
+  "activities": [
+    {
+      "kind": "skill",
+      "name": "nodd-review-validation",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Read and applied repository skill; invocation counts and duration not measured."
+    },
+    {
+      "kind": "skill",
+      "name": "acts-spack",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Read and applied repository skill; invocation counts and duration not measured."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "GitHub PR94 comments, workflow39924882061/job120318707307 logs",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Ubuntu24.04/Python3.12.15: frozen XML bytes differ in reconstructed angle last digits; other14 muon controls pass."
+    },
+    {
+      "command": "One-ULP injected math.atan2 reproduction against original frozen-export test",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Reproduced the frozen-byte failure before correction; harness asserts failure is observed."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/muon_dd4hep -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "16 tests pass, including retained frozen-byte equality and new injected-libm-drift regression."
+    },
+    {
+      "command": "python3 -B skills/acts-spack/scripts/preflight.py",
+      "status": "FAIL",
+      "exit_code": 2,
+      "result": "Setup/lock fingerprints changed; actual fresh runtime verification follows."
+    },
+    {
+      "command": "Fresh setup_spack; spack env/specs; DD4hep/DDG4/ROOT imports; geant4-config --version/--check-datasets",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "DD4hep1.38 /3yd4hz3, ROOT6.40.04, Geant411.4.3 /wfg55xi; all12 datasets present. Sandbox sysctl/ps warnings; no shared installations modified."
+    },
+    {
+      "command": "/Users/salzburg/.local/bin/python3.11 -B -m unittest discover -s tools/muon_dd4hep -p test_*.py -q",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All16 tests pass on Python3.11.15; frozen output bytes match Python3.14.6."
+    },
+    {
+      "command": "Committed-source run_validation.py --output-dir reference/cache/pr94-ci/run-01",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Clean4605ad6:936 stable IDs,22 native shapes/volumes,288 coil primitives,25248 occupancy probes;0 overlaps at1e-5 mm;1000 persisted20GeV gammas. Native vertex max1.0087767680389479e-14m."
+    },
+    {
+      "command": "check_transport.py --before retained run06 --after pr94-ci/run-01",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Both ROOT hashes checked.1000 events/one parentless20GeV gamma each; primary bank and particle multiplicities exactly equal."
+    },
+    {
+      "command": "GitHub workflow39938029454 step15",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Ubuntu CI completes the previously failing DD4hep muon control step successfully at4605ad6. Remainder of full workflow still running when observed."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "71tasks,38documents,21review rounds valid."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "203 paired records valid before final closeout update; repeated afterward."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py summary --format json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "251 disjoint observed turns:870643545 input,4670671 output,875314216 total. Current turn counters unavailable; no estimates entered."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py validate; build --output _site/pages",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Site validation/build pass,251 dated turns. Missing coverage retained explicitly."
+    },
+    {
+      "command": "gh pr edit94 --body-file reference/cache/pr94-ci/pr-body.md",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "PR body updated with correction and committed native replay. Readback confirms body, ready/open status, base and reviewer retained. No public comment/message sent."
+    },
+    {
+      "command": "git push origin codex/muon-dd4hep-prototype",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Correction4605ad6 pushed to existing PR94; final evidence commit follows."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/project_records -p test_*.py -q",
+      "status": "FAIL",
+      "exit_code": 130,
+      "result": "Supplementary local suite interrupted during repeated synthetic-fixture Git adds; docs input is897MB. No failed assertion observed and no suite pass claimed. Canonical record validator passes; unmodified full suite remains in remote CI."
+    }
+  ]
+}

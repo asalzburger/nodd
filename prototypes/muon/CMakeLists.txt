@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 3.20)
+project(nODDMuonPrototype LANGUAGES CXX)
+find_package(DD4hep 1.38 REQUIRED CONFIG COMPONENTS DDCore DDG4)
+add_library(nODDMuonPrototype SHARED Muon.cpp MuonEvent.cpp)
+target_compile_features(nODDMuonPrototype PRIVATE cxx_std_20)
+target_link_libraries(nODDMuonPrototype PUBLIC DD4hep::DDCore DD4hep::DDG4)
+dd4hep_generate_rootmap(nODDMuonPrototype)

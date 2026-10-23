@@ -1,0 +1,21 @@
+# Independent PhysVal assessment
+
+Assignment `MUON-DD4HEP-PhysVal`; reviewed commit `758609fbc62969e658a6734993978daf904b3eaf`. The complete PhysVal mandate was supplied to a separate generic subagent context; native profile loading was not verified. The reviewer inspected pinned inputs with `git show`, then assessed the conclusions. No tracked files were changed by the reviewer, no new DDSim run or shared dependency change occurred, and no human acceptance is supplied. This report is curated by the coordinator from the returned assessment.
+
+No implementation-blocking defect was found for the bounded Air-envelope stage. **F1, medium:** “uniform-direction” was ambiguous because the requested DDSim `uniform` distribution is flat in polar theta, rather than equal solid angle. The command remains correct for issue92; the three new governing/prototype/evidence descriptions must state its actual distribution. Installed `DDSim/Helper/Gun.py` lines74–79 and the registered versioned source confirm the distinction. The coordinator corrected the wording at `5f5c0d4b148d5d3710534ffdd3c5abe2b72a53e8`; the [exact-diff amendment check](physics-amendment.json) independently confirms **F1 resolved** at that revision, with no requested-command, implementation or numerical-data change. All123prior catalogue entries/order/metadata remain semantically unchanged; only the versioned Gun source is added.
+
+Actual independent checks:
+
+- All eight assigned implementation/test files matched the reviewed revision. The initial dirty input was confined to the task journal, outside scientific code/data.
+- All12 focused export/native-control/runner tests passed. Negative controls include geometry/identifier changes, native-gate failure and wrong output count.
+- `validate.run(...)` was independently re-executed against the checked-in compact/manifest and digest-matched factory:936 chambers,936 unique IDs,3 warm groups representing36 source coils,0 sensitive placements. Maximum chamber vertex residual2.5121479338940403e-15m. All288 CSG primitive instances passed and25248 occupancy probes had no mismatch. The native overlap list was empty at1e-5mm, correctly converted to1e-6 ROOT units.
+- The local clean-source replay ROOT file matched recorded SHA256 `098ea5e0766a31295ee9a945a510e9d84b9cce3d9a58bc687c1c1845bb18e5f9`,88991 bytes. Keys are `G4EventIDs` and `EVENT`; the event tree has1000 entries and its sole branch is `MCParticles`.
+- Every event has exactly one parentless primary, PDG22, mass0, initial vertex0. Momentum magnitude ranges19999.999999999993–20000.000000000004MeV. Secondary MC particles occur in42 events;958 events contain only the primary. The20GeV assertion applies to primaries rather than all stored particles.
+- Primary angular observations: mean cos(theta)=0.0245860813, mean cos²(theta)=0.5028774673, mean cos(phi)=0.0040777567, mean sin(phi)=0.0213501783; cos(theta) range[-0.9999983792,0.9999992935]. These agree with the requested flat-theta/full-azimuth configuration. The flat-theta expectation for mean cos²(theta) is1/2, versus1/3 for equal solid angle. This1000-event smoke bank establishes no general angular acceptance.
+- Independent preflight again flagged changed setup/lock fingerprints. Fresh activation verified DD4hep1.38/DDG4, ROOT6.40.04, Geant4 11.4.3 and12 installed datasets despite sandbox sysctl/ps warnings.
+
+`MuonEvent.cpp` adds only an empty event-owned `G4HCofThisEvent` when absent. It does not create hit collections or fabricated hits; the output's sole `MCParticles` branch corroborates this scope.
+
+The evidence establishes exact source-shape realization and requested transport through nonsensitive Air reservations. It does not establish chamber/coil material, realistic photon conversion, drift response, efficiency, momentum resolution, full-system support/service clearance or magnetic transport. Issue93's literal30mm radius remains distinct from the30mm-diameter precedent; tube internals need a subsequent explicit model and fresh containment/response validation.
+
+The replay executed at clean source `1f0e98c90c4eb7ff33e562af032b0f6ae6981cf0`; review target `758609fbc62969e658a6734993978daf904b3eaf` retains that evidence, and the geometry remains PR90 merge `cae3a72f3b1c98edaf9bc28a84d019142606ba25`. These revisions have different roles and are not interchangeable.
