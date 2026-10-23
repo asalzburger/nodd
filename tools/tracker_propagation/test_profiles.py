@@ -1,5 +1,6 @@
 """Synthetic population-profile controls, independent of native ACTS availability."""
 import importlib.util
+import json
 from pathlib import Path
 import tempfile
 import unittest
@@ -14,6 +15,16 @@ def module():
 
 
 class ProfileTests(unittest.TestCase):
+    def test_failed_case_cannot_be_replotted(self):
+        plot = module()
+        with tempfile.TemporaryDirectory() as temporary:
+            directory = Path(temporary)
+            case = directory / "pt_1GeV"
+            case.mkdir()
+            (case / "run.json").write_text(json.dumps({"status": "FAIL"}))
+            with self.assertRaisesRegex(ValueError, "failed accounting"):
+                plot.validate_cases(directory, {"pt_GeV": [1]})
+
     def test_zero_crossing_probes_stay_in_profile_denominator(self):
         import numpy as np
         import uproot

@@ -32,13 +32,15 @@ def main():
     args = parser.parse_args()
     if args.pt_gev <= 0 or args.tracks <= 0 or args.max_step_mm <= 0 or args.eta_min >= args.eta_max:
         parser.error("positive momentum/count/step and increasing eta bounds required")
+    output = args.output.resolve()
+    output.mkdir(parents=True, exist_ok=True)
+    # A failed or interrupted rerun must never retain a previous PASS report.
+    (output / "run.json").write_text(json.dumps({"status": "NATIVE_RUNNING_ACCOUNTING_PENDING"}) + "\n")
     import acts
     import acts.examples as examples
     from acts.examples.nodd import getNoddDetector
     from acts.examples.root import RootPropagationSummaryWriter, RootPropagationStepsWriter
     from acts.examples.simulation import addParticleGun, EtaConfig, PhiConfig, ParticleConfig, MomentumConfig
-    output = args.output.resolve()
-    output.mkdir(parents=True, exist_ok=True)
     level, unit = acts.logging.WARNING, acts.UnitConstants
     started = time.monotonic()
     detector = getNoddDetector(nodd_dir=args.nodd_dir, build_dir=args.build_dir, logLevel=level)
