@@ -27,7 +27,7 @@ def main():
     parser.add_argument("--plot-python", type=Path,
                         default=ROOT / "software/build/unrooted-venv/bin/python")
     parser.add_argument("--tracks", type=int, help="Explicit per-momentum sampling override")
-    parser.add_argument("--stage", choices=("all", "field", "propagate", "plot"), default="all")
+    parser.add_argument("--stage", choices=("all", "field", "propagate", "plot", "controls"), default="all")
     args = parser.parse_args()
     config = json.loads(args.config.read_text())
     if args.tracks is not None:
@@ -41,7 +41,7 @@ def main():
     output = args.output.resolve()
     output.mkdir(parents=True, exist_ok=True)
     executed_config = output / "study.json"
-    if args.stage == "plot" and executed_config.exists():
+    if args.stage in ("plot", "controls") and executed_config.exists():
         config = json.loads(executed_config.read_text())
     else:
         executed_config.write_text(json.dumps(config, indent=2) + "\n")
@@ -85,6 +85,10 @@ def main():
         execute([args.plot_python.absolute(), "-I", ROOT / "tools/tracker_propagation/plot.py",
                  "--config", executed_config, "--directory", output, "--output", output / "plots"],
                 log=output / "plot.log")
+    if args.stage == "controls":
+        execute([sys.executable, ROOT / "tools/tracker_propagation/controls.py",
+                 "--directory", output, "--build-dir", args.build_dir.absolute(),
+                 "--plot-python", args.plot_python.absolute()], log=output / "controls.log")
     print(f"Completed stage {args.stage}: {output}")
 
 

@@ -15,6 +15,31 @@ def module():
 
 
 class ProfileTests(unittest.TestCase):
+    def test_changed_counts_and_mixed_geometry_are_rejected(self):
+        plot = module()
+        config = {"pt_GeV": [1, 10], "tracks_per_pt": 1, "seed": 1,
+                  "eta_range": [-4, 4], "maximum_step_mm": 50, "field": {"central_field_T": 3}}
+        with tempfile.TemporaryDirectory() as temporary:
+            directory = Path(temporary)
+            for pt in config["pt_GeV"]:
+                case = directory / f"pt_{pt}GeV"
+                case.mkdir()
+                (case / "counts.csv").write_text("fixture\n")
+                report = {"status": "PASS", "artifact_sha256": {"counts.csv": plot.sha256(case / "counts.csv")},
+                          "configuration": {"tracks": 1, "pt_GeV": pt, "seed": 1, "eta_range": [-4, 4],
+                                            "maximum_step_mm": 50, "energy_loss": False, "multiple_scattering": False},
+                          "field_report": {"configuration": config["field"]}}
+                report.update({name: "same" for name in ("field_map_sha256", "tracker_compact_sha256",
+                               "expected_inventory_sha256", "factory_sha256", "runtime_binary_sha256")})
+                if pt == 10:
+                    report["tracker_compact_sha256"] = "different"
+                (case / "run.json").write_text(json.dumps(report))
+            with self.assertRaisesRegex(ValueError, "different geometry"):
+                plot.validate_cases(directory, config)
+            (directory / "pt_1GeV/counts.csv").write_text("changed\n")
+            with self.assertRaisesRegex(ValueError, "changed counts"):
+                plot.validate_cases(directory, config)
+
     def test_failed_case_cannot_be_replotted(self):
         plot = module()
         with tempfile.TemporaryDirectory() as temporary:
