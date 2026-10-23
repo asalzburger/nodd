@@ -7,6 +7,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 import xml.etree.ElementTree as ET
 
 from tools.muon_dd4hep import export as generator
@@ -41,6 +42,21 @@ class ExportTests(unittest.TestCase):
         self.assertEqual(sum(self.expected["chamber_counts"].values()),936)
         self.assertEqual(len({e["ids"]["chamber"] for e in self.expected["entities"]}),936)
         audit.verify_manifest(self.expected,self.source,self.path/"first/muon-system.xml")
+
+    def test_export_is_independent_of_platform_libm_last_bits(self):
+        original={name:getattr(math,name) for name in ("sin","cos","atan2","dist")}
+        def shifted(name):
+            return lambda *args:math.nextafter(original[name](*args),math.inf)
+        with tempfile.TemporaryDirectory() as temp:
+            out=Path(temp)
+            generator.templates.sincos.cache_clear()
+            with patch("math.sin",side_effect=shifted("sin")), \
+                 patch("math.cos",side_effect=shifted("cos")), \
+                 patch("math.atan2",side_effect=shifted("atan2")), \
+                 patch("math.dist",side_effect=shifted("dist")):
+                generator.export(out)
+            for name in ("muon-system.xml","materials.xml","expected.json"):
+                self.assertEqual((out/name).read_bytes(),(self.path/"first"/name).read_bytes())
 
     def test_all_xml_vertices_and_transforms_preserve_source_metres(self):
         root=ET.parse(self.path/"first/muon-system.xml").getroot()

@@ -6,12 +6,47 @@ Recurrences are accepted only after expansion reproduces every original prism.
 from __future__ import annotations
 
 from collections import Counter
+from decimal import Context, Decimal, localcontext
+from functools import lru_cache
 import math
 import re
 import xml.etree.ElementTree as ET
 
 MATCH_M = 1e-12
 TAU = 2*math.pi
+DECIMAL_CONTEXT = Context(prec=60)
+PI = Decimal("3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986")
+
+
+@lru_cache(maxsize=1024)
+def sincos(phi):
+    """Deterministic binary64 trig for export, independent of platform libm.
+
+    Evaluate the Taylor series at 60 decimal digits before converting to float.
+    Range reduction keeps the argument within pi; 90 terms suffice there.
+    This is serialization arithmetic, not a change to geometry tolerances.
+    """
+    with localcontext(DECIMAL_CONTEXT):
+        x=Decimal.from_float(phi)%(2*PI)
+        if x>PI:x-=2*PI
+        if x<-PI:x+=2*PI
+        square=x*x
+        sine=st=x;cosine=ct=Decimal(1)
+        for n in range(1,91):
+            st*=-square/((2*n)*(2*n+1))
+            ct*=-square/((2*n-1)*(2*n))
+            new_sine,new_cosine=sine+st,cosine+ct
+            if new_sine==sine and new_cosine==cosine:
+                return float(sine),float(cosine)
+            sine,cosine=new_sine,new_cosine
+    raise ValueError("Export trigonometric series did not converge")
+
+
+def distance(a,b):
+    """Keep the serialized residual diagnostic independent of libm as well."""
+    with localcontext(DECIMAL_CONTEXT):
+        return float(sum((Decimal.from_float(x)-Decimal.from_float(y))**2
+                         for x,y in zip(a,b)).sqrt())
 
 
 def close(a,b,tolerance=MATCH_M):
@@ -19,7 +54,7 @@ def close(a,b,tolerance=MATCH_M):
 
 
 def pose(kind,phi,radius,tangent,z):
-    c,s=math.cos(phi),math.sin(phi)
+    s,c=sincos(phi)
     if kind=="barrel":
         return [radius*c-tangent*s,radius*s+tangent*c,z],[[-s,0,c],[c,0,s],[0,1,0]]
     if kind=="endcap":
@@ -74,10 +109,13 @@ def factor(panels,system_id):
             template=family["name"],centering_offset_m=offset)
         entities.append(entity)
         q=panel["basis"]
-        phi=math.atan2(q[1][2],q[0][2]) if panel["kind"]=="barrel" else math.atan2(q[1][0],q[0][0])
-        phi=phi%TAU
+        # The frozen source records the original angle: do not reconstruct it
+        # through atan2, whose last bit differs between macOS and Linux libm.
+        degrees=panel["compartment"]["phi_deg"]
+        angle=degrees if panel["kind"]=="barrel" else sum(degrees)/2
+        phi=math.radians(angle%360)
         center=transform(offset,q,panel["origin_m"])
-        c,s=math.cos(phi),math.sin(phi)
+        c,s=(q[0][2],q[1][2]) if panel["kind"]=="barrel" else (q[0][0],q[1][0])
         radius=center[0]*c+center[1]*s;tangent=-center[0]*s+center[1]*c
         token="F" if panel["kind"]=="barrel" else "S"
         match=re.search(r"/"+token+r"(\d{2})(?=/|$)",panel["id"])
@@ -214,7 +252,7 @@ def compare_expansion(expanded,entities,templates):
             for sign in (-1,1):
                 a=transform([*xy,sign*family["depth_m"]/2],actual["basis"],actual["origin_m"])
                 b=transform([*source_xy,sign*source["depth_m"]/2],source["basis"],source["origin_m"])
-                residual=math.dist(a,b);maximum=max(maximum,residual)
+                residual=distance(a,b);maximum=max(maximum,residual)
                 if residual>MATCH_M:raise ValueError("Expanded template vertex differs from source")
     return maximum
 

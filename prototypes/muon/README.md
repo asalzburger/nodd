@@ -46,6 +46,24 @@ Following the [PR94 review](https://github.com/asalzburger/nodd/pull/94#issuecom
 
 `chamber_orbit` describes an actual source phi sequence. Its `row` children reference templates and describe actual longitudinal placements with `z0`, `dz` and `count`. A row with `count=1` retains a single nonuniform axial location; regular rows use the nested z loop. For example, B1's coil-plane template repeats across 12 facets with 30 degree pitch and 4 axial positions. Special cuts use separate templates/rows with their own offsets; missing hardware corridors are not filled. The source does not prescribe a uniform eta grid.
 
-The resulting detector XML is 28,900 bytes / 255 lines, versus 583,236 bytes / 5,639 lines before this refactor. It uses 21 phi orbits and 56 rows for 936 placements, with 6 multi-position z rows accounting for 288 placements. All shapes recur in phi, so the present source needs no explicit residual placements; the schema retains that path for a source that cannot be factored.
+The resulting detector XML is 28,907 bytes / 255 lines, versus 583,236 bytes / 5,639 lines before this refactor. It uses 21 phi orbits and 56 rows for 936 placements, with 6 multi-position z rows accounting for 288 placements. All shapes recur in phi, so the present source needs no explicit residual placements; the schema retains that path for a source that cannot be factored.
 
 Templates use the bounding-box midpoint as their local origin. The independent manifest retains each original source origin, basis and vertices plus its centring offset. Shape grouping uses an unrounded source representative with at most 1e-12 m matching error; native world vertices and recovered source frames are checked at the unchanged 1e-10 m tolerance. See the [template-refactor report](../../docs/validation/DES-040/dd4hep-templates-2026-10-23/README.md) for equivalence, actual native sharing, overlap and transport evidence.
+
+
+## Cross-platform export reproducibility
+
+The [CI follow-up](https://github.com/asalzburger/nodd/pull/94#issuecomment-6361605900)
+identified platform-dependent last bits from reconstructing angles with libm
+`atan2`. The exporter now takes the original angle from the frozen source's
+`compartment.phi_deg` and uses its pinned basis for radial/tangential projections.
+The expansion audit uses a fixed 60-digit Decimal sine/cosine series and square
+root before conversion to binary64, so its serialized residual is reproducible
+as well. No extra numerical dependency is required.
+
+The frozen-export byte comparison is retained. A regression control perturbs
+libm results by one ULP and requires all three output files to remain byte
+identical. Shape grouping stays at 1e-12 m and native vertices at 1e-10 m.
+The historical template report retains the earlier 28,900-byte XML; the current
+serialization is 28,907 bytes and preserves the same 936 source entities and
+36 coil definitions. This arithmetic correction grants no design approval.

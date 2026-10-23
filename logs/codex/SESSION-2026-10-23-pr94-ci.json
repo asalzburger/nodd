@@ -1,0 +1,110 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-23-pr94-ci",
+  "title": "PR94 CI failure correction",
+  "recorded_at": "2026-10-23T10:12:51Z",
+  "started_at": null,
+  "ended_at": null,
+  "status": "open",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact finalized per-turn client token counters are unavailable; usage is empty, not zero.",
+    "This tightly dependent CI correction is handled by the coordinator; no new independent specialist assessment is claimed.",
+    "Native runtime replay and final remote CI are pending at this initial source commit."
+  ],
+  "client": {
+    "name": "unspecified",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "5263d48c211eda91191e9c7470dc4c92dfe0f7ba",
+    "branch": "codex/muon-dd4hep-prototype",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      "tools/muon_dd4hep/templates.py",
+      "tools/muon_dd4hep/test_export.py",
+      "prototypes/muon/compact/muon-system.xml",
+      "prototypes/muon/compact/expected.json",
+      "prototypes/muon/README.md",
+      "project/tracking.json",
+      "logs/codex/SESSION-2026-10-23-pr94-ci.json",
+      "logs/codex/SESSION-2026-10-23-pr94-ci.md"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "muon DD4hep export",
+      "CI reproducibility"
+    ],
+    "related_ids": [
+      "PR-94",
+      "ISSUE-92",
+      "ISSUE-93",
+      "DES-040"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-23-pr94-ci.md",
+  "activities": [
+    {
+      "kind": "skill",
+      "name": "nodd-review-validation",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Read and applied repository skill; invocation counts and duration not measured."
+    },
+    {
+      "kind": "skill",
+      "name": "acts-spack",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Read and applied repository skill; invocation counts and duration not measured."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "GitHub PR94 comments, workflow39924882061/job120318707307 logs",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Ubuntu24.04/Python3.12.15: frozen XML bytes differ in reconstructed angle last digits; other14 muon controls pass."
+    },
+    {
+      "command": "One-ULP injected math.atan2 reproduction against original frozen-export test",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Reproduced the frozen-byte failure before correction; harness asserts failure is observed."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/muon_dd4hep -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "16 tests pass, including retained frozen-byte equality and new injected-libm-drift regression."
+    },
+    {
+      "command": "python3 -B skills/acts-spack/scripts/preflight.py",
+      "status": "FAIL",
+      "exit_code": 2,
+      "result": "Setup/lock fingerprints changed; actual fresh runtime verification follows."
+    },
+    {
+      "command": "Fresh setup_spack; spack env/specs; DD4hep/DDG4/ROOT imports; geant4-config --version/--check-datasets",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "DD4hep1.38 /3yd4hz3, ROOT6.40.04, Geant411.4.3 /wfg55xi; all12 datasets present. Sandbox sysctl/ps warnings; no shared installations modified."
+    },
+    {
+      "command": "/Users/salzburg/.local/bin/python3.11 -B -m unittest discover -s tools/muon_dd4hep -p test_*.py -q",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All16 tests pass on Python3.11.15; frozen output bytes match Python3.14.6."
+    }
+  ]
+}
