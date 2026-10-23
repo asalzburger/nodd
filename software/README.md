@@ -17,6 +17,10 @@ Geant4 datasets, and reports setup/lockfile fingerprints.
 | `running` | Python job steering |
 | `analysis` | Output inspection and analysis |
 
+Documentation plotting uses an isolated, pinned [unrooted Python environment](analysis/README.md#documentation-plots-with-unrooted)
+under `software/build/unrooted-venv`. It can read ROOT histograms and export
+PNG/PDF/SVG or interactive HTML without loading the ACTS/Spack runtime.
+
 From the repository root use `make submodules`, `make doctor`, `make detector`
 and `make detector-test`. Software submodule initialisation deliberately targets
 only `software/submodules`; the existing Overleaf documentation is independent.
