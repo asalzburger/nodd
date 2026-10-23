@@ -84,6 +84,29 @@ def root_profile(eta, values, edges, title):
     )
 
 
+def validate_cases(directory, config):
+    identity = None
+    for pt in config["pt_GeV"]:
+        case = directory / f"pt_{pt:g}GeV"
+        run = json.loads((case / "run.json").read_text())
+        if run["status"] != "PASS" or sha256(case / "counts.csv") != run["artifact_sha256"]["counts.csv"]:
+            raise ValueError("plot input has failed accounting or changed counts")
+        for name, expected in (("tracks", config["tracks_per_pt"]), ("pt_GeV", pt),
+                               ("seed", config["seed"]), ("eta_range", config["eta_range"]),
+                               ("maximum_step_mm", config["maximum_step_mm"]),
+                               ("energy_loss", False), ("multiple_scattering", False)):
+            if run["configuration"][name] != expected:
+                raise ValueError(f"plot configuration does not match native {name}")
+        if run["field_report"]["configuration"] != config["field"]:
+            raise ValueError("plot configuration does not match the executed field map")
+        current = {key: run[key] for key in ("field_map_sha256", "tracker_compact_sha256",
+                                            "expected_inventory_sha256", "factory_sha256",
+                                            "runtime_binary_sha256")}
+        if identity is not None and current != identity:
+            raise ValueError("momentum samples have different geometry, field or runtime identities")
+        identity = current
+
+
 def render(directory, output, config):
     import numpy as np
     import uproot
@@ -99,19 +122,7 @@ def render(directory, output, config):
 
     pts = config["pt_GeV"]
     edges = np.linspace(*config["eta_range"], config["eta_bins"] + 1)
-    for pt in pts:
-        case = directory / f"pt_{pt:g}GeV"
-        run = json.loads((case / "run.json").read_text())
-        if run["status"] != "PASS" or sha256(case / "counts.csv") != run["artifact_sha256"]["counts.csv"]:
-            raise ValueError("plot input has failed accounting or changed counts")
-        for name, expected in (("tracks", config["tracks_per_pt"]), ("pt_GeV", pt),
-                               ("seed", config["seed"]), ("eta_range", config["eta_range"]),
-                               ("maximum_step_mm", config["maximum_step_mm"]),
-                               ("energy_loss", False), ("multiple_scattering", False)):
-            if run["configuration"][name] != expected:
-                raise ValueError(f"plot configuration does not match native {name}")
-        if run["field_report"]["configuration"] != config["field"]:
-            raise ValueError("plot configuration does not match the executed field map")
+    validate_cases(directory, config)
     data = {pt: load_counts(directory / f"pt_{pt:g}GeV/counts.csv",
                             config["tracks_per_pt"], config["eta_range"])
             for pt in pts}
