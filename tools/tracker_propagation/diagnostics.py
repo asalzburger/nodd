@@ -21,6 +21,50 @@ def summarize(values):
             "standard_error": float(np.std(values) / np.sqrt(n)) if n else None}
 
 
+def edge_diagnostics(nominal_path, refined_path, changed):
+    """Locate changed native crossings and diagnose finite sensor-edge flips."""
+    import numpy as np
+    import uproot
+    sensors = {s["geometry_id"]: s for s in json.loads((nominal_path / "surfaces.json").read_text())["sensors"]}
+    names = ("volume_id", "boundary_id", "layer_id", "approach_id", "sensitive_id", "extra_id")
+    def crossings(record):
+        result = {}
+        positions = np.column_stack([np.asarray(record[k]) for k in ("g_x", "g_y", "g_z")])
+        for i, fields in enumerate(zip(*(record[k] for k in names))):
+            v, b, l, a, s, e = map(int, fields)
+            if s:
+                result[(v << 56) | (b << 48) | (l << 36) | (a << 28) | (s << 8) | e] = positions[i]
+        return result, positions
+    def local_edge(sensor, positions):
+        center, normal = np.array(sensor["center_mm"]), np.array(sensor["normal"])
+        distance = (positions - center) @ normal
+        indices = np.flatnonzero(distance[:-1] * distance[1:] <= 0)
+        if not len(indices):
+            return None
+        i = int(indices[0])
+        fraction = distance[i] / (distance[i] - distance[i + 1])
+        position = positions[i] + fraction * (positions[i + 1] - positions[i])
+        local = np.array([sensor["u"], sensor["v"]]) @ (position - center)
+        return {"local_uv_mm": local.tolist(),
+                "approximate_edge_clearance_mm": float(min(np.array(sensor["size_mm"][:2]) / 2 - abs(local))),
+                "interpolation_segment_mm": float(np.linalg.norm(positions[i + 1] - positions[i]))}
+    with uproot.open(nominal_path / "steps.root") as a, uproot.open(refined_path / "steps.root") as b:
+        nominal = a["propagation_steps"].arrays(library="ak")
+        refined = b["propagation_steps"].arrays(library="ak")
+    for item in changed:
+        i = item["event_nr"]
+        left, xyz_left = crossings(nominal[i])
+        right, xyz_right = crossings(refined[i])
+        common = left.keys() & right.keys()
+        item["maximum_common_crossing_shift_mm"] = max(float(np.linalg.norm(left[k] - right[k])) for k in common)
+        item["changed_sensors"] = [{"geometry_id": gid, "source_path": sensors[gid]["source_path"],
+                                     "system": sensors[gid]["ids"]["system"],
+                                     "nominal_crossed": gid in left, "refined_crossed": gid in right,
+                                     "nominal_edge_diagnostic": local_edge(sensors[gid], xyz_left),
+                                     "refined_edge_diagnostic": local_edge(sensors[gid], xyz_right)}
+                                    for gid in sorted(left.keys() ^ right.keys())]
+
+
 def analyze(directory):
     import numpy as np
     config = json.loads((directory / "study.json").read_text())
@@ -51,6 +95,8 @@ def analyze(directory):
             output["paired"][f"{pt:g}GeV/{name}"] = {"probes": n, "changed_probes": changed}
             if changed:
                 output["status"] = "DIFFERENCES_REQUIRE_REVIEW"
+                edge_diagnostics(directory / f"pt_{pt:g}GeV",
+                                 directory / "controls" / name / f"pt_{pt:g}GeV", changed)
         independent = read(directory / "controls/independent-seed" / f"pt_{pt:g}GeV")
         groups = {}
         for name, systems in (("full_tracker", range(1, 8)), ("pixel", (1, 2, 3)),
@@ -67,6 +113,7 @@ def analyze(directory):
             }
         output["sampling"][str(pt)] = groups
     target = directory / "controls/diagnostics.json"
+    output["edge_diagnostic_method"] = "Source-local u/v intersection estimated by linear interpolation between adjacent saved steps. Signed clearance is positive inside. This is a diagnostic of an edge flip, not an exact propagated miss distance or a convergence bound."
     target.write_text(json.dumps(output, indent=2) + "\n")
     print(output["status"], target)
 
