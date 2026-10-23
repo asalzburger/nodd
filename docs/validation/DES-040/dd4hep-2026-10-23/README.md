@@ -11,7 +11,7 @@ The checked-in [compact XML](../../../../prototypes/muon/compact/muon-system.xml
 | Native coil CSG primitive inventory/dimensions/poses | PASS,288 primitive instances across3 shared groups representing36 source coils |
 | Exact-mask/native-solid occupancy probes | PASS,25248 probes, zero mismatches |
 | Installed `checkOverlaps` plus explicit native overlap list | PASS, zero illegal overlaps/extrusions at0.00001mm numerical tolerance |
-| Geant4 requested gun transport | PASS,1000 uniform-direction20GeV gammas, seed92393, FTFP_BERT |
+| Geant4 requested gun transport | PASS,1000 20 GeV with DDSim `uniform` (flat theta/azimuth) gammas, seed92393, FTFP_BERT |
 | ROOT persisted event count | PASS, native `EVENT` tree1000 entries |
 | Export and failure-gate unit controls | PASS,12 tests |
 
@@ -26,3 +26,5 @@ DDG4 normally skips persistence when `G4HCofThisEvent` is null in a geometry wit
 The [SysArch assessment](interface-review.md) checks the exact source interfaces in a separate agent context. Independent PhysVal review of the frozen implementation and evidence is pending; no agent supplies human approval.
 
 Issue93's drift-tube filling remains a separate next stage after this envelope gate. Its literal approximately30mm radius differs from the ATLAS approximately30mm-diameter precedent. Two three-layer stacks at30mm radius need at least327.846mm depth, before inter-stack spacing/support/services, within the500mm envelope. Some endcap tips are only17.143473mm wide. A bounded internal model must document finite tube containment, inactive tips, gas/wall/pitch/separation, readout identifiers and sensitive response. No physical choice is silently inherited from the outline study.
+
+The requested `--gun.distribution uniform` is flat in polar theta and azimuth. DDSim uses the separate `cos(theta)` option for equal-solid-angle directions; this run does not use that option and supplies no solid-angle coverage estimate. See registered source `SRC-DD4HEP-GUN-1.38`, [Gun.distribution](https://github.com/AIDASoft/DD4hep/blob/v01-38/DDG4/python/DDSim/Helper/Gun.py#L74-L79).

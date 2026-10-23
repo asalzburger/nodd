@@ -85,3 +85,34 @@ Explicit generic-agent role dispatch (native profile loading not verified). Inpu
   }
 ]
 ```
+
+## Frozen implementation review assignment
+
+```json
+{
+  "id": "MUON-DD4HEP-PhysVal",
+  "role": "PhysVal",
+  "input_revision": "758609fbc62969e658a6734993978daf904b3eaf",
+  "inputs": [
+    "docs/design/DES-040-muon-chambers-frame.md",
+    "prototypes/muon/Muon.cpp",
+    "prototypes/muon/MuonEvent.cpp",
+    "tools/muon_dd4hep/export.py",
+    "tools/muon_dd4hep/validate.py",
+    "tools/muon_dd4hep/run_validation.py",
+    "tools/muon_dd4hep/run_with_factory.py",
+    "docs/validation/DES-040/dd4hep-2026-10-23/committed-replay/run.json",
+    "docs/validation/DES-040/dd4hep-2026-10-23/committed-replay/geometry-validation.json",
+    "docs/validation/DES-040/dd4hep-2026-10-23/README.md"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Independently assess exact frozen implementation and evidence for issue92/93 first stage. Inspect primary sources/code before conclusions. Verify936 exactsource Air chambers and36 warmcoils shared as3groups, nativeoverlapgate and0overlaps, transport1000gamma20GeV persisted events, emptyhitcontainer action nofabricatedhits, scope limitations and radius30mm vsdiameter distinction. Run12 focused tests and independently inspect local ROOT output reference/cache/muon-dd4hep/run-06/test_muon_system.root (digest recorded in pinned replay report); actualobservations of this local artifact supplement pinned Git source, do not substitute for it. Environment runtime verifiedDD4hep1.38/DDG4/Geant4 11.4.3; preflight changedfingerprints alreadyreported, followacts-spack setup ifneeded. No shared installations/changes, no publication/messages. No further delegation. Return actionable findings severity/location or no material findings, exactreviewedrevision, checks andlimits. Main will curate report and reconcile. No need broad detector simulation or new geometry generation.",
+  "deliverable": "Independent PhysVal report to coordinator with exactrevision, actual test and ROOT primaryaudit results, findings and scope/acceptance limits.",
+  "completion": "Determine whether claims match exact source/evidence and identify any blocking defect or needed correction without granting humanapproval."
+}
+```
+
+## Independent review correction
+
+PhysVal F1 at758609f: the requested DDSim `uniform` bank is flat polar theta/azimuth, not equal-solid-angle. Corrected ambiguous uniform-direction wording in DES040 and prototype/evidence READMEs, added versioned primary source to the catalogue. The command, physics, native geometry and saved data remain unchanged. Independent actual ROOT audit identifies1000 parentless PDG22primaries,20GeV momentum and the expected flat-theta angular signature; secondary particles are not miscounted as primaries.

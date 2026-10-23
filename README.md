@@ -88,3 +88,5 @@ isolated cobe/pint prototypes from versioned sensor and layer inputs, compares
 straight/curved-track coverage and silicon area, and audits intersections with
 ACTS. See [DES-009](docs/design/DES-009-module-populated-layouts.md) and the
 [coverage/support report](docs/validation/DES-009-module-populated-layouts.md).
+
+The isolated [muon DD4hep prototype](prototypes/muon/README.md) provides the PR90 chamber XML, finite warm-toroid reservations, native overlap checks and a reproducible Geant4 transport smoke test. It uses Air envelopes; drift-tube internals remain subsequent work.

@@ -59,3 +59,5 @@ The [coloured OBJ export](../../docs/validation/DES-040/obj/README.md) contains 
 current native chamber envelopes in blue and the fixed toroid warm envelopes in
 grey, with a portable companion MTL and ZIP bundle. It changes no geometry or
 propagation evidence.
+
+The current936-chamber PR90 geometry also has an isolated [DD4hep realization](../../prototypes/muon/README.md), with checked-in compact XML, chamber/toroid overlap validation and a1000-event Geant4 Air-envelope transport smoke test. It does not replace the source geometry or qualify drift-tube response.
