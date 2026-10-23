@@ -69,9 +69,24 @@ These are sampled numerical checks, not global error bounds or magnet qualificat
 No ODD field-map substitution, iron return structure or conductor-margin claim
 is included.
 
-Numerical and independent-seed controls are being retained separately before
-this report is finalized. Engineering, alignment, material, sensor response
-and reconstruction uncertainties remain outside this crossing study.
+[Numerical diagnostics](controls/diagnostics.json) retain paired controls and
+all affected source surfaces. Halving the maximum step to 25 mm changes no
+per-system counts in 512 paired probes at any momentum. Halving map spacing
+to 5/10 mm changes seven 1 GeV probes by one crossing each, with zero changes
+at 10 and 100 GeV. These forward probes (|η|≈2.9–3.8) lie close to pixel/strip
+sensor edges: adjacent-step interpolation gives signed local edge clearances
+that cross zero, with common-surface trajectory shifts of 0.029–0.066 mm.
+The edge distances are diagnostic linear interpolations, not exact propagated
+miss distances. The net full-tracker mean shift in that paired subset is
++1/512 crossings; this is not a claim of per-track map convergence. The diagnostic
+status deliberately remains `DIFFERENCES_REQUIRE_REVIEW` so downstream users
+inspect these effects before using fine acceptance differences.
+
+An independent seed (20261024, 2,048 probes per momentum) completes with the same
+identity/source/endpoint checks. Charge, eta-sign and eight-sector phi summaries
+are retained as descriptive sampling checks; no exact detector symmetry is
+assumed. Engineering, alignment, material, sensor response and reconstruction
+uncertainties remain outside this crossing study.
 
 ## Reproduce and reuse
 
