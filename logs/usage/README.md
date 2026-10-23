@@ -1,5 +1,31 @@
 # Local token-usage recovery
 
+## Issue95 / PR96 unrooted installation accounting — 2026-10-23
+
+[The usage-only inventory](USAGE-2026-10-23-pr96-accounting.json) reconciles the
+explicitly selected desktop chat for the original issue95 implementation and
+PR96 creation/delivery. Those activities share **one completed turn**, covering
+60 observed requests, and are counted once in the
+[original journal](../codex/SESSION-2026-10-23-unrooted-install.md).
+
+| Contribution | Closed turns | Input | Output | Total |
+| --- | ---: | ---: | ---: | ---: |
+| Issue95 implementation and PR96 delivery | 1 | 7,137,997 | 24,680 | **7,162,677** |
+
+Cached input **7,031,040** and reasoning output **8,526** are subsets. Every
+cumulative increase matches its last-request counters from zero; no repeated
+snapshots, outside-turn events, existing canonical owners or child threads were
+found. Dry-run/import/replay yields one addition followed by zero additions and
+one unchanged entry. The inventory corroborates the journal and is not another
+contribution to totals.
+
+The current accounting follow-up is still active; its retained snapshot is a
+provisional lower bound excluded from finalized totals. Recover its closed
+boundary in a later accounting pass, using the separate
+[accounting journal](../codex/SESSION-2026-10-23-pr96-accounting.md), without
+reimporting the original turn. Actual execution model/client version, billing
+and other-device completeness remain unknown.
+
 ## PR91 material-recording profiling accounting — 2026-10-21
 
 [The usage-only inventory](USAGE-2026-10-21-pr91-accounting.json) reconciles the

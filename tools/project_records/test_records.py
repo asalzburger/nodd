@@ -20,8 +20,11 @@ class ProjectRecordTests(unittest.TestCase):
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name) / 'repo'
         self.root.mkdir()
-        for directory in ('project','docs','reference','logs','tools','skills','detector','prototypes'):
-            shutil.copytree(build.ROOT / directory, self.root / directory)
+        for directory in ('project','docs','reference','logs','tools','skills','detector','prototypes','software'):
+            # Software deliverables are tracked alongside tools; installed
+            # environments and third-party source checkouts are not fixtures.
+            ignore = shutil.ignore_patterns('build', 'submodules') if directory == 'software' else None
+            shutil.copytree(build.ROOT / directory, self.root / directory, ignore=ignore)
         shutil.copy(build.ROOT / 'PROJECT.md', self.root / 'PROJECT.md')
         shutil.copy(build.ROOT / '.gitignore', self.root / '.gitignore')
         # Remove live GitHub/revision records from synthetic history. Real-history

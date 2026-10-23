@@ -1,0 +1,124 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-23-pr96-accounting",
+  "title": "Reconcile issue95 and PR96 token accounting",
+  "recorded_at": "2026-10-23T10:12:43Z",
+  "started_at": null,
+  "ended_at": "2026-10-23T10:16:41.489679Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "This current accounting turn has no closed boundary. Its provisional counters are retained only as an excluded active snapshot in the inventory; usage is empty rather than estimated.",
+    "Actual execution model, client version, billing and other-device completeness are not established."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": "01a167a1-7906-7b73-9408-509e483359fc"
+  },
+  "git": {
+    "start_commit": "e7b4b90701b2b0269cbbe42af0e2cd9ce5f4f59c",
+    "branch": "codex/issue95-unrooted",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      "logs/usage/USAGE-2026-10-23-pr96-accounting.json",
+      "logs/usage/README.md",
+      "logs/codex/SESSION-2026-10-23-unrooted-install.json",
+      "logs/codex/SESSION-2026-10-23-unrooted-install.md",
+      "logs/codex/SESSION-2026-10-23-pr96-accounting.json",
+      "logs/codex/SESSION-2026-10-23-pr96-accounting.md",
+      "project/tracking.json"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "token accounting",
+      "software"
+    ],
+    "related_ids": [
+      "issue-95",
+      "PR-96",
+      "SESSION-2026-10-23-unrooted-install"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-23-pr96-accounting.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 -B tools/session_logging/recover_usage.py --codex-home <local-client-home> --thread-id 01a167a1-7906-7b73-9408-509e483359fc --output <new-temporary-inventory>",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "One selected thread, one closed and one active turn, no repeated snapshots or outside-turn events. All cumulative increases match last-request counters. Child metadata has no recorded children; no canonical usage entry already owns the completed turn."
+    },
+    {
+      "command": "gh pr checks 96 --repo asalzburger/nodd (before accounting update)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "At e7b4b90701b2b0269cbbe42af0e2cd9ce5f4f59c: project validation, unrooted Linux smoke and token-site passed; deployment intentionally skipped."
+    },
+    {
+      "command": "session_log.py import-usage --id SESSION-2026-10-23-unrooted-install --file <curated-entry> --dry-run; import; identical dry-run replay",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "One prospective addition, one actual addition, then zero additions and one unchanged entry. No duplicate ownership."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p test_*.py -v (initial local run)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "33 tests ran; 17 documentation-link subtest failures came from ignored upstream uv-cache docs with unbuilt examples. Moved the ignored download cache to a temporary directory outside this checkout; no source/test gate or installed environment was changed."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p test_*.py -v (after cache relocation)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "33 session/recovery/accounting tests passed."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/token_usage -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All 10 token-site tests passed."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "196 paired session records validated."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "234 disjoint observed turns; 740993210 observed tokens, with 234 dated turns."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "71 tasks, 39 documents and 21 review rounds validated."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py build --output _site/pr96-accounting-preview",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Preview built from 234 observed turns; inventory and journal counted once; no publication."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py summary --format json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "196 sessions:125 with usage,71 without; observed input736838845,output4154365,total740993210. Original issue95/PR96 turn imported; current accounting turn remains provisional."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors."
+    }
+  ]
+}

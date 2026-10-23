@@ -1,0 +1,167 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-23-unrooted-install",
+  "title": "Install unrooted for documentation plots",
+  "recorded_at": "2026-10-23T07:20:51Z",
+  "started_at": null,
+  "ended_at": "2026-10-23T08:32:37.010267Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "The initial report had no live per-turn measurements. The completed issue95/PR96 turn was recovered on 2026-10-23 from usage-only metadata; actual execution model and client version remain unknown.",
+    "Local runtime checks cover CPython 3.11.15 on macOS arm64. Hosted unrooted/Python3.11, broader project validation and token-site checks passed at e7b4b90701b2b0269cbbe42af0e2cd9ce5f4f59c; later accounting commits need their own hosted result.",
+    "No detector performance result or billing measurement is claimed. Current accounting follow-up remains active and is excluded from finalized token totals."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": "01a167a1-7906-7b73-9408-509e483359fc"
+  },
+  "git": {
+    "start_commit": "a35d57cc91bbc4e96756d3f37a37fe7ce2d35022",
+    "branch": "codex/issue95-unrooted",
+    "initial_changes": [],
+    "result_commits": [
+      "582b48f4cc9bc05a0cc5261a977acbece2499e5d"
+    ],
+    "changed_files": [
+      ".github/workflows/validation.yml",
+      "docs/validation/unrooted-installation.json",
+      "project/tracking.json",
+      "reference/manifest.yaml",
+      "software/README.md",
+      "software/analysis/README.md",
+      "software/analysis/requirements-unrooted.in",
+      "software/analysis/requirements-unrooted.txt",
+      "software/analysis/unrooted_smoke.py",
+      "logs/codex/SESSION-2026-10-23-unrooted-install.json",
+      "logs/codex/SESSION-2026-10-23-unrooted-install.md",
+      "tools/project_records/test_records.py"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "software",
+      "documentation plotting"
+    ],
+    "related_ids": [
+      "issue-95",
+      "TASK-SOFT-UNROOTED",
+      "SRC-UNROOTED",
+      "ADR-003",
+      "ADR-008",
+      "PR-96"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-23-unrooted-install.md",
+  "activities": [
+    {
+      "kind": "tool",
+      "name": "uv",
+      "version": "0.11.30",
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Resolved universal Python 3.11+ requirements and installed 24 packages in software/build/unrooted-venv. Exact invocation counts and cumulative duration not measured."
+    }
+  ],
+  "usage": [
+    {
+      "client_thread_id": "01a167a1-7906-7b73-9408-509e483359fc",
+      "turn_id": "01a167a1-7c9b-77e1-955c-0c9dd1484f8d",
+      "model": null,
+      "source": "Codex desktop usage-only recovery captured 2026-10-23T10:12:32.467070+00:00; logs/usage/USAGE-2026-10-23-pr96-accounting.json; 60 request increases reconciled from zero against last-request counters and persisted closed-turn ordinals; usage SHA-256 67e9cfcce5dd67492da22782154cf05769be501a84194223e66cf8fb89e32162.",
+      "limitations": [
+        "Actual execution model and client version are not established by the usage metadata.",
+        "Input includes cached context; cached input and reasoning output are subsets, not additions. This covers the completed issue95/PR96 implementation turn; the accounting follow-up is still active. Billing and other-device completeness are not established."
+      ],
+      "input_tokens": 7137997,
+      "cached_input_tokens": 7031040,
+      "output_tokens": 24680,
+      "reasoning_output_tokens": 8526,
+      "total_tokens": 7162677
+    }
+  ],
+  "checks": [
+    {
+      "command": "software/build/unrooted-venv/bin/python -I software/analysis/unrooted_smoke.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Installed source revision, exact ROOT values/variances/edges, bundled ODD palette, ratio overlay, PNG/PDF/SVG, self-contained Plotly HTML and CLI help/PNG export passed. PNG inspected visually. Final report retained in docs/validation/unrooted-installation.json."
+    },
+    {
+      "command": "uv --cache-dir software/build/uv-cache pip check --python software/build/unrooted-venv/bin/python",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All 24 installed packages are compatible."
+    },
+    {
+      "command": "python3 -B software/env/check_layout.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Software directory and gitlink checks passed."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py (first attempt)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "New task referenced ADR-008, which is not registered in the project document list. Removed that task-document reference; ADR-003 remains registered. Existing ADR-008 source layout context is linked from software/README.md."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/project_records -p 'test_*.py' -v (initial run)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "28 tests: 5 failures and 7 errors because the synthetic fixture omitted software/analysis/README.md and other new software deliverables. Extended fixture source copying to include software while excluding ignored builds and third-party submodules; strict evidence validation is unchanged."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 71 tasks, 39 documents and 21 review rounds."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 195 paired session records."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 233 disjoint dated turns and 733830533 observed tokens."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py build --output _site/unrooted-preview",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Preview built successfully from the 233 observed turns; no publication."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py summary --format json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "195 sessions; 124 with usage and 71 without. 233 recorded turns: observed input 729700848, output 4129685. This task has no observed turn counters; these are project observations, not complete usage."
+    },
+    {
+      "command": "git diff --cached --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors in the staged deliverable."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/project_records -p 'test_*.py' -v (after fixture correction)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All 28 tests passed in 114.774 seconds, including strict evidence, approval, dependency and naming/tracking controls."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate (first closeout)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "The ended_at timestamp used +00:00; the journal requires a UTC Z suffix. Corrected the same observed timestamp before final validation."
+    }
+  ]
+}
