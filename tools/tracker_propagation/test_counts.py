@@ -9,6 +9,14 @@ spec.loader.exec_module(counts)
 
 
 class AccountingTests(unittest.TestCase):
+    def test_complete_identity_does_not_hide_step_limit_termination(self):
+        world = {"r_max_mm": 1000, "half_z_mm": 4000, "volume_id": 117}
+        step = {"g_r": [800], "g_z": [0], "volume_id": [116], "boundary_id": [0]}
+        with self.assertRaisesRegex(ValueError, "did not terminate"):
+            counts.require_world_exit(step, world)
+        step.update(g_r=[1000.0001], volume_id=[117], boundary_id=[3])
+        counts.require_world_exit(step, world)
+
     def test_missing_failed_probe_and_duplicate_survivor_are_rejected(self):
         for events, tracks in (([0, 2], [0, 0]), ([0, 0, 2], [0, 0, 0]), ([0, 1, 2], [0, 1, 0])):
             with self.assertRaisesRegex(ValueError, "incomplete probe identities"):

@@ -59,6 +59,19 @@ def write_csv(path, rows):
         writer.writerows(rows)
 
 
+def require_world_exit(step, world, tolerance_mm=0.001):
+    # A complete summary alone does not distinguish a world exit from a step
+    # or path abort. Float32 ROOT coordinates need a 1 micrometre tolerance.
+    if not step["g_r"]:
+        raise ValueError("propagation has no recorded steps")
+    r, z = step["g_r"][-1], step["g_z"][-1]
+    on_boundary = (abs(r - world["r_max_mm"]) <= tolerance_mm
+                   or abs(abs(z) - world["half_z_mm"]) <= tolerance_mm)
+    if (not on_boundary or int(step["volume_id"][-1]) != world["volume_id"]
+            or int(step["boundary_id"][-1]) == 0):
+        raise ValueError("propagation did not terminate on the outer tracking-world portal")
+
+
 def extract(directory):
     import awkward as ak
     import numpy as np
@@ -107,7 +120,9 @@ def extract(directory):
                         raise ValueError(f"event {event}: generated and propagated {name} disagree")
                 if np.sign(float(record.qOverP)) != truth["q"]:
                     raise ValueError(f"event {event}: propagated charge differs from generated charge")
-            split, repeats = count_systems(ak.to_list(t), source_system)
+            step = ak.to_list(t)
+            require_world_exit(step, report["tracking_world"])
+            split, repeats = count_systems(step, source_system)
             if sum(split) != int(s.nSensitives):
                 raise ValueError(f"event {event}: native summary and source-matched step counts disagree")
             if repeats:
@@ -131,6 +146,8 @@ def extract(directory):
             "generated": len(particles), "summary": len(summary), "steps": len(steps),
             "matched_unique_probes": len(rows), "missing_probes": 0, "duplicated_probe_ids": 0,
             "summary_step_source_count_mismatches": 0,
+            "verified_tracking_world_exits": len(rows),
+            "world_exit_coordinate_tolerance_mm": 0.001,
             "zero_sensitive_probes": sum(row["nSensitives"] == 0 for row in rows),
             "repeated_sensitive_crossings": repeated,
             "max_recorded_r_mm": max_r, "max_recorded_abs_z_mm": max_z,

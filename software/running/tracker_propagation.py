@@ -44,6 +44,15 @@ def main():
     level, unit = acts.logging.WARNING, acts.UnitConstants
     started = time.monotonic()
     detector = getNoddDetector(nodd_dir=args.nodd_dir, build_dir=args.build_dir, logLevel=level)
+    world = detector.trackingGeometry().highestTrackingVolume
+    if not isinstance(world.volumeBounds, acts.CylinderVolumeBounds):
+        raise ValueError("this study requires the current cylindrical tracking world")
+    bounds = world.volumeBounds.values()
+    world_report = {"name": world.volumeName, "volume_id": int(world.geometryId.volume),
+                    "center_mm": list(world.center(acts.GeometryContext())),
+                    "r_min_mm": bounds[0], "r_max_mm": bounds[1], "half_z_mm": bounds[2]}
+    if any(abs(value) > 1e-9 for value in world_report["center_mm"]):
+        raise ValueError("this study requires the current origin-centered tracking world")
     geometry = json.loads(detector.geometryReport())
     (output / "surfaces.json").write_text(json.dumps(geometry))
     field_path = args.field_map.resolve()
@@ -104,6 +113,7 @@ def main():
         "execution_dirty_paths": subprocess.check_output(["git", "status", "--porcelain"], cwd=args.nodd_dir, text=True).splitlines(),
         "elapsed_native_seconds": time.monotonic() - started,
         "native_sensitive_surfaces": len(geometry["sensors"]), "native_volumes": len(geometry["volumes"]),
+        "tracking_world": world_report,
     }
     (output / "run.json").write_text(json.dumps(report, indent=2) + "\n")
     print(f"Native completed: {args.tracks} probes at pT={args.pt_gev:g} GeV; accounting remains required")
