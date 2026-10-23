@@ -9,14 +9,14 @@
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
-    "Exact client-reported per-turn token counters, model identity, client version and thread ID are unavailable in this turn. Usage remains empty, meaning unknown rather than zero.",
-    "The local runtime check covers CPython 3.11.15 on macOS arm64 only. Hosted Linux validation is pending.",
-    "No detector data or performance result was generated."
+    "The initial report had no live per-turn measurements. The completed issue95/PR96 turn was recovered on 2026-10-23 from usage-only metadata; actual execution model and client version remain unknown.",
+    "Local runtime checks cover CPython 3.11.15 on macOS arm64. Hosted unrooted/Python3.11, broader project validation and token-site checks passed at e7b4b90701b2b0269cbbe42af0e2cd9ce5f4f59c; later accounting commits need their own hosted result.",
+    "No detector performance result or billing measurement is claimed. Current accounting follow-up remains active and is excluded from finalized token totals."
   ],
   "client": {
     "name": "Codex",
     "version": null,
-    "thread_id": null
+    "thread_id": "01a167a1-7906-7b73-9408-509e483359fc"
   },
   "git": {
     "start_commit": "a35d57cc91bbc4e96756d3f37a37fe7ce2d35022",
@@ -51,7 +51,8 @@
       "TASK-SOFT-UNROOTED",
       "SRC-UNROOTED",
       "ADR-003",
-      "ADR-008"
+      "ADR-008",
+      "PR-96"
     ]
   },
   "narrative": "logs/codex/SESSION-2026-10-23-unrooted-install.md",
@@ -66,7 +67,23 @@
       "evidence": "Resolved universal Python 3.11+ requirements and installed 24 packages in software/build/unrooted-venv. Exact invocation counts and cumulative duration not measured."
     }
   ],
-  "usage": [],
+  "usage": [
+    {
+      "client_thread_id": "01a167a1-7906-7b73-9408-509e483359fc",
+      "turn_id": "01a167a1-7c9b-77e1-955c-0c9dd1484f8d",
+      "model": null,
+      "source": "Codex desktop usage-only recovery captured 2026-10-23T10:12:32.467070+00:00; logs/usage/USAGE-2026-10-23-pr96-accounting.json; 60 request increases reconciled from zero against last-request counters and persisted closed-turn ordinals; usage SHA-256 67e9cfcce5dd67492da22782154cf05769be501a84194223e66cf8fb89e32162.",
+      "limitations": [
+        "Actual execution model and client version are not established by the usage metadata.",
+        "Input includes cached context; cached input and reasoning output are subsets, not additions. This covers the completed issue95/PR96 implementation turn; the accounting follow-up is still active. Billing and other-device completeness are not established."
+      ],
+      "input_tokens": 7137997,
+      "cached_input_tokens": 7031040,
+      "output_tokens": 24680,
+      "reasoning_output_tokens": 8526,
+      "total_tokens": 7162677
+    }
+  ],
   "checks": [
     {
       "command": "software/build/unrooted-venv/bin/python -I software/analysis/unrooted_smoke.py",

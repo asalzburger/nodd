@@ -93,3 +93,29 @@ Review the proposed setup and hosted Linux check, then use the documented
 environment for future figures. This installation check does not validate
 detector performance or supply human design sign-off. Future upstream updates
 require deliberate regeneration of dependency pins and another smoke run.
+
+## Token-accounting correction — 2026-10-23
+
+The user requested all accounting for issue95 and PR96 after the
+[review comment](https://github.com/asalzburger/nodd/pull/96#issuecomment-6361616493).
+The earlier unavailable-counter statements above describe the original live
+report; this dated correction adds recovered evidence without replacing it.
+
+The [usage-only inventory](../usage/USAGE-2026-10-23-pr96-accounting.json) identifies
+the exact original implementation/PR delivery turn in this chat. Sixty observed
+requests contribute **7,137,997 input + 24,680 output = 7,162,677 tokens**.
+Cached input 7,031,040 and reasoning output 8,526 are subsets. All cumulative
+increases reconcile against last-request counters from zero, with no repeated
+snapshots or outside-turn events. No children or prior canonical owners exist.
+Issue95 and PR96 share this completed turn and are counted once here.
+
+Imported the curated usage entry with `session_log.py import-usage`; dry-run
+reported one addition, import added one, and replay reported zero additions and
+one unchanged entry. Actual model/client version remain unknown. The current
+accounting turn is active and excluded until its completed boundary is available.
+The [separate accounting journal](SESSION-2026-10-23-pr96-accounting.md) records
+that follow-up without duplicating this entry.
+
+At original PR head `e7b4b90701b2b0269cbbe42af0e2cd9ce5f4f59c`, hosted project
+validation, Linux unrooted smoke and token-site checks all passed. Later metadata
+commits retain their own check state; no merge or design approval is inferred.
