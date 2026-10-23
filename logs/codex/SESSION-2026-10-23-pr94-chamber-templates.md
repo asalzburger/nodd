@@ -59,3 +59,37 @@ User: “PR94has comments, and good ones!” Retrieved current PR/body/comment/r
   "completion": "All936sourcechambers reproduced with22orjustifiedtemplatecount and substantial XML reduction; focused tests pass except committedbundle test until coordinator regenerates; no unrelated changes."
 }
 ```
+
+## Frozen implementation review assignment
+
+```json
+{
+  "id": "PR94-TEMPLATES-PhysVal",
+  "role": "PhysVal",
+  "input_revision": "d5803de8bac013d918140585bd2c00de15632011",
+  "inputs": [
+    "tools/muon_dd4hep/templates.py",
+    "tools/muon_dd4hep/export.py",
+    "tools/muon_dd4hep/validate.py",
+    "tools/muon_dd4hep/test_export.py",
+    "prototypes/muon/Muon.cpp",
+    "prototypes/muon/compact/muon-system.xml",
+    "prototypes/muon/compact/expected.json",
+    "docs/design/DES-040-muon-chambers-frame.md",
+    "docs/validation/DES-040/dd4hep-templates-2026-10-23/representation-comparison.json",
+    "docs/validation/DES-040/dd4hep-templates-2026-10-23/committed-replay/geometry-validation.json",
+    "docs/validation/DES-040/dd4hep-templates-2026-10-23/committed-replay/run.json",
+    "docs/validation/DES-040/dd4hep-templates-2026-10-23/committed-replay/transport-comparison.json",
+    "docs/validation/DES-040/dd4hep-templates-2026-10-23/README.md"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Independent exact-revision review of PR94 comment6360225046 refactor:22reused chamber templates plusphi/z loops instead936completeXMLshapes/matrices. Inspect source/code before conclusions. Check preservation of936 sourcevertexsets/IDs/station/side/sourceframes, source-derivedrecurrences including smallerhardwarecutfamilies, exact native22sharedVolume/Solidcounts and unchangedtolerance1e-10m; nohiddenrepacking. Assess failclosedmutationtests, zerooverlaps and1000gamma20GeV persistedtransport, before/afterprimarybankequivalence. Run15focused tests and nativeaudit ifuseful; verify localROOT reference/cache/pr94-templates/run-02/test_muon_system.root against pinned reporthash and originalbeforeROOT reference/cache/muon-dd4hep/run-06/test_muon_system.root. Distinguish exactrawsource/originalentity preservation from ~1.7e-14m frameworkreconstructionresiduals, no physicaldesign/responseacceptance. Currentruntime alreadyreverifiedDD4hep1.38,ROOT6.40.04,Geant4 11.4.3/12datasetpresence; preflightchangedfingerprintwarning reported. Useacts-spack ifneeded no sharedinstallationchanges. Read-only no trackedwrites/commits or furtherdelegation. Bounded review promptly; return anyactionabledefect severity/location orno materialfindings, actualchecks and limits. No need new DDSim rerun.",
+  "deliverable": "Separate exactrevision PhysVal report tocoordinator coveringXML/native/sourceequivalence, actualtests and savedROOTdata; findings+limits.",
+  "completion": "Assess whether reviewcomment is implemented correctly without physicalchanges or weakenedchecks; retain exacttarget, commands and source/evidence distinction, nohumanacceptance."
+}
+```
+
+## Independent review and delivery preparation
+
+PR94-TEMPLATES-PhysVal reviewed exactd5803de and foundnoactionabledefects. Independently ran15tests/nativeaudit, verified22sharedVolumes/Solids, all936sourceframes/IDs/worldvertexsets,0overlaps, andbothROOTdigests. Primarymomenta/vertices/times/masses and eventparticlemultiplicities exactlymatch; no all-secondarytrajectory equality claimed. Reviewretained inphysics-review.md; nohumanacceptance. Clean237b54c replaypasses withsource_dirty=false. Final PRmetadata/push closeoutfollows.
