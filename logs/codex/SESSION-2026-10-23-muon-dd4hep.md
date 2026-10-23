@@ -143,3 +143,9 @@ PhysVal F1 at758609f: the requested DDSim `uniform` bank is flat polar theta/azi
 Separate PhysVal native replay and ROOT audit pass, with one wording findingF1; exact5f5c0d4 amendment check resolves it and verifies unchanged implementation/data and123prior source catalogue entries. Reports and primary audit statistics are retained in physics-review.md, physics-check.json and physics-amendment.json. No human acceptance supplied.
 
 `session_log.py summary --format json` reports prior observed input870643545 and output4670671tokens across251turns, total875314216;201session records,72without observations including this active task. These are observed historical subtotals, not a complete total or billing number. Exact task/agent counters remain unavailable; no estimates or duplicate observations added.
+
+## Delivery
+
+Created and attached draftPR94: https://github.com/asalzburger/nodd/pull/94. Base codex/twelvefold-toroid-prototype contains mergedPR90; current prototype is not merged or accepted. GitHub connector403 prevented creation; authenticatedghCLI succeeded after a sandbox network failure and approved retry. Readback verifies draft/open/title/body/base and source head. No external issue comments or reviewer messages were sent.
+
+The project-record test suite passes28tests (exit0); all12prototype controls and requiredrecord/site validators/build pass. Sessionvalidator initially rejected a PASSentry without observedexit0; corrected the compound-discovery failure honestly and retained assessment results separately. Finalvalidation follows this closeout. BothDES039/DES040 remainDRAFT; air-envelope firststage delivered, separate tube internals planned.

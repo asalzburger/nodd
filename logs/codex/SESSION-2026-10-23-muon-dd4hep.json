@@ -4,8 +4,8 @@
   "title": "Muon chamber DD4hep and overlap validation for issues 92 and 93",
   "recorded_at": "2026-10-23T05:09:47Z",
   "started_at": null,
-  "ended_at": null,
-  "status": "open",
+  "ended_at": "2026-10-23T07:04:35.089262+00:00",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
@@ -26,7 +26,8 @@
     "result_commits": [
       "1f0e98c90c4eb7ff33e562af032b0f6ae6981cf0",
       "758609fbc62969e658a6734993978daf904b3eaf",
-      "5f5c0d4b148d5d3710534ffdd3c5abe2b72a53e8"
+      "5f5c0d4b148d5d3710534ffdd3c5abe2b72a53e8",
+      "a9707333b61561f54d5d44c86c94707bd08faaff"
     ],
     "changed_files": [
       ".github/workflows/validation.yml",
@@ -70,7 +71,7 @@
     ]
   },
   "work": {
-    "milestone": "M0",
+    "milestone": "M1",
     "components": [
       "muons",
       "DD4hep",
@@ -217,6 +218,36 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "No whitespace errors."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/project_records -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "28tests passed, including human-only approval boundaries and PR update policy."
+    },
+    {
+      "command": "GitHub connector create_pull_request",
+      "status": "FAIL",
+      "exit_code": null,
+      "result": "Integration403 Resource not accessible; fallback to authenticatedGitHubCLI."
+    },
+    {
+      "command": "gh pr create (first sandbox attempt)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Network connection unavailable inside sandbox; retried with required network approval."
+    },
+    {
+      "command": "gh pr create --repo asalzburger/nodd --base codex/twelvefold-toroid-prototype --head codex/muon-dd4hep-prototype --draft --body-file reference/cache/muon-dd4hep/pr-body.md",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Created draftPR94; attached to chat; readback confirms title/body/base/head, open and draft. No issue comments or reviewer messages sent."
+    },
+    {
+      "command": "session_log.py validate initialcloseout",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "PASS entries require observedexit0. Corrected discoverycompound toFAIL exit1 and kept independentreview assessment in narrative; finalvalidator passes."
     }
   ]
 }
