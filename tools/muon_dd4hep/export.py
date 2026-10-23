@@ -12,9 +12,13 @@ import hashlib
 import json
 import math
 from pathlib import Path
-import re
 import subprocess
 import xml.etree.ElementTree as ET
+
+try:
+    from . import templates
+except ImportError:
+    import templates
 
 ROOT = Path(__file__).resolve().parents[2]
 SOURCE_REVISION = "cae3a72f3b1c98edaf9bc28a84d019142606ba25"
@@ -126,27 +130,10 @@ def export(output, source=None):
     ET.SubElement(display,"vis",name="MuonWarmVis",r="0.85",g="0.25",b="0.15",alpha="0.35",visible="true",showDaughters="true")
     detector = ET.SubElement(ET.SubElement(root,"detectors"),"detector",
         id=str(SYSTEM_ID),name="MuonSystem",type="nODDMuonPrototype")
-    entities,names = [],set()
-    for index,panel in enumerate(panels,1):
+    for panel in panels:
         validate_panel(panel)
-        name = "MuonChamber_"+re.sub(r"[^A-Za-z0-9_]","_",panel["id"])
-        if name in names:
-            raise ValueError("Chamber volume name collision")
-        names.add(name)
-        side = 0 if panel["kind"]=="barrel" else (1 if panel["origin_m"][2]>0 else -1)
-        ids = dict(system=SYSTEM_ID,chamber=index,station=panel["station"],side=side)
-        attrs = dict(name=name,source_id=panel["id"],depth=metres(panel["depth_m"]),
-                     **{k:str(v) for k,v in ids.items() if k!="system"})
-        attrs.update({axis:metres(value) for axis,value in zip("xyz",panel["origin_m"])})
-        attrs.update({f"a{i}{j}":number(panel["basis"][i][j]) for i in range(3) for j in range(3)})
-        node = ET.SubElement(detector,"chamber",**attrs)
-        # TGeoArb8 requires clockwise face vertices; source is counterclockwise.
-        for k in (0,3,2,1):
-            ET.SubElement(node,"vertex",x=metres(panel["vertices_m"][k][0]),
-                          y=metres(panel["vertices_m"][k][1]))
-        entities.append(dict(name=name,source_id=panel["id"],role="chamber",ids=ids,
-            origin_m=panel["origin_m"],basis=panel["basis"],vertices_m=panel["vertices_m"],
-            depth_m=panel["depth_m"],kind=panel["kind"]))
+    model,entities = templates.factor(panels,SYSTEM_ID)
+    templates.to_xml(detector,model,number,metres)
     groups = []
     for index,key in enumerate(("barrel","endcap_plus","endcap_minus"),1):
         group = magnetic["coil_groups"][key]
@@ -168,6 +155,15 @@ def export(output, source=None):
         source=dict(revision=SOURCE_REVISION,path=SOURCE_PATH,sha256=SOURCE_SHA256),
         elements_source=dict(revision=SOURCE_REVISION,path=ELEMENTS_PATH,sha256=ELEMENTS_SHA256),
         generator_sha256=sha(Path(__file__).read_bytes()),
+        templates_sha256=sha(Path(templates.__file__).read_bytes()),
+        chamber_templates=model,
+        template_summary=dict(template_count=len(model["templates"]),barrel_templates=15,endcap_templates=7,
+            phi_orbits=len(model["orbits"]),rows=sum(len(o["rows"]) for o in model["orbits"]),
+            longitudinal_loop_rows=sum(r["count"]>1 for o in model["orbits"] for r in o["rows"]),
+            explicit_placements=len(model["explicit"]),
+            maximum_group_shape_residual_m=max(t["maximum_shape_residual_m"] for t in model["templates"]),
+            maximum_expansion_vertex_residual_m=templates.compare_expansion(templates.expand(model,SYSTEM_ID),entities,model["templates"]),
+            matching_tolerance_m=templates.MATCH_M),
         counts=dict(chambers=936,warm_groups=3,warm_coil_definitions=36,sensitive=0),
         chamber_counts=dict(sorted(Counter(p["id"].split("/")[0] for p in panels).items())),
         entities=entities,groups=groups,warm_widths_m=magnetic["warm"],

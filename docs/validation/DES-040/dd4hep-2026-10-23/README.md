@@ -30,3 +30,5 @@ Issue93's drift-tube filling remains a separate next stage after this envelope g
 The requested `--gun.distribution uniform` is flat in polar theta and azimuth. DDSim uses the separate `cos(theta)` option for equal-solid-angle directions; this run does not use that option and supplies no solid-angle coverage estimate. See registered source `SRC-DD4HEP-GUN-1.38`, [Gun.distribution](https://github.com/AIDASoft/DD4hep/blob/v01-38/DDG4/python/DDSim/Helper/Gun.py#L74-L79).
 
 Delivered for review as [draft PR94](https://github.com/asalzburger/nodd/pull/94), stacked on the toroid prototype branch containing merged PR90. The issue92/93 first stage is complete; the separately tracked drift-tube internal model remains planned.
+
+The current compact/factory now use [reusable templates and placement loops](../dd4hep-templates-2026-10-23/README.md) following the PR94 review. This page retains the original flat-XML execution and review evidence at its recorded revisions; numerical reports and logs are preserved.

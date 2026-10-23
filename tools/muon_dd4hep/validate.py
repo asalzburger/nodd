@@ -17,6 +17,7 @@ import platform
 import random
 import subprocess
 import sys
+import xml.etree.ElementTree as ET
 
 try:
     from . import export as generator
@@ -48,6 +49,8 @@ def compare_chambers(observed, source, expected, tolerance_m):
             errors.append("Unexpected chamber "+actual["name"])
             continue
         panel=panels[e["source_id"]]
+        if actual.get("template")!=e["template"]:
+            errors.append("Native chamber template mismatch "+e["source_id"])
         if actual["ids"]!=e["ids"]:
             errors.append("Identifier mismatch "+e["source_id"])
         identity=tuple(sorted(actual["ids"].items()))
@@ -96,9 +99,17 @@ def verify_manifest(expected,source,compact):
         for key in ("origin_m","basis","vertices_m","depth_m","kind"):
             if e[key]!=p[key]:
                 raise ValueError("Expected manifest differs from pinned panel: "+p["id"])
+        if e["centering_offset_m"]!=generator.templates.centered(p)[1] or e["name"]!=generator.templates.name(p["id"]):
+            raise ValueError("Expected manifest source-frame centering mismatch")
         side=0 if p["kind"]=="barrel" else (1 if p["origin_m"][2]>0 else -1)
         if e["source_id"]!=p["id"] or e["ids"]!=dict(system=generator.SYSTEM_ID,chamber=index,station=p["station"],side=side):
             raise ValueError("Expected manifest chamber identity mismatch")
+    xml_model,expanded=generator.templates.from_xml(ET.parse(compact).getroot().find("./detectors/detector"),generator.SYSTEM_ID)
+    generator.templates.compare_expansion(expanded,expected["entities"],xml_model["templates"])
+    if len(xml_model["templates"])!=22 or len({e["template"] for e in expanded})!=22:
+        raise ValueError("Expected22 used chamber templates")
+    manifest_model=expected["chamber_templates"]
+    generator.templates.compare_expansion(generator.templates.expand(manifest_model,generator.SYSTEM_ID),expected["entities"],manifest_model["templates"])
     magnetic=source["magnetic_configuration"]
     if expected["warm_widths_m"]!=magnetic["warm"] or len(expected["groups"])!=3:
         raise ValueError("Expected manifest warm group mismatch")
@@ -227,6 +238,7 @@ def run(args):
         detector.fromXML(str(args.compact.resolve()))
         manager=detector.manager();unit=float(dd4hep.m)
         chambers=[];groups={};unexpected=[];sensitive=0
+        native_volumes={};native_solids={};template_members=Counter()
         names={e["name"]:e for e in expected["entities"]}
         group_names={e["name"]:e for e in expected["groups"]}
         def visit(node,parent,inherited):
@@ -237,7 +249,13 @@ def run(args):
                 ids[str(item.first)]=int(item.second)
             name=str(volume.GetName());is_sensitive=bool(dd4hep.Volume(volume).isSensitive())
             sensitive+=int(is_sensitive)
-            if name in names:
+            placement_name=str(node.GetName())
+            if placement_name in names:
+                entity=names[placement_name]
+                template=name.removeprefix("MuonTemplate_")
+                native_volumes.setdefault(template,set()).add(int(ROOT.addressof(volume)))
+                native_solids.setdefault(template,set()).add(int(ROOT.addressof(volume.GetShape())))
+                template_members[template]+=1
                 shape=volume.GetShape();vertices=[]
                 if str(shape.ClassName())!="TGeoArb8":
                     raise ValueError("Expected native Arb8 chamber "+name)
@@ -247,7 +265,10 @@ def run(args):
                     global_point=array("d",[0.,0.,0.]);matrix.LocalToMaster(local,global_point)
                     vertices.append([x/unit for x in global_point])
                 origin,basis=matrix_data(matrix,unit)
-                chambers.append(dict(name=name,ids=ids,origin_m=origin,basis=basis,vertices_m=vertices,
+                canonical_origin=origin
+                offset=entity["centering_offset_m"]
+                recovered=[origin[i]-sum(basis[i][j]*offset[j] for j in range(3)) for i in range(3)]
+                chambers.append(dict(name=placement_name,template=template,ids=ids,origin_m=recovered,canonical_origin_m=canonical_origin,basis=basis,vertices_m=vertices,
                     material=str(volume.GetMaterial().GetName()),sensitive=is_sensitive))
             elif name in group_names:
                 if name in groups:
@@ -260,6 +281,13 @@ def run(args):
         visit(manager.GetTopNode(),ROOT.TGeoHMatrix(),{})
         comparison=compare_chambers(chambers,source,expected,args.transform_tolerance_mm/1000)
         errors=list(comparison["errors"])
+        sharing=dict(unique_volumes=len(set().union(*native_volumes.values())) if native_volumes else 0,
+            unique_solids=len(set().union(*native_solids.values())) if native_solids else 0,
+            templates=len(native_volumes),placements_by_template=dict(sorted(template_members.items())))
+        expected_members={t["name"]:t["members"] for t in expected["chamber_templates"]["templates"]}
+        sharing["passed"]=(sharing["unique_volumes"]==22 and sharing["unique_solids"]==22 and
+            dict(template_members)==expected_members and all(len(v)==1 for v in native_volumes.values()) and all(len(v)==1 for v in native_solids.values()))
+        if not sharing["passed"]:errors.append("Native chamber template Volume/Solid sharing mismatch")
         if unexpected:errors.append("Unexpected physical volumes: "+str(unexpected))
         if sensitive:errors.append("Unexpected sensitive placements")
         if len(groups)!=3:errors.append("Expected exactly three native warm group volumes")
@@ -291,7 +319,7 @@ def run(args):
             manager.Export(str(args.root_output.resolve()))
         ROOT.gInterpreter.Declare('#include "DD4hep/Version.h"\nnamespace nodd_muon_audit { constexpr int major=DD4HEP_MAJOR_VERSION; constexpr int minor=DD4HEP_MINOR_VERSION; }')
         return dict(status="PASS" if not errors else "FAIL",errors=errors,counts=dict(chambers=len(chambers),warm_groups=len(groups),warm_coil_definitions=36,sensitive=sensitive),
-            chamber_comparison=comparison,warm_comparison=warm_checks,overlaps=overlaps,
+            chamber_comparison=comparison,template_sharing=sharing,warm_comparison=warm_checks,overlaps=overlaps,
             source=expected["source"],root_version=str(ROOT.gROOT.GetVersion()),
             dd4hep_version=f"{ROOT.nodd_muon_audit.major}.{ROOT.nodd_muon_audit.minor}",
             dd4hep_mm_in_root_units=float(dd4hep.mm),dd4hep_m_in_root_units=unit)
@@ -323,7 +351,7 @@ def main():
     try:
         report.update(commit=subprocess.check_output(["git","rev-parse","HEAD"],cwd=generator.ROOT,text=True).strip(),
             dirty=bool(subprocess.check_output(["git","status","--porcelain"],cwd=generator.ROOT,text=True).strip()),
-            file_sha256={str(p):generator.sha(p.read_bytes()) for p in (args.compact,args.expected,args.library,Path(__file__),generator.ROOT/"prototypes/muon/Muon.cpp")})
+            file_sha256={str(p):generator.sha(p.read_bytes()) for p in (args.compact,args.expected,args.library,Path(__file__),generator.ROOT/"prototypes/muon/Muon.cpp",Path(generator.templates.__file__))})
         report.update(run(args))
     except Exception as error:
         report.update(status="FAIL",errors=[f"{type(error).__name__}: {error}"])
