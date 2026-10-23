@@ -116,3 +116,30 @@ Explicit generic-agent role dispatch (native profile loading not verified). Inpu
 ## Independent review correction
 
 PhysVal F1 at758609f: the requested DDSim `uniform` bank is flat polar theta/azimuth, not equal-solid-angle. Corrected ambiguous uniform-direction wording in DES040 and prototype/evidence READMEs, added versioned primary source to the catalogue. The command, physics, native geometry and saved data remain unchanged. Independent actual ROOT audit identifies1000 parentless PDG22primaries,20GeV momentum and the expected flat-theta angular signature; secondary particles are not miscounted as primaries.
+
+## F1 amendment verification assignment
+
+```json
+{
+  "id": "MUON-DD4HEP-PhysVal-F1",
+  "role": "PhysVal",
+  "input_revision": "5f5c0d4b148d5d3710534ffdd3c5abe2b72a53e8",
+  "inputs": [
+    "docs/design/DES-040-muon-chambers-frame.md",
+    "prototypes/muon/README.md",
+    "docs/validation/DES-040/dd4hep-2026-10-23/README.md",
+    "reference/manifest.yaml"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Read-only exact-diff verification of your F1 correction versus reviewed758609fbc62969e658a6734993978daf904b3eaf. Verify DDSim uniform now clearly means flat polar theta/azimuth, not equal-solid-angle; requested command and all source/implementation/numerical artifacts remain unchanged. RootREADME/toolREADME discoverylinks and sourcecatalogue originalformat restoration may appear; verify no prior sourceentry semantics changed except adding Gun source. No rerunning simulation needed. No writes/commits/delegation.",
+  "deliverable": "Brief exact-revision F1 closure or remaining defect with actual diff checks.",
+  "completion": "Verify F1 correction against actual pinned bytes and no scientific-code/data change; never grant human acceptance."
+}
+```
+
+## Review and accounting closeout
+
+Separate PhysVal native replay and ROOT audit pass, with one wording findingF1; exact5f5c0d4 amendment check resolves it and verifies unchanged implementation/data and123prior source catalogue entries. Reports and primary audit statistics are retained in physics-review.md, physics-check.json and physics-amendment.json. No human acceptance supplied.
+
+`session_log.py summary --format json` reports prior observed input870643545 and output4670671tokens across251turns, total875314216;201session records,72without observations including this active task. These are observed historical subtotals, not a complete total or billing number. Exact task/agent counters remain unavailable; no estimates or duplicate observations added.

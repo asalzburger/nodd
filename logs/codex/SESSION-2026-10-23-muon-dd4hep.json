@@ -9,8 +9,10 @@
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
-    "Exact finalized disjoint per-turn client counters unavailable for this active parent and specialists; usage is empty, not zero.",
-    "Initial dirty-source run retained separately from successful clean1f0e98c committed-source replay. No human sign-off."
+    "Exact finalized disjoint per-turn client counters unavailable for this active parent and specialists; usage remains empty, not zero.",
+    "Initial dirty-source run retained separately from successful clean1f0e98c committed-source replay.",
+    "Agent reviews are separate assessments, not human engineering sign-off.",
+    "Compound discovery statuses and unmeasured skill invocation counts/durations remain explicit."
   ],
   "client": {
     "name": "unspecified",
@@ -22,9 +24,50 @@
     "branch": "codex/muon-dd4hep-prototype",
     "initial_changes": [],
     "result_commits": [
-      "1f0e98c90c4eb7ff33e562af032b0f6ae6981cf0"
+      "1f0e98c90c4eb7ff33e562af032b0f6ae6981cf0",
+      "758609fbc62969e658a6734993978daf904b3eaf",
+      "5f5c0d4b148d5d3710534ffdd3c5abe2b72a53e8"
     ],
-    "changed_files": []
+    "changed_files": [
+      ".github/workflows/validation.yml",
+      "README.md",
+      "docs/design/DES-040-muon-chambers-frame.md",
+      "docs/validation/DES-040/dd4hep-2026-10-23/README.md",
+      "docs/validation/DES-040/dd4hep-2026-10-23/attempts.json",
+      "docs/validation/DES-040/dd4hep-2026-10-23/checkOverlaps.log",
+      "docs/validation/DES-040/dd4hep-2026-10-23/committed-replay/checkOverlaps.log",
+      "docs/validation/DES-040/dd4hep-2026-10-23/committed-replay/ddsim.log.gz",
+      "docs/validation/DES-040/dd4hep-2026-10-23/committed-replay/geometry-validation.json",
+      "docs/validation/DES-040/dd4hep-2026-10-23/committed-replay/geometry-validation.log",
+      "docs/validation/DES-040/dd4hep-2026-10-23/committed-replay/run.json",
+      "docs/validation/DES-040/dd4hep-2026-10-23/ddsim.log.gz",
+      "docs/validation/DES-040/dd4hep-2026-10-23/environment.json",
+      "docs/validation/DES-040/dd4hep-2026-10-23/geometry-validation.json",
+      "docs/validation/DES-040/dd4hep-2026-10-23/geometry-validation.log",
+      "docs/validation/DES-040/dd4hep-2026-10-23/interface-review.md",
+      "docs/validation/DES-040/dd4hep-2026-10-23/physics-amendment.json",
+      "docs/validation/DES-040/dd4hep-2026-10-23/physics-check.json",
+      "docs/validation/DES-040/dd4hep-2026-10-23/physics-review.md",
+      "docs/validation/DES-040/dd4hep-2026-10-23/run.json",
+      "logs/codex/SESSION-2026-10-23-muon-dd4hep.json",
+      "logs/codex/SESSION-2026-10-23-muon-dd4hep.md",
+      "project/tracking.json",
+      "prototypes/muon/CMakeLists.txt",
+      "prototypes/muon/Muon.cpp",
+      "prototypes/muon/MuonEvent.cpp",
+      "prototypes/muon/README.md",
+      "prototypes/muon/compact/expected.json",
+      "prototypes/muon/compact/materials.xml",
+      "prototypes/muon/compact/muon-system.xml",
+      "reference/manifest.yaml",
+      "tools/muon_dd4hep/export.py",
+      "tools/muon_dd4hep/run_validation.py",
+      "tools/muon_dd4hep/run_with_factory.py",
+      "tools/muon_dd4hep/test_export.py",
+      "tools/muon_dd4hep/test_run_validation.py",
+      "tools/muon_dd4hep/validate.py",
+      "tools/muon_layout/README.md"
+    ]
   },
   "work": {
     "milestone": "M0",
@@ -42,7 +85,138 @@
     ]
   },
   "narrative": "logs/codex/SESSION-2026-10-23-muon-dd4hep.md",
-  "activities": [],
+  "activities": [
+    {
+      "kind": "skill",
+      "name": "acts-spack",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Applied using repository/local SKILL.md; assignments and actual results curated in paired narrative. Invocation totals/durations not measured."
+    },
+    {
+      "kind": "skill",
+      "name": "nodd-coordinate",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Applied using repository/local SKILL.md; assignments and actual results curated in paired narrative. Invocation totals/durations not measured."
+    },
+    {
+      "kind": "skill",
+      "name": "nodd-review-validation",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Applied using repository/local SKILL.md; assignments and actual results curated in paired narrative. Invocation totals/durations not measured."
+    }
+  ],
   "usage": [],
-  "checks": []
+  "checks": [
+    {
+      "command": "python3 /Users/salzburg/.codex/skills/acts-spack/scripts/preflight.py",
+      "status": "FAIL",
+      "exit_code": 2,
+      "result": "Changed setup/lock fingerprints; independent fresh task runtime reverified without modifying shared installation."
+    },
+    {
+      "command": "setup_spack; DD4hep/DDG4 imports; spack find; geant4-config --version/--check-datasets",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Actual imports, DD4hep1.38/ROOT6.40.04/Python3.14.5/Geant4 11.4.3 and12dataset presence checks succeeded. Whole compound discovery ended1 because checkOverlaps.py filename absent; installed command checkOverlaps identified later and actually ran successfully."
+    },
+    {
+      "command": "cmake -S prototypes/muon -B reference/cache/muon-dd4hep/build -G Ninja; cmake --build reference/cache/muon-dd4hep/build --parallel2",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Standalone factory and empty-event action built successfully. Existing CMake policy/CLHEP warnings retained."
+    },
+    {
+      "command": "Initial stock overlap run before full element-table correction",
+      "status": "FAIL",
+      "exit_code": 134,
+      "result": "ROOT sparse-element mixture fatal; complete pinned table fixed it. Second pre-correction export repeated failure."
+    },
+    {
+      "command": "run_validation.py --output-dir reference/cache/muon-dd4hep/run-01",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Zero overlaps calculated, then stock interpreter ROOT teardown exited133; explicit local geometry cleanup fixed shutdown."
+    },
+    {
+      "command": "run_validation.py --output-dir reference/cache/muon-dd4hep/run-02",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Native geometry PASS; DDSim default tracker-region user handler required missing tracker constants. Disabled for no-hit compact."
+    },
+    {
+      "command": "run_validation.py --output-dir reference/cache/muon-dd4hep/run-03",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "1000events transported but defaultEDM output had no event tree because null hit-container pointer."
+    },
+    {
+      "command": "run_validation.py --output-dir reference/cache/muon-dd4hep/run-04",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Native ROOT EVENT tree had0entries; nonzero persisted-event gate rejected it. Empty event container action fixed persistence."
+    },
+    {
+      "command": "run_validation.py --output-dir reference/cache/muon-dd4hep/run-05",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "1000persisted events, initial dirty-source run retained with exact file hashes."
+    },
+    {
+      "command": "run_validation.py --compact prototypes/muon/compact/muon-system.xml --expected prototypes/muon/compact/expected.json --library reference/cache/muon-dd4hep/build/libnODDMuonPrototype.dylib --output-dir reference/cache/muon-dd4hep/run-06",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Clean1f0e98c source:936 exact chambers/IDs,288CSG primitives,25248occupancy probes, zero overlaps at1e-5mm;1000persisted events."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/muon_dd4hep -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "12focused controls pass; independently reproduced by PhysVal."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "71tasks,38documents,21review rounds valid; initial task/stream role mismatch was corrected."
+    },
+    {
+      "command": "python3 -B tools/agent_workflow/workflow.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Eight roles and three skills valid."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "201paired records valid."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py validate; python3 -B tools/token_usage/build.py build --output _site/pages",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Token site validates/builds251disjoint dated observations,875314216observed tokens; task usage remains unavailable."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py summary --format json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Observed prior input870643545/output4670671tokens in251turns. This task has no finalized disjoint observations; no estimates added."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors."
+    }
+  ]
 }
