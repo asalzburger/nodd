@@ -207,7 +207,7 @@ def render(directory, output, config):
         handles, legend_labels = axes.flat[0].get_legend_handles_labels()
         fig.legend(handles, legend_labels, loc="upper right", bbox_to_anchor=(0.99, 0.985),
                    frameon=False, fontsize=10, ncol=3)
-        fig.text(0.07, 0.928, "Native DD4hep → ACTS TrackingGeometry  ·  DES-026 finite-winding map, B₀ = 3 T", fontsize=11)
+        fig.text(0.07, 0.928, "PROTOTYPE · Native DD4hep → ACTS TrackingGeometry  ·  DES-026 finite-winding map, B₀ = 3 T", fontsize=11)
         fig.text(0.07, 0.025, caption, fontsize=9, color="#526477")
         fig.subplots_adjust(left=0.07, right=0.98, top=0.88, bottom=0.12,
                             hspace=0.35, wspace=0.23)
