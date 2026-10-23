@@ -49,7 +49,7 @@ def main():
         raise ValueError("this study requires the current cylindrical tracking world")
     bounds = world.volumeBounds.values()
     world_report = {"name": world.volumeName, "volume_id": int(world.geometryId.volume),
-                    "center_mm": list(world.center(acts.GeometryContext())),
+                    "center_mm": list(world.center(detector.nominalGeometryContext())),
                     "r_min_mm": bounds[0], "r_max_mm": bounds[1], "half_z_mm": bounds[2]}
     if any(abs(value) > 1e-9 for value in world_report["center_mm"]):
         raise ValueError("this study requires the current origin-centered tracking world")
