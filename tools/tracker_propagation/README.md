@@ -88,13 +88,28 @@ Native summaries and steps must account for the complete generated identity set.
 Every sensitive GeometryIdentifier is mapped back to a native DD4hep system;
 the per-system counts must sum to the native summary `nSensitives` for every
 probe. Missing/failed propagations are errors rather than silently omitted
-profile entries. Each requested transverse momentum, generated kinematics and
+profile entries. Final steps must be on the native outer tracking-world portal
+within 0.001 mm (float32 ROOT coordinate precision), excluding step/path aborts.
+Each requested transverse momentum, generated kinematics and
 zero-crossing contribution must remain explicit.
 
 The three technology groups sum systems 1–3, 4–5 and 6–7 respectively; the full
 tracker sums 1–7. This grouping follows the retained DES-025 system translation.
 Fixed random seeds establish reproduction, while independent seeds, charge/η/φ
 diagnostics and numerical refinements assess finite sampling and navigation.
+
+After the nominal run, repeat the numerical and sampling controls with:
+
+```sh
+make tracker-propagation-controls
+```
+
+This pairs the first 512 probes per momentum with a 25 mm maximum step and
+with a 5 mm × 10 mm map, then runs 2,048 probes per momentum with seed+1.
+These are explicit prototype sampling/numerical choices, not detector parameters.
+`controls/diagnostics.json` retains every changed per-system crossing count and
+descriptive charge, η-sign and eight-sector φ splits. Numerical differences require
+inspection; these splits impose no detector symmetry or performance criterion.
 
 Meaningful pure controls can run without ACTS:
 
