@@ -1,0 +1,87 @@
+# SESSION-2026-10-23-muon-dd4hep — DD4hep chambers and envelope validation
+
+## Scope and evidence
+
+New bounded task started from PR90 merge `cae3a72f3b1c98edaf9bc28a84d019142606ba25`, on `codex/muon-dd4hep-prototype` in an isolated clean worktree. Existing changes in the original checkout were preserved. PR90 was merged into the still separate toroid prototype branch, not main; this implementation stacks there.
+
+## Selected conversation
+
+User (exact): “Issues 92 and 93 have been opened, start addressing them”. The GitHub issue bodies and empty discussions were read. Issue92 requests compact XML, DD4hep chambers and1000gamma20GeV simulation; issue93 requests a chamber/toroid overlap gate before drift tubes. Assistant reports the existing unsigned prototype status, actual environment checks, successful geometry gate, persistence failures and corrections. No external issue comments or reviewer messages were sent.
+
+## Decisions and outcomes
+
+Implemented exact936-chamber Air envelopes and three shared warm unions representing36coils; source geometry and magnetic parameters unchanged. Reused the complete pinned element table after the sparse subset caused ROOT failure. Stock overlap exit codes alone are insufficient; native solids/transforms/IDs and the overlap list are checked. Explicit teardown avoids the local ROOT mutex shutdown failure. DDG4 requires a nonnull event hit container to persist output; the coordinator added a small empty-container event action without hit collections and selected native ROOT output. The successful run contains1000persisted events.
+
+Tube internals remain a distinct next stage: requested30mm radius is not silently changed to the30mm-diameter precedent. Need documented gas/wall/pitch/separation/readout/finite-trapezoid containment. No human sign-off, design acceptance or production integration. Separate independent PhysVal review and committed-source replay follow the initial source snapshot.
+
+## Commands and validation
+
+- Read repository AGENTS/PROJECT, logging/tracking guides, DES039/040 and current PR90 artifacts. Used nodd-coordinate and nodd-review-validation skills.
+- acts-spack preflight warned changed setup/lock fingerprints. Actual setup_spack/DD4hep/DDG4 imports, package identities and all12Geant4dataset presence checks succeeded; no shared installation changed. Sandbox sysctl/ps warnings retained.
+- Standalone `cmake -S prototypes/muon -B reference/cache/muon-dd4hep/build -G Ninja` and build succeeded.
+- `python3 -B -m unittest discover -s tools/muon_dd4hep -p 'test_*.py' -v`:12passed.
+- Native run05:936 exact chamber comparisons,288CSG primitive comparisons,25248coil probes, zero overlaps at0.00001mm; Geant4ran1000events and ROOT EVENTtreehas1000entries. Earlier failures and corrections are in docs/validation/DES-040/dd4hep-2026-10-23/attempts.json.
+- First project validator invocation rejected a task/stream role mismatch; corrected task owner role to the existing WS-MUON role. This is record schema alignment, not specialist identity or design approval.
+
+## Changes and revision links
+
+Paired JSON inventories changed paths and checks. The factory, exporter, native audit, runner, ready compact files, CI control step, governing contract, source catalogue, project tracking and bounded validation evidence form one prototype deliverable.
+
+## Token accounting
+
+No exact disjoint finalized per-turn counters are exposed for this active task or its separate agents; `usage` remains empty. This means unknown coverage, not zero. No client-private state or token estimates collected. Repository summary is run at closeout and distinguishes earlier observed totals from this missing coverage.
+
+## Follow-up
+
+Freeze implementation, run exact-revision independent PhysVal assessment, reconcile findings, retain committed-source replay and open draft PR. Then address the separate proposed tube internal model without claiming this empty-envelope run establishes detector response.
+
+## Specialist assignments
+
+Explicit generic-agent role dispatch (native profile loading not verified). Input revision `cae3a72f3b1c98edaf9bc28a84d019142606ba25`; full assignments follow.
+
+```json
+[
+  {
+    "input_revision": "cae3a72f3b1c98edaf9bc28a84d019142606ba25",
+    "inputs": [
+      "docs/design/DES-039-twelvefold-toroid.md",
+      "docs/design/DES-040-muon-chambers-frame.md",
+      "docs/validation/DES-040/sketched-stagger-2026-10-20/candidate/geometry.json",
+      "tools/muon_layout/geometry.py",
+      "tools/muon_layout/support.py",
+      "tools/muon_layout/sketched-stagger-config.json"
+    ],
+    "id": "MUON-DD4HEP-SoftEng",
+    "role": "SoftEng",
+    "mode": "write",
+    "writable_paths": [
+      "prototypes/muon/CMakeLists.txt",
+      "prototypes/muon/Muon.cpp",
+      "tools/muon_dd4hep/export.py",
+      "tools/muon_dd4hep/test_export.py",
+      "tools/muon_dd4hep/validate.py"
+    ],
+    "task": "Implement isolated DD4hep chamber and toroid warm-reservation prototype for issues92/93 from exact936-chamber current sketched-stagger geometry. Own only listed files, add helper files only after asking coordinator. XML export deterministic SI->DD4hep units, preserve exact panel transforms/IDs using Box/Trapezoid or Arb8, empty Air chambers initially; toroids as exact rounded racetrack warm-envelope union per three shared groups, avoiding sibling overlaps. No drift tubes until overlap gate. Prototype CMake independent root build. Validate counts, native vertices/transforms, IDs, ROOT overlap checks with fail-closed structured report. Coordinate design with main agent; main agent owns runtime, report, docs/tracking. Runtime DD4hep1.38 Geant4 11.4.3 verified imports; preflight fingerprint warnings require report, not install. Use existing setup script+setup_spack+thisdd4hep.sh for any needed build, task-local build path. Source path metadata may include warm reservations not real coil composition. Do not commit; coordinator will commit exact revision for independent review.",
+    "deliverable": "Working export/factory/tests/validator with reproducible commands; report file list, checks, limitations to coordinator.",
+    "completion": "Export all936 chambers and36 coil reservations as correct geometry without changing source; narrow tests pass or explicit blockers returned."
+  },
+  {
+    "input_revision": "cae3a72f3b1c98edaf9bc28a84d019142606ba25",
+    "inputs": [
+      "docs/design/DES-039-twelvefold-toroid.md",
+      "docs/design/DES-040-muon-chambers-frame.md",
+      "docs/validation/DES-040/sketched-stagger-2026-10-20/candidate/geometry.json",
+      "tools/muon_layout/geometry.py",
+      "tools/muon_layout/support.py",
+      "tools/muon_layout/sketched-stagger-config.json"
+    ],
+    "id": "MUON-DD4HEP-SysArch",
+    "role": "SysArch",
+    "mode": "read-only",
+    "writable_paths": [],
+    "task": "Assess exact source chamber/toroid/frame interfaces for DD4hep realization in issues92/93. Read primary geometry and support definitions. Return exact transform conventions, warm racetrack/union construction, appropriate collision-check scope, unsigned material/geometry choices, any geometry traps. Advise on issue93 tube radius~30mm vs source30mm-diameter precedent and feasibility in500mm envelope, but do not choose silently. No runtime needed; do not write/commit files or delegate further.",
+    "deliverable": "Cited interface assessment to coordinator, including exactsource locators and implementation recommendations.",
+    "completion": "Identify conversion requirements and relevant unresolved choices with actual checks and revision."
+  }
+]
+```

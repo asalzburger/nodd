@@ -1,0 +1,137 @@
+{
+  "status": "PASS",
+  "recorded_at": "2026-10-23T05:18:19.499162+00:00",
+  "source_revision": "cae3a72f3b1c98edaf9bc28a84d019142606ba25",
+  "source_dirty": true,
+  "python_version": "3.14.5",
+  "commands": [
+    {
+      "command": [
+        "/Users/salzburg/Documents/work/externals/ci-dependencies/.spack-env/view/bin/python3",
+        "/Users/salzburg/Documents/ChatGPT/agentic-detector/nodd-muon-dd4hep/tools/muon_dd4hep/run_with_factory.py",
+        "/Users/salzburg/Documents/ChatGPT/agentic-detector/nodd-muon-dd4hep/reference/cache/muon-dd4hep/build/libnODDMuonPrototype.dylib",
+        "/Users/salzburg/Documents/work/externals/ci-dependencies/.spack-env/view/bin/checkOverlaps",
+        "-c",
+        "/Users/salzburg/Documents/ChatGPT/agentic-detector/nodd-muon-dd4hep/reference/cache/muon-dd4hep/compact/muon-system.xml",
+        "-t",
+        "1.0000000000000002e-06"
+      ],
+      "exit_code": 0,
+      "log": "checkOverlaps.log",
+      "log_sha256": "40800d0b6951b3aefc12481d916fa2992bdc7be22d4e371c8a66b84eb2090528"
+    },
+    {
+      "command": [
+        "/Users/salzburg/Documents/work/externals/ci-dependencies/.spack-env/view/bin/python3",
+        "-B",
+        "/Users/salzburg/Documents/ChatGPT/agentic-detector/nodd-muon-dd4hep/tools/muon_dd4hep/validate.py",
+        "--compact",
+        "/Users/salzburg/Documents/ChatGPT/agentic-detector/nodd-muon-dd4hep/reference/cache/muon-dd4hep/compact/muon-system.xml",
+        "--expected",
+        "/Users/salzburg/Documents/ChatGPT/agentic-detector/nodd-muon-dd4hep/reference/cache/muon-dd4hep/compact/expected.json",
+        "--library",
+        "/Users/salzburg/Documents/ChatGPT/agentic-detector/nodd-muon-dd4hep/reference/cache/muon-dd4hep/build/libnODDMuonPrototype.dylib",
+        "--output",
+        "/Users/salzburg/Documents/ChatGPT/agentic-detector/nodd-muon-dd4hep/reference/cache/muon-dd4hep/run-05/geometry-validation.json",
+        "--overlap-tolerance-mm",
+        "1e-05"
+      ],
+      "exit_code": 0,
+      "log": "geometry-validation.log",
+      "log_sha256": "8d2c78e0c3101ee61df36e7c1976f6ad7fa14f1b890b8f9c99a74cf2f63dd3ae"
+    },
+    {
+      "command": [
+        "/Users/salzburg/Documents/work/externals/ci-dependencies/.spack-env/view/bin/python3",
+        "/Users/salzburg/Documents/ChatGPT/agentic-detector/nodd-muon-dd4hep/tools/muon_dd4hep/run_with_factory.py",
+        "/Users/salzburg/Documents/ChatGPT/agentic-detector/nodd-muon-dd4hep/reference/cache/muon-dd4hep/build/libnODDMuonPrototype.dylib",
+        "/Users/salzburg/Documents/work/externals/ci-dependencies/.spack-env/view/bin/ddsim",
+        "--enableGun",
+        "--numberOfEvents",
+        "1000",
+        "--gun.energy",
+        "20*GeV",
+        "--gun.particle",
+        "gamma",
+        "--gun.distribution",
+        "uniform",
+        "--compactFile",
+        "/Users/salzburg/Documents/ChatGPT/agentic-detector/nodd-muon-dd4hep/reference/cache/muon-dd4hep/compact/muon-system.xml",
+        "--outputFile",
+        "/Users/salzburg/Documents/ChatGPT/agentic-detector/nodd-muon-dd4hep/reference/cache/muon-dd4hep/run-05/test_muon_system.root",
+        "--random.seed",
+        "92393",
+        "--physics.list",
+        "FTFP_BERT",
+        "--part.userParticleHandler",
+        "",
+        "--outputConfig.forceDD4HEP",
+        "--action.event",
+        "nODDMuonEmptyEvent/EmptyHitContainer"
+      ],
+      "exit_code": 0,
+      "log": "ddsim.log",
+      "log_sha256": "42139692b7282e00c333cb3abdd1539079b910df559ca3518998e193b0836e49"
+    }
+  ],
+  "errors": [],
+  "artifacts": {
+    "compact": {
+      "name": "muon-system.xml",
+      "sha256": "a2ea789b554e5c39bbd695fb61644f37d576b853e2a47a348e9d1de589289d6d"
+    },
+    "expected": {
+      "name": "expected.json",
+      "sha256": "09252e4424347886fcb29150841952e80dd108f012c41ed3a1243a6d1b37be06"
+    },
+    "library": {
+      "name": "libnODDMuonPrototype.dylib",
+      "sha256": "e2cd2f74766a8997e573ee8664b035755335599db604d6ba3da11f182b75fb72"
+    },
+    "runner": {
+      "name": "run_validation.py",
+      "sha256": "fe2e1a00097ccd0b8e62bb453150a9009d73fd0f06f9e798fd6df21406e6f914"
+    },
+    "installed_checkOverlaps": {
+      "name": "checkOverlaps",
+      "sha256": "0f699b07ee1124ee97a51496d5fef86639bcae680f988870af249b449255c2b9"
+    },
+    "geometry_validation": {
+      "name": "geometry-validation.json",
+      "sha256": "2d39bf911a9cf0b512660e12db52dad309ce029cc95cde87df6878c5c8fc1610"
+    },
+    "simulation_root": {
+      "name": "test_muon_system.root",
+      "sha256": "87261962550cfc66267b78293c8a1916b713b40926b79287c7b8a6fff65f2502",
+      "size_bytes": 88991
+    }
+  },
+  "overlap_tolerance_mm": 1e-05,
+  "requested_events": 1000,
+  "seed": 92393,
+  "physics_list": "FTFP_BERT",
+  "empty_event_action": "nODDMuonEmptyEvent",
+  "output_plugin": "DD4HEP ROOT",
+  "user_particle_handler": "",
+  "particle": "gamma",
+  "energy": "20*GeV",
+  "distribution": "uniform",
+  "limitations": [
+    "Air-filled chamber and warm-reservation envelopes; no material/response validation.",
+    "No Geant4 magnetic field, HCAL or484 support bodies in this bounded compact.",
+    "No drift tubes or sensitive response in the initial envelope stage.",
+    "Default tracker-region particle handler disabled because this compact has no tracker or sim-hits.",
+    "An empty Geant4 hit container enables MC-truth persistence; it creates no hit collections."
+  ],
+  "native_length_per_mm": 0.1,
+  "root_version": "6.40.04",
+  "stock_tolerance_native": 1.0000000000000002e-06,
+  "transport_output": {
+    "tree": "EVENT",
+    "events": 1000,
+    "keys": [
+      "G4EventIDs",
+      "EVENT"
+    ]
+  }
+}
