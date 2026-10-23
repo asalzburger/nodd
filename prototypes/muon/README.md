@@ -67,3 +67,5 @@ identical. Shape grouping stays at 1e-12 m and native vertices at 1e-10 m.
 The historical template report retains the earlier 28,900-byte XML; the current
 serialization is 28,907 bytes and preserves the same 936 source entities and
 36 coil definitions. This arithmetic correction grants no design approval.
+
+[CI correction and committed native replay](../../docs/validation/DES-040/dd4hep-ci-2026-10-23/README.md) retain the new hashes and results.

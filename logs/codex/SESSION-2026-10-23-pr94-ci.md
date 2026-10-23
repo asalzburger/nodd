@@ -32,7 +32,7 @@ nodd-review-validation; no independent specialist assessment is claimed.
 Applied acts-spack. Preflight reports changed setup/lock fingerprints (exit2);
 fresh installation checks actually pass: DD4hep1.38, ROOT6.40.04, Geant411.4.3,
 DD4hep/DDG4 imports and12 present datasets. These are presence checks, not
-checksums. Native checks and1000-event replay follow at a committed source.
+checksums. Native checks and1000-event replay pass at clean committed source4605ad6ba160c478a324ca1aa30a7cd3c934cd4e.
 No shared dependency installation is changed. Detailed check results and changed
 files are in the paired JSON; result commits are recorded only after they exist.
 
@@ -43,3 +43,31 @@ not zero. Run session validation/summary and token-site validation/build at
 closeout; retain prior observed totals without claiming complete coverage.
 This fixes software reproducibility for the isolated Air-envelope prototype;
 no drift-tube response, engineering sign-off or production integration is added.
+
+
+## Delivery and retained replay
+
+The source correction is pushed as4605ad6. The clean native replay verifies936
+stable IDs,22 shared Solids/Volumes,288 coil primitives and25,248 occupancy probes.
+No overlaps at0.00001 mm; native vertex maximum1.0087767680389479e-14 m remains
+below1e-10 m. All1,000 gamma events persist. ROOT primary banks and particle
+multiplicities exactly match the frozen baseline. Reports, hashes, raw logs and
+source-entity/group equality are retained under
+`docs/validation/DES-040/dd4hep-ci-2026-10-23/`; old evidence is preserved.
+
+Ubuntu workflow39938029454 passed step15, the previously failing muon export
+controls, at4605ad6. Token usage workflow39938029888 passed. The final evidence-only
+commit triggers another remote run; terminal status is published in GitHub checks.
+The PR description now identifies16 controls and the new committed native replay;
+readback confirms the human-selected ready state, base and reviewer stay intact.
+No PR comment/reviewer message was sent.
+
+Project/session validation, usage summary and token-site validation/build pass.
+Observed totals remain251 turns,870,643,545 input,4,670,671 output and875,314,216
+total tokens; this turn has missing counters. The paired JSON lists exact checks.
+No new independent review, design sign-off or detector response is claimed.
+
+Supplementary local project-record unit suite was interrupted with exit130 during
+repeated synthetic-fixture Git adds (docs input897MB). No failed assertion was
+observed; no suite pass is claimed. The canonical record validator passes.
+The unmodified full suite runs in GitHub CI.
