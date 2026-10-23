@@ -71,7 +71,7 @@ def main():
                 "--eta-min", config["eta_range"][0], "--eta-max", config["eta_range"][1],
                 "--max-step-mm", config["maximum_step_mm"],
             ], log=output / f"pt_{pt:g}GeV.log")
-            execute([args.plot_python.resolve(), "-I", ROOT / "tools/tracker_propagation/counts.py",
+            execute([args.plot_python.absolute(), "-I", ROOT / "tools/tracker_propagation/counts.py",
                      "--directory", target], log=output / f"pt_{pt:g}GeV-counts.log")
             execute([
                 sys.executable, ROOT / "tools/tracker_dd4hep/check_gen3.py",
@@ -82,7 +82,7 @@ def main():
     if args.stage in ("all", "plot"):
         if not args.plot_python.is_file():
             parser.error("plotting Python missing; follow software/analysis/README.md to install unrooted")
-        execute([args.plot_python.resolve(), "-I", ROOT / "tools/tracker_propagation/plot.py",
+        execute([args.plot_python.absolute(), "-I", ROOT / "tools/tracker_propagation/plot.py",
                  "--config", executed_config, "--directory", output, "--output", output / "plots"],
                 log=output / "plot.log")
     print(f"Completed stage {args.stage}: {output}")
