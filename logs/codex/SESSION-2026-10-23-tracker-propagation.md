@@ -236,3 +236,11 @@ for a prototype overview under retained qualifications. See curated scientific
 and software assessments; no human approval is inferred.
 
 The documented `make tracker-propagation` command completed end-to-end with 2,048 probes per momentum in a fresh output directory. All 6,144 saved CSV rows exactly match the nominal prefix, including path lengths; regenerated map bytes are identical. Retained replay.json records hashes and actual execution revision.
+
+## Delivery
+
+[Software PR97](https://github.com/asalzburger/nodd/pull/97) opened and attached,
+published evidence head `7675d4b2cd40692664aa4ae5fe10aaebb0fdab58`. Metadata-only
+closeout follows. Both figures were visually inspected; overview image opening
+was queued by the app. Sandboxed push/API DNS failures were retried successfully
+through normal escalation. No merge or engineering approval was performed.
