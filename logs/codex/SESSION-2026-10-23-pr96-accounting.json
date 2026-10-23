@@ -9,8 +9,8 @@
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
-    "This current accounting turn has no closed boundary. Its provisional counters are retained only as an excluded active snapshot in the inventory; usage is empty rather than estimated.",
-    "Actual execution model, client version, billing and other-device completeness are not established."
+    "Follow-up correction on2026-10-23 observes the previously active accounting turn closed; exact counters now imported under this session.",
+    "Execution model, client version, billing and other-device completeness remain unknown."
   ],
   "client": {
     "name": "Codex",
@@ -46,7 +46,22 @@
   },
   "narrative": "logs/codex/SESSION-2026-10-23-pr96-accounting.md",
   "activities": [],
-  "usage": [],
+  "usage": [
+    {
+      "client_thread_id": "01a167a1-7906-7b73-9408-509e483359fc",
+      "turn_id": "01a1683e-c198-7ef3-9471-bf73aa6ca02a",
+      "model": null,
+      "source": "Codex usage-only recovery captured 2026-10-23T13:01:41.742505+00:00; 36 request deltas reconciled against last-request counters and closed turn ordinals; usage SHA256 9664853cb80411fdf2e55fd605afb517cd2841b9680ca761e7615dccf6a1a547; logs/usage/USAGE-2026-10-23-pr96-closeout.json.",
+      "limitations": [
+        "Execution model, client version, billing and other-device completeness are unknown. Cached input and reasoning output are subsets, not additions."
+      ],
+      "input_tokens": 7262523,
+      "cached_input_tokens": 7210752,
+      "output_tokens": 17992,
+      "reasoning_output_tokens": 7028,
+      "total_tokens": 7280515
+    }
+  ],
   "checks": [
     {
       "command": "python3 -B tools/session_logging/recover_usage.py --codex-home <local-client-home> --thread-id 01a167a1-7906-7b73-9408-509e483359fc --output <new-temporary-inventory>",
