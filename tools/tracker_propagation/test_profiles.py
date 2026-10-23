@@ -48,6 +48,17 @@ class ProfileTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "do not close"):
                 plot.load_counts(path, 1, (-4, 4))
 
+    def test_duplicate_probe_ids_are_not_a_complete_sample(self):
+        plot = module()
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / "fixture.csv"
+            header = "event_nr,track_nr,eta,phi,pt_GeV,charge,nSensitives,"
+            header += ",".join(f"nSensitives_system{i}" for i in range(1, 8))
+            row = "0,0,0,0,1,1,1,1,0,0,0,0,0,0\n"
+            path.write_text(header + "\n" + row + row)
+            with self.assertRaisesRegex(ValueError, "exactly once"):
+                plot.load_counts(path, 2, (-4, 4))
+
 
 if __name__ == "__main__":
     unittest.main()

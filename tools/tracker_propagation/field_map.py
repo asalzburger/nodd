@@ -81,6 +81,8 @@ def generate(output, config):
     result, source_hashes = winding_inputs()
     output.mkdir(parents=True, exist_ok=True)
     field_cfg = config["field"]
+    if not math.isclose(field_cfg["central_field_T"], result["central_field_T"], rel_tol=0, abs_tol=1e-12):
+        raise ValueError("requested field strength differs from the current DES-026 source")
     dr, dz = field_cfg["r_step_mm"], field_cfg["z_step_mm"]
     rmax, zmax = field_cfg["r_max_mm"], field_cfg["z_max_mm"]
     if min(dr, dz, rmax, zmax) <= 0 or not all(
