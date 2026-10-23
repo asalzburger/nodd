@@ -42,6 +42,15 @@ def load_counts(path, expected, eta_range):
     for name, values in columns.items():
         if not np.all(np.isfinite(values)):
             raise ValueError(f"{path}: nonfinite {name}")
+    events = columns["event_nr"]
+    if not np.array_equal(np.sort(events), np.arange(expected)) or np.any(columns["track_nr"] != 0):
+        raise ValueError("expected each generated event exactly once, with track_nr zero")
+    order = np.argsort(events)
+    columns = {name: values[order] for name, values in columns.items()}
+    if np.any(np.abs(columns["charge"]) != 1) or np.any(columns["pt_GeV"] <= 0):
+        raise ValueError("invalid generated charge or transverse momentum")
+    if np.any(np.abs(columns["phi"]) > np.pi + 1e-6):
+        raise ValueError("invalid generated azimuth")
     eta = columns["eta"]
     if np.any(eta < eta_range[0]) or np.any(eta > eta_range[1]):
         raise ValueError("generated eta outside the study range")
@@ -93,6 +102,11 @@ def render(directory, output, config):
     data = {pt: load_counts(directory / f"pt_{pt:g}GeV/counts.csv",
                             config["tracks_per_pt"], config["eta_range"])
             for pt in pts}
+    for pt, columns in data.items():
+        if not np.allclose(columns["pt_GeV"], pt, rtol=1e-6, atol=0):
+            raise ValueError(f"the {pt:g} GeV sample does not have the requested transverse momentum")
+        if set(np.unique(columns["charge"])) != {-1.0, 1.0}:
+            raise ValueError("the study must contain both requested muon charge signs")
     reference = data[pts[0]]
     for pt in pts[1:]:
         for key in ("event_nr", "eta", "phi", "charge"):
@@ -187,7 +201,12 @@ def render(directory, output, config):
     if isinstance(interactive, tuple):
         interactive = interactive[0]
     interactive.update_layout(title="nODD Tracker · DES-026 3 T map · mean sensitive crossings",
+                              xaxis_title="Generated pseudorapidity η",
                               yaxis_title="Mean sensitive crossings", template="plotly_white")
+    for trace in interactive.data:
+        for pt in pts:
+            if trace.name == rf"$p_T = {pt:g}$ GeV":
+                trace.name = f"pT = {pt:g} GeV"
     html = output / "sensitive-crossings.html"
     interactive.write_html(html, include_plotlyjs=True)
     figures.append(html)
