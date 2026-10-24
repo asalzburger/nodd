@@ -77,7 +77,7 @@ fingerprints. A remote discussion capture is explicitly dated; offline checks
 cannot detect later GitHub edits. Capture and source review remain part of each
 PR accounting pass.
 
-Eleven new tests, 33 session/recovery tests and ten token-site tests passed.
+Thirteen new tests, 33 session/recovery tests and ten token-site tests passed.
 Session, token, project and interaction validation passed; the existing 234
 canonical turns and 740,993,210 observed tokens remain unchanged. The token
 preview builds. The paired JSON retains final check results. No geometry
@@ -99,3 +99,20 @@ The initial implementation is prepared for a fixed-revision SoftEng review.
 The bounded assignment and findings are appended after its source commit exists.
 Publication creates the PR number; its own individual record is then captured
 and synchronized in an ordinary follow-up commit. No human approval is inferred.
+
+## Specialist assignment INTERACTIONS-SoftEng-01
+
+Read-only SoftEng assessment prepared before dispatch at `f8e0cc8294f6cce33fd37783d797be2f66af906b`.
+Full assignment is retained in the session directory. Generic subagent receives
+the full prepared mandate; native profile loading is not claimed. It owns no
+files and may run pure checks only. Parent retains reconciliation and delivery.
+
+## Separate assessment and remediation
+
+The [SoftEng report](SESSION-2026-10-24-pr-interactions/SoftEng-01-review.md)
+retains two P2 findings and coordinator remedies: a base-commit deletion gate
+and standard closing-issue reference capture. Both regression controls pass.
+No separate human approval or model identity was inferred. A prompt-preparation
+command initially used an unsupported output option; capturing the documented
+stdout completed the prepared handoff. The GitHub connector rejected PR creation
+with integration permissions; the authenticated CLI is used for publication.

@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
+from unittest.mock import patch
 
 import ledger
 from visible import curate_turn
@@ -125,6 +126,35 @@ class LedgerTests(unittest.TestCase):
         self.snapshot['github']['pull_request']['number'] = 2
         with self.assertRaises(ValueError):
             ledger.validate_snapshot(self.snapshot, 1)
+
+    def test_historical_record_deletion_is_rejected_against_base(self):
+        self.sync()
+        ledger.write(ledger.path_for(self.root, 1), self.snapshot)
+        with patch.object(ledger.subprocess, 'check_output', return_value=
+                          'interactions/pr-0001.json\ninteractions/pr-0002.json\ninteractions/README.md\n'):
+            with self.assertRaisesRegex(ValueError, 'pr-0002.json'):
+                ledger.require_retained_records(self.root, 'a' * 40)
+            ledger.path_for(self.root, 2).write_text('{}')
+            ledger.require_retained_records(self.root, 'a' * 40)
+
+    def test_standard_closing_references_capture_linked_issue(self):
+        for keyword in ('Closes', 'Fixes', 'Resolves'):
+            with self.subTest(keyword=keyword):
+                pr = {'html_url': ledger.BASE + '/pull/1', 'head': {'ref': 'fixture', 'sha': 'a' * 40},
+                      'title': 'Fixture', 'state': 'open', 'body': keyword + ' #2.',
+                      'user': {'login': 'asalzburger'}, 'created_at': None}
+                issue = {'html_url': ledger.BASE + '/issues/2', 'title': 'Fixture issue',
+                         'body': 'Fixture input', 'user': {'login': 'fixture-reviewer'}, 'created_at': None}
+                def api(endpoint):
+                    if endpoint.endswith('/pulls/1'):
+                        return [pr]
+                    if endpoint.endswith('/issues/2'):
+                        return [issue]
+                    return [[]]
+                with patch.object(ledger, 'gh', side_effect=api):
+                    source = ledger.capture(1)
+                self.assertEqual(source['issues'][0]['actor'], 'fixture-reviewer')
+                self.assertEqual(source['issues'][0]['number'], 2)
 
     def test_visible_turn_requires_exact_account_pair(self):
         self.record['usage'] = [self.turn()]

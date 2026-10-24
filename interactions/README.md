@@ -86,7 +86,10 @@ at each accounting pass; an offline validator cannot detect remote edits.
 curated input format. `ledger.py` also checks source fingerprints, account/turn
 membership, response links and deterministic derived content. CI validates all
 records, requires a record for the current PR number, and runs the interaction
-tests alongside token validation. Changing a linked journal, usage entry or
+tests alongside token validation. CI also validates against the full base commit
+with `validate --base-ref SHA` to reject removal of historical PR records without
+a shared inventory. Standard Closes/Fixes/Resolves issue references are captured.
+Changing a linked journal, usage entry or
 retained visible source makes the record stale until synchronized.
 
 For visible messages, explicitly select the journal's recorded thread/turn

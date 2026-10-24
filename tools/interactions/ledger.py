@@ -47,6 +47,17 @@ def path_for(root, number):
     return root / 'interactions' / f'pr-{number:04d}.json'
 
 
+def require_retained_records(root, revision):
+    """Protect historical records without a shared mutable inventory file."""
+    logger.require(re.fullmatch('[0-9a-f]{40}', revision) is not None,
+                   '--base-ref requires a full source commit SHA')
+    paths = subprocess.check_output(['git', '-C', str(root), 'ls-tree', '-r', '--name-only',
+                                     revision, '--', 'interactions'], text=True).splitlines()
+    missing = [p for p in paths if re.fullmatch(r'interactions/pr-[0-9]+\.json', p)
+               and not logger.repo_path(root, p).is_file()]
+    logger.require(not missing, 'historical PR records removed: ' + ', '.join(missing))
+
+
 def sections(text):
     """Keep curated visible conversation and assignment sections, not rollouts."""
     for block in re.split(r'(?m)(?=^## )', text):
@@ -441,9 +452,11 @@ def capture(number):
     comments += [comment(c, True) for page in gh(f'{prefix}/pulls/{number}/reviews?per_page=100') for c in page]
     # Linked issues are explicit and belong to this repository. No scraping of
     # arbitrary links or private upload payloads.
-    text = pr.get('body', '') + '\n' + '\n'.join(c['body'] for c in comments)
+    text = (pr.get('body') or '') + '\n' + '\n'.join(c['body'] for c in comments)
     numbers = set(map(int, re.findall(re.escape(BASE) + r'/issues/(\d+)\b', text)))
     numbers.update(map(int, re.findall(r'\bissue\s*#\s*(\d+)\b', text, re.I)))
+    numbers.update(map(int, re.findall(
+        r'\b(?:close[sd]?|fix(?:es|ed)?|resolve[sd]?)\s+#(\d+)\b', text, re.I)))
     issues = []
     for n in sorted(numbers):
         i = gh(f'{prefix}/issues/{n}')[0]
@@ -468,12 +481,15 @@ def main(argv=None):
     parser.add_argument('--repo', type=Path, default=ROOT)
     parser.add_argument('command', choices=('sync', 'validate', 'capture', 'snapshot-journals'))
     parser.add_argument('--pr', type=int)
+    parser.add_argument('--base-ref', help='full base commit SHA; reject removed historical PR records')
     parser.add_argument('--snapshot', type=Path,
                         help='public, sanitized GitHub snapshot supplied by a connector')
     args = parser.parse_args(argv)
     root = args.repo.resolve()
     try:
         records = logger.load_records(root)
+        if args.base_ref:
+            require_retained_records(root, args.base_ref)
         if args.command == 'capture':
             logger.require(args.pr is not None, 'capture requires --pr')
             path = path_for(root, args.pr)

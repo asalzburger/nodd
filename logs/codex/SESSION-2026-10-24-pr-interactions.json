@@ -21,7 +21,9 @@
     "start_commit": "fbf81c4c72469c1bda0cd6122f9912af6f17228d",
     "branch": "codex/pr-interaction-ledger",
     "initial_changes": [],
-    "result_commits": [],
+    "result_commits": [
+      "f8e0cc8294f6cce33fd37783d797be2f66af906b"
+    ],
     "changed_files": [
       ".github/pull_request_template.md",
       ".github/workflows/token-usage.yml",
@@ -466,8 +468,72 @@
       "failures": null,
       "duration_seconds": null,
       "evidence": "Explicit project account-matched turns only; allowlisted visible messages and operation/child metadata, with no reasoning retained."
+    },
+    {
+      "kind": "tool",
+      "name": "collaboration.spawn_agent",
+      "version": null,
+      "calls": 1,
+      "failures": 0,
+      "duration_seconds": null,
+      "evidence": "INTERACTIONS-SoftEng-01 explicit prepared role mandate, separate read-only generic child /root/softeng_interactions_review. Two P2 findings retained and corrected by coordinator."
     }
   ],
   "usage": [],
-  "checks": []
+  "checks": [
+    {
+      "command": "python3 -B -m unittest discover -s tools/interactions -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "13 tests pass, including stale accounting, exact ownership, visible allowlisting, historical deletion and closing-reference regressions."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "33 session/recovery tests pass."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/token_usage -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "10 token-site tests pass."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "197 paired session records validate."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "234 disjoint turns; 740993210 observed tokens; no numeric usage changed."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "71 tasks,39 documents,21 review rounds validate; infrastructure is excluded from scientific progress."
+    },
+    {
+      "command": "python3 -B tools/interactions/ledger.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All 90 historical PR interaction records validate before publication."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py build --output _site/interactions-preview",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Token preview builds with unchanged canonical accounting."
+    },
+    {
+      "command": "git diff --cached --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Initial implementation has no whitespace errors."
+    }
+  ]
 }
