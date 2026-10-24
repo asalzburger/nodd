@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "thread_id": "01a10c6a-664d-72b1-afad-926c2c57312b",
+  "turn_id": "01a10c7a-9f97-7041-9594-4daa56c3cacb",
+  "status": "completed",
+  "started_at": 1791210725,
+  "completed_at": 1791210921,
+  "token_accounts": [
+    "SESSION-2026-10-05-app-usage-recovery"
+  ],
+  "source": "Codex app read_thread; exact recorded thread/turn match",
+  "messages": [
+    {
+      "id": "01a10c7a-9fc7-7153-9f75-e7b8dfa2deb2",
+      "role": "user",
+      "phase": null,
+      "text": "But did the session logger also record ther tokens ? When running from within the CLI it does it.",
+      "redacted": "yes"
+    },
+    {
+      "id": "msg_06255c4e3666df4e016ac3b4e7063c87d2b1dea396a63699e0",
+      "role": "assistant",
+      "phase": "commentary",
+      "text": "I’ll check what the new session records contain and how the repository’s token-logging workflow works.",
+      "redacted": "yes"
+    },
+    {
+      "id": "msg_06255c4e3666df4e016ac3b5009fd487d2af5702289262a897",
+      "role": "assistant",
+      "phase": "commentary",
+      "text": "No—the three records currently have empty `usage` arrays. I recorded the work, but haven’t imported token counts.\n\nMy earlier statement was too broad: nODD has a usage-recovery tool for locally stored token events. I’ll check that route for this conversation.",
+      "redacted": "yes"
+    },
+    {
+      "id": "msg_06255c4e3666df4e016ac3b52d6f6c87d2b7f67b39ad17729b",
+      "role": "assistant",
+      "phase": "commentary",
+      "text": "The recovery check succeeded: this app conversation has stored token counts for all three completed turns, and they reconcile exactly. I’ll backfill them now. The two PRs share one preparation turn, so I’ll record that usage once in a shared preparation record.",
+      "redacted": "yes"
+    },
+    {
+      "id": "msg_06255c4e3666df4e016ac3b5a5e54887d288fe9202cd6a662b",
+      "role": "assistant",
+      "phase": "final_answer",
+      "text": "**They weren’t recorded initially—that was my omission.** This app conversation does store token events, and I’ve now recovered and imported exact counts:\n\n| Completed task | Input tokens | Output tokens |\n|---|---:|---:|\n| Checkout inspection | 270,609 | 2,915 |\n| Build | 1,245,586 | 10,973 |\n| Shared PR preparation | 1,312,268 | 6,406 |\n\nCached-input and reasoning counters are also recorded. The shared preparation turn is counted once, avoiding duplication between the two PR records.\n\n[Recovery evidence]([redacted] is saved, and all session validators pass. This current turn is excluded until it finishes. PR work remains stopped.",
+      "redacted": "yes"
+    }
+  ],
+  "native_tools": [
+    {
+      "name": "commandExecution",
+      "calls": 22,
+      "failures": 1
+    },
+    {
+      "name": "fileChange",
+      "calls": 1,
+      "failures": 0
+    }
+  ],
+  "subagents": [],
+  "limitations": [
+    "Only userMessage and agentMessage text retained; reasoning, tool arguments/results and private state excluded.",
+    "Conservative path, credential, email and URL redaction is not a privacy guarantee; review retained text.",
+    "Exposed operation counts are per retained turn; journal counts can describe the same invocations and must not be added."
+  ]
+}

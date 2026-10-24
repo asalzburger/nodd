@@ -12,6 +12,8 @@ import re
 import subprocess
 import sys
 
+import interactions as conversation_export
+
 ROOT = Path(__file__).resolve().parents[2]
 FIELDS = (
     "input_tokens",
@@ -310,6 +312,14 @@ def chart(data, field, built_at):
     return "".join(parts)
 
 
+def navigation(active):
+    return '<nav class="site-tabs" aria-label="Views">' + ''.join(
+        f'<a href="{url}"' + (' aria-current="page"' if name == active else '') + f'>{label}</a>'
+        for name, label, url in (('usage', 'Token usage', './'),
+                                 ('interactions', 'Interactions', 'interactions.html'))
+    ) + '</nav>'
+
+
 def render(data):
     summary = data["summary"]
     metadata = data["metadata"]
@@ -346,7 +356,7 @@ def render(data):
             f'<tr><th scope="row">{point["date"]}</th><td>{point["turns"]}</td><td>{number(values["input_tokens"]["sum"])}</td><td>{number(values["output_tokens"]["sum"])}</td><td>{number(cumulative)}</td></tr>'
         )
     timeline_end = data["series"][-1]["date"] if data["series"] else "unavailable"
-    content = f"""<header><a class="brand" href="./">nODD<span> / resource ledger</span></a><a href="{REPOSITORY}">Repository ↗</a></header>
+    content = f"""<header><a class="brand" href="./">nODD<span> / resource ledger</span></a><a href="{REPOSITORY}">Repository ↗</a></header>{navigation('usage')}
 <main><section class="intro"><p class="eyebrow">PROJECT RESOURCES</p><h1>Cumulative token usage</h1><p>Recorded input and output over time, alongside major project features.</p><div class="chips"><span>{summary['usage_turns']} disjoint turn observations</span><span>Latest observations: {timeline_end} UTC</span><span>Coverage is partial</span></div></section>
 <section class="metrics" aria-label="Observed token totals">{''.join(cards)}</section>
 <section class="chart-panel"><div class="chart-heading"><div><p class="eyebrow">THE BUILD-UP</p><h2>Usage & feature milestones</h2></div><div class="modes" aria-label="Token counter">{buttons}</div></div><p class="chart-note">Daily observations by recorded turn end date (UTC). Feature markers show merged deliverables, not scientific sign-off.</p><div class="chart-shell">{charts}<div class="tooltip" role="status" hidden></div></div><div class="legend"><span class="solid">Observed cumulative counters</span><span class="dashed">Known subtotal carried forward; new usage unmeasured</span></div></section>
@@ -354,7 +364,35 @@ def render(data):
 <details class="daily"><summary>Daily observations and exact cumulative totals</summary><div class="table-scroll"><table><thead><tr><th scope="col">UTC date</th><th scope="col">Turns</th><th scope="col">Input</th><th scope="col">Output</th><th scope="col">Cumulative total</th></tr></thead><tbody>{''.join(rows) or '<tr><td colspan="5">No dated token observations.</td></tr>'}</tbody></table></div></details>
 <details class="daily"><summary>Feature milestone sources</summary><ul>{feature_links}</ul></details>
 <footer><p>Source <a href="{REPOSITORY}/commit/{metadata['source_commit']}"><code>{metadata['source_commit'][:12]}</code></a> · Built {metadata['built_at']}<br>{'Preview includes uncommitted changes.' if metadata['working_tree_dirty'] else 'Versioned source snapshot.'}</p><p><a href="usage.json">Download chart data</a> · <a href="{REPOSITORY}/tree/{metadata['source_commit']}/logs/usage">Accounting evidence</a> · <a href="{REPOSITORY}/blob/{metadata['source_commit']}/tools/token_usage/README.md">Method</a></p></footer></main>"""
-    return f'<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="nODD cumulative observed token usage and project feature milestones"><title>nODD · Token usage</title><link rel="stylesheet" href="style.css"><script src="app.js" defer></script></head><body>{content}</body></html>'
+    return f'<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="nODD cumulative observed token usage and project feature milestones"><title>nODD · Token usage</title><link rel="stylesheet" href="style.css"><link rel="stylesheet" href="interactions.css"><script src="app.js" defer></script></head><body>{content}</body></html>'
+
+
+def render_interactions(index):
+    metadata = index['metadata']
+    count = len(index['pull_requests'])
+    revision = metadata['source_commit']
+    return f'''<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="nODD PR conversations between humans and agents, with sourced interaction evidence">
+<title>nODD · PR interactions</title><link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="interactions.css"><script src="interactions.js" defer></script></head><body>
+<header><a class="brand" href="./">nODD<span> / resource ledger</span></a><a href="{REPOSITORY}">Repository ↗</a></header>
+{navigation('interactions')}
+<main class="interaction-page"><section class="intro"><p class="eyebrow">PEOPLE, AGENTS & DECISIONS</p>
+<h1>PR conversations</h1><p>Explore the inputs, questions and responses behind each pull request.</p>
+<div class="chips"><span>{count} pull requests</span><span>Source-linked conversations</span><span>Historical coverage is partial</span></div></section>
+<div class="interaction-layout"><aside class="pr-picker" aria-label="Pull request navigation">
+<label for="pr-search">Find a pull request</label><input id="pr-search" type="search" placeholder="Number, title or party…" autocomplete="off">
+<p id="pr-results" role="status" aria-live="polite">Loading pull requests…</p><div id="pr-list" class="pr-list"></div></aside>
+<section id="conversation-panel" class="conversation-panel" aria-labelledby="pr-title">
+<div id="interaction-status" role="status" aria-live="polite">Loading interaction records…</div>
+<div id="pr-detail" hidden><div class="pr-heading"><div><p id="pr-number" class="eyebrow"></p><h2 id="pr-title">Pull request</h2><div id="pr-coverage"></div></div><a id="pr-github" href="{REPOSITORY}">View PR</a></div>
+<div id="participants" class="participant-strip"></div><div class="conversation-controls"><label for="source-select">Conversation source</label><select id="source-select"></select></div>
+<div id="conversation" role="feed" aria-label="PR interaction messages"></div>
+<details class="evidence-panel"><summary>Roles, tools & token references</summary><div id="pr-evidence"></div></details></div></section></div>
+<noscript><p>Enable JavaScript to navigate conversations, or <a href="{REPOSITORY}/tree/{revision}/interactions">read the canonical interaction records</a>.</p></noscript>
+<footer><p>Source <a href="{REPOSITORY}/commit/{revision}"><code>{revision[:12]}</code></a> · Built {escape(metadata['built_at'])}<br>{'Preview includes uncommitted changes.' if metadata['working_tree_dirty'] else 'Versioned source snapshot.'}</p><p><a href="interactions.json">Download PR index</a> · <a href="{REPOSITORY}/blob/{revision}/interactions/README.md">Sources & method</a></p></footer>
+</main></body></html>'''
 
 
 def build(root, output, built_at):
@@ -369,18 +407,6 @@ def build(root, output, built_at):
             output.relative_to(root).parts[0] == "_site",
             "Repository output must be under _site/",
         )
-    allowed = {"index.html", "style.css", "app.js", "usage.json", ".nojekyll"}
-    if output.exists():
-        require(
-            all(
-                path.is_file()
-                and not path.is_symlink()
-                and path.parent == output
-                and path.name in allowed
-                for path in output.rglob("*")
-            ),
-            "Unexpected/stale output files; use a fresh build directory",
-        )
     data = collect(root)
     data["metadata"] = {
         "source_commit": subprocess.check_output(
@@ -393,13 +419,34 @@ def build(root, output, built_at):
         ),
         "built_at": built_at,
     }
+    interaction_index, interaction_details = conversation_export.collect(root, data['metadata'])
+    allowed = {"index.html", "style.css", "app.js", "usage.json", ".nojekyll",
+               "interactions.html", "interactions.css", "interactions.js", "interactions.json"}
+    allowed.update(interaction_details)
+    if output.exists():
+        require(
+            all(
+                not path.is_symlink() and (
+                    path.is_file() and path.relative_to(output).as_posix() in allowed
+                    or path.is_dir() and path.relative_to(output).as_posix() == 'interactions'
+                )
+                for path in output.rglob("*")
+            ),
+            "Unexpected/stale output files; use a fresh build directory",
+        )
     output.mkdir(parents=True, exist_ok=True)
     (output / "index.html").write_text(render(data))
+    (output / "interactions.html").write_text(render_interactions(interaction_index))
+    (output / "interactions.json").write_text(json.dumps(interaction_index, indent=2, allow_nan=False) + '\n')
+    for name, detail in interaction_details.items():
+        path = output / name
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(detail, indent=2, allow_nan=False) + '\n')
     (output / "usage.json").write_text(
         json.dumps(data, indent=2, allow_nan=False) + "\n"
     )
     (output / ".nojekyll").write_text("")
-    for name in ["style.css", "app.js"]:
+    for name in ["style.css", "app.js", "interactions.css", "interactions.js"]:
         (output / name).write_bytes(Path(__file__).with_name(name).read_bytes())
     return data
 

@@ -1,0 +1,543 @@
+{
+  "schema_version": 1,
+  "github": {
+    "captured_at": "2026-10-24T07:41:00.389Z",
+    "pull_request": {
+      "number": 25,
+      "url": "https://github.com/asalzburger/nodd/pull/25",
+      "title": "Tracker: Reserve cable, cooling and support routes in the working layout",
+      "head": "study/tracker-service-corridors",
+      "head_sha": "9b5b7f2aa14ad38434480c29666187aa893b73d3",
+      "state": "closed",
+      "body": "The unapproved PR #24 working layout leaves no continuous pixel/short-strip or short/long-strip service annulus and only 7.9 mm between the long-strip barrel and first disc. This prototype estimates support, power/data and cooling space from public TDRs, creates whole-row gaps, and draws the radial barrel escapes, outer-endcap routes and conditional vessel-end handoff.\n\n**PR #24 did not approve a tracker default.** All retained modules keep their positions and identifiers. Layer-position optimization is explicitly a separate follow-up PR; this introduces no production detector geometry or material.\n\n- Source dossiers distinguish public facts, derivations and unapproved choices. Cable counting includes electrical return; cooling includes feed and exhaust, spatial grouping and downstream aggregation.\n- External support reservations are 5 mm for pixels and 6.6 mm for strips. The cited strip stack does not fit the inherited 5 mm sensor sandwich; attachment/thermal bridges remain unresolved.\n- Reference route and joining-throat capacity passes, but the tightest junction has **only 2.14% spare cross-section**. Conservative fails 22 routes/14 throats and stress fails 48/24. New rear space and vessel access remain unapproved; this is not a qualified full-detector exit.\n- Removing **3,898 assemblies** reduces physical sensor area from **217.465 to 177.303 m²**. Missing eligible stations rise from **5.3–5.7% to 16.9–17.3%** on identical luminous-region samples. These losses are exposed for the later optimization, not accepted as performance.\n- Reproducible tools snapshot inputs and source hashes, regenerate exclusions from supported rectangular module models, preserve failed controls, and produce r–z, x–y and local-support PNG/PDF mockups.\n- Axial load profiles distinguish the constant reserved gap from traffic accumulated at each endcap. Each final inventory matches the original maximum-load budget; public ATLAS/CMS engineering-envelope comparisons expose topology and scale differences. No tapering or row recovery is performed.\n\n[Full report, source estimates, tables and mockups](https://github.com/asalzburger/nodd/blob/study/tracker-service-corridors/docs/validation/DES-010-tracker-services.md) · [Draft DES-010](https://github.com/asalzburger/nodd/blob/study/tracker-service-corridors/docs/design/DES-010-tracker-service-corridors.md) · [Repeatable commands](https://github.com/asalzburger/nodd/blob/study/tracker-service-corridors/tools/module_layout/README.md)\n\n[ATLAS/CMS comparison and accumulated-load report](https://github.com/asalzburger/nodd/blob/study/tracker-service-corridors/docs/validation/DES-010-service-gap-review.md) includes the new profiles and exact source pages. The original axial budget charged the final whole-end demand everywhere; the additive diagnostic now shows its growth along z.\n\nOriginal geometry validation: 53,952 before/after trajectory evaluations, straight and both charges at **pT=1 GeV, 3 T**, over x/y=0..1 mm and z=−150..150 mm. All occupied-space checks pass. Native ACTS agrees on 48/48 sampled patch sets (565 reached patches, zero mismatches); per-target validation is not full detector navigation. 80 module tests, 27 dashboard tests, 32 logging tests and 14 JS assertions passed; dashboard build and paired journal validation passed. Exact execution revision `d3265fa1e52f26b0aac556325eaa6d7a10442720`, installed-runtime/overlay provenance and limitations are retained. Changed Spack fingerprints were reported and required capabilities rechecked; no Geant4 transport result is claimed.\n\nReview requested: service architecture and strixel load; packing/aggregation assumptions; local-support attachments; bend/manifold/connector access; conditional rear/vessel allocation. No design sign-off or layer optimization is claimed.\n\nAdditive review validation: 49 service tests, including 10 new cumulative-load controls, passed. The retained original evidence is byte-identical; final profiles reproduce all terminal budgets. Source freeze `b6a7506d671d4462935d9c07efdf401f3aeaf676`.\n",
+      "actor": "asalzburger",
+      "created_at": "2026-09-29T10:08:56Z"
+    },
+    "comments": [
+      {
+        "id": 5890301780,
+        "url": "https://github.com/asalzburger/nodd/pull/25#issuecomment-5890301780",
+        "body": "How do the estimated gaps compare to the ones in the ATLAS and CMS upgrade designs?\r\n\r\nAlso, in this estimate - has it been taken into account that the maximum service bundle is only needed on the very outermost endcap, as the cables bundle up while supporting more and more modules ?",
+        "actor": "asalzburger-review",
+        "created_at": "2026-09-29T12:27:47Z",
+        "updated_at": "2026-09-29T12:27:47Z",
+        "review": null,
+        "in_reply_to_id": null,
+        "path": null,
+        "line": null
+      },
+      {
+        "id": 5890787099,
+        "url": "https://github.com/asalzburger/nodd/pull/25#issuecomment-5890787099",
+        "body": "The accumulation point is correct. **The original axial-trunk sizing used the final whole-end bundle uniformly along z.** Individual disc collectors, barrel radial turns and rear collectors already selected their local/accumulated traffic, but the axial load did not vary with z. The 72/170/76 mm gaps were therefore conservative constant reservations, not requirements at every endcap.\n\nI added a repeatable cumulative-load calculation and plots. It counts each feeder's original chains, harnesses and cooling groups once; every final inventory reproduces the original budget. The finite pickup interval is retained, with the full branch conservatively counted from its near edge. For the positive end:\n\n| Subsystem | Barrel-only → final cable/cooling section | Reference area-equivalent width → final |\n| --- | ---: | ---: |\n| Pixels | 10,585 → 17,008 mm² | 28.39 → 41.81 mm |\n| Short strips | 78,411 → 105,919 mm² | 54.26 → 71.04 mm |\n| Long strips | 23,656 → 51,164 mm² | 12.73 → 22.79 mm |\n\nThe maximum is reached at the final disc pickup and remains to the handoff. The substantial starting load is from the barrels. These widths hold the original inner radius, packing, azimuth and edge allowances fixed; they are capacity diagnostics, not qualified tapered corridors.\n\nFor the upgrade comparison, I checked dimensioned public drawings rather than interpreting differences between sensitive-layer radii as free cable space:\n\n- **ATLAS:** Pixel TDR Fig. 15.1 (printed p322/PDF344) gives a **46 mm radial strip-barrel service bypass** and **103 mm axial radial-escape band**. It is explicitly a historical discussion drawing. A later public ITk presentation, slide 15, reports **6.6 mm local service accommodation** at the limiting last half-ring, distributed over ring-layer support shells—not the combined pixel subsystem.\n- **CMS:** Tracker TDR Fig. 5.1 (p89) gives a **20 mm outer barrel-service bypass**, separate from **10 mm installation clearance**, and **40.5/43 mm axial barrel service allocations**. Pixel-module-to-OT differences of **50/56 mm** include supports/services/clearances and cannot all be counted as cable space.\n- **Neither has a direct equivalent to our 170 mm short/long inter-endcap annulus.** Their endcap and service collection architectures differ. Our reservations are broad relative to these engineering scales and should be revisited with the actual routed loads and interfaces.\n\n[Comparison, cumulative plots, exact source locators and repeatable commands](https://github.com/asalzburger/nodd/blob/study/tracker-service-corridors/docs/validation/DES-010-service-gap-review.md).\n\nAll **49 service tests**, including **10 new profile controls**, pass. Original geometry and numerical/native evidence remain byte-identical. Conservative/stress failures and the final junction's **2.14% reference headroom** remain; reduced upstream traffic does not cure that downstream bottleneck. Gap tapering, row recovery and layer positioning remain for the separate optimization PR. PR #24's layout remains an unapproved working hypothesis.\n",
+        "actor": "asalzburger",
+        "created_at": "2026-09-29T12:58:37Z",
+        "updated_at": "2026-09-29T12:58:37Z",
+        "review": null,
+        "in_reply_to_id": null,
+        "path": null,
+        "line": null
+      },
+      {
+        "id": 5891018641,
+        "url": "https://github.com/asalzburger/nodd/pull/25#issuecomment-5891018641",
+        "body": "Thanks for the study on the increasing need for cable space.\r\n\r\nLessons to be drawn:\r\n- the reduced space directly at the barrel should be used to push the first endcap disk as close as possible to the end of the barrel (with minimal 10 mm clearance)\r\n- for mechanical simplified reasons avoid having a progressive cable clearance, but leave the maximum throughout, potentially, however, since the cables of the last endcap can be routed outwards along z, these component could be omitted from the overall estimate\r\n\r\nUnder these assumption:\r\n- make new mockups, and new module placement, maximimising the covered area\r\n- shift the layers such that a maximum in hit coverage can be achieved and try to avoid large gaps between next hits\r\n- use IdRes and Acts to your advantage if needed for optimising the layer placements\r\n ",
+        "actor": "asalzburger-review",
+        "created_at": "2026-09-29T13:12:47Z",
+        "updated_at": "2026-09-29T13:12:47Z",
+        "review": null,
+        "in_reply_to_id": null,
+        "path": null,
+        "line": null
+      },
+      {
+        "id": 5898939972,
+        "url": "https://github.com/asalzburger/nodd/pull/25#issuecomment-5898939972",
+        "body": "The requested placement study is ready in **draft follow-up #28**, stacked on this PR so that the service proposal and optimization remain separately reviewable. PR #24 remains an unapproved working hypothesis.\n\n[Full report, per-subdetector results, routing mockups and reproduction commands](https://github.com/asalzburger/nodd/blob/770d6b6fe203cd79be6111188aff8ebffd022efd/docs/validation/DES-011-service-constrained-optimization.md).\n\nThe prototype keeps each service trunk at its maximum width, preserves every source group through downstream extraction, and places the first discs as close as the adopted service inventory and physical envelopes permit. For the coverage candidate, pixel/short-strip/long-strip trunks are **44/72/25 mm** and positive-end occupied barrel–disc gaps are **48.2/64.5/22.206 mm**. These exceed the requested 10 mm minimum because finite routing pockets and their contents also need clearance.\n\n| Layout | Physical silicon (m²) | Mean usable stations | Worst-mode p95 maximum inter-station gap (mm) |\n|---|---:|---:|---:|\n| PR #25 baseline | 177.303 | 8.2284 | 1378.66 |\n| Coverage candidate | 196.473 | 9.0758 | 1008.17 |\n| Area candidate | 199.964 | 8.8637 | 1099.18 |\n| Original-pocket control | 197.250 | 9.0182 | 1009.57 |\n\nValidation exposed two problems that are corrected and retained as rejected evidence: an even-row central barrel seam, and pockets that passed aggregate capacity but could not contain the adopted 13.4 mm strip power cable. The corrected workflow preserves the inherited 23-row pitch, checks local coverage, and enforces cable/pipe dimensions on both routes and joining throats. Strip passages now require at least **18 mm**, including the two 2 mm boundary skins.\n\nThe final search is a declared **8-primary-case subdomain plus 3 comparisons**, not a rerun of the entire broader scan. Five retained layouts underwent **180,960 mode-track evaluations**, using straight tracks and both charges at **pT = 1 GeV in 3 T**, the requested luminous region, and fresh random directions alongside regression grids. **360/360 native ACTS trajectories agree**, with maximum intersection residual below 2.05×10⁻⁷ mm. The spacing candidate fails the dense long-strip mean-hit gate and is withheld; it remains visible in the report.\n\nThe coverage candidate improves mean stations by **10.3%**, but has local losses: for example, one straight-track long-strip bin increases from 5 to 15 zero-hit rays out of 160. The original-pocket control has nearly the same overall hit and spacing performance, more routing depth, and no increased zero-hit fraction in any measured bin. I recommend carrying both into engineering review. This control also differs in barrel radius from the coverage candidate; the report includes a matched pocket-only comparison.\n\nA matched training-only bypass comparison saves **2/3/2 mm** of trunk width, adds **0.0158** mean stations and adds no silicon area. That marginal benefit supports keeping the extra extraction topology optional.\n\nValidation also includes **136 module tests: 133 passed, 3 ACTS-dependent skips in system Python**, with the actual ACTS runs above performed separately; dashboard and logging checks pass. The repeatable workflow retains configurations, source/input hashes, audits and 22 final PNG/PDF views. Existing DES-010 evidence is unchanged. Conservative/stress capacity cases still fail, and bends, connectors, ancillary shapes and vessel access remain engineering questions. No production integration or design sign-off is claimed.\n",
+        "actor": "asalzburger",
+        "created_at": "2026-09-29T21:09:05Z",
+        "updated_at": "2026-09-29T21:09:05Z",
+        "review": null,
+        "in_reply_to_id": null,
+        "path": null,
+        "line": null
+      },
+      {
+        "id": 5905696808,
+        "url": "https://github.com/asalzburger/nodd/pull/25#issuecomment-5905696808",
+        "body": "Approved and merged as is, as it is refined then by #28 ",
+        "actor": "asalzburger-review",
+        "created_at": "2026-09-30T06:44:36Z",
+        "updated_at": "2026-09-30T06:44:36Z",
+        "review": null,
+        "in_reply_to_id": null,
+        "path": null,
+        "line": null
+      }
+    ],
+    "issues": []
+  },
+  "curated": {
+    "journal_links": [],
+    "agents": [],
+    "tools": [],
+    "events": []
+  },
+  "derived": {
+    "parties": [
+      {
+        "id": "agent:SESSION-2026-09-29-restore-workflow-branches",
+        "name": "unspecified",
+        "kind": "agent"
+      },
+      {
+        "id": "agent:SESSION-2026-09-29-service-gap-review",
+        "name": "unspecified",
+        "kind": "agent"
+      },
+      {
+        "id": "agent:SESSION-2026-09-29-service-optimization",
+        "name": "unspecified",
+        "kind": "agent"
+      },
+      {
+        "id": "agent:SESSION-2026-09-29-tracker-service-corridors",
+        "name": "unspecified",
+        "kind": "agent"
+      },
+      {
+        "id": "github:asalzburger",
+        "name": "asalzburger",
+        "kind": "account"
+      },
+      {
+        "id": "github:asalzburger-review",
+        "name": "asalzburger-review",
+        "kind": "human"
+      },
+      {
+        "id": "unknown:project-user",
+        "name": "Project user (name unrecorded)",
+        "kind": "human"
+      }
+    ],
+    "journals": [
+      {
+        "session_id": "SESSION-2026-09-29-restore-workflow-branches",
+        "record": "logs/codex/SESSION-2026-09-29-restore-workflow-branches.json",
+        "attribution": [
+          "explicit_PR_reference"
+        ],
+        "snapshot": null,
+        "snapshot_sha256": null,
+        "record_sha256": "820ed197d490577cc0e1aa643c77b7831ed24adbdb04e0db6639230c3479ca80",
+        "narrative_sha256": "5a558ebac4b5b7c7c7f911dda84c9b3a392bb6213d83dc043784035f9eb3a32f"
+      },
+      {
+        "session_id": "SESSION-2026-09-29-service-gap-review",
+        "record": "logs/codex/SESSION-2026-09-29-service-gap-review.json",
+        "attribution": [
+          "recorded_branch",
+          "explicit_PR_reference"
+        ],
+        "snapshot": null,
+        "snapshot_sha256": null,
+        "record_sha256": "36ec216e751e560a95401e6d27edfc81dfe28844cf9ef182ebe225c9005b903a",
+        "narrative_sha256": "add142303eaeb862042a86a442bc27cd7344db029c9df595fcc52210215338d7"
+      },
+      {
+        "session_id": "SESSION-2026-09-29-service-optimization",
+        "record": "logs/codex/SESSION-2026-09-29-service-optimization.json",
+        "attribution": [
+          "explicit_PR_reference"
+        ],
+        "snapshot": null,
+        "snapshot_sha256": null,
+        "record_sha256": "416b9b3ca822037cae2030a74e26546942499d44b9f7f6d5b836219667ca869f",
+        "narrative_sha256": "932f768ddab9121a2069b3d9fe0831e4aef37d68e9329ff75320ee4c4f80bccd"
+      },
+      {
+        "session_id": "SESSION-2026-09-29-tracker-service-corridors",
+        "record": "logs/codex/SESSION-2026-09-29-tracker-service-corridors.json",
+        "attribution": [
+          "recorded_branch",
+          "explicit_PR_reference"
+        ],
+        "snapshot": null,
+        "snapshot_sha256": null,
+        "record_sha256": "d3eb93b5629c2953f445967f9a294be9ae79a525a65deebfa5143a393b80d0f5",
+        "narrative_sha256": "c7a1bb95c32b6342db7a9184ef7e7cd4b082c79de42da803d3e2da0f923eee43"
+      }
+    ],
+    "token_accounts": [
+      {
+        "id": "SESSION-2026-09-29-restore-workflow-branches",
+        "record": "logs/codex/SESSION-2026-09-29-restore-workflow-branches.json",
+        "scope": "canonical_session; shared PR references are not allocations",
+        "status": "unobserved",
+        "usage_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "turns": []
+      },
+      {
+        "id": "SESSION-2026-09-29-service-gap-review",
+        "record": "logs/codex/SESSION-2026-09-29-service-gap-review.json",
+        "scope": "canonical_session; shared PR references are not allocations",
+        "status": "unobserved",
+        "usage_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "turns": []
+      },
+      {
+        "id": "SESSION-2026-09-29-service-optimization",
+        "record": "logs/codex/SESSION-2026-09-29-service-optimization.json",
+        "scope": "canonical_session; shared PR references are not allocations",
+        "status": "unobserved",
+        "usage_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "turns": []
+      },
+      {
+        "id": "SESSION-2026-09-29-tracker-service-corridors",
+        "record": "logs/codex/SESSION-2026-09-29-tracker-service-corridors.json",
+        "scope": "canonical_session; shared PR references are not allocations",
+        "status": "unobserved",
+        "usage_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "turns": []
+      }
+    ],
+    "visible_sources": [],
+    "agents": [
+      {
+        "id": "agent:SESSION-2026-09-29-restore-workflow-branches",
+        "name": "unspecified",
+        "role": "session_agent",
+        "thread_id": null,
+        "models": [],
+        "source": "logs/codex/SESSION-2026-09-29-restore-workflow-branches.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      },
+      {
+        "id": "agent:SESSION-2026-09-29-service-gap-review",
+        "name": "unspecified",
+        "role": "session_agent",
+        "thread_id": null,
+        "models": [],
+        "source": "logs/codex/SESSION-2026-09-29-service-gap-review.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      },
+      {
+        "id": "agent:SESSION-2026-09-29-service-optimization",
+        "name": "unspecified",
+        "role": "session_agent",
+        "thread_id": null,
+        "models": [],
+        "source": "logs/codex/SESSION-2026-09-29-service-optimization.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      },
+      {
+        "id": "agent:SESSION-2026-09-29-tracker-service-corridors",
+        "name": "unspecified",
+        "role": "session_agent",
+        "thread_id": null,
+        "models": [],
+        "source": "logs/codex/SESSION-2026-09-29-tracker-service-corridors.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      }
+    ],
+    "tools": {
+      "native_codex": [
+        {
+          "name": "collaboration",
+          "category": "native_codex",
+          "version": null,
+          "calls": null,
+          "source": "logs/codex/SESSION-2026-09-29-service-gap-review.json",
+          "evidence": "Delegated independent ATLAS/CMS source comparisons and cumulative-budget implementation/audit.",
+          "token_account": "SESSION-2026-09-29-service-gap-review",
+          "provenance": "Native API name"
+        },
+        {
+          "name": "collaboration",
+          "category": "native_codex",
+          "version": null,
+          "calls": null,
+          "source": "logs/codex/SESSION-2026-09-29-service-optimization.json",
+          "evidence": "Three delegated agents handle routing, refill/placement, and path-spacing metrics/mockups.",
+          "token_account": "SESSION-2026-09-29-service-optimization",
+          "provenance": "Native API name"
+        },
+        {
+          "name": "collaboration",
+          "category": "native_codex",
+          "version": null,
+          "calls": null,
+          "source": "logs/codex/SESSION-2026-09-29-tracker-service-corridors.json",
+          "evidence": "Three delegated agents researched pixel/strip source budgets and implemented/reviewed geometry, budget and mockups.",
+          "token_account": "SESSION-2026-09-29-tracker-service-corridors",
+          "provenance": "Native API name"
+        }
+      ],
+      "codex_installed": [],
+      "instructed_software": [],
+      "unresolved": [
+        {
+          "name": "shell and git",
+          "category": "unresolved",
+          "version": null,
+          "calls": null,
+          "source": "logs/codex/SESSION-2026-09-29-restore-workflow-branches.json",
+          "evidence": "Read-only local/live remote audit, atomic creation of twelve deleted refs, exact remote/local postcondition verification.",
+          "token_account": "SESSION-2026-09-29-restore-workflow-branches",
+          "provenance": "Operation recorded; installation provenance needs explicit evidence."
+        },
+        {
+          "name": "gh pr edit / gh pr comment",
+          "category": "unresolved",
+          "version": null,
+          "calls": 2,
+          "source": "logs/codex/SESSION-2026-09-29-service-gap-review.json",
+          "evidence": "https://github.com/asalzburger/nodd/pull/25#issuecomment-5890787099",
+          "token_account": "SESSION-2026-09-29-service-gap-review",
+          "provenance": "Operation recorded; installation provenance needs explicit evidence."
+        }
+      ]
+    },
+    "events": [
+      {
+        "id": "github:https://github.com/asalzburger/nodd/pull/25",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "github:asalzburger",
+        "recipients": [],
+        "text": "The unapproved PR #24 working layout leaves no continuous pixel/short-strip or short/long-strip service annulus and only 7.9 mm between the long-strip barrel and first disc. This prototype estimates support, power/data and cooling space from public TDRs, creates whole-row gaps, and draws the radial barrel escapes, outer-endcap routes and conditional vessel-end handoff.\n\n**PR #24 did not approve a tracker default.** All retained modules keep their positions and identifiers. Layer-position optimization is explicitly a separate follow-up PR; this introduces no production detector geometry or material.\n\n- Source dossiers distinguish public facts, derivations and unapproved choices. Cable counting includes electrical return; cooling includes feed and exhaust, spatial grouping and downstream aggregation.\n- External support reservations are 5 mm for pixels and 6.6 mm for strips. The cited strip stack does not fit the inherited 5 mm sensor sandwich; attachment/thermal bridges remain unresolved.\n- Reference route and joining-throat capacity passes, but the tightest junction has **only 2.14% spare cross-section**. Conservative fails 22 routes/14 throats and stress fails 48/24. New rear space and vessel access remain unapproved; this is not a qualified full-detector exit.\n- Removing **3,898 assemblies** reduces physical sensor area from **217.465 to 177.303 m²**. Missing eligible stations rise from **5.3–5.7% to 16.9–17.3%** on identical luminous-region samples. These losses are exposed for the later optimization, not accepted as performance.\n- Reproducible tools snapshot inputs and source hashes, regenerate exclusions from supported rectangular module models, preserve failed controls, and produce r–z, x–y and local-support PNG/PDF mockups.\n- Axial load profiles distinguish the constant reserved gap from traffic accumulated at each endcap. Each final inventory matches the original maximum-load budget; public ATLAS/CMS engineering-envelope comparisons expose topology and scale differences. No tapering or row recovery is performed.\n\n[Full report, source estimates, tables and mockups](https://github.com/asalzburger/nodd/blob/study/tracker-service-corridors/docs/validation/DES-010-tracker-services.md) · [Draft DES-010](https://github.com/asalzburger/nodd/blob/study/tracker-service-corridors/docs/design/DES-010-tracker-service-corridors.md) · [Repeatable commands](https://github.com/asalzburger/nodd/blob/study/tracker-service-corridors/tools/module_layout/README.md)\n\n[ATLAS/CMS comparison and accumulated-load report](https://github.com/asalzburger/nodd/blob/study/tracker-service-corridors/docs/validation/DES-010-service-gap-review.md) includes the new profiles and exact source pages. The original axial budget charged the final whole-end demand everywhere; the additive diagnostic now shows its growth along z.\n\nOriginal geometry validation: 53,952 before/after trajectory evaluations, straight and both charges at **pT=1 GeV, 3 T**, over x/y=0..1 mm and z=−150..150 mm. All occupied-space checks pass. Native ACTS agrees on 48/48 sampled patch sets (565 reached patches, zero mismatches); per-target validation is not full detector navigation. 80 module tests, 27 dashboard tests, 32 logging tests and 14 JS assertions passed; dashboard build and paired journal validation passed. Exact execution revision `d3265fa1e52f26b0aac556325eaa6d7a10442720`, installed-runtime/overlay provenance and limitations are retained. Changed Spack fingerprints were reported and required capabilities rechecked; no Geant4 transport result is claimed.\n\nReview requested: service architecture and strixel load; packing/aggregation assumptions; local-support attachments; bend/manifold/connector access; conditional rear/vessel allocation. No design sign-off or layer optimization is claimed.\n\nAdditive review validation: 49 service tests, including 10 new cumulative-load controls, passed. The retained original evidence is byte-identical; final profiles reproduce all terminal budgets. Source freeze `b6a7506d671d4462935d9c07efdf401f3aeaf676`.\n",
+        "source": "https://github.com/asalzburger/nodd/pull/25",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [],
+        "timestamp": "2026-09-29T10:08:56Z",
+        "remote_input": null
+      },
+      {
+        "id": "github:https://github.com/asalzburger/nodd/pull/25#issuecomment-5890301780",
+        "type": "comment",
+        "direction": "action",
+        "actor": "github:asalzburger-review",
+        "recipients": [],
+        "text": "How do the estimated gaps compare to the ones in the ATLAS and CMS upgrade designs?\r\n\r\nAlso, in this estimate - has it been taken into account that the maximum service bundle is only needed on the very outermost endcap, as the cables bundle up while supporting more and more modules ?",
+        "source": "https://github.com/asalzburger/nodd/pull/25#issuecomment-5890301780",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [],
+        "timestamp": "2026-09-29T12:27:47Z",
+        "remote_input": null
+      },
+      {
+        "id": "github:https://github.com/asalzburger/nodd/pull/25#issuecomment-5890787099",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "github:asalzburger",
+        "recipients": [],
+        "text": "The accumulation point is correct. **The original axial-trunk sizing used the final whole-end bundle uniformly along z.** Individual disc collectors, barrel radial turns and rear collectors already selected their local/accumulated traffic, but the axial load did not vary with z. The 72/170/76 mm gaps were therefore conservative constant reservations, not requirements at every endcap.\n\nI added a repeatable cumulative-load calculation and plots. It counts each feeder's original chains, harnesses and cooling groups once; every final inventory reproduces the original budget. The finite pickup interval is retained, with the full branch conservatively counted from its near edge. For the positive end:\n\n| Subsystem | Barrel-only → final cable/cooling section | Reference area-equivalent width → final |\n| --- | ---: | ---: |\n| Pixels | 10,585 → 17,008 mm² | 28.39 → 41.81 mm |\n| Short strips | 78,411 → 105,919 mm² | 54.26 → 71.04 mm |\n| Long strips | 23,656 → 51,164 mm² | 12.73 → 22.79 mm |\n\nThe maximum is reached at the final disc pickup and remains to the handoff. The substantial starting load is from the barrels. These widths hold the original inner radius, packing, azimuth and edge allowances fixed; they are capacity diagnostics, not qualified tapered corridors.\n\nFor the upgrade comparison, I checked dimensioned public drawings rather than interpreting differences between sensitive-layer radii as free cable space:\n\n- **ATLAS:** Pixel TDR Fig. 15.1 (printed p322/PDF344) gives a **46 mm radial strip-barrel service bypass** and **103 mm axial radial-escape band**. It is explicitly a historical discussion drawing. A later public ITk presentation, slide 15, reports **6.6 mm local service accommodation** at the limiting last half-ring, distributed over ring-layer support shells—not the combined pixel subsystem.\n- **CMS:** Tracker TDR Fig. 5.1 (p89) gives a **20 mm outer barrel-service bypass**, separate from **10 mm installation clearance**, and **40.5/43 mm axial barrel service allocations**. Pixel-module-to-OT differences of **50/56 mm** include supports/services/clearances and cannot all be counted as cable space.\n- **Neither has a direct equivalent to our 170 mm short/long inter-endcap annulus.** Their endcap and service collection architectures differ. Our reservations are broad relative to these engineering scales and should be revisited with the actual routed loads and interfaces.\n\n[Comparison, cumulative plots, exact source locators and repeatable commands](https://github.com/asalzburger/nodd/blob/study/tracker-service-corridors/docs/validation/DES-010-service-gap-review.md).\n\nAll **49 service tests**, including **10 new profile controls**, pass. Original geometry and numerical/native evidence remain byte-identical. Conservative/stress failures and the final junction's **2.14% reference headroom** remain; reduced upstream traffic does not cure that downstream bottleneck. Gap tapering, row recovery and layer positioning remain for the separate optimization PR. PR #24's layout remains an unapproved working hypothesis.\n",
+        "source": "https://github.com/asalzburger/nodd/pull/25#issuecomment-5890787099",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [],
+        "timestamp": "2026-09-29T12:58:37Z",
+        "remote_input": null
+      },
+      {
+        "id": "github:https://github.com/asalzburger/nodd/pull/25#issuecomment-5891018641",
+        "type": "comment",
+        "direction": "action",
+        "actor": "github:asalzburger-review",
+        "recipients": [],
+        "text": "Thanks for the study on the increasing need for cable space.\r\n\r\nLessons to be drawn:\r\n- the reduced space directly at the barrel should be used to push the first endcap disk as close as possible to the end of the barrel (with minimal 10 mm clearance)\r\n- for mechanical simplified reasons avoid having a progressive cable clearance, but leave the maximum throughout, potentially, however, since the cables of the last endcap can be routed outwards along z, these component could be omitted from the overall estimate\r\n\r\nUnder these assumption:\r\n- make new mockups, and new module placement, maximimising the covered area\r\n- shift the layers such that a maximum in hit coverage can be achieved and try to avoid large gaps between next hits\r\n- use IdRes and Acts to your advantage if needed for optimising the layer placements\r\n ",
+        "source": "https://github.com/asalzburger/nodd/pull/25#issuecomment-5891018641",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [],
+        "timestamp": "2026-09-29T13:12:47Z",
+        "remote_input": null
+      },
+      {
+        "id": "github:https://github.com/asalzburger/nodd/pull/25#issuecomment-5898939972",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "github:asalzburger",
+        "recipients": [],
+        "text": "The requested placement study is ready in **draft follow-up #28**, stacked on this PR so that the service proposal and optimization remain separately reviewable. PR #24 remains an unapproved working hypothesis.\n\n[Full report, per-subdetector results, routing mockups and reproduction commands](https://github.com/asalzburger/nodd/blob/770d6b6fe203cd79be6111188aff8ebffd022efd/docs/validation/DES-011-service-constrained-optimization.md).\n\nThe prototype keeps each service trunk at its maximum width, preserves every source group through downstream extraction, and places the first discs as close as the adopted service inventory and physical envelopes permit. For the coverage candidate, pixel/short-strip/long-strip trunks are **44/72/25 mm** and positive-end occupied barrel–disc gaps are **48.2/64.5/22.206 mm**. These exceed the requested 10 mm minimum because finite routing pockets and their contents also need clearance.\n\n| Layout | Physical silicon (m²) | Mean usable stations | Worst-mode p95 maximum inter-station gap (mm) |\n|---|---:|---:|---:|\n| PR #25 baseline | 177.303 | 8.2284 | 1378.66 |\n| Coverage candidate | 196.473 | 9.0758 | 1008.17 |\n| Area candidate | 199.964 | 8.8637 | 1099.18 |\n| Original-pocket control | 197.250 | 9.0182 | 1009.57 |\n\nValidation exposed two problems that are corrected and retained as rejected evidence: an even-row central barrel seam, and pockets that passed aggregate capacity but could not contain the adopted 13.4 mm strip power cable. The corrected workflow preserves the inherited 23-row pitch, checks local coverage, and enforces cable/pipe dimensions on both routes and joining throats. Strip passages now require at least **18 mm**, including the two 2 mm boundary skins.\n\nThe final search is a declared **8-primary-case subdomain plus 3 comparisons**, not a rerun of the entire broader scan. Five retained layouts underwent **180,960 mode-track evaluations**, using straight tracks and both charges at **pT = 1 GeV in 3 T**, the requested luminous region, and fresh random directions alongside regression grids. **360/360 native ACTS trajectories agree**, with maximum intersection residual below 2.05×10⁻⁷ mm. The spacing candidate fails the dense long-strip mean-hit gate and is withheld; it remains visible in the report.\n\nThe coverage candidate improves mean stations by **10.3%**, but has local losses: for example, one straight-track long-strip bin increases from 5 to 15 zero-hit rays out of 160. The original-pocket control has nearly the same overall hit and spacing performance, more routing depth, and no increased zero-hit fraction in any measured bin. I recommend carrying both into engineering review. This control also differs in barrel radius from the coverage candidate; the report includes a matched pocket-only comparison.\n\nA matched training-only bypass comparison saves **2/3/2 mm** of trunk width, adds **0.0158** mean stations and adds no silicon area. That marginal benefit supports keeping the extra extraction topology optional.\n\nValidation also includes **136 module tests: 133 passed, 3 ACTS-dependent skips in system Python**, with the actual ACTS runs above performed separately; dashboard and logging checks pass. The repeatable workflow retains configurations, source/input hashes, audits and 22 final PNG/PDF views. Existing DES-010 evidence is unchanged. Conservative/stress capacity cases still fail, and bends, connectors, ancillary shapes and vessel access remain engineering questions. No production integration or design sign-off is claimed.\n",
+        "source": "https://github.com/asalzburger/nodd/pull/25#issuecomment-5898939972",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [],
+        "timestamp": "2026-09-29T21:09:05Z",
+        "remote_input": null
+      },
+      {
+        "id": "github:https://github.com/asalzburger/nodd/pull/25#issuecomment-5905696808",
+        "type": "comment",
+        "direction": "action",
+        "actor": "github:asalzburger-review",
+        "recipients": [],
+        "text": "Approved and merged as is, as it is refined then by #28 ",
+        "source": "https://github.com/asalzburger/nodd/pull/25#issuecomment-5905696808",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [],
+        "timestamp": "2026-09-30T06:44:36Z",
+        "remote_input": null
+      },
+      {
+        "id": "journal:SESSION-2026-09-29-restore-workflow-branches:dfc467ac37b10e10",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "agent:SESSION-2026-09-29-restore-workflow-branches"
+        ],
+        "text": "After finishing the tracker service PR, the user asked to identify local branches\nthat had been deleted remotely and restore them for future workflow reuse.\n[PR #25](https://github.com/asalzburger/nodd/pull/25) was completed at\n`2a3dbfb741f7ea27e77cca3de81690fa800e4567`; its final hosted build passed at\n[the retained run](https://github.com/asalzburger/nodd/actions/runs/36553957116).\nThis subsequent task changes remote references and records their provenance only.\nIt does not merge or approve any design, update detector files, or delete branches.\n\nRead AGENTS.md, PROJECT.md, ADR-004 and the logging workflow. The main worktree\nremains on `study/tracker-service-corridors`, preserving its four unrelated\nuntracked usage files. Created isolated worktree `/tmp/nodd-restore-workflow-branches`\non `infrastructure/restore-workflow-branches` from main\n`1aa2aafd381fc37a9da3368686f2ca34d9f4dd0a` for this paired journal. Infrastructure\nmaintenance is excluded from scientific dashboard progress tracking.",
+        "source": "logs/codex/SESSION-2026-09-29-restore-workflow-branches.md#request-and-scope",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-29-restore-workflow-branches"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-09-29-restore-workflow-branches:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-09-29-restore-workflow-branches",
+        "recipients": [],
+        "text": "Restore deleted remote workflow branches for future reuse — see the canonical narrative for outcomes and checks.",
+        "source": "logs/codex/SESSION-2026-09-29-restore-workflow-branches.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-29-restore-workflow-branches"
+        ],
+        "content_kind": "reference_summary"
+      },
+      {
+        "id": "journal:SESSION-2026-09-29-service-gap-review:fd9ac5c498a73352",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "agent:SESSION-2026-09-29-service-gap-review"
+        ],
+        "text": "The user asked to return to PR #25 and address its new comments. The expert\n[comment](https://github.com/asalzburger/nodd/pull/25#issuecomment-5890301780)\nasks how the gaps compare with ATLAS/CMS and whether bundle load grows toward\nthe outermost endcap. Observed review head:\n`2a3dbfb741f7ea27e77cca3de81690fa800e4567`. PR remains draft; PR #24's tracker\nhypothesis is unapproved. No gap resizing, row recovery, layer optimization,\nproduction integration or new physics acceptance is authorized by this response.\n\nPreserved the four unrelated untracked usage files. Ordinary merge of origin/main\nretained the separately completed branch-restoration journal. This is a new\nbounded session, with no duplicated usage observations.",
+        "source": "logs/codex/SESSION-2026-09-29-service-gap-review.md#request-and-boundary",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-29-service-gap-review"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-09-29-service-gap-review:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-09-29-service-gap-review",
+        "recipients": [],
+        "text": "Compare service gaps with upgrade trackers and expose cumulative routing loads — see the canonical narrative for outcomes and checks.",
+        "source": "logs/codex/SESSION-2026-09-29-service-gap-review.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-29-service-gap-review"
+        ],
+        "content_kind": "reference_summary"
+      },
+      {
+        "id": "journal:SESSION-2026-09-29-service-optimization:a375691f70096a5a",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "agent:SESSION-2026-09-29-service-optimization"
+        ],
+        "text": "The user asked to address more comments on PR #25. The expert\n[comment](https://github.com/asalzburger/nodd/pull/25#issuecomment-5891018641)\nrequests moving first endcaps close to barrels with at least 10 mm clearance,\nconstant maximum service corridors, optional final-disc downstream extraction,\nnew module placements/mockups and hit-coverage/spacing optimization. Observed\nhead: `9b5b7f2aa14ad38434480c29666187aa893b73d3`.\n\nStarted `study/tracker-service-optimization` for the separate follow-up PR requested\nby the user earlier. PR #24 remains unapproved. DES-011 records numerical choices\nand review scope before implementation. Original DES-010 producers and retained\nevidence are preserved. The four unrelated usage files remain untracked/untouched.",
+        "source": "logs/codex/SESSION-2026-09-29-service-optimization.md#request-and-scope",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-29-service-optimization"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-09-29-service-optimization:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-09-29-service-optimization",
+        "recipients": [],
+        "text": "Optimize tracker module placements under reviewed service constraints — see the canonical narrative for outcomes and checks.",
+        "source": "logs/codex/SESSION-2026-09-29-service-optimization.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-29-service-optimization"
+        ],
+        "content_kind": "reference_summary"
+      },
+      {
+        "id": "journal:SESSION-2026-09-29-tracker-service-corridors:4187bf6e63994e05",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "agent:SESSION-2026-09-29-tracker-service-corridors"
+        ],
+        "text": "The user explicitly corrected the approval boundary: PR #24 did not approve the\ntracker default; use it only as a working hypothesis. They requested TDR-based\nsupport/cable/cooling estimates, actual gaps between pixel/short and short/long\npackages, conditional outer long-strip routing, radial barrel exits and mockups.\nLayer-position optimization is deferred to a separate follow-up PR.\n\nStart: main at `1aa2aafd381fc37a9da3368686f2ca34d9f4dd0a`, the PR24 merge.\nBranch: `study/tracker-service-corridors`. Four pre-existing untracked usage\nsummary files are preserved and excluded from this task's commits. DES-010 was\ndrafted before the service overlay. No production geometry, material model,\nreconstruction configuration or approval state is changed.",
+        "source": "logs/codex/SESSION-2026-09-29-tracker-service-corridors.md#request-and-scope",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-29-tracker-service-corridors"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-09-29-tracker-service-corridors:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-09-29-tracker-service-corridors",
+        "recipients": [],
+        "text": "Estimate tracker supports and services and reserve routing gaps — see the canonical narrative for outcomes and checks.",
+        "source": "logs/codex/SESSION-2026-09-29-tracker-service-corridors.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-29-tracker-service-corridors"
+        ],
+        "content_kind": "reference_summary"
+      }
+    ],
+    "coverage": {
+      "github_captured_at": "2026-10-24T07:41:00.389Z",
+      "prompts": "Available account-matched user-visible messages, public Codex inputs and curated journal excerpts. Historical full input coverage is unknown.",
+      "recovered_visible_turns": 0,
+      "unrecovered_account_turns": [],
+      "responses": "Public responses and recorded outcomes; no private model state or hidden reasoning.",
+      "token_accounting": "References only. Never sum accounts across PRs or assign a shared turn by text length.",
+      "unknowns": "Unrecorded names, models, tools, subagent identities and response links remain unknown; empty lists are not zero activity.",
+      "remote": "Snapshot, not live synchronization; deleted/edited history and emoji reactions are not recovered.",
+      "branch_only": "Pinned branch journal snapshots are references, not imported counters. Unretained or other-device inputs remain unknown."
+    }
+  }
+}

@@ -5,6 +5,13 @@ OpenDataDetector for DD4hep simulation and ACTS-compatible reconstruction.
 See the [project scope](PROJECT.md), [development plan](docs/DEVELOPMENT_PLAN.md)
 and [documentation index](docs/README.md).
 
+The [PR interaction ledger](interactions/README.md) records available human
+inputs, agent responses, parties, roles, tools and canonical token-account
+references in separate files for each PR.
+The [GitHub Pages resource ledger](https://asalzburger.github.io/nodd/) provides
+token usage and an Interactions tab for browsing PR conversations. See the
+[site guide](tools/token_usage/README.md) for builds and coverage boundaries.
+
 ## Current detector layouts
 
 The [DES039 common tungsten/quartz forward calorimeter](docs/design/DES-039-common-forward-calorimeter.md) is shown in both candidates, with an additional EM collar in the LAr alternative. It remains a DRAFT / PROTOTYPE with explicit aperture and service amendments.

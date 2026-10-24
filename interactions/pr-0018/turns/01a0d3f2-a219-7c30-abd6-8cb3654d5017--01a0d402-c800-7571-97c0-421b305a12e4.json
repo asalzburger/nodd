@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "thread_id": "01a0d3f2-a219-7c30-abd6-8cb3654d5017",
+  "turn_id": "01a0d402-c800-7571-97c0-421b305a12e4",
+  "status": "completed",
+  "started_at": 1790263347,
+  "completed_at": 1790263520,
+  "token_accounts": [
+    "SESSION-2026-09-24-token-history-audit"
+  ],
+  "source": "Codex app read_thread; exact recorded thread/turn match",
+  "messages": [
+    {
+      "id": "01a0d402-c830-7fa0-b2e1-b794388e91c3",
+      "role": "user",
+      "phase": null,
+      "text": "Is there any way to get the token usage filled for the sessions we missed? Is there a record ?",
+      "redacted": "no"
+    },
+    {
+      "id": "msg_0b72af1463c322a8016ab540358a0087d2889c1386c1777777",
+      "role": "assistant",
+      "phase": "commentary",
+      "text": "I’ll check whether the local client retains token counters for past sessions and whether they can be matched to the project logs. I’ll inspect usage metadata only, without reading conversation content.",
+      "redacted": "no"
+    },
+    {
+      "id": "msg_0b72af1463c322a8016ab5408981c087d2a92c623c24e17365",
+      "role": "assistant",
+      "phase": "commentary",
+      "text": "Yes—I found retained token records locally: 18 threads associated with this repository have 1,724 usage events, including input, output, cached-input, and reasoning counters. They cover threads created from September 15–24.\n\nThat makes historical recovery possible. The remaining work is to match turns to the project’s task logs and avoid double counting repeated or cumulative counters.",
+      "redacted": "no"
+    },
+    {
+      "id": "msg_0b72af1463c322a8016ab540db551c87d28939ef0e45a86e20",
+      "role": "assistant",
+      "phase": "final_answer",
+      "text": "**Yes—there are local records, and historical recovery looks possible.** My earlier answer established that the repository logs lacked counts; I’ve now checked the client’s retained usage metadata.\n\nI found:\n\n- **18 project threads**, including 15 child/subagent threads.\n- **1,724 token-usage events**, covering threads created September 15–24.\n- Input, output, cached-input, reasoning and total-token counters.\n\nThese records are in Codex’s local session storage, indexed by `~/.codex/state_5.sqlite`.\n\nBackfilling needs careful reconciliation: events contain cumulative snapshots, and the project logs lack client thread IDs. We must establish disjoint turn counts and match them to project tasks before importing. Simply summing events would overcount.\n\nI recorded the discovery in a new audit session; both validators passed. **No historical counts have been imported yet.**",
+      "redacted": "no"
+    }
+  ],
+  "native_tools": [
+    {
+      "name": "commandExecution",
+      "calls": 10,
+      "failures": 1
+    }
+  ],
+  "subagents": [],
+  "limitations": [
+    "Only userMessage and agentMessage text retained; reasoning, tool arguments/results and private state excluded.",
+    "Conservative path, credential, email and URL redaction is not a privacy guarantee; review retained text.",
+    "Exposed operation counts are per retained turn; journal counts can describe the same invocations and must not be added."
+  ]
+}

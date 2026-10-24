@@ -1,0 +1,691 @@
+{
+  "schema_version": 1,
+  "github": {
+    "captured_at": "2026-10-24T07:41:00.496Z",
+    "pull_request": {
+      "number": 29,
+      "url": "https://github.com/asalzburger/nodd/pull/29",
+      "title": "Tracker: Compare pixel barrel support and CO2 cooling concepts",
+      "head": "design/pixel-barrel-support",
+      "head_sha": "c79c2194e23e99c4d2696ca2d6628a388b96f5e4",
+      "state": "closed",
+      "body": "This proposal compares two pixel-barrel support concepts on the selected PR #28 baseline and adds mounting rings, accumulating cable bundles and grouped cooling extraction. It is based on `study/tracker-service-corridors`, where #28 was merged. The original request named #26 (branch restoration); the preceding human-selected geometry is #28.\n\n**Recommend A: narrow carbon-foam/CFRP sandwich staves with evaporative CO₂, sensors inward and support/cooling outward.** Candidate B uses hollow CFRP boxes with local foam saddles. Its estimated saving is 0.024/0.052 percentage points of X0 for single/quad staves, with greater thermal-contact and assembly uncertainty. DES-002 remains **DRAFT/PROTOTYPE**; module and sensitive-plane transforms are unchanged.\n\n![Mounted barrel with accumulated cable bundles](https://raw.githubusercontent.com/asalzburger/nodd/design/pixel-barrel-support/docs/validation/DES-002/outward-A-services/barrel-all.png)\n\n![Radial service extraction](https://raw.githubusercontent.com/asalzburger/nodd/design/pixel-barrel-support/docs/validation/DES-002/outward-A-services/radial-extraction.png)\n\nThe assembly contains **82 staves, 2,750 modules and 6,206 chips**. Inherited power is **16.682 kW**, with **25.023 kW** at +50% stress. Two straight counterflow evaporators per stave avoid a central U-bend. The local energy balance includes 2:1 heat imbalance; pressure drop, dry-out and warm-pressure qualification remain open.\n\nMounting uses **six rings per barrel, 24 total**, at **z = ±110, ±330 and ±546 mm**: two end mounting interfaces and four intermediate stiffening rings. Proposed 1 mm radial × 8 mm axial CFRP rings and 492 stagger-height feet add **217.69 g + 81.14 g** before joints and global mounts. The end rings leave **5 mm** before the service bay. Nominal ring/foot clearance checks pass. Six rings are a starting choice, not a proven minimum; full cage/end-mount FEA is needed and floating rings do not establish short simply-supported beam spans.\n\nThe latest review adds:\n\n- **Cumulative electrical bundles:** each half-stave has independent chains, with actual module pickups, 328 ancillary chains and all three DES-010 cable scenarios. Ring overflight is represented without CAD bends. Footprint volume, packing and material composition are kept separate.\n- **Twelve cooling sectors per end:** 24 grouped supply/exhaust pairs serve the unchanged 164 local evaporators. Actual sector populations are six or seven staves; total circulation remains **328.4 g/s**. The area-preserving grouped pipe diameter is provisional, not a hydraulic sizing law.\n- **Separate radial extraction:** the existing **|z| = 555–605 mm** bay connects to the **r = 190–234 mm** pixel endcap service annulus. Loads grow as barrels join. Downstream endcap service accumulation remains in DES-010.\n- **Explicit space limits:** reference peak radial/axial capacity usage is **68.8%/54.4%**, with only **1.778 mm** B1-to-B2 cable clearance. Conservative and stress scenarios exceed capacity and fail barrel bounds. Axial usage here is the barrel contribution at bay exit, not combined downstream qualification. No gaps or modules were changed to hide failures.\n- **Simulation accounting:** stable routing IDs, module ownership, dimensions, lengths, flow and footprint volumes are exported. Cable composition/mass remain null pending a bill of materials. A provisional transport-only screen gives **281.74 g Ti / 676.30 g full-liquid CO₂ bound**; local evaporators are not counted again. Flex, manifold/fitting, clip/tray and bend inventory remains additional.\n\n[Service report and eight PNG/PDF/SVG views](https://github.com/asalzburger/nodd/blob/design/pixel-barrel-support/docs/validation/DES-002/outward-A-services/results.md) · [DES-002](https://github.com/asalzburger/nodd/blob/design/pixel-barrel-support/docs/design/DES-002-pixel-barrel-support-cooling.md) · [Ring study](https://github.com/asalzburger/nodd/blob/design/pixel-barrel-support/docs/validation/DES-002/outward-A-mounted/results.md) · [Between-ring section](https://github.com/asalzburger/nodd/blob/design/pixel-barrel-support/docs/validation/DES-002/outward-A/results.md) · [Original thermal/material/beam study](https://github.com/asalzburger/nodd/blob/design/pixel-barrel-support/docs/validation/DES-002/results.md).\n\nRepeatable generators pin the baseline, centralize assumptions and retain source/artifact hashes and versions. Provenance reuses the catalogued ATLAS TDR/ITk cable evidence, IBL construction/ring precedent, support engineering, NIST CO₂ and PDG materials. New topology/dimensions are explicitly nODD proposals.\n\nValidation: **18 support/service tests pass**, including geometry preservation, collision controls, independent cable-volume integration, DES-010 terminal demand and sector flow conservation. Reference extraction envelopes clear all baseline module r–z bounds; unmodeled gathering solids/hardware are excluded. All **94 hashes across four evidence sets** verify; eight new views render, SVGs parse, dashboard build/link tests and session logs validate. Earlier evidence is preserved. No complete solid-model, ACTS, DD4hep, Geant4, FEA, hydraulic or tracking-performance result is claimed; no engineering sign-off is inferred.\n",
+      "actor": "asalzburger",
+      "created_at": "2026-09-30T07:37:04Z"
+    },
+    "comments": [
+      {
+        "id": 5910242885,
+        "url": "https://github.com/asalzburger/nodd/pull/29#issuecomment-5910242885",
+        "body": "Added the requested candidate A orientation in ce913fe503a2f83cc7f62aa0680806a7d7fa8b10: **sensor side inward, stave structure and cooling outward**. All sensitive/module positions and the baseline radial staggering are retained.\n\nThe drawings use a true x–y cut at z = +25 mm with every stave populated. There are four individual views plus a combined view, each with a stave detail and PNG/PDF/SVG downloads:\n\n[B1](https://github.com/asalzburger/nodd/blob/ce913fe503a2f83cc7f62aa0680806a7d7fa8b10/docs/validation/DES-002/outward-A/barrel-B1.png) · [B2](https://github.com/asalzburger/nodd/blob/ce913fe503a2f83cc7f62aa0680806a7d7fa8b10/docs/validation/DES-002/outward-A/barrel-B2.png) · [B3](https://github.com/asalzburger/nodd/blob/ce913fe503a2f83cc7f62aa0680806a7d7fa8b10/docs/validation/DES-002/outward-A/barrel-B3.png) · [B4](https://github.com/asalzburger/nodd/blob/ce913fe503a2f83cc7f62aa0680806a7d7fa8b10/docs/validation/DES-002/outward-A/barrel-B4.png) · [Combined](https://github.com/asalzburger/nodd/blob/ce913fe503a2f83cc7f62aa0680806a7d7fa8b10/docs/validation/DES-002/outward-A/barrel-all.png) · [Report and vector downloads](https://github.com/asalzburger/nodd/blob/ce913fe503a2f83cc7f62aa0680806a7d7fa8b10/docs/validation/DES-002/outward-A/results.md).\n\n![Combined outward-support pixel barrel section](https://raw.githubusercontent.com/asalzburger/nodd/ce913fe503a2f83cc7f62aa0680806a7d7fa8b10/docs/validation/DES-002/outward-A/barrel-all.png)\n\nThe repeatable generator reads the pinned baseline, selects the actual module/active-patch intersections with that plane and attaches the unchanged 4.725 mm candidate A stack to each outward module face. Two enclosing support boxes per stave are checked against all other module/support boxes. **82 staves, 164 tubes; zero nominal intersections**, minimum support-to-other-module gap **1.071 mm** in B2.\n\nB4 reaches **189.483 mm**, only **0.517 mm** inside the projected 190 mm trunk radius. The trunk starts at |z|=555 mm and is absent from this cut. This is not a qualified joint clearance: outward bearings, global load path, flex and end connections still need engineering. The old inward annular reservations are not silently moved, and their illustrative rib mass is not transferred. Sensor/ASIC internal depth remains unresolved; the drawings keep the exact baseline sensitive planes.\n\nReproduce with `MPLCONFIGDIR=/tmp/nodd-des002-mpl python3 -B tools/pixel_support/outward.py`. Eight support tests pass, source/artifact hashes verify, and dashboard build/session-log validation pass. The 27-test dashboard run had one macOS temporary-directory cleanup error; the affected test passed on targeted rerun without changing any test. Earlier inward evidence is preserved. No tracking gain, thermal/FEA qualification or production sign-off is claimed.\n",
+        "actor": "asalzburger",
+        "created_at": "2026-09-30T11:28:39Z",
+        "updated_at": "2026-09-30T11:28:39Z",
+        "review": null,
+        "in_reply_to_id": null,
+        "path": null,
+        "line": null
+      },
+      {
+        "id": 5910690174,
+        "url": "https://github.com/asalzburger/nodd/pull/29#issuecomment-5910690174",
+        "body": "The new drawing is exaclty what I requested, thanks.\r\n\r\nDo the staves need some rings to hold them in place and mount them, if so - how many and where would you place them?\r\n\r\nAlso, if they are needed, please update the drawings in x-y and then also add a |r|-z drawing for the barrels.\r\n",
+        "actor": "asalzburger-review",
+        "created_at": "2026-09-30T11:54:07Z",
+        "updated_at": "2026-09-30T11:54:07Z",
+        "review": null,
+        "in_reply_to_id": null,
+        "path": null,
+        "line": null
+      },
+      {
+        "id": 5911114398,
+        "url": "https://github.com/asalzburger/nodd/pull/29#issuecomment-5911114398",
+        "body": "Yes: for candidate A I propose **two end mounting rings plus four intermediate stiffening rings per barrel — six per barrel, 24 across B1–B4**. Their centres are:\n\n**z = −546, −330, −110, +110, +330, +546 mm.**\n\nThe end rings provide the global mounting interfaces; the interior rings maintain barrel shape and share loads through feet on the outward stave backs. One axial locating station is proposed at −546 mm; the remaining guides slide or flex along z during cooldown. The maximum station pitch is 220 mm. Six is a starting design choice, not a proven minimum: complete cage/end-mount FEA and metrology must determine the actual stiffness and whether rings can be removed. In particular, floating intermediate rings do not establish the earlier simply-supported short-span sag result.\n\nI checked the ring/foot precedent against [IBL production §7.3, printed/PDF p.75](https://arxiv.org/html/1803.00844). It also documents residual deformation despite its central stiffening ring; no IBL ring count or qualification is transferred to nODD.\n\nUpdated in **9b916d7ad7dcfa013a8673f2c394069ebdedbdfd**:\n\n- **x–y through a ring at z = +110 mm:** [B1](https://github.com/asalzburger/nodd/blob/9b916d7ad7dcfa013a8673f2c394069ebdedbdfd/docs/validation/DES-002/outward-A-mounted/barrel-B1.png), [B2](https://github.com/asalzburger/nodd/blob/9b916d7ad7dcfa013a8673f2c394069ebdedbdfd/docs/validation/DES-002/outward-A-mounted/barrel-B2.png), [B3](https://github.com/asalzburger/nodd/blob/9b916d7ad7dcfa013a8673f2c394069ebdedbdfd/docs/validation/DES-002/outward-A-mounted/barrel-B3.png), [B4](https://github.com/asalzburger/nodd/blob/9b916d7ad7dcfa013a8673f2c394069ebdedbdfd/docs/validation/DES-002/outward-A-mounted/barrel-B4.png), [combined](https://github.com/asalzburger/nodd/blob/9b916d7ad7dcfa013a8673f2c394069ebdedbdfd/docs/validation/DES-002/outward-A-mounted/barrel-all.png).\n- **[Combined |r|–z assembly with B4 end detail](https://github.com/asalzburger/nodd/blob/9b916d7ad7dcfa013a8673f2c394069ebdedbdfd/docs/validation/DES-002/outward-A-mounted/barrels-rz.png)**. [Report and PDF/SVG downloads](https://github.com/asalzburger/nodd/blob/9b916d7ad7dcfa013a8673f2c394069ebdedbdfd/docs/validation/DES-002/outward-A-mounted/results.md).\n- The previous z = +25 mm section is retained as the view between rings. All module and sensitive-plane transforms are unchanged.\n\n![Pixel barrel rings and end clearance](https://raw.githubusercontent.com/asalzburger/nodd/9b916d7ad7dcfa013a8673f2c394069ebdedbdfd/docs/validation/DES-002/outward-A-mounted/barrels-rz.png)\n\nThe rings use the earlier proposed **1 mm radial × 8 mm axial CFRP** section. Their inner radii are 0.5 mm beyond each layer's outermost stave corner, with **492 stagger-height foot envelopes**, 4 mm wide. The screen adds **217.69 g in rings + 81.14 g in feet**; joints, inserts, pins, adhesives and global end brackets remain additional and unqualified.\n\nThe earlier ±560 mm end stations would intrude into the service bay for outward B4 rings. Moving them to ±546 mm makes their edges **|z| = 550 mm**, leaving **5 mm before the reserved service bay at 555 mm**. B4's ring extends to **r = 190.983 mm**; it exceeds the projected 190 mm trunk radius but clears the actual trunk in z. This is a nominal envelope check, not a connector or tolerance qualification.\n\nThe executed screen finds **zero nominal ring/foot intersections** with module bodies, stave boxes, other rings/feet, existing support reservations and reserved services. A deliberately misplaced ring in the service bay is detected. **All 12 support tests pass**, as do the dashboard build/link checks and session-log validation. The workflow is repeatable with `MPLCONFIGDIR=/tmp/nodd-des002-mpl python3 -B tools/pixel_support/mounting.py`; its exact inputs, software versions and artifact hashes are retained. DES-002 remains a prototype pending engineering review.\n",
+        "actor": "asalzburger",
+        "created_at": "2026-09-30T12:15:45Z",
+        "updated_at": "2026-09-30T12:15:45Z",
+        "review": null,
+        "in_reply_to_id": null,
+        "path": null,
+        "line": null
+      },
+      {
+        "id": 5911262892,
+        "url": "https://github.com/asalzburger/nodd/pull/29#issuecomment-5911262892",
+        "body": "Ok, now, integrate also the cable routing along the barrel in z, reminder:\r\n\r\n- eventually we want to arrive not at a CAD/engineering drawing, but at a good full simulation description\r\n- the cables can thus be modeled as bundles, respecting that more and more cables are needed there further out you go\r\n- the cables can along the stave if needed they can bend around the CFRP ring (bending is not necessary to be modeled)\r\n\r\nFor the routing for the cables from the inner to the outer radius to then eventually run them along the end-cap make a dedicated drawing, this can also be done in bundles. also the cooling pipes need to run outwards of course, though they can connect up per sector, not every single pipe has to individually run outwards, we can take 12 cooling sectors in phi.",
+        "actor": "asalzburger",
+        "created_at": "2026-09-30T12:25:42Z",
+        "updated_at": "2026-09-30T12:25:42Z",
+        "review": null,
+        "in_reply_to_id": null,
+        "path": null,
+        "line": null
+      },
+      {
+        "id": 5911595460,
+        "url": "https://github.com/asalzburger/nodd/pull/29#issuecomment-5911595460",
+        "body": "Added in **2193ed1d17a581348467d0b587e0413944843628**: a simulation-oriented bundle model, updated mounted-barrel views, and a separate radial extraction drawing.\n\n**Cables grow toward each end from the actual module pickups.** Each half-stave retains its own serial-power chains; every module adds data/command links. The model accounts for all **2,750 modules, 6,206 chips and 328 ancillary chains**. Power supply and return are already included in the inherited ancillary footprint. Bundles lie outward of the staves/rings; the ring overflight is simplified into a continuous radial placement, without modelling bends.\n\n![Cable accumulation along the pixel barrels](https://raw.githubusercontent.com/asalzburger/nodd/2193ed1d17a581348467d0b587e0413944843628/docs/validation/DES-002/outward-A-services/cable-accumulation.png)\n\nFor cooling, I interpreted **12 phi sectors as the same partition repeated at both ends**. Each sector collects one supply and one exhaust, giving **24 grouped pairs total**, while retaining the **164 full-length counterflow evaporators**. The actual sector populations are six or seven staves, with **12.6–13.9 g/s per supply/exhaust leg**; total circulation remains **328.4 g/s**. Grouped outer diameters use the explicit provisional rule **4√N mm**, preserving upstream branch cross-sectional area. This is a space estimate; two-phase exhaust sizing and pressure qualification still need engineering.\n\n![Dedicated radial extraction drawing](https://raw.githubusercontent.com/asalzburger/nodd/2193ed1d17a581348467d0b587e0413944843628/docs/validation/DES-002/outward-A-services/radial-extraction.png)\n\nThe extraction uses the existing **|z| = 555–605 mm bay**, joining the **r = 190–234 mm pixel endcap service annulus**. Sector loads accumulate as successive barrels join. Endcap pickups farther downstream retain the DES-010 inventory; the barrel load is not substituted for the combined load.\n\n**There is a real space limitation to keep visible:**\n\n| Cable scenario | Barrel envelope | Worst radial capacity used | Worst axial capacity used at bay exit |\n| --- | --- | --- | --- |\n| Reference | Pass | 68.8% | 54.4% |\n| Conservative | Potential overlap | 164.6% | 147.8% |\n| High-bandwidth stress | Potential overlap | 276.7% | 259.3% |\n\nThe reference B1 envelope leaves only **1.778 mm** before B2. Reference finite extraction envelopes clear all module r–z bounds, but this is not a complete check of gathering solids, manifolds or connectors. No modules or gaps were changed to make the adverse cases pass.\n\nFor eventual full simulation, the export preserves **cable-class footprint × length**, dimensions, ownership, connectivity and flow. It keeps conductor/insulator composition and cable mass explicitly unknown: **35 mm² of bundle footprint must not become 35 mm² of copper**. A cable bill of materials is still needed for the effective material. A provisional transport-pipe screen adds **281.74 g Ti** and **676.30 g full-liquid CO₂ bound**, excluding the already counted evaporators and additional manifold/fitting/clip material.\n\nDrawings and evidence: [B1](https://github.com/asalzburger/nodd/blob/2193ed1d17a581348467d0b587e0413944843628/docs/validation/DES-002/outward-A-services/barrel-B1.png) · [B2](https://github.com/asalzburger/nodd/blob/2193ed1d17a581348467d0b587e0413944843628/docs/validation/DES-002/outward-A-services/barrel-B2.png) · [B3](https://github.com/asalzburger/nodd/blob/2193ed1d17a581348467d0b587e0413944843628/docs/validation/DES-002/outward-A-services/barrel-B3.png) · [B4](https://github.com/asalzburger/nodd/blob/2193ed1d17a581348467d0b587e0413944843628/docs/validation/DES-002/outward-A-services/barrel-B4.png) · [Combined x–y](https://github.com/asalzburger/nodd/blob/2193ed1d17a581348467d0b587e0413944843628/docs/validation/DES-002/outward-A-services/barrel-all.png) · [Combined |r|–z](https://github.com/asalzburger/nodd/blob/2193ed1d17a581348467d0b587e0413944843628/docs/validation/DES-002/outward-A-services/barrels-rz.png) · [Report, vector downloads and routing export](https://github.com/asalzburger/nodd/blob/2193ed1d17a581348467d0b587e0413944843628/docs/validation/DES-002/outward-A-services/results.md).\n\nReproduce with `MPLCONFIGDIR=/tmp/nodd-des002-mpl python3 -B tools/pixel_support/services.py`. **All 18 support/service tests pass**, including independent cable-volume integration, terminal agreement with DES-010, uneven sector flow conservation and a deliberately misplaced extraction envelope. All 94 hashes across the four evidence sets verify; dashboard build/link checks and session-log validation pass. Earlier evidence is retained. DES-002 remains a prototype with no production integration or inferred sign-off.\n",
+        "actor": "asalzburger",
+        "created_at": "2026-09-30T12:47:07Z",
+        "updated_at": "2026-09-30T12:47:07Z",
+        "review": null,
+        "in_reply_to_id": null,
+        "path": null,
+        "line": null
+      },
+      {
+        "id": 5911774023,
+        "url": "https://github.com/asalzburger/nodd/pull/29#issuecomment-5911774023",
+        "body": "Ok, that's our new baseline with cables.",
+        "actor": "asalzburger-review",
+        "created_at": "2026-09-30T12:58:24Z",
+        "updated_at": "2026-09-30T12:58:24Z",
+        "review": null,
+        "in_reply_to_id": null,
+        "path": null,
+        "line": null
+      },
+      {
+        "id": 5367098067,
+        "url": "https://github.com/asalzburger/nodd/pull/29#pullrequestreview-5367098067",
+        "body": "Accepting this as baseline, Pixel package will be prepared for expert review and iteration at a later stage.",
+        "actor": "asalzburger-review",
+        "created_at": "2026-09-30T13:49:46Z",
+        "updated_at": null,
+        "review": "APPROVED",
+        "in_reply_to_id": null,
+        "path": null,
+        "line": null
+      }
+    ],
+    "issues": []
+  },
+  "curated": {
+    "journal_links": [],
+    "agents": [],
+    "tools": [],
+    "events": []
+  },
+  "derived": {
+    "parties": [
+      {
+        "id": "agent:SESSION-2026-09-30-dd4hep-pixel-barrel",
+        "name": "unspecified",
+        "kind": "agent"
+      },
+      {
+        "id": "agent:SESSION-2026-09-30-pixel-barrel-services",
+        "name": "unspecified",
+        "kind": "agent"
+      },
+      {
+        "id": "agent:SESSION-2026-09-30-pixel-mounting-rings",
+        "name": "unspecified",
+        "kind": "agent"
+      },
+      {
+        "id": "agent:SESSION-2026-09-30-pixel-outward-support",
+        "name": "unspecified",
+        "kind": "agent"
+      },
+      {
+        "id": "agent:SESSION-2026-09-30-pixel-support-cooling",
+        "name": "unspecified",
+        "kind": "agent"
+      },
+      {
+        "id": "github:asalzburger",
+        "name": "asalzburger",
+        "kind": "account"
+      },
+      {
+        "id": "github:asalzburger-review",
+        "name": "asalzburger-review",
+        "kind": "human"
+      },
+      {
+        "id": "unknown:project-user",
+        "name": "Project user (name unrecorded)",
+        "kind": "human"
+      }
+    ],
+    "journals": [
+      {
+        "session_id": "SESSION-2026-09-30-dd4hep-pixel-barrel",
+        "record": "logs/codex/SESSION-2026-09-30-dd4hep-pixel-barrel.json",
+        "attribution": [
+          "explicit_PR_reference"
+        ],
+        "snapshot": null,
+        "snapshot_sha256": null,
+        "record_sha256": "fa0f7d01c85e0c0e4e113a740909190205ab9a195760ccef777f6aca60b08960",
+        "narrative_sha256": "7c35d024318158b6005daa0f13bb8b2a6882109512900cb6211cd998a538c02a"
+      },
+      {
+        "session_id": "SESSION-2026-09-30-pixel-barrel-services",
+        "record": "logs/codex/SESSION-2026-09-30-pixel-barrel-services.json",
+        "attribution": [
+          "recorded_branch",
+          "explicit_PR_reference"
+        ],
+        "snapshot": null,
+        "snapshot_sha256": null,
+        "record_sha256": "e48e7af0092e005b5cf8bb97b3f3a8d5d69a0547e43f089ee65d071506d782a7",
+        "narrative_sha256": "b4dc44f01557a961e3c93216ad188224207643c4ae6f086725eb7916f8d64e7a"
+      },
+      {
+        "session_id": "SESSION-2026-09-30-pixel-mounting-rings",
+        "record": "logs/codex/SESSION-2026-09-30-pixel-mounting-rings.json",
+        "attribution": [
+          "recorded_branch",
+          "explicit_PR_reference"
+        ],
+        "snapshot": null,
+        "snapshot_sha256": null,
+        "record_sha256": "6b28eeef72d3c5446d5c8a950c841fb7b387ce8c2ebf44a5dadecfc168cd61e6",
+        "narrative_sha256": "07792cc217118640cfb7bb414b4baba32aec392678484a90387626cd11dcfdb8"
+      },
+      {
+        "session_id": "SESSION-2026-09-30-pixel-outward-support",
+        "record": "logs/codex/SESSION-2026-09-30-pixel-outward-support.json",
+        "attribution": [
+          "recorded_branch",
+          "explicit_PR_reference"
+        ],
+        "snapshot": null,
+        "snapshot_sha256": null,
+        "record_sha256": "117644394ab34da76a5e53f87e3b97904d3071f4a6d3ac0c768fc3b12cb39243",
+        "narrative_sha256": "e687acd2ea91f94a2cc25dfcaa0713e63903bef13397a3342d977058874f32fb"
+      },
+      {
+        "session_id": "SESSION-2026-09-30-pixel-support-cooling",
+        "record": "logs/codex/SESSION-2026-09-30-pixel-support-cooling.json",
+        "attribution": [
+          "recorded_branch",
+          "explicit_PR_reference"
+        ],
+        "snapshot": null,
+        "snapshot_sha256": null,
+        "record_sha256": "1319d9b39f9d40fdc67a24d515c60e11192260848cdca483bfe17d654a276521",
+        "narrative_sha256": "401391300e00cf6ea5658cf4e042c25882cdf825a5820b7ec433d36430f4ea55"
+      }
+    ],
+    "token_accounts": [
+      {
+        "id": "SESSION-2026-09-30-dd4hep-pixel-barrel",
+        "record": "logs/codex/SESSION-2026-09-30-dd4hep-pixel-barrel.json",
+        "scope": "canonical_session; shared PR references are not allocations",
+        "status": "unobserved",
+        "usage_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "turns": []
+      },
+      {
+        "id": "SESSION-2026-09-30-pixel-barrel-services",
+        "record": "logs/codex/SESSION-2026-09-30-pixel-barrel-services.json",
+        "scope": "canonical_session; shared PR references are not allocations",
+        "status": "unobserved",
+        "usage_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "turns": []
+      },
+      {
+        "id": "SESSION-2026-09-30-pixel-mounting-rings",
+        "record": "logs/codex/SESSION-2026-09-30-pixel-mounting-rings.json",
+        "scope": "canonical_session; shared PR references are not allocations",
+        "status": "unobserved",
+        "usage_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "turns": []
+      },
+      {
+        "id": "SESSION-2026-09-30-pixel-outward-support",
+        "record": "logs/codex/SESSION-2026-09-30-pixel-outward-support.json",
+        "scope": "canonical_session; shared PR references are not allocations",
+        "status": "unobserved",
+        "usage_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "turns": []
+      },
+      {
+        "id": "SESSION-2026-09-30-pixel-support-cooling",
+        "record": "logs/codex/SESSION-2026-09-30-pixel-support-cooling.json",
+        "scope": "canonical_session; shared PR references are not allocations",
+        "status": "unobserved",
+        "usage_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "turns": []
+      }
+    ],
+    "visible_sources": [],
+    "agents": [
+      {
+        "id": "agent:SESSION-2026-09-30-dd4hep-pixel-barrel",
+        "name": "unspecified",
+        "role": "session_agent",
+        "thread_id": null,
+        "models": [],
+        "source": "logs/codex/SESSION-2026-09-30-dd4hep-pixel-barrel.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      },
+      {
+        "id": "agent:SESSION-2026-09-30-pixel-barrel-services",
+        "name": "unspecified",
+        "role": "session_agent",
+        "thread_id": null,
+        "models": [],
+        "source": "logs/codex/SESSION-2026-09-30-pixel-barrel-services.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      },
+      {
+        "id": "agent:SESSION-2026-09-30-pixel-mounting-rings",
+        "name": "unspecified",
+        "role": "session_agent",
+        "thread_id": null,
+        "models": [],
+        "source": "logs/codex/SESSION-2026-09-30-pixel-mounting-rings.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      },
+      {
+        "id": "agent:SESSION-2026-09-30-pixel-outward-support",
+        "name": "unspecified",
+        "role": "session_agent",
+        "thread_id": null,
+        "models": [],
+        "source": "logs/codex/SESSION-2026-09-30-pixel-outward-support.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      },
+      {
+        "id": "agent:SESSION-2026-09-30-pixel-support-cooling",
+        "name": "unspecified",
+        "role": "session_agent",
+        "thread_id": null,
+        "models": [],
+        "source": "logs/codex/SESSION-2026-09-30-pixel-support-cooling.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      }
+    ],
+    "tools": {
+      "native_codex": [
+        {
+          "name": "collaboration",
+          "category": "native_codex",
+          "version": null,
+          "calls": null,
+          "source": "logs/codex/SESSION-2026-09-30-dd4hep-pixel-barrel.json",
+          "evidence": "Reusable components and physical-validation agents; independent final component review.",
+          "token_account": "SESSION-2026-09-30-dd4hep-pixel-barrel",
+          "provenance": "Native API name"
+        }
+      ],
+      "codex_installed": [],
+      "instructed_software": [],
+      "unresolved": []
+    },
+    "events": [
+      {
+        "id": "github:https://github.com/asalzburger/nodd/pull/29",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "github:asalzburger",
+        "recipients": [],
+        "text": "This proposal compares two pixel-barrel support concepts on the selected PR #28 baseline and adds mounting rings, accumulating cable bundles and grouped cooling extraction. It is based on `study/tracker-service-corridors`, where #28 was merged. The original request named #26 (branch restoration); the preceding human-selected geometry is #28.\n\n**Recommend A: narrow carbon-foam/CFRP sandwich staves with evaporative CO₂, sensors inward and support/cooling outward.** Candidate B uses hollow CFRP boxes with local foam saddles. Its estimated saving is 0.024/0.052 percentage points of X0 for single/quad staves, with greater thermal-contact and assembly uncertainty. DES-002 remains **DRAFT/PROTOTYPE**; module and sensitive-plane transforms are unchanged.\n\n![Mounted barrel with accumulated cable bundles](https://raw.githubusercontent.com/asalzburger/nodd/design/pixel-barrel-support/docs/validation/DES-002/outward-A-services/barrel-all.png)\n\n![Radial service extraction](https://raw.githubusercontent.com/asalzburger/nodd/design/pixel-barrel-support/docs/validation/DES-002/outward-A-services/radial-extraction.png)\n\nThe assembly contains **82 staves, 2,750 modules and 6,206 chips**. Inherited power is **16.682 kW**, with **25.023 kW** at +50% stress. Two straight counterflow evaporators per stave avoid a central U-bend. The local energy balance includes 2:1 heat imbalance; pressure drop, dry-out and warm-pressure qualification remain open.\n\nMounting uses **six rings per barrel, 24 total**, at **z = ±110, ±330 and ±546 mm**: two end mounting interfaces and four intermediate stiffening rings. Proposed 1 mm radial × 8 mm axial CFRP rings and 492 stagger-height feet add **217.69 g + 81.14 g** before joints and global mounts. The end rings leave **5 mm** before the service bay. Nominal ring/foot clearance checks pass. Six rings are a starting choice, not a proven minimum; full cage/end-mount FEA is needed and floating rings do not establish short simply-supported beam spans.\n\nThe latest review adds:\n\n- **Cumulative electrical bundles:** each half-stave has independent chains, with actual module pickups, 328 ancillary chains and all three DES-010 cable scenarios. Ring overflight is represented without CAD bends. Footprint volume, packing and material composition are kept separate.\n- **Twelve cooling sectors per end:** 24 grouped supply/exhaust pairs serve the unchanged 164 local evaporators. Actual sector populations are six or seven staves; total circulation remains **328.4 g/s**. The area-preserving grouped pipe diameter is provisional, not a hydraulic sizing law.\n- **Separate radial extraction:** the existing **|z| = 555–605 mm** bay connects to the **r = 190–234 mm** pixel endcap service annulus. Loads grow as barrels join. Downstream endcap service accumulation remains in DES-010.\n- **Explicit space limits:** reference peak radial/axial capacity usage is **68.8%/54.4%**, with only **1.778 mm** B1-to-B2 cable clearance. Conservative and stress scenarios exceed capacity and fail barrel bounds. Axial usage here is the barrel contribution at bay exit, not combined downstream qualification. No gaps or modules were changed to hide failures.\n- **Simulation accounting:** stable routing IDs, module ownership, dimensions, lengths, flow and footprint volumes are exported. Cable composition/mass remain null pending a bill of materials. A provisional transport-only screen gives **281.74 g Ti / 676.30 g full-liquid CO₂ bound**; local evaporators are not counted again. Flex, manifold/fitting, clip/tray and bend inventory remains additional.\n\n[Service report and eight PNG/PDF/SVG views](https://github.com/asalzburger/nodd/blob/design/pixel-barrel-support/docs/validation/DES-002/outward-A-services/results.md) · [DES-002](https://github.com/asalzburger/nodd/blob/design/pixel-barrel-support/docs/design/DES-002-pixel-barrel-support-cooling.md) · [Ring study](https://github.com/asalzburger/nodd/blob/design/pixel-barrel-support/docs/validation/DES-002/outward-A-mounted/results.md) · [Between-ring section](https://github.com/asalzburger/nodd/blob/design/pixel-barrel-support/docs/validation/DES-002/outward-A/results.md) · [Original thermal/material/beam study](https://github.com/asalzburger/nodd/blob/design/pixel-barrel-support/docs/validation/DES-002/results.md).\n\nRepeatable generators pin the baseline, centralize assumptions and retain source/artifact hashes and versions. Provenance reuses the catalogued ATLAS TDR/ITk cable evidence, IBL construction/ring precedent, support engineering, NIST CO₂ and PDG materials. New topology/dimensions are explicitly nODD proposals.\n\nValidation: **18 support/service tests pass**, including geometry preservation, collision controls, independent cable-volume integration, DES-010 terminal demand and sector flow conservation. Reference extraction envelopes clear all baseline module r–z bounds; unmodeled gathering solids/hardware are excluded. All **94 hashes across four evidence sets** verify; eight new views render, SVGs parse, dashboard build/link tests and session logs validate. Earlier evidence is preserved. No complete solid-model, ACTS, DD4hep, Geant4, FEA, hydraulic or tracking-performance result is claimed; no engineering sign-off is inferred.\n",
+        "source": "https://github.com/asalzburger/nodd/pull/29",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [],
+        "timestamp": "2026-09-30T07:37:04Z",
+        "remote_input": null
+      },
+      {
+        "id": "github:https://github.com/asalzburger/nodd/pull/29#issuecomment-5910242885",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "github:asalzburger",
+        "recipients": [],
+        "text": "Added the requested candidate A orientation in ce913fe503a2f83cc7f62aa0680806a7d7fa8b10: **sensor side inward, stave structure and cooling outward**. All sensitive/module positions and the baseline radial staggering are retained.\n\nThe drawings use a true x–y cut at z = +25 mm with every stave populated. There are four individual views plus a combined view, each with a stave detail and PNG/PDF/SVG downloads:\n\n[B1](https://github.com/asalzburger/nodd/blob/ce913fe503a2f83cc7f62aa0680806a7d7fa8b10/docs/validation/DES-002/outward-A/barrel-B1.png) · [B2](https://github.com/asalzburger/nodd/blob/ce913fe503a2f83cc7f62aa0680806a7d7fa8b10/docs/validation/DES-002/outward-A/barrel-B2.png) · [B3](https://github.com/asalzburger/nodd/blob/ce913fe503a2f83cc7f62aa0680806a7d7fa8b10/docs/validation/DES-002/outward-A/barrel-B3.png) · [B4](https://github.com/asalzburger/nodd/blob/ce913fe503a2f83cc7f62aa0680806a7d7fa8b10/docs/validation/DES-002/outward-A/barrel-B4.png) · [Combined](https://github.com/asalzburger/nodd/blob/ce913fe503a2f83cc7f62aa0680806a7d7fa8b10/docs/validation/DES-002/outward-A/barrel-all.png) · [Report and vector downloads](https://github.com/asalzburger/nodd/blob/ce913fe503a2f83cc7f62aa0680806a7d7fa8b10/docs/validation/DES-002/outward-A/results.md).\n\n![Combined outward-support pixel barrel section](https://raw.githubusercontent.com/asalzburger/nodd/ce913fe503a2f83cc7f62aa0680806a7d7fa8b10/docs/validation/DES-002/outward-A/barrel-all.png)\n\nThe repeatable generator reads the pinned baseline, selects the actual module/active-patch intersections with that plane and attaches the unchanged 4.725 mm candidate A stack to each outward module face. Two enclosing support boxes per stave are checked against all other module/support boxes. **82 staves, 164 tubes; zero nominal intersections**, minimum support-to-other-module gap **1.071 mm** in B2.\n\nB4 reaches **189.483 mm**, only **0.517 mm** inside the projected 190 mm trunk radius. The trunk starts at |z|=555 mm and is absent from this cut. This is not a qualified joint clearance: outward bearings, global load path, flex and end connections still need engineering. The old inward annular reservations are not silently moved, and their illustrative rib mass is not transferred. Sensor/ASIC internal depth remains unresolved; the drawings keep the exact baseline sensitive planes.\n\nReproduce with `MPLCONFIGDIR=/tmp/nodd-des002-mpl python3 -B tools/pixel_support/outward.py`. Eight support tests pass, source/artifact hashes verify, and dashboard build/session-log validation pass. The 27-test dashboard run had one macOS temporary-directory cleanup error; the affected test passed on targeted rerun without changing any test. Earlier inward evidence is preserved. No tracking gain, thermal/FEA qualification or production sign-off is claimed.\n",
+        "source": "https://github.com/asalzburger/nodd/pull/29#issuecomment-5910242885",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [],
+        "timestamp": "2026-09-30T11:28:39Z",
+        "remote_input": null
+      },
+      {
+        "id": "github:https://github.com/asalzburger/nodd/pull/29#issuecomment-5910690174",
+        "type": "comment",
+        "direction": "action",
+        "actor": "github:asalzburger-review",
+        "recipients": [],
+        "text": "The new drawing is exaclty what I requested, thanks.\r\n\r\nDo the staves need some rings to hold them in place and mount them, if so - how many and where would you place them?\r\n\r\nAlso, if they are needed, please update the drawings in x-y and then also add a |r|-z drawing for the barrels.\r\n",
+        "source": "https://github.com/asalzburger/nodd/pull/29#issuecomment-5910690174",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [],
+        "timestamp": "2026-09-30T11:54:07Z",
+        "remote_input": null
+      },
+      {
+        "id": "github:https://github.com/asalzburger/nodd/pull/29#issuecomment-5911114398",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "github:asalzburger",
+        "recipients": [],
+        "text": "Yes: for candidate A I propose **two end mounting rings plus four intermediate stiffening rings per barrel — six per barrel, 24 across B1–B4**. Their centres are:\n\n**z = −546, −330, −110, +110, +330, +546 mm.**\n\nThe end rings provide the global mounting interfaces; the interior rings maintain barrel shape and share loads through feet on the outward stave backs. One axial locating station is proposed at −546 mm; the remaining guides slide or flex along z during cooldown. The maximum station pitch is 220 mm. Six is a starting design choice, not a proven minimum: complete cage/end-mount FEA and metrology must determine the actual stiffness and whether rings can be removed. In particular, floating intermediate rings do not establish the earlier simply-supported short-span sag result.\n\nI checked the ring/foot precedent against [IBL production §7.3, printed/PDF p.75](https://arxiv.org/html/1803.00844). It also documents residual deformation despite its central stiffening ring; no IBL ring count or qualification is transferred to nODD.\n\nUpdated in **9b916d7ad7dcfa013a8673f2c394069ebdedbdfd**:\n\n- **x–y through a ring at z = +110 mm:** [B1](https://github.com/asalzburger/nodd/blob/9b916d7ad7dcfa013a8673f2c394069ebdedbdfd/docs/validation/DES-002/outward-A-mounted/barrel-B1.png), [B2](https://github.com/asalzburger/nodd/blob/9b916d7ad7dcfa013a8673f2c394069ebdedbdfd/docs/validation/DES-002/outward-A-mounted/barrel-B2.png), [B3](https://github.com/asalzburger/nodd/blob/9b916d7ad7dcfa013a8673f2c394069ebdedbdfd/docs/validation/DES-002/outward-A-mounted/barrel-B3.png), [B4](https://github.com/asalzburger/nodd/blob/9b916d7ad7dcfa013a8673f2c394069ebdedbdfd/docs/validation/DES-002/outward-A-mounted/barrel-B4.png), [combined](https://github.com/asalzburger/nodd/blob/9b916d7ad7dcfa013a8673f2c394069ebdedbdfd/docs/validation/DES-002/outward-A-mounted/barrel-all.png).\n- **[Combined |r|–z assembly with B4 end detail](https://github.com/asalzburger/nodd/blob/9b916d7ad7dcfa013a8673f2c394069ebdedbdfd/docs/validation/DES-002/outward-A-mounted/barrels-rz.png)**. [Report and PDF/SVG downloads](https://github.com/asalzburger/nodd/blob/9b916d7ad7dcfa013a8673f2c394069ebdedbdfd/docs/validation/DES-002/outward-A-mounted/results.md).\n- The previous z = +25 mm section is retained as the view between rings. All module and sensitive-plane transforms are unchanged.\n\n![Pixel barrel rings and end clearance](https://raw.githubusercontent.com/asalzburger/nodd/9b916d7ad7dcfa013a8673f2c394069ebdedbdfd/docs/validation/DES-002/outward-A-mounted/barrels-rz.png)\n\nThe rings use the earlier proposed **1 mm radial × 8 mm axial CFRP** section. Their inner radii are 0.5 mm beyond each layer's outermost stave corner, with **492 stagger-height foot envelopes**, 4 mm wide. The screen adds **217.69 g in rings + 81.14 g in feet**; joints, inserts, pins, adhesives and global end brackets remain additional and unqualified.\n\nThe earlier ±560 mm end stations would intrude into the service bay for outward B4 rings. Moving them to ±546 mm makes their edges **|z| = 550 mm**, leaving **5 mm before the reserved service bay at 555 mm**. B4's ring extends to **r = 190.983 mm**; it exceeds the projected 190 mm trunk radius but clears the actual trunk in z. This is a nominal envelope check, not a connector or tolerance qualification.\n\nThe executed screen finds **zero nominal ring/foot intersections** with module bodies, stave boxes, other rings/feet, existing support reservations and reserved services. A deliberately misplaced ring in the service bay is detected. **All 12 support tests pass**, as do the dashboard build/link checks and session-log validation. The workflow is repeatable with `MPLCONFIGDIR=/tmp/nodd-des002-mpl python3 -B tools/pixel_support/mounting.py`; its exact inputs, software versions and artifact hashes are retained. DES-002 remains a prototype pending engineering review.\n",
+        "source": "https://github.com/asalzburger/nodd/pull/29#issuecomment-5911114398",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [],
+        "timestamp": "2026-09-30T12:15:45Z",
+        "remote_input": null
+      },
+      {
+        "id": "github:https://github.com/asalzburger/nodd/pull/29#issuecomment-5911262892",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "github:asalzburger",
+        "recipients": [],
+        "text": "Ok, now, integrate also the cable routing along the barrel in z, reminder:\r\n\r\n- eventually we want to arrive not at a CAD/engineering drawing, but at a good full simulation description\r\n- the cables can thus be modeled as bundles, respecting that more and more cables are needed there further out you go\r\n- the cables can along the stave if needed they can bend around the CFRP ring (bending is not necessary to be modeled)\r\n\r\nFor the routing for the cables from the inner to the outer radius to then eventually run them along the end-cap make a dedicated drawing, this can also be done in bundles. also the cooling pipes need to run outwards of course, though they can connect up per sector, not every single pipe has to individually run outwards, we can take 12 cooling sectors in phi.",
+        "source": "https://github.com/asalzburger/nodd/pull/29#issuecomment-5911262892",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [],
+        "timestamp": "2026-09-30T12:25:42Z",
+        "remote_input": null
+      },
+      {
+        "id": "github:https://github.com/asalzburger/nodd/pull/29#issuecomment-5911595460",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "github:asalzburger",
+        "recipients": [],
+        "text": "Added in **2193ed1d17a581348467d0b587e0413944843628**: a simulation-oriented bundle model, updated mounted-barrel views, and a separate radial extraction drawing.\n\n**Cables grow toward each end from the actual module pickups.** Each half-stave retains its own serial-power chains; every module adds data/command links. The model accounts for all **2,750 modules, 6,206 chips and 328 ancillary chains**. Power supply and return are already included in the inherited ancillary footprint. Bundles lie outward of the staves/rings; the ring overflight is simplified into a continuous radial placement, without modelling bends.\n\n![Cable accumulation along the pixel barrels](https://raw.githubusercontent.com/asalzburger/nodd/2193ed1d17a581348467d0b587e0413944843628/docs/validation/DES-002/outward-A-services/cable-accumulation.png)\n\nFor cooling, I interpreted **12 phi sectors as the same partition repeated at both ends**. Each sector collects one supply and one exhaust, giving **24 grouped pairs total**, while retaining the **164 full-length counterflow evaporators**. The actual sector populations are six or seven staves, with **12.6–13.9 g/s per supply/exhaust leg**; total circulation remains **328.4 g/s**. Grouped outer diameters use the explicit provisional rule **4√N mm**, preserving upstream branch cross-sectional area. This is a space estimate; two-phase exhaust sizing and pressure qualification still need engineering.\n\n![Dedicated radial extraction drawing](https://raw.githubusercontent.com/asalzburger/nodd/2193ed1d17a581348467d0b587e0413944843628/docs/validation/DES-002/outward-A-services/radial-extraction.png)\n\nThe extraction uses the existing **|z| = 555–605 mm bay**, joining the **r = 190–234 mm pixel endcap service annulus**. Sector loads accumulate as successive barrels join. Endcap pickups farther downstream retain the DES-010 inventory; the barrel load is not substituted for the combined load.\n\n**There is a real space limitation to keep visible:**\n\n| Cable scenario | Barrel envelope | Worst radial capacity used | Worst axial capacity used at bay exit |\n| --- | --- | --- | --- |\n| Reference | Pass | 68.8% | 54.4% |\n| Conservative | Potential overlap | 164.6% | 147.8% |\n| High-bandwidth stress | Potential overlap | 276.7% | 259.3% |\n\nThe reference B1 envelope leaves only **1.778 mm** before B2. Reference finite extraction envelopes clear all module r–z bounds, but this is not a complete check of gathering solids, manifolds or connectors. No modules or gaps were changed to make the adverse cases pass.\n\nFor eventual full simulation, the export preserves **cable-class footprint × length**, dimensions, ownership, connectivity and flow. It keeps conductor/insulator composition and cable mass explicitly unknown: **35 mm² of bundle footprint must not become 35 mm² of copper**. A cable bill of materials is still needed for the effective material. A provisional transport-pipe screen adds **281.74 g Ti** and **676.30 g full-liquid CO₂ bound**, excluding the already counted evaporators and additional manifold/fitting/clip material.\n\nDrawings and evidence: [B1](https://github.com/asalzburger/nodd/blob/2193ed1d17a581348467d0b587e0413944843628/docs/validation/DES-002/outward-A-services/barrel-B1.png) · [B2](https://github.com/asalzburger/nodd/blob/2193ed1d17a581348467d0b587e0413944843628/docs/validation/DES-002/outward-A-services/barrel-B2.png) · [B3](https://github.com/asalzburger/nodd/blob/2193ed1d17a581348467d0b587e0413944843628/docs/validation/DES-002/outward-A-services/barrel-B3.png) · [B4](https://github.com/asalzburger/nodd/blob/2193ed1d17a581348467d0b587e0413944843628/docs/validation/DES-002/outward-A-services/barrel-B4.png) · [Combined x–y](https://github.com/asalzburger/nodd/blob/2193ed1d17a581348467d0b587e0413944843628/docs/validation/DES-002/outward-A-services/barrel-all.png) · [Combined |r|–z](https://github.com/asalzburger/nodd/blob/2193ed1d17a581348467d0b587e0413944843628/docs/validation/DES-002/outward-A-services/barrels-rz.png) · [Report, vector downloads and routing export](https://github.com/asalzburger/nodd/blob/2193ed1d17a581348467d0b587e0413944843628/docs/validation/DES-002/outward-A-services/results.md).\n\nReproduce with `MPLCONFIGDIR=/tmp/nodd-des002-mpl python3 -B tools/pixel_support/services.py`. **All 18 support/service tests pass**, including independent cable-volume integration, terminal agreement with DES-010, uneven sector flow conservation and a deliberately misplaced extraction envelope. All 94 hashes across the four evidence sets verify; dashboard build/link checks and session-log validation pass. Earlier evidence is retained. DES-002 remains a prototype with no production integration or inferred sign-off.\n",
+        "source": "https://github.com/asalzburger/nodd/pull/29#issuecomment-5911595460",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [],
+        "timestamp": "2026-09-30T12:47:07Z",
+        "remote_input": null
+      },
+      {
+        "id": "github:https://github.com/asalzburger/nodd/pull/29#issuecomment-5911774023",
+        "type": "comment",
+        "direction": "action",
+        "actor": "github:asalzburger-review",
+        "recipients": [],
+        "text": "Ok, that's our new baseline with cables.",
+        "source": "https://github.com/asalzburger/nodd/pull/29#issuecomment-5911774023",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [],
+        "timestamp": "2026-09-30T12:58:24Z",
+        "remote_input": null
+      },
+      {
+        "id": "github:https://github.com/asalzburger/nodd/pull/29#pullrequestreview-5367098067",
+        "type": "review",
+        "direction": "reaction",
+        "actor": "github:asalzburger-review",
+        "recipients": [],
+        "text": "Accepting this as baseline, Pixel package will be prepared for expert review and iteration at a later stage.",
+        "source": "https://github.com/asalzburger/nodd/pull/29#pullrequestreview-5367098067",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [],
+        "timestamp": "2026-09-30T13:49:46Z",
+        "remote_input": null
+      },
+      {
+        "id": "journal:SESSION-2026-09-30-dd4hep-pixel-barrel:9fdde4045bf12b25",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "agent:SESSION-2026-09-30-dd4hep-pixel-barrel"
+        ],
+        "text": "- User: “Ok, take PR #29 as new baseline (even unmerged).” Asked the software\n  team to plan, implement and test pixel barrels in DD4hep, including cabling,\n  mounting and local support, with reusable modules/layers and concise factories.\n",
+        "source": "logs/codex/SESSION-2026-09-30-dd4hep-pixel-barrel.md#selected-conversation",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-30-dd4hep-pixel-barrel"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-09-30-dd4hep-pixel-barrel:fb3c72d221210e04",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "agent:SESSION-2026-09-30-dd4hep-pixel-barrel"
+        ],
+        "text": "- User: “Make a provisional cable material as suggested, but make it configurable\n  for the moment, we may get more input from the human expert soon.”\n- Public reviewer baseline confirmation:\n  https://github.com/asalzburger/nodd/pull/29#issuecomment-5911774023.\n",
+        "source": "logs/codex/SESSION-2026-09-30-dd4hep-pixel-barrel.md#selected-conversation",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-30-dd4hep-pixel-barrel"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-09-30-dd4hep-pixel-barrel:9d05047e7b9a52b6",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-09-30-dd4hep-pixel-barrel",
+        "recipients": [],
+        "text": "- Assistant applied the acts-spack skill, warned that recorded setup/lockfile\n  fingerprints had changed, then reverified actual build/runtime capabilities.\n  No shared dependency was installed or modified.\n- Work was divided between reusable C++ component construction and independent\n  validation agents; the parent integrated the exporter, materials, assembly,\n  build workflow, provenance and records. A component review caught missing\n  half-pitch readout offsets and configurable identifier-capacity guards.",
+        "source": "logs/codex/SESSION-2026-09-30-dd4hep-pixel-barrel.md#selected-conversation",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-30-dd4hep-pixel-barrel"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-09-30-dd4hep-pixel-barrel:91092eb9ae0f943f",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-09-30-dd4hep-pixel-barrel",
+        "recipients": [],
+        "text": "DES-012 records the implementation contract before code integration. The human\nselected a working baseline and authorized provisional materials; no formal\nSIGNED OFF/ACCEPTED lifecycle transition was recorded. The compact is isolated\nfrom full-detector production geometry.\n\nProvisional cable composition is configurable by volume: 10% Cu, 40% polyimide,\n50% air before separate routing packing void. Volume inventories are converted\nto DD4hep mass fractions. Sensitivity variants use 5%/20% Cu, preserving geometry.\nLocal cooling is nested foam/Ti/CO₂; mounting preserves the inherited rings/feet.\nEnd-bay effective cells partition the earlier illustrative service turns and\npreserve constituent inventory. Explicit graphite shims fill the sensor/ASIC-to-\nsupport gap within the inherited module envelope. Omitted hardware, liquid-density\nupper bound and effective compositions remain visible in DES-012.",
+        "source": "logs/codex/SESSION-2026-09-30-dd4hep-pixel-barrel.md#decisions-and-outcomes",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-30-dd4hep-pixel-barrel"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-09-30-dd4hep-pixel-barrel:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-09-30-dd4hep-pixel-barrel",
+        "recipients": [],
+        "text": "Assemble PR29 pixel barrels in DD4hep — see the canonical narrative for outcomes and checks.",
+        "source": "logs/codex/SESSION-2026-09-30-dd4hep-pixel-barrel.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-30-dd4hep-pixel-barrel"
+        ],
+        "content_kind": "reference_summary"
+      },
+      {
+        "id": "journal:SESSION-2026-09-30-pixel-barrel-services:552780329fbb9526",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "agent:SESSION-2026-09-30-pixel-barrel-services"
+        ],
+        "text": "User: “New comments are added.” The PR comment requests accumulating cable bundles\nalong z, simulation-oriented simplification rather than CAD, a separate radial\nrouting drawing, and cooling grouped into twelve phi sectors. Ring bends may be\nomitted from the geometry. Assistant interpreted the twelve sectors as repeated\nat both ends, preserving the existing full-length counterflow circuits. This\ninterpretation and reference/adverse capacity results were reported during work.",
+        "source": "logs/codex/SESSION-2026-09-30-pixel-barrel-services.md#selected-conversation",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-30-pixel-barrel-services"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-09-30-pixel-barrel-services:11b90e8294248ed5",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-09-30-pixel-barrel-services",
+        "recipients": [],
+        "text": "- Added PS-C15–C19 / PS-I09 before implementation. Reused the source-catalogued\n  DES-010 cable footprints, power grouping and scenarios; no new external fact\n  or reference-manifest entry was needed.\n- Added an isolated generator/configuration and six tests, with eight views in\n  PNG/PDF/SVG, numerical results and a compressed routing/material-accounting\n  export. Earlier three evidence sets remain unchanged.\n- All 2,750 modules / 6,206 chips belong to 164 half-stave groups / 328 chains.\n  Cable bundles grow at actual pickups and overfly rings on their outward side.\n  Reference B1 clearance to B2 is 1.778 mm in the sufficient radial-bound screen.\n- Twelve cooling sectors/end contain six or seven staves each. Twenty-four\n  supply/exhaust pairs serve the unchanged 164 counterflow evaporators. Total\n  circulation is 328.4 g/s. Provisional grouped OD=4√N mm preserves branch area;\n  it is not a hydraulic sizing law or pressure qualification.\n- Reference peak radial/axial capacity usage is 68.8%/54.4%. Conservative is\n  164.6%/147.8%; stress is 276.7%/259.3%. Adverse failures are retained, with no\n  baseline change. Axial usage here is only the barrel load at the bay exit.\n- Cable outer-footprint volumes are not copper volumes. Material composition and\n  mass remain null pending a cable bill of materials. Idealized transport pipes\n  add a provisional 281.74 g Ti / 676.30 g full-liquid CO₂ bound; evaporators are\n  not double counted. Missing flex, manifold, connector, clip and bend inventory\n  is explicit. No full solid model or material-scan claim.",
+        "source": "logs/codex/SESSION-2026-09-30-pixel-barrel-services.md#decisions-and-outcomes",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-30-pixel-barrel-services"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-09-30-pixel-barrel-services:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-09-30-pixel-barrel-services",
+        "recipients": [],
+        "text": "Pixel barrel cable bundles and sector cooling routing — see the canonical narrative for outcomes and checks.",
+        "source": "logs/codex/SESSION-2026-09-30-pixel-barrel-services.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-30-pixel-barrel-services"
+        ],
+        "content_kind": "reference_summary"
+      },
+      {
+        "id": "journal:SESSION-2026-09-30-pixel-mounting-rings:909f185b50ef27c5",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "agent:SESSION-2026-09-30-pixel-mounting-rings"
+        ],
+        "text": "The user asked to address the new PR comment. The human reviewer\n`asalzburger-review` confirmed that the earlier x–y drawing matched the request,\nthen asked whether mounting rings were needed, how many and where, with updated\nx–y and barrel |r|–z drawings:\nhttps://github.com/asalzburger/nodd/pull/29#issuecomment-5910690174.\n\nThe review record targets the PR head observed at collection; the issue comment\nitself did not specify a SHA. Approval of the requested drawing style is not\nrecorded as engineering approval, sign-off or acceptance of the geometry.",
+        "source": "logs/codex/SESSION-2026-09-30-pixel-mounting-rings.md#selected-request-and-review",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-30-pixel-mounting-rings"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-09-30-pixel-mounting-rings:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-09-30-pixel-mounting-rings",
+        "recipients": [],
+        "text": "Address PR29 mounting rings and barrel r-z drawing review — see the canonical narrative for outcomes and checks.",
+        "source": "logs/codex/SESSION-2026-09-30-pixel-mounting-rings.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-30-pixel-mounting-rings"
+        ],
+        "content_kind": "reference_summary"
+      },
+      {
+        "id": "journal:SESSION-2026-09-30-pixel-outward-support:1e11cd6cb0f0ba4f",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "agent:SESSION-2026-09-30-pixel-outward-support"
+        ],
+        "text": "The user asked for candidate A with sensors facing inward and stave material\nradially outward: an individual x–y drawing of each fully mounted barrel and a\ncombined view, motivated by tracking performance.",
+        "source": "logs/codex/SESSION-2026-09-30-pixel-outward-support.md#selected-request",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-30-pixel-outward-support"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-09-30-pixel-outward-support:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-09-30-pixel-outward-support",
+        "recipients": [],
+        "text": "Draw outward candidate A supports for all pixel barrels — see the canonical narrative for outcomes and checks.",
+        "source": "logs/codex/SESSION-2026-09-30-pixel-outward-support.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-30-pixel-outward-support"
+        ],
+        "content_kind": "reference_summary"
+      },
+      {
+        "id": "journal:SESSION-2026-09-30-pixel-support-cooling:93811c4137eee1ac",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "agent:SESSION-2026-09-30-pixel-support-cooling"
+        ],
+        "text": "User asks for at most two pixel-barrel support/cooling candidates, minimizing\nmaterial while providing stability and sufficient cooling, with technical drawings\nand literature cross-checks. The request cites PR26; inspection finds infrastructure\nbranch restoration there. The preceding human-selected baseline is PR28, and this\ninterpretation was communicated before continuing. The baseline is unchanged.\n\nThe branch starts from the PR28 merge on `study/tracker-service-corridors`; local\nand remote main still contained the older PR25 geometry. Unrelated usage-summary\nfiles were preserved. DES002 was planned in PROJECT but had no existing design\nfile; this task supplies it as DRAFT/PROTOTYPE, with no sign-off.",
+        "source": "logs/codex/SESSION-2026-09-30-pixel-support-cooling.md#selected-request-and-context",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-30-pixel-support-cooling"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-09-30-pixel-support-cooling:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-09-30-pixel-support-cooling",
+        "recipients": [],
+        "text": "Compare two pixel barrel local support and CO2 cooling concepts — see the canonical narrative for outcomes and checks.",
+        "source": "logs/codex/SESSION-2026-09-30-pixel-support-cooling.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-30-pixel-support-cooling"
+        ],
+        "content_kind": "reference_summary"
+      }
+    ],
+    "coverage": {
+      "github_captured_at": "2026-10-24T07:41:00.496Z",
+      "prompts": "Available account-matched user-visible messages, public Codex inputs and curated journal excerpts. Historical full input coverage is unknown.",
+      "recovered_visible_turns": 0,
+      "unrecovered_account_turns": [],
+      "responses": "Public responses and recorded outcomes; no private model state or hidden reasoning.",
+      "token_accounting": "References only. Never sum accounts across PRs or assign a shared turn by text length.",
+      "unknowns": "Unrecorded names, models, tools, subagent identities and response links remain unknown; empty lists are not zero activity.",
+      "remote": "Snapshot, not live synchronization; deleted/edited history and emoji reactions are not recovered.",
+      "branch_only": "Pinned branch journal snapshots are references, not imported counters. Unretained or other-device inputs remain unknown."
+    }
+  }
+}

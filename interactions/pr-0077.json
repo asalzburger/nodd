@@ -1,0 +1,229 @@
+{
+  "schema_version": 1,
+  "github": {
+    "captured_at": "2026-10-24T07:41:01.719Z",
+    "pull_request": {
+      "number": 77,
+      "url": "https://github.com/asalzburger/nodd/pull/77",
+      "title": "Infrastructure: pin software submodules and add node-bound Makefiles",
+      "head": "codex/software-submodules",
+      "head_sha": "8be610070a871fd7527bf85f68b7d87599718de0",
+      "state": "closed",
+      "body": "First step of the requested software ownership migration (ADR-008). Adds the software/source, running and analysis structure and pins ACTS before nODD-specific additions. Registers the existing nodehammer and ODD comparison sources and the user-supplied IdRes CERN GitLab fork as Git submodules. Makefiles retain the acts-mac-studio ACTS Spack ci-dependencies environment and build optional tools outside their source checkouts.\n\nIdRes stays at its original d54d0e3c465cc0308becb737b04364ce5c68ce16 revision. Its adapter accepts the externally built binary; make idres-run saves new results under build/idres rather than changing retained evidence. The authenticated fork checkout is verified; no anonymous-access or license claim is inferred.\n\nValidation: make help, make doctor (DD4hep 1.38/DDG4, Geant4 11.4.2, 12 datasets), software gitlink checks, 13 nodehammer safeguard tests, session/project/token validators and token preview build passed. IdRes built with Spack GSL 2.8; 22 runs passed with 729 complete rows each, and four adapter controls passed. Both optional source submodules stay clean. The older Spack registry fingerprints differ from the current installation; the actual environment was reverified without changing it.\n\nSoftware submodule initialization excludes Overleaf and skips ODD LFS assets. Source pinning does not assert that a new large-data download works. No detector parameters or scientific reference evidence are changed. Follow with #78, #79 and the calorimeter migration PR.\n",
+      "actor": "asalzburger",
+      "created_at": "2026-10-14T14:36:43Z"
+    },
+    "comments": [
+      {
+        "id": 5523715045,
+        "url": "https://github.com/asalzburger/nodd/pull/77#pullrequestreview-5523715045",
+        "body": "LGTM.",
+        "actor": "asalzburger-review",
+        "created_at": "2026-10-14T19:46:13Z",
+        "updated_at": null,
+        "review": "APPROVED",
+        "in_reply_to_id": null,
+        "path": null,
+        "line": null
+      }
+    ],
+    "issues": []
+  },
+  "curated": {
+    "journal_links": [],
+    "agents": [],
+    "tools": [],
+    "events": []
+  },
+  "derived": {
+    "parties": [
+      {
+        "id": "agent:SESSION-2026-10-14-idres-submodule",
+        "name": "unspecified",
+        "kind": "agent"
+      },
+      {
+        "id": "agent:SESSION-2026-10-14-software-layout",
+        "name": "unspecified",
+        "kind": "agent"
+      },
+      {
+        "id": "github:asalzburger",
+        "name": "asalzburger",
+        "kind": "account"
+      },
+      {
+        "id": "github:asalzburger-review",
+        "name": "asalzburger-review",
+        "kind": "human"
+      },
+      {
+        "id": "unknown:project-user",
+        "name": "Project user (name unrecorded)",
+        "kind": "human"
+      }
+    ],
+    "journals": [
+      {
+        "session_id": "SESSION-2026-10-14-idres-submodule",
+        "record": "logs/codex/SESSION-2026-10-14-idres-submodule.json",
+        "attribution": [
+          "recorded_branch"
+        ],
+        "snapshot": null,
+        "snapshot_sha256": null,
+        "record_sha256": "b3911e93518e0266c24c33bdcb8df54fc6cec930555395e836f2b17d7b90eb55",
+        "narrative_sha256": "0dc03364952e18d7005407da005fbcdc1740af3e55b7876b78270802fdc78502"
+      },
+      {
+        "session_id": "SESSION-2026-10-14-software-layout",
+        "record": "logs/codex/SESSION-2026-10-14-software-layout.json",
+        "attribution": [
+          "recorded_branch"
+        ],
+        "snapshot": null,
+        "snapshot_sha256": null,
+        "record_sha256": "fa1da83366515f5f7468d9573f566cf0e7cb70a2143fbcb758ffd09ce64133e9",
+        "narrative_sha256": "6c7f4549251f0aea03ea8835d43996733efa82b411e28b127bda198e67f84412"
+      }
+    ],
+    "token_accounts": [
+      {
+        "id": "SESSION-2026-10-14-idres-submodule",
+        "record": "logs/codex/SESSION-2026-10-14-idres-submodule.json",
+        "scope": "canonical_session; shared PR references are not allocations",
+        "status": "unobserved",
+        "usage_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "turns": []
+      },
+      {
+        "id": "SESSION-2026-10-14-software-layout",
+        "record": "logs/codex/SESSION-2026-10-14-software-layout.json",
+        "scope": "canonical_session; shared PR references are not allocations",
+        "status": "unobserved",
+        "usage_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "turns": []
+      }
+    ],
+    "visible_sources": [],
+    "agents": [
+      {
+        "id": "agent:SESSION-2026-10-14-idres-submodule",
+        "name": "unspecified",
+        "role": "session_agent",
+        "thread_id": null,
+        "models": [],
+        "source": "logs/codex/SESSION-2026-10-14-idres-submodule.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      },
+      {
+        "id": "agent:SESSION-2026-10-14-software-layout",
+        "name": "unspecified",
+        "role": "session_agent",
+        "thread_id": null,
+        "models": [],
+        "source": "logs/codex/SESSION-2026-10-14-software-layout.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      }
+    ],
+    "tools": {
+      "native_codex": [],
+      "codex_installed": [],
+      "instructed_software": [],
+      "unresolved": []
+    },
+    "events": [
+      {
+        "id": "github:https://github.com/asalzburger/nodd/pull/77",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "github:asalzburger",
+        "recipients": [],
+        "text": "First step of the requested software ownership migration (ADR-008). Adds the software/source, running and analysis structure and pins ACTS before nODD-specific additions. Registers the existing nodehammer and ODD comparison sources and the user-supplied IdRes CERN GitLab fork as Git submodules. Makefiles retain the acts-mac-studio ACTS Spack ci-dependencies environment and build optional tools outside their source checkouts.\n\nIdRes stays at its original d54d0e3c465cc0308becb737b04364ce5c68ce16 revision. Its adapter accepts the externally built binary; make idres-run saves new results under build/idres rather than changing retained evidence. The authenticated fork checkout is verified; no anonymous-access or license claim is inferred.\n\nValidation: make help, make doctor (DD4hep 1.38/DDG4, Geant4 11.4.2, 12 datasets), software gitlink checks, 13 nodehammer safeguard tests, session/project/token validators and token preview build passed. IdRes built with Spack GSL 2.8; 22 runs passed with 729 complete rows each, and four adapter controls passed. Both optional source submodules stay clean. The older Spack registry fingerprints differ from the current installation; the actual environment was reverified without changing it.\n\nSoftware submodule initialization excludes Overleaf and skips ODD LFS assets. Source pinning does not assert that a new large-data download works. No detector parameters or scientific reference evidence are changed. Follow with #78, #79 and the calorimeter migration PR.\n",
+        "source": "https://github.com/asalzburger/nodd/pull/77",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [],
+        "timestamp": "2026-10-14T14:36:43Z",
+        "remote_input": null
+      },
+      {
+        "id": "github:https://github.com/asalzburger/nodd/pull/77#pullrequestreview-5523715045",
+        "type": "review",
+        "direction": "reaction",
+        "actor": "github:asalzburger-review",
+        "recipients": [],
+        "text": "LGTM.",
+        "source": "https://github.com/asalzburger/nodd/pull/77#pullrequestreview-5523715045",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [],
+        "timestamp": "2026-10-14T19:46:13Z",
+        "remote_input": null
+      },
+      {
+        "id": "journal:SESSION-2026-10-14-idres-submodule:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-10-14-idres-submodule",
+        "recipients": [],
+        "text": "Infrastructure: pin the supplied IdRes fork and preserve clean source builds — see the canonical narrative for outcomes and checks.",
+        "source": "logs/codex/SESSION-2026-10-14-idres-submodule.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-14-idres-submodule"
+        ],
+        "content_kind": "reference_summary"
+      },
+      {
+        "id": "journal:SESSION-2026-10-14-software-layout:f2e883e8d79b503a",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "agent:SESSION-2026-10-14-software-layout"
+        ],
+        "text": "On 2026-10-14 the user requested node-bound Spack dependencies, Git submodules\nunder software/submodules, local ActsExamples algorithms, self-contained detector\nsources, Python steering, analysis, Makefiles and stepwise PRs preserving current\nfunctionality including acts-nodd. This record covers the entire staged migration.",
+        "source": "logs/codex/SESSION-2026-10-14-software-layout.md#selected-request-and-scope",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-14-software-layout"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-10-14-software-layout:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-10-14-software-layout",
+        "recipients": [],
+        "text": "Infrastructure: isolate dependencies, detector sources and ActsExamples jobs — see the canonical narrative for outcomes and checks.",
+        "source": "logs/codex/SESSION-2026-10-14-software-layout.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-14-software-layout"
+        ],
+        "content_kind": "reference_summary"
+      }
+    ],
+    "coverage": {
+      "github_captured_at": "2026-10-24T07:41:01.719Z",
+      "prompts": "Available account-matched user-visible messages, public Codex inputs and curated journal excerpts. Historical full input coverage is unknown.",
+      "recovered_visible_turns": 0,
+      "unrecovered_account_turns": [],
+      "responses": "Public responses and recorded outcomes; no private model state or hidden reasoning.",
+      "token_accounting": "References only. Never sum accounts across PRs or assign a shared turn by text length.",
+      "unknowns": "Unrecorded names, models, tools, subagent identities and response links remain unknown; empty lists are not zero activity.",
+      "remote": "Snapshot, not live synchronization; deleted/edited history and emoji reactions are not recovered.",
+      "branch_only": "Pinned branch journal snapshots are references, not imported counters. Unretained or other-device inputs remain unknown."
+    }
+  }
+}

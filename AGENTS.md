@@ -256,6 +256,29 @@ all active layouts; preserve dated historical fixtures as controls, clearly
 superseded. Changes to these review constraints require explicit human direction.
 No numerical study or CI pass grants detector design approval.
 
+## PR interaction and accounting synchronization
+
+Every PR, including infrastructure and historical PRs, has an individual
+`interactions/pr-NNNN.json`; optional source files belong under its own
+`interactions/pr-NNNN/` directory. Follow [the interaction workflow](interactions/README.md).
+Keep human actions (GitHub accounts other than `asalzburger`, excluding bots),
+all available user prompt inputs, public Codex remote inputs, and visible
+model/agent responses distinct. Name parties and exposed agent/subagent roles;
+retain evidence for interaction type, reply links and tool provenance. Keep
+unknown names/models/providers explicit. Do not store hidden reasoning or raw
+client rollouts.
+
+Whenever per-PR token accounting is performed, refresh and review that PR's
+public discussion and available visible-message evidence, update canonical
+session usage, then run `python3 -B tools/interactions/ledger.py sync --pr N`
+and `python3 -B tools/interactions/ledger.py validate`. Synchronize all affected
+PR records when a shared journal changes. Commit the affected interaction files
+with the accounting update. The ledger references each exact token owner; it
+must not copy/split counters or invent per-message usage. Record unavailable
+history and active-turn exclusions. CI rejects missing current-PR records and
+stale source/account fingerprints. Keep independent PR files separate to avoid
+unrelated merge conflicts.
+
 ## Node-specific software workflows
 
 Before relying on the local ACTS Spack installation for DD4hep/Geant4 builds,

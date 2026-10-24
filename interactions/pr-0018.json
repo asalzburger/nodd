@@ -1,0 +1,702 @@
+{
+  "schema_version": 1,
+  "github": {
+    "captured_at": "2026-10-24T07:41:00.234Z",
+    "pull_request": {
+      "number": 18,
+      "url": "https://github.com/asalzburger/nodd/pull/18",
+      "title": "Infrastructure: Recover local token usage and add accounting tools",
+      "head": "infrastructure/local-token-accounting",
+      "head_sha": "747d3ff11f3dbbd0189db529fc4ccac0cd9257a6",
+      "state": "closed",
+      "body": "## Change\n\nThe session journal had no token observations despite retained local client counters. Add validated `record-usage` / `import-usage` commands and an opt-in, read-only local recovery tool under ADR-004, then backfill 63 disjoint turns into 34 session records: **89,530,690 input tokens and 412,598 output tokens**.\n\nPreserve original narratives with dated corrections. The usage-only inventory verifies cumulative increases against individual request counters, removes repeated snapshots, and records attribution evidence without retaining raw conversations or private model state. Parent/child turns are matched through recorded relationships and activity. One turn shared by two task logs is counted once.\n\nThe recovery report retains 45 matched turns for 13 records on other branches and 11 unassigned closed turns. Four dashboard sessions have no local match and may be present on the user's other computer. Active or unobserved turns are not imported; no full-project coverage or automatic telemetry collection is claimed. The report includes continuation instructions and exact IDs for cross-machine deduplication.\n\nMerged current main without conflicts and included the newly available TDR publication-plan usage. No detector parameters or approval states changed.\n\n## Dashboard and validation\n\n- [x] Infrastructure change: no maintenance entries added to scientific progress tracking.\n- [x] 31 logging tests and 27 dashboard tests passed; dashboard tests ran in a clean local Git clone with the final edits, avoiding the ignored reference cache.\n- [x] Validated 40 session records and the dashboard records; final dashboard build and whitespace checks passed.\n- [x] Preserved human approval boundaries and historical evidence.\n\nEvidence and accounting limits: `logs/usage/README.md`, `logs/usage/USAGE-2026-09-24-local.json`, and `logs/codex/SESSION-2026-09-24-local-token-backfill.md`. Related: ADR-004; directly requested by the user, no separate issue.\n",
+      "actor": "asalzburger",
+      "created_at": "2026-09-24T15:46:40Z"
+    },
+    "comments": [],
+    "issues": []
+  },
+  "curated": {
+    "journal_links": [
+      "SESSION-2026-09-24-local-token-backfill",
+      "SESSION-2026-09-24-token-accounting",
+      "SESSION-2026-09-24-token-history-audit"
+    ],
+    "agents": [],
+    "tools": [],
+    "events": []
+  },
+  "derived": {
+    "parties": [
+      {
+        "id": "agent:SESSION-2026-09-24-local-token-backfill",
+        "name": "Codex",
+        "kind": "agent"
+      },
+      {
+        "id": "agent:SESSION-2026-09-24-token-accounting",
+        "name": "Codex",
+        "kind": "agent"
+      },
+      {
+        "id": "agent:SESSION-2026-09-24-token-history-audit",
+        "name": "Codex",
+        "kind": "agent"
+      },
+      {
+        "id": "codex-thread:01a0d3f2-a219-7c30-abd6-8cb3654d5017",
+        "name": "Codex thread 01a0d3f2-a219-7c30-abd6-8cb3654d5017",
+        "kind": "agent"
+      },
+      {
+        "id": "github:asalzburger",
+        "name": "asalzburger",
+        "kind": "account"
+      },
+      {
+        "id": "unknown:project-user",
+        "name": "Project user (name unrecorded)",
+        "kind": "human"
+      }
+    ],
+    "journals": [
+      {
+        "session_id": "SESSION-2026-09-24-local-token-backfill",
+        "record": "logs/codex/SESSION-2026-09-24-local-token-backfill.json",
+        "attribution": [
+          "curated_session_link"
+        ],
+        "snapshot": null,
+        "snapshot_sha256": null,
+        "record_sha256": "27d325314d8e00ad2f4ad85fccf8b3a675295c390b2fd51cdf59bba907f08e11",
+        "narrative_sha256": "232b5caabff36ea8b0878d4d5aef66343b0eae5f93bcc93779e260a27bf35db3"
+      },
+      {
+        "session_id": "SESSION-2026-09-24-token-accounting",
+        "record": "logs/codex/SESSION-2026-09-24-token-accounting.json",
+        "attribution": [
+          "curated_session_link"
+        ],
+        "snapshot": null,
+        "snapshot_sha256": null,
+        "record_sha256": "a0b8d8de3971ca6df76000c9b6d296057eeebed5ca12aba0d95217b2e11ff987",
+        "narrative_sha256": "acbc3f49ae0563b5aa86d239cebf38f97c84b25587aef5f0756fa6ee2f4c001a"
+      },
+      {
+        "session_id": "SESSION-2026-09-24-token-history-audit",
+        "record": "logs/codex/SESSION-2026-09-24-token-history-audit.json",
+        "attribution": [
+          "curated_session_link"
+        ],
+        "snapshot": null,
+        "snapshot_sha256": null,
+        "record_sha256": "ac4e50abe38a8f8f649f2c2bf8002e4e6fa4b9defa83c1d92820a99fcaa7736f",
+        "narrative_sha256": "f57092b99b7fe9fc104326480d6a2f40ba5c6b013e52ae964cc423ea08dc865b"
+      }
+    ],
+    "token_accounts": [
+      {
+        "id": "SESSION-2026-09-24-local-token-backfill",
+        "record": "logs/codex/SESSION-2026-09-24-local-token-backfill.json",
+        "scope": "canonical_session; shared PR references are not allocations",
+        "status": "unobserved",
+        "usage_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "turns": []
+      },
+      {
+        "id": "SESSION-2026-09-24-token-accounting",
+        "record": "logs/codex/SESSION-2026-09-24-token-accounting.json",
+        "scope": "canonical_session; shared PR references are not allocations",
+        "status": "observed",
+        "usage_sha256": "d2dfa7de706646d0577aa5377e70d87ae300a7ca784d030d297d66343769e76f",
+        "turns": [
+          {
+            "client_thread_id": "01a0d3f2-a219-7c30-abd6-8cb3654d5017",
+            "turn_id": "01a0d3f8-be9d-7b01-9b16-e463852dbfa9",
+            "model": null
+          }
+        ]
+      },
+      {
+        "id": "SESSION-2026-09-24-token-history-audit",
+        "record": "logs/codex/SESSION-2026-09-24-token-history-audit.json",
+        "scope": "canonical_session; shared PR references are not allocations",
+        "status": "observed",
+        "usage_sha256": "17313ee9001851fad780ec39689919b09d479aaddaaba6d91a46d784a10ad0be",
+        "turns": [
+          {
+            "client_thread_id": "01a0d3f2-a219-7c30-abd6-8cb3654d5017",
+            "turn_id": "01a0d402-c800-7571-97c0-421b305a12e4",
+            "model": null
+          }
+        ]
+      }
+    ],
+    "visible_sources": [
+      {
+        "path": "interactions/pr-0018/turns/01a0d3f2-a219-7c30-abd6-8cb3654d5017--01a0d3f8-be9d-7b01-9b16-e463852dbfa9.json",
+        "sha256": "b2f05521bbc68fa5bca401edf7547f3d72ee1c68959a65adac62c1bc23aee441"
+      },
+      {
+        "path": "interactions/pr-0018/turns/01a0d3f2-a219-7c30-abd6-8cb3654d5017--01a0d402-c800-7571-97c0-421b305a12e4.json",
+        "sha256": "5e4beb1f647b1a79df0f453870af5ca70c1c87ec1c468054cc03444b4daf51d6"
+      }
+    ],
+    "agents": [
+      {
+        "id": "agent:SESSION-2026-09-24-local-token-backfill",
+        "name": "Codex",
+        "role": "session_agent",
+        "thread_id": "01a0d3f2-a219-7c30-abd6-8cb3654d5017",
+        "models": [],
+        "source": "logs/codex/SESSION-2026-09-24-local-token-backfill.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      },
+      {
+        "id": "agent:SESSION-2026-09-24-token-accounting",
+        "name": "Codex",
+        "role": "session_agent",
+        "thread_id": "01a0d3f2-a219-7c30-abd6-8cb3654d5017",
+        "models": [],
+        "source": "logs/codex/SESSION-2026-09-24-token-accounting.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      },
+      {
+        "id": "agent:SESSION-2026-09-24-token-history-audit",
+        "name": "Codex",
+        "role": "session_agent",
+        "thread_id": "01a0d3f2-a219-7c30-abd6-8cb3654d5017",
+        "models": [],
+        "source": "logs/codex/SESSION-2026-09-24-token-history-audit.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      },
+      {
+        "id": "codex-thread:01a0d3f2-a219-7c30-abd6-8cb3654d5017",
+        "name": "Codex",
+        "role": "recorded_thread",
+        "thread_id": "01a0d3f2-a219-7c30-abd6-8cb3654d5017",
+        "models": [],
+        "source": "interactions/pr-0018/turns/01a0d3f2-a219-7c30-abd6-8cb3654d5017--01a0d3f8-be9d-7b01-9b16-e463852dbfa9.json",
+        "limitation": "Execution model is retained only when reported by the canonical account."
+      },
+      {
+        "id": "codex-thread:01a0d3f2-a219-7c30-abd6-8cb3654d5017",
+        "name": "Codex",
+        "role": "recorded_thread",
+        "thread_id": "01a0d3f2-a219-7c30-abd6-8cb3654d5017",
+        "models": [],
+        "source": "interactions/pr-0018/turns/01a0d3f2-a219-7c30-abd6-8cb3654d5017--01a0d402-c800-7571-97c0-421b305a12e4.json",
+        "limitation": "Execution model is retained only when reported by the canonical account."
+      }
+    ],
+    "tools": {
+      "native_codex": [
+        {
+          "name": "commandExecution",
+          "category": "native_codex",
+          "version": null,
+          "calls": 26,
+          "source": "interactions/pr-0018/turns/01a0d3f2-a219-7c30-abd6-8cb3654d5017--01a0d3f8-be9d-7b01-9b16-e463852dbfa9.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 2 failures reported.",
+          "token_account": "SESSION-2026-09-24-token-accounting",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "webSearch",
+          "category": "native_codex",
+          "version": null,
+          "calls": 3,
+          "source": "interactions/pr-0018/turns/01a0d3f2-a219-7c30-abd6-8cb3654d5017--01a0d3f8-be9d-7b01-9b16-e463852dbfa9.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-09-24-token-accounting",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "fileChange",
+          "category": "native_codex",
+          "version": null,
+          "calls": 4,
+          "source": "interactions/pr-0018/turns/01a0d3f2-a219-7c30-abd6-8cb3654d5017--01a0d3f8-be9d-7b01-9b16-e463852dbfa9.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-09-24-token-accounting",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "commandExecution",
+          "category": "native_codex",
+          "version": null,
+          "calls": 10,
+          "source": "interactions/pr-0018/turns/01a0d3f2-a219-7c30-abd6-8cb3654d5017--01a0d402-c800-7571-97c0-421b305a12e4.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 1 failures reported.",
+          "token_account": "SESSION-2026-09-24-token-history-audit",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        }
+      ],
+      "codex_installed": [],
+      "instructed_software": [],
+      "unresolved": []
+    },
+    "events": [
+      {
+        "id": "github:https://github.com/asalzburger/nodd/pull/18",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "github:asalzburger",
+        "recipients": [],
+        "text": "## Change\n\nThe session journal had no token observations despite retained local client counters. Add validated `record-usage` / `import-usage` commands and an opt-in, read-only local recovery tool under ADR-004, then backfill 63 disjoint turns into 34 session records: **89,530,690 input tokens and 412,598 output tokens**.\n\nPreserve original narratives with dated corrections. The usage-only inventory verifies cumulative increases against individual request counters, removes repeated snapshots, and records attribution evidence without retaining raw conversations or private model state. Parent/child turns are matched through recorded relationships and activity. One turn shared by two task logs is counted once.\n\nThe recovery report retains 45 matched turns for 13 records on other branches and 11 unassigned closed turns. Four dashboard sessions have no local match and may be present on the user's other computer. Active or unobserved turns are not imported; no full-project coverage or automatic telemetry collection is claimed. The report includes continuation instructions and exact IDs for cross-machine deduplication.\n\nMerged current main without conflicts and included the newly available TDR publication-plan usage. No detector parameters or approval states changed.\n\n## Dashboard and validation\n\n- [x] Infrastructure change: no maintenance entries added to scientific progress tracking.\n- [x] 31 logging tests and 27 dashboard tests passed; dashboard tests ran in a clean local Git clone with the final edits, avoiding the ignored reference cache.\n- [x] Validated 40 session records and the dashboard records; final dashboard build and whitespace checks passed.\n- [x] Preserved human approval boundaries and historical evidence.\n\nEvidence and accounting limits: `logs/usage/README.md`, `logs/usage/USAGE-2026-09-24-local.json`, and `logs/codex/SESSION-2026-09-24-local-token-backfill.md`. Related: ADR-004; directly requested by the user, no separate issue.\n",
+        "source": "https://github.com/asalzburger/nodd/pull/18",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [],
+        "timestamp": "2026-09-24T15:46:40Z",
+        "remote_input": null
+      },
+      {
+        "id": "journal:SESSION-2026-09-24-local-token-backfill:b73543985da1ec77",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "agent:SESSION-2026-09-24-local-token-backfill"
+        ],
+        "text": "User (exact): “I have worked from two different computers, this is one. Try to\nmatch & fill from this local machine - if you have misses, gaps, it's likely\nbecause they are on anohter local database. Do your best.”\n\n",
+        "source": "logs/codex/SESSION-2026-09-24-local-token-backfill.md#selected-conversation",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-24-local-token-backfill"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-09-24-local-token-backfill:afa05fada8211b6d",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "agent:SESSION-2026-09-24-local-token-backfill"
+        ],
+        "text": "User (exact): “Make a PR when you are ready, commit and push it (permission granted)”\n\n",
+        "source": "logs/codex/SESSION-2026-09-24-local-token-backfill.md#selected-conversation",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-24-local-token-backfill"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-09-24-local-token-backfill:85cd9fd64b8ec13a",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-09-24-local-token-backfill",
+        "recipients": [],
+        "text": "Assistant outcome: recovered usage-only evidence and matched tasks from curated\nrequests and client metadata, without copying raw conversations or private model\nstate. Current-branch logs are populated; pending branch matches and gaps remain\nexplicit.",
+        "source": "logs/codex/SESSION-2026-09-24-local-token-backfill.md#selected-conversation",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-24-local-token-backfill"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-09-24-local-token-backfill:77b791801b412539",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-09-24-local-token-backfill",
+        "recipients": [],
+        "text": "The [recovery report](../usage/README.md) and [machine-readable inventory](../usage/USAGE-2026-09-24-local.json)\nretain counter evidence, exact thread/turn IDs, accounting boundaries, attribution\nbasis and pending records. The snapshot contains 18 threads, 1,735 usage events\nand 1,675 request increases after removing 60 repeated cumulative snapshots.\nEach increase equals its last-request counters; no reset, inherited prefix,\nunexplained aggregate or outside-turn event was found.\n\nImported 63 disjoint turns into 34 existing session records: 89,530,690 input\nand 412,598 output tokens. Another 45 turns match 13 task records on cached Git\nbranches and are retained for later import. Eleven closed orientation, status or\ndiscussion turns lack a confident bounded-session match and remain unassigned.\nFour dashboard tasks have no local match; the other computer may supply them.\nOne interrupted turn has no observations. The current recovery turn is active\nand is not imported.\n\nA single client turn contains stage-B roles plus physics-role/naming steering.\nIt is counted once in stage-b-roles, with a cross-reference in physics-validation-role.\nOriginal narratives and limitations are retained, with dated accounting corrections.\nModels and missing measurements are not guessed. Exact client IDs prevent\ncross-machine double counting when overlapping history is later recovered.\n\nThe opt-in recovery tool is tested against synthetic fixtures. It reads selected\nSQLite metadata in read-only mode and decodes only token-count event lines.\nManual task matching additionally inspected user-visible requests and selected\ntool/session references; no private model state was retained. Parent/child\nactivity corroborates child-task attribution. Exact branch revisions for pending\nrecords were read from local cached Git refs; scientific branch contents were\nnot merged into this infrastructure change.",
+        "source": "logs/codex/SESSION-2026-09-24-local-token-backfill.md#decisions-and-outcomes",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-24-local-token-backfill"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-09-24-local-token-backfill:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-09-24-local-token-backfill",
+        "recipients": [],
+        "text": "Recover and reconcile local project token usage — see the canonical narrative for outcomes and checks.",
+        "source": "logs/codex/SESSION-2026-09-24-local-token-backfill.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-24-local-token-backfill"
+        ],
+        "content_kind": "reference_summary"
+      },
+      {
+        "id": "journal:SESSION-2026-09-24-token-accounting:47380dfb727feaa2",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "agent:SESSION-2026-09-24-token-accounting"
+        ],
+        "text": "User request (exact): “Can you add the token accounting into the logs ?”\nThe preceding audit found 36 session records and zero usage observations.\nThe assistant implemented explicit ingestion of exact client-reported counters.\nAn optional clarification about historical recovery was asked; no answer or\nusage export was available while implementing the ingestion workflow.",
+        "source": "logs/codex/SESSION-2026-09-24-token-accounting.md#selected-conversation",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-24-token-accounting"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-09-24-token-accounting:8a5f225a5d4fea51",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-09-24-token-accounting",
+        "recipients": [],
+        "text": "- Added `record-usage` for a single disjoint client turn and `import-usage` for a\n  curated JSON array, with dry-run previews and aggregate observed token output.\n- Preserved the version-1 schema and distinction between unknown and zero.\n  Cached input and reasoning output remain subsets of input/output.\n- Exact replays are idempotent. Cross-session attribution and conflicting\n  counters/evidence are rejected; invalid batches cannot partially update a log.\n  Writes use an exclusive importer lock and atomic replacement.\n- Updated the logging guide, narrative template, repository instructions and\n  ADR-004 implementation history. Usage summaries expose sessions without usage.\n- No current or historical counters were available for ingestion. No raw client\n  archives, private model state, credentials or transcripts were collected.\n  Client protocol inspection did not establish a usable per-turn historical\n  source. No unattended collector or automatic client hookup is claimed.\n- This is infrastructure maintenance, excluded from scientific progress tracking.\n  No issue was created and no human design sign-off was recorded.",
+        "source": "logs/codex/SESSION-2026-09-24-token-accounting.md#decisions-and-outcomes",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-24-token-accounting"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-09-24-token-accounting:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-09-24-token-accounting",
+        "recipients": [],
+        "text": "Add token usage ingestion to project logs — see the canonical narrative for outcomes and checks.",
+        "source": "logs/codex/SESSION-2026-09-24-token-accounting.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-24-token-accounting"
+        ],
+        "content_kind": "reference_summary"
+      },
+      {
+        "id": "journal:SESSION-2026-09-24-token-history-audit:bd4eb4b6e96ce34d",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "agent:SESSION-2026-09-24-token-history-audit"
+        ],
+        "text": "User request (exact): “Is there any way to get the token usage filled for the\nsessions we missed? Is there a record ?”\n",
+        "source": "logs/codex/SESSION-2026-09-24-token-history-audit.md#selected-conversation",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-24-token-history-audit"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-09-24-token-history-audit:9545207a55f49d2f",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-09-24-token-history-audit",
+        "recipients": [],
+        "text": "Assistant finding: the local client does retain usage counters for project threads,\nalthough the repository's curated session logs have no imported counters.",
+        "source": "logs/codex/SESSION-2026-09-24-token-history-audit.md#selected-conversation",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-24-token-history-audit"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-09-24-token-history-audit:ce33b5ead59d6888",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-09-24-token-history-audit",
+        "recipients": [],
+        "text": "Inspected database schemas and selected thread, turn and usage metadata only.\nLocal `state_5.sqlite` identifies project threads by working directory; retained\nsession event files contain `token_count` events. Only matching token-count event\nobjects were decoded for counter-field inspection. Conversation content and\nprivate model state were not displayed or retained.\n\nAt the observed snapshot:\n\n- 18 project threads had retained token-count records; 15 had recorded parent\n  edges, identifying child threads.\n- 1,724 usage events contained cumulative and last-request input, output, cached\n  input, cache-write input, reasoning output and total token fields.\n- Thread creation dates ranged from 2026-09-15 through 2026-09-24.\n- Persisted metadata contained 112 completed turns, 7 interrupted turns and\n  1 in-progress turn.\n- None of the 37 curated project logs inspected had a client thread ID.\n\nThis establishes a historical recovery source, not a verified project total.\nEvent snapshots cannot simply be added. Recovering disjoint turn usage requires\nchecking cumulative boundaries, repeats, resets, forks, parent/child accounting,\nand mapping turns to the repository's bounded task records. Threads from other\nworking directories, deleted history or other machines may be absent.\n\nThe previous answer concerned missing counters in the repository logs and lack\nof a supplied export. This audit establishes that local retained usage metadata\nis available and can support a dedicated backfill investigation.",
+        "source": "logs/codex/SESSION-2026-09-24-token-history-audit.md#decisions-and-outcomes",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-24-token-history-audit"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-09-24-token-history-audit:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-09-24-token-history-audit",
+        "recipients": [],
+        "text": "Inspect retained project token usage metadata — see the canonical narrative for outcomes and checks.",
+        "source": "logs/codex/SESSION-2026-09-24-token-history-audit.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-24-token-history-audit"
+        ],
+        "content_kind": "reference_summary"
+      },
+      {
+        "id": "codex-message:01a0d3f8-becb-7aa0-ae16-fde453304414",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "codex-thread:01a0d3f2-a219-7c30-abd6-8cb3654d5017"
+        ],
+        "text": "Can you add the token accounting into the logs ?",
+        "source": "interactions/pr-0018/turns/01a0d3f2-a219-7c30-abd6-8cb3654d5017--01a0d3f8-be9d-7b01-9b16-e463852dbfa9.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-24-token-accounting"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0b72af1463c322a8016ab53da3498887d2853a10f0b01e49dc",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a0d3f2-a219-7c30-abd6-8cb3654d5017",
+        "recipients": [
+          "unknown:project-user"
+        ],
+        "text": "I’ll add a way to import token usage into the project logs and check which counters are available for this session. I’ll use the openai-docs skill to verify the supported source and keep missing historical counts explicit.",
+        "source": "interactions/pr-0018/turns/01a0d3f2-a219-7c30-abd6-8cb3654d5017--01a0d3f8-be9d-7b01-9b16-e463852dbfa9.json",
+        "in_reply_to": "codex-message:01a0d3f8-becb-7aa0-ae16-fde453304414",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-24-token-accounting"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:call_igLW3iMXO0k22a1V3FVEpM0a",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a0d3f2-a219-7c30-abd6-8cb3654d5017",
+        "recipients": [
+          "unknown:project-user"
+        ],
+        "text": "Do you want accounting for future sessions only, or also an attempt to recover historical usage from a client-provided usage export? The repository currently has no token observations.\n- Future sessions and historical recovery where available\n- Future sessions only",
+        "source": "interactions/pr-0018/turns/01a0d3f2-a219-7c30-abd6-8cb3654d5017--01a0d3f8-be9d-7b01-9b16-e463852dbfa9.json",
+        "in_reply_to": "codex-message:01a0d3f8-becb-7aa0-ae16-fde453304414",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-24-token-accounting"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0b72af1463c322a8016ab53dd6895887d28ac215d8f5ba43ab",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a0d3f2-a219-7c30-abd6-8cb3654d5017",
+        "recipients": [
+          "unknown:project-user"
+        ],
+        "text": "The log schema already has the right fields; the missing piece is a reliable import path. I’m checking the client’s usage format so the importer can preserve source evidence and avoid counting cumulative totals twice.",
+        "source": "interactions/pr-0018/turns/01a0d3f2-a219-7c30-abd6-8cb3654d5017--01a0d3f8-be9d-7b01-9b16-e463852dbfa9.json",
+        "in_reply_to": "codex-message:01a0d3f8-becb-7aa0-ae16-fde453304414",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-24-token-accounting"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0b72af1463c322a8016ab53e53059087d2b1393fac335c1f9e",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a0d3f2-a219-7c30-abd6-8cb3654d5017",
+        "recipients": [
+          "unknown:project-user"
+        ],
+        "text": "The import commands are implemented, and all 21 logging tests pass. They reject inconsistent totals and duplicate attribution across sessions; importing the same entry again leaves totals unchanged.\n\nThis session hasn’t exposed exact token counters through the available tools. The logs will therefore still need a client-provided usage export to acquire real counts. I’m documenting that requirement in the ongoing logging instructions.",
+        "source": "interactions/pr-0018/turns/01a0d3f2-a219-7c30-abd6-8cb3654d5017--01a0d3f8-be9d-7b01-9b16-e463852dbfa9.json",
+        "in_reply_to": "codex-message:01a0d3f8-becb-7aa0-ae16-fde453304414",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-24-token-accounting"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0b72af1463c322a8016ab53ecb865c87d28901596e4e371a7c",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a0d3f2-a219-7c30-abd6-8cb3654d5017",
+        "recipients": [
+          "unknown:project-user"
+        ],
+        "text": "The workflow and session template now require recording available input/output counts and reporting missing coverage. Historical counts remain unknown. The dashboard checks are still running; I’m finishing the session record and final validation.",
+        "source": "interactions/pr-0018/turns/01a0d3f2-a219-7c30-abd6-8cb3654d5017--01a0d3f8-be9d-7b01-9b16-e463852dbfa9.json",
+        "in_reply_to": "codex-message:01a0d3f8-becb-7aa0-ae16-fde453304414",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-24-token-accounting"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0b72af1463c322a8016ab53ee4df7087d2bd8786f831bd11b1",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a0d3f2-a219-7c30-abd6-8cb3654d5017",
+        "recipients": [
+          "unknown:project-user"
+        ],
+        "text": "The dashboard test setup was copying the large ignored reference cache, so I stopped that run. I’ll rerun the unchanged tests in a temporary Git checkout containing the tracked files and this change.",
+        "source": "interactions/pr-0018/turns/01a0d3f2-a219-7c30-abd6-8cb3654d5017--01a0d3f8-be9d-7b01-9b16-e463852dbfa9.json",
+        "in_reply_to": "codex-message:01a0d3f8-becb-7aa0-ae16-fde453304414",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-24-token-accounting"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0b72af1463c322a8016ab53f5498ec87d2bedd65a7a6778fc5",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a0d3f2-a219-7c30-abd6-8cb3654d5017",
+        "recipients": [
+          "unknown:project-user"
+        ],
+        "text": "Validation is complete: 22 logging tests and 26 dashboard tests passed, and the dashboard built successfully. I corrected a missing metadata field in the new session record; the final log and dashboard validators both pass. Real token totals remain unknown until client usage data is supplied.",
+        "source": "interactions/pr-0018/turns/01a0d3f2-a219-7c30-abd6-8cb3654d5017--01a0d3f8-be9d-7b01-9b16-e463852dbfa9.json",
+        "in_reply_to": "codex-message:01a0d3f8-becb-7aa0-ae16-fde453304414",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-24-token-accounting"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0b72af1463c322a8016ab53f5ff48887d296d9b077c9906893",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a0d3f2-a219-7c30-abd6-8cb3654d5017",
+        "recipients": [
+          "unknown:project-user"
+        ],
+        "text": "Added token-accounting ingestion:\n\n- `record-usage` records one turn’s exact counters.\n- `import-usage` imports a batch, with duplicate protection and validation.\n- Updated the [logging workflow]([redacted] session template, repository instructions, and ADR-004.\n\n**Automatic collection is not connected.** No real counters were available, so historical totals remain unknown. A client usage export is still needed to populate them.\n\nValidation: **22 logging tests and 26 dashboard tests passed**, plus both validators and the dashboard build.\n\nChanges are local and uncommitted.",
+        "source": "interactions/pr-0018/turns/01a0d3f2-a219-7c30-abd6-8cb3654d5017--01a0d3f8-be9d-7b01-9b16-e463852dbfa9.json",
+        "in_reply_to": "codex-message:01a0d3f8-becb-7aa0-ae16-fde453304414",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-24-token-accounting"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:01a0d402-c830-7fa0-b2e1-b794388e91c3",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "codex-thread:01a0d3f2-a219-7c30-abd6-8cb3654d5017"
+        ],
+        "text": "Is there any way to get the token usage filled for the sessions we missed? Is there a record ?",
+        "source": "interactions/pr-0018/turns/01a0d3f2-a219-7c30-abd6-8cb3654d5017--01a0d402-c800-7571-97c0-421b305a12e4.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-24-token-history-audit"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0b72af1463c322a8016ab540358a0087d2889c1386c1777777",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a0d3f2-a219-7c30-abd6-8cb3654d5017",
+        "recipients": [
+          "unknown:project-user"
+        ],
+        "text": "I’ll check whether the local client retains token counters for past sessions and whether they can be matched to the project logs. I’ll inspect usage metadata only, without reading conversation content.",
+        "source": "interactions/pr-0018/turns/01a0d3f2-a219-7c30-abd6-8cb3654d5017--01a0d402-c800-7571-97c0-421b305a12e4.json",
+        "in_reply_to": "codex-message:01a0d402-c830-7fa0-b2e1-b794388e91c3",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-24-token-history-audit"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0b72af1463c322a8016ab5408981c087d2a92c623c24e17365",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a0d3f2-a219-7c30-abd6-8cb3654d5017",
+        "recipients": [
+          "unknown:project-user"
+        ],
+        "text": "Yes—I found retained token records locally: 18 threads associated with this repository have 1,724 usage events, including input, output, cached-input, and reasoning counters. They cover threads created from September 15–24.\n\nThat makes historical recovery possible. The remaining work is to match turns to the project’s task logs and avoid double counting repeated or cumulative counters.",
+        "source": "interactions/pr-0018/turns/01a0d3f2-a219-7c30-abd6-8cb3654d5017--01a0d402-c800-7571-97c0-421b305a12e4.json",
+        "in_reply_to": "codex-message:01a0d402-c830-7fa0-b2e1-b794388e91c3",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-24-token-history-audit"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0b72af1463c322a8016ab540db551c87d28939ef0e45a86e20",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a0d3f2-a219-7c30-abd6-8cb3654d5017",
+        "recipients": [
+          "unknown:project-user"
+        ],
+        "text": "**Yes—there are local records, and historical recovery looks possible.** My earlier answer established that the repository logs lacked counts; I’ve now checked the client’s retained usage metadata.\n\nI found:\n\n- **18 project threads**, including 15 child/subagent threads.\n- **1,724 token-usage events**, covering threads created September 15–24.\n- Input, output, cached-input, reasoning and total-token counters.\n\nThese records are in Codex’s local session storage, indexed by `~/.codex/state_5.sqlite`.\n\nBackfilling needs careful reconciliation: events contain cumulative snapshots, and the project logs lack client thread IDs. We must establish disjoint turn counts and match them to project tasks before importing. Simply summing events would overcount.\n\nI recorded the discovery in a new audit session; both validators passed. **No historical counts have been imported yet.**",
+        "source": "interactions/pr-0018/turns/01a0d3f2-a219-7c30-abd6-8cb3654d5017--01a0d402-c800-7571-97c0-421b305a12e4.json",
+        "in_reply_to": "codex-message:01a0d402-c830-7fa0-b2e1-b794388e91c3",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-24-token-history-audit"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      }
+    ],
+    "coverage": {
+      "github_captured_at": "2026-10-24T07:41:00.234Z",
+      "prompts": "Available account-matched user-visible messages, public Codex inputs and curated journal excerpts. Historical full input coverage is unknown.",
+      "recovered_visible_turns": 2,
+      "unrecovered_account_turns": [],
+      "responses": "Public responses and recorded outcomes; no private model state or hidden reasoning.",
+      "token_accounting": "References only. Never sum accounts across PRs or assign a shared turn by text length.",
+      "unknowns": "Unrecorded names, models, tools, subagent identities and response links remain unknown; empty lists are not zero activity.",
+      "remote": "Snapshot, not live synchronization; deleted/edited history and emoji reactions are not recovered.",
+      "branch_only": "Pinned branch journal snapshots are references, not imported counters. Unretained or other-device inputs remain unknown."
+    }
+  }
+}
