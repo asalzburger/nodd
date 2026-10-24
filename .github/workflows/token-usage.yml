@@ -46,7 +46,9 @@ jobs:
         run: python3 -B -m unittest discover -s tools/token_usage -p 'test_*.py' -v
       - name: Test chart interaction
         run: node tools/token_usage/test_app.js
-      - name: Build token dashboard
+      - name: Test PR conversation navigation
+        run: node tools/token_usage/test_interactions.js
+      - name: Build resource ledger
         run: python3 -B tools/token_usage/build.py build --output _site/pages
       - uses: actions/upload-artifact@v7
         with:

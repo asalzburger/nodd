@@ -8,6 +8,9 @@ and [documentation index](docs/README.md).
 The [PR interaction ledger](interactions/README.md) records available human
 inputs, agent responses, parties, roles, tools and canonical token-account
 references in separate files for each PR.
+The [GitHub Pages resource ledger](https://asalzburger.github.io/nodd/) provides
+token usage and an Interactions tab for browsing PR conversations. See the
+[site guide](tools/token_usage/README.md) for builds and coverage boundaries.
 
 ## Current detector layouts
 
