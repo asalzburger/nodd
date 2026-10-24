@@ -1,0 +1,287 @@
+{
+  "schema_version": 1,
+  "github": {
+    "captured_at": "2026-10-24T07:41:01.894Z",
+    "pull_request": {
+      "number": 84,
+      "url": "https://github.com/asalzburger/nodd/pull/84",
+      "title": "Calorimeter: design a barrel HCAL around the common readout module",
+      "head": "codex/hcal-barrel-design",
+      "head_sha": "0e8530d56d171f38c9d53d3c60c8b48803680bbd",
+      "state": "open",
+      "body": "## Executive summary\n\nDesign a barrel HCAL around the unchanged DES036 common readout boards/paired carrier. The first complete analytical design has 16 sectors, 36 sampling layers and 33 axial rows, with explicit support/material ownership, empty collection strips, stable IDs and matched-count seam controls.\n\nThe common hardware requires a **62.1 mm depth amendment**: 1,558 mm including cover, outer apothem 4,158 mm, rather than compressing the module or silently losing steel. The partial local ledger gives 3,953,664 tiles, 1,770.862 t and 326.143 kW nominal heat. Fixed sector cracks and the partially sampled end transition remain visible; review these and edge-carrier/service alternatives before detector acceptance.\n\n## Change\n\n- Add [DES037](https://github.com/asalzburger/nodd/blob/9141a49cddc554adbf72187aed0dc3ef8ca2d233/docs/design/DES-037-hcal-barrel-common-module.md), centralized parameters, a deterministic full carrier layout/material/service ledger, physical core-plane masks and dimensioned design/R–Z drawings.\n- Reuse source-checked DES036 hardware without its removable reference absorber. Count each sector steel plate, rail, flange and cover once.\n- Retain maximal centred column counts in selected/aligned controls. Bound actual tangential phases explicitly to fit; expose the adverse +130 mm midplane-gap control.\n- Record all 156 powered internal channels per 72-tile carrier, current stresses and separate DAQ/trigger budgets. The 1 MHz DAQ stress remains overloaded; collector reservations are unconnected and external routing/material remain excluded.\n\nExecuted evidence at `c83e6f4eaebdaa354217b79b963df15c6c3c0a96`: **15 regional controls** pass. Independent PhysVal reran them and checked **3,105 global centre/edge probes with zero discrepancies**; SysArch assessed the physical interfaces. [Validation and limitations](https://github.com/asalzburger/nodd/blob/9141a49cddc554adbf72187aed0dc3ef8ca2d233/docs/validation/DES-037/results.md).\n\nThe masks sample actual core rectangles at local z=2 mm; steel-only path screening is analytical. They are not full native assembly/finite-solid navigation, optical/shower response, containment, radiation/EOL or thermal/structural qualification. At eta0 the selected 720-phi screen still has 4.44% zero-plane probes; this is an exposed design gap, not an acceptance result.\n\n## Dashboard and validation\n\n- [x] Updated scientific tracking, design/evidence links and curated session records.\n- [x] Ran regional controls, 44 unchanged common-module controls and 14 historical calorimeter regressions; source/config/output/figure/link audits and project/session/token validators pass.\n- [x] Preserved human approval boundaries and exact independent review snapshots. Designs remain DRAFT/PROTOTYPE.\n- [x] Added the regional proposal to the current candidate page and provided a separate R–Z overlay. Selected LAYOUT001 geometry/inputs remain unchanged pending review; its existing SVG still reproduces exactly.\n\nThis PR depends on common-module **#81** and targets `codex/hcal-realism-assessment`. The other region is a sibling PR, not included in this diff. Retarget to `main` after #81 is merged. No production integration or engineering acceptance is proposed here.\n\nCompanion regional design: **[PR #85](https://github.com/asalzburger/nodd/pull/85)**.\n",
+      "actor": "asalzburger",
+      "created_at": "2026-10-15T13:45:33Z"
+    },
+    "comments": [],
+    "issues": []
+  },
+  "curated": {
+    "journal_links": [],
+    "agents": [],
+    "tools": [],
+    "events": []
+  },
+  "derived": {
+    "parties": [
+      {
+        "id": "agent:SESSION-2026-10-15-hcal-barrel-design",
+        "name": "Codex",
+        "kind": "agent"
+      },
+      {
+        "id": "github:asalzburger",
+        "name": "asalzburger",
+        "kind": "account"
+      },
+      {
+        "id": "unknown:project-user",
+        "name": "Project user (name unrecorded)",
+        "kind": "human"
+      }
+    ],
+    "journals": [
+      {
+        "session_id": "SESSION-2026-10-15-hcal-barrel-design",
+        "record": "https://github.com/asalzburger/nodd/blob/0e8530d56d171f38c9d53d3c60c8b48803680bbd/logs/codex/SESSION-2026-10-15-hcal-barrel-design.json",
+        "attribution": [
+          "pinned_branch_journal_snapshot"
+        ],
+        "snapshot": "interactions/pr-0084/journals/SESSION-2026-10-15-hcal-barrel-design.json",
+        "snapshot_sha256": "e600028b30210371635684076df989c2fde486a39272e9ec150effb32f386f3c",
+        "record_sha256": "1c29a1171f9a85e7b288d5a9d2fb77a9a65124f3effa444a839f64bac7b6fb71",
+        "narrative_sha256": "d3af98c1fb9a689c2ecf01178ef3a3e86c666d51573dc8f888c4123687bcb4be"
+      }
+    ],
+    "token_accounts": [
+      {
+        "id": "SESSION-2026-10-15-hcal-barrel-design",
+        "record": "https://github.com/asalzburger/nodd/blob/0e8530d56d171f38c9d53d3c60c8b48803680bbd/logs/codex/SESSION-2026-10-15-hcal-barrel-design.json",
+        "scope": "pinned_branch_reference; not imported into main accounting",
+        "status": "unobserved",
+        "usage_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "turns": []
+      }
+    ],
+    "visible_sources": [],
+    "agents": [
+      {
+        "id": "agent:SESSION-2026-10-15-hcal-barrel-design",
+        "name": "Codex",
+        "role": "session_agent",
+        "thread_id": null,
+        "models": [],
+        "source": "https://github.com/asalzburger/nodd/blob/0e8530d56d171f38c9d53d3c60c8b48803680bbd/logs/codex/SESSION-2026-10-15-hcal-barrel-design.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      },
+      {
+        "id": "agent:SESSION-2026-10-15-hcal-barrel-design:CaloTech:d7e0ed05",
+        "name": "CaloTech",
+        "role": "reported_specialist_assignment",
+        "thread_id": null,
+        "models": [],
+        "source": "https://github.com/asalzburger/nodd/blob/0e8530d56d171f38c9d53d3c60c8b48803680bbd/logs/codex/SESSION-2026-10-15-hcal-barrel-design.md#bounded-specialist-assignment",
+        "limitation": "Role contract is recorded; native profile loading and process identity are not inferred."
+      },
+      {
+        "id": "agent:SESSION-2026-10-15-hcal-barrel-design:SysArch:d7e0ed05",
+        "name": "SysArch",
+        "role": "reported_specialist_assignment",
+        "thread_id": null,
+        "models": [],
+        "source": "https://github.com/asalzburger/nodd/blob/0e8530d56d171f38c9d53d3c60c8b48803680bbd/logs/codex/SESSION-2026-10-15-hcal-barrel-design.md#bounded-specialist-assignment",
+        "limitation": "Role contract is recorded; native profile loading and process identity are not inferred."
+      },
+      {
+        "id": "agent:SESSION-2026-10-15-hcal-barrel-design:PhysVal:a781b2ee",
+        "name": "PhysVal",
+        "role": "reported_specialist_assignment",
+        "thread_id": null,
+        "models": [],
+        "source": "https://github.com/asalzburger/nodd/blob/0e8530d56d171f38c9d53d3c60c8b48803680bbd/logs/codex/SESSION-2026-10-15-hcal-barrel-design.md#exact-implementation-review-assignment",
+        "limitation": "Role contract is recorded; native profile loading and process identity are not inferred."
+      },
+      {
+        "id": "agent:SESSION-2026-10-15-hcal-barrel-design:SysArch:a781b2ee",
+        "name": "SysArch",
+        "role": "reported_specialist_assignment",
+        "thread_id": null,
+        "models": [],
+        "source": "https://github.com/asalzburger/nodd/blob/0e8530d56d171f38c9d53d3c60c8b48803680bbd/logs/codex/SESSION-2026-10-15-hcal-barrel-design.md#exact-implementation-review-assignment",
+        "limitation": "Role contract is recorded; native profile loading and process identity are not inferred."
+      }
+    ],
+    "tools": {
+      "native_codex": [],
+      "codex_installed": [],
+      "instructed_software": [],
+      "unresolved": [
+        {
+          "name": "Codex attach_artifact",
+          "category": "unresolved",
+          "version": null,
+          "calls": 1,
+          "source": "https://github.com/asalzburger/nodd/blob/0e8530d56d171f38c9d53d3c60c8b48803680bbd/logs/codex/SESSION-2026-10-15-hcal-barrel-design.json",
+          "evidence": "App tool confirmed attached pull_request https://github.com/asalzburger/nodd/pull/84 tothis task. No shell exitcode inferred.",
+          "token_account": "SESSION-2026-10-15-hcal-barrel-design",
+          "provenance": "Operation recorded; installation provenance needs explicit evidence."
+        }
+      ]
+    },
+    "events": [
+      {
+        "id": "github:https://github.com/asalzburger/nodd/pull/84",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "github:asalzburger",
+        "recipients": [],
+        "text": "## Executive summary\n\nDesign a barrel HCAL around the unchanged DES036 common readout boards/paired carrier. The first complete analytical design has 16 sectors, 36 sampling layers and 33 axial rows, with explicit support/material ownership, empty collection strips, stable IDs and matched-count seam controls.\n\nThe common hardware requires a **62.1 mm depth amendment**: 1,558 mm including cover, outer apothem 4,158 mm, rather than compressing the module or silently losing steel. The partial local ledger gives 3,953,664 tiles, 1,770.862 t and 326.143 kW nominal heat. Fixed sector cracks and the partially sampled end transition remain visible; review these and edge-carrier/service alternatives before detector acceptance.\n\n## Change\n\n- Add [DES037](https://github.com/asalzburger/nodd/blob/9141a49cddc554adbf72187aed0dc3ef8ca2d233/docs/design/DES-037-hcal-barrel-common-module.md), centralized parameters, a deterministic full carrier layout/material/service ledger, physical core-plane masks and dimensioned design/R–Z drawings.\n- Reuse source-checked DES036 hardware without its removable reference absorber. Count each sector steel plate, rail, flange and cover once.\n- Retain maximal centred column counts in selected/aligned controls. Bound actual tangential phases explicitly to fit; expose the adverse +130 mm midplane-gap control.\n- Record all 156 powered internal channels per 72-tile carrier, current stresses and separate DAQ/trigger budgets. The 1 MHz DAQ stress remains overloaded; collector reservations are unconnected and external routing/material remain excluded.\n\nExecuted evidence at `c83e6f4eaebdaa354217b79b963df15c6c3c0a96`: **15 regional controls** pass. Independent PhysVal reran them and checked **3,105 global centre/edge probes with zero discrepancies**; SysArch assessed the physical interfaces. [Validation and limitations](https://github.com/asalzburger/nodd/blob/9141a49cddc554adbf72187aed0dc3ef8ca2d233/docs/validation/DES-037/results.md).\n\nThe masks sample actual core rectangles at local z=2 mm; steel-only path screening is analytical. They are not full native assembly/finite-solid navigation, optical/shower response, containment, radiation/EOL or thermal/structural qualification. At eta0 the selected 720-phi screen still has 4.44% zero-plane probes; this is an exposed design gap, not an acceptance result.\n\n## Dashboard and validation\n\n- [x] Updated scientific tracking, design/evidence links and curated session records.\n- [x] Ran regional controls, 44 unchanged common-module controls and 14 historical calorimeter regressions; source/config/output/figure/link audits and project/session/token validators pass.\n- [x] Preserved human approval boundaries and exact independent review snapshots. Designs remain DRAFT/PROTOTYPE.\n- [x] Added the regional proposal to the current candidate page and provided a separate R–Z overlay. Selected LAYOUT001 geometry/inputs remain unchanged pending review; its existing SVG still reproduces exactly.\n\nThis PR depends on common-module **#81** and targets `codex/hcal-realism-assessment`. The other region is a sibling PR, not included in this diff. Retarget to `main` after #81 is merged. No production integration or engineering acceptance is proposed here.\n\nCompanion regional design: **[PR #85](https://github.com/asalzburger/nodd/pull/85)**.\n",
+        "source": "https://github.com/asalzburger/nodd/pull/84",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [],
+        "timestamp": "2026-10-15T13:45:33Z",
+        "remote_input": null
+      },
+      {
+        "id": "journal:SESSION-2026-10-15-hcal-barrel-design:d3ceb85e284b68b8",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "agent:SESSION-2026-10-15-hcal-barrel-design"
+        ],
+        "text": "Exact user direction: “Ok, let's assume this is the common readout module - can\nyou go on and design a Barrel and Endcap HCAL accordingly (separate PRs) please”.\nThis task develops the barrel proposal; the companion region has a separate\nworktree/PR and journal. Both start from clean common-module head\n`abd95bdc64b9d7971561d659bf953e71de4e7e99`, PR81. The human selected a working\nbasis at14TeV, not engineering sign-off. ParentPR81 remained OPEN/draft with\nhosted build and token-site SUCCESS when checked. Proposals are sibling branches\nagainst its head branch, so neither regional diff includes the other.\n\nRead AGENTS/PROJECT and applicable design/ADR/layout/role instructions. Applied\nnodd-coordinate, nodd-design-evidence and nodd-review-validation. Explicit\nrole-prompt fallback was used, with complete prepared prompts; native profile\nloading was not verified. No production detector changes or dependency installs.\nExact start/client identity/per-turn usage were not exposed.",
+        "source": "https://github.com/asalzburger/nodd/blob/0e8530d56d171f38c9d53d3c60c8b48803680bbd/logs/codex/SESSION-2026-10-15-hcal-barrel-design.md#selected-conversation-and-scope",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-15-hcal-barrel-design"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-10-15-hcal-barrel-design:ceb5664bb57c7d54",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-10-15-hcal-barrel-design",
+        "recipients": [],
+        "text": "Draft DES037 before implementation. Preserve36tile/184mmboards and the\n380x240x12mm pairedcarrier unchanged. CaloTech and SysArch bounded source and\nphysical-interface inputs. Recomputing36*(30steel+12carrier+1installation)+10cover\nrevealed a1558mm total,62.1mm larger thanDES034. The proposal exposes that\namendment rather than compressing hardware or secretly losing absorber/layers.\nBarrelouterapothem4158mm andendcapouter4148/backabsz6441.2mm are proposals;\nfrontplanes,ECALbackbone/rearegress andFCalreservation stayfixed.\n\nThe sharedcarrier's projectedcoreceiling is69.6387%. Counts, completefiducial\nfaceareas and physicalcore-plane masks retain gaps. 54,912 carriers /3,953,664tiles /1,770.862t /326.143kW is a partial,\nconditional model ledger, not a bill ofmaterials or plant certification.\nThe1MHz DAQ overload staysvisible. Regionalradiation/occupancy/EOL,rate,\noptical/shower,thermal/hydraulic andstructuralqualification remainopen.\n\nMain implements the barrel analytical model. SoftEng owns the four endcap\nmodel/config/test/guide files, after DES038 is committed. Its follow-up makes\nfront origins explicit, checks retained common-module source identities and\nclarifies the angular-boundary filter. No common-module hardware is edited.\nMain adds regional drawings, reports, CI, layout proposal links and records.\n\nPhysVal design review found the barrel's requested shifts could change column\ncount. The implementation retains maximal centred counts across controls and\nexplicitly bounds actual shifts to remaining edge margin minus1mm. PhysVal\nreview at the fixed code snapshots found no new scoped correctness/claim defect.\nIt ran15barrel and19endcap controls, plus3,105 independent global centre/near-edge\nprobes perregion, withzero lookup discrepancies. SysArch found no blocking\nphysical-interface defect in the bounded analytical scope. It retained the\nendcap negative-y connector-facing/outwardstrip caveat; no connected network is\nclaimed. Reviewer scopes/exactrevisions are in the regional review reports.",
+        "source": "https://github.com/asalzburger/nodd/blob/0e8530d56d171f38c9d53d3c60c8b48803680bbd/logs/codex/SESSION-2026-10-15-hcal-barrel-design.md#design-decisions-and-outcomes",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [
+          "SysArch",
+          "CaloTech",
+          "SoftEng",
+          "PhysVal"
+        ],
+        "token_accounts": [
+          "SESSION-2026-10-15-hcal-barrel-design"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-10-15-hcal-barrel-design:06270387c3667de5",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "agent:SESSION-2026-10-15-hcal-barrel-design",
+        "recipients": [],
+        "text": "Explicit role-prompt fallback; native profile loading unverified.\n\n```json\n{\n  \"id\": \"HCALASSEMBLY-20261015-CaloTech\",\n  \"role\": \"CaloTech\",\n  \"input_revision\": \"abd95bdc64b9d7971561d659bf953e71de4e7e99\",\n  \"inputs\": [\n    \"docs/design/DES-036-hcal-common-readout-module.md\",\n    \"docs/design/DES-035-hcal-realism-and-prototype-plan.md\",\n    \"docs/design/DES-029-endcap-coverage-repair.md\",\n    \"docs/design/DES-034-siw-service-envelopes.md\",\n    \"docs/layouts/LAYOUT-001.json\",\n    \"tools/hcal_readout/config.json\"\n  ],\n  \"mode\": \"read-only\",\n  \"writable_paths\": [],\n  \"task\": \"User now takes DES036 common module as working basis and requests separate barrel and endcap HCAL design PRs at14TeV. Read-only propose concrete endcap architecture using unchanged36tile/184mm board and preferably existing380x240x12 paired carrier; distinguish module standardization from carrier redesign. Keep DES034 envelope frontabsz4883.2,back6379.1,innerapothem300,outerapothem4085.9 and existing FCal/RZ services constraints unless explicit amendment. Compare full-face Cartesian/quadrant and16narrowsector packing; quantify inner deadregion and coverage vs eta/phi with real boards/carriers, explain why standard pairedcarrier may not fill inneraperture. Recommend 36layers/30mmsteel sampling closure with12mmcarrier and installation gaps, support/ownership/services and credible counts/IDs. Avoid inventing custom edgeboards/tiles or blanket coverage claims; no EOL/rate/physics certification. Use existing source references or inspect actual primary sources if needed. Return a concrete prioritized design and mathematical packing/clearance conditions within about8minutes. No writes, runtime activation, delegation or remote publication.\",\n  \"deliverable\": \"Endcap packing/stack/service design input, alternatives, explicit parameters and quantitative diagnostic requirements.\",\n  \"completion\": \"Return exact examined revision, factual locators vs choices/inferences, recommendation and unresolved innercoverage/radiation/service concerns; no engineering signoff.\"\n}\n```",
+        "source": "https://github.com/asalzburger/nodd/blob/0e8530d56d171f38c9d53d3c60c8b48803680bbd/logs/codex/SESSION-2026-10-15-hcal-barrel-design.md#bounded-specialist-assignment",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [
+          "CaloTech"
+        ],
+        "token_accounts": [
+          "SESSION-2026-10-15-hcal-barrel-design"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-10-15-hcal-barrel-design:44070b79c3487876",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "agent:SESSION-2026-10-15-hcal-barrel-design",
+        "recipients": [],
+        "text": "Explicit role-prompt fallback; native profile loading unverified.\n\n```json\n{\n  \"id\": \"HCALASSEMBLY-20261015-SysArch\",\n  \"role\": \"SysArch\",\n  \"input_revision\": \"abd95bdc64b9d7971561d659bf953e71de4e7e99\",\n  \"inputs\": [\n    \"docs/design/DES-036-hcal-common-readout-module.md\",\n    \"docs/design/DES-035-hcal-realism-and-prototype-plan.md\",\n    \"docs/design/DES-029-endcap-coverage-repair.md\",\n    \"docs/design/DES-034-siw-service-envelopes.md\",\n    \"docs/layouts/LAYOUT-001.json\",\n    \"tools/hcal_readout/config.json\"\n  ],\n  \"mode\": \"read-only\",\n  \"writable_paths\": [],\n  \"task\": \"User requests separate barrel/endcap HCAL designs based on unchanged DES036 module at14TeV. Read-only assess common envelope/service/structural interface contract before layout generators. Preserve DES034 LAYOUT001 barrel apothem2600..4095.9,halfz4483.2,endcapsfront4883.2/back6379.1,inner300/outer4085.9,ECALserviceannulus2300..2600 and400mmrearbreak; discuss polygoncorners vs circularclearance, layerdepth36x(30+12+installation), residualsupportbudget, radialfixedrectangularcarrierfit atlayerfront and barrel axialdivisions/midplanecrack. Propose maintainable sector/row organization, loadpaths/steelownership and named internalcollector strips/endhandoffs preserving ECALegress, no secretlymaterialemptyrouting. Unchanged commoncarrier tubes exit along itsy onbothfaces, so rowsneedports/collectors and boardserviceconnectors reserved near+y; do not claim connected network. Endcapbeamaperture/FCal/negativeendright-handedframes and forwardcoverage provisional. Return concrete cross-PR invariantregister, likely geometricfailures and recommended exposedtradeoffs within8minutes. No writes/runtime/delegation/publication.\",\n  \"deliverable\": \"Bounded common physical/service interface contract and measurable clearance/containment/ownership checks for both PRs.\",\n  \"completion\": \"Return exact input revision and recommendations with source locators, derivations, risks and open engineering decisions; no human approval.\"\n}\n```",
+        "source": "https://github.com/asalzburger/nodd/blob/0e8530d56d171f38c9d53d3c60c8b48803680bbd/logs/codex/SESSION-2026-10-15-hcal-barrel-design.md#bounded-specialist-assignment",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [
+          "SysArch"
+        ],
+        "token_accounts": [
+          "SESSION-2026-10-15-hcal-barrel-design"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-10-15-hcal-barrel-design:482a4b07edf3a084",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "agent:SESSION-2026-10-15-hcal-barrel-design",
+        "recipients": [],
+        "text": "```json\n{\n  \"id\": \"HCALASSEMBLY-20261015-PhysVal-Code\",\n  \"role\": \"PhysVal\",\n  \"inputs\": [\n    \"docs/design/DES-037-hcal-barrel-common-module.md\",\n    \"tools/hcal_barrel/config.json\",\n    \"tools/hcal_barrel/design.py\",\n    \"tools/hcal_barrel/test_design.py\",\n    \"tools/hcal_readout/config.json\"\n  ],\n  \"task\": \"Review completed analytical barrel/endcap HCAL design source at exact revisions: primarybarrelc83e6f4eaebdaa354217b79b963df15c6c3c0a96 in <barrel-worktree>; secondaryendcap7c7f0ba96b69dd754d6e25bd97cef4cfe502bcae in siblingnodd-hcal-endcap. Inspect source via gitshow/pinnedworkingbytes beforeauthorreports. Assess counts,sharedmaterialmass/steelownership,channelpowerstress/DAQscale,cornerandaperturecontainment,frame/IDmasks andcomparisonclaims. Barrelfixretainsmaxcentredcounts acrossphasecontrols byboundingactualrequestedshift; reportsactualvsrequested. Core-plane samplesatlocalz2 are explicit; no fullsolid/recess/nativewholeassembly/showerclaims. Scalarsteellengthbarrelanalytical;endcapsteelpathNOTRUN. Checkactualcorelookup againstindependentdirectpoints/finiteframes, signedeta andpropernegativeend mirror. Rerunonlyappropriatestandardlibchecks; no native/runtime/dependencies. Main addingdrawings/reports/governance withsamecode, notyetpresent linksdonot bythemselvesconstitutescientificfinding. Report concretecorrectness/claim bugs andscope limits withinabout8minutes; noedits/delegation/publication/humansignoff.\",\n  \"deliverable\": \"Exact-revision independent code/scientific findings for bothnewregionaldesigns andactual controls run.\",\n  \"completion\": \"Actionable findings orno findings withprecise source/impact andreview limits; noengineeringapproval.\",\n  \"input_revision\": \"c83e6f4eaebdaa354217b79b963df15c6c3c0a96\",\n  \"mode\": \"read-only\",\n  \"writable_paths\": []\n}\n```",
+        "source": "https://github.com/asalzburger/nodd/blob/0e8530d56d171f38c9d53d3c60c8b48803680bbd/logs/codex/SESSION-2026-10-15-hcal-barrel-design.md#exact-implementation-review-assignment",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [
+          "PhysVal"
+        ],
+        "token_accounts": [
+          "SESSION-2026-10-15-hcal-barrel-design"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-10-15-hcal-barrel-design:4e080074bbf3f2ce",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "agent:SESSION-2026-10-15-hcal-barrel-design",
+        "recipients": [],
+        "text": "```json\n{\n  \"id\": \"HCALASSEMBLY-20261015-SysArch-Code\",\n  \"role\": \"SysArch\",\n  \"inputs\": [\n    \"docs/design/DES-037-hcal-barrel-common-module.md\",\n    \"tools/hcal_barrel/config.json\",\n    \"tools/hcal_barrel/design.py\",\n    \"tools/hcal_readout/config.json\",\n    \"docs/design/DES-034-siw-service-envelopes.md\"\n  ],\n  \"task\": \"Read-only exactimplementationinterface review: barrelc83e6f4eaebdaa354217b79b963df15c6c3c0a96 in <barrel-worktree> andendcap7c7f0ba96b69dd754d6e25bd97cef4cfe502bcae in siblingnodd-hcal-endcap. Inspect physicaldomain/clearance/serviceownershipsource againstyourpreviousenvelopecontract. BarrelAlrails/endflanges/backcover disjoint fromsectorsteel/carriers,depth1558,corner4239.46,emptyrowcollector20mm andmatchedphaseclamping. Endcapannularframes,steelquarterjoint20mm vsrowstripsdoNOTremovesteel,adaptiveaperturepacking no clipping,properport/originRx(pi)androtatedlayerjoints. Quantitativepartial mass anddefaultcollectoractualunconnected versus claimedfeasible mustbeconsistent. Fullnativeengineeringnotrequiredatdesignstage. Readsourceatcommit, notuncommittednewdrawings; report realbugs/semanticinterface issues,notgenericfuturework alreadyexplicit. Noedits/delegation/runtime/publication. About6minutes.\",\n  \"deliverable\": \"Exact-revision physical/service interface findings forbothregionalproposals.\",\n  \"completion\": \"Concrete defects orboundedno-findings withactualcheckscope; noengineeringorhumanapproval.\",\n  \"input_revision\": \"c83e6f4eaebdaa354217b79b963df15c6c3c0a96\",\n  \"mode\": \"read-only\",\n  \"writable_paths\": []\n}\n```",
+        "source": "https://github.com/asalzburger/nodd/blob/0e8530d56d171f38c9d53d3c60c8b48803680bbd/logs/codex/SESSION-2026-10-15-hcal-barrel-design.md#exact-implementation-review-assignment",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [
+          "SysArch"
+        ],
+        "token_accounts": [
+          "SESSION-2026-10-15-hcal-barrel-design"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-10-15-hcal-barrel-design:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-10-15-hcal-barrel-design",
+        "recipients": [],
+        "text": "Barrel HCAL design from the common readout module — see the canonical narrative for outcomes and checks.",
+        "source": "https://github.com/asalzburger/nodd/blob/0e8530d56d171f38c9d53d3c60c8b48803680bbd/logs/codex/SESSION-2026-10-15-hcal-barrel-design.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-15-hcal-barrel-design"
+        ],
+        "content_kind": "reference_summary"
+      }
+    ],
+    "coverage": {
+      "github_captured_at": "2026-10-24T07:41:01.894Z",
+      "prompts": "Available account-matched user-visible messages, public Codex inputs and curated journal excerpts. Historical full input coverage is unknown.",
+      "recovered_visible_turns": 0,
+      "unrecovered_account_turns": [],
+      "responses": "Public responses and recorded outcomes; no private model state or hidden reasoning.",
+      "token_accounting": "References only. Never sum accounts across PRs or assign a shared turn by text length.",
+      "unknowns": "Unrecorded names, models, tools, subagent identities and response links remain unknown; empty lists are not zero activity.",
+      "remote": "Snapshot, not live synchronization; deleted/edited history and emoji reactions are not recovered.",
+      "branch_only": "Pinned branch journal snapshots are references, not imported counters. Unretained or other-device inputs remain unknown."
+    }
+  }
+}

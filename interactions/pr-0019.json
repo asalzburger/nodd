@@ -1,0 +1,251 @@
+{
+  "schema_version": 1,
+  "github": {
+    "captured_at": "2026-10-24T07:41:00.258Z",
+    "pull_request": {
+      "number": 19,
+      "url": "https://github.com/asalzburger/nodd/pull/19",
+      "title": "Infrastructure: Recover second-device token usage",
+      "head": "infrastructure/device-token-accounting",
+      "head_sha": "1cfc3d3de07b613d7d7738c417e3bb594259b6e9",
+      "state": "closed",
+      "body": "## Change\n\nFill the four dashboard session logs that lacked usage after PR #18 by recovering this device’s client-reported counters under ADR-004. Add **8,515,036 input tokens and 64,602 output tokens**, preserving the original narratives with dated corrections.\n\nThe usage-only inventory reconciles 529 events into 515 request increases after excluding repeated snapshots. No thread/turn IDs overlap PR #18. Retain 22 additional completed turns for 10 branch-only sessions, with exact target revisions and importable entries; six discussion/orientation turns remain unassigned. Four failed turns have unknown usage, and the active recovery snapshot is excluded. Models and missing measurements are not inferred.\n\nThe normal journal now contains **98,045,726 input and 477,200 output tokens across 67 turns in 38 of 42 sessions**. These totals exclude pending and unassigned usage; cached input and reasoning output are subsets. No full-project coverage is claimed.\n\nEvidence: `logs/usage/README.md`, `logs/usage/USAGE-2026-09-25-device.json`, and the paired `SESSION-2026-09-25-device-token-backfill` / `SESSION-2026-09-25-device-token-pr` records. This follows PR #18; no separate issue or scientific sign-off applies.\n\n## Dashboard and validation\n\n- [x] Infrastructure change: no maintenance entries added to scientific progress tracking.\n- [x] 32 logging/recovery tests and 27 dashboard tests passed during recovery; retained-evidence tests cover both inventories and child attribution. Dashboard tests ran in a temporary clean clone with task edits.\n- [x] All four import replays added zero duplicate entries.\n- [x] Final publication checks validated 42 session records and dashboard records, built the dashboard, and passed naming/path classification and whitespace checks.\n- [x] Original PR #18 inventory, historical narratives, numeric capture evidence and human approval boundaries preserved.\n",
+      "actor": "asalzburger",
+      "created_at": "2026-09-25T03:44:58Z"
+    },
+    "comments": [],
+    "issues": []
+  },
+  "curated": {
+    "journal_links": [],
+    "agents": [],
+    "tools": [],
+    "events": []
+  },
+  "derived": {
+    "parties": [
+      {
+        "id": "agent:SESSION-2026-09-25-device-token-backfill",
+        "name": "Codex",
+        "kind": "agent"
+      },
+      {
+        "id": "agent:SESSION-2026-09-25-device-token-pr",
+        "name": "Codex",
+        "kind": "agent"
+      },
+      {
+        "id": "github:asalzburger",
+        "name": "asalzburger",
+        "kind": "account"
+      },
+      {
+        "id": "unknown:project-user",
+        "name": "Project user (name unrecorded)",
+        "kind": "human"
+      }
+    ],
+    "journals": [
+      {
+        "session_id": "SESSION-2026-09-25-device-token-backfill",
+        "record": "logs/codex/SESSION-2026-09-25-device-token-backfill.json",
+        "attribution": [
+          "recorded_branch"
+        ],
+        "snapshot": null,
+        "snapshot_sha256": null,
+        "record_sha256": "3321e0f3065aa845768900c80db675963d442fbb463c6a1c6c99d65e982614e7",
+        "narrative_sha256": "5552cebde3ab432a1aaf28ab5b3d4cf0632eaecae761a308b641669b4731980a"
+      },
+      {
+        "session_id": "SESSION-2026-09-25-device-token-pr",
+        "record": "logs/codex/SESSION-2026-09-25-device-token-pr.json",
+        "attribution": [
+          "recorded_branch"
+        ],
+        "snapshot": null,
+        "snapshot_sha256": null,
+        "record_sha256": "0233f838c95edf8ad2431bf014ced9b3a38c6e522215f4237f18fc53e3250191",
+        "narrative_sha256": "35183884949adff7c1c40af7bbe3619baafa5768048a7993618208d91e15e8d8"
+      }
+    ],
+    "token_accounts": [
+      {
+        "id": "SESSION-2026-09-25-device-token-backfill",
+        "record": "logs/codex/SESSION-2026-09-25-device-token-backfill.json",
+        "scope": "canonical_session; shared PR references are not allocations",
+        "status": "observed",
+        "usage_sha256": "2ba8d5e57d60d1cc98b46dd07820d1ec86aabd454f289562f27390e290e003de",
+        "turns": [
+          {
+            "client_thread_id": "01a0d695-767d-7d33-8adf-a34065616d1e",
+            "turn_id": "01a0d697-07b7-7462-8c2c-6c6f211d3e02",
+            "model": null
+          }
+        ]
+      },
+      {
+        "id": "SESSION-2026-09-25-device-token-pr",
+        "record": "logs/codex/SESSION-2026-09-25-device-token-pr.json",
+        "scope": "canonical_session; shared PR references are not allocations",
+        "status": "observed",
+        "usage_sha256": "b24058082a95038f0a29328af26830d14c8b35c154cfe07b183fde78b16d7466",
+        "turns": [
+          {
+            "client_thread_id": "01a0d695-767d-7d33-8adf-a34065616d1e",
+            "turn_id": "01a0d69f-fd1c-7c72-a0f2-1ccee30961f7",
+            "model": null
+          }
+        ]
+      }
+    ],
+    "visible_sources": [],
+    "agents": [
+      {
+        "id": "agent:SESSION-2026-09-25-device-token-backfill",
+        "name": "Codex",
+        "role": "session_agent",
+        "thread_id": "01a0d695-767d-7d33-8adf-a34065616d1e",
+        "models": [],
+        "source": "logs/codex/SESSION-2026-09-25-device-token-backfill.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      },
+      {
+        "id": "agent:SESSION-2026-09-25-device-token-pr",
+        "name": "Codex",
+        "role": "session_agent",
+        "thread_id": "01a0d695-767d-7d33-8adf-a34065616d1e",
+        "models": [],
+        "source": "logs/codex/SESSION-2026-09-25-device-token-pr.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      }
+    ],
+    "tools": {
+      "native_codex": [],
+      "codex_installed": [],
+      "instructed_software": [],
+      "unresolved": []
+    },
+    "events": [
+      {
+        "id": "github:https://github.com/asalzburger/nodd/pull/19",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "github:asalzburger",
+        "recipients": [],
+        "text": "## Change\n\nFill the four dashboard session logs that lacked usage after PR #18 by recovering this device’s client-reported counters under ADR-004. Add **8,515,036 input tokens and 64,602 output tokens**, preserving the original narratives with dated corrections.\n\nThe usage-only inventory reconciles 529 events into 515 request increases after excluding repeated snapshots. No thread/turn IDs overlap PR #18. Retain 22 additional completed turns for 10 branch-only sessions, with exact target revisions and importable entries; six discussion/orientation turns remain unassigned. Four failed turns have unknown usage, and the active recovery snapshot is excluded. Models and missing measurements are not inferred.\n\nThe normal journal now contains **98,045,726 input and 477,200 output tokens across 67 turns in 38 of 42 sessions**. These totals exclude pending and unassigned usage; cached input and reasoning output are subsets. No full-project coverage is claimed.\n\nEvidence: `logs/usage/README.md`, `logs/usage/USAGE-2026-09-25-device.json`, and the paired `SESSION-2026-09-25-device-token-backfill` / `SESSION-2026-09-25-device-token-pr` records. This follows PR #18; no separate issue or scientific sign-off applies.\n\n## Dashboard and validation\n\n- [x] Infrastructure change: no maintenance entries added to scientific progress tracking.\n- [x] 32 logging/recovery tests and 27 dashboard tests passed during recovery; retained-evidence tests cover both inventories and child attribution. Dashboard tests ran in a temporary clean clone with task edits.\n- [x] All four import replays added zero duplicate entries.\n- [x] Final publication checks validated 42 session records and dashboard records, built the dashboard, and passed naming/path classification and whitespace checks.\n- [x] Original PR #18 inventory, historical narratives, numeric capture evidence and human approval boundaries preserved.\n",
+        "source": "https://github.com/asalzburger/nodd/pull/19",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [],
+        "timestamp": "2026-09-25T03:44:58Z",
+        "remote_input": null
+      },
+      {
+        "id": "journal:SESSION-2026-09-25-device-token-backfill:eecfc97ab2a1e7d6",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "agent:SESSION-2026-09-25-device-token-backfill"
+        ],
+        "text": "User (exact): “PR#18 filled the logs with token information from the main computer,\nnow do the same from this device.”",
+        "source": "logs/codex/SESSION-2026-09-25-device-token-backfill.md#selected-conversation",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-25-device-token-backfill"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-09-25-device-token-backfill:55f20cce616c4014",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-09-25-device-token-backfill",
+        "recipients": [],
+        "text": "Used the existing opt-in recovery tool against this device's selected local\nstore, with read-only SQLite access. All 529 usage events reconciled against\nlast-request counters; 14 repeated snapshots left 515 requests. The capture\ncontains 12 threads, including nine child threads. Persisted turn boundaries\naccount for all requests. No reset, inherited prefix or unexplained parent\naggregate was observed. No thread/turn pair overlaps PR #18's inventory.\n\nImported four completed turns into the four dashboard sessions that had lacked\nusage: 8,515,036 input and 64,602 output tokens. Previewed each batch and replayed\neach import; every replay added zero entries. Historical narratives and original\nlimitations are preserved with dated corrections.\n\nRetained 22 completed turns for ten branch-only session records as importable\npending evidence. These cover pixel modules, tracker review, magnetic expert\nreview and conflict repair. Cached Git revisions identify the target records;\nthose branches were not merged. Six short orientation/discussion turns remain\nunassigned. Four failed child turns have no observations, not measured zeros.\n\nRoot attribution used selected user-visible requests and session-ID tool\nreferences against curated narratives. Child attribution uses recorded\nparent/child edges and parent spawn/followup targets, with activity ordinals\nretained in the inventory. No conversation or collaboration-message bodies,\nprivate model state or client-store paths are retained in repository artifacts.\nConfigured/requested models do not establish actual execution models.",
+        "source": "logs/codex/SESSION-2026-09-25-device-token-backfill.md#decisions-and-outcomes",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-25-device-token-backfill"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-09-25-device-token-backfill:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-09-25-device-token-backfill",
+        "recipients": [],
+        "text": "Recover token usage from the second device — see the canonical narrative for outcomes and checks.",
+        "source": "logs/codex/SESSION-2026-09-25-device-token-backfill.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-25-device-token-backfill"
+        ],
+        "content_kind": "reference_summary"
+      },
+      {
+        "id": "journal:SESSION-2026-09-25-device-token-pr:9ec9f227b16c3412",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "agent:SESSION-2026-09-25-device-token-pr"
+        ],
+        "text": "User (exact): “Ok, make the PR”. This authorizes committing, pushing and opening\nan infrastructure PR for the completed second-device recovery. Starting revision\nis `7c0b8f51c41191e413a752c4297f9cdbdae6cca5` on\n`infrastructure/device-token-accounting`. The preceding recovery edits were\npresent and are included; unrelated tracker bytecode is excluded.",
+        "source": "logs/codex/SESSION-2026-09-25-device-token-pr.md#scope-and-selected-request",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-25-device-token-pr"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-09-25-device-token-pr:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-09-25-device-token-pr",
+        "recipients": [],
+        "text": "Publish second-device token recovery PR — see the canonical narrative for outcomes and checks.",
+        "source": "logs/codex/SESSION-2026-09-25-device-token-pr.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-25-device-token-pr"
+        ],
+        "content_kind": "reference_summary"
+      }
+    ],
+    "coverage": {
+      "github_captured_at": "2026-10-24T07:41:00.258Z",
+      "prompts": "Available account-matched user-visible messages, public Codex inputs and curated journal excerpts. Historical full input coverage is unknown.",
+      "recovered_visible_turns": 0,
+      "unrecovered_account_turns": [
+        {
+          "thread_id": "01a0d695-767d-7d33-8adf-a34065616d1e",
+          "turn_id": "01a0d697-07b7-7462-8c2c-6c6f211d3e02"
+        },
+        {
+          "thread_id": "01a0d695-767d-7d33-8adf-a34065616d1e",
+          "turn_id": "01a0d69f-fd1c-7c72-a0f2-1ccee30961f7"
+        }
+      ],
+      "responses": "Public responses and recorded outcomes; no private model state or hidden reasoning.",
+      "token_accounting": "References only. Never sum accounts across PRs or assign a shared turn by text length.",
+      "unknowns": "Unrecorded names, models, tools, subagent identities and response links remain unknown; empty lists are not zero activity.",
+      "remote": "Snapshot, not live synchronization; deleted/edited history and emoji reactions are not recovered.",
+      "branch_only": "Pinned branch journal snapshots are references, not imported counters. Unretained or other-device inputs remain unknown."
+    }
+  }
+}

@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "thread_id": "01a0d3f2-a219-7c30-abd6-8cb3654d5017",
+  "turn_id": "01a0d3f8-be9d-7b01-9b16-e463852dbfa9",
+  "status": "completed",
+  "started_at": 1790262689,
+  "completed_at": 1790263139,
+  "token_accounts": [
+    "SESSION-2026-09-24-token-accounting"
+  ],
+  "source": "Codex app read_thread; exact recorded thread/turn match",
+  "messages": [
+    {
+      "id": "01a0d3f8-becb-7aa0-ae16-fde453304414",
+      "role": "user",
+      "phase": null,
+      "text": "Can you add the token accounting into the logs ?",
+      "redacted": "no"
+    },
+    {
+      "id": "msg_0b72af1463c322a8016ab53da3498887d2853a10f0b01e49dc",
+      "role": "assistant",
+      "phase": "commentary",
+      "text": "I’ll add a way to import token usage into the project logs and check which counters are available for this session. I’ll use the openai-docs skill to verify the supported source and keep missing historical counts explicit.",
+      "redacted": "no"
+    },
+    {
+      "id": "call_igLW3iMXO0k22a1V3FVEpM0a",
+      "role": "assistant",
+      "phase": "final_answer",
+      "text": "Do you want accounting for future sessions only, or also an attempt to recover historical usage from a client-provided usage export? The repository currently has no token observations.\n- Future sessions and historical recovery where available\n- Future sessions only",
+      "redacted": "no"
+    },
+    {
+      "id": "msg_0b72af1463c322a8016ab53dd6895887d28ac215d8f5ba43ab",
+      "role": "assistant",
+      "phase": "commentary",
+      "text": "The log schema already has the right fields; the missing piece is a reliable import path. I’m checking the client’s usage format so the importer can preserve source evidence and avoid counting cumulative totals twice.",
+      "redacted": "no"
+    },
+    {
+      "id": "msg_0b72af1463c322a8016ab53e53059087d2b1393fac335c1f9e",
+      "role": "assistant",
+      "phase": "commentary",
+      "text": "The import commands are implemented, and all 21 logging tests pass. They reject inconsistent totals and duplicate attribution across sessions; importing the same entry again leaves totals unchanged.\n\nThis session hasn’t exposed exact token counters through the available tools. The logs will therefore still need a client-provided usage export to acquire real counts. I’m documenting that requirement in the ongoing logging instructions.",
+      "redacted": "no"
+    },
+    {
+      "id": "msg_0b72af1463c322a8016ab53ecb865c87d28901596e4e371a7c",
+      "role": "assistant",
+      "phase": "commentary",
+      "text": "The workflow and session template now require recording available input/output counts and reporting missing coverage. Historical counts remain unknown. The dashboard checks are still running; I’m finishing the session record and final validation.",
+      "redacted": "no"
+    },
+    {
+      "id": "msg_0b72af1463c322a8016ab53ee4df7087d2bd8786f831bd11b1",
+      "role": "assistant",
+      "phase": "commentary",
+      "text": "The dashboard test setup was copying the large ignored reference cache, so I stopped that run. I’ll rerun the unchanged tests in a temporary Git checkout containing the tracked files and this change.",
+      "redacted": "no"
+    },
+    {
+      "id": "msg_0b72af1463c322a8016ab53f5498ec87d2bedd65a7a6778fc5",
+      "role": "assistant",
+      "phase": "commentary",
+      "text": "Validation is complete: 22 logging tests and 26 dashboard tests passed, and the dashboard built successfully. I corrected a missing metadata field in the new session record; the final log and dashboard validators both pass. Real token totals remain unknown until client usage data is supplied.",
+      "redacted": "no"
+    },
+    {
+      "id": "msg_0b72af1463c322a8016ab53f5ff48887d296d9b077c9906893",
+      "role": "assistant",
+      "phase": "final_answer",
+      "text": "Added token-accounting ingestion:\n\n- `record-usage` records one turn’s exact counters.\n- `import-usage` imports a batch, with duplicate protection and validation.\n- Updated the [logging workflow]([redacted] session template, repository instructions, and ADR-004.\n\n**Automatic collection is not connected.** No real counters were available, so historical totals remain unknown. A client usage export is still needed to populate them.\n\nValidation: **22 logging tests and 26 dashboard tests passed**, plus both validators and the dashboard build.\n\nChanges are local and uncommitted.",
+      "redacted": "yes"
+    }
+  ],
+  "native_tools": [
+    {
+      "name": "commandExecution",
+      "calls": 26,
+      "failures": 2
+    },
+    {
+      "name": "webSearch",
+      "calls": 3,
+      "failures": 0
+    },
+    {
+      "name": "fileChange",
+      "calls": 4,
+      "failures": 0
+    }
+  ],
+  "subagents": [],
+  "limitations": [
+    "Only userMessage and agentMessage text retained; reasoning, tool arguments/results and private state excluded.",
+    "Conservative path, credential, email and URL redaction is not a privacy guarantee; review retained text.",
+    "Exposed operation counts are per retained turn; journal counts can describe the same invocations and must not be added."
+  ]
+}

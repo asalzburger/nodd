@@ -28,6 +28,16 @@ jobs:
           python-version: '3.12'
       - name: Validate canonical usage
         run: python3 -B tools/session_logging/session_log.py validate
+      - name: Validate interaction and accounting synchronization
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          python3 -B tools/interactions/ledger.py validate
+          if [ -n "$PR_NUMBER" ]; then
+            python3 -B tools/interactions/ledger.py validate --pr "$PR_NUMBER"
+          fi
+      - name: Test interaction provenance and accounting boundaries
+        run: python3 -B -m unittest discover -s tools/interactions -p 'test_*.py' -v
       - name: Test usage arithmetic, timeline and site
         run: python3 -B -m unittest discover -s tools/token_usage -p 'test_*.py' -v
       - name: Test chart interaction
