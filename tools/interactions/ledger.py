@@ -247,6 +247,8 @@ def derive(root, snapshot, records):
                                          'Operation recorded; installation provenance needs explicit evidence.')})
 
     agents.extend(curated['agents'])
+    for agent in curated['agents']:
+        parties[agent['id']] = {'id': agent['id'], 'name': agent['name'], 'kind': 'agent'}
     tools.extend(curated['tools'])
     for item in curated['events']:
         events.append(item)

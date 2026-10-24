@@ -164,6 +164,22 @@ class LedgerTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'token account'):
             self.sync()
 
+    def test_named_curated_subagent_is_a_valid_assignment_party(self):
+        self.snapshot['curated']['agents'] = [{
+            'id': 'agent:fixture-child', 'name': '/root/fixture_child', 'role': 'SoftEng',
+            'thread_id': None, 'models': [], 'source': self.record['narrative'],
+            'limitation': 'Synthetic explicit assignment; no native loading claim.'}]
+        self.snapshot['curated']['events'] = [{
+            'id': 'fixture-assignment', 'type': 'prompt', 'direction': 'action',
+            'actor': 'agent:' + self.record['session_id'], 'recipients': ['agent:fixture-child'],
+            'text': 'Synthetic bounded assignment', 'source': self.record['narrative'],
+            'in_reply_to': None, 'model': None, 'agent_roles': ['SoftEng'],
+            'token_accounts': [self.record['session_id']]}]
+        self.sync()
+        ledger.validate_snapshot(self.snapshot, 1)
+        ledger.validate_derived(self.root, self.snapshot, [self.record])
+        self.assertIn('agent:fixture-child', {p['id'] for p in self.snapshot['derived']['parties']})
+
     def test_visible_allowlist_excludes_private_state_and_preserves_upload_type(self):
         turn = {'id': 'fixture-turn', 'status': 'completed', 'items': [
             {'type': 'reasoning', 'content': 'PRIVATE_REASONING_FIXTURE'},

@@ -77,7 +77,7 @@ fingerprints. A remote discussion capture is explicitly dated; offline checks
 cannot detect later GitHub edits. Capture and source review remain part of each
 PR accounting pass.
 
-Thirteen new tests, 33 session/recovery tests and ten token-site tests passed.
+Fourteen new tests, 33 session/recovery tests and ten token-site tests passed.
 Session, token, project and interaction validation passed; the existing 234
 canonical turns and 740,993,210 observed tokens remain unchanged. The token
 preview builds. The paired JSON retains final check results. No geometry
@@ -116,3 +116,22 @@ No separate human approval or model identity was inferred. A prompt-preparation
 command initially used an unsupported output option; capturing the documented
 stdout completed the prepared handoff. The GitHub connector rejected PR creation
 with integration permissions; the authenticated CLI is used for publication.
+
+## PR98 publication and local closeout
+
+Opened and attached [PR98](https://github.com/asalzburger/nodd/pull/98). Its
+individual record contains this exact user request, the primary agent role,
+SoftEng assignment prompt and separate response, and the unobserved canonical
+account. The initial hosted token-site correctly rejected publication before
+this new record existed; project build and Linux unrooted passed. Capturing
+the new record first hit sandbox networking, and the authorized retry succeeded.
+All91 records now validate, including historical retention against the initial
+implementation commit. Final local checks pass; the final push reruns hosted CI.
+
+Also retained PR97 primary user-visible inputs/responses by exact source-journal
+task matching, separately marked unaccounted: no numeric usage or new turn owner
+was created. These are additional to the198 account-matched source turns.
+The final summary has197 sessions:125with usage and72without. Observed input is
+736,838,845 and output4,154,365 (total740,993,210), unchanged by this task.
+The current active parent turn and separate reviewer have no exposed exact
+closed counters and remain unknown. Git history locates the delivery commit.

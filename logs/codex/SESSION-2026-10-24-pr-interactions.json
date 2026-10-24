@@ -4,8 +4,8 @@
   "title": "Per-PR interaction provenance and accounting synchronization",
   "recorded_at": "2026-10-24T07:39:13Z",
   "started_at": null,
-  "ended_at": null,
-  "status": "open",
+  "ended_at": "2026-10-24T09:12:54.711739Z",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
@@ -22,7 +22,8 @@
     "branch": "codex/pr-interaction-ledger",
     "initial_changes": [],
     "result_commits": [
-      "f8e0cc8294f6cce33fd37783d797be2f66af906b"
+      "f8e0cc8294f6cce33fd37783d797be2f66af906b",
+      "317b36860565bded90a2fe96bb79efd6d570b027"
     ],
     "changed_files": [
       ".github/pull_request_template.md",
@@ -402,9 +403,14 @@
       "interactions/pr-0097/turns/01a16894-9bfa-7ca1-a994-16f292843c0d--01a168c7-866e-77c0-afb0-11c2a3b71ac0.json",
       "interactions/pr-0097/turns/01a168ab-2227-7702-a925-47098efeff99--01a168ab-2262-7202-8f9c-352adfbce156.json",
       "interactions/pr-0097/turns/01a168ab-2227-7702-a925-47098efeff99--01a168ee-8c5b-79f0-8993-27e686e86ca2.json",
+      "interactions/pr-0097/visible-unaccounted-primary.json",
+      "interactions/pr-0098.json",
       "logs/README.md",
       "logs/codex/SESSION-2026-10-24-pr-interactions.json",
       "logs/codex/SESSION-2026-10-24-pr-interactions.md",
+      "logs/codex/SESSION-2026-10-24-pr-interactions/SoftEng-01-review.md",
+      "logs/codex/SESSION-2026-10-24-pr-interactions/SoftEng-01.assignment.json",
+      "logs/codex/SESSION-2026-10-24-pr-interactions/SoftEng-01.prompt.txt",
       "tools/interactions/interaction.schema.json",
       "tools/interactions/ledger.py",
       "tools/interactions/test_ledger.py",
@@ -419,7 +425,8 @@
       "infrastructure"
     ],
     "related_ids": [
-      "ADR-004"
+      "ADR-004",
+      "PR-98"
     ]
   },
   "narrative": "logs/codex/SESSION-2026-10-24-pr-interactions.md",
@@ -485,7 +492,7 @@
       "command": "python3 -B -m unittest discover -s tools/interactions -p test_*.py -v",
       "status": "PASS",
       "exit_code": 0,
-      "result": "13 tests pass, including stale accounting, exact ownership, visible allowlisting, historical deletion and closing-reference regressions."
+      "result": "14 interaction tests pass, including named subagent parties, stale accounting, exact ownership, visible allowlisting, historical deletion and closing-reference regressions."
     },
     {
       "command": "python3 -B -m unittest discover -s tools/session_logging -p test_*.py -v",
@@ -521,7 +528,7 @@
       "command": "python3 -B tools/interactions/ledger.py validate",
       "status": "PASS",
       "exit_code": 0,
-      "result": "All 90 historical PR interaction records validate before publication."
+      "result": "All 91 PR records, including PR98, validate; historical records remain present against initial implementation commit f8e0cc8294f6cce33fd37783d797be2f66af906b."
     },
     {
       "command": "python3 -B tools/token_usage/build.py build --output _site/interactions-preview",
@@ -534,6 +541,12 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "Initial implementation has no whitespace errors."
+    },
+    {
+      "command": "gh pr checks 98 --repo asalzburger/nodd (initial publication revision)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Project build and unrooted Linux check passed. token-site failed because PR98 did not yet have an interaction file, as intended by the new gate. Created/captured PR98 and validated all91 records; final pushed revision reruns CI."
     }
   ]
 }
