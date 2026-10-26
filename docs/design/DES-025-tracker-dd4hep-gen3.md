@@ -163,3 +163,63 @@ Preserve material totals at the final threshold; show separate sample counts
 and source hashes. Finite checkpoint spacing limits the displayed localization.
 These curves diagnose longitudinal/radial shifts and do not establish material
 order relative to every sensor, curved-track performance or design acceptance.
+
+## Initial truth-tracking performance baseline (2026-10-26)
+
+Status: **PROTOTYPE / DRAFT**. The human requested an ACTS truth-tracking
+baseline for both Geant4 and Fatras, using the Gen3 geometry and the material
+map merged in PR100, with single muons at fixed transverse momenta 1, 10 and
+100 GeV. This is a characterization campaign, without design acceptance or
+a production detector change. Here the requested ODD baseline denotes this
+PR100 Gen3 nODD tracker; an untouched upstream ODD geometry has incompatible
+surface identities and must not receive this map.
+
+FACT: PR100 supplies the retained 65-portal material map and exact manifest.
+Reapply it through the same native keyed-surface controls, clearing original
+silicon/pipe tracking slabs to avoid double counting. Geant4 transports through
+the unchanged detailed DD4hep physical material; Fatras and the track fit use
+the mapped ACTS material. Record both physical and tracking geometry identities.
+The material-map locality/one-phi-bin qualifications remain applicable.
+
+NODD DESIGN CHOICES for the first campaign, centralized and configurable:
+20,000 one-particle events per backend/momentum; uniform eta over [-4,4], full
+azimuth, origin vertex, randomized muon charge, deterministic recorded seeds.
+Start with a small pilot for each backend. A constant 2 T field follows the
+ACTS full_chain_odd.py example; the field preference is being clarified with
+the human before final generation. This ideal constant-field fixture is not
+the finite DES-026 solenoid or an installed field-map claim. Record the actual
+selected field identically in simulation and fit. No pileup, misalignment,
+dead-channel or radiation-damage model is introduced.
+
+Geometric digitization uses the human-requested 50 micrometre by 50 micrometre
+pixel cells. FACT: DES007 C01 selects 75 micrometre by 0.5 mm two-coordinate
+short-strip cells. FACT: DES008 C05 and measurement contract select 80 micrometre
+single-coordinate long-strip measurements on each actual sensor face. The
+native paired-sensor rotations provide stereo; do not add a synthetic second
+coordinate or apply a second stereo rotation. Use geometric charge deposition,
+segmentation and clustering through ACTS, rather than replacing this request
+with a Gaussian position-smearing digitizer. Inspect local sensor-axis mapping
+and actual sensitive IDs before constructing per-surface digitization entries.
+
+Use the ACTS truth-associated Kalman tracking route corresponding to
+truth_tracking_kalman.py: a truth initial trajectory with finite, explicitly
+recorded covariance, truth measurement association and a native Kalman fit.
+No pattern-recognition or CKF efficiency claim follows. Retain primary-muon
+identities, generated denominators, measurement multiplicity, attempted fits,
+failed fits and covariance failures. A minimum measurement requirement may
+match the example's seven measurements but must be explicit and its losses
+shown; no cut at nominal 1 GeV may silently remove rounded 1 GeV particles.
+
+Characterize perigee d0, z0, wrapped phi, theta and q/p residuals and pulls,
+and relative transverse-momentum residual. Means, full RMS and central
+68.27-percent half-widths distinguish bias, tails and core width. Pulls divide
+by the fitted marginal standard deviation; invalid/non-positive covariance is
+counted separately. Any derived pT pull uses the full theta/qOverP covariance,
+including its cross term. Show signed-eta profiles separately for each momentum
+and backend, and the three momentum points in explicit eta slices. Retain
+counts and uncertainty method; empty or undersampled bins are missing evidence,
+not zero resolution. Do not tune or truncate residual tails to obtain unit pulls.
+
+Keep the full native outputs outside Git, with hashes and replayable retained
+summary data/figures. Meaningful analytic controls and an independent PhysVal
+assessment must check the fixed source/evidence revision before interpretation.
