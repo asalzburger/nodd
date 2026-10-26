@@ -76,3 +76,55 @@ The centralized assembly truth region is r<1200mm, |z|<3600mm, a software
 enclosure of all native sensitive nodes (not an acceptance specification).
 World bounds use maxima of the standalone envelopes. Current1mm navigation
 envelopes and the physical1mm pipe clearance are separate design choices.
+
+
+## Configurable Gen3 portal material-mapping trial (2026-10-26)
+
+Status: **PROTOTYPE / DRAFT**, explicitly requested by the human in PR100's
+local task. These are NODD DESIGN CHOICES for an isolated mapping campaign;
+no engineering sign-off or production acceptance is recorded.
+
+Select one physical portal for each native sensitive layer: the outer cylinder
+for pixel barrels (material after the sensitive layer), and the inner cylinder
+or upstream signed-z disc for all other sensitive layers. Additional carriers
+are the beam pipe, inner/outer cylinders at each pixel–short-strip and
+short–long-strip gap, two barrel/endcap separator discs per subdetector,
+and the outer tracker cylinder plus both outer shell discs. Deduplicate
+shared physical portals while retaining all logical roles. The existing
+geometry has52 signed sensitive layers; this literal scheme is expected to
+have about65 unique carriers, rather than forcing the approximate50 target
+by dropping layers. The selection manifest records the actual count.
+
+All counts are configurable. Initial phi bins=1. The other axis is z for
+cylinders and r for discs:
+
+| Carrier | z/r bins |
+| --- | ---: |
+| Pixel barrel; short-strip barrel | 250 |
+| Long-strip barrel | 100 |
+| Beam pipe; full gap cylinders | 500 |
+| Pixel endcap; pixel barrel/endcap separators | 50 |
+| Short-strip endcap; short-strip barrel/endcap separators | 100 |
+| Long-strip endcap; long-strip barrel/endcap separators | 50 |
+| Full outer shell discs | 250 |
+| Full outer shell cylinder | 500 (explicit full-cylinder default) |
+
+The side selection above specifies carrier placement relative to the native
+sensitive layer. Use the pinned ACTS mapping/validation algorithms and disclose
+their actual material-assignment rule. The current upstream assignment code
+uses closest intersected surfaces; a MappingType field alone does not impose
+strict per-step before/after assignment.
+
+Map the complete recorded material inventory, including silicon and the pipe,
+onto these selected portals. Clear existing native material slabs in the
+mapping/validation geometry before assigning ProtoSurfaceMaterial or loading
+the map, so no sensor or pipe material is counted twice. DD4hep solids, physical
+materials and sensor transforms remain unchanged. Keep the native-slab survey
+geometry as a separate control. No ODD material map is introduced.
+
+Read the existing100k recording, run native mapping, serialize/reload the map,
+then run validation with an explicit independent random seed and the same
+eta/phi support. Overlay the validation total X0/lambdaI profile on the existing
+Geant4 component stack. Retain empty bins, missed surfaces, unmapped material,
+profile differences and all source/input/runtime identities. A visually close
+curve is not a material-order, tracking-performance or design acceptance claim.
