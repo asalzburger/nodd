@@ -12,7 +12,7 @@ import awkward as ak
 import numpy as np
 import uproot
 
-from metrics import (QUANTITIES, binomial_interval, interval_mask,
+from metrics import (QUANTITIES, binomial_interval, classify_primary_barcodes, interval_mask,
                      perigee_observables, statistics)
 
 PARAMETERS = ("eLOC0", "eLOC1", "ePHI", "eTHETA", "eQOP")
@@ -129,7 +129,7 @@ def read_case(directory, campaign, production=True):
     if production and events != campaign["events_per_case"]:
         raise ValueError("Production event count differs from campaign")
     source_files = [directory / name for name in
-                    ("particles.root", "audit.root", "tracksummary_kf.root")]
+                    ("particles.root", "particles_selected.root", "audit.root", "tracksummary_kf.root")]
     error_audit = None
     table_hash = None
     if production:
@@ -187,7 +187,20 @@ def read_case(directory, campaign, production=True):
     for name in AUDIT:
         if int(audit[name].sum()) != report["counts"][name]:
             raise ValueError("Native report/audit count mismatch: " + name)
-    branches = ["event_nr", "track_nr", "hasFittedParams", "nMeasurements", "t_eta",
+    with uproot.open(directory / "particles_selected.root") as stream:
+        selected = stream["particles"].arrays(["event_id", *BARCODE], library="ak")
+    selected_to_generated = event_indices(generated_ids, ak.to_numpy(selected["event_id"]))
+    selected_counts = ak.to_numpy(ak.num(selected["particle"]))
+    if (len(selected) != events or len(np.unique(selected_to_generated)) != events or
+            not np.array_equal(selected_counts, audit["selected"][selected_to_generated])):
+        raise ValueError("Selected-particle output differs from native selection audit")
+    selected_events = ak.to_numpy(ak.flatten(ak.broadcast_arrays(
+        selected["event_id"], selected["particle"])[0]))
+    selected_primary = event_indices(generated_ids, selected_events)
+    for key in BARCODE:
+        if not np.array_equal(flat(selected, key), flat(generated, key)[selected_primary]):
+            raise ValueError("Selected candidate is not the unique generated primary")
+    branches = ["event_nr", "track_nr", "hasFittedParams", "nMeasurements", "trackClassification", "t_eta",
                 "t_pT", "t_d0", "t_z0", "t_phi", "t_theta", "t_charge", "t_p"]
     branches += ["majorityParticleId_" + key for key in BARCODE]
     branches += [key + "_fit" for key in PARAMETERS]
@@ -202,12 +215,23 @@ def read_case(directory, campaign, production=True):
         raise ValueError("Duplicate fitted tracks for a single generated muon; investigate before reduction")
     if not np.array_equal(track_counts, audit["fit_tracks"]):
         raise ValueError("Native fit audit differs from written track multiplicities")
-    for key in BARCODE:
-        if not np.array_equal(flat(tracks, "majorityParticleId_" + key),
-                              flat(generated, key)[track_to_generated]):
-            raise ValueError("Fitted track is not associated to the generated primary")
-    np.testing.assert_allclose(flat(tracks, "t_eta"), eta[track_to_generated], atol=2.e-6, rtol=2.e-6)
-    np.testing.assert_allclose(flat(tracks, "t_pT"), pt[track_to_generated], atol=1.e-6, rtol=2.e-6)
+    if (np.any(flat(tracks, "track_nr") != 0) or
+            np.any(audit["selected"][track_to_generated] != 1) or
+            np.any(audit["fit_attempts"][track_to_generated] != 1)):
+        raise ValueError("Fitted output lacks a unique primary-derived input candidate")
+    native_match = classify_primary_barcodes(
+        np.column_stack([flat(tracks, "majorityParticleId_" + key) for key in BARCODE]),
+        np.column_stack([flat(generated, key)[track_to_generated] for key in BARCODE]))
+    classification = flat(tracks, "trackClassification")
+    if np.any(classification[native_match] != 1) or np.any(classification[~native_match] != 3):
+        raise ValueError("Unexpected native Matched/Fake classification")
+    # The native double-matching completeness cut can leave partial fits
+    # unmatched. Their unique primary-derived proto input is verified above;
+    # retain these poor fits and use generated truth instead of writer NaNs.
+    np.testing.assert_allclose(flat(tracks, "t_eta")[native_match],
+                               eta[track_to_generated][native_match], atol=2.e-6, rtol=2.e-6)
+    np.testing.assert_allclose(flat(tracks, "t_pT")[native_match],
+                               pt[track_to_generated][native_match], atol=1.e-6, rtol=2.e-6)
     fitted = np.column_stack([flat(tracks, key + "_fit") for key in PARAMETERS])
     covariance = np.empty((len(fitted), 5, 5))
     for i, a in enumerate(PARAMETERS):
@@ -231,11 +255,16 @@ def read_case(directory, campaign, production=True):
     for name, data in flags.items():
         aligned_flags[name] = np.zeros(events, dtype=bool)
         aligned_flags[name][track_to_generated] = data & has_parameters
+    aligned_flags["native_primary_match"] = np.zeros(events, dtype=bool)
+    aligned_flags["native_primary_match"][track_to_generated] = native_match
     fitted_mask = track_counts.astype(bool)
     finite_fit = aligned_flags["finite_fitted_parameters"]
     metadata = {
         "simulation": report["simulation"], "pt_GeV": report["pt_GeV"],
         "events": events, "native_counts": report["counts"],
+        "native_unmatched_event_ids": track_events[~native_match].astype(int).tolist(),
+        "native_classification_counts": {"Matched": int(native_match.sum()), "Fake": int((~native_match).sum())},
+        "truth_association": "Unique selected generated-primary/proto input and one output track verified. Native all-zero unmatched barcode is retained and counted; nonzero conflicts rejected. Residuals use generated truth, including partial fits failing native double-matching completeness.",
         "run_report_sha256": sha256(directory / "run-report.json"),
         "input_files": [{"name": path.name, "sha256": sha256(path)} for path in source_files],
         "native_provenance": portable_provenance(report["provenance"]),
@@ -259,6 +288,8 @@ def summarize_bin(mask, audit, values, flags, fitted_mask, finite_fit, settings,
     counts["invalid_covariance"] = int(np.sum(mask & fitted_mask & ~flags["valid_covariance"]))
     counts["fit_failures"] = counts["fit_attempts"] - counts["fit_tracks"]
     counts["not_selected"] = generated - counts["selected"]
+    counts["native_unmatched_fit"] = int(np.sum(mask & fitted_mask & ~flags["native_primary_match"]))
+    counts["native_matched_fit"] = counts["fit_tracks"] - counts["native_unmatched_fit"]
     counts["wrong_charge"] = int(np.sum(mask & finite_fit & flags["wrong_charge"]))
     result = {"counts": counts,
               "fit_fraction": binomial_interval(counts["finite_fit"], generated),
@@ -336,7 +367,7 @@ def main():
             "native_reports_sha256": native_reports_hash,
             "versions": {"numpy": np.__version__, "uproot": uproot.__version__, "awkward": ak.__version__},
         },
-        "statistics": "No tail cuts. Perigee parameters at origin. Five-dimensional fitted covariance must be positive-definite for pulls. Width68 is half the central empirical interval. Errors are event-bootstrap standard deviations conditional on the frozen independent Fatras hit-error table; training and detector-model systematics are omitted. Mean SE is sample SD/sqrt(N). Wilson z=1 intervals for fractions.",
+        "statistics": "Seed-associated results include native Fake/zero-barcode partial fits only when a unique generated-primary input candidate is verified; native matching is counted separately. No tail cuts. Perigee parameters at origin. Five-dimensional fitted covariance must be positive-definite for pulls. Width68 is half the central empirical interval. Errors are event-bootstrap standard deviations conditional on the frozen independent Fatras hit-error table; training and detector-model systematics are omitted. Mean SE is sample SD/sqrt(N). Wilson z=1 intervals for fractions.",
         "samples": samples,
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)

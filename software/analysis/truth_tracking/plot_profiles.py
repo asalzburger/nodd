@@ -315,7 +315,7 @@ def main():
     with (args.output / "performance-summary.csv").open("w", newline="") as stream:
         writer = csv.writer(stream, lineterminator="\n")
         writer.writerow(["simulation", "pt_GeV", "projection", "eta_low", "eta_high",
-                         "generated", "selected", "fit_attempts", "fit_tracks", "invalid_covariance",
+                         "generated", "selected", "fit_attempts", "fit_tracks", "invalid_covariance", "native_unmatched_fit",
                          "quantity", "residual_entries", "residual_mean", "residual_std", "residual_width68",
                          "pull_entries", "pull_mean", "pull_std", "pull_tail_abs_gt3_fraction"])
         for sample in data["samples"]:
@@ -325,7 +325,7 @@ def main():
                     for quantity, values in item["quantities"].items():
                         r, p = values["residual"], values["pull"]
                         writer.writerow([sample["simulation"], sample["pt_GeV"], projection, item["low"], item["high"],
-                                         c["generated"], c["selected"], c["fit_attempts"], c["fit_tracks"], c["invalid_covariance"],
+                                         c["generated"], c["selected"], c["fit_attempts"], c["fit_tracks"], c["invalid_covariance"], c["native_unmatched_fit"],
                                          quantity, r["entries"], r["mean"], r["std"], r["width68"],
                                          p["entries"], p["mean"], p["std"], values["pull_tail_abs_gt3"]["value"]])
     print("Rendered eight tracking comparisons as PNG/PDF/SVGZ and retained all eta slices in CSV")

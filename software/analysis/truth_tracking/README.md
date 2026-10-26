@@ -117,3 +117,10 @@ Retained provenance omits machine-local absolute paths while preserving file
 roles, basenames, SHA256 identities and the original report hash. Offline CI
 checks retained training/table group consistency and replays all figures; the
 independent native ROOT assessment is recorded separately.
+
+Native double-matching completeness can mark partial fits Fake and omit writer
+truth. The reducer retains seed-associated residuals for only the guarded
+single-primary/single-proto/single-output case, verifies selected ROOT barcodes,
+counts native unmatched/Fake fits explicitly and rejects any nonzero conflicting
+barcode. Generated truth supplies all residuals. These fits do not count as
+native-matched efficiency, and no completeness cut removes their tails.

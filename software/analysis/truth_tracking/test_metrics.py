@@ -2,11 +2,20 @@ import math
 import unittest
 import numpy as np
 
-from metrics import (binomial_interval, interval_mask, perigee_observables,
+from metrics import (classify_primary_barcodes, binomial_interval, interval_mask, perigee_observables,
                      statistics, validate_covariance, wrap_phi)
 
 
 class PerformanceMetricsTests(unittest.TestCase):
+    def test_native_absent_match_is_distinct_from_conflicting_primary(self):
+        generated = np.array([[1, 0, 1, 0, 0]] * 3)
+        recorded = generated.copy()
+        recorded[1] = 0
+        np.testing.assert_array_equal(classify_primary_barcodes(recorded, generated), [True, False, True])
+        recorded[2] = [1, 0, 2, 0, 0]
+        with self.assertRaises(ValueError):
+            classify_primary_barcodes(recorded, generated)
+
     def test_phi_boundary_uses_shortest_difference(self):
         self.assertAlmostEqual(float(wrap_phi(-2 * math.pi + .002)), .002)
         fitted = np.array([[0., 0., -math.pi + .001, 1., .1]])

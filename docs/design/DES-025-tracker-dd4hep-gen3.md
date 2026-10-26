@@ -297,3 +297,16 @@ TrackParameterSmearing seed stages directly, then the corrected unique proto
 finder and unchanged Kalman fitter. No transport, digitizer, error table, seed
 configuration or fit settings change. Repeat all six performance cases at one
 fixed source revision; earlier completed cases remain historical controls.
+
+The default native Kalman writer uses double truth matching, including at least
+half of the primary's total measurements. Three final single-candidate fits fall
+below that completeness condition and have zero-barcode/NaN native truth fields.
+For this truth-associated characterization, retain them using the unique input
+primary/proto-track identity, explicitly counting native-unmatched fits and their
+event IDs. Require exactly one generated primary, matching selected-particle
+barcode, one attempted candidate and at most one fitted track (index0). A valid
+nonzero mismatching barcode is an error, not an inferred association. Verify
+writer truth on native-matched tracks; compute every residual from independently
+joined generated truth. This preserves poor/partial fits rather than removing
+tails through the native completeness match. Matching efficiency remains a
+separate diagnostic and no pattern-recognition claim follows.

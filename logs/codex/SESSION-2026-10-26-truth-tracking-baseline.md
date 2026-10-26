@@ -167,3 +167,12 @@ addTruthSmearedSeeding and ran all24controls in actualnative3.14environment:
 24PASS,zeroskips. Offlineexport/replaynowretains portablefullnative reports with
 originalhashes and checks commonexecutednativebytes,training/table/group identities.
 ACTS primarysource catalogueentry addedat exact355ea684 version.
+
+Allsixfinalcases completeandexited0at39cd5185. Initialstrictreduction exposed3
+zerobarcode nativeFake fits(G4pT1event2129:3/20hits;G4pT100event27:7/19;
+FatraspT1event17622:11/23). IndependentSoftEng sourceassessment confirms default
+doublematching50%completeness,not asecondaryidentity. DES025 amendedbeforeanalysis
+handling: verifyselectedROOTprimarybarcode/counts,onecandidate/output index0;allow
+onlyallzero sentinel+Fakeclass,retainseed-associatedresidualswithgeneratedtruth,
+countnativematchingseparately,rejectvalidnonzero conflicts. No nativechanges or
+retuning. Newbarcodecontrolandall25native/analyticcontrolsPASS.

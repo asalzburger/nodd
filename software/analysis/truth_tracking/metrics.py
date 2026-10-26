@@ -149,3 +149,19 @@ def binomial_interval(successes, trials):
     centre = (p + 1 / (2 * trials)) / denominator
     radius = math.sqrt(p * (1 - p) / trials + 1 / (4 * trials ** 2)) / denominator
     return {"value": p, "low": max(0., centre - radius), "high": min(1., centre + radius)}
+
+
+def classify_primary_barcodes(recorded, generated):
+    """Separate the native absent-match sentinel from a conflicting identity.
+
+    Callers must independently establish the unique primary-derived candidate.
+    This function does not infer identity for an arbitrary unmatched track.
+    """
+    recorded, generated = np.asarray(recorded), np.asarray(generated)
+    if recorded.shape != generated.shape or recorded.ndim != 2 or recorded.shape[1] != 5:
+        raise ValueError("Require equally shaped five-component barcode arrays")
+    matched = np.all(recorded == generated, axis=1)
+    absent = np.all(recorded == 0, axis=1)
+    if np.any(~matched & ~absent):
+        raise ValueError("Fitted native barcode conflicts with the unique generated primary")
+    return matched
