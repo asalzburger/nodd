@@ -4,6 +4,9 @@ import gzip
 import hashlib
 import json
 from pathlib import Path
+import shutil
+import subprocess
+import tempfile
 
 from select_surfaces import select
 
@@ -39,6 +42,25 @@ def main():
                 'Retained map bytes differ from native run')
         steering = root / 'software/running' / files['steering']['name']
         require(files['steering']['sha256'] == digest(steering), 'Steering source changed since full run')
+    relocation = read(data / 'source-relocation.json')
+    patch = data / 'source-relocation.patch'
+    require(digest(patch) == relocation['final_source_patch']['sha256'], 'Source patch hash mismatch')
+    with tempfile.TemporaryDirectory(prefix='nodd-source-audit-') as temporary:
+        directory = Path(temporary)
+        for entry in relocation['final_source_patch']['files']:
+            source = root / entry['path']
+            require(digest(source) == entry['after_sha256'], 'Final source differs from reconciled source')
+            target = directory / entry['path']
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(source, target)
+        subprocess.run(['git', 'apply', '--reverse', str(patch)], cwd=directory, check=True)
+        for entry in relocation['final_source_patch']['files']:
+            require(digest(directory / entry['path']) == entry['before_sha256'], 'Full-run source reconstruction failed')
+        subprocess.run(['git', 'apply', str(patch)], cwd=directory, check=True)
+        for entry in relocation['final_source_patch']['files']:
+            require(digest(directory / entry['path']) == entry['after_sha256'], 'Final source reconstruction failed')
+    for report in relocation['immutable_full_run_reports']:
+        require(digest(data / Path(report['path']).name) == report['sha256'], 'Authoritative report changed')
     material = json.loads(raw_map)
     keyed = material['KeyedSurfaces']
     require(not material['Surfaces']['entries'] and not material['Volumes']['entries'],

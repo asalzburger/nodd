@@ -196,8 +196,16 @@ homogeneous fallback. No shared dependency or ACTS source change is required.
 The full runs used new source bytes on base commit
 `a16cee6b8d2f590ac422983fe10f7c43e955175e`; their reports retain each exact
 source/binary hash rather than implying that those files were already committed.
-The supplemental source-relocation record and [reversible patch](source-relocation.patch)
+The supplemental [source-relocation record](source-relocation.json) and [reversible patch](source-relocation.patch)
 reconcile those bytes with the final native source location and the later
 audit-only support for finalized homogeneous 1×1 maps. That extension does not
 change mapping/validation physics or the requested multi-bin configuration.
 The authoritative full-run reports and saved map are preserved unchanged.
+Seven manifest/runtime controls and six [native rejection/atomicity checks](native-config-checks.json)
+passed. The final-source [full-map audit](final-full-map-audit.json) reproduces
+every original native grid entry. A separate [all-axes-one fixture](homogeneous-config.json)
+exercises configurable 1×1 grids: 100 recorded tracks map onto 65 homogeneous
+slabs with exact budget closure, then 100 new rays validate that saved fixture
+([mapping report](homogeneous-smoke/mapping-report.json),
+[validation report](homogeneous-smoke/validation-report.json)). It is a software
+control, separate from the requested 8,550-bin result.

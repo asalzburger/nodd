@@ -1,0 +1,138 @@
+{
+  "schema_version": 1,
+  "status": "PROTOTYPE",
+  "reason": "Repository source ownership: native ACTS framework code belongs under software/source/ActsExamples.",
+  "compiled_native_source_relocation": [
+    {
+      "old_path": "software/analysis/gen3_material_mapping/native/CMakeLists.txt",
+      "new_path": "software/source/ActsExamples/MaterialMapping/CMakeLists.txt",
+      "content_sha256_before": "b93a53b5d2bc7680eabf9010618ffe4c59c114c264f51f5dff6bb14db38f071d",
+      "content_sha256_after": "b93a53b5d2bc7680eabf9010618ffe4c59c114c264f51f5dff6bb14db38f071d",
+      "content_unchanged": true
+    },
+    {
+      "old_path": "software/analysis/gen3_material_mapping/native/PortalMaterial.cpp",
+      "new_path": "software/source/ActsExamples/MaterialMapping/PortalMaterial.cpp",
+      "content_sha256_before": "2a862cbdb331e8eab4b708dc08758fa2b80704df653f7ed3117b2fc51d07891d",
+      "content_sha256_after": "2a862cbdb331e8eab4b708dc08758fa2b80704df653f7ed3117b2fc51d07891d",
+      "content_unchanged": true
+    },
+    {
+      "old_path": "software/analysis/gen3_material_mapping/native/README.md",
+      "new_path": "software/source/ActsExamples/MaterialMapping/README.md",
+      "content_sha256_before": "226d5f7bbb58278175c773a2bf4cc58207acc75b059d242f5c4ff2079b9d948d",
+      "content_sha256_after": "67ccb26d76a2253f4a92a9817d2300f670f257cae5f6d502b3b41b7f4ce4c92e",
+      "content_unchanged": false
+    }
+  ],
+  "runtime_helper_before_sha256": "c04b1065c214df758894e7f9bbea423723dd353b16f3b67a566389d15fb00f88",
+  "physics_rerun": false,
+  "baseline_mapping_report": "mapping/mapping-report.json",
+  "baseline_validation_report": "validation/validation-report.json",
+  "runtime_helper_after_sha256": "1ac42be778af45a39086dc64e75b7bbf61426e83a70c7e89cd6e980906c5b8e0",
+  "runtime_helper_change": "Only the two provenance file locators changed from the old analysis/native folder to software/source/ActsExamples/MaterialMapping; algorithms and run controls unchanged.",
+  "guide_change": "Build example now uses the repository-native source location and --fresh to support relocation of an existing task-local CMake cache.",
+  "native_binary_retained": true,
+  "native_binary_sha256": "5d90c439d7aa4eff15e10efa73be4a52bbe0475a760331eb47d4b7e16d82a8cd",
+  "reconstructable_runtime_helper_before": {
+    "path": "build/gen3-material-map-run/source-relocation/legacy-material_runtime.py",
+    "sha256": "c04b1065c214df758894e7f9bbea423723dd353b16f3b67a566389d15fb00f88",
+    "method": "Reverse only the two recorded provenance-locator changes; SHA-256 asserted equal to authoritative mapping and validation reports."
+  },
+  "runtime_helper_after_relocation_copy": {
+    "path": "build/gen3-material-map-run/source-relocation/relocated-material_runtime.py",
+    "sha256": "1ac42be778af45a39086dc64e75b7bbf61426e83a70c7e89cd6e980906c5b8e0"
+  },
+  "compiled_native_baseline_copy": {
+    "path": "build/gen3-material-map-run/source-relocation/PortalMaterial.cpp.before-homogeneous",
+    "sha256": "2a862cbdb331e8eab4b708dc08758fa2b80704df653f7ed3117b2fc51d07891d"
+  },
+  "native_binary_baseline_copy": {
+    "path": "build/gen3-material-map-run/native-baseline/nodd_portal_material.cpython-314-darwin.so",
+    "sha256": "5d90c439d7aa4eff15e10efa73be4a52bbe0475a760331eb47d4b7e16d82a8cd"
+  },
+  "final_source_patch": {
+    "path": "build/gen3-material-map-run/source-relocation.patch",
+    "sha256": "997b44527ebe5b2c064177b9b2b8832b8d975e71752f574ed115246094a31446",
+    "format": "Unified diff, current repository paths on both sides; reversing final sources reconstructs the exact authoritative full-run source hashes.",
+    "files": [
+      {
+        "path": "software/analysis/gen3_material_mapping/material_runtime.py",
+        "before_sha256": "c04b1065c214df758894e7f9bbea423723dd353b16f3b67a566389d15fb00f88",
+        "after_sha256": "533628375bdd6d27d541bc5f0bb32ffe31e6331b92440a90e105a8289efa3414"
+      },
+      {
+        "path": "software/source/ActsExamples/MaterialMapping/PortalMaterial.cpp",
+        "before_sha256": "2a862cbdb331e8eab4b708dc08758fa2b80704df653f7ed3117b2fc51d07891d",
+        "after_sha256": "745651306f98905faa8b2830b3de3c95a503775c1bca068999b41a8d23b0bc0b"
+      }
+    ]
+  },
+  "homogeneous_audit_amendment": "Final native inventory recognizes HomogeneousSurfaceMaterial only for configured1x1; all multi-bin requests continue to require exact binned material. Mapping and validation physics algorithms are unchanged.",
+  "immutable_full_run_reports": [
+    {
+      "path": "build/gen3-material-map-run/mapping/mapping-report.json",
+      "sha256": "64ebf9054827ed365f5d9165952dfd18c276e29f07e1ae6f8643223d1be9c816"
+    },
+    {
+      "path": "build/gen3-material-map-run/validation/validation-report.json",
+      "sha256": "29b1dd1edd4a4af1a9a0726ac7b4f5f0e906c5d887003d06e5486a32628a3802"
+    }
+  ],
+  "source_patch_round_trip": "PASS: git apply --reverse reconstructs both authoritative before hashes; applying again reconstructs both final hashes in a clean temporary directory.",
+  "relocation_snapshot_scope": "The content-preserving relocation entries and runtime_helper_after_sha256 describe the immediate move before the separately recorded homogeneous-audit amendment; final source hashes are recorded in final_source_patch.",
+  "final_native_binary": {
+    "path": "build/gen3-material-map-run/native/nodd_portal_material.cpython-314-darwin.so",
+    "sha256": "c2a966606e2be029549a7cb5650ba34dd096055f0fcc0bea89c6c3bfe9e9de99",
+    "rebuilt_from_final_source": true
+  },
+  "homogeneous_smoke": {
+    "status": "PASS",
+    "fixture": "Selector-generated configuration with every bin count1; not the production proposal.",
+    "events": 1,
+    "tracks": 100,
+    "keyed_surfaces": 65,
+    "native_material_type": "homogeneous",
+    "native_material_bins": 65,
+    "empty_bins": 2,
+    "per_track_budget_partition": {
+      "identity": "Exact event_id and recorded float momentum tuple; duplicate identities rejected",
+      "tracks": 100,
+      "step_partition": "PASS",
+      "max_absolute_x0_residual": 0.0,
+      "max_absolute_l0_residual": 0.0
+    },
+    "files": [
+      {
+        "path": "build/gen3-material-map-run/homogeneous-config.json",
+        "sha256": "cde14dacf8f6bffc1620efe94b3f3cae40eb5e7596dea2e42d1caa1146d5e33b"
+      },
+      {
+        "path": "build/gen3-material-map-run/homogeneous-selection.json",
+        "sha256": "643f8ff82edf21097e22fb0b5205837718430801ef7aa1ba4b3a0f270fc906ce"
+      },
+      {
+        "path": "build/gen3-material-map-run/homogeneous-smoke-final/mapping/mapping-report.json",
+        "sha256": "520b6d17268b27da02b8da9abdfeb5251a95d80fe329fcc95b2e85c7cb31d50c"
+      },
+      {
+        "path": "build/gen3-material-map-run/homogeneous-smoke-final/validation/validation-report.json",
+        "sha256": "56272936b3a9e8716f40be095304bc29f773bc7d160179a6745f732175827848"
+      }
+    ]
+  },
+  "final_full_map_audit": {
+    "path": "build/gen3-material-map-run/final-full-map-audit.json",
+    "sha256": "56847a7a8cf34a887af80bfa57095a5c93d504bce5bd1792c3140e58473db549",
+    "schema_version": 1,
+    "status": "PASS",
+    "algorithm_rerun": false,
+    "exact_baseline_inventory_match": true,
+    "selected_portals": 65,
+    "material_bins": 8550,
+    "empty_bins": 1672,
+    "map_reload": "PASS: exact keyed map applied to the same native portal inventory"
+  },
+  "full_campaign_physics_rerun": false,
+  "native_test_fixture_algorithms_run": "One recorded event (100 tracks) mapped;100 independent validation rays. Existing full campaign outputs and reports remain unchanged."
+}
