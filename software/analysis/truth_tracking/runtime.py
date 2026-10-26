@@ -2,6 +2,8 @@
 import gzip
 import json
 import math
+import os
+import tempfile
 from pathlib import Path
 
 
@@ -43,7 +45,23 @@ def material_map(source, output):
         payload = stream.read()
     # Invalid maps fail before native geometry construction.
     json.loads(payload)
-    output.write_bytes(payload)
+    if output.exists():
+        if output.read_bytes() != payload:
+            raise ValueError("Expanded material map conflicts with the frozen source")
+        return output
+    # Publish complete immutable bytes atomically across parallel native cases.
+    # A unique temporary in the same directory avoids partial JSON reads.
+    with tempfile.NamedTemporaryFile(dir=output.parent, prefix=".material-map-", delete=False) as stream:
+        temporary=Path(stream.name)
+        stream.write(payload)
+    try:
+        try:
+            os.link(temporary,output)
+        except FileExistsError:
+            if output.read_bytes() != payload:
+                raise ValueError("Concurrent expanded map conflicts with frozen source")
+    finally:
+        temporary.unlink()
     return output
 
 

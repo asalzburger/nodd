@@ -2,13 +2,24 @@ import json
 import os
 import sys
 import ctypes
+import gzip
 from pathlib import Path
 import tempfile
 import unittest
-from runtime import load_campaign
+from runtime import load_campaign, material_map
 
 
 class RuntimeControls(unittest.TestCase):
+    def test_frozen_map_publish_and_conflict_guard(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory);source=root/"map.json.gz";target=root/"expanded.json"
+            with gzip.open(source,"wb") as stream:stream.write(b'{"material":1}')
+            self.assertEqual(material_map(source,target).read_bytes(),b'{"material":1}')
+            self.assertEqual(material_map(source,target).read_bytes(),b'{"material":1}')
+            with gzip.open(source,"wb") as stream:stream.write(b'{"material":2}')
+            with self.assertRaisesRegex(ValueError,"conflicts"):
+                material_map(source,target)
+
     def test_configuration_guards(self):
         source=Path(__file__).with_name("campaign.json")
         baseline=json.loads(source.read_text())

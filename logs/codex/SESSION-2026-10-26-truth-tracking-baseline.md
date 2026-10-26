@@ -125,3 +125,11 @@ branches,13auditbranches. PairedNaNsallowed;nootherdifference. Persistent123.87s
 versusstandard203.55s. Nativeoldfinder63 versusdirect-index65primarymeasurement
 uses exposesactualbadlookup. Controlsuseidenticaloldsourcebytes; laterunique-map
 repair doesnotinvalidate lifecyclephysics comparison.
+
+Untouched pinnedACTS hiterror script ran on all699273trainingmeasurements.
+RawJSONretained; audited106cluster groups with correctednativeclampedtails.
+FrozenRMSfile SHA2564d637137a64ae5854fc795634a4fdffae8ece4d081220ef143de907f219b460c.
+Nativeoutput map cache is now content-checked and atomically replaced so parallel
+casescannotreadpartialJSON. Nativeenvironment12tests pass includingimmutable-map
+conflict/latestROOTcycle guards; mainanalysis18pass4nativeskips before IOguard.
+Finalcalibratedpilots/production use newsourcepin andfrozentable, not controls.
