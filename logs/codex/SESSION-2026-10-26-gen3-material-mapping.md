@@ -75,3 +75,5 @@ GEN3MAP-SoftEng-01 closed turn01a177b3-f282-7fd2-8f2b-68631969c003:
 Cached2864768 and reasoning3150 are subsets. Canonical import dry-run,import
 and identical replay passed. Parent is active;its counters remain unknown.
 No prior PR99 turns reallocated. Review usage will be added only once closed.
+
+GEN3MAP-PhysVal-01 recorded before dispatch:read-only assessment of full input revision a99b63cba68f8c66723df6ed5c55935e6675971a,primary code/data and bounded claims;complete input/ownership/deliverable contract in PhysVal-01.assignment.json. Coordinator separately adds portable table export from retained JSON.

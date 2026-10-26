@@ -60,6 +60,10 @@ $PLOT_PYTHON software/analysis/gen3_material_mapping/survey.py \
   --near-mm 10 --scatter-stride 40 \
   --output build/gen3-material-mapping/survey
 
+$PLOT_PYTHON software/analysis/gen3_material_mapping/export_tables.py \
+  --data build/gen3-material-mapping/survey \
+  --output build/gen3-material-mapping/survey
+
 $PLOT_PYTHON -m unittest discover \
   -s software/analysis/gen3_material_mapping -p 'test_*.py' -v
 
