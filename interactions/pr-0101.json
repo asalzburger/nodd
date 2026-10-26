@@ -19,13 +19,13 @@
     "events": []
   },
   "github": {
-    "captured_at": "2026-10-26T13:59:21.117370Z",
+    "captured_at": "2026-10-26T14:19:44.237867Z",
     "pull_request": {
       "number": 101,
       "url": "https://github.com/asalzburger/nodd/pull/101",
       "title": "Tracker: establish Gen3 truth-tracking baseline with Geant4 and Fatras",
       "head": "codex/tracker-truth-baseline",
-      "head_sha": "83b0b91b546a6dae40c93b10bab32f9234b1dd8f",
+      "head_sha": "c32b3832e659ca985e0cd06c10ab021569f2f21c",
       "state": "open",
       "body": "Establish an ideal-field **3 T** truth-associated ACTS Kalman baseline for the exact Gen3 nODD tracker and material map merged in PR100. Compare Geant4 and Fatras using one muon per event at fixed pT 1, 10 and 100 GeV, geometric 50×50 µm pixels, 75 µm×0.5 mm short-strip cells, and 80 µm one-coordinate long strips on the actual stereo faces.\n\nThis draft contains the reproducible native chain, configuration, analytic controls, independent preliminary assessments and the frozen hit-error training result. **The six 20k-event performance cases and final resolution/pull figures are still in progress.**\n\nAn independent 50,000-event Fatras gun (log-uniform pT 1–100 GeV, seed 142042) produced 699,273 measurements covering all 52 sensitive volumes. The unchanged ACTS `error_parameterisation.py` output is retained alongside an audited table: 106 cluster-size groups, 90 measured volume/coordinate pairs. The audit corrects the pinned script’s pooled-tail/overflow bookkeeping; no track-pull tuning or tail cuts are used. Both performance backends receive one frozen table.\n\nTask-local native adapters correct truth measurement indexing/duplicate associations, preserve seven **unique** measurement selection, and apply trained marginal errors after native cluster merging. Native transport, clustered positions and the Kalman fitter remain unchanged. A persistent ordinary Geant4 run avoids repeated cut-table initialization while retaining one independent Geant4 event per ACTS event. Five same-seed events match the standard lifecycle exactly across generated particles, 95 hits, 80 measurements and fitted-track data.\n\n- Governing prototype: DES-025; digitization contracts: DES-007/DES-008; source layout: ADR-008.\n- Configuration and reproduction: `software/analysis/truth_tracking/README.md` and `campaign.json`.\n- Training table, raw output, group audit and lifecycle comparison: `docs/validation/truth-tracking-baseline/`.\n- Separate PhysVal has checked the initial metric definitions and exposed the upstream hit-error issue; exact native/training assessment is ongoing, with final six-run assessment still required.\n\nThe implementation reports generated denominators, missing/failed fits, invalid covariance, unclipped resolutions and pulls versus eta and pT. Fixed-map statistics omit training/model systematics. One-phi-bin material-map and locality qualifications from PR100 remain. **PROTOTYPE/DRAFT**: no detector design sign-off or production geometry change.\n\nAlso reconcile PR100’s merged metadata, final visible discussion and its now-finalized expert-response turn into that original account only. Tracking-baseline usage is a separate canonical account; active-turn counters remain excluded.\n\nCloses #102.\n",
       "actor": "asalzburger",
@@ -89,7 +89,7 @@
         "snapshot": null,
         "snapshot_sha256": null,
         "record_sha256": "582739cee4d40b4d61bb25a3255e6983825ab477e7f74068ee4ce3e6a61cf8bf",
-        "narrative_sha256": "5a1c6dc89b682ce63619aa147022faa5825550789c4051f4b522dd2b96913fb0"
+        "narrative_sha256": "0155263a9e88e4a95e19213bc557d56f5f3f45e23a2b75c0e495a501913ded62"
       }
     ],
     "token_accounts": [
@@ -1070,7 +1070,7 @@
       }
     ],
     "coverage": {
-      "github_captured_at": "2026-10-26T13:59:21.117370Z",
+      "github_captured_at": "2026-10-26T14:19:44.237867Z",
       "prompts": "Available account-matched user-visible messages, public Codex inputs and curated journal excerpts. Historical full input coverage is unknown.",
       "recovered_visible_turns": 4,
       "unrecovered_account_turns": [],

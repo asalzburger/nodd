@@ -182,3 +182,11 @@ Wilsonendpointfloatingroundoff(upper<1byulp forcompletebins). Canonicalinterval
 now enclosesobservedfraction exactly; endpointcontrolchecksalln1..2048. Re-export
 requiredwithnewmetricshash. Addedcentral68pullwidth panelsalongsidefullSD(logaxis)
 to exposecoreandtail differenceswithoutclipping; alltailsretained.
+
+Finalreduction7774037sourcepasses:119982finitefits,14selectionlosses,4G4pT1fit
+failures,0positive-definitecovariancefailures. All3199735measurementcoordinate
+variances exactRMS²atfloatstorage;90volcoords eachcase. Generatedtruthhashes
+identicalacrossbackends ateachpT. TenPNG/PDF/SVGZsets+1440-rowCSV retained.
+Main inspectedresolutioneta,fullpullSDeta,centralpullwidthpT asoriginalPNGs:
+clearlabels,legends,errors,logscales,footers. Largepulltailsand100GeVforward
+charge/resolutionlossesprominentlyreported; no cutsorunitpullacceptance.
