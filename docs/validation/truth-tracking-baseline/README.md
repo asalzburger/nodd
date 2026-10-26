@@ -252,3 +252,7 @@ there is no unit-pull acceptance threshold or tuning to achieve it.
 This is a reproducible first truth-tracking characterization. More realistic
 response, incidence-conditioned errors, material locality/phi studies and
 pattern-recognition tracking remain separate follow-ups requiring new evidence.
+
+The reviewer-requested [Gaussian-smearing Fatras cross-check](smearing/README.md)
+uses total training-cluster widths to test the response independently of
+geometric clustering and cluster-size error lookup.

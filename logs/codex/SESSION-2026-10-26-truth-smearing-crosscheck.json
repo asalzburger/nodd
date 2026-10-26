@@ -22,8 +22,34 @@
     "start_commit": "5d77b72c70a3534d64c729ad77aa39a418a633d7",
     "branch": "codex/tracker-truth-baseline",
     "initial_changes": [],
-    "result_commits": [],
-    "changed_files": []
+    "result_commits": [
+      "c9be04caf58fc7e458c518fd7cb1566662db9ad4",
+      "152ad5bcf5e5bcf5fbf9c967b5a7f4b105b09160",
+      "fd0daa4c426af7b04b9e2cd97105df4f68a193b1",
+      "cee84b81b74587388adb865b4ef4d34a39ffa8c8",
+      "dc9a9272153a4dcf9b06901911195527b5c64f50"
+    ],
+    "changed_files": [
+      "docs/design/DES-025-tracker-dd4hep-gen3.md",
+      "docs/validation/truth-tracking-baseline/README.md",
+      "docs/validation/truth-tracking-baseline/smearing/pooled-widths.json",
+      "interactions/pr-0101.json",
+      "interactions/pr-0101/active-snapshots/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a17864-5f5d-7140-9b37-3445edfdbebb.json",
+      "logs/codex/SESSION-2026-10-26-truth-smearing-crosscheck.json",
+      "logs/codex/SESSION-2026-10-26-truth-smearing-crosscheck.md",
+      "logs/codex/SESSION-2026-10-26-truth-smearing-crosscheck/SoftEng-01.assignment.json",
+      "logs/codex/SESSION-2026-10-26-truth-tracking-baseline.json",
+      "logs/codex/SESSION-2026-10-26-truth-tracking-baseline.md",
+      "project/tracking.json",
+      "software/analysis/truth_tracking/export_smearing.py",
+      "software/analysis/truth_tracking/plot_smearing.py",
+      "software/analysis/truth_tracking/pool_errors.py",
+      "software/analysis/truth_tracking/smearing.py",
+      "software/analysis/truth_tracking/smearing_campaign.json",
+      "software/analysis/truth_tracking/test_pool_errors.py",
+      "software/analysis/truth_tracking/test_smearing.py",
+      "software/running/nodd_truth_tracking_smearing.py"
+    ]
   },
   "work": {
     "milestone": "M1",
@@ -41,7 +67,54 @@
     ]
   },
   "narrative": "logs/codex/SESSION-2026-10-26-truth-smearing-crosscheck.md",
-  "activities": [],
+  "activities": [
+    {
+      "kind": "skill",
+      "name": "nodd-coordinate, nodd-design-evidence and nodd-review-validation",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Read applicable repository skills; fixed-role bounded implementation and later separate exact-revision assessment, explicit profiles supplied to generic agents."
+    },
+    {
+      "kind": "tool",
+      "name": "ACTS Fatras isolated native runtime",
+      "version": "ACTS355ea684;ROOT6.40.04;Python3.14.5",
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Actual native100-event pilot and three20k production runs; existing shared libraries read-only, no installations. Original native truth sidecar reused unchanged."
+    },
+    {
+      "kind": "tool",
+      "name": "Analysis NumPy/uproot/Matplotlib",
+      "version": "Python3.11;NumPy2.4.6;uproot5.7.7;Matplotlib3.11.2",
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Existing isolated analysis environment; pooled all-cluster widths and portable32PASS/5native-onlySKIP controls."
+    }
+  ],
   "usage": [],
-  "checks": []
+  "checks": [
+    {
+      "command": "pool_errors.py independent50kFatras ROOT reduction and test_pool_errors.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "699273trainingmeasurements,52volumes/90coordinates; native ROOT/digitization hashes checked; two scientific mixture/missing-data controls pass."
+    },
+    {
+      "command": "100-event native Gaussian-smearing Fatras pT1 pilot",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "100selected/attempted/fitted;1443measurements,all7systems/90coordinates,2479marginals exactfloat32sigma2, no clusters, no bounds losses;31generated branches exact againstgeometric reference. Six new controls pass native andportable."
+    },
+    {
+      "command": "portable unittest discover truth_tracking test_*.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "37controls:32PASS/5expectednative-onlySKIP. No skipped check claimed as executed native verification."
+    }
+  ]
 }

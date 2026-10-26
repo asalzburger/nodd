@@ -256,3 +256,13 @@ are subsets. Currentroot01a17864 stillactiveandexcluded,taskcostpartial. Safe
 childfinalassessment/operationmetadata retained withoutprivate reasoning/tooldata.
 Latesthumanfullhistogramrequest and27visibleactive messages recorded withzero
 usageallocation. Journalcloseslogicalwork withactiveusageexcluded; CIhandofffollows.
+
+2026-10-26 later-turn reconciliation: finalbaseline coordinator turn01a17864
+closedcompletedafter full-histogramhandoff. Exact246requests,43012267input+
+182516output=43194783tokens importedonceinto originalbaseline account. Seven
+closeddisjointturns now106529016input+356487output=106885503observedtokens,
+105357312cached/141620reasoning subsets. Safe35visiblemessages movedfromactive
+snapshotintoclosedturn evidence; prioractivecuratedduplicates removed. Finalhead
+5d77b72 projectbuild/unrooted andtoken workflows allpassed;PR101ready/mergeable.
+NewreviewcommentGaussian-smearingcrosscheck is a separate bounded account,
+SESSION-2026-10-26-truth-smearing-crosscheck; no allocation of itsactiveusagehere.
