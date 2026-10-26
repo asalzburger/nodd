@@ -43,6 +43,14 @@ DD4hep, Geant4, ROOT, podio, EDM4hep and GSL remain Spack dependencies.
 The staged migration is recorded in
 [ADR-008](../docs/decisions/ADR-008-software-source-layout.md).
 
+## Tracker propagation profiles
+
+`make tracker-propagation` builds the current tracker, generates the DES-026
+3 T finite-winding map and runs native ACTS propagation at pT 1/10/100 GeV.
+The [repeatable workflow](../tools/tracker_propagation/README.md) includes complete
+generated-probe accounting, subdetector/full-tracker unrooted profiles,
+numerical controls and plotting from saved counts without ACTS.
+
 ## Material-recording profiling
 
 The [matched ODD/nODD profiler](../tools/material_recording_profile/README.md)
