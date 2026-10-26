@@ -54,6 +54,23 @@ retains the Geant4 locations and remote-material flags. Mapping every step here
 does not establish that all such material is locally represented: nearest
 intersection assignment can move distant service material onto a carrier.
 
+An independent PhysVal reduction of the actual mapped ROOT output quantifies
+that displacement for this selected set:
+
+| Midpoint to assigned intersection | Steps | Fraction of mapped X₀ | Fraction of mapped λI |
+| --- | ---: | ---: | ---: |
+| >10 mm | 6,732,954 | 80.2647% | 65.7231% |
+| >50 mm | 400,757 | 56.6015% | 39.6059% |
+| >100 mm | 133,137 | 37.6793% | 26.5982% |
+
+The maximum is **413.289 mm**. These flags use `sur_distance`, the native
+writer's distance from the corrected material midpoint to its assigned
+intersection along the ray. They differ from the earlier survey's shortest
+distance to any finite native portal. The thresholds are diagnostic choices,
+without acceptance criteria; oblique rays can have a large path displacement
+despite a smaller radial/axial separation. The large material-weighted fractions
+remain a locality limitation requiring investigation before a tracking use.
+
 The authoritative [mapping report](mapping-report.json),
 [validation report](validation-report.json), [reduced total profiles](validation-profiles.json),
 and losslessly compressed [native keyed map](material_map.json.gz) identify the
@@ -65,7 +82,9 @@ figures; native physics execution was performed locally, not in hosted CI.
 
 The [configuration](../../../software/analysis/gen3_material_mapping/mapping_config.json)
 sets the layer policy, all phi/z/r bin counts, extras, shared-portal conflict
-policy and validation generation defaults. The
+policy. Its `validation` block records the intended run settings; generation is
+configured through the validation CLI flags shown below. Editing that block
+alone does not change the CLI's defaults. The
 [selection manifest](selection.json) gives every actual native geometry ID,
 finite extent, requested logical role, resolved bins and input/source hashes.
 
@@ -209,3 +228,16 @@ slabs with exact budget closure, then 100 new rays validate that saved fixture
 ([mapping report](homogeneous-smoke/mapping-report.json),
 [validation report](homogeneous-smoke/validation-report.json)). It is a software
 control, separate from the requested 8,550-bin result.
+
+## Independent assessment
+
+[GEN3RUN-PhysVal-01](../../../logs/codex/SESSION-2026-10-26-gen3-material-map-run/PhysVal-01-result.md)
+reviewed source/evidence commit `2fff94bf5df903cff5cb8404754357ba318e71ef`.
+It independently checked every ray's budget partition, all validation profiles
+and all 1,417,441 validation interactions against ACTS's serialized-map lookup,
+including float32 bin-boundary arithmetic. It found no blocking defect in
+conservation, portal identity, binning or normalization. The locality table
+above and clarification of the descriptive validation configuration were added
+by the coordinator in response. Material order, occupancy uncertainty,
+azimuthal fidelity and tracking performance remain unvalidated; this separate
+agent assessment grants no human sign-off.

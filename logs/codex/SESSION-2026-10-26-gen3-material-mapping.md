@@ -118,3 +118,15 @@ Human review of Tracker PR100 and the proposed extra carrier families. No
 production map,extra native geometry,binning or reconstruction changes requested
 in this first step. Current active turn counters can be finalized after closure;
 scientific future work remains in project/tracking.json and the report.
+
+## Parent-turn closeout observed during the subsequent mapping trial
+
+On the next user turn,the first-step parent01a177ad-96c6-79b2-ba6c-038f0f8bcdf0
+is now completed. Usage-only evidence recovers13982330 input+69083 output=
+14051413 total over93 requests. Its canonical owner remains this survey session,
+not the new map-run session. Three first-step turns now total18423744 input+
+97394 output=18521138 tokens,147 requests. Cached17661952 and reasoning32236
+are subsets. Prior partial figures above remain dated historical observations.
+Dry-run/import/identical replay passed;full completed visible snapshot replaces
+active-event duplication in PR100 ledger. Client start/end timestamps now supply
+this record's exact bounded parent times. Models/client version remain unknown.
