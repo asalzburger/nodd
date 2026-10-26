@@ -11,6 +11,13 @@ pixel, short strip and long strip, with sensitive/non-sensitive contributions.
 The [analysis scripts](material_profiles/README.md) classify an existing recording
 against explicit DD4hep inputs and reproduce plots from compact retained data.
 
+## Gen3 material-mapping surfaces
+
+The [first-step mapping survey](gen3_material_mapping/README.md) overlays the
+100k geantino material positions with actual native Gen3 portals, applies the
+pixel before/after convention and flags remote service material. It retains
+portable figures and a DRAFT surface proposal; no material map is installed.
+
 ## Documentation plots with unrooted
 
 [Issue #95](https://github.com/asalzburger/nodd/issues/95) requests

@@ -34,6 +34,10 @@ jobs:
           python -B software/analysis/material_profiles/plot_profiles.py
           --data docs/validation/geantino-material-profiles/profiles.json
           --output build/material-profiles
+      - name: Check finite Gen3 material-survey geometry and replay its figures
+        run: |
+          python -B -m unittest discover -s software/analysis/gen3_material_mapping -p 'test_*.py' -v
+          python -B software/analysis/gen3_material_mapping/plot.py --data docs/validation/gen3-material-mapping --output build/gen3-material-mapping-replay
       - name: Check float32 material-boundary rounding cells
         run: |
           c++ -std=c++17 software/analysis/material_profiles/test_rounding_cell.cpp -o build/test-rounding-cell
