@@ -148,7 +148,8 @@ def binomial_interval(successes, trials):
     denominator = 1 + 1 / trials
     centre = (p + 1 / (2 * trials)) / denominator
     radius = math.sqrt(p * (1 - p) / trials + 1 / (4 * trials ** 2)) / denominator
-    return {"value": p, "low": max(0., centre - radius), "high": min(1., centre + radius)}
+    return {"value": p, "low": min(p, max(0., centre - radius)),
+            "high": max(p, min(1., centre + radius))}
 
 
 def classify_primary_barcodes(recorded, generated):

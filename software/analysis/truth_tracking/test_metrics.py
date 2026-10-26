@@ -80,6 +80,9 @@ class PerformanceMetricsTests(unittest.TestCase):
         self.assertIsNone(binomial_interval(0, 0)["value"])
         self.assertEqual(binomial_interval(10, 10)["value"], 1.)
         self.assertGreater(binomial_interval(0, 10)["high"], 0.)
+        for trials in range(1, 2049):
+            self.assertEqual(binomial_interval(trials, trials)["high"], 1.)
+            self.assertEqual(binomial_interval(0, trials)["low"], 0.)
         with self.assertRaises(ValueError):
             binomial_interval(11, 10)
 

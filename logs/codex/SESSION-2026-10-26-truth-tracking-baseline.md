@@ -176,3 +176,9 @@ handling: verifyselectedROOTprimarybarcode/counts,onecandidate/output index0;all
 onlyallzero sentinel+Fakeclass,retainseed-associatedresidualswithgeneratedtruth,
 countnativematchingseparately,rejectvalidnonzero conflicts. No nativechanges or
 retuning. Newbarcodecontrolandall25native/analyticcontrolsPASS.
+
+Firstfullplotreplay passedsource/count/table audits butfractionrendering caught
+Wilsonendpointfloatingroundoff(upper<1byulp forcompletebins). Canonicalinterval
+now enclosesobservedfraction exactly; endpointcontrolchecksalln1..2048. Re-export
+requiredwithnewmetricshash. Addedcentral68pullwidth panelsalongsidefullSD(logaxis)
+to exposecoreandtail differenceswithoutclipping; alltailsretained.

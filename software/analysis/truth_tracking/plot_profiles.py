@@ -215,6 +215,7 @@ def main():
             ("residual", "width68", "central 68.27% resolution", "resolution"),
             ("pull", "mean", "pull means", "pull_mean"),
             ("pull", "std", "pull widths (full standard deviation)", "pull_width"),
+            ("pull", "width68", "pull central 68.27% half-widths", "pull_width68"),
         ] + ([("residual", "std", "residual standard deviation, including tails", "resolution_std")]
              if axis_name == "eta" else []):
             subtitle = ("All three fixed pT samples; signed truth η."
@@ -254,6 +255,8 @@ def main():
                                 ms=3, lw=1.2, capsize=1.5, alpha=.9)
                 if kind == "pull":
                     ax.axhline(0 if metric == "mean" else 1, color="#65717a", lw=1, alpha=.7)
+                    if metric in ("std", "width68"):
+                        ax.set_yscale("log")
                 else:
                     ax.set_yscale("log")
                 if axis_name == "pt":
@@ -317,7 +320,7 @@ def main():
         writer.writerow(["simulation", "pt_GeV", "projection", "eta_low", "eta_high",
                          "generated", "selected", "fit_attempts", "fit_tracks", "invalid_covariance", "native_unmatched_fit",
                          "quantity", "residual_entries", "residual_mean", "residual_std", "residual_width68",
-                         "pull_entries", "pull_mean", "pull_std", "pull_tail_abs_gt3_fraction"])
+                         "pull_entries", "pull_mean", "pull_std", "pull_width68", "pull_tail_abs_gt3_fraction"])
         for sample in data["samples"]:
             for projection in ("eta_profiles", "abs_eta_profiles"):
                 for item in sample[projection]:
@@ -327,8 +330,8 @@ def main():
                         writer.writerow([sample["simulation"], sample["pt_GeV"], projection, item["low"], item["high"],
                                          c["generated"], c["selected"], c["fit_attempts"], c["fit_tracks"], c["invalid_covariance"], c["native_unmatched_fit"],
                                          quantity, r["entries"], r["mean"], r["std"], r["width68"],
-                                         p["entries"], p["mean"], p["std"], values["pull_tail_abs_gt3"]["value"]])
-    print("Rendered eight tracking comparisons as PNG/PDF/SVGZ and retained all eta slices in CSV")
+                                         p["entries"], p["mean"], p["std"], p["width68"], values["pull_tail_abs_gt3"]["value"]])
+    print("Rendered ten tracking comparisons as PNG/PDF/SVGZ and retained all eta slices in CSV")
 
 
 if __name__ == "__main__":
