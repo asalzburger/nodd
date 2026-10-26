@@ -37,6 +37,30 @@ def portable_provenance(provenance):
         "path_note": "Machine-local file paths omitted; role, basename and SHA256 retained."}
 
 
+def retain_native_reports(base, cases, output):
+    """Keep complete reports with local paths omitted and original hashes intact."""
+    reports = []
+    controls = ["training-fatras", "lifecycle-standard-geant4",
+                "lifecycle-persistent-geant4", "pilot-fatras-pt1", "pilot-geant4-pt1"]
+    for directory in [*cases, *(base / name for name in controls)]:
+        path = directory / "run-report.json"
+        original = json.loads(path.read_text())
+        portable = {**original, "provenance": portable_provenance(original["provenance"])}
+        if portable.get("error_table"):
+            portable["error_table"] = {key: value for key, value in portable["error_table"].items()
+                                       if key != "path"}
+        if "/Users/" in json.dumps(portable):
+            raise ValueError("Unexpected local path in retained native report")
+        reports.append({"case": directory.name, "source_report_sha256": sha256(path),
+                        "role": "performance" if directory in cases else "training_or_control",
+                        "report": portable})
+    payload = {"schema_version": 1, "status": "PROTOTYPE", "reports": reports,
+               "method": "Original report SHA256 retained; machine-local path fields omitted. "
+                         "Training/lifecycle controls have separately documented source-identity qualifications."}
+    output.write_bytes(gzip.compress((json.dumps(payload, indent=2, allow_nan=False) + "\n").encode(), mtime=0))
+    return sha256(output)
+
+
 def flat(table, name):
     return ak.to_numpy(ak.flatten(table[name], axis=None))
 
@@ -298,6 +322,9 @@ def main():
         samples.append(sample)
         print(sample["simulation"], sample["pt_GeV"], sample["global"]["counts"], flush=True)
     root = Path(__file__).resolve().parents[3]
+    args.output.parent.mkdir(parents=True, exist_ok=True)
+    native_reports_hash = (None if args.pilot else retain_native_reports(
+        args.input, cases, args.output.parent / "native-run-reports.json.gz"))
     data = {
         "schema_version": 1, "status": "PROTOTYPE", "pilot": args.pilot,
         "configuration": campaign,
@@ -306,6 +333,7 @@ def main():
             "configuration_sha256": sha256(args.config),
             "exporter_sha256": sha256(Path(__file__)),
             "metrics_sha256": sha256(Path(__file__).with_name("metrics.py")),
+            "native_reports_sha256": native_reports_hash,
             "versions": {"numpy": np.__version__, "uproot": uproot.__version__, "awkward": ak.__version__},
         },
         "statistics": "No tail cuts. Perigee parameters at origin. Five-dimensional fitted covariance must be positive-definite for pulls. Width68 is half the central empirical interval. Errors are event-bootstrap standard deviations conditional on the frozen independent Fatras hit-error table; training and detector-model systematics are omitted. Mean SE is sample SD/sqrt(N). Wilson z=1 intervals for fractions.",

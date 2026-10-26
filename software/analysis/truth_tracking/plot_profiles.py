@@ -60,6 +60,41 @@ def audit_training(config):
     print("Retained training source/table/group audit PASS (native ROOT audit is separate)")
 
 
+def audit_native_reports(data):
+    root = Path(__file__).resolve().parents[3]
+    directory = (root / data["configuration"]["error_training"]["error_table"]).parent
+    path = directory / "native-run-reports.json.gz"
+    if hashlib.sha256(path.read_bytes()).hexdigest() != data["provenance"]["native_reports_sha256"]:
+        raise ValueError("Retained native report inventory differs")
+    inventory = json.loads(gzip.decompress(path.read_bytes()))
+    reports = {item["case"]: item for item in inventory["reports"]}
+    if len(reports) != len(inventory["reports"]):
+        raise ValueError("Repeated retained native case")
+    source_identities = []
+    for sample in data["samples"]:
+        case = f"{sample['simulation']}-pt{sample['pt_GeV']:g}"
+        item = reports[case]
+        report = item["report"]
+        if (item["role"] != "performance" or report["outcome"] != "completed" or
+                item["source_report_sha256"] != sample["run_report_sha256"] or
+                report["counts"] != sample["native_counts"] or
+                report["campaign"] != data["configuration"] or
+                report["provenance"] != sample["native_provenance"] or
+                report["original_proto_reference"]["enabled"]):
+            raise ValueError("Native performance report differs from retained profile")
+        identities = report["executed_source_sha256"]
+        source_identities.append(identities)
+        for name, expected in identities.items():
+            if name.startswith("software/") and hashlib.sha256((root / name).read_bytes()).hexdigest() != expected:
+                raise ValueError("Executed native source differs from repository: " + name)
+    if not all(identity == source_identities[0] for identity in source_identities):
+        raise ValueError("Performance samples executed different native source/binary bytes")
+    training = json.loads((directory / "hit-error-training-audit.json").read_text())
+    if reports["training-fatras"]["source_report_sha256"] != training["training_report_sha256"]:
+        raise ValueError("Retained training report differs from training audit")
+    print("Native report/source/common-binary identity audit PASS")
+
+
 def audit(data, config_path):
     digest = lambda path: hashlib.sha256(path.read_bytes()).hexdigest()
     source = Path(__file__).resolve().parent
@@ -75,6 +110,7 @@ def audit(data, config_path):
     config = data["configuration"]
     if not data["pilot"]:
         audit_training(config)
+        audit_native_reports(data)
     expected = {(s, p) for s in config["simulations"] for p in config["pt_GeV"]}
     actual = {(s["simulation"], s["pt_GeV"]) for s in data["samples"]}
     if not data["pilot"] and (expected != actual or len(actual) != len(data["samples"])):

@@ -160,3 +160,10 @@ for either; excluded controls. G4pT1 completed19994fits/19998attempts,2selection
 losses,4nativefitfailures. DES025 amendedbeforecorrection: removeunsafeoriginal
 finder,retainidenticalnativeextraction/smearingseed stages directly. Allsixcases
 willrerun atonefixedrevision; no simulation,digitization,tableorfitretuning.
+
+Correction source39cd5185d21a0ef47445023000c0381dc4b5360f frozenfor sixreplacement
+20kruns. Main independentlychecked directnative seedconfiguration against pinned
+addTruthSmearedSeeding and ran all24controls in actualnative3.14environment:
+24PASS,zeroskips. Offlineexport/replaynowretains portablefullnative reports with
+originalhashes and checks commonexecutednativebytes,training/table/group identities.
+ACTS primarysource catalogueentry addedat exact355ea684 version.

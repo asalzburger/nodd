@@ -209,7 +209,8 @@ error training, pilots used the native pitch-squared/12 covariance. For the
 performance baseline train a common empirical hit-error table with an independent
 50,000-event Fatras sample, log-uniform pT from 1 to 100 GeV and seed 142042,
 using the same eta/phi, geometry, segmentation and field. Use the pinned ACTS
-Digitization/error_parameterisation.py script, retain its raw result, and audit
+Digitization/error_parameterisation.py script (SRC-ACTS-TRUTH-TRACKING-355EA684
+in [the source catalogue](../../reference/manifest.yaml)), retain its raw result, and audit
 cluster-size groups and overflow handling against the measurement residuals.
 Apply one frozen table to both validation backends; training events must not
 contribute to reported performance. Any upstream table correction needs exact
