@@ -9,7 +9,7 @@
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
-    "One completed SoftEng child turn recovered exactly; parent and future review turn excluded until closed. Actual execution models/client version unavailable.",
+    "Two completed specialist turns recovered exactly (SoftEng37 requests,PhysVal17). Active parent turn excluded until closed;actual execution models/client version unavailable.",
     "Recording lacks embedded geometry revision, seed and original command. Native runtime is explicitly selected from separate source/build."
   ],
   "client": {
@@ -21,8 +21,12 @@
     "start_commit": "f0775a2dd3c30f405880a9e7323e4d230c3c4155",
     "branch": "codex/tracker-gen3-material-mapping",
     "initial_changes": [],
-    "result_commits": [],
+    "result_commits": [
+      "a99b63cba68f8c66723df6ed5c55935e6675971a",
+      "0f1c5256fd120282bdd3ab4bb3fc72b285ecf3d1"
+    ],
     "changed_files": [
+      ".github/workflows/validation.yml",
       "docs/validation/gen3-material-mapping/README.md",
       "docs/validation/gen3-material-mapping/classification-diagnostics.csv",
       "docs/validation/gen3-material-mapping/classification-provenance.json",
@@ -46,19 +50,21 @@
       "docs/validation/gen3-material-mapping/remote-regions.csv",
       "docs/validation/gen3-material-mapping/scatter.npz",
       "docs/validation/gen3-material-mapping/survey.json",
+      "interactions/pr-0100.json",
       "logs/codex/SESSION-2026-10-26-gen3-material-mapping.json",
       "logs/codex/SESSION-2026-10-26-gen3-material-mapping.md",
+      "logs/codex/SESSION-2026-10-26-gen3-material-mapping/PhysVal-01-result.md",
       "logs/codex/SESSION-2026-10-26-gen3-material-mapping/SoftEng-01-result.md",
       "logs/codex/SESSION-2026-10-26-gen3-material-mapping/SoftEng-01.assignment.json",
+      "logs/usage/USAGE-2026-10-26-gen3-material-mapping.json",
+      "project/tracking.json",
+      "software/analysis/README.md",
       "software/analysis/gen3_material_mapping/README.md",
       "software/analysis/gen3_material_mapping/export_geometry.py",
       "software/analysis/gen3_material_mapping/plot.py",
       "software/analysis/gen3_material_mapping/survey.py",
       "software/analysis/gen3_material_mapping/test_export_geometry.py",
       "software/analysis/gen3_material_mapping/test_survey.py",
-      ".github/workflows/validation.yml",
-      "project/tracking.json",
-      "software/analysis/README.md",
       "software/analysis/material_profiles/categorize.C",
       "software/analysis/material_profiles/categorize.py"
     ]
@@ -71,7 +77,10 @@
     "related_ids": [
       "DES-024",
       "DES-025",
-      "GEN3MAP-SoftEng-01"
+      "GEN3MAP-SoftEng-01",
+      "TASK-TRACK-GEN3-MATERIAL-SURVEY",
+      "GEN3MAP-PhysVal-01",
+      "PR-100"
     ]
   },
   "narrative": "logs/codex/SESSION-2026-10-26-gen3-material-mapping.md",
@@ -101,6 +110,21 @@
       "output_tokens": 17608,
       "reasoning_output_tokens": 3150,
       "total_tokens": 2952436
+    },
+    {
+      "client_thread_id": "01a177c4-4d11-7550-bfab-d9b53900e7bc",
+      "turn_id": "01a177c4-4d5f-7cd3-97fd-1d46eadbf769",
+      "model": null,
+      "source": "Codex usage-only recovery 2026-10-26T10:36:18.946004+00:00;17 request increases reconciled against last-request counters and persisted closed-turn ordinals;usage SHA256 db842431af30ed4c99d0b99b8a0892e113958d705143a060ff3ce5d130a85321. Canonical owner SESSION-2026-10-26-gen3-material-mapping.",
+      "limitations": [
+        "Actual execution model/client version unavailable.",
+        "Cached input and reasoning output are subsets. Active parent turn excluded."
+      ],
+      "input_tokens": 1506586,
+      "cached_input_tokens": 1332864,
+      "output_tokens": 10703,
+      "reasoning_output_tokens": 3097,
+      "total_tokens": 1517289
     }
   ],
   "checks": [
@@ -157,6 +181,18 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "73 tasks,39 documents,21 review rounds;201 session records valid."
+    },
+    {
+      "command": "GEN3MAP-PhysVal-01 independent read-only assessment at a99b63cba68f8c66723df6ed5c55935e6675971a",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No blockers for first-step proposal. Exact full100k independent finite-cylinder/annulus distance replay;5/10/20mm counts/fractions,partitions,hashes,first5000 raw points and native sources verified.3 production followups retained."
+    },
+    {
+      "command": "export_tables.py --check;token_usage build/validate;interactions capture and sync",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Both complete CSVs exactly reproduce from retainedJSON;local token site built;public PR100 captured. Initial hosted token-site check lacked the new PR record;records added before final push."
     }
   ]
 }

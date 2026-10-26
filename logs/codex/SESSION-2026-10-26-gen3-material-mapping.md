@@ -77,3 +77,44 @@ and identical replay passed. Parent is active;its counters remain unknown.
 No prior PR99 turns reallocated. Review usage will be added only once closed.
 
 GEN3MAP-PhysVal-01 recorded before dispatch:read-only assessment of full input revision a99b63cba68f8c66723df6ed5c55935e6675971a,primary code/data and bounded claims;complete input/ownership/deliverable contract in PhysVal-01.assignment.json. Coordinator separately adds portable table export from retained JSON.
+
+## Independent review and PR
+
+GEN3MAP-PhysVal-01 completed read-only at a99b63cba68f8c66723df6ed5c55935e6675971a.
+No blocking defects for first-step plots/proposal. Independently streamed every
+track using closed-form finite-cylinder/annulus distances;exact 5/10/20mm
+counts and passiveX0 fractions reproduced. Replayed first5000 raw midpoint/
+label/scatter flags,all budget partitions and hashes,14 controls from pinned
+source and three visual figures. Verified recorder pre-step source and support
+factory convention. Two medium production followups (unmatched pixel faces and
+sensitive-plane ordering) and low unknown recording identity remain disclosed;
+not blockers for this bounded survey and not evidence of a validated map.
+Full completed report retained in PhysVal-01-result.md.
+
+Added portable CSV export after reviewed commit;exact output comparison passed.
+GitHub plugin create-PR call returned403 integration permission;authenticated
+gh fallback created https://github.com/asalzburger/nodd/pull/100 and app attachment
+succeeded. Initial sandbox git push and public ledger capture could not resolve/
+reach GitHub;authorized escalated retries succeeded. Initial hosted unrooted
+job passed;token-site initially lacked the newly assigned PR100 record. Final
+packaging adds public/visible interaction records and resynchronizes the ledger.
+
+## Completed-turn usage and conversation coverage
+
+Two completed specialist turns:4441414 input +28311 output =4469725 total,
+54 requests. Cached4197632 input and6247 reasoning output are subsets. Models
+and client version unknown. Each exact turn imported once after dry-run;
+identical replay adds0. Usage-only evidence is retained in
+logs/usage/USAGE-2026-10-26-gen3-material-mapping.json. Active parent counters
+remain unavailable until the current turn closes;this is partial PR coverage,
+not a complete PR total. No prior task's counters have been reallocated.
+Completed child visible messages and verified parent identity are retained;
+active parent discussion is curated separately without finalized counters.
+Reasoning,command arguments/results and private client archives are excluded.
+
+## Remaining work
+
+Human review of Tracker PR100 and the proposed extra carrier families. No
+production map,extra native geometry,binning or reconstruction changes requested
+in this first step. Current active turn counters can be finalized after closure;
+scientific future work remains in project/tracking.json and the report.
