@@ -125,6 +125,14 @@ of difference arrays with a direct independent segment integral. The full
 counts, monotonicity and endpoints, and replays the five figures; it does not
 rerun native physics or read the ignored large ROOT files.
 
+[CUMULATIVE-PhysVal-01](../../../../logs/codex/SESSION-2026-10-26-gen3-cumulative-material/PhysVal-01-result.md)
+independently reviewed `bffaba61f2d243ac2025de2476b34411437798fa` with no blocking
+findings. Direct ROOT segment integration reproduced 38 representative
+checkpoint comparisons and 18 endpoint comparisons per sample: mean differences
+below 2.89×10⁻¹⁵ and SEM-squared differences below 8.15×10⁻¹⁹. It also checked
+all 32 CSV cases, input hashes, 36 controls and five PNGs. This is a separate
+technical assessment, without human acceptance or a native physics rerun.
+
 ## Reproduce
 
 Use the existing pinned [plotting environment](../../../../software/analysis/README.md).
@@ -148,3 +156,4 @@ No native ACTS, DD4hep or C++ ROOT import is needed for this analysis.
 The replay accepts the retained `profiles.json.gz` as well. The original
 recording and validation SHA-256 values must match the authoritative parent
 mapping/validation reports; the replay audit checks this explicitly.
+For a custom configuration path, pass the same `--config` file to both commands.

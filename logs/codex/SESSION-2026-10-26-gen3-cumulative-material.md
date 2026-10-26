@@ -32,3 +32,27 @@ forwardz1330mm,eta1.5–2.0,0.362677X0/0.0476333L0;d1385mm sameeta,
 0.266984X0/0.0345065L0. These show spatial differences hidden byclosefinaltotals.
 No acceptance/significance or unique cause inferred. Full profile data compressed
 losslessly with deterministicgzip;summaryCSV retains32slice/axis/quantitycases.
+
+CUMULATIVE-PhysVal-01 was prepared before dispatch atbffaba61f2d243ac2025de2476b34411437798fa
+and read-only child01a17838-6a10-7d90-97e4-72586f074dd1 completed with no blockers.
+Independent direct fractions/per-ray sums match38checkpoint+18endpointcases per
+sample within2.89e-15mean/8.15e-19SEM²;all32CSVcases and5PNGschecked. Full result
+is retained. Native physics not rerun;no human approval.
+
+Observed new-sessionusage:one completed PhysVal turn,1,748,569input+10,305output
+=1,758,874total;cached1,646,848and reasoning2,686are subsets. Current cumulative
+parentactive01a1782a-3d7d-7b93-935f-cd0bbe5c90a8 is excluded. The previous mapping
+parent's22,820,376tokens were recovered into that previous account only;its
+4completedturn total is39,396,650. Full completed-visible snapshot replaces
+its old active curated events;historical snapshot remains. No estimates.
+
+Final vector figures use losslessSVGZ to avoid286k generated-path diff lines;
+PDF/PNG remain directly viewable. Plot data and five displayed curves are
+unchanged. PRbody links the cumulative report;public response is the remaining
+publication step before final hosted checks.
+
+Post-review coordinator fix:the replay now accepts the exact custom --config
+path used by the reducer and checks both its hash and embedded configuration.
+Default retained audit,byte-identical custom-path audit and changed-config
+rejection pass. This CLI/provenance guard is outside the exactbffaba61 review;
+reduction formulas,retained numerical data and displayed figures are unchanged.

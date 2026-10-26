@@ -11,7 +11,7 @@ from pathlib import Path
 import numpy as np
 
 
-def audit(data, root):
+def audit(data, root, config_path=None):
     from cumulative_profiles import validate_config
     if data['schema_version'] != 1:
         raise ValueError('Unsupported cumulative profile schema')
@@ -21,7 +21,9 @@ def audit(data, root):
     source = Path(__file__).with_name('cumulative_profiles.py')
     if data['provenance']['exporter_sha256'] != digest(source):
         raise ValueError('Cumulative exporter changed since recorded reduction')
-    if data['provenance']['configuration_sha256'] != digest(source.with_name('cumulative_config.json')):
+    config_path = config_path or source.with_name('cumulative_config.json')
+    if (data['provenance']['configuration_sha256'] != digest(config_path)
+            or config != json.loads(config_path.read_text())):
         raise ValueError('Cumulative configuration differs from retained input')
     base = root / 'docs/validation/gen3-material-map-run'
     for sample, report_name, role in [('geant4', 'mapping-report.json', 'recording'),
@@ -72,11 +74,13 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument('--data', type=Path, required=True)
     ap.add_argument('--output', type=Path, required=True)
+    ap.add_argument('--config', type=Path, default=Path(__file__).with_name('cumulative_config.json'),
+                    help='The exact configuration used for this reduction, including a custom --config input')
     args = ap.parse_args()
     raw = args.data.read_bytes()
     data = json.loads(gzip.decompress(raw) if args.data.suffix == '.gz' else raw)
     root = Path(__file__).resolve().parents[3]
-    audit(data, root)
+    audit(data, root, args.config)
     args.output.mkdir(parents=True, exist_ok=True)
     cache = root / 'build/gen3-cumulative-material/plot-cache'
     os.environ['MPLBACKEND'] = 'Agg'

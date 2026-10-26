@@ -136,3 +136,15 @@ whitespace check againstactualPRbasef0775a2passes,excluding literal patch contex
 Hosted CI will run on the pushed final head;no pending hosted result is recorded
 as a pass here. The current parent visible snapshot precedes final CI/status
 messages and its final response/counters require a later closed-turn capture.
+
+## 2026-10-26 finalized parent correction
+
+The earlier active parent01a177de-0d26-7ab3-8a04-7d79c0ba0638 is now closed.
+Recovered141request increases exactly:22,735,027input+85,349output=22,820,376total;
+cached22,264,448and reasoning34,566are subsets. Imported only into this original
+trial account,with identical replay a no-op. Four bounded completed turns now
+sum39,236,700input+159,950output=39,396,650tokens. The parent end11:44:18UTC
+replaces the earlier bounded metadata-closeout time,using its exposed completion.
+A completed23-message visible snapshot replaces active curated events;the old
+partial snapshot remains historical. Current cumulative-review work is separate
+and its still-active parent counters are excluded. No estimates or private state.
