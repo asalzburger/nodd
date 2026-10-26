@@ -214,3 +214,11 @@ resolvedbyretainingboth complete stable-IDrecords; allotherper-IDparentchanges
 programmaticallyverifiedpreserved. BothCIjobadditionsretained. No Gen3truth-native
 source,numericaldata orfigure changes. Source f7 assessmentremains exact; native
 executionpin39cd unchanged. Revalidatecombinedrecords/plots/workflowsbeforehandoff.
+
+Humanfollow-up asks fullpull distributions overalleta,1/10/100GeV overlayper
+parameter, explicittruth-minus-reconstructed sign. ContinuationofsamePR/baseline;
+activecoordinatorturn remains01a17864,so reopen logicaljournalwithout splitting
+usage orreimporting parentcounters. DES025 amendedbeforehistogramimplementation.
+Sixboundparameters includingunmeasuredtime(prior diagnostic),plusderivedpT.
+Commonlinearcore/logtailbins preserveallfinitepulls;full+coreviews,counts/extrema/
+tails retained. Existingnative outputs andearlierprofilebytesremainunchanged.

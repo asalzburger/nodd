@@ -310,3 +310,24 @@ writer truth on native-matched tracks; compute every residual from independently
 joined generated truth. This preserves poor/partial fits rather than removing
 tails through the native completeness match. Matching efficiency remains a
 separate diagnostic and no pattern-recognition claim follows.
+
+### Full pull distributions requested on 2026-10-26
+
+The human requests all-eta distributions with1/10/100GeV overlaid per track
+parameter, using (truth−reconstructed)/fitted sigma. Preserve the earlier
+profile sign convention and label the new sign explicitly. Include all six
+bound parameters d0,z0,phi,theta,q/p,time; time has no measured response here
+and must be labeled an unconstrained seed/fitter-prior diagnostic. Include
+derived pT separately with the full theta–q/p covariance. Use the same guarded
+primary-derived cohort, including the three nativeFake partialfits. No quality
+or tail cuts. Count missing fits/nonfinite pulls separately.
+
+NODD DESIGN CHOICES for configurable display binning: common edges across all
+six samples per quantity,0.1-wide bins inside±5 and16logarithmic bins/decade
+outside, extended to encompass every finite observed pull. Normalize density
+by all finite pulls and bin width; require zero full-range under/overflow and
+exact count closure. Full views use a symmetric-log pull axis and logarithmic
+density, with a companion±5 view reporting its omitted-tail fraction. Store
+all bin counts, extrema, moments and tail counts; no finite tail disappears
+from the full view or normalization. Assess fixed-source/data/figures
+independently before final interpretation; no native rerun or calibration.
