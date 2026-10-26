@@ -86,3 +86,17 @@ The 40 MB full sensor/link export and 698 MB recording remain under ignored
 build/storage paths. Compressed `scatter.npz` and `occupancy.npz` are retained
 for portable figure replay. The scatter is every 40th material step; all
 classification, budgeting, thresholds and flags use the full recording.
+
+
+## Configurable mapping/validation trial
+
+The user-selected follow-up is documented in the
+[trial report](../../../docs/validation/gen3-material-map-run/README.md).
+`mapping_config.json` centralizes all bin counts;`select_surfaces.py` resolves
+native portal roles and writes the exact65-surface manifest. Build the isolated
+[native support](../../source/ActsExamples/MaterialMapping/README.md),then run
+`software/running/nodd_material_mapping.py` and
+`software/running/nodd_material_validation.py` in the verified ACTS runtime.
+`export_validation.py` reduces only total validation material;`plot_validation.py`
+overlays it on the existing Geant4 stack and draws the selected portals.
+The original first-step survey remains a separate reproducible control.

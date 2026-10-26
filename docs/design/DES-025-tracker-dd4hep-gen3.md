@@ -128,3 +128,16 @@ eta/phi support. Overlay the validation total X0/lambdaI profile on the existing
 Geant4 component stack. Retain empty bins, missed surfaces, unmapped material,
 profile differences and all source/input/runtime identities. A visually close
 curve is not a material-order, tracking-performance or design acceptance claim.
+
+
+The native outer pixel-barrel cylinder is a merged full-length portal shared
+with the inner pixel–short-strip gap cylinder. It requests250 z bins as a layer
+and500 as a full gap. The configurable `maximum_requested` shared-portal policy
+uses500 on this one physical portal and retains both requested roles in the
+manifest;an `error` policy or explicit per-portal override is also available.
+Current selection is66 logical roles on65 physical portals (15 cylinders,
+50 discs),8550 nominal bins. No duplicate material map is installed on the
+shared boundary. Native shell choice is the existing World exterior:its
+outer cylinder and two end discs;the separator discs are the native barrel-end
+portals. These exact choices and counts are an implementation of this trial,
+not a new physical envelope.
