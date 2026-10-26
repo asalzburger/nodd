@@ -22,7 +22,10 @@
     "start_commit": "f459df42a73c526c10acb0c6e73ddda5f408ea4c",
     "branch": "codex/geantino-material-stacks",
     "initial_changes": [],
-    "result_commits": [],
+    "result_commits": [
+      "4008abf1c4c76bbfd5f7df64dcfd81ee5e62e768",
+      "7c0012184a6bb033eb4366d48db4f8699b22f8d5"
+    ],
     "changed_files": []
   },
   "work": {
@@ -38,7 +41,66 @@
     ]
   },
   "narrative": "logs/codex/SESSION-2026-10-26-geantino-material-stacks.md",
-  "activities": [],
+  "activities": [
+    {
+      "kind": "tool",
+      "name": "native DD4hep/ROOT/Geant4",
+      "version": "DD4hep1.38; ROOT6.40.04; Geant4 recording reused",
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Reconstructed geometry and classified existing steps; no new Geant4 transport. Exact call totals not measured."
+    },
+    {
+      "kind": "tool",
+      "name": "unrooted",
+      "version": "0.1.0rc1",
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Pinned existing environment; exported verified profiles and rendered 15 plot artifacts."
+    },
+    {
+      "kind": "tool",
+      "name": "collaboration",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Explicit generic-agent PhysVal-01 and correction PhysVal-02 assignments and retained results; no native profile loading claimed."
+    }
+  ],
   "usage": [],
-  "checks": []
+  "checks": [
+    {
+      "command": "categorize.py on complete storage/nodd-tracker.root with explicit saved tracker compact/factories",
+      "exit_code": 0,
+      "status": "passed",
+      "result": "Corrected source7c00121:100000 tracks,17137021 steps; zero missing/density mismatches; precision bounds unchanged."
+    },
+    {
+      "command": "export_profiles.py --expected-tracks 100000 and exact retained-profile comparison",
+      "exit_code": 0,
+      "status": "passed",
+      "result": "All 54 profiles: common counts, native means/variances and independent per-track reductions; exact retained numerical equality."
+    },
+    {
+      "command": "plot_profiles.py --data docs/validation/geantino-material-profiles/profiles.json --output build/material-profiles-replay",
+      "exit_code": 0,
+      "status": "passed",
+      "result": "15 static/HTML exports, CSV, file signatures and populated/additive profiles verified."
+    },
+    {
+      "command": "c++ -std=c++17 software/analysis/material_profiles/test_rounding_cell.cpp -o build/test-rounding-cell; build/test-rounding-cell",
+      "exit_code": 0,
+      "status": "passed",
+      "result": "Asymmetric binade boundaries, ordinary/zero values, grid containment and nonfinite rejection."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p 'test_*.py' -v",
+      "exit_code": 0,
+      "status": "passed",
+      "result": "33 tests passed."
+    }
+  ]
 }

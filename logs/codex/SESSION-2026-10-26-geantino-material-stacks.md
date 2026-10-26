@@ -71,3 +71,15 @@ attributed. Project observed coverage is reported at closeout, not as task usage
 Complete portable native rerun and exact-revision assessment; open the requested
 PR with its interaction record. Human PR review is separate from detector design
 sign-off, which is not granted here.
+
+## Specialist assignment GEANTINO-PhysVal-01
+
+Explicit generic-agent PhysVal mandate, read-only, at 4008abf1c4c76bbfd5f7df64dcfd81ee5e62e768.
+Contract: [PhysVal-01.assignment.json](SESSION-2026-10-26-geantino-material-stacks/PhysVal-01.assignment.json).
+Assess normalization, sensitivity attribution, covariance, precision bounds and provenance.
+No native simulations, file changes, installs, external services or further delegation.
+This is a separate assessment; native profile loading and human approval are not claimed.
+
+## Specialist follow-up GEANTINO-PhysVal-02
+
+Read-only correction assessment at 7c0012184a6bb033eb4366d48db4f8699b22f8d5. Contract: [PhysVal-02.assignment.json](SESSION-2026-10-26-geantino-material-stacks/PhysVal-02.assignment.json). Check asymmetric float32 cells, the pure C++ regression and retained native provenance only.
