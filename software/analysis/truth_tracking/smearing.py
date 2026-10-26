@@ -10,6 +10,17 @@ from digitization import geometry_fields
 COORDINATES = {str(i): ([0, 1] if i < 6 else [0]) for i in range(1, 8)}
 
 
+def native_boundary_contract(acts):
+    # ACTS355ea684 DigitizationAlgorithm.hpp:86. Some bindings omit this field;
+    # retain the verified C++ default explicitly rather than reporting zero.
+    exposed = getattr(acts.examples.DigitizationAlgorithm.Config(), "minMaxRetries", None)
+    minimum = 10 if exposed is None else int(exposed)
+    return {"configured_smearer_max_retries": 0, "algorithm_min_max_retries": minimum,
+            "effective_max_retries": max(minimum, 0), "maximum_draw_attempts": max(minimum, 0) + 1,
+            "retry_evidence": "Pinned ACTS355ea684 C++ default; field unavailable in Python binding" if exposed is None else "Native Python Config.minMaxRetries",
+            "boundary": "Outside-sensitive-bounds draws retried up to effective limit; exhausted attempts discard measurement"}
+
+
 def load_campaign(path):
     config = json.loads(Path(path).read_text())
     if config.get("schema_version") != 1 or config.get("status") != "PROTOTYPE":
@@ -145,5 +156,5 @@ def audit_measurements(ROOT, path, table):
         "variance_matches_float32_sigma_squared": True, "groups": result,
         "unobserved_width_groups": [list(key) for key in sorted(set(groups) - {(x["volume"], x["index"]) for x in result})],
         "residual_convention": "(persisted float32 reconstructed minus truth local coordinate) / frozen sigma",
-        "native_boundary_behavior": "One Gaussian draw (maxRetries=0); outside-sensitive-bounds draws are discarded, not redrawn",
+        "native_boundary_behavior": "See effective run-level retry contract; outside-sensitive-bounds attempts can be redrawn, exhaustion discards measurement",
         "cluster_writer_contract": "inputClusters empty; cluster/channel fields remain empty or zero"}

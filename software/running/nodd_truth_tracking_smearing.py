@@ -13,7 +13,7 @@ sys.path.insert(0, str(ROOT_DIR / "software/analysis/gen3_material_mapping"))
 sys.path.insert(0, str(ROOT_DIR / "software/analysis/truth_tracking"))
 from material_runtime import common_arguments, load_manifest, native_imports, prepare_geometry, provenance, sha256, write_report
 from runtime import material_map, root_inventory, schedule_native_truth_seed
-from smearing import load_campaign, build_config, schedule_digitization, audit_measurements
+from smearing import load_campaign, build_config, schedule_digitization, audit_measurements, native_boundary_contract
 
 
 def run(args, config, acts, detector, geometry, observer):
@@ -126,7 +126,7 @@ def main():
         "digitization_native_defaults": {"model": "Gauss", "doMerge": False, "mergeCommonCorner": False,
             "minEnergyDeposit": 0., "geometric": False, "post_cluster_errors": False,
             "variance": "independent diagonal pooled sigma squared", "mean": 0., "forcePositiveValues": False,
-            "maxRetries": 0, "boundary": "Native rejection outside sensitive bounds after one draw; no retry"},
+            **native_boundary_contract(acts)},
         "ROOT": ROOT.gROOT.GetVersion()}
     write_report(args.output/"run-report.json", report)
     try:

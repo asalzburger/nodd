@@ -86,9 +86,12 @@ strips measure two coordinates, each physical long-strip face one. No geometric
 channelization, cluster-size lookup, covariance replacement, measurement merging,
 response-tail model, tuning or extra fit-quality cut is used in this fixture.
 
-Native `BoundParametersSmearer` checks sensor bounds after drawing. With default
-`maxRetries=0`, an out-of-bounds draw is discarded without retry; this acceptance
-can condition observed measurement residuals. Losses remain accounted for.
+Native `BoundParametersSmearer` checks sensor bounds after drawing. Although
+the per-smearer setting defaults to zero, `DigitizationAlgorithm.Config` sets
+`minMaxRetries=10` and uses the maximum of the two. The effective limit is
+**10 retries / at most 11 draw attempts**, then a measurement is discarded if
+all attempts fail. Bounds acceptance can condition observed residuals.
+Zero final losses do not count or exclude rejected/redrawn attempts.
 Persisted float32 coordinates add storage rounding to the residual diagnostics.
 
 ## Campaign and interpretation
@@ -144,7 +147,7 @@ build/truth-tracking-baseline/analysis-venv/bin/python \
 ~~~
 
 Native execution source pin: **dc9a9272153a4dcf9b06901911195527b5c64f50**.
-Analysis export source: **b4f7532** (full source hashes retained). Startup hashes
+Analysis export source hashes and revision are retained in the compressed data. Startup hashes
 cover runtime/input/source bytes; each completed report retains all seven native
 output hashes. The exporter independently repeats covariance, unique-primary,
 count, table, generated-truth and **27 unchanged geometry/runtime file** checks.
@@ -158,3 +161,15 @@ and pull replay audits still pass without changing their numerical evidence.
 
 Independent fixed-revision PhysVal assessment is pending. No detector acceptance
 is granted.
+
+**Historical metadata correction:** the original native reports incorrectly
+labeled the effective retry behavior as zero/no retry. Their original bytes and
+hashes are preserved; each retained Gaussian case and the export carry an
+explicit correction. The actual algorithm default is10, verified from pinned
+ACTS355ea684 `Examples/Algorithms/Digitization/include/ActsExamples/Digitization/`
+`DigitizationAlgorithm.hpp:86,180–181` and
+`Fatras/include/ActsFatras/Digitization/UncorrelatedHitSmearer.hpp:96–120`.
+Future CLI reports use the exposed native field when available, otherwise
+explicitly cite the verified pinned C++ default omitted by older bindings. No simulation, shifts,
+covariances or retry settings were changed. CI audits the actual historical
+startup source at its launch revision rather than substituting metadata fixes.

@@ -1,16 +1,18 @@
 #!/usr/bin/env python3
 """Replay the measured-width Gaussian Fatras sanity check and its reference."""
 import argparse
+import hashlib
 import csv
 import gzip
 import json
 import os
 from pathlib import Path
+import subprocess
 
 import numpy as np
 
 from export_profiles import sha256
-from export_smearing import SOURCES, comparison_identity
+from export_smearing import SOURCES, NATIVE_REPORT_CORRECTION, comparison_identity
 from plot_profiles import save_figure
 from plot_pulls import LABELS, audit as audit_original
 from pull_histograms import BOUND
@@ -23,6 +25,8 @@ def audit(data):
     reference = json.loads((source / "campaign.json").read_text())
     if data["campaign"] != campaign or data["reference_campaign"] != reference:
         raise ValueError("Smearing/reference campaign identity differs")
+    if data["native_report_correction"] != NATIVE_REPORT_CORRECTION:
+        raise ValueError("Historical native retry annotation differs")
     for key in set(reference) - {"simulations", "digitization", "error_training"}:
         if campaign[key] != reference[key]:
             raise ValueError("Comparison changes more than digitization: " + key)
@@ -56,9 +60,14 @@ def audit(data):
             if report["campaign"] != campaign or report["outcome"] != "completed" or report["counts"] != sample["native_counts"]:
                 raise ValueError("Portable native smearing report differs")
             identity = report["executed_source_sha256"]
+            revision = report["scientific_input_revision"]
             for name, value in identity.items():
-                if name.startswith("software/") and sha256(root / name) != value:
-                    raise ValueError("Executed smearing source differs: " + name)
+                if name.startswith("software/"):
+                    executed = subprocess.check_output(["git", "-C", str(root), "show", revision + ":" + name])
+                    if hashlib.sha256(executed).hexdigest() != value:
+                        raise ValueError("Executed smearing source differs from its launch revision: " + name)
+            if sample["native_report_correction"] != NATIVE_REPORT_CORRECTION:
+                raise ValueError("Missing per-case historical retry annotation")
             identities.append(identity)
             comparison_identity(sample["native_provenance"], old[sample["pt_GeV"]]["native_provenance"])
             groups = sample["measurement_error_audit"]["groups"]
@@ -125,7 +134,7 @@ def main():
             handles += [Line2D([], [], color="#56636e", ls="-", label="Gaussian"), Line2D([], [], color="#56636e", ls="--", label="Geometric")]
         handles += [Line2D([], [], color="#56636e", ls=":", label="N(0,1) reference")]
         fig.legend(handles=handles, loc="upper right", bbox_to_anchor=(.98, .858), ncol=len(handles), frameon=False, fontsize=8.5)
-        footer = "All training cluster sizes pooled by volume/coordinate; no fitted-pull tuning. Native out-of-bounds Gaussian draws discarded without retry."
+        footer = "All training cluster sizes pooled by volume/coordinate; no fitted-pull tuning. Native sensor-bound retry limit 10; no final measurement losses."
         if not measured:
             footer += " Time is unmeasured."
         fig.text(.075, .025, footer, fontsize=7.6, color="#52606b")

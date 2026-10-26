@@ -17,6 +17,14 @@ from pull_histograms import BOUND, bound_pulls, common_edges, histogram
 SOURCES = ("export_smearing.py", "plot_smearing.py", "pool_errors.py", "smearing.py", "export_profiles.py",
            "export_pulls.py", "pull_histograms.py", "metrics.py")
 
+NATIVE_REPORT_CORRECTION = {
+    "scope": "Historical pilot and three production reports; production launch pin dc9a927; raw reports and output hashes preserved unchanged",
+    "incorrect_labels": "maxRetries=0 and one draw/no retry describe only per-smearer default, not effective algorithm configuration",
+    "algorithm_min_max_retries": 10, "configured_smearer_max_retries": 0,
+    "effective_max_retries": 10, "maximum_draw_attempts": 11,
+    "evidence": "ACTS355ea684 DigitizationAlgorithm.hpp:86,180-181; UncorrelatedHitSmearer.hpp:96-120; compiled default10, Python binding may omit this field",
+    "interpretation": "No final simhit-to-measurement losses observed; this does not count or exclude rejected/redrawn attempts. Sensor-bound acceptance can condition observed residuals. No reruns or physics setting changes."}
+
 
 def comparison_identity(current, reference):
     for key in ("native_adapter_revision", "ACTS_source_revision", "native_adapter_dirty_paths",
@@ -113,6 +121,7 @@ def smeared_case(directory, campaign, widths):
                     wrong_charge=int(flags["wrong_charge"].sum()), measurement_error_audit=measured,
                     selection_losses=int((audit["selected"] == 0).sum()),
                     fit_failures=int((audit["fit_attempts"] - audit["fit_tracks"]).sum()))
+    metadata["native_report_correction"] = NATIVE_REPORT_CORRECTION
     selected_report = {k: v for k, v in report.items() if k not in ("command", "provenance", "width_table", "gaussian_widths", "error_table")}
     selected_report["provenance"] = metadata["native_provenance"]
     # Report writers may add explicit input paths. Retain their hashes, never a
@@ -171,6 +180,7 @@ def main():
                 reference_campaign=original, widths=json.loads(widths.read_text()),
                 bin_edges={k: v.tolist() for k, v in edges.items()}, samples=samples,
                 measurement_bin_edges={k: v.tolist() for k, v in measurement_edges.items()}, measurement_samples=measured,
+                native_report_correction=NATIVE_REPORT_CORRECTION,
                 provenance=dict(source_revision=subprocess.check_output(["git", "-C", str(root), "rev-parse", "HEAD"], text=True).strip(),
                                 source_sha256={name: sha256(source / name) for name in SOURCES},
                                 campaign_sha256=sha256(campaign_path), configuration_sha256=sha256(config_path),

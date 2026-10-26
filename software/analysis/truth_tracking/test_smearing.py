@@ -86,6 +86,22 @@ class SmearingControls(unittest.TestCase):
         self.assertFalse(algorithms[0].config["doMerge"])
         self.assertEqual(algorithms[0].config["outputMeasurements"], "measurements")
 
+    def test_effective_retry_contract_includes_algorithm_minimum(self):
+        from smearing import native_boundary_contract
+        acts = SimpleNamespace(examples=SimpleNamespace(DigitizationAlgorithm=SimpleNamespace(
+            Config=lambda: SimpleNamespace(minMaxRetries=10))))
+        contract = native_boundary_contract(acts)
+        self.assertEqual(contract["configured_smearer_max_retries"], 0)
+        self.assertEqual(contract["effective_max_retries"], 10)
+        self.assertEqual(contract["maximum_draw_attempts"], 11)
+
+    def test_retry_contract_records_missing_python_binding(self):
+        from smearing import native_boundary_contract
+        acts = SimpleNamespace(examples=SimpleNamespace(DigitizationAlgorithm=SimpleNamespace(Config=lambda: SimpleNamespace())))
+        contract = native_boundary_contract(acts)
+        self.assertEqual(contract["effective_max_retries"], 10)
+        self.assertIn("unavailable", contract["retry_evidence"])
+
 
 if __name__ == "__main__":
     unittest.main()

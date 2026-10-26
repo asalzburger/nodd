@@ -373,9 +373,14 @@ run denominators, covariance validity and comparison statistics. Independent
 PhysVal assessment at an exact source/data/figure revision is required. Human
 acceptance and physical-response sign-off remain open.
 
-**FACT — native bounds behavior:** pinned ACTS `BoundParametersSmearer` checks
-`surface.insideBounds` after Gaussian smearing; its default zero retries drops
-an out-of-bounds draw rather than redrawing it. Retain this behavior and its
-simhit-to-measurement losses. Thus the observed sample is conditioned by sensor
-edge acceptance, and Gaussian draws do not guarantee exact observed normality.
-No native bounds or retries are modified for this check.
+**FACT — native bounds behavior (corrected after independent review):** pinned
+ACTS355ea684 `DigitizationAlgorithm.hpp:86,180–181` sets an algorithm minimum
+`minMaxRetries=10` and uses `max(minMaxRetries, per-smearer maxRetries)`.
+`Fatras/include/ActsFatras/Digitization/UncorrelatedHitSmearer.hpp:96–120` allows
+maxRetries+1 attempts and checks `surface.insideBounds` after each Gaussian draw.
+The default per-smearer zero therefore gives **10 retries / 11 attempts** here,
+not one draw. Exhaustion drops a measurement. Keep the actual native default;
+no settings or simulation reruns are introduced. Zero final measurement losses
+do not count or exclude rejected/redrawn attempts. Edge acceptance can condition
+observed residuals, so Gaussian draws do not guarantee exact observed normality.
+The original reports' zero-retry label is retained with an explicit correction.
