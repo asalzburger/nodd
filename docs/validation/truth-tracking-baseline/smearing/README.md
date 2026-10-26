@@ -12,6 +12,57 @@ by ACTS volume, measured coordinate and cluster size, with a pooled final
 overflow group. It preserves geometric cluster positions. This report adds a
 separate smearing-only fixture, preserving that original baseline.
 
+## Results
+
+The measurement-level check is close to N(0,1): pooled standardized-residual
+population SDs are **1.000165, 0.999683, 1.000024** at 1/10/100 GeV, with means
+**0.002226, 0.002389, 0.001913**. Across the five family/coordinate aggregates,
+SDs range from **0.9959 to 1.0041**. All observed tails remain; each sample has
+one measured coordinate beyond |5| and none beyond |10|.
+
+![Measurement standardized residuals](figures/measurements_core.png)
+
+All-eta track pulls, Gaussian solid and original geometric dashed:
+
+![Geometric versus Gaussian core track pulls](figures/comparison_core.png)
+
+[Complete finite-tail comparison](figures/comparison_full.png); Gaussian alone:
+[core](figures/pulls_gaussian_core.png), [full](figures/pulls_gaussian_full.png).
+Derived pT: [core](figures/pt_core.png), [full](figures/pt_full.png). All seven
+figure sets also have PDF/SVGZ exports; the [42-row CSV](figures/summary.csv)
+and [complete distributions/provenance](comparison.json.gz) retain the numbers.
+
+| Fatras pT [GeV] | Generated | Selected / fitted | Measurements | Measured-coordinate checks |
+| --- | ---: | ---: | ---: | ---: |
+| 1 | 20,000 | 19,992 | 280,368 | 486,521 |
+| 10 | 20,000 | 19,998 | 279,217 | 484,735 |
+| 100 | 20,000 | 19,999 | 279,930 | 485,772 |
+
+All **59,989 fits** have finite six-parameter values and positive-definite
+6×6 covariance; every fit enters each of seven track distributions. All written
+**1,457,028** coordinate variances exactly equal frozen sigma² after float32
+conversion. Eleven generated events fail the seven-measurement selection;
+there are zero fit failures, native Fake fits or simhit-to-measurement losses.
+The original geometric reference has one native Fake partial fit and includes
+it under its verified seed association. Both modes have the same generated
+particles and fitted-event counts; no failed or poor fit is removed.
+
+Gaussian measurement errors do **not** remove every track-level tail:
+
+| pT [GeV] | q/p pull SD, geometric → Gaussian | Derived-pT pull SD, geometric → Gaussian |
+| --- | ---: | ---: |
+| 1 | 6.990 → 4.277 | 9.281 → 7.461 |
+| 10 | 1.074 → 1.070 | 1.098 → 1.093 |
+| 100 | 1.086 → 1.083 | 1.424 → 1.435 |
+
+These full sample SDs include finite extreme tails. At100GeV the z0 central
+68.27% pull half-width changes from0.685 to0.960, and theta from0.832 to0.937;
+the sharper geometric cores become closer to unit-normal widths. Low-pT tails
+and derived-pT nonlinear tails remain after bypassing geometric clustering and
+cluster-size error lookup. This comparison does not isolate material effects
+from propagation, fitting or other modeling assumptions, and is not a detector
+acceptance or unit-pull certification.
+
 ## Measurement model
 
 [Fixed Gaussian widths](pooled-widths.json) pool **all 699,273 training
@@ -92,5 +143,18 @@ build/truth-tracking-baseline/analysis-venv/bin/python \
   --output docs/validation/truth-tracking-baseline/smearing/figures
 ~~~
 
-Final run results, figures and exact-revision independent assessment will be
-added after all native outputs close. No detector acceptance is granted.
+Native execution source pin: **dc9a9272153a4dcf9b06901911195527b5c64f50**.
+Analysis export source: **06af067** (full source hashes retained). Startup hashes
+cover runtime/input/source bytes; each completed report retains all seven native
+output hashes. The exporter independently repeats covariance, unique-primary,
+count, table, generated-truth and **27 unchanged geometry/runtime file** checks.
+All 42 comparison histograms have zero nonfinite pulls, underflow and overflow.
+
+Controls: two pooled-mixture checks, six new native/portable smearing checks,
+and the existing analysis suite. Portable total37:32 passed, five native-only
+skipped; those skips are not claimed as native execution. Actual native pilot
+and full runs passed the dimension and exact covariance checks. Original profile
+and pull replay audits still pass without changing their numerical evidence.
+
+Independent fixed-revision PhysVal assessment is pending. No detector acceptance
+is granted.
