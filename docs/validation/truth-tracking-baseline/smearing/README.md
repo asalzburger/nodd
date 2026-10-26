@@ -153,14 +153,20 @@ output hashes. The exporter independently repeats covariance, unique-primary,
 count, table, generated-truth and **27 unchanged geometry/runtime file** checks.
 All 42 comparison histograms have zero nonfinite pulls, underflow and overflow.
 
-Controls: two pooled-mixture checks, six new native/portable smearing checks,
-and the existing analysis suite. Portable total37:32 passed, five native-only
+Controls: two pooled-mixture checks, eight new native/portable smearing checks,
+and the existing analysis suite. Portable total39:34 passed, five native-only
 skipped; those skips are not claimed as native execution. Actual native pilot
 and full runs passed the dimension and exact covariance checks. Original profile
 and pull replay audits still pass without changing their numerical evidence.
 
-Independent fixed-revision PhysVal assessment is pending. No detector acceptance
-is granted.
+[Independent PhysVal01/02 assessment](../../../../logs/codex/SESSION-2026-10-26-truth-smearing-crosscheck/PhysVal-01-02-result.md)
+reviewed original numerical evidence at **c547db0** and corrected source/data/
+figures at **7c9340b99447959cc2efcab17340292d83304c32**. All 90 training widths,
+1,457,028 variances, 270 coordinate groups, 15 aggregate measurement distributions,
+42 track histograms, 462 CSV fields and seven PNGs were independently checked.
+All 2,985 scalar statistics agree within 2.22×10⁻¹⁶. The retry-description blocker
+is resolved; its minor test-count finding is corrected above. This grants no
+detector acceptance.
 
 **Historical metadata correction:** the original native reports incorrectly
 labeled the effective retry behavior as zero/no retry. Their original bytes and
@@ -173,3 +179,7 @@ Future CLI reports use the exposed native field when available, otherwise
 explicitly cite the verified pinned C++ default omitted by older bindings. No simulation, shifts,
 covariances or retry settings were changed. CI audits the actual historical
 startup source at its launch revision rather than substituting metadata fixes.
+
+The coordinator also verified the activated native Python field directly:
+`DigitizationAlgorithm.Config().minMaxRetries == 10`. All eight smearing
+controls passed in that actual native environment without skips.
