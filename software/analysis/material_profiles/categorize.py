@@ -28,6 +28,8 @@ def main():
     parser.add_argument("--factory", type=Path, action="append", required=True,
                         help="Built detector library; repeat for each factory")
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--write-steps", action="store_true",
+                        help="Also export per-step category/region labels for mapping studies")
     parser.add_argument("--limit", type=int, default=-1,
                         help="Diagnostic track limit; -1 means all tracks")
     args = parser.parse_args()
@@ -66,7 +68,7 @@ def main():
     if not ROOT.gInterpreter.Declare(code.read_text()):
         raise RuntimeError("Could not compile categorize.C")
     ROOT.categorize(str(args.input.resolve()), str(output / "profiles.root"),
-                    str(output / "classification-diagnostics.csv"), args.limit)
+                    str(output / "classification-diagnostics.csv"), args.limit, args.write_steps)
     report = json.loads((output / "profiles.root.json").read_text())
     if report["unassigned_steps"] or report["density_mismatches"]:
         raise RuntimeError("Classification incomplete; inspect diagnostics before plotting")

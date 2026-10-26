@@ -23,7 +23,7 @@
 
 // No detector simulation or geometry mutation: look up recorded step interiors.
 void categorize(const char* input, const char* output, const char* diagnostics,
-                long long limit = -1) {
+                long long limit = -1, bool writeSteps = false) {
   TFile source(input, "READ");
   auto* tree = source.Get<TTree>("material_tracks");
   if (!tree) throw std::runtime_error("Missing material_tracks");
@@ -50,6 +50,14 @@ void categorize(const char* input, const char* output, const char* diagnostics,
   TFile target(output, "RECREATE");
   TTree tracks("categorized_tracks", "Per-geantino material in each component");
   tracks.SetDirectory(nullptr);
+  // Optional aligned step labels for downstream mapping surveys. Original
+  // recording vectors remain the authoritative positions and material budgets.
+  TTree steps("categorized_steps", "Labels aligned with each recording step");
+  steps.SetDirectory(nullptr);
+  std::vector<int> stepCategory, stepRegion;
+  std::map<std::string,int> regionIds;
+  steps.Branch("category", &stepCategory);
+  steps.Branch("region", &stepRegion);
   double totals[2][8] = {};
   double ambiguous[2] = {};
   tracks.Branch("rounding_ambiguous_X0", &ambiguous[0]);
@@ -98,6 +106,8 @@ void categorize(const char* input, const char* output, const char* diagnostics,
     for (auto& quantity : totals) std::fill(std::begin(quantity), std::end(quantity), 0.);
     ambiguous[0]=ambiguous[1]=0.;
     const auto n = x->size();
+    stepCategory.assign(writeSteps ? n : 0, -1);
+    stepRegion.assign(writeSteps ? n : 0, -1);
     for (auto* v : {y,z,dx,dy,dz,length,x0,l0,rho})
       if (v->size()!=n) throw std::runtime_error("Inconsistent step vector lengths");
     for (size_t j=0; j<n; ++j) {
@@ -211,6 +221,19 @@ void categorize(const char* input, const char* output, const char* diagnostics,
              <<navigator->GetPath()<<','<<rho->at(j)<<','<<volume->GetMaterial()->GetDensity()<<'\n';
         continue;
       }
+      if (writeSteps) {
+        const std::string path=navigator->GetPath();
+        // Retain the top-level component and its immediate child (layer, disc
+        // or service). Do not infer detector IDs from rounded r/z positions.
+        size_t end=0;
+        for (int depth=0; depth<3 && end!=std::string::npos; ++depth)
+          end=path.find('/',end+1);
+        const std::string region=path.substr(0,end);
+        auto [entry, inserted]=regionIds.emplace(region,regionIds.size());
+        (void)inserted;
+        stepCategory[j]=category;
+        stepRegion[j]=entry->second;
+      }
       ++counts[category];
       ++materials[names[category]+":"+volume->GetMaterial()->GetName()];
       totals[0][category] += len/x0->at(j);
@@ -230,9 +253,16 @@ void categorize(const char* input, const char* output, const char* diagnostics,
       }
     }
     tracks.Fill();
+    if (writeSteps) steps.Fill();
     if ((i+1)%10000==0) std::cout<<"PROGRESS "<<i+1<<" tracks / "<<nsteps<<" steps"<<std::endl;
   }
   target.cd(); tracks.Write();
+  if (writeSteps) {
+    steps.Write();
+    std::ofstream regions(std::string(output)+".regions.csv");
+    regions << "region_id,path\n";
+    for (const auto& [path,id]:regionIds) regions << id << ',' << path << '\n';
+  }
   for (int a=0; a<3; ++a) {
     occupancy[a]->Write();
     for (int q=0; q<2; ++q) for (int c=0; c<9; ++c) profiles[a][q][c]->Write();

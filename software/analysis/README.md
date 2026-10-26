@@ -11,6 +11,23 @@ pixel, short strip and long strip, with sensitive/non-sensitive contributions.
 The [analysis scripts](material_profiles/README.md) classify an existing recording
 against explicit DD4hep inputs and reproduce plots from compact retained data.
 
+## Gen3 material-mapping surfaces
+
+The [first-step mapping survey](gen3_material_mapping/README.md) overlays the
+100k geantino material positions with actual native Gen3 portals, applies the
+pixel before/after convention and flags remote service material. It retains
+portable figures and a DRAFT surface proposal; no material map is installed.
+
+## Configurable Gen3 material mapping and validation
+
+The [portal material trial](../../docs/validation/gen3-material-map-run/README.md)
+selects one carrier per sensitive layer plus gap/shell surfaces, enables keyed
+ProtoSurfaceMaterial with configurable phi/z/r binning, runs native ACTS mapping
+and validation, and overlays only the validated total on the original Geant4
+stack. The [configuration](gen3_material_mapping/mapping_config.json) and
+[native build/run guide](../source/ActsExamples/MaterialMapping/README.md) define the
+reproducible entry points.
+
 ## Documentation plots with unrooted
 
 [Issue #95](https://github.com/asalzburger/nodd/issues/95) requests

@@ -1,0 +1,18 @@
+{
+  "id": "GEN3MAP-SoftEng-01",
+  "role": "SoftEng",
+  "input_revision": "f0775a2dd3c30f405880a9e7323e4d230c3c4155",
+  "inputs": [
+    "docs/design/DES-025-tracker-dd4hep-gen3.md",
+    "software/analysis/material_profiles/categorize.py",
+    "software/analysis/material_profiles/README.md"
+  ],
+  "mode": "write",
+  "writable_paths": [
+    "software/analysis/gen3_material_mapping/export_geometry.py",
+    "software/analysis/gen3_material_mapping/test_export_geometry.py"
+  ],
+  "task": "Implement and run a native Gen3 geometry export for this first-step mapping proposal. Own only the two named source files; output runtime artifacts may be written to build/gen3-material-mapping/geometry.json and build/gen3-material-mapping/geometry-export.log. Use the existing runtime at ../nodd-software-layout/build/acts with ../nodd-software-layout/build/pyvenv/bin/python and its native compact at build/dd4hep/detector/tracker/tracker.xml; adapter source is in that sibling worktree revision 530080cfe16c7513228bf60238b99d4b9938538a, not merged main. Read its API and local ACTS source as additional explicitly identified evidence. Do not modify external software or install dependencies. Export actual Gen3 finite portal surface geometry (unique IDs, type cylinder/disc, bounds, transforms; retain owners or clearly explain unavailable owner data), volume bounds and sensors grouped by system/layer with real centers and normals. Python visitor and acts.json.TrackingGeometryJsonConverter may suffice. Fail on unsupported tilted/non-axisymmetric portals rather than approximate silently. Preserve native beam-pipe material portal information. CLI explicit --nodd-dir --build-dir --output; capture hashes/provenance and versions, do not claim input scan geometry revision known. Coordinator will analyse 17M material steps independently and needs simple r,z line-segment descriptions and layer volumes for candidate selection. Use repository nodd-coordinate skill already applied; acts-spack preflight warned stale fingerprints and unstaged DD4hep/G4 full sources; coordinator verifies runtime now. Existing software/env/run.sh activation and source ../nodd-software-layout/build/acts/this_acts.sh may be reused. Preload libDDG4.dylib via ctypes RTLD_GLOBAL before importing ROOT/acts to avoid load-order crash. No other agents. Return exact schema and evidence, no commit.",
+  "deliverable": "Native portal/volume/sensor JSON plus reusable exporter; all 45646 sensors and expected117 volumes, count and deduplicate actual portal surfaces, inspect transformations and round-trip bounds; report checks and limitations.",
+  "completion": "Source files and full native geometry export exist with verified shape/IDs, or report a specific blocking API and proposed minimal remedy. No geometry changes or human acceptance."
+}
