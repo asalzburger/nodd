@@ -1,0 +1,122 @@
+{
+  "schema_version": 1,
+  "status": "PROTOTYPE",
+  "geometry": "PR100 Gen3 nODD tracker",
+  "material_map": "docs/validation/gen3-material-map-run/material_map.json.gz",
+  "selection_manifest": "docs/validation/gen3-material-map-run/selection.json",
+  "simulations": [
+    "fatras"
+  ],
+  "pt_GeV": [
+    1.0,
+    10.0,
+    100.0
+  ],
+  "events_per_case": 20000,
+  "particles_per_event": 1,
+  "eta_range": [
+    -4.0,
+    4.0
+  ],
+  "phi_range_rad": [
+    -3.141592653589793,
+    3.141592653589793
+  ],
+  "vertex_mm": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "randomize_charge": true,
+  "seed": 42042,
+  "field_Bz_T": 3.0,
+  "digitization": {
+    "model": "gaussian_smearing",
+    "width_table": "docs/validation/truth-tracking-baseline/smearing/pooled-widths.json",
+    "width_convention": "Centered population SD over all training cluster sizes, by ACTS volume and measured coordinate. Zero-mean independent Gaussian shifts; diagonal sigma squared covariance.",
+    "measured_coordinates_by_system": {
+      "1": [
+        0,
+        1
+      ],
+      "2": [
+        0,
+        1
+      ],
+      "3": [
+        0,
+        1
+      ],
+      "4": [
+        0,
+        1
+      ],
+      "5": [
+        0,
+        1
+      ],
+      "6": [
+        0
+      ],
+      "7": [
+        0
+      ]
+    },
+    "merge": false
+  },
+  "truth_tracking": {
+    "minimum_measurements": 7,
+    "particle_hypothesis": "muon",
+    "initial_sigma_loc_mm": [
+      1.0,
+      1.0
+    ],
+    "initial_sigma_angle_degree": [
+      1.0,
+      1.0
+    ],
+    "initial_sigma_qoverpt_e_per_GeV": 0.1,
+    "initial_sigma_pt_relative": 0.1,
+    "initial_variance_inflation": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "analysis": {
+    "eta_bin_width": 0.25,
+    "absolute_eta_slices": [
+      0.0,
+      0.5,
+      1.0,
+      1.5,
+      2.0,
+      2.5,
+      3.0,
+      3.5,
+      4.0
+    ],
+    "central_probability": 0.6826894921370859,
+    "minimum_entries": 30,
+    "bootstrap_replicates": 400,
+    "bootstrap_seed": 74042
+  },
+  "training_reference": {
+    "events": 50000,
+    "seed": 142042,
+    "pt_range_GeV": [
+      1.0,
+      100.0
+    ],
+    "log_uniform_pt": true,
+    "simulation": "fatras",
+    "independent_from_performance": true,
+    "error_table": "docs/validation/truth-tracking-baseline/hit-error-parameterization.json",
+    "break_min_stat": 5000,
+    "break_rms_change": 0.05,
+    "break_cluster_size": 5
+  }
+}

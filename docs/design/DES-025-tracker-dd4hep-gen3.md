@@ -331,3 +331,44 @@ density, with a companion±5 view reporting its omitted-tail fraction. Store
 all bin counts, extrema, moments and tail counts; no finite tail disappears
 from the full view or normalization. Assess fixed-source/data/figures
 independently before final interpretation; no native rerun or calibration.
+
+### PR101 Gaussian-smearing cross-check (PROTOTYPE, 2026-10-26)
+
+The [reviewer request](https://github.com/asalzburger/nodd/pull/101#issuecomment-6419397508)
+asks whether the geometric baseline uses cluster-size-dependent errors (it does),
+and requests a Fatras comparison with full Gaussian smearing using measured
+total cluster RMS. This is an additional characterization fixture, with no
+change to the retained geometric baseline or detector acceptance.
+
+**NODD DESIGN CHOICE:** pool every independent training residual over all cluster
+sizes within each ACTS volume and measured local coordinate. Use its centered
+population SD (the ACTS script's RMS convention) as a fixed zero-mean Gaussian
+sigma. Also retain the mean and uncentered RMS so the convention is explicit.
+This preserves volume-dependent sensor response and coordinate dimensions while
+removing cluster-size dependence; it does not pool incompatible short-strip
+coordinates or invent a second coordinate on long-strip faces. No residual,
+quality or tail cuts, fitted-pull tuning, new training sample or variance
+rescaling are allowed.
+
+**INFERENCE:** these pooled widths describe the full mixture in the original
+50k Fatras training sample, not a prediction of angle-dependent response. A
+Gaussian measurement response need not yield unit Gaussian track pulls in the
+presence of material interactions, nonlinear propagation or weak constraints.
+
+Use native ACTS Gaussian smearing of truth local hit coordinates: pixels and
+short strips measure loc0/loc1, each long-strip face loc0 only. Generated shifts
+and fitter covariances must use the same fixed sigma. Disable geometric
+channelization/charge sharing and post-cluster error replacement for this
+fixture. Preserve native truth-association guards, origin truth seed, seven
+unique-measurement selection, muon Kalman fit, PR100 material and constant 3 T.
+Run Fatras at 1/10/100 GeV, 20k events each, same event generator seed and eta/phi
+coverage as the geometric reference, with source/input/output hashes captured
+before execution. Preserve fitted losses and every finite pull.
+
+Compare all-eta truth-minus-reconstructed pulls for all six bound parameters
+and derived pT, overlaying three momenta and exposing complete tails plus core
+views. Retain direct measurement-level standardized residual checks by volume
+and coordinate (counts, means, widths and tails), explicit time-prior caveat,
+run denominators, covariance validity and comparison statistics. Independent
+PhysVal assessment at an exact source/data/figure revision is required. Human
+acceptance and physical-response sign-off remain open.
