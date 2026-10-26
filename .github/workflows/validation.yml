@@ -29,6 +29,15 @@ jobs:
         run: python -m pip install -r software/analysis/requirements-unrooted.txt
       - name: Check ROOT histogram reading and documentation plot exports
         run: python -I software/analysis/unrooted_smoke.py
+      - name: Replot the retained Geant4 tracker material profiles
+        run: >-
+          python -B software/analysis/material_profiles/plot_profiles.py
+          --data docs/validation/geantino-material-profiles/profiles.json
+          --output build/material-profiles
+      - name: Check float32 material-boundary rounding cells
+        run: |
+          c++ -std=c++17 software/analysis/material_profiles/test_rounding_cell.cpp -o build/test-rounding-cell
+          build/test-rounding-cell
   build:
     runs-on: ubuntu-latest
     steps:

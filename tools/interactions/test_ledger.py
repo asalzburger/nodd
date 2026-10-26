@@ -204,6 +204,26 @@ class LedgerTests(unittest.TestCase):
         self.assertEqual(len(tools['unresolved']), 1)
         self.assertEqual(tools['codex_installed'], [])
 
+    def test_completed_child_prompt_has_parent_sender_without_active_parent_usage(self):
+        usage = self.turn()
+        usage.update(client_thread_id='fixture-child', turn_id='fixture-child-turn')
+        self.record['usage'] = [usage]
+        child = curate_turn('fixture-child', {
+            'id': 'fixture-child-turn', 'status': 'completed', 'items': [
+                {'type': 'userMessage', 'id': 'fixture-assignment',
+                 'content': [{'type': 'text', 'text': 'Synthetic parent assignment'}]}]},
+            [self.record['session_id']], parent_thread_id='fixture-active-parent')
+        ledger.write(self.root / 'interactions/pr-0001/turns/child.json', child)
+        events = self.sync()['events']
+        ledger.validate_derived(self.root, self.snapshot, [self.record])
+        assignment = next(e for e in events if e['id'] == 'codex-message:fixture-assignment')
+        self.assertEqual(assignment['actor'], 'codex-thread:fixture-active-parent')
+        self.assertEqual(assignment['recipients'], ['codex-thread:fixture-child'])
+        self.assertEqual(len(self.record['usage']), 1)
+        child['parent_thread_id'] = 'fixture-child'
+        with self.assertRaisesRegex(ValueError, 'child-parent'):
+            ledger.validate_visible(child)
+
 
 if __name__ == '__main__':
     unittest.main()

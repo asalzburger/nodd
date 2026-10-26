@@ -3,6 +3,14 @@
 Output inspection, plots and independent validation entry points belong here.
 Generated data stays under the ignored repository build directory.
 
+## Geant4 tracker material profiles
+
+The [100,000-geantino report](../../docs/validation/geantino-material-profiles/README.md)
+contains stacked radiation- and interaction-length profiles for beam pipe,
+pixel, short strip and long strip, with sensitive/non-sensitive contributions.
+The [analysis scripts](material_profiles/README.md) classify an existing recording
+against explicit DD4hep inputs and reproduce plots from compact retained data.
+
 ## Documentation plots with unrooted
 
 [Issue #95](https://github.com/asalzburger/nodd/issues/95) requests

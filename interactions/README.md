@@ -32,6 +32,11 @@ reactions. Local inputs keep their exposed speaker identity; an unnamed user
 is not silently identified with a GitHub reviewer. A known child thread's input
 is attributed to its recorded parent agent.
 
+A completed child snapshot may include `parent_thread_id` from verified spawn
+metadata when its parent turn is still active and has no finalized usage entry.
+This records the assignment sender without inventing or importing active-turn
+counters. Self-parent and contradictory parent relationships are rejected.
+
 Public comment replies are linked only by explicit reply metadata or source
 links. A local response can link to the visible user input in the same recorded
 turn. Other correspondence remains unknown. An upload records its public URL
