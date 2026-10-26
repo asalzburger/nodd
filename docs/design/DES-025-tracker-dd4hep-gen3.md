@@ -184,9 +184,9 @@ The material-map locality/one-phi-bin qualifications remain applicable.
 NODD DESIGN CHOICES for the first campaign, centralized and configurable:
 20,000 one-particle events per backend/momentum; uniform eta over [-4,4], full
 azimuth, origin vertex, randomized muon charge, deterministic recorded seeds.
-Start with a small pilot for each backend. A constant 2 T field follows the
-ACTS full_chain_odd.py example; the field preference is being clarified with
-the human before final generation. This ideal constant-field fixture is not
+Start with a small pilot for each backend. The human selected a constant 3 T
+field for an ideal-field nODD baseline on 2026-10-26. This fixture replaces the
+2 T initial suggestion from the ACTS full_chain_odd.py example; it is not
 the finite DES-026 solenoid or an installed field-map claim. Record the actual
 selected field identically in simulation and fit. No pileup, misalignment,
 dead-channel or radiation-damage model is introduced.
@@ -200,6 +200,18 @@ coordinate or apply a second stereo rotation. Use geometric charge deposition,
 segmentation and clustering through ACTS, rather than replacing this request
 with a Gaussian position-smearing digitizer. Inspect local sensor-axis mapping
 and actual sensitive IDs before constructing per-surface digitization entries.
+NODD DESIGN CHOICE: use native digital cell-centre clustering, exact path-length
+charge, zero threshold, and no added drift/diffusion. Before the human requested
+error training, pilots used the native pitch-squared/12 covariance. For the
+performance baseline train a common empirical hit-error table with an independent
+50,000-event Fatras sample, log-uniform pT from 1 to 100 GeV and seed 142042,
+using the same eta/phi, geometry, segmentation and field. Use the pinned ACTS
+Digitization/error_parameterisation.py script, retain its raw result, and audit
+cluster-size groups and overflow handling against the measurement residuals.
+Apply one frozen table to both validation backends; training events must not
+contribute to reported performance. Any upstream table correction needs exact
+source/error evidence and a task-local implementation, with raw evidence kept.
+This idealized binary response does not emulate calibrated RD53 electronics.
 
 Use the ACTS truth-associated Kalman tracking route corresponding to
 truth_tracking_kalman.py: a truth initial trajectory with finite, explicitly
@@ -223,3 +235,33 @@ not zero resolution. Do not tune or truncate residual tails to obtain unit pulls
 Keep the full native outputs outside Git, with hashes and replayable retained
 summary data/figures. Meaningful analytic controls and an independent PhysVal
 assessment must check the fixed source/evidence revision before interpretation.
+
+The human authorized long-strip smearing as a temporary fallback if native 1D
+geometric digitization is unavailable. Corrected native pilots demonstrate 1D
+measurements with a second physical segmentation axis containing one full-length
+bin; only loc0 is measured. Thus the geometric implementation remains applicable
+and no smearing fallback is selected at this point.
+
+The pinned ACTS TruthTrackFinder uses a second measurement-map lookup on an
+already resolved sim-hit index. Geant4 can create several hits per measurement,
+so these index spaces differ and the pilot exposes missing-hit warnings. The
+isolated task-local adapter may replace that lookup with the direct sim-hit
+index, retaining native truth association, hit-time sorting and the unchanged
+Kalman fitter. Preserve source locators, original/corrected counts and a
+non-identity-map control. No shared ACTS source or installed library is changed.
+
+A merged Geant4 cluster can also have repeated primary-to-measurement map
+entries, one per contributing sim-hit. The isolated truth adapter must use
+each physical measurement once per primary before sorting by hit time; retain
+original/unique counts and duplicate controls. This preserves truth association
+without pattern recognition or repeated counting of the same measurement.
+
+Pinned ModuleClusters::squash recomputes geometric cluster variances from
+cell weights and widths, discarding earlier GeometricConfig variance-map values
+when merging. Therefore applying the trained table requires an isolated
+post-clustering adapter: preserve measurement IDs, positions and associations,
+and set measured-coordinate variances from the frozen per-volume cluster-size
+RMS table (square RMS, clamp overflow to final entry). The table describes
+independent marginal errors and carries no coordinate correlation. Validate
+actual output covariance against the table before fitting. No shared ACTS
+source, transport, clustering positions or Kalman fitter is modified.
