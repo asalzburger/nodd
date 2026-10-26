@@ -186,7 +186,7 @@ def main():
     plt.close(fig)
     fields = ["mode", "pt_GeV", "quantity", "entries", "nonfinite", "underflow", "overflow", "mean", "std", "width68", "minimum", "maximum", "outside_core", "abs_gt3"]
     with (args.output / "summary.csv").open("w", newline="") as stream:
-        writer = csv.DictWriter(stream, fieldnames=fields)
+        writer = csv.DictWriter(stream, fieldnames=fields, lineterminator="\n")
         writer.writeheader()
         for sample in data["samples"]:
             for quantity, result in sample["quantities"].items():
