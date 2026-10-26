@@ -59,6 +59,10 @@ pairs covered in every case. Both backends have identical generated truth at
 each momentum; only simulation/reconstruction outcomes differ.
 
 
+The requested [full all-eta pull distributions](pulls/README.md) now overlay
+1,10 and100 GeV for every bound parameter, with truth-minus-reconstructed sign,
+full finite tails and companion core views. Time is explicitly unmeasured.
+
 ## Configuration and interpretation
 
 Each backend has 20,000 independent, one-muon events at each fixed transverse

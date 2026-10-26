@@ -109,6 +109,14 @@ def main():
             ax.set_xscale("symlog", linthresh=core)
             ax.set_yscale("log")
             ax.set_xlim(edges[0], edges[-1])
+            maximum = max(abs(edges[0]), abs(edges[-1]))
+            powers = np.arange(1, int(np.floor(np.log10(maximum))) + 1)
+            ticks = np.concatenate([-10.**powers[::-1], [0.], 10.**powers]) if len(powers) else np.array([-core, 0., core])
+            labels = ["0" if value == 0 else
+                      (f"{value:g}" if abs(value) < 10 else
+                       ("−" if value < 0 else "") + rf"$10^{{{int(round(np.log10(abs(value))))}}}$")
+                      for value in ticks]
+            ax.set_xticks(ticks, labels)
         else:
             ax.set_xlim(-core, core)
             ax.set_ylim(bottom=0)
@@ -122,7 +130,7 @@ def main():
                 bbox={"facecolor": "white", "edgecolor": "none", "alpha": .8})
 
     def frame(title, view, rows=2, columns=3):
-        fig, axes = plt.subplots(rows, columns, figsize=(15, 9 if rows == 2 else 5.5), squeeze=False)
+        fig, axes = plt.subplots(rows, columns, figsize=(15, 9), squeeze=False)
         fig.subplots_adjust(left=.07, right=.98, bottom=.105, top=.79, hspace=.4, wspace=.3)
         fig.suptitle("nODD Gen3 — " + title, x=.07, y=.98, ha="left", fontsize=18, weight="bold")
         fig.text(.07, .935, "PROTOTYPE · constant 3 T · all −4 ≤ η ≤ 4 · truth − reconstructed · 20,000 generated muons per momentum",

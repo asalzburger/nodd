@@ -222,3 +222,12 @@ usage orreimporting parentcounters. DES025 amendedbeforehistogramimplementation.
 Sixboundparameters includingunmeasuredtime(prior diagnostic),plusderivedpT.
 Commonlinearcore/logtailbins preserveallfinitepulls;full+coreviews,counts/extrema/
 tails retained. Existingnative outputs andearlierprofilebytesremainunchanged.
+
+Fullpullsource d79c77d exported42common-bin distributions:119982entries per
+parameter,all6DcovariancesPD,nofinitepullmissing,zerounderflow/overflow. Allη
+[-4,4],truth-minus-fit;wrappedphi,derivedpTfullcrosscov. All6boundincludingtime
+withunmeasuredprior label. SixPNG/PDF/SVGZfull/coreviews+42-rowCSV. MainQA caught
+symlog±1tickcrowding/shortauxframeoverlap, correctedticks/headerlayout and
+re-rendered; inspectedcorrectedFatrasfull/G4core/auxpTfull atoriginalresolution.
+24portablecontrolsPASS,5native-onlyskips(expected); new4controlsallPASS.
+Existingnative outputs/training/map andearlierprofiledata/figuresunchanged.

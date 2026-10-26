@@ -52,6 +52,7 @@ jobs:
         run: |
           python -B -m unittest discover -s software/analysis/truth_tracking -p 'test_*.py' -v
           python -B software/analysis/truth_tracking/plot_profiles.py --data docs/validation/truth-tracking-baseline/profiles.json.gz --output build/truth-tracking-baseline-replay
+          python -B software/analysis/truth_tracking/plot_pulls.py --data docs/validation/truth-tracking-baseline/pulls/distributions.json.gz --output build/truth-tracking-baseline-replay/pulls
       - name: Check float32 material-boundary rounding cells
         run: |
           c++ -std=c++17 software/analysis/material_profiles/test_rounding_cell.cpp -o build/test-rounding-cell

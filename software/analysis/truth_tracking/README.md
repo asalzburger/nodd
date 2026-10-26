@@ -124,3 +124,11 @@ single-primary/single-proto/single-output case, verifies selected ROOT barcodes,
 counts native unmatched/Fake fits explicitly and rejects any nonzero conflicting
 barcode. Generated truth supplies all residuals. These fits do not count as
 native-matched efficiency, and no completeness cut removes their tails.
+
+The all-eta full-distribution follow-up uses export_pulls.py and plot_pulls.py,
+with pulls_config.json controlling common linear-core/log-tail bins. These
+histograms use the requested truth-minus-reconstructed sign; prior profile
+figures keep their original sign. All six bound parameters (including explicitly
+unmeasured time) and derived pT are retained, with full-range/core views and
+all finite tails in normalization. See docs/validation/truth-tracking-baseline/
+pulls/README.md for commands and limitations.
