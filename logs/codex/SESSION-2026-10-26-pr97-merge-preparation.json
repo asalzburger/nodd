@@ -1,0 +1,182 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-26-pr97-merge-preparation",
+  "title": "Rebase PR97 and finalize tracker token accounting for merge",
+  "recorded_at": "2026-10-26T13:40:21Z",
+  "started_at": null,
+  "ended_at": "2026-10-26T13:50:33Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Current preparation turn01a1786f-6510-7533-bce0-d7c0830071ab is active, so finalized usage is unavailable and usage remains empty.",
+    "Execution model/client version are not established. Existing scientific execution and review SHAs remain historical evidence; no native ACTS runtime or detector geometry is changed."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": "01a167a1-7906-7b73-9408-509e483359fc"
+  },
+  "git": {
+    "start_commit": "14372d4f0fc8cc1a21e7178d36278a9d2aa5930e",
+    "branch": "codex/tracker-sensitive-propagation",
+    "initial_changes": [],
+    "result_commits": [
+      "d9c92cd97731e43f0efb18eef6d82d48a6d39015",
+      "f959f0606e5407b8cdb838fafd4c1083f03e44a1",
+      "b001cf914956ff296bf5dccf212874f6baf2f546",
+      "1ad5a708ac5b0f3244b2db96064138c434751fd3",
+      "313705ed1fca1fb2309036d23814d7f823173157",
+      "479003cf28f08b1941e70005a6ea8d9e8ce3dc8d",
+      "2e044c2d014b0d25bdde3e1c487ffc505c167ba7",
+      "e3bef033104b3552f9319337ecbaf425f883a2e4",
+      "c5b8e96480811e2f2a44edfc7583df6676cb3292",
+      "99d8a7e2125da96e89fc0bfb43dbfd27dcc6818d",
+      "d4469a89b8db9db51d4cf1631bc6550fa92df8bd",
+      "9800442e08b41b2ad18c904c8e8e3e279df42614",
+      "a26139e207c54521e970050e5e368d283405129c"
+    ],
+    "changed_files": [
+      "interactions/pr-0096.json",
+      "interactions/pr-0097.json",
+      "interactions/pr-0097/merge-preparation-visible.json",
+      "interactions/pr-0097/turns/01a167a1-7906-7b73-9408-509e483359fc--01a16891-b92d-7cd2-8ee5-c0a04a4e04ae.json",
+      "logs/codex/SESSION-2026-10-23-tracker-propagation.json",
+      "logs/codex/SESSION-2026-10-23-tracker-propagation.md",
+      "logs/codex/SESSION-2026-10-26-pr97-merge-preparation.json",
+      "logs/codex/SESSION-2026-10-26-pr97-merge-preparation.md",
+      "logs/usage/README.md",
+      "logs/usage/USAGE-2026-10-26-pr97-accounting.json",
+      "project/tracking.json"
+    ]
+  },
+  "work": {
+    "milestone": "M3",
+    "components": [
+      "PR maintenance",
+      "tracker software",
+      "token accounting"
+    ],
+    "related_ids": [
+      "PR-97",
+      "TASK-SOFT-TRACKER-PROPAGATION"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-26-pr97-merge-preparation.md",
+  "activities": [
+    {
+      "kind": "tool",
+      "name": "exec_command",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Authorized rebase, conflict reconciliation, exact usage import and local validation; actual invocation totals not collected."
+    },
+    {
+      "kind": "tool",
+      "name": "GitHub connector",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Refreshed PR96/97 and issue95 discussions. Metadata update returned403; authenticated gh CLI fallback used."
+    },
+    {
+      "kind": "tool",
+      "name": "Codex read_thread",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Selected exact closed tracker turn and current visible inputs; allowlisted curation without raw response/private state retention."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "git rebase origin/main; git range-diff",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "13 commits replayed onto709d7fe. Workflow keeps incoming material checks plus tracker controls; project arrays merged by stable ID."
+    },
+    {
+      "command": "git diff --exit-code archive/pr97-before-rebase-2026-10-26 HEAD -- tools/tracker_propagation docs/validation/tracker-propagation software/running/tracker_profiles.sh software/running/tracker_propagation.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Scientific source/evidence and steering are byte-identical to original PR. Original history archived locally and remotely."
+    },
+    {
+      "command": "recover_usage.py --thread-id <explicit parent and two children>; import-usage; identical --dry-run replay",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Closed parent142 requests imported once; replay adds0/unchanged1. Six original task turns total33698822 input+145891 output=33844713; current active preparation excluded."
+    },
+    {
+      "command": "unittest discover tools/tracker_propagation",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Eight pure controls passed."
+    },
+    {
+      "command": "unittest discover tools/interactions",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "15 interaction tests passed."
+    },
+    {
+      "command": "unittest discover tools/session_logging",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "33 session/recovery tests passed."
+    },
+    {
+      "command": "unittest discover tools/token_usage",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "15 token/interaction-export tests passed."
+    },
+    {
+      "command": "unittest discover tools/project_records",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "28 project-record tests passed."
+    },
+    {
+      "command": "restore_counts.py; make tracker-propagation-plot",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All33 profiles and seven figure exports recreated from retained compressed counts without ACTS."
+    },
+    {
+      "command": "session_log.py validate; project_records/validate.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "205 paired session records and76 project tasks validated."
+    },
+    {
+      "command": "interactions/ledger.py sync; validate --base-ref 709d7fe5e5620305812aff502c3e02b9e7be3347",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "93 PR ledgers valid. PR96 links its two original accounts; PR97 links six tracker turns and current preparation account with no finalized usage. Historical records retained."
+    },
+    {
+      "command": "token_usage/build.py build --output _site/pr97-merge-preparation",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "252 disjoint observed turns;849151556 observed tokens; all252 dated. Current active turn excluded."
+    },
+    {
+      "command": "session_log.py summary --format json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Observed project input844523240 +output4628316=849151556 tokens over252 turns. Task-specific parent/specialist total33844713, no missing original task counters; active preparation coverage remains unknown."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors."
+    }
+  ]
+}

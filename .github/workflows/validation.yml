@@ -56,6 +56,8 @@ jobs:
         run: |
           c++ -std=c++17 software/analysis/material_profiles/test_rounding_cell.cpp -o build/test-rounding-cell
           build/test-rounding-cell
+      - name: Check tracker crossing accounting and population profiles
+        run: python -B -m unittest discover -s tools/tracker_propagation -p 'test_*.py' -v
   build:
     runs-on: ubuntu-latest
     steps:

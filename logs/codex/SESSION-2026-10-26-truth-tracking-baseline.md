@@ -207,3 +207,10 @@ excluded, so task accountingremains partial. PR100 stays80165771observedtokens
 in its three original accounts. Freshpublicdiscussioncapture and18activevisible
 messages retained safely with noactiveusageallocation; private reasoning/tool
 arguments/results notpersisted. Tokenpreview build successful.
+
+FinalPRmergeabilitycheck found newmain2da3a8a (mergedPR97trackerpropagation).
+Ordinarypreservationmerge:onlyconflictadjacentnewtaskinsertions inproject/tracking,
+resolvedbyretainingboth complete stable-IDrecords; allotherper-IDparentchanges
+programmaticallyverifiedpreserved. BothCIjobadditionsretained. No Gen3truth-native
+source,numericaldata orfigure changes. Source f7 assessmentremains exact; native
+executionpin39cd unchanged. Revalidatecombinedrecords/plots/workflowsbeforehandoff.
