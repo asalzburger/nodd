@@ -190,3 +190,20 @@ identicalacrossbackends ateachpT. TenPNG/PDF/SVGZsets+1440-rowCSV retained.
 Main inspectedresolutioneta,fullpullSDeta,centralpullwidthpT asoriginalPNGs:
 clearlabels,legends,errors,logscales,footers. Largepulltailsand100GeVforward
 charge/resolutionlossesprominentlyreported; no cutsorunitpullacceptance.
+
+TRUTH-PhysVal-03completedread-onlyatf7b14c60c8be613ce9165684d6ef03007ce1a456.
+No blockingimplementation/reduction/presentationfinding forqualifiedprototype.
+Independent17712scalarstatsmaxdifference7.28e-12;all3199735marginals,1836922
+measurementdimensions,119982CholeskyPDcovariances,120keventdenominators,42native
+outputhashes/11portablereports verified. All1440CSVrows/21600numericfields exact;
+all10originalPNGs readable;688branches/12filepairs exactreference-removal controls.
+First400bootstrapreplicates independentlyreproduced. Broadpulltails/forwardhighpT
+lossesexplicit; no designapproval.
+
+Finalized observedbaselineusage:5disjointclosedturns,58268635input+164447output
+=58433082tokens;57473152cachedinput/57948reasoning are subsets. Includes original
+closedfailed-rootboundary and4completedchildturns. Activecoordinator01a17864…
+excluded, so task accountingremains partial. PR100 stays80165771observedtokens
+in its three original accounts. Freshpublicdiscussioncapture and18activevisible
+messages retained safely with noactiveusageallocation; private reasoning/tool
+arguments/results notpersisted. Tokenpreview build successful.
