@@ -29,7 +29,8 @@ Mean accumulated material up to **d=√(r²+z²)**, in every configured |η| int
 
 ![Accumulated interaction lengths versus distance from origin](figures/cumulative_d_L0.png)
 
-Every figure also has a PDF and SVG in [figures](figures). The
+Every figure also has a PDF and losslessly compressed SVG (`.svgz`) in
+[figures](figures), keeping the generated vector paths out of the source diff. The
 [summary CSV](figures/comparison-summary.csv) gives all 32 axis/slice/quantity
 comparisons, endpoint totals and maximum absolute differences at checkpoints.
 The compressed [profile data](profiles.json.gz) retains every checkpoint mean,

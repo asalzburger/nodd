@@ -150,11 +150,12 @@ def main():
             fig.text(.065, .015, f"Both z signs/full phi; every ray including zeros. {config['axes'][axis]['step_mm']:g} mm checkpoints, held between samples. Bands omit map-training uncertainty.",
                      color='#52606b', fontsize=8)
             filename = 'cumulative_' + axis + ('' if axis == 'r' else '_' + qs[0])
-            for extension in ('png', 'pdf', 'svg'):
+            for extension in ('png', 'pdf', 'svgz'):
                 path = args.output / (filename + '.' + extension)
                 fig.savefig(path, dpi=170, bbox_inches='tight')
-                if extension == 'svg':
-                    path.write_text('\n'.join(line.rstrip() for line in path.read_text().splitlines()) + '\n')
+                if extension == 'svgz':
+                    svg = gzip.decompress(path.read_bytes()).decode()
+                    path.write_bytes(gzip.compress(('\n'.join(line.rstrip() for line in svg.splitlines()) + '\n').encode(), mtime=0))
             plt.close(fig)
     with (args.output / 'comparison-summary.csv').open('w', newline='') as stream:
         writer = csv.writer(stream, lineterminator='\n')
@@ -162,7 +163,7 @@ def main():
                          'geant4_final', 'validation_final', 'final_relative_difference',
                          'maximum_absolute_cumulative_difference', 'maximum_at_mm', 'maximum_over_geant4_final'])
         writer.writerows(summary)
-    print('Rendered five cumulative comparisons as PNG/PDF/SVG with summary CSV')
+    print('Rendered five cumulative comparisons as PNG/PDF/SVGZ with summary CSV')
 
 
 if __name__ == '__main__':
