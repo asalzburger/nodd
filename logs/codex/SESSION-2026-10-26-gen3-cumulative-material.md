@@ -56,3 +56,19 @@ path used by the reducer and checks both its hash and embedded configuration.
 Default retained audit,byte-identical custom-path audit and changed-config
 rejection pass. This CLI/provenance guard is outside the exactbffaba61 review;
 reduction formulas,retained numerical data and displayed figures are unchanged.
+
+## Publication and local closeout
+
+Source/data/review/accounting pushed atc27c598;reply published at
+https://github.com/asalzburger/nodd/pull/100#issuecomment-6416359932,linking
+all three requested observables and five figures,methods,counts and discrepancy.
+Connector comment-write returned403;authorized gh pr comment fallback succeeded.
+Sandbox DNS push failure was retried with network-enabled execution. No review
+thread was auto-resolved and no expert approval was inferred.
+
+Local project/session/interaction validators and token-site validate/build pass:
+75tasks/39documents/21rounds,203session records,93PRledgers,245disjoint finalized
+all-project turns. This is not a PR-specific additive total. Current parent
+remains excluded;final publication/CI messages require later turn closure.
+Final hosted checks will run after the public-discussion snapshot commit;no
+pending hosted result is claimed as passed here.
