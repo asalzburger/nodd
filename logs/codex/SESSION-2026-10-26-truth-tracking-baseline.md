@@ -143,3 +143,13 @@ Fatras1443measurements(4071D/10362D),G41663(4481D/12152D). All2479/2878measured
 coordinatevariancesrespectivelymatchfrozenRMS²exactly. G4uniqueprimary/proto1459;
 rawassociations1461/faultynativeproto1433demonstratefixes. Bothpilots100fits/no
 invalidcovariance. All6×20k productioncaseslaunchedatfrozen8b7254source.
+
+Token-site validator initially rejected two newlysavedusage-evidence arrays:
+canonicalimportentrieswerecorrect,but evidenceinventorymustbeobjectwithselected
+finalizedturns. Converted evidenceonly to existinginventoryshape; counters/owners
+unchanged. No dashboardcodemodification or accountingallocation.
+
+Governing issue102 created and linked in DES025/tracking, PR101 remains draft
+pending all six samples, figures and final independent assessment. Fatras three
+20k samples completed with19992/19998/19999fits, respectively; no attempted-fit
+failures or nativeinvalidcovariance. Geant4 samples continue under frozen code.

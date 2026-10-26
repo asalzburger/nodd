@@ -166,6 +166,9 @@ order relative to every sensor, curved-track performance or design acceptance.
 
 ## Initial truth-tracking performance baseline (2026-10-26)
 
+Governing work item: [issue #102](https://github.com/asalzburger/nodd/issues/102);
+implementation and evidence: [PR #101](https://github.com/asalzburger/nodd/pull/101).
+
 Status: **PROTOTYPE / DRAFT**. The human requested an ACTS truth-tracking
 baseline for both Geant4 and Fatras, using the Gen3 geometry and the material
 map merged in PR100, with single muons at fixed transverse momenta 1, 10 and
