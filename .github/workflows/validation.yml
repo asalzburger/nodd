@@ -29,6 +29,11 @@ jobs:
         run: python -m pip install -r software/analysis/requirements-unrooted.txt
       - name: Check ROOT histogram reading and documentation plot exports
         run: python -I software/analysis/unrooted_smoke.py
+      - name: Replot the retained Geant4 tracker material profiles
+        run: >-
+          python -B software/analysis/material_profiles/plot_profiles.py
+          --data docs/validation/geantino-material-profiles/profiles.json
+          --output build/material-profiles
   build:
     runs-on: ubuntu-latest
     steps:
