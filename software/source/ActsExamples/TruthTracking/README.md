@@ -105,9 +105,16 @@ last RMS entry. No calibration is performed on the independent training sample.
 The pinned native truth finder also indexes measurement→simhit associations twice.
 `CorrectTruthProtoTracks` retains the native association and time ordering while
 using the direct simulated-hit index and deduplicating measurement indices.
-The original helper output is retained only as a diagnostic; both original and
-corrected proto measurement counts are recorded. Native ACTS still supplies the
-truth initial parameters and the full Kalman filter/smoother.
+The original helper output is retained in historical diagnostic controls. At
+larger G4 statistics its invalid hit pointers caused segmentation violations in
+two first-pass cases. Production therefore schedules the identical native
+`ParticleTrackParamExtractor` and `TrackParameterSmearing` seed stages directly,
+followed by the corrected proto finder; the unsafe original finder is never
+executed. Its legacy count field is a zero sentinel with an explicit disabled
+flag, not an observed comparison. Native ACTS still supplies the truth initial
+parameters and the full Kalman filter/smoother. All six first-pass cases,
+including completed and crashed outputs, are retained under
+`pre-reference-removal-controls` and excluded from the final common-source run.
 
 Geant4 `--geant4-run-mode persistent` uses the documented granular native event
 loop: one run initialization, one `ProcessOneEvent`/`TerminateOneEvent` pair for

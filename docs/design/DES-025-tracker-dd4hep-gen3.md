@@ -287,3 +287,12 @@ requirement counts unique physical measurements, not repeated contributions from
 Geant4 steps. Preserve the complete measurement-to-simhit map for truth position
 averages. Only the measurement-to-particle map and its inverse lose duplicate
 pairs; IDs, truth labels, measurement values and hit contributions stay intact.
+
+The original faulty TruthTrackFinder must not run as a reference algorithm in
+production: the first campaign exposed invalid double-index pointers during
+sorting and two Geant4 cases terminated. Preserve those incomplete outputs as
+excluded controls. Construct the same native ParticleTrackParamExtractor and
+TrackParameterSmearing seed stages directly, then the corrected unique proto
+finder and unchanged Kalman fitter. No transport, digitizer, error table, seed
+configuration or fit settings change. Repeat all six performance cases at one
+fixed source revision; earlier completed cases remain historical controls.

@@ -179,10 +179,11 @@ class Audit final : public IAlgorithm {
     if(!file || file->IsZombie()) throw std::runtime_error("Cannot open audit output");
     generated.initialize("particles_generated"); selected.initialize("particles_digitized_selected");
     hits.initialize("simhits"); measurements.initialize("measurements");
-    map.initialize("particle_measurements_map"); rawMap.initialize("particle_measurements_map_raw"); originalProto.initialize("truth_particle_tracks"); proto.initialize("truth_particle_tracks_corrected"); tracks.initialize("kf_tracks");
+    map.initialize("particle_measurements_map"); rawMap.initialize("particle_measurements_map_raw"); proto.initialize("truth_particle_tracks_corrected"); tracks.initialize("kf_tracks");
     tree.SetDirectory(file.get());
     tree.Branch("event_nr",&event); tree.Branch("generated",&nGenerated);
     tree.Branch("simhits",&nHits); tree.Branch("measurements",&nMeasurements);
+    tree.Branch("original_proto_reference_enabled",&referenceEnabled);
     tree.Branch("original_proto_measurements",&nOriginalProtoMeasurements);
     tree.Branch("corrected_proto_measurements",&nCorrectedProtoMeasurements);
     tree.Branch("selected",&nSelected); tree.Branch("fit_attempts",&nProto);
@@ -196,7 +197,8 @@ class Audit final : public IAlgorithm {
     event=ctx.eventNumber; nGenerated=generated(ctx).size(); nHits=hits(ctx).size();
     const auto& ms=measurements(ctx); nMeasurements=ms.size(); nSelected=selected(ctx).size();
     nOriginalProtoMeasurements=0;nCorrectedProtoMeasurements=0;
-    for(const auto& track:originalProto(ctx)) nOriginalProtoMeasurements+=track.size();
+    // The broken native reference finder is intentionally not executed.
+    // Its count is an explicit disabled sentinel, not a comparison measurement.
     for(const auto& track:proto(ctx)) nCorrectedProtoMeasurements+=track.size();
     nProto=proto(ctx).size(); nTracks=tracks(ctx).size(); nInvalid=0; nPrimaryMeasurements=0;
     const auto& pm=map(ctx);
@@ -217,10 +219,11 @@ class Audit final : public IAlgorithm {
   ReadDataHandle<SimHitContainer> hits{this,"Hits"};
   ReadDataHandle<MeasurementContainer> measurements{this,"Measurements"};
   ReadDataHandle<ParticleMeasurementsMap> map{this,"ParticleMeasurements"},rawMap{this,"RawParticleMeasurements"};
-  ReadDataHandle<ProtoTrackContainer> proto{this,"ProtoTracks"},originalProto{this,"OriginalProtoTracks"};
+  ReadDataHandle<ProtoTrackContainer> proto{this,"ProtoTracks"};
   ReadDataHandle<ConstTrackContainer> tracks{this,"Tracks"};
   std::unique_ptr<TFile> file; mutable TTree tree; mutable std::mutex mutex;
   mutable unsigned long long event=0,nGenerated=0,nHits=0,nMeasurements=0,nSelected=0,nProto=0,nTracks=0,nInvalid=0,nPrimaryMeasurements=0;
+  mutable bool referenceEnabled=false;
   mutable unsigned long long nOriginalProtoMeasurements=0,nCorrectedProtoMeasurements=0,nPrimaryRaw=0;
   mutable std::vector<unsigned long long> geometryIds;
   mutable std::vector<unsigned int> dimensions;

@@ -45,6 +45,23 @@ class NativeInterfaceControls(unittest.TestCase):
         import nodd_truth_tracking
         cls.native=nodd_truth_tracking
 
+    def test_truth_seed_does_not_schedule_unsafe_native_finder(self):
+        import acts
+        import acts.examples
+        from unittest.mock import patch
+        from runtime import schedule_native_truth_seed
+        settings=load_campaign(Path(__file__).with_name("campaign.json"))["truth_tracking"]
+        class Schedule:
+            def __init__(self):self.algorithms=[]
+            def addAlgorithm(self,algorithm):self.algorithms.append(algorithm)
+        schedule=Schedule()
+        with patch.object(acts.examples,"TruthTrackFinder",side_effect=AssertionError("Unsafe reference finder scheduled")):
+            schedule_native_truth_seed(schedule,acts,acts.examples.RandomNumbers(seed=1),settings,acts.logging.WARNING)
+        self.assertEqual(len(schedule.algorithms),2)
+        self.assertEqual(schedule.algorithms[0].config.outputTrackParameters,"trueparameters")
+        self.assertEqual(schedule.algorithms[1].config.outputTrackParameters,"estimatedparameters")
+        self.assertEqual(schedule.algorithms[1].config.sigmaPtRel,0.)
+
     def test_root_inventory_uses_latest_cycle(self):
         import ROOT
         from array import array

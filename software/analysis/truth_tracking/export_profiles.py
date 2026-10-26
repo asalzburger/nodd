@@ -29,6 +29,14 @@ def sha256(path):
     return digest.hexdigest()
 
 
+def portable_provenance(provenance):
+    """Retain content identities without machine-local absolute file paths."""
+    return {**provenance, "files": [
+        {key: value for key, value in item.items() if key != "path"}
+        for item in provenance["files"]],
+        "path_note": "Machine-local file paths omitted; role, basename and SHA256 retained."}
+
+
 def flat(table, name):
     return ak.to_numpy(ak.flatten(table[name], axis=None))
 
@@ -206,7 +214,7 @@ def read_case(directory, campaign, production=True):
         "events": events, "native_counts": report["counts"],
         "run_report_sha256": sha256(directory / "run-report.json"),
         "input_files": [{"name": path.name, "sha256": sha256(path)} for path in source_files],
-        "native_provenance": report["provenance"],
+        "native_provenance": portable_provenance(report["provenance"]),
         "digitization_sensors_by_system": report["digitization_sensors_by_system"],
         "digitization_native_defaults": report["digitization_native_defaults"],
         "hit_error_table_sha256": table_hash, "measurement_error_audit": error_audit,

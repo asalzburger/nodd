@@ -12,7 +12,7 @@ ROOT_DIR = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT_DIR / "software/analysis/gen3_material_mapping"))
 sys.path.insert(0, str(ROOT_DIR / "software/analysis/truth_tracking"))
 from material_runtime import common_arguments, load_manifest, native_imports, prepare_geometry, provenance, sha256, write_report
-from runtime import load_campaign, material_map, root_inventory
+from runtime import load_campaign, material_map, root_inventory, schedule_native_truth_seed
 from digitization import build_config, apply_variance_table
 
 
@@ -20,8 +20,7 @@ def run(args, config, ROOT, acts, detector, geometry, observer):
     from acts.examples.simulation import (addParticleGun, MomentumConfig, EtaConfig,
         PhiConfig, ParticleConfig, addGeant4, addFatras,
         addDigiParticleSelection, ParticleSelectorConfig)
-    from acts.examples.reconstruction import (addSeeding, SeedingAlgorithm,
-        TrackSmearingSigmas, addKalmanTracks)
+    from acts.examples.reconstruction import addKalmanTracks
     from acts.examples.root import (RootParticleWriter, RootTrackStatesWriter,
         RootTrackSummaryWriter, RootTrackParameterPerformanceWriter, RootMeasurementWriter, RootSimHitWriter)
     u, level = acts.UnitConstants, acts.logging.WARNING
@@ -88,15 +87,7 @@ def run(args, config, ROOT, acts, detector, geometry, observer):
     s.addWriter(RootParticleWriter(level=level,inputParticles="particles_digitized_selected",
         filePath=str(args.output/"particles_selected.root")))
     truth=config["truth_tracking"]
-    addSeeding(s,geometry,field,rnd=rnd,seedingAlgorithm=SeedingAlgorithm.TruthSmeared,
-        trackSmearingSigmas=TrackSmearingSigmas(loc0=0.,loc0PtA=0.,loc0PtB=0.,
-            loc1=0.,loc1PtA=0.,loc1PtB=0.,time=0.,phi=0.,theta=0.,ptRel=0.),
-        particleHypothesis=acts.ParticleHypothesis.muon,
-        initialSigmas=[*[x*u.mm for x in truth["initial_sigma_loc_mm"]],
-            *[x*u.degree for x in truth["initial_sigma_angle_degree"]],0./u.GeV,1.*u.ns],
-        initialSigmaQoverPt=truth["initial_sigma_qoverpt_e_per_GeV"]/u.GeV,
-        initialSigmaPtRel=truth["initial_sigma_pt_relative"],
-        initialVarInflation=truth["initial_variance_inflation"],logLevel=level)
+    schedule_native_truth_seed(s,acts,rnd,truth,level)
     s.addAlgorithm(observer.CorrectTruthProtoTracks())
     addKalmanTracks(s,geometry,field,inputProtoTracks="truth_particle_tracks_corrected",logLevel=level)
     s.addAlgorithm(observer.Audit(str(args.output/"audit.root")))
@@ -161,7 +152,9 @@ def main():
         "scientific_input_revision":launch_revision,
         "original_handoff_revision":"675612ef5a2c5b23b7c1bcf7456f278a4447b819",
         "human_amended_design_revision":"eb86998ad5d42c37bf7d244063c575f93b0c42a3",
-        "executed_source_sha256":executed_source_hashes}
+        "executed_source_sha256":executed_source_hashes,
+        "original_proto_reference":{"enabled":False,
+            "count_field_semantics":"zero sentinel; unsafe native reference finder is not scheduled"}}
     try:
         detector,geometry,context,surfaces,decoration=prepare_geometry(args,manifest,acts,sidecar,expanded)
         sensors=json.loads(detector.geometryReport())["sensors"]

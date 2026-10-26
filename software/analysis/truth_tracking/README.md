@@ -104,3 +104,16 @@ Figures show signed eta for all momenta/backends and pT in three eta slices.
 All eight absolute-eta slices remain in compressed data and CSV. Replay checks
 analysis/configuration identities and count partitions; retained summaries do
 not replace native ROOT provenance.
+
+Production schedules the native truth-parameter extractor and zero-smearing
+seed stage directly. The pinned original TruthTrackFinder is excluded because
+its faulty double-index lookup can dereference invalid hit pointers; only the
+corrected unique-measurement proto finder is scheduled. Earlier completed and
+crashed campaigns are retained under ignored pre-reference-removal-controls and
+are excluded from the final profiles. The original-reference count is explicitly
+disabled in final native reports; zero there is a sentinel, not a measurement.
+
+Retained provenance omits machine-local absolute paths while preserving file
+roles, basenames, SHA256 identities and the original report hash. Offline CI
+checks retained training/table group consistency and replays all figures; the
+independent native ROOT assessment is recorded separately.

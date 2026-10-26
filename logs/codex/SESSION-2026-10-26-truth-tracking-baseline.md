@@ -153,3 +153,10 @@ Governing issue102 created and linked in DES025/tracking, PR101 remains draft
 pending all six samples, figures and final independent assessment. Fatras three
 20k samples completed with19992/19998/19999fits, respectively; no attempted-fit
 failures or nativeinvalidcovariance. Geant4 samples continue under frozen code.
+
+Two first-pass G4cases(pT10/100)terminated in unusedoriginalTruthTrackFinder
+diagnostic sorting invaliddouble-index hitpointers. No completedreport exists
+for either; excluded controls. G4pT1 completed19994fits/19998attempts,2selection
+losses,4nativefitfailures. DES025 amendedbeforecorrection: removeunsafeoriginal
+finder,retainidenticalnativeextraction/smearingseed stages directly. Allsixcases
+willrerun atonefixedrevision; no simulation,digitization,tableorfitretuning.

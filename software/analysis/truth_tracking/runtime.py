@@ -82,3 +82,27 @@ def root_inventory(ROOT, path):
                              for b in obj.GetListOfBranches()}}
     source.Close()
     return result
+
+
+def schedule_native_truth_seed(sequencer, acts, rnd, settings, level):
+    """Schedule the pinned native truth seed stages without its unsafe finder.
+
+    Equivalent to addTruthSmearedSeeding's extraction/smearing configuration.
+    CorrectTruthProtoTracks supplies the separate measurement association stage.
+    """
+    u=acts.UnitConstants
+    extractor=acts.examples.ParticleTrackParamExtractor(level=level,
+        inputParticles="particles_selected",outputTrackParameters="trueparameters")
+    sequencer.addAlgorithm(extractor)
+    smear=acts.examples.TrackParameterSmearing(level=level,
+        inputTrackParameters="trueparameters",outputTrackParameters="estimatedparameters",
+        randomNumbers=rnd,sigmaLoc0=0.,sigmaLoc0PtA=0.,sigmaLoc0PtB=0.,
+        sigmaLoc1=0.,sigmaLoc1PtA=0.,sigmaLoc1PtB=0.,sigmaTime=0.,sigmaPhi=0.,
+        sigmaTheta=0.,sigmaPtRel=0.,
+        initialSigmas=[*[x*u.mm for x in settings["initial_sigma_loc_mm"]],
+            *[x*u.degree for x in settings["initial_sigma_angle_degree"]],0./u.GeV,1.*u.ns],
+        initialSigmaQoverPt=settings["initial_sigma_qoverpt_e_per_GeV"]/u.GeV,
+        initialSigmaPtRel=settings["initial_sigma_pt_relative"],
+        initialVarInflation=settings["initial_variance_inflation"],
+        particleHypothesis=acts.ParticleHypothesis.muon)
+    sequencer.addAlgorithm(smear)

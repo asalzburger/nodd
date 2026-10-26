@@ -24,6 +24,42 @@ LABELS = {
 }
 
 
+def audit_training(config):
+    root = Path(__file__).resolve().parents[3]
+    table_path = root / config["error_training"]["error_table"]
+    directory = table_path.parent
+    training = json.loads((directory / "hit-error-training-audit.json").read_text())
+    digest = lambda path: hashlib.sha256(path.read_bytes()).hexdigest()
+    if training["configuration"] != config or training["training"] != config["error_training"]:
+        raise ValueError("Training and performance campaign identities differ")
+    for key, path in [
+        ("table_sha256", table_path),
+        ("raw_table_sha256", directory / "hit-error-parameterization-raw.json"),
+        ("coordinator_source_sha256", Path(__file__).with_name("calibrate_errors.py")),
+    ]:
+        if training[key] != digest(path):
+            raise ValueError("Retained training source/table identity differs: " + key)
+    table = json.loads(table_path.read_text())
+    expected = {(entry["volume"], row["index"], size): value
+                for entry in table["entries"] for row in entry["value"]
+                for size, value in enumerate(row["rms"], 1)}
+    actual = {}
+    for group in training["groups"]:
+        key = group["volume"], group["index"], group["cluster_size"]
+        if key in actual or group["entries"] <= 0:
+            raise ValueError("Repeated or unsupported training group")
+        actual[key] = group["population_sd_mm"]
+        if group["tail"] != (group["cluster_size"] == group["corrected_vector_length"]):
+            raise ValueError("Training overflow group differs from native lookup")
+        if not np.isclose(group["uncentered_rms_mm"] ** 2,
+                          group["population_sd_mm"] ** 2 + group["mean_mm"] ** 2,
+                          rtol=1e-12, atol=1e-24):
+            raise ValueError("Training bias/SD/RMS identity differs")
+    if actual != expected:
+        raise ValueError("Training group statistics differ from frozen table")
+    print("Retained training source/table/group audit PASS (native ROOT audit is separate)")
+
+
 def audit(data, config_path):
     digest = lambda path: hashlib.sha256(path.read_bytes()).hexdigest()
     source = Path(__file__).resolve().parent
@@ -37,6 +73,8 @@ def audit(data, config_path):
         if data["provenance"][key] != digest(path):
             raise ValueError("Retained source/configuration hash differs: " + key)
     config = data["configuration"]
+    if not data["pilot"]:
+        audit_training(config)
     expected = {(s, p) for s in config["simulations"] for p in config["pt_GeV"]}
     actual = {(s["simulation"], s["pt_GeV"]) for s in data["samples"]}
     if not data["pilot"] and (expected != actual or len(actual) != len(data["samples"])):
