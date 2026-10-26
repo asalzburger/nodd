@@ -1,5 +1,15 @@
 # Local token-usage recovery
 
+## PR97 tracker propagation accounting — 2026-10-26
+
+The [closed-parent inventory](USAGE-2026-10-26-pr97-accounting.json) finalizes
+the original scientific turn in its existing tracker journal. It adds
+27,512,660 input + 115,144 output = 27,627,804 tokens over 142 requests. With the
+five previously counted specialist turns, PR97's original work totals
+**33,698,822 input + 145,891 output = 33,844,713 observed tokens** across 205 requests.
+Cached 33,251,072 and reasoning 57,410 are subsets. The current merge-preparation
+turn remains active and excluded. Earlier issue95/PR96 work is separate.
+
 ## Issue95 / PR96 unrooted installation accounting — 2026-10-23
 
 [The usage-only inventory](USAGE-2026-10-23-pr96-accounting.json) reconciles the

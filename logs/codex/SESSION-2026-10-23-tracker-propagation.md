@@ -244,3 +244,24 @@ published evidence head `7675d4b2cd40692664aa4ae5fe10aaebb0fdab58`. Metadata-onl
 closeout follows. Both figures were visually inspected; overview image opening
 was queued by the app. Sandboxed push/API DNS failures were retried successfully
 through normal escalation. No merge or engineering approval was performed.
+
+## Closed-parent accounting correction, 2026-10-26
+
+The user requested PR97 rebasing, token accounting and merge preparation. A
+usage-only capture now observes parent turn `01a16891-b92d-7cd2-8ee5-c0a04a4e04ae`
+closed: 142 requests, 27,512,660 input + 115,144 output = 27,627,804 tokens. Imported
+under this original task session, disjoint from its five specialist turns.
+The six-turn total is **33,698,822 input + 145,891 output = 33,844,713 tokens**
+across 205 requests. Cached 33,251,072 and reasoning 57,410 are subsets. Issue95/PR96
+remains separately owned; the current preparation turn is active and excluded.
+See [closed evidence](../usage/USAGE-2026-10-26-pr97-accounting.json).
+
+Original source/data/review revisions remain unchanged. User-requested rebase
+onto main 709d7fe5e5620305812aff502c3e02b9e7be3347 preserves the full pre-rebase
+branch at `archive/pr97-before-rebase-2026-10-26`; no scientific rerun or new
+design approval is inferred.
+
+Accounting-link clarification: PR96 is the merged plotting dependency. Removed
+its background-only PR tag from this tracker session so the interaction ledger
+keeps tracker usage with PR97. PR96 installation/accounting remain linked through
+their two original canonical sessions; shared references are not token allocations.
