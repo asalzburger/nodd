@@ -18,6 +18,26 @@ SOURCES = ("export_smearing.py", "plot_smearing.py", "pool_errors.py", "smearing
            "export_pulls.py", "pull_histograms.py", "metrics.py")
 
 
+def comparison_identity(current, reference):
+    for key in ("native_adapter_revision", "ACTS_source_revision", "native_adapter_dirty_paths",
+                "ACTS_source_dirty_paths", "sidecar_pybind11_version", "sidecar_pybind11_internals_version"):
+        if current[key] != reference[key]:
+            raise ValueError("Smearing/reference native build identity differs: " + key)
+    roles = {"compact", "materials", "factory", "saved_material_map", "selection_manifest", "sidecar",
+             "sidecar_source", "sidecar_build_controls", "observer", "runtime_helper", "runtime_library", "runtime_binding"}
+    old = {(f["role"], f["name"]): f["sha256"] for f in reference["files"] if f["role"] in roles}
+    tested = []
+    for f in current["files"]:
+        if f["role"] in roles:
+            key = f["role"], f["name"]
+            if old.get(key) != f["sha256"]:
+                raise ValueError("Smearing/reference geometry/runtime input differs: " + str(key))
+            tested.append(key)
+    if not roles <= {role for role, _ in tested}:
+        raise ValueError("Missing comparison geometry/runtime identity role")
+    return dict(exact_common_files=len(tested), roles=sorted(roles))
+
+
 def measurement_audit(directory, report, widths):
     path = directory / "measurements.root"
     if [f["sha256"] for f in report["provenance"]["files"] if f["name"] == path.name] != [sha256(path)]:
@@ -129,6 +149,7 @@ def main():
         metadata, values, shifts = smeared_case(args.input / f"fatras-pt{pt:g}", campaign, widths)
         if metadata["generated_truth_sha256"] != cases[-1][0]["generated_truth_sha256"]:
             raise ValueError("Gaussian and geometric samples have different generated truth")
+        metadata["reference_identity_audit"] = comparison_identity(metadata["native_provenance"], cases[-1][0]["native_provenance"])
         cases.append((metadata, values))
         measurement_values.append((pt, shifts))
         print(pt, "GeV Gaussian counts", metadata["native_counts"], flush=True)

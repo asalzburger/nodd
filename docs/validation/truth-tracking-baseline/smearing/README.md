@@ -75,6 +75,9 @@ build/truth-tracking-baseline/analysis-venv/bin/python \
 source software/env/truth_tracking.sh
 # Repeat at --pt 10 and --pt 100 with distinct fresh output directories.
 python software/running/nodd_truth_tracking_smearing.py --pt 1 --events 20000 \
+  --manifest docs/validation/gen3-material-map-run/selection.json \
+  --nodd-dir ../nodd-software-layout \
+  --build-dir ../nodd-software-layout/build/dd4hep \
   --output build/truth-tracking-smearing/fatras-pt1
 
 # Reduction and portable plot replay in the analysis environment.

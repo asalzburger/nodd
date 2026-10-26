@@ -10,7 +10,7 @@ from pathlib import Path
 import numpy as np
 
 from export_profiles import sha256
-from export_smearing import SOURCES
+from export_smearing import SOURCES, comparison_identity
 from plot_profiles import save_figure
 from plot_pulls import LABELS, audit as audit_original
 from pull_histograms import BOUND
@@ -60,6 +60,7 @@ def audit(data):
                 if name.startswith("software/") and sha256(root / name) != value:
                     raise ValueError("Executed smearing source differs: " + name)
             identities.append(identity)
+            comparison_identity(sample["native_provenance"], old[sample["pt_GeV"]]["native_provenance"])
             groups = sample["measurement_error_audit"]["groups"]
             if {(g["volume"], g["index"]) for g in groups} != {(g["volume"], g["index"]) for g in data["widths"]["groups"]}:
                 raise ValueError("Measurement width coverage differs")
