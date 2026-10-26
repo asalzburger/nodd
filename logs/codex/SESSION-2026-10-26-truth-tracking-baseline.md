@@ -133,3 +133,13 @@ Nativeoutput map cache is now content-checked and atomically replaced so paralle
 casescannotreadpartialJSON. Nativeenvironment12tests pass includingimmutable-map
 conflict/latestROOTcycle guards; mainanalysis18pass4nativeskips before IOguard.
 Finalcalibratedpilots/production use newsourcepin andfrozentable, not controls.
+
+TRUTH-PhysVal-02 prepared beforefollow-up: fixed8b7254cfc36e1462088e7d390577a4a29dbf1075
+native/source/trainedtable review,independentall106groupROOTreduction andactual
+5-eventG4lifecyclepayloadcomparison. Productionperformanceisnotyetassessed.
+
+DraftPR101 createdandattached. Nativecalibrated100pilots bothpassall7systems;
+Fatras1443measurements(4071D/10362D),G41663(4481D/12152D). All2479/2878measured
+coordinatevariancesrespectivelymatchfrozenRMS²exactly. G4uniqueprimary/proto1459;
+rawassociations1461/faultynativeproto1433demonstratefixes. Bothpilots100fits/no
+invalidcovariance. All6×20k productioncaseslaunchedatfrozen8b7254source.
