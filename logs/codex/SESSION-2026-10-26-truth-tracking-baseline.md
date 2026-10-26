@@ -80,3 +80,48 @@ isolated post-cluster calibrated covariance adapter: unchanged IDs/positions/
 associations,diagonal RMS² byvolume/cluster size,lastentryoverflow,zero measured
 offdiagonals as table carries no correlations. Native truthadapter deduplicates
 physicalmeasurement perprimary beforetimeordering. Both documentedbeforecode.
+
+TRUTH-PhysVal-01 prepared before dispatch: read-only preliminary benchmark/
+analysis assessment ateb86998ad5d42c37bf7d244063c575f93b0c42a3, plus exact
+ACTS355ea primarysources. No concurrent dirtynative implementation assessed.
+Later fixed-revision finalresults assessment remains required.
+
+G4runtime profiling identifies repeatedBeamOn(1) cut-couple construction.
+Authorized task-local ordinary-run lifecycle adapter,independentevent processing
+and nativephysics unchanged,with mandatorysmall standard-vs-adapter primary/
+simhit comparison beforeproduction. This avoids changing sample size or packing
+muons intooneevent. No sharedsource/install edits.
+
+Preliminary independentPhysVal at eb86998 confirms metrics/denominators and
+reproduces upstream hiterror pooled-tail/cap/NaN defects. Result retained. Main
+calibrationwrapper will preserve rawACTS output and independently recompute exact
+groups plus finalpooledoverflow; explicitunsupportedtailmerge.11main analytic
+controls pass (7metrics+4calibration). Newtaskanalysisvenv installs pinned existing
+plotpackages plus pandas2.3.3; sandboxDNSfailure retried network-enabled, no shared
+installation change. Later finalnative/results review still required.
+
+First baseline parent01a17858-7fb6-7b61-b726-8199715ccd69 has a verifiedclosed
+boundary/clientstatusfailed when later usersteering continuedwork. Its exact
+5,549,160input+25,630output=5,574,790tokens are recorded once in this baseline
+account;statusdoesnotmeanthis ongoingtask ended. Active follow-up01a17864-5f5d-7140-9b37-3445edfdbebb remains excluded. PriorPR10020,489,109tokens imported
+only into original cumulativeaccount;completedvisible/approval/merge refreshed.
+
+Dedup amendment beforeimplementation: native7measurement selection andtruth
+matching also consume unique(primary,measurement)pairs; fullmeasurement-simhit
+map stays unchangedfortruthaverages. Otherwise mergedG4steps could overcount
+selection/tracktruthmatches. OldclosedunfixedG4diagnostic moved toexcludedcontrol.
+
+Independent50kFatras training completed:699,273simhits/measurements,49,999
+selected/attempted/fitted,onebelow7unique;0nativeinvalidcovariance. All7systems
+covered. RootinventoryinitiallyselectedoldTTreecycle,correctedbyhighestcycle
+control;rawROOTunchanged. TrainingobserverC++/binary endhashes arepost-run
+inventorybecauseadapterdevelopedwhiletrainingran; executedtransport/digitizer
+libraries andPythonstartuphashes arestable, measurementpositions unaffected.
+Finalproductioncapturesallsource/binaryhashesatstartupandwillremainfrozen.
+
+Five-event G4lifecycle control passesfullpayload equality:31particlebranches,
+25simhitbranches/95hits,42measurementbranches/80measurements,99tracksummary
+branches,13auditbranches. PairedNaNsallowed;nootherdifference. Persistent123.87s
+versusstandard203.55s. Nativeoldfinder63 versusdirect-index65primarymeasurement
+uses exposesactualbadlookup. Controlsuseidenticaloldsourcebytes; laterunique-map
+repair doesnotinvalidate lifecyclephysics comparison.

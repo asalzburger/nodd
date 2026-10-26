@@ -265,3 +265,22 @@ RMS table (square RMS, clamp overflow to final entry). The table describes
 independent marginal errors and carries no coordinate correlation. Validate
 actual output covariance against the table before fitting. No shared ACTS
 source, transport, clustering positions or Kalman fitter is modified.
+
+For this large detailed geometry, the pinned ACTS Geant4 helper calls BeamOn(1)
+for every ACTS event and repeatedly constructs material-cut couples. An isolated
+run-manager adapter may hold one ordinary Geant4 run open across the case:
+initialize physics/run/event-loop once, then call standard ProcessOneEvent and
+TerminateOneEvent once per independent ACTS event, retaining per-event RNG
+seeding, hit collection and native event-store reset, and terminate the run at
+closeout. Do not combine muons into one Geant4 event. The FTFP_BERT model, cuts,
+physical geometry and stepping are unchanged. Require an explicit small-sample
+comparison against the standard lifecycle (particles, hit identities/positions/
+energy and event counts) before production. Record any mismatch rather than
+assuming equivalence; no unvalidated lifecycle result is baseline evidence.
+
+Deduplicate primary/measurement association pairs before native particle
+selection and truth matching as well as proto-track construction: the seven-hit
+requirement counts unique physical measurements, not repeated contributions from
+Geant4 steps. Preserve the complete measurement-to-simhit map for truth position
+averages. Only the measurement-to-particle map and its inverse lose duplicate
+pairs; IDs, truth labels, measurement values and hit contributions stay intact.

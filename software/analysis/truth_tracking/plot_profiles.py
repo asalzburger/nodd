@@ -48,6 +48,11 @@ def audit(data, config_path):
             raise ValueError("Invalid global generated/fit counts")
         if not data["pilot"] and sample["events"] != config["events_per_case"]:
             raise ValueError("Production count differs from campaign")
+        if not data["pilot"]:
+            table = Path(__file__).resolve().parents[3] / config["error_training"]["error_table"]
+            if (sample["hit_error_table_sha256"] != digest(table)
+                    or sample["measurement_error_audit"]["measured_coordinates"] <= 0):
+                raise ValueError("Missing frozen trained-error realization")
         for projection in ("eta_profiles", "abs_eta_profiles"):
             for key in global_counts:
                 if sum(b["counts"][key] for b in sample[projection]) != global_counts[key]:
@@ -125,7 +130,7 @@ def main():
                  color="#52606b")
         fig.text(.075, .895, subtitle, color="#52606b", fontsize=9)
         fig.text(.075, .02,
-                 "Ideal geometric digital response; PR100 map. No residual cuts. "
+                 "Ideal geometric digital response; PR100 map; independent Fatras hit errors. No residual cuts. "
                  "Errors: event-bootstrap SE (mean: SD/√N). Missing bins have <"
                  f"{config['analysis']['minimum_entries']} finite tracks.",
                  fontsize=8, color="#52606b")
@@ -211,7 +216,8 @@ def main():
              "one muon per event · fractions use every generated primary", color="#52606b")
     for ax, pt in zip(axes.flat, config["pt_GeV"]):
         for sample in (s for s in data["samples"] if s["pt_GeV"] == pt):
-            for key, color, label in [("selected_fraction", "#6b7c8c", "≥7 measurements"),
+            for key, color, label in [("selected_fraction", "#6b7c8c",
+                                      f"≥{config['truth_tracking']['minimum_measurements']} measurements"),
                                      ("fit_fraction", colors[pt], "finite fitted parameters")]:
                 entries = sample["eta_profiles"]
                 x = [(b["low"] + b["high"]) / 2 for b in entries]

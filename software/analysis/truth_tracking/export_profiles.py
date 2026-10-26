@@ -48,6 +48,46 @@ def event_indices(events, requested):
     return result
 
 
+def audit_measurement_errors(path, table):
+    """Compare every recorded measured marginal against the frozen native lookup."""
+    lookup = {(entry["volume"], row["index"]): np.asarray(row["rms"], dtype=float)
+              for entry in table["entries"] for row in entry["value"]}
+    with uproot.open(path) as stream:
+        data = stream["measurements"].arrays(
+            ["volume_id"] + [prefix + str(index) for index in (0, 1)
+                             for prefix in ("rec_loc", "var_loc", "clus_size_loc")],
+            library="np")
+    checked, maximum = 0, 0.
+    observed = set()
+    for volume in np.unique(data["volume_id"]):
+        for index in (0, 1):
+            mask = (data["volume_id"] == volume) & np.isfinite(data["rec_loc" + str(index)])
+            if not np.any(mask):
+                continue
+            key = (int(volume), index)
+            if key not in lookup:
+                raise ValueError("Measured volume/coordinate absent from frozen hit-error table")
+            observed.add(key)
+            rms = lookup[key]
+            sizes = data["clus_size_loc" + str(index)][mask].astype(int)
+            if np.any(sizes < 1):
+                raise ValueError("Measured cluster has no physical cells")
+            expected = rms[np.minimum(sizes, len(rms)) - 1] ** 2
+            actual = data["var_loc" + str(index)][mask]
+            # ROOT writer stores float32 marginals. Require the exact expected
+            # stored representation, rather than a loose physics tolerance.
+            if not np.array_equal(actual, expected.astype(actual.dtype)):
+                raise ValueError("Written measurement covariance differs from frozen RMS squared")
+            checked += len(actual)
+            maximum = max(maximum, float(np.max(np.abs(actual - expected) / expected)))
+    if observed != set(lookup):
+        raise ValueError("Performance measurements do not cover every trained coordinate")
+    return {"measured_coordinates": checked,
+            "volume_coordinate_pairs": len(observed),
+            "comparison": "Exact equality after ROOT branch dtype conversion",
+            "max_relative_storage_roundoff": maximum}
+
+
 def read_case(directory, campaign, production=True):
     directory = Path(directory)
     report = json.loads((directory / "run-report.json").read_text())
@@ -58,6 +98,19 @@ def read_case(directory, campaign, production=True):
         raise ValueError("Production event count differs from campaign")
     source_files = [directory / name for name in
                     ("particles.root", "audit.root", "tracksummary_kf.root")]
+    error_audit = None
+    table_hash = None
+    if production:
+        root = Path(__file__).resolve().parents[3]
+        table_path = root / campaign["error_training"]["error_table"]
+        table_hash = sha256(table_path)
+        recorded = [f["sha256"] for f in report["provenance"]["files"]
+                    if f["name"] == table_path.name]
+        if recorded != [table_hash]:
+            raise ValueError("Native performance case did not load the frozen training table")
+        source_files.append(directory / "measurements.root")
+        error_audit = audit_measurement_errors(
+            directory / "measurements.root", json.loads(table_path.read_text()))
     for path in source_files:
         recorded = [f["sha256"] for f in report["provenance"]["files"]
                     if f["name"] == path.name]
@@ -156,6 +209,7 @@ def read_case(directory, campaign, production=True):
         "native_provenance": report["provenance"],
         "digitization_sensors_by_system": report["digitization_sensors_by_system"],
         "digitization_native_defaults": report["digitization_native_defaults"],
+        "hit_error_table_sha256": table_hash, "measurement_error_audit": error_audit,
         "wall_seconds": report["wall_seconds"],
         "generated_truth_sha256": hashlib.sha256(np.column_stack(
             [eta, pt, truth[:, 2:]]).astype("<f8").tobytes()).hexdigest(),
@@ -246,7 +300,7 @@ def main():
             "metrics_sha256": sha256(Path(__file__).with_name("metrics.py")),
             "versions": {"numpy": np.__version__, "uproot": uproot.__version__, "awkward": ak.__version__},
         },
-        "statistics": "No tail cuts. Perigee parameters at origin. Five-dimensional fitted covariance must be positive-definite for pulls. Width68 is half the central empirical interval. Errors are event-bootstrap standard deviations; mean SE is sample SD/sqrt(N). Wilson z=1 intervals for fractions.",
+        "statistics": "No tail cuts. Perigee parameters at origin. Five-dimensional fitted covariance must be positive-definite for pulls. Width68 is half the central empirical interval. Errors are event-bootstrap standard deviations conditional on the frozen independent Fatras hit-error table; training and detector-model systematics are omitted. Mean SE is sample SD/sqrt(N). Wilson z=1 intervals for fractions.",
         "samples": samples,
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)
