@@ -72,3 +72,49 @@ all-project turns. This is not a PR-specific additive total. Current parent
 remains excluded;final publication/CI messages require later turn closure.
 Final hosted checks will run after the public-discussion snapshot commit;no
 pending hosted result is claimed as passed here.
+
+
+## Expert feedback and merge preparation
+
+The user requested token accounting, interaction recording and preparation for
+merge after the expert was satisfied. This continues the same root turn and
+review closeout; its usage must not be split into a second account.
+
+Public feedback from noemina on 2026-10-26 at 12:52:54 UTC:
+[“Good enough at the time being.”](https://github.com/asalzburger/nodd/pull/100#issuecomment-6416466956)
+The refreshed public snapshot retains all three comments. No formal review
+submission or inline review thread is present. Record this positive conversation
+feedback as such; DES-025 remains a prototype without design sign-off.
+
+The selected visible parent snapshot now contains 18 messages, including the
+published-response and CI progress updates and the user's merge-preparation
+request. Only allowlisted visible text is retained. Later final messages and
+the final parent counters require a subsequent closed-turn capture.
+
+Usage-only recovery at 12:56:14 UTC shows no newly closed PR100 root turn. Both
+previous PR100 root turns have unique canonical owners; the current cumulative
+and merge-preparation turn remains active and unaccounted. Older PR99 turns
+also occur in this thread; they are outside this PR's accounting boundary.
+The three PR100 canonical sessions contain eight disjoint finalized turns:
+59,409,013 input + 267,649 output = **59,676,662 observed tokens**. Cached input
+57,717,632 and reasoning output 91,950 are subsets, not additions. This is
+partial completed-turn coverage, not a complete final PR total. No usage entry
+was added or copied during this refresh.
+
+Both hosted workflows passed at 568d8a4de98e57eee15e7ba0c8801b7d1d637da2:
+[Project validation](https://github.com/asalzburger/nodd/actions/runs/40325511409)
+and [Token usage Pages](https://github.com/asalzburger/nodd/actions/runs/40325511665).
+PR100 was open, non-draft and mergeable at that observed revision. The current
+update changes only accounting, interaction and tracking records. New hosted
+checks after this record commit must finish before reporting final readiness.
+The user requested preparation; no merge has been performed.
+
+Initial record validation rejected a PASS check with no observed process exit
+code for the remote-workflow observation. The remote CI result remains in the
+narrative with its exact run URLs; the malformed check entry was removed.
+
+After correcting that record entry, all local gates pass: 75 tasks, 39 documents,
+21 review rounds; 203 session records; 93 interaction ledgers with base-history
+preservation. Session summary and token-site validation/build pass for 245
+disjoint finalized project turns (808,026,328 observed tokens). This project
+total is distinct from the PR100 total above. Git diff --check passes.
