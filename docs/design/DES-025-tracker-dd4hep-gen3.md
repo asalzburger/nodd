@@ -141,3 +141,25 @@ shared boundary. Native shell choice is the existing World exterior:its
 outer cylinder and two end discs;the separator discs are the native barrel-end
 portals. These exact choices and counts are an implementation of this trial,
 not a new physical envelope.
+
+## Cumulative material diagnostic requested in PR100 expert review
+
+The [2026-10-26 expert comment](https://github.com/asalzburger/nodd/pull/100#issuecomment-6415806657)
+requests mean accumulated X₀/λI versus barrel radius, forward |z| and flight
+distance d=√(r²+z²), comparing the existing Geant4 recording with ACTS validation.
+This is a diagnostic of the isolated prototype, with no detector change.
+
+NODD DESIGN CHOICES for display: |η| intervals of width 0.5 over 0…4.5;
+radius for |η|<0.5, |z| for |η|≥1.5, and d for every interval. Sampling grids
+initially extend to 1200/4200/4500 mm with 2/5/5 mm spacing respectively;
+all choices are configurable and carry no accuracy acceptance criterion.
+
+For origin straight rays, integrate the recorded Geant4 step budget uniformly
+between its physical pre/post coordinates, clipping partial steps at each
+coordinate threshold. Keep mapped validation material as a thin interaction
+at its recorded portal position. Compute cumulative values per ray first,
+then the slice mean and population SEM over every ray, including zeros.
+Preserve material totals at the final threshold; show separate sample counts
+and source hashes. Finite checkpoint spacing limits the displayed localization.
+These curves diagnose longitudinal/radial shifts and do not establish material
+order relative to every sensor, curved-track performance or design acceptance.

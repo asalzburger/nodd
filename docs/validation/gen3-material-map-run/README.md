@@ -6,6 +6,11 @@ This continues [PR100](https://github.com/asalzburger/nodd/pull/100) under
 [first surface survey](../gen3-material-mapping/README.md) is retained as a
 separate control; its face-by-face proposal is superseded for this trial.
 
+The expert-requested [cumulative material comparisons](cumulative/README.md)
+show Geant4 and ACTS accumulation versus barrel radius, forward |z| and
+distance from the origin in |η| slices. They expose spatial differences that
+remain hidden in the final integrated totals below.
+
 ## Observed result
 
 The full native run mapped **100,000 recorded geantinos / 17,137,021 steps**

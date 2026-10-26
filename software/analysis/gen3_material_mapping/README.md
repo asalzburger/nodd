@@ -100,3 +100,8 @@ native portal roles and writes the exact65-surface manifest. Build the isolated
 `export_validation.py` reduces only total validation material;`plot_validation.py`
 overlays it on the existing Geant4 stack and draws the selected portals.
 The original first-step survey remains a separate reproducible control.
+
+The [cumulative expert-review diagnostic](../../../docs/validation/gen3-material-map-run/cumulative/README.md)
+uses `cumulative_profiles.py` and `plot_cumulative.py` to compare accumulated
+Geant4 material with thin ACTS portal interactions versus r, |z| and origin
+distance in configurable |η| intervals. It reuses the existing full recordings.
