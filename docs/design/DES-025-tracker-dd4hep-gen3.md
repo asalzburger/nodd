@@ -372,3 +372,10 @@ and coordinate (counts, means, widths and tails), explicit time-prior caveat,
 run denominators, covariance validity and comparison statistics. Independent
 PhysVal assessment at an exact source/data/figure revision is required. Human
 acceptance and physical-response sign-off remain open.
+
+**FACT — native bounds behavior:** pinned ACTS `BoundParametersSmearer` checks
+`surface.insideBounds` after Gaussian smearing; its default zero retries drops
+an out-of-bounds draw rather than redrawing it. Retain this behavior and its
+simhit-to-measurement losses. Thus the observed sample is conditioned by sensor
+edge acceptance, and Gaussian draws do not guarantee exact observed normality.
+No native bounds or retries are modified for this check.
