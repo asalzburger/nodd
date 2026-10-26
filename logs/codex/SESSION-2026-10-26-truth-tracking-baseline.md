@@ -231,3 +231,28 @@ symlog±1tickcrowding/shortauxframeoverlap, correctedticks/headerlayout and
 re-rendered; inspectedcorrectedFatrasfull/G4core/auxpTfull atoriginalresolution.
 24portablecontrolsPASS,5native-onlyskips(expected); new4controlsallPASS.
 Existingnative outputs/training/map andearlierprofiledata/figuresunchanged.
+
+TRUTH-PhysVal-04 assignment prepared and committed before dispatch, exact
+c3d037afe086146fb8e91b146654dc036ee81dc6 source/data/figure pin. First helper
+validation rejected a directory input; enumerating canonical individual files
+passed. No numerical change. Existing separate PhysVal receives complete explicit
+role prompt, read-only primary ROOT formulas/counts and six PNG assessment; no
+new native runs or installations. Original bee80d0 hosted project and token
+workflows both completed successfully. PR101 ready/mergeable, updated with new
+full-histogram links and current independent assessment pending.
+
+TRUTH-PhysVal-04 completedread-onlyatc3d037afe086146fb8e91b146654dc036ee81dc6.
+All19assignedfiles exact; directROOTpulls reproduceall42histograms,119982finite
+6DCholeskyPDcovariances,839874fills withzero nonfinite/underflow/overflow. All210
+moment/extremachecks maxdiff1.16e-10,all462CSVfields exact,24ROOTfilehashes verified,
+densityintegrals within2.22e-16. AllsixPNGoriginals readable; fouranalyticcontrols
+andportableaudits pass. ThreeguardednativeFakecases andcompatiblect/mm timeunits
+independentlychecked. No blockingfinding; existingphysicsqualifications remain.
+
+PhysVal04closedturn01a178b9-558b-7981-a451-6c47a5bbe131 usage importedonce:17requests,
+5248114input+9524output=5257638tokens. Canonicalbaseline now6disjointclosedturns,
+63516749input+173971output=63690720observedtokens;62667648cachedinput/60659reasoning
+are subsets. Currentroot01a17864 stillactiveandexcluded,taskcostpartial. Safe
+childfinalassessment/operationmetadata retained withoutprivate reasoning/tooldata.
+Latesthumanfullhistogramrequest and27visibleactive messages recorded withzero
+usageallocation. Journalcloseslogicalwork withactiveusageexcluded; CIhandofffollows.

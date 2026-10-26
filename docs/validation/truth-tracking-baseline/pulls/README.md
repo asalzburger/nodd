@@ -98,7 +98,13 @@ Four analytic controls check truth-minus-fit/wrapped-phi/time signs, invalid
 six-dimensional covariance, extreme-tail/missing-value accounting, and
 unequal-bin density normalization.
 
-Independent fixed-revision histogram assessment is pending. The prior
+[Independent PhysVal04 assessment](../../../../logs/codex/SESSION-2026-10-26-truth-tracking-baseline/PhysVal-04-result.md)
+at **c3d037afe086146fb8e91b146654dc036ee81dc6** found no blocking finding.
+Direct ROOT calculations reproduced all 42 histograms exactly and confirmed all
+119,982 six-dimensional covariances. All 462 CSV fields match; all six original
+PNGs were visually assessed.
+All 210 moment/extrema values agree within 1.16×10⁻¹⁰; full density integrals
+within 2.22×10⁻¹⁶ of one. The prior
 [PhysVal03 assessment](../../../../logs/codex/SESSION-2026-10-26-truth-tracking-baseline/PhysVal-03-result.md)
 covers the original six-run baseline. Ideal response, mapped-material locality
 and phi averaging, omitted training/model uncertainty and ideal truth-seed
