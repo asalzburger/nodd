@@ -144,7 +144,7 @@ build/truth-tracking-baseline/analysis-venv/bin/python \
 ~~~
 
 Native execution source pin: **dc9a9272153a4dcf9b06901911195527b5c64f50**.
-Analysis export source: **06af067** (full source hashes retained). Startup hashes
+Analysis export source: **b4f7532** (full source hashes retained). Startup hashes
 cover runtime/input/source bytes; each completed report retains all seven native
 output hashes. The exporter independently repeats covariance, unique-primary,
 count, table, generated-truth and **27 unchanged geometry/runtime file** checks.
