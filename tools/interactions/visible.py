@@ -26,7 +26,7 @@ def redact(text):
     return re.sub(r'https?://[^\s<>)\"\'`]+', public, text).strip()
 
 
-def curate_turn(thread_id, turn, accounts):
+def curate_turn(thread_id, turn, accounts, parent_thread_id=None):
     """Never serialize reasoning, outputs, arbitrary tool arguments or images."""
     messages, operations, children = [], {}, []
     for item in turn.get('items', []):
@@ -58,7 +58,7 @@ def curate_turn(thread_id, turn, accounts):
             if kind == 'subAgentActivity':
                 children.append({'thread_id': item.get('agentThreadId'),
                                  'name': item.get('agentPath'), 'activity': item.get('kind')})
-    return {'schema_version': 1, 'thread_id': thread_id, 'turn_id': turn['id'],
+    result = {'schema_version': 1, 'thread_id': thread_id, 'turn_id': turn['id'],
             'status': turn['status'], 'started_at': turn.get('startedAt'),
             'completed_at': turn.get('completedAt'), 'token_accounts': accounts,
             'source': 'Codex app read_thread; exact recorded thread/turn match',
@@ -67,3 +67,6 @@ def curate_turn(thread_id, turn, accounts):
                 'Only userMessage and agentMessage text retained; reasoning, tool arguments/results and private state excluded.',
                 'Conservative path, credential, email and URL redaction is not a privacy guarantee; review retained text.',
                 'Exposed operation counts are per retained turn; journal counts can describe the same invocations and must not be added.']}
+    if parent_thread_id is not None:
+        result['parent_thread_id'] = parent_thread_id
+    return result

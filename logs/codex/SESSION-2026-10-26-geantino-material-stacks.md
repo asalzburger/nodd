@@ -83,3 +83,81 @@ This is a separate assessment; native profile loading and human approval are not
 ## Specialist follow-up GEANTINO-PhysVal-02
 
 Read-only correction assessment at 7c0012184a6bb033eb4366d48db4f8699b22f8d5. Contract: [PhysVal-02.assignment.json](SESSION-2026-10-26-geantino-material-stacks/PhysVal-02.assignment.json). Check asymmetric float32 cells, the pure C++ regression and retained native provenance only.
+
+## Final validation and publication
+
+The corrected-source7c00121 full native run passes with100000 tracks/17137021
+steps and zero unassigned/density-mismatched steps. Every retained edge, count,
+mean and variance agrees exactly. The original4008abf provenance is preserved
+separately; latest native-rerun.json identifies the asymmetric-cell correction.
+PhysVal-01 found the provenance gap and a P3 binade-boundary issue; PhysVal-02
+confirmed both corrections and independently passed the strict C++ regression.
+Curated results and exact assignment contracts are retained in this session folder.
+
+Portable plots produced all15 exports and passed numerical/file-signature checks.
+All33 session tests pass. Project, session, role, interaction and token validators
+pass. Initial generated SVG/CSV whitespace and a session-status enum typo were
+corrected; final checks pass. Initial C++ regression needed an explicit
+initializer_list include, then compiled and passed. Sandbox network failures
+were retried with the authorized network access; no credentials were collected.
+
+Created [PR99](https://github.com/asalzburger/nodd/pull/99), Software: add stacked
+tracker material profiles with unrooted, and attached it to the task. No merge
+or design sign-off. CI checks are recorded as pending unless observed complete.
+
+Observed project coverage at closeout:199 sessions,234 disjoint usage turns;
+736838845 input and4154365 output =740993210 total observed tokens. These are
+project totals, not measured task usage. This task and its child have no exact
+completed-turn counters; neither is estimated or counted as zero.
+
+## Available user prompt inputs
+
+Original user input, exact:
+
+> In ‘storage’ there should be a geant4 recorded material file with a scan of 100 000 geantinos.
+>
+> Can you;
+> - make a stacked profile histograms using unrooted
+> - split : beam pipe, pixel, short strip, long strip
+> - within the sub detectors split in sensitive/non-sensitive parts
+
+PR follow-up, exact: “Can you make a OR with these changes ?”
+
+## Token-accounting correction — 2026-10-26
+
+The user explicitly requested updating PR99 usage and recording its discussions.
+Usage-only recovery selected this exact parent thread and the verified PhysVal
+child. All cumulative increases equal last-request counters from zero; repeated
+snapshots are ignored and no usage falls outside persisted turn boundaries.
+Three completed turns (67 requests) add 7314037 input +42419 output =7356456 tokens.
+Cached input7013504 and reasoning output14272 are subsets, not additions.
+
+The original plotting turn and both independent review turns are counted once
+in this canonical session. Dry-run found3 additions; import added3; replay found
+0 additions/3 unchanged. Exact current PR-creation/accounting turn counters remain
+provisional because it has no completed boundary; they are excluded. The separate
+accounting session documents this correction without duplicating the counters.
+See logs/usage/USAGE-2026-10-26-pr99-accounting.json and PR99's interaction record.
+
+Three completed user-visible turn snapshots and the active parent discussion
+are retained after conservative allowlisting/redaction. Reasoning content, tool
+arguments/results and private binary payloads are excluded. Child-parent identity
+comes from spawn metadata, not inferred message timing. Parent/child models and
+client version remain unknown. Public PR discussions are refreshed at accounting.
+
+## Final accounting and discussion checks
+
+Refreshed public PR99 metadata/discussion: no public comments/reviews at capture.
+Retained14 messages across3 completed visible turns plus9 active parent discussion
+messages. All completed usage turns have matching visible records; no missing
+account turns. Verified child-parent metadata attributes agent prompts correctly.
+All92 PR ledgers validate and canonical import replay is idempotent.
+
+The initial hosted token-site check failed because PR99 could not have its own
+numbered interaction record before creation. This update adds that required file;
+final hosted checks are rerun after push. No detector behavior changed here.
+
+Current project observation:200 sessions,126 with usage/74 without;237 disjoint
+turns,744152882 input+4196784 output=748349666 observed tokens. PR99 contributes
+7356456 completed tokens. The active parent turn is excluded, not zero. These
+are usage observations, not billing or a complete project total.

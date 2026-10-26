@@ -258,6 +258,15 @@ def derive(root, snapshot, records):
     parents = {child['thread_id']: turn['thread_id']
                for turn in (logger.read_json(p) for p in turn_paths)
                for child in turn['subagents'] if child['thread_id']}
+    # A completed child may have an active parent whose counters cannot yet be
+    # finalized. Keep a verified relationship without importing the active turn.
+    for path in turn_paths:
+        turn = logger.read_json(path)
+        if turn.get('parent_thread_id'):
+            parent = turn['parent_thread_id']
+            logger.require(parents.get(turn['thread_id'], parent) == parent,
+                           'conflicting child-parent metadata')
+            parents[turn['thread_id']] = parent
     for path in turn_paths:
         turn = logger.read_json(path)
         validate_visible(turn)
@@ -410,10 +419,15 @@ def validate_derived(root, snapshot, records):
 
 
 def validate_visible(turn):
-    logger.require(set(turn) == {'schema_version', 'thread_id', 'turn_id', 'status',
+    logger.require(set(turn) - {'parent_thread_id'} == {'schema_version', 'thread_id', 'turn_id', 'status',
                                 'started_at', 'completed_at', 'token_accounts', 'source',
                                 'messages', 'native_tools', 'subagents', 'limitations'},
                    'unexpected visible-turn fields; private state is not supported')
+    if 'parent_thread_id' in turn:
+        logger.require(isinstance(turn['parent_thread_id'], str)
+                       and turn['parent_thread_id']
+                       and turn['parent_thread_id'] != turn['thread_id'],
+                       'invalid child-parent metadata')
     logger.require(turn['schema_version'] == 1 and turn['token_accounts'], 'invalid visible-turn snapshot')
     for message in turn['messages']:
         logger.require(set(message) == {'id', 'role', 'phase', 'text', 'redacted'}
