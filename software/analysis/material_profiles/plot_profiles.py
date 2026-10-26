@@ -97,7 +97,10 @@ def contrast_hatches(ax):
 
 def save(fig, stem):
     for extension in ("png","pdf","svg"):
-        fig.savefig(OUT/f"{stem}.{extension}",dpi=180,bbox_inches="tight")
+        target=OUT/f"{stem}.{extension}"
+        fig.savefig(target,dpi=180,bbox_inches="tight")
+        if extension=="svg":
+            target.write_text("\n".join(line.rstrip() for line in target.read_text().splitlines())+"\n")
     plt.close(fig)
 
 report=DATA["classification"]
@@ -120,7 +123,7 @@ for axis in AXES:
         histograms,total=fetch(axis,quantity)
         edges=total.axes[0].edges
         with (OUT/f"profiles_{axis}_{quantity}.csv").open("w",newline="") as stream:
-            writer=csv.writer(stream)
+            writer=csv.writer(stream,lineterminator="\n")
             writer.writerow(["bin_low","bin_high","tracks","total_mean","total_sem"]+
                             [f"{c}_mean" for c in COMPONENTS]+[f"{c}_sem" for c in COMPONENTS])
             for b in range(len(total.values)):

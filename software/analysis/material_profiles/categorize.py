@@ -58,6 +58,7 @@ def main():
     if abs(float(dd4hep.mm) - .1) > 1e-15:
         raise RuntimeError("The classifier requires DD4hep's centimetre TGeo convention")
     code = Path(__file__).with_name("categorize.C")
+    ROOT.gInterpreter.AddIncludePath(str(code.parent))
     # Importing dd4hep configures ROOT's include paths in the supported runtime.
     include = Path(dd4hep.__file__).resolve().parents[3] / "include"
     if (include / "DD4hep/Volumes.h").is_file():
@@ -73,6 +74,7 @@ def main():
     revision = subprocess.check_output(["git", "-C", str(repo), "rev-parse", "HEAD"], text=True).strip()
     files = [("recording", args.input), ("compact", args.compact),
              ("classifier", code), ("launcher", Path(__file__)),
+             ("rounding_cell", code.with_name("rounding_cell.h")),
              *[("factory", p) for p in args.factory]]
     # Record sibling material XML if supplied by the standard tracker exporter.
     materials = args.compact.with_name("materials.xml")

@@ -66,6 +66,13 @@ per-track arrays. These checks establish the reported reduction, not design acce
 
 ## Retained data and reproduction
 
+The [portable native rerun](native-rerun.json) identifies the packaged classifier
+and launcher at exact source revision `4008abf` (full SHA in the report). It
+processed the complete scan and reproduced every retained bin edge, count,
+component/total mean and variance exactly. This rerun is distinct from the
+initial workspace scripts identified in provenance.json. Native component counts,
+means and variances were independently checked against per-track arrays.
+
 [profiles.json](profiles.json) contains bin edges, common counts, component/total
 means and variances, classification summary and precision bounds. The adjacent
 six CSVs expose means and standard errors. [classification.json](classification.json)

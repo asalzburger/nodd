@@ -19,6 +19,7 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include "rounding_cell.h"
 
 // No detector simulation or geometry mutation: look up recorded step interiors.
 void categorize(const char* input, const char* output, const char* diagnostics,
@@ -134,12 +135,11 @@ void categorize(const char* input, const char* output, const char* diagnostics,
         // on subdetector and sensitivity. Never enlarge the rounding cell.
         const std::array<float,3> origin={x->at(j),y->at(j),z->at(j)};
         const std::array<float,3> direction={dx->at(j),dy->at(j),dz->at(j)};
-        std::array<double,3> centre{}, halfUlp{};
+        std::array<double,3> centre{};
+        std::array<FloatRoundingCell,3> cells{};
         for (int k=0;k<3;++k) {
           centre[k]=origin[k]+.5*len*direction[k];
-          halfUlp[k]=.5*std::max(
-            std::abs(double(std::nextafter(origin[k],INFINITY))-origin[k]),
-            std::abs(double(std::nextafter(origin[k],-INFINITY))-origin[k]));
+          cells[k]=floatRoundingCell(origin[k]);
         }
         std::set<int> possible;
         std::map<int,std::array<double,3>> candidateByCategory;
@@ -147,7 +147,7 @@ void categorize(const char* input, const char* output, const char* diagnostics,
         for (double ox:{-1.,-.5,0.,.5,1.})
           for (double oy:{-1.,-.5,0.,.5,1.})
             for (double oz:{-1.,-.5,0.,.5,1.}) {
-              std::array<double,3> candidate={centre[0]+ox*halfUlp[0],centre[1]+oy*halfUlp[1],centre[2]+oz*halfUlp[2]};
+              std::array<double,3> candidate={centre[0]+cells[0].offset(ox),centre[1]+cells[1].offset(oy),centre[2]+cells[2].offset(oz)};
               auto* found=navigator->FindNode(.1*candidate[0],.1*candidate[1],.1*candidate[2]);
               if (!matches(found)) continue;
               std::string path=navigator->GetPath();
