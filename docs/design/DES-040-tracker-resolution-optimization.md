@@ -1,0 +1,126 @@
+# DES-040 — Tracker resolution optimisation within fixed envelopes
+
+Status: **DRAFT / isolated PROTOTYPE**. Date: 2026-10-27.
+Governing issue: [#103](https://github.com/asalzburger/nodd/issues/103). Coordinator: Codex; engineering approval open.
+
+The human task authorises a constrained optimisation study following merged
+PR #101 (`04b5ee2e408803eac836eee0b48a1635dcbbe201`). It does not sign off a new
+production layout. Candidate compacts, reconstruction and material files stay
+under a separate study directory; the DES-025 assembly remains the reference.
+
+## Scope and physical motivation
+
+**NODD DESIGN CHOICE (human constraint):** vary barrel radii and endcap disk
+longitudinal positions, preserving subsystem envelopes, module types and local
+stave structures. Stave counts may change. One additional pixel disk per end is
+allowed, with an effective homogeneous material disk behind it. Preserve or
+increase hit coverage, targeting at least ten physical measurements across
+`-4 <= eta <= 4`. Improve d0 and z0 resolution while preserving or improving
+momentum resolution. All candidates are proposals requiring human review.
+
+**FACT (repository reference):** PR #101's campaign uses origin single muons,
+random charge, full phi, pT 1/10/100 GeV and constant 3 T. Pixel digitisation
+is 50 x 50 micrometres; short strips use 75 micrometres x 0.5 mm and long strips
+measure one coordinate per physical face with 80 micrometre pitch. Locators:
+`software/analysis/truth_tracking/campaign.json`, `digitization.py`, and
+`docs/validation/truth-tracking-baseline/`. Native Fatras and the corrected
+unique-hit truth finder/Kalman chain remain the performance experiment.
+
+**INFERENCE (physical rationale):** shortening the distance to the first barrel
+measurement can improve impact-parameter extrapolation, subject to beam-pipe,
+stave body and neighbour clearances. Keeping outer lever arms is a conservative
+starting point for momentum resolution. At eta=4 a sensor at radius 31 mm
+requires z approximately 846 mm (`z=r*sinh(eta)`); an added early disk alone
+cannot make all existing disks contribute at that angle. Forward schedules must
+therefore be screened alongside the extra disk. This straight-ray calculation
+is a feasibility screen, not a Fatras resolution prediction.
+
+## Frozen physical interfaces and candidate family
+
+**FACT (current compact, not the ACTS world box):** physical beam-pipe radii are
+27.0--27.8 mm, with the passive pixel aperture at 28.8 mm. Pixel barrel nominal
+radii are 34/60/106/182 mm with 12/22/18/30 alternating-radius staves. Existing
+pixel disk datums are |z|=615/795/1046/1333/1645/1977/2328/2692/3070 mm.
+Evidence is the source-hash-matched DES-025 compact and specialist assessments
+recorded in the task journal. The reconstruction truth region and navigation
+margins are not mechanical envelopes.
+
+**NODD DESIGN CHOICE (screening family):** start with the existing layout as a
+control; move the first pixel barrel nominal radius to 32 or 31.5 mm while
+preserving its alternating offsets and count; examine an additional disk near
+900--1000 mm; compare a schedule that moves early disks beyond the eta=4 inner
+aperture threshold. Outer barrel lever arms are initially fixed. These are
+screening coordinates, not an asserted optimum. Further radius/z/count trials
+must be recorded before their results are used to select a candidate.
+
+Preserve all local module/slab/pipe/foot dimensions and orientations. Translate
+complete repeated assemblies, not just sensor centres. Retain fixed cage,
+transport trunk and handoff envelopes; move layer-associated local structures
+consistently where required. Reject a trial that exceeds the baseline physical
+allocation, collides with the pipe or adjacent structures, changes segmentation,
+or overflows readout ID fields. Analytic clearance and active-area screens must
+be labelled with their limitations; construction/navigation and targeted native
+overlap checks remain separate evidence. New disk service capacity is an open
+engineering qualification even when the effective material approximation runs.
+
+## Effective material and measurement errors
+
+**NODD DESIGN CHOICE (prototype approximation):** do not remap Geant4 material
+for every trial. Regenerate each candidate's native Gen3 portal inventory and
+join retained material carriers by complete logical roles, never by numeric
+geometry IDs alone. Carry the existing phi=1 slab profile onto its corresponding
+candidate portal, updating transforms and radial/longitudinal bin coordinates.
+State the mapping and any thickness/area scaling in a machine-readable audit.
+Reject missing, duplicate or ambiguous joins. Shared layer/gap carriers represent
+an indivisible effective profile; changes to their physical interpretation must
+be explicit and cannot be called a new Geant4 material map.
+
+Preserve retained material inventory under the declared area measure when a
+carrier's area changes, or report an explicitly justified alternative linked to
+the unchanged stave count. Added-disk material is an area-weighted homogeneous
+slab derived from a specified existing pixel disk profile, placed downstream of
+the new sensitive disk, and counted as additional inventory. Its mean material
+properties must use the pinned ACTS slab-combination convention. Expose X0/L0,
+areal mass and the source disk, and audit that native sensor slabs are cleared
+before loading the effective map to prevent double counting. This approximation
+requires a later material-remapping check before production integration.
+
+**NODD DESIGN CHOICE (comparison control):** primary runs use geometric
+digitisation and the independently trained PR #101 cluster-size error table,
+frozen across candidates. Remap calibration keys through physical system/layer
+identity if Gen3 IDs change; new disks inherit the explicitly named template
+layer's calibration. A Gaussian-smearing crosscheck may use the frozen pooled
+table. No candidate-specific error retraining or pull-width rescaling is allowed
+in the layout comparison. Track time is prior-dominated, not a timing result.
+
+## Experiment and decision record
+
+1. Screen active-area coverage and mechanical feasibility over signed eta/phi
+   with deterministic rays. Record every tested configuration and rejection.
+2. Run native Fatras truth tracking for control and feasible candidates at
+   1/10/100 GeV with common configured seeds and identical reconstruction. Use
+   modest exploratory samples first; preserve all failures and sample counts.
+3. Freeze a candidate before an independent-seed confirmation against a fresh
+   baseline. Random streams can diverge when geometry changes; common event
+   numbers alone do not establish paired fluctuations. State whether generated
+   eta/phi/charge are in fact identical before using paired uncertainties.
+4. Report residual median, untrimmed RMS/standard deviation, central 68.27%
+   half-width and event-bootstrap uncertainties for d0, z0 and relative pT,
+   integrated and versus signed eta. Also retain full pull distributions, fit
+   efficiency, failed/invalid covariance counts and outliers. Do not hide tails
+   or accept a global improvement that conceals a resolved regional regression.
+5. Count physical sensor measurements once (a pixel/short-strip 2D measurement
+   is one hit; each distinct long-strip face is one hit). Coverage denominators
+   include every generated event, including zero-hit and failed-fit events.
+   Separate incident, created, input-to-fit and fit-used counts where available.
+   Show >=10 fractions with binomial intervals, hit quantiles, signed eta and
+   phi dependence. A fit-selection threshold of seven is not ten-hit coverage.
+6. Present the non-dominated tradeoffs and any unmet target candidly. A finite
+   study may identify a preferred feasible candidate, not a mathematical global
+   optimum or an engineering-approved detector. No numerical pass grants signoff.
+
+Native input/source/library hashes, compact and effective map hashes, seeds,
+commands, events and analysis source identity belong in every retained report.
+Use the original PR #101 data as contextual evidence and a freshly executed
+control when comparing a modified runtime. Separate SysArch physical assessment
+and PhysVal scientific assessment accompany the final recommendation.

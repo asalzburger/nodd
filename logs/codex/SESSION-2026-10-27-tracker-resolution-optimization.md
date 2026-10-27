@@ -26,3 +26,36 @@ Bounded read-only SoftEng checks native geometry/material/runtime mechanisms;
 SysArch checks fixed envelopes/physical constraints and feasible placements;
 PhysVal independently checks metrics and baseline hit coverage. Prepare all
 assignments at exact merged source before dispatch.
+
+
+## Initial assessments and experiment design
+
+OPT-SoftEng-01, OPT-SysArch-01 and OPT-PhysVal-01 completed read-only against
+04b5ee2e408803eac836eee0b48a1635dcbbe201. No native simulation or changes were
+performed by these assignments. Full role instructions were supplied explicitly;
+native client role loading was not claimed.
+
+- SoftEng verified Python3.14.5/ROOT6.40.04, five unchanged factory hashes,
+  adapter530080c/compiledACTS355ea684, and runtime minMaxRetries10. Candidate
+  compact_file plus existing factories works without changing shared software.
+  Native export/selection must be regenerated and materials joined by complete
+  logical roles. Calibration volume keys likewise need physical-layer mapping.
+- SysArch verified source-matched compact a27b807cbeda51c21b2994fdd5f5c60f96585ff54d788209f61a3a6bdc282ed3.
+  Baseline pixel radii34/60/106/182, counts12/22/18/30; nine disks/end at
+  615/795/1046/1333/1645/1977/2328/2692/3070mm. R1>=31.4782mm is a one-mm
+  pipe-clearance screen, not qualified installation tolerance. Conservative
+  disk+collector spacing77.636mm and current cage609..3136mm bound trials.
+  All-box partial transverse screens do not replace full native overlap checks.
+- PhysVal joined all generated events and native unique physical measurements.
+  >=10 created-hit coverage is87.425/87.245/87.165% at1/10/100GeV. In
+  |eta|3..3.5 it is52.47/51.54/51.05%; |eta|3.5..4 gives64.18/63.74/63.54%.
+  The existing forward deficit cannot be solved by one extra plane alone.
+  Preserve pT tails and wrong-charge rates; add signed q/pT as a diagnostic.
+  Per-event created and incident record counts agree; incident unique sensor
+  IDs are not separately retained. All reported coverage uses generated counts.
+
+DES040 is written before implementation, remains DRAFT/PROTOTYPE, and governs
+issue103. GitHub connector issue creation returned403; authenticated CLI
+creation succeeded after network-enabled retry. No public comment was posted.
+The optional digitisation preference has no reply; proceed with frozen geometric
+primary and optional Gaussian sensitivity check, as previously stated.
