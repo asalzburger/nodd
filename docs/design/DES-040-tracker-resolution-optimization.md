@@ -173,3 +173,29 @@ worst quarter-eta ten-hit fraction, then the global fraction, only to select a
 small number of disk schedules for native testing. This ranking is not an
 engineering acceptance score. Keep the grid, seeds, all improving schedules,
 source/input hashes and limitations; confirm with independent native samples.
+
+
+### Candidate chosen by the geometric screen, before native performance
+
+`coverage-candidate` uses the `inner-family` barrels and original disks1..9 at
+|z|=865/1090/1180/1270/1355/1440/1977/2350/2465mm, plus a copy of disk2 at1000mm.
+The finite-patch screen used3000 historical100GeV reference events,16000
+proposals and fixed subset/search seeds407042/408042. The retained full trial
+ledger includes spacing rejections. Its best proxy ten-hit fraction is99.433%,
+worst absolute-eta quarter-bin96.875%. These are selection statistics only;
+they ignore material and curvature and are not native candidate measurements.
+
+The added disk deliberately uses disk2 as donor: PR100 area-mean normal X0 is
+0.03091 for positive disk2 and0.03149 for disk3, while disk1 carries0.10363,
+including barrel-transition aggregate material. A disk2 donor avoids copying
+that exceptional transition inventory into a standalone new disk. This physical
+choice is made before any native performance ranking; earlier donor1 smokes
+remain development controls, not selected performance evidence. The same donor
+sets the finite module layout, homogeneous mixture and inherited error table.
+
+Retained profiles are indivisible effective carriers: relocating disk1 also
+relocates its aggregate transition inventory, although the detailed physical
+service model is more complex. This can bias comparisons and must remain a
+limitation of this exploratory map approximation, requiring candidate-specific
+material validation/remapping before interpreting improvements as a detector
+performance guarantee.

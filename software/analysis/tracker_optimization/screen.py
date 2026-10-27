@@ -18,8 +18,10 @@ import awkward as ak
 import numpy as np
 import uproot
 
+_search_path=sys.path.copy()
 sys.path.insert(0,str(Path(__file__).resolve().parents[3]/"software/analysis/truth_tracking"))
 from export_profiles import event_indices, flat, sha256
+sys.path[:]=_search_path
 
 
 def number(node,key,default=0.):

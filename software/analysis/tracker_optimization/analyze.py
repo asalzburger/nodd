@@ -17,10 +17,12 @@ import numpy as np
 import uproot
 
 ROOT = Path(__file__).resolve().parents[3]
+_search_path = sys.path.copy()
 sys.path.insert(0, str(ROOT / "software/analysis/truth_tracking"))
 from export_profiles import BARCODE, PARAMETERS, event_indices, flat
 from metrics import classify_primary_barcodes, perigee_observables, statistics
 from pull_histograms import BOUND, bound_pulls, common_edges, histogram
+sys.path[:] = _search_path
 
 
 def sha256(path):
