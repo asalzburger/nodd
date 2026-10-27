@@ -17,6 +17,18 @@ def save(fig, output, name):
     plt.close(fig)
 
 
+
+def full_axis(ax,edges,linear):
+    ax.set_xscale("symlog",linthresh=linear)
+    # The default symlog locator labels several near-zero powers on top of
+    # each other. Keep zero and spaced powers while preserving full limits.
+    extent=max(abs(edges[0]),abs(edges[-1]))
+    start=min(int(np.ceil(np.log10(linear))),int(np.floor(np.log10(extent))))
+    powers=10.**np.arange(start,int(np.ceil(np.log10(extent)))+1)
+    ticks=sorted([0.,*[sign*v for v in powers for sign in (-1,1) if edges[0]<=sign*v<=edges[-1]]])
+    ax.set_xticks(ticks)
+
+
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument("--input",type=Path,required=True)
@@ -73,7 +85,7 @@ def main():
                               linestyle={1:"-",10:"--",100:":"}.get(pt,"-"),lw=1)
                 ax.set(xlabel="fit − truth [mm]" if q in ("d0","z0") else "signed fractional residual",ylabel="density",title=q,yscale="log")
                 if view=="core":ax.set_xlim(-limit,limit)
-                else:ax.set_xscale("symlog",linthresh=limit)
+                else:full_axis(ax,edges,limit)
             axes.flat[0].legend(fontsize=7)
             fig.suptitle("PROTOTYPE · full all-η residual distributions · no tail cuts")
             save(fig,args.output,"residuals_"+view)
@@ -91,7 +103,7 @@ def main():
             ax.set(xlabel="(truth − fit) / fitted σ",ylabel="density",title=q,yscale="log")
             ax.margins(y=.1)
             if view=="core":ax.set_xlim(-5,5)
-            else:ax.set_xscale("symlog",linthresh=5)
+            else:full_axis(ax,edges,5)
         axes.flat[-1].axis("off")
         handles,labels=axes.flat[0].get_legend_handles_labels()
         axes.flat[-1].legend(handles,labels,loc="center",fontsize=8)
