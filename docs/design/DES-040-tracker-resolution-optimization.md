@@ -262,3 +262,13 @@ transition-region hit coverage. This is registered before any52042confirmation
 residuals are reduced/read. Neither control is chosen using confirmation data.
 If selected for final comparison it uses another independent seed62042 and a
 fresh baseline, leaving the original52042campaign as its own locked comparison.
+
+
+The late-disk exploratory control gives94.05/93.65/94.15% ten-hit fractions,
+between balanced-nine(~91.4--91.85%) and the early-added balanced layout
+(~98.35--98.85%). Its global d0 ratios0.909/1.013/0.960 and z0 ratios0.951/
+0.999/0.904 are retained with pointwise bootstrap intervals. Momentum ratios
+1.047/1.017/0.942 are not a non-inferiority result; signed-curvature1GeV ratio
+1.079 indicates remaining risk. Confirm late-disk against a fresh baseline with
+10000events/pT/response, seed62042 (120000additional events), without changing
+its geometry after looking at either confirmation campaign.
