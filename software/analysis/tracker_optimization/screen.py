@@ -6,10 +6,12 @@ Pixel counts are computed from XML patch rectangles, without material, curvature
 or energy loss. This proxy selects schedules to test with native Fatras.
 """
 import argparse
+import gzip
 import json
 import math
 from pathlib import Path
 import sys
+import subprocess
 import xml.etree.ElementTree as ET
 
 import awkward as ak
@@ -88,6 +90,7 @@ def main():
     p.add_argument("--output",type=Path,required=True)
     p.add_argument("--events",type=int,default=3000)
     p.add_argument("--trials",type=int,default=12000)
+    p.add_argument("--donor-layer",type=int,choices=range(1,10),default=1)
     args=p.parse_args()
     root=ET.parse(args.compact).getroot()
     geometry=json.loads((Path(__file__).resolve().parents[3]/"docs/validation/gen3-material-mapping/geometry-summary.json").read_text())
@@ -108,7 +111,7 @@ def main():
     grid=np.unique(np.r_[grid,original,900,1000,1090,1180,1270,1355,1440,1860,2350,2440])
     cache=np.zeros((10,len(grid),len(eta)),dtype=np.int8)
     for i in range(10):
-        donor=i+1 if i<9 else 1
+        donor=i+1 if i<9 else args.donor_layer
         for system,sign in ((2,-1),(3,1)):
             mask=eta*sign>0
             patches=disk_patches(root.find(f'./detectors/detector[@id="{system}"]/disc[@id="{donor}"]'))
@@ -123,21 +126,29 @@ def main():
         z=grid[indices]
         return np.all(np.diff(z[:9])>=77.636) and np.min(np.abs(z[:9]-z[9]))>=77.636
     starts=[np.r_[original,900],np.array([900,1090,1180,1270,1355,1440,1860,2350,2440,1000.])]
-    rng=np.random.default_rng(408042);records=[]
+    rng=np.random.default_rng(408042);records=[];all_trials=[]
     best=None
     for start in starts:
         indices=np.array([np.argmin(abs(grid-z)) for z in start]);current=score(indices)
         for trial in range(args.trials//len(starts)):
             proposal=indices.copy();k=rng.integers(10)
             proposal[k]=np.clip(proposal[k]+rng.integers(-8,9),0,len(grid)-1)
-            if not valid(proposal):continue
+            if not valid(proposal):
+                all_trials.append({"trial":len(all_trials),"indices":proposal.tolist(),"status":"rejected_spacing"})
+                continue
             value=score(proposal)
+            all_trials.append({"trial":len(all_trials),"indices":proposal.tolist(),"score":list(value),"accepted":value>current})
             if value>current:
                 indices,current=proposal,value
                 records.append({"trial":trial,"datums_mm":grid[indices].tolist(),"score":list(value)})
             if best is None or current>best[0]:best=(current,indices.copy())
         print("screen best",current,grid[indices].tolist(),flush=True)
+    ledger=args.output.with_suffix(".trials.json.gz")
+    ledger.parent.mkdir(parents=True,exist_ok=True)
+    ledger.write_bytes(gzip.compress((json.dumps({"grid_mm":grid.tolist(),"trials":all_trials},separators=(",",":"))+"\n").encode(),mtime=0))
     result={"schema_version":1,"status":"PROTOTYPE_SCREEN_ONLY","method":"Finite XML sensitive patches, straight origin rays, no material/curvature; unchanged strip hit counts borrowed from reference Fatras. Lexicographic worst quarter-eta then global >=10 rate is only schedule-search ranking, not engineering acceptance or resolution.",
+        "source_revision":subprocess.check_output(["git","rev-parse","HEAD"],text=True).strip(),
+        "donor_layer":args.donor_layer,"trial_ledger_sha256":sha256(ledger),"trials":len(all_trials),
         "compact_sha256":sha256(args.compact),"reference_audit_sha256":sha256(args.reference/"audit.root"),
         "reference_particles_sha256":sha256(args.reference/"particles.root"),"source_sha256":sha256(__file__),
         "events":len(eta),"subset_seed":407042,"search_seed":408042,"barrel_variant":variant,
