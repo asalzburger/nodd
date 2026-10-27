@@ -38,7 +38,7 @@ def main():
             y=np.array([r["stages"]["created"]["ge10"]["value"] or 0 for r in rows])
             low=np.array([r["stages"]["created"]["ge10"]["low"] or 0 for r in rows])
             hi=np.array([r["stages"]["created"]["ge10"]["high"] or 0 for r in rows])
-            ax.errorbar(x,100*y,yerr=100*np.array([y-low,hi-y]),label=variant,color=colors[variant],lw=1.1)
+            ax.errorbar(x,100*y,yerr=100*np.maximum(0,np.array([y-low,hi-y])),label=variant,color=colors[variant],lw=1.1)
         ax.set(xlabel="generated η",ylabel="≥10 physical measurements [%]",title=f"pT = {pt:g} GeV",ylim=(0,103))
     axes[0,0].legend(fontsize=8)
     fig.suptitle("PROTOTYPE · Fatras, truth tracking, constant 3 T · all generated muons · pointwise 95% intervals")

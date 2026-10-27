@@ -43,7 +43,7 @@ def wilson(successes, trials):
     den = 1 + z*z/trials
     c = (p + z*z/(2*trials))/den
     r = z*np.sqrt(p*(1-p)/trials + z*z/(4*trials*trials))/den
-    return {"value": p, "low": float(max(0, c-r)), "high": float(min(1, c+r))}
+    return {"value": p, "low": float(min(p,max(0,c-r))), "high": float(max(p,min(1,c+r)))}
 
 
 def table(directory, name, tree):
