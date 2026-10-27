@@ -163,3 +163,224 @@ Preserve material totals at the final threshold; show separate sample counts
 and source hashes. Finite checkpoint spacing limits the displayed localization.
 These curves diagnose longitudinal/radial shifts and do not establish material
 order relative to every sensor, curved-track performance or design acceptance.
+
+## Initial truth-tracking performance baseline (2026-10-26)
+
+Governing work item: [issue #102](https://github.com/asalzburger/nodd/issues/102);
+implementation and evidence: [PR #101](https://github.com/asalzburger/nodd/pull/101).
+
+Status: **PROTOTYPE / DRAFT**. The human requested an ACTS truth-tracking
+baseline for both Geant4 and Fatras, using the Gen3 geometry and the material
+map merged in PR100, with single muons at fixed transverse momenta 1, 10 and
+100 GeV. This is a characterization campaign, without design acceptance or
+a production detector change. Here the requested ODD baseline denotes this
+PR100 Gen3 nODD tracker; an untouched upstream ODD geometry has incompatible
+surface identities and must not receive this map.
+
+FACT: PR100 supplies the retained 65-portal material map and exact manifest.
+Reapply it through the same native keyed-surface controls, clearing original
+silicon/pipe tracking slabs to avoid double counting. Geant4 transports through
+the unchanged detailed DD4hep physical material; Fatras and the track fit use
+the mapped ACTS material. Record both physical and tracking geometry identities.
+The material-map locality/one-phi-bin qualifications remain applicable.
+
+NODD DESIGN CHOICES for the first campaign, centralized and configurable:
+20,000 one-particle events per backend/momentum; uniform eta over [-4,4], full
+azimuth, origin vertex, randomized muon charge, deterministic recorded seeds.
+Start with a small pilot for each backend. The human selected a constant 3 T
+field for an ideal-field nODD baseline on 2026-10-26. This fixture replaces the
+2 T initial suggestion from the ACTS full_chain_odd.py example; it is not
+the finite DES-026 solenoid or an installed field-map claim. Record the actual
+selected field identically in simulation and fit. No pileup, misalignment,
+dead-channel or radiation-damage model is introduced.
+
+Geometric digitization uses the human-requested 50 micrometre by 50 micrometre
+pixel cells. FACT: DES007 C01 selects 75 micrometre by 0.5 mm two-coordinate
+short-strip cells. FACT: DES008 C05 and measurement contract select 80 micrometre
+single-coordinate long-strip measurements on each actual sensor face. The
+native paired-sensor rotations provide stereo; do not add a synthetic second
+coordinate or apply a second stereo rotation. Use geometric charge deposition,
+segmentation and clustering through ACTS, rather than replacing this request
+with a Gaussian position-smearing digitizer. Inspect local sensor-axis mapping
+and actual sensitive IDs before constructing per-surface digitization entries.
+NODD DESIGN CHOICE: use native digital cell-centre clustering, exact path-length
+charge, zero threshold, and no added drift/diffusion. Before the human requested
+error training, pilots used the native pitch-squared/12 covariance. For the
+performance baseline train a common empirical hit-error table with an independent
+50,000-event Fatras sample, log-uniform pT from 1 to 100 GeV and seed 142042,
+using the same eta/phi, geometry, segmentation and field. Use the pinned ACTS
+Digitization/error_parameterisation.py script (SRC-ACTS-TRUTH-TRACKING-355EA684
+in [the source catalogue](../../reference/manifest.yaml)), retain its raw result, and audit
+cluster-size groups and overflow handling against the measurement residuals.
+Apply one frozen table to both validation backends; training events must not
+contribute to reported performance. Any upstream table correction needs exact
+source/error evidence and a task-local implementation, with raw evidence kept.
+This idealized binary response does not emulate calibrated RD53 electronics.
+
+Use the ACTS truth-associated Kalman tracking route corresponding to
+truth_tracking_kalman.py: a truth initial trajectory with finite, explicitly
+recorded covariance, truth measurement association and a native Kalman fit.
+No pattern-recognition or CKF efficiency claim follows. Retain primary-muon
+identities, generated denominators, measurement multiplicity, attempted fits,
+failed fits and covariance failures. A minimum measurement requirement may
+match the example's seven measurements but must be explicit and its losses
+shown; no cut at nominal 1 GeV may silently remove rounded 1 GeV particles.
+
+Characterize perigee d0, z0, wrapped phi, theta and q/p residuals and pulls,
+and relative transverse-momentum residual. Means, full RMS and central
+68.27-percent half-widths distinguish bias, tails and core width. Pulls divide
+by the fitted marginal standard deviation; invalid/non-positive covariance is
+counted separately. Any derived pT pull uses the full theta/qOverP covariance,
+including its cross term. Show signed-eta profiles separately for each momentum
+and backend, and the three momentum points in explicit eta slices. Retain
+counts and uncertainty method; empty or undersampled bins are missing evidence,
+not zero resolution. Do not tune or truncate residual tails to obtain unit pulls.
+
+Keep the full native outputs outside Git, with hashes and replayable retained
+summary data/figures. Meaningful analytic controls and an independent PhysVal
+assessment must check the fixed source/evidence revision before interpretation.
+
+The human authorized long-strip smearing as a temporary fallback if native 1D
+geometric digitization is unavailable. Corrected native pilots demonstrate 1D
+measurements with a second physical segmentation axis containing one full-length
+bin; only loc0 is measured. Thus the geometric implementation remains applicable
+and no smearing fallback is selected at this point.
+
+The pinned ACTS TruthTrackFinder uses a second measurement-map lookup on an
+already resolved sim-hit index. Geant4 can create several hits per measurement,
+so these index spaces differ and the pilot exposes missing-hit warnings. The
+isolated task-local adapter may replace that lookup with the direct sim-hit
+index, retaining native truth association, hit-time sorting and the unchanged
+Kalman fitter. Preserve source locators, original/corrected counts and a
+non-identity-map control. No shared ACTS source or installed library is changed.
+
+A merged Geant4 cluster can also have repeated primary-to-measurement map
+entries, one per contributing sim-hit. The isolated truth adapter must use
+each physical measurement once per primary before sorting by hit time; retain
+original/unique counts and duplicate controls. This preserves truth association
+without pattern recognition or repeated counting of the same measurement.
+
+Pinned ModuleClusters::squash recomputes geometric cluster variances from
+cell weights and widths, discarding earlier GeometricConfig variance-map values
+when merging. Therefore applying the trained table requires an isolated
+post-clustering adapter: preserve measurement IDs, positions and associations,
+and set measured-coordinate variances from the frozen per-volume cluster-size
+RMS table (square RMS, clamp overflow to final entry). The table describes
+independent marginal errors and carries no coordinate correlation. Validate
+actual output covariance against the table before fitting. No shared ACTS
+source, transport, clustering positions or Kalman fitter is modified.
+
+For this large detailed geometry, the pinned ACTS Geant4 helper calls BeamOn(1)
+for every ACTS event and repeatedly constructs material-cut couples. An isolated
+run-manager adapter may hold one ordinary Geant4 run open across the case:
+initialize physics/run/event-loop once, then call standard ProcessOneEvent and
+TerminateOneEvent once per independent ACTS event, retaining per-event RNG
+seeding, hit collection and native event-store reset, and terminate the run at
+closeout. Do not combine muons into one Geant4 event. The FTFP_BERT model, cuts,
+physical geometry and stepping are unchanged. Require an explicit small-sample
+comparison against the standard lifecycle (particles, hit identities/positions/
+energy and event counts) before production. Record any mismatch rather than
+assuming equivalence; no unvalidated lifecycle result is baseline evidence.
+
+Deduplicate primary/measurement association pairs before native particle
+selection and truth matching as well as proto-track construction: the seven-hit
+requirement counts unique physical measurements, not repeated contributions from
+Geant4 steps. Preserve the complete measurement-to-simhit map for truth position
+averages. Only the measurement-to-particle map and its inverse lose duplicate
+pairs; IDs, truth labels, measurement values and hit contributions stay intact.
+
+The original faulty TruthTrackFinder must not run as a reference algorithm in
+production: the first campaign exposed invalid double-index pointers during
+sorting and two Geant4 cases terminated. Preserve those incomplete outputs as
+excluded controls. Construct the same native ParticleTrackParamExtractor and
+TrackParameterSmearing seed stages directly, then the corrected unique proto
+finder and unchanged Kalman fitter. No transport, digitizer, error table, seed
+configuration or fit settings change. Repeat all six performance cases at one
+fixed source revision; earlier completed cases remain historical controls.
+
+The default native Kalman writer uses double truth matching, including at least
+half of the primary's total measurements. Three final single-candidate fits fall
+below that completeness condition and have zero-barcode/NaN native truth fields.
+For this truth-associated characterization, retain them using the unique input
+primary/proto-track identity, explicitly counting native-unmatched fits and their
+event IDs. Require exactly one generated primary, matching selected-particle
+barcode, one attempted candidate and at most one fitted track (index0). A valid
+nonzero mismatching barcode is an error, not an inferred association. Verify
+writer truth on native-matched tracks; compute every residual from independently
+joined generated truth. This preserves poor/partial fits rather than removing
+tails through the native completeness match. Matching efficiency remains a
+separate diagnostic and no pattern-recognition claim follows.
+
+### Full pull distributions requested on 2026-10-26
+
+The human requests all-eta distributions with1/10/100GeV overlaid per track
+parameter, using (truth−reconstructed)/fitted sigma. Preserve the earlier
+profile sign convention and label the new sign explicitly. Include all six
+bound parameters d0,z0,phi,theta,q/p,time; time has no measured response here
+and must be labeled an unconstrained seed/fitter-prior diagnostic. Include
+derived pT separately with the full theta–q/p covariance. Use the same guarded
+primary-derived cohort, including the three nativeFake partialfits. No quality
+or tail cuts. Count missing fits/nonfinite pulls separately.
+
+NODD DESIGN CHOICES for configurable display binning: common edges across all
+six samples per quantity,0.1-wide bins inside±5 and16logarithmic bins/decade
+outside, extended to encompass every finite observed pull. Normalize density
+by all finite pulls and bin width; require zero full-range under/overflow and
+exact count closure. Full views use a symmetric-log pull axis and logarithmic
+density, with a companion±5 view reporting its omitted-tail fraction. Store
+all bin counts, extrema, moments and tail counts; no finite tail disappears
+from the full view or normalization. Assess fixed-source/data/figures
+independently before final interpretation; no native rerun or calibration.
+
+### PR101 Gaussian-smearing cross-check (PROTOTYPE, 2026-10-26)
+
+The [reviewer request](https://github.com/asalzburger/nodd/pull/101#issuecomment-6419397508)
+asks whether the geometric baseline uses cluster-size-dependent errors (it does),
+and requests a Fatras comparison with full Gaussian smearing using measured
+total cluster RMS. This is an additional characterization fixture, with no
+change to the retained geometric baseline or detector acceptance.
+
+**NODD DESIGN CHOICE:** pool every independent training residual over all cluster
+sizes within each ACTS volume and measured local coordinate. Use its centered
+population SD (the ACTS script's RMS convention) as a fixed zero-mean Gaussian
+sigma. Also retain the mean and uncentered RMS so the convention is explicit.
+This preserves volume-dependent sensor response and coordinate dimensions while
+removing cluster-size dependence; it does not pool incompatible short-strip
+coordinates or invent a second coordinate on long-strip faces. No residual,
+quality or tail cuts, fitted-pull tuning, new training sample or variance
+rescaling are allowed.
+
+**INFERENCE:** these pooled widths describe the full mixture in the original
+50k Fatras training sample, not a prediction of angle-dependent response. A
+Gaussian measurement response need not yield unit Gaussian track pulls in the
+presence of material interactions, nonlinear propagation or weak constraints.
+
+Use native ACTS Gaussian smearing of truth local hit coordinates: pixels and
+short strips measure loc0/loc1, each long-strip face loc0 only. Generated shifts
+and fitter covariances must use the same fixed sigma. Disable geometric
+channelization/charge sharing and post-cluster error replacement for this
+fixture. Preserve native truth-association guards, origin truth seed, seven
+unique-measurement selection, muon Kalman fit, PR100 material and constant 3 T.
+Run Fatras at 1/10/100 GeV, 20k events each, same event generator seed and eta/phi
+coverage as the geometric reference, with source/input/output hashes captured
+before execution. Preserve fitted losses and every finite pull.
+
+Compare all-eta truth-minus-reconstructed pulls for all six bound parameters
+and derived pT, overlaying three momenta and exposing complete tails plus core
+views. Retain direct measurement-level standardized residual checks by volume
+and coordinate (counts, means, widths and tails), explicit time-prior caveat,
+run denominators, covariance validity and comparison statistics. Independent
+PhysVal assessment at an exact source/data/figure revision is required. Human
+acceptance and physical-response sign-off remain open.
+
+**FACT — native bounds behavior (corrected after independent review):** pinned
+ACTS355ea684 `DigitizationAlgorithm.hpp:86,180–181` sets an algorithm minimum
+`minMaxRetries=10` and uses `max(minMaxRetries, per-smearer maxRetries)`.
+`Fatras/include/ActsFatras/Digitization/UncorrelatedHitSmearer.hpp:96–120` allows
+maxRetries+1 attempts and checks `surface.insideBounds` after each Gaussian draw.
+The default per-smearer zero therefore gives **10 retries / 11 attempts** here,
+not one draw. Exhaustion drops a measurement. Keep the actual native default;
+no settings or simulation reruns are introduced. Zero final measurement losses
+do not count or exclude rejected/redrawn attempts. Edge acceptance can condition
+observed residuals, so Gaussian draws do not guarantee exact observed normality.
+The original reports' zero-retry label is retained with an explicit correction.

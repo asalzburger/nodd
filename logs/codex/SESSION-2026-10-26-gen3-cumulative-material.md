@@ -118,3 +118,15 @@ After correcting that record entry, all local gates pass: 75 tasks, 39 documents
 preservation. Session summary and token-site validation/build pass for 245
 disjoint finalized project turns (808,026,328 observed tokens). This project
 total is distinct from the PR100 total above. Git diff --check passes.
+
+## Dated post-merge accounting correction, 2026-10-26
+
+The previously excluded expert-response/merge-preparation parent turn is now
+closed. Usage-only recovery verifies100request increases and exact turn ordinals:
+20,411,846input+77,263output=20,489,109tokens;cached20,255,744 and reasoning35,250
+are subsets. Imported only into this original account,now2turns/22,247,983tokens.
+All three PR100 accounts nowtotal80,165,771 observedtokens across9finalizedturns;
+subsequent truth-tracking work has its own account. Completed28visiblemessages
+replace the18active curated events;historical partialfile remains. Publicfinal
+reviewasalzburger-review5652456816 APPROVED and merger709d7fe at13:09:03UTC
+are nowcaptured,without designsignoff. Userreportedmerge also confirmed.

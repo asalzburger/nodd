@@ -3015,9 +3015,70 @@
         "DES-025"
       ],
       "updated": "2026-10-26",
-      "next_action": "Maintainer merge after final accounting/interaction checks. Retain intermediate material-location discrepancies for future investigation before sensor-order or tracking use.",
+      "next_action": "PR100 merged; retain intermediate material-location discrepancies for the truth-tracking characterization and future investigation.",
       "blocker": null,
       "disposition": "Requested prototype diagnostic generated:all five cumulative comparisons,configurable slices/checkpoints,per-ray means/SEM and zeros;100k rays per sample. Independent PhysVal atbffaba61 reproduces sampled means/SEM,all endpoints/CSV and finds no blocker. Max forward difference0.36268X0 at1330mm is retained without acceptance criteria. Physical geometry/native map unchanged. Expert noemina commented Good enough at the time being on 2026-10-26 (6416466956); positive discussion feedback, with no formal review submission or design sign-off.",
+      "subsystem": "tracker"
+    },
+    {
+      "id": "TASK-TRACK-TRUTH-BASELINE",
+      "title": "Establish Gen3 truth-associated tracking performance with Geant4 and Fatras",
+      "scope": "Fixed-pT single muons at 1,10,100 GeV; exact PR100 material map and Gen3 geometry; geometric module-default digitization; perigee resolutions/pulls and attrition versus eta and pT. Full all-eta truth-minus-reconstructed pull distributions overlay1/10/100GeV for six bound parameters and derived pT.",
+      "stage": "B",
+      "milestones": [
+        "M1"
+      ],
+      "workstream": "WS-TRACK",
+      "role": "Tracker technician",
+      "owner": null,
+      "state": "completed",
+      "dependencies": [
+        "TASK-TRACK-GEN3-MATERIAL-MAP-TRIAL"
+      ],
+      "deliverables": [
+        "software/analysis/truth_tracking/campaign.json",
+        "software/running/nodd_truth_tracking.py",
+        "software/analysis/truth_tracking/README.md",
+        "software/analysis/truth_tracking/export_profiles.py",
+        "software/analysis/truth_tracking/plot_profiles.py",
+        "docs/validation/truth-tracking-baseline/hit-error-parameterization.json",
+        "docs/validation/truth-tracking-baseline/README.md",
+        "docs/validation/truth-tracking-baseline/profiles.json.gz",
+        "docs/validation/truth-tracking-baseline/native-run-reports.json.gz",
+        "software/analysis/truth_tracking/export_pulls.py",
+        "software/analysis/truth_tracking/plot_pulls.py",
+        "docs/validation/truth-tracking-baseline/pulls/README.md",
+        "docs/validation/truth-tracking-baseline/pulls/distributions.json.gz",
+        "software/running/nodd_truth_tracking_smearing.py",
+        "docs/validation/truth-tracking-baseline/smearing/README.md",
+        "docs/validation/truth-tracking-baseline/smearing/comparison.json.gz"
+      ],
+      "evidence": [
+        "logs/codex/SESSION-2026-10-26-truth-tracking-baseline.md",
+        "docs/validation/truth-tracking-baseline/hit-error-training-audit.json",
+        "docs/validation/truth-tracking-baseline/lifecycle-equivalence.json",
+        "logs/codex/SESSION-2026-10-26-truth-tracking-baseline/PhysVal-01-result.md",
+        "https://github.com/asalzburger/nodd/pull/101",
+        "https://github.com/asalzburger/nodd/issues/102",
+        "logs/codex/SESSION-2026-10-26-truth-tracking-baseline/SoftEng-01-result.md",
+        "logs/codex/SESSION-2026-10-26-truth-tracking-baseline/PhysVal-02-result.md",
+        "docs/validation/truth-tracking-baseline/reference-removal-equivalence.json",
+        "logs/codex/SESSION-2026-10-26-truth-tracking-baseline/PhysVal-03-result.md",
+        "logs/codex/SESSION-2026-10-26-truth-tracking-baseline/PhysVal-04-result.md",
+        "logs/codex/SESSION-2026-10-26-truth-smearing-crosscheck.md",
+        "logs/codex/SESSION-2026-10-26-truth-smearing-crosscheck/SoftEng-01-result.md",
+        "logs/codex/SESSION-2026-10-26-truth-smearing-crosscheck/PhysVal-01-02-result.md",
+        "logs/codex/SESSION-2026-10-27-truth-tracking-merge-prep.md"
+      ],
+      "documents": [
+        "DES-025",
+        "DES-007",
+        "DES-008"
+      ],
+      "updated": "2026-10-27",
+      "next_action": "Maintainer merge of reviewed PR101 after final-head checks, then record the actual merge identity. Prototype and unresolved physics qualifications remain; no detector sign-off recorded.",
+      "blocker": null,
+      "disposition": "Completed qualified prototype at scientificf7b14c6/native39cd5185:120000performanceevents+50000independentFatrastraining;119982finitefits,14selectionlosses,4fitfailures,0invalidcovariance. All3199735marginals exactlyfrozentrainedSD\u00b2; three nativeFake partialfits retained by guardedprimaryseedassociation. IndependentPhysVal03 reproduces17712scalars,allCSV/10figures and688reference-removalbranches; noblockingimplementation/reduction/presentationfinding. Broadpulltails andforward100GeVdegradation remainunresolvedobservations, no acceptance. Human follow-up requests fullall-eta distributions;42histograms nowretainall119982fits perparameter,truth-minus-fit sign,6boundparameters+derivedpT. Sixfull/core PNG/PDF/SVGZsets; timeunmeasuredprior label. IndependentPhysVal04 atc3d037a reproducesall42histograms/all462CSVfields,all1199826Dcovariances andall6PNGs; no blockingfinding. Initialf7baselineassessmentunchanged. Reviewer comment6419397508 requests an additional full Gaussian-smearing Fatras sanity check; new isolated3x20k campaign running, original geometric reference unchanged. Gaussiancomparison complete atnative dc9a927/correctedevidence7c9340b:59989fits,1457028exactfixedsigma2marginals;measurementSDs1.000165/0.999683/1.000024,low-pTtracktails remain. Independentassessment reproducesall42histograms andall7PNGs, resolvesretrymetadatafinding; no furtherblocker. Originalgeometricreference unchanged.",
       "subsystem": "tracker"
     },
     {
@@ -4403,16 +4464,33 @@
       "number": 100,
       "title": "Tracker: configure Gen3 portal material mapping and validation",
       "url": "https://github.com/asalzburger/nodd/pull/100",
-      "state": "open",
-      "head_revision": "568d8a4de98e57eee15e7ba0c8801b7d1d637da2",
-      "merge_commit": null,
-      "merged_at": null,
-      "collected_at": "2026-10-26T13:00:14Z",
+      "state": "merged",
+      "head_revision": "5cc16469cc5f48d65f159e06415ec9d47afc45c0",
+      "merge_commit": "709d7fe5e5620305812aff502c3e02b9e7be3347",
+      "merged_at": "2026-10-26T13:09:03Z",
+      "collected_at": "2026-10-26T13:15:28Z",
       "task": "TASK-TRACK-GEN3-MATERIAL-MAP-TRIAL",
       "documents": [
         "DES-025"
       ],
-      "scope": "Configurable 65-portal Gen3 material-mapping prototype and expert-requested cumulative comparisons. Observed head 568d8a4 passed both hosted workflows before merge-preparation record updates. Expert noemina feedback 6416466956 is positive; no formal review submission. Mapping PhysVal 2fff94b and cumulative PhysVal bffaba61 remain distinct exact-revision assessments. Intermediate differences and prototype limitations retained; no design sign-off or production acceptance.",
+      "scope": "Configurable 65-portal Gen3 material-mapping prototype and expert-requested cumulative comparisons. Observed head 568d8a4 passed both hosted workflows before merge-preparation record updates. Expert noemina feedback 6416466956 is positive; no formal review submission. Mapping PhysVal 2fff94b and cumulative PhysVal bffaba61 remain distinct exact-revision assessments. Intermediate differences and prototype limitations retained; no design sign-off or production acceptance. Human merge observed 2026-10-26; merge grants no design acceptance.",
+      "category": "project"
+    },
+    {
+      "id": "PR-101",
+      "number": 101,
+      "title": "Tracker: establish Gen3 truth-tracking baseline with Geant4 and Fatras",
+      "url": "https://github.com/asalzburger/nodd/pull/101",
+      "state": "open",
+      "head_revision": "f7b14c60c8be613ce9165684d6ef03007ce1a456",
+      "merge_commit": null,
+      "merged_at": null,
+      "collected_at": "2026-10-26T14:30:34Z",
+      "task": "TASK-TRACK-TRUTH-BASELINE",
+      "documents": [
+        "DES-025"
+      ],
+      "scope": "Completed ideal3T Gen3/PR100-map seed-associated Kalman prototype:120kperformance+50kindependentFatrastraining,tenfigure sets/fullCSV/nativeprovenance. Finalscientificevidence f7b14c6, native39cd5185. IndependentPhysVal03no blockers; broadpulltails/forwarddegradation explicit. This is a scientific source pin; later record-only commits follow. No designacceptance.",
       "category": "project"
     },
     {

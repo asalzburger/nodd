@@ -2418,6 +2418,29 @@
         "Software capability only: README.md and pyproject.toml describe Python >=3.11, uproot I/O, Matplotlib static figures and optional Plotly. No physical detector parameter is supported by this source."
       ],
       "verification": "Pinned source inspected and installed from Git; installed commit metadata, synthetic ROOT values/variances/edges, ODD palette, ratio overlay, PNG/PDF/SVG, Plotly HTML and CLI checked. Exact versions and output hashes retained in docs/validation/unrooted-installation.json."
+    },
+    {
+      "id": "SRC-ACTS-TRUTH-TRACKING-355EA684",
+      "title": "ACTS pinned truth-associated Kalman steering and geometric hit-error parameterization",
+      "authors_or_collaboration": "ACTS project contributors",
+      "verified_identifiers": [
+        "git 355ea68493b326956756c9386d2fd9eaf9328568"
+      ],
+      "public_url": "https://github.com/acts-project/acts/blob/355ea68493b326956756c9386d2fd9eaf9328568/Examples/Scripts/Digitization/error_parameterisation.py",
+      "publication_or_version_date": null,
+      "access_date": "2026-10-26",
+      "local_file": null,
+      "sha256": "907408ac30c74ca0b20f4af1821ad129fe46958e49f9bef8fd6a1f53de2349d3",
+      "license_or_redistribution": "ACTS MPL-2.0. No upstream source or binary redistributed; nODD-authored adapters and numerical output retained.",
+      "verification": "Primary source inspected in the unchanged local ACTS checkout at the pinned revision. The source SHA256 identifies error_parameterisation.py. Exact script output and independently recomputed overflow-group errors are retained in docs/validation/truth-tracking-baseline; separate PhysVal reproduces all106groups. Native seed-stage configuration checked against Python/Examples/python/reconstruction.py:addTruthSmearedSeeding; origin target checked in TrackFittingAlgorithm.cpp. No claim of latest-version behavior.",
+      "supported_design_facts": [
+        "DES025 prototype: upstream parameterization groups geometric measurement residuals by sensitive volume, coordinate and cluster size; its rms output convention is centered population SD. Native lookup squares the SD and clamps overflow to the last entry.",
+        "DES025 prototype: the pinned truth-smeared seeding helper schedules native parameter extraction, parameter smearing and truth association. nODD directly schedules equivalent zero-smearing seed stages to exclude the unsafe reference finder."
+      ],
+      "supported_study_observations": [
+        "Pinned script appends an exact-size SD before later plotting a pooled tail; a native overflow entry therefore needs the separately retained audited correction.",
+        "Pinned TruthTrackFinder double-indexes a resolved hit index; Geant4 diagnostic controls expose missing/wrong associations and sorting failures. Exact source locators and excluded outputs are retained in the baseline report."
+      ]
     }
   ]
 }

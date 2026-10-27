@@ -22,6 +22,7 @@ jobs:
         with:
           persist-credentials: false
           submodules: false
+          fetch-depth: 0 # Audit executed native sources at their preserved launch revision.
       - uses: actions/setup-python@v7
         with:
           python-version: '3.11'
@@ -48,6 +49,12 @@ jobs:
           python -B software/analysis/gen3_material_mapping/plot_cumulative.py
           --data docs/validation/gen3-material-map-run/cumulative/profiles.json.gz
           --output build/gen3-cumulative-material-replay
+      - name: Check truth-tracking analysis and replay retained performance
+        run: |
+          python -B -m unittest discover -s software/analysis/truth_tracking -p 'test_*.py' -v
+          python -B software/analysis/truth_tracking/plot_profiles.py --data docs/validation/truth-tracking-baseline/profiles.json.gz --output build/truth-tracking-baseline-replay
+          python -B software/analysis/truth_tracking/plot_pulls.py --data docs/validation/truth-tracking-baseline/pulls/distributions.json.gz --output build/truth-tracking-baseline-replay/pulls
+          python -B software/analysis/truth_tracking/plot_smearing.py --data docs/validation/truth-tracking-baseline/smearing/comparison.json.gz --output build/truth-tracking-smearing-replay
       - name: Check float32 material-boundary rounding cells
         run: |
           c++ -std=c++17 software/analysis/material_profiles/test_rounding_cell.cpp -o build/test-rounding-cell
