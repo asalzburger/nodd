@@ -18,8 +18,7 @@ import uproot
 
 ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT / "software/analysis/truth_tracking"))
-from export_profiles import (BARCODE, PARAMETERS, event_indices, flat,
-                             audit_measurement_errors)
+from export_profiles import BARCODE, PARAMETERS, event_indices, flat
 from metrics import classify_primary_barcodes, perigee_observables, statistics
 from pull_histograms import BOUND, bound_pulls, common_edges, histogram
 
@@ -50,12 +49,64 @@ def table(directory, name, tree):
         return stream[tree].arrays(library="ak")
 
 
+def audit_calibration(directory, mode):
+    """Check every observed marginal; report unsampled calibration coordinates."""
+    path=directory/"error-table.json"
+    if not path.is_file():
+        raise ValueError("New study is missing its frozen/remapped calibration")
+    calibration=json.loads(path.read_text())
+    if mode=="geometric":
+        lookup={(e["volume"],r["index"]):np.array(r["rms"],dtype=float)
+                for e in calibration["entries"] for r in e["value"]}
+    elif mode=="gaussian":
+        lookup={(g["volume"],g["index"]):np.array([g["sigma_mm"]],dtype=float)
+                for g in calibration["groups"]}
+    else:raise ValueError("Unknown response model")
+    with uproot.open(directory/"measurements.root") as f:
+        fields=["volume_id"]+[prefix+str(i) for i in (0,1) for prefix in
+            (("rec_loc","var_loc","clus_size_loc") if mode=="geometric" else ("rec_loc","var_loc"))]
+        data=f["measurements"].arrays(fields,library="np")
+    observed,coordinates=set(),0
+    for volume in np.unique(data["volume_id"]):
+        for i in (0,1):
+            mask=(data["volume_id"]==volume)&np.isfinite(data[f"rec_loc{i}"])
+            if not mask.any():continue
+            key=(int(volume),i)
+            if key not in lookup:raise ValueError("Observed coordinate missing frozen error")
+            widths=lookup[key];observed.add(key)
+            if mode=="geometric":
+                size=data[f"clus_size_loc{i}"][mask].astype(int)
+                if np.any(size<1):raise ValueError("Geometric measurement has no cells")
+                sigma=widths[np.minimum(size,len(widths))-1]
+            else:sigma=np.full(int(mask.sum()),widths[0])
+            actual=data[f"var_loc{i}"][mask]
+            if not np.array_equal(actual,(sigma*sigma).astype(actual.dtype)):
+                raise ValueError("Measured variance differs from frozen sigma squared")
+            coordinates+=int(mask.sum())
+    return {"status":"PASS","model":mode,"error_table_sha256":sha256(path),
+            "measured_coordinates":coordinates,"observed_groups":len(observed),
+            "unobserved_groups":[list(k) for k in sorted(set(lookup)-observed)],
+            "comparison":"Every observed marginal exactly equals float32 frozen sigma squared"}
+
+
 def read_case(directory):
     """Join generated, primary proto, created and fitted rows by exact event ID."""
     directory = Path(directory)
     report = json.loads((directory / "run-report.json").read_text())
     if report["outcome"] != "completed" or report["simulation"] != "fatras":
         raise ValueError("Require a complete native Fatras experiment")
+    new_study="variant" in report
+    if new_study:
+        for name,digest in report["executed_source_sha256"].items():
+            source=subprocess.check_output(["git","-C",str(ROOT),"show",
+                report["scientific_input_revision"]+":"+name])
+            if hashlib.sha256(source).hexdigest()!=digest:
+                raise ValueError("Executed source differs from pinned revision: "+name)
+        campaign=report["campaign"]
+        if (campaign["field_Bz_T"]!=3 or campaign["eta_range"]!=[-4.,4.]
+                or campaign["truth_tracking"]["minimum_measurements"]!=7
+                or report["threads"]!=1 or report["seed"]!=campaign["seed"]):
+            raise ValueError("Study field, acceptance, selection or seed contract changed")
     # New study reports expose a file inventory; historical reference reports
     # expose provenance.files. Require an unambiguous hash for each ROOT input.
     files = report.get("provenance", {}).get("files", [])
@@ -137,8 +188,8 @@ def read_case(directory):
         raise ValueError("Unexpected matched/zero-barcode Fake classification")
     np.testing.assert_allclose(flat(t, "t_eta")[match], eta[ti][match], rtol=2e-6, atol=2e-6)
     par = (*PARAMETERS, "eT")
-    fitted = np.column_stack([flat(t, k+"_fit") for k in par])
-    cov = np.stack([flat(t, "cov_"+p+"_"+q) for p in par for q in par], axis=1).reshape(-1, 6, 6)
+    fitted = np.column_stack([flat(t, k+"_fit") for k in par]).astype(float)
+    cov = np.stack([flat(t, "cov_"+p+"_"+q) for p in par for q in par], axis=1).reshape(-1, 6, 6).astype(float)
     truth = np.column_stack([np.zeros(n), np.zeros(n), flat(g, "phi"),
                              flat(g, "theta"), flat(g, "q_over_p"), flat(g, "vt")])
     values, flags = perigee_observables(fitted[:, :5], truth[ti, :5], cov[:, :5, :5])
@@ -153,7 +204,7 @@ def read_case(directory):
         values["q_over_pt_relative"] = {"residual": (curv-true_curv)/np.abs(true_curv),
             "pull": (curv-true_curv)/np.sqrt(cv)}
     has = flat(t, "hasFittedParams").astype(bool)
-    values["q_over_pt_relative"]["pull"][~flags6["valid_covariance"] | ~(cv > 0)] = np.nan
+    values["q_over_pt_relative"]["pull"][~flags6["valid_covariance"] | ~(cv > 0) | ~np.isfinite(cv)] = np.nan
     aligned = {}
     for k, pair in values.items():
         aligned[k] = {}
@@ -177,11 +228,21 @@ def read_case(directory):
     wrong = np.zeros(n, dtype=bool)
     wrong[ti] = flags["wrong_charge"] & has
     valid = np.zeros(n, dtype=bool)
-    valid[ti] = flags6["valid_covariance"] & has & flags6["finite_parameters"]
-    table_path = directory / "error-table.json"
-    error_audit = audit_measurement_errors(directory / "measurements.root", json.loads(table_path.read_text())) if table_path.exists() else None
+    valid[ti] = flags6["valid_covariance"]
+    has_params,finite,native_match=(np.zeros(n,dtype=bool) for _ in range(3))
+    has_params[ti]=has;finite[ti]=has&flags6["finite_parameters"];native_match[ti]=match
+    error_audit = (audit_calibration(directory,report["digitization_model"]) if new_study else
+        {"status":"historical_reference","qualification":"Historical report independently audited by PR101; new-study calibration audit not applied"})
+    comparison_contract={k:report["campaign"][k] for k in
+        ("field_Bz_T","eta_range","phi_range_rad","truth_tracking","digitization")}
+    if new_study:
+        comparison_contract["source_error_table_sha256"]=report["source_error_table_sha256"]
+        comparison_contract["material_approximation"]=report["material_approximation"]
+        comparison_contract["calibration_approximation"]=report["calibration_approximation"]
     metadata = {"run_report_sha256": sha256(directory/"run-report.json"),
         "events": n, "pt_GeV": report["pt_GeV"],
+        "comparison_contract":comparison_contract,
+        "scientific_input_revision":report["scientific_input_revision"],
         "native_unmatched_event_ids": te[~match].astype(int).tolist(),
         "measurement_error_audit": error_audit,
         "counts": {k: int(x.sum()) for k, x in audit.items()},
@@ -189,6 +250,9 @@ def read_case(directory):
     return {"metadata": metadata, "event_id": ids, "eta": eta, "phi": phi,
             "pt": pt, "charge": charge, "created": unique, "used": used_hits,
             "incident_records": audit["simhits"], "proto": audit["corrected_proto_measurements"],
+            "selected":audit["selected"],"attempts":audit["fit_attempts"],
+            "native_invalid_covariance":audit["invalid_covariance"],
+            "has_parameters":has_params,"finite_fit":finite,"native_match":native_match,
             "fitted": tc.astype(bool), "valid_covariance": valid, "wrong_charge": wrong,
             "values": aligned, "pulls": all_pulls}
 
@@ -197,8 +261,11 @@ def summarize(case, mask, rng, bootstrap):
     n = int(mask.sum())
     result = {"generated": n, "fit_tracks": int(case["fitted"][mask].sum()),
               "wrong_charge": int(case["wrong_charge"][mask].sum()),
-              "invalid_covariance": int(np.sum(mask & case["fitted"] & ~case["valid_covariance"])),
+              "invalid_covariance": int(np.sum(mask & case["fitted"] & case.get("has_parameters",case["fitted"]) & ~case["valid_covariance"])),
               "stages": {}, "quantities": {}}
+    for key in ("selected","attempts","native_invalid_covariance","has_parameters","finite_fit","native_match"):
+        if key in case:result[key]=int(case[key][mask].sum())
+    if "attempts" in result:result["fit_failures"]=result["attempts"]-result["fit_tracks"]
     for stage in ("incident_records", "created", "proto", "used"):
         hits = case[stage][mask]
         result["stages"][stage] = {"sum": int(hits.sum()),
@@ -224,11 +291,23 @@ def reduce(case, bootstrap=100):
             result[name].append(row)
         if sum(x["generated"] for x in result[name]) != len(case["eta"]):
             raise ValueError("Bins do not partition generated denominator")
+    result["eta_phi_coverage"]=[]
+    for lo,hi in zip(np.arange(-4,4,.5),np.arange(-3.5,4.5,.5)):
+        for j,(pl,ph) in enumerate(zip(np.linspace(-np.pi,np.pi,17)[:-1],np.linspace(-np.pi,np.pi,17)[1:])):
+            mask=(case["eta"]>=lo)&((case["eta"]<=hi) if hi==4 else (case["eta"]<hi))
+            mask&=(case["phi"]>=pl)&((case["phi"]<=ph) if j==15 else (case["phi"]<ph))
+            n=int(mask.sum())
+            result["eta_phi_coverage"].append({"eta_low":float(lo),"eta_high":float(hi),
+                "phi_low":float(pl),"phi_high":float(ph),"generated":n,
+                "created_ge10":wilson(int(np.sum(case["created"][mask]>=10)),n)})
     return result
 
 
 def paired_comparison(base, candidate, bootstrap=400):
     """Paired bootstrap only after checking exact generated event and gun values."""
+    if ("metadata" in base and "metadata" in candidate
+            and base["metadata"]["comparison_contract"]!=candidate["metadata"]["comparison_contract"]):
+        raise ValueError("Paired comparison changed field/response/fitter/material approximation contract")
     for key in ("event_id", "eta", "phi", "pt", "charge"):
         if not np.array_equal(base[key], candidate[key]):
             raise ValueError("Paired comparison requires identical generated "+key)
@@ -262,6 +341,7 @@ def paired_comparison(base, candidate, bootstrap=400):
                 "candidate_width68":float(w1) if np.isfinite(w1) else None,
                 "ratio":float(ratio(w0,w1)) if np.isfinite(ratio(w0,w1)) else None,
                 "ratio_bootstrap95":np.quantile(finite,[.025,.975]).tolist() if len(finite) else None,
+                "bootstrap_valid_replicates":len(finite),"bootstrap_undefined_replicates":bootstrap-len(finite),
                 "common_survivors":int(common.sum()),
                 "common_survivor_width68":[width(x[common]),width(y[common])] if common.sum()>=30 else [None,None]}
         rows.append(row)
