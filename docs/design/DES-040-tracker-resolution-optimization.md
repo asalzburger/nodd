@@ -1,6 +1,7 @@
 # DES-040 — Tracker resolution optimisation within fixed envelopes
 
-Status: **DRAFT / isolated PROTOTYPE**. Date: 2026-10-27.
+- Status: **DRAFT** — isolated PROTOTYPE.
+- Date: 2026-10-27.
 Governing issue: [#103](https://github.com/asalzburger/nodd/issues/103). Coordinator: Codex; engineering approval open.
 
 The human task authorises a constrained optimisation study following merged
