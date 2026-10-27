@@ -173,3 +173,41 @@ full pull PNG: zero/power labels no longer collide; timepeak and full tails
 remain visible. No native/reduction/data changes. Documentation tables were
 assembled directly from the retained final matrices; source CSV remains the
 machine-readable numerical authority.
+
+
+## Independent final assessment and accounting closeout
+
+OPT-PhysVal-03 completed read-only: sourcebfa3c264/reduction9873280,
+all4numericalmatrices/nativeinventories4c0910, figures171cd0f, finalclaims/tables
+0a582d8, ACTSmaterialsemantics355ea684. Separate uproot/NumPy calculations check
+54cases/348,000generated/347,964fitted, including30confirmationcases with300,000
+/299,968.378nativeoutputhashes,8,714,319coordinatevariances,254,940scalarchecks
+(maxdifference5.69e-14),714fullhistograms,3591profilerows and1512pairedbootstrap
+intervals(378rows,maxdifference0) reproduce.16CSVfiles/31,638rows/240,702numeric
+fields exact. All28PNGs visually inspected andhashmatched.18globalcomparison,
+30case and17adverseregionalMarkdownrows/537numbers exact andregionalexceptions
+exhaustive forstateddiagnostics. Noinvalid6Dcovariance/nativeFakes/outliers;
+missingfits areselectionlosses. Gaussianreportsstate10retries/11maximumattempts,
+withoutclaimingactualretrycounts.593carriers/76,950profilebins/476calibration
+layers independentlychecked;closurewithin1.81e-7. No new simulation, tracked
+write, installation orhumanapproval. No unresolved numerical/reporting blocker
+withinassignment; no testedlayoutmeetscombinedobjectives. Mechanicalscopeclearly
+separate. Full source/claim qualifications remain in validationREADME.
+
+Nine exact completedOPTchildturns imported once: input53,086,127, cachedinput
+51,768,192, output177,758, reasoningoutput74,758, total53,263,885. Cachedinput
+andreasoning are subsets. New finalreviewevidence owns two newly finalized
+turns(16,438,530PhysVal03;4,053,552SysArch03), not copied prior observations.
+Rootcurrentturn01a17c93 remainsactiveandexcluded; models/clientversionunknown.
+Curated completedchildvisibleoutputs/assignmentIDs and activecoordinator inputs/
+responses retain only public text and operationmetadata, no hiddenreasoning,
+rawrollouts, toolarguments/results orprivatepaths. PublicPR104discussionrefreshed:
+no comments/reviewinputs present at capture. PRdescriptionupdatedwithactual
+newlines, completedstatistics andfull-objectivefailure; draftretained.
+
+PR101postmergeaccount reconciliation is separate andsolelyowns its newlyclosed
+7,645,859tokens; oldbaseline/smearing/scienceunchanged. All affectedledgersare
+synchronized. Local finalchecks anddashboardvalidate/build are performed before
+publication. Hosted final-headstatus is an explicitly later external observation,
+not invented in this prepublication snapshot. DraftPR104 remains a prototype
+scientific report for human assessment; issue103/overalloptimisation remainopen.
