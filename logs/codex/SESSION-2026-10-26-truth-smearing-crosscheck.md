@@ -85,3 +85,19 @@ subsets. Newboundedaccounttwo disjointclosedturns:14173694input+41960output
 andtwochildfinals retained, allreasoning/toolargs/results excluded. Freshpublic
 PRdiscussioncapture andsynchronizedledgers accompanycloseout. FinalCIruns at
 pushedhead checkedseparately; no mergeorhumanacceptance.
+
+## 2026-10-27 closeout reconciliation
+
+The smearing coordinator turn01a178c7-5878-7141-befd-49e06fdfdd43 is now
+completed. Its89 reconciled requests report18,015,766input+69,395output
+=18,085,161tokens, imported once into this original smearing account. Three
+disjoint finalized turns now total32,189,460input+111,355output=32,300,815
+observedtokens;31,849,856cachedinput and37,115reasoning are subsets. This does
+not allocate the separate active merge-preparation turn. Twenty safely curated
+visible messages, including the final response, replace the provisional active
+snapshot. No private reasoning or tool arguments/results were retained.
+
+At reviewed headffd1cb9, both Project validation jobs and Token usage Pages
+completed successfully. Public discussion was refreshed during merge preparation.
+The user says the result looks good and requests preparation for merging; this
+is recorded as merge-preparation authorization, not formal detector sign-off.

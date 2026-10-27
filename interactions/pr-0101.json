@@ -3,7 +3,8 @@
   "curated": {
     "journal_links": [
       "SESSION-2026-10-26-truth-tracking-baseline",
-      "SESSION-2026-10-26-truth-smearing-crosscheck"
+      "SESSION-2026-10-26-truth-smearing-crosscheck",
+      "SESSION-2026-10-27-truth-tracking-merge-prep"
     ],
     "agents": [
       {
@@ -13,258 +14,37 @@
         "thread_id": "01a176bd-cabc-77c0-8841-9d7ee1efa109",
         "models": [],
         "source": "logs/codex/SESSION-2026-10-26-truth-tracking-baseline.md",
-        "limitation": "Explicit generic-agent mandates; native profile loading unclaimed. Original baseline coordinator usage finalized in its original account; new smearing coordinator turn active and excluded."
+        "limitation": "Explicit generic-agent mandates; native profile loading unclaimed. Baseline and smearing closed turns finalized in original accounts. Current merge-preparation turn is active and excluded."
       }
     ],
     "tools": [],
     "events": [
       {
-        "id": "active-codex-message:01a178c7-5890-7ab1-a443-52f4616a618a",
+        "id": "active-codex-message:01a17c65-7aa2-73f0-8b14-f1b890a7d608",
         "type": "prompt",
         "direction": "action",
         "actor": "unknown:project-user",
         "recipients": [
           "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109"
         ],
-        "text": "There's a comment on PR #101, have a look",
-        "source": "interactions/pr-0101/active-snapshots/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
+        "text": "Ok, this one looks good - prepare for merging.",
+        "source": "interactions/pr-0101/active-snapshots/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a17c65-7a7d-7251-b439-1dddda32ab9b.json",
         "in_reply_to": null,
         "model": null,
         "agent_roles": [],
         "token_accounts": []
       },
       {
-        "id": "active-codex-message:msg_01aaccc36fea713b016adf6e6e4da88191b132a1c02d63b00b",
+        "id": "active-codex-message:msg_01aaccc36fea713b016ae05b8a53188191ae2174fc0432e0f3",
         "type": "response",
         "direction": "reaction",
         "actor": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
         "recipients": [
           "unknown:project-user"
         ],
-        "text": "I’ll read the new comment on PR #101 and check it against the current changes.",
-        "source": "interactions/pr-0101/active-snapshots/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
-        "in_reply_to": "active-codex-message:01a178c7-5890-7ab1-a443-52f4616a618a",
-        "model": null,
-        "agent_roles": [
-          "primary coordinator"
-        ],
-        "token_accounts": []
-      },
-      {
-        "id": "active-codex-message:msg_01aaccc36fea713b016adf6e8946c48191b2d9b897eb19aa20",
-        "type": "response",
-        "direction": "reaction",
-        "actor": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
-        "recipients": [
-          "unknown:project-user"
-        ],
-        "text": "The [reviewer’s comment](https://github.com/asalzburger/nodd/pull/101#issuecomment-6419397508) asks for a Fatras cross-check using Gaussian-smeared measurements with widths measured over all cluster sizes.\n\nYes, the current baseline uses cluster-size-dependent errors from the independent Fatras training sample, applied after geometric clustering. I’ll add the smeared comparison so we can check how much the geometric digitization contributes to the pull shapes.",
-        "source": "interactions/pr-0101/active-snapshots/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
-        "in_reply_to": "active-codex-message:01a178c7-5890-7ab1-a443-52f4616a618a",
-        "model": null,
-        "agent_roles": [
-          "primary coordinator"
-        ],
-        "token_accounts": []
-      },
-      {
-        "id": "active-codex-message:msg_01aaccc36fea713b016adf6eb8f0f08191b607434e5df71cef",
-        "type": "response",
-        "direction": "reaction",
-        "actor": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
-        "recipients": [
-          "unknown:project-user"
-        ],
-        "text": "I’ll pool all cluster sizes within each ACTS volume and measured coordinate to set the Gaussian widths, using the existing independent training sample. The Spack preflight still warns about changed setup fingerprints; I’ll verify the existing isolated runtime before running the cross-check.",
-        "source": "interactions/pr-0101/active-snapshots/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
-        "in_reply_to": "active-codex-message:01a178c7-5890-7ab1-a443-52f4616a618a",
-        "model": null,
-        "agent_roles": [
-          "primary coordinator"
-        ],
-        "token_accounts": []
-      },
-      {
-        "id": "active-codex-message:msg_01aaccc36fea713b016adf6f3abf8c8191a5b11e7379b561f7",
-        "type": "response",
-        "direction": "reaction",
-        "actor": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
-        "recipients": [
-          "unknown:project-user"
-        ],
-        "text": "The pooled widths are ready: they use all 699,273 training measurements across 52 volumes and 90 measured coordinates. The new Gaussian configuration will use those same widths for both the random shifts and fitted measurement covariance. SoftEng is preparing a native pilot to verify this.",
-        "source": "interactions/pr-0101/active-snapshots/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
-        "in_reply_to": "active-codex-message:01a178c7-5890-7ab1-a443-52f4616a618a",
-        "model": null,
-        "agent_roles": [
-          "primary coordinator"
-        ],
-        "token_accounts": []
-      },
-      {
-        "id": "active-codex-message:msg_01aaccc36fea713b016adf6ff8c78c8191ba75b374e4e40145",
-        "type": "response",
-        "direction": "reaction",
-        "actor": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
-        "recipients": [
-          "unknown:project-user"
-        ],
-        "text": "The native Gaussian pilot is running. One detail matters for interpretation: ACTS discards smeared positions that fall outside the sensor bounds. I’ll retain those losses and check measurement residuals as well as track pulls, since Gaussian measurement errors alone don’t guarantee Gaussian track pulls.",
-        "source": "interactions/pr-0101/active-snapshots/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
-        "in_reply_to": "active-codex-message:01a178c7-5890-7ab1-a443-52f4616a618a",
-        "model": null,
-        "agent_roles": [
-          "primary coordinator"
-        ],
-        "token_accounts": []
-      },
-      {
-        "id": "active-codex-message:msg_01aaccc36fea713b016adf703649448191af419990cf1ad50b",
-        "type": "response",
-        "direction": "reaction",
-        "actor": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
-        "recipients": [
-          "unknown:project-user"
-        ],
-        "text": "The 100-event pilot passed: all tracks fitted, both measurement dimensions were correct, and every written measurement variance matched the frozen Gaussian width squared. The three 20,000-event Fatras samples at 1, 10, and 100 GeV are now starting at one fixed source revision.",
-        "source": "interactions/pr-0101/active-snapshots/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
-        "in_reply_to": "active-codex-message:01a178c7-5890-7ab1-a443-52f4616a618a",
-        "model": null,
-        "agent_roles": [
-          "primary coordinator"
-        ],
-        "token_accounts": []
-      },
-      {
-        "id": "active-codex-message:msg_01aaccc36fea713b016adf7092a2f88191a8f3fcbbecdc8bce",
-        "type": "response",
-        "direction": "reaction",
-        "actor": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
-        "recipients": [
-          "unknown:project-user"
-        ],
-        "text": "The full samples are progressing. I’ve also recorded the reviewer’s comment and reconciled the now-closed baseline turn’s usage in its original account; this cross-check has a separate record.",
-        "source": "interactions/pr-0101/active-snapshots/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
-        "in_reply_to": "active-codex-message:01a178c7-5890-7ab1-a443-52f4616a618a",
-        "model": null,
-        "agent_roles": [
-          "primary coordinator"
-        ],
-        "token_accounts": []
-      },
-      {
-        "id": "active-codex-message:msg_01aaccc36fea713b016adf713964e88191adbcfdf8b92c2991",
-        "type": "response",
-        "direction": "reaction",
-        "actor": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
-        "recipients": [
-          "unknown:project-user"
-        ],
-        "text": "All three samples have passed halfway. The comparison will show both the measurement-level Gaussian check and the track pulls, with the original geometric results alongside them.",
-        "source": "interactions/pr-0101/active-snapshots/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
-        "in_reply_to": "active-codex-message:01a178c7-5890-7ab1-a443-52f4616a618a",
-        "model": null,
-        "agent_roles": [
-          "primary coordinator"
-        ],
-        "token_accounts": []
-      },
-      {
-        "id": "active-codex-message:msg_01aaccc36fea713b016adf719c57448191a13b697dcb39e046",
-        "type": "response",
-        "direction": "reaction",
-        "actor": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
-        "recipients": [
-          "unknown:project-user"
-        ],
-        "text": "All three samples completed. Fatras fitted 19,992, 19,998, and 19,999 tracks at 1, 10, and 100 GeV—the same counts as the geometric reference. There were no fit failures, invalid covariances, or sensor-bound losses. I’m reducing the pull distributions and measurement checks now.",
-        "source": "interactions/pr-0101/active-snapshots/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
-        "in_reply_to": "active-codex-message:01a178c7-5890-7ab1-a443-52f4616a618a",
-        "model": null,
-        "agent_roles": [
-          "primary coordinator"
-        ],
-        "token_accounts": []
-      },
-      {
-        "id": "active-codex-message:msg_01aaccc36fea713b016adf7212b72881918092eda52c69dae3",
-        "type": "response",
-        "direction": "reaction",
-        "actor": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
-        "recipients": [
-          "unknown:project-user"
-        ],
-        "text": "The measurement residuals pass the Gaussian sanity check: their pooled widths are 1.0002, 0.9997, and 1.0000. Track-level tails remain, especially at 1 GeV. The new plots compare both digitization modes so this difference is visible; an independent review is next.",
-        "source": "interactions/pr-0101/active-snapshots/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
-        "in_reply_to": "active-codex-message:01a178c7-5890-7ab1-a443-52f4616a618a",
-        "model": null,
-        "agent_roles": [
-          "primary coordinator"
-        ],
-        "token_accounts": []
-      },
-      {
-        "id": "active-codex-message:msg_01aaccc36fea713b016adf72a8f2cc8191b0bbc2d767ed9b4c",
-        "type": "response",
-        "direction": "reaction",
-        "actor": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
-        "recipients": [
-          "unknown:project-user"
-        ],
-        "text": "The independent reviewer caught a detail we misstated: ACTS appears to default to ten retries for out-of-bounds Gaussian draws. The runs are retained. I’m verifying that setting and correcting the report and plot labels; zero lost measurements does not prove that no draws were retried.",
-        "source": "interactions/pr-0101/active-snapshots/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
-        "in_reply_to": "active-codex-message:01a178c7-5890-7ab1-a443-52f4616a618a",
-        "model": null,
-        "agent_roles": [
-          "primary coordinator"
-        ],
-        "token_accounts": []
-      },
-      {
-        "id": "active-codex-message:msg_01aaccc36fea713b016adf73bf2638819191686b6c9db025e9",
-        "type": "response",
-        "direction": "reaction",
-        "actor": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
-        "recipients": [
-          "unknown:project-user"
-        ],
-        "text": "The pinned ACTS source confirms ten retries, allowing up to eleven draw attempts. I’ve corrected the captions and metadata annotations while preserving the original reports and simulation outputs. The numerical results are unchanged; the reviewer is checking the correction now.",
-        "source": "interactions/pr-0101/active-snapshots/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
-        "in_reply_to": "active-codex-message:01a178c7-5890-7ab1-a443-52f4616a618a",
-        "model": null,
-        "agent_roles": [
-          "primary coordinator"
-        ],
-        "token_accounts": []
-      },
-      {
-        "id": "active-codex-message:msg_01aaccc36fea713b016adf7460eb9c8191b65d381c3280e518",
-        "type": "response",
-        "direction": "reaction",
-        "actor": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
-        "recipients": [
-          "unknown:project-user"
-        ],
-        "text": "The activated native runtime also reports a retry limit of ten, and all eight smearing controls pass there. The independent checks have reproduced the training widths, measurement variances, fit counts, and comparison histograms. Final figure and annotation checks are finishing.",
-        "source": "interactions/pr-0101/active-snapshots/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
-        "in_reply_to": "active-codex-message:01a178c7-5890-7ab1-a443-52f4616a618a",
-        "model": null,
-        "agent_roles": [
-          "primary coordinator"
-        ],
-        "token_accounts": []
-      },
-      {
-        "id": "active-codex-message:msg_01aaccc36fea713b016adf74b7a420819194d632853443cea9",
-        "type": "response",
-        "direction": "reaction",
-        "actor": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
-        "recipients": [
-          "unknown:project-user"
-        ],
-        "text": "The independent review is complete with no remaining scientific or provenance blocker. It reproduced all 42 comparison histograms and confirmed the retry correction. I’m fixing a stale test-count sentence, recording the assessment and usage, then checking the final PR head.",
-        "source": "interactions/pr-0101/active-snapshots/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
-        "in_reply_to": "active-codex-message:01a178c7-5890-7ab1-a443-52f4616a618a",
+        "text": "I’ll refresh PR #101’s discussion and status, finalize the available usage and interaction records, and check that it’s ready to merge.",
+        "source": "interactions/pr-0101/active-snapshots/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a17c65-7a7d-7251-b439-1dddda32ab9b.json",
+        "in_reply_to": "active-codex-message:01a17c65-7aa2-73f0-8b14-f1b890a7d608",
         "model": null,
         "agent_roles": [
           "primary coordinator"
@@ -274,15 +54,15 @@
     ]
   },
   "github": {
-    "captured_at": "2026-10-26T15:42:59.987155Z",
+    "captured_at": "2026-10-27T08:10:05.276736Z",
     "pull_request": {
       "number": 101,
       "url": "https://github.com/asalzburger/nodd/pull/101",
       "title": "Tracker: establish Gen3 truth-tracking baseline with Geant4 and Fatras",
       "head": "codex/tracker-truth-baseline",
-      "head_sha": "7fdf3947a01ff4d8b63221c0ef38fb314d65d30d",
+      "head_sha": "ffd1cb9c1630ad1068ab5bc02378088bdb83995a",
       "state": "open",
-      "body": "Establish a constant **3 T** ACTS truth-associated Kalman baseline for the exact Gen3 nODD tracker and material map merged in PR100, comparing Geant4 and Fatras at fixed muon pT 1, 10 and 100 GeV.\n\nAll **six 20,000-event samples** completed: **119,982/120,000** generated primaries have finite fitted parameters; 14 fail the seven-unique-measurement selection and four Geant4 1 GeV candidates fail fitting. No fitted six-parameter covariance is invalid. Three partial fits fail native truth-matching completeness; they remain in seed-associated residuals with verified unique primary/proto identity and separate native Fake counters.\n\nFor **|eta|<0.5**, central 68.27% relative-pT half-widths are **0.543/0.638/0.771%** in Fatras and **1.157/0.791/1.050%** in Geant4 at 1/10/100 GeV. Pulls have substantial non-Gaussian tails, especially Geant4; central and full-SD diagnostics are both retained without clipping. Forward 100 GeV resolution and charge identification degrade strongly in both backends. These results characterize the present model; they do not establish unit pulls or detector acceptance.\n\nAn independent **50,000-event Fatras** sample trains the common hit-error table from 699,273 measurements, covering 52 sensitive volumes, 90 measured volume/coordinate pairs and 106 cluster groups. Preserve the unchanged ACTS `error_parameterisation.py` output and an independently audited overflow-group correction. Every one of **3,199,735** written performance-coordinate variances matches frozen SD² exactly after ROOT float conversion.\n\nPixels use geometric **50×50 µm** cells; short strips **75 µm×0.5 mm**; each actual long-strip face measures one coordinate at **80 µm** pitch. Native 1D geometric digitization works, so the temporary smearing fallback is unused. Task-local adapters correct the pinned truth-index/duplicate-association defects, exclude its unsafe original reference finder, apply errors after clustering, and retain one ordinary Geant4 run with independent per-event seeds. No shared ACTS source, detector geometry, clustered positions or Kalman fitter is changed.\n\n- [Report, ten PNG/PDF/SVGZ figure sets, complete CSV and retained provenance](https://github.com/asalzburger/nodd/tree/codex/tracker-truth-baseline/docs/validation/truth-tracking-baseline)\n- [Full all-eta pull distributions: six track parameters and derived pT, 1/10/100 GeV overlays, complete tails and ±5 views](https://github.com/asalzburger/nodd/tree/codex/tracker-truth-baseline/docs/validation/truth-tracking-baseline/pulls)\n- [Configuration and reproduction commands](https://github.com/asalzburger/nodd/tree/codex/tracker-truth-baseline/software/analysis/truth_tracking)\n- Governing prototype: DES-025; module contracts: DES-007/DES-008; source layout: ADR-008.\n- Validation: 25 analytic/native controls passed; retained source/table/count/common-binary audits and figure replay pass. Separate PhysVal reproduced every training group and independently checked the final six-run source/data/figures at f7b14c6: 17,712 scalar statistics, all written variances, all CSV fields and ten original PNGs; no blocking finding for this qualified prototype.\n\nThe new all-eta distributions use **(truth − reconstructed)/fitted sigma**, with wrapped phi and full theta–q/p covariance for derived pT. All **119,982** fitted tracks enter each of seven quantities; all **42 histograms** have zero nonfinite entries, underflow and overflow. Full-range variable-bin densities preserve every observed tail; ±5 views use the same full-sample normalization. The unmeasured time parameter is explicitly a seed/fitter-prior diagnostic. Four new analytic controls pass; the portable suite has 24 passes and five expected native-only skips. Independent PhysVal04 at **c3d037a** reproduced all 42 histograms exactly, all 119,982 six-dimensional covariance checks, all 462 CSV fields and visually assessed all six PNG originals; no blocking finding. All 210 moment/extrema comparisons agree within 1.16×10⁻¹⁰.\n\n**PROTOTYPE/DRAFT design status.** Ideal truth seeds and geometric response, one-phi-bin mapped material and locality qualifications remain explicit. Statistics omit training/model systematics. Training observer identity and the older bounded lifecycle comparison are qualified in the report. PR100 and the original baseline retain their own finalized usage accounts. The Gaussian cross-check has a separate canonical account; its active coordinator usage remains excluded.\n\nThe reviewer-requested **Gaussian-smearing Fatras cross-check** is now complete: another **20,000 events per pT** at 1/10/100 GeV, using all-cluster training widths pooled by volume/coordinate. All **59,989** selected tracks fit, with zero invalid six-dimensional covariances, native Fake fits or final measurement losses. All **1,457,028** measurement-coordinate variances match fixed sigma² exactly. Pooled measurement standardized-residual SDs are **1.000165/0.999683/1.000024**; track-level tails remain (1 GeV q/p pull SD **4.277**, versus **6.990** for geometric digitization). The original reference is preserved.\n\n- [Gaussian-versus-geometric report, seven PNG/PDF/SVGZ figure sets, complete distributions and 42-row CSV](https://github.com/asalzburger/nodd/tree/codex/tracker-truth-baseline/docs/validation/truth-tracking-baseline/smearing)\n- Effective native sensor-bound limit is **10 retries / 11 draw attempts**. Historical reports mistakenly labeled it zero/no retry; their original bytes are retained with explicit corrections. Zero final losses do not exclude retried draws. No simulation or retry setting changed.\n- Independent numerical assessment reproduced all training widths, measurement marginals and comparison histograms. Final independent review at **7c9340b** resolved the retry-description finding and found no remaining scientific or provenance blocker; 2,985 scalar statistics agree within 2.22×10⁻¹⁶, and all seven figures were assessed. Portable suite: **34 passed / five expected native-only skips**; native pilots/campaigns and dedicated controls passed.\n\nCloses #102.\n",
+      "body": "Establish a constant **3 T** ACTS truth-associated Kalman baseline for the exact Gen3 nODD tracker and material map merged in PR100, comparing Geant4 and Fatras at fixed muon pT 1, 10 and 100 GeV.\n\nAll **six 20,000-event samples** completed: **119,982/120,000** generated primaries have finite fitted parameters; 14 fail the seven-unique-measurement selection and four Geant4 1 GeV candidates fail fitting. No fitted six-parameter covariance is invalid. Three partial fits fail native truth-matching completeness; they remain in seed-associated residuals with verified unique primary/proto identity and separate native Fake counters.\n\nFor **|eta|<0.5**, central 68.27% relative-pT half-widths are **0.543/0.638/0.771%** in Fatras and **1.157/0.791/1.050%** in Geant4 at 1/10/100 GeV. Pulls have substantial non-Gaussian tails, especially Geant4; central and full-SD diagnostics are both retained without clipping. Forward 100 GeV resolution and charge identification degrade strongly in both backends. These results characterize the present model; they do not establish unit pulls or detector acceptance.\n\nAn independent **50,000-event Fatras** sample trains the common hit-error table from 699,273 measurements, covering 52 sensitive volumes, 90 measured volume/coordinate pairs and 106 cluster groups. Preserve the unchanged ACTS `error_parameterisation.py` output and an independently audited overflow-group correction. Every one of **3,199,735** written performance-coordinate variances matches frozen SD² exactly after ROOT float conversion.\n\nPixels use geometric **50×50 µm** cells; short strips **75 µm×0.5 mm**; each actual long-strip face measures one coordinate at **80 µm** pitch. Native 1D geometric digitization works, so the temporary smearing fallback is unused. Task-local adapters correct the pinned truth-index/duplicate-association defects, exclude its unsafe original reference finder, apply errors after clustering, and retain one ordinary Geant4 run with independent per-event seeds. No shared ACTS source, detector geometry, clustered positions or Kalman fitter is changed.\n\n- [Report, ten PNG/PDF/SVGZ figure sets, complete CSV and retained provenance](https://github.com/asalzburger/nodd/tree/codex/tracker-truth-baseline/docs/validation/truth-tracking-baseline)\n- [Full all-eta pull distributions: six track parameters and derived pT, 1/10/100 GeV overlays, complete tails and ±5 views](https://github.com/asalzburger/nodd/tree/codex/tracker-truth-baseline/docs/validation/truth-tracking-baseline/pulls)\n- [Configuration and reproduction commands](https://github.com/asalzburger/nodd/tree/codex/tracker-truth-baseline/software/analysis/truth_tracking)\n- Governing prototype: DES-025; module contracts: DES-007/DES-008; source layout: ADR-008.\n- Validation: 25 analytic/native controls passed; retained source/table/count/common-binary audits and figure replay pass. Separate PhysVal reproduced every training group and independently checked the final six-run source/data/figures at f7b14c6: 17,712 scalar statistics, all written variances, all CSV fields and ten original PNGs; no blocking finding for this qualified prototype.\n\nThe new all-eta distributions use **(truth − reconstructed)/fitted sigma**, with wrapped phi and full theta–q/p covariance for derived pT. All **119,982** fitted tracks enter each of seven quantities; all **42 histograms** have zero nonfinite entries, underflow and overflow. Full-range variable-bin densities preserve every observed tail; ±5 views use the same full-sample normalization. The unmeasured time parameter is explicitly a seed/fitter-prior diagnostic. Four new analytic controls pass; the portable suite has 24 passes and five expected native-only skips. Independent PhysVal04 at **c3d037a** reproduced all 42 histograms exactly, all 119,982 six-dimensional covariance checks, all 462 CSV fields and visually assessed all six PNG originals; no blocking finding. All 210 moment/extrema comparisons agree within 1.16×10⁻¹⁰.\n\n**PROTOTYPE/DRAFT design status.** Ideal truth seeds and geometric response, one-phi-bin mapped material and locality qualifications remain explicit. Statistics omit training/model systematics. Training observer identity and the older bounded lifecycle comparison are qualified in the report. PR100 and the original baseline retain their own finalized usage accounts. The Gaussian cross-check has a separate canonical account with its coordinator turn now finalized. Available usage and interaction records are current; the active merge-preparation turn remains excluded.\n\nThe reviewer-requested **Gaussian-smearing Fatras cross-check** is now complete: another **20,000 events per pT** at 1/10/100 GeV, using all-cluster training widths pooled by volume/coordinate. All **59,989** selected tracks fit, with zero invalid six-dimensional covariances, native Fake fits or final measurement losses. All **1,457,028** measurement-coordinate variances match fixed sigma² exactly. Pooled measurement standardized-residual SDs are **1.000165/0.999683/1.000024**; track-level tails remain (1 GeV q/p pull SD **4.277**, versus **6.990** for geometric digitization). The original reference is preserved.\n\n- [Gaussian-versus-geometric report, seven PNG/PDF/SVGZ figure sets, complete distributions and 42-row CSV](https://github.com/asalzburger/nodd/tree/codex/tracker-truth-baseline/docs/validation/truth-tracking-baseline/smearing)\n- Effective native sensor-bound limit is **10 retries / 11 draw attempts**. Historical reports mistakenly labeled it zero/no retry; their original bytes are retained with explicit corrections. Zero final losses do not exclude retried draws. No simulation or retry setting changed.\n- Independent numerical assessment reproduced all training widths, measurement marginals and comparison histograms. Final independent review at **7c9340b** resolved the retry-description finding and found no remaining scientific or provenance blocker; 2,985 scalar statistics agree within 2.22×10⁻¹⁶, and all seven figures were assessed. Portable suite: **34 passed / five expected native-only skips**; native pilots/campaigns and dedicated controls passed.\n\nCloses #102.\n",
       "actor": "asalzburger",
       "created_at": "2026-10-26T13:50:16Z"
     },
@@ -321,6 +101,11 @@
       },
       {
         "id": "agent:SESSION-2026-10-26-truth-tracking-baseline",
+        "name": "unspecified",
+        "kind": "agent"
+      },
+      {
+        "id": "agent:SESSION-2026-10-27-truth-tracking-merge-prep",
         "name": "unspecified",
         "kind": "agent"
       },
@@ -366,8 +151,8 @@
         ],
         "snapshot": null,
         "snapshot_sha256": null,
-        "record_sha256": "fd93966ddcaffa84311f61cd104221c60f908b69d6bc4c82fbdad1747cd58297",
-        "narrative_sha256": "a584b4e7e328442c482455173b0d06809c55c3845c671e199383c8ea0a6ff176"
+        "record_sha256": "1d015aa1c0c6c8ff7c180e0450f48b9f78850d20a923dd2c5f0445fd78e40406",
+        "narrative_sha256": "76de49e4fbc34d77f35775a7520758d60b9af983b5ecdf7e0088d25addc64f95"
       },
       {
         "session_id": "SESSION-2026-10-26-truth-tracking-baseline",
@@ -381,6 +166,19 @@
         "snapshot_sha256": null,
         "record_sha256": "9745184513194e522af782eaa7f51f5d0c5d5cdd7396be63b9f27d097ccd5dbb",
         "narrative_sha256": "3ab3dc1041bed188f3574c69a1f2e8121282f86affcc39b6b092ad45256cc715"
+      },
+      {
+        "session_id": "SESSION-2026-10-27-truth-tracking-merge-prep",
+        "record": "logs/codex/SESSION-2026-10-27-truth-tracking-merge-prep.json",
+        "attribution": [
+          "curated_session_link",
+          "recorded_branch",
+          "explicit_PR_reference"
+        ],
+        "snapshot": null,
+        "snapshot_sha256": null,
+        "record_sha256": "9940f8c4b19c8cf7a39f7f3f22e14ba7bc6f06b4306aab08ed449ad89fd82603",
+        "narrative_sha256": "a91b9b48c5c76e94505d87aa0ed3fca345567bee1028918b79f57d6ab1a41c76"
       }
     ],
     "token_accounts": [
@@ -389,7 +187,7 @@
         "record": "logs/codex/SESSION-2026-10-26-truth-smearing-crosscheck.json",
         "scope": "canonical_session; shared PR references are not allocations",
         "status": "observed",
-        "usage_sha256": "6503ba89e8ed0ce9ea33456aea8faca87700d4d8bba9919bc163488c2a7d9967",
+        "usage_sha256": "35b41ceb2c9a1b517a791ac19f8e7dcafe218ce157683151b65ef6d49389d269",
         "turns": [
           {
             "client_thread_id": "01a1785d-07fe-7a50-b443-da86a7dda443",
@@ -399,6 +197,11 @@
           {
             "client_thread_id": "01a1786a-3045-7562-b65b-deebef2a5361",
             "turn_id": "01a178d6-5469-7f93-8fae-aafcc56a98fc",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a176bd-cabc-77c0-8841-9d7ee1efa109",
+            "turn_id": "01a178c7-5878-7141-befd-49e06fdfdd43",
             "model": null
           }
         ]
@@ -446,6 +249,14 @@
             "model": null
           }
         ]
+      },
+      {
+        "id": "SESSION-2026-10-27-truth-tracking-merge-prep",
+        "record": "logs/codex/SESSION-2026-10-27-truth-tracking-merge-prep.json",
+        "scope": "canonical_session; shared PR references are not allocations",
+        "status": "unobserved",
+        "usage_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "turns": []
       }
     ],
     "visible_sources": [
@@ -456,6 +267,10 @@
       {
         "path": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a17864-5f5d-7140-9b37-3445edfdbebb.json",
         "sha256": "f29f1791e6cde3c3b2ebe5b10575bbc2bd505c4639dc4e6ff42efcf17d56a6cf"
+      },
+      {
+        "path": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
+        "sha256": "f6f7e5aebef05e1988b83144089457537d70ec93679c4ba11a995231baecbe99"
       },
       {
         "path": "interactions/pr-0101/turns/01a1785d-07fe-7a50-b443-da86a7dda443--01a1785d-0840-7653-b275-a5bc735ad599.json",
@@ -506,13 +321,22 @@
         "limitation": "Usage may include children; model/role is not assigned to every response."
       },
       {
+        "id": "agent:SESSION-2026-10-27-truth-tracking-merge-prep",
+        "name": "unspecified",
+        "role": "session_agent",
+        "thread_id": "01a176bd-cabc-77c0-8841-9d7ee1efa109",
+        "models": [],
+        "source": "logs/codex/SESSION-2026-10-27-truth-tracking-merge-prep.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      },
+      {
         "id": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
         "name": "Codex /root",
         "role": "primary coordination, performance reduction, provenance and PR",
         "thread_id": "01a176bd-cabc-77c0-8841-9d7ee1efa109",
         "models": [],
         "source": "logs/codex/SESSION-2026-10-26-truth-tracking-baseline.md",
-        "limitation": "Explicit generic-agent mandates; native profile loading unclaimed. Original baseline coordinator usage finalized in its original account; new smearing coordinator turn active and excluded."
+        "limitation": "Explicit generic-agent mandates; native profile loading unclaimed. Baseline and smearing closed turns finalized in original accounts. Current merge-preparation turn is active and excluded."
       },
       {
         "id": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
@@ -783,6 +607,150 @@
         "models": [],
         "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a17864-5f5d-7140-9b37-3445edfdbebb.json",
         "limitation": "Parent thread 01a176bd-cabc-77c0-8841-9d7ee1efa109; activity completed. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
+        "name": "Codex",
+        "role": "recorded_thread",
+        "thread_id": "01a176bd-cabc-77c0-8841-9d7ee1efa109",
+        "models": [],
+        "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
+        "limitation": "Execution model is retained only when reported by the canonical account."
+      },
+      {
+        "id": "codex-child:01a1785d-07fe-7a50-b443-da86a7dda443",
+        "name": "/root/truth_tracking_softeng",
+        "role": "subagent",
+        "thread_id": "01a1785d-07fe-7a50-b443-da86a7dda443",
+        "models": [],
+        "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
+        "limitation": "Parent thread 01a176bd-cabc-77c0-8841-9d7ee1efa109; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1785d-07fe-7a50-b443-da86a7dda443",
+        "name": "/root/truth_tracking_softeng",
+        "role": "subagent",
+        "thread_id": "01a1785d-07fe-7a50-b443-da86a7dda443",
+        "models": [],
+        "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
+        "limitation": "Parent thread 01a176bd-cabc-77c0-8841-9d7ee1efa109; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1785d-07fe-7a50-b443-da86a7dda443",
+        "name": "/root/truth_tracking_softeng",
+        "role": "subagent",
+        "thread_id": "01a1785d-07fe-7a50-b443-da86a7dda443",
+        "models": [],
+        "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
+        "limitation": "Parent thread 01a176bd-cabc-77c0-8841-9d7ee1efa109; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1785d-07fe-7a50-b443-da86a7dda443",
+        "name": "/root/truth_tracking_softeng",
+        "role": "subagent",
+        "thread_id": "01a1785d-07fe-7a50-b443-da86a7dda443",
+        "models": [],
+        "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
+        "limitation": "Parent thread 01a176bd-cabc-77c0-8841-9d7ee1efa109; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1785d-07fe-7a50-b443-da86a7dda443",
+        "name": "/root/truth_tracking_softeng",
+        "role": "subagent",
+        "thread_id": "01a1785d-07fe-7a50-b443-da86a7dda443",
+        "models": [],
+        "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
+        "limitation": "Parent thread 01a176bd-cabc-77c0-8841-9d7ee1efa109; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1785d-07fe-7a50-b443-da86a7dda443",
+        "name": "/root/truth_tracking_softeng",
+        "role": "subagent",
+        "thread_id": "01a1785d-07fe-7a50-b443-da86a7dda443",
+        "models": [],
+        "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
+        "limitation": "Parent thread 01a176bd-cabc-77c0-8841-9d7ee1efa109; activity completed. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1786a-3045-7562-b65b-deebef2a5361",
+        "name": "/root/truth_tracking_physval",
+        "role": "subagent",
+        "thread_id": "01a1786a-3045-7562-b65b-deebef2a5361",
+        "models": [],
+        "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
+        "limitation": "Parent thread 01a176bd-cabc-77c0-8841-9d7ee1efa109; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1785d-07fe-7a50-b443-da86a7dda443",
+        "name": "/root/truth_tracking_softeng",
+        "role": "subagent",
+        "thread_id": "01a1785d-07fe-7a50-b443-da86a7dda443",
+        "models": [],
+        "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
+        "limitation": "Parent thread 01a176bd-cabc-77c0-8841-9d7ee1efa109; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1786a-3045-7562-b65b-deebef2a5361",
+        "name": "/root/truth_tracking_physval",
+        "role": "subagent",
+        "thread_id": "01a1786a-3045-7562-b65b-deebef2a5361",
+        "models": [],
+        "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
+        "limitation": "Parent thread 01a176bd-cabc-77c0-8841-9d7ee1efa109; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1786a-3045-7562-b65b-deebef2a5361",
+        "name": "/root/truth_tracking_physval",
+        "role": "subagent",
+        "thread_id": "01a1786a-3045-7562-b65b-deebef2a5361",
+        "models": [],
+        "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
+        "limitation": "Parent thread 01a176bd-cabc-77c0-8841-9d7ee1efa109; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1786a-3045-7562-b65b-deebef2a5361",
+        "name": "/root/truth_tracking_physval",
+        "role": "subagent",
+        "thread_id": "01a1786a-3045-7562-b65b-deebef2a5361",
+        "models": [],
+        "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
+        "limitation": "Parent thread 01a176bd-cabc-77c0-8841-9d7ee1efa109; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1785d-07fe-7a50-b443-da86a7dda443",
+        "name": "/root/truth_tracking_softeng",
+        "role": "subagent",
+        "thread_id": "01a1785d-07fe-7a50-b443-da86a7dda443",
+        "models": [],
+        "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
+        "limitation": "Parent thread 01a176bd-cabc-77c0-8841-9d7ee1efa109; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1786a-3045-7562-b65b-deebef2a5361",
+        "name": "/root/truth_tracking_physval",
+        "role": "subagent",
+        "thread_id": "01a1786a-3045-7562-b65b-deebef2a5361",
+        "models": [],
+        "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
+        "limitation": "Parent thread 01a176bd-cabc-77c0-8841-9d7ee1efa109; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1786a-3045-7562-b65b-deebef2a5361",
+        "name": "/root/truth_tracking_physval",
+        "role": "subagent",
+        "thread_id": "01a1786a-3045-7562-b65b-deebef2a5361",
+        "models": [],
+        "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
+        "limitation": "Parent thread 01a176bd-cabc-77c0-8841-9d7ee1efa109; activity completed. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1785d-07fe-7a50-b443-da86a7dda443",
+        "name": "/root/truth_tracking_softeng",
+        "role": "subagent",
+        "thread_id": "01a1785d-07fe-7a50-b443-da86a7dda443",
+        "models": [],
+        "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
+        "limitation": "Parent thread 01a176bd-cabc-77c0-8841-9d7ee1efa109; activity interacted. Agent path is not proof of native role-profile loading."
       },
       {
         "id": "codex-thread:01a1785d-07fe-7a50-b443-da86a7dda443",
@@ -1666,6 +1634,96 @@
           "name": "commandExecution",
           "category": "native_codex",
           "version": null,
+          "calls": 88,
+          "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 2 failures reported.",
+          "token_account": "SESSION-2026-10-26-truth-smearing-crosscheck",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "codex_apps.github.get_pr_info",
+          "category": "native_codex",
+          "version": null,
+          "calls": 2,
+          "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-10-26-truth-smearing-crosscheck",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "codex_apps.github.fetch_pr_comments",
+          "category": "native_codex",
+          "version": null,
+          "calls": 1,
+          "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-10-26-truth-smearing-crosscheck",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "subAgentActivity",
+          "category": "native_codex",
+          "version": null,
+          "calls": 15,
+          "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-10-26-truth-smearing-crosscheck",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "fileChange",
+          "category": "native_codex",
+          "version": null,
+          "calls": 7,
+          "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-10-26-truth-smearing-crosscheck",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "codex_app.read_thread",
+          "category": "native_codex",
+          "version": null,
+          "calls": 4,
+          "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-10-26-truth-smearing-crosscheck",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "imageView",
+          "category": "native_codex",
+          "version": null,
+          "calls": 3,
+          "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-10-26-truth-smearing-crosscheck",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "sleep",
+          "category": "native_codex",
+          "version": null,
+          "calls": 6,
+          "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-10-26-truth-smearing-crosscheck",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "codex_app.open_in_codex",
+          "category": "native_codex",
+          "version": null,
+          "calls": 1,
+          "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-10-26-truth-smearing-crosscheck",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "commandExecution",
+          "category": "native_codex",
+          "version": null,
           "calls": 170,
           "source": "interactions/pr-0101/turns/01a1785d-07fe-7a50-b443-da86a7dda443--01a1785d-0840-7653-b275-a5bc735ad599.json",
           "evidence": "Exposed operation metadata for exact recorded turn; 19 failures reported.",
@@ -1915,6 +1973,26 @@
           "evidence": "Task-local pinned environment installed; independent hit-error wrapper, retained reduction and tenfigure exports executed. Upstream rawscript output preserved. Full all-eta histograms added with six bound parameters and derived pT, shared bins and uncut tails.",
           "token_account": "SESSION-2026-10-26-truth-tracking-baseline",
           "provenance": "Operation recorded; installation provenance needs explicit evidence."
+        },
+        {
+          "name": "GitHub PR metadata/discussion and hosted workflow status",
+          "category": "unresolved",
+          "version": null,
+          "calls": null,
+          "source": "logs/codex/SESSION-2026-10-27-truth-tracking-merge-prep.json",
+          "evidence": "Read PR101 ready/mergeable state, review discussion and current-head successful CI; no external messages or merge performed.",
+          "token_account": "SESSION-2026-10-27-truth-tracking-merge-prep",
+          "provenance": "Operation recorded; installation provenance needs explicit evidence."
+        },
+        {
+          "name": "Codex exact usage-only recovery and visible-turn allowlist",
+          "category": "unresolved",
+          "version": null,
+          "calls": null,
+          "source": "logs/codex/SESSION-2026-10-27-truth-tracking-merge-prep.json",
+          "evidence": "Explicit root thread/closed turn matched; original account import and curated completed/active snapshots. Active merge-preparation usage excluded.",
+          "token_account": "SESSION-2026-10-27-truth-tracking-merge-prep",
+          "provenance": "Operation recorded; installation provenance needs explicit evidence."
         }
       ]
     },
@@ -1925,7 +2003,7 @@
         "direction": "reaction",
         "actor": "github:asalzburger",
         "recipients": [],
-        "text": "Establish a constant **3 T** ACTS truth-associated Kalman baseline for the exact Gen3 nODD tracker and material map merged in PR100, comparing Geant4 and Fatras at fixed muon pT 1, 10 and 100 GeV.\n\nAll **six 20,000-event samples** completed: **119,982/120,000** generated primaries have finite fitted parameters; 14 fail the seven-unique-measurement selection and four Geant4 1 GeV candidates fail fitting. No fitted six-parameter covariance is invalid. Three partial fits fail native truth-matching completeness; they remain in seed-associated residuals with verified unique primary/proto identity and separate native Fake counters.\n\nFor **|eta|<0.5**, central 68.27% relative-pT half-widths are **0.543/0.638/0.771%** in Fatras and **1.157/0.791/1.050%** in Geant4 at 1/10/100 GeV. Pulls have substantial non-Gaussian tails, especially Geant4; central and full-SD diagnostics are both retained without clipping. Forward 100 GeV resolution and charge identification degrade strongly in both backends. These results characterize the present model; they do not establish unit pulls or detector acceptance.\n\nAn independent **50,000-event Fatras** sample trains the common hit-error table from 699,273 measurements, covering 52 sensitive volumes, 90 measured volume/coordinate pairs and 106 cluster groups. Preserve the unchanged ACTS `error_parameterisation.py` output and an independently audited overflow-group correction. Every one of **3,199,735** written performance-coordinate variances matches frozen SD² exactly after ROOT float conversion.\n\nPixels use geometric **50×50 µm** cells; short strips **75 µm×0.5 mm**; each actual long-strip face measures one coordinate at **80 µm** pitch. Native 1D geometric digitization works, so the temporary smearing fallback is unused. Task-local adapters correct the pinned truth-index/duplicate-association defects, exclude its unsafe original reference finder, apply errors after clustering, and retain one ordinary Geant4 run with independent per-event seeds. No shared ACTS source, detector geometry, clustered positions or Kalman fitter is changed.\n\n- [Report, ten PNG/PDF/SVGZ figure sets, complete CSV and retained provenance](https://github.com/asalzburger/nodd/tree/codex/tracker-truth-baseline/docs/validation/truth-tracking-baseline)\n- [Full all-eta pull distributions: six track parameters and derived pT, 1/10/100 GeV overlays, complete tails and ±5 views](https://github.com/asalzburger/nodd/tree/codex/tracker-truth-baseline/docs/validation/truth-tracking-baseline/pulls)\n- [Configuration and reproduction commands](https://github.com/asalzburger/nodd/tree/codex/tracker-truth-baseline/software/analysis/truth_tracking)\n- Governing prototype: DES-025; module contracts: DES-007/DES-008; source layout: ADR-008.\n- Validation: 25 analytic/native controls passed; retained source/table/count/common-binary audits and figure replay pass. Separate PhysVal reproduced every training group and independently checked the final six-run source/data/figures at f7b14c6: 17,712 scalar statistics, all written variances, all CSV fields and ten original PNGs; no blocking finding for this qualified prototype.\n\nThe new all-eta distributions use **(truth − reconstructed)/fitted sigma**, with wrapped phi and full theta–q/p covariance for derived pT. All **119,982** fitted tracks enter each of seven quantities; all **42 histograms** have zero nonfinite entries, underflow and overflow. Full-range variable-bin densities preserve every observed tail; ±5 views use the same full-sample normalization. The unmeasured time parameter is explicitly a seed/fitter-prior diagnostic. Four new analytic controls pass; the portable suite has 24 passes and five expected native-only skips. Independent PhysVal04 at **c3d037a** reproduced all 42 histograms exactly, all 119,982 six-dimensional covariance checks, all 462 CSV fields and visually assessed all six PNG originals; no blocking finding. All 210 moment/extrema comparisons agree within 1.16×10⁻¹⁰.\n\n**PROTOTYPE/DRAFT design status.** Ideal truth seeds and geometric response, one-phi-bin mapped material and locality qualifications remain explicit. Statistics omit training/model systematics. Training observer identity and the older bounded lifecycle comparison are qualified in the report. PR100 and the original baseline retain their own finalized usage accounts. The Gaussian cross-check has a separate canonical account; its active coordinator usage remains excluded.\n\nThe reviewer-requested **Gaussian-smearing Fatras cross-check** is now complete: another **20,000 events per pT** at 1/10/100 GeV, using all-cluster training widths pooled by volume/coordinate. All **59,989** selected tracks fit, with zero invalid six-dimensional covariances, native Fake fits or final measurement losses. All **1,457,028** measurement-coordinate variances match fixed sigma² exactly. Pooled measurement standardized-residual SDs are **1.000165/0.999683/1.000024**; track-level tails remain (1 GeV q/p pull SD **4.277**, versus **6.990** for geometric digitization). The original reference is preserved.\n\n- [Gaussian-versus-geometric report, seven PNG/PDF/SVGZ figure sets, complete distributions and 42-row CSV](https://github.com/asalzburger/nodd/tree/codex/tracker-truth-baseline/docs/validation/truth-tracking-baseline/smearing)\n- Effective native sensor-bound limit is **10 retries / 11 draw attempts**. Historical reports mistakenly labeled it zero/no retry; their original bytes are retained with explicit corrections. Zero final losses do not exclude retried draws. No simulation or retry setting changed.\n- Independent numerical assessment reproduced all training widths, measurement marginals and comparison histograms. Final independent review at **7c9340b** resolved the retry-description finding and found no remaining scientific or provenance blocker; 2,985 scalar statistics agree within 2.22×10⁻¹⁶, and all seven figures were assessed. Portable suite: **34 passed / five expected native-only skips**; native pilots/campaigns and dedicated controls passed.\n\nCloses #102.\n",
+        "text": "Establish a constant **3 T** ACTS truth-associated Kalman baseline for the exact Gen3 nODD tracker and material map merged in PR100, comparing Geant4 and Fatras at fixed muon pT 1, 10 and 100 GeV.\n\nAll **six 20,000-event samples** completed: **119,982/120,000** generated primaries have finite fitted parameters; 14 fail the seven-unique-measurement selection and four Geant4 1 GeV candidates fail fitting. No fitted six-parameter covariance is invalid. Three partial fits fail native truth-matching completeness; they remain in seed-associated residuals with verified unique primary/proto identity and separate native Fake counters.\n\nFor **|eta|<0.5**, central 68.27% relative-pT half-widths are **0.543/0.638/0.771%** in Fatras and **1.157/0.791/1.050%** in Geant4 at 1/10/100 GeV. Pulls have substantial non-Gaussian tails, especially Geant4; central and full-SD diagnostics are both retained without clipping. Forward 100 GeV resolution and charge identification degrade strongly in both backends. These results characterize the present model; they do not establish unit pulls or detector acceptance.\n\nAn independent **50,000-event Fatras** sample trains the common hit-error table from 699,273 measurements, covering 52 sensitive volumes, 90 measured volume/coordinate pairs and 106 cluster groups. Preserve the unchanged ACTS `error_parameterisation.py` output and an independently audited overflow-group correction. Every one of **3,199,735** written performance-coordinate variances matches frozen SD² exactly after ROOT float conversion.\n\nPixels use geometric **50×50 µm** cells; short strips **75 µm×0.5 mm**; each actual long-strip face measures one coordinate at **80 µm** pitch. Native 1D geometric digitization works, so the temporary smearing fallback is unused. Task-local adapters correct the pinned truth-index/duplicate-association defects, exclude its unsafe original reference finder, apply errors after clustering, and retain one ordinary Geant4 run with independent per-event seeds. No shared ACTS source, detector geometry, clustered positions or Kalman fitter is changed.\n\n- [Report, ten PNG/PDF/SVGZ figure sets, complete CSV and retained provenance](https://github.com/asalzburger/nodd/tree/codex/tracker-truth-baseline/docs/validation/truth-tracking-baseline)\n- [Full all-eta pull distributions: six track parameters and derived pT, 1/10/100 GeV overlays, complete tails and ±5 views](https://github.com/asalzburger/nodd/tree/codex/tracker-truth-baseline/docs/validation/truth-tracking-baseline/pulls)\n- [Configuration and reproduction commands](https://github.com/asalzburger/nodd/tree/codex/tracker-truth-baseline/software/analysis/truth_tracking)\n- Governing prototype: DES-025; module contracts: DES-007/DES-008; source layout: ADR-008.\n- Validation: 25 analytic/native controls passed; retained source/table/count/common-binary audits and figure replay pass. Separate PhysVal reproduced every training group and independently checked the final six-run source/data/figures at f7b14c6: 17,712 scalar statistics, all written variances, all CSV fields and ten original PNGs; no blocking finding for this qualified prototype.\n\nThe new all-eta distributions use **(truth − reconstructed)/fitted sigma**, with wrapped phi and full theta–q/p covariance for derived pT. All **119,982** fitted tracks enter each of seven quantities; all **42 histograms** have zero nonfinite entries, underflow and overflow. Full-range variable-bin densities preserve every observed tail; ±5 views use the same full-sample normalization. The unmeasured time parameter is explicitly a seed/fitter-prior diagnostic. Four new analytic controls pass; the portable suite has 24 passes and five expected native-only skips. Independent PhysVal04 at **c3d037a** reproduced all 42 histograms exactly, all 119,982 six-dimensional covariance checks, all 462 CSV fields and visually assessed all six PNG originals; no blocking finding. All 210 moment/extrema comparisons agree within 1.16×10⁻¹⁰.\n\n**PROTOTYPE/DRAFT design status.** Ideal truth seeds and geometric response, one-phi-bin mapped material and locality qualifications remain explicit. Statistics omit training/model systematics. Training observer identity and the older bounded lifecycle comparison are qualified in the report. PR100 and the original baseline retain their own finalized usage accounts. The Gaussian cross-check has a separate canonical account with its coordinator turn now finalized. Available usage and interaction records are current; the active merge-preparation turn remains excluded.\n\nThe reviewer-requested **Gaussian-smearing Fatras cross-check** is now complete: another **20,000 events per pT** at 1/10/100 GeV, using all-cluster training widths pooled by volume/coordinate. All **59,989** selected tracks fit, with zero invalid six-dimensional covariances, native Fake fits or final measurement losses. All **1,457,028** measurement-coordinate variances match fixed sigma² exactly. Pooled measurement standardized-residual SDs are **1.000165/0.999683/1.000024**; track-level tails remain (1 GeV q/p pull SD **4.277**, versus **6.990** for geometric digitization). The original reference is preserved.\n\n- [Gaussian-versus-geometric report, seven PNG/PDF/SVGZ figure sets, complete distributions and 42-row CSV](https://github.com/asalzburger/nodd/tree/codex/tracker-truth-baseline/docs/validation/truth-tracking-baseline/smearing)\n- Effective native sensor-bound limit is **10 retries / 11 draw attempts**. Historical reports mistakenly labeled it zero/no retry; their original bytes are retained with explicit corrections. Zero final losses do not exclude retried draws. No simulation or retry setting changed.\n- Independent numerical assessment reproduced all training widths, measurement marginals and comparison histograms. Final independent review at **7c9340b** resolved the retry-description finding and found no remaining scientific or provenance blocker; 2,985 scalar statistics agree within 2.22×10⁻¹⁶, and all seven figures were assessed. Portable suite: **34 passed / five expected native-only skips**; native pilots/campaigns and dedicated controls passed.\n\nCloses #102.\n",
         "source": "https://github.com/asalzburger/nodd/pull/101",
         "in_reply_to": null,
         "model": null,
@@ -1997,252 +2075,47 @@
         "content_kind": "reference_summary"
       },
       {
-        "id": "active-codex-message:01a178c7-5890-7ab1-a443-52f4616a618a",
+        "id": "journal:SESSION-2026-10-27-truth-tracking-merge-prep:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-10-27-truth-tracking-merge-prep",
+        "recipients": [],
+        "text": "Prepare reviewed truth-tracking PR101 for merge — see the canonical narrative for outcomes and checks.",
+        "source": "logs/codex/SESSION-2026-10-27-truth-tracking-merge-prep.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-27-truth-tracking-merge-prep"
+        ],
+        "content_kind": "reference_summary"
+      },
+      {
+        "id": "active-codex-message:01a17c65-7aa2-73f0-8b14-f1b890a7d608",
         "type": "prompt",
         "direction": "action",
         "actor": "unknown:project-user",
         "recipients": [
           "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109"
         ],
-        "text": "There's a comment on PR #101, have a look",
-        "source": "interactions/pr-0101/active-snapshots/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
+        "text": "Ok, this one looks good - prepare for merging.",
+        "source": "interactions/pr-0101/active-snapshots/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a17c65-7a7d-7251-b439-1dddda32ab9b.json",
         "in_reply_to": null,
         "model": null,
         "agent_roles": [],
         "token_accounts": []
       },
       {
-        "id": "active-codex-message:msg_01aaccc36fea713b016adf6e6e4da88191b132a1c02d63b00b",
+        "id": "active-codex-message:msg_01aaccc36fea713b016ae05b8a53188191ae2174fc0432e0f3",
         "type": "response",
         "direction": "reaction",
         "actor": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
         "recipients": [
           "unknown:project-user"
         ],
-        "text": "I’ll read the new comment on PR #101 and check it against the current changes.",
-        "source": "interactions/pr-0101/active-snapshots/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
-        "in_reply_to": "active-codex-message:01a178c7-5890-7ab1-a443-52f4616a618a",
-        "model": null,
-        "agent_roles": [
-          "primary coordinator"
-        ],
-        "token_accounts": []
-      },
-      {
-        "id": "active-codex-message:msg_01aaccc36fea713b016adf6e8946c48191b2d9b897eb19aa20",
-        "type": "response",
-        "direction": "reaction",
-        "actor": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
-        "recipients": [
-          "unknown:project-user"
-        ],
-        "text": "The [reviewer’s comment](https://github.com/asalzburger/nodd/pull/101#issuecomment-6419397508) asks for a Fatras cross-check using Gaussian-smeared measurements with widths measured over all cluster sizes.\n\nYes, the current baseline uses cluster-size-dependent errors from the independent Fatras training sample, applied after geometric clustering. I’ll add the smeared comparison so we can check how much the geometric digitization contributes to the pull shapes.",
-        "source": "interactions/pr-0101/active-snapshots/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
-        "in_reply_to": "active-codex-message:01a178c7-5890-7ab1-a443-52f4616a618a",
-        "model": null,
-        "agent_roles": [
-          "primary coordinator"
-        ],
-        "token_accounts": []
-      },
-      {
-        "id": "active-codex-message:msg_01aaccc36fea713b016adf6eb8f0f08191b607434e5df71cef",
-        "type": "response",
-        "direction": "reaction",
-        "actor": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
-        "recipients": [
-          "unknown:project-user"
-        ],
-        "text": "I’ll pool all cluster sizes within each ACTS volume and measured coordinate to set the Gaussian widths, using the existing independent training sample. The Spack preflight still warns about changed setup fingerprints; I’ll verify the existing isolated runtime before running the cross-check.",
-        "source": "interactions/pr-0101/active-snapshots/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
-        "in_reply_to": "active-codex-message:01a178c7-5890-7ab1-a443-52f4616a618a",
-        "model": null,
-        "agent_roles": [
-          "primary coordinator"
-        ],
-        "token_accounts": []
-      },
-      {
-        "id": "active-codex-message:msg_01aaccc36fea713b016adf6f3abf8c8191a5b11e7379b561f7",
-        "type": "response",
-        "direction": "reaction",
-        "actor": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
-        "recipients": [
-          "unknown:project-user"
-        ],
-        "text": "The pooled widths are ready: they use all 699,273 training measurements across 52 volumes and 90 measured coordinates. The new Gaussian configuration will use those same widths for both the random shifts and fitted measurement covariance. SoftEng is preparing a native pilot to verify this.",
-        "source": "interactions/pr-0101/active-snapshots/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
-        "in_reply_to": "active-codex-message:01a178c7-5890-7ab1-a443-52f4616a618a",
-        "model": null,
-        "agent_roles": [
-          "primary coordinator"
-        ],
-        "token_accounts": []
-      },
-      {
-        "id": "active-codex-message:msg_01aaccc36fea713b016adf6ff8c78c8191ba75b374e4e40145",
-        "type": "response",
-        "direction": "reaction",
-        "actor": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
-        "recipients": [
-          "unknown:project-user"
-        ],
-        "text": "The native Gaussian pilot is running. One detail matters for interpretation: ACTS discards smeared positions that fall outside the sensor bounds. I’ll retain those losses and check measurement residuals as well as track pulls, since Gaussian measurement errors alone don’t guarantee Gaussian track pulls.",
-        "source": "interactions/pr-0101/active-snapshots/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
-        "in_reply_to": "active-codex-message:01a178c7-5890-7ab1-a443-52f4616a618a",
-        "model": null,
-        "agent_roles": [
-          "primary coordinator"
-        ],
-        "token_accounts": []
-      },
-      {
-        "id": "active-codex-message:msg_01aaccc36fea713b016adf703649448191af419990cf1ad50b",
-        "type": "response",
-        "direction": "reaction",
-        "actor": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
-        "recipients": [
-          "unknown:project-user"
-        ],
-        "text": "The 100-event pilot passed: all tracks fitted, both measurement dimensions were correct, and every written measurement variance matched the frozen Gaussian width squared. The three 20,000-event Fatras samples at 1, 10, and 100 GeV are now starting at one fixed source revision.",
-        "source": "interactions/pr-0101/active-snapshots/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
-        "in_reply_to": "active-codex-message:01a178c7-5890-7ab1-a443-52f4616a618a",
-        "model": null,
-        "agent_roles": [
-          "primary coordinator"
-        ],
-        "token_accounts": []
-      },
-      {
-        "id": "active-codex-message:msg_01aaccc36fea713b016adf7092a2f88191a8f3fcbbecdc8bce",
-        "type": "response",
-        "direction": "reaction",
-        "actor": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
-        "recipients": [
-          "unknown:project-user"
-        ],
-        "text": "The full samples are progressing. I’ve also recorded the reviewer’s comment and reconciled the now-closed baseline turn’s usage in its original account; this cross-check has a separate record.",
-        "source": "interactions/pr-0101/active-snapshots/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
-        "in_reply_to": "active-codex-message:01a178c7-5890-7ab1-a443-52f4616a618a",
-        "model": null,
-        "agent_roles": [
-          "primary coordinator"
-        ],
-        "token_accounts": []
-      },
-      {
-        "id": "active-codex-message:msg_01aaccc36fea713b016adf713964e88191adbcfdf8b92c2991",
-        "type": "response",
-        "direction": "reaction",
-        "actor": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
-        "recipients": [
-          "unknown:project-user"
-        ],
-        "text": "All three samples have passed halfway. The comparison will show both the measurement-level Gaussian check and the track pulls, with the original geometric results alongside them.",
-        "source": "interactions/pr-0101/active-snapshots/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
-        "in_reply_to": "active-codex-message:01a178c7-5890-7ab1-a443-52f4616a618a",
-        "model": null,
-        "agent_roles": [
-          "primary coordinator"
-        ],
-        "token_accounts": []
-      },
-      {
-        "id": "active-codex-message:msg_01aaccc36fea713b016adf719c57448191a13b697dcb39e046",
-        "type": "response",
-        "direction": "reaction",
-        "actor": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
-        "recipients": [
-          "unknown:project-user"
-        ],
-        "text": "All three samples completed. Fatras fitted 19,992, 19,998, and 19,999 tracks at 1, 10, and 100 GeV—the same counts as the geometric reference. There were no fit failures, invalid covariances, or sensor-bound losses. I’m reducing the pull distributions and measurement checks now.",
-        "source": "interactions/pr-0101/active-snapshots/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
-        "in_reply_to": "active-codex-message:01a178c7-5890-7ab1-a443-52f4616a618a",
-        "model": null,
-        "agent_roles": [
-          "primary coordinator"
-        ],
-        "token_accounts": []
-      },
-      {
-        "id": "active-codex-message:msg_01aaccc36fea713b016adf7212b72881918092eda52c69dae3",
-        "type": "response",
-        "direction": "reaction",
-        "actor": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
-        "recipients": [
-          "unknown:project-user"
-        ],
-        "text": "The measurement residuals pass the Gaussian sanity check: their pooled widths are 1.0002, 0.9997, and 1.0000. Track-level tails remain, especially at 1 GeV. The new plots compare both digitization modes so this difference is visible; an independent review is next.",
-        "source": "interactions/pr-0101/active-snapshots/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
-        "in_reply_to": "active-codex-message:01a178c7-5890-7ab1-a443-52f4616a618a",
-        "model": null,
-        "agent_roles": [
-          "primary coordinator"
-        ],
-        "token_accounts": []
-      },
-      {
-        "id": "active-codex-message:msg_01aaccc36fea713b016adf72a8f2cc8191b0bbc2d767ed9b4c",
-        "type": "response",
-        "direction": "reaction",
-        "actor": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
-        "recipients": [
-          "unknown:project-user"
-        ],
-        "text": "The independent reviewer caught a detail we misstated: ACTS appears to default to ten retries for out-of-bounds Gaussian draws. The runs are retained. I’m verifying that setting and correcting the report and plot labels; zero lost measurements does not prove that no draws were retried.",
-        "source": "interactions/pr-0101/active-snapshots/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
-        "in_reply_to": "active-codex-message:01a178c7-5890-7ab1-a443-52f4616a618a",
-        "model": null,
-        "agent_roles": [
-          "primary coordinator"
-        ],
-        "token_accounts": []
-      },
-      {
-        "id": "active-codex-message:msg_01aaccc36fea713b016adf73bf2638819191686b6c9db025e9",
-        "type": "response",
-        "direction": "reaction",
-        "actor": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
-        "recipients": [
-          "unknown:project-user"
-        ],
-        "text": "The pinned ACTS source confirms ten retries, allowing up to eleven draw attempts. I’ve corrected the captions and metadata annotations while preserving the original reports and simulation outputs. The numerical results are unchanged; the reviewer is checking the correction now.",
-        "source": "interactions/pr-0101/active-snapshots/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
-        "in_reply_to": "active-codex-message:01a178c7-5890-7ab1-a443-52f4616a618a",
-        "model": null,
-        "agent_roles": [
-          "primary coordinator"
-        ],
-        "token_accounts": []
-      },
-      {
-        "id": "active-codex-message:msg_01aaccc36fea713b016adf7460eb9c8191b65d381c3280e518",
-        "type": "response",
-        "direction": "reaction",
-        "actor": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
-        "recipients": [
-          "unknown:project-user"
-        ],
-        "text": "The activated native runtime also reports a retry limit of ten, and all eight smearing controls pass there. The independent checks have reproduced the training widths, measurement variances, fit counts, and comparison histograms. Final figure and annotation checks are finishing.",
-        "source": "interactions/pr-0101/active-snapshots/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
-        "in_reply_to": "active-codex-message:01a178c7-5890-7ab1-a443-52f4616a618a",
-        "model": null,
-        "agent_roles": [
-          "primary coordinator"
-        ],
-        "token_accounts": []
-      },
-      {
-        "id": "active-codex-message:msg_01aaccc36fea713b016adf74b7a420819194d632853443cea9",
-        "type": "response",
-        "direction": "reaction",
-        "actor": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
-        "recipients": [
-          "unknown:project-user"
-        ],
-        "text": "The independent review is complete with no remaining scientific or provenance blocker. It reproduced all 42 comparison histograms and confirmed the retry correction. I’m fixing a stale test-count sentence, recording the assessment and usage, then checking the final PR head.",
-        "source": "interactions/pr-0101/active-snapshots/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
-        "in_reply_to": "active-codex-message:01a178c7-5890-7ab1-a443-52f4616a618a",
+        "text": "I’ll refresh PR #101’s discussion and status, finalize the available usage and interaction records, and check that it’s ready to merge.",
+        "source": "interactions/pr-0101/active-snapshots/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a17c65-7a7d-7251-b439-1dddda32ab9b.json",
+        "in_reply_to": "active-codex-message:01a17c65-7aa2-73f0-8b14-f1b890a7d608",
         "model": null,
         "agent_roles": [
           "primary coordinator"
@@ -3060,6 +2933,366 @@
         "content_kind": "visible_message; conservative redactions recorded in source"
       },
       {
+        "id": "codex-message:01a178c7-5890-7ab1-a443-52f4616a618a",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "codex-thread:01a1786a-3045-7562-b65b-deebef2a5361",
+        "recipients": [
+          "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109"
+        ],
+        "text": "There's a comment on PR #101, have a look",
+        "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-26-truth-smearing-crosscheck"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_01aaccc36fea713b016adf6e6e4da88191b132a1c02d63b00b",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
+        "recipients": [
+          "codex-thread:01a1786a-3045-7562-b65b-deebef2a5361"
+        ],
+        "text": "I’ll read the new comment on PR #101 and check it against the current changes.",
+        "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
+        "in_reply_to": "codex-message:01a178c7-5890-7ab1-a443-52f4616a618a",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-26-truth-smearing-crosscheck"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_01aaccc36fea713b016adf6e8946c48191b2d9b897eb19aa20",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
+        "recipients": [
+          "codex-thread:01a1786a-3045-7562-b65b-deebef2a5361"
+        ],
+        "text": "The [reviewer’s comment](https://github.com/asalzburger/nodd/pull/101#issuecomment-6419397508) asks for a Fatras cross-check using Gaussian-smeared measurements with widths measured over all cluster sizes.\n\nYes, the current baseline uses cluster-size-dependent errors from the independent Fatras training sample, applied after geometric clustering. I’ll add the smeared comparison so we can check how much the geometric digitization contributes to the pull shapes.",
+        "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
+        "in_reply_to": "codex-message:01a178c7-5890-7ab1-a443-52f4616a618a",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-26-truth-smearing-crosscheck"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_01aaccc36fea713b016adf6eb8f0f08191b607434e5df71cef",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
+        "recipients": [
+          "codex-thread:01a1786a-3045-7562-b65b-deebef2a5361"
+        ],
+        "text": "I’ll pool all cluster sizes within each ACTS volume and measured coordinate to set the Gaussian widths, using the existing independent training sample. The Spack preflight still warns about changed setup fingerprints; I’ll verify the existing isolated runtime before running the cross-check.",
+        "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
+        "in_reply_to": "codex-message:01a178c7-5890-7ab1-a443-52f4616a618a",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-26-truth-smearing-crosscheck"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_01aaccc36fea713b016adf6f3abf8c8191a5b11e7379b561f7",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
+        "recipients": [
+          "codex-thread:01a1786a-3045-7562-b65b-deebef2a5361"
+        ],
+        "text": "The pooled widths are ready: they use all 699,273 training measurements across 52 volumes and 90 measured coordinates. The new Gaussian configuration will use those same widths for both the random shifts and fitted measurement covariance. SoftEng is preparing a native pilot to verify this.",
+        "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
+        "in_reply_to": "codex-message:01a178c7-5890-7ab1-a443-52f4616a618a",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-26-truth-smearing-crosscheck"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_01aaccc36fea713b016adf6ff8c78c8191ba75b374e4e40145",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
+        "recipients": [
+          "codex-thread:01a1786a-3045-7562-b65b-deebef2a5361"
+        ],
+        "text": "The native Gaussian pilot is running. One detail matters for interpretation: ACTS discards smeared positions that fall outside the sensor bounds. I’ll retain those losses and check measurement residuals as well as track pulls, since Gaussian measurement errors alone don’t guarantee Gaussian track pulls.",
+        "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
+        "in_reply_to": "codex-message:01a178c7-5890-7ab1-a443-52f4616a618a",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-26-truth-smearing-crosscheck"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_01aaccc36fea713b016adf703649448191af419990cf1ad50b",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
+        "recipients": [
+          "codex-thread:01a1786a-3045-7562-b65b-deebef2a5361"
+        ],
+        "text": "The 100-event pilot passed: all tracks fitted, both measurement dimensions were correct, and every written measurement variance matched the frozen Gaussian width squared. The three 20,000-event Fatras samples at 1, 10, and 100 GeV are now starting at one fixed source revision.",
+        "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
+        "in_reply_to": "codex-message:01a178c7-5890-7ab1-a443-52f4616a618a",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-26-truth-smearing-crosscheck"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_01aaccc36fea713b016adf7092a2f88191a8f3fcbbecdc8bce",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
+        "recipients": [
+          "codex-thread:01a1786a-3045-7562-b65b-deebef2a5361"
+        ],
+        "text": "The full samples are progressing. I’ve also recorded the reviewer’s comment and reconciled the now-closed baseline turn’s usage in its original account; this cross-check has a separate record.",
+        "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
+        "in_reply_to": "codex-message:01a178c7-5890-7ab1-a443-52f4616a618a",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-26-truth-smearing-crosscheck"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_01aaccc36fea713b016adf713964e88191adbcfdf8b92c2991",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
+        "recipients": [
+          "codex-thread:01a1786a-3045-7562-b65b-deebef2a5361"
+        ],
+        "text": "All three samples have passed halfway. The comparison will show both the measurement-level Gaussian check and the track pulls, with the original geometric results alongside them.",
+        "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
+        "in_reply_to": "codex-message:01a178c7-5890-7ab1-a443-52f4616a618a",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-26-truth-smearing-crosscheck"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_01aaccc36fea713b016adf719c57448191a13b697dcb39e046",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
+        "recipients": [
+          "codex-thread:01a1786a-3045-7562-b65b-deebef2a5361"
+        ],
+        "text": "All three samples completed. Fatras fitted 19,992, 19,998, and 19,999 tracks at 1, 10, and 100 GeV—the same counts as the geometric reference. There were no fit failures, invalid covariances, or sensor-bound losses. I’m reducing the pull distributions and measurement checks now.",
+        "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
+        "in_reply_to": "codex-message:01a178c7-5890-7ab1-a443-52f4616a618a",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-26-truth-smearing-crosscheck"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_01aaccc36fea713b016adf7212b72881918092eda52c69dae3",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
+        "recipients": [
+          "codex-thread:01a1786a-3045-7562-b65b-deebef2a5361"
+        ],
+        "text": "The measurement residuals pass the Gaussian sanity check: their pooled widths are 1.0002, 0.9997, and 1.0000. Track-level tails remain, especially at 1 GeV. The new plots compare both digitization modes so this difference is visible; an independent review is next.",
+        "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
+        "in_reply_to": "codex-message:01a178c7-5890-7ab1-a443-52f4616a618a",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-26-truth-smearing-crosscheck"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_01aaccc36fea713b016adf72a8f2cc8191b0bbc2d767ed9b4c",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
+        "recipients": [
+          "codex-thread:01a1786a-3045-7562-b65b-deebef2a5361"
+        ],
+        "text": "The independent reviewer caught a detail we misstated: ACTS appears to default to ten retries for out-of-bounds Gaussian draws. The runs are retained. I’m verifying that setting and correcting the report and plot labels; zero lost measurements does not prove that no draws were retried.",
+        "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
+        "in_reply_to": "codex-message:01a178c7-5890-7ab1-a443-52f4616a618a",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-26-truth-smearing-crosscheck"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_01aaccc36fea713b016adf73bf2638819191686b6c9db025e9",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
+        "recipients": [
+          "codex-thread:01a1786a-3045-7562-b65b-deebef2a5361"
+        ],
+        "text": "The pinned ACTS source confirms ten retries, allowing up to eleven draw attempts. I’ve corrected the captions and metadata annotations while preserving the original reports and simulation outputs. The numerical results are unchanged; the reviewer is checking the correction now.",
+        "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
+        "in_reply_to": "codex-message:01a178c7-5890-7ab1-a443-52f4616a618a",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-26-truth-smearing-crosscheck"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_01aaccc36fea713b016adf7460eb9c8191b65d381c3280e518",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
+        "recipients": [
+          "codex-thread:01a1786a-3045-7562-b65b-deebef2a5361"
+        ],
+        "text": "The activated native runtime also reports a retry limit of ten, and all eight smearing controls pass there. The independent checks have reproduced the training widths, measurement variances, fit counts, and comparison histograms. Final figure and annotation checks are finishing.",
+        "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
+        "in_reply_to": "codex-message:01a178c7-5890-7ab1-a443-52f4616a618a",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-26-truth-smearing-crosscheck"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_01aaccc36fea713b016adf74b7a420819194d632853443cea9",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
+        "recipients": [
+          "codex-thread:01a1786a-3045-7562-b65b-deebef2a5361"
+        ],
+        "text": "The independent review is complete with no remaining scientific or provenance blocker. It reproduced all 42 comparison histograms and confirmed the retry correction. I’m fixing a stale test-count sentence, recording the assessment and usage, then checking the final PR head.",
+        "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
+        "in_reply_to": "codex-message:01a178c7-5890-7ab1-a443-52f4616a618a",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-26-truth-smearing-crosscheck"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_01aaccc36fea713b016adf754456b48191ad17562fa56259b3",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
+        "recipients": [
+          "codex-thread:01a1786a-3045-7562-b65b-deebef2a5361"
+        ],
+        "text": "The comparison, correction, assessment, and accounting records are pushed to PR 101. GitHub reports it ready and mergeable. Final-head CI is running; local validation and plot replay passed.",
+        "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
+        "in_reply_to": "codex-message:01a178c7-5890-7ab1-a443-52f4616a618a",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-26-truth-smearing-crosscheck"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_01aaccc36fea713b016adf75917c9c8191bd8ea308e9c42b3f",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
+        "recipients": [
+          "codex-thread:01a1786a-3045-7562-b65b-deebef2a5361"
+        ],
+        "text": "Token-accounting CI passed. The plotting job is replaying the retained comparisons, and the build job is running geometry controls. The main result is clear: the measurement residuals are close to Gaussian, while substantial low-momentum track tails persist.",
+        "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
+        "in_reply_to": "codex-message:01a178c7-5890-7ab1-a443-52f4616a618a",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-26-truth-smearing-crosscheck"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_01aaccc36fea713b016adf75f58228819191f4e8e7a2f2d32c",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
+        "recipients": [
+          "codex-thread:01a1786a-3045-7562-b65b-deebef2a5361"
+        ],
+        "text": "Hosted plot replay passed, including the new Gaussian comparison. The remaining build checks are still running. PR 101 remains ready and mergeable.",
+        "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
+        "in_reply_to": "codex-message:01a178c7-5890-7ab1-a443-52f4616a618a",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-26-truth-smearing-crosscheck"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_01aaccc36fea713b016adf76842e808191a08d12f2b43dfb50",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
+        "recipients": [
+          "codex-thread:01a1786a-3045-7562-b65b-deebef2a5361"
+        ],
+        "text": "Geometry controls passed. CI is finishing the project-record and documentation-link checks. The reviewed plots and numerical data are unchanged.",
+        "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
+        "in_reply_to": "codex-message:01a178c7-5890-7ab1-a443-52f4616a618a",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-26-truth-smearing-crosscheck"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_01aaccc36fea713b016adf76dc4a748191a6a058c45cf1be7d",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
+        "recipients": [
+          "codex-thread:01a1786a-3045-7562-b65b-deebef2a5361"
+        ],
+        "text": "Addressed in [PR #101](https://github.com/asalzburger/nodd/pull/101).\n\nThe original plots use **cluster-size-dependent measurement errors**. I added the requested Gaussian-smearing Fatras comparison at **1, 10, 100 GeV**.\n\nNormalized measurement-residual widths are **1.0002 / 0.9997 / 1.0000**, while low-pT track tails persist.\n\n[Comparison plots and report]([redacted]\n\nIndependent review and CI passed after correcting the retry metadata. Interaction and usage records are updated.",
+        "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
+        "in_reply_to": "codex-message:01a178c7-5890-7ab1-a443-52f4616a618a",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-26-truth-smearing-crosscheck"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
         "id": "codex-message:msg_087aea2f6a615fee016adf60b809908191906ba705f4339647",
         "type": "response",
         "direction": "reaction",
@@ -3187,9 +3420,9 @@
       }
     ],
     "coverage": {
-      "github_captured_at": "2026-10-26T15:42:59.987155Z",
+      "github_captured_at": "2026-10-27T08:10:05.276736Z",
       "prompts": "Available account-matched user-visible messages, public Codex inputs and curated journal excerpts. Historical full input coverage is unknown.",
-      "recovered_visible_turns": 9,
+      "recovered_visible_turns": 10,
       "unrecovered_account_turns": [],
       "responses": "Public responses and recorded outcomes; no private model state or hidden reasoning.",
       "token_accounting": "References only. Never sum accounts across PRs or assign a shared turn by text length.",
