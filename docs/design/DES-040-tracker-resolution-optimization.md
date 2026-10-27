@@ -124,3 +124,28 @@ commands, events and analysis source identity belong in every retained report.
 Use the original PR #101 data as contextual evidence and a freshly executed
 control when comparing a modified runtime. Separate SysArch physical assessment
 and PhysVal scientific assessment accompany the final recommendation.
+
+
+## Preregistered exploratory configurations
+
+The `software/analysis/tracker_optimization/variants/` JSON files are explicit
+prototype coordinates. `baseline`, `inner32`, `mild` and `forward` isolate the
+first-layer and added-disk effects. `compact-forward` tests the hypothesis that
+concentrating pixel barrels can recover intermediate-eta measurements while
+placing ten disks within the high-eta aperture. Its barrel radii32/42/53/70mm
+and even counts12/16/10/12 are initial screening proposals, not qualified choices.
+Disk datums900/1090/1180/1270/1355/1440/1860/2350/2440mm plus the new1000mm disk
+satisfy necessary eta4 radial bounds and77.636mm conservative axial spacing.
+Full finite-module coverage, stave clearance and resolution may reject it.
+Every subsequent trial is recorded with its reason before performance ranking.
+
+For an axisymmetric ring, changing the mean radius changes both rmin and rmax
+by the same offset; its radial width, wall thickness and longitudinal dimensions
+remain fixed. This preserves its local cross-section rather than translating a
+whole circle in the transverse plane. Layer feet and local service bands follow
+that radial offset; global cage/trunks stay fixed. Curved support circumference
+and physical ring inventory changes must be reported. The transported effective
+map conserves the declared carrier inventory; it is not a component-resolved
+recalculation of the altered support mass.
+
+The human confirmed geometric primary and Gaussian crosscheck on2026-10-27.
