@@ -113,7 +113,8 @@ def read_case(directory):
     if np.any(audit["corrected_proto_measurements"] != unique * audit["selected"]):
         raise ValueError("Corrected proto inputs lost or repeated primary measurements")
     si = event_indices(ids, ak.to_numpy(s.event_id))
-    if len(s) != n or not np.array_equal(ak.to_numpy(ak.num(s.particle)), audit["selected"][si]):
+    if (len(s) != n or len(np.unique(si)) != n
+            or not np.array_equal(ak.to_numpy(ak.num(s.particle)), audit["selected"][si])):
         raise ValueError("Selected particles differ from audited selection")
     se = ak.to_numpy(ak.flatten(ak.broadcast_arrays(s.event_id, s.particle)[0]))
     gi = event_indices(ids, se)
@@ -157,6 +158,9 @@ def read_case(directory):
     for k, pair in values.items():
         aligned[k] = {}
         for observable, data in pair.items():
+            if observable == "pull":
+                data = -data
+                data[~flags6["valid_covariance"]] = np.nan
             full = np.full(n, np.nan)
             full[ti] = np.where(has, data, np.nan)
             aligned[k][observable] = full
@@ -165,7 +169,7 @@ def read_case(directory):
         full = np.full(n, np.nan)
         full[ti] = np.where(has, pulls[:, j], np.nan)
         all_pulls[k] = full
-    all_pulls["pt_relative"] = -aligned["pt_relative"]["pull"]
+    all_pulls["pt_relative"] = aligned["pt_relative"]["pull"]
     used_hits = np.zeros(n, dtype=int)
     used_hits[ti] = flat(t, "nMeasurements").astype(int)
     if np.any(used_hits > unique):
@@ -231,7 +235,8 @@ def paired_comparison(base, candidate, bootstrap=400):
     rows, rng = [], np.random.default_rng(174042)
     edges = np.arange(0,4.1,.5)
     for low,high in [(0.,4.), *zip(edges[:-1],edges[1:])]:
-        mask = (np.abs(base["eta"]) >= low) & (np.abs(base["eta"]) < high)
+        absolute_eta = np.abs(base["eta"])
+        mask = (absolute_eta >= low) & ((absolute_eta <= high) if high == 4 else (absolute_eta < high))
         ix = np.flatnonzero(mask)
         row = {"low":float(low), "high":float(high), "generated":len(ix), "quantities":{}}
         if not len(ix):
@@ -246,14 +251,16 @@ def paired_comparison(base, candidate, bootstrap=400):
                 a=a[np.isfinite(a)]
                 return float(np.diff(np.quantile(a,[.15865525393145707,.8413447460685429]))[0]/2) if len(a)>=30 else np.nan
             w0,w1=width(x),width(y)
+            def ratio(a,b):
+                return b/a if np.isfinite(a) and a > 0 and np.isfinite(b) else np.nan
             ratios=[]
             for _ in range(bootstrap):
                 j=rng.integers(len(ix),size=len(ix)); a,b=width(x[j]),width(y[j])
-                ratios.append(b/a)
+                ratios.append(ratio(a,b))
             finite=np.array(ratios)[np.isfinite(ratios)]
             row["quantities"][q]={"baseline_width68":float(w0) if np.isfinite(w0) else None,
                 "candidate_width68":float(w1) if np.isfinite(w1) else None,
-                "ratio":float(w1/w0) if np.isfinite(w1/w0) else None,
+                "ratio":float(ratio(w0,w1)) if np.isfinite(ratio(w0,w1)) else None,
                 "ratio_bootstrap95":np.quantile(finite,[.025,.975]).tolist() if len(finite) else None,
                 "common_survivors":int(common.sum()),
                 "common_survivor_width68":[width(x[common]),width(y[common])] if common.sum()>=30 else [None,None]}
@@ -278,6 +285,7 @@ def main():
         "source_sha256":sha256(__file__),"bootstrap_replicates":args.bootstrap,
         "notes":["Coverage uses all generated events; physical sensor IDs counted once.",
                  "Resolution conditional on fitted tracks; no tail/quality cuts.",
+                 "Residual sign fit-minus-truth; all pulls truth-minus-fit.",
                  "Pull sign truth-minus-fit, wrapped phi, full fitted covariance; time is a prior diagnostic.",
                  "Pointwise95% Wilson coverage and event-bootstrap resolution errors."]}
     for label,case in cases.items():

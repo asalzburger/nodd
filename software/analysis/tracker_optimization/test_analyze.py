@@ -39,6 +39,17 @@ class Accounting(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,"identical generated phi"):
             paired_comparison(a,b,10)
 
+    def test_acceptance_endpoint_in_pair_denominator(self):
+        a,b=sample(),sample();a["eta"][-1]=b["eta"][-1]=4
+        self.assertEqual(paired_comparison(a,b,10)[0]["generated"],100)
+
+    def test_zero_width_is_unmeasurable_ratio(self):
+        a,b=sample(),sample()
+        for pair in a["values"].values(): pair["residual"][:]=0
+        result=paired_comparison(a,b,10)[0]["quantities"]["d0"]
+        self.assertIsNone(result["ratio"])
+        self.assertIsNone(result["ratio_bootstrap95"])
+
     def test_interval_endpoints_and_empty_bins(self):
         self.assertEqual(wilson(0,0)["value"],None)
         self.assertAlmostEqual(wilson(0,10)["low"],0)
