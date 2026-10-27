@@ -35,9 +35,9 @@ def main():
             s=samples.get(f"{variant}-pt{pt:g}")
             if not s:continue
             rows=s["eta"]; x=np.array([(r["low"]+r["high"])/2 for r in rows])
-            y=np.array([r["stages"]["created"]["ge10"]["value"] or 0 for r in rows])
-            low=np.array([r["stages"]["created"]["ge10"]["low"] or 0 for r in rows])
-            hi=np.array([r["stages"]["created"]["ge10"]["high"] or 0 for r in rows])
+            y=np.array([r["stages"]["created"]["ge10"]["value"] for r in rows],dtype=float)
+            low=np.array([r["stages"]["created"]["ge10"]["low"] for r in rows],dtype=float)
+            hi=np.array([r["stages"]["created"]["ge10"]["high"] for r in rows],dtype=float)
             ax.errorbar(x,100*y,yerr=100*np.maximum(0,np.array([y-low,hi-y])),label=variant,color=colors[variant],lw=1.1)
         ax.set(xlabel="generated η",ylabel="≥10 physical measurements [%]",title=f"pT = {pt:g} GeV",ylim=(0,103))
     axes[0,0].legend(fontsize=8)
