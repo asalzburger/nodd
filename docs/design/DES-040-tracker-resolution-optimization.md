@@ -199,3 +199,35 @@ service model is more complex. This can bias comparisons and must remain a
 limitation of this exploratory map approximation, requiring candidate-specific
 material validation/remapping before interpreting improvements as a detector
 performance guarantee.
+
+
+### First native exploratory comparison and balanced alternative
+
+All15 exploratory2000-event geometric cases completed at source4b009b2 before
+physical collector/rail correction. The coverage candidate gives99.2/99.2/98.95%
+ten-hit coverage at1/10/100GeV versus86.7/87.3/87.8% control. It is not selected
+as a complete solution: in3.5<|eta|<4 its d0 widths grow by21/54/26%, and its
+signed-curvature widths by36/79/72%. Nonlinear pT can conceal this regression.
+Moving the final pixel plane3070->2465mm reduces the forward lever arm; moving
+the aggregate first-disk material from608 to858mm also changes the forward
+material seen before the first measurement. These are physical hypotheses,
+not isolated causal diagnoses. Preserve all native results and failed overlap
+audits; no design is accepted on the basis of global coverage.
+
+`balanced` is registered before its Fatras results: barrel nominalr31.5/57/96/
+182mm with baseline stave counts12/22/18/30; existing disks615/865/1115/1333/
+1565/1780/2090/2440/3070mm and one donor2 disk at950mm. Disk1 and the farthest
+disk retain their original datums; shifting disk2 beyond its eta4 inner-aperture
+threshold supplies an earlier thin first measurement. The closer intermediate
+disks improve availability near eta3 without shortening the maximum forward
+lever arm. Keeping baseline counts isolates placement from inventory reductions.
+Native mechanical checks, coverage and residuals will test these hypotheses.
+This is a follow-up exploratory trial; it does not use the confirmation seed.
+
+The full physical compact audit found13486 overlaps in the initial coverage
+compact (13378collector conflicts,108rail conflicts). Top-level per-disk
+collectors and rail cutouts must follow disk station positions. Correcting
+these passive attachments does not change Fatras sensitive surfaces/effective
+map by construction, but final confirmation uses the corrected source and a
+new full native overlap check. Fixed global trunk inventory remains a reference
+control; new service capacity/density is not engineering-qualified.
