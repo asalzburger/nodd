@@ -29,6 +29,30 @@ def fixture():
     return root
 
 
+def attachments(root):
+    """Small copy of the retained four-wall/three-sector attachment contract."""
+    for sy,sign,label in ((2,-1,"N"),(3,1,"P")):
+        detector=root.find(f'./detectors/detector[@id="{sy}"]')
+        datums=[615.,795.,1046.]
+        for layer,z in enumerate(datums,1):
+            for sector in range(3):
+                E.SubElement(detector,"part",name=f"collector{label}{layer}_{sector}",shape="sector",
+                    material=f"mix{layer}",z=f"{sign*(z+36.7)}*mm",dz="50*mm",rmin="28.8*mm",rmax="190*mm",angle=f"{math.pi/2}*rad")
+        cursor=611.;spans=[]
+        for z in datums:spans.append((cursor,z-3.15));cursor=z+3.15
+        spans.append((cursor,1100.))
+        for station in range(3):
+            for i,(lo,hi) in enumerate(spans):
+                for edge,a,b,angle in (("inner",223.7,224.1,.035), ("outer",231.3,231.7,.035),
+                                       ("left",224.1,231.3,.00175),("right",224.1,231.3,.00175)):
+                    E.SubElement(detector,"part",name=f"rail{label}_{station}_{i}_{edge}",shape="sector",material="CFRP",
+                        z=f"{sign*(lo+hi)/2}*mm",dz=f"{hi-lo}*mm",rmin=f"{a}*mm",rmax=f"{b}*mm",angle=f"{angle}*rad")
+        for name in ("carrier","flange","trunk","bypass","rear"):
+            E.SubElement(detector,"part",name=name+label,z="800*mm",dz="100*mm",shape="sector",
+                         material="fixed",rmin="192*mm",rmax="231.7*mm",angle="1*rad")
+    return root
+
+
 class CompactControls(unittest.TestCase):
     def setUp(self):
         self.tmp=tempfile.TemporaryDirectory();self.addCleanup(self.tmp.cleanup)
@@ -76,6 +100,50 @@ class CompactControls(unittest.TestCase):
         for change in variants:
             with self.subTest(change=change),self.assertRaises(ValueError):
                 transform(self.path,{"schema_version":1,"id":"bad",**change})
+
+    def test_collectors_follow_signed_station_and_added_donor(self):
+        root=attachments(fixture());E.ElementTree(root).write(self.path)
+        fixed={n.get("name"):E.tostring(n) for n in root.findall('./detectors/detector/part')
+               if n.get("name").startswith(("carrier","flange","trunk","bypass","rear"))}
+        variant={"schema_version":1,"id":"attachments","pixel_disks_abs_z_mm":{"1":700.},
+            "additional_pixel_disk":{"abs_z_mm":900.,"donor_layer":2,"layer_id":10}}
+        tree,audit=transform(self.path,variant)
+        for sy,sign,label in ((2,-1,"N"),(3,1,"P")):
+            detector=tree.getroot().find(f'./detectors/detector[@id="{sy}"]')
+            for sector in range(3):
+                moved=detector.find(f'part[@name="collector{label}1_{sector}"]')
+                added=detector.find(f'part[@name="collector{label}10_{sector}"]')
+                self.assertAlmostEqual(length(moved,"z"),sign*736.7)
+                self.assertAlmostEqual(length(added,"z"),sign*936.7)
+                self.assertEqual(added.get("material"),"mix2")
+                self.assertEqual(added.get("dz"),"50*mm")
+            for node in detector.findall("part"):
+                if node.get("name") in fixed:self.assertEqual(E.tostring(node),fixed[node.get("name")])
+        for item in audit["endcap_attachments"]:
+            self.assertEqual(item["collector_stations_before"],3)
+            self.assertEqual(item["collector_stations_after"],4)
+            self.assertEqual(item["added_collector_donor"],2)
+
+    def test_rails_keep_crosssection_span_and_recut_every_disc_slot(self):
+        E.ElementTree(attachments(fixture())).write(self.path)
+        variant={"schema_version":1,"id":"rails","pixel_disks_abs_z_mm":{"1":700.},
+            "additional_pixel_disk":{"abs_z_mm":900.,"donor_layer":2,"layer_id":10}}
+        tree,audit=transform(self.path,variant)
+        for item in audit["endcap_attachments"]:
+            self.assertEqual(item["rail_fixed_abs_z_span_mm"],[611.,1100.])
+            self.assertAlmostEqual(item["rail_slot_width_mm"],6.3)
+            for datum in (700.,795.,900.,1046.):
+                self.assertFalse(any(a<datum<b for a,b in item["rail_spans_abs_z_mm"]))
+            expected=item["rail_volume_mm3_before"]*(489.-4*6.3)/(489.-3*6.3)
+            self.assertAlmostEqual(item["rail_volume_mm3_after"],expected,places=6)
+            self.assertGreater(item["material_volume_change_mm3"]["mix2"],0.)
+            self.assertLess(item["material_volume_change_mm3"]["CFRP"],0.)
+
+    def test_noop_with_collectors_and_rails_remains_byte_identical(self):
+        E.ElementTree(attachments(fixture())).write(self.path)
+        output=Path(self.tmp.name)/"same.xml"
+        export(self.path,{"schema_version":1,"id":"baseline"},output)
+        self.assertEqual(output.read_bytes(),self.path.read_bytes())
 
 
 if __name__=="__main__":unittest.main()

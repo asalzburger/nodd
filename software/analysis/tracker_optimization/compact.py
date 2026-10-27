@@ -27,6 +27,112 @@ def rename(node, suffix):
             part.set("name", part.get("name") + suffix)
 
 
+def sector_volume(node):
+    if node.get("shape") != "sector":
+        raise ValueError("Expected existing annular-sector attachment")
+    return (length(node,"rmax")**2-length(node,"rmin")**2)*length(node,"angle")*length(node,"dz")/2
+
+
+def endcap_attachments(detector, sign, old_datums, extra):
+    """Move complete disc-owned collectors and re-slot the existing box rails.
+
+    Rail construction follows tools/pixel_detector_dd4hep/endcap_services.py
+    carrier(): identical four sector-wall cross sections over the fixed flange
+    span, with the original sandwich-thickness gap at every disc datum.
+    Existing trunk/bypass/rear cells stay a frozen reference-inventory control;
+    their heterogeneous cumulative routing is not recalibrated by this patch.
+    """
+    label="P" if sign>0 else "N"
+    datums={int(d.get("id")):length(d,"z") for d in detector.findall("disc")}
+    original_parts=detector.findall("part")
+    collectors={}
+    rails=[]
+    rail_pattern=re.compile(rf"rail{label}_(\d+)_(\d+)_(inner|outer|left|right)$")
+    collector_pattern=re.compile(rf"collector{label}(\d+)_(\d+)$")
+    for part in original_parts:
+        name=part.get("name","")
+        match=collector_pattern.fullmatch(name)
+        if match:collectors.setdefault(int(match.group(1)),[]).append(copy.deepcopy(part))
+        if rail_pattern.fullmatch(name):rails.append(part)
+    if not collectors and not rails:
+        return {"system":2 if sign<0 else 3,"present":False}
+    if set(collectors)!=set(old_datums) or any(len(v)!=3 for v in collectors.values()):
+        raise ValueError("Per-disc collector ownership does not match complete three-sector source stations")
+    before={}
+    for part in original_parts:
+        if collector_pattern.fullmatch(part.get("name","")) or rail_pattern.fullmatch(part.get("name","")):
+            mat=part.get("material");before[mat]=before.get(mat,0.)+sector_volume(part)
+    offsets={}
+    for layer,nodes in collectors.items():
+        offsets[layer]=[length(n,"z")-old_datums[layer] for n in nodes]
+        for source in nodes:
+            target=next(n for n in detector.findall("part") if n.get("name")==source.get("name"))
+            put(target,"z",length(source,"z")+datums[layer]-old_datums[layer])
+    if extra:
+        donor,identity=extra["donor_layer"],extra["layer_id"]
+        for source in collectors[donor]:
+            cloned=copy.deepcopy(source)
+            match=collector_pattern.fullmatch(source.get("name"))
+            cloned.set("name",f"collector{label}{identity}_{match.group(2)}")
+            put(cloned,"z",length(source,"z")+datums[identity]-old_datums[donor])
+            detector.append(cloned)
+    if not rails:raise ValueError("Missing existing rail templates for endcap attachments")
+    templates={}
+    for part in rails:
+        match=rail_pattern.fullmatch(part.get("name"));key=int(match.group(1)),match.group(3)
+        parameters={k:v for k,v in part.attrib.items() if k not in ("name","z","dz")}
+        if key in templates:
+            if parameters!={k:v for k,v in templates[key].attrib.items() if k not in ("name","z","dz")}:
+                raise ValueError("Rail cross section changes between source spans")
+        else:templates[key]=copy.deepcopy(part)
+    if any({edge for station,edge in templates if station==k}!={"inner","outer","left","right"} for k,edge in templates):
+        raise ValueError("Incomplete four-wall rail source template")
+    key=min(templates)
+    reference=[]
+    for part in rails:
+        match=rail_pattern.fullmatch(part.get("name"))
+        if (int(match.group(1)),match.group(3))==key:
+            center=abs(length(part,"z"));half=length(part,"dz")/2
+            reference.append((center-half,center+half))
+    reference.sort();old_sorted=sorted(abs(z) for z in old_datums.values())
+    gaps=[(a[1],b[0]) for a,b in zip(reference,reference[1:])]
+    if len(gaps)!=len(old_sorted) or any(abs((a+b)/2-z)>1.e-7 for (a,b),z in zip(gaps,old_sorted)):
+        raise ValueError("Existing rail slots do not match source disc datums")
+    width=sum(b-a for a,b in gaps)/len(gaps)
+    if width<=0 or any(abs((b-a)-width)>1.e-7 for a,b in gaps):
+        raise ValueError("Inconsistent source rail slot widths")
+    start,end=reference[0][0],reference[-1][1]
+    cuts=[(abs(z)-width/2,abs(z)+width/2) for z in datums.values()]
+    cuts.sort()
+    if cuts[0][0]<start or cuts[-1][1]>end or any(a[1]>=b[0] for a,b in zip(cuts,cuts[1:])):
+        raise ValueError("Candidate disc rail slots exceed fixed carrier span or overlap")
+    spans=[];cursor=start
+    for lo,hi in cuts:
+        if lo>cursor:spans.append((cursor,lo))
+        cursor=hi
+    if cursor<end:spans.append((cursor,end))
+    old_rail_volume=sum(sector_volume(n) for n in rails)
+    for part in rails:detector.remove(part)
+    new_rail_volume=0.
+    for (station,edge),template in sorted(templates.items()):
+        for j,(lo,hi) in enumerate(spans):
+            rail=copy.deepcopy(template);rail.set("name",f"rail{label}_{station}_{j}_{edge}")
+            put(rail,"z",sign*(lo+hi)/2);put(rail,"dz",hi-lo)
+            detector.append(rail);new_rail_volume+=sector_volume(rail)
+    after={}
+    for part in detector.findall("part"):
+        if collector_pattern.fullmatch(part.get("name","")) or rail_pattern.fullmatch(part.get("name","")):
+            mat=part.get("material");after[mat]=after.get(mat,0.)+sector_volume(part)
+    return {"system":2 if sign<0 else 3,"present":True,"collector_stations_before":len(collectors),
+        "collector_stations_after":len(datums),"collector_signed_local_offsets_mm":{str(k):v for k,v in offsets.items()},
+        "added_collector_donor":extra["donor_layer"] if extra else None,
+        "rail_fixed_abs_z_span_mm":[start,end],"rail_slot_width_mm":width,
+        "rail_spans_abs_z_mm":spans,"rail_volume_mm3_before":old_rail_volume,"rail_volume_mm3_after":new_rail_volume,
+        "material_volume_change_mm3":{k:after.get(k,0.)-before.get(k,0.) for k in sorted(set(before)|set(after))},
+        "material_densities":"All existing material references/compositions/densities unchanged; cloned collectors add donor inventory; added rail slots remove stated CFRP volume",
+        "fixed_routing_control":"Carrier/flanges and trunk/bypass/rear cells retain original geometry and density; cumulative routing, branch connectivity and capacity are not requalified"}
+
+
 def stave_radial_extent(stave):
     """Conservative radial support of complete pixel local box assemblies."""
     intervals = []
@@ -165,10 +271,11 @@ def transform(source, variant):
                             raise ValueError(f"Annular ring from pixel layer{owner.get('id')} intersects layer{other.get('id')} stave support")
     # Existing readout layer IDs are retained even if z ordering changes.
     new_disk = variant.get("additional_pixel_disk")
-    donors = {}
+    donors = {};attachment_audits=[]
     for system, sign in ((2,-1),(3,1)):
         detector = root.find(f'./detectors/detector[@id="{system}"]')
         discs = detector.findall("disc")
+        old_datums={int(d.get("id")):length(d,"z") for d in discs}
         max_z = max(abs(length(d,"z")) for d in discs)
         for key, absolute_z in variant.get("pixel_disks_abs_z_mm", {}).items():
             disc = detector.find(f'disc[@id="{int(key)}"]')
@@ -190,9 +297,12 @@ def transform(source, variant):
         datums = sorted(abs(length(d,"z")) for d in detector.findall("disc"))
         if any(b-a < 77.636 for a,b in zip(datums,datums[1:])):
             raise ValueError("Pixel disc assemblies/collectors have less than 77.636mm axial separation")
+        if variant.get("pixel_disks_abs_z_mm") or new_disk:
+            attachment_audits.append(endcap_attachments(detector,sign,old_datums,new_disk))
     return tree, {"variant":variant,"barrel_changes":changes,
         "inventory_ratios":{f"{s}:{l}":v for (s,l),v in ratios.items()},
         "calibration_donors":{f"{s}:{l}":list(v) for (s,l),v in donors.items()},
+        "endcap_attachments":attachment_audits,
         "pipe_outer_mm":pipe_outer,
         "mechanical_checks":"Conservative complete-stave pipe/allocation, cable wedge and disc separation screens; native full overlap check remains separate",
         "fixed_interfaces":"Cages, global end manifolds, transport trunks, readout descriptors and world constants untouched",
