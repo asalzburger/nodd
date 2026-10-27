@@ -59,3 +59,55 @@ issue103. GitHub connector issue creation returned403; authenticated CLI
 creation succeeded after network-enabled retry. No public comment was posted.
 The optional digitisation preference has no reply; proceed with frozen geometric
 primary and optional Gaussian sensitivity check, as previously stated.
+
+
+## Implementation and exploratory evidence
+
+DES040/issue103 govern isolated tools. Source implementatione793a30 supplies
+compact/material/runtime plus task-local native ACTS slab mixing. No production
+assembly, old PR101 analysis/native source or shared dependency changed. Full
+prepared mandates OPT-SoftEng-02 and SysArch/PhysVal02 are committed. PhysVal02
+found selected-row uniqueness, eta endpoint, zero-width bootstrap, inconsistent
+pull sign and stage-count ambiguities; fixes are inb6c4abe/bc5b061 with regression
+controls. Every observed measured marginal is audited; unsampled groups remain
+explicit. Reference ROOT statistics and all old pull histograms reproduced.
+
+SoftEng02 completed6native100-event smokes; all100fits/0invalidcov. No-op compact,
+material and calibration are exact;31particle/99tracksummary/42measurement
+branches match PR101 exactly. New17controls pass in activated native runtime;
+portable analysis environment passes16 with1expected native-only skip.
+Maximum native material inventory closure1.94e-7, donor2 homogeneous disks are
+after all sensitive faces. Physical support/cable screens reject two compact
+radii families; sourceconfigs/reasons retained. Full fixed original runtime
+maps/profile scalings remain a declared approximation, with component/routing
+and timing qualifications.
+
+Finite-patch screen:3000reference100GeV events,16000proposals with exact
+subset/search seeds407042/408042; ledger retains every spacing rejection and
+scored mutation. Screen selected865/1090/1180/1270/1355/1440/1977/2350/2465mm plus
+1000mm donor2. Profiledonor2 chosen before performance because firstdisk normal
+material0.1036X0 includes transition aggregate, versus0.03091X0 donor2.
+
+All15geometric exploratory cases(5layouts×3pT×2000events) closed successfully at
+4b009b2. Baseline>=10created fractions86.7/87.3/87.8%; coverage-candidate gives
+99.2/99.2/98.95% but worsens forwardd0/curvature. This is an observed tradeoff,
+not a successful full-objective optimum. No finite tails, failures or wrong
+charges removed. Newly preregistered balanced configuration204ab5f preserves
+first/farthest disk and all stavecounts, moves firstbarrel31.5mm and intermediate
+disks; subsequent native trial uses same exploratory seed, never hold-out52042.
+
+Full native ROOT overlap audit(1e-5mm): baseline0overlaps,PASS; first coverage
+compact13486overlaps,FAIL (13378collectors,108railslot conflicts; noothertracker
+conflicts). OPT-SoftEng-03 fixes complete disk-owned collector positions/clones
+and rail cutouts under0e55431. All20disc subtrees match prior sensitive/local
+structures exactly; trunks/reference density/envelopes preserved and service
+capacity unqualified. Full corrected overlap audit and finalconfirmation are
+pending. Original failed evidence retained compressed. Discovery/plot failures
+were corrected: testfixturealias, sys.path discovery collision, and numerical
+negative errorbar roundoff at100%coverage. No weakened scientific tolerances.
+
+PriorPR101 merge-preparation turn closed:7645859observedtokens imported solely
+into its original account, completed visible snapshot retained, publicdiscussion
+recaptured/read and ledger synchronized. New optimisation account never copies
+these prior tokens. Current coordinator turn01a17c93-3e49-7ac1-a25a-3b6fae03b727
+remains active/excluded; child closed-turn accounting follows at closeout.
