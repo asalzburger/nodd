@@ -149,3 +149,27 @@ map conserves the declared carrier inventory; it is not a component-resolved
 recalculation of the altered support mass.
 
 The human confirmed geometric primary and Gaussian crosscheck on2026-10-27.
+
+
+### Physical screening dispositions before Fatras ranking
+
+`compact-forward`32/42/53/70mm was rejected: annular supports intersect outer
+modules near |z|546mm. A ring-clearing alternative32/44/56/70mm was also
+rejected before performance: retained layer cable bands intersect outer staves.
+SysArch verified interior intersection points, not only radial projections.
+The whole-band candidate32/57/85/106mm, counts12/22/16/18, passes limited local
+box/ring/foot/cable radial screens, but reducing the outermost pixel barrel would
+split the original shared layer/gap material carrier. To retain unambiguous
+material correspondence, `inner-family` keeps the outermost pixel radius182mm
+and count30, using32/57/85mm and12/22/16 for the first three layers. This is a
+new preregistered trial, preserving the outer pixel lever arm and shared carrier.
+The tight first two cable radial clearances0.45866/0.76808mm remain unqualified
+engineering tolerances; full native overlap checks are separate.
+
+A finite-pixel-patch straight-ray schedule screen may use the old100GeV Fatras
+sample's unchanged strip counts and an explicit fixed subset. It ignores
+curvature/material and does not produce tracking resolutions. Search ranks its
+worst quarter-eta ten-hit fraction, then the global fraction, only to select a
+small number of disk schedules for native testing. This ranking is not an
+engineering acceptance score. Keep the grid, seeds, all improving schedules,
+source/input hashes and limitations; confirm with independent native samples.
