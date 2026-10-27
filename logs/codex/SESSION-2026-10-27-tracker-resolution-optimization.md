@@ -111,3 +111,65 @@ into its original account, completed visible snapshot retained, publicdiscussion
 recaptured/read and ledger synchronized. New optimisation account never copies
 these prior tokens. Current coordinator turn01a17c93-3e49-7ac1-a25a-3b6fae03b727
 remains active/excluded; child closed-turn accounting follows at closeout.
+
+
+## Frozen confirmation and qualified outcome
+
+The human answered: “Geometric primary; Gaussian cross-check.” This supersedes
+the earlier pending-question notes without rewriting their historical state.
+All24 exploratory cases completed(48,000events); this includes balanced-nine
+and late-disk controls. All30 confirmation cases completed(300,000events):
+52042baseline/mild/balanced and62042baseline/late, each both responses and
+pT1/10/100GeV,10,000events/case. The62042schedule was registered before52042
+residuals were reduced/read. No geometry was retuned using confirmation data.
+
+Geometric primary mild(32mm firstpixel barrel; reference9disks+900mm donor2)
+improves global d0 central-width2.4–5.1% and z03.7–6.5%, with ten-hit fractions
+96.53/96.65/96.83% versus88.09/87.73/87.74%. Momentum core ratios at1/10GeV
+are compatible within measured uncertainty;100GeV improves4.4%. This is not a
+noninferiority proof. Gaussian1GeV momentum worsens4.0%[0.5%,6.6%], highest-eta
+d0 also worsens; full nonlinear pT tails are severe. Balanced98.2%coverage
+has primary1GeV momentum+5.6%[2.5%,8.9%] and highest-eta d0+11.0%. Late-control
+global cores improve but forward regressions and94%coverage remain. No tested
+layout meets every goal; preserve every adverse result and the full objective
+as open. Mild is a geometric-primary follow-up candidate, not an accepted
+baseline. Worst mild signed quarter-eta fractions81–85%, not ten hits everywhere.
+
+Native sourcee80f982, reduction9873280, first primary evidence77070c9 and all
+fourfinalmatrices/figures4c0910. All four offline native/source/output/count/
+material/histogram checks pass(9+9+6+6cases). Portable ROOT-free plots/CSV
+retain full counts, fitted/missing/charge states, all six bound-parameter pulls,
+full SD/RMS/core widths, pointwise bootstrap intervals and joint eta/phi coverage.
+No finite-tail/quality cuts; time prior dominated. Matplotlib full pull density
+now autoscales so the8.075timepeak is visible. Primary figures visually inspected,
+including coverage holes and time/tails. One final export wrapper used --data
+instead of --input; reduction/audit had passed, only CSV/plot orchestration failed.
+Corrected exports alone completed; no native jobs or reduction rerun for that typo.
+
+Full ROOT overlaps/extrusions1e-5mm: baseline, corrected coverage, balanced, mild
+and late all0,PASS. Initial13486-overlap failure retained. Collector/rail fix
+moves complete attachments with disks, preserves global envelopes. Native
+20/20currentcontrolsPASS,no skips in activated runtime; portable19PASS/1expected
+native-helperSKIP. Initial restricted setup could not run ps/sysctl; scoped
+native-environment execution succeeded without changing shared dependencies.
+Project78tasks/40documents/21rounds,209sessions and eightroles/threeworkflow
+skills validate. New CI audits all30 confirmation cases and replays primary data.
+
+OPT-SysArch-03 independently assessed77070c9 read-only: in-memory generated
+mild/late compacts match auditedSHA86de9543/cccc962a exactly; all12corresponding
+confirmationcompacts match. Unchanged readouts/world/pipe/strip XML,46,250unique
+sensitiveIDs/logicaltuples. Added layer10 contributes302sensors/end; native clears
+46,251sensor+pipe slabs then loads67materialkeys. Downstream carriers are±906.825
+and±2906.825mm,1mmafter the last sensorfaces; donor2normalbudget0.0308203/0.0309096X0.
+Each addedrailslot removes229.824mm³CFRP/end; clonedcollectoradds4,155,214.9569mm³
+of existing effectivematerial/end. Zero intersections do not qualify cumulative
+service connectivity/capacity, installation, mass or thermal design. No new
+native job or tracked write by reviewer; no new physical blocker/signoff.
+
+
+Display-only full symlog tick spacing refined at171cd0f8a7a3287d28262226f33fc0598336f43e;
+all4figure sets regenerated from unchanged4c0910data. Main visually inspected
+full pull PNG: zero/power labels no longer collide; timepeak and full tails
+remain visible. No native/reduction/data changes. Documentation tables were
+assembled directly from the retained final matrices; source CSV remains the
+machine-readable numerical authority.

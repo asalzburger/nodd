@@ -36,7 +36,7 @@ cmake -S software/source/ActsExamples/TrackerOptimization \
 cmake --build build/tracker-resolution-optimization/native
 
 python -B software/running/nodd_tracker_optimization.py \
-  --variant software/analysis/tracker_optimization/variants/balanced.json \
+  --variant software/analysis/tracker_optimization/variants/mild-donor2.json \
   --compact ../nodd-software-layout/build/dd4hep/detector/tracker/tracker.xml \
   --nodd-dir ../nodd-software-layout \
   --build-dir ../nodd-software-layout/build/dd4hep \
@@ -91,3 +91,32 @@ intervals do not certify every eta/phi trajectory or include model systematics.
 strip counts from a named reference sample. Its complete mutation ledger,
 grid/seeds/hashes and limitations are retained. It supplies candidates for
 native tests and cannot establish tracking performance or mechanical clearance.
+
+
+Final experiment outcome and every retained comparison are indexed in
+[the validation report](../../../docs/validation/tracker-resolution-optimization/README.md).
+The study has48k exploratory and300k confirmation events; no tested candidate
+meets every objective. Geometric mild gains are qualified by Gaussian low-pT
+regression, forward hit deficits and full pT tails.
+
+For offline audit/replay, use a full Git history (native source identities are
+checked at their recorded launch commits):
+
+```sh
+python -B software/analysis/tracker_optimization/verify.py \
+  --data docs/validation/tracker-resolution-optimization/confirmation-geometric.json.gz \
+  --reports docs/validation/tracker-resolution-optimization/native-confirmation-geometric-reports.json.gz \
+  --prefix confirmation/geometric
+python -B software/analysis/tracker_optimization/export_csv.py \
+  --input docs/validation/tracker-resolution-optimization/confirmation-geometric.json.gz \
+  --output build/tracker-resolution-optimization/replayed-tables
+```
+
+The other phase/response mappings are`confirmation-gaussian`→`confirmation/gaussian`,
+`late-confirmation-geometric`→`confirmation-late/geometric` and
+`late-confirmation-gaussian`→`confirmation-late/gaussian`. Each has the same
+`native-{name}-reports.json.gz` pattern. All four checks run in CI, followed by
+primary plot replay. The original raw ROOT outputs remain task-local because of
+size; reduced loss-accounted histograms/tables and original fingerprints are
+retained. The portable audits preserve the original report fingerprint while
+replacing local absolute paths with named placeholders.

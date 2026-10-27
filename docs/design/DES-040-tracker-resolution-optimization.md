@@ -272,3 +272,41 @@ between balanced-nine(~91.4--91.85%) and the early-added balanced layout
 1.079 indicates remaining risk. Confirm late-disk against a fresh baseline with
 10000events/pT/response, seed62042 (120000additional events), without changing
 its geometry after looking at either confirmation campaign.
+
+
+## Frozen confirmation outcome
+
+**FACT (retained native evidence):**30 independent-confirmation cases of10,000
+muons each completed, supplementing48,000 exploratory events. Seed52042 compares
+baseline/mild/balanced in geometric and Gaussian response; seed62042 separately
+compares baseline/late. All configurations were frozen before confirmation
+analysis. The complete source/native/output identities, geometric/Gaussian
+profiles, full residuals/pulls, pointwise bootstrap intervals and failed trials
+are in[the validation report](../validation/tracker-resolution-optimization/README.md)
+and[complete tables](../validation/tracker-resolution-optimization/confirmation-tables.md).
+The full data/figure pin is4c0910045a40869ec4af9b3b0fcf2eb6a8a757ec.
+
+**INFERENCE (qualified study result):**mild is the preferred starting point for
+the requested geometric primary: global d0 core widths improve2.4–5.1%, z0
+3.7–6.5%, and ten-hit fractions rise from about88% to96.5–96.8%. This is not a
+full-objective success. Gaussian1GeV relative-pT width worsens4.0% with a
+pointwise95% interval above unity; the worst signed quarter-eta coverage bins
+are only81–85%. Balanced reaches98.2% overall but has a resolved primary1GeV
+momentum regression and highest-eta d0 loss. Late control retains global core
+gains but has forward losses and weaker coverage. High-pT nonlinear pT tails
+also prevent full-distribution momentum-preservation claims. No noninferiority
+margin or multiplicity correction was registered. No layout was retuned on
+confirmation data.
+
+**FACT (physical scope):**full native overlap/extrusion checks at1e-5mm give
+zero overlaps for reference, corrected coverage, balanced, mild and late.
+Collector/rail defects in the initial prototype were corrected and failed
+reports retained. These checks do not qualify cumulative service connectivity,
+capacity, installation or component-resolved material. Existing production
+geometry remains fixed; effective-profile relocation and frozen errors require
+later independent material/response validation.
+
+**NODD DESIGN CHOICE (disposition):**retain the finite-study tradeoffs and mild
+follow-up proposal without integrating a new baseline, changing envelopes or
+recording sign-off. This document remains DRAFT/PROTOTYPE. Separate agent
+assessments do not grant human design approval.
