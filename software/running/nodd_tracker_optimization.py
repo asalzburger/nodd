@@ -61,6 +61,9 @@ def main():
             files.append(("runtime_library",library))
         files.extend(("observer_source",ROOT_DIR/"software/source/ActsExamples/TruthTracking"/name) for name in ("TruthTracking.cpp","CMakeLists.txt"))
         report.update(info);report["campaign"]=config
+        if args.digitization=="gaussian":
+            from smearing import native_boundary_contract
+            report["native_boundary_contract"]=native_boundary_contract(acts)
         report["provenance"]=provenance(args,sidecar,[*files,("variant",args.variant),
             *[("executed_source",p) for p in sources]])
         report["provenance"]["analysis_source_revision_at_launch"]=revision

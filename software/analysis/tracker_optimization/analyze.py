@@ -362,7 +362,11 @@ def main():
         if label in cases: raise ValueError("Duplicate case label")
         cases[label]=read_case(Path(path))
     edges={q:common_edges([c["pulls"][q] for c in cases.values()],5.,.1,16) for q in (*BOUND,"pt_relative")}
+    limits={"d0":.25,"z0":5.,"phi":.01,"theta":.01,"q_over_p":.01,"pt_relative":.5,"q_over_pt_relative":.5}
+    residual_edges={q:common_edges([c["values"][q]["residual"] for c in cases.values()],limit,limit/50,16)
+                    for q,limit in limits.items()}
     output={"schema_version":1,"status":"PROTOTYPE", "samples":{}, "pull_edges":{q:x.tolist() for q,x in edges.items()},
+        "residual_edges":{q:x.tolist() for q,x in residual_edges.items()},
         "source_revision":subprocess.check_output(["git","-C",str(ROOT),"rev-parse","HEAD"],text=True).strip(),
         "source_sha256":sha256(__file__),"bootstrap_replicates":args.bootstrap,
         "notes":["Coverage uses all generated events; physical sensor IDs counted once.",
@@ -373,6 +377,7 @@ def main():
     for label,case in cases.items():
         row=reduce(case,args.bootstrap)
         row["pulls"]={q:histogram(x,edges[q],5.) for q,x in case["pulls"].items()}
+        row["residuals"]={q:histogram(case["values"][q]["residual"],e,limits[q]) for q,e in residual_edges.items()}
         output["samples"][label]=row
         print(label,row["global"]["stages"]["created"]["ge10"]["value"],flush=True)
     output["paired_comparisons"]={}

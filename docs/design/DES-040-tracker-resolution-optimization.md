@@ -231,3 +231,18 @@ these passive attachments does not change Fatras sensitive surfaces/effective
 map by construction, but final confirmation uses the corrected source and a
 new full native overlap check. Fixed global trunk inventory remains a reference
 control; new service capacity/density is not engineering-qualified.
+
+
+### Confirmation lock
+
+After18geometric exploratory cases (36000events), lock baseline, mild-donor2 and
+balanced for10000events each at1/10/100GeV, seed52042, independently of the
+exploratory seed42042. Run both geometric primary and Gaussian crosscheck:
+180000confirmationevents. Balanced exploratory ten-hit coverage is98.35/98.85/
+98.75%, with all6000fits and no invalid covariance. Its global d0 width ratios
+are0.923/0.988/0.951 and z0 ratios0.950/0.974/0.972; relative-pT ratios1.065/
+0.977/1.063. Thus momentum preservation is not yet established. Compare the
+mild alternative as a second tradeoff, preserve regional regressions and tails,
+and do not retune layouts on confirmation data. The Gaussian native retry
+contract is recorded explicitly (verified algorithm minimum10, up to11draws);
+adding this metadata does not change its digitisation schedule.

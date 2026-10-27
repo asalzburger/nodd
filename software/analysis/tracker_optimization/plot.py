@@ -45,8 +45,8 @@ def main():
     save(fig,args.output,"coverage_eta")
 
     for observable,title in (("width68","Central 68.27% half-width"),("std","Full residual standard deviation")):
-        fig,axes=plt.subplots(3,len(pts),figsize=(14,10),squeeze=False,layout="constrained")
-        for row,(q,unit,scale) in enumerate((("d0","μm",1000),("z0","μm",1000),("pt_relative","%",100))):
+        fig,axes=plt.subplots(4,len(pts),figsize=(14,12),squeeze=False,layout="constrained")
+        for row,(q,unit,scale) in enumerate((("d0","μm",1000),("z0","μm",1000),("pt_relative","%",100),("q_over_pt_relative","%",100))):
             for ax,pt in zip(axes[row],pts):
                 for variant in variants:
                     s=samples.get(f"{variant}-pt{pt:g}")
@@ -60,6 +60,23 @@ def main():
         axes[0,0].legend(fontsize=8)
         fig.suptitle("PROTOTYPE · "+title+" · no residual/quality cuts · conditional on fit")
         save(fig,args.output,"resolution_"+observable)
+
+    if "residual_edges" in data:
+        for view in ("core","full"):
+            fig,axes=plt.subplots(2,2,figsize=(12,8),layout="constrained")
+            for ax,(q,limit) in zip(axes.flat,(("d0",.25),("z0",5.),("pt_relative",.5),("q_over_pt_relative",.5))):
+                edges=np.array(data["residual_edges"][q])
+                for label,s in samples.items():
+                    variant=label.rpartition("-pt")[0];pt=s["pt_GeV"];h=s["residuals"][q]
+                    density=np.array(h["counts"])/(max(1,h["entries"])*np.diff(edges))
+                    ax.stairs(density,edges,label=f"{variant}, {pt:g} GeV",color=colors[variant],
+                              linestyle={1:"-",10:"--",100:":"}.get(pt,"-"),lw=1)
+                ax.set(xlabel="fit − truth [mm]" if q in ("d0","z0") else "signed fractional residual",ylabel="density",title=q,yscale="log")
+                if view=="core":ax.set_xlim(-limit,limit)
+                else:ax.set_xscale("symlog",linthresh=limit)
+            axes.flat[0].legend(fontsize=7)
+            fig.suptitle("PROTOTYPE · full all-η residual distributions · no tail cuts")
+            save(fig,args.output,"residuals_"+view)
 
     for view in ("core","full"):
         fig,axes=plt.subplots(2,4,figsize=(16,8),layout="constrained")
