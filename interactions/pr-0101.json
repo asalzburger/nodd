@@ -14,54 +14,21 @@
         "thread_id": "01a176bd-cabc-77c0-8841-9d7ee1efa109",
         "models": [],
         "source": "logs/codex/SESSION-2026-10-26-truth-tracking-baseline.md",
-        "limitation": "Explicit generic-agent mandates; native profile loading unclaimed. Baseline and smearing closed turns finalized in original accounts. Current merge-preparation turn is active and excluded."
+        "limitation": "Explicit generic-agent mandates; native profile loading unclaimed. Closed baseline, smearing and merge-preparation turns finalized once in their original accounts. New optimisation is a separate account."
       }
     ],
     "tools": [],
-    "events": [
-      {
-        "id": "active-codex-message:01a17c65-7aa2-73f0-8b14-f1b890a7d608",
-        "type": "prompt",
-        "direction": "action",
-        "actor": "unknown:project-user",
-        "recipients": [
-          "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109"
-        ],
-        "text": "Ok, this one looks good - prepare for merging.",
-        "source": "interactions/pr-0101/active-snapshots/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a17c65-7a7d-7251-b439-1dddda32ab9b.json",
-        "in_reply_to": null,
-        "model": null,
-        "agent_roles": [],
-        "token_accounts": []
-      },
-      {
-        "id": "active-codex-message:msg_01aaccc36fea713b016ae05b8a53188191ae2174fc0432e0f3",
-        "type": "response",
-        "direction": "reaction",
-        "actor": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
-        "recipients": [
-          "unknown:project-user"
-        ],
-        "text": "I’ll refresh PR #101’s discussion and status, finalize the available usage and interaction records, and check that it’s ready to merge.",
-        "source": "interactions/pr-0101/active-snapshots/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a17c65-7a7d-7251-b439-1dddda32ab9b.json",
-        "in_reply_to": "active-codex-message:01a17c65-7aa2-73f0-8b14-f1b890a7d608",
-        "model": null,
-        "agent_roles": [
-          "primary coordinator"
-        ],
-        "token_accounts": []
-      }
-    ]
+    "events": []
   },
   "github": {
-    "captured_at": "2026-10-27T08:10:05.276736Z",
+    "captured_at": "2026-10-27T09:39:51.803679Z",
     "pull_request": {
       "number": 101,
       "url": "https://github.com/asalzburger/nodd/pull/101",
       "title": "Tracker: establish Gen3 truth-tracking baseline with Geant4 and Fatras",
       "head": "codex/tracker-truth-baseline",
-      "head_sha": "ffd1cb9c1630ad1068ab5bc02378088bdb83995a",
-      "state": "open",
+      "head_sha": "db071101c7d4db9c57d3da7083bc9b1d69b6f265",
+      "state": "closed",
       "body": "Establish a constant **3 T** ACTS truth-associated Kalman baseline for the exact Gen3 nODD tracker and material map merged in PR100, comparing Geant4 and Fatras at fixed muon pT 1, 10 and 100 GeV.\n\nAll **six 20,000-event samples** completed: **119,982/120,000** generated primaries have finite fitted parameters; 14 fail the seven-unique-measurement selection and four Geant4 1 GeV candidates fail fitting. No fitted six-parameter covariance is invalid. Three partial fits fail native truth-matching completeness; they remain in seed-associated residuals with verified unique primary/proto identity and separate native Fake counters.\n\nFor **|eta|<0.5**, central 68.27% relative-pT half-widths are **0.543/0.638/0.771%** in Fatras and **1.157/0.791/1.050%** in Geant4 at 1/10/100 GeV. Pulls have substantial non-Gaussian tails, especially Geant4; central and full-SD diagnostics are both retained without clipping. Forward 100 GeV resolution and charge identification degrade strongly in both backends. These results characterize the present model; they do not establish unit pulls or detector acceptance.\n\nAn independent **50,000-event Fatras** sample trains the common hit-error table from 699,273 measurements, covering 52 sensitive volumes, 90 measured volume/coordinate pairs and 106 cluster groups. Preserve the unchanged ACTS `error_parameterisation.py` output and an independently audited overflow-group correction. Every one of **3,199,735** written performance-coordinate variances matches frozen SD² exactly after ROOT float conversion.\n\nPixels use geometric **50×50 µm** cells; short strips **75 µm×0.5 mm**; each actual long-strip face measures one coordinate at **80 µm** pitch. Native 1D geometric digitization works, so the temporary smearing fallback is unused. Task-local adapters correct the pinned truth-index/duplicate-association defects, exclude its unsafe original reference finder, apply errors after clustering, and retain one ordinary Geant4 run with independent per-event seeds. No shared ACTS source, detector geometry, clustered positions or Kalman fitter is changed.\n\n- [Report, ten PNG/PDF/SVGZ figure sets, complete CSV and retained provenance](https://github.com/asalzburger/nodd/tree/codex/tracker-truth-baseline/docs/validation/truth-tracking-baseline)\n- [Full all-eta pull distributions: six track parameters and derived pT, 1/10/100 GeV overlays, complete tails and ±5 views](https://github.com/asalzburger/nodd/tree/codex/tracker-truth-baseline/docs/validation/truth-tracking-baseline/pulls)\n- [Configuration and reproduction commands](https://github.com/asalzburger/nodd/tree/codex/tracker-truth-baseline/software/analysis/truth_tracking)\n- Governing prototype: DES-025; module contracts: DES-007/DES-008; source layout: ADR-008.\n- Validation: 25 analytic/native controls passed; retained source/table/count/common-binary audits and figure replay pass. Separate PhysVal reproduced every training group and independently checked the final six-run source/data/figures at f7b14c6: 17,712 scalar statistics, all written variances, all CSV fields and ten original PNGs; no blocking finding for this qualified prototype.\n\nThe new all-eta distributions use **(truth − reconstructed)/fitted sigma**, with wrapped phi and full theta–q/p covariance for derived pT. All **119,982** fitted tracks enter each of seven quantities; all **42 histograms** have zero nonfinite entries, underflow and overflow. Full-range variable-bin densities preserve every observed tail; ±5 views use the same full-sample normalization. The unmeasured time parameter is explicitly a seed/fitter-prior diagnostic. Four new analytic controls pass; the portable suite has 24 passes and five expected native-only skips. Independent PhysVal04 at **c3d037a** reproduced all 42 histograms exactly, all 119,982 six-dimensional covariance checks, all 462 CSV fields and visually assessed all six PNG originals; no blocking finding. All 210 moment/extrema comparisons agree within 1.16×10⁻¹⁰.\n\n**PROTOTYPE/DRAFT design status.** Ideal truth seeds and geometric response, one-phi-bin mapped material and locality qualifications remain explicit. Statistics omit training/model systematics. Training observer identity and the older bounded lifecycle comparison are qualified in the report. PR100 and the original baseline retain their own finalized usage accounts. The Gaussian cross-check has a separate canonical account with its coordinator turn now finalized. Available usage and interaction records are current; the active merge-preparation turn remains excluded.\n\nThe reviewer-requested **Gaussian-smearing Fatras cross-check** is now complete: another **20,000 events per pT** at 1/10/100 GeV, using all-cluster training widths pooled by volume/coordinate. All **59,989** selected tracks fit, with zero invalid six-dimensional covariances, native Fake fits or final measurement losses. All **1,457,028** measurement-coordinate variances match fixed sigma² exactly. Pooled measurement standardized-residual SDs are **1.000165/0.999683/1.000024**; track-level tails remain (1 GeV q/p pull SD **4.277**, versus **6.990** for geometric digitization). The original reference is preserved.\n\n- [Gaussian-versus-geometric report, seven PNG/PDF/SVGZ figure sets, complete distributions and 42-row CSV](https://github.com/asalzburger/nodd/tree/codex/tracker-truth-baseline/docs/validation/truth-tracking-baseline/smearing)\n- Effective native sensor-bound limit is **10 retries / 11 draw attempts**. Historical reports mistakenly labeled it zero/no retry; their original bytes are retained with explicit corrections. Zero final losses do not exclude retried draws. No simulation or retry setting changed.\n- Independent numerical assessment reproduced all training widths, measurement marginals and comparison histograms. Final independent review at **7c9340b** resolved the retry-description finding and found no remaining scientific or provenance blocker; 2,985 scalar statistics agree within 2.22×10⁻¹⁶, and all seven figures were assessed. Portable suite: **34 passed / five expected native-only skips**; native pilots/campaigns and dedicated controls passed.\n\nCloses #102.\n",
       "actor": "asalzburger",
       "created_at": "2026-10-26T13:50:16Z"
@@ -75,6 +42,18 @@
         "created_at": "2026-10-26T15:04:45Z",
         "updated_at": "2026-10-26T15:04:45Z",
         "review": null,
+        "in_reply_to_id": null,
+        "path": null,
+        "line": null
+      },
+      {
+        "id": 5664306200,
+        "url": "https://github.com/asalzburger/nodd/pull/101#pullrequestreview-5664306200",
+        "body": "",
+        "actor": "asalzburger-review",
+        "created_at": "2026-10-27T08:46:43Z",
+        "updated_at": null,
+        "review": "APPROVED",
         "in_reply_to_id": null,
         "path": null,
         "line": null
@@ -177,8 +156,8 @@
         ],
         "snapshot": null,
         "snapshot_sha256": null,
-        "record_sha256": "9940f8c4b19c8cf7a39f7f3f22e14ba7bc6f06b4306aab08ed449ad89fd82603",
-        "narrative_sha256": "a91b9b48c5c76e94505d87aa0ed3fca345567bee1028918b79f57d6ab1a41c76"
+        "record_sha256": "24ffc48f6c43c75dbb8f7c100bfec9443f382b6df515956a2387b4300592a667",
+        "narrative_sha256": "c966602ff961049b2b382df5e81c8529de7160b2388dac9362509f9d05a73989"
       }
     ],
     "token_accounts": [
@@ -254,9 +233,15 @@
         "id": "SESSION-2026-10-27-truth-tracking-merge-prep",
         "record": "logs/codex/SESSION-2026-10-27-truth-tracking-merge-prep.json",
         "scope": "canonical_session; shared PR references are not allocations",
-        "status": "unobserved",
-        "usage_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
-        "turns": []
+        "status": "observed",
+        "usage_sha256": "39a99b3ad34e1eb710c2f6709284cce0eb97feb52d30b05ea07f827c219a953b",
+        "turns": [
+          {
+            "client_thread_id": "01a176bd-cabc-77c0-8841-9d7ee1efa109",
+            "turn_id": "01a17c65-7a7d-7251-b439-1dddda32ab9b",
+            "model": null
+          }
+        ]
       }
     ],
     "visible_sources": [
@@ -271,6 +256,10 @@
       {
         "path": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
         "sha256": "f6f7e5aebef05e1988b83144089457537d70ec93679c4ba11a995231baecbe99"
+      },
+      {
+        "path": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a17c65-7a7d-7251-b439-1dddda32ab9b.json",
+        "sha256": "bd994294aaae9bbd8f63bfa4af61f98bf2af04cfa3325da45862e187b5eea74f"
       },
       {
         "path": "interactions/pr-0101/turns/01a1785d-07fe-7a50-b443-da86a7dda443--01a1785d-0840-7653-b275-a5bc735ad599.json",
@@ -336,7 +325,7 @@
         "thread_id": "01a176bd-cabc-77c0-8841-9d7ee1efa109",
         "models": [],
         "source": "logs/codex/SESSION-2026-10-26-truth-tracking-baseline.md",
-        "limitation": "Explicit generic-agent mandates; native profile loading unclaimed. Baseline and smearing closed turns finalized in original accounts. Current merge-preparation turn is active and excluded."
+        "limitation": "Explicit generic-agent mandates; native profile loading unclaimed. Closed baseline, smearing and merge-preparation turns finalized once in their original accounts. New optimisation is a separate account."
       },
       {
         "id": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
@@ -751,6 +740,15 @@
         "models": [],
         "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a178c7-5878-7141-befd-49e06fdfdd43.json",
         "limitation": "Parent thread 01a176bd-cabc-77c0-8841-9d7ee1efa109; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
+        "name": "Codex",
+        "role": "recorded_thread",
+        "thread_id": "01a176bd-cabc-77c0-8841-9d7ee1efa109",
+        "models": [],
+        "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a17c65-7a7d-7251-b439-1dddda32ab9b.json",
+        "limitation": "Execution model is retained only when reported by the canonical account."
       },
       {
         "id": "codex-thread:01a1785d-07fe-7a50-b443-da86a7dda443",
@@ -1724,6 +1722,56 @@
           "name": "commandExecution",
           "category": "native_codex",
           "version": null,
+          "calls": 32,
+          "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a17c65-7a7d-7251-b439-1dddda32ab9b.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 1 failures reported.",
+          "token_account": "SESSION-2026-10-27-truth-tracking-merge-prep",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "codex_apps.github.fetch_pr_comments",
+          "category": "native_codex",
+          "version": null,
+          "calls": 1,
+          "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a17c65-7a7d-7251-b439-1dddda32ab9b.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-10-27-truth-tracking-merge-prep",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "codex_apps.github.get_pr_info",
+          "category": "native_codex",
+          "version": null,
+          "calls": 1,
+          "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a17c65-7a7d-7251-b439-1dddda32ab9b.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-10-27-truth-tracking-merge-prep",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "codex_app.read_thread",
+          "category": "native_codex",
+          "version": null,
+          "calls": 1,
+          "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a17c65-7a7d-7251-b439-1dddda32ab9b.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-10-27-truth-tracking-merge-prep",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "sleep",
+          "category": "native_codex",
+          "version": null,
+          "calls": 7,
+          "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a17c65-7a7d-7251-b439-1dddda32ab9b.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-10-27-truth-tracking-merge-prep",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "commandExecution",
+          "category": "native_codex",
+          "version": null,
           "calls": 170,
           "source": "interactions/pr-0101/turns/01a1785d-07fe-7a50-b443-da86a7dda443--01a1785d-0840-7653-b275-a5bc735ad599.json",
           "evidence": "Exposed operation metadata for exact recorded turn; 19 failures reported.",
@@ -2028,6 +2076,21 @@
         "remote_input": null
       },
       {
+        "id": "github:https://github.com/asalzburger/nodd/pull/101#pullrequestreview-5664306200",
+        "type": "review",
+        "direction": "reaction",
+        "actor": "github:asalzburger-review",
+        "recipients": [],
+        "text": "APPROVED",
+        "source": "https://github.com/asalzburger/nodd/pull/101#pullrequestreview-5664306200",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [],
+        "timestamp": "2026-10-27T08:46:43Z",
+        "remote_input": null
+      },
+      {
         "id": "github:https://github.com/asalzburger/nodd/issues/102",
         "type": "issue",
         "direction": "reaction",
@@ -2089,38 +2152,6 @@
           "SESSION-2026-10-27-truth-tracking-merge-prep"
         ],
         "content_kind": "reference_summary"
-      },
-      {
-        "id": "active-codex-message:01a17c65-7aa2-73f0-8b14-f1b890a7d608",
-        "type": "prompt",
-        "direction": "action",
-        "actor": "unknown:project-user",
-        "recipients": [
-          "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109"
-        ],
-        "text": "Ok, this one looks good - prepare for merging.",
-        "source": "interactions/pr-0101/active-snapshots/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a17c65-7a7d-7251-b439-1dddda32ab9b.json",
-        "in_reply_to": null,
-        "model": null,
-        "agent_roles": [],
-        "token_accounts": []
-      },
-      {
-        "id": "active-codex-message:msg_01aaccc36fea713b016ae05b8a53188191ae2174fc0432e0f3",
-        "type": "response",
-        "direction": "reaction",
-        "actor": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
-        "recipients": [
-          "unknown:project-user"
-        ],
-        "text": "I’ll refresh PR #101’s discussion and status, finalize the available usage and interaction records, and check that it’s ready to merge.",
-        "source": "interactions/pr-0101/active-snapshots/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a17c65-7a7d-7251-b439-1dddda32ab9b.json",
-        "in_reply_to": "active-codex-message:01a17c65-7aa2-73f0-8b14-f1b890a7d608",
-        "model": null,
-        "agent_roles": [
-          "primary coordinator"
-        ],
-        "token_accounts": []
       },
       {
         "id": "codex-message:01a17858-7fd0-7393-99a5-27f9e2a1b8bf",
@@ -3293,6 +3324,204 @@
         "content_kind": "visible_message; conservative redactions recorded in source"
       },
       {
+        "id": "codex-message:01a17c65-7aa2-73f0-8b14-f1b890a7d608",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "codex-thread:01a1786a-3045-7562-b65b-deebef2a5361",
+        "recipients": [
+          "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109"
+        ],
+        "text": "Ok, this one looks good - prepare for merging.",
+        "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a17c65-7a7d-7251-b439-1dddda32ab9b.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-27-truth-tracking-merge-prep"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_01aaccc36fea713b016ae05b8a53188191ae2174fc0432e0f3",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
+        "recipients": [
+          "codex-thread:01a1786a-3045-7562-b65b-deebef2a5361"
+        ],
+        "text": "I’ll refresh PR #101’s discussion and status, finalize the available usage and interaction records, and check that it’s ready to merge.",
+        "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a17c65-7a7d-7251-b439-1dddda32ab9b.json",
+        "in_reply_to": "codex-message:01a17c65-7aa2-73f0-8b14-f1b890a7d608",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-27-truth-tracking-merge-prep"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_01aaccc36fea713b016ae05bea1b408191948466e12ba2ccee",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
+        "recipients": [
+          "codex-thread:01a1786a-3045-7562-b65b-deebef2a5361"
+        ],
+        "text": "PR #101 is ready and mergeable, with no new review requests and all checks green on the current head. I’ve finalized the closed smearing turn’s usage and retained its visible discussion. I’m finishing the merge-preparation record and will check CI on the updated head.",
+        "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a17c65-7a7d-7251-b439-1dddda32ab9b.json",
+        "in_reply_to": "codex-message:01a17c65-7aa2-73f0-8b14-f1b890a7d608",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-27-truth-tracking-merge-prep"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_01aaccc36fea713b016ae05cc98a7c819199f318cc4e2748bf",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
+        "recipients": [
+          "codex-thread:01a1786a-3045-7562-b65b-deebef2a5361"
+        ],
+        "text": "The final records are pushed. The scientific source, data, and figures are unchanged, and local validators pass. GitHub still reports PR #101 ready and mergeable; both workflows are running on the final commit.",
+        "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a17c65-7a7d-7251-b439-1dddda32ab9b.json",
+        "in_reply_to": "codex-message:01a17c65-7aa2-73f0-8b14-f1b890a7d608",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-27-truth-tracking-merge-prep"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_01aaccc36fea713b016ae05d2dcc9c819196ed4a6dd3b24e0e",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
+        "recipients": [
+          "codex-thread:01a1786a-3045-7562-b65b-deebef2a5361"
+        ],
+        "text": "Plot replay and token-accounting CI passed on the final head. The remaining build job is running the repository-wide geometry checks.",
+        "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a17c65-7a7d-7251-b439-1dddda32ab9b.json",
+        "in_reply_to": "codex-message:01a17c65-7aa2-73f0-8b14-f1b890a7d608",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-27-truth-tracking-merge-prep"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_01aaccc36fea713b016ae05d757e948191896974b68fa2ed1a",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
+        "recipients": [
+          "codex-thread:01a1786a-3045-7562-b65b-deebef2a5361"
+        ],
+        "text": "The working tree is clean and the records are current. The hosted build is the only remaining check before handoff.",
+        "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a17c65-7a7d-7251-b439-1dddda32ab9b.json",
+        "in_reply_to": "codex-message:01a17c65-7aa2-73f0-8b14-f1b890a7d608",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-27-truth-tracking-merge-prep"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_01aaccc36fea713b016ae05dc53eb0819181cb8b3937f37e6b",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
+        "recipients": [
+          "codex-thread:01a1786a-3045-7562-b65b-deebef2a5361"
+        ],
+        "text": "The finite-module checks passed. CI has moved on to the pixel geometry controls.",
+        "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a17c65-7a7d-7251-b439-1dddda32ab9b.json",
+        "in_reply_to": "codex-message:01a17c65-7aa2-73f0-8b14-f1b890a7d608",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-27-truth-tracking-merge-prep"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_01aaccc36fea713b016ae05e0c7fe081918a57592121f0a14d",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
+        "recipients": [
+          "codex-thread:01a1786a-3045-7562-b65b-deebef2a5361"
+        ],
+        "text": "Geometry checks passed. CI is finishing the project-record and documentation-link checks.",
+        "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a17c65-7a7d-7251-b439-1dddda32ab9b.json",
+        "in_reply_to": "codex-message:01a17c65-7aa2-73f0-8b14-f1b890a7d608",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-27-truth-tracking-merge-prep"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_01aaccc36fea713b016ae05e547a5c819190247ec0f3b78741",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
+        "recipients": [
+          "codex-thread:01a1786a-3045-7562-b65b-deebef2a5361"
+        ],
+        "text": "Accounting now covers all ten available closed turns in their original accounts. This active merge-preparation turn remains excluded until it closes.",
+        "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a17c65-7a7d-7251-b439-1dddda32ab9b.json",
+        "in_reply_to": "codex-message:01a17c65-7aa2-73f0-8b14-f1b890a7d608",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-27-truth-tracking-merge-prep"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_01aaccc36fea713b016ae05ea1c9f481919fb5b1653faab080",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
+        "recipients": [
+          "codex-thread:01a1786a-3045-7562-b65b-deebef2a5361"
+        ],
+        "text": "GitHub now marks the merge state CLEAN. I’m waiting for the last build job to complete before handing it back.",
+        "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a17c65-7a7d-7251-b439-1dddda32ab9b.json",
+        "in_reply_to": "codex-message:01a17c65-7aa2-73f0-8b14-f1b890a7d608",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-27-truth-tracking-merge-prep"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_01aaccc36fea713b016ae05ee18f188191993f9bd5b7b6c3ae",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a176bd-cabc-77c0-8841-9d7ee1efa109",
+        "recipients": [
+          "codex-thread:01a1786a-3045-7562-b65b-deebef2a5361"
+        ],
+        "text": "[PR #101](https://github.com/asalzburger/nodd/pull/101) is ready to merge.\n\n- Final-head CI passed; merge state is **CLEAN**.\n- Discussion and closed-turn usage records are current.\n- Scientific source, data, and figures remain unchanged.",
+        "source": "interactions/pr-0101/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a17c65-7a7d-7251-b439-1dddda32ab9b.json",
+        "in_reply_to": "codex-message:01a17c65-7aa2-73f0-8b14-f1b890a7d608",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-27-truth-tracking-merge-prep"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
         "id": "codex-message:msg_087aea2f6a615fee016adf60b809908191906ba705f4339647",
         "type": "response",
         "direction": "reaction",
@@ -3420,9 +3649,9 @@
       }
     ],
     "coverage": {
-      "github_captured_at": "2026-10-27T08:10:05.276736Z",
+      "github_captured_at": "2026-10-27T09:39:51.803679Z",
       "prompts": "Available account-matched user-visible messages, public Codex inputs and curated journal excerpts. Historical full input coverage is unknown.",
-      "recovered_visible_turns": 10,
+      "recovered_visible_turns": 11,
       "unrecovered_account_turns": [],
       "responses": "Public responses and recorded outcomes; no private model state or hidden reasoning.",
       "token_accounting": "References only. Never sum accounts across PRs or assign a shared turn by text length.",

@@ -41,3 +41,8 @@ native outputs and figures retain their prior exact-revision assessment.
 
 Commit and push these records, then check final-head Project validation and
 Token usage Pages workflows. Keep PR101 ready and open for the maintainer.
+
+
+## 2026-10-27 post-merge reconciliation
+
+GitHub confirms PR101 merged at2026-10-27T08:46:55Z, merge04b5ee2e408803eac836eee0b48a1635dcbbe201, head db071101c7d4db9c57d3da7083bc9b1d69b6f265. Original merge-preparation turn01a17c65-7a7d-7251-b439-1dddda32ab9b is now closed:7631398input+14461output=7645859total, cached7376640, reasoning6481. Imported once into this original account only; exact execution model unavailable. Evidence logs/usage/USAGE-2026-10-27-truth-merge-prep-closed.json. Its completed visible-turn snapshot replaces the provisional snapshot. The new optimisation account receives none of these counters.
