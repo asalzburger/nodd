@@ -246,3 +246,18 @@ mild alternative as a second tradeoff, preserve regional regressions and tails,
 and do not retune layouts on confirmation data. The Gaussian native retry
 contract is recorded explicitly (verified algorithm minimum10, up to11draws);
 adding this metadata does not change its digitisation schedule.
+
+
+### Added-material control, registered before confirmation results are read
+
+The exploratory balanced pT1GeV regression motivates two further42042-seed
+controls: `balanced-nine` omits the new disk, isolating the added material;
+`late-disk` keeps the nine balanced disk positions but places the new donor2
+disk at2900mm, behind most measured curvature lever arm. The latter retains
+170mm clearance to the last3070mm disk and preserves all module types, layers,
+staves and envelopes. Hypothesis: a late measurement can improve curvature
+without scattering before most of the available measurements, at the cost of
+transition-region hit coverage. This is registered before any52042confirmation
+residuals are reduced/read. Neither control is chosen using confirmation data.
+If selected for final comparison it uses another independent seed62042 and a
+fresh baseline, leaving the original52042campaign as its own locked comparison.
