@@ -74,6 +74,14 @@ class RedesignControls(unittest.TestCase):
         self.assertAlmostEqual(points[0, 0, 2], 6.7456)
         self.assertEqual(int(hits.sum()), 3)
 
+    def test_chord_mask_is_independent_of_batch_membership(self):
+        c = load()
+        eta = np.array([.5, .984375, 1.165625, 1.8, 2.8])
+        phi = np.array([0., .0625, 12.0625, 7.5, 15.])
+        whole = crossings(eta, phi, c)[0]
+        single = np.vstack([crossings([e], [p], c)[0] for e, p in zip(eta, phi)])
+        np.testing.assert_array_equal(whole, single)
+
     def test_one_station_per_shell_and_strict_ordering(self):
         c = load()
         eta = np.linspace(0, 3, 601)

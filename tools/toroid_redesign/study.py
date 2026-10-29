@@ -165,7 +165,7 @@ def crossings(eta, phi_deg, config, clipped=True):
     st = config['stations']; h = st['outline_thickness_m']/2
     points = np.zeros((len(e), 3, 3)); available = np.zeros((len(e), 3), bool)
     kind = np.zeros((len(e), 3), int)
-    def retained(p, geometric, surface):
+    def retained(p, geometric, surface, max_half_chord):
         ok = geometric.copy()
         if not clipped:
             return ok
@@ -178,7 +178,9 @@ def crossings(eta, phi_deg, config, clipped=True):
             half_chord = (h*np.cosh(e[subset]) if surface == 'barrel' else
                 h/np.maximum(abs(np.tanh(e[subset])), 1e-15))
             unit = p[subset]/distance[:, None]
-            n = max(1, math.ceil(2*float(half_chord.max())/.05))
+            # Fixed station-wide bound makes results independent of how callers
+            # batch the rays or which alternative surfaces have already survived.
+            n = max(1, math.ceil(2*max_half_chord/.05))
             blocked = np.zeros(len(subset), bool)
             for f in np.linspace(-1, 1, n+1):
                 todo = ~blocked
@@ -194,11 +196,11 @@ def crossings(eta, phi_deg, config, clipped=True):
         rd = np.divide(z, sh, out=np.zeros_like(sh), where=sh > 0)
         bp = np.column_stack((r*np.cos(phi), r*np.sin(phi), side*r*sh))
         dp = np.column_stack((rd*np.cos(phi), rd*np.sin(phi), side*z))
-        barrel_ok = retained(bp, barrel, 'barrel')
+        barrel_ok = retained(bp, barrel, 'barrel', h*math.hypot(1, end/(r+h)))
         # OR within each station: a coil-clipped barrel must not hide a usable
         # wheel of the same station. Prefer the retained barrel crossing when
         # both survive, otherwise use the retained wheel for path/bending.
-        disk_ok = retained(dp, disk & ~barrel_ok, 'disk')
+        disk_ok = retained(dp, disk & ~barrel_ok, 'disk', h*math.hypot(1, outer/(z+h)))
         choose_barrel = barrel_ok | (~disk_ok & barrel)
         points[:, i] = np.where(choose_barrel[:, None], bp, dp)
         available[:, i] = barrel_ok | disk_ok
