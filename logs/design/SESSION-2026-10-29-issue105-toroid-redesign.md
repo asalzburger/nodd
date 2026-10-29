@@ -115,3 +115,125 @@ and signed-bending/material transport before performance claims.
   "deliverable": "Return cited technical proposal to coordinator; retain curated handoff in the issue105 session narrative.",
   "completion": "Report exact source revisions, findings, actual checks and limitations; no sign-off."
 }
+
+```json
+{
+  "id": "I105-PhysVal",
+  "role": "PhysVal",
+  "input_revision": "1ab7b951f6f3af99ada47c0881b8180e86a1da35",
+  "inputs": [
+    "tools/toroid_redesign/study.py",
+    "tools/toroid_redesign/design.json",
+    "tools/toroid_redesign/test_study.py",
+    "docs/design/inputs/DES-039-issue105-separated-toroids.md",
+    "docs/validation/DES-039/issue105/results.json",
+    "docs/validation/DES-039/issue105/README.md"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Review issue105 separated toroid geometry, joint vacuum field/energy screen and three-station schematic acceptance. Inspect primary inputs before conclusions. Verify retained source hashes, tests, station/chord/solid-angle semantics, compare same-bank control, assess cold-volume and winding-field claims. Run a useful independent numerical or angular/field refinement check. Identify blockers vs acknowledged engineering limits. Do not edit or delegate.",
+  "deliverable": "Return cited revision-specific findings and actual commands, with a concise disposition suitable for docs/validation/DES-039/issue105/physics-review.md.",
+  "completion": "Report examined commit, source set, findings, actual checks and limits. No human sign-off or unverified physical feasibility claim."
+}
+```
+
+```json
+{
+  "id": "I105-PhysVal-amendment",
+  "role": "PhysVal",
+  "input_revision": "3540fc6e181f078b1a89727b69d8fc95c2046345",
+  "inputs": [
+    "tools/toroid_redesign/study.py",
+    "tools/toroid_redesign/test_study.py",
+    "tools/toroid_redesign/design.json"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Reassess the barrel OR wheel once-per-station correction relative to prior1ab7b95, using regression rayeta0.984375/phi0.0625 and an independent stationwise union control. Check explicit crossing selection for path/bending. Assess map metadata-only followup. Numerical artifacts are being replayed and will be frozen separately; do not silently treat stale artifacts in this commit as regenerated. No edits or delegation.",
+  "deliverable": "Return amendment assessment, commands and remaining findings for the retained physics-review.md.",
+  "completion": "Name exact reviewed commit, whether counting correction resolves prior finding, and scientific limits."
+}
+```
+
+```json
+{
+  "id": "I105-PhysVal-amendment-2",
+  "role": "PhysVal",
+  "input_revision": "578521769b323674b49c1aaba836b3b0d632fb99",
+  "inputs": [
+    "tools/toroid_redesign/study.py",
+    "tools/toroid_redesign/test_study.py",
+    "tools/toroid_redesign/design.json"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Reassess the barrel OR wheel once-per-station correction relative to prior1ab7b95, using regression rayeta0.984375/phi0.0625 and an independent stationwise union control. Check explicit crossing selection for path/bending. Assess map metadata-only followup. Numerical artifacts are being replayed and will be frozen separately; do not silently treat stale artifacts in this commit as regenerated. No edits or delegation. Also assess the fixed per-station chord-sampling bound and batch-invariance regression; masks must not depend on ray grouping.",
+  "deliverable": "Return amendment assessment, commands and remaining findings for the retained physics-review.md.",
+  "completion": "Name exact reviewed commit, whether counting correction resolves prior finding, and scientific limits."
+}
+```
+
+```json
+{
+  "id": "I105-PhysVal-final",
+  "role": "PhysVal",
+  "input_revision": "804b33c192e7969e012ca714b91b6634d3d1ab0a",
+  "inputs": [
+    "tools/toroid_redesign/study.py",
+    "tools/toroid_redesign/design.json",
+    "docs/validation/DES-039/issue105/results.json",
+    "docs/validation/DES-039/issue105/refinement.json",
+    "docs/validation/DES-039/issue105/README.md",
+    "docs/validation/DES-039/issue105/physics-review.md"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Final read-only artifact reconciliation after both prior fixes. Verify source/input hashes, retained corrected counts and denominators vs README/figure claims, higher-order field sensitivity, actual source dirty wording and retained initial adverse findings. Source algorithm5785217 already assessed; no new broad numerical campaign needed unless new inconsistency appears. No edits or delegation.",
+  "deliverable": "Return final exact-revision artifact/hash/claim disposition for coordinator to append to physics-review.md.",
+  "completion": "Report exact target, actual checks, unresolved material/engineering limits and any remaining actionable finding."
+}
+```
+
+## Final review and publication state
+
+PhysVal initial review1ab7b95 found a usable wheel hidden by a clipped barrel,
+a sampled100% statement needing qualification, exterior field-order sensitivity
+and stale dirty-source prose. Retained this adverse review. Corrected stationwise
+barrel OR wheel with explicit selected points, then fixed chord sampling to
+station-wide analytical bounds independent of ray batching (3540fc6/5785217).
+The reviewer reproduced all8 final unit controls, seeded261-ray chunk invariance
+and8400-ray independent alternative unions with zero mismatches.
+
+Final artifact review804b33c verifies all8 source hashes and input hash, every
+8400/33600 matrix statistic within1e-13,134400-cell denominator identities,
+PNG/SVG bytes and visible claims, and44 bending trials. No remaining actionable
+artifact finding; engineering limitations persist. Final denser three-station
+solid angle is83.7982% beloweta3.5 and84.0612% beloweta3. Higher-order exterior
+subset reaches3.64464T; no global/interior bound or NbTi margin is certified.
+
+Final focused controls:27 field/energy/geometry tests plus6 sizing tests pass.
+The wrong dotted import invocation for legacy sizing tests failed; reran with
+discovery successfully. A session-record status spelling failed validation once
+and was corrected to the existing schema's PASS/FAIL vocabulary.
+
+Normal git push published branchcodex/issue105-separated-toroids at804b33c.
+The native GitHub create_pull_request call was rejected by automatic approval
+review: it classified the PR payload as disclosure of internal design/code to
+a destination not established as trusted without explicit publication approval.
+No PR was created. Did not retry via another tool, post an issue comment, or
+make further GitHub changes. The exact proposed title/body is retained in
+issue105/draft-pr.md for concrete user review. Final local closeout commits
+remain unpublished pending the requested approval.
+
+The task's design/review deliverable is complete as DRAFT; creating its draft PR
+requires user approval following that automatic rejection. No exact usage counters
+were exposed for coordinator or children; unknown usage remains empty.
+
+## Completion summary and checks
+
+Project, agent, session and token-site validators plus token preview build and
+Git whitespace check passed at local closeout. Repository records in this stacked
+checkout report 870643545 observed input tokens and 4670671 observed output
+tokens across 251 recorded turns; 72 sessions have no usage observations.
+These are retained repository aggregates, not this task's consumption or a complete
+project total. This task and its specialists have no client measurements.

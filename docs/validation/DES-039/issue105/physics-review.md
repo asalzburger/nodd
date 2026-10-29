@@ -94,3 +94,21 @@ material transport and reconstruction remain unresolved.
 
 This assessment supports a bounded DRAFT investigation with the corrected
 counting semantics and explicit limits. It supplies no engineering acceptance.
+
+## Final frozen-artifact reconciliation
+
+I105-PhysVal-final assessed
+`804b33c192e7969e012ca714b91b6634d3d1ab0a` read-only and found no remaining
+actionable artifact/claim inconsistency. All eight scientific-source hashes
+and the input hash match pinned Git blobs; code/test/configuration equal the
+reviewed5785217 source. Both results name that source and the recorded dirty
+flag is accurately described.
+
+The reviewer independently recounted all stored8400/33600-cell station matrices,
+including eta3 and full-sphere denominators, agreeing within1e-13. Denser-summary
+identities agree with83.7982328% /62.5937860% three-station solid angle, a
+21.2044468 percentage-point gain; the below-eta3 two-station fraction remains
+99.9594375%. It visually inspected the PNG, verified PNG/SVG pinned bytes,
+checked all44 signed-bending trials, and confirmed that the final README/figure
+retain field-order sensitivity, sampling limits and unmet stretch coverage.
+The scientific and engineering limitations above remain unchanged.

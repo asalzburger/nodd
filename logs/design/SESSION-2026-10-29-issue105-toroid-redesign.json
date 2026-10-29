@@ -4,8 +4,8 @@
   "title": "Issue 105 separated toroids and muon chamber redesign",
   "recorded_at": "2026-10-29T14:49:22Z",
   "started_at": null,
-  "ended_at": null,
-  "status": "open",
+  "ended_at": "2026-10-29T15:21:05Z",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
@@ -22,29 +22,42 @@
     "start_commit": "04b5ee2e408803eac836eee0b48a1635dcbbe201",
     "branch": "codex/issue105-separated-toroids",
     "initial_changes": [],
-    "result_commits": [],
+    "result_commits": [
+      "a40db6b0b582afd1c4d221a1d14c5c9765f54a6f",
+      "8d3cff47c514baf0e30a10c33d6f51f7a0635734",
+      "1ab7b951f6f3af99ada47c0881b8180e86a1da35",
+      "3540fc6e181f078b1a89727b69d8fc95c2046345",
+      "578521769b323674b49c1aaba836b3b0d632fb99",
+      "804b33c192e7969e012ca714b91b6634d3d1ab0a"
+    ],
     "changed_files": [
+      ".github/workflows/validation.yml",
+      "AGENTS.md",
+      "docs/design/DES-004-magnetic-configurations.md",
+      "docs/design/DES-039-twelvefold-toroid.md",
+      "docs/design/DES-040-muon-chambers-frame.md",
       "docs/design/inputs/DES-039-issue105-separated-toroids.md",
+      "docs/layouts/README.md",
       "docs/validation/DES-039/issue105/README.md",
       "docs/validation/DES-039/issue105/configuration.json",
+      "docs/validation/DES-039/issue105/draft-pr.md",
+      "docs/validation/DES-039/issue105/physics-review.md",
+      "docs/validation/DES-039/issue105/refinement.json",
       "docs/validation/DES-039/issue105/results.json",
       "docs/validation/DES-039/issue105/schematic.png",
       "docs/validation/DES-039/issue105/schematic.svg",
       "docs/validation/DES-039/issue105/sizing-control.json",
       "logs/design/SESSION-2026-10-29-issue105-toroid-redesign.json",
       "logs/design/SESSION-2026-10-29-issue105-toroid-redesign.md",
+      "project/tracking.json",
+      "reference/manifest.yaml",
+      "tools/magnetic_study/sizing-policy.json",
+      "tools/toroid_prototype/README.md",
       "tools/toroid_redesign/README.md",
       "tools/toroid_redesign/design.json",
       "tools/toroid_redesign/draw.py",
       "tools/toroid_redesign/study.py",
-      "tools/toroid_redesign/test_study.py",
-      ".github/workflows/validation.yml",
-      "docs/design/DES-004-magnetic-configurations.md",
-      "docs/design/DES-039-twelvefold-toroid.md",
-      "docs/design/DES-040-muon-chambers-frame.md",
-      "docs/layouts/README.md",
-      "project/tracking.json",
-      "reference/manifest.yaml"
+      "tools/toroid_redesign/test_study.py"
     ]
   },
   "work": {
@@ -64,20 +77,78 @@
     ]
   },
   "narrative": "logs/design/SESSION-2026-10-29-issue105-toroid-redesign.md",
-  "activities": [],
+  "activities": [
+    {
+      "kind": "tool",
+      "name": "mcp__codex_apps__github_create_pull_request",
+      "version": null,
+      "calls": 1,
+      "failures": 1,
+      "duration_seconds": null,
+      "evidence": "Native tool returned isError with automatic approval rejection; no PR created. Exact proposed payload saved in draft-pr.md; no alternate publication attempted."
+    }
+  ],
   "usage": [],
   "checks": [
     {
-      "command": "python3 -B -m unittest tools.toroid_redesign.test_study tools.toroid_prototype.test_field tools.toroid_prototype.test_energy -v",
-      "exit_code": 0,
-      "status": "PASS",
-      "result": "25 focused analytic/field/energy controls passed."
+      "command": "Initial prototype whole-domain ideal-shell assertion",
+      "exit_code": 1,
+      "status": "FAIL",
+      "result": "Caught explicit0.4m aperture loss aboveeta3.48; preserved aperture and qualified unmet stretch target."
+    },
+    {
+      "command": "Initial0.14x0.20 pack energy/cold containment trial",
+      "exit_code": 1,
+      "status": "FAIL",
+      "result": "Rejected root because target cold volume could not contain pack. Final thinner pack independently recomputed."
+    },
+    {
+      "command": "python3 -B -m unittest tools.toroid_redesign.test_study tools.magnetic_study.test_sizing -v",
+      "exit_code": 1,
+      "status": "FAIL",
+      "result": "Sizing test uses local imports and cannot run by dotted module from repository root; corrected with discovery invocation, no test weakened."
     },
     {
       "command": "python3 -B -m tools.toroid_redesign.study",
       "exit_code": 0,
       "status": "PASS",
-      "result": "Fresh separated geometry/field/energy and coarse/refined full-depth shell coverage; explicit engineering and coverage limits retained."
+      "result": "Final frozen5785217 code replay: source/input hashes match; separated geometry, bounded joint vacuum screen, fresh energy/cold root, corrected full-depth station OR and signed bending."
+    },
+    {
+      "command": "coverage(config,.00625,.125,.05) and short-barrel control on same direction bank",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "134400 directions per layout;83.7982328% vs62.5937860% conditional solid angle withineta3.5;84.0612474% withineta3; no stretch three-station cells."
+    },
+    {
+      "command": "python3 -B -m unittest tools.toroid_redesign.test_study tools.toroid_prototype.test_field tools.toroid_prototype.test_energy -q",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "27 focused controls passed, including alternative-surface and batch-invariance regressions."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/magnetic_study -p 'test_sizing.py' -q",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "6 sizing-policy controls passed."
+    },
+    {
+      "command": "python3 -B -m tools.toroid_redesign.draw; rsvg-convert schematic.svg to schematic.png; view_image",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "Deterministic standalone SVG/PNG generated and visually inspected; denser summary distinguished from33600-cell heatmap."
+    },
+    {
+      "command": "Independent PhysVal read-only review at1ab7b95,3540fc6,5785217,804b33c",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "Initial adverse counting/wording findings retained and resolved. Final hashes, all retained-grid fraction recounts, denominator identities, figure and44 bending trials checked; no remaining actionable artifact/claim finding. No human approval."
+    },
+    {
+      "command": "project_records/validate.py; agent_workflow/workflow.py validate; session_log.py validate/summary; token_usage/build.py validate/build; git diff --check",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "All local closeout validators and token-site preview build pass. Session summary keeps this task usage unknown; no counters estimated."
     }
   ]
 }

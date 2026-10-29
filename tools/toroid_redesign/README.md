@@ -38,5 +38,17 @@ hemispheres follow the tested reflection symmetry. Eta3 and3.5 denominators
 remain separate. The candidate has no finite panel tiling, borders or services:
 its availability is a geometric ceiling, not detection efficiency.
 
+The checked-in `refinement.json` records the additional134400-direction bank
+requested by independent review. Reproduce it with
+`coverage(configuration,.00625,.125,.05)` for the retained configuration, then
+for a deep copy with `stations.barrel_half_lengths_m=[5.7,5.7,5.7]`.
+Its source revision, exact command and both summary denominators are retained;
+the SVG renderer uses these denser summary values and the33600-cell heatmap.
+No interpolated field map is produced. For direct joint field queries, load
+`configuration.json`, sum `field.evaluate(points,system.toroid_sources(config))`
+and `field.evaluate(points,system.solenoid_sources()[0])` from
+`tools.toroid_prototype`, and respect the documented winding/near-pack guard.
+The map entry in the input is a future±15m domain request only.
+
 [Design and source rationale](../../docs/design/inputs/DES-039-issue105-separated-toroids.md),
 [results](../../docs/validation/DES-039/issue105/README.md).
