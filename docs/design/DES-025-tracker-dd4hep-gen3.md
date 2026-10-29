@@ -384,3 +384,26 @@ no settings or simulation reruns are introduced. Zero final measurement losses
 do not count or exclude rejected/redrawn attempts. Edge acceptance can condition
 observed residuals, so Gaussian draws do not guarantee exact observed normality.
 The original reports' zero-retry label is retained with an explicit correction.
+
+
+## Current working baseline update — 2026-10-29
+
+The human-selected tracker working baseline is now the DES040 balanced
+configuration, chosen by expertnoemina in[PR104 review5701456683](https://github.com/asalzburger/nodd/pull/104#pullrequestreview-5701456683)
+and explicitly authorized for maintained DD4hep implementation and pixel TDR
+update by the human. The[selection record](inputs/DES-040-balanced-selection.json)
+retains exact source parameters, fingerprint, reviewed revision and scope.
+
+**NODD DESIGN CHOICE:**pixel barrel nominal radii31.5/57/96/182mm with12/22/18/30
+staves; original logical discIDs1..9 atabsolutez615/865/1115/1333/1565/1780/2090/
+2440/3070mm and added donor2logicalID10at950mm per end. Preserve module/local
+stave/disc structures, all strip geometry, beam pipe and envelopes. The maintained
+pixel/tracker generators select this configuration by default; explicit old
+configurations and prior validation reports remain reference controls. New
+source/native-equivalence and physical validation evidence accompanies PR104.
+
+This updates the working simulation geometry; the DRAFT design lifecycle and
+open service/thermal/material-response qualifications remain. The expert accepted
+a hermeticity/resolution tradeoff, not a claim that every ten-hit or momentum
+objective is met. The transported effective material map used in the study is
+separate from the detailed DD4hep component material and is not a new Geant4 map.

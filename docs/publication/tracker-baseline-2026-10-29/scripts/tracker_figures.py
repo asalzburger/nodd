@@ -3,6 +3,7 @@
 
 No nODD checkout, native runtime, network or TeX shell escape is required.
 """
+import argparse
 import hashlib
 import json
 import math
@@ -17,6 +18,9 @@ from matplotlib.patches import Polygon, Rectangle, Circle, Wedge, Patch
 from matplotlib.lines import Line2D
 
 ROOT=Path(__file__).resolve().parents[1]
+parser=argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--balanced', action='store_true', help='Refresh only current pixel-dependent overall views; preserve strip assets.')
+args=parser.parse_args()
 def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
 manifest=json.loads((ROOT/'data/tracker-provenance.json').read_text())
 assert sha(ROOT/'data/tracker-baseline.json')==manifest['snapshot_sha256']
@@ -25,6 +29,9 @@ P=json.loads((ROOT/'data/pixel-layout.json').read_text())
 PE=json.loads((ROOT/'data/pixel-endcap-baseline.json').read_text())
 for f,m in [('pixel-layout.json','pixel-provenance.json'),('pixel-endcap-baseline.json','pixel-endcap-provenance.json')]:
     assert sha(ROOT/'data'/f)==json.loads((ROOT/'data'/m).read_text())['snapshot_sha256']
+if args.balanced:
+    current=json.loads((ROOT/'data/balanced-baseline.json').read_text())
+    P=current['pixel']; PE=current['endcap']
 BLUE='#174382'; TEAL='#168586'; PURPLE='#835c93'; GOLD='#ba6928'; GREY='#65717d'; GREEN='#91aa8e'; LIGHT='#e4e9e2'; RED='#aa4658'
 plt.rcParams.update({'font.family':'DejaVu Sans','font.size':8,'axes.titlesize':9,'axes.labelsize':8,
     'xtick.labelsize':7,'ytick.labelsize':7,'pdf.fonttype':42,'axes.spines.top':False,'axes.spines.right':False})
@@ -79,6 +86,10 @@ ax.set(xlim=(450,3550),ylim=(0,1230),xlabel='|z| [mm]',ylabel='r [mm]')
 ax.legend(handles=[Patch(fc=c,alpha=.25,label=l) for c,l in [(BLUE,'Pixel'),(TEAL,'Short-strip'),(PURPLE,'Long-strip')]],loc='upper right',ncols=3,fontsize=7)
 note(ax,'Filled regions are fixed service reservations and disc fans, not occupied solid material.\nSeparate subsystem inventories do not demonstrate combined installation clearance.')
 fig.tight_layout();save(fig,'tracker-services')
+
+if args.balanced:
+    print('Rendered balanced tracker layout/services; preserved all six strip figures/table.')
+    raise SystemExit(0)
 
 fig,aa=plt.subplots(1,2,figsize=(7.0,3.6),gridspec_kw={'width_ratios':[1,1]})
 for m in D['short_barrel']['xy_modules']:

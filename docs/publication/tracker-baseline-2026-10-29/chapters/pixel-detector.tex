@@ -1,8 +1,8 @@
 % !TeX root = ../main.tex
 \section{Pixel detector}
 \label{sec:pixel-detector}
-The pixel detector comprises four barrel layers and nine discs at each end,
-with \num{5362} modules and \num{11806} active chip patches. The inner two
+The pixel detector comprises four barrel layers and ten discs at each end,
+with \num{5666} modules and \num{12410} active chip patches. The inner two
 barrels use single-chip modules and the outer two use quads. The endcaps combine
 four inner single-module rings and two outer quad rings, with a larger active
 aperture at the forward stations. Carbon sandwich staves and discs carry the
@@ -87,7 +87,7 @@ independent scale; the electrical detail illustrates discrete connections.}
 \subsection{Barrel layout}
 \label{sec:pixel-barrels}\label{sec:pixel-packing}
 The four layer datums are at
-\qtylist{34;60;106;182}{\milli\metre}. Single-chip staves tile the smaller
+\qtylist{31.5;57;96;182}{\milli\metre}. Single-chip staves tile the smaller
 circumferences; quads reduce repeated module edges at larger radii. Adjacent
 staves alternate radial levels, with the offsets and populations in
 \cref{tab:pixel-barrels}. Their modules have no azimuthal tilt.
@@ -159,13 +159,15 @@ face. Quad rings contain two radial chip rows.}
 \end{table}
 
 The station inventory in \cref{tab:pixel-discs} specifies the retained inner
-rings and both outer quad rings at each datum. The progressively larger active
-aperture follows the first outward half-turn of charged tracks in vacuum, with
-$|\eta|\leq4$, $\pt\geq\qty{1}{\giga\electronvolt}$, luminous vertices
-$|z_0|\leq\qty{150}{\milli\metre}$ and $|x_0|,|y_0|\leq\qty{1}{\milli\metre}$,
-and a uniform axial field with $|B_z|\leq\qty{4}{\tesla}$.
-Both endcaps contain \num{2312} modules and
-\num{5012} chip patches. The negative end uses corresponding signed datums
+rings and both outer quad rings at each datum. The larger forward active apertures are implemented by retaining the selected
+ring populations at each station. Local module positions, face assignments and
+sensor depths are preserved within each rigid disc assembly. Disc identifiers
+remain stable: disc 10 lies at $|z|=\qty{950}{\milli\metre}$ between discs
+2 and 3 and repeats the complete local geometry of disc 2. The table is ordered
+by distance from the interaction point. These apertures and datums do not imply
+complete acceptance for every trajectory.
+Both endcaps contain \num{2616} modules and
+\num{5616} chip patches. The negative end uses corresponding signed datums
 and support-facing module frames.
 
 \begin{table}[!htbp]
@@ -221,7 +223,7 @@ and titanium tube. Graphite orientation defines the thermal-conduction
 path.\cite{graphite,tepx} Azimuthal and radial tube routes occupy separate
 planes at $w=\pm\qty{1.5}{\milli\metre}$. Each chip row has two independent
 half-ring circuits; the station totals are in \cref{tab:pixel-discs}, giving
-\num{248} circuits across the two endcaps. Three rim tongues transfer loads
+\num{280} circuits across the two endcaps. Three rim tongues transfer loads
 through cone/slot/plane contacts to box rails on a common CFRP carrier.
 \Cref{tab:pixel-support,fig:pixel-support} specify the local passive geometry.
 
@@ -244,7 +246,7 @@ Disc stem and inserts & Stem section $6\times8$; heights 0 or 1.65; quad stems
 shift 1 toward module centre. Core insert 4.50; skin window 0.15;
 contact area $48\,\unit{\milli\metre\squared}$; adhesive equivalent 0.08.\\
 Disc tongues & Width 10; $r=186$--228 at $\phi=90,210,330^{\circ}$.\\
-Carrier rails/shell/flanges & Three $8\times8$ box rails, wall 0.4 at
+Carrier rails/shell/flanges & Station-following coupling slots; three $8\times8$ box rails, wall 0.4 at
 $r=223.7$--231.7; shell $r=231.7$--232.0, $|z|=609$--3136;
 end flanges radial 10, axial 2.\\\bottomrule
 \end{tabular}
@@ -334,7 +336,7 @@ Disc collector & $r=27$--190; local outward $z=11.7$--61.7 from its datum.\\
 Axial trunk & Reservation $r=190$--234; material cells $r=192$--231.7.
 Three 90$^{\circ}$ sectors separated by 30$^{\circ}$ mounting sectors centred
 at $\phi=90,210,330^{\circ}$. Barrel load enters at $|z|=605$;
-disc 1--8 loads enter after their collectors.\\
+disc collectors follow their station datums; the rearmost disc is logical disc 9.\\
 Rear interfaces & Last collector ends at $|z|=3131.7$; bypass $r=27$--188
 to rear turn $|z|=3150$. Rear cell extends to $|z|=3300$, $r=680$.
 Flange necks at $|z|=609$--611 and 3134--3136 have outer radius 222.\\\bottomrule
@@ -352,8 +354,8 @@ their frames; bus lines, fans and inlet/outlet symbols show service topology.}
 \begin{figure}[!htbp]
 \centering\includegraphics[width=\linewidth]{pixel-service-interfaces}
 \caption{Effective collection, trunk, final-disc bypass and rear-turn cells.
-Carrier-flange necks retain their fixed bounds. Each cell contains the
-normalized constituent inventory associated with its service handoff.}
+Carrier-flange necks retain their fixed bounds. Collector cells follow the station datums; the trunk and rear cells retain
+the reference constituent inventory within their fixed bounds.}
 \label{fig:pixel-service-interfaces}
 \end{figure}
 
@@ -390,10 +392,21 @@ Remote cable footprint uses provisional volume fractions of
 packing allowance. CO$_2$ inventory uses a reference density of
 \qty{1.0964}{\gram\per\centi\metre\cubed}, the saturated liquid density
 at \qty{-35}{\degreeCelsius}.\cite{nistco2} The model-inventory mass is
-\qty{202.753}{\kilogram}, including \qty{159.383}{\kilogram} in downstream
-transport cells. The effective compositions, cooling inputs and mounting
-contacts specify the simulation baseline and its engineering reference
-assumptions.
+\qty{204.747}{\kilogram}, including \qty{159.749}{\kilogram} in downstream
+transport cells. The maintained DD4hep geometry repeats the detailed disc assemblies, including
+sensors, passive stacks, cooling, mounting tongues and local collectors. Rail
+coupling slots follow all ten stations; carrier and service envelopes remain
+fixed. Global trunk, bypass and rear cells retain the reference material
+inventory. Their cumulative connectivity and capacity for the selected
+populations, and the thermal, hydraulic and mechanical margins, remain
+unqualified.
+
+The reconstruction comparison uses a separate effective ACTS material
+representation: existing material profiles are transported with their assigned
+surfaces and the added disc has a homogeneous donor-disc material layer behind
+its sensors. That approximation does not replace the detailed DD4hep assembly.
+A new Geant4 material map and candidate-specific response validation remain
+separate requirements.
 
 \clearpage
 \input{chapters/pixel-references}

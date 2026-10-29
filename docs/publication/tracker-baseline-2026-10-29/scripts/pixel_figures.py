@@ -14,6 +14,7 @@ from matplotlib.patches import Rectangle,Polygon,Circle,FancyArrowPatch,Wedge,Pa
 from matplotlib.lines import Line2D
 ROOT=Path(__file__).resolve().parents[1]
 parser=argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--balanced', action='store_true', help='Use the maintained balanced extraction; preserve imported historical snapshots.')
 parser.add_argument('--endcap-only', action='store_true', help='Preserve existing barrel/carrier drawings; refresh current endcap figures and tables.')
 args=parser.parse_args()
 D=json.loads((ROOT/'data/pixel-layout.json').read_text())
@@ -22,11 +23,16 @@ assert hashlib.sha256((ROOT/'data/pixel-layout.json').read_bytes()).hexdigest()=
 S=json.loads((ROOT/'data/pixel-endcap-baseline.json').read_text())
 SM=json.loads((ROOT/'data/pixel-endcap-provenance.json').read_text())
 assert hashlib.sha256((ROOT/'data/pixel-endcap-baseline.json').read_bytes()).hexdigest()==SM['snapshot_sha256']
+if args.balanced:
+ CURRENT=json.loads((ROOT/'data/balanced-baseline.json').read_text())
+ D=CURRENT['pixel']; S=CURRENT['endcap']
 D['discs']=S['discs']
 plt.rcParams.update({'font.family':'DejaVu Sans','font.size':8,'axes.titlesize':9,'axes.labelsize':8,'xtick.labelsize':7,'ytick.labelsize':7,'pdf.fonttype':42,'axes.spines.top':False,'axes.spines.right':False,'savefig.transparent':False})
 BLUE='#174382'; CYAN='#0479C1'; ORANGE='#ba6928'; GREEN='#7ca084'; GREY='#65717d'; LIGHT='#dae2ea'; RED='#934c67'
 OUT=ROOT/'figures'; GEN=ROOT/'generated'; OUT.mkdir(exist_ok=True);GEN.mkdir(exist_ok=True)
 def save(fig,name):
+ if args.balanced and name not in ('pixel-overview','pixel-barrels'):
+  plt.close(fig);return
  fig.savefig(OUT/(name+'.pdf'),bbox_inches='tight',pad_inches=.04,metadata={'Creator':'nODD PubDoc pixel_figures.py','CreationDate':None,'ModDate':None});plt.close(fig)
 def box(ax,x,y,w,h,c,**kw):
  ax.add_patch(Rectangle((x,y),w,h,facecolor=c,edgecolor=kw.pop('edgecolor',c),linewidth=kw.pop('lw',.5),**kw))
@@ -38,6 +44,7 @@ def arrow(ax,a,b,c=GREY):ax.annotate('',xy=b,xytext=a,arrowprops={'arrowstyle':'
 E=json.loads((ROOT/'data/pixel-editorial-routing.json').read_text())
 EP=json.loads((ROOT/'data/pixel-editorial-provenance.json').read_text())
 assert hashlib.sha256((ROOT/'data/pixel-editorial-routing.json').read_bytes()).hexdigest()==EP['routing_snapshot_sha256']
+if args.balanced:E=CURRENT['editorial']
 fig,(ax,detail)=plt.subplots(1,2,figsize=(7.0,3.0),gridspec_kw={'width_ratios':[1.7,1]})
 for a in [ax,detail]:
  for q in E['column_zero_positive']:
@@ -51,7 +58,7 @@ for a in [ax,detail]:
  box(a,605,190,3136-605,44,ORANGE,alpha=.18)
  a.plot([609,3136],[232,232],c=GREY,lw=1)
  a.set(xlabel='z [mm]',ylabel='r [mm]');a.grid(alpha=.12)
-for disc in D['discs']:ax.text(disc['z_mm'],265,str(disc['index']),ha='center',fontsize=7)
+for disc in D['discs']:ax.text(disc['z_mm'],265 if disc['index']!=10 else 285,str(disc['index']),ha='center',fontsize=7)
 ax.set(xlim=(-650,3250),ylim=(0,305),title='Pixel detector and positive-side services')
 detail.set(xlim=(0,700),ylim=(0,270),title='Barrel extraction detail')
 detail.annotate('end collection',xy=(580,140),xytext=(360,254),ha='center',fontsize=7,arrowprops={'arrowstyle':'->','color':RED})
@@ -109,7 +116,7 @@ if not args.endcap_only:
  fig.tight_layout();save(fig,'pixel-stave')
 # Current endcap figures and station/ring tables.
 from pixel_endcap_figures import render as render_endcap
-render_endcap(S,D,ROOT)
+if not args.balanced:render_endcap(S,D,ROOT)
 if not args.endcap_only:
  # Load-path schematic, deliberately schematic.
  fig,ax=plt.subplots(figsize=(6.1,2.8));ax.axis('off');ax.set(xlim=(0,12),ylim=(0,5.2))
@@ -134,7 +141,7 @@ for B in D['barrels']:
 (GEN/'pixel-barrel-rows.tex').write_text('\n'.join(bar)+'\n')
 if not args.endcap_only:
  from pixel_details import render
- render(D,ROOT)
+ render(D,ROOT,preserve_local=args.balanced)
 artifacts=[p for p in sorted(OUT.glob('pixel-*.pdf'))]+list(sorted(GEN.glob('pixel-*.tex')))
-(ROOT/'data/pixel-render-manifest.json').write_text(json.dumps({'generator':'scripts/pixel_figures.py','generator_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),'detail_generator_sha256':hashlib.sha256((ROOT/'scripts/pixel_details.py').read_bytes()).hexdigest(),'endcap_generator_sha256':hashlib.sha256((ROOT/'scripts/pixel_endcap_figures.py').read_bytes()).hexdigest(),'mode':'endcap-only' if args.endcap_only else 'all','matplotlib':matplotlib.__version__,'snapshot_sha256':M['snapshot_sha256'],'endcap_snapshot_sha256':SM['snapshot_sha256'],'artifacts':[{'path':str(p.relative_to(ROOT)),'sha256':hashlib.sha256(p.read_bytes()).hexdigest()} for p in artifacts]},indent=2)+'\n')
+if not args.balanced:(ROOT/'data/pixel-render-manifest.json').write_text(json.dumps({'generator':'scripts/pixel_figures.py','generator_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),'detail_generator_sha256':hashlib.sha256((ROOT/'scripts/pixel_details.py').read_bytes()).hexdigest(),'endcap_generator_sha256':hashlib.sha256((ROOT/'scripts/pixel_endcap_figures.py').read_bytes()).hexdigest(),'mode':'endcap-only' if args.endcap_only else 'all','matplotlib':matplotlib.__version__,'snapshot_sha256':M['snapshot_sha256'],'endcap_snapshot_sha256':SM['snapshot_sha256'],'artifacts':[{'path':str(p.relative_to(ROOT)),'sha256':hashlib.sha256(p.read_bytes()).hexdigest()} for p in artifacts]},indent=2)+'\n')
 print(f'Rendered {len(artifacts)} figures/tables from verified snapshot.')

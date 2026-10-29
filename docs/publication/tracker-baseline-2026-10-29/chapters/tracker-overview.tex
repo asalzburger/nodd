@@ -22,8 +22,8 @@ two-coordinate plane.
 The beam direction defines $z$, and $r=\sqrt{x^2+y^2}$ is the transverse radius.
 The nominal interaction point is at the origin. The selected architecture has
 ten barrel assemblies: four pixel, four short-strip and two long-strip layers.
-Each signed end contains nine pixel discs, six short-strip discs and six
-long-strip discs. A long-strip assembly contains both faces of every stereo
+Each signed end contains ten pixel discs, six short-strip discs and six
+long-strip discs, giving 22 disc assemblies per end. A long-strip assembly contains both faces of every stereo
 pair. \Cref{fig:tracker-layout,tab:tracker-inventory} distinguish assembly counts
 from sensitive-element counts.
 
@@ -42,12 +42,13 @@ the field. The red origin interval illustrates the luminous-region hypothesis.}
 \centering\small
 \caption{Selected tracker inventory. Endcap totals include both ends. Pixel
 chips are active readout patches; strixels are complete two-coordinate sensors;
-long-strip faces are separate one-dimensional sensors.}
+long-strip faces are separate one-dimensional sensors. The maintained full
+tracker contains \num{46250} sensitive elements.}
 \label{tab:tracker-inventory}
 \begin{tabular}{@{}lrrp{58mm}@{}}\toprule
 Assembly & Layers/discs & Modules/pairs & Sensitive inventory\\\midrule
 Pixel barrel & 4 & \num{3050} & \num{6794} chip patches\\
-Pixel endcaps & $2\times9$ & \num{2312} & \num{5012} chip patches\\
+Pixel endcaps & $2\times10$ & \num{2616} & \num{5616} chip patches\\
 Short-strip barrel & 4 & \num{8064} & \num{8064} strixels\\
 Short-strip endcaps & $2\times6$ & \num{4320} & \num{4320} strixels\\
 Long-strip barrel & 2 & \num{6984} pairs & \num{13968} strip faces\\
@@ -55,7 +56,7 @@ Long-strip endcaps & $2\times6$ & \num{3744} pairs & \num{7488} strip faces\\\bo
 \end{tabular}
 \end{table}
 
-Pixel barrel datums are at $r=34,60,106,182\,\unit{\milli\metre}$, with nominal
+Pixel barrel datums are at $r=31.5,57,96,182\,\unit{\milli\metre}$, with nominal
 active extent $|z|\leq\qty{550}{\milli\metre}$. Short-strip stave anchors lie at
 $r=260,340,480,660\,\unit{\milli\metre}$ with nominal active extent
 $|z|\leq\qty{1200}{\milli\metre}$. Long-strip anchors lie at
@@ -84,8 +85,9 @@ than global $x$--$y$ directions. Proper rotations define the negative-end strip
 frames and their identifiers.
 
 \subsection{Coverage hypotheses and measurement model}
-The architecture targets charged-particle tracking to $|\eta|<4$. Pixel
-inner-ring removal was selected for first outward trajectories with
+The architecture targets charged-particle tracking to $|\eta|<4$. The pixel
+active apertures retain the selected ring populations, whose original design
+screen considered first outward trajectories with
 $\pt\geq\qty{1}{\giga\electronvolt}$, a luminous interval
 $z_0\in[-150,150]\,\unit{\milli\metre}$ and the stated uniform axial-field
 hypotheses up to \qty{4}{\tesla}. This interval is a design-screen envelope,
@@ -98,8 +100,14 @@ momenta, fields, vertices and azimuths. They use finite sensor planes and retain
 the original ideal-cylinder or annulus denominators. They are neither proofs
 for every intermediate momentum nor simulations of scattering, energy loss,
 dead channels or track reconstruction. Nonzero misses remain at barrel ends and
-shifted first discs. A combined hit-multiplicity and transition study is required
-before attaching an efficiency or minimum-hit guarantee to this baseline.
+shifted first discs. A finite Fatras truth-tracking comparison uses origin muons at
+$\pt=1,10,100\,\unit{\giga\electronvolt}$, $|\eta|\leq4$ and a constant
+\qty{3}{\tesla} axial field, with geometric digitization as the primary
+response. About \qty{98.2}{\percent} of generated tracks have at least ten
+physical measurements. This integrated fraction retains forward gaps; it is
+not a minimum-hit guarantee throughout the acceptance. The selected geometry
+also has a low-momentum resolution tradeoff. Detailed residuals, pulls and
+material/response assumptions belong to the accompanying validation evidence.
 
 Pixel readout uses square \qty{50}{\micro\metre} cells. The short-strip fixture
 uses \qty{75}{\micro\metre} by \qty{0.5}{\milli\metre} cells, with no added
@@ -153,5 +161,6 @@ a separate packing budget. A combined model must replace the barrel-only strip
 service cells with the corresponding cumulative barrel-plus-endcap inventory;
 overlaying independent compacts would allocate the same corridor and material
 twice. For the same reason, their standalone model masses must not be summed
-as a tracker mass or material budget. The common service replacement, full
-overlap audit and integrated directional material maps are review deliverables.
+as a tracker mass or material budget. The maintained integrated exporter reconciles the strip service inventories.
+Global pixel service capacity and fresh integrated directional material maps
+remain separate review deliverables.

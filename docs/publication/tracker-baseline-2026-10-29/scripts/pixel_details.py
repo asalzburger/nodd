@@ -6,10 +6,13 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle,Polygon,Circle,Wedge,Arc
 from matplotlib.lines import Line2D
 
-def render(D,ROOT):
+def render(D,ROOT,preserve_local=False):
  B='#174382';C='#0479C1';O='#ba6928';G='#65717d';L='#dae2ea';K='#7ca084';V='#934c67'
  def box(ax,x,y,w,h,c,**kw):ax.add_patch(Rectangle((x,y),w,h,facecolor=c,edgecolor=kw.pop('edgecolor',c),linewidth=kw.pop('lw',.5),**kw))
- def save(fig,name):fig.savefig(ROOT/'figures'/f'{name}.pdf',bbox_inches='tight',pad_inches=.06,metadata={'Creator':'nODD PubDoc pixel_details.py','CreationDate':None,'ModDate':None});plt.close(fig)
+ def save(fig,name):
+  if preserve_local and name not in ('pixel-barrel-routing','pixel-sector-handoff'):
+   plt.close(fig);return
+  fig.savefig(ROOT/'figures'/f'{name}.pdf',bbox_inches='tight',pad_inches=.06,metadata={'Creator':'nODD PubDoc pixel_details.py','CreationDate':None,'ModDate':None});plt.close(fig)
  def arrow(ax,a,b,c=G,style='-'):ax.annotate('',xy=b,xytext=a,arrowprops={'arrowstyle':'->','color':c,'lw':1,'linestyle':style})
  def polygon(b):return [[b['center_mm'][j]+s*b['u'][j]*b['half_u_mm']+t*b['v'][j]*b['half_v_mm'] for j in range(2)] for s,t in [(-1,-1),(1,-1),(1,1),(-1,1)]]
  # Physical stack: micrometre vertical scale; exact implementation ordering.
