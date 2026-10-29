@@ -1,5 +1,11 @@
 # DES-039 twelvefold toroid prototype
 
+The [issue105 redesign](../toroid_redesign/README.md) supplies the current
+separated-coil proposal and lower-current screen. The commands and maps below
+reproduce the earlier interleaved geometry as historical controls. Shared field,
+geometry and energy primitives remain in this module; its old inputs and results
+are not the new proposal.
+
 Isolated, reproducible **vacuum** magnetostatics based on PR86. Three barrel
 chamber outlines and three disks per end are clipped against the coil/case
 reservations. No chamber internals, iron response or production integration.

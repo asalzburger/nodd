@@ -76,7 +76,7 @@ def render(output=OUTPUT):
     # Refined eta/phi count heatmap.
     cov=report['coverage_refined'];counts=np.array(cov['station_count_eta_phi'])
     left,top,w,h=80,675,630,270
-    text(left,top-30,'Three distinct stations: local shell availability','sub')
+    text(left,top-30,'Local shell availability · retained 33,600-cell grid','sub')
     for i in range(counts.shape[0]):
         changes=np.r_[0,np.flatnonzero(np.diff(counts[i]))+1,counts.shape[1]]
         for j,end in zip(changes[:-1],changes[1:]):
@@ -84,14 +84,15 @@ def render(output=OUTPUT):
     for tick in (0,5,10,15,20,25,30):text(left+tick/30*w-5,top+h+22,str(tick))
     for tick in (0,.5,1,1.5,2,2.5,3,3.5):text(left-35,top+h-tick/3.5*h+5,str(tick))
     text(left+w/2-20,top+h+45,'φ [degree]');text(left-40,top-10,'|η|')
-    text(780,660,'Measured schematic results','sub')
-    fine=cov['three_station'];short=report['coverage_comparisons']['short_barrel_chambers']['three_station']
+    refinement=json.loads((output/'refinement.json').read_text())
+    text(780,660,'Schematic results · denser 134,400-cell bank','sub')
+    fine=refinement['nested_transition_chambers']['three_station'];short=refinement['short_barrel_chambers']['three_station']
     values=[f"Flat η/φ, |η|&lt;3.5: {100*fine['flat_eta_phi_fraction']:.2f}%",
             f"Solid angle, |η|&lt;3.5: {100*fine['conditional_solid_angle_fraction']:.2f}%",
             f"Short-chamber control: {100*short['conditional_solid_angle_fraction']:.2f}% solid angle",
             f"Barrel current: {report['normalization']['currents_Aturn']['barrel']/1e6:.3f} MA-turn / coil",
             f"Endcap current: {report['normalization']['currents_Aturn']['endcap_plus']/1e6:.3f} MA-turn / coil",
-            f"Exterior field sample maximum: {report['normalization']['probe_max_total_norm_T']:.2f} T"]
+            f"Exterior samples: 3.50 T; higher-order subset 3.64 T"]
     for i,value in enumerate(values):text(780,700+i*32,value.replace('&lt;','<'))
     for i,color in enumerate(COLORS):rect(790+i*140,909,22,16,color);text(820+i*140,923,f'{i} stations')
     text(60,1003,'Continuous clipped shells are a coverage ceiling. Finite panels, borders, supports and services are not yet placed.','sub')

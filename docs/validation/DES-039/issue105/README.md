@@ -6,8 +6,8 @@ The PR90/LAYOUT-001 source is `cae3a72f3b1c98edaf9bc28a84d019142606ba25`.
 The source commit/dirty state, exact input/code hashes, Python/NumPy versions,
 executed dimensions, currents, all energy matrices and coverage bins are retained
 in [results.json](results.json) and [configuration.json](configuration.json).
-This run records dirty source plus hashes; it does not claim uncommitted files
-were already part of its source commit.
+The report retains its actual dirty-state flag; code/input hashes identify the
+executed scientific inputs independently of contemporaneous journal changes.
 
 [![Separated toroids and schematic coverage](schematic.png)](schematic.svg)
 
@@ -36,6 +36,11 @@ with0.50m depth and50mm local warm-coil clearance, rather than actual finite pan
 | Toroid cold union volume | 22.30694m³ | Sized around fixed pack; global vacuum30MJ/m³ closure |
 | Cold normal/tangent width | 0.126053 /0.183827m | Provisional support/cooling allowance remains unqualified |
 
+Independent higher-order checks on97 nearby exterior probes increase the sampled
+maximum to3.590965T at pack8/corner64 and3.644641T at pack10/corner96.
+The3.5T screen is therefore discretization-specific and not converged; see
+[revision-specific physics assessment](physics-review.md).
+
 **The4T winding requirement is not certified.** Exterior probes do not bound
 the continuous winding interior. NbTi operating temperature, critical surface,
 strain, current margin, conductor fill and quench are unresolved. The small
@@ -47,36 +52,42 @@ retains why the old0.20×0.30m pack could not be used at low current.
 
 ## Three-station geometric availability
 
-The refined bank has33600 cell-centred directions in eta0–3.5 and one30° sector
-(eta step0.0125,phi step0.25°). Reflection/sector controls support the two
-hemisphere/full-phi extrapolation. A hit requires both depth faces inside the
-shell, a clear local normal extrusion and a clear actual within-chamber track
-chord. Barrel/wheel alternatives count once per station. There are no simulated
-hits, efficiency or reconstructed tracks in this study.
+The denser [angular refinement](refinement.json) has134400 cell-centred
+directions in eta0–3.5 and one30° sector (eta step0.00625,phi step0.125°).
+The figure's heatmap retains the33600-cell bank (0.0125/0.25°); its summary
+uses the denser result. Reflection/sector controls support the two-hemisphere,
+full-phi extrapolation. A hit requires both depth faces inside the shell,
+a clear local normal extrusion and a clear actual within-chamber track chord.
+A usable barrel OR usable wheel counts once per station, with the barrel
+preferred when both survive; the selected point feeds bending/path diagnostics.
+There are no simulated hits or reconstructed tracks in this study.
 
 | Denominator / metric | Extended nested proposal | Short-barrel-chamber control |
 | --- | ---: | ---: |
-| Solid angle conditional on absolute eta<3.5 | 83.94% | 62.06% |
-| Flat eta/phi over absolute eta<3.5 | 54.18% | 41.17% |
-| Solid angle conditional on absolute eta<3 | 84.20% | See recorded coarse control |
-| Flat eta/phi over absolute eta<3 | 63.21% | See recorded coarse control |
-| At least two stations, absolute eta<3 | 100% in this shell model | Separate control in JSON |
+| Solid angle conditional on absolute eta<3.5 | 83.80% | 62.59% |
+| Flat eta/phi over absolute eta<3.5 | 54.14% | 41.47% |
+| Solid angle conditional on absolute eta<3 | 84.06% | 62.79% |
+| Flat eta/phi over absolute eta<3 | 63.17% | 48.39% |
+| At least two stations, solid angle within absolute eta<3 | 99.9594% | 80.83% |
 
 The control keeps the same coils/wheels and shortens every barrel chamber
-half-length to5.7m. Its quoted values use the coarse bank (eta0.025/phi0.5°).
-The same coarse bank gives83.43% solid angle and53.88% flat eta/phi for the
-nested proposal. Refining changes the nested result by0.505 percentage points
-of conditional solid angle and0.298 percentage points of flat eta/phi. These
-sampling effects remain visible; values are not certified efficiencies.
-The proposal's full-sphere solid-angle fraction is83.785%, including absent
-directions outside absolute eta3.5 in the denominator.
+half-length to5.7m. The table compares both layouts on the same denser bank;
+the three-station gain is21.20 percentage points in conditional solid angle.
+Coarse8400 / retained33600 / denser134400 direction banks give
+83.7542% /84.0884% /83.7982%
+conditional solid angle. Sampling is nonmonotonic; retain roughly half a
+percentage point as observed sensitivity, not a rigorous numerical error bound.
+The retained bank's100% two-station result below eta3 is only a sampled
+observation; denser sampling finds narrow losses. No continuous100% claim is
+made. The denser full-sphere three-station fraction is
+83.6455%, including absent directions outside eta3.5 in its denominator.
 
-The strongest loss remains the ECT middle station: only24.52% of eta/phi cells
-in1.5<absolute eta<2.5 have all three retained stations. No three-station cells
-survive in3<absolute eta<3.5 in the refined bank. The eta3.5 objective remains
-unmet. A separate conservative magnet-free interstation-path metric gives82.61%
-conditional solid angle within eta3; material traversal is not an automatic
-muon veto, and must be evaluated with actual conductor/vessel material and transport.
+The strongest loss remains the ECT middle station. On the denser bank,
+24.55% of eta/phi cells in1.5<absolute eta<2.5 have all three stations.
+No three-station cells survive in3<absolute eta<3.5; the stretch target is
+unmet. The separate conservative magnet-free path metric is
+82.78% conditional solid angle below eta3. Material traversal is not an
+automatic muon veto and needs actual conductor/vessel material and transport.
 
 The larger acceptance here cannot be compared directly with the old936-panel
 coverage: no finite-panel seams,30mm borders, frames or service cutouts are
