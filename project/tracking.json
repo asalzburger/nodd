@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated": "2026-10-26",
+  "updated": "2026-10-29",
   "note": "Curated register. Stage B architecture is active. PR #4\u2019s envelope baseline has explicit human approval and is merged; its documents still declare DRAFT and no formal sign-off record exists. Role ownership does not imply active agents. Chore PRs and infrastructure chores are excluded from project progress. Pixel-module design dossier opened by human direction in parallel with architecture; final component-method gates remain pending.",
   "stages": [
     {
@@ -3076,7 +3076,7 @@
         "DES-008"
       ],
       "updated": "2026-10-27",
-      "next_action": "Maintainer merge of reviewed PR101 after final-head checks, then record the actual merge identity. Prototype and unresolved physics qualifications remain; no detector sign-off recorded.",
+      "next_action": "Merged PR101 at04b5ee2e408803eac836eee0b48a1635dcbbe201; retain baseline as optimisation control. No detector sign-off.",
       "blocker": null,
       "disposition": "Completed qualified prototype at scientificf7b14c6/native39cd5185:120000performanceevents+50000independentFatrastraining;119982finitefits,14selectionlosses,4fitfailures,0invalidcovariance. All3199735marginals exactlyfrozentrainedSD\u00b2; three nativeFake partialfits retained by guardedprimaryseedassociation. IndependentPhysVal03 reproduces17712scalars,allCSV/10figures and688reference-removalbranches; noblockingimplementation/reduction/presentationfinding. Broadpulltails andforward100GeVdegradation remainunresolvedobservations, no acceptance. Human follow-up requests fullall-eta distributions;42histograms nowretainall119982fits perparameter,truth-minus-fit sign,6boundparameters+derivedpT. Sixfull/core PNG/PDF/SVGZsets; timeunmeasuredprior label. IndependentPhysVal04 atc3d037a reproducesall42histograms/all462CSVfields,all1199826Dcovariances andall6PNGs; no blockingfinding. Initialf7baselineassessmentunchanged. Reviewer comment6419397508 requests an additional full Gaussian-smearing Fatras sanity check; new isolated3x20k campaign running, original geometric reference unchanged. Gaussiancomparison complete atnative dc9a927/correctedevidence7c9340b:59989fits,1457028exactfixedsigma2marginals;measurementSDs1.000165/0.999683/1.000024,low-pTtracktails remain. Independentassessment reproducesall42histograms andall7PNGs, resolvesretrymetadatafinding; no furtherblocker. Originalgeometricreference unchanged.",
       "subsystem": "tracker"
@@ -3120,6 +3120,52 @@
       "next_action": "Review the Software PR. Reuse the explicit configuration and retained counts; strengthen map convergence/statistics before interpreting precision acceptance differences.",
       "blocker": null,
       "disposition": "24576 nominal probes at pT1/10/100GeV fully accounted with45646 source-matched sensitive planes/117 volumes; zero-inclusive unrooted profiles and repeatable field/propagation/replot workflow delivered. Half-step512-per-pT controls unchanged. Finer map changes7/512 forward1GeV probes at finite sensor edges; this1.37% control fraction and non-convergence qualification are retained. Separate PhysVal at5181bd317e6b369388805e1567d695a22a4e33aa found no blocker for prototype overview; no human sign-off. Accounting2026-10-26: six closed/interrupted original scientific/specialist turns,33698822 input+145891 output=33844713 observed tokens across205 requests. Current preparation excluded; source/evidence unchanged by requested rebase.",
+      "subsystem": "tracker"
+    },
+    {
+      "id": "TASK-TRACK-RESOLUTION-OPTIMIZATION",
+      "title": "Optimise tracker impact-parameter resolution inside fixed envelopes",
+      "scope": "DES040 reviewer-selected balanced baseline: maintained DD4hep parameterized implementation, current pixel/full-tracker TDR update and source/native equivalence, following48kexploratory/300kconfirmation events.",
+      "stage": "B",
+      "milestones": [
+        "M1"
+      ],
+      "workstream": "WS-TRACK",
+      "role": "Tracker technician",
+      "owner": null,
+      "state": "active",
+      "dependencies": [
+        "TASK-TRACK-TRUTH-BASELINE"
+      ],
+      "deliverables": [
+        "docs/design/DES-040-tracker-resolution-optimization.md",
+        "software/running/nodd_tracker_optimization.py",
+        "software/analysis/tracker_optimization/analyze.py",
+        "docs/validation/tracker-resolution-optimization/README.md",
+        "docs/validation/tracker-resolution-optimization/confirmation-tables.md",
+        "detector/config/pixel-detector-balanced.json",
+        "detector/config/pixel-barrel-balanced.json",
+        "docs/validation/DES-040-baseline/results.md",
+        "docs/publication/tracker-baseline-2026-10-29/main.tex"
+      ],
+      "evidence": [
+        "https://github.com/asalzburger/nodd/issues/103",
+        "logs/codex/SESSION-2026-10-27-tracker-resolution-optimization.md",
+        "docs/design/inputs/DES-040-balanced-selection.json",
+        "docs/validation/DES-040-baseline/results.md",
+        "logs/codex/SESSION-2026-10-29-balanced-tracker-baseline.md",
+        "docs/publication/balanced-overleaf-20261029.json"
+      ],
+      "documents": [
+        "DES-040",
+        "DES-025",
+        "DES-007",
+        "DES-008"
+      ],
+      "updated": "2026-10-29",
+      "next_action": "Merge prepared PR104 after publication-pointer CI; published Overleaf balanced TDR is pinned. Fresh material mapping and service/engineering qualification remain separate work.",
+      "blocker": null,
+      "disposition": "Expert noemina selected balanced atcfd15cb on2026-10-29; human authorized maintained baseline/DD4hep/TDR integration in this PR. Native geometry, Gen3 and G4smoke checks pass; current pixel TDR compiled and page QA is recorded separately. Overall optimisation objectives and engineering qualification remain open; no design acceptance inferred.",
       "subsystem": "tracker"
     }
   ],
@@ -3358,7 +3404,8 @@
       "id": "DES-025",
       "path": "docs/design/DES-025-tracker-dd4hep-gen3.md",
       "validation_reports": [
-        "docs/validation/DES-025/results.md"
+        "docs/validation/DES-025/results.md",
+        "docs/validation/DES-040-baseline/results.md"
       ]
     },
     {
@@ -3419,6 +3466,16 @@
       "id": "ADR-010",
       "path": "docs/decisions/ADR-010-common-forward-calorimeter.md",
       "validation_reports": []
+    },
+    {
+      "id": "DES-040",
+      "path": "docs/design/DES-040-tracker-resolution-optimization.md",
+      "validation_reports": [
+        "docs/validation/tracker-resolution-optimization/README.md",
+        "docs/validation/tracker-resolution-optimization/confirmation-tables.md",
+        "docs/validation/tracker-resolution-optimization/finite-screen-donor2.json",
+        "docs/validation/DES-040-baseline/results.md"
+      ]
     }
   ],
   "evidence": [
@@ -4481,16 +4538,16 @@
       "number": 101,
       "title": "Tracker: establish Gen3 truth-tracking baseline with Geant4 and Fatras",
       "url": "https://github.com/asalzburger/nodd/pull/101",
-      "state": "open",
-      "head_revision": "f7b14c60c8be613ce9165684d6ef03007ce1a456",
-      "merge_commit": null,
-      "merged_at": null,
-      "collected_at": "2026-10-26T14:30:34Z",
+      "state": "merged",
+      "head_revision": "db071101c7d4db9c57d3da7083bc9b1d69b6f265",
+      "merge_commit": "04b5ee2e408803eac836eee0b48a1635dcbbe201",
+      "merged_at": "2026-10-27T08:46:55Z",
+      "collected_at": "2026-10-27T09:58:12Z",
       "task": "TASK-TRACK-TRUTH-BASELINE",
       "documents": [
         "DES-025"
       ],
-      "scope": "Completed ideal3T Gen3/PR100-map seed-associated Kalman prototype:120kperformance+50kindependentFatrastraining,tenfigure sets/fullCSV/nativeprovenance. Finalscientificevidence f7b14c6, native39cd5185. IndependentPhysVal03no blockers; broadpulltails/forwarddegradation explicit. This is a scientific source pin; later record-only commits follow. No designacceptance.",
+      "scope": "Completed ideal3T Gen3/PR100-map seed-associated Kalman prototype:120kperformance+50kindependentFatrastraining,tenfigure sets/fullCSV/nativeprovenance. Finalscientificevidence f7b14c6, native39cd5185. IndependentPhysVal03no blockers; broadpulltails/forwarddegradation explicit. This is a scientific source pin; later record-only commits follow. No designacceptance. Actual merge verified via GitHub connector on2026-10-27; no design sign-off.",
       "category": "project"
     },
     {
@@ -4527,6 +4584,26 @@
         "ADR-003"
       ],
       "scope": "Current-tracker native propagation and generated3Tmap, zero-inclusive unrooted profiles, retained probe/field/runtime evidence, numerical controls and repeatable replay. Published evidence head recorded before metadata-only journal closeout. Seven1GeV fine-map edge flips retained as numerical qualification; no precision acceptance or human approval. User-requested rebase2026-10-26 onto main709d7fe5e5620305812aff502c3e02b9e7be3347, preserving original publication/native/review SHAs via archive/pr97-before-rebase-2026-10-26. Rebased source head recorded before accounting metadata closeout. Original task accounting finalized at33844713 observed tokens; active preparation excluded.",
+      "category": "project"
+    },
+    {
+      "id": "PR-104",
+      "number": 104,
+      "title": "Tracker: adopt the balanced baseline in DD4hep and update the pixel TDR",
+      "url": "https://github.com/asalzburger/nodd/pull/104",
+      "state": "open",
+      "head_revision": "b19a12b5e48f16d689087875e98d1a5a01003675",
+      "merge_commit": null,
+      "merged_at": null,
+      "collected_at": "2026-10-29T19:17:18Z",
+      "task": "TASK-TRACK-RESOLUTION-OPTIMIZATION",
+      "documents": [
+        "DES-040",
+        "DES-025",
+        "DES-007",
+        "DES-008"
+      ],
+      "scope": "Expert-selected balanced baseline implemented in maintained DD4hep, native/equivalence checks and current pixel TDR review edition. Original performance limits retained; expert selection approval atcfd15cb is distinct from later implementation and engineering acceptance.",
       "category": "project"
     }
   ]

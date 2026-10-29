@@ -1,10 +1,31 @@
 import unittest
+import json
+from pathlib import Path
+import subprocess
+import sys
+import tempfile
 import xml.etree.ElementTree as ET
 from aperture import enlarge_pixel_aperture
 from export import rename_materials
 
 
 class IntegrationGuards(unittest.TestCase):
+    def test_default_source_export_assembles_balanced_pixels_and_fixed_strips(self):
+        root = Path(__file__).resolve().parents[2]
+        with tempfile.TemporaryDirectory() as directory:
+            subprocess.run([sys.executable, '-B', str(root/'tools/tracker_dd4hep/export.py'), '--output', directory], check=True, capture_output=True)
+            actual = json.loads((Path(directory)/'expected.json').read_text())
+            # Preserve established strip counts while integrating the added
+            # donor2 disk pair and the source-level balanced placement config.
+            self.assertEqual(actual['pixel_config'], 'detector/config/pixel-detector-balanced.json')
+            self.assertEqual({c['name']:c['counts'].get('sensitive') for c in actual['components']},
+                             dict(beam=None,pixel=12410,short_barrel=8064,short_endcap=4320,long_barrel=13968,long_endcap=7488))
+            self.assertEqual(actual['config']['pixel_passive_aperture_mm'],28.8)
+            self.assertEqual(actual['beam']['config']['inner_radius_mm'],27)
+            self.assertEqual(actual['beam']['config']['wall_mm'],0.8)
+            barrel = next(e for e in actual['components'] if e['name']=='pixel')['provenance']['placement']
+            self.assertEqual(barrel['pixel_barrel_radii_mm'],[31.5,57,96,182])
+
     def test_all_material_attributes_are_translated(self):
         node = ET.fromstring(
             '<detector><core material="Foam" tube_material="Titanium" coolant_material="CO2" name="CO2" /></detector>'

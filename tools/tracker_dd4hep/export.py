@@ -42,8 +42,9 @@ def rename_materials(detector, names):
                     node.set(attribute, names[value])
 
 
-def export(output, pixel_aperture_mm=None):
+def export(output, pixel_aperture_mm=None, pixel_config=None):
     config = json.loads((ROOT / "detector/config/tracker.json").read_text())
+    pixel_config = Path(pixel_config or ROOT / config["pixel_config"])
     if pixel_aperture_mm is None:
         pixel_aperture_mm = config["pixel_passive_aperture_mm"]
     output = Path(output)
@@ -72,14 +73,17 @@ def export(output, pixel_aperture_mm=None):
     world = [0.0, 0.0, 0.0]
     for key, tool, filename in COMPONENTS:
         directory = output / "components" / key
-        subprocess.run(
-            [
+        command = [
                 sys.executable,
                 "-B",
                 str(ROOT / "tools" / tool / "export.py"),
                 "--output",
                 str(directory),
-            ],
+            ]
+        if key == "pixel":
+            command.extend(["--config", str(pixel_config)])
+        subprocess.run(
+            command,
             check=True,
             stdout=subprocess.DEVNULL,
         )
@@ -218,6 +222,8 @@ def export(output, pixel_aperture_mm=None):
     report = dict(
         status="DRAFT",
         config=config,
+        pixel_config=str(pixel_config.relative_to(ROOT)) if pixel_config.is_relative_to(ROOT) else str(pixel_config),
+        pixel_config_sha256=sha(pixel_config),
         pixel_aperture_amendment=aperture_amendment,
         service_reconciliation=reconciliation,
         entities=entities,
@@ -247,6 +253,8 @@ def export(output, pixel_aperture_mm=None):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--pixel-config", type=Path,
+                        help="Explicit pixel control; default is the DES040 balanced working baseline")
     parser.add_argument(
         "--pixel-aperture-mm",
         type=float,
@@ -258,4 +266,4 @@ if __name__ == "__main__":
         help="Unamended control; overlaps the new pipe and must fail validation",
     )
     args = parser.parse_args()
-    export(args.output, 27 if args.keep_pixel_aperture else args.pixel_aperture_mm)
+    export(args.output, 27 if args.keep_pixel_aperture else args.pixel_aperture_mm, args.pixel_config)

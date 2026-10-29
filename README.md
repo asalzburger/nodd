@@ -27,17 +27,21 @@ main page; the combined layout has no engineering sign-off.
 
 ## Current pixel baseline
 
-The standard combined pixel build uses the
-[trimmed single/quad configuration](detector/config/pixel-detector-trimmed.json):
-four inner rings of single modules and two outer rings of quad modules, with
-eta-inaccessible inner rings removed on the outer discs. It retains the selected
-barrel and PR40 whole-millimetre disc datums. The combined detector contains
-5,362 modules and 11,806 active chip areas.
+The standard combined build uses the expert-selected
+[balanced configuration](detector/config/pixel-detector-balanced.json) from
+[PR104](https://github.com/asalzburger/nodd/pull/104). Its barrel radii are
+31.5, 57, 96 and 182 mm, with ten mirrored endcap stations including the
+new donor-2 disk at |z|=950 mm. Module types and local structures are preserved.
+The pixel system contains 5,666 modules and 12,410 sensitive chip areas;
+the full tracker contains 46,250 sensitive planes in 54 signed logical groups.
 
 Use the [build and validation workflow](tools/pixel_detector_dd4hep/README.md).
-The quad-only configuration is an explicit historical control. This is the
-working baseline on main; the design remains DRAFT and its documented coverage,
-thermal and service-routing limitations remain open.
+The previous trimmed and quad-only configurations remain explicit controls.
+The [selection record](docs/design/inputs/DES-040-balanced-selection.json)
+records expert approval and implementation authorization. The design remains
+DRAFT, with service capacity, thermal qualification and coverage limits open.
+The [current full-tracker TDR review source](docs/publication/tracker-baseline-2026-10-29/README.md)
+updates the pixel chapter; it is a repository-owned copy of the current TDR.
 
 The [TDR outline](docs/publication/TDR-outline.md) and
 [publication plan](docs/publication/publication-plan.md) organize chapters,

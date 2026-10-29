@@ -3,6 +3,7 @@
 import copy
 import json
 import math
+import subprocess
 from pathlib import Path
 import sys
 import tempfile
@@ -103,6 +104,33 @@ class ExportTests(unittest.TestCase):
         expected=generator.export(old,self.path/'pr29')
         self.assertEqual(expected['counts']['module'],2750)
         self.assertEqual(expected['counts']['sensitive'],6206)
+
+    def test_balanced_default_keeps_local_units_and_accounts_ring_inventory(self):
+        with tempfile.TemporaryDirectory() as folder:
+            subprocess.run([sys.executable, '-B', str(Path(generator.__file__)), '--output', folder], check=True, capture_output=True)
+            actual = generator.read(Path(folder) / 'expected.json')
+            xml = ET.parse(Path(folder) / 'pixel-barrel.xml').getroot()
+        self.assertEqual(actual['counts'], self.expected['counts'])
+        self.assertEqual(actual['provenance']['placement']['pixel_barrel_radii_mm'], [31.5,57,96,182])
+        oldxml = ET.parse(self.path / 'nominal/pixel-barrel.xml').getroot()
+        for layer, delta in enumerate([-2.5,-3,-10,0], 1):
+            path = f'./detectors/detector/layer[@id="{layer}"]'
+            before, after = oldxml.find(path), xml.find(path)
+            for a, b in zip(before.findall('stave'), after.findall('stave')):
+                for key in a.attrib:
+                    if key == 'radius':
+                        self.assertAlmostEqual(float(b.get(key).split('*')[0])-float(a.get(key).split('*')[0]), delta)
+                    else:
+                        self.assertEqual(a.get(key), b.get(key))
+                self.assertEqual(ET.tostring(a.find('module')), ET.tostring(b.find('module')))
+        audit = actual['provenance']['placement_audit']
+        oldvol = self.expected['material_totals']['CFRP']['volume_mm3']
+        newvol = actual['material_totals']['CFRP']['volume_mm3']
+        self.assertAlmostEqual(newvol-oldvol, audit['CFRP_volume_change_mm3'], places=6)
+        for mat in self.expected['material_totals']:
+            if mat != 'CFRP':
+                self.assertEqual(actual['material_totals'][mat], self.expected['material_totals'][mat])
+        self.assertEqual(actual['service_accounting'], self.expected['service_accounting'])
 
     def test_configured_readout_fields_cannot_overflow(self):
         config = copy.deepcopy(self.config)

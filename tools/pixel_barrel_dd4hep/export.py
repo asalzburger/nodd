@@ -15,6 +15,8 @@ import xml.etree.ElementTree as ET
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 sys.path.insert(0, str(ROOT / "tools/pixel_support"))
+sys.path.insert(0, str(ROOT / "tools/pixel_detector_dd4hep"))
+from placements import load as load_placement, barrel_offsets
 from mounting import make_mounts
 from outward import load_layout, stave_span
 from materials import Materials
@@ -74,13 +76,16 @@ def export(config, output):
         ROOT / config.get("service_summary", "docs/validation/DES-002/outward-A-services/screening.json")
     )
     assembly, boxes, rings, feet, layers = make_mounts(layout, support, mounts)
+    placement = load_placement(config, ROOT)
+    radial_offsets = barrel_offsets(placement, layers)
+    placement_audit = dict(layers=[], local_cables=[], global_services="Unchanged reference inventory; routing/capacity not requalified")
     materials = Materials(config, support)
     compact = ET.Element("lccdd")
     ET.SubElement(
         compact,
         "info",
         name="nODDPixelBarrel",
-        title=f"PR{config['baseline_pr']} pixel barrel prototype",
+        title="DES040 balanced working pixel barrel" if placement else f"PR{config['baseline_pr']} pixel barrel prototype",
         author="nODD",
         version="0.1",
         status="prototype",
@@ -149,8 +154,9 @@ def export(config, output):
         entities.append(e)
 
     def world(b, u, v, w):
+        offset = radial_offsets.get(b["layer_id"], 0.0)
         return [
-            b["center_mm"][j] + u * b["u"][j] + v * b["v"][j] + w * b["n"][j]
+            b["center_mm"][j] + u * b["u"][j] + v * b["v"][j] + (w + offset) * b["n"][j]
             for j in range(3)
         ]
 
@@ -192,6 +198,9 @@ def export(config, output):
     stack = support["stack_mm"]
     for index, layer in enumerate(layers, 1):
         lid = layer["layer"]
+        delta = radial_offsets.get(lid, 0.0)
+        layer_audit = dict(layer=index, reference_radius_mm=layer["nominal_radius_mm"], radius_mm=layer["nominal_radius_mm"]+delta, staves=layer["staves"], ring_reference_mm3=0.0, ring_mm3=0.0, foot_reference_mm3=0.0, foot_mm3=0.0)
+        placement_audit["layers"].append(layer_audit)
         lname = "layer" + str(index)
         lx = ET.SubElement(detector, "layer", id=str(index), name=lname)
         entity(lname, "layer", [0, 0, 0])
@@ -210,12 +219,12 @@ def export(config, output):
                 id=str(col),
                 name=sn,
                 phi=rad(phi),
-                radius=mm(radius),
+                radius=mm(radius + delta),
                 offset_u=mm(offset_u),
                 length=mm(length),
             )
             origin = dict(b, center_mm=[b["center_mm"][0], b["center_mm"][1], 0.0])
-            entity(sn, "stave", origin["center_mm"])
+            entity(sn, "stave", world(origin, 0, 0, 0))
             width = 2 * b["half_u_mm"]
             fam = support["families"][b["family"]]
             depth = b["half_w_mm"]
@@ -309,7 +318,7 @@ def export(config, output):
                 ids = dict(
                     system=config["system_id"], layer=index, stave=col, module=mid
                 )
-                entity(name, "module", b["center_mm"], ids=ids)
+                entity(name, "module", world(b, 0, 0, 0), ids=ids)
                 ps = patches[mid]
                 shape = describe(b, ps, models, layout)
                 local = shape['local']
@@ -350,7 +359,7 @@ def export(config, output):
                     entity(
                         f"{name}_sensor_{pid}",
                         "sensitive",
-                        p["center_mm"],
+                        [p["center_mm"][j] + delta * b["n"][j] for j in range(3)],
                         4 * p["half_u_mm"] * p["half_v_mm"] * module["sensor_mm"],
                         "Silicon",
                         normal=p["n"],
@@ -449,12 +458,14 @@ def export(config, output):
         for j, r in enumerate(r for r in rings if r["layer_id"] == lid):
             name = f"{lname}_ring{j}"
             length = r["z_max_mm"] - r["z_min_mm"]
+            layer_audit["ring_reference_mm3"] += math.pi*(r["r_max_mm"]**2-r["r_min_mm"]**2)*length
+            layer_audit["ring_mm3"] += math.pi*((r["r_max_mm"]+delta)**2-(r["r_min_mm"]+delta)**2)*length
             ET.SubElement(
                 lx,
                 "ring",
                 name=name,
-                rmin=mm(r["r_min_mm"]),
-                rmax=mm(r["r_max_mm"]),
+                rmin=mm(r["r_min_mm"] + delta),
+                rmax=mm(r["r_max_mm"] + delta),
                 length=mm(length),
                 z=mm(r["z_mm"]),
                 material="CFRP",
@@ -464,13 +475,13 @@ def export(config, output):
                 name,
                 "ring",
                 [0, 0, r["z_mm"]],
-                math.pi * (r["r_max_mm"] ** 2 - r["r_min_mm"] ** 2) * length,
+                math.pi * ((r["r_max_mm"] + delta) ** 2 - (r["r_min_mm"] + delta) ** 2) * length,
                 "CFRP",
             )
         for j, f in enumerate(f for f in feet if f["layer_id"] == lid):
             name = f"{lname}_foot{j}"
-            back = f["back_normal_mm"]
-            outer = f["ring_inner_mm"]
+            back = f["back_normal_mm"] + delta
+            outer = f["ring_inner_mm"] + delta
             phi = math.atan2(f["n"][1], f["n"][0])
             ET.SubElement(
                 lx,
@@ -485,8 +496,15 @@ def export(config, output):
                 material="CFRP",
                 vis="CFRP",
             )
-            volume = f["mass_g"] / support["density_g_cm3"]["CFRP"] * 1000
-            entity(name, "foot", f["center_mm"], volume, "CFRP")
+            if delta:
+                half = f["half_u_mm"]
+                area = half * math.sqrt(outer**2-half**2) + outer**2 * math.asin(half/outer) - 2*half*back
+                volume = area * 2 * f["half_v_mm"]
+            else:
+                volume = f["mass_g"] / support["density_g_cm3"]["CFRP"] * 1000
+            layer_audit["foot_reference_mm3"] += f["mass_g"] / support["density_g_cm3"]["CFRP"] * 1000
+            layer_audit["foot_mm3"] += volume
+            entity(name, "foot", [f["center_mm"][j] + delta*f["n"][j] for j in range(3)], volume, "CFRP")
 
     cable_footprint_volume = 0.0
     for step in route["longitudinal"]:
@@ -500,15 +518,26 @@ def export(config, output):
         cable_footprint_volume += sum(volumes.values())
         mat = materials.cable(volumes, capacity, fractions)
         name = "cable_" + step["id"]
+        # Keep each column's local radial band and exact cable wedge inventory.
+        lid = next((key for key in radial_offsets if step["id"].startswith(key + "-c")), None)
+        delta = radial_offsets.get(lid, 0.0)
+        ri, ro, width = step["r_min_mm"], step["r_max_mm"], step["phi_width_rad"]
+        if delta:
+            target_width = width * (ro**2-ri**2) / ((ro+delta)**2-(ri+delta)**2)
+            count = next(layer["staves"] for layer in layers if layer["layer"] == lid)
+            if ri+delta <= 28.8 or target_width >= 2*math.pi/count:
+                raise ValueError("Placed local cable exceeds aperture or adjacent column")
+            placement_audit["local_cables"].append(dict(name=name, reference_radial_mm=[ri,ro], radial_mm=[ri+delta,ro+delta], reference_phi_width_rad=width, phi_width_rad=target_width, volume_mm3=capacity))
+            width = target_width
         ET.SubElement(
             detector,
             "service",
             name=name,
-            rmin=mm(step["r_min_mm"]),
-            rmax=mm(step["r_max_mm"]),
+            rmin=mm(ri + delta),
+            rmax=mm(ro + delta),
             length=mm(length),
             phi=rad(step["phi_center_rad"]),
-            phi_width=rad(step["phi_width_rad"]),
+            phi_width=rad(width),
             z=mm(sign * (a + b) / 2),
             material=mat,
             vis="Cable",
@@ -570,6 +599,15 @@ def export(config, output):
         ).hexdigest(),
         python=sys.version,
     )
+    if placement is not None:
+        placement_audit["CFRP_volume_change_mm3"] = sum(
+            a["ring_mm3"]-a["ring_reference_mm3"]+a["foot_mm3"]-a["foot_reference_mm3"]
+            for a in placement_audit["layers"])
+        provenance["placement"] = placement
+        provenance["placement_audit"] = placement_audit
+        provenance["source_sha256"].update({p: sha(ROOT / p) for p in (
+            config["placement_config"], "detector/config/pixel-barrel-balanced.json",
+            "tools/pixel_detector_dd4hep/placements.py")})
     expected = dict(
         status="PROTOTYPE",
         counts=counts,
@@ -720,7 +758,7 @@ def service_cells(route, summary, config, support):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
-        "--config", type=Path, default=ROOT / "detector/config/pixel-barrel.json"
+        "--config", type=Path, default=ROOT / "detector/config/pixel-barrel-balanced.json"
     )
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()

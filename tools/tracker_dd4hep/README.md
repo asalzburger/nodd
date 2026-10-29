@@ -59,3 +59,21 @@ python tools/tracker_dd4hep/check_navigation.py --directory build/gen3 \
 Gen3, Geant4 and regression checks. The adapter is in
 [ACTS fork PR3](https://github.com/asalzburger/acts/pull/3). DD4hep native validation
 is registered as a CTest; Gen3 validation requires the separately built ACTS runtime.
+
+## Selected balanced baseline (PR104)
+
+The default tracker now selects `pixel-detector-balanced.json` under the recorded
+human authorization in DES040. Historical DES025 counts and controls above refer
+to the earlier nine-disk geometry. The current geometry has 46,250 sensors,
+54 signed logical groups and 120 native Gen3 volumes. Build from a fresh directory
+and run the same native validator. To export and compare the current Gen3 geometry:
+
+```sh
+python -B tools/tracker_dd4hep/export_gen3.py --build-dir build/dd4hep --output-dir build/balanced-gen3
+```
+
+This uses the installed ACTS adapter, checks every sensor against `expected.json`
+and requires an exact native JSON round trip. It does not regenerate a Geant4
+material map. [Integration evidence](../../docs/validation/DES-040-baseline/results.md)
+separates the detailed DD4hep geometry from the approved study's transported map
+and homogeneous material approximation for the added disk.

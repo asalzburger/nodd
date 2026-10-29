@@ -6,7 +6,8 @@ from model import ROOT
 from endcap_parts import volume
 
 
-def transport(parts, det, mats, cfg, config, schedule, bc, side, name, discs, rings):
+def transport(parts, det, mats, cfg, config, schedule, bc, side, name, discs, rings,
+              reference_discs=None):
     tr = config["transport"]
     fractions = config["cable_volume_fractions"]
     budget = read(ROOT / cfg["service_inputs"])
@@ -29,8 +30,11 @@ def transport(parts, det, mats, cfg, config, schedule, bc, side, name, discs, ri
     rad = cfg["cooling"]["transport_OD_mm"] / 2
     tiA = math.pi * (rad**2 - (rad - wall) ** 2)
     co2A = math.pi * (rad - wall) ** 2
+    # Only local collectors follow DES040. The reviewed optimisation deliberately
+    # froze the global heterogeneous cells rather than inventing new capacities.
+    global_discs = reference_discs if reference_discs is not None else discs
     local = []
-    for d in discs:
+    for d in global_discs:
         ref = next(s for s in d["after"]["services"] if s["scenario"] == "reference")
         legs = d["after"]["cooling"]["feed_return_legs"]
         local.append(dict(cable=ref["cables_mm2"], ti=legs * tiA, co2=legs * co2A))
@@ -72,7 +76,7 @@ def transport(parts, det, mats, cfg, config, schedule, bc, side, name, discs, ri
                 angle=angle,
             )
 
-    joins = [d["datum_mm"] + config["collector_w_mm"][1] for d in discs[:-1]]
+    joins = [d["datum_mm"] + config["collector_w_mm"][1] for d in global_discs[:-1]]
     z0, z1 = cfg["mounting"]["carrier_z_mm"]
     ft = cfg["mounting"]["flange_axial_mm"]
     edges = sorted(
@@ -163,7 +167,7 @@ def transport(parts, det, mats, cfg, config, schedule, bc, side, name, discs, ri
         a, b = config["collector_w_mm"]
         z = d["datum_mm"]
         cell(
-            f"collector{name}{i+1}_",
+            f"collector{name}{d.get('logical_id', i+1)}_",
             *tr["collector_r_mm"],
             z + a,
             z + b,
@@ -171,7 +175,7 @@ def transport(parts, det, mats, cfg, config, schedule, bc, side, name, discs, ri
             tiV,
             co2V,
         )
-    last = discs[-1]["datum_mm"] + config["collector_w_mm"][1]
+    last = global_discs[-1]["datum_mm"] + config["collector_w_mm"][1]
     L = tr["rear_turn_abs_z_mm"][0] - last
     cell(
         f"bypass{name}_",
@@ -196,5 +200,6 @@ def transport(parts, det, mats, cfg, config, schedule, bc, side, name, discs, ri
         flange_necks=necks,
         disc_footprints=local,
         inherited_scenario_screens=schedule["accumulated_services"],
+        global_inventory_reference=reference_discs is not None,
         note="Constructible effective inventory does not establish packing, routing or hydraulic qualification.",
     )
