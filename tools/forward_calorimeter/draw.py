@@ -22,6 +22,9 @@ def save(fig,path):
     path.parent.mkdir(parents=True,exist_ok=True)
     for ext in ('svg','png'):
         fig.savefig(path.with_suffix('.'+ext),dpi=180,bbox_inches='tight',metadata={'Creator':'nODD DES039 parametric prototype','Date':'2026-10-17'})
+        if ext == 'svg':
+            target = path.with_suffix('.svg')
+            target.write_text('\n'.join(line.rstrip() for line in target.read_text().splitlines()) + '\n')
     plt.close(fig)
 
 

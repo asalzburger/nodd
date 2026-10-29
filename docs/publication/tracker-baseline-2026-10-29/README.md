@@ -35,10 +35,11 @@ From the nODD root, after generating canonical pixel and tracker exports:
 
 ```sh
 python -B docs/publication/tracker-baseline-2026-10-29/scripts/balanced_snapshot.py \
-  --expected build/balanced-baseline/source-pixel/expected.json \
-  --compact build/balanced-baseline/source-pixel/pixel-detector.xml \
-  --materials build/balanced-baseline/source-pixel/materials.xml \
-  --tracker-expected build/balanced-baseline/source-tracker/expected.json \
+  --expected build/balanced-baseline/dd4hep/detector/pixel-detector/expected.json \
+  --compact build/balanced-baseline/dd4hep/detector/pixel-detector/pixel-detector.xml \
+  --materials build/balanced-baseline/dd4hep/detector/pixel-detector/materials.xml \
+  --tracker-expected build/balanced-baseline/dd4hep/detector/tracker/expected.json \
+  --native docs/validation/DES-040-baseline/native-tracker.json.gz \
   --render
 python3 -B docs/publication/tracker-baseline-2026-10-29/scripts/balanced_snapshot.py --check
 ```

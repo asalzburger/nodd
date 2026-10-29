@@ -1,5 +1,12 @@
 # Tracker resolution optimisation — constrained prototype
 
+On 2026-10-29, the expert reviewer selected **balanced** and the maintainer
+authorized its adoption as the working simulation baseline in PR104. The
+[selection record](../../design/inputs/DES-040-balanced-selection.json) and
+[maintained DD4hep/TDR integration evidence](../DES-040-baseline/results.md)
+record that decision. The original study interpretation below is retained;
+the earlier mild preference does not describe the selected baseline.
+
 The study identifies useful tradeoffs, but **no tested layout satisfies every
 objective**. The mild candidate is the preferred starting point under the
 requested geometric response: it improves global impact-parameter core widths
