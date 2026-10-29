@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 """Static scientific drawings of the DES039 proposal and its pinned layout fit."""
+import argparse
+import copy
 import json
 import math
 import os
@@ -128,8 +130,19 @@ def package_figure(core,collar,result):
 
 
 def main():
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--layouts-only',action='store_true',help='Preserve unrelated component drawings')
+    args=parser.parse_args()
     core=build();collar=build(collar_config(core['config']))
     contexts=json.loads((HERE/'layout-contexts.json').read_text())
+    overlay_path=ROOT/'docs/layouts/tracker-baseline-balanced.json'
+    overlay=json.loads(overlay_path.read_text()) if overlay_path.is_file() else None
+    if overlay:
+        tracker=overlay['tracker']
+        if tracker['sensitive_elements'] != sum(g['count'] for g in tracker['sensitive_groups']):
+            raise ValueError('Balanced tracker drawing denominator differs')
+        for context in contexts.values():
+            context['tracker']=copy.deepcopy(tracker)
     result=json.loads((ROOT/'docs/validation/DES-039/geometry.json').read_text())
     for name in core['config']['layouts']:
         layout_figure(name,core,collar,contexts[name],result)
@@ -137,8 +150,13 @@ def main():
                'context_input':'tools/forward_calorimeter/layout-contexts.json','context_sha256':sha(HERE/'layout-contexts.json'),
                'fcal_input':'tools/forward_calorimeter/inputs.json','fcal_input_sha256':sha(HERE/'inputs.json'),'generator':'tools/forward_calorimeter/draw.py','generator_sha256':sha(__file__),
                'body_package_abs_z_mm':result['layouts'][name]['package_abs_z_mm'],'collar_included':name=='LAYOUT-002','source_scope':'Pinned component envelopes plus proposed physical FCAL; no combined native detector, field or response result.'}
+        if overlay:
+            named['tracker_overlay']={'path':'docs/layouts/tracker-baseline-balanced.json',
+                'sha256':sha(overlay_path),'source_revision':overlay['source_revision'],
+                'baseline':overlay['baseline'],'sensitive_elements':overlay['tracker']['sensitive_elements']}
+            named['source_scope']+=' Tracker sensitive bounds use the separately pinned balanced overlay; other component context is unchanged.'
         (ROOT/f'docs/layouts/{name}-FCAL.json').write_text(json.dumps(named,indent=2)+'\n')
-    package_figure(core,collar,result)
+    if not args.layouts_only:package_figure(core,collar,result)
     print('Wrote two integrated layout views, common package drawing and named inputs')
 
 

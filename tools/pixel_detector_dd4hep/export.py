@@ -396,6 +396,10 @@ def legacy_export(config, output):
 
 
 def export(config, output):
+    if config.get("endcap_variant") == "DES040-balanced":
+        from balanced_export import export as balanced_export
+
+        return balanced_export(config, output)
     if config.get("endcap_variant") == "DES018-trimmed-mixed":
         from trimmed_export import export as trimmed_export
 
@@ -408,7 +412,7 @@ def main():
     p.add_argument(
         "--config",
         type=Path,
-        default=ROOT / "detector/config/pixel-detector-trimmed.json",
+        default=ROOT / "detector/config/pixel-detector-balanced.json",
     )
     p.add_argument("--output", type=Path, required=True)
     a = p.parse_args()

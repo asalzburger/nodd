@@ -13,8 +13,9 @@ file(GLOB NODD_EXPORT_INPUTS CONFIGURE_DEPENDS
   "${PROJECT_SOURCE_DIR}/tools/module_layout/*.json"
   "${CMAKE_CURRENT_SOURCE_DIR}/config/*.json")
 add_custom_command(OUTPUT "${NODD_COMPACT_DIR}/pixel-barrel.xml" "${NODD_COMPACT_DIR}/expected.json"
-  COMMAND "${Python3_EXECUTABLE}" -B "${PROJECT_SOURCE_DIR}/tools/pixel_barrel_dd4hep/export.py" --output "${NODD_COMPACT_DIR}"
+  COMMAND "${Python3_EXECUTABLE}" -B "${PROJECT_SOURCE_DIR}/tools/pixel_barrel_dd4hep/export.py" --config "${CMAKE_CURRENT_SOURCE_DIR}/config/pixel-barrel-balanced.json" --output "${NODD_COMPACT_DIR}"
   DEPENDS ${NODD_EXPORT_INPUTS}
+    "${PROJECT_SOURCE_DIR}/tools/pixel_detector_dd4hep/placements.py"
     "${PROJECT_SOURCE_DIR}/docs/validation/DES-013-pixel-z/data/packed-200um/layout.json.gz"
     "${PROJECT_SOURCE_DIR}/docs/validation/DES-012/PR34/engineering/routing.json.gz"
     "${PROJECT_SOURCE_DIR}/docs/validation/DES-012/PR34/engineering/screening.json"
@@ -38,7 +39,7 @@ endif()
 install(TARGETS nODDPixelBarrel LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
 install(DIRECTORY "${NODD_COMPACT_DIR}/" DESTINATION share/nODD/pixel-barrel)
 
-# The combined preliminary pixel baseline stays separate from the barrel entry point.
+# DES040 working balanced baseline; historical explicit configs remain controls.
 file(GLOB NODD_COMBINED_INPUTS CONFIGURE_DEPENDS
   "${PROJECT_SOURCE_DIR}/tools/pixel_detector_dd4hep/*.py"
   "${PROJECT_SOURCE_DIR}/tools/pixel_endcap_support/*.py"
@@ -47,7 +48,7 @@ file(GLOB NODD_COMBINED_INPUTS CONFIGURE_DEPENDS
   "${CMAKE_CURRENT_SOURCE_DIR}/include/nodd/PixelEndcap.hpp")
 set(NODD_PIXEL_DIR "${CMAKE_CURRENT_BINARY_DIR}/pixel-detector")
 add_custom_command(OUTPUT "${NODD_PIXEL_DIR}/pixel-detector.xml" "${NODD_PIXEL_DIR}/expected.json"
-  COMMAND "${Python3_EXECUTABLE}" -B "${PROJECT_SOURCE_DIR}/tools/pixel_detector_dd4hep/export.py" --output "${NODD_PIXEL_DIR}"
+  COMMAND "${Python3_EXECUTABLE}" -B "${PROJECT_SOURCE_DIR}/tools/pixel_detector_dd4hep/export.py" --config "${CMAKE_CURRENT_SOURCE_DIR}/config/pixel-detector-balanced.json" --output "${NODD_PIXEL_DIR}"
   DEPENDS ${NODD_COMBINED_INPUTS} ${NODD_EXPORT_INPUTS}
     "${NODD_COMPACT_DIR}/pixel-barrel.xml"
     "${PROJECT_SOURCE_DIR}/docs/validation/DES-014-pixel-endcap-support/screening.json"
