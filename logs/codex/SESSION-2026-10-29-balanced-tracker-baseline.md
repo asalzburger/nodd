@@ -153,3 +153,13 @@ then observed in the public PR checks, not predeclared here. PR remains open and
 ready; no merge, external discussion message or Overleaf publication performed.
 
 Execution boundary: Gen3 wrapper file was new/uncommitted at generator HEAD888069b during export; its exact executed hash was subsequently committed inccdafc8. All retained input/binary/checker hashes identify the actual execution. TDR producer sourceclean888069b refers specifically to its maintained geometry producers.
+
+
+## Accounting correction after completion — 2026-10-29
+
+The preceding coordinator turn01a188fc-bf3e-7ce0-9305-6bcea4db3657 is now
+finalized. Its exact usage-only counters and matched visible messages were
+imported once into this original baseline owner. The subsequent explicit
+Overleaf push request belongs to SESSION-2026-10-29-balanced-tdr-overleaf; its
+active turn is excluded. The earlier prepublication totals remain dated
+observations; the canonical JSON now contains finalized preceding-root usage.
