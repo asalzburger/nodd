@@ -57,13 +57,22 @@ class RedesignControls(unittest.TestCase):
         end = c['coil_groups']['barrel']['half_z_m']
         eta = math.asinh(end/c['stations']['barrel_radii_m'][0])
         self.assertTrue(crossings([eta], 0, c, False)[0][0, 0])
-        self.assertFalse(crossings([eta], 0, c, True)[0][0, 0])
+        fixture = copy.deepcopy(c)
+        fixture['stations']['disk_outer_radii_m'][0] = .8
+        self.assertFalse(crossings([eta], 0, fixture, True)[0][0, 0])
         # Shortening barrels creates a real uninstrumented transition.
         control = copy.deepcopy(c)
         control['stations']['barrel_half_lengths_m'] = [5.7]*3
         eta = math.asinh(7./8.45)
         self.assertTrue(crossings([eta], 0, c, False)[0].all())
         self.assertFalse(crossings([eta], 0, control, False)[0].all())
+
+    def test_usable_wheel_rescues_clipped_barrel_without_double_count(self):
+        hits, points, kinds = crossings([.984375], [.0625], load())
+        self.assertTrue(hits.all())
+        self.assertEqual(kinds[0, 0], 2)
+        self.assertAlmostEqual(points[0, 0, 2], 6.7456)
+        self.assertEqual(int(hits.sum()), 3)
 
     def test_one_station_per_shell_and_strict_ordering(self):
         c = load()

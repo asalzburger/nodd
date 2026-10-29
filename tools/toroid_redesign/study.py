@@ -165,41 +165,44 @@ def crossings(eta, phi_deg, config, clipped=True):
     st = config['stations']; h = st['outline_thickness_m']/2
     points = np.zeros((len(e), 3, 3)); available = np.zeros((len(e), 3), bool)
     kind = np.zeros((len(e), 3), int)
+    def retained(p, geometric, surface):
+        ok = geometric.copy()
+        if not clipped:
+            return ok
+        if ok.any():
+            ok[ok] &= ~geo.chamber_depth_mask(p[ok], config, surface,
+                config['redesign']['chamber_clearance_m'])
+        subset = np.flatnonzero(ok)
+        if len(subset):
+            distance = np.linalg.norm(p[subset], axis=1)
+            half_chord = (h*np.cosh(e[subset]) if surface == 'barrel' else
+                h/np.maximum(abs(np.tanh(e[subset])), 1e-15))
+            unit = p[subset]/distance[:, None]
+            n = max(1, math.ceil(2*float(half_chord.max())/.05))
+            blocked = np.zeros(len(subset), bool)
+            for f in np.linspace(-1, 1, n+1):
+                todo = ~blocked
+                blocked[todo] = geo.coil_mask(p[subset[todo]]+f*half_chord[todo, None]*unit[todo],
+                    config, clearance=config['redesign']['chamber_clearance_m']+.025)
+            ok[subset] &= ~blocked
+        return ok
     for i, (r, z, outer) in enumerate(zip(st['barrel_radii_m'], st['disk_abs_z_m'], st['disk_outer_radii_m'])):
         end = st['barrel_half_lengths_m'][i]
         barrel = (r+h)*sh <= end
         # All of the axial depth must lie inside the annular face.
         disk = ((z-h) >= st['disk_inner_radius_m']*sh) & ((z+h) <= outer*sh) & (sh > 0)
         rd = np.divide(z, sh, out=np.zeros_like(sh), where=sh > 0)
-        radius = np.where(barrel, r, rd)
-        zz = side*np.where(barrel, r*sh, z)
-        p = np.column_stack((radius*np.cos(phi), radius*np.sin(phi), zz))
-        ok = barrel | disk
-        if clipped:
-            for use_barrel, surface in [(True, 'barrel'), (False, 'disk')]:
-                subset = ok & (barrel == use_barrel)
-                if subset.any():
-                    ok[subset] &= ~geo.chamber_depth_mask(p[subset], config, surface,
-                        config['redesign']['chamber_clearance_m'])
-            # The track changes z across a barrel depth, or R across a wheel
-            # depth. Also check its actual entry-to-exit chord, not merely a
-            # normal extrusion at the centre-surface crossing.
-            subset = np.flatnonzero(ok)
-            if len(subset):
-                distance = np.linalg.norm(p[subset], axis=1)
-                half_chord = np.where(barrel[subset], h*np.cosh(e[subset]),
-                    h/np.maximum(abs(np.tanh(e[subset])), 1e-15))
-                unit = p[subset]/distance[:, None]
-                n = max(1, math.ceil(2*float(half_chord.max())/.05))
-                blocked = np.zeros(len(subset), bool)
-                for f in np.linspace(-1, 1, n+1):
-                    todo = ~blocked
-                    blocked[todo] = geo.coil_mask(p[subset[todo]]+f*half_chord[todo, None]*unit[todo],
-                        config, clearance=config['redesign']['chamber_clearance_m']+.025)
-                ok[subset] &= ~blocked
-        points[:, i] = p
-        available[:, i] = ok
-        kind[:, i] = np.where(barrel, 1, 2)
+        bp = np.column_stack((r*np.cos(phi), r*np.sin(phi), side*r*sh))
+        dp = np.column_stack((rd*np.cos(phi), rd*np.sin(phi), side*z))
+        barrel_ok = retained(bp, barrel, 'barrel')
+        # OR within each station: a coil-clipped barrel must not hide a usable
+        # wheel of the same station. Prefer the retained barrel crossing when
+        # both survive, otherwise use the retained wheel for path/bending.
+        disk_ok = retained(dp, disk & ~barrel_ok, 'disk')
+        choose_barrel = barrel_ok | (~disk_ok & barrel)
+        points[:, i] = np.where(choose_barrel[:, None], bp, dp)
+        available[:, i] = barrel_ok | disk_ok
+        kind[:, i] = np.where(choose_barrel, 1, 2)
     return available.reshape(shape+(3,)), points.reshape(shape+(3, 3)), kind.reshape(shape+(3,))
 
 
