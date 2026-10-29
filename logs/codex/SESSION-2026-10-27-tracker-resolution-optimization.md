@@ -211,3 +211,16 @@ synchronized. Local finalchecks anddashboardvalidate/build are performed before
 publication. Hosted final-headstatus is an explicitly later external observation,
 not invented in this prepublication snapshot. DraftPR104 remains a prototype
 scientific report for human assessment; issue103/overalloptimisation remainopen.
+
+
+## Accounting reconciliation — 2026-10-29
+
+The original root optimisation and its two explicit recommendation followups
+are now finalized. Exact visible prompts/turn IDs and usage-only counters are
+retained in USAGE-2026-10-29-optimization-closed-root.json and PR104 turn records.
+The three turns add40,161,171 tokens to the previously recorded53,263,885,
+for93,425,056 across12closed turns. Counters remain in this original task owner;
+the Oct29 balanced implementation account is separate and its active root is
+excluded. The earlier coordinator mild preference remains historical; expert
+review5701456683 selected balanced and current human direction authorizes its
+maintained DD4hep/TDR integration. No performance result is rewritten.

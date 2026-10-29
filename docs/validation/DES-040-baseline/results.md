@@ -35,6 +35,9 @@ The native audit records the working-tree dirty flag and exact execution hashes;
 the TDR extraction independently confirms that all its producer fingerprints
 match committed888069b bytes. Documentation edits are not substituted for
 native execution identities.
+The Gen3 entry point ran as a new uncommitted wrapper at that generator HEAD;
+its exact executed file fingerprint was subsequently committed in ccdafc8. Its
+file/binary fingerprints, rather than HEAD alone, identify the conversion code.
 
 | Check | Observed result |
 | --- | --- |
@@ -106,3 +109,26 @@ material. Detailed DD4hep donor assemblies do not establish a fresh Geant4 map
 or new response validation. The1GeV momentum regression, forward d0 limitations,
 residual tails and incomplete uniform ten-hit coverage remain explicit accepted
 tradeoffs in the selected working baseline.
+
+
+Independent PhysVal comparison joins physical sensors by their five readout-ID
+fields. All46,250 centres, signed axes and bounds correspond (maximum floating
+difference1.14e-13);120volumes,124portals,250link subsurfaces and54logical groups
+correspond. Exactly602ACTS sensitive IDs are permuted within added logicalID10
+because source-path label ordering changed. Existing layers retain their IDs.
+All checked per-physical-sensor digitization payloads remain equivalent, as do
+54geometric/54pooled calibration groups and67material keys/68roles/8552bins.
+The homogeneous added-disc material lies1mm after the farthest sensor face.
+This establishes compatibility for the checked study payloads, not universal
+sensor-ID byte identity or compatibility with arbitrary per-sensor payloads.
+
+
+The final corrected full report is32pages. [The PDF](balanced-tracker-tdr.pdf),
+[compiler log](balanced-tracker-tdr.log.gz) and [compile/page-review record](pdf-review.json)
+are retained. pdfLaTeX CI40937879945 passed atb19a12b; the source-tree and asset
+manifest fingerprints identify the compiled manuscript. All32pages were rendered
+and visually inspected, including detailed pixel tables, figures and the
+standalone/integrated qualification. The compiler reported no overfull boxes or
+unresolved references/citations.
+
+Separate PhysVal review also inspected all32pages and every pixel/overview page individually, verified the PDF hash and reported no remaining blocker in its assigned scope. [Bounded technical assessments](technical-assessments.json) retain the exact source and limits.

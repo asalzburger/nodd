@@ -7,6 +7,7 @@ import gzip
 import hashlib
 import json
 from pathlib import Path
+import subprocess
 
 REPO = Path(__file__).resolve().parents[2]
 DATA = REPO / 'docs/validation/DES-040-baseline'
@@ -43,7 +44,13 @@ def main():
     smoke = read('geant4-smoke.json')
     if smoke['exit_code'] != 0 or smoke['root_events'] != 3:
         raise ValueError('Geant4 transport smoke failed')
-    print('PASS: balanced source/evidence fingerprints, native inventory, Gen3 round trip and three-event Geant4 smoke')
+    publication = read('pdf-review.json')
+    current_tree = subprocess.check_output([
+        'git', 'rev-parse', 'HEAD:docs/publication/tracker-baseline-2026-10-29'
+    ], cwd=REPO, text=True).strip()
+    if current_tree != publication['source_tree'] or publication['status'] != 'PASS':
+        raise ValueError('Current TDR source differs from the compiled/reviewed tree')
+    print('PASS: balanced source/evidence fingerprints, native inventory, Gen3 round trip, Geant4 smoke and compiled TDR tree')
 
 
 if __name__ == '__main__':
