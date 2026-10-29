@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-29-issue105-draft-pr",
+  "title": "Publish approved issue105 draft pull request",
+  "recorded_at": "2026-10-29T15:27:56Z",
+  "started_at": null,
+  "ended_at": "2026-10-29T15:29:58Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Client identity and exact per-turn input/output counters were not exposed; usage stays empty.",
+    "Scientific validation remains the retained prior session, with no geometry or algorithm changes in this publication task."
+  ],
+  "client": {
+    "name": "unspecified",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "8f90d65a81efdbeede68b2519f7d13f0631bbda6",
+    "branch": "codex/issue105-separated-toroids",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      "project/tracking.json",
+      "interactions/pr-0106.json",
+      "logs/codex/SESSION-2026-10-29-issue105-draft-pr.md",
+      "logs/codex/SESSION-2026-10-29-issue105-draft-pr.json"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [
+      "issue105 PR publication",
+      "project metadata",
+      "interaction record"
+    ],
+    "related_ids": [
+      "issue105",
+      "PR-106",
+      "DES-039",
+      "DES-040"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-29-issue105-draft-pr.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "mcp__codex_apps__github_create_pull_request",
+      "exit_code": null,
+      "status": "FAIL",
+      "result": "GitHub integration returned403 Resource not accessible by integration; authenticated CLI fallback used under explicit user authorization."
+    },
+    {
+      "command": "gh pr create --draft; gh pr view106",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "Draft PR106 created and verified OPEN, isDraft=true, expected base/head/title; attached to chat."
+    },
+    {
+      "command": "tools/project_records/validate.py initial publication-metadata check",
+      "exit_code": 1,
+      "status": "FAIL",
+      "result": "Caught PR documents not linked to the affected task; linked DES004/DES040 to the toroid task before rerunning. The next check required the captured UTC timestamp normalized to whole-second schema format; corrected without changing its date or timezone."
+    },
+    {
+      "command": "project_records validate; session validate/summary; token_usage validate/build; git diff --check",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "Metadata corrected to existing task-link and UTC timestamp schemas; all validators and token-site preview build pass. Scientific controls were not rerun for this publication-only change."
+    }
+  ]
+}
