@@ -4,6 +4,15 @@
 - Created: 2026-10-16
 - Scope: isolated magnetic/outline PROTOTYPE; no engineering sign-off or production integration.
 
+## Issue105 redesign proposal — 2026-10-29
+
+The [separated-toroid amendment](inputs/DES-039-issue105-separated-toroids.md)
+responds to the new expert review: short barrel, longer endcaps, disjoint warm
+axial volumes and reduced field. Its [schematic chamber study](../validation/DES-039/issue105/README.md)
+has separate inputs and evidence. Earlier coil fields, detailed panels, supports
+and their validations below remain historical controls for that geometry; they
+are not transferred to the new proposal. Both designs remain DRAFT.
+
 ## Scope and governing inputs
 
 Human direction: use PR86 to design an ATLAS-like 12-fold toroidal system,

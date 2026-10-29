@@ -6,6 +6,15 @@
 - Original magnetic input: PR87, `fe372194038ed2af9617c27defffba09ae6d683f`; current shortened-ECT candidate below
 - Human engineering acceptance: none
 
+## Issue105 redesign proposal — 2026-10-29
+
+The [separated-toroid amendment](inputs/DES-039-issue105-separated-toroids.md)
+responds to the new expert review: short barrel, longer endcaps, disjoint warm
+axial volumes and reduced field. Its [schematic chamber study](../validation/DES-039/issue105/README.md)
+has separate inputs and evidence. Earlier coil fields, detailed panels, supports
+and their validations below remain historical controls for that geometry; they
+are not transferred to the new proposal. Both designs remain DRAFT.
+
 ## Review request and original interface conflict (2026-10-20)
 
 The agreed [PR90 decision](https://github.com/asalzburger/nodd/pull/90#issuecomment-6283618592)

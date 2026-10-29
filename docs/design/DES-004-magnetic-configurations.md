@@ -8,6 +8,8 @@
 - System integration: [architect input and explicit amendment requests](inputs/DES-004-system-architecture.md).
 - Sign-off / production implementation: none.
 
+The detailed MAG-05 toroid prototype now has an [issue105 redesign proposal](inputs/DES-039-issue105-separated-toroids.md), with separated coil volumes and a winding-field screen distinct from the central-field cap. Historical fields do not describe that proposal.
+
 ## Current evaluation
 
 The [physics pro/con follow-up](inputs/DES-004-muon-field-tradeoffs.md), tracked
