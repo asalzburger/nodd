@@ -17,6 +17,9 @@ class RedesignControls(unittest.TestCase):
         c['coil_groups']['barrel']['half_z_m'] = 11.8
         with self.assertRaisesRegex(ValueError, 'interleave'):
             validate(c)
+        c = load(); c['redesign']['winding_field_limit_T'] = 5
+        with self.assertRaisesRegex(ValueError, 'policy'):
+            validate(c)
 
     def test_full_depth_analytic_handoff_and_no_host_intersections(self):
         s = load()['stations']; h = s['outline_thickness_m']/2

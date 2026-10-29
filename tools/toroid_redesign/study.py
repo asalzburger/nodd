@@ -385,7 +385,7 @@ def run(output=OUTPUT):
         'input_sha256': hashlib.sha256(INPUT.read_bytes()).hexdigest(),
         'source_sha256': {str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest() for p in
             [Path(__file__), ROOT/'tools/toroid_prototype/field.py', ROOT/'tools/toroid_prototype/field_backend.cpp',
-             ROOT/'tools/toroid_prototype/geometry.py', ROOT/'tools/toroid_prototype/system.py', ROOT/'tools/toroid_prototype/energy.py', ROOT/'tools/toroid_prototype/solenoid-input.json']},
+             ROOT/'tools/toroid_prototype/geometry.py', ROOT/'tools/toroid_prototype/system.py', ROOT/'tools/toroid_prototype/energy.py', ROOT/'tools/toroid_prototype/solenoid-input.json', ROOT/'tools/magnetic_study/sizing-policy.json']},
         'software': {'python': platform.python_version(), 'numpy': np.__version__},
         'dimensions': dimensions, 'normalization': field, 'B_origin_T': origin[0].tolist(),
         'field_probes': probes, 'energy': en, 'coverage_comparisons': comparisons,

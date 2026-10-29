@@ -78,8 +78,9 @@ def render(output=OUTPUT):
     left,top,w,h=80,675,630,270
     text(left,top-30,'Three distinct stations: local shell availability','sub')
     for i in range(counts.shape[0]):
-        for j in range(counts.shape[1]):
-            rect(left+j*w/counts.shape[1],top+h-(i+1)*h/counts.shape[0],w/counts.shape[1]+.1,h/counts.shape[0]+.1,COLORS[counts[i,j]])
+        changes=np.r_[0,np.flatnonzero(np.diff(counts[i]))+1,counts.shape[1]]
+        for j,end in zip(changes[:-1],changes[1:]):
+            rect(left+j*w/counts.shape[1],top+h-(i+1)*h/counts.shape[0],(end-j)*w/counts.shape[1]+.1,h/counts.shape[0]+.1,COLORS[counts[i,j]])
     for tick in (0,5,10,15,20,25,30):text(left+tick/30*w-5,top+h+22,str(tick))
     for tick in (0,.5,1,1.5,2,2.5,3,3.5):text(left-35,top+h-tick/3.5*h+5,str(tick))
     text(left+w/2-20,top+h+45,'φ [degree]');text(left-40,top-10,'|η|')
