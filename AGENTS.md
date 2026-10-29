@@ -246,6 +246,13 @@ axial lengths separately; do not infer an axial scaling from these radial rules.
 Maintain homogeneous winding-pack current density. Require the magnitude of the
 **complete central field** to be at most 5 T; 1–4 T is the preferred study range.
 This central cap does not certify peak conductor field or NbTi operating margin.
+For toroids, [issue105](https://github.com/asalzburger/nodd/issues/105) adds an
+approximately4T complete winding-field screen and typically0.5–1T useful
+intercoil field, with separate barrel/endcap axial volumes. The
+[separated-coil amendment](docs/design/inputs/DES-039-issue105-separated-toroids.md)
+distinguishes exterior sampling from an unresolved conductor-interior peak and
+NbTi operating margin. Do not normalize currents to recover historical stronger
+bending or infer winding compliance from the central cap.
 
 Use computed stored field energy, not a uniform-bore energy proxy. Iterate winding,
 current normalization and cold-mass size consistently. For nonlinear iron, coupled
