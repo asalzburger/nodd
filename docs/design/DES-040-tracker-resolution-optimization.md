@@ -310,3 +310,28 @@ later independent material/response validation.
 follow-up proposal without integrating a new baseline, changing envelopes or
 recording sign-off. This document remains DRAFT/PROTOTYPE. Separate agent
 assessments do not grant human design approval.
+
+
+## Human baseline selection and implementation direction — 2026-10-29
+
+**NODD DESIGN CHOICE (identified expert selection):**noemina selected the
+balanced configuration in PR104 comment6502595000 and submitted APPROVED review
+5701456683 at2026-10-29T16:40:21Z againstcfd15cb1c0a195a73a8204400b115a2635a52e2a.
+The human then explicitly requested registration as the new working baseline,
+DD4hep implementation and pixel TDR update in this PR. The exact decision,
+review URLs, variant fingerprint and scope are retained in
+[the selection record](inputs/DES-040-balanced-selection.json).
+
+The selected nominal pixel barrel radii are31.5/57/96/182mm, with12/22/18/30
+staves. Original pixel disc logical IDs1..9 move to absolutez615/865/1115/1333/
+1565/1780/2090/2440/3070mm; added logicalID10 is at950mm per end and inherits
+originaldisc2 local geometry. Preserve complete local module/stave/disc
+structures, fixed envelopes and all strip geometry. Keep the old reference
+configuration explicitly reproducible. Maintained DD4hep configuration and
+generators, rather than study-output XML mutation, will produce this baseline.
+
+This is an observed expert choice and explicit implementation authorization,
+not an agent-granted engineering sign-off. The document lifecycle remains DRAFT.
+Original adverse results, incomplete ten-hit coverage, material/response and
+service qualifications remain scientific evidence. The physics working baseline
+may change while component-level engineering acceptance remains open.
