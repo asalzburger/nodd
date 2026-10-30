@@ -11,7 +11,7 @@ The selected profile is `pt4-nominal-triplet`: minPt 0.4 GeV,
 `minSeedLevel=2`, `addTriplets=true`, `maxAbsEtaAddTriplets=4.1`, and optional
 innermost z0 histogram disabled (`z0HistogramMaxBarrelOrder=-1`). Ordinary tau
 cuts remain. It was chosen from13 profiles × 500 events/pT; one configuration is
-frozen acrosspT 1/5/10/100 GeV. The untouched default control is retained.
+frozen across pT 1/5/10/100 GeV. The initial nODD adapter control is retained.
 The histogram sensitivity and all unsuccessful configurations remain evidence.
 
 ## Native execution

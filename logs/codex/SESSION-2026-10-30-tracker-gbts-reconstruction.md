@@ -134,3 +134,27 @@ numerical tails/source/config/failed output evidence retained. Compressedsummary
 bytes preserve frozen hashes. Artifact verifierPASS60cases/66000processedentries,
 which includes deliberately repeated/paired samples and is not an independent
 trial count. New12meaningful controls pass; final independent assessment pending.
+
+## Independent final assessments and remediation
+
+RECO-PhysVal-03 and fresh no-authorship RECO-SoftEng-03 reviewf9c5621800b714e738fe6e1b4b331c9143fb06b6.
+PhysVal independently reclassifies all40000nativevalidationentries with ownlogic,
+matching everyCKF/ambiguitycount/representative, checks allsource/SP/variance/seed
+contracts, recreates13profile ranking/freeze, intervals,widths,tails,charge and
+coverage; no scientificblocker. SoftEng replays all8rawnativecases with every
+summary/all35arrays exact, source/manifest/configidentity, ROOTaudit/performance
+JSONbyteidentical and14figureexports/tailJSON; no blockingfrozenresultdefect.
+Both preserve external-source/occupancy/humanapproval limits. Role result files
+retain examinedrevision/actualchecks andauthorshipdistinctions.
+
+PhysValwordingfix: control is initial nODD adapter control, sharing3T/minPt0.5GeV/
+ROIoverrides, ratherthan allstock ACTSdefaults. Docs clarified; data unchanged.
+SoftEng P3observerCMakeguards fixed bymatching355ea684/pybind11exact3.0.4 checks.
+PositiveconfigurePASS, wrongsource rejected, validatedbinarybytehash unchanged;
+no scientificcode/cuts/observationschange. All39truthbaseline and20optimization
+regressions rerun in verifiednativeenvironmentPASS with no skips.
+
+Ongoing token accounting: no exact disjoint per-turn counters are exposed in
+this API conversation or completed specialist tool results. Usage stays empty;
+no estimates, privateclientstate reads, duplicate prior counters or model-label
+inferences. Canonicalsummary/interactionrecord willstate missingcoverage.

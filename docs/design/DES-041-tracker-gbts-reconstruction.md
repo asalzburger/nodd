@@ -116,7 +116,7 @@ choices and technical recommendations, not human acceptance/sign-off.
 The10-event pT10 smoke and measured-SP replay found that the optional stock
 innermost-barrel z0 histogram rejects otherwise viable barrel connections.
 All12candidate profiles explicitly disable that histogram, while the untouched
-native-default control remains. This amendment precedes the500-event tuning
+initial nODD adapter control remains. This amendment precedes the500-event tuning
 sample and all held-out runs. Scan minPt0.4/0.6/0.8GeV, nominal/doubled coherent
 tau cuts and confirmed/three-group recovery settings. No ACTS Core source or
 physical input changes. Runtime tie-break uses sequencer/event-stage time,
