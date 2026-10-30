@@ -266,3 +266,44 @@ tokenusage remains unavailable and is not replaced by historicalproject totals.
 SPECIES-PhysVal-10 prepared before followup: read-only final canonicalintegration at
 157994cbcbc2ec3551dc6bcbad51b3fc9c0a212e, reusing07/08/09 all80k independent
 classification; temporaryreplay permitted, no canonicalwrite/acceptance.
+
+## Final independent integration and PR publication
+
+PhysVal10 completes read-only assessment at157994c, with no newblocking finding.
+All130manifest entries and16retained summaries/NPZ/reports bind to independently
+checked outputs; twelveG4 mappings andoriginalmuon reference hold. All120pull
+normalizations/fullstatistics pass. Fresh report,30PNG and4tailJSON are exact;
+30PDF differ only CreationDate. SixactualPDF renders andcorrespondingplots pass
+visualQA. No native/rebuild/LLT repeat or humanacceptance is inferred.
+
+Normalpush publishes throughc851eb4. ConnectedGitHubPRmetadata edit returns403
+(Resource not accessible by integration); authenticatedgh pr edit with the exact
+preparedbodyfile succeeds. Connectedreads verify the newtitle/body, actualhead,
+draftstate and no comments/reviews. No externalmessage/reviewerrequest is sent.
+CI starts; finalchecks/closeout remain pending.
+
+## Closeout
+
+All three PR107 CI jobs pass at
+c851eb46063d7b6b7173b39157bc0bebca8e35f0: [project and scientific replay](https://github.com/asalzburger/nodd/actions/runs/41063873743),
+[token/interaction preview](https://github.com/asalzburger/nodd/actions/runs/41063819714).
+The earlier project run was superseded when the PR title/body edit triggered a
+fresh run; no test failure is inferred from that cancellation. Final follow-on
+changes contain review, interaction, tracking and session records only.
+
+The delivered prototype includes Fatras electrons and Geant4 muons/electrons/
+charged pions at1/5/10/100GeV,5000events pernewcase, with originalFatrasmuon
+reference preserved. All80000new nativeevents, fulluncut residuals/pulls, ROOT
+persistence, provenance and separatepopulations pass the bounded independent
+checks. DES041 remainsDRAFT; humanexpert review and acceptance are pending.
+Electron momentum/charge and pion tails remain adverse results, not acceptance.
+
+Public discussion is refreshed at closeout: no comments/reviews returned and the
+PR remains draft. Selected visible user requests, root responses and the closed
+PhysVal10 handoff are retained separately from publicGitHub discussion. Exact
+root/child perturn token counters remain unavailable. The completed child API
+also exposes no counters. Usage stays empty/unobserved; no historical project
+total is presented as this task's usage and active-root usage is excluded.
+
+The bounded implementation/validation record closes at its observed timestamp;
+this does not close the chat, merge the PR or grant detector acceptance.
