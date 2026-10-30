@@ -68,8 +68,11 @@ def verify(data):
         if r["profile"]!="pt4-nominal-triplet" or s["profile"]!=r["profile"]:raise ValueError("Selected GBTS profile changed")
         c=r["campaign"]
         if c["particle"]!=particle or c["simulation"]!=simulation or s["simulation"]!=simulation:raise ValueError("Sample mislabeled")
-        for key in ("profiles","ckf","quality","matching","ambiguity","parameter_estimation","field_Bz_T","eta_range","phi_range_rad"):
+        for key in ("profiles","ckf","quality","matching","parameter_estimation","field_Bz_T","eta_range","phi_range_rad"):
             if c[key]!=frozen[key]:raise ValueError("Frozen benchmark changed: "+key)
+        if c["ambiguity"]!={**frozen["ambiguity"],"maximum_iterations":4294967295}:raise ValueError("Ambiguity convergence budget changed")
+        if (not s["ambiguity_audit"]["all_native_survivors_converged"] or
+            np.any(a["ambiguity_max_shared_measurements"]>=c["ambiguity"]["maximum_shared_hits"])):raise ValueError("Truncated ambiguity resolution")
         g=r["gbts_statistics"];identity=g["particle_configuration"]
         if g["effective_configuration"]!=effective_gbts:raise ValueError("Actual native GBTS settings changed")
         if identity!=s["particle_configuration"] or identity["name"]!=particle or not s["species_audit"]["all_native_hypotheses_verified"]:raise ValueError("Unverified actual species")

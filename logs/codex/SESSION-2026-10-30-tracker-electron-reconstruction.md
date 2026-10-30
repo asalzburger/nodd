@@ -65,3 +65,22 @@ headers/libraries. Missing detector-common/Root-header build dependencies are
 corrected locally; no shared dependencies changed. PhysVal03 retains caa's
 P1 runtime defect and supports the owned-instance correction subject to new
 mapping/event checks. Species launch guard/effective GBTS verifier addressesP3.
+
+### Native smoke and pre-validation convergence correction
+
+The typed DD4hepDetectorBase binding at dabb1cc resolves the cross-module cast
+failure. Geant4 muon (2 events at 10 GeV), electron and pion (20 events each at
+1 GeV), seed 143043, completed. Each maps exactly 46,250 sensitive surfaces,
+without duplicate or missing IDs. Independent reduction verified native species,
+all measurement dimensions/variances and full-event accounting.
+
+A distinct 100-event Fatras electron smoke at 100 GeV, seed 133043, completed
+without FPE but exposed ambiguity truncation: event 62 retained 2,653 candidates,
+maximum 13 shared measurements. Raise the new campaigns' computational budget
+from 1,000 to uint32 maximum before validation, keeping shared-hit threshold 3
+and minimum hit count 7. Source inspection proves one removal per iteration or
+termination. Independent reduction now rejects unconverged native survivors
+before quality selection. This changes no GBTS setting or matching cut.
+Geant4 dataset CLI installation checks passed for all 12 compiled-path datasets;
+no shared dependency was installed or modified and no dataset content hash is
+claimed. The original muon evidence remains unchanged.

@@ -224,3 +224,25 @@ logical volumes with `nodd_active::`. The generic ACTS mapper selects that tag.
 This is sensitivity metadata, without changing solids, placement, material,
 DD4hep IDs or the hit-based reconstruction input contract. Require full
 46,250-sensor mapping with no duplicate or missing active IDs.
+
+### Converged ambiguity resolution before species validation
+
+**NODD DESIGN CHOICE:** raise only the new campaigns' ambiguity iteration
+budget from 1,000 to the native uint32 maximum, 4,294,967,295. In a separate
+100-event electron Fatras 100 GeV smoke (seed 133043), event 62 retained 2,653
+tracks with up to 13 shared measurements after exhausting the old removal
+budget. Pinned ACTS GreedyAmbiguityResolution removes one track per iteration
+or terminates, so execution remains bounded by the initial candidate count.
+Keep the original maximum-shared-hit threshold 3 and minimum hit count 7.
+Independent reduction checks every native survivor, before quality selection,
+against the source algorithm's strict fewer-than-3 shared-measurement condition.
+An incomplete solver run is rejected rather than scored as physics fakes.
+This amendment precedes the held-out species matrix and performs no GBTS tuning.
+The original muon Fatras reference and its 1,000-iteration setting remain intact.
+
+The working sensitivity wrapper receives the registered DD4hepDetectorBase
+instance directly across the Python binding. The muon, electron and pion native
+Geant4 smoke tests pass the exact 46,250-sensor mapping and independent event
+count checks. Installed Geant4 11.4.3 reports all twelve versioned datasets
+present through its compiled data paths; record this separately from unset
+optional environment variables. Installation checks do not hash dataset contents.

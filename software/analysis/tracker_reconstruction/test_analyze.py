@@ -7,7 +7,7 @@ import tempfile
 import json
 
 sys.path.insert(0,str(Path(__file__).resolve().parent))
-from analyze import classify_event, interval, rate, summarize
+from analyze import ambiguity_shared_max, classify_event, interval, rate, summarize
 from select_profile import select
 
 PRIMARY=[1,0,1,0,0]
@@ -31,6 +31,13 @@ def track(indices,index=0):
 
 
 class MetricsTest(unittest.TestCase):
+    def test_ambiguity_convergence_counts_track_sets_and_repeated_state_links(self):
+        def states(indices):return {"states":[{"measurement":i,"inlier":True} for i in indices]+[{"measurement":99,"inlier":False}]}
+        self.assertEqual(ambiguity_shared_max([]),0)
+        self.assertEqual(ambiguity_shared_max([states([1,1,2])]),0)
+        self.assertEqual(ambiguity_shared_max([states([1,1,2]),states([1,2,3])]),3)
+        self.assertEqual(ambiguity_shared_max([states([1,2]),states([2,3])]),1)
+
     def test_all_events_and_secondary_fake_duplicate_are_distinct(self):
         row,sensors=fixture()
         row["ambi"]=[track(list(range(7)),0),track(list(range(1,8)),1),track(list(range(9,16)),2),track([0,1,9,10,16,17,18],3)]

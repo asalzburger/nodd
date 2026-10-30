@@ -79,7 +79,7 @@
   },
   "ambiguity": {
     "maximum_shared_hits": 3,
-    "maximum_iterations": 1000
+    "maximum_iterations": 4294967295
   },
   "matching": {
     "purity": 0.5,
@@ -254,6 +254,7 @@
     ],
     "simulation": "geant4",
     "electron_two_way": false,
-    "pre_validation_compatibility": "Electron two-way native brems CKF reverseTrackStates inverts singular transport Jacobians (26FLTDIV+26FLTINV in100event smoke). Use one-way electron CKF; preserve ordinary two-way muon/pion. No FPE masks/check changes and no GBTS tuning."
+    "pre_validation_compatibility": "Electron two-way native brems CKF reverseTrackStates inverts singular transport Jacobians (26FLTDIV+26FLTINV in100event smoke). Use one-way electron CKF; preserve ordinary two-way muon/pion. No FPE masks/check changes and no GBTS tuning.",
+    "ambiguity_convergence": "Pre-validation electron 100GeV smoke exhausted the original 1000-removal budget. Use native uint32 maximum; each iteration removes a track or terminates, so work remains bounded by input candidates. Keep maximum_shared_hits=3 and independently require all native survivors to have fewer than 3 shared measurements. No GBTS or physics-cut tuning."
   }
 }

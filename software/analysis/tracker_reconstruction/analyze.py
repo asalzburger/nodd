@@ -23,6 +23,18 @@ def rate(k,n):
             "zero_one_sided95_upper":1-0.05**(1/n) if n and not k else None}
 
 
+def ambiguity_shared_max(tracks):
+    """Replay ACTS GreedyAmbiguityResolution's final shared-measurement test.
+
+    Usage is a set of tracks per source link, while a track's measurement
+    vector can contain repeated links. Check all native survivors, before any
+    analysis quality selection; a quality cut must not hide solver truncation.
+    """
+    links=[[s["measurement"] for s in t["states"] if s["inlier"]] for t in tracks]
+    usage=Counter(i for indices in links for i in set(indices))
+    return max((sum(usage[i]>1 for i in indices) for indices in links),default=0)
+
+
 def classify_event(row,sensors,config):
     if len(row["generated"])!=1: raise ValueError("Benchmark requires exactly one generated primary")
     primary=row["generated"][0];pid=tuple(primary["id"])
@@ -122,11 +134,16 @@ def analyze(directory,output):
     variances={(g["volume"],g["index"]):g["sigma_mm"]**2 for g in widths["groups"]}
     events=[];sample=hashlib.sha256();systems=Counter();dimensions=Counter();marginals=0;max_sp_error=0.
     identity=report["gbts_statistics"].get("particle_configuration")
-    generated_pdgs=Counter();secondary_pdgs=Counter();primary_diagnostics={};outcomes=Counter();processes=Counter()
+    generated_pdgs=Counter();secondary_pdgs=Counter();primary_diagnostics={};outcomes=Counter();processes=Counter();ambiguity_maxima={}
     if identity and identity["name"]!=config["particle"]:raise ValueError("Species report/campaign mismatch")
     with gzip.open(directory/"events.jsonl.gz","rt") as stream:
         for line in stream:
             row=json.loads(line)
+            if config.get("species_extension"):
+                maximum=ambiguity_shared_max(row["ambi"])
+                ambiguity_maxima[row["event"]]=maximum
+                if maximum>=config["ambiguity"]["maximum_shared_hits"]:
+                    raise ValueError(f"Ambiguity resolution did not converge in event {row['event']}: {maximum} shared measurements")
             if identity:
                 fraction,secondaries=species.audit_event(row,identity)
                 secondary_pdgs.update(secondaries)
@@ -190,6 +207,12 @@ def analyze(directory,output):
             ("final_position_mm","final_position_mm",[np.nan]*3)):
             arrays["primary_"+label]=np.asarray([primary_diagnostics[e["event"]][1].get(key,default)
                 if primary_diagnostics[e["event"]][1] is not None else default for e in events])
+    if ambiguity_maxima:
+        arrays["ambiguity_max_shared_measurements"]=np.asarray([ambiguity_maxima[e["event"]] for e in events])
+        result["ambiguity_audit"]={"all_native_survivors_converged":True,
+            "maximum_shared_measurements":int(arrays["ambiguity_max_shared_measurements"].max()),
+            "strict_upper_bound":config["ambiguity"]["maximum_shared_hits"],
+            "maximum_iterations":config["ambiguity"]["maximum_iterations"]}
     for stage in ("ckf","ambi"):
         for key in ("matched","accepted","fake","duplicates","secondary","wrong_charge"):
             arrays[stage+"_"+key]=np.asarray([e[stage][key] for e in events])

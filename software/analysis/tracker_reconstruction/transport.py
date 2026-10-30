@@ -37,20 +37,33 @@ def _geant4_environment():
     No toolkit setup, downloads or shared state mutation occurs here.
     """
     program = shutil.which("geant4-config")
-    version = None
+    version = None;installed = {};check_status = None
     if program is not None:
         try:
             result = subprocess.run([program, "--version"], capture_output=True,
                                     text=True, timeout=2, check=False)
             if result.returncode == 0:
                 version = result.stdout.strip()
+            locations=subprocess.run([program,"--datasets"],capture_output=True,text=True,timeout=5,check=False)
+            checks=subprocess.run([program,"--check-datasets"],capture_output=True,text=True,timeout=5,check=False)
+            check_status=checks.returncode
+            checked={fields[0]:fields[1] for line in checks.stdout.splitlines()
+                     if len(fields:=line.split(maxsplit=2))==3}
+            if locations.returncode==0:
+                for line in locations.stdout.splitlines():
+                    fields=line.split(maxsplit=2)
+                    if len(fields)==3 and fields[1] in _DATASETS:
+                        name,variable,path=fields
+                        installed[name]={"environment_variable":variable,"compiled_path":path,
+                            "directory_exists":Path(path).is_dir(),"cli_status":checked.get(name)}
         except (OSError, subprocess.TimeoutExpired):
             pass
     return {"geant4_config": program, "geant4_config_version": version,
             "datasets": {name: {"path": os.environ.get(name),
                 "directory_exists": Path(os.environ[name]).is_dir() if os.environ.get(name) else None}
                 for name in _DATASETS},
-            "dataset_check": "Environment locations/existence only; contents not verified"}
+            "installed_datasets":installed,"check_datasets_returncode":check_status,
+            "dataset_check": "Allowlisted environment locations plus geant4-config compiled paths and installation check; contents not hashed"}
 
 
 def schedule(seq, acts, detector, geometry, field, rnd, observer, config, events, level):
