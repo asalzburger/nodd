@@ -161,21 +161,51 @@ inferences. Canonicalsummary/interactionrecord willstate missingcoverage.
 
 ## Publication and interaction closeout
 
-Draft [PR107](https://github.com/asalzburger/nodd/pull/107) published at
-a01c19eda77f88ca26c9be88f3994853d904fa2b. GitHub connector creation returned
-403 Resource not accessible by integration; existing authenticated gh CLI
-succeeded. The PR was attached to this task. Connected GitHub metadata and
-merged public discussion captured on2026-10-30T10:22:38Z; no discussion/review entries then.
-Initial token-site CI failed solely because the newPR number had no interaction
-record; this metadata pass supplies it. ScientificCI remains pending.
+Draft [PR #107](https://github.com/asalzburger/nodd/pull/107) was published at
+`a01c19eda77f88ca26c9be88f3994853d904fa2b`. GitHub connector creation returned
+403, Resource not accessible by integration; the existing authenticated gh CLI
+succeeded. The PR was attached to this task. Connected GitHub tools captured its
+metadata and merged public discussion; no comments or reviews were present.
+Initial token-site CI failed solely because the newly assigned PR number had no
+interaction record. The next metadata commit supplied that record and passed CI.
 
-Codex app read_thread verified currentroot 01a176bd-cabc-77c0-8841-9d7ee1efa109,
-turn01a18c1b-877d-75c1-96fb-eb2d89753907 (inProgress), actualstart2026-10-30T09:19:36Z.
-Verified spawned children: tracker_gbts_softeng01a18c20-53db-7ce3-a4b7-b587c07f0154;
-tracker_gbts_physval01a18c20-6c17-7cb2-980b-678607a7b8bc; fresh finalSoftEng
-01a18c49-acb6-7b01-920a-f59c53afb51a. Selected visible rootmessages andlatest
-completed specialist responses are allowlisted/reviewed in thePR record with
-stablemessage/turn/thread sources. Reasoning, commandtext/results, arbitrary
-arguments andprivateclientstate excluded. No exact per-turn counters exposed;
-usage stays empty and execution models unknown. Active rootusage is excluded.
-These are curated interaction events, not account-matched usage snapshots.
+Codex app read_thread verified root thread `01a176bd-cabc-77c0-8841-9d7ee1efa109`,
+active turn `01a18c1b-877d-75c1-96fb-eb2d89753907`, with start `2026-10-30T09:19:36Z`.
+Its visible spawn metadata verified these bounded child identities:
+
+- tracker_gbts_softeng: `01a18c20-53db-7ce3-a4b7-b587c07f0154`.
+- tracker_gbts_physval: `01a18c20-6c17-7cb2-980b-678607a7b8bc`.
+- Fresh final SoftEng: `01a18c49-acb6-7b01-920a-f59c53afb51a`.
+
+Selected root messages and latest completed specialist responses were allowlisted
+and reviewed in the PR record, with stable message/turn/thread sources. Reasoning,
+command text/results, arbitrary arguments and private client state were excluded.
+No exact per-turn counters were exposed; usage remains empty and execution models
+unknown. Active root usage is excluded. These are curated interaction events,
+not account-matched usage snapshots.
+
+## Outcome and final closeout
+
+The isolated reconstruction prototype, 13-profile tuning scan, frozen selected
+profile and held-out 5,000 muons per momentum are delivered in draft PR #107.
+Selected primary efficiencies are 97.18/99.28/99.30/99.44 percent at
+1/5/10/100 GeV; accepted unmatched counts are 1/1/2/0, with no surviving duplicates.
+The forward 100 GeV wrong-charge count of 95/4,972 and 1 GeV pull tails remain
+explicit. Human expert acceptance and high-occupancy validation remain pending.
+
+All GitHub CI passed at `8d4d95cc2223d474d244fa9d527a681bfbe37ea6`: project build
+10m18s and scientific/unrooted replay 3m5s (run 41040394087); token-site 32s
+(run 41040394290). The final body and discussion snapshot were refreshed through
+the GitHub connector; no public comments or reviews were present. Final closeout
+changes only project/session/interaction metadata. The captured head and result
+commits intentionally precede this metadata commit; the final head is in Git.
+
+Local session/project/workflow/interaction/token validators and the scientific
+source/artifact verifier passed. The required historical 78bc60b object was
+fetched without changing evidence. The session summary was written to ignored
+`build/tracker-reconstruction/accounting-summary.json`. Current-task usage is
+unobserved: no exact root/child counters, no estimated totals and no imported old
+project totals. Active coordinator usage is excluded. Stable identities and the
+latest selected visible messages were refreshed, allowlisted and reviewed.
+The bounded task closed at observed `2026-10-30T10:35:31Z`; this does not mean the client
+turn has closed or that a human has approved the design.
