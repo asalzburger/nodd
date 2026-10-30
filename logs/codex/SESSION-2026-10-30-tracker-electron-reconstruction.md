@@ -84,3 +84,18 @@ before quality selection. This changes no GBTS setting or matching cut.
 Geant4 dataset CLI installation checks passed for all 12 compiled-path datasets;
 no shared dependency was installed or modified and no dataset content hash is
 claimed. The original muon evidence remains unchanged.
+
+### Initial matrix launch and Fatras numerical failure
+
+The frozen 16-case matrix launched at e71ecd0, 5,000 events/case, with four fresh
+subprocess workers. Fatras electrons at 1/5/10 GeV completed event processing
+but failed the unchanged FPE gate on `FLTUND` inside BetheHeitler `exp(-u)`.
+The failing attempts are retained, not accepted as completed validation.
+Geant4 jobs continue without changing their executing source or binaries.
+
+SPECIES-SoftEng-03 owns only five new SafeFatras sidecar files. The bounded
+assignment implements a guard where u>40 already makes exp(-u)-1 round exactly
+to -1 in binary64, preserving sampled loss and RNG. It must keep FPE checks,
+use a distinct algorithm/interaction type, pin source hashes and build only in
+task-owned output. Integration and same-seed replay follow numerical tests.
+No shared ACTS source/runtime, model cut, GBTS setting or seed may be changed.

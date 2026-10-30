@@ -41,7 +41,117 @@
     ]
   },
   "narrative": "logs/codex/SESSION-2026-10-30-tracker-electron-reconstruction.md",
-  "activities": [],
+  "activities": [
+    {
+      "kind": "skill",
+      "name": "nodd-coordinate",
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "version": null,
+      "evidence": "Bounded PhysVal and SoftEng assignments with exact revision contracts."
+    },
+    {
+      "kind": "skill",
+      "name": "nodd-review-validation",
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "version": null,
+      "evidence": "Separate scientific source/diagnostic assessment; final matrix review pending."
+    },
+    {
+      "kind": "skill",
+      "name": "nodd-design-evidence",
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "version": null,
+      "evidence": "DES041 DRAFT protocol and explicitly recorded compatibility/numerical amendments."
+    },
+    {
+      "kind": "skill",
+      "name": "acts-spack",
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "version": null,
+      "evidence": "Preflight warnings retained; installed runtime/dataset CLI and native smokes verified without shared dependency changes."
+    }
+  ],
   "usage": [],
-  "checks": []
+  "checks": [
+    {
+      "command": "python3 skills/acts-spack/scripts/preflight.py --require-sources",
+      "exit_code": 2,
+      "status": "FAIL",
+      "result": "Setup/lock drift and unverified full Geant4/DD4hep sources; installed matching runtime used with separate native checks."
+    },
+    {
+      "command": "analysis-venv/bin/python -m unittest discover -s software/analysis/tracker_reconstruction -p test_*.py",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "25 controls pass including shared-hit convergence boundary, matching, species identities and transport cleanup."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py",
+      "exit_code": 1,
+      "status": "FAIL",
+      "result": "Initial extension task state in_progress rejected; corrected to schema value active."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "79 tasks, 41 documents,22 review rounds."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "213 session records."
+    },
+    {
+      "command": "analysis-venv/bin/python software/analysis/tracker_reconstruction/verify.py",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "Original60nativecases/66000processedentries retain original source, paired samples, full residuals/pulls and baseline response."
+    },
+    {
+      "command": "python3 -B tools/tracker_dd4hep/verify_baseline.py",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "Balanced source/evidence fingerprints, native inventory, Gen3 roundtrip, G4 smoke and TDR tree unchanged."
+    },
+    {
+      "command": "python3 -B docs/publication/tracker-baseline-2026-10-29/scripts/balanced_snapshot.py --check",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "67 current source/assets,10strip controls, tables/source identities."
+    },
+    {
+      "command": "geant4-config --datasets; geant4-config --check-datasets",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "Geant4 11.4.3; all12 compiled-path datasets report INSTALLED, no dataset content hashing."
+    },
+    {
+      "command": "nodd_tracker_reconstruction.py --phase smoke (separate cases)",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "Muon Fatras100events exactly reproduces35originalarrays; G4 muon2/electron20/pion20 all46250 active mappings and nativeeventcounts; one-way electron smokes1/100GeV complete."
+    },
+    {
+      "command": "analyze.py electron-fatras-pt100-converged100eventsmoke",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "90matched primaries,109survivors,0duplicates,maximum shared2 after compute-budget repair. Original capped smoke retained2758survivors and1735duplicates."
+    },
+    {
+      "command": "initial5000eventFatras electron validation at1/5/10GeV",
+      "exit_code": 1,
+      "status": "FAIL",
+      "result": "All events processed but strict FPE gate catches11/5/12underflows respectively in native BetheHeitler exp(-u); preserve failure and repair numerically without masks."
+    }
+  ]
 }

@@ -161,7 +161,8 @@ highest tracking-volume boundary. Its task-owned detector wrapper tags only
 canonical DD4hep sensitive logical volumes for mapping. Before events, an
 independent native replay requires exactly one mapping for every one of the
 46,250 ACTS sensor IDs. No solid, material, placement or identifier is changed.
-The loaded Geant4 version, production cuts, actual native event count and
+The Geant4 header version, actual shared-library hashes and CLI version,
+production cuts, native event count and
 installed dataset locations/checks are recorded. Dataset contents are not hashed.
 ACTS internally suppresses FPE monitoring around Geant4 BeamOn; no strict
 Geant4-internal FPE claim is made.

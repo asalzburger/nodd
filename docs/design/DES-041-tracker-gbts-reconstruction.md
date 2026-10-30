@@ -246,3 +246,20 @@ Geant4 smoke tests pass the exact 46,250-sensor mapping and independent event
 count checks. Installed Geant4 11.4.3 reports all twelve versioned datasets
 present through its compiled data paths; record this separately from unset
 optional environment variables. Installation checks do not hash dataset contents.
+
+### Fatras numerical repair after the initial validation launch
+
+**NODD DESIGN CHOICE:** preserve the failing 5,000-event Fatras electron
+attempts, and replay the same frozen seeds/settings with a task-owned numerical
+sidecar. The initial 1/5/10 GeV runs completed all events but failed the FPE gate
+on underflow in native BetheHeitler's `std::exp(-u)`. No FPE mask is permitted.
+For binary64 `u > 40`, `exp(-u) - 1` rounds exactly to −1, which is the only
+use of that exponential in the sampled energy loss. Skip that unnecessary
+exponential in this branch, retaining all random draws, sampled loss and physics
+parameters. A newly named algorithm/interaction type avoids symbol interposition;
+compile from revision- and hash-checked matching ACTS source into task-owned
+build output. Do not patch the shared runtime. Prove bitwise loss equivalence
+and absence of the underflow, then compare replayed event outputs and keep every
+original failed run's hashes. This is a numerical repair, not seed/profile or
+physics-cut selection on validation performance. All Geant4 cases continue with
+the original frozen implementation; their native source pin remains explicit.

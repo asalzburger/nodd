@@ -63,6 +63,8 @@ def verify(data):
     for case,r in reports.items():
         simulation,particle,pt=case.split("/");directory=data/case
         s=read(directory/"summary.json.gz");a=np.load(directory/"events.npz",allow_pickle=False)
+        momentum=float(pt.removeprefix("pt"))
+        if r["pt_GeV"]!=momentum or s["pt_GeV"]!=momentum or not np.allclose(a["pt"],momentum,rtol=1e-12,atol=0):raise ValueError("Mislabeled momentum sample")
         if r["outcome"]!="completed" or r["events"]!=5000 or s["events"]!=5000:raise ValueError("Incomplete native sample")
         if r["phase"]!="validation" or s["seed"]!=r["seed"] or r["seed"]!=(133042 if simulation=="fatras" else 143042):raise ValueError("Wrong frozen validation split")
         if r["profile"]!="pt4-nominal-triplet" or s["profile"]!=r["profile"]:raise ValueError("Selected GBTS profile changed")
@@ -123,6 +125,9 @@ def verify(data):
             transport=g["transport_configuration"]
             if transport["native_geant4_events"]!=5000 or transport["physicsList"]!="FTFP_BERT" or not transport["production_cuts"]:raise ValueError("Unverified Geant4 runtime/event contract")
             if transport["materialMappings"] or transport["volumeMappings"]!=["nodd_active::"] or transport["killSecondaries"] or not transport["keepParticlesWithoutHits"]:raise ValueError("Geant4 sensitivity/secondary policy changed")
+            environment=transport["environment"]
+            installed=environment["installed_datasets"]
+            if environment["check_datasets_returncode"]!=0 or len(installed)!=12 or any(not d["directory_exists"] or d["cli_status"]!="INSTALLED" for d in installed.values()):raise ValueError("Unverified installed Geant4 datasets")
         n+=5000
     if any(len(values)!=1 for values in binaries.values()):raise ValueError("Observation/seeding module changed during final matrix")
     print(f"PASS:16 species/transport cases, {n} generated events; frozen GBTS, actual hypotheses, full tails, native identities, Geant4 mapping/events and baseline response. Sources={sorted(sources)}")
