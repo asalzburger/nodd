@@ -1,39 +1,29 @@
-# SESSION-2026-10-30-tracker-gbts-reconstruction — Build and tune full tracker reconstruction with GBTS on balanced baseline
+# Tracker GBTS reconstruction
 
-## Scope and evidence
+## Selected user request
 
-State collection method, available context, limitations, related IDs and starting
-revision. Identify uncommitted user changes present before work.
+Use the current baseline, Fatras, smeared digitization and single muons at
+pT1/5/10/100GeV; implement full tracker reconstruction with ACTS GBTS seeding
+and tune for efficiency/fake rate. Existing3T/origin/uniform eta[-4,4]/random
+charge benchmark carries forward. Geometry and response are frozen.
 
-## Selected conversation
+## Assignments and ownership
 
-Attribute requests to the user and outcomes to the assistant. Mark exact quotes
-and paraphrases explicitly. Include corrections and changes in direction.
-Exclude private model state, confidential content, and irrelevant system context.
+RECO-SoftEng-01 at616fd2a owns gbts.py/test_gbts.py and the separate native
+TrackerGbts sidecar. Main owns campaign/design/records, full simulation/CKF/
+ambiguity steering, material/error identity preparation, native audit, metrics
+and plotting. No shared source/install changes. RECO-PhysVal-01 independently
+reads exactsource and proposes metric/selection/validation protocol, read-only.
+Both receive prepared explicit role mandates, not claimed native-profile loads.
+Source implementation is a user-authorized isolated PROTOTYPE under DES041.
 
-## Decisions and outcomes
+## Environment and initial checks
 
-State rationale, alternatives, consequences and what remains unresolved. Never
-convert implementation authorization into human design sign-off.
-
-## Commands and validation
-
-Record relevant commands, actual exits/results, failed attempts and remedies.
-Distinguish structural checks from detector acceptance.
-
-## Changes and revision links
-
-List changed files or refer to the paired JSON inventory. Result commits are
-recorded only once they exist; Git history locates this record's enclosing commit.
-
-## Token accounting
-
-Record the client-provided per-turn usage source and import command, or state why
-exact counters are unavailable. Report observed input/output sums and missing
-coverage from `session_log.py summary`; empty usage means unknown, not zero.
-Never copy raw client archives or private model state. Do not duplicate turns
-across tasks or add cached/reasoning subsets to the input/output totals.
-
-## Follow-up
-
-List remaining work, missing measurements and any human review needed.
+Merged PR104b4928ac is current baseline; newbranch codex/tracker-gbts-reconstruction.
+Spack preflight warns changedsetup/lock andunverifiedfullDD4hep/G4sources.
+User warned before dependent execution. Fresh existingruntime imports DD4hep,
+DDG4,ROOT,ACTS and exposes nativeGBTS/spacepoint/CKF/ambiguitybindings.
+DD4hep1.38,ROOT6.40.04,Geant411.4.3,Python3.14.5; all12G4datasets installed.
+Matching source355ea in sibling software-layout; later devcheckout555c isdirty
+and preserved. No shared installs/source patches. Initialprojectvalidator found
+newtaskrole mismatch; maincorrected it to authoritativeworkstreamrole.
