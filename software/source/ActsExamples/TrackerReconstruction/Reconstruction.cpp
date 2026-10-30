@@ -52,11 +52,20 @@ class ReconstructionAudit final: public IAlgorithm {
         const auto sl=state.hasUncalibratedSourceLink() ? state.getUncalibratedSourceLink().getPtr<IndexSourceLink>() : nullptr;
         const auto flags=state.typeFlags();
         if(sl && flags.isMeasurement() && !flags.isOutlier()) indices.insert(sl->index());
-        states.push_back({{"geometry_id",state.hasReferenceSurface() ? Json(state.referenceSurface().geometryId().value()) : Json()},
+        Json saved={{"geometry_id",state.hasReferenceSurface() ? Json(state.referenceSurface().geometryId().value()) : Json()},
                           {"measurement",sl ? Json(sl->index()) : Json()},
                           {"inlier",flags.isMeasurement()},
                           {"outlier",flags.isOutlier()},
-                          {"hole",flags.isHole()}});
+                          {"hole",flags.isHole()}};
+        const auto storeParameters=[&](const char* label,const auto& values,const auto& covariance) {
+          std::vector<double> parameters,variance;
+          for(int i=0;i<6;++i) {parameters.push_back(values[i]);variance.push_back(covariance(i,i));}
+          saved[label]={{"parameters",parameters},{"variance",variance}};
+        };
+        if(state.hasPredicted()) storeParameters("predicted",state.predicted(),state.predictedCovariance());
+        if(state.hasFiltered()) storeParameters("filtered",state.filtered(),state.filteredCovariance());
+        if(state.hasSmoothed()) storeParameters("smoothed",state.smoothed(),state.smoothedCovariance());
+        states.push_back(std::move(saved));
       }
       std::vector<double> parameters,variance;bool covariancePositiveDefinite=false;
       if(track.hasReferenceSurface()) for(int i=0;i<6;++i) {parameters.push_back(track.parameters()[i]);variance.push_back(track.covariance()(i,i));}

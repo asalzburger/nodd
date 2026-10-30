@@ -1,6 +1,7 @@
 """Replay full-acceptance reconstruction performance from retained event arrays."""
 import argparse
 import json
+import gzip
 from pathlib import Path
 import numpy as np
 import matplotlib
@@ -13,6 +14,12 @@ PARAMETERS=(r"$d_0$ [µm]",r"$z_0$ [µm]",r"$\phi$ [mrad]",r"$\theta$ [mrad]",r"
 SCALES=np.asarray([1000.,1000.,1000.,1000.,1.,1/299.792458])
 
 
+def summary(path):
+    path=Path(path)
+    if path.exists():return json.loads(path.read_text())
+    return json.loads(gzip.decompress(path.with_suffix(".json.gz").read_bytes()))
+
+
 def save(fig,output,name):
     fig.savefig(output/(name+".png"),dpi=170,bbox_inches="tight")
     fig.savefig(output/(name+".pdf"),bbox_inches="tight")
@@ -21,9 +28,9 @@ def save(fig,output,name):
 
 def plot(data,output):
     data=Path(data);output=Path(output);output.mkdir(parents=True,exist_ok=True)
-    selected={pt:(json.loads((data/"selected"/f"pt{pt}"/"summary.json").read_text()),
+    selected={pt:(summary(data/"selected"/f"pt{pt}"/"summary.json"),
                   np.load(data/"selected"/f"pt{pt}"/"events.npz")) for pt in PTS}
-    control={pt:(json.loads((data/"control"/f"pt{pt}"/"summary.json").read_text()),
+    control={pt:(summary(data/"control"/f"pt{pt}"/"summary.json"),
                  np.load(data/"control"/f"pt{pt}"/"events.npz")) for pt in PTS}
     fig,axes=plt.subplots(2,2,figsize=(12,8),sharex=True,sharey=True)
     for ax,pt in zip(axes.flat,PTS):
@@ -67,6 +74,35 @@ def plot(data,output):
     axes[0,0].legend(fontsize=9)
     fig.suptitle("Held-out perigee residual resolution · all matched primaries\nHalf-width (q84 − q16)/2; no residual or pull cuts; time prior dominated")
     fig.tight_layout();save(fig,output,"resolution-eta")
+    for quantity in ("residual","pull"):
+        fig,axes=plt.subplots(2,3,figsize=(14,8))
+        for (lo,hi),color in zip(((0,1.5),(1.5,2.5),(2.5,4.)),COLORS):
+            for i,ax in enumerate(axes.flat):
+                values=[]
+                for pt in PTS:
+                    _,a=selected[pt];mask=(np.abs(a["eta"])>=lo)&(np.abs(a["eta"])<hi)&a["ambi_matched"].astype(bool)
+                    r=a["ambi_"+quantity][mask,i]*(SCALES[i] if quantity=="residual" else 1.)
+                    values.append((np.quantile(r,.84)-np.quantile(r,.16))/2)
+                ax.plot(PTS,values,"o-",ms=4,color=color,label=f"{lo:g} ≤ |η| < {hi:g}")
+                ax.set_xscale("log");ax.set_xlabel("Generated pT [GeV]");ax.grid(alpha=.2)
+                ax.set_ylabel(("Central 68% half-width, "+PARAMETERS[i]) if quantity=="residual" else ("Pull central 68% half-width, "+PARAMETERS[i].split(" [")[0]))
+                if quantity=="residual":ax.set_yscale("log")
+                else:ax.axhline(1,color="black",ls="--",lw=.8)
+        axes[0,0].legend(fontsize=8)
+        fig.suptitle("Held-out "+("residual resolution" if quantity=="residual" else "pull width")+" versus transverse momentum\nNo residual/pull cuts; time prior dominated")
+        fig.tight_layout();save(fig,output,"resolution-pt" if quantity=="residual" else "pull-width-pt")
+    fig,axes=plt.subplots(2,3,figsize=(14,8))
+    for pt,color in zip(PTS,COLORS):
+        s,a=selected[pt];edges=s["eta_edges"]
+        for i,ax in enumerate(axes.flat):
+            widths=[]
+            for lo,hi in zip(edges[:-1],edges[1:]):
+                values=a["ambi_pull"][(a["eta"]>=lo)&(a["eta"]<hi)&a["ambi_matched"].astype(bool),i]
+                widths.append((np.quantile(values,.84)-np.quantile(values,.16))/2 if len(values)>=10 else np.nan)
+            ax.plot([(lo+hi)/2 for lo,hi in zip(edges[:-1],edges[1:])],widths,"o-",ms=3,color=color,label=f"{pt} GeV")
+            ax.axhline(1,color="black",ls="--",lw=.8);ax.set_xlabel("Generated η");ax.set_ylabel("Pull central 68% half-width, "+PARAMETERS[i].split(" [")[0]);ax.grid(alpha=.2)
+    axes[0,0].legend(fontsize=8);fig.suptitle("Held-out pull widths versus η · no pull cuts\nTime prior dominated without timing measurements")
+    fig.tight_layout();save(fig,output,"pull-width-eta")
     fig,axes=plt.subplots(1,3,figsize=(14,4))
     for pt,color in zip(PTS,COLORS):
         s,a=selected[pt];eta=a["eta"];valid=a["ambi_matched"].astype(bool);reco=a["ambi_reco"]

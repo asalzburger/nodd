@@ -91,3 +91,21 @@ held-out5000events/pT, seed103042, forselected anduntouchedcontrol. Noheld-out
 results enterselection. An initial analysis-launch ProcessPool defaultspawn could
 not execute a stdin main; explicitanalysis-only fork fixed it. No nativejob was
 lost or changed by this orchestration correction.
+
+## Optional ROOT state-writer failure and isolated repair
+
+The first5000-event validation jobs (seed103042, frozen config) completed event
+processing but failed the native FPE gate:159/93/55/4FLTINV forpT1/5/10/100.
+No physics summaries from these failed jobs enter selection or performance.
+An independent1000-event diagnostic (seed113042) retained the native stack,
+identifying22FLTINV exclusively inRootTrackStatesWriter::writeT. Existing ACTS
+source documents NaN state-covariance diagnostics; no shared source is changed,
+no FPE mask expanded and no check disabled. The optional failing writer is
+removed; the task-owned native audit now retains predicted/filtered/smoothed
+state parameters and diagonal variances (nonfinite entries explicit nulls).
+ROOT track summaries/full perigee covariance and measurement output remain.
+Reconstruction algorithm/cuts are unchanged. Quarantined rawfailed outputs stay
+underbuild/tracker-reconstruction/aborted-validation-103042; report/FPE evidence
+is retained publicly. Freeze a fresh untouched validation seed123042 before
+launch, preserving the original selection/config and explicitly recording the
+I/O-only repair. This avoids reusing the aborted sample for final performance.

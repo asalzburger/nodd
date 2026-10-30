@@ -24,7 +24,7 @@ def run(args, config, acts, detector, geometry, observer):
     from acts.examples.simulation import (addParticleGun, MomentumConfig, EtaConfig,
         PhiConfig, ParticleConfig, addFatras)
     from acts.examples.reconstruction import addSpacePointsMaking
-    from acts.examples.root import RootTrackSummaryWriter, RootTrackStatesWriter, RootMeasurementWriter
+    from acts.examples.root import RootTrackSummaryWriter, RootMeasurementWriter
     sys.path.insert(0, str(ROOT / "build/tracker-reconstruction/native-audit"))
     audit = importlib.import_module("nodd_reconstruction")
     u, level = acts.UnitConstants, acts.logging.WARNING
@@ -83,16 +83,17 @@ def run(args, config, acts, detector, geometry, observer):
                 inputTrackParticleMatching=stage+"_primary_matching")
             seq.addWriter(RootTrackSummaryWriter(**common, writeCovMat=True,
                 filePath=str(args.output/("tracksummary_"+stage+".root"))))
-            seq.addWriter(RootTrackStatesWriter(**common,inputSimHits="simhits",
-                inputMeasurementSimHitsMap="measurement_simhits_map",
-                filePath=str(args.output/("trackstates_"+stage+".root"))))
     if args.write_root:
         seq.addWriter(RootMeasurementWriter(level=level,inputMeasurements="measurements",inputClusters="",
             inputSimHits="simhits",inputMeasurementSimHitsMap="measurement_simhits_map",
             surfaceByIdentifier=geometry.geoIdSurfaceMap(),filePath=str(args.output/"measurements.root")))
     seq.addAlgorithm(audit.ReconstructionAudit(str(args.output/"events.jsonl")))
     sequencer_start=time.monotonic()
-    seq.run()
+    try:
+        seq.run()
+    except RuntimeError:
+        write_report(args.output/"native-fpe-diagnostic.json",{"native_fpe_result":str(seq.fpeResult)})
+        raise
     return {**seeder.statistics(), "effective_configuration": json.loads(seeder.effective_configuration_json()),
             "sequencer_seconds":time.monotonic()-sequencer_start}
 
