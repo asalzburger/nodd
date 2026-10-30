@@ -22,7 +22,8 @@ checkout does not identify the executed runtime. Read the existing acts-spack
 skill and run its preflight before relying on the node. Do not install/change
 shared dependencies. The current node's setup/lock fingerprints and full
 DD4hep/G4 source remain unverified; installed libraries and the matching ACTS
-source/binaries were checked and fingerprinted. Fatras is the simulation here.
+source/binaries were checked and fingerprinted. Fatras is the original reference;
+the species extension below also runs Geant4.
 
 Build the maintained tracker as described in `tools/tracker_dd4hep/README.md`
 into `build/balanced-baseline/dd4hep`. The source compact is generated, not a
@@ -125,3 +126,81 @@ See the retained [results](../../../docs/validation/tracker-reconstruction/resul
 governing [DES041](../../../docs/design/DES-041-tracker-gbts-reconstruction.md),
 frozen configuration/selection, all tuning summaries, event arrays and native
 execution manifests. Human design sign-off remains pending.
+
+
+## Electrons and Geant4 species extension
+
+Keep the selected GBTS profile and all matching/quality cuts frozen. The added
+matrix comprises Fatras electrons and Geant4 muons, electrons and charged pions,
+each at pT 1/5/10/100 GeV with 5,000 events per point. The immutable original
+Fatras muon arrays provide a fifth comparison population. Charges are randomized,
+with uniform signed η in [−4,4], full φ, an origin vertex and constant 3 T.
+The Fatras electron validation seed is 133042; Geant4 uses 143042. Separate
+smoke seeds 133043/143043 never select GBTS settings.
+
+```sh
+# Repeat at --pt 5, 10, 100 in fresh output directories.
+python software/running/nodd_tracker_reconstruction.py \
+  --particle electron --simulation fatras --pt 1 --events 5000 \
+  --campaign software/analysis/tracker_reconstruction/electron_campaign.json \
+  --phase validation --profile pt4-nominal-triplet --write-root \
+  --output build/tracker-reconstruction-species/validation/fatras/electron/pt1
+
+# Each Geant4 species/pT must run in a fresh subprocess, with one event thread.
+# Repeat for --particle electron and pion, and all four momenta.
+python software/running/nodd_tracker_reconstruction.py \
+  --particle muon --simulation geant4 --pt 1 --events 5000 \
+  --campaign software/analysis/tracker_reconstruction/geant4_campaign.json \
+  --phase validation --profile pt4-nominal-triplet --write-root \
+  --output build/tracker-reconstruction-species/validation/geant4/muon/pt1
+```
+
+Geant4 uses the existing persistent FTFP_BERT lifecycle, detailed DD4hep
+material, secondary charged hits, particles without hits, a 25 ns limit and the
+highest tracking-volume boundary. Its task-owned detector wrapper tags only
+canonical DD4hep sensitive logical volumes for mapping. Before events, an
+independent native replay requires exactly one mapping for every one of the
+46,250 ACTS sensor IDs. No solid, material, placement or identifier is changed.
+The loaded Geant4 version, production cuts, actual native event count and
+installed dataset locations/checks are recorded. Dataset contents are not hashed.
+ACTS internally suppresses FPE monitoring around Geant4 BeamOn; no strict
+Geant4-internal FPE claim is made.
+
+Fatras retains its 0.5 GeV absolute momentum threshold and known electron
+ionization approximation. Electron hypotheses invoke the existing multicomponent
+bremsstrahlung CKF in one-way mode, avoiding a demonstrated upstream reverse-state
+Jacobian FPE. Muons and pions retain ordinary two-way CKF; no separate GSF refit
+is added. All new samples raise only the ambiguity computation budget to uint32
+maximum; a separate electron shower smoke exhausted the old 1,000-iteration cap.
+The original shared-hit threshold remains 3, and independent reduction rejects
+any native survivor set with three or more shared measurements per track.
+
+Geant4 uses detailed DD4hep material while Fatras and CKF use the retained
+effective ACTS map. Smeared response remains species independent and unmerged;
+this is not precision shower, charge-clustering or pileup validation. A pion
+primary segment and its decay/interaction daughters remain distinct identities.
+
+After reducing each native case with `analyze.py`, retain and replay:
+
+```sh
+python software/analysis/tracker_reconstruction/species_evidence.py retain \
+  --native build/tracker-reconstruction-species/validation \
+  --analysis build/tracker-reconstruction-species/validation-analysis \
+  --data docs/validation/tracker-reconstruction-species
+python software/analysis/tracker_reconstruction/species_report.py \
+  --data docs/validation/tracker-reconstruction-species \
+  --output docs/validation/tracker-reconstruction-species
+python software/analysis/tracker_reconstruction/species_plot.py \
+  --data docs/validation/tracker-reconstruction-species \
+  --output docs/validation/tracker-reconstruction-species/figures
+python software/analysis/tracker_reconstruction/species_evidence.py manifest \
+  --data docs/validation/tracker-reconstruction-species
+python software/analysis/tracker_reconstruction/species_evidence.py verify \
+  --data docs/validation/tracker-reconstruction-species
+```
+
+Full six-parameter pull distributions overlay the four momenta, integrate all η,
+and retain uncut tails. Per-species resolution, pull-width and efficiency plots
+compare populations without pooling events. Run `audit_root.py` separately on
+the `fatras` and `geant4` backend roots to check persisted ROOT event counts,
+variances and complete matched perigee/uncertainty tuples against native arrays.

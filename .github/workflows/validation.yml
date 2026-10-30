@@ -68,6 +68,11 @@ jobs:
           python -B -m unittest discover -s software/analysis/tracker_reconstruction -p 'test_*.py' -v
           python -B software/analysis/tracker_reconstruction/verify.py
           python -B software/analysis/tracker_reconstruction/plot.py --data docs/validation/tracker-reconstruction/validation --output build/tracker-reconstruction-replay
+      - name: Verify species and transport reconstruction and replay comparisons
+        run: |
+          python -B software/analysis/tracker_reconstruction/species_evidence.py verify --data docs/validation/tracker-reconstruction-species
+          python -B software/analysis/tracker_reconstruction/species_report.py --data docs/validation/tracker-reconstruction-species --output build/tracker-species-replay
+          python -B software/analysis/tracker_reconstruction/species_plot.py --data docs/validation/tracker-reconstruction-species --output build/tracker-species-replay/figures
       - name: Check float32 material-boundary rounding cells
         run: |
           c++ -std=c++17 software/analysis/material_profiles/test_rounding_cell.cpp -o build/test-rounding-cell
