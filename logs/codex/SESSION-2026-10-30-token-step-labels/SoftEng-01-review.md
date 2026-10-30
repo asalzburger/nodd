@@ -19,4 +19,3 @@ Changed files: none. No browser assessment, external requests, dependency instal
 ## Coordinator reconciliation
 
 No correctness findings required a repair. Parent browser QA covered graph labels, mouse/keyboard selection, deep-link reload, all counter modes, disclosure controls and 390 × 844 layout. Later CSS refinements give a horizontally scrolled phone tooltip an explicit width and use disclosure chevrons. The viewport override was reset. This is infrastructure implementation assessment, not human sign-off.
-
