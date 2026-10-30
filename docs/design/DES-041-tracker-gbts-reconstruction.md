@@ -195,3 +195,22 @@ comparison therefore tests the actual simulation/reconstruction representations,
 including their material approximation difference; it does not certify a fresh
 Geant4 material map. Species PDG/mass and electron multicomponent versus ordinary
 pion/muon CKF behavior are audited explicitly. Human acceptance remains pending.
+
+### Pre-validation compatibility corrections
+
+Electron Fatras 100-event smoke at9f30a4f completed event processing but failed
+FPE checks (26 divide-by-zero and26 invalid operations) in native two-way
+multicomponent CKF `reverseTrackStates`, which inverts singular transport
+Jacobians. Use one-way native multicomponent CKF for electrons in both transports,
+recorded explicitly in the frozen species campaigns; retain ordinary two-way
+muon/pion reconstruction. This changes an electron-specific fit setting before
+validation, not GBTS tuning or an FPE mask. Preserve failed smoke evidence.
+
+The first Geant4 mapping audit found all46250active surfaces, but24874geometry
+IDs had multiple mappings when all Silicon/pixel_Silicon volumes were considered.
+Passive silicon can share sensor centers in the detailed geometry. Restrict
+Geant4 hit mapping to maintained sensitive-volume name tokens `_sensor_`,
+`_active`, `_F0`, `_F1`, retaining DD4hep native sensitive-detector matches.
+Verify exact active-surface set, one mapping each, all seven systems and no
+missing active surface before running validation. This changes hit attribution
+to actual sensors, not physical geometry/material or truth-based hit selection.

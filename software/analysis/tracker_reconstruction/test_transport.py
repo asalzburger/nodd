@@ -55,7 +55,7 @@ class TransportControls(unittest.TestCase):
             rnd=self.rnd, inputParticles="particles_generated", outputParticles="particles_simulated",
             outputSimHits="simhits", logLevel=self.level, killVolume=self.geometry.highestTrackingVolume,
             killAfterTime=275., keepParticlesWithoutHits=True, recordHitsOfSecondaries=True,
-            materialMappings=["Silicon", "pixel_Silicon"], volumeMappings=[],
+            materialMappings=[], volumeMappings=["_sensor_", "_active", "_F0", "_F1"],
             killSecondaries=False, physicsList="FTFP_BERT")
         self.observer.persistent_handle.assert_called_once_with(19)
         self.assertEqual(settings["lifecycle"]["expected_events"], 19)

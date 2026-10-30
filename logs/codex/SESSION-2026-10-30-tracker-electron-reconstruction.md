@@ -32,3 +32,15 @@ All four momenta and the existing frozen GBTS settings carry forward.
 RECO-SPECIES-SoftEng-01 owns only transport.py/test_transport.py, with prepared
 explicit role instructions. Main retains all other writes. PhysVal will assess
 the expanded transport comparison independently.
+
+## Initial native smoke and compatibility fixes
+
+At9f30a4f, muon Fatras100events/pT1 completes. Electron Fatras100events/pT1
+fails strictFPE gate:26FLTDIV+26FLTINV in native multicomponent two-way
+reverseTrackStates transport-Jacobian inversion. No masks/checks changed.
+Geant4muon/pion10event setup stops at the mapping audit: all46250active
+IDs are present, but24874have multiple volume mappings under broad silicon
+material selection. Passive-silicon candidates are retained in failed mapping
+JSON; no accepted Geant4 performance produced. Before validation, one-way
+electron CKF and active-name mapping tokens are frozen; exact one-to-one full
+sensor mapping remains required. Separate smoke seed and no GBTS retuning.

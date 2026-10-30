@@ -40,7 +40,7 @@ std::string geant4Mapping(const std::shared_ptr<const Acts::TrackingGeometry>& g
   auto* world=G4TransportationManager::GetTransportationManager()->GetNavigatorForTracking()->GetWorldVolume();
   if(!world) throw std::runtime_error("No initialized Geant4 world for mapping audit");
   SensitiveSurfaceMapper::Config config;
-  config.materialMappings={"Silicon","pixel_Silicon"};
+  config.volumeMappings={"_sensor_","_active","_F0","_F1"};
   config.candidateSurfaces=std::make_shared<SensitiveCandidates>(geometry,Acts::getDefaultLogger("MappingAuditCandidates",Acts::Logging::WARNING));
   SensitiveSurfaceMapper mapper(config,Acts::getDefaultLogger("MappingAudit",Acts::Logging::WARNING));
   SensitiveSurfaceMapper::State state;

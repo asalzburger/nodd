@@ -82,7 +82,7 @@ def run(args, config, acts, detector, geometry, observer):
             findTracksBrem=acts.examples.TrackFindingAlgorithm.makeBremTrackFinderFunction(geometry,field,level),
             measurementSelectorCfg=acts.MeasurementSelector.Config([(acts.GeometryIdentifier(),
                 ([],[c["measurement_chi2"]],[c["outlier_chi2"]],[c["max_measurements_per_surface"]]))]),
-            maxSteps=c["max_steps"], twoWay=c["two_way"], reverseSearch=False,
+            maxSteps=c["max_steps"], twoWay=(c["two_way"] if config["particle"]!="electron" else config["species_extension"]["electron_two_way"]), reverseSearch=False,
             seedDeduplication=c["seed_deduplication"], stayOnSeed=c["stay_on_seed"],
             trimTracks=True, recordMaterialStates=False, useJosephFormulation=True)
         seq.addAlgorithm(finder)
@@ -120,6 +120,7 @@ def run(args, config, acts, detector, geometry, observer):
             if transport_configuration["native_geant4_events"]!=args.events:raise RuntimeError("Geant4/ACTS event-count mismatch")
         return {**seeder.statistics(), "particle_configuration": particle_configuration,
             "transport_configuration": transport_configuration, "geant4_mapping_audit": mapping_summary,
+                "effective_two_way": (c["two_way"] if config["particle"]!="electron" else config["species_extension"]["electron_two_way"]),
                 "effective_configuration": json.loads(seeder.effective_configuration_json()),
                 "sequencer_seconds":time.monotonic()-sequencer_start}
 
