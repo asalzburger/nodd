@@ -9,6 +9,16 @@ import numpy as np
 import uproot
 
 
+PARAMETERS=("LOC0","LOC1","PHI","THETA","QOP","T")
+
+
+def contains_perigee_tuple(tree,row,target,sigma):
+    """Compare complete tuples in one event without per-candidate Python I/O."""
+    values=np.column_stack([ak.to_numpy(tree["e"+name+"_fit"][row]) for name in PARAMETERS])
+    errors=np.column_stack([ak.to_numpy(tree["err_e"+name+"_fit"][row]) for name in PARAMETERS])
+    return bool(np.any(np.all(values==target,axis=1)&np.all(errors==sigma,axis=1)))
+
+
 def audit(native,analysis,output):
     native,analysis=Path(native),Path(analysis);result={}
     reports=sorted(native.glob("*/*/run-report.json"))
@@ -57,17 +67,8 @@ def audit(native,analysis,output):
                 # the same event, rather than assuming the first candidate.
                 target=np.asarray(a[stage+"_reco"][i],dtype=np.float32)
                 sigma=np.asarray(np.sqrt(a[stage+"_variance"][i]),dtype=np.float32)
-                matches=[]
-                for candidate in range(len(t["track_nr"][j])):
-                    values=np.asarray([t["e"+x+"_fit"][j][candidate] for x in ("LOC0","LOC1","PHI","THETA","QOP","T")])
-                    errors=np.asarray([t["err_e"+x+"_fit"][j][candidate] for x in ("LOC0","LOC1","PHI","THETA","QOP","T")])
-                    if np.array_equal(values,target) and np.array_equal(errors,sigma):matches.append(candidate)
-                if not matches:raise ValueError("Native representative perigee+sigma tuple absent from ROOT event")
-                candidate=matches[0]
-                for k,name in enumerate(("LOC0","LOC1","PHI","THETA","QOP","T")):
-                    if t["e"+name+"_fit"][j][candidate]!=target[k]:raise ValueError("ROOT perigee differs from native audit")
-                    if t["err_e"+name+"_fit"][j][candidate]!=sigma[k]:raise ValueError("ROOT fitted uncertainty differs from native audit")
-                    parameters+=1
+                if not contains_perigee_tuple(t,j,target,sigma):raise ValueError("Native representative perigee+sigma tuple absent from ROOT event")
+                parameters+=len(PARAMETERS)
             stages[stage]={"events":len(t),"exact_event_ids_match":True,"candidates":count,"matched_parameter_marginals":parameters,"exact_float32_perigee_and_sigma_match":True}
         result[str(relative)]={"measurement_rows":len(m["volume_id"]),"checked_variance_marginals":checked,"expected_variance_marginals":expected_marginals,"all_measurement_volumes_known":True,"exact_float32_variance_match":True,"stages":stages,
             "root_sha256":{p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in case.glob("*.root")}}

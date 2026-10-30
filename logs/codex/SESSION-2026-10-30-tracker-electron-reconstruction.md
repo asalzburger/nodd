@@ -163,3 +163,17 @@ SoftEng05 finds unproven Geant4 fresh-range equivalence and localG4eventcounters
 that skip would not advance. Coordinator preserves the serial100GeV Geant4
 electron run; no batch implementation, physics change or partialsample substitution.
 SoftEng06 separately assesses final source/evidence integrity at228edf1.
+
+## ROOT integrity and efficient persistence replay
+
+SoftEng06 exposes two P2audit holes with syntheticROOTcontrols: duplicate
+zero-trackeventIDs and unknown measurementvolumes. Coordinator adds fullunique
+event-IDset checks and complete declaredvariancecoverage in9e6a2bf; separate
+SoftEng07 verifies bothfindingsclosed. All29controls pass.
+
+The optional Fatras4caseROOTaudit proved slow against606,308CKFcandidates in
+electron100. Only that analysisprocess was stopped(exit143,noPASSoutput);
+G4nativeexecution was untouched. Coordinator vectorizes exactsame-event
+6parameter+6sigma matching, adds a crossed-candidate/changed-sigma control and
+reruns from committedsource. All30controls pass. This changes auditcost, not
+physics, matching tolerances, nativeoutputs or ROOT numerical precision.

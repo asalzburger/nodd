@@ -6,7 +6,7 @@ import unittest
 import awkward as ak
 import numpy as np
 import uproot
-from audit_root import audit
+from audit_root import audit, contains_perigee_tuple, PARAMETERS
 
 
 class PersistenceControls(unittest.TestCase):
@@ -69,3 +69,16 @@ class PersistenceControls(unittest.TestCase):
             with self.assertRaisesRegex(ValueError,"Unknown persisted measurement volume"):
                 audit(native,analysis,output)
             self.assertFalse(output.exists())
+
+    def test_perigee_and_uncertainty_must_match_same_complete_candidate(self):
+        target=np.arange(6,dtype=np.float32);sigma=np.ones(6,dtype=np.float32)
+        values=np.array([target,target+1]);errors=np.array([sigma+1,sigma])
+        tree=ak.Array({**{"e"+name+"_fit":[values[:,i]] for i,name in enumerate(PARAMETERS)},
+            **{"err_e"+name+"_fit":[errors[:,i]] for i,name in enumerate(PARAMETERS)}})
+        self.assertFalse(contains_perigee_tuple(tree,0,target,sigma))
+        # The complete second candidate matches; its position is irrelevant.
+        self.assertTrue(contains_perigee_tuple(tree,0,target+1,sigma))
+        errors[1,5]+=1
+        changed=ak.Array({**{"e"+name+"_fit":[values[:,i]] for i,name in enumerate(PARAMETERS)},
+            **{"err_e"+name+"_fit":[errors[:,i]] for i,name in enumerate(PARAMETERS)}})
+        self.assertFalse(contains_perigee_tuple(changed,0,target+1,sigma))
