@@ -10,6 +10,17 @@
 #include "ActsExamples/EventData/IndexSourceLink.hpp"
 #include "Acts/EventData/SeedContainer.hpp"
 #include "Acts/EventData/SpacePointContainer.hpp"
+#include "ActsExamples/Geant4/SensitiveSurfaceMapper.hpp"
+#include <G4TransportationManager.hh>
+#include <G4Navigator.hh>
+#include <G4VPhysicalVolume.hh>
+#include <G4LogicalVolume.hh>
+#include <G4Material.hh>
+#include <G4ProductionCutsTable.hh>
+#include <G4MaterialCutsCouple.hh>
+#include <G4ProductionCuts.hh>
+#include <G4RunManager.hh>
+#include <G4Run.hh>
 #include <nlohmann/json.hpp>
 #include <pybind11/pybind11.h>
 #include <fstream>
@@ -22,6 +33,41 @@ using Json=nlohmann::json;
 namespace py=pybind11;
 static_assert(PYBIND11_INTERNALS_VERSION == NODD_EXPECTED_PYBIND11_INTERNALS_VERSION);
 
+// Repeat the same deterministic native mapper to expose its coverage. This
+// observation does not replace the live stepping-action mapping or filter hits.
+std::string geant4Mapping(const std::shared_ptr<const Acts::TrackingGeometry>& geometry) {
+  using namespace ActsExamples::Geant4;
+  auto* world=G4TransportationManager::GetTransportationManager()->GetNavigatorForTracking()->GetWorldVolume();
+  if(!world) throw std::runtime_error("No initialized Geant4 world for mapping audit");
+  SensitiveSurfaceMapper::Config config;
+  config.materialMappings={"Silicon","pixel_Silicon"};
+  config.candidateSurfaces=std::make_shared<SensitiveCandidates>(geometry,Acts::getDefaultLogger("MappingAuditCandidates",Acts::Logging::WARNING));
+  SensitiveSurfaceMapper mapper(config,Acts::getDefaultLogger("MappingAudit",Acts::Logging::WARNING));
+  SensitiveSurfaceMapper::State state;
+  const auto context=Acts::GeometryContext::dangerouslyDefaultConstruct();
+  mapper.remapSensitiveNames(state,context,world,Acts::Transform3::Identity());
+  Json result={{"scope","independent deterministic replay of configured native mapper; live stepping map is not replaced"},
+               {"all_sensitive_surfaces_mapped",mapper.checkMapping(state,context,false,false)}};
+  std::map<std::uint64_t,std::size_t> counts;
+  for(const auto& [volume,surfaces]:state.g4VolumeToSurfaces)
+    for(const auto& [position,surface]:surfaces) ++counts[surface->geometryId().value()];
+  result["mapped_geometry_ids"]=Json::array();result["duplicate_geometry_ids"]=Json::array();
+  for(const auto& [id,count]:counts) {result["mapped_geometry_ids"].push_back(id);if(count!=1) result["duplicate_geometry_ids"].push_back({{"id",id},{"count",count}});}
+  result["expected_geometry_ids"]=Json::array();
+  for(const auto* surface:config.candidateSurfaces->queryAll()) result["expected_geometry_ids"].push_back(surface->geometryId().value());
+  result["unmatched_g4_volumes"]=Json::array();
+  for(const auto& [volume,transform]:state.missingVolumes) result["unmatched_g4_volumes"].push_back({
+    {"name",volume->GetLogicalVolume()->GetName()},{"material",volume->GetLogicalVolume()->GetMaterial()->GetName()},
+    {"sensitive_detector",volume->GetLogicalVolume()->GetSensitiveDetector()!=nullptr},
+    {"position_mm",{transform.translation().x(),transform.translation().y(),transform.translation().z()}}});
+  result["production_cuts"]=Json::array();auto* cuts=G4ProductionCutsTable::GetProductionCutsTable();
+  for(std::size_t i=0;i<cuts->GetTableSize();++i) {const auto* couple=cuts->GetMaterialCutsCouple(i);std::vector<double> ranges;
+    for(int j=0;j<4;++j) ranges.push_back(couple->GetProductionCuts()->GetProductionCut(j));
+    result["production_cuts"].push_back({{"material",couple->GetMaterial()->GetName()},{"range_mm_gamma_electron_positron_proton",ranges}});
+  }
+  return result.dump();
+}
+
 class ReconstructionAudit final: public IAlgorithm {
  public:
   explicit ReconstructionAudit(const std::string& path): IAlgorithm("ReconstructionAudit",Acts::getDefaultLogger("ReconstructionAudit",Acts::Logging::WARNING)), file(path) {
@@ -30,6 +76,7 @@ class ReconstructionAudit final: public IAlgorithm {
     hits.initialize("simhits"); measurements.initialize("measurements"); associations.initialize("measurement_particles_map");
     subset.initialize("measurement_subset");
     points.initialize("spacepoints"); seeds.initialize("seeds"); estimated.initialize("estimatedseeds");
+    initialParameters.initialize("estimatedparameters");
     ckf.initialize("ckf_tracks"); ambi.initialize("ambi_tracks");
   }
   static Json seedData(const Acts::SeedContainer& container,const Acts::SpacePointContainer& sp) {
@@ -75,6 +122,7 @@ class ReconstructionAudit final: public IAlgorithm {
           && Eigen::LLT<Acts::BoundMatrix>(covariance).info()==Eigen::Success;
       }
       result.push_back({{"index",track.index()},{"measurements",indices},{"states",states},
+        {"hypothesis",{{"absolute_pdg",static_cast<int>(track.particleHypothesis().absolutePdg())},{"mass_GeV",track.particleHypothesis().mass()}}},
         {"nMeasurements",track.nMeasurements()},{"nHoles",track.nHoles()},{"nOutliers",track.nOutliers()},
         {"chi2",track.chi2()},{"ndf",track.nDoF()},{"reference",track.hasReferenceSurface()},
         {"parameters",parameters},{"variance",variance},{"covariance_positive_definite",covariancePositiveDefinite}});
@@ -85,10 +133,23 @@ class ReconstructionAudit final: public IAlgorithm {
     Json row={{"event",ctx.eventNumber},{"simhits",hits(ctx).size()}};
     row["generated"]=Json::array();
     for(const auto& p:generated(ctx)) row["generated"].push_back({{"id",p.particleId().asArray()},
+      {"pdg",static_cast<int>(p.pdg())},{"mass_GeV",p.mass()},
       {"charge",p.charge()},{"pt",p.transverseMomentum()},{"eta",std::asinh(p.direction().z()/std::hypot(p.direction().x(),p.direction().y()))},
       {"truth",{0.,0.,p.phi(),p.theta(),p.qOverP(),p.time()}}});
     row["simulated_ids"]=Json::array();
     for(const auto& p:simulated(ctx)) row["simulated_ids"].push_back(p.particleId().asArray());
+    row["simulated_particles"]=Json::array();
+    for(const auto& p:simulated(ctx)) row["simulated_particles"].push_back({
+      {"id",p.particleId().asArray()},{"parent_id",p.parentParticleId().asArray()},
+      {"pdg",static_cast<int>(p.pdg())},{"mass_GeV",p.mass()},{"charge",p.charge()},
+      {"process",static_cast<int>(p.process())},{"outcome",static_cast<int>(p.outcome())},
+      {"final_position_mm",{p.finalState().position().x(),p.finalState().position().y(),p.finalState().position().z()}},
+      {"final_ct_mm",p.finalState().time()},{"path_X0",p.pathInX0()},{"path_L0",p.pathInL0()},
+      {"p_initial_GeV",p.initialState().absoluteMomentum()},{"p_final_GeV",p.finalState().absoluteMomentum()}});
+    row["estimated_hypotheses"]=Json::array();
+    for(const auto& p:initialParameters(ctx)) row["estimated_hypotheses"].push_back({
+      {"absolute_pdg",static_cast<int>(p.particleHypothesis().absolutePdg())},
+      {"mass_GeV",p.particleHypothesis().mass()}});
     row["measurements"]=Json::array();
     const auto& ms=measurements(ctx);const auto& mp=associations(ctx);
     const auto& selected=subset(ctx);
@@ -122,9 +183,14 @@ class ReconstructionAudit final: public IAlgorithm {
   ReadDataHandle<MeasurementParticlesMap> associations{this,"Associations"};
   ReadDataHandle<Acts::SpacePointContainer> points{this,"MeasuredSpacePoints"};
   ReadDataHandle<Acts::SeedContainer> seeds{this,"GbtsSeeds"},estimated{this,"EstimatedSeeds"};
+  ReadDataHandle<TrackParametersContainer> initialParameters{this,"EstimatedParameters"};
   ReadDataHandle<ConstTrackContainer> ckf{this,"Ckf"},ambi{this,"Ambiguity"};
   mutable std::mutex mutex;mutable std::ofstream file;
 };
 PYBIND11_MODULE(nodd_reconstruction,m) {
+  m.def("geant4_mapping_json",&geant4Mapping);
+  m.def("geant4_event_count",[]() {const auto* manager=G4RunManager::GetRunManager();
+    const auto* run=manager ? manager->GetCurrentRun() : nullptr;
+    return run ? run->GetNumberOfEvent() : -1;});
   py::class_<ReconstructionAudit,IAlgorithm,std::shared_ptr<ReconstructionAudit>>(m,"ReconstructionAudit").def(py::init<const std::string&>());
 }

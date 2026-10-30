@@ -7,6 +7,7 @@ import json
 import math
 from pathlib import Path
 import numpy as np
+import species
 
 
 def interval(k,n,z=1.):
@@ -120,9 +121,20 @@ def analyze(directory,output):
     widths=json.loads((directory/"error-table.json").read_text())
     variances={(g["volume"],g["index"]):g["sigma_mm"]**2 for g in widths["groups"]}
     events=[];sample=hashlib.sha256();systems=Counter();dimensions=Counter();marginals=0;max_sp_error=0.
+    identity=report["gbts_statistics"].get("particle_configuration")
+    generated_pdgs=Counter();secondary_pdgs=Counter();primary_diagnostics={};outcomes=Counter();processes=Counter()
+    if identity and identity["name"]!=config["particle"]:raise ValueError("Species report/campaign mismatch")
     with gzip.open(directory/"events.jsonl.gz","rt") as stream:
         for line in stream:
             row=json.loads(line)
+            if identity:
+                fraction,secondaries=species.audit_event(row,identity)
+                secondary_pdgs.update(secondaries)
+                generated_pdgs[row["generated"][0]["pdg"]]+=1
+                primary=next((p for p in row["simulated_particles"] if p["id"]==row["generated"][0]["id"]),None)
+                primary_diagnostics[row["event"]]=(fraction,primary)
+                if primary:outcomes[primary["outcome"]]+=1
+                processes.update(p["process"] for p in row["simulated_particles"] if p["id"]!=row["generated"][0]["id"])
             if row.get("ckf_input_measurements",len(row["measurements"]))!=len(row["measurements"]):
                 raise ValueError("CKF did not receive the complete measurement collection")
             for m in row["measurements"]:
@@ -164,6 +176,20 @@ def analyze(directory,output):
             "stages":{stage:summarize(subset,stage) for stage in ("ckf","ambi")},
             "pure_seed":rate(sum(e["pure_seed"] for e in subset),len(subset))})
     arrays={k:np.asarray([e[k] for e in events]) for k in ("event","eta","pt","charge","primary_measurements","pixel_groups","reconstructable","reconstructable4","seeds","estimated_seeds","pure_seed","pure_estimated_seed","truth")}
+    if identity:
+        result["particle_configuration"]=identity
+        result["simulation"]=config["simulation"]
+        result["species_audit"]={"generated_pdgs":dict(generated_pdgs),"secondary_pdgs":dict(secondary_pdgs),
+            "all_native_hypotheses_verified":True,"primary_outcomes":dict(outcomes),"secondary_creator_processes":dict(processes),
+            "primary_simulated_entries":sum(p is not None for _,p in primary_diagnostics.values()),
+            "outcome_codes":{"0":"Alive","1":"KilledInteraction","2":"KilledVolumeExit","3":"KilledTime","4":"KilledSecondaryParticle"}}
+        result["species_analysis_sha256"]=hashlib.sha256(Path(species.__file__).read_bytes()).hexdigest()
+        arrays["primary_final_p_fraction"]=np.asarray([primary_diagnostics[e["event"]][0] for e in events])
+        for label,key,default in (("outcome","outcome",-1),("final_ct_mm","final_ct_mm",np.nan),
+            ("path_X0","path_X0",np.nan),("path_L0","path_L0",np.nan),
+            ("final_position_mm","final_position_mm",[np.nan]*3)):
+            arrays["primary_"+label]=np.asarray([primary_diagnostics[e["event"]][1].get(key,default)
+                if primary_diagnostics[e["event"]][1] is not None else default for e in events])
     for stage in ("ckf","ambi"):
         for key in ("matched","accepted","fake","duplicates","secondary","wrong_charge"):
             arrays[stage+"_"+key]=np.asarray([e[stage][key] for e in events])

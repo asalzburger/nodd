@@ -132,3 +132,66 @@ Native measurement covariance uses double sigma-squared; ROOT writers persist
 float32. Native pixel global space points use float32, verified by independent
 measured local-to-global conversion and exact float32 equality. Bound time uses
 native ct[mm]; public time axes convert by299.792458mm/ns, with pulls unchanged.
+
+## Single-electron extension (2026-10-30)
+
+**NODD DESIGN CHOICE (explicit user request):** add single electrons alongside
+the existing single-muon benchmark at pT 1/5/10/100 GeV, with both charge signs,
+the same balanced geometry, 3 T, Fatras interactions and frozen Gaussian response.
+The request repeats muons, which are already present; an optional clarification
+asks whether pions were intended. Proceed with electrons and existing muons
+unless the human clarifies otherwise.
+
+Freeze the already selected muon GBTS profile, CKF/ambiguity/quality/matching
+settings before electron validation. Set the gun and seed-estimation particle
+hypotheses consistently from a named species; record and verify actual PDG and
+mass in native output. The installed ACTS TrackFindingAlgorithm at source
+355ea684, lines 500–508, selects its existing bremsstrahlung-recovery finder for
+electron hypotheses. Keep that native multicomponent CKF behavior explicit; no separate GaussianSumFitter refit is scheduled.
+Keep Fatras electromagnetic scattering, ionization, radiation and conversion
+enabled through its existing addFatras helper. Do not silently substitute muon
+energy-loss or mass assumptions. No new GBTS tuning uses electron validation.
+
+Retain 5,000 generated electrons per momentum with seed 133042, fixed before
+launch. Smoke uses a distinct seed 133043. Reuse the immutable published muon
+validation as the comparison; compare populations, without assuming event-level
+pairing across species. All generated primaries remain in denominators; all
+secondaries, incomplete matches, charge failures and residual/pull tails remain
+visible under the existing matching contract. Report non-Gaussian electron
+energy-loss tails honestly. An isolated generic species interface must preserve
+the default muon chain, with a native regression against its retained events.
+The DES remains DRAFT; no new human acceptance is inferred.
+
+**FACT (pinned ACTS355ea source):** Fatras StandardInteractions.hpp explicitly
+notes that its Bethe-Bloch ionization does not correctly describe electrons,
+and radiation follows ionization. The unchanged native 0.5 GeV absolute-momentum
+threshold affects survivors and secondaries. This is a qualified Fatras electron
+benchmark, not a precision electron-response or full-shower validation. Native
+electron CKF uses multicomponent stepping (12 components, weight cutoff 1e-4,
+max-weight stored-state merge and default Bethe-Heitler approximation), whereas
+muons use the ordinary CKF. These source defaults are recorded, not tuned.
+
+### Clarified Geant4 species matrix
+
+**NODD DESIGN CHOICE (human clarification):** the intended additional species
+was pions. Add electrons in Fatras and muons/electrons/charged pions in Geant4,
+keeping smeared digitization. The original muon Fatras result remains the
+reference. All four momenta use the frozen selected GBTS configuration.
+Geant4 validation uses 5,000 events per species/momentum, seed 143042; separate
+smoke seed 143043. These seeds and settings precede validation. No new seeder
+tuning is performed on these comparisons.
+
+Use the existing FTFP_BERT Geant4 physics list and validated persistent native
+lifecycle adapter. Keep secondaries and particles without hits, record charged
+secondary hits, map Silicon/pixel_Silicon sensors, and preserve the existing
+25 ns simulation limit and outer tracking-volume kill boundary. Retain all
+generated primary events regardless of interaction, decay or reconstruction
+outcome. Charged-pion decay/interaction products remain distinct secondaries;
+no descendant grouping or truth-derived reconstruction input is introduced.
+
+Geant4 transports the maintained detailed DD4hep geometry. Fatras and the CKF
+use the retained role-transported effective ACTS material prescription. This
+comparison therefore tests the actual simulation/reconstruction representations,
+including their material approximation difference; it does not certify a fresh
+Geant4 material map. Species PDG/mass and electron multicomponent versus ordinary
+pion/muon CKF behavior are audited explicitly. Human acceptance remains pending.

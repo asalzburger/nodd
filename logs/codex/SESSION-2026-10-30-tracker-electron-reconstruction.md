@@ -1,0 +1,34 @@
+# Single-electron tracker reconstruction extension
+
+## Selected user request
+
+“Can you please add single electrons and muons as well.” Muons already exist in
+PR107; an optional clarification asks whether pions were intended. Default scope
+is electrons alongside the existing muon benchmark at 1/5/10/100 GeV.
+
+## Assignments and ownership
+
+Main owns species steering, native audit, tests, execution, analysis, figures and
+records. RECO-SPECIES-PhysVal-01 reads the aae2626 muon baseline and the working
+DES041 electron amendment; independent protocol assessment, no writes or native
+runs. Explicit prepared role instructions are used; native profile loading is
+not claimed. No shared dependency or source changes.
+
+## Environment and protocol
+
+ACTS Spack preflight returns unverified: changed setup/lock fingerprints and
+unverified full DD4hep/Geant4 sources. User warned before dependent work. Fresh
+existing runtime imports ACTS/ROOT/DD4hep and exposes electron/muon/pion hypotheses.
+Python3.14.5/ROOT6.40.04 and matching ACTS355ea684 runtime verified. Native source
+selects brems-recovery CKF for electron hypotheses, not GSF. DES041 amendment
+freezes electron validation133042, smoke133043, 5000events/pT, selected existing
+GBTS profile and unchanged geometry/response/quality/matching before runs.
+
+## User scope clarification
+
+The human clarified that pions were intended and requests electrons in Fatras,
+plus muons/electrons/charged pions with Geant4; smeared digitization remains.
+All four momenta and the existing frozen GBTS settings carry forward.
+RECO-SPECIES-SoftEng-01 owns only transport.py/test_transport.py, with prepared
+explicit role instructions. Main retains all other writes. PhysVal will assess
+the expanded transport comparison independently.
