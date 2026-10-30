@@ -76,3 +76,37 @@ Single-muon efficiency/fakes are a first target, not a high-occupancy or pile-up
 fake-rate claim. Material approximations, coverage gaps, fixed response and
 engineering limitations remain. No new DD4hep/Geant4/material campaign or TDR
 publication is required by this bounded reconstruction task.
+
+## Frozen metric protocol (RECO-PhysVal-01)
+
+**NODD DESIGN CHOICE:** match using unique inlier measurement indices with
+purity >=0.5 and completeness >=0.5. Completeness counts every unique measurement
+associated with that particle before reconstruction. Classify every accepted
+candidate; missing native classifications cannot disappear from denominators.
+Separate real secondary matches, unmatched candidates, and additional matches
+beyond one representative. Choose the representative deterministically by most
+inliers, then lowest chi2/ndf, then stable track index. Quality requires at least
+seven measurements, a reference surface and finite positive bound variances.
+Also retain raw CKF/ambiguity candidates rejected by that quality contract.
+
+Conditional primary efficiency requires at least six unique sensor measurements
+and three distinct physical pixel groups; also show the nested four-group set.
+Headline efficiency always includes every generated muon. Report all six bound
+residuals/pulls, wrapped phi, truth-minus-reconstruction sign and uncut tails.
+Without timing measurements the time result remains prior dominated.
+
+Use Wilson68/95 intervals for independent event rates. Quote candidate fractions
+with event-block bootstrap uncertainty; for zero fake events use the exact
+one-sided95 bound `1 - 0.05**(1/N_generated_events)`, including zero-track events.
+Single-muon events cannot establish high-occupancy fake performance.
+
+The geometry adapter initially uses all176 physically outward pixel-layer links,
+with native eta compatibility pruning, rather than a truth-trained connector.
+Connection training is therefore unnecessary for this initial control. It stays
+available as a separate future procedure; no training seed enters the measured
+reconstruction. Tune at most12 additional profiles on500events/pT and validate
+one frozen profile on5000independent events/pT. Pick highest worst-pT generated
+efficiency, then highest equally weighted mean efficiency, then lower fake-event
+incidence, duplicates and runtime. Keep CKF and ambiguity settings fixed while
+scanning GBTS. One configuration is used across all four momenta. These are study
+choices and technical recommendations, not human acceptance/sign-off.

@@ -27,3 +27,26 @@ DD4hep1.38,ROOT6.40.04,Geant411.4.3,Python3.14.5; all12G4datasets installed.
 Matching source355ea in sibling software-layout; later devcheckout555c isdirty
 and preserved. No shared installs/source patches. Initialprojectvalidator found
 newtaskrole mismatch; maincorrected it to authoritativeworkstreamrole.
+
+## Initial implementation and native smoke
+
+RECO-SoftEng-01 delivered the physical-layer GBTS adapter, six Python controls
+and40synthetic native helix checks, all PASS. Matching pybind11 3.0.4/ABI11 was
+selected explicitly after the current shared3.1/ABI12 headers were rejected.
+No shared package or ACTS source was changed. RECO-PhysVal-01 returned a separate
+read-only protocol assessment at616fd2a and ACTS355ea; its denominator, secondary,
+uncertainty, field and geometry findings are incorporated in DES041.
+
+Native smoke attempts1–6 failed during initialization: wrong generated compact
+location; overly strict selection-coordinate equality (one2.84e-14mm radius
+roundoff; material/response payloads exact); C++Audit name collision; geometry
+selection JSON shape; MeasurementContainer vs native MeasurementSubset alias;
+and incorrect seed-selection enum name. These are retained in ignored native
+attempt reports/logs. Corrections preserve baseline geometry/material/response.
+Attempt7 completed10pT10GeV events through Fatras, smearing, measured pixel SPs,
+actual CoreGBTS, parameter estimation, CKF, greedy ambiguity resolution, native
+ROOT writers and all-event audit. Initial default control seeds forward events
+but misses barrel events; this is a diagnostic, not a performance claim.
+The native in-memory measurement covariance is double; ROOT persistence is
+float32. Independent analyzer checks double sigma² and separately the established
+ROOT float32 audit, without changing frozen errors.

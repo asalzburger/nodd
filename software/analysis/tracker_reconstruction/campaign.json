@@ -46,9 +46,173 @@
   "metrics": {
     "primary": "All-generated primary-muon reconstruction efficiency versus signed eta and pT",
     "conditional": "Separate reconstructable denominator with exact hit and pixel-layer requirements retained",
-    "fake": "Unmatched accepted candidates / all accepted candidates, fixed truth matching threshold",
+    "fake": "Unmatched to any simulated particle / accepted candidates; true secondary matches separate. Event fake incidence is independent-trial headline.",
     "duplicate": "Additional candidates matched to an already reconstructed primary / matched candidates",
-    "uncertainty": "Binomial Wilson intervals; zero observed fakes carry a finite upper limit",
+    "uncertainty": "Wilson68/95 for event rates, event-block bootstrap candidate fractions, exact one-sided95 zero-event upper limit",
     "residuals": "Full residual/pull distributions for all bound parameters; truth-reco sign convention retained"
+  },
+  "parameter_estimation": {
+    "spacepoint_selection": "SpreadTriplet",
+    "sigma_loc0_mm": 1.0,
+    "sigma_loc1_mm": 1.0,
+    "sigma_phi_deg": 1.0,
+    "sigma_theta_deg": 1.0,
+    "sigma_time_ns": 1.0,
+    "sigma_qoverpt_GeV_inv": 0.1,
+    "sigma_pt_relative": 0.1
+  },
+  "ckf": {
+    "measurement_chi2": 15.0,
+    "outlier_chi2": 25.0,
+    "max_measurements_per_surface": 10,
+    "max_steps": 100000,
+    "two_way": true,
+    "seed_deduplication": true,
+    "stay_on_seed": false
+  },
+  "quality": {
+    "minimum_measurements": 7,
+    "require_reference": true,
+    "positive_finite_covariance": true
+  },
+  "ambiguity": {
+    "maximum_shared_hits": 3,
+    "maximum_iterations": 1000
+  },
+  "matching": {
+    "purity": 0.5,
+    "completeness": 0.5,
+    "reconstructable_measurements": 6,
+    "reconstructable_pixel_groups": 3
+  },
+  "profiles": {
+    "control": {},
+    "pt4-nominal-confirmed": {
+      "seed_finder": {
+        "minPt": 0.4
+      }
+    },
+    "pt4-nominal-triplet": {
+      "seed_finder": {
+        "minPt": 0.4,
+        "minSeedLevel": 2,
+        "addTriplets": true,
+        "maxAbsEtaAddTriplets": 4.1
+      }
+    },
+    "pt4-loose-confirmed": {
+      "seed_finder": {
+        "minPt": 0.4,
+        "tauRatioCut": 0.014,
+        "tauRatioPrecut": 0.018,
+        "tauRatioCorr": 0.012
+      }
+    },
+    "pt4-loose-triplet": {
+      "seed_finder": {
+        "minPt": 0.4,
+        "tauRatioCut": 0.014,
+        "tauRatioPrecut": 0.018,
+        "tauRatioCorr": 0.012,
+        "minSeedLevel": 2,
+        "addTriplets": true,
+        "maxAbsEtaAddTriplets": 4.1
+      }
+    },
+    "pt6-nominal-confirmed": {
+      "seed_finder": {
+        "minPt": 0.6
+      }
+    },
+    "pt6-nominal-triplet": {
+      "seed_finder": {
+        "minPt": 0.6,
+        "minSeedLevel": 2,
+        "addTriplets": true,
+        "maxAbsEtaAddTriplets": 4.1
+      }
+    },
+    "pt6-loose-confirmed": {
+      "seed_finder": {
+        "minPt": 0.6,
+        "tauRatioCut": 0.014,
+        "tauRatioPrecut": 0.018,
+        "tauRatioCorr": 0.012
+      }
+    },
+    "pt6-loose-triplet": {
+      "seed_finder": {
+        "minPt": 0.6,
+        "tauRatioCut": 0.014,
+        "tauRatioPrecut": 0.018,
+        "tauRatioCorr": 0.012,
+        "minSeedLevel": 2,
+        "addTriplets": true,
+        "maxAbsEtaAddTriplets": 4.1
+      }
+    },
+    "pt8-nominal-confirmed": {
+      "seed_finder": {
+        "minPt": 0.8
+      }
+    },
+    "pt8-nominal-triplet": {
+      "seed_finder": {
+        "minPt": 0.8,
+        "minSeedLevel": 2,
+        "addTriplets": true,
+        "maxAbsEtaAddTriplets": 4.1
+      }
+    },
+    "pt8-loose-confirmed": {
+      "seed_finder": {
+        "minPt": 0.8,
+        "tauRatioCut": 0.014,
+        "tauRatioPrecut": 0.018,
+        "tauRatioCorr": 0.012
+      }
+    },
+    "pt8-loose-triplet": {
+      "seed_finder": {
+        "minPt": 0.8,
+        "tauRatioCut": 0.014,
+        "tauRatioPrecut": 0.018,
+        "tauRatioCorr": 0.012,
+        "minSeedLevel": 2,
+        "addTriplets": true,
+        "maxAbsEtaAddTriplets": 4.1
+      }
+    }
+  },
+  "tuning_protocol": {
+    "max_profiles": 13,
+    "events_per_pt": 500,
+    "validation_events_per_pt": 5000,
+    "selection_order": [
+      "highest worst-pT all-generated efficiency",
+      "highest mean all-generated efficiency",
+      "lowest fake event incidence",
+      "lowest duplicates",
+      "lowest wall time"
+    ],
+    "eta_edges": [
+      -4.0,
+      -3.5,
+      -3.0,
+      -2.5,
+      -2.0,
+      -1.5,
+      -1.0,
+      -0.5,
+      0.0,
+      0.5,
+      1.0,
+      1.5,
+      2.0,
+      2.5,
+      3.0,
+      3.5,
+      4.0
+    ]
   }
 }
