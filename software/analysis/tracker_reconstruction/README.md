@@ -140,7 +140,7 @@ smoke seeds 133043/143043 never select GBTS settings.
 
 ```sh
 # Repeat at --pt 5, 10, 100 in fresh output directories.
-python software/running/nodd_tracker_reconstruction.py \
+python software/running/nodd_tracker_safe_fatras.py \
   --particle electron --simulation fatras --pt 1 --events 5000 \
   --campaign software/analysis/tracker_reconstruction/electron_campaign.json \
   --phase validation --profile pt4-nominal-triplet --write-root \
@@ -205,3 +205,13 @@ and retain uncut tails. Per-species resolution, pull-width and efficiency plots
 compare populations without pooling events. Run `audit_root.py` separately on
 the `fatras` and `geant4` backend roots to check persisted ROOT event counts,
 variances and complete matched perigee/uncertainty tuples against native arrays.
+
+The Fatras electron replay uses `nodd_tracker_safe_fatras.py` with the same CLI.
+It injects only the isolated runner's transport dependency, adds exactly one
+simulation algorithm in the original sequencer slot, and fingerprints the
+launcher, SafeFatras sources and native module. Build that module using
+`software/source/ActsExamples/SafeFatras/README.md`. The original 5,000-event
+Fatras attempts exposed underflow in an exponential whose contribution to the
+sampled loss already rounds away. The guard preserves that loss and every random
+draw, keeping all FPE checks active. Same-seed native event regression is required;
+failed/interrupted attempts remain diagnostic evidence and are not scored.

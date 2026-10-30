@@ -249,6 +249,7 @@
     "fatras_limit": "Existing electron-ionization approximation and 0.5GeV absolute momentum cutoff; no precision shower claim",
     "electron_two_way": false,
     "pre_validation_compatibility": "Electron two-way native brems CKF reverseTrackStates inverts singular transport Jacobians (26FLTDIV+26FLTINV in100event smoke). Use one-way electron CKF; preserve ordinary two-way muon/pion. No FPE masks/check changes and no GBTS tuning.",
-    "ambiguity_convergence": "Pre-validation electron 100GeV smoke exhausted the original 1000-removal budget. Use native uint32 maximum; each iteration removes a track or terminates, so work remains bounded by input candidates. Keep maximum_shared_hits=3 and independently require all native survivors to have fewer than 3 shared measurements. No GBTS or physics-cut tuning."
+    "ambiguity_convergence": "Pre-validation electron 100GeV smoke exhausted the original 1000-removal budget. Use native uint32 maximum; each iteration removes a track or terminates, so work remains bounded by input candidates. Keep maximum_shared_hits=3 and independently require all native survivors to have fewer than 3 shared measurements. No GBTS or physics-cut tuning.",
+    "fatras_numerical_guard": "SafeFatras transport replaces only the exp(-u)-1 evaluation for u>40 with exactly rounded -1, preserving one algorithm in the same sequencer slot, every RNG draw and all sampled physics; no FPE masks. Replay the same seed after original validation underflow failures."
   }
 }
