@@ -46,7 +46,7 @@ def manifest(destination):
     destination=Path(destination)
     report={"schema_version":1,"status":"PROTOTYPE",
         "files_sha256":{str(p.relative_to(destination)):digest(p.read_bytes()) for p in sorted(destination.rglob("*")) if p.is_file() and p.name!="manifest.json"},
-        "scope":"16 new5000event samples; immutable muonFatras reference is linked, never pooled as independent extra trials",
+        "scope":"16 new samples of 5,000 events; the immutable Fatras muon reference is linked, without pooling repeated trials",
         "summary_encoding":"gzip preserves original summary/mapping bytes and source hashes",
         "raw_policy":"Native state/ROOT outputs remain ignored; full input/source/runtime/output hashes are retained"}
     (destination/"manifest.json").write_text(json.dumps(report,indent=2)+"\n")
@@ -101,6 +101,9 @@ def verify(data):
         if c["ambiguity"]!={**frozen["ambiguity"],"maximum_iterations":4294967295}:raise ValueError("Ambiguity convergence budget changed")
         if (not s["ambiguity_audit"]["all_native_survivors_converged"] or
             np.any(a["ambiguity_max_shared_measurements"]>=c["ambiguity"]["maximum_shared_hits"])):raise ValueError("Truncated ambiguity resolution")
+        if (s["ambiguity_audit"]["maximum_iterations"]!=c["ambiguity"]["maximum_iterations"] or
+            s["ambiguity_audit"]["strict_upper_bound"]!=c["ambiguity"]["maximum_shared_hits"] or
+            s["ambiguity_audit"]["maximum_shared_measurements"]!=int(a["ambiguity_max_shared_measurements"].max())):raise ValueError("Ambiguity audit/configuration mismatch")
         g=r["gbts_statistics"];identity=g["particle_configuration"]
         if g["effective_configuration"]!=effective_gbts:raise ValueError("Actual native GBTS settings changed")
         if identity!=s["particle_configuration"] or identity["name"]!=particle or not s["species_audit"]["all_native_hypotheses_verified"]:raise ValueError("Unverified actual species")
@@ -128,7 +131,7 @@ def verify(data):
         for key in ("material-map.json","error-table.json","digitization.json"):
             if not r["preparation"]["baseline_semantic_equivalence"][key]:raise ValueError("Baseline material/response changed")
         if set(s["measurement_audit"]["systems"])!={str(i) for i in range(1,8)} or not s["measurement_audit"]["frozen_native_double_variances"]:raise ValueError("Incomplete detector/response audit")
-        if len(a["event"])!=5000 or len(np.unique(a["event"]))!=5000:raise ValueError("Lost/duplicated generated events")
+        if not np.array_equal(a["event"],np.arange(5000)):raise ValueError("Lost/duplicated generated events")
         persisted=persistence["cases"][case]
         if persisted["measurement_rows"]!=s["stage_counts"]["measurements"] or not persisted["exact_float32_variance_match"]:raise ValueError("ROOT measurements differ from event audit")
         expected_root={k:v for k,v in r["output_sha256"].items() if k.endswith(".root")}
