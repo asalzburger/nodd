@@ -56,6 +56,10 @@ The [full tracker reconstruction prototype](docs/validation/tracker-reconstructi
 uses Fatras, frozen Gaussian digitization, native ACTS GBTS and CKF on this
 baseline, with paired tuning and independent single-muon validation at
 pT 1, 5, 10 and 100 GeV in constant 3 T.
+The [species and transport comparison](docs/validation/tracker-reconstruction-species/results.md)
+adds Fatras electrons and Geant4 muons, electrons and charged pions with the same
+frozen GBTS and Gaussian response. It retains full pull distributions and the
+observed electron momentum and pion charge limitations.
 
 ## Agent roles
 

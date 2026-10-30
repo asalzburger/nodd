@@ -177,3 +177,88 @@ G4nativeexecution was untouched. Coordinator vectorizes exactsame-event
 6parameter+6sigma matching, adds a crossed-candidate/changed-sigma control and
 reruns from committedsource. All30controls pass. This changes auditcost, not
 physics, matching tolerances, nativeoutputs or ROOT numerical precision.
+
+## Fatras100 assessment and final-matrix execution gate
+
+PhysVal08 independently reproduces all5000Fatras100GeVevents, bothstages, full
+uncut arrays,102bootstrap intervals and actual ROOTtuples. Its substantial
+charge/momentum limitations are explicit in the report generator. All4Fatras
+actualROOTaudits pass after the exacttuple vectorization. Original interrupted
+100GeVattempts contain1329and200complete diagnosticrows; their partialfilehashes
+are retained with NOTVALIDATEDstatus and no invented launchpin/finalFPEclaim.
+
+PhysVal09 permits provisional read-only processing of complete Geant4electron100
+rows to overlap the remaining serialrun. Prefixdigests/offsets/rowhashes must bind
+those checks to the eventualclosedstream. No prefix substitutes for final5000,
+completednative/FPE/source-runtime/outputhash closure or finalNPZ/ROOTchecks.
+
+An active-task build/tracker-reconstruction-species/finalize_matrix.py process
+waits for all16completed nativecases and their reductions. It freezes the six
+postprocessors by SHA, then runs retain, all16ROOTaudits, report, figures, manifest
+and fullspeciesverify in order with fail-fast exit handling. Its log and receipt
+remain ignored; actualcanonicaloutputs are retained only after the fullmatrix
+gates. This is one current-task job, without recurring scheduling or physics
+changes. RootREADME links the coming speciesreport; no partialresult is published.
+
+Interaction/accounting validators pass after synchronization; the dashboard
+preview builds from existing canonicalobservations. No current-task exacttoken
+counters are exposed or estimated. Baseline/TDR sourcefingerprints stillpass.
+
+## Native matrix completion and analysis environment correction
+
+All16accepted nativecases now complete:80,000retained generated events. The last
+Geant4electron100case closes at5736.1187seconds from source
+e71ecd03d1c54ccd84bcefaa3b7ef04f1fb01a50, including the55,771,625,259byte
+native eventaudit and gzip/hash closure. Independent PhysVal09 has classified
+all5000rows provisionally, verified actual source/runtime/input/output closure,
+and checked actualROOT:794154measurements/1274968variancemarginals,2172914CKF
+and7004ambiguitycandidates, all5000uniqueeventIDs and all4441/3934representative
+fit+sigma tuples. Finalclosedstream identity and analysis comparisons remain.
+
+The original matrixdriver exits1 because it retains initialfailedFatras attempts
+and analysis-import failures. Its inherited SpackPYTHONPATH points the Python3.11
+analysis interpreter at nativePython3.14packages. The clean analysis watcher uses
+python-E; its first11G4cases allreduce successfully, and the last isrunning.
+Originaldriver failure is preserved and does not replace accepted-case native
+reports or the required final16case postprocessing receipt.
+
+The waiting finalizer was restarted before retention to require the explicit
+successful-analysis log marker, preventing a race with a just-created NPZfile.
+No nativejob/input or frozenpostprocessor changed. Root/childusage remains
+unobserved; selectedvisible discussion additions are retained and synchronized.
+
+## Closed-stream independent completion
+
+The clean Geant4electron100 reduction exits0. PhysVal09 independently compares
+all5000finalevents, bothstages, fullarrays,16etabins,Wilson and102bootstrapintervals
+with exactagreement. All per-row and contiguousbyte-range hashes prove the
+provisionalstream is exactly the finalclosedgzip, not an acceptedprefix. Its
+actualROOT/source/runtime/outputchecks pass. The full16case canonicalretention
+andROOTaudit nowrun; report/figures/manifest/verify follow only after thosegates.
+
+Geant4electron100 has523/3934wrongcharges and2099pTerrors>50%, centralrelative-pT
+width82.04%, wrongcharges down to|eta|0.0075. Fifteenq/p pulls exceed5sigma;
+one lies outside displayed−6 and remains retained. This reinforces the explicit
+electronmomentum/charge limitation; no profile or quality tuning follows results.
+
+## Final retained matrix and report
+
+The one-shot finalizer exits0: all16accepted5000event cases retained, actual
+ROOT4Fatras+12Geant4 audits pass, report/30PNG+30PDF figures/manifest andspecies
+verification pass. Its measured ROOTreplay199.5481s andplotting16.0052s are
+execution timings, not simulationperformance. Canonical arrays retain all80000
+new generated events, with immutable originalFatrasmuon references separate.
+
+Coordinator visually checks combined efficiency versuseta/pT, Geant4electron
+fullpulls/resolutions/momentum-hit-fake panels andpionpulls. Moves the combined
+efficiency legend below the panels to avoid covering low-efficiency electron
+points, then replays figures/manifest/verify. Adds computed Geant4electron100
+523wrong/2099large-momentum-error/82.04%centralwidth warning toreport, without
+changing any numerical statistics, simulation or reconstruction. The native and
+ROOTaudit producerpins remain distinct from this final presentation amendment.
+
+Originalbalancedbaseline/TDRfingerprints,30reconstruction controls androle/skill
+contracts pass again. PublicPRdiscussion refreshed withconnectedGitHubtools:
+no comments/reviews returned; remoteheadaae2626 anddraftstate verified beforepush.
+No new externalmessage or reviewerrequest is made. Current-task exactroot/child
+tokenusage remains unavailable and is not replaced by historicalproject totals.

@@ -52,9 +52,10 @@ def plot_species(data, output, *, muon_reference=OLD_REFERENCE):
         bounds = np.asarray([r["wilson95"] for r in series])
         ax_pt.errorbar(PTS, y, yerr=np.maximum(0., [y - bounds[:, 0], bounds[:, 1] - y]),
             fmt="o-", color=color, ms=4, lw=1.1, capsize=3, label=label(simulation, particle))
-    axes[0, 0].legend(fontsize=7, loc="lower left")
+    handles, labels = axes[0, 0].get_legend_handles_labels()
+    fig.legend(handles, labels, fontsize=8, loc="lower center", ncol=3)
     fig.suptitle("nODD balanced tracker · frozen GBTS · Gaussian digitization · 3 T\nFive distinct single-particle populations; per-sample 95% Wilson intervals")
-    fig.tight_layout()
+    fig.tight_layout(rect=(0, .07, 1, 1))
     output.mkdir(parents=True, exist_ok=True)
     save(fig, output, "efficiency-comparison")
     ax_pt.set(xscale="log", xlabel="Generated pT [GeV]", ylabel="Primary reconstruction efficiency", ylim=(0, 1.04))
