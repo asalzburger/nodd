@@ -1,5 +1,17 @@
 # Local token-usage recovery
 
+## PR107 approved reconstruction baseline accounting — 2026-10-30
+
+[Usage-only recovery](USAGE-2026-10-30-pr107-accounting.json) verifies26completed
+turns and744requests: **131,180,836input +475,655output =131,656,491 observed
+tokens**. Cached128,479,872 and reasoning194,352 are subsets. The original GBTS
+journal owns7turns/51,998,529tokens; the species-extension journal owns19turns/
+79,657,962tokens. Inventory observations corroborate those canonical owners and
+are never added again. The active root turn remains excluded; this is a partial
+subtotal. Exact [attribution and limitations](../codex/SESSION-2026-10-30-tracker-gbts-merge-preparation.md)
+record parent/child evidence, unknown execution models/client version and human
+baseline approval separately from formal detector-design acceptance.
+
 ## PR97 tracker propagation accounting — 2026-10-26
 
 The [closed-parent inventory](USAGE-2026-10-26-pr97-accounting.json) finalizes

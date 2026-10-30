@@ -52,6 +52,17 @@ reproducible SVGs and complete JSON/CSV data for original ODD and the extended
 tracker prototype before/after pixel aperture adaptation: hits, local layer
 material and pitch/√12 momentum-resolution estimates versus eta.
 
+The [full tracker reconstruction prototype](docs/validation/tracker-reconstruction/results.md)
+uses Fatras, frozen Gaussian digitization, native ACTS GBTS and CKF on this
+baseline, with paired tuning and independent single-muon validation at
+pT 1, 5, 10 and 100 GeV in constant 3 T.
+The [species and transport comparison](docs/validation/tracker-reconstruction-species/results.md)
+adds Fatras electrons and Geant4 muons, electrons and charged pions with the same
+frozen GBTS and Gaussian response. It retains full pull distributions and the
+observed electron momentum and pion charge limitations.
+The [current reconstruction setup is approved as the tracker baseline](docs/validation/tracker-reconstruction-approval.md)
+in PR107, with its recorded performance limitations retained.
+
 ## Agent roles
 
 Use these short address names when referring to the project's eight agent roles.

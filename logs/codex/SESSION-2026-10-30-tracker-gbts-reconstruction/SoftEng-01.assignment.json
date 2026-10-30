@@ -1,0 +1,20 @@
+{
+  "id": "RECO-SoftEng-01",
+  "role": "SoftEng",
+  "input_revision": "616fd2aee1717adeead136a040bb07f1f58a2b99",
+  "inputs": [
+    "docs/design/DES-041-tracker-gbts-reconstruction.md",
+    "software/analysis/tracker_reconstruction/campaign.json",
+    "software/analysis/tracker_optimization/runtime.py",
+    "software/analysis/truth_tracking/smearing.py"
+  ],
+  "mode": "write",
+  "writable_paths": [
+    "software/analysis/tracker_reconstruction/gbts.py",
+    "software/analysis/tracker_reconstruction/test_gbts.py",
+    "software/source/ActsExamples/TrackerGbts"
+  ],
+  "task": "Implement a usable native ACTS GBTS seeding adapter/configuration for current balanced nODD Gen3(46250sensors,120volumes,24pixel signed logical layers). Main owns full Fatras/Gaussian/CKF/ambiguity runner, material preparation, native reconstruction audit, metrics/plots and records. You own ONLY listed files. Read all prepared role/AGENTS/PROJECT/instructions. Matching installed ACTS SOURCE is sibling ../nodd-software-layout/software/submodules/acts at355ea68493b326956756c9386d2fd9eaf9328568, existingBUILD ../nodd-software-layout/build/acts andruntime source software/env/truth_tracking.sh. Separate /Users/salzburg/Documents/work/dev/acts-nodd has later555c and unrelated dirtywork; do not modify or compile against mismatching source. Existing bound GraphBasedSeedingAlgorithm has ITk hardcoded volume exclusions/layer ranges and obtains legacy geoIdSurfaceMap, likely wrong for arbitrary Gen3 volume/layer IDs and ten disks. Inspect actual source and decide minimal robust wrapper using ACTS Core GbtsGeometry/GraphBasedTrackSeeder/GbtsTrackingFilter if stock example cannot work; preserve ACTS algorithm and accurate attribution/license, do not replace with custom triplet algorithm calledGBTS. Build own sidecar in ignored build/tracker-reconstruction/native-gbts against existing matching ACTSCore/ExamplesFramework andtypeABI conventions from TruthTracking CMake. No shared installs, source changes outside ownership, copying ITk connections or geometry, or nested agents. Spack preflight warns changed setup/lock/fullG4/DD4hep sources; main just verifiedruntime DD4hep1.38/ROOT6.40.04/nativePython3.14.5/Geant411.4.3 plusGBTS+CKFbindings. Beforedependentnativecommands followacts-spack; fresh zsh source env in SAME process; useauthorized escalation forrestricted setup ifneeded. Canrun own compile/import/helper smoke only; mainownsfullsimcampaign. Input freshGen3 report/geometry retained atbuild/balanced-baseline/gen3 anddocs/validation/DES-040-baseline gz; static canonicalxml build/balanced-baseline/dd4hep/detector/tracker/tracker.xml. Existing balancedcasepaths build/tracker-resolution-optimization/confirmation/gaussian/balanced-pt10 include frozen material,selection,errors. API expected gbts.py.prepare(report,outdir,settings) to create geometry/mapping/connectivity audit fromphysicalIDs, and schedule(sequencer,acts,geometry,configDir,settings,level) for inputspacepoints, outputsseeds. Coordinate exactinterface promptly; mainwillmakepixel SpacePointMaker/emptyclustersasneeded. No truth trajectories/groups as reconstruction seedinput. Geometry-derived broad layerconnections are acceptable initial control; optional GbtsLayerConnectionTool training uses independent samples only. Handleall4barrels+10disks/end and inward/outer direction, support seedfilterconfigbField3T, loose/tunablept/impact/eta andmaxseed knobs. Disableclusterwidth cuts forGaussian. Keeplongstrips1D out ofpixel SPs; CKFmainusesall7systems. Generatedconfig/connection files need reproducible exactfingerprints; meaningful schema/geometry coverage controls. Return actual commands/build output/module path/interface and limitations, do not commit.",
+  "deliverable": "Native ACTS GBTS sidecar/configuration and scheduling helpers, exact Gen3 pixel coverage/mapping tests, build/import smoke.",
+  "completion": "Main can schedule real hit-based GBTS seeds from native measured pixel space points with configurable cuts; allpixelgroups covered or concrete limitations reported."
+}

@@ -1,0 +1,19 @@
+{
+  "id": "RECO-SPECIES-SoftEng-01",
+  "role": "SoftEng",
+  "input_revision": "aae262694535523b1e0fd968e4170b061429f0a6",
+  "inputs": [
+    "software/running/nodd_tracker_reconstruction.py",
+    "software/running/nodd_truth_tracking.py",
+    "software/analysis/tracker_reconstruction/prepare.py",
+    "docs/design/DES-041-tracker-gbts-reconstruction.md"
+  ],
+  "mode": "write",
+  "writable_paths": [
+    "software/analysis/tracker_reconstruction/transport.py",
+    "software/analysis/tracker_reconstruction/test_transport.py"
+  ],
+  "task": "Implement a bounded transport scheduling adapter for current balanced tracker full reconstruction, preserving Fatras and adding Geant4 with existing native persistent lifecycle helper from build/truth-tracking-baseline/native/nodd_truth_tracking. Read pinned aae2626 existing code and separately working species/DES amendment. Own ONLY transport.py and test_transport.py. Design interface schedule(seq,acts,detector,geometry,field,rnd,observer,config,events,level) returning effective JSON transport settings and a zero-arg cleanup callable; main invokes seq.run in try/finally cleanup. Config simulation is fatras or geant4. Fatras preserve enableInteractions and explicit defaultpMin0.5GeV. Geant4 use existing addGeant4 with FTFP_BERT, keepParticlesWithoutHits True, recordHitsOfSecondaries True, killSecondaries False, sensitive material mappings Silicon/pixel_Silicon, killVolume highestTrackingVolume, killAfterTime25ns, persistent existing handle reset/finish robustly. No new dependencies/shared source changes. Inspect previous lifecycle implementation/source and balanced nativeG4smoke evidence. Ensure no truth filter or topology-specific rejection. Include metadata for physicsList, cuts, sensitive mapping, lifecycle and existing datasets/version if available cheaply. Add meaningful dependency-free mock checks (routing/cuts/failure cleanup) but no native simulation now. Fail explicitly for unsupported backend/config. Read skill acts-spack if runtime needed, preflight warns unverified sources, no nested agents. Return examined sources, files, actual tests, unresolved Geant4 adapter risks. Main owns runner/species/nativeaudit/analysis/campaign/DES and execution.",
+  "deliverable": "Reviewable transport.py adapter and meaningful mocks, with exact interface and lifecycle behavior recorded.",
+  "completion": "Both schedules route correct configuration and cleanup; tests pass; no other files changed."
+}

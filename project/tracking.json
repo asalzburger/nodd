@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated": "2026-10-29",
+  "updated": "2026-10-30",
   "note": "Curated register. Stage B architecture is active. PR #4\u2019s envelope baseline has explicit human approval and is merged; its documents still declare DRAFT and no formal sign-off record exists. Role ownership does not imply active agents. Chore PRs and infrastructure chores are excluded from project progress. Pixel-module design dossier opened by human direction in parallel with architecture; final component-method gates remain pending.",
   "stages": [
     {
@@ -3162,10 +3162,68 @@
         "DES-007",
         "DES-008"
       ],
-      "updated": "2026-10-29",
-      "next_action": "Merge prepared PR104 after publication-pointer CI; published Overleaf balanced TDR is pinned. Fresh material mapping and service/engineering qualification remain separate work.",
+      "updated": "2026-10-30",
+      "next_action": "PR104 merged atb4928ac87a223dc4a749e8d8a05dc3cc4a78558d; maintain registered balanced baseline. Fresh material mapping and service/engineering qualification remain separate work.",
       "blocker": null,
       "disposition": "Expert noemina selected balanced atcfd15cb on2026-10-29; human authorized maintained baseline/DD4hep/TDR integration in this PR. Native geometry, Gen3 and G4smoke checks pass; current pixel TDR compiled and page QA is recorded separately. Overall optimisation objectives and engineering qualification remain open; no design acceptance inferred.",
+      "subsystem": "tracker"
+    },
+    {
+      "id": "TASK-TRACK-GBTS-RECONSTRUCTION",
+      "title": "Establish full tracker reconstruction with GBTS seeding",
+      "scope": "Balanced PR104 geometry, constant 3 T, frozen Gaussian smearing and selected GBTS; Fatras muon/electron and Geant4 muon/electron/pion comparisons at pT 1/5/10/100 GeV, with all-event efficiency/fakes and full residual/pull tails.",
+      "stage": "B",
+      "milestones": [
+        "M1"
+      ],
+      "workstream": "WS-TRACK",
+      "role": "Tracker technician",
+      "owner": null,
+      "state": "completed",
+      "dependencies": [
+        "TASK-TRACK-TRUTH-BASELINE"
+      ],
+      "deliverables": [
+        "docs/design/DES-041-tracker-gbts-reconstruction.md",
+        "software/running/nodd_tracker_reconstruction.py",
+        "software/analysis/tracker_reconstruction/README.md",
+        "software/analysis/tracker_reconstruction/campaign.json",
+        "docs/validation/tracker-reconstruction/results.md",
+        "docs/validation/tracker-reconstruction/performance.json",
+        "docs/validation/tracker-reconstruction/manifest.json",
+        "software/running/nodd_tracker_safe_fatras.py",
+        "docs/validation/tracker-reconstruction-species/results.md",
+        "docs/validation/tracker-reconstruction-species/performance.json",
+        "docs/validation/tracker-reconstruction-species/manifest.json"
+      ],
+      "evidence": [
+        "logs/codex/SESSION-2026-10-30-tracker-gbts-reconstruction.md",
+        "docs/validation/tracker-reconstruction/frozen/selection.json",
+        "docs/validation/tracker-reconstruction/native-tuning-reports.json.gz",
+        "docs/validation/tracker-reconstruction/native-validation-reports.json.gz",
+        "docs/validation/tracker-reconstruction/root-audit.json",
+        "logs/codex/SESSION-2026-10-30-tracker-gbts-reconstruction/PhysVal-03-result.md",
+        "logs/codex/SESSION-2026-10-30-tracker-gbts-reconstruction/SoftEng-03-result.md",
+        "logs/codex/SESSION-2026-10-30-tracker-electron-reconstruction.md",
+        "docs/validation/tracker-reconstruction-species/native-reports.json.gz",
+        "docs/validation/tracker-reconstruction-species/root-audit.json",
+        "logs/codex/SESSION-2026-10-30-tracker-electron-reconstruction/PhysVal-07-result.md",
+        "logs/codex/SESSION-2026-10-30-tracker-electron-reconstruction/PhysVal-08-result.md",
+        "logs/codex/SESSION-2026-10-30-tracker-electron-reconstruction/PhysVal-09-result.md",
+        "logs/codex/SESSION-2026-10-30-tracker-electron-reconstruction/SoftEng-07-result.md",
+        "logs/codex/SESSION-2026-10-30-tracker-electron-reconstruction/PhysVal-10-result.md",
+        "docs/validation/tracker-reconstruction-approval.md",
+        "logs/codex/SESSION-2026-10-30-tracker-gbts-merge-preparation.md"
+      ],
+      "documents": [
+        "DES-041",
+        "DES-040",
+        "DES-025"
+      ],
+      "updated": "2026-10-30",
+      "next_action": "Merge PR107 after final accounting/CI; maintain the human-approved tracker reconstruction baseline with all recorded electron/charge/material/single-particle limitations.",
+      "blocker": null,
+      "disposition": "User-authorized isolated DES041 prototype delivered on balanced PR104 geometry: measured-pixel GBTS, hit-estimated parameters, all-system CKF and ambiguity resolution at3T with frozen Gaussian response. Thirteen paired muon tuning profiles frozen before validation; original60nativecases/66000processedentries and original Fatrasmuon reference preserved. Adds16completed5000-event Fatras-electron/Geant4-muon-electron-pion cases at1/5/10/100GeV (80000new events). All-generated denominators, primary/secondary/fake/duplicate counts, fulluncut sixparameter residual/pull arrays and wrongcharge tails retained. Separate PhysVal07/08/09 reclassifies all80k nativeevents; PhysVal10 at157994c verifies retainedbyteidentity, statistics, ROOT source binding, report/figure replay and actual PDF visual QA. SoftEng adverse controls and corrected ROOT gates retained. Project, scientific replay and accounting CI pass atc851eb4 before final metadata-only closeout. Geometry/material prescription/frozen response unchanged; electron one-way native multicomponent fit and exactly rounded SafeFatras numerical repair explicitly documented. Poor electron momentum/charge and pion tails, transport/material differences, unmerged response and single-particle applicability remain limitations. DES041 remainsDRAFT; no human acceptance. Exact current-task token counters unavailable. Human reviewer asalzburger-review explicitly approves the current reconstruction baseline at78d2229 in REVIEW-DES-041-1; local user confirms PR/tuning/cross-check approval and requests final merge accounting. Formal detector-design sign-off remains separate.26closed turns now have exact recovered counters; active coordinator excluded.",
       "subsystem": "tracker"
     }
   ],
@@ -3476,6 +3534,14 @@
         "docs/validation/tracker-resolution-optimization/finite-screen-donor2.json",
         "docs/validation/DES-040-baseline/results.md"
       ]
+    },
+    {
+      "id": "DES-041",
+      "path": "docs/design/DES-041-tracker-gbts-reconstruction.md",
+      "validation_reports": [
+        "docs/validation/tracker-reconstruction/results.md",
+        "docs/validation/tracker-reconstruction-species/results.md"
+      ]
     }
   ],
   "evidence": [
@@ -3622,6 +3688,11 @@
     {
       "title": "Native complete calorimeter assembly checks",
       "path": "docs/validation/DES-029/results.md",
+      "kind": "validation"
+    },
+    {
+      "title": "Native GBTS full tracker reconstruction and held-out performance",
+      "path": "docs/validation/tracker-reconstruction/results.md",
       "kind": "validation"
     }
   ],
@@ -4591,11 +4662,11 @@
       "number": 104,
       "title": "Tracker: adopt the balanced baseline in DD4hep and update the pixel TDR",
       "url": "https://github.com/asalzburger/nodd/pull/104",
-      "state": "open",
-      "head_revision": "b19a12b5e48f16d689087875e98d1a5a01003675",
-      "merge_commit": null,
-      "merged_at": null,
-      "collected_at": "2026-10-29T19:17:18Z",
+      "state": "merged",
+      "head_revision": "1b07b2828541a23ba2293f929e2d6235c2bc7fc3",
+      "merge_commit": "b4928ac87a223dc4a749e8d8a05dc3cc4a78558d",
+      "merged_at": "2026-10-29T20:24:29Z",
+      "collected_at": "2026-10-30T09:24:45Z",
       "task": "TASK-TRACK-RESOLUTION-OPTIMIZATION",
       "documents": [
         "DES-040",
@@ -4604,6 +4675,25 @@
         "DES-008"
       ],
       "scope": "Expert-selected balanced baseline implemented in maintained DD4hep, native/equivalence checks and current pixel TDR review edition. Original performance limits retained; expert selection approval atcfd15cb is distinct from later implementation and engineering acceptance.",
+      "category": "project"
+    },
+    {
+      "id": "PR-107",
+      "number": 107,
+      "title": "Tracker: benchmark GBTS reconstruction with Fatras and Geant4",
+      "url": "https://github.com/asalzburger/nodd/pull/107",
+      "state": "open",
+      "head_revision": "78d22297e2518ef674ebf1601215fd17c6b93b71",
+      "merge_commit": null,
+      "merged_at": null,
+      "collected_at": "2026-10-30T13:57:14Z",
+      "task": "TASK-TRACK-GBTS-RECONSTRUCTION",
+      "documents": [
+        "DES-041",
+        "DES-040",
+        "DES-025"
+      ],
+      "scope": "Human-approved current tracker reconstruction baseline at78d2229 (asalzburger-review,2026-10-30). Frozen GBTS setup and full Fatras/Geant4 species benchmark unchanged. Final merge preparation records26completed turns/131656491observed tokens, excluding active coordinator. Formal detector-design lifecycle remainsDRAFT; performance limitations retained. Merge remains pending maintainer action.",
       "category": "project"
     }
   ]

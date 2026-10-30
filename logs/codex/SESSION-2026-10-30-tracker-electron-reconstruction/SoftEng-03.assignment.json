@@ -1,0 +1,21 @@
+{
+  "id": "SPECIES-SoftEng-03",
+  "role": "SoftEng",
+  "input_revision": "e71ecd03d1c54ccd84bcefaa3b7ef04f1fb01a50",
+  "inputs": [
+    "docs/design/DES-041-tracker-gbts-reconstruction.md",
+    "software/analysis/tracker_reconstruction/transport.py",
+    "software/source/ActsExamples/TrackerReconstruction/CMakeLists.txt"
+  ],
+  "mode": "write",
+  "writable_paths": [
+    "software/source/ActsExamples/SafeFatras/CMakeLists.txt",
+    "software/source/ActsExamples/SafeFatras/Binding.cpp",
+    "software/source/ActsExamples/SafeFatras/SafeBetheHeitler.hpp",
+    "software/source/ActsExamples/SafeFatras/README.md",
+    "software/source/ActsExamples/SafeFatras/test_energy_loss.cpp"
+  ],
+  "task": "Implement ONLY a task-owned safe Fatras sidecar in new SafeFatras paths; do not touch running reconstruction/transport/observer source or binaries. Native5000electron Fatras trials finish events then fail FPE gate only FLTUND in std::exp(-u) from BetheHeitler.hpp. At u>40, exp(-u)-1 rounds exactly to -1 in IEEE binary64: guard this branch to avoid computing exp, preserving all sampled energy loss, RNG draws and physics defaults. Keep all FPE monitors/masks unchanged. Do not modify/install shared ACTS or copy whole tree. Matching read-only source ../nodd-software-layout/software/submodules/acts at355ea684 and existing build ../nodd-software-layout/build/acts. Build task-local newly named Fatras IAlgorithm via configure-time copies of pinned FatrasSimulation header/cpp with class rename, replacing only charged interaction type/factory by task-owned custom type containing copied/derived BetheHeitler guarded operator. Distinct types and hidden symbols; no interposition/ODR override. Link existing ActsFatras/Core/Examples libs as needed. Expose callable Python schedule(seq,geometry,field,rnd,level) with exact native Fatras defaults and collection names particles_generated/particles_simulated/simhits; no addFatras monkey patch. Pin exact ACTS source revision, pybind3.0.4 ABI11, input file hashes and fail on unexpected copied source anchors. Unit test original (exp(-u)-1) versus guarded energy loss bitwise across threshold/extremes/allfinite positive u, and hardware FPE check guarded path. No native fullsimulation jobs or global setup changes. You may build new sidecar under build/tracker-reconstruction-species/native-safe-fatras after preflight; all current matrix runs source/binaries remain untouched. Return compile/test results plus main-integration instructions. No other writers own these new files. Human request authorizes isolated reconstruction prototype; design amendment already described to user and coordinator will record exact evidence before integration.",
+  "deliverable": "Working isolated safe Fatras module, numerical regression test and build guide; return changed file inventory and exact checks.",
+  "completion": "Guard proven same binary64 sampled energy loss and RNG order; task-local module compiles or precise remaining build problem reported; no running source edited."
+}
