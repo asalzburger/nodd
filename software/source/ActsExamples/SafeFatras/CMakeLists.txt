@@ -2,6 +2,39 @@ cmake_minimum_required(VERSION 3.24)
 project(NoddSafeFatras LANGUAGES CXX)
 set(NODD_ACTS_SOURCE "" CACHE PATH "Read-only ACTS355ea684 source matching native runtime")
 set(NODD_ACTS_BUILD "" CACHE PATH "Read-only existing ACTS build")
+
+# Reuse the actual native Fatras object's numerical flags/macros. The prior
+# O0/LTO sidecar was not compiler-equivalent to the native O2/NDEBUG object.
+file(READ "${NODD_ACTS_BUILD}/build.ninja" NODD_NATIVE_NINJA)
+set(NODD_NATIVE_OBJECT "build Examples/Algorithms/Fatras/CMakeFiles/ActsExamplesFatras.dir/src/FatrasSimulation.cpp.o:")
+string(FIND "${NODD_NATIVE_NINJA}" "${NODD_NATIVE_OBJECT}" NODD_NATIVE_START)
+if(NODD_NATIVE_START EQUAL -1)
+  message(FATAL_ERROR "Pinned native Fatras object flags not found in read-only build.ninja")
+endif()
+string(SUBSTRING "${NODD_NATIVE_NINJA}" ${NODD_NATIVE_START} -1 NODD_NATIVE_TAIL)
+string(FIND "${NODD_NATIVE_TAIL}" "\n\n" NODD_NATIVE_END)
+string(SUBSTRING "${NODD_NATIVE_TAIL}" 0 ${NODD_NATIVE_END} NODD_NATIVE_BLOCK)
+string(REGEX MATCH "  FLAGS = ([^\n]+)" NODD_NATIVE_MATCH "${NODD_NATIVE_BLOCK}")
+set(NODD_NATIVE_FLAGS "${CMAKE_MATCH_1}")
+if(NOT NODD_NATIVE_FLAGS MATCHES "-O2 -g -DNDEBUG -std=gnu\\+\\+20 -fPIC -D_GNU_SOURCE"
+   OR NODD_NATIVE_FLAGS MATCHES "fast-math|Ofast|flto")
+  message(FATAL_ERROR "Unexpected native Fatras numerical flags: ${NODD_NATIVE_FLAGS}")
+endif()
+string(REGEX MATCH "  DEFINES = ([^\n]+)" NODD_NATIVE_MATCH "${NODD_NATIVE_BLOCK}")
+set(NODD_NATIVE_DEFINES "${CMAKE_MATCH_1}")
+if(NOT NODD_NATIVE_DEFINES STREQUAL "-DActsExamplesFatras_EXPORTS -DROOT_CORE_THREAD_TBB")
+  message(FATAL_ERROR "Unexpected native Fatras macros: ${NODD_NATIVE_DEFINES}")
+endif()
+separate_arguments(NODD_NATIVE_COMPILE_FLAGS NATIVE_COMMAND "${NODD_NATIVE_FLAGS} ${NODD_NATIVE_DEFINES}")
+string(SHA256 NODD_NATIVE_BLOCK_HASH "${NODD_NATIVE_BLOCK}")
+set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS "${NODD_ACTS_BUILD}/build.ninja")
+file(STRINGS "${NODD_ACTS_BUILD}/CMakeCache.txt" NODD_NATIVE_COMPILER_LINE REGEX "^CMAKE_CXX_COMPILER:FILEPATH=")
+string(REPLACE "CMAKE_CXX_COMPILER:FILEPATH=" "" NODD_NATIVE_COMPILER "${NODD_NATIVE_COMPILER_LINE}")
+file(REAL_PATH "${NODD_NATIVE_COMPILER}" NODD_NATIVE_COMPILER_REAL)
+file(REAL_PATH "${CMAKE_CXX_COMPILER}" NODD_COMPILER_REAL)
+if(NOT NODD_NATIVE_COMPILER_REAL STREQUAL NODD_COMPILER_REAL)
+  message(FATAL_ERROR "Sidecar compiler differs from native Fatras: ${CMAKE_CXX_COMPILER} versus ${NODD_NATIVE_COMPILER}")
+endif()
 find_package(Git REQUIRED)
 execute_process(COMMAND "${GIT_EXECUTABLE}" -C "${NODD_ACTS_SOURCE}" rev-parse HEAD
   OUTPUT_VARIABLE NODD_ACTS_REVISION OUTPUT_STRIP_TRAILING_WHITESPACE COMMAND_ERROR_IS_FATAL ANY)
@@ -72,7 +105,7 @@ file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/generated/NoddSafeFatrasSimulation.cpp" 
 file(SHA256 "${CMAKE_CURRENT_BINARY_DIR}/generated/ActsExamples/Fatras/NoddSafeFatrasSimulation.hpp" NODD_GENERATED_HEADER_HASH)
 file(SHA256 "${CMAKE_CURRENT_BINARY_DIR}/generated/NoddSafeFatrasSimulation.cpp" NODD_GENERATED_SOURCE_HASH)
 file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/generated/SafeFatrasProvenance.hpp"
-  "// Generated from hash-checked ACTS inputs; not a shared source edit.\ninline pybind11::dict upstreamHashes() {\n  pybind11::dict hashes;\n${NODD_PROVENANCE}  return hashes;\n}\n")
+  "// Generated from hash-checked ACTS inputs; not a shared source edit.\ninline pybind11::dict upstreamHashes() {\n  pybind11::dict hashes;\n${NODD_PROVENANCE}  return hashes;\n}\ninline const char* nativeCompileFlags() { return R\"nodd(${NODD_NATIVE_FLAGS})nodd\"; }\ninline const char* nativeCompileDefines() { return R\"nodd(${NODD_NATIVE_DEFINES})nodd\"; }\ninline const char* nativeFlagBlockHash() { return \"${NODD_NATIVE_BLOCK_HASH}\"; }\n")
 
 find_package(Python REQUIRED COMPONENTS Interpreter Development.Module)
 find_package(pybind11 3.0.4 EXACT CONFIG REQUIRED)
@@ -85,8 +118,9 @@ set(NODD_INCLUDE_PATHS "${CMAKE_CURRENT_SOURCE_DIR}" "${CMAKE_CURRENT_BINARY_DIR
   "${NODD_ACTS_SOURCE}/Core/include" "${NODD_ACTS_BUILD}/Core/include"
   "${NODD_ACTS_SOURCE}/Fatras/include" "${NODD_ACTS_SOURCE}/Examples/Framework/include"
   "${NODD_ACTS_SOURCE}/Plugins/FpeMonitoring/include")
-pybind11_add_module(nodd_safe_fatras Binding.cpp "${CMAKE_CURRENT_BINARY_DIR}/generated/NoddSafeFatrasSimulation.cpp")
+pybind11_add_module(nodd_safe_fatras NO_EXTRAS Binding.cpp "${CMAKE_CURRENT_BINARY_DIR}/generated/NoddSafeFatrasSimulation.cpp")
 target_compile_features(nodd_safe_fatras PRIVATE cxx_std_20)
+target_compile_options(nodd_safe_fatras PRIVATE ${NODD_NATIVE_COMPILE_FLAGS})
 target_compile_definitions(nodd_safe_fatras PRIVATE NODD_EXPECTED_PYBIND11_INTERNALS_VERSION=11
   NODD_GENERATED_HEADER_SHA256="${NODD_GENERATED_HEADER_HASH}"
   NODD_GENERATED_SOURCE_SHA256="${NODD_GENERATED_SOURCE_HASH}")
@@ -97,13 +131,18 @@ set_target_properties(nodd_safe_fatras PROPERTIES CXX_VISIBILITY_PRESET hidden
   VISIBILITY_INLINES_HIDDEN ON BUILD_RPATH "${NODD_ACTS_BUILD}/lib")
 
 enable_testing()
-add_executable(test_safe_fatras_energy_loss test_energy_loss.cpp)
-target_compile_features(test_safe_fatras_energy_loss PRIVATE cxx_std_20)
-target_include_directories(test_safe_fatras_energy_loss PRIVATE ${NODD_INCLUDE_PATHS})
-target_link_libraries(test_safe_fatras_energy_loss PRIVATE "${ACTS_Core}" "${ACTS_Fatras}"
-  "${ACTS_PluginFpeMonitoring}" Eigen3::Eigen Boost::headers)
+foreach(test_target test_safe_fatras_energy_loss test_safe_fatras_energy_loss_strict)
+  add_executable(${test_target} test_energy_loss.cpp)
+  target_compile_features(${test_target} PRIVATE cxx_std_20)
+  target_compile_options(${test_target} PRIVATE ${NODD_NATIVE_COMPILE_FLAGS})
+  target_include_directories(${test_target} PRIVATE ${NODD_INCLUDE_PATHS})
+  target_link_libraries(${test_target} PRIVATE "${ACTS_Core}" "${ACTS_Fatras}"
+    "${ACTS_PluginFpeMonitoring}" Eigen3::Eigen Boost::headers)
+  set_target_properties(${test_target} PROPERTIES BUILD_RPATH "${NODD_ACTS_BUILD}/lib")
+endforeach()
+target_compile_definitions(test_safe_fatras_energy_loss_strict PRIVATE NODD_TEST_STRICT_FP=1)
 if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-  target_compile_options(test_safe_fatras_energy_loss PRIVATE -ffp-model=strict)
+  target_compile_options(test_safe_fatras_energy_loss_strict PRIVATE -ffp-model=strict)
 endif()
-set_target_properties(test_safe_fatras_energy_loss PROPERTIES BUILD_RPATH "${NODD_ACTS_BUILD}/lib")
 add_test(NAME safe_fatras_energy_loss COMMAND test_safe_fatras_energy_loss)
+add_test(NAME safe_fatras_energy_loss_strict COMMAND test_safe_fatras_energy_loss_strict)

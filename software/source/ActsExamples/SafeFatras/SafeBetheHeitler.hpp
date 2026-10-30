@@ -15,11 +15,14 @@ static_assert(std::numeric_limits<double>::is_iec559 &&
               std::numeric_limits<double>::digits == 53);
 
 /// This benchmark requires the unchanged IEEE round-to-nearest environment.
+/// For 0<=u<2^-54, exp(-u) rounds to 1, so exp(-u)-1 is exactly +0.
 /// For u>40, exp(-u)<exp(-40)<2^-54, so binary64 exp(-u)-1 rounds to
-/// exactly -1. Avoid evaluating an exponentially tiny value that cannot affect
-/// the sampled energy loss. No gamma or angular random draw is removed.
+/// exactly -1. Avoid libm intermediates that underflow even when their rounded
+/// contribution to the sampled loss is zero. All random draws remain unchanged.
 inline double energyFractionMinusOne(double u) {
-  return u > 40. ? -1. : std::exp(-u) - 1.;
+  if (0. <= u && u < 0x1p-54) return 0.;
+  if (u > 40.) return -1.;
+  return std::exp(-u) - 1.;
 }
 
 struct SafeBetheHeitler : ActsFatras::BetheHeitler {

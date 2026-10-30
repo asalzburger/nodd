@@ -99,3 +99,36 @@ to -1 in binary64, preserving sampled loss and RNG. It must keep FPE checks,
 use a distinct algorithm/interaction type, pin source hashes and build only in
 task-owned output. Integration and same-seed replay follow numerical tests.
 No shared ACTS source/runtime, model cut, GBTS setting or seed may be changed.
+
+
+The initial Fatras100GeV process alone was terminated (exit-15) while still
+incomplete; its partial output and explicit external-interruption record remain.
+The other three original attempts retain all5,000raw events for same-seed replay.
+Final Fatras replay uses b8b8697 and the SafeFatras launcher. It injects only the
+task-owned runner's transport dependency, schedules one algorithm in the same
+slot, and fingerprints its launcher/source/binary. Original Geant4 runs retain
+their unchanged executing files. Final native staging uses backend symlinks to
+original Geant4 and safe Fatras outputs; no raw evidence is overwritten.
+
+The initial orchestration analysis inherited Spack Python3.14 PYTHONPATH into a
+Python3.11 analysis environment and failed imports. Native runs were unaffected.
+A separate clean analysis worker uses Python -E; completed muon cases reduce
+successfully. This is an analysis environment correction, not a native rerun.
+
+### Tiny-argument underflow and production build correction
+
+The first SafeFatras replay still fails with11/5/12underflows at1/5/10GeV;
+all5,000events were written and remain excluded. Its100GeV attempt alone was
+terminated before completion. Standalone system-libm proof shows exp(-1e-300)-1
+returns exact+0 while setting underflow, so a large-u guard alone is insufficient.
+SPECIES-SoftEng-04 owns the same five source files and adds the exact tiny branch
+0<=u<2^-54 -> +0, with no skipped gamma/angle draws or FPE masking.
+
+Complete-event comparison also found small floating-point differences in the
+first sidecar: initial difference at event13 in measurements/simulated particles
+and later track states. Original Fatras is built -O2 -g -DNDEBUG; the first
+sidecar used default unoptimized plus pybind LTO. The correction matches native
+numerical flags and removes optional pybind LTO extras. Its tests must exercise
+production-equivalent compilation and both tiny/large hardware FPE controls.
+The first module binary is preserved in ignored task diagnostics. Original
+Geant4 executing source/runtime remains unchanged.

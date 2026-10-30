@@ -70,6 +70,9 @@ def verify(data):
         if r["profile"]!="pt4-nominal-triplet" or s["profile"]!=r["profile"]:raise ValueError("Selected GBTS profile changed")
         c=r["campaign"]
         if c["particle"]!=particle or c["simulation"]!=simulation or s["simulation"]!=simulation:raise ValueError("Sample mislabeled")
+        expected_campaign=read(data/"frozen"/("electron_campaign.json" if simulation=="fatras" else "geant4_campaign.json"))
+        expected_campaign.update(particle=particle,simulation=simulation)
+        if c!=expected_campaign:raise ValueError("Executed campaign differs from retained frozen protocol")
         for key in ("profiles","ckf","quality","matching","parameter_estimation","field_Bz_T","eta_range","phi_range_rad"):
             if c[key]!=frozen[key]:raise ValueError("Frozen benchmark changed: "+key)
         if c["ambiguity"]!={**frozen["ambiguity"],"maximum_iterations":4294967295}:raise ValueError("Ambiguity convergence budget changed")
@@ -116,6 +119,11 @@ def verify(data):
                 if (metric["numerator"],metric["denominator"])!=(int((mask&a[stage+"_matched"].astype(bool)).sum()),int(mask.sum())):raise ValueError("Conditional denominator changed")
         outcome_counts={str(k):int(np.sum(a["primary_outcome"]==k)) for k in range(5)}
         if any(v!=s["species_audit"]["primary_outcomes"].get(k,0) for k,v in outcome_counts.items()):raise ValueError("Primary outcome accounting changed")
+        if simulation=="fatras":
+            transport=g["transport_configuration"]
+            if transport["upstream_source_revision"]!="355ea68493b326956756c9386d2fd9eaf9328568" or not c["species_extension"]["fatras_numerical_guard"]:raise ValueError("Unverified numerical repair")
+            if transport["pMin_GeV"]!=.5 or not all(transport[k] for k in ("emScattering","emEnergyLossIonisation","emEnergyLossRadiation","emPhotonConversion")):raise ValueError("Fatras physics/cuts changed")
+            if transport["numerical_sidecar"]["sha256"] not in r["source_sha256"].values():raise ValueError("SafeFatras binary not fingerprinted")
         if simulation=="geant4":
             mapping=read(directory/"geant4-mapping.json.gz")
             if digest(gzip.decompress((directory/"geant4-mapping.json.gz").read_bytes()))!=r["output_sha256"]["geant4-mapping.json"]:raise ValueError("Mapping source bytes changed")

@@ -263,3 +263,13 @@ and absence of the underflow, then compare replayed event outputs and keep every
 original failed run's hashes. This is a numerical repair, not seed/profile or
 physics-cut selection on validation performance. All Geant4 cases continue with
 the original frozen implementation; their native source pin remains explicit.
+
+The first local sidecar guarded only large u. Full replay exposed the same
+underflows at tiny u: a standalone native-libm check gives `exp(-1e-300)-1 = +0`
+while raising underflow. Add the second exactly rounded branch
+`0 <= u < 2^-54 -> +0`; no early return skips subsequent random draws. Since
+`exp(-u) > 1-u > 1-2^-54`, binary64 round-to-nearest returns exactly 1 before
+the subtraction. Preserve both failed local attempts. Match the original native
+Fatras -O2 configuration rather than comparing an unoptimized/LTO sidecar with
+an optimized runtime; require full native-event regression after rebuilding.
+No FPE mask, transport cut or reconstruction parameter is changed.

@@ -5,9 +5,12 @@ DES041 DRAFT / isolated PROTOTYPE. This sidecar addresses the observed
 No FPE check, mask, random draw, interaction, momentum cut or physics default is
 changed. Human acceptance remains pending.
 
-For binary64 round-to-nearest and `u > 40`,
+For binary64 round-to-nearest and `0 <= u < 2^-54`, `exp(-u)` rounds to 1
+and `exp(-u)-1` is exactly `+0`. For `u > 40`,
 `exp(-u) < exp(-40) < 2^-54`; therefore `exp(-u) - 1` rounds exactly to `-1`.
-The sidecar directly uses that same rounded result. For all other values it
+The sidecar directly uses those same rounded results. Tiny-argument libm
+intermediates can underflow even when the final expression returns zero; the
+initial large-only guard did not avoid that case. For all other values it
 evaluates the original expression. Multiplication order remains
 `abs(scaleFactor * particle.energy() * fraction)`. The original gamma draw and
 four angular draws, in their original function-argument expression order, remain.
@@ -24,6 +27,15 @@ overridden or monkey-patched. The six upstream source hashes, generated algorith
 hashes and pybind ABI are exported by the module.
 The algorithm instance and logger retain the original `FatrasSimulation` name,
 preserving the native per-algorithm random-stream identity.
+
+The native Fatras object uses `-O2 -g -DNDEBUG -std=gnu++20 -fPIC
+-D_GNU_SOURCE` and `ROOT_CORE_THREAD_TBB`, without LTO or special Eigen macros.
+Configuration reads the actual object block from the existing `build.ninja`,
+checks its numerical flags/macros and compiler, and applies those flags to this
+module. Pybind LTO extras are disabled. Hidden module visibility remains the
+isolation mechanism. Exported metadata records the native flags and object-block
+hash. This removes the first sidecar's unintentional O0/NDEBUG mismatch; exact
+full-event regression remains a separate required check.
 
 After the node-specific acts-spack preflight, activate the existing matching
 environment in the same shell. Use the existing pybind11 **3.0.4** CMake package
@@ -46,8 +58,12 @@ inputs, unexpected replacement anchors and a different pybind version. Numerical
 tests stratify every positive finite binary64 exponent and threshold/extreme
 values, compare rounded sampled losses bitwise, and compare original/safe parent
 and photon states plus RNG state over thin/thick synthetic slabs. A native libm
-underflow positive control and guarded hardware/ACTS FPE-monitor controls are
-included. These controls do not replace full native campaign regression.
+underflow positive control covers both `u=1e-300` and `u=800`. Exponent-stratified
+guarded hardware/ACTS FPE-monitor checks run with production-equivalent O2 flags
+without a strict-FP pragma or option, and separately with strict FP enabled.
+No global or function-local FENV pragma is added to production transport.
+These controls do not replace full native campaign regression. The initial
+module is retained under the ignored diagnostics before this replacement build.
 
 Integration, after recording the exact amended source/config and binary hashes:
 

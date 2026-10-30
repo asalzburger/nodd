@@ -20,6 +20,9 @@ PYBIND11_MODULE(nodd_safe_fatras, module) {
   module.attr("generated_source_sha256") = NODD_GENERATED_SOURCE_SHA256;
   module.attr("pybind11_version") = "3.0.4";
   module.attr("pybind11_internals_version") = PYBIND11_INTERNALS_VERSION;
+  module.attr("native_compile_flags") = nativeCompileFlags();
+  module.attr("native_compile_defines") = nativeCompileDefines();
+  module.attr("native_flag_block_sha256") = nativeFlagBlockHash();
   module.def("schedule", [](py::object sequence,
       std::shared_ptr<const Acts::TrackingGeometry> geometry,
       std::shared_ptr<const Acts::MagneticFieldProvider> field,
@@ -57,7 +60,10 @@ PYBIND11_MODULE(nodd_safe_fatras, module) {
     effective["maxStepSize_mm"] = config.maxStepSize / Acts::UnitConstants::mm;
     effective["pathLimit_mm"] = config.pathLimit / Acts::UnitConstants::mm;
     effective["averageHitsPerParticle"] = config.averageHitsPerParticle;
-    effective["bethe_heitler_guard"] = "u > 40: use exactly rounded exp(-u)-1 = -1";
+    effective["bethe_heitler_guard"] = "0 <= u < 2^-54: +0; u > 40: -1; otherwise original exp(-u)-1";
+    effective["native_compile_flags"] = nativeCompileFlags();
+    effective["native_compile_defines"] = nativeCompileDefines();
+    effective["native_flag_block_sha256"] = nativeFlagBlockHash();
     effective["rng_draws"] = "Unchanged gamma draw and four angular draws in original expression order";
     effective["fpe_monitoring"] = "Unchanged; no mask or exception-control modification";
     return effective;
