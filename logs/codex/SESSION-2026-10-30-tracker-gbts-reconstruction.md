@@ -109,3 +109,28 @@ underbuild/tracker-reconstruction/aborted-validation-103042; report/FPE evidence
 is retained publicly. Freeze a fresh untouched validation seed123042 before
 launch, preserving the original selection/config and explicitly recording the
 I/O-only repair. This avoids reusing the aborted sample for final performance.
+
+## Final held-out execution and evidence
+
+All eight final5000-event selected/control runs at0e3b921e703390adf5c7889e5e364a7991e09ce6
+completed with strict native FPE checks. Freshseed123042. Selected efficiencies
+1/5/10/100GeV:4859/5000,4964/5000,4965/5000,4972/5000. Fourunmatchedaccepted
+candidates(1/1/2/0), allpure-primary incomplete trajectories underfixed50% double
+matching;0secondary/ambiguityduplicate candidates. NativeCKFduplicates24at1GeV,
+5at100GeV are removed. Wrongcharge95/4972at100GeV;1GeVq/ppullSD1.766 and60entries
+beyond5sigma are retained; no error rescaling or held-out retuning.
+
+Independent reduction checks source/output/input identities, exact frozen native
+variances, float32 measured SP closure and full measurement subset, all7systems,
+full tails, allgenerated denominators and paired sample hashes. ROOTcross-audit
+passes8cases: all5000evententries, allmeasurement/candidatecounts, exactfloat32
+frozenvariances andmatched perigee/sigma tuples, joiningmultipleCKFcandidates.
+An initial ROOTcross-audit assumption ofonecandidate/event failed correctly;
+explicitperigee+sigma tuplejoin fixed analysisonly. Plotting initiallyhit a tiny
+negative y-error atp=1 fromWilsonroundoff; display-errorlengthsclampedtozero while
+retained intervals unchanged. Workspace-owned font/MPL caches used. SevenPNG/PDF
+figure sets generated; efficiency/pulls/resolutioneta visuallyinspected, full
+numerical tails/source/config/failed output evidence retained. Compressedsummary
+bytes preserve frozen hashes. Artifact verifierPASS60cases/66000processedentries,
+which includes deliberately repeated/paired samples and is not an independent
+trial count. New12meaningful controls pass; final independent assessment pending.

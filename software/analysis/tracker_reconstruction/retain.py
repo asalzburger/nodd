@@ -21,7 +21,9 @@ def retain(native,analysis,destination,phase):
         shutil.copyfile(source.with_name("events.npz"),target/"events.npz")
         report=native/relative/"run-report.json"
         reports[str(relative)]=json.loads(report.read_text())
-    (destination/("native-"+phase+"-reports.json.gz")).write_bytes(gzip.compress(json.dumps(reports,sort_keys=True,separators=(",",":")).encode(),mtime=0))
+    # Preserve nested key order: indent=2 reserialization must reproduce each
+    # original run-report byte hash retained by the independent reduction.
+    (destination/("native-"+phase+"-reports.json.gz")).write_bytes(gzip.compress(json.dumps(reports,separators=(",",":")).encode(),mtime=0))
 
 
 def manifest(destination):

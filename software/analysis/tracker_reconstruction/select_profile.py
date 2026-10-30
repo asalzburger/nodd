@@ -1,6 +1,7 @@
 """Predeclared tuning selection; held-out results are never inputs."""
 import argparse
 import hashlib
+import gzip
 import json
 from pathlib import Path
 import numpy as np
@@ -10,8 +11,8 @@ def select(directory,output,campaign):
     directory=Path(directory);output=Path(output);output.mkdir(parents=True,exist_ok=True)
     config=json.loads(Path(campaign).read_text());profiles=config["profiles"];pts=config["pt_GeV"]
     data={};files={}
-    for path in sorted(directory.glob("pt*/*/summary.json")):
-        summary=json.loads(path.read_text())
+    for path in sorted([*directory.glob("pt*/*/summary.json"),*directory.glob("pt*/*/summary.json.gz")]):
+        summary=json.loads(gzip.decompress(path.read_bytes()) if path.suffix==".gz" else path.read_bytes())
         if summary["phase"]!="tuning":raise ValueError("Selection may only consume tuning data")
         key=(summary["profile"],summary["pt_GeV"])
         if key in data:raise ValueError("Duplicate tuning case")
@@ -54,7 +55,8 @@ def select(directory,output,campaign):
             "paired_control_comparison":paired,"validation_seed":config["sample_seeds"]["validation"],
             "validation_events_per_pt":config["tuning_protocol"]["validation_events_per_pt"],
             "campaign_sha256":hashlib.sha256(Path(campaign).read_bytes()).hexdigest(),
-            "analysis_inputs_sha256":{str(p.relative_to(directory)):hashlib.sha256(p.read_bytes()).hexdigest() for p in files.values()},
+            "analysis_inputs_sha256":{str(p.relative_to(directory)).removesuffix(".gz"):
+                hashlib.sha256(gzip.decompress(p.read_bytes()) if p.suffix==".gz" else p.read_bytes()).hexdigest() for p in files.values()},
             "selection_source_sha256":hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
             "limits":"500 events/pT tune; scan ranking does not establish statistically significant differences between near-tied profiles. No held-out input."}
     (output/"selection.json").write_text(json.dumps(result,indent=2,allow_nan=False)+"\n")

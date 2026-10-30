@@ -2,8 +2,13 @@
 import argparse
 import json
 import gzip
+import os
 from pathlib import Path
 import numpy as np
+_cache=Path(__file__).resolve().parents[3]/"build/tracker-reconstruction/plot-cache"
+_cache.mkdir(parents=True,exist_ok=True)
+os.environ.setdefault("MPLCONFIGDIR",str(_cache/"matplotlib"))
+os.environ.setdefault("XDG_CACHE_HOME",str(_cache))
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -38,7 +43,7 @@ def plot(data,output):
             s,_=collection[pt];bins=s["eta_bins"];x=[sum(b["eta"])/2 for b in bins]
             r=[b["stages"]["ambi"]["efficiency"] for b in bins]
             y=np.asarray([b["value"] for b in r]);bounds=np.asarray([b["wilson95"] for b in r])
-            ax.errorbar(x,y,yerr=[y-bounds[:,0],bounds[:,1]-y],fmt="o-",ms=3,lw=1,color=color,label=label,capsize=2)
+            ax.errorbar(x,y,yerr=np.maximum(0.,[y-bounds[:,0],bounds[:,1]-y]),fmt="o-",ms=3,lw=1,color=color,label=label,capsize=2)
         s,_=selected[pt];r=[b["stages"]["ambi"]["conditional"] for b in s["eta_bins"]]
         ax.plot(x,[b["value"] if b["value"] is not None else np.nan for b in r],"--",color="#00897b",label="Selected, reconstructable")
         ax.set_title(f"pT = {pt} GeV; {s['events']:,} muons");ax.set_ylim(0,1.04);ax.set_xlim(-4,4);ax.grid(alpha=.2)

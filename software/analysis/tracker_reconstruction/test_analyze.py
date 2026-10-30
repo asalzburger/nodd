@@ -3,9 +3,12 @@ import copy
 from pathlib import Path
 import sys
 import unittest
+import tempfile
+import json
 
 sys.path.insert(0,str(Path(__file__).resolve().parent))
 from analyze import classify_event, interval, rate, summarize
+from select_profile import select
 
 PRIMARY=[1,0,1,0,0]
 SECONDARY=[1,0,1,1,0]
@@ -55,6 +58,21 @@ class MetricsTest(unittest.TestCase):
     def test_zero_fake_limit_includes_no_track_events(self):
         self.assertAlmostEqual(rate(0,5000)["zero_one_sided95_upper"],.000598966)
         self.assertIsNone(interval(0,0));self.assertEqual(rate(0,0)["value"],None)
+
+    def test_configured_pixel_group_denominator_and_full_covariance(self):
+        row,sensors=fixture();config=copy.deepcopy(CONFIG)
+        config["matching"]["reconstructable_pixel_groups"]=9
+        self.assertFalse(classify_event(row,sensors,config)["reconstructable"])
+        row["ambi"]=[track(list(range(7)))];row["ambi"][0]["covariance_positive_definite"]=False
+        self.assertEqual(classify_event(row,sensors,CONFIG)["ambi"]["quality_rejected"],1)
+
+    def test_selection_refuses_heldout_input(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory);case=root/"data/pt1/control";case.mkdir(parents=True)
+            (case/"summary.json").write_text(json.dumps({"phase":"validation"}))
+            config=root/"campaign.json";config.write_text(json.dumps({"profiles":{"control":{}},"pt_GeV":[1]}))
+            with self.assertRaisesRegex(ValueError,"only consume tuning"):
+                select(root/"data",root/"output",config)
 
 
 if __name__=="__main__":unittest.main()

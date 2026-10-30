@@ -52,6 +52,11 @@ reproducible SVGs and complete JSON/CSV data for original ODD and the extended
 tracker prototype before/after pixel aperture adaptation: hits, local layer
 material and pitch/√12 momentum-resolution estimates versus eta.
 
+The [full tracker reconstruction prototype](docs/validation/tracker-reconstruction/results.md)
+uses Fatras, frozen Gaussian digitization, native ACTS GBTS and CKF on this
+baseline, with paired tuning and independent single-muon validation at
+pT 1, 5, 10 and 100 GeV in constant 3 T.
+
 ## Agent roles
 
 Use these short address names when referring to the project's eight agent roles.
