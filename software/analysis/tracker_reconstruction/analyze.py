@@ -41,8 +41,8 @@ def classify_event(row,sensors,config):
     result={"event":row["event"],"eta":primary["eta"],"pt":primary["pt"],"charge":primary["charge"],
         "simhits":row["simhits"],"measurements":len(ms),"primary_measurements":len(primary_ms),
         "primary_sensors":len(primary_sensors),"pixel_groups":len(groups),
-        "reconstructable":int(len(primary_sensors)>=match["reconstructable_measurements"] and len(groups)>=3),
-        "reconstructable4":int(len(primary_sensors)>=match["reconstructable_measurements"] and len(groups)>=4),
+        "reconstructable":int(len(primary_sensors)>=match["reconstructable_measurements"] and len(groups)>=match["reconstructable_pixel_groups"]),
+        "reconstructable4":int(len(primary_sensors)>=match["reconstructable_measurements"] and len(groups)>=max(4,match["reconstructable_pixel_groups"])),
         "spacepoints":len(row["spacepoints"]),"seeds":len(row["seeds"]),"estimated_seeds":len(row["estimated_seeds"]),
         "pure_seed":int(any(map(pure_seed,row["seeds"]))),
         "pure_estimated_seed":int(any(map(pure_seed,row["estimated_seeds"]))),"truth":primary["truth"]}
@@ -109,14 +109,20 @@ def analyze(directory,output):
     directory=Path(directory);output=Path(output);output.mkdir(parents=True,exist_ok=True)
     report=json.loads((directory/"run-report.json").read_text())
     if report["outcome"]!="completed":raise ValueError("Native campaign did not complete")
+    for name,digest in report["output_sha256"].items():
+        if hashlib.sha256((directory/name).read_bytes()).hexdigest()!=digest:
+            raise ValueError("Recorded native output changed: "+name)
     config=report["campaign"]
-    sensors={s["geometry_id"]:(s["ids"]["system"],s["ids"]["layer"]) for s in json.loads((directory/"native-report.json").read_text())["sensors"]}
+    native_sensors={s["geometry_id"]:s for s in json.loads((directory/"native-report.json").read_text())["sensors"]}
+    sensors={gid:(s["ids"]["system"],s["ids"]["layer"]) for gid,s in native_sensors.items()}
     widths=json.loads((directory/"error-table.json").read_text())
     variances={(g["volume"],g["index"]):g["sigma_mm"]**2 for g in widths["groups"]}
-    events=[];sample=hashlib.sha256();systems=Counter();dimensions=Counter();marginals=0
+    events=[];sample=hashlib.sha256();systems=Counter();dimensions=Counter();marginals=0;max_sp_error=0.
     with gzip.open(directory/"events.jsonl.gz","rt") as stream:
         for line in stream:
             row=json.loads(line)
+            if row.get("ckf_input_measurements",len(row["measurements"]))!=len(row["measurements"]):
+                raise ValueError("CKF did not receive the complete measurement collection")
             for m in row["measurements"]:
                 system=sensors[m["geometry_id"]][0];systems[system]+=1;dimensions[m["dimension"]]+=1
                 if m["dimension"]!=(1 if system>=6 else 2):raise ValueError("Measurement dimension changed")
@@ -124,20 +130,31 @@ def analyze(directory,output):
                     expected=variances[((m["geometry_id"]>>56)&255,index)]
                     if var!=expected:raise ValueError("Frozen native double variance changed")
                     marginals+=1
+            for point in row["spacepoints"]:
+                if len(point["measurements"])!=1:raise ValueError("Pixel point must have one source measurement")
+                m=row["measurements"][point["measurements"][0]];s=native_sensors[m["geometry_id"]]
+                if s["ids"]["system"]>3:raise ValueError("Nonpixel space point in GBTS")
+                expected=np.asarray(s["center_mm"])+m["values"][0]*np.asarray(s["u"])+m["values"][1]*np.asarray(s["v"])
+                error=float(np.linalg.norm(expected-np.asarray(point["position"])))
+                max_sp_error=max(max_sp_error,error)
+                if not np.array_equal(np.asarray(expected,dtype=np.float32).astype(float),np.asarray(point["position"])):
+                    raise ValueError("Space point differs from float32 measured local-to-global position")
             sample.update(json.dumps({k:row[k] for k in ("event","generated","measurements","spacepoints")},sort_keys=True,separators=(",",":")).encode())
             events.append(classify_event(row,sensors,config))
     events.sort(key=lambda e:e["event"])
     if len(events)!=report["events"] or len({e["event"] for e in events})!=len(events):raise ValueError("Lost or duplicate native event")
     edges=config["tuning_protocol"]["eta_edges"]
     result={"schema_version":1,"status":"PROTOTYPE","profile":report["profile"],"phase":report["phase"],
+        "parameter_units":["mm","mm","rad","rad","GeV^-1","ct_mm"],"native_time_mm_per_ns":299.792458,
         "pt_GeV":report["pt_GeV"],"events":len(events),"seed":report["seed"],"wall_seconds":report["wall_seconds"],
+        "sequencer_seconds":report["gbts_statistics"].get("sequencer_seconds"),
         "native_source_revision":report["source_revision"],"sample_sha256":sample.hexdigest(),
         "source_sha256":hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
         "run_report_sha256":hashlib.sha256((directory/"run-report.json").read_bytes()).hexdigest(),
         "events_sha256":hashlib.sha256((directory/"events.jsonl.gz").read_bytes()).hexdigest(),
         "stages":{stage:summarize(events,stage) for stage in ("ckf","ambi")},
         "stage_counts":{k:sum(e[k] for e in events) for k in ("simhits","measurements","primary_measurements","spacepoints","seeds","estimated_seeds","pure_seed","pure_estimated_seed","reconstructable","reconstructable4")},
-        "measurement_audit":{"systems":dict(systems),"dimensions":dict(dimensions),"checked_marginals":marginals,"frozen_native_double_variances":True},
+        "measurement_audit":{"systems":dict(systems),"dimensions":dict(dimensions),"checked_marginals":marginals,"frozen_native_double_variances":True,"max_measured_spacepoint_position_error_mm":max_sp_error},
         "eta_edges":edges,"eta_bins":[]}
     for lo,hi in zip(edges,edges[1:]):
         subset=[e for e in events if lo<=e["eta"]<hi or (hi==edges[-1] and e["eta"]==hi)]

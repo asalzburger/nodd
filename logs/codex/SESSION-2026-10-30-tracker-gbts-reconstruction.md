@@ -50,3 +50,15 @@ but misses barrel events; this is a diagnostic, not a performance claim.
 The native in-memory measurement covariance is double; ROOT persistence is
 float32. Independent analyzer checks double sigma² and separately the established
 ROOT float32 audit, without changing frozen errors.
+
+## Pre-scan review and correction
+
+RECO-PhysVal-02 atd166334 identified internal CKF quality selection concealing
+rejected completed candidates, ordered seed provenance, ct time units, fair
+runtime comparison and missing output/input/runtime closure checks. Main removed
+the internal selector, retained raw completed outputs and fixed the audit and
+analysis. RECO-SoftEng-02 measured-SP replay isolated the optional innermost z0
+histogram; disabling it restores four-layer barrel seed chains. The pre-scan
+amendment keeps13profiles and the unchanged control; no held-out sample was used.
+The native SP closure is exact after the documented float32 conversion; frozen
+native measurement variances remain double sigma², ROOT persistence float32.

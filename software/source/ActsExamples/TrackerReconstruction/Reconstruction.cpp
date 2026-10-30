@@ -27,6 +27,7 @@ class ReconstructionAudit final: public IAlgorithm {
     if(!file) throw std::runtime_error("Cannot open all-event reconstruction audit");
     generated.initialize("particles_generated"); simulated.initialize("particles_simulated");
     hits.initialize("simhits"); measurements.initialize("measurements"); associations.initialize("measurement_particles_map");
+    subset.initialize("measurement_subset");
     points.initialize("spacepoints"); seeds.initialize("seeds"); estimated.initialize("estimatedseeds");
     ckf.initialize("ckf_tracks"); ambi.initialize("ambi_tracks");
   }
@@ -34,8 +35,11 @@ class ReconstructionAudit final: public IAlgorithm {
     auto result=Json::array();
     for(const auto& seed:container) {
       std::set<std::size_t> indices;
-      for(const auto i:seed.spacePointIndices()) for(const auto& sl:sp.at(i).sourceLinks()) indices.insert(sl.get<IndexSourceLink>().index());
-      result.push_back({{"measurements",indices},{"quality",seed.quality()}});
+      std::vector<std::size_t> pointIndices,orderedMeasurements;
+      for(const auto i:seed.spacePointIndices()) {pointIndices.push_back(i);
+        for(const auto& sl:sp.at(i).sourceLinks()) {const auto m=sl.get<IndexSourceLink>().index();indices.insert(m);orderedMeasurements.push_back(m);}}
+      result.push_back({{"measurements",indices},{"spacepoint_indices",pointIndices},
+                        {"ordered_measurements",orderedMeasurements},{"quality",seed.quality()}});
     }
     return result;
   }
@@ -47,7 +51,7 @@ class ReconstructionAudit final: public IAlgorithm {
         const auto sl=state.hasUncalibratedSourceLink() ? state.getUncalibratedSourceLink().getPtr<IndexSourceLink>() : nullptr;
         const auto flags=state.typeFlags();
         if(sl && flags.isMeasurement() && !flags.isOutlier()) indices.insert(sl->index());
-        states.push_back({{"geometry_id",state.referenceSurface().geometryId().value()},
+        states.push_back({{"geometry_id",state.hasReferenceSurface() ? Json(state.referenceSurface().geometryId().value()) : Json()},
                           {"measurement",sl ? Json(sl->index()) : Json()},
                           {"inlier",flags.isMeasurement()},
                           {"outlier",flags.isOutlier()},
@@ -72,6 +76,12 @@ class ReconstructionAudit final: public IAlgorithm {
     for(const auto& p:simulated(ctx)) row["simulated_ids"].push_back(p.particleId().asArray());
     row["measurements"]=Json::array();
     const auto& ms=measurements(ctx);const auto& mp=associations(ctx);
+    const auto& selected=subset(ctx);
+    std::set<std::size_t> allIndices;
+    for(const auto& sl:selected.orderedIndices()) allIndices.insert(sl.index());
+    if(allIndices.size()!=ms.size() || (!allIndices.empty() && (*allIndices.begin()!=0 || *allIndices.rbegin()!=ms.size()-1)))
+      throw std::runtime_error("CKF measurement subset does not contain every original measurement");
+    row["ckf_input_measurements"]=allIndices.size();
     for(std::size_t i=0;i<ms.size();++i) {
       const auto m=ms.getMeasurement(i);std::set<std::array<std::uint32_t,5>> particles;
       const auto [first,last]=mp.equal_range(i);for(auto it=first;it!=last;++it) particles.insert(it->second.asArray());
@@ -93,6 +103,7 @@ class ReconstructionAudit final: public IAlgorithm {
   ReadDataHandle<SimParticleContainer> generated{this,"Generated"},simulated{this,"Simulated"};
   ReadDataHandle<SimHitContainer> hits{this,"Hits"};
   ReadDataHandle<MeasurementContainer> measurements{this,"Measurements"};
+  ReadDataHandle<MeasurementSubset> subset{this,"CompleteMeasurementSubset"};
   ReadDataHandle<MeasurementParticlesMap> associations{this,"Associations"};
   ReadDataHandle<Acts::SpacePointContainer> points{this,"MeasuredSpacePoints"};
   ReadDataHandle<Acts::SeedContainer> seeds{this,"GbtsSeeds"},estimated{this,"EstimatedSeeds"};

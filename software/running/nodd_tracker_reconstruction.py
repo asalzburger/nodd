@@ -62,7 +62,6 @@ def run(args, config, acts, detector, geometry, observer):
         findTracksBrem=acts.examples.TrackFindingAlgorithm.makeBremTrackFinderFunction(geometry,field,level),
         measurementSelectorCfg=acts.MeasurementSelector.Config([(acts.GeometryIdentifier(),
             ([],[c["measurement_chi2"]],[c["outlier_chi2"]],[c["max_measurements_per_surface"]]))]),
-        trackSelectorCfg=acts.TrackSelector.Config(minMeasurements=q["minimum_measurements"],requireReferenceSurface=True),
         maxSteps=c["max_steps"], twoWay=c["two_way"], reverseSearch=False,
         seedDeduplication=c["seed_deduplication"], stayOnSeed=c["stay_on_seed"],
         trimTracks=True, recordMaterialStates=False, useJosephFormulation=True)
@@ -92,8 +91,10 @@ def run(args, config, acts, detector, geometry, observer):
             inputSimHits="simhits",inputMeasurementSimHitsMap="measurement_simhits_map",
             surfaceByIdentifier=geometry.geoIdSurfaceMap(),filePath=str(args.output/"measurements.root")))
     seq.addAlgorithm(audit.ReconstructionAudit(str(args.output/"events.jsonl")))
+    sequencer_start=time.monotonic()
     seq.run()
-    return {**seeder.statistics(), "effective_configuration": json.loads(seeder.effective_configuration_json())}
+    return {**seeder.statistics(), "effective_configuration": json.loads(seeder.effective_configuration_json()),
+            "sequencer_seconds":time.monotonic()-sequencer_start}
 
 
 def fingerprints():
@@ -104,6 +105,8 @@ def fingerprints():
         files.extend(p for p in (ROOT/directory).rglob("*") if p.is_file() and p.suffix in (".py", ".cpp", ".hpp") and not p.name.startswith("test"))
     for directory in ("build/tracker-reconstruction/native-audit", "build/tracker-reconstruction/native-gbts"):
         files.extend((ROOT/directory).glob("*.so"))
+    for directory in ("TrackerGbts","TrackerReconstruction"):
+        files.append(ROOT/"software/source/ActsExamples"/directory/"CMakeLists.txt")
     return {str(p.resolve()): sha256(p) for p in sorted(set(files))}
 
 
@@ -157,11 +160,18 @@ def execute_case(args,config,prepared=None):
         binding=Path(importlib.import_module("acts.examples.ActsExamplesPythonBindings").__file__).resolve()
         build=binding.parents[3]
         runtime=[binding,*sorted((build/"lib").glob("libActs*.dylib"))]
+        runtime.extend(sorted((ROOT/"build/balanced-baseline/dd4hep/detector").glob("*.dylib")))
         report["runtime_sha256"]={str(p):sha256(p) for p in runtime}
         write_report(args.output/"campaign.json",config)
         write_report(args.output/"run-report.json",report)
+        report["prepared_input_sha256"]={str(p.relative_to(args.output)):sha256(p) for p in args.output.rglob("*") if p.is_file() and p.name!="run-report.json"}
+        write_report(args.output/"run-report.json",report)
         report["gbts_statistics"]=run(args,config,acts,detector,geometry,observer)
+        if any(sha256(args.output/name)!=digest for name,digest in report["prepared_input_sha256"].items()):
+            raise RuntimeError("Prepared scientific input changed during execution")
         if fingerprints()!=startup: raise RuntimeError("Reconstruction code changed during native execution")
+        if any(sha256(path)!=digest for path,digest in report["runtime_sha256"].items()):
+            raise RuntimeError("Executing native runtime/factory changed during execution")
         with (args.output/"events.jsonl").open("rb") as source, gzip.open(args.output/"events.jsonl.gz","wb") as target:
             for line in source: target.write(line)
         (args.output/"events.jsonl").unlink()

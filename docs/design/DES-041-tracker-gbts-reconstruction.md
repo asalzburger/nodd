@@ -110,3 +110,25 @@ efficiency, then highest equally weighted mean efficiency, then lower fake-event
 incidence, duplicates and runtime. Keep CKF and ambiguity settings fixed while
 scanning GBTS. One configuration is used across all four momenta. These are study
 choices and technical recommendations, not human acceptance/sign-off.
+
+### Pre-scan smoke correction
+
+The10-event pT10 smoke and measured-SP replay found that the optional stock
+innermost-barrel z0 histogram rejects otherwise viable barrel connections.
+All12candidate profiles explicitly disable that histogram, while the untouched
+native-default control remains. This amendment precedes the500-event tuning
+sample and all held-out runs. Scan minPt0.4/0.6/0.8GeV, nominal/doubled coherent
+tau cuts and confirmed/three-group recovery settings. No ACTS Core source or
+physical input changes. Runtime tie-break uses sequencer/event-stage time,
+excluding one-time geometry preparation charged only to the first batch case.
+
+The audit keeps every *completed native CKF output*, before analysis quality
+selection, and all ambiguity survivors. Native propagation errors with no
+output object are not retained as candidate tracks. Estimated-seed and stage
+no-output counts remain failure diagnostics; they are not exact per-seed fit
+failure counts when CKF seed deduplication is enabled. Ordered seed source links
+and complete CKF-input subset membership are retained/checked natively.
+Native measurement covariance uses double sigma-squared; ROOT writers persist
+float32. Native pixel global space points use float32, verified by independent
+measured local-to-global conversion and exact float32 equality. Bound time uses
+native ct[mm]; public time axes convert by299.792458mm/ns, with pulls unchanged.

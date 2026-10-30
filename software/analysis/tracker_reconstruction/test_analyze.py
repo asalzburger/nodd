@@ -9,7 +9,7 @@ from analyze import classify_event, interval, rate, summarize
 
 PRIMARY=[1,0,1,0,0]
 SECONDARY=[1,0,1,1,0]
-CONFIG={"matching":{"purity":.5,"completeness":.5,"reconstructable_measurements":6},
+CONFIG={"matching":{"purity":.5,"completeness":.5,"reconstructable_measurements":6,"reconstructable_pixel_groups":3},
         "quality":{"minimum_measurements":7}}
 
 
