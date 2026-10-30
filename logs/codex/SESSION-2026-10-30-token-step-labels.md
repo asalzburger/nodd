@@ -27,3 +27,15 @@ Browser checks confirmed numbered point spacing, a focus tooltip identifying the
 ## Token accounting
 
 Exact completed counters for this active task are unavailable; `usage` remains empty. The historical counters are only projected into labels and are unchanged. No token estimates, costs or inferred models are added.
+
+## Specialist assignment TOKEN-STEPS-SoftEng-01
+
+Prepared before dispatch against implementation `49613ee448850f28dd86f02eb508d20860879168`. A separate generic child receives the full explicit SoftEng mandate and read-only assignment in the session directory. It assesses attribution boundaries, escaping and interaction semantics, owns no files and may run pure local checks. No native profile loading or independent scientific/human approval is claimed. The coordinator retains QA and delivery.
+
+## Review and final QA
+
+PR108: https://github.com/asalzburger/nodd/pull/108. Separate SoftEng assessment found no actionable correctness findings at `49613ee448850f28dd86f02eb508d20860879168`, independently running all 20 site tests, Node checks and an exact parent/target accounting comparison. Its prepared mandate, input hashes and curated report are retained in the session directory.
+
+Browser QA passed for all counter modes, focus descriptions, graph click/Enter selection and fragment reloads. At 390 × 844 the body width is 390 px; labels, disclosure panels and subtotals fit. A horizontally scrolled tooltip initially shrank to its minimum content width; explicit CSS width fixes it, verified in the phone browser. Disclosure glyphs became chevrons. These later CSS-only changes are coordinator work outside the reviewed source target. Temporary viewport override was reset.
+
+All numeric daily/cumulative counters, dated boundaries, undated subtotals and feature markers equal the saved pre-change baseline. Session and project validators pass. The new PR's interaction ledger retains this prompt, outcome, assignment/result, named parties/roles, tool evidence and unobserved token account. Main-only Pages deployment remains unchanged; PR108 provides the reviewable change and preview build.
