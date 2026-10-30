@@ -11,7 +11,9 @@ import uproot
 
 def audit(native,analysis,output):
     native,analysis=Path(native),Path(analysis);result={}
-    for report_path in sorted(native.glob("*/*/run-report.json")):
+    reports=sorted(native.glob("*/*/run-report.json"))
+    if not reports:raise ValueError("No native ROOT cases found; require a nonempty campaign")
+    for report_path in reports:
         case=report_path.parent;relative=case.relative_to(native);r=json.loads(report_path.read_text())
         if r["outcome"]!="completed":raise ValueError("ROOT audit requires completed native run")
         summary=json.loads((analysis/relative/"summary.json").read_text());a=np.load(analysis/relative/"events.npz")
