@@ -66,14 +66,13 @@ class SensitiveConstruction final: public G4VUserDetectorConstruction {
 
 class SensitiveDetector final: public Detector {
  public:
-  explicit SensitiveDetector(std::shared_ptr<Detector> detector):Detector(Acts::getDefaultLogger("SensitiveDetector",Acts::Logging::WARNING)),original(std::move(detector)) {
+  explicit SensitiveDetector(std::shared_ptr<DD4hepDetectorBase> detector):Detector(Acts::getDefaultLogger("SensitiveDetector",Acts::Logging::WARNING)),original(detector) {
     const auto visit=[&](auto&& self,const dd4hep::DetElement& element)->void {
       if(element.placement().isValid() && element.volume().isSensitive()) activeNames.insert(element.volume().name());
       for(const auto& [name,child]:element.children()) self(self,child);
     };
-    const auto* dd=dynamic_cast<DD4hepDetectorBase*>(original.get());
-    if(!dd) throw std::runtime_error("Sensitivity wrapper requires the actual DD4hep detector instance");
-    visit(visit,dd->dd4hepDetector().world());
+    if(!detector) throw std::runtime_error("Sensitivity wrapper requires the actual DD4hep detector instance");
+    visit(visit,detector->dd4hepDetector().world());
     if(activeNames.empty()) throw std::runtime_error("No canonical DD4hep-sensitive volume names");
   }
   const Acts::GeometryContext& nominalGeometryContext() const override {return original->nominalGeometryContext();}
@@ -241,7 +240,7 @@ class ReconstructionAudit final: public IAlgorithm {
   mutable std::mutex mutex;mutable std::ofstream file;
 };
 PYBIND11_MODULE(nodd_reconstruction,m) {
-  py::class_<SensitiveDetector,Detector,std::shared_ptr<SensitiveDetector>>(m,"SensitiveDetector").def(py::init<std::shared_ptr<Detector>>());
+  py::class_<SensitiveDetector,Detector,std::shared_ptr<SensitiveDetector>>(m,"SensitiveDetector").def(py::init<std::shared_ptr<DD4hepDetectorBase>>());
   m.def("geant4_mapping_json",&geant4Mapping);
   m.def("geant4_event_count",[]() {const auto* manager=G4RunManager::GetRunManager();
     const auto* run=manager ? manager->GetCurrentRun() : nullptr;
