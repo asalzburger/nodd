@@ -158,3 +158,24 @@ Ongoing token accounting: no exact disjoint per-turn counters are exposed in
 this API conversation or completed specialist tool results. Usage stays empty;
 no estimates, privateclientstate reads, duplicate prior counters or model-label
 inferences. Canonicalsummary/interactionrecord willstate missingcoverage.
+
+## Publication and interaction closeout
+
+Draft [PR107](https://github.com/asalzburger/nodd/pull/107) published at
+a01c19eda77f88ca26c9be88f3994853d904fa2b. GitHub connector creation returned
+403 Resource not accessible by integration; existing authenticated gh CLI
+succeeded. The PR was attached to this task. Connected GitHub metadata and
+merged public discussion captured on2026-10-30T10:22:38Z; no discussion/review entries then.
+Initial token-site CI failed solely because the newPR number had no interaction
+record; this metadata pass supplies it. ScientificCI remains pending.
+
+Codex app read_thread verified currentroot 01a176bd-cabc-77c0-8841-9d7ee1efa109,
+turn01a18c1b-877d-75c1-96fb-eb2d89753907 (inProgress), actualstart2026-10-30T09:19:36Z.
+Verified spawned children: tracker_gbts_softeng01a18c20-53db-7ce3-a4b7-b587c07f0154;
+tracker_gbts_physval01a18c20-6c17-7cb2-980b-678607a7b8bc; fresh finalSoftEng
+01a18c49-acb6-7b01-920a-f59c53afb51a. Selected visible rootmessages andlatest
+completed specialist responses are allowlisted/reviewed in thePR record with
+stablemessage/turn/thread sources. Reasoning, commandtext/results, arbitrary
+arguments andprivateclientstate excluded. No exact per-turn counters exposed;
+usage stays empty and execution models unknown. Active rootusage is excluded.
+These are curated interaction events, not account-matched usage snapshots.

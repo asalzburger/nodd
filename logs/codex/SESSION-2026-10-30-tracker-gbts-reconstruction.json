@@ -3,13 +3,13 @@
   "session_id": "SESSION-2026-10-30-tracker-gbts-reconstruction",
   "title": "Build and tune full tracker reconstruction with GBTS on balanced baseline",
   "recorded_at": "2026-10-30T09:23:41Z",
-  "started_at": null,
+  "started_at": "2026-10-30T09:19:36Z",
   "ended_at": null,
   "status": "open",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
-    "Actual conversation start time and client version/stable thread ID were not exposed.",
+    "Client version is unavailable. The current bounded root turn start and stable root/child thread identities were verified through Codex app read_thread at closeout; active root usage is excluded.",
     "No exact disjoint per-turn token counters were exposed for the active coordinator or completed specialist assignments; usage remains empty, meaning missing observations rather than zero tokens. No estimates or overlapping historical usage imported.",
     "Selected user requests, public outcomes and bounded role handoffs are curated; this is not a complete conversation or private client-state export.",
     "Failed initialization/debug attempts retain local reports/logs and curated corrections; not every intermediate uncommitted source state is preserved. Final scientific tuning/validation source bytes are pinned and verified."
@@ -17,7 +17,7 @@
   "client": {
     "name": "Codex desktop",
     "version": null,
-    "thread_id": null
+    "thread_id": "01a176bd-cabc-77c0-8841-9d7ee1efa109"
   },
   "git": {
     "start_commit": "b4928ac87a223dc4a749e8d8a05dc3cc4a78558d",
@@ -31,13 +31,15 @@
       "08c1241828c38b39ff26eec712d95aa538a91124",
       "780edf14acd16e5bed9e3f77545308e649f3eef8",
       "0e3b921e703390adf5c7889e5e364a7991e09ce6",
-      "f9c5621800b714e738fe6e1b4b331c9143fb06b6"
+      "f9c5621800b714e738fe6e1b4b331c9143fb06b6",
+      "a01c19eda77f88ca26c9be88f3994853d904fa2b"
     ],
     "changed_files": [
       ".github/workflows/validation.yml",
       "README.md",
       "docs/design/DES-041-tracker-gbts-reconstruction.md",
       "docs/validation/tracker-reconstruction/diagnostics/aborted-native-validation-reports.json.gz",
+      "docs/validation/tracker-reconstruction/diagnostics/build-guards.json",
       "docs/validation/tracker-reconstruction/diagnostics/confirm.json",
       "docs/validation/tracker-reconstruction/diagnostics/cuts.json",
       "docs/validation/tracker-reconstruction/diagnostics/duplicates.json",
@@ -188,16 +190,21 @@
       "docs/validation/tracker-reconstruction/validation/selected/pt100/summary.json.gz",
       "docs/validation/tracker-reconstruction/validation/selected/pt5/events.npz",
       "docs/validation/tracker-reconstruction/validation/selected/pt5/summary.json.gz",
+      "interactions/pr-0107.json",
       "logs/codex/SESSION-2026-10-30-tracker-gbts-reconstruction.json",
       "logs/codex/SESSION-2026-10-30-tracker-gbts-reconstruction.md",
       "logs/codex/SESSION-2026-10-30-tracker-gbts-reconstruction/PhysVal-01-result.md",
       "logs/codex/SESSION-2026-10-30-tracker-gbts-reconstruction/PhysVal-01.assignment.json",
       "logs/codex/SESSION-2026-10-30-tracker-gbts-reconstruction/PhysVal-02-result.md",
       "logs/codex/SESSION-2026-10-30-tracker-gbts-reconstruction/PhysVal-02.assignment.json",
+      "logs/codex/SESSION-2026-10-30-tracker-gbts-reconstruction/PhysVal-03-result.md",
+      "logs/codex/SESSION-2026-10-30-tracker-gbts-reconstruction/PhysVal-03.assignment.json",
       "logs/codex/SESSION-2026-10-30-tracker-gbts-reconstruction/SoftEng-01-result.md",
       "logs/codex/SESSION-2026-10-30-tracker-gbts-reconstruction/SoftEng-01.assignment.json",
       "logs/codex/SESSION-2026-10-30-tracker-gbts-reconstruction/SoftEng-02-result.md",
       "logs/codex/SESSION-2026-10-30-tracker-gbts-reconstruction/SoftEng-02.assignment.json",
+      "logs/codex/SESSION-2026-10-30-tracker-gbts-reconstruction/SoftEng-03-result.md",
+      "logs/codex/SESSION-2026-10-30-tracker-gbts-reconstruction/SoftEng-03.assignment.json",
       "project/tracking.json",
       "reference/manifest.yaml",
       "software/analysis/tracker_reconstruction/README.md",
@@ -235,7 +242,8 @@
       "TASK-TRACK-GBTS-RECONSTRUCTION",
       "DES-041",
       "DES-040",
-      "DES-025"
+      "DES-025",
+      "PR-107"
     ]
   },
   "narrative": "logs/codex/SESSION-2026-10-30-tracker-gbts-reconstruction.md",
@@ -320,6 +328,15 @@
       "failures": null,
       "duration_seconds": null,
       "evidence": "Visual QA of efficiency, integrated pulls and perigee resolution versus eta."
+    },
+    {
+      "kind": "tool",
+      "name": "GitHub connector / gh CLI / Codex app read_thread",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "GitHub integration PR creation returned403; authenticated gh created draftPR107. Connected GitHub tools captured public metadata/discussion; read_thread verified current root and three specialist identities and selected visible messages. Exact aggregate call count and per-turn token counters are unavailable."
     }
   ],
   "usage": [],
@@ -431,6 +448,12 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "Matching355ea684/pybind3.0.4 configures; wrongACTSsource rejected(exit1); validated observer module hash unchanged. Configuration-only review fix."
+    },
+    {
+      "command": "initial PR107 token-site CI at a01c19e",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Expected missing newPR interaction record before number assignment; adding pr-0107.json and canonical journal synchronization. No scientific failure."
     }
   ]
 }
