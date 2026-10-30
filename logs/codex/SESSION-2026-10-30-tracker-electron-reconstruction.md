@@ -132,3 +132,18 @@ numerical flags and removes optional pybind LTO extras. Its tests must exercise
 production-equivalent compilation and both tiny/large hardware FPE controls.
 The first module binary is preserved in ignored task diagnostics. Original
 Geant4 executing source/runtime remains unchanged.
+
+
+SafeFatras v2 at b9fc3aa completes5,000events each at1/5/10GeV with the FPE
+gate active and passing. Separate PhysVal06 verifies every native audit byte
+across all15,000events against original failed-but-full outputs, plus all branch
+buffers in9ROOT files (322,624measurement rows; both99branch track trees).
+Thus the numerical correction preserves actual recorded physics and RNG streams.
+The100GeV cases remain running and outside that assessment.
+
+An incorrectly relative temporary staging link initially made ROOT audit find
+zero cases. Its vacuous PASS was discarded immediately. Added a nonempty-case
+guard/control in1f92f14, fixed the link, and audited all4Geant4 muon cases:
+event/candidate/measurement counts and float32 perigee/sigma/variance tuples pass.
+All26reconstruction controls pass. Final combined persistence audit will require
+exactly the declared16cases and bind every ROOT hash to its native report.

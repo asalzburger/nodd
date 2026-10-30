@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 import shutil
 import subprocess
+import tempfile
 import numpy as np
 
 ROOT=Path(__file__).resolve().parents[3]
@@ -51,6 +52,24 @@ def manifest(destination):
     (destination/"manifest.json").write_text(json.dumps(report,indent=2)+"\n")
 
 
+def root_audit(native,analysis,destination):
+    """Check actual persisted ROOT content and require the entire declared matrix."""
+    from audit_root import audit
+    import audit_root
+    native,analysis,destination=map(Path,(native,analysis,destination));cases={}
+    destination.mkdir(parents=True,exist_ok=True)
+    with tempfile.TemporaryDirectory() as temporary:
+        for backend in ("fatras","geant4"):
+            output=Path(temporary)/(backend+".json")
+            audit(native/backend,analysis/backend,output)
+            cases.update({backend+"/"+k:v for k,v in read(output)["cases"].items()})
+    expected={f"{sim}/{particle}/pt{pt}" for sim,particle in CASES for pt in PTS}
+    if set(cases)!=expected:raise ValueError("ROOT audit does not cover the complete species matrix")
+    payload={"schema_version":1,"status":"PASS","source_revision":subprocess.check_output(["git","rev-parse","HEAD"],cwd=ROOT,text=True).strip(),
+        "source_sha256":digest(Path(audit_root.__file__).read_bytes()),"producer_sha256":digest(Path(__file__).read_bytes()),"cases":cases}
+    (destination/"root-audit.json").write_text(json.dumps(payload,indent=2)+"\n")
+
+
 def verify(data):
     data=Path(data);reports=read(data/"native-reports.json.gz");cache={};runtime={};sources=set();n=0
     for name,expected in read(data/"manifest.json")["files_sha256"].items():
@@ -59,6 +78,10 @@ def verify(data):
     effective_gbts=read(ROOT/"docs/validation/tracker-reconstruction/native-validation-reports.json.gz")["selected/pt1"]["gbts_statistics"]["effective_configuration"]
     expected_cases={f"{sim}/{particle}/pt{pt}" for sim,particle in CASES for pt in PTS}
     if set(reports)!=expected_cases:raise ValueError("Incomplete declared species matrix")
+    persistence=read(data/"root-audit.json")
+    if persistence["status"]!="PASS" or set(persistence["cases"])!=expected_cases:raise ValueError("Incomplete ROOT persistence verification")
+    for key,path in (("source_sha256","software/analysis/tracker_reconstruction/audit_root.py"),("producer_sha256","software/analysis/tracker_reconstruction/species_evidence.py")):
+        if persistence[key]!=digest(subprocess.check_output(["git","show",persistence["source_revision"]+":"+path],cwd=ROOT)):raise ValueError("ROOT audit source identity changed")
     binaries={}
     for case,r in reports.items():
         simulation,particle,pt=case.split("/");directory=data/case
@@ -106,8 +129,14 @@ def verify(data):
             if not r["preparation"]["baseline_semantic_equivalence"][key]:raise ValueError("Baseline material/response changed")
         if set(s["measurement_audit"]["systems"])!={str(i) for i in range(1,8)} or not s["measurement_audit"]["frozen_native_double_variances"]:raise ValueError("Incomplete detector/response audit")
         if len(a["event"])!=5000 or len(np.unique(a["event"]))!=5000:raise ValueError("Lost/duplicated generated events")
+        persisted=persistence["cases"][case]
+        if persisted["measurement_rows"]!=s["stage_counts"]["measurements"] or not persisted["exact_float32_variance_match"]:raise ValueError("ROOT measurements differ from event audit")
+        expected_root={k:v for k,v in r["output_sha256"].items() if k.endswith(".root")}
+        if len(expected_root)!=3 or persisted["root_sha256"]!=expected_root:raise ValueError("ROOT persistence evidence belongs to different native outputs")
         for stage in ("ckf","ambi"):
             counts=s["stages"][stage]["counts"]
+            ps=persisted["stages"][stage]
+            if ps["events"]!=5000 or ps["candidates"]!=counts["raw"] or ps["matched_parameter_marginals"]!=6*counts["matched"] or not ps["exact_float32_perigee_and_sigma_match"]:raise ValueError("ROOT perigee/covariance audit incomplete")
             for key in ("matched","accepted","fake","secondary","duplicates","wrong_charge"):
                 if int(a[stage+"_"+key].sum())!=counts[key]:raise ValueError("Array/count mismatch: "+key)
             if s["stages"][stage]["efficiency"]["value"]!=counts["matched"]/5000:raise ValueError("Generated denominator changed")
@@ -142,9 +171,9 @@ def verify(data):
 
 
 if __name__=="__main__":
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument("mode",choices=("retain","manifest","verify"));p.add_argument("--data",type=Path,required=True);p.add_argument("--native",type=Path);p.add_argument("--analysis",type=Path);a=p.parse_args()
-    if a.mode=="retain":
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument("mode",choices=("retain","root-audit","manifest","verify"));p.add_argument("--data",type=Path,required=True);p.add_argument("--native",type=Path);p.add_argument("--analysis",type=Path);a=p.parse_args()
+    if a.mode in ("retain","root-audit"):
         if a.native is None or a.analysis is None:p.error("Retention requires native and analysis directories")
-        retain(a.native,a.analysis,a.data)
+        (retain if a.mode=="retain" else root_audit)(a.native,a.analysis,a.data)
     elif a.mode=="manifest":manifest(a.data)
     else:verify(a.data)

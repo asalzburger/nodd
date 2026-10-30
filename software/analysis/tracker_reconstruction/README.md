@@ -188,6 +188,10 @@ python software/analysis/tracker_reconstruction/species_evidence.py retain \
   --native build/tracker-reconstruction-species/validation \
   --analysis build/tracker-reconstruction-species/validation-analysis \
   --data docs/validation/tracker-reconstruction-species
+python software/analysis/tracker_reconstruction/species_evidence.py root-audit \
+  --native build/tracker-reconstruction-species/final-native \
+  --analysis build/tracker-reconstruction-species/validation-analysis \
+  --data docs/validation/tracker-reconstruction-species
 python software/analysis/tracker_reconstruction/species_report.py \
   --data docs/validation/tracker-reconstruction-species \
   --output docs/validation/tracker-reconstruction-species
@@ -215,3 +219,11 @@ Fatras attempts exposed underflow in an exponential whose contribution to the
 sampled loss already rounds away. The guard preserves that loss and every random
 draw, keeping all FPE checks active. Same-seed native event regression is required;
 failed/interrupted attempts remain diagnostic evidence and are not scored.
+
+For the retained campaign, `final-native/fatras` and `final-native/geant4` are
+local staging links to the successful SafeFatras v2 and original Geant4 output
+roots; failed attempts keep their original directories. `root-audit` requires
+all 16 cases and compares ROOT measurements, every event/candidate count and
+matched perigee/sigma tuples with the native reductions. The verifier binds
+those results to each run's actual ROOT hashes. Analyze with an isolated Python
+environment; use `python -E` if Spack's PYTHONPATH is active.
