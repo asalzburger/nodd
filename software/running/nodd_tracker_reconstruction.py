@@ -162,6 +162,9 @@ def main():
     if args.simulation is not None: config["simulation"]=args.simulation
     if config["simulation"]=="geant4" and (args.threads!=1 or args.profile=="all"): parser.error("Geant4 requires one thread and one profile per fresh process")
     if config.get("particle") not in species.SPECIES: parser.error("Unsupported campaign particle")
+    if (args.phase=="validation" and config.get("species_extension") and
+        args.profile!=config["species_extension"]["selected_profile"]):
+        parser.error("Species validation requires its frozen selected GBTS profile")
     if args.pt not in config["pt_GeV"] or args.events<=0 or args.threads<=0 or args.profile not in {*config["profiles"],"all"}:
         parser.error("Require configured pT/profile and positive events/threads")
     args.seed = args.seed if args.seed is not None else config["sample_seeds"]["tuning" if args.phase=="smoke" else args.phase]
@@ -199,6 +202,7 @@ def execute_case(args,config,prepared=None):
         binding=Path(importlib.import_module("acts.examples.ActsExamplesPythonBindings").__file__).resolve()
         build=binding.parents[3]
         runtime=[binding,*sorted((build/"lib").glob("libActs*.dylib"))]
+        runtime.extend(sorted((build/"Examples/Detectors/DD4hepDetector").glob("*.dylib")))
         runtime.extend(sorted((ROOT/"build/balanced-baseline/dd4hep/detector").glob("*.dylib")))
         if config["simulation"]=="geant4":
             program=shutil.which("geant4-config")

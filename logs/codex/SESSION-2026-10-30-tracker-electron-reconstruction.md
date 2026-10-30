@@ -54,3 +54,14 @@ coverage replay expose every mapped surface. Electron one-way100event Fatras
 smoke completes with FPE checks; default muon100eventpT1 reproduces all35original
 arrays exactly against the retained first100events, including seeds/fits/pulls.
 SoftEng02 plot defaults similarly reproduce seven original PNGs/tailJSON exactly.
+
+## Owned DD4hep instance and independent implementation assessment
+
+Exact sensitivity wrapper caa5487 initially accessed the global DD4hep singleton,
+which is not the ACTS-owned instance: all three Geant4 smoke initializations
+fail with an invalid world handle before transport. Replace with checked
+DD4hepDetectorBase::dd4hepDetector accessor and link existing detector/plugin
+headers/libraries. Missing detector-common/Root-header build dependencies are
+corrected locally; no shared dependencies changed. PhysVal03 retains caa's
+P1 runtime defect and supports the owned-instance correction subject to new
+mapping/event checks. Species launch guard/effective GBTS verifier addressesP3.

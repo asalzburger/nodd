@@ -12,6 +12,7 @@
 #include "Acts/EventData/SpacePointContainer.hpp"
 #include "ActsExamples/Geant4/SensitiveSurfaceMapper.hpp"
 #include "ActsExamples/DetectorCommons/Detector.hpp"
+#include "ActsExamples/DD4hepDetector/DD4hepDetector.hpp"
 #include <DD4hep/Detector.h>
 #include <DD4hep/DetElement.h>
 #include <DD4hep/Volumes.h>
@@ -69,7 +70,10 @@ class SensitiveDetector final: public Detector {
     const auto visit=[&](auto&& self,const dd4hep::DetElement& element)->void {
       if(element.placement().isValid() && element.volume().isSensitive()) activeNames.insert(element.volume().name());
       for(const auto& [name,child]:element.children()) self(self,child);
-    };visit(visit,dd4hep::Detector::getInstance().world());
+    };
+    const auto* dd=dynamic_cast<DD4hepDetectorBase*>(original.get());
+    if(!dd) throw std::runtime_error("Sensitivity wrapper requires the actual DD4hep detector instance");
+    visit(visit,dd->dd4hepDetector().world());
     if(activeNames.empty()) throw std::runtime_error("No canonical DD4hep-sensitive volume names");
   }
   const Acts::GeometryContext& nominalGeometryContext() const override {return original->nominalGeometryContext();}
