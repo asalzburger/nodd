@@ -41,7 +41,8 @@ def run(args, config, acts, detector, geometry, observer):
         EtaConfig(*config["eta_range"], uniform=True), PhiConfig(*config["phi_range_rad"]),
         vtxGen=acts.examples.GaussianVertexGenerator(mean=acts.Vector4(0.,0.,0.,0.),
             stddev=acts.Vector4(0.,0.,0.,0.)), multiplicity=1, rnd=rnd, logLevel=level)
-    transport_configuration, cleanup = transport.schedule(seq,acts,detector,geometry,field,rnd,observer,config,args.events,level)
+    simulation_detector=audit.SensitiveDetector(detector) if config["simulation"]=="geant4" else detector
+    transport_configuration, cleanup = transport.schedule(seq,acts,simulation_detector,geometry,field,rnd,observer,config,args.events,level)
     try:
         mapping_summary = None
         if config["simulation"] == "geant4":
@@ -115,6 +116,7 @@ def run(args, config, acts, detector, geometry, observer):
             write_report(args.output/"native-fpe-diagnostic.json",{"native_fpe_result":str(seq.fpeResult)})
             raise
         if config["simulation"]=="geant4":
+            transport_configuration.update(json.loads(audit.geant4_runtime_json()))
             transport_configuration["native_geant4_events"]=audit.geant4_event_count()
             transport_configuration["fpe_scope"]="Reconstruction sequencer monitors retained; upstream Geant4 BeamOn disables FPE monitoring internally"
             if transport_configuration["native_geant4_events"]!=args.events:raise RuntimeError("Geant4/ACTS event-count mismatch")

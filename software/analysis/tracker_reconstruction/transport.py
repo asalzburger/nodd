@@ -98,7 +98,7 @@ def schedule(seq, acts, detector, geometry, field, rnd, observer, config, events
         recordHitsOfSecondaries=True, recordHitsOfCharged=True,
         recordHitsOfNeutrals=False, recordHitsOfPrimaries=True,
         killSecondaries=False, materialMappings=[],
-        volumeMappings=["_sensor_", "_active", "_F0", "_F1"], killVolume="trackingGeometry.highestTrackingVolume", killAfterTime_ns=25.,
+        volumeMappings=["nodd_active::"], killVolume="trackingGeometry.highestTrackingVolume", killAfterTime_ns=25.,
         geant4_binding=_module_identity(geant4), lifecycle_observer=_module_identity(observer),
         environment=_geant4_environment(),
         lifecycle={"mode": "persistent", "expected_events": events,
@@ -126,7 +126,7 @@ def schedule(seq, acts, detector, geometry, field, rnd, observer, config, events
         simulation.addGeant4(seq, detector, geometry, field, **common,
             killVolume=geometry.highestTrackingVolume, killAfterTime=25 * acts.UnitConstants.ns,
             keepParticlesWithoutHits=True, recordHitsOfSecondaries=True,
-            materialMappings=[], volumeMappings=["_sensor_", "_active", "_F0", "_F1"],
+            materialMappings=[], volumeMappings=["nodd_active::"],
             killSecondaries=False, physicsList="FTFP_BERT")
     except BaseException as error:
         try:

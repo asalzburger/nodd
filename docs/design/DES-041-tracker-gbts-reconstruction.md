@@ -214,3 +214,13 @@ Geant4 hit mapping to maintained sensitive-volume name tokens `_sensor_`,
 Verify exact active-surface set, one mapping each, all seven systems and no
 missing active surface before running validation. This changes hit attribution
 to actual sensors, not physical geometry/material or truth-based hit selection.
+
+The intermediate `_F0`/`_F1` substring attempt also matched long-strip passive
+components (`_F0_pickup`, `_F0_spreader`, etc.) and failed the unchanged exact
+one-to-one gate. Replace substring inference with canonical DD4hep sensitivity:
+a task-owned detector-construction wrapper collects exact logical-volume names
+from `DetElement.volume().isSensitive()` and tags only those converted Geant4
+logical volumes with `nodd_active::`. The generic ACTS mapper selects that tag.
+This is sensitivity metadata, without changing solids, placement, material,
+DD4hep IDs or the hit-based reconstruction input contract. Require full
+46,250-sensor mapping with no duplicate or missing active IDs.

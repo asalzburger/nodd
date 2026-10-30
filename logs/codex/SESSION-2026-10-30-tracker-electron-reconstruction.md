@@ -44,3 +44,13 @@ material selection. Passive-silicon candidates are retained in failed mapping
 JSON; no accepted Geant4 performance produced. Before validation, one-way
 electron CKF and active-name mapping tokens are frozen; exact one-to-one full
 sensor mapping remains required. Separate smoke seed and no GBTS retuning.
+
+The intermediate active-name substring smoke still rejects duplicated long-strip
+faces because `_F0` also selects `_F0_*` passive pieces. No Geant4 events are
+accepted from either failed attempt. Replace this inference with an exact
+DD4hep sensitivity whitelist and a detector-construction logical-name tag.
+Physical geometry/material/IDs are preserved. A task-owned wrapper and native
+coverage replay expose every mapped surface. Electron one-way100event Fatras
+smoke completes with FPE checks; default muon100eventpT1 reproduces all35original
+arrays exactly against the retained first100events, including seeds/fits/pulls.
+SoftEng02 plot defaults similarly reproduce seven original PNGs/tailJSON exactly.

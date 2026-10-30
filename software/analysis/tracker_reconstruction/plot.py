@@ -31,25 +31,37 @@ def save(fig,output,name):
     plt.close(fig)
 
 
-def plot(data,output):
+def plot(data,output,*,particle="muon",simulation="Fatras",reference_data=None,reference_label=None):
+    """Replay the original comparison, or a direct ptN species directory.
+
+    With no keyword arguments the published muon/control labels and layout are
+    preserved. ``reference_data`` selects direct ptN directories for both data
+    and reference; the latter is always explicitly labeled as a reference.
+    """
     data=Path(data);output=Path(output);output.mkdir(parents=True,exist_ok=True)
-    selected={pt:(summary(data/"selected"/f"pt{pt}"/"summary.json"),
-                  np.load(data/"selected"/f"pt{pt}"/"events.npz")) for pt in PTS}
-    control={pt:(summary(data/"control"/f"pt{pt}"/"summary.json"),
-                 np.load(data/"control"/f"pt{pt}"/"events.npz")) for pt in PTS}
+    if particle not in ("muon","electron","pion"):raise ValueError("Unsupported plot particle")
+    direct=reference_data is not None
+    selected_root=data if direct else data/"selected"
+    control_root=Path(reference_data) if direct else data/"control"
+    selected={pt:(summary(selected_root/f"pt{pt}"/"summary.json"),
+                  np.load(selected_root/f"pt{pt}"/"events.npz")) for pt in PTS}
+    control={pt:(summary(control_root/f"pt{pt}"/"summary.json"),
+                 np.load(control_root/f"pt{pt}"/"events.npz")) for pt in PTS}
+    comparison_label=("Reference: "+(reference_label or "comparison sample")) if direct else (reference_label or "Initial control")
+    context=f"{simulation} single {particle}s · " if direct or particle!="muon" or simulation!="Fatras" else ""
     fig,axes=plt.subplots(2,2,figsize=(12,8),sharex=True,sharey=True)
     for ax,pt in zip(axes.flat,PTS):
-        for label,collection,color in (("Selected GBTS",selected,"#1565c0"),("Initial control",control,"#888888")):
+        for label,collection,color in (("Selected GBTS",selected,"#1565c0"),(comparison_label,control,"#888888")):
             s,_=collection[pt];bins=s["eta_bins"];x=[sum(b["eta"])/2 for b in bins]
             r=[b["stages"]["ambi"]["efficiency"] for b in bins]
             y=np.asarray([b["value"] for b in r]);bounds=np.asarray([b["wilson95"] for b in r])
             ax.errorbar(x,y,yerr=np.maximum(0.,[y-bounds[:,0],bounds[:,1]-y]),fmt="o-",ms=3,lw=1,color=color,label=label,capsize=2)
         s,_=selected[pt];r=[b["stages"]["ambi"]["conditional"] for b in s["eta_bins"]]
         ax.plot(x,[b["value"] if b["value"] is not None else np.nan for b in r],"--",color="#00897b",label="Selected, reconstructable")
-        ax.set_title(f"pT = {pt} GeV; {s['events']:,} muons");ax.set_ylim(0,1.04);ax.set_xlim(-4,4);ax.grid(alpha=.2)
+        ax.set_title(f"pT = {pt} GeV; {s['events']:,} {particle}s");ax.set_ylim(0,1.04);ax.set_xlim(-4,4);ax.grid(alpha=.2)
         ax.set_xlabel("Generated η");ax.set_ylabel("Primary reconstruction efficiency")
     axes[0,0].legend(fontsize=8,loc="lower left")
-    fig.suptitle("nODD balanced tracker · Fatras · Gaussian digitization · 3 T\nHeld-out single muons; ≥7 inliers; 95% Wilson intervals")
+    fig.suptitle(f"nODD balanced tracker · {simulation} · Gaussian digitization · 3 T\nHeld-out single {particle}s; ≥7 inliers; 95% Wilson intervals")
     fig.tight_layout();save(fig,output,"efficiency")
     fig,axes=plt.subplots(2,3,figsize=(14,8))
     tails={}
@@ -59,12 +71,12 @@ def plot(data,output):
         for i,ax in enumerate(axes.flat):
             values=pulls[valid,i];finite=values[np.isfinite(values)]
             counts,edges=np.histogram(finite,bins=np.linspace(-6,6,97));width=edges[1]-edges[0]
-            ax.stairs(counts/(len(finite)*width),edges,color=color,lw=1.4,label=f"{pt} GeV")
+            ax.stairs(counts/(len(finite)*width) if len(finite) else np.zeros_like(counts),edges,color=color,lw=1.4,label=f"{pt} GeV")
             x=np.linspace(-6,6,301);ax.plot(x,np.exp(-x*x/2)/np.sqrt(2*np.pi),color="black",alpha=.35,lw=.8)
             ax.set_title(PARAMETERS[i].split(" [")[0]);ax.set_xlabel("(truth − reco) / σreco");ax.set_ylabel("Density per generated matched entry");ax.set_xlim(-6,6);ax.grid(alpha=.15)
-            tails[str(pt)].append({"parameter":i,"entries":len(finite),"underflow":int(np.sum(finite< -6)),"overflow":int(np.sum(finite>6)),"abs_gt3":int(np.sum(np.abs(finite)>3)),"abs_gt5":int(np.sum(np.abs(finite)>5)),"mean":float(np.mean(finite)),"sd":float(np.std(finite)),"min":float(np.min(finite)),"max":float(np.max(finite))})
+            tails[str(pt)].append({"parameter":i,"entries":len(finite),"underflow":int(np.sum(finite< -6)),"overflow":int(np.sum(finite>6)),"abs_gt3":int(np.sum(np.abs(finite)>3)),"abs_gt5":int(np.sum(np.abs(finite)>5)),"mean":float(np.mean(finite)) if len(finite) else None,"sd":float(np.std(finite)) if len(finite) else None,"min":float(np.min(finite)) if len(finite) else None,"max":float(np.max(finite)) if len(finite) else None})
     axes[0,0].legend(fontsize=9)
-    fig.suptitle("Full integrated pull distributions · deterministic primary representative\nDisplay −6…6; full tails retained; time has no measured timing constraint")
+    fig.suptitle(context+"Full integrated pull distributions · deterministic primary representative\nDisplay −6…6; full tails retained; time has no measured timing constraint")
     fig.tight_layout();save(fig,output,"pulls")
     fig,axes=plt.subplots(2,3,figsize=(14,8))
     for pt,color in zip(PTS,COLORS):
@@ -77,7 +89,7 @@ def plot(data,output):
             ax.plot(x,y,"o-",ms=2.5,color=color,label=f"{pt} GeV");ax.set_xlabel("Generated η");ax.set_ylabel("Central 68% half-width, "+PARAMETERS[i]);ax.grid(alpha=.2)
             ax.set_yscale("log")
     axes[0,0].legend(fontsize=9)
-    fig.suptitle("Held-out perigee residual resolution · all matched primaries\nHalf-width (q84 − q16)/2; no residual or pull cuts; time prior dominated")
+    fig.suptitle(context+"Held-out perigee residual resolution · all matched primaries\nHalf-width (q84 − q16)/2; no residual or pull cuts; time prior dominated")
     fig.tight_layout();save(fig,output,"resolution-eta")
     for quantity in ("residual","pull"):
         fig,axes=plt.subplots(2,3,figsize=(14,8))
@@ -87,14 +99,14 @@ def plot(data,output):
                 for pt in PTS:
                     _,a=selected[pt];mask=(np.abs(a["eta"])>=lo)&(np.abs(a["eta"])<hi)&a["ambi_matched"].astype(bool)
                     r=a["ambi_"+quantity][mask,i]*(SCALES[i] if quantity=="residual" else 1.)
-                    values.append((np.quantile(r,.84)-np.quantile(r,.16))/2)
+                    values.append((np.quantile(r,.84)-np.quantile(r,.16))/2 if len(r) else np.nan)
                 ax.plot(PTS,values,"o-",ms=4,color=color,label=f"{lo:g} ≤ |η| < {hi:g}")
                 ax.set_xscale("log");ax.set_xlabel("Generated pT [GeV]");ax.grid(alpha=.2)
                 ax.set_ylabel(("Central 68% half-width, "+PARAMETERS[i]) if quantity=="residual" else ("Pull central 68% half-width, "+PARAMETERS[i].split(" [")[0]))
                 if quantity=="residual":ax.set_yscale("log")
                 else:ax.axhline(1,color="black",ls="--",lw=.8)
         axes[0,0].legend(fontsize=8)
-        fig.suptitle("Held-out "+("residual resolution" if quantity=="residual" else "pull width")+" versus transverse momentum\nNo residual/pull cuts; time prior dominated")
+        fig.suptitle(context+"Held-out "+("residual resolution" if quantity=="residual" else "pull width")+" versus transverse momentum\nNo residual/pull cuts; time prior dominated")
         fig.tight_layout();save(fig,output,"resolution-pt" if quantity=="residual" else "pull-width-pt")
     fig,axes=plt.subplots(2,3,figsize=(14,8))
     for pt,color in zip(PTS,COLORS):
@@ -106,7 +118,7 @@ def plot(data,output):
                 widths.append((np.quantile(values,.84)-np.quantile(values,.16))/2 if len(values)>=10 else np.nan)
             ax.plot([(lo+hi)/2 for lo,hi in zip(edges[:-1],edges[1:])],widths,"o-",ms=3,color=color,label=f"{pt} GeV")
             ax.axhline(1,color="black",ls="--",lw=.8);ax.set_xlabel("Generated η");ax.set_ylabel("Pull central 68% half-width, "+PARAMETERS[i].split(" [")[0]);ax.grid(alpha=.2)
-    axes[0,0].legend(fontsize=8);fig.suptitle("Held-out pull widths versus η · no pull cuts\nTime prior dominated without timing measurements")
+    axes[0,0].legend(fontsize=8);fig.suptitle(context+"Held-out pull widths versus η · no pull cuts\nTime prior dominated without timing measurements")
     fig.tight_layout();save(fig,output,"pull-width-eta")
     fig,axes=plt.subplots(1,3,figsize=(14,4))
     for pt,color in zip(PTS,COLORS):
@@ -125,9 +137,11 @@ def plot(data,output):
     axes[0].set_ylabel("Central 68% half-width of ΔpT/pT");axes[0].set_yscale("log");axes[0].legend(fontsize=8)
     axes[1].set_ylabel("Mean inlier measurements / matched track");axes[1].axhline(10,color="black",ls="--",lw=.8)
     axes[2].set_ylabel("Fake-event 95% upper bound [%]")
-    fig.suptitle("Single-muon momentum, hit coverage and fake-event bounds\nZero observed fakes retain finite limits; no pile-up claim")
+    fig.suptitle(f"Single-{particle} momentum, hit coverage and fake-event bounds"+(f" · {simulation}" if context else "")+"\nZero observed fakes retain finite limits; no pile-up claim")
     fig.tight_layout();save(fig,output,"momentum-hits-fakes")
     (output/"pull-tails.json").write_text(json.dumps(tails,indent=2,allow_nan=False)+"\n")
+    for collection in (selected,control):
+        for _,arrays in collection.values():arrays.close()
 
 
 if __name__=="__main__":

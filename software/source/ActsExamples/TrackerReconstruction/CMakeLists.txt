@@ -14,6 +14,8 @@ find_package(Eigen3 CONFIG REQUIRED)
 find_package(Boost CONFIG REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
 find_package(Geant4 REQUIRED)
+find_package(DD4hep CONFIG REQUIRED)
+find_library(ACTS_DETECTOR ActsExamplesDetectorsCommon PATHS "${NODD_ACTS_BUILD}/lib" NO_DEFAULT_PATH REQUIRED)
 find_library(ACTS_GEANT4 ActsExamplesGeant4 PATHS "${NODD_ACTS_BUILD}/lib" NO_DEFAULT_PATH REQUIRED)
 find_library(ACTS_CORE ActsCore PATHS "${NODD_ACTS_BUILD}/lib" NO_DEFAULT_PATH REQUIRED)
 find_library(ACTS_FRAMEWORK ActsExamplesFramework PATHS "${NODD_ACTS_BUILD}/lib" NO_DEFAULT_PATH REQUIRED)
@@ -24,8 +26,10 @@ target_include_directories(nodd_reconstruction PRIVATE "${NODD_ACTS_SOURCE}/Core
   "${NODD_ACTS_SOURCE}/Fatras/include" "${NODD_ACTS_SOURCE}/Examples/Framework/include"
   "${NODD_ACTS_SOURCE}/Plugins/FpeMonitoring/include" "${NODD_ACTS_BUILD}/Core/include")
 target_include_directories(nodd_reconstruction PRIVATE "${NODD_ACTS_SOURCE}/Examples/Algorithms/Geant4/include" ${Geant4_INCLUDE_DIRS})
+target_include_directories(nodd_reconstruction PRIVATE "${NODD_ACTS_SOURCE}/Examples/Detectors/Common/include")
 target_link_libraries(nodd_reconstruction PRIVATE "${ACTS_CORE}" "${ACTS_FRAMEWORK}"
   Eigen3::Eigen Boost::headers nlohmann_json::nlohmann_json)
 target_link_libraries(nodd_reconstruction PRIVATE "${ACTS_GEANT4}" ${Geant4_LIBRARIES})
+target_link_libraries(nodd_reconstruction PRIVATE "${ACTS_DETECTOR}" DD4hep::DDCore)
 set_target_properties(nodd_reconstruction PROPERTIES CXX_VISIBILITY_PRESET default
   VISIBILITY_INLINES_HIDDEN OFF BUILD_RPATH "${NODD_ACTS_BUILD}/lib")

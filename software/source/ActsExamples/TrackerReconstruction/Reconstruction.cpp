@@ -11,6 +11,11 @@
 #include "Acts/EventData/SeedContainer.hpp"
 #include "Acts/EventData/SpacePointContainer.hpp"
 #include "ActsExamples/Geant4/SensitiveSurfaceMapper.hpp"
+#include "ActsExamples/DetectorCommons/Detector.hpp"
+#include <DD4hep/Detector.h>
+#include <DD4hep/DetElement.h>
+#include <DD4hep/Volumes.h>
+#include <G4VUserDetectorConstruction.hh>
 #include <G4TransportationManager.hh>
 #include <G4Navigator.hh>
 #include <G4VPhysicalVolume.hh>
@@ -21,6 +26,8 @@
 #include <G4ProductionCuts.hh>
 #include <G4RunManager.hh>
 #include <G4Run.hh>
+#include <G4VUserPhysicsList.hh>
+#include <G4Version.hh>
 #include <nlohmann/json.hpp>
 #include <pybind11/pybind11.h>
 #include <fstream>
@@ -33,6 +40,48 @@ using Json=nlohmann::json;
 namespace py=pybind11;
 static_assert(PYBIND11_INTERNALS_VERSION == NODD_EXPECTED_PYBIND11_INTERNALS_VERSION);
 
+// The generic ACTS substring mapper cannot distinguish a strip face named F0
+// from its F0_* passive components. Tag the exact DD4hep-sensitive logical
+// volumes during conversion. Names change; solids, materials, placements and
+// native DD4hep/G4 volume identifiers are untouched.
+class SensitiveConstruction final: public G4VUserDetectorConstruction {
+ public:
+  SensitiveConstruction(std::unique_ptr<G4VUserDetectorConstruction> inner,std::set<std::string> names): original(std::move(inner)),activeNames(std::move(names)) {}
+  G4VPhysicalVolume* Construct() override {
+    auto* world=original->Construct();std::set<G4LogicalVolume*> seen;
+    const auto visit=[&](auto&& self,G4VPhysicalVolume* physical)->void {
+      auto* logical=physical->GetLogicalVolume();
+      if(seen.insert(logical).second) {
+        const std::string name=logical->GetName();
+        if(activeNames.contains(name)) logical->SetName("nodd_active::"+name);
+        for(int i=0;i<logical->GetNoDaughters();++i) self(self,logical->GetDaughter(i));
+      }
+    };visit(visit,world);return world;
+  }
+  void ConstructSDandField() override {original->ConstructSDandField();}
+ private:
+  std::unique_ptr<G4VUserDetectorConstruction> original;std::set<std::string> activeNames;
+};
+
+class SensitiveDetector final: public Detector {
+ public:
+  explicit SensitiveDetector(std::shared_ptr<Detector> detector):Detector(Acts::getDefaultLogger("SensitiveDetector",Acts::Logging::WARNING)),original(std::move(detector)) {
+    const auto visit=[&](auto&& self,const dd4hep::DetElement& element)->void {
+      if(element.placement().isValid() && element.volume().isSensitive()) activeNames.insert(element.volume().name());
+      for(const auto& [name,child]:element.children()) self(self,child);
+    };visit(visit,dd4hep::Detector::getInstance().world());
+    if(activeNames.empty()) throw std::runtime_error("No canonical DD4hep-sensitive volume names");
+  }
+  const Acts::GeometryContext& nominalGeometryContext() const override {return original->nominalGeometryContext();}
+  std::shared_ptr<const Acts::TrackingGeometry> trackingGeometry() const override {return original->trackingGeometry();}
+  std::vector<std::shared_ptr<IContextDecorator>> contextDecorators() const override {return original->contextDecorators();}
+  std::unique_ptr<G4VUserDetectorConstruction> buildGeant4DetectorConstruction(const Geant4ConstructionOptions& options) const override {
+    return std::make_unique<SensitiveConstruction>(original->buildGeant4DetectorConstruction(options),activeNames);
+  }
+ private:
+  std::shared_ptr<Detector> original;std::set<std::string> activeNames;
+};
+
 // Repeat the same deterministic native mapper to expose its coverage. This
 // observation does not replace the live stepping-action mapping or filter hits.
 std::string geant4Mapping(const std::shared_ptr<const Acts::TrackingGeometry>& geometry) {
@@ -40,7 +89,7 @@ std::string geant4Mapping(const std::shared_ptr<const Acts::TrackingGeometry>& g
   auto* world=G4TransportationManager::GetTransportationManager()->GetNavigatorForTracking()->GetWorldVolume();
   if(!world) throw std::runtime_error("No initialized Geant4 world for mapping audit");
   SensitiveSurfaceMapper::Config config;
-  config.volumeMappings={"_sensor_","_active","_F0","_F1"};
+  config.volumeMappings={"nodd_active::"};
   config.candidateSurfaces=std::make_shared<SensitiveCandidates>(geometry,Acts::getDefaultLogger("MappingAuditCandidates",Acts::Logging::WARNING));
   SensitiveSurfaceMapper mapper(config,Acts::getDefaultLogger("MappingAudit",Acts::Logging::WARNING));
   SensitiveSurfaceMapper::State state;
@@ -188,9 +237,18 @@ class ReconstructionAudit final: public IAlgorithm {
   mutable std::mutex mutex;mutable std::ofstream file;
 };
 PYBIND11_MODULE(nodd_reconstruction,m) {
+  py::class_<SensitiveDetector,Detector,std::shared_ptr<SensitiveDetector>>(m,"SensitiveDetector").def(py::init<std::shared_ptr<Detector>>());
   m.def("geant4_mapping_json",&geant4Mapping);
   m.def("geant4_event_count",[]() {const auto* manager=G4RunManager::GetRunManager();
     const auto* run=manager ? manager->GetCurrentRun() : nullptr;
     return run ? run->GetNumberOfEvent() : -1;});
+  m.def("geant4_runtime_json",[]() {Json result={{"loaded_Geant4_version",G4Version},{"production_cuts",Json::array()}};
+    const auto* manager=G4RunManager::GetRunManager();
+    if(manager && manager->GetUserPhysicsList()) result["default_range_cut_mm"]=manager->GetUserPhysicsList()->GetDefaultCutValue();
+    auto* table=G4ProductionCutsTable::GetProductionCutsTable();
+    for(std::size_t i=0;i<table->GetTableSize();++i) {const auto* couple=table->GetMaterialCutsCouple(i);std::vector<double> ranges;
+      for(int j=0;j<4;++j) ranges.push_back(couple->GetProductionCuts()->GetProductionCut(j));
+      result["production_cuts"].push_back({{"material",couple->GetMaterial()->GetName()},{"range_mm_gamma_electron_positron_proton",ranges}});}
+    return result.dump();});
   py::class_<ReconstructionAudit,IAlgorithm,std::shared_ptr<ReconstructionAudit>>(m,"ReconstructionAudit").def(py::init<const std::string&>());
 }
