@@ -307,3 +307,16 @@ total is presented as this task's usage and active-root usage is excluded.
 
 The bounded implementation/validation record closes at its observed timestamp;
 this does not close the chat, merge the PR or grant detector acceptance.
+
+## 2026-10-30 — Exact closed-turn accounting backfill
+
+The earlier missing-usage statements describe the original capture. Usage-only
+local recovery now verifies 19 completed turns, attributed through exact
+root/child identities, parent activities and canonical scoped assignments.
+Observed input 79,405,999 plus output 251,963 equals **79,657,962 tokens**.
+Cached input 77,774,336 and reasoning output 117,831 are subsets.
+Counters are owned only in this journal; the usage inventory corroborates them
+and is not added again. The current root turn remains in progress and excluded.
+Actual model/client version and complete current-task usage remain unknown.
+Source: [usage-only inventory](../usage/USAGE-2026-10-30-pr107-accounting.json);
+[explicit attribution](SESSION-2026-10-30-tracker-gbts-merge-preparation/turn-attribution.json).

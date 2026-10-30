@@ -209,3 +209,16 @@ project totals. Active coordinator usage is excluded. Stable identities and the
 latest selected visible messages were refreshed, allowlisted and reviewed.
 The bounded task closed at observed `2026-10-30T10:35:31Z`; this does not mean the client
 turn has closed or that a human has approved the design.
+
+## 2026-10-30 — Exact closed-turn accounting backfill
+
+The earlier missing-usage statements describe the original capture. Usage-only
+local recovery now verifies 7 completed turns, attributed through exact
+root/child identities, parent activities and canonical scoped assignments.
+Observed input 51,774,837 plus output 223,692 equals **51,998,529 tokens**.
+Cached input 50,705,536 and reasoning output 76,521 are subsets.
+Counters are owned only in this journal; the usage inventory corroborates them
+and is not added again. The current root turn remains in progress and excluded.
+Actual model/client version and complete current-task usage remain unknown.
+Source: [usage-only inventory](../usage/USAGE-2026-10-30-pr107-accounting.json);
+[explicit attribution](SESSION-2026-10-30-tracker-gbts-merge-preparation/turn-attribution.json).

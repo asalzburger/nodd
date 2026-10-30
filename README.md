@@ -60,6 +60,8 @@ The [species and transport comparison](docs/validation/tracker-reconstruction-sp
 adds Fatras electrons and Geant4 muons, electrons and charged pions with the same
 frozen GBTS and Gaussian response. It retains full pull distributions and the
 observed electron momentum and pion charge limitations.
+The [current reconstruction setup is approved as the tracker baseline](docs/validation/tracker-reconstruction-approval.md)
+in PR107, with its recorded performance limitations retained.
 
 ## Agent roles
 

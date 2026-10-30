@@ -4,6 +4,14 @@
 - Date: 2026-10-30. Human owner/sign-off: pending; no lifecycle acceptance inferred.
 - Baseline: merged PR104 at b4928ac87a223dc4a749e8d8a05dc3cc4a78558d.
 
+Human technical approval: `asalzburger-review` approved reconstruction revision
+78d22297e2518ef674ebf1601215fd17c6b93b71 as the current tracker reconstruction
+baseline in [PR107](https://github.com/asalzburger/nodd/pull/107#pullrequestreview-5713182516)
+on 2026-10-30. The [approval scope](../validation/tracker-reconstruction-approval.md)
+preserves the recorded performance limitations and keeps formal detector-design
+sign-off separate. Historical pending-review statements below describe the
+pre-approval protocol and execution record.
+
 ## Scope and requirements
 
 **NODD DESIGN CHOICE (explicit human request):** construct an end-to-end native
