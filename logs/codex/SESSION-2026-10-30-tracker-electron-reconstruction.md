@@ -262,3 +262,7 @@ contracts pass again. PublicPRdiscussion refreshed withconnectedGitHubtools:
 no comments/reviews returned; remoteheadaae2626 anddraftstate verified beforepush.
 No new externalmessage or reviewerrequest is made. Current-task exactroot/child
 tokenusage remains unavailable and is not replaced by historicalproject totals.
+
+SPECIES-PhysVal-10 prepared before followup: read-only final canonicalintegration at
+157994cbcbc2ec3551dc6bcbad51b3fc9c0a212e, reusing07/08/09 all80k independent
+classification; temporaryreplay permitted, no canonicalwrite/acceptance.
