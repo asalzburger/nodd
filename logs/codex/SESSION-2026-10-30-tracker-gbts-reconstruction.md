@@ -71,3 +71,23 @@ z translations recovering otherwise lost four-layer barrel seeds; rotations,
 reflections and input reorderings do not. No histogram plus minSeedLevel2 also
 recovers the three-group smoke event. This is diagnostic replay only; retained
 full performance comes from subsequent native Fatras runs.
+
+## Frozen tuning decision
+
+At08c1241828c38b39ff26eec712d95aa538a91124, all52native500-event cases
+completed (13profiles ×4momenta). Independent reduction verified every generated
+muon, native full measurement subset, source identities, frozen double variances,
+exact float32 measured SP closure, output hashes and matching. Common simulation/
+measurement/SP sample hashes agree across all13profiles at each momentum.
+The predeclared selection picks pt4-nominal-triplet: efficiencies1/5/10/100GeV
+0.966/1/0.998/1;0fake/secondary/duplicate candidates;12wrong-charge fits at100GeV,
+allfar-forward. Looser tau cuts do not improve this result;0.8GeV thresholds
+severely reduce1GeV efficiency. Retain all13profiles, the Pareto ranking and
+paired control outcomes. Run-report wall time includes setup only forfirstcase;
+selection uses separate sequencer execution time (tie-break not reached forwinner).
+
+Frozen selection/config and all tuning arrays/summaries retained before launching
+held-out5000events/pT, seed103042, forselected anduntouchedcontrol. Noheld-out
+results enterselection. An initial analysis-launch ProcessPool defaultspawn could
+not execute a stdin main; explicitanalysis-only fork fixed it. No nativejob was
+lost or changed by this orchestration correction.
