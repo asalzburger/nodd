@@ -134,12 +134,13 @@ def verify(data):
         if not np.array_equal(a["event"],np.arange(5000)):raise ValueError("Lost/duplicated generated events")
         persisted=persistence["cases"][case]
         if persisted["measurement_rows"]!=s["stage_counts"]["measurements"] or not persisted["exact_float32_variance_match"]:raise ValueError("ROOT measurements differ from event audit")
+        if not persisted["all_measurement_volumes_known"] or persisted["checked_variance_marginals"]!=persisted["expected_variance_marginals"]:raise ValueError("Incomplete ROOT response coverage")
         expected_root={k:v for k,v in r["output_sha256"].items() if k.endswith(".root")}
         if len(expected_root)!=3 or persisted["root_sha256"]!=expected_root:raise ValueError("ROOT persistence evidence belongs to different native outputs")
         for stage in ("ckf","ambi"):
             counts=s["stages"][stage]["counts"]
             ps=persisted["stages"][stage]
-            if ps["events"]!=5000 or ps["candidates"]!=counts["raw"] or ps["matched_parameter_marginals"]!=6*counts["matched"] or not ps["exact_float32_perigee_and_sigma_match"]:raise ValueError("ROOT perigee/covariance audit incomplete")
+            if ps["events"]!=5000 or not ps["exact_event_ids_match"] or ps["candidates"]!=counts["raw"] or ps["matched_parameter_marginals"]!=6*counts["matched"] or not ps["exact_float32_perigee_and_sigma_match"]:raise ValueError("ROOT perigee/covariance audit incomplete")
             for key in ("matched","accepted","fake","secondary","duplicates","wrong_charge"):
                 if int(a[stage+"_"+key].sum())!=counts[key]:raise ValueError("Array/count mismatch: "+key)
             if s["stages"][stage]["efficiency"]["value"]!=counts["matched"]/5000:raise ValueError("Generated denominator changed")

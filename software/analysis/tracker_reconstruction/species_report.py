@@ -175,7 +175,11 @@ def markdown(payload):
             momentum = central["relative_pt_truth_minus_reco"]
             values += [f"{_percent(momentum['central68_halfwidth'])} / {_percent(momentum['mean_bias'])}", _rate(row["ge10_inliers_all_generated"], False)]
             lines.append(f"| {case['label']} | {pt} | " + " | ".join(values) + " |")
+    pion100 = payload["samples"]["geant4/pion"]["pt_GeV"]["100"]
+    pion_qop = pion100["pulls_all_eta"]["q/p"]
+    pion_momentum = pion100["all_eta_resolution"]["relative_pt_truth_minus_reco"]
     lines += ["", "The central table uses |η|<0.5. Full signed-η and all-acceptance distributions, mean/median biases, extrema, quantiles, d0/z0 tails beyond 100/1000 µm and relative-pT tails beyond 10/50/100% are retained in JSON. These thresholds describe tails and never select tracks.", "",
+        f"Efficiency alone does not establish momentum or charge accuracy. At 100 GeV, Geant4 pions have {pion100['counts']['wrong_charge']}/{pion100['counts']['matched']} wrong-charge representatives, {pion_momentum['absolute_tail_counts']['0.5']} relative-pT errors beyond 50%, and {pion_qop['absolute_tail_counts']['5.0']} q/p pulls beyond 5σ (maximum absolute pull {_number(max(abs(pion_qop['min']), abs(pion_qop['max'])))}). These failures remain in every distribution; they are not confined to the far-forward acceptance.", "",
         "Each pull panel overlays 1/5/10/100 GeV and integrates over the full η acceptance. The displayed range is −6…6; density uses the full finite-entry denominator, so overflow is not renormalized away. Arrays retain all tails; JSON records underflow/overflow, extrema and |pull|>3/5. Bound time is native ct[mm], converted to ns with 299.792458 mm/ns; without timing measurements its pull is prior dominated.", ""]
     for simulation, particle in MATRIX[1:]:
         folder = f"figures/{simulation}/{particle}"

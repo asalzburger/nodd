@@ -147,3 +147,19 @@ guard/control in1f92f14, fixed the link, and audited all4Geant4 muon cases:
 event/candidate/measurement counts and float32 perigee/sigma/variance tuples pass.
 All26reconstruction controls pass. Final combined persistence audit will require
 exactly the declared16cases and bind every ROOT hash to its native report.
+
+## Completed-case independent checks and remaining execution
+
+PhysVal07 independently reclassifies14cases/70,000events with exact agreement
+in counts, denominators, full residual/pull arrays, species/parents, outcomes and
+source/runtime identities. Its findings are retained in the paired result. The
+report now explicitly describes mixed-candidate matching, electron timecut limits,
+missing Fatras transport records, unmerged response and pion charge/momentum tails.
+SafeFatras100GeV completes5,000events with strict FPE checks in1399.06seconds;
+reduction continues. Original60case reconstruction and balancedbaseline verifiers
+still pass, as do26unitcontrols.
+
+SoftEng05 finds unproven Geant4 fresh-range equivalence and localG4eventcounters
+that skip would not advance. Coordinator preserves the serial100GeV Geant4
+electron run; no batch implementation, physics change or partialsample substitution.
+SoftEng06 separately assesses final source/evidence integrity at228edf1.

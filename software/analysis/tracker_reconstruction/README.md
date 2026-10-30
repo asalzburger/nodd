@@ -185,7 +185,7 @@ After reducing each native case with `analyze.py`, retain and replay:
 
 ```sh
 python software/analysis/tracker_reconstruction/species_evidence.py retain \
-  --native build/tracker-reconstruction-species/validation \
+  --native build/tracker-reconstruction-species/final-native \
   --analysis build/tracker-reconstruction-species/validation-analysis \
   --data docs/validation/tracker-reconstruction-species
 python software/analysis/tracker_reconstruction/species_evidence.py root-audit \

@@ -25,8 +25,10 @@ output ordering remain the pinned implementation. All module C++ symbols are
 hidden except its Python initializer. No shared ACTS source/library is modified,
 overridden or monkey-patched. The six upstream source hashes, generated algorithm
 hashes and pybind ABI are exported by the module.
-The algorithm instance and logger retain the original `FatrasSimulation` name,
-preserving the native per-algorithm random-stream identity.
+The algorithm instance and logger retain the original `FatrasSimulation` name.
+Native random streams depend on the configured seed, absolute event number and
+numeric algorithm slot. Integration adds exactly one simulation algorithm in the
+original slot and preserves the preceding sequence and decorators.
 
 The native Fatras object uses `-O2 -g -DNDEBUG -std=gnu++20 -fPIC
 -D_GNU_SOURCE` and `ROOT_CORE_THREAD_TBB`, without LTO or special Eigen macros.
