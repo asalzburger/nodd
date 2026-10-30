@@ -16,6 +16,7 @@
 #include <mutex>
 #include <set>
 #include <cmath>
+#include <Eigen/Cholesky>
 using namespace ActsExamples;
 using Json=nlohmann::json;
 namespace py=pybind11;
@@ -57,12 +58,17 @@ class ReconstructionAudit final: public IAlgorithm {
                           {"outlier",flags.isOutlier()},
                           {"hole",flags.isHole()}});
       }
-      std::vector<double> parameters,variance;
+      std::vector<double> parameters,variance;bool covariancePositiveDefinite=false;
       if(track.hasReferenceSurface()) for(int i=0;i<6;++i) {parameters.push_back(track.parameters()[i]);variance.push_back(track.covariance()(i,i));}
+      if(track.hasReferenceSurface() && track.covariance().allFinite()) {
+        const Acts::BoundMatrix covariance=track.covariance();
+        covariancePositiveDefinite=covariance.isApprox(covariance.transpose(),1.e-10)
+          && Eigen::LLT<Acts::BoundMatrix>(covariance).info()==Eigen::Success;
+      }
       result.push_back({{"index",track.index()},{"measurements",indices},{"states",states},
         {"nMeasurements",track.nMeasurements()},{"nHoles",track.nHoles()},{"nOutliers",track.nOutliers()},
         {"chi2",track.chi2()},{"ndf",track.nDoF()},{"reference",track.hasReferenceSurface()},
-        {"parameters",parameters},{"variance",variance}});
+        {"parameters",parameters},{"variance",variance},{"covariance_positive_definite",covariancePositiveDefinite}});
     }
     return result;
   }

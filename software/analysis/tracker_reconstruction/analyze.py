@@ -51,6 +51,8 @@ def classify_event(row,sensors,config):
         for t in row[stage]:
             indices=set(t["measurements"])
             if (not t["reference"] or len(indices)<quality["minimum_measurements"] or
+                not t.get("covariance_positive_definite",True) or
+                t["chi2"] is None or not math.isfinite(t["chi2"]) or t["ndf"]<=0 or
                 len(t["parameters"])!=6 or len(t["variance"])!=6 or
                 any(x is None or not math.isfinite(x) for x in t["parameters"]) or
                 any(x is None or not math.isfinite(x) or x<=0 for x in t["variance"])):

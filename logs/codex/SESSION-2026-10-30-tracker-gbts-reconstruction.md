@@ -62,3 +62,12 @@ histogram; disabling it restores four-layer barrel seed chains. The pre-scan
 amendment keeps13profiles and the unchanged control; no held-out sample was used.
 The native SP closure is exact after the documented float32 conversion; frozen
 native measurement variances remain double sigma², ROOT persistence float32.
+
+Source review further qualified full covariance vs diagonal variances. The
+native observer now checks finite symmetric covariance with successful LLT;
+analysis requires this, finite chi2 and positive ndf. No response is rescaled.
+Optional z0 histogram boundary sensitivity is demonstrated by +/-0.1mm measured
+z translations recovering otherwise lost four-layer barrel seeds; rotations,
+reflections and input reorderings do not. No histogram plus minSeedLevel2 also
+recovers the three-group smoke event. This is diagnostic replay only; retained
+full performance comes from subsequent native Fatras runs.
