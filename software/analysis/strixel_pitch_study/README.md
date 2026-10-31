@@ -57,6 +57,7 @@ python software/analysis/strixel_pitch_study/services.py \
 python software/analysis/strixel_pitch_study/analyze.py \
   --source build/strixel-pitch-study --pattern 'full-v3-*' \
   --output docs/validation/DES-042 --replicates 400
+python software/analysis/strixel_pitch_study/report.py
 python software/analysis/strixel_pitch_study/plot.py \
   --output docs/validation/DES-042/figures
 ```

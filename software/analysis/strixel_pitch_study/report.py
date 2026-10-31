@@ -69,7 +69,29 @@ def render(data,services):
                 q=region['quantities']
                 label=f"{region['low']:g}–{region['high']:g}"
                 lines.append(f"| {group['pt_GeV']:g} | {label} | {case['pitch_v_mm']:g} | {ratio(q['z0']['residual'])} | {ratio(q['theta']['residual'])} | {ratio(q['pt_relative']['residual'])} |")
-    lines+=['','All six perigee/derived quantities and every signed-eta bin are available in',
+    high=next(g for g in data['groups'] if g['pt_GeV']==100)
+    central=[next(r for r in c['summary_regions'] if r['low']==0 and r['high']==1) for c in high['cases']]
+    fit_statement=('Every generated event in this region fits at every pitch, so survivor changes do not explain it.'
+                   if all(r['counts']['finite_fit']==r['counts']['generated'] for r in central)
+                   else 'Consult the common-success comparison and all-generated fractions for survivor effects.')
+    lines+=['','### High-momentum response diagnostic','',
+      'At 100 GeV and |eta|<1, the native digital z0/theta core becomes narrower',
+      'with coarser cells. '+fit_statement, 'The',
+      'uncut standard deviation changes less than the central width, and pull',
+      'standard deviations are well below one. This is an uncalibrated response',
+      'and fit-weighting sensitivity, not evidence that larger physical cells',
+      'improve a detector. The causal response assumption remains unqualified.','',
+      '| Pitch [mm] | z0 width68 [µm] | z0 uncut SD [µm] | z0 pull SD | theta width68 [µrad] | theta uncut SD [µrad] | theta pull SD |',
+      '|---:|---:|---:|---:|---:|---:|---:|']
+    for case in high['cases']:
+        region=next(r for r in case['summary_regions'] if r['low']==0 and r['high']==1)
+        z,t=[region['quantities'][q] for q in ('z0','theta')]
+        lines.append(f"| {case['pitch_v_mm']:g} | {z['residual']['width68']*1000:.3f} | {z['residual']['std']*1000:.3f} | {z['pull']['std']:.3f} | {t['residual']['width68']*1e6:.2f} | {t['residual']['std']*1e6:.2f} | {t['pull']['std']:.3f} |")
+    lines+=['','At 1/10 GeV, longitudinal summary widths are close to the control.',
+      'Momentum-resolution summary changes stay at the percent scale in this',
+      'sample. This fixed-material truth-associated scan does not measure any',
+      'performance benefit from a hypothetical reduction of service material.','',
+      'All six perigee/derived quantities and every signed-eta bin are available in',
       '[summary.csv](summary.csv) and [profiles.json.gz](profiles.json.gz).',
       'Figures: [fit fractions](figures/fit-fractions.png),',
       '[1 GeV ratios](figures/ratio-pt1.png), [10 GeV ratios](figures/ratio-pt10.png),',

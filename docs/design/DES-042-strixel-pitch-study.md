@@ -47,6 +47,31 @@ event bootstrap for changes relative to 0.5 mm and a common-success control
 for survivor effects. Bins with fewer than 30 finite entries remain undefined.
 Statistical intervals omit detector-model and material-map systematics.
 
+### Independent response control
+
+The completed native digital scan has a narrower central z0/theta core at
+100 GeV with coarser cells, while its pull widths do not close to one.
+This observation does not establish improved physical sensor performance.
+
+**FACT (inspected software, SRC-ACTS-REPO):** at ACTS source revision
+`355ea68493b326956756c9386d2fd9eaf9328568`,
+`Examples/Algorithms/Digitization/src/ModuleClusters.cpp` lines 249–325
+recomputes both coordinate variances from the same two-dimensional cell
+weights: `V_i = (p_i²/12) sum(w²)/(sum(w))²`. With merging enabled,
+changing the coarse grid can therefore change fine-coordinate covariance.
+Exact source hashes and the observed pilot check are retained in the response
+diagnostic. This establishes a coupling, not the full cause of the fit effect.
+
+**NODD DESIGN CHOICE (diagnostic added after observing that result):** run a
+separate four-pitch, 5,000-event/case control at 100 GeV with independent Gaussian
+hit errors `sigma = pitch/sqrt(12)` in every measured sensor coordinate, no
+measurement merging, and one-coordinate long strips. Pixel and long-strip
+pitches remain 50 and 80 µm, and strixel fine pitch remains 75 µm. Geometry,
+material, field, generator and seed stay fixed. Record it separately from the
+twelve-case digital campaign. It tests sensitivity to the overall response
+model; replacing all measured-coordinate responses does not isolate one
+covariance mechanism or calibrate a physical detector.
+
 ## Power and space model
 
 **FACT (existing model, not qualified hardware):** DES-020/021 use 7.8 W/module
