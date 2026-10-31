@@ -32,8 +32,9 @@ one origin muon per event, random charge, uniform eta in [-4,4], full phi, and
 fixed pT 1, 10 and 100 GeV. Target 20,000 events for each of twelve cases.
 
 Use the existing native geometric digitizer and truth-associated Kalman fit.
-Change measured positions and pitch-derived covariance together. Apply the
-same uncalibrated binary covariance prescription to all four cases rather than
+Change measured positions and native pitch-derived clustered covariance together.
+The single-cell limit is pitch²/12; multi-cell centroids have the native weighted
+cell covariance. Apply the same uncalibrated prescription to all cases rather than
 reusing the old independently calibrated 0.5 mm widths. This defines an ideal
 binary response sensitivity; pulls diagnose that assumed model. It does not
 claim calibrated sensor response, occupancy performance or pattern recognition.

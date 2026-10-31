@@ -63,6 +63,12 @@ observed electron momentum and pion charge limitations.
 The [current reconstruction setup is approved as the tracker baseline](docs/validation/tracker-reconstruction-approval.md)
 in PR107, with its recorded performance limitations retained.
 
+The [strixel-pitch sensitivity study](docs/validation/DES-042/results.md)
+compares 0.5/1/1.5/2 mm segmentation with paired native truth-associated
+tracking and separate conditional power/cable-space estimates. Its
+[repeatable workflow](software/analysis/strixel_pitch_study/README.md) keeps
+the detector baseline unchanged.
+
 ## Agent roles
 
 Use these short address names when referring to the project's eight agent roles.
