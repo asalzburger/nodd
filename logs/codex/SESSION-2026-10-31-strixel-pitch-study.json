@@ -3,21 +3,22 @@
   "session_id": "SESSION-2026-10-31-strixel-pitch-study",
   "title": "Strixel longitudinal pitch truth-tracking and service savings study",
   "recorded_at": "2026-10-31T05:25:19Z",
-  "started_at": null,
-  "ended_at": null,
-  "status": "open",
+  "started_at": "2026-10-31T05:24:21Z",
+  "ended_at": "2026-10-31T06:09:23Z",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
-    "Exact per-turn client/subagent token counters and actual conversation start time are unavailable; usage remains empty.",
+    "Exact client/subagent token counters remain unavailable; root/child identities and task-turn start were verified through Codex read_thread at closeout. Active coordinator usage is excluded.",
     "Curated visible requests and technical outcomes only; no private model state or raw client rollouts.",
     "Native source hashes distinguish existing installed ACTS/DD4hep adapters from this study.",
-    "Prepared prompts replace the machine-local repository path with <task-worktree>; immutable source/blob/hash identities are preserved."
+    "Prepared prompts replace the machine-local repository path with <task-worktree>; immutable source/blob/hash identities are preserved.",
+    "Automatic approval review rejected draft PR creation as unapproved publication to an unverified destination. No PR created and no subsequent remote publication or workaround attempted. Branchaa9b0e7had already been pushed."
   ],
   "client": {
-    "name": "unspecified",
+    "name": "Codex app",
     "version": null,
-    "thread_id": null
+    "thread_id": "01a167a1-7906-7b73-9408-509e483359fc"
   },
   "git": {
     "start_commit": "1dff0452ed1e7ac24d7b746fccc02ee15df5258d",
@@ -27,7 +28,8 @@
       "f8967e9b6f86b807b088d187cf2acc6e50e63ce1",
       "8b7c147b3b0da4bd40dcd9ad06c98abcb2de58f9",
       "c2453e91255c023f724028f2eb5f1b0f365106c3",
-      "58f49b9ce12f24f7e11b1b7a3f85fa48fbad020f"
+      "58f49b9ce12f24f7e11b1b7a3f85fa48fbad020f",
+      "aa9b0e717efc831bd858180a88ad1d4dba77eeed"
     ],
     "changed_files": [
       ".github/workflows/validation.yml",
@@ -111,6 +113,9 @@
       "logs/codex/SESSION-2026-10-31-strixel-pitch-study/PhysVal-06-result.md",
       "logs/codex/SESSION-2026-10-31-strixel-pitch-study/PhysVal-06.assignment.json",
       "logs/codex/SESSION-2026-10-31-strixel-pitch-study/PhysVal-06.prompt.txt",
+      "logs/codex/SESSION-2026-10-31-strixel-pitch-study/PhysVal-07-result.md",
+      "logs/codex/SESSION-2026-10-31-strixel-pitch-study/PhysVal-07.assignment.json",
+      "logs/codex/SESSION-2026-10-31-strixel-pitch-study/PhysVal-07.prompt.txt",
       "logs/codex/SESSION-2026-10-31-strixel-pitch-study/SoftEng-01-result.md",
       "logs/codex/SESSION-2026-10-31-strixel-pitch-study/SoftEng-01.assignment.json",
       "logs/codex/SESSION-2026-10-31-strixel-pitch-study/SoftEng-01.prompt.txt",
@@ -130,6 +135,14 @@
       "logs/codex/SESSION-2026-10-31-strixel-pitch-study/SysArch-03.assignment.json",
       "logs/codex/SESSION-2026-10-31-strixel-pitch-study/SysArch-03.prompt.txt",
       "logs/codex/SESSION-2026-10-31-strixel-pitch-study/analysis-review-snapshot.json",
+      "logs/codex/SESSION-2026-10-31-strixel-pitch-study/analysis-review-sources/README.md",
+      "logs/codex/SESSION-2026-10-31-strixel-pitch-study/analysis-review-sources/analyze.py",
+      "logs/codex/SESSION-2026-10-31-strixel-pitch-study/analysis-review-sources/plot.py",
+      "logs/codex/SESSION-2026-10-31-strixel-pitch-study/analysis-review-sources/report.py",
+      "logs/codex/SESSION-2026-10-31-strixel-pitch-study/analysis-review-sources/test_analyze.py",
+      "logs/codex/SESSION-2026-10-31-strixel-pitch-study/analysis-review-sources/verify.py",
+      "logs/codex/SESSION-2026-10-31-strixel-pitch-study/proposed-pr.md",
+      "logs/codex/SESSION-2026-10-31-strixel-pitch-study/thread-metadata.json",
       "project/tracking.json",
       "reference/manifest.yaml",
       "software/analysis/strixel_pitch_study/README.md",
@@ -244,6 +257,24 @@
       "failures": null,
       "duration_seconds": null,
       "evidence": "Actual ScatterData renderer and standalonePNG/PDF figures; manifests record versions/source/input/output hashes."
+    },
+    {
+      "kind": "tool",
+      "name": "Codex app read_thread / open_in_codex",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Selected root/child identity, status and task-start metadata only; no raw app response/private reasoning retained. No exact token counters exposed. Result file opening queued in current thread."
+    },
+    {
+      "kind": "tool",
+      "name": "GitHub github.create_pull_request",
+      "version": null,
+      "calls": 1,
+      "failures": 1,
+      "duration_seconds": null,
+      "evidence": "Automatic approval review denied draft creation as unapproved publication. No resource URL returned; local proposed-pr.md remains reviewable."
     }
   ],
   "usage": [],
@@ -361,6 +392,42 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "22portable tests before final retained-result review:6analysis,3control-gates,3Gaussianconfig,5services,5nativeisolation."
+    },
+    {
+      "command": "PhysVal-07 final retained-result assessment at aa9b0e717efc831bd858180a88ad1d4dba77eeed",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "77pinned identities and16native/full-array bindings pass;76032pointstats,24services, fullGaussian bootstrap and independent uncertainty implementation, reportreplay and figurevisualQA. No remaining material findings withinscope."
+    },
+    {
+      "command": "report.py --check; git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Deterministic numerical report matches; no whitespace errors."
+    },
+    {
+      "command": "python3 -B tools/interactions/ledger.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "97existingPRrecords valid; canonical usage unchanged. No new PR number exists, so no invented interaction record."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "309historical disjoint observed turns valid. This new task has0observed token records and unknown actual usage; no counters estimated/copied."
+    },
+    {
+      "command": "GitHub create draft PR for codex/strixel-pitch-truth-study in asalzburger/nodd",
+      "status": "FAIL",
+      "exit_code": null,
+      "result": "Automatic approval review rejected: study authorized, externalpublication/repository destination not explicitly approved. No PR created; no workaround or further remote updates. Concrete proposed PR title/body retained locally for user authorization."
+    },
+    {
+      "command": "Closeout project/session/interaction/token validation and session summary",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "80tasks/42documents/23reviewrounds,216sessionrecords,97existingPRledgers and309historical disjoint token turns validate. Current task0observed usage records; actual tokens unknown. Session summary run; no newPRledger because creation denied. Scientific source/evidence fixed ataa9b0e7; closeout onlychanges records/archive."
     }
   ]
 }

@@ -37,7 +37,8 @@ the separate Gaussian-control source at58f49b9. SysArch03 independently reproduc
 1179numeric service fields across24cases, all9source/input hashes,5service tests
 and separate load/rounding/route/material assertions. SoftEng03 implemented and
 executed the Gaussian diagnostic after a source-commit barrier. Final retained
-result assessment follows the evidence commit. Role results are curated beside
+result assessment PhysVal-07 at aa9b0e717efc831bd858180a88ad1d4dba77eeed has
+no remaining material findings within the declared prototype scope. Role results are curated beside
 this record; no agent assessment grants human design acceptance.
 
 The first assignment-prepare attempt used an absent DES010filename and exited1;
@@ -128,13 +129,41 @@ services,100GeVnative absolute/ratio,fit fractions andGaussian ratio. RawROOT/fu
 covariance remain ignored; compact all-generated event arrays, native inventories,
 CSV/profiles, source/runtime/verification supplements and figures are retained in
 DES042. Repeatable native launcher has explicit suppliers, fresh tags, two modes
-and dry-run checks. Source, data, report replay and scientific records remain
-under final exact-revision assessment before delivery.
+and dry-run checks. Final PhysVal-07 verified 77 pinned source/evidence/figure identities and all
+16 native/full-array bindings, reran point/statistical/report audits, separately
+reproduced the central uncertainty estimates and inspected the figures. It did
+not repeat the already passing, unchanged original full-bootstrap replay.
 
 ## Usage
 
 No exact client-reported per-turn or subagent token observations were exposed.
 Usage remains empty, with missing coverage explicit; no estimate or allocation.
-This bounded task does not reuse historical PR97 counters. The client/thread
-identity and actual conversation start remain unavailable. Session summary and
-interaction synchronization are recorded at closeout.
+This bounded task does not reuse historical PR97 counters. At closeout, Codex
+read_thread verified the root/child identities and current task start at
+2026-10-31T05:24:21Z; selected metadata is retained in thread-metadata.json.
+The root turn remains active and excluded from finalized usage. Queried root and
+latest child turns expose no exact token counters or execution models. No raw
+app response or private reasoning is retained in the repository. Session summary
+reports this account among records without usage. Existing97PR interaction
+records validate; no new PR number exists, so no interaction ledger is invented.
+
+
+## Publication outcome and approval boundary
+
+The scientific evidence commit aa9b0e7 was pushed to the configured branch
+codex/strixel-pitch-truth-study before a draft-PR creation attempt. Automatic
+approval review rejected GitHub creation: it considered the destination
+asalzburger/nodd unverified and external publication outside the study request.
+No PR was created. No alternative publication action or further remote update
+was attempted after rejection. The complete title/body is prepared locally in
+proposed-pr.md for explicit user authorization. Final review, accounting and
+metadata closeout commits remain local. No hosted PR checks have run.
+
+The requested scientific study is complete; publication approval and any future
+choice of detector pitch are separate decisions. All detector baseline files
+remain unchanged. DES-042 remains DRAFT/PROTOTYPE, with no engineering sign-off.
+
+Historical uncommitted PhysVal-03 source blobs are archived under
+analysis-review-sources/ with exact identities, preserving their Git reachability.
+They are superseded review inputs and are not executable production modules or
+the source used for the retained final statistics.
