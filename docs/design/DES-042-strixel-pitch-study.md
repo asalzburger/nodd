@@ -130,3 +130,54 @@ data links from fewer addresses at unchanged particle hit flux.
 Software and numerical evidence: `software/analysis/strixel_pitch_study/` and
 `docs/validation/DES-042/`. Exact commands, revisions and observed checks belong
 to `logs/codex/SESSION-2026-10-31-strixel-pitch-study`.
+
+
+## PROTOTYPE GBTS reconstruction cross-check (2026-10-31)
+
+**NODD DESIGN CHOICE (user-requested isolated study):** extend the truth-fit
+study with the DES-041 pixel-only GBTS seeder and full-sensor CKF, preserving
+geometry, material, 3 T constant field, selected `pt4-nominal-triplet` profile,
+track cuts and species hypotheses. Change no production configuration.
+Use all five established transport/species populations: Fatras muons and
+electrons, and Geant4 muons, electrons and charged pions, each at pT = 1, 5,
+10 and 100 GeV and each longitudinal strixel pitch = 0.5, 1, 1.5 and 2 mm.
+The cross-check uses 1,000 generated events per case (80 cases), with the
+established random-charge, origin, uniform eta in [-4, 4] and full-phi gun.
+This sample plan supplies a complete comparative scan; the retained DES-041
+5,000-event baseline remains separate. Report finite-sample uncertainties,
+including upper limits where no failures are observed, and undefined low-count
+eta bins. These are repeat samples with the established frozen seeds, not a
+new tuning or held-out validation campaign. The seeds are 123042 for Fatras
+muons, 133042 for guarded Fatras electrons and 143042 for Geant4 populations.
+
+**NODD DESIGN CHOICE (response sensitivity):** preserve the calibrated pooled
+Gaussian response of DES-041 at 0.5 mm and scale only the local-v standard
+deviation of systems 4 and 5 by `pitch / 0.5 mm`. Fine-coordinate errors,
+pixels and long strips remain fixed; measurement merging remains disabled.
+This tests the longitudinal-response dependence of the frozen reconstruction.
+It is not an independently calibrated coarse sensor model and is separate
+from the earlier all-coordinate nominal `pitch/sqrt(12)` truth-fit control.
+Use the converged ambiguity-iteration budget from the species extension;
+verify that the baseline muon budget was nonlimiting. Do not retune the seeder,
+CKF or quality/matching definitions for any pitch.
+
+Retain all generated-event denominators and uncut per-event audit records.
+Reuse the independent DES-041 classifier for reconstructability, seed coverage,
+accepted primary efficiency, fake/secondary/duplicate candidates, wrong charge,
+invalid covariance, residuals and pulls. Compare efficiencies with paired
+intervals, residual central-68.27% half-widths with paired event bootstrap and
+common-success controls, plus biases, RMS and tails. Preserve truth-minus-fit
+sign convention of this reconstruction analyzer. Truth is used for simulation
+and scoring only; GBTS consumes measured pixel space points.
+
+Verify geometry/material/native helper and GBTS configuration identities;
+verify identical generated and transported particle records across lengths.
+Compare measured pixel inputs, seed outputs and measurement losses explicitly:
+bounded Gaussian rejection near sensor boundaries may consume different random
+draws, so equal seeds alone do not establish bitwise paired measurement noise.
+Report any such effect rather than attributing every observed change uniquely
+to the longitudinal covariance. Preserve frozen helper sources and prior
+reference evidence. Implement by isolated composition in
+`software/analysis/strixel_reconstruction/`; retain evidence in
+`docs/validation/DES-042/gbts/`. Separate PhysVal assesses the protocol and exact
+final evidence revision. No numerical result grants design or production approval.
