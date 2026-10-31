@@ -141,6 +141,8 @@ def evaluate(config):
                     power_harnesses=harnesses,fibre_harnesses=baseline_harnesses,
                     power_envelope_L=power_L,fibre_envelope_L=fibre_L,
                     saved_power_envelope_L=baseline_power_L-power_L,
+                    saved_effective_material_L={name:(baseline_power_L-power_L)*part
+                                                for name,part in [('Copper',.2),('Polyimide',.3),('internal_void_air',.5)]},
                     cable_envelope_L=power_L+fibre_L,
                     saved_power_envelope_by_region_L={region:(baseline_lengths[region]-power_lengths[region])*area_power/1e6
                                                        for region in module_counts},

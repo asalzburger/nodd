@@ -33,6 +33,7 @@ PARAMETERS = ("eLOC0", "eLOC1", "ePHI", "eTHETA", "eQOP")
 BARCODE = ("vertex_primary", "vertex_secondary", "particle", "generation", "sub_particle")
 AUDIT = ("generated", "simhits", "measurements", "selected", "fit_attempts",
          "fit_tracks", "invalid_covariance", "primary_measurements")
+RESIDUAL_CONVENTION = "fitted minus truth; phi wrapped; perigee truth from origin gun"
 
 
 def case_config(campaign, pitch):
@@ -400,7 +401,7 @@ def main():
               "command": sys.argv, "scientific_input_revision": subprocess.check_output(
                   ["git", "-C", str(ROOT), "rev-parse", "HEAD"], text=True).strip(),
               "response_limit": "Uncalibrated native geometric digital covariance; no empirical variance table; no electronics/noise/pileup model",
-              "residual_convention": "truth minus fitted; phi wrapped; perigee truth from origin gun",
+              "residual_convention": RESIDUAL_CONVENTION,
               "array_coordinate_order": ["d0_mm", "z0_mm", "phi_rad", "theta_rad", "qOverP_GeV_inv"]}
     start = time.monotonic()
     try:

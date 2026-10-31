@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 import unittest
 
-from truth import case_config, build_config, join_events, same_geometry
+from truth import case_config, build_config, join_events, same_geometry, RESIDUAL_CONVENTION
 
 
 class IsolationTest(unittest.TestCase):
@@ -52,6 +52,19 @@ class IsolationTest(unittest.TestCase):
         self.assertTrue(same_geometry({"x": [1.]}, {"x": [1. + 5.e-10]}))
         self.assertFalse(same_geometry({"x": [1.]}, {"x": [1. + 2.e-9]}))
         self.assertFalse(same_geometry({"x": [1.]}, {"x": [1.], "added": 1}))
+
+    def test_shared_observable_sign_matches_declared_array_contract(self):
+        import numpy as np
+        from metrics import perigee_observables
+        truth = np.array([[0., 0., 0., 1., .1]])
+        fitted = np.array([[.2, .3, .4, 1.1, .11]])
+        values, _ = perigee_observables(fitted, truth, np.eye(5)[None])
+        self.assertIn("fitted minus truth", RESIDUAL_CONVENTION)
+        for key in ("d0", "z0", "phi", "theta", "q_over_p"):
+            self.assertGreater(values[key]["residual"][0], 0)
+            self.assertGreater(values[key]["pull"][0], 0)
+        expected = ((np.sin(1.1)/.11) - (np.sin(1.)/.1)) / (np.sin(1.)/.1)
+        self.assertAlmostEqual(values["pt_relative"]["residual"][0], expected)
 
 
 if __name__ == "__main__":
