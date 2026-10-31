@@ -1,0 +1,191 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-30-token-step-labels",
+  "title": "Label every observed token graph step with recorded work",
+  "recorded_at": "2026-10-30T20:29:22Z",
+  "started_at": null,
+  "ended_at": "2026-10-30T20:36:02.431449Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Active task and any specialist have no completed exact counters. Execution model and client version are unreported. Historical labels describe the owning session, which may cover multiple tasks or PRs."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": "01a16cd7-e692-7c11-b70c-fe7c7010d67e"
+  },
+  "git": {
+    "start_commit": "e8bc28b5f8720edb1ca706605fc4a9ac851950b9",
+    "branch": "codex/token-step-labels",
+    "initial_changes": [],
+    "result_commits": [
+      "49613ee448850f28dd86f02eb508d20860879168"
+    ],
+    "changed_files": [
+      "interactions/pr-0108.json",
+      "logs/codex/SESSION-2026-10-30-token-step-labels.json",
+      "logs/codex/SESSION-2026-10-30-token-step-labels.md",
+      "logs/codex/SESSION-2026-10-30-token-step-labels/SoftEng-01-review.md",
+      "logs/codex/SESSION-2026-10-30-token-step-labels/SoftEng-01.assignment.json",
+      "logs/codex/SESSION-2026-10-30-token-step-labels/SoftEng-01.prompt.txt",
+      "tools/token_usage/README.md",
+      "tools/token_usage/app.js",
+      "tools/token_usage/build.py",
+      "tools/token_usage/style.css",
+      "tools/token_usage/test_app.js",
+      "tools/token_usage/test_work_labels.py"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [
+      "infrastructure",
+      "token dashboard",
+      "work attribution"
+    ],
+    "related_ids": [
+      "ADR-004",
+      "PR-108"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-30-token-step-labels.md",
+  "activities": [
+    {
+      "kind": "skill",
+      "name": "nodd-coordinate",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Bounded, fixed-revision SoftEng read-only assignment and coordinator reconciliation."
+    },
+    {
+      "kind": "tool",
+      "name": "exec_command",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Canonical accounting inspection, stdlib generation, tests, Git/PR operations and approved local-only HTTP preview."
+    },
+    {
+      "kind": "tool",
+      "name": "apply_patch",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Token site, meaningful attribution regressions, documentation and curated records."
+    },
+    {
+      "kind": "tool",
+      "name": "collaboration.spawn_agent",
+      "version": null,
+      "calls": 1,
+      "failures": 0,
+      "duration_seconds": null,
+      "evidence": "One read-only generic child /root/softeng_token_steps_review received the complete explicit SoftEng mandate at 49613ee448850f28dd86f02eb508d20860879168. No actionable correctness findings; no files edited."
+    },
+    {
+      "kind": "tool",
+      "name": "mcp__cua_repl.js",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Browser graph/focus labels, click and keyboard selection, hash reloads, mode changes and 390 x 844 phone layout. Viewport reset after testing."
+    },
+    {
+      "kind": "tool",
+      "name": "GitHub connector and GitHub CLI",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Public PR metadata and comments, new PR108 and the Pages preview checks. Installation provenance is not established."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 -B -m unittest discover -s tools/token_usage -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "20 tests pass; independent SoftEng also ran the exact-commit suite."
+    },
+    {
+      "command": "node tools/token_usage/test_app.js",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Mode controls, literal keyboard labels, step selection, deep links and scroll-aware tooltip positioning pass."
+    },
+    {
+      "command": "node tools/token_usage/test_interactions.js",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Existing PR conversation controls pass."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "215 paired records validate."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py summary --format json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "138/215 sessions have usage; 309 turns. Input 1300427748, output 6206186, total 1306633934; current task and child usage unknown."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "79 tasks, 41 documents and 23 review rounds validate; infrastructure excluded."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "309 disjoint turns, 1306633934 observed tokens and 309 dated turns."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py build --output _site/token-step-labels-preview",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Both static tabs build; 28 labeled work steps and unchanged canonical counters."
+    },
+    {
+      "command": "Before/after collect() comparison against pre-change snapshot",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Every existing daily/cumulative numeric counter, completion date, undated subtotal and feature marker matches exactly."
+    },
+    {
+      "command": "CUA browser QA at default and 390 x 844 viewport",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Focus labels, graph click/Enter, disclosure, hash reload and counter mode checks pass. Phone content width equals viewport 390 px; scrolled tooltip fits. Override reset."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Implementation whitespace check passed."
+    },
+    {
+      "command": "python3 -B tools/interactions/ledger.py validate --base-ref e8bc28b5f8720edb1ca706605fc4a9ac851950b9",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "97 PR records validate, including PR108. Historical records and canonical source/account fingerprints retained."
+    },
+    {
+      "command": "git diff --cached --check (review closeout)",
+      "status": "FAIL",
+      "exit_code": 2,
+      "result": "Caught one extra blank line at EOF in the retained review report. Removed it in the following correction; no implementation or accounting change."
+    }
+  ]
+}

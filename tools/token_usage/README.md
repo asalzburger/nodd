@@ -37,6 +37,22 @@ Markers describe delivered features/prototypes, not human design sign-off. Updat
 this small curated list for major milestones; do not turn it into another task
 tracker. Canonical usage changes rebuild the curve automatically.
 
+Each observed daily step also has a numbered work label. Hovering or focusing a
+step names its leading recorded session and daily increment; selecting it opens
+the corresponding **Work behind each step** entry. Every day's full label is
+visible in that list, newest first. It expands to all canonical session
+contributions, exact observed input/output/combined subtotals and journal links.
+PR links are references to the session's recorded scope, not allocations to each
+PR. Merge milestones and recorded spending dates are independent evidence.
+
+These labels derive automatically from the same unique turn owners and exact
+UTC completion dates used for the curve. A session spanning days contributes
+only that day's turns; repeated recovery inventories do not add work or tokens.
+Titles describe the owning session, which may cover several tasks. Sessions are
+ordered by observed combined tokens; missing counters remain unknown, and
+undated observations receive no invented graph date. Adding accounting therefore
+updates work labels without editing a second hand-maintained milestone list.
+
 The [Pages workflow](../../.github/workflows/token-usage.yml) builds preview
 artifacts for PRs and publishes only from main through GitHub Actions artifact
 deployment. It never pushes a generated site to a Git branch. Existing Pages
@@ -50,8 +66,9 @@ must be under `_site/`. The exact allowlist includes the two HTML pages, their
 CSS/JS, `usage.json`, `interactions.json`, `.nojekyll` and one
 `interactions/pr-NNNN.json` payload per validated PR. Unexpected files, stale PR
 payloads and symlinks stop the build. Private PDFs and raw recovery inventories
-are not packaged. The token JSON contains aggregates, feature markers and source
-metadata.
+are not packaged. The token JSON contains aggregates, feature markers, per-step
+canonical-session subtotals/titles/source paths and source metadata. It does not
+export raw client thread/turn IDs, tool arguments or recovery inventories.
 
 The **Interactions** tab provides searchable PR navigation and human/agent
 conversation cards. Links such as `interactions.html?pr=96&source=recorded` retain
