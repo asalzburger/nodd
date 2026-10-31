@@ -189,8 +189,13 @@ class RuntimeTest(unittest.TestCase):
             (p / "audit").mkdir()
             with gzip.open(p / "audit/event000000.json.gz", "wt") as stream:
                 json.dump(row, stream)
-            return runtime.audit_case(p, events, dict(ambiguity=dict(maximum_shared_hits=3)),
-                                      dict(sensors=[]), [dict(sample_fingerprints={})])
+            # This tiny synthetic audit tests event/shared-link semantics.
+            # Host capacity is controlled here and tested separately below.
+            ample_test_disk_bytes = 4 * 1024**3
+            with patch.object(runtime.shutil, "disk_usage",
+                              return_value=type("Usage", (), dict(free=ample_test_disk_bytes))):
+                return runtime.audit_case(p, events, dict(ambiguity=dict(maximum_shared_hits=3)),
+                                          dict(sensors=[]), [dict(sample_fingerprints={})])
 
     def test_zero_track_event_retained(self):
         r = self.audit(self.row())
@@ -226,9 +231,14 @@ class RuntimeTest(unittest.TestCase):
             self.audit(row)
 
     def test_disk_guard(self):
-        with patch.object(runtime.shutil, "disk_usage", return_value=type("Usage", (), dict(free=1))):
-            with self.assertRaisesRegex(RuntimeError, "partial evidence retained"):
-                runtime.check_disk(Path("."))
+        required_disk_bytes = 2 * 1024**3
+        for free in (1, required_disk_bytes - 1):
+            with patch.object(runtime.shutil, "disk_usage", return_value=type("Usage", (), dict(free=free))):
+                with self.assertRaisesRegex(RuntimeError, "partial evidence retained"):
+                    runtime.check_disk(Path("."))
+        with patch.object(runtime.shutil, "disk_usage",
+                          return_value=type("Usage", (), dict(free=required_disk_bytes))):
+            runtime.check_disk(Path("."))
 
     def test_begin_fingerprint_failure_is_retained(self):
         with tempfile.TemporaryDirectory() as tmp:

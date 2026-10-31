@@ -10,4 +10,6 @@ Local tests/figure/project/session checks are run before push. Create and attach
 
 Exact client input/output/model/turn counters unavailable; usage empty means unknown, not zero. No private-state recovery or estimate.
 
-Prepublication unitrerun144tests passes with the original venv executable. An initial invocation resolved its symlink tosystemPython and lostNumPy; corrected executablepath, no install orsourcechange. All78figureexports/sourcebindings pass; all674rawdatafiles excluded. CurrentGitHub main/head hashes matchlocalrefs.
+Prepublication unitrerun with original venv:22truth+56GBTS pass, but the final66ttbar suite hits transient ENOSPC in19temp-directory operations. The early summary was corrected after observing the completed process; do not interpret it as144currentpasses. Prior clean data-absent144pass remains historical evidence. Final66rerunpending with322MiBfree observed. An initial invocation resolved its symlink tosystemPython and lostNumPy; corrected executablepath, no install orsourcechange. All78figureexports/sourcebindings pass; all674rawdatafiles excluded. CurrentGitHub main/head hashes matchlocalrefs.
+
+The next66ttbar rerun exposed two fixtures invoking the real2GiBguard while hostfree<2GiB;64other tests pass. Isolated onlytiny synthetic event-auditfixtures via mocked amplefreecapacity; strengthened dedicatedguardtest at2GiB andonebytebelow. Productionlimit/runtime/scientific/plot sources unchanged. Final66pass, joining22truth+56GBTS=144currentpasses.
