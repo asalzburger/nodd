@@ -42,7 +42,7 @@ Separate final review must target an exact committed evidence revision.
 
 ## Results and revisions
 
-Execution and assessment in progress. No detector or accepted baseline change.
+Protocol assessment completed: [PhysVal-01](SESSION-2026-10-31-strixel-gbts-crosscheck/PhysVal-01-result.md) supports the qualified scan, with pairing/precision/model gates. Execution in progress. No detector or accepted baseline change.
 
 ## Token accounting
 
@@ -50,3 +50,27 @@ Exact disjoint client-reported counters are not exposed in this client/tool
 surface. Usage stays empty; no estimates or private client state are collected.
 The current coordinator turn is incomplete. Final session validation and summary
 remain to be run; observed sums are unknown, not zero.
+
+
+### Coordinator regression checks
+
+The pre-existing DES042 suite passed22 tests. Analysis runtime imports passed
+NumPy2.4.6, uproot5.7.7, Matplotlib3.11.2 and unrooted. ACTS supplier checkout
+remains clean at355ea68493b326956756c9386d2fd9eaf9328568. Token dashboard validation
+passed309 disjoint observed turns; these pre-existing totals are not task usage.
+Initial project/session validation failed due to new record fields (`in_progress`
+instead of `active`, incomplete activity schema); corrected records then passed
+81tasks/42documents/23reviews and217session records. No check was weakened.
+
+
+### Native implementation and bridge pilot
+
+[SoftEng-01](SESSION-2026-10-31-strixel-gbts-crosscheck/SoftEng-01-result.md)
+reports9focused tests and8completed2-event smokes. Coordinator independently
+ran the unchanged classifier and [bridge](../../../software/analysis/strixel_reconstruction/bridge.py)
+for the three0.5mm smoke populations (Fatrasmuon/electron, Geant4electron):
+every original portable observable and NaN mask matches the same two retained
+reference events exactly. [Bridge pilot evidence](SESSION-2026-10-31-strixel-gbts-crosscheck/smoke-baseline-bridge.json).
+Two adversarial bridge tests pass. Native [smoke summary](SESSION-2026-10-31-strixel-gbts-crosscheck/native-smoke-summary.json)
+is a development check with dirty-source hashes; full campaign must run at the
+new committed source freeze. Physical hit/pixel/seed pairing is separately audited.
