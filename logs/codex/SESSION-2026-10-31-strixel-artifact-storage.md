@@ -13,3 +13,10 @@ New checker initially reached missing-pair rejection before unsafe-name validati
 Exact input/output/model/turn token counters are unavailable; no estimate/private-state recovery. Usage remains empty.
 
 The precommit guard caught four Gaussian-control event arrays not covered by the initial explicit ignores. Replaced the extension policy with recursive DES042 NPZ/compressedJSON/CSV rules; all674files are now explicitly checked ignored, absentfromindex andbyte-identical locally. The guard prevented their inclusion. Native/matching/statistics/plot sourcebytes and52GBTS/ttbarfigurefiles+2manifests match archived15da21c.
+
+
+Final data-absent check uses a full tracked-file checkout at9e854fe (0.501GiB logical tree), not the initial sparse export that omitted existing service-model tools. No DES042 NPZ/GZ/CSV is present. All144tests pass:22truth,56GBTS,66ttbar. All78figureexports across4families andtheirplot-sourcehashes pass; allproject/session/token/workflowvalidators pass with no localdatasets. Original8c451nativevalidator is inrealpublishedbranchancestry, independent of the localarchive.
+
+NewPRtree adds no DES042rawdataset vsorigin/main. Newreachableblob inventory relative to unchanged remoteaa9b0e7 is12,481,807logicalbytes /8,165,179diskbytes, largest396,968bytes; the only historical compressedpath is the smallpre-data campaignconfiguration. Large data-bearing history replaced by9e854fe; original15da history andall674datafiles staylocal. No forcepush/push/PR/externalmessage. No storage reclaimed from retaineddata/archiveref; no garbage collection on sharedGitstorage.
+
+Finalscientific/native/statistical/plot bytes andallfigurehashes preserved; roottruth report prose now explainslocaldatasets anditsdeterministic numericrendercheck passes. No humanacceptance/sign-off. Final taskjournal isclosedwithmissingexactusageexplicit; finalrecords/dashboard/diff validators runbeforelocalcloseoutcommit.
