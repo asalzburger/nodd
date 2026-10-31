@@ -60,6 +60,9 @@ jobs:
           python -B -m unittest discover -s software/analysis/strixel_pitch_study -p 'test_*.py' -v
           python -B software/analysis/strixel_pitch_study/verify.py
           python -B software/analysis/strixel_pitch_study/plot.py --output build/strixel-pitch-study-replay
+          python -B software/analysis/strixel_pitch_study/control_analysis.py --verify
+          python -B software/analysis/strixel_pitch_study/control_plot.py --output build/strixel-pitch-study-replay/gaussian-control
+          python -B software/analysis/strixel_pitch_study/report.py --check
       - name: Check constrained tracker optimisation and retained confirmation evidence
         run: |
           python -B -m unittest discover -s software/analysis/tracker_optimization -p 'test_*.py' -v

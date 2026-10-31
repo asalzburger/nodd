@@ -13,7 +13,7 @@ def ratio(stats):
     return 'undefined' if value is None else f'{value:.3f} ± {error:.3f}'
 
 
-def render(data,services):
+def render(data,services,control=None):
     matrix=[(g['pt_GeV'],c['pitch_v_mm']) for g in data['groups'] for c in g['cases']]
     expected={(pt,p) for pt in (1.,10.,100.) for p in (.5,1.,1.5,2.)}
     if len(matrix)!=12 or set(matrix)!=expected or any(c['events']!=20000 for g in data['groups'] for c in g['cases']):
@@ -81,6 +81,13 @@ def render(data,services):
       'standard deviations are well below one. This is an uncalibrated response',
       'and fit-weighting sensitivity, not evidence that larger physical cells',
       'improve a detector. The causal response assumption remains unqualified.','',
+      'With the configured digital flag and merging enabled, the native merge',
+      'stage recomputes path-weighted cell centroids and both coordinate variances.',
+      'Both variances contain the same two-dimensional cell-weight concentration',
+      'factor. Coarsening local-v therefore also changes the reported fine-u',
+      'covariance. Source inspection and a small measurement-writing pilot verify',
+      'this coupling; they do not isolate the entire high-pT mechanism. See',
+      '[response-diagnostic.json](response-diagnostic.json) for source hashes.','',
       '| Pitch [mm] | z0 width68 [µm] | z0 uncut SD [µm] | z0 pull SD | theta width68 [µrad] | theta uncut SD [µrad] | theta pull SD |',
       '|---:|---:|---:|---:|---:|---:|---:|']
     for case in high['cases']:
@@ -96,7 +103,57 @@ def render(data,services):
       'Figures: [fit fractions](figures/fit-fractions.png),',
       '[1 GeV ratios](figures/ratio-pt1.png), [10 GeV ratios](figures/ratio-pt10.png),',
       '[100 GeV ratios](figures/ratio-pt100.png). Absolute widths and',
-      '`common_ratio-pt*.png` controls are in the same figure directory.','',
+      '`common_ratio-pt*.png` controls are in the same figure directory.','']
+    if control is not None:
+        if control.get('response_model')!='gaussian_pitch_over_sqrt12_no_merge' or control.get('events_per_case')!=5000:
+            raise ValueError('Separate Gaussian-control identity/count differs')
+        if len(control['groups'])!=1 or control['groups'][0]['pt_GeV']!=100:
+            raise ValueError('Separate control requires only100GeV')
+        cases=control['groups'][0]['cases']
+        if len(cases)!=4 or {c['pitch_v_mm'] for c in cases}!={.5,1.,1.5,2.} or any(c['events']!=5000 for c in cases):
+            raise ValueError('Separate control requires four5000-event pitches')
+        if [c['pitch_v_mm'] for c in cases]!=[a['pitch_v_mm'] for a in control['control_audit']]:
+            raise ValueError('Control case and native audit pairing differ')
+        attempts=', '.join(str(x) for x in sorted({a['native_digitization']['maximum_draw_attempts'] for a in control['control_audit']}))
+        lines+=['## Separate Gaussian-response diagnostic','',
+          'Four additional 5,000-event cases at 100 GeV use independent input',
+          'Gaussian widths equal to nominal pitch/√12 in every measured coordinate,',
+          'with merging disabled and one-coordinate long strips. Only the strixel-v',
+          'width changes within this control. The generated/transport samples are',
+          'paired across pitches. This adds 20,000 processed case-events, distinct',
+          'from the 240,000-event native geometric scan.','',
+          'All-coordinate response replacement tests the overall model dependence;',
+          'it does not identify one causal mechanism or calibrate a physical sensor.',
+          f'Native draws near sensor edges are bounded/retried, with at most {attempts}',
+          'draw attempts. Retry counts are not exposed; zero lost measurements would not',
+          'prove zero retries. Exact stored variance checks and standardized local',
+          'residual diagnostics are retained in the control native reports.','',
+          '| Pitch [mm] | Finite fits / generated | Native matched / generated | Wrong charge / finite fits | Simulated hits / measurements | Hits without measurement |',
+          '|---:|---:|---:|---:|---:|---:|']
+        for case,audit in zip(control['groups'][0]['cases'],control['control_audit']):
+            c=case['global']['counts']
+            lines.append(f"| {case['pitch_v_mm']:g} | {c['finite_fit']:,}/{c['generated']:,} | {c['native_matched']:,}/{c['generated']:,} | {c['wrong_charge']:,}/{c['finite_fit']:,} | {audit['simhits']:,}/{audit['measurements']:,} | {audit['simhits_without_measurement']} |")
+        lines+=['','Central |eta|<1 absolute widths and pull checks:','',
+          '| Pitch [mm] | z0 width68 [µm] | theta width68 [µrad] | z0 pull SD | theta pull SD | Relative-pT pull SD |',
+          '|---:|---:|---:|---:|---:|---:|']
+        for case in cases:
+            q=next(r for r in case['summary_regions'] if r['low']==0 and r['high']==1)['quantities']
+            lines.append(f"| {case['pitch_v_mm']:g} | {q['z0']['residual']['width68']*1000:.3f} | {q['theta']['residual']['width68']*1e6:.2f} | {q['z0']['pull']['std']:.3f} | {q['theta']['pull']['std']:.3f} | {q['pt_relative']['pull']['std']:.3f} |")
+        lines+=['','The central longitudinal pulls are much closer to unit width in this',
+          'control, while momentum pulls retain substantial tails/nonclosure.',
+          'This is a response-model sensitivity, not global fit calibration.']
+        lines+=['','| Absolute eta region | Pitch [mm] | z0 ratio | theta ratio | Relative-pT ratio |',
+          '|---|---:|---:|---:|---:|']
+        for case in control['groups'][0]['cases'][1:]:
+            for region in case['summary_regions']:
+                q=region['quantities'];label=f"{region['low']:g}–{region['high']:g}"
+                lines.append(f"| {label} | {case['pitch_v_mm']:g} | {ratio(q['z0']['residual'])} | {ratio(q['theta']['residual'])} | {ratio(q['pt_relative']['residual'])} |")
+        lines+=['','Errors use the same paired-event bootstrap prescription, 400 draws.',
+          '[Gaussian ratios](gaussian-control/figures/gaussian-ratio-pt100.png),',
+          '[absolute widths](gaussian-control/figures/gaussian-absolute-pt100.png),',
+          '[full control data](gaussian-control/profiles.json.gz) and',
+          '[CSV](gaussian-control/summary.csv) retain all six quantities and eta bins.','']
+    lines+=[
       '## Conditional power estimate','',
       'The existing DES020/021 proxies are 7.8 W/module and',
       '7.8 × 122,880/30,208 = 31.7288 W/module. The first is a complete CMS PS',
@@ -178,12 +235,19 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--data',type=Path,default=ROOT/'docs/validation/DES-042/profiles.json.gz')
     parser.add_argument('--services',type=Path,default=ROOT/'docs/validation/DES-042/services.json')
+    parser.add_argument('--control',type=Path,default=ROOT/'docs/validation/DES-042/gaussian-control/profiles.json.gz')
     parser.add_argument('--output',type=Path,default=ROOT/'docs/validation/DES-042/results.md')
+    parser.add_argument('--check',action='store_true',help='Check the retained report without overwriting it')
     args=parser.parse_args()
     data=json.loads(gzip.decompress(args.data.read_bytes()))
     services=json.loads(args.services.read_text())
+    control=json.loads(gzip.decompress(args.control.read_bytes())) if args.control.exists() else None
+    rendered=render(data,services,control)
+    if args.check:
+        if args.output.read_text()!=rendered:raise ValueError('Retained report differs from deterministic rendering')
+        print('PASS: numerical report replay');return
     args.output.parent.mkdir(parents=True,exist_ok=True)
-    args.output.write_text(render(data,services))
+    args.output.write_text(rendered)
     print(args.output)
 
 

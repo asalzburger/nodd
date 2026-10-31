@@ -111,7 +111,7 @@ def main():
             for metric in ('absolute','ratio','common_ratio'):
                 title={'absolute':'Track residual widths','ratio':'Resolution ratios to 0.5 mm','common_ratio':'Resolution ratios: common successful events'}[metric]
                 events=group['cases'][0]['events']
-                fig,axes=frame(f'Strixel pitch study — {title}',f'{pt:g} GeV transverse momentum · {events:,} paired muons per pitch · ideal digital response')
+                fig,axes=frame(f'Strixel pitch study — {title}',f'{pt:g} GeV transverse momentum · {events:,} paired muons per pitch · native geometric response, merged cells')
                 for ax,(quantity,(label,unit,scale)) in zip(axes.flat,LABELS.items()):
                     for case in group['cases']:
                         pitch=case['pitch_v_mm'];bins=case['eta_profiles']

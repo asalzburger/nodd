@@ -35,8 +35,10 @@ Use the existing native geometric digitizer and truth-associated Kalman fit.
 Change measured positions and native pitch-derived clustered covariance together.
 The single-cell limit is pitch²/12; multi-cell centroids have the native weighted
 cell covariance. Apply the same uncalibrated prescription to all cases rather than
-reusing the old independently calibrated 0.5 mm widths. This defines an ideal
-binary response sensitivity; pulls diagnose that assumed model. It does not
+reusing the old independently calibrated 0.5 mm widths. This defines a native
+geometric response sensitivity; pulls diagnose that assumed model. The digital
+configuration passes through the merged-cell path-weighted centroid/covariance
+calculation described below. It does not
 claim calibrated sensor response, occupancy performance or pattern recognition.
 
 Retain the common random seed and verify generated truth and primary simulated

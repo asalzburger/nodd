@@ -7,7 +7,10 @@ fixed 75 µm fine pitch. Local-v means barrel z and endcap radial direction.
 
 Native ACTS geometric digitization changes measured positions and clustered
 covariance together. Single-cell variance is p²/12. No old 0.5 mm calibration
-is reused. Truth-associated fitting measures ideal response sensitivity;
+is reused. The configured digital response subsequently passes through the
+native merged-cell path-weighted centroid/covariance calculation. Both coordinate
+variances share a two-dimensional cell-weight factor; this is not an independent
+binary error model. Truth-associated fitting measures that response sensitivity;
 pattern recognition, occupancy, calibrated electronics, and a smaller material
 budget are outside this fixed-material scan.
 
@@ -89,6 +92,51 @@ as the faster point-statistic/source/accounting audit.
 
 The plotter uses `unrooted.ScatterData` and its Matplotlib renderer for profile
 points, with Matplotlib lines/error bars and standalone PNG/PDF artifacts.
+
+## Separate Gaussian response control
+
+The geometric scan gives an apparent high-pT central longitudinal improvement
+with coarser cells, alongside pull nonclosure and a native covariance coupling.
+A separate 100 GeV control supplies Gaussian pitch/√12 errors to all measured
+coordinates and disables merging. It changes the overall response hypothesis;
+it does not calibrate sensors or isolate a single causal mechanism. Native
+boundary retries/rejections remain active and explicitly audited.
+
+In the same fresh native runtime used above:
+
+```sh
+python software/analysis/strixel_pitch_study/run_campaign.py \
+  --response gaussian-control --tag repeat1 --jobs 3 --events 5000 \
+  --nodd-dir ../nodd-software-layout \
+  --build-dir ../nodd-gen3-material-mapping/build/balanced-baseline/dd4hep \
+  --native-module-dir ../nodd-gen3-material-mapping/build/gen3-material-map-run/native \
+  --observer-module-dir ../nodd-gen3-material-mapping/build/truth-tracking-baseline/native \
+  --material-module-dir ../nodd-gen3-material-mapping/build/tracker-resolution-optimization/native \
+  --comparison-dir ../nodd-gen3-material-mapping/build/tracker-resolution-optimization/confirmation/gaussian/balanced-pt10
+```
+
+Then use the portable analysis environment, keeping new evidence separate:
+
+```sh
+python software/analysis/strixel_pitch_study/control_analysis.py \
+  --source build/strixel-pitch-study --pattern 'gaussian-repeat1-*' \
+  --output build/strixel-pitch-study/gaussian-repeat1-analysis
+python software/analysis/strixel_pitch_study/control_analysis.py \
+  --output build/strixel-pitch-study/gaussian-repeat1-analysis --verify
+python software/analysis/strixel_pitch_study/control_plot.py \
+  --data build/strixel-pitch-study/gaussian-repeat1-analysis/profiles.json.gz \
+  --output build/strixel-pitch-study/gaussian-repeat1-analysis/figures
+python software/analysis/strixel_pitch_study/report.py \
+  --control build/strixel-pitch-study/gaussian-repeat1-analysis/profiles.json.gz \
+  --output build/strixel-pitch-study/gaussian-repeat1-analysis/results.md
+```
+
+To audit/replot the original retained control without a native rerun, use
+`control_analysis.py --verify`, `control_plot.py` and `report.py --check`
+with their default paths. Original native control labels are `gaussian-v1-*`,
+launched at source `58f49b9ce12f24f7e11b1b7a3f85fa48fbad020f` using the equivalent
+ignored four-case launcher. Native edge-retry counts are not exposed; the retained
+loss counts do not prove absence of retries.
 
 ## Service assumptions
 

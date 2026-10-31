@@ -28,6 +28,18 @@ def validate_control(inventory):
                     'repository/software/analysis/truth_tracking/smearing.py'}
         if not required.issubset(fingerprints):
             raise ValueError('Missing separate control source fingerprints')
+        native = report.get('native_digitization', {})
+        config = report.get('gaussian_config_audit', {})
+        measured = report.get('gaussian_measurement_audit', {})
+        if native.get('doMerge') is not False or native.get('geometric') is not False or native.get('model') != 'Gauss':
+            raise ValueError('Control must execute unmerged Gaussian digitization')
+        if config.get('merge') is not False or config.get('geometric_entries') != 0:
+            raise ValueError('Control unexpectedly contains geometric cells')
+        counts = report['reduction']['counts']
+        if measured.get('exact_stored_variance_check') != 'PASS' or measured.get('measurement_rows') != counts['measurements']:
+            raise ValueError('Actual Gaussian measurement/variance audit missing')
+        if counts.get('simhits_without_measurement') != counts['simhits'] - counts['measurements']:
+            raise ValueError('Gaussian boundary-loss accounting differs')
         for logical, expected in fingerprints.items():
             if logical.startswith('repository/') and digest(ROOT / logical.removeprefix('repository/')) != expected:
                 raise ValueError('Control source differs: ' + logical)
@@ -45,6 +57,13 @@ def compute(directory, inventory, replicates=400):
     result['response_model'] = MODEL
     result['sample_kind'] = 'Separate 100 GeV response diagnostic; not a replacement for the twelve-case digital campaign'
     result['events_per_case'] = 5000
+    result['control_audit'] = [dict(pitch_v_mm=r['pitch_mm'],
+        simhits=r['reduction']['counts']['simhits'],
+        measurements=r['reduction']['counts']['measurements'],
+        simhits_without_measurement=r['reduction']['counts']['simhits_without_measurement'],
+        native_digitization=r['native_digitization'],
+        gaussian_measurement_audit=r['gaussian_measurement_audit'])
+        for r in sorted((item['report'] for item in inventory['reports']), key=lambda r:r['pitch_mm'])]
     result['provenance']['control_analyzer_sha256'] = SOURCE_SHA256
     if digest(__file__) != SOURCE_SHA256:
         raise ValueError('Control analysis source changed during execution')
