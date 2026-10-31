@@ -46,38 +46,99 @@
       "name": "nodd-coordinate",
       "failures": null,
       "duration_seconds": null,
-      "calls": 1,
+      "calls": null,
       "version": null,
-      "evidence": "Read instructions and applied during current task; no native skill/profile loading claim."
+      "evidence": "Instructions read and applied during current task; aggregate call count unmeasured. No native skill/profile loading claim."
     },
     {
       "kind": "skill",
       "name": "nodd-design-evidence",
       "failures": null,
       "duration_seconds": null,
-      "calls": 1,
+      "calls": null,
       "version": null,
-      "evidence": "Read instructions and applied during current task; no native skill/profile loading claim."
+      "evidence": "Instructions read and applied during current task; aggregate call count unmeasured. No native skill/profile loading claim."
     },
     {
       "kind": "skill",
       "name": "nodd-review-validation",
       "failures": null,
       "duration_seconds": null,
-      "calls": 1,
+      "calls": null,
       "version": null,
-      "evidence": "Read instructions and applied during current task; no native skill/profile loading claim."
+      "evidence": "Instructions read and applied during current task; aggregate call count unmeasured. No native skill/profile loading claim."
     },
     {
       "kind": "skill",
       "name": "acts-spack",
       "failures": null,
       "duration_seconds": null,
-      "calls": 1,
+      "calls": null,
       "version": null,
-      "evidence": "Read instructions and applied during current task; no native skill/profile loading claim."
+      "evidence": "Instructions read and applied during current task; aggregate call count unmeasured. No native skill/profile loading claim."
     }
   ],
   "usage": [],
-  "checks": []
+  "checks": [
+    {
+      "command": "acts-spack node preflight",
+      "status": "FAIL",
+      "exit_code": 2,
+      "result": "Setup/lock fingerprints differ from registry. Actual runtime imports tested separately; no shared dependency repair."
+    },
+    {
+      "command": "source software/env/truth_tracking.sh; task-specific native imports",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Actual Python3.14.5, ROOT6.40.04, ACTS/DD4hep and required native modules import; node registry remains unverified."
+    },
+    {
+      "command": "analysis-python -m unittest discover -s software/analysis/strixel_reconstruction -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "47 tests pass after non-target-noise reporting amendment; native/provenance/statistics/parallel/ROOT/bridge/plot adverse checks. Historical46-test run also passed."
+    },
+    {
+      "command": "analysis-python serial/parallel full-size Fatras electron100GeV pilot comparison",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All316arrays, configurations/summaries, pointstatistics/400pairedbootstrap groups and Markdown exactly match. Separate serial replay CLI exited0."
+    },
+    {
+      "command": "python3 -B tools/agent_workflow/workflow.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Eight role mandates and three workflow skills valid."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "217 records valid while task is active."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "81tasks,42documents,23reviewrounds valid while task is active."
+    },
+    {
+      "command": "analysis-python reporting-only replay against complete Fatras/Geant4 electron100GeV four-pitch pilots",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All pointstatistics and400-bootstrap results exactly unchanged; new non-target event-union diagnostics and attribution warnings added. Evidence reporting-amendment-check.json."
+    },
+    {
+      "command": "campaign.py check --output build/strixel-gbts-production --jobs3 --write-root",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All80completed cases x1000events, common native source8c45136; every recorded output SHA256 verified. Native controller21933 exited0."
+    },
+    {
+      "command": "analysis-python software/analysis/strixel_pitch_study/verify.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Previous12native cases, transport pairing,76032 uncut point statistics and24servicecases unchanged; bootstrap not recomputed by this audit."
+    }
+  ]
 }

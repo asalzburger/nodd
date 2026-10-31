@@ -6,15 +6,19 @@ JSONL/ROOT files can then stay in ignored storage: their hashes and per-event
 fingerprints accompany all generated-event metric arrays in portable evidence.
 """
 import argparse
+from concurrent.futures import FIRST_COMPLETED, ProcessPoolExecutor, wait
 import copy
 import gzip
 import hashlib
 import importlib.util
 import json
 import math
+import multiprocessing
 from pathlib import Path
 import sys
 import tempfile
+
+LOADED_SOURCE_SHA256 = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
 
 import numpy as np
 
@@ -295,62 +299,124 @@ def augment_arrays(directory, arrays, native_report, module, hit_hashes, hit_cou
     return arrays
 
 
-def retain(source, output, pilot=False, pattern="*"):
+def assert_source_unchanged(expected):
+    """Match both this process's import snapshot and the current wrapper bytes."""
+    if LOADED_SOURCE_SHA256 != expected or digest(__file__) != expected:
+        raise ValueError("Retention wrapper source changed during execution")
+
+
+def retain_case(path, report, output, source_sha256, report_sha256):
+    """Picklable per-case worker; its output paths are disjoint by identity."""
+    assert_source_unchanged(source_sha256)
+    path, output = Path(path), Path(output)
+    if digest(path) != report_sha256:
+        raise ValueError("Native report changed after retention preflight: " + str(path))
+    if report["outcome"] != "completed":
+        raise ValueError("Incomplete native case: " + str(path))
+    directory = path.parent
+    name = case_name(case_identity(report))
+    if report.get("case_id", name) != name:
+        raise ValueError("Native case_id differs from declared scientific identity")
+    target = output / "cases" / name
+    if target.exists() and any(target.iterdir()):
+        raise ValueError("Refusing to overwrite retained case: " + name)
+    for key in ("prepared_input_sha256", "output_sha256"):
+        for relative, expected in report[key].items():
+            native_path = directory / relative
+            if not native_path.is_relative_to(directory) or digest(native_path) != expected:
+                raise ValueError("Changed/unsafe native prepared input or output: " + relative)
+    module = native_analyzer()
+    with tempfile.TemporaryDirectory(prefix="des042-native-reduction-") as temporary:
+        summary = module.analyze(directory, temporary)
+        with np.load(Path(temporary) / "events.npz", allow_pickle=False) as data:
+            arrays = {key: data[key] for key in data.files}
+    if not np.array_equal(arrays["event"], np.arange(report["events"])):
+        raise ValueError("Require contiguous unique all-generated event identities")
+    roots = [directory / filename for filename in ("hits.root", "simhits.root", "simhits-pairing.root") if (directory / filename).exists()]
+    if len(roots) != 1:
+        raise ValueError("Require native full-hit ROOT pairing evidence")
+    hit_hashes, hit_provenance = simhit_fingerprints(roots[0], arrays["event"])
+    native = json.loads((directory / "native-report.json").read_text())
+    arrays = augment_arrays(directory, arrays, {**native, "campaign": report["campaign"]}, module, hit_hashes,
+                            hit_provenance.pop("hits_by_event"))
+    if target.exists() and any(target.iterdir()):
+        raise ValueError("Refusing to overwrite retained case: " + name)
+    target.mkdir(parents=True, exist_ok=True)
+    np.savez_compressed(target / "events.npz", **arrays)
+    dump_gzip(target / "summary.json.gz", sanitize(summary))
+    configs = {filename: json.loads((directory / filename).read_text()) for filename in
+               ("error-table.json", "digitization.json", "gbts/config.json")}
+    configs["volume_system"] = {str((s["geometry_id"] >> 56) & 255): s["ids"]["system"] for s in native["sensors"]}
+    dump_gzip(target / "configuration.json.gz", sanitize(configs))
+    assert_source_unchanged(source_sha256)
+    if digest(path) != report_sha256:
+        raise ValueError("Native report changed during retention: " + str(path))
+    if summary["source_sha256"] != NATIVE_ANALYZER_SHA256:
+        raise ValueError("Frozen DES041 analyzer changed during reduction")
+    return {"case": name, "report": sanitize(report), "run_report_sha256": report_sha256,
+            "native_summary_sha256": fingerprint(summary), "simhit_provenance": hit_provenance,
+            "files": {str(p.relative_to(output)): digest(p) for p in sorted(target.iterdir())},
+            "events_file": str((target / "events.npz").relative_to(output)),
+            "summary_file": str((target / "summary.json.gz").relative_to(output)),
+            "configuration_file": str((target / "configuration.json.gz").relative_to(output))}
+
+
+def retain_cases(tasks, jobs):
+    """Bound outstanding tasks; restore input order after independent workers."""
+    if jobs == 1:
+        return [retain_case(*task) for task in tasks]
+    executor = ProcessPoolExecutor(max_workers=jobs, mp_context=multiprocessing.get_context("spawn"))
+    active, results, next_index = {}, [None] * len(tasks), 0
+    try:
+        while next_index < len(tasks) or active:
+            while next_index < len(tasks) and len(active) < jobs:
+                active[executor.submit(retain_case, *tasks[next_index])] = next_index
+                next_index += 1
+            completed, _ = wait(active, return_when=FIRST_COMPLETED)
+            # Observe every completed exception before scheduling more cases.
+            finished = [(future, future.result()) for future in completed]
+            for future, result in finished:
+                results[active.pop(future)] = result
+    except BaseException:
+        for future in active:
+            future.cancel()
+        raise
+    finally:
+        executor.shutdown(wait=True, cancel_futures=True)
+    return results
+
+
+def retain(source, output, pilot=False, pattern="*", jobs=1):
+    if isinstance(jobs, bool) or not isinstance(jobs, int) or jobs < 1:
+        raise ValueError("Retention jobs must be a positive integer")
+    source_sha256 = LOADED_SOURCE_SHA256
+    assert_source_unchanged(source_sha256)
     source, output = Path(source), Path(output)
     if (output / "native-reports.json.gz").exists():
         raise ValueError("Evidence inventory already exists; omit --source to replay or select fresh output")
     paths = sorted(source.glob(pattern + "/run-report.json"))
-    reports = [json.loads(path.read_text()) for path in paths]
+    payloads = [path.read_bytes() for path in paths]
+    reports = [json.loads(payload) for payload in payloads]
     validate_matrix(reports, pilot)
     contract = frozen_contract()
     for report in reports:
         validate_engine(report, contract)
-    module = native_analyzer()
-    inventory = []
-    for path, report in zip(paths, reports):
+    tasks = []
+    for path, report, payload in zip(paths, reports, payloads):
         if report["outcome"] != "completed":
             raise ValueError("Incomplete native case: " + str(path))
-        directory = path.parent
-        identity = case_identity(report)
-        name = case_name(identity)
+        name = case_name(case_identity(report))
         if report.get("case_id", name) != name:
             raise ValueError("Native case_id differs from declared scientific identity")
-        for key in ("prepared_input_sha256", "output_sha256"):
-            for relative, expected in report[key].items():
-                target = directory / relative
-                if not target.is_relative_to(directory) or digest(target) != expected:
-                    raise ValueError("Changed/unsafe native prepared input or output: " + relative)
-        with tempfile.TemporaryDirectory(prefix="des042-native-reduction-") as temporary:
-            summary = module.analyze(directory, temporary)
-            with np.load(Path(temporary) / "events.npz", allow_pickle=False) as data:
-                arrays = {key: data[key] for key in data.files}
-        if not np.array_equal(arrays["event"], np.arange(report["events"])):
-            raise ValueError("Require contiguous unique all-generated event identities")
-        roots = [directory / name for name in ("hits.root", "simhits.root", "simhits-pairing.root") if (directory / name).exists()]
-        if len(roots) != 1:
-            raise ValueError("Require native full-hit ROOT pairing evidence")
-        hit_hashes, hit_provenance = simhit_fingerprints(roots[0], arrays["event"])
-        native = json.loads((directory / "native-report.json").read_text())
-        arrays = augment_arrays(directory, arrays, {**native, "campaign": report["campaign"]}, module, hit_hashes,
-                                hit_provenance.pop("hits_by_event"))
         target = output / "cases" / name
         if target.exists() and any(target.iterdir()):
             raise ValueError("Refusing to overwrite retained case: " + name)
-        target.mkdir(parents=True, exist_ok=True)
-        np.savez_compressed(target / "events.npz", **arrays)
-        dump_gzip(target / "summary.json.gz", sanitize(summary))
-        configs = {filename: json.loads((directory / filename).read_text()) for filename in
-                   ("error-table.json", "digitization.json", "gbts/config.json")}
-        configs["volume_system"] = {str((s["geometry_id"] >> 56) & 255): s["ids"]["system"] for s in native["sensors"]}
-        dump_gzip(target / "configuration.json.gz", sanitize(configs))
-        inventory.append({"case": name, "report": sanitize(report), "run_report_sha256": digest(path),
-                          "native_summary_sha256": fingerprint(summary), "simhit_provenance": hit_provenance,
-                          "files": {str(p.relative_to(output)): digest(p) for p in sorted(target.iterdir())},
-                          "events_file": str((target / "events.npz").relative_to(output)),
-                          "summary_file": str((target / "summary.json.gz").relative_to(output)),
-                          "configuration_file": str((target / "configuration.json.gz").relative_to(output))})
+        tasks.append((path, report, output, source_sha256, hashlib.sha256(payload).hexdigest()))
+    inventory = retain_cases(tasks, jobs)
+    assert_source_unchanged(source_sha256)
     result = {"schema_version": 1, "status": "PROTOTYPE", "input_revision": INPUT_REVISION,
-              "native_analyzer_sha256": NATIVE_ANALYZER_SHA256, "retention_source_sha256": digest(__file__),
+              "native_analyzer_sha256": NATIVE_ANALYZER_SHA256, "retention_source_sha256": source_sha256,
+              "retention_jobs": jobs,
               "frozen_contract": contract,
               "reports": inventory, "fingerprint_policy": "Per generated event; canonical sorted-key JSON; full native precision for JSONL and writer precision for all ROOT hit branches"}
     dump_gzip(output / "native-reports.json.gz", result)
@@ -502,8 +568,16 @@ def paired_bin(arrays, mask, replicates, seed):
         for pitch, stat in enumerate(stats):
             diff = efficiencies[pitch] - efficiencies[0]
             draws = diff[indices].mean(axis=1) if n else np.full(replicates, np.nan)
+            discordant = int(np.count_nonzero(diff))
+            zero_upper = 1 - .05 ** (1 / n) if n and not discordant and pitch else None
             stat["efficiency_difference_to_baseline"] = {"value": float(diff.mean()) if n else None,
-                "discordant_events": int(np.count_nonzero(diff)), "paired_bootstrap68": bootstrap_interval(draws),
+                "discordant_events": discordant,
+                "reference_identity": pitch == 0,
+                "empirical_bootstrap_degenerate": bool(n and not discordant),
+                "zero_discordance_one_sided95_upper": zero_upper,
+                "conservative_difference95_if_zero_discordance": ([-zero_upper, zero_upper] if zero_upper is not None else
+                    ([0., 0.] if n and pitch == 0 else None)),
+                "inference_note": "Pointwise statistical bounds only. A zero-spread empirical bootstrap does not establish equivalence; absolute efficiency contrast is bounded by discordance probability. Reference compared with itself is identically zero.", "paired_bootstrap68": bootstrap_interval(draws),
                 "paired_bootstrap95": bootstrap_interval(draws, (.025, .975)),
                 "both_success": int(np.sum((efficiencies[pitch] == 1) & (efficiencies[0] == 1))),
                 "both_failure": int(np.sum((efficiencies[pitch] == 0) & (efficiencies[0] == 0))),
@@ -538,17 +612,30 @@ def compare_pairing(arrays):
                         "baseline_event_fingerprints_sha256": fingerprint(arrays[0][key].tolist())}
         if name in required and any(mismatches):
             raise ValueError("Transport pairing failed: " + name + " mismatches " + str(mismatches))
-    result["measurement_noise_attribution"] = ("Pixel inputs and seeds identical across all pitches" if
-        all(result[k]["all_pitches_equal"] for k in ("pixel_measurements", "spacepoints", "seeds", "estimated_seeds")) else
-        "Measured pixel inputs or seeds differ; bounded Gaussian retries can shift random draws. Differences cannot be attributed uniquely to longitudinal covariance.")
+    pixel_seed_equal = all(result[k]["all_pitches_equal"] for k in
+                           ("pixel_measurements", "spacepoints", "seeds", "estimated_seeds"))
+    non_target_changed = [int(np.count_nonzero(np.logical_or.reduce([
+        own["fingerprint_" + name] != arrays[0]["fingerprint_" + name]
+        for name in PHYSICAL_INPUTS]))) for own in arrays]
+    result["non_target_realized_inputs"] = {
+        "definition": "Event union of changed index-free pixel, strixel fine-u and long-strip physical multisets; configured non-target response widths remain fixed",
+        "all_pitches_equal": not any(non_target_changed),
+        "changed_events_by_pitch": non_target_changed}
+    prefix = ("Pixel inputs and seeds identical across all pitches. " if pixel_seed_equal else
+              "Measured pixel inputs or seeds differ. ")
+    result["measurement_noise_attribution"] = prefix + (
+        "Non-target realized measurements differ; bounded Gaussian retries can shift later random draws. Differences cannot be attributed uniquely to longitudinal response."
+        if any(non_target_changed) or not pixel_seed_equal else
+        "Non-target realized measurements also agree; the strixel longitudinal response is the only measured-input variation detected.")
     result["physical_inputs"] = {}
     for name in PHYSICAL_INPUTS:
         counts = [a[name + "_count"] for a in arrays]
         result["physical_inputs"][name] = {
             "definition": "Index-free sorted multiset of geometry_id, particle associations, measured values and variances; fine-u projection for strixels; repeated entries preserved",
+            "count_difference_scope": "Net differences in total measurement count within each event; simultaneous hit removal and recovery can cancel. These are not exhaustive physical-hit loss/gain counts.",
             "measurement_counts_by_pitch": [int(value.sum()) for value in counts],
-            "measurement_losses_vs_baseline_by_pitch": [int(np.maximum(0, counts[0] - value).sum()) for value in counts],
-            "measurement_gains_vs_baseline_by_pitch": [int(np.maximum(0, value - counts[0]).sum()) for value in counts],
+            "net_measurement_count_deficits_vs_baseline_by_pitch": [int(np.maximum(0, counts[0] - value).sum()) for value in counts],
+            "net_measurement_count_excesses_vs_baseline_by_pitch": [int(np.maximum(0, value - counts[0]).sum()) for value in counts],
             "ambiguous_physical_groups_by_pitch": [int(a[name + "_ambiguous_groups"].sum()) for a in arrays],
             "duplicate_physical_entries_by_pitch": [int(a[name + "_duplicate_entries"].sum()) for a in arrays],
             "changed_events_by_pitch": result[name]["mismatch_events_by_pitch"]}
@@ -703,7 +790,7 @@ def analyze(output, inventory, *, replicates=400, pilot=False):
     return {"schema_version": 1, "status": "PROTOTYPE", "design": "DES041/DES042 DRAFT; no detector acceptance inferred",
             "response": "Frozen pooled Gaussian baseline; only systems4/5 local-v sigma scaled by pitch/0.5; no merging; finite boundary retries",
             "residual_convention": "truth minus reconstruction; phi wrapped; relative pT derived from true/reco theta and q/p",
-            "uncertainty": "Statistical only; no physical sensor calibration or detector/material/field model systematics; populations are never pooled",
+            "uncertainty": "Pointwise statistical intervals only; no equivalence claim or simultaneous multiplicity coverage; no physical sensor calibration or detector/material/field model systematics; populations are never pooled",
             "tail_policy": "All finite matched-primary representatives including wrong charge; no residual/pull cuts; nonfinite slots explicit",
             "bootstrap": {"replicates": replicates, "seed": BOOTSTRAP_SEED, "minimum_width_entries": MINIMUM_WIDTH_ENTRIES,
                           "probability": PROBABILITY, "pairing": "Same generated-event indices across pitches; common-success intersection of all four pitches"},
@@ -732,6 +819,7 @@ def markdown(payload):
             lines.append(f"| {group['simulation']} / {group['particle']} | {group['pt_GeV']:g} | {case['pitch_mm']:g} | {efficiency} | {percent(stat['reconstructable_conditional']['value'])} | {c['fake_event']} | {c['duplicates']} | {c['quality_rejected']} | {c['invalid_covariance']} |")
     lines += ["", "The compressed [machine report](profiles.json.gz) retains all rates, Wilson 68/95 intervals, exact one-sided 95% upper limits for zero failure/fake events, whole-event candidate-fraction bootstrap intervals and paired efficiency differences. Reconstructability requires six unique sensor measurements and three physical pixel groups; the nested four-group result is retained.", "",
               "Residuals are truth−reconstruction, with wrapped φ; relative pT is derived from θ and q/p. Central 68.27% half-widths need at least 30 finite entries. Bias, SD/RMS, quantiles, extrema and tails keep all finite matched entries, including wrong charge. All six bound pulls remain retained; time is prior dominated. Paired bootstrap uses 400 fixed-seed event resamples; the common-success control conditions on success at all four pitches. Unavailable widths/bins are null, never zero or NaN.", "",
+              "Zero-discordance efficiency bootstraps are degenerate; exact discordance-probability upper bounds and conservative pointwise contrast bounds are retained. They do not establish equivalence.", "",
               "Per-case compressed native summaries/configurations and all-event NPZ arrays are under `cases/`. The native inventory retains source/data/runtime/configuration hashes, original report hashes and per-event fingerprints. ROOT-hit pairing compares all persisted branches at native-writer precision; generated and transported JSONL records use their full persisted precision.", "",
               "| Transport / species | pT [GeV] | Pixel inputs / space points / seeds equal across pitches | Primary measurement-association changes vs 0.5 mm |", "|---|---:|---|---|"]
     for group in payload["groups"]:
@@ -739,7 +827,7 @@ def markdown(payload):
         equal = all(pair[k]["all_pitches_equal"] for k in ("pixel_measurements", "spacepoints", "seeds", "estimated_seeds"))
         changes = pair["primary_measurement_associations"]["mismatch_events_by_pitch"]
         lines.append(f"| {group['simulation']} / {group['particle']} | {group['pt_GeV']:g} | {equal} | {changes} |")
-    lines += ["", "Generated particles, transported particle records/identities and complete persisted simhit payloads must agree event by event or analysis stops. Bounded Gaussian rejection near sensor edges can consume different random draws and change pixel inputs or seeds. Where those differ, the reconstruction change cannot be attributed uniquely to longitudinal covariance.", "",
+    lines += ["", "Generated particles, transported particle records/identities and complete persisted simhit payloads must agree event by event or analysis stops. Bounded Gaussian rejection near sensor edges can consume different random draws and change non-target realized measurements, including fine-u strixel or long-strip noise even when pixels and seeds agree. Where any non-target input differs, the reconstruction change cannot be attributed uniquely to the longitudinal response; per-system and event-union counts are retained in the machine report.", "",
               "Geant4 uses detailed DD4hep transport; Fatras and reconstruction use the retained effective material map. Electron transport/CKF, finite Geant4 time and volume limits, single-particle occupancy and unmerged Gaussian response retain the DES041 qualifications. There is no pooling across species, transport or momenta and no new GBTS tuning.", "",
               "Figures in `figures/` aggregate the matrix by population; PNG and PDF show statistical intervals and physical units. Full raw tails remain in the retained arrays."]
     return "\n".join(lines) + "\n"
@@ -749,17 +837,22 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--source", type=Path, help="Native parent directory; omit to replay retained evidence")
     parser.add_argument("--pattern", default="*", help="Explicit native case-directory glob, e.g. fatras-muon-* for a mixed smoke parent")
+    parser.add_argument("--jobs", type=int, default=1, help="Process workers for --source per-case retention only; ignored during replay (default: 1)")
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--pilot", action="store_true", help="Exactly four pitches at one population/momentum")
     parser.add_argument("--replicates", type=int, default=400)
     parser.add_argument("--verify", action="store_true", help="Recompute point statistics and bootstrap, compare stored report exactly")
     args = parser.parse_args()
+    if args.jobs < 1:
+        parser.error("--jobs requires a positive integer")
+    assert_source_unchanged(LOADED_SOURCE_SHA256)
     if args.replicates != 400:
         parser.error("Frozen study requires exactly 400 bootstrap replicates")
     if args.verify and args.source:
         parser.error("--verify replays retained evidence; omit --source")
-    inventory = retain(args.source, args.output, args.pilot, args.pattern) if args.source else read_gzip(args.output / "native-reports.json.gz")
+    inventory = retain(args.source, args.output, args.pilot, args.pattern, args.jobs) if args.source else read_gzip(args.output / "native-reports.json.gz")
     result = analyze(args.output, inventory, replicates=args.replicates, pilot=args.pilot)
+    assert_source_unchanged(LOADED_SOURCE_SHA256)
     destination = args.output / "profiles.json.gz"
     if args.verify:
         if canonical(read_gzip(destination)) != canonical(result):

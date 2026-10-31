@@ -20,7 +20,10 @@ Only local-v Gaussian sigma for systems 4/5 is multiplied by pitch/0.5. The
 0.5 mm response equals the frozen pooled response. Pixel/fine-u/long-strip
 response and `doMerge=False` remain fixed. Coarse response is a sensitivity
 prescription. Bounded Gaussian rejection can change later RNG consumption;
-identical seeds alone do not establish identical measured pixels.
+identical seeds alone do not establish identical non-target measurements.
+Even with identical pixels and seeds, strixel fine-u or long-strip noise can
+change. Per-system fingerprints and the union of affected events are retained;
+those cases do not isolate the longitudinal response alone.
 
 ## Execution
 
@@ -36,11 +39,11 @@ python -B software/analysis/strixel_reconstruction/runtime.py \
   --output /private/tmp/nodd-strixel-gbts/smoke/fatras-muon-pt10-pitch0.5
 
 python -B software/analysis/strixel_reconstruction/campaign.py launch \
-  --output build/strixel-gbts-production --jobs 3
+  --output build/strixel-gbts-repeat1 --jobs 3 --write-root
 python -B software/analysis/strixel_reconstruction/campaign.py check \
-  --output build/strixel-gbts-production --jobs 3
+  --output build/strixel-gbts-repeat1 --jobs 3 --write-root
 python -B software/analysis/strixel_reconstruction/campaign.py resume \
-  --output build/strixel-gbts-production --jobs 3
+  --output build/strixel-gbts-repeat1 --jobs 3 --write-root
 ```
 
 Commit/freeze all executing source before the production launch. `--case`
@@ -115,3 +118,91 @@ python -B software/analysis/strixel_reconstruction/bridge.py \
 python3 -B -m unittest discover \
   -s software/analysis/strixel_reconstruction -p test_runtime.py -v
 ```
+
+
+## Retain, compare and plot
+
+Use a separate Python3.11 analysis environment with the existing pinned
+`requirements.txt`. The recorded run reuses
+`../nodd-gen3-material-mapping/build/truth-tracking-baseline/analysis-venv/bin/python`
+(NumPy2.4.6, uproot5.7.7, Matplotlib3.11.2 and unrooted). Analysis does not need
+ACTS imports; native execution uses the separate activated Python3.14 runtime.
+No dependency is installed or changed by these scripts. Choose fresh evidence
+and figure directories for a new native campaign or changed analysis source.
+For example, after the complete native repeat above:
+
+```sh
+python software/analysis/strixel_reconstruction/analyze.py \
+  --source build/strixel-gbts-repeat1 \
+  --output build/strixel-gbts-repeat1-evidence --replicates 400 --jobs 3
+python software/analysis/strixel_reconstruction/analyze.py \
+  --output build/strixel-gbts-repeat1-evidence --replicates 400 --verify
+python software/analysis/strixel_reconstruction/bridge.py \
+  --data build/strixel-gbts-repeat1-evidence \
+  --output build/strixel-gbts-repeat1-evidence/baseline-bridge.json
+python software/analysis/strixel_reconstruction/root_audit.py \
+  --native build/strixel-gbts-repeat1 --data build/strixel-gbts-repeat1-evidence \
+  --output build/strixel-gbts-repeat1-evidence/root-audit.json
+python software/analysis/strixel_reconstruction/plot.py \
+  --data build/strixel-gbts-repeat1-evidence/profiles.json.gz \
+  --output build/strixel-gbts-repeat1-evidence/figures
+```
+
+The initial full campaign is `build/strixel-gbts-production`, with source freeze
+`8c45136098d1e4d407c4d2f96e3590bb78eb6b75`. Its portable evidence is retained
+under `docs/validation/DES-042/gbts`. To replay retained statistics/bootstrap and
+report text without ACTS or native ROOT files:
+
+```sh
+python software/analysis/strixel_reconstruction/analyze.py \
+  --output docs/validation/DES-042/gbts --replicates 400 --verify
+python software/analysis/strixel_reconstruction/bridge.py \
+  --data docs/validation/DES-042/gbts \
+  --output docs/validation/DES-042/gbts/baseline-bridge.json --verify
+```
+
+A full ROOT re-audit requires the original ignored native outputs and
+`--write-root` at native launch. The audit composes the unchanged DES041 auditor
+through temporary views, checks all80cases, every generated track event including
+zero-track events, candidate counts, float32 measurement variances and complete
+representative perigee/uncertainty tuples. Add `--verify` to its command for exact
+re-audit. The underlying matrix/configuration validator is a pinned Git blob;
+its source pin is separate from the corrected offline statistical analyzer.
+Git history containing the documented source pins is required.
+
+Offline `--jobs` bounds independent per-case retention workers (default1);
+statistical reduction stays serial and deterministic. Native and offline jobs
+are separate settings. Source guards reject changes to executing analyzer bytes;
+failed retention preserves completed case artifacts and does not finalize the
+inventory.
+
+Retention first runs the unchanged independent native classifier and all its
+response/space-point/covariance/ambiguity gates. It keeps all-event metricarrays,
+compressed summaries/configurations, per-event transport/measurement/seed
+fingerprints and original native source/input/output hashes. Known workspace
+paths become distinct logical paths; unknown external paths retain opaque
+identifiers so same-basename files cannot collapse. Hit pairing proves exact
+persisted float32 all-hit payload equality, not native float64 bit identity.
+Index-free physical coordinate multisets are separate from index-bearing ordered
+pixel space points and seed membership. Net count deficits/excesses do not
+count every removed/recovered hit when those cancel within one event.
+
+Each population/momentum is scored separately. Headline efficiency uses every
+generated primary; conditional reconstructability, fake/secondary/duplicate and
+charge/covariance failures remain distinct. Widths use the central68.268949%
+half-interval with at least30finite entries, all uncut tails and common-success
+controls. Four hundred jointly resampled generated-event bootstraps preserve
+pairing. Zero-discordance efficiency bootstraps are flagged degenerate with
+an exact95% discordance upper bound and a conservative pointwise contrast bound;
+none establishes equivalence or covers simultaneous multiple comparisons.
+
+```sh
+python -m unittest discover -s software/analysis/strixel_reconstruction \
+  -p 'test_*.py' -v
+```
+
+The existing `unrooted` CI job runs the focused tests, replays all retained
+statistics/bootstrap and Markdown, verifies the20 baseline bridges, and regenerates
+the40 figure files without ACTS. Native ROOT re-auditing remains a local step
+requiring the original ignored outputs. A configured workflow is not a claim
+that a remote CI run has passed.

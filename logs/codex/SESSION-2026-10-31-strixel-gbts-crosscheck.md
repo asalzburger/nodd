@@ -74,3 +74,171 @@ reference events exactly. [Bridge pilot evidence](SESSION-2026-10-31-strixel-gbt
 Two adversarial bridge tests pass. Native [smoke summary](SESSION-2026-10-31-strixel-gbts-crosscheck/native-smoke-summary.json)
 is a development check with dirty-source hashes; full campaign must run at the
 new committed source freeze. Physical hit/pixel/seed pairing is separately audited.
+
+
+### Frozen production launch
+
+All28new tests passed; source freeze is
+`8c45136098d1e4d407c4d2f96e3590bb78eb6b75`. On2026-10-31 at observed06:28:10UTC,
+started `source software/env/truth_tracking.sh` then
+`python -B software/analysis/strixel_reconstruction/campaign.py launch --output
+build/strixel-gbts-production --jobs 3 --write-root`. Unified execution session21933.
+Controller begins the costly Geant4electron100GeV cases first; each case uses
+one native thread in a fresh subprocess. Keep HEAD fixed until all queued
+native cases finish so every report identifies the same scientific source pin.
+Mandatory full audit/hit ROOT and optional measurement/track ROOT are retained.
+
+Separate PhysVal02 now reviews exact8c45136 source/development evidence through
+[assignment](SESSION-2026-10-31-strixel-gbts-crosscheck/physval-02-assignment.json).
+No production-stopping bug found in initial review. An analysis-only refinement
+will label zero-discordance paired-bootstrap intervals as degenerate and add an
+exact finite-sample discordance/contrast bound; no native rerun is implicated.
+SoftEng03 owns only a new offline ROOT persistence wrapper and focused tests
+through [assignment](SESSION-2026-10-31-strixel-gbts-crosscheck/softeng-03-assignment.json).
+It composes the frozen auditor using temporary two-level views, with exact80
+coverage and retained/native hash binding. No native runtime edits authorized.
+
+SoftEng02 analysis implementation passed17scientific/provenance tests, actual
+four-pitch2-event retention and exact bootstrap/report replay. Pilot8PNG/PDF
+figures and six explicitly synthetic populated QA figures rendered and were
+visually inspected. These are development checks, not production performance.
+Root hit reader materializes one case at a time; prior5000-eventG4electron100
+reference has794154hits, so current1000-eventcases are expected to remain
+manageable. Memory usage is not a measured performance claim.
+
+
+### Independent source review and analysis-only remediation
+
+[PhysVal02](SESSION-2026-10-31-strixel-gbts-crosscheck/PhysVal-02-result.md)
+reviewed exact8c45136 and independently repeated28tests, all eight smoke hashes,
+all25hitROOTcolumns and three baseline bridges. No native-stopping issue.
+It identified a medium zero-discordance bootstrap qualification and low net
+measurementcount naming issue. Coordinator corrected both in offline analyzer
+and added an adverse test:18analysis tests now pass. Native executing files and
+HEAD are unchanged; final independent review must assess the correction at its
+later committed evidence revision. The muon2-eventpilot had only pixels; electron
+smokes directly checked system4/5scaled variances. Full native samples must
+supply actual all-system sensitivity and statistical results.
+
+
+Corrected offline analyzer replayed the retained4pitchpilot with400replicates;
+exact--verify passed and8PNG/PDF figures rendered. This intentionally updates
+pilot output to the corrected source hash; original PhysVal02 pilot hashes stay
+in its review record as historical assessed evidence. HEAD/native source stays
+8c45136. Zero-discordance contrast bounds are pointwise and not an equivalence
+or simultaneous multiple-comparison claim.
+
+
+### Offline persistence and repeatability checks ready
+
+[SoftEng03](SESSION-2026-10-31-strixel-gbts-crosscheck/SoftEng-03-result.md)
+adds isolated ROOT auditor composition and7adverse/synthetic tests, independently
+rerun by coordinator. Fullnew suite now36tests passes; session217and project
+81tasks/42documents/23reviews pass. Actual80caseROOTaudit remains pending.
+README now documents fresh native runs with--write-root, portable retention,
+400bootstrap replay, bridge, ROOTre-audit and unrootedplots. Requirements reuse
+the existingglobal pinnedlock; no shared dependencies installed/changed.
+Observed analysisPython3.11.15, NumPy2.4.6, uproot5.7.7, awkward2.14.0,
+Matplotlib3.11.2, unrooted0.1.0rc1 at728465dce0c5cd5b876e67392e3858de6e982d05.
+The ignored native plan is retained with originalSHAand collision-free logical
+paths; actual environment snapshot is separate from stale node registry.
+
+
+### Full-size retention pilot and bounded parallel analysis
+
+The serial 1,000-event/four-pitch Fatras electron100GeV group completed
+retention and400-replicate statistics at observed07:11UTC, exit0. Native
+controller21933 continues with fixed HEAD8c45136 and unchanged executing
+runtime/campaign. Serial pilot lives in ignored
+`build/strixel-gbts-production-pilot`; its analyzer SHA is
+9c471fc0916f603fcf528041dfd23743843d549d631dafa173c9218ef053292f.
+All8unrootedPNG/PDF pilot figures rendered; the longitudinal PNG was visually
+inspected. The full matrix will populate the second momentum row absent from
+this one-momentum development figure.
+
+[SoftEng04 assignment](SESSION-2026-10-31-strixel-gbts-crosscheck/softeng-04-assignment.json)
+owns only analyzer/test files for bounded per-case process retention, with
+spawn, deterministic inventory, failure propagation and source-immutability
+guards. ExplicitGO followed observed serial process exit0, never inferred from
+artifact presence. It must show every scientific NPZarray, summary, configuration,
+profile/bootstrap group and report text unchanged against the full-size serial
+reference. This optimization changes no native reconstruction or statistical
+kernel. New independent final review remains required.
+
+
+[SoftEng04 result](SESSION-2026-10-31-strixel-gbts-crosscheck/SoftEng-04-result.md)
+completed bounded retention. Coordinator independently repeated46tests and all
+316arrays, group/bootstrap statistics, configurations/summaries and Markdown
+comparisons against serial reference: exact. Standalone CLI verification exited0.
+Native full campaign continues without source/HEAD changes. Current node disk
+has188GiB available; actual peak memory remains unmeasured.
+
+
+### High-energy Geant4 pilot and non-target-noise qualification
+
+The complete four-pitch ×1000-event Geant4electron100GeV retention/analysis
+finished exit0 in ignored `build/strixel-gbts-geant4-production-pilot`. Full
+generated/transported JSON records, all persisted hit payloads and pixel/seed
+inputs match across pitches. Fine-u strixel fingerprints differ in70/119/167
+events at1/1.5/2mm; long-strip fingerprints differ in58/105/147 events. Counts
+and primary measurement associations remain identical. Thus identical pixels
+and seeds do not by themselves isolate the longitudinal response. This is
+consistent with the documented bounded-Gaussian retry/RNG-consumption mechanism;
+no native configuration or helper change is warranted.
+
+Coordinator amended only offline reporting to flag the event union of changed
+non-target physical inputs, broaden the attribution warning, and test the case
+of identical pixels/seeds with changed strixel fine-u/long-strip measurements.
+All47tests pass. This reporting amendment follows SoftEng04's exact6dsource
+benchmark; [byte-exact source snapshots](SESSION-2026-10-31-strixel-gbts-crosscheck/analysis-review-sources/README.md)
+preserve both development analyzer revisions and the parallel tests. Native
+HEAD remains8c45136. The final exact-evidence review must inspect this amendment.
+
+At100GeV, Geant4electron primary matching spans77.1–79.1%; wrong-charge fractions
+span13.1–13.9% among matched primaries, and relative-pT errors beyond50% remain
+about55%. These are existing frozen-baseline fit limitations, not an efficiency
+validation or evidence that longer strixels cure momentum reconstruction.
+The full matrix will retain fake/secondary, charge and residual/pull tails.
+
+
+[Reporting amendment check](SESSION-2026-10-31-strixel-gbts-crosscheck/reporting-amendment-check.json)
+replays both complete electron100GeV pilots without overwriting their historical
+outputs. All point statistics and400-bootstrap results remain exact; all prior
+fingerprint diagnostics remain exact. New non-target changed-event unions are
+[0,10,25,38] for Fatras and[0,70,119,167] for Geant4. Current analyzer SHA503bd05a
+adds reporting only; all native inputs, retention kernels and numerical statistics
+are unchanged.
+
+
+### Muon sensitivity and repeatability integration
+
+The current503bd05a analyzer completed the Geant4muon100GeV four-pitch ×1000
+pilot with jobs3, exit0. It exercises5805strixel measurements at each pitch.
+For the central0≤|eta|<1 sample (269generated,267matched at every pitch), z0
+central68.27 widths are12.323/13.501/13.739/14.177µm; theta widths
+61.764/68.922/70.088/71.921µrad. Thus2mm ratios are1.1505 and1.1645. These are
+preliminary point statistics; final full-matrix bootstrap uses its documented
+group ordering. Whole-sample matching is987/989/989/989 of1000. Full transport
+and pixel/seed pairing passes; non-target measurement changes affect0/3/9/15
+events. No calibration or detector-choice conclusion is inferred.
+
+Added a step to the existing pinned-unrooted CI job for47tests, portable full
+statistics/bootstrap/report replay,20baseline bridge verification and40figure
+regeneration. Actual native ROOTaudit requires local ignored outputs. Remote CI
+has not been run or claimed; local full-matrix equivalents remain pending.
+
+
+### Complete native matrix and offline source freeze
+
+Native controller21933 exited0. At observed07:53:54UTC all80cases had completed
+1000events each, all declaring source8c45136098d1e4d407c4d2f96e3590bb78eb6b75.
+[Campaign check](../../../docs/validation/DES-042/gbts/campaign-check.json)
+revalidated every case identity and all recorded output SHA256values. No native
+failure or retry. All47tests pass at the final offline source (3.140seconds);
+project/session records and diff whitespace checks pass. Earlier DES042 native
+point-statistic/source audit also passes:12cases,76032statistics,24servicecases.
+
+Freeze offline analysis/reporting, ROOT wrapper, tests, CI integration and
+development provenance in a new local commit before retaining the complete
+matrix. Native and original scientific sources remain unchanged. No remote
+publication is authorized or attempted.

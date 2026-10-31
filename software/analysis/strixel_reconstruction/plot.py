@@ -61,8 +61,12 @@ def points(ax, x, y, pitch, intervals=None, *, solid=True):
     ax.plot(x, y, color=color, lw=1.2, ls="-" if solid else "--", alpha=.85)
     if intervals is not None:
         bounds = np.asarray([[np.nan, np.nan] if value is None else value for value in intervals], dtype=float)
-        errors = np.stack((np.maximum(0, y - bounds[:, 0]), np.maximum(0, bounds[:, 1] - y)))
-        ax.errorbar(x, y, yerr=errors, fmt="none", color=color, lw=.7, capsize=1.7)
+        defined = valid & np.isfinite(bounds).all(axis=1)
+        # A percentile interval need not contain the observed statistic. Draw
+        # its actual endpoints independently from the unrooted point marker.
+        centre = bounds[defined].mean(axis=1)
+        half = (bounds[defined, 1] - bounds[defined, 0]) / 2
+        ax.errorbar(x[defined], centre, yerr=half, fmt="none", color=color, lw=.7, capsize=1.7)
 
 
 def save(fig, output, name, manifest):
@@ -129,7 +133,7 @@ def resolutions(groups, title, output, name, manifest, ratio=False):
     legend(fig)
     detail = "Solid: each pitch's finite successes. Dashed: common successful events at all four pitches." if ratio else "Widths retain wrong-charge tracks and all finite tails; displayed values are conditional on successful primary matching."
     fig.text(.08, .085, detail, fontsize=8, color="#536474")
-    fig.text(.08, .06, "Statistical intervals only. Scaled frozen Gaussian longitudinal response is not physical sensor calibration; boundary retries may alter pixel draws.", fontsize=8, color="#536474")
+    fig.text(.08, .06, "Statistical intervals only. Scaled frozen Gaussian longitudinal response is not physical sensor calibration; boundary retries may alter non-target draws.", fontsize=8, color="#536474")
     save(fig, output, name + ("-ratios" if ratio else "-widths"), manifest)
 
 
@@ -158,7 +162,7 @@ def longitudinal_eta(groups, title, output, name, manifest):
             ax.set_visible(False)
     legend(fig)
     fig.text(.08, .085, "Gaps indicate fewer than 30 finite matched entries. No residual, pull or charge selection; all raw tails remain retained.", fontsize=8, color="#536474")
-    fig.text(.08, .06, "Statistical longitudinal-response sensitivity. Gaussian edge retries may also change pixel noise or seed outputs; see pairing diagnostics.", fontsize=8, color="#536474")
+    fig.text(.08, .06, "Statistical longitudinal-response sensitivity. Gaussian edge retries may also change non-target noise or seeds; see pairing diagnostics.", fontsize=8, color="#536474")
     save(fig, output, name + "-longitudinal-eta", manifest)
 
 

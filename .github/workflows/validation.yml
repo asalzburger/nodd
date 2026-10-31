@@ -63,6 +63,12 @@ jobs:
           python -B software/analysis/strixel_pitch_study/control_analysis.py --verify
           python -B software/analysis/strixel_pitch_study/control_plot.py --output build/strixel-pitch-study-replay/gaussian-control
           python -B software/analysis/strixel_pitch_study/report.py --check
+      - name: Check paired GBTS strixel response and replay retained comparisons
+        run: |
+          python -B -m unittest discover -s software/analysis/strixel_reconstruction -p 'test_*.py' -v
+          python -B software/analysis/strixel_reconstruction/analyze.py --output docs/validation/DES-042/gbts --replicates 400 --verify
+          python -B software/analysis/strixel_reconstruction/bridge.py --data docs/validation/DES-042/gbts --output docs/validation/DES-042/gbts/baseline-bridge.json --verify
+          python -B software/analysis/strixel_reconstruction/plot.py --data docs/validation/DES-042/gbts/profiles.json.gz --output build/strixel-gbts-replay
       - name: Check constrained tracker optimisation and retained confirmation evidence
         run: |
           python -B -m unittest discover -s software/analysis/tracker_optimization -p 'test_*.py' -v

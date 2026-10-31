@@ -1,11 +1,13 @@
 """Synthetic scientific/provenance controls for the isolated GBTS pitch replay."""
 import copy
+from concurrent.futures import Future
 import importlib.util
 import json
 import math
 from pathlib import Path
 import tempfile
 import unittest
+from unittest import mock
 
 import numpy as np
 
@@ -106,6 +108,20 @@ class StatisticalTests(unittest.TestCase):
         self.assertEqual(diff["value"], 0.)
         self.assertEqual(a.canonical(result), a.canonical(a.paired_bin(arrays, np.ones(40, dtype=bool), 20, 17)))
 
+    def test_zero_discordance_does_not_claim_equivalence(self):
+        arrays = [fixture(40) for _ in range(4)]
+        result = a.paired_bin(arrays, np.ones(40, dtype=bool), 10, 17)
+        diff = result[1]["stages"]["ambi"]["efficiency_difference_to_baseline"]
+        self.assertEqual(diff["paired_bootstrap95"], [0., 0.])
+        self.assertTrue(diff["empirical_bootstrap_degenerate"])
+        upper = 1 - .05 ** (1 / 40)
+        self.assertAlmostEqual(diff["zero_discordance_one_sided95_upper"], upper)
+        self.assertEqual(diff["conservative_difference95_if_zero_discordance"], [-upper, upper])
+        reference = result[0]["stages"]["ambi"]["efficiency_difference_to_baseline"]
+        self.assertTrue(reference["reference_identity"])
+        self.assertEqual(reference["conservative_difference95_if_zero_discordance"], [0., 0.])
+        self.assertIsNone(reference["zero_discordance_one_sided95_upper"])
+
     def test_common_success_exposes_survival(self):
         arrays = [fixture(100) for _ in range(4)]
         for stage in ("ckf", "ambi"):
@@ -171,6 +187,18 @@ class ProvenanceTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "Transport pairing failed"):
             a.compare_pairing(arrays)
 
+    def test_non_target_noise_changes_flagged_with_identical_pixels_and_seeds(self):
+        arrays = [fixture(40) for _ in range(4)]
+        same = a.compare_pairing(arrays)
+        self.assertTrue(same["non_target_realized_inputs"]["all_pitches_equal"])
+        arrays[3]["fingerprint_strixel_fine_u"][:2] = "different"
+        arrays[3]["fingerprint_long_strip_physical"][1] = "different"
+        changed = a.compare_pairing(arrays)
+        self.assertTrue(changed["pixel_measurements"]["all_pitches_equal"])
+        self.assertTrue(changed["seeds"]["all_pitches_equal"])
+        self.assertEqual(changed["non_target_realized_inputs"]["changed_events_by_pitch"], [0, 0, 0, 2])
+        self.assertIn("cannot be attributed uniquely", changed["measurement_noise_attribution"])
+
     def test_index_free_physical_comparison_preserves_multiplicity(self):
         measurement = {"index": 1, "geometry_id": 9, "particles": [[1]], "dimension": 2, "values": [.1, .2], "variance": [.01, .02]}
         renamed = {**measurement, "index": 99}
@@ -233,6 +261,151 @@ class ProvenanceTests(unittest.TestCase):
             self.assertEqual(meta["hits_by_event"], {"0": 2, "1": 0})
             self.assertEqual(meta["branches"]["tx"]["dtype"], "float32")
             self.assertEqual(meta["branches"]["tx"]["maximum_float32_ulp"], float(np.spacing(np.float32(1000))))
+
+
+class ParallelRetentionTests(unittest.TestCase):
+    @staticmethod
+    def native_reports(source):
+        """Small scheduling fixtures; no native physics execution is substituted."""
+        for pitch in a.PITCHES:
+            report = {"campaign": {"simulation": "fatras", "particle": "electron"},
+                      "pt_GeV": 100., "pitch_mm": pitch, "events": 1000, "outcome": "completed"}
+            report["case_id"] = a.case_name(a.case_identity(report))
+            directory = source / report["case_id"]
+            directory.mkdir(parents=True)
+            (directory / "run-report.json").write_text(json.dumps(report))
+
+    def test_parallel_completion_order_is_stable_and_submission_bounded(self):
+        futures, counts, shutdown = [], [], []
+
+        class Executor:
+            def __init__(self, max_workers, mp_context):
+                self.max_workers = max_workers
+                self.context = mp_context.get_start_method()
+
+            def submit(self, function, index):
+                future = Future()
+                future.set_result("case" + str(index))
+                futures.append(future)
+                return future
+
+            def shutdown(self, **kwargs):
+                shutdown.append(kwargs)
+
+        executor = Executor(3, a.multiprocessing.get_context("spawn"))
+
+        def out_of_order(active, return_when):
+            counts.append(len(active))
+            self.assertEqual(return_when, a.FIRST_COMPLETED)
+            chosen = max(active, key=futures.index)
+            return {chosen}, set(active) - {chosen}
+
+        with mock.patch.object(a, "ProcessPoolExecutor", return_value=executor) as pool, mock.patch.object(a, "wait", side_effect=out_of_order):
+            result = a.retain_cases([(i,) for i in range(8)], 3)
+        self.assertEqual(result, ["case" + str(i) for i in range(8)])
+        self.assertEqual(max(counts), 3)
+        self.assertEqual(pool.call_args.kwargs["max_workers"], 3)
+        self.assertEqual(pool.call_args.kwargs["mp_context"].get_start_method(), "spawn")
+        self.assertEqual(shutdown, [{"wait": True, "cancel_futures": True}])
+
+    def test_worker_failure_cancels_pending_and_stops_new_submissions(self):
+        futures = []
+        shutdown = []
+
+        class Executor:
+            def submit(self, function, index):
+                future = Future()
+                if index == 0:
+                    future.set_exception(ValueError("synthetic worker failure"))
+                futures.append(future)
+                return future
+
+            def shutdown(self, **kwargs):
+                shutdown.append(kwargs)
+
+        with mock.patch.object(a, "ProcessPoolExecutor", return_value=Executor()):
+            with self.assertRaisesRegex(ValueError, "synthetic worker failure"):
+                a.retain_cases([(i,) for i in range(80)], 3)
+        self.assertEqual(len(futures), 3)
+        self.assertTrue(all(future.cancelled() for future in futures[1:]))
+        self.assertEqual(shutdown, [{"wait": True, "cancel_futures": True}])
+
+    def test_default_serial_path_uses_no_executor(self):
+        with mock.patch.object(a, "retain_case", side_effect=lambda index: index * 2), mock.patch.object(a, "ProcessPoolExecutor") as pool:
+            self.assertEqual(a.retain_cases([(i,) for i in range(4)], 1), [0, 2, 4, 6])
+        pool.assert_not_called()
+
+    def test_invalid_jobs_fail_before_source_or_output_access(self):
+        for jobs in (0, -1, True, 1.5):
+            with self.subTest(jobs=jobs), self.assertRaisesRegex(ValueError, "positive integer"):
+                a.retain("missing-source", "missing-output", jobs=jobs)
+
+    def test_wrapper_import_snapshot_and_current_bytes_must_both_match(self):
+        a.assert_source_unchanged(a.LOADED_SOURCE_SHA256)
+        with self.assertRaisesRegex(ValueError, "wrapper source changed"):
+            a.assert_source_unchanged("different import snapshot")
+        with mock.patch.object(a, "digest", return_value="edited on disk"):
+            with self.assertRaisesRegex(ValueError, "wrapper source changed"):
+                a.assert_source_unchanged(a.LOADED_SOURCE_SHA256)
+
+    def test_worker_rejects_source_or_report_change_before_reduction(self):
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory) / "output"
+            report_path = Path(directory) / "run-report.json"
+            report_path.write_text("{}")
+            with mock.patch.object(a, "native_analyzer") as kernel:
+                with self.assertRaisesRegex(ValueError, "wrapper source changed"):
+                    a.retain_case(report_path, {}, output, "old wrapper", a.digest(report_path))
+                with self.assertRaisesRegex(ValueError, "report changed after retention preflight"):
+                    a.retain_case(report_path, {}, output, a.LOADED_SOURCE_SHA256, "old native report")
+            kernel.assert_not_called()
+            self.assertFalse(output.exists())
+
+    def test_matrix_preflight_precedes_worker_launch(self):
+        with tempfile.TemporaryDirectory() as directory:
+            source, output = Path(directory) / "source", Path(directory) / "output"
+            self.native_reports(source)
+            path = next(source.glob("*/run-report.json"))
+            report = json.loads(path.read_text())
+            report["events"] = 999
+            path.write_text(json.dumps(report))
+            with mock.patch.object(a, "retain_cases") as workers:
+                with self.assertRaisesRegex(ValueError, "Pilot denominators differ"):
+                    a.retain(source, output, pilot=True, jobs=3)
+            workers.assert_not_called()
+            self.assertFalse(output.exists())
+
+    def test_existing_case_artifacts_are_never_overwritten(self):
+        with tempfile.TemporaryDirectory() as directory:
+            source, output = Path(directory) / "source", Path(directory) / "output"
+            self.native_reports(source)
+            target = output / "cases" / "fatras-electron-pt100-pitch1"
+            target.mkdir(parents=True)
+            marker = target / "keep.txt"
+            marker.write_text("existing partial evidence")
+            with mock.patch.object(a, "frozen_contract", return_value={}), mock.patch.object(a, "validate_engine"), mock.patch.object(a, "retain_cases") as workers:
+                with self.assertRaisesRegex(ValueError, "Refusing to overwrite retained case"):
+                    a.retain(source, output, pilot=True, jobs=3)
+            workers.assert_not_called()
+            self.assertEqual(marker.read_text(), "existing partial evidence")
+            self.assertFalse((output / "native-reports.json.gz").exists())
+
+    def test_source_change_at_close_preserves_partial_files_without_inventory(self):
+        with tempfile.TemporaryDirectory() as directory:
+            source, output = Path(directory) / "source", Path(directory) / "output"
+            self.native_reports(source)
+            marker = output / "cases" / "partial-worker-output.txt"
+
+            def complete_cases(tasks, jobs):
+                marker.parent.mkdir(parents=True)
+                marker.write_text("preserve completed case evidence")
+                return [{"case": "synthetic-completed-case"}]
+
+            with mock.patch.object(a, "frozen_contract", return_value={}), mock.patch.object(a, "validate_engine"), mock.patch.object(a, "retain_cases", side_effect=complete_cases), mock.patch.object(a, "assert_source_unchanged", side_effect=[None, ValueError("wrapper source changed at close")]):
+                with self.assertRaisesRegex(ValueError, "wrapper source changed at close"):
+                    a.retain(source, output, pilot=True, jobs=3)
+            self.assertTrue(marker.exists())
+            self.assertFalse((output / "native-reports.json.gz").exists())
 
 
 if __name__ == "__main__":
