@@ -162,6 +162,30 @@ class RootAuditTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "reference binding"):
             root_audit.compose_audit(self.native, self.data, pilot=True)
 
+    def test_native_integer_pdg_key_order_survives_json_roundtrip(self):
+        item = self.inventory["reports"][0]
+        summary = root_audit.read_gzip(self.data / item["summary_file"])
+        summary["species_audit"] = {"secondary_pdgs": {22: 3, 211: 2, -11: 1}}
+        self.write_gzip(self.data / item["summary_file"], summary)
+        item["native_summary_sha256"] = self.analysis.fingerprint(summary)
+        item["files"][item["summary_file"]] = root_audit.digest(self.data / item["summary_file"])
+        self.save_inventory()
+        parsed = root_audit.read_gzip(self.data / item["summary_file"])
+        self.assertNotEqual(self.analysis.fingerprint(parsed), item["native_summary_sha256"])
+        with redirect_stdout(io.StringIO()):
+            result = root_audit.compose_audit(self.native, self.data, pilot=True)
+        self.assertEqual(result["status"], "PASS")
+
+    def test_rebound_summary_whitespace_still_fails_original_byte_hash(self):
+        item = self.inventory["reports"][0]
+        path = self.data / item["summary_file"]
+        payload = gzip.decompress(path.read_bytes())
+        path.write_bytes(gzip.compress(b" " + payload, mtime=0))
+        item["files"][item["summary_file"]] = root_audit.digest(path)
+        self.save_inventory()
+        with self.assertRaisesRegex(ValueError, "independently reduced native summary"):
+            root_audit.compose_audit(self.native, self.data, pilot=True)
+
     def test_missing_root_and_unreported_root_are_rejected(self):
         item = self.inventory["reports"][0]
         case = self.native / item["case"]

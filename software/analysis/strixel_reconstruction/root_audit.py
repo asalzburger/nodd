@@ -109,14 +109,20 @@ def reference_binding(data, item, native_case, report, analyzer):
     for relative, expected in item["files"].items():
         if digest(inside(data, relative)) != expected:
             raise ValueError("Retained artifact hash differs: " + relative)
-    summary = read_gzip(data / item["summary_file"])
+    summary_payload = gzip.decompress((data / item["summary_file"]).read_bytes())
+    summary = json.loads(summary_payload)
     if (summary["events"] != report["events"] or summary["pt_GeV"] != report["pt_GeV"] or
             summary["seed"] != report["seed"] or summary["profile"] != report["profile"] or
             summary["native_source_revision"] != report["source_revision"] or
             summary["run_report_sha256"] != report_hash or
             summary["events_sha256"] != report["output_sha256"]["events.jsonl.gz"]):
         raise ValueError("Retained summary differs from native case reference")
-    if hashlib.sha256(canonical(summary)).hexdigest() != item["native_summary_sha256"]:
+    # Retention hashes the native dictionary before JSON turns integer PDG
+    # keys into strings. Re-sorting the parsed keys can change their order
+    # (22 before 211 numerically, 211 before 22 lexically). Bind the original
+    # serialized bytes instead; dump_gzip appends exactly one LF.
+    if (not summary_payload.endswith(b"\n") or
+            hashlib.sha256(summary_payload[:-1]).hexdigest() != item["native_summary_sha256"]):
         raise ValueError("Retained summary differs from independently reduced native summary")
     configuration = read_gzip(data / item["configuration_file"])
     for filename in ("error-table.json", "digitization.json", "gbts/config.json"):

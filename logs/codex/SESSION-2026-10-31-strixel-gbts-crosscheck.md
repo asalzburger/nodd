@@ -242,3 +242,46 @@ Freeze offline analysis/reporting, ROOT wrapper, tests, CI integration and
 development provenance in a new local commit before retaining the complete
 matrix. Native and original scientific sources remain unchanged. No remote
 publication is authorized or attempted.
+
+
+Offline source freeze is `fcc74d72fc81a9f9e5f97056bac0ca84971671cb`, including
+final analyzer SHA503bd05aa6fff1164dda466eba8a34dfa2852f3f6888db3e5c3b082cca7d4fd8.
+At observed07:54:22UTC launched complete retention/statistics with analysisPython:
+`analyze.py --source build/strixel-gbts-production --output
+docs/validation/DES-042/gbts --replicates400 --jobs3`; unified session24764.
+Native controller and its monitor both ended successfully at80/80. No source
+edits are permitted during this executing offline analysis. Full baseline and
+ROOTaudits can read the finalized inventory concurrently with immutable
+statistical reduction once retention completes.
+
+[Full-size bridge pilot](SESSION-2026-10-31-strixel-gbts-crosscheck/full-size-baseline-bridge-pilot.json)
+independently compares all42 original observables/NaN masks in each of three
+100GeV species/transport samples against identical1000eventIDs in frozen5000
+references: all exact. Complete20-case bridge remains a separate final check.
+
+
+### Full baseline bridge and byte-exact ROOT-audit remediation
+
+All20 fresh0.5mm1000-event subsets reproduce812 original portable observables
+(including NaN masks) against frozen5000-event references. Every Fatras-muon
+historical1000-removal budget is provably nonlimiting.
+
+First full ROOTaudit exited1 in the new wrapper's summary-binding check. The
+wrapper re-serialized parsed JSON and re-sorted integer PDG keys as strings.
+This changes order (numeric22 before211 versus lexical211 before22).
+[Byte binding check](SESSION-2026-10-31-strixel-gbts-crosscheck/summary-byte-binding-check.json)
+proves all80 exact decompressed serialized summaries match their original native
+summary hashes after removing only the documented one trailing LF;44 parsed and
+re-sorted forms differ. No numerical/native/retained source is changed.
+
+The isolated new wrapper now hashes those exact serialized bytes, preserving the
+original hash criterion. Added an actual integer-key-order regression and a
+rebound-whitespace rejection test; all49tests pass in3.266seconds. Frozen original
+auditor/analyzer and source503bd05a executing full statistics remain unchanged.
+Freeze this audit-only correction locally before rerunning the full ROOTaudit;
+independent final review must assess the correction and exact evidence.
+
+PDF skill applied for read-only export inspection. Bundled pypdf verifies a
+single-page Geant4electron pilot and Poppler renders its glyphs/labels/intervals
+correctly; the unused second momentum row is the explicit one-momentum pilot.
+Final20PDF/20PNG matrix QA remains pending. No dependency installation.
