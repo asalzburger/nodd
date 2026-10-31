@@ -89,7 +89,7 @@ def positive_width_axis(ax):
 
 
 def efficiency(groups, title, output, name, manifest):
-    fig, axes = frame(title + " — primary efficiency", "Every generated event remains in the denominator · 68% Wilson intervals · frozen response and reconstruction")
+    fig, axes = frame(title + " - primary efficiency", "Every generated event remains in the denominator · 68% Wilson intervals · frozen response and reconstruction")
     for ax, group in zip(axes.flat, groups):
         for case in group["cases"]:
             bins = case["abs_eta_bins"]
@@ -106,7 +106,7 @@ def efficiency(groups, title, output, name, manifest):
 
 
 def resolutions(groups, title, output, name, manifest, ratio=False):
-    fig, axes = frame(title + (" — resolution ratios" if ratio else " — uncut residual widths"),
+    fig, axes = frame(title + (" - resolution ratios" if ratio else " - uncut residual widths"),
                       "All truth η · finite matched-primary representatives · paired 68.27% bootstrap intervals · ≥30 entries", rows=2, columns=3)
     for ax, (quantity, (label, unit, scale)) in zip(axes.flat, LABELS.items()):
         for pitch in COLORS:
@@ -141,7 +141,7 @@ def longitudinal_eta(groups, title, output, name, manifest):
     selected = [group for group in groups if group["pt_GeV"] in (10., 100.)]
     if not selected:
         return
-    fig, axes = frame(title + " — longitudinal response versus η",
+    fig, axes = frame(title + " - longitudinal response versus η",
                       "Uncut matched-primary residuals · central 68.27% half-width · paired bootstrap 68.27% intervals · ≥30 entries")
     for row, group in enumerate(selected):
         for column, quantity in enumerate(("z0", "theta")):

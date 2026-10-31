@@ -1,0 +1,157 @@
+{
+  "schema_version": 1,
+  "status": "PASS",
+  "study_status": "PROTOTYPE",
+  "date": "2026-10-31",
+  "cases": 80,
+  "generated_events_per_case": 1000,
+  "generated_case_events": 80000,
+  "population_momentum_groups": 20,
+  "pitches_mm": [
+    0.5,
+    1,
+    1.5,
+    2
+  ],
+  "pt_GeV": [
+    1,
+    5,
+    10,
+    100
+  ],
+  "native_source_revision": "8c45136098d1e4d407c4d2f96e3590bb78eb6b75",
+  "scientific_input_revision": "4ea4af17727020bac2ba8f5e2f6172378711c15a",
+  "offline_numeric_source_commit": "fcc74d72fc81a9f9e5f97056bac0ca84971671cb",
+  "root_wrapper_correction_commit": "6bc69e1c25310f20e3f04a53fcbae6d3104beee5",
+  "sources_sha256": {
+    "runtime.py": "346e0fe6631e777f271642b5aaa25af7dc7bd271c8bd7961ac9e309d3d7c7ce7",
+    "campaign.py": "5b167712c0a171849e60c42b0f9626e1bead0ac12c7a5ea134509dc119d1d319",
+    "analyze.py": "503bd05aa6fff1164dda466eba8a34dfa2852f3f6888db3e5c3b082cca7d4fd8",
+    "plot.py": "b9ae647865048509db12e541f3d9a51e6d64b8e0d5e0965b438f233201df8e65",
+    "bridge.py": "806c96e8b8c36e9d7f3ee7e9e1228c74846bb4f5fc2433d604759d0e836317b8",
+    "root_audit.py": "4f01b44bd460db7f084dc33e3d580f6bea5f62314dafe96f9f1082f6d7715982",
+    "test_runtime.py": "39ef4c51673760f7f90eb745759927450a8fe98003bd552b37dc1a88216832da",
+    "test_analyze.py": "f08a9afaf59f108a647f7da3428373c268e4363331039244979205e4bfdac3d0",
+    "test_bridge.py": "e21443e43fbbd8307577087488dc5828ac4f70baf6dd73844cf744c29cce805b",
+    "test_root_audit.py": "788a2503b5a43ca1c4acbd0fc983082d34748986347479a8ac41f5a9fe818fb2",
+    "test_plot.py": "81129fa6f2769b3c3ab463701f8bf4cfbdef4ba3bb74eeec2b56c808d583fea6",
+    "README.md": "c9754a1c9a6655ca0aa9af8906c6b5bc005573121b60f13bc0d31da5bd19a67d",
+    "requirements.txt": "77d39f8c56695d41bafeb2e6a0449bfd2728a3137baa9767fd1a02c59fa31a49"
+  },
+  "artifacts_sha256": {
+    "native-reports.json.gz": "6d880eec12f4f5c0a5bff02ed2b9aac1f393629f2cc33816f00ea29245da1ce7",
+    "profiles.json.gz": "b8fea396f17a9c181f82bd3105d52ae4f8b67d891d3b409b5a312fb041dddd0d",
+    "results.md": "c875945ee8b6b79db17fd79083f5bed38639b63700ec742df4780b5548f915bf",
+    "summary.md": "2127445338dfc7d6e0b6695ce8fcf8f188c062bc2f0043851bf1d084eb6cd69b",
+    "baseline-bridge.json": "4c0d024a2dcd2857dffb5eb78fcb6dbbf8a4cf1dedd96a25b4507c8ce9193fed",
+    "root-audit.json": "85caba977fc3a9a24eb500d00e9972385787d8fe6de79ffb69c284b244081067",
+    "figure-verification.json": "e20043f859be98f801a11c22fb7de80124fb9332a9fc04c5968d2d7370cb3d02",
+    "analysis-environment.json": "16fcec6132e808e7143c4d7f6320432de8e9c9e6dde9235f72cf5e1614185988",
+    "campaign-check.json": "f6c61e08267a385422419cf3fe3a4d495df81cd35409e6473d786d25e8545a16",
+    "campaign-plan.json.gz": "232af2ffd896b2cbcaf37ea8668ce351c6b131d9b90a6390e3688cf8e9aaec6e",
+    "figures/manifest.json": "f1240f204b414f5c7931024b4b3b8c4be2717ecfe912ce8b6690feaec1a1e889"
+  },
+  "checks": [
+    {
+      "name": "native_campaign",
+      "status": "PASS",
+      "exit_code": 0,
+      "coverage": "80cases x1000 generated events; common8c45136 source and recorded output SHA256 checks"
+    },
+    {
+      "name": "retention_and_statistics",
+      "status": "PASS",
+      "exit_code": 0,
+      "coverage": "Frozen classifier and response/spacepoint/covariance/convergence gates;80portable cases and20paired groups;400joint event bootstraps"
+    },
+    {
+      "name": "exact_statistical_replay",
+      "status": "PASS",
+      "exit_code": 0,
+      "command": [
+        "../nodd-gen3-material-mapping/build/truth-tracking-baseline/analysis-venv/bin/python",
+        "-B",
+        "software/analysis/strixel_reconstruction/analyze.py",
+        "--output",
+        "docs/validation/DES-042/gbts",
+        "--replicates",
+        "400",
+        "--verify"
+      ],
+      "coverage": "Exact all point statistics, all400-bootstrap results and Markdown"
+    },
+    {
+      "name": "baseline_bridge_and_replay",
+      "status": "PASS",
+      "exit_code": 0,
+      "coverage": "20same-ID1000-event subsets;812original observables with exactNaN masks"
+    },
+    {
+      "name": "root_persistence_and_exact_replay",
+      "status": "PASS",
+      "exit_code": 0,
+      "coverage": "80cases,5406814measurement covariance marginals, all generated track events/raw counts and same-event complete representative tuples"
+    },
+    {
+      "name": "focused_tests",
+      "status": "PASS",
+      "exit_code": 0,
+      "coverage": "49tests at final source;3.334seconds"
+    },
+    {
+      "name": "figure_export_and_exact_replay",
+      "status": "PASS",
+      "exit_code": 0,
+      "coverage": "40PNG/PDF files and fullmanifest byte-exact on same node/environment"
+    },
+    {
+      "name": "pdf_and_visual_qa",
+      "status": "PASS",
+      "exit_code": 0,
+      "coverage": "All20PDFs onepage and Poppler rendered; all20contact-sheet panels and4detailed figure families inspected"
+    },
+    {
+      "name": "previous_DES042_point_source_audit",
+      "status": "PASS",
+      "exit_code": 0,
+      "coverage": "Unchanged12native cases,76032point statistics and24service cases; previous bootstrap not repeated by that check"
+    }
+  ],
+  "pairing": {
+    "all20_groups_equal": [
+      "generated",
+      "simulated_particles",
+      "simulated_ids",
+      "simhit_count",
+      "simhits_payload",
+      "pixel_measurements",
+      "spacepoints",
+      "seeds",
+      "estimated_seeds",
+      "primary_measurement_associations"
+    ],
+    "non_target_2mm_changed_events_by_group": {
+      "fatras-electron-pt1": 15,
+      "fatras-electron-pt5": 27,
+      "fatras-electron-pt10": 32,
+      "fatras-electron-pt100": 38,
+      "fatras-muon-pt1": 13,
+      "fatras-muon-pt5": 17,
+      "fatras-muon-pt10": 13,
+      "fatras-muon-pt100": 12,
+      "geant4-electron-pt1": 68,
+      "geant4-electron-pt5": 111,
+      "geant4-electron-pt10": 101,
+      "geant4-electron-pt100": 167,
+      "geant4-muon-pt1": 20,
+      "geant4-muon-pt5": 15,
+      "geant4-muon-pt10": 15,
+      "geant4-muon-pt100": 15,
+      "geant4-pion-pt1": 22,
+      "geant4-pion-pt5": 46,
+      "geant4-pion-pt10": 49,
+      "geant4-pion-pt100": 89
+    }
+  },
+  "scope": "Single-particle effective frozen Gaussian-response sensitivity at fixed geometry/material/constant3T. Pointwise statistical intervals; no equivalence, physical coarse-response calibration, occupancy benchmark or detector acceptance."
+}

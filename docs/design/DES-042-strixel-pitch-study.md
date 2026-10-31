@@ -181,3 +181,149 @@ reference evidence. Implement by isolated composition in
 `software/analysis/strixel_reconstruction/`; retain evidence in
 `docs/validation/DES-042/gbts/`. Separate PhysVal assesses the protocol and exact
 final evidence revision. No numerical result grants design or production approval.
+# Fatras ttbar plus 200 pileup extension (2026-10-31)
+
+**PROTOTYPE — NODD DESIGN CHOICE (explicit human request):** reconstruct
+100 events per strixel length (0.5, 1, 1.5 and 2 mm), with one Pythia8 ttbar
+hard scatter plus exactly 200 minimum-bias pileup interactions per event,
+using Fatras only. Compare efficiency, fake and duplicate rates. Keep the
+existing scaled Gaussian response, fixed geometry/material/constant 3 T and
+`pt4-nominal-triplet` GBTS with the common ttbar vertex-window adaptation below,
+otherwise frozen CKF and converged ambiguity settings.
+No tuning on this sample and no detector acceptance is implied.
+
+**FACT (local ACTS guide):** the user-named guide is
+`Examples/Scripts/Python/full_chain_odd.py` at installed matching ACTS revision
+`355ea68493b326956756c9386d2fd9eaf9328568`. Its ttbar path uses
+`Top:qqbar2ttbar=on`, 14 TeV proton beams, `SoftQCD:all=on` pileup with fixed
+multiplicity, Gaussian vertex sigma (0.0125, 0.0125, 55.5) mm and 5 ns, and
+generator selection rho <=24 mm, |z| <=1 m, |eta| <=3 and pT >=150 MeV.
+Record explicit effective values rather than relying on defaults. The stock
+ODD 2 T field, volume IDs and cuts are guidance, not nODD geometry inputs.
+
+**NODD DESIGN CHOICE (pre-execution protocol):** production seed153042;
+development smoke seed153043. Use the same generated and transported events
+at all four lengths, proving full particle/hit identity rather than assuming
+it from equal seeds. Prefer a once-generated, once-transported retained sample
+replayed into the four reconstruction variants where this preserves native
+semantics; otherwise verify every event's exact persisted particle/hit payload.
+Retain all 100 events, including zero-track events and failures. Fatras keeps
+its 0.5 GeV absolute-momentum threshold and interactions, using the already
+validated numerical guard for mixed samples containing electrons. Keep the
+muon reconstruction hypothesis as in the guide for this inclusive sample;
+no truth species chooses a seed or fit hypothesis.
+
+Efficiency denominator: charged generated particles satisfying pT >=1 GeV,
+|eta| <=3, rho <=24 mm and |z| <=1 m, before hit/reconstruction requirements.
+Report hard-scatter and pileup separately, plus inclusive. Also report the
+guide-like conditional denominator with >=9 distinct associated measurements,
+and the existing >=6 sensor/3 pixel-group reconstructability control.
+The first generator vertex is hard scatter; verify the actual barcode/vertex
+semantics before assigning this label. Do not group descendants into ancestors.
+
+Match every quality-accepted track to generated or simulated truth with the
+existing unique-inlier purity >=0.5 and completeness >=0.5 rule, deterministic
+winner/representative ties and >=7 measurements plus valid reference/fit
+covariance. Keep matched out-of-fiducial particles and simulation secondaries
+separate from unmatched fakes. Duplicate tracks are additional matches beyond
+one per truth particle, not fakes. Retain raw CKF, ambiguity, quality rejection,
+wrong-charge and candidate counts. Report the frozen quality selection and
+separately a guide-like track selection: reconstructed pT >=1 GeV, |eta| <=3,
+|loc0| <=4 mm, at most2 holes and2 outliers. No truth input filters CKF hits.
+
+Use 2,000 deterministic paired event-block bootstrap resamples for efficiency
+(ratio of sums), candidate fake/duplicate fractions and cross-length differences;
+particles/tracks in one pileup event are not independent binomial trials.
+Report fake-event incidence with Wilson intervals and the exact one-sided95%
+upper bound for zero fake events. Degenerate resampling is flagged, not treated
+as equivalence. Include pT/eta profiles with denominators and uncertainty.
+Preserve event-level sufficient counts and matching identities for independent
+recomputation. Audit all ambiguity survivors before selection for convergence.
+
+Validate native generation, sample pairing, response variance, all-system CKF
+inputs and independent classifications with small distinct-seed smoke samples
+before the frozen 100-event production. Record source/runtime/configuration,
+Pythia settings/version, native numerical guard, RNG seeds and retained hashes.
+An absent shared Pythia binding may be supplied by a task-owned sidecar against
+the existing installed dependency; shared dependencies/runtime remain unchanged.
+Independent PhysVal assessment must cover protocol and final committed evidence.
+
+**Implementation qualification:** task-owned lossless per-event gzipJSON replay
+is used because ROOT particle/hit writers reduce precision and omit some final
+state metadata. The native reader restores and byte-compares the complete
+reserialized particle/hit payload, including signed zero, before reconstruction.
+Producer interaction tags establish hard-scatter origin through conversion.
+The unchanged upstream Pythia generator temporarily disables its own FPE monitor
+around generation; Fatras/reconstruction monitoring stays active. This scoped
+upstream behavior is recorded, not represented as an entirely unmasked chain.
+
+**NODD DESIGN CHOICE (before production):** widen the common GBTS z0 range
+from the single-particle origin control's ±15 mm to ±1 m, matching the guide's
+selected vertex-z region. Update geometry/ROI range, graph minZ0/maxZ0 and
+tracking-filter maxZ0 consistently. The guide's 55.5 mm vertex-z sigma is much
+larger than the origin control's acceptance. This is a physics-based scenario
+adaptation, with the same range at every pitch; it is not a scan or optimization
+on the untouched100-event sample. Keep all other seeder, CKF, matching and
+quality settings. The earlier narrow-window smokes remain development controls.
+The generated-particle denominator still includes displaced tracks whose
+perigee z0 or d0 can lie outside reconstruction acceptance.
+
+**FACT (development pilot and pinned ACTS implementation):** the common±1m
+window reaches the existing2,000,000graph-edge cap. Preserve this default
+through the comparison and record per-event edge/link counts and cap-warning
+incidence using observational native logging with single-thread event IDs.
+Require complete diagnostic coverage and count/warning consistency. This is
+separate from an output-seed cap. Report efficiency as that of the current
+resource-limited chain; do not claim unconstrained seeding/detector performance.
+
+**FACT (first 100-event attempt):** all event payloads were written, but final
+sequencer validation rejected the sample for one unmasked underflow in the
+gamma sampler's power intermediate. The existing combined-product logarithmic
+guard does not protect that intermediate. Six independent particle propagation
+step-limit failures were retained. The matching multi-particle implementation
+also copies a failed-particle reference after erasing its queued element, so
+logged identities alone cannot establish which particles were lost. The failed
+attempt remains preserved and is not a valid reconstruction input.
+
+**NODD DESIGN CHOICE (numerical implementation correction):** use a distinct,
+task-owned Fatras component with the same compiler/flags, algorithm position,
+random draws, settings and collections. A conservative guard may replace an
+internal gamma value only where the downstream binary64 energy-loss fraction
+is provably already zero. Do not claim internal gamma-value equality. Keep
+the original computation elsewhere, active exception monitoring and all four
+angular draws. Capture failed-particle state before erasure in a separate
+observational audit; do not change propagation limits or remove failed events.
+Require native/strict floating-point positive controls, exact energy/parent/
+photon/RNG comparisons, separate PhysVal assessment and same-seed replay of
+all 100 native particle/hit payloads before corrected production is used.
+This repairs numerical evaluation and diagnostics; it does not tune physics
+or reconstruction parameters on the performance sample. Missing transport
+outputs remain a qualification for efficiency, occupancy and fake rates.
+
+**FACT (first four-length reconstruction and actual compiler evidence):** all
+four loops processed100events, but final monitoring rejected one GBTS FLTDIV
+at event57. Clang O2 evaluates the endcap `(1+tau²)/tau²` before selecting the
+barrel result. The captured barrel slope is negative zero; the source-selected
+barrel expression is valid. Shared, renamed and instrumented implementations
+match all100 original ordered seed IDs and quality bits. Actual machine-code
+and state-level evidence are retained in the separate validation report.
+The failed reconstruction reports remain failed.
+
+**NODD DESIGN CHOICE (numerical evaluation correction):** use a separate,
+task-owned GBTS component with uniquely named, hash-checked copies of the
+required Core classes. Select the denominator first (`1` for barrel, `tau²`
+for endcap), then divide. Preserve selected arithmetic, algorithm name/slot,
+random streams, graph limit, settings and collections. Do not reject candidates,
+insert epsilon/floor values, mask exceptions or relax cuts. Require native and
+strict floating-point controls retaining genuine selected singularities,
+actual machine-code confirmation, all100 ordered seed/quality comparisons,
+complete per-event numerical diagnostics, separate PhysVal review and a fresh
+full reconstruction audit at all four lengths. Reuse the unchanged validated
+Fatras sample with its original generation revision/report hash; freeze the
+new reconstruction revision independently. This repairs compiler evaluation
+without tuning physics or reconstruction parameters on performance results.
+
+
+Completed prototype execution and independent evidence assessment are retained in
+[the ttbar plus 200 pileup report](../validation/DES-042/ttbar-pu200/README.md).
+This result grants no detector design acceptance or baseline change.

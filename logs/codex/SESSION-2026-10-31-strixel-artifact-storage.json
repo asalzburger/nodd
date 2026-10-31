@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-31-strixel-artifact-storage",
+  "title": "Measure ttbar disk use and exclude raw study artifacts from PR history",
+  "recorded_at": "2026-10-31T13:03:12Z",
+  "started_at": null,
+  "ended_at": null,
+  "status": "open",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact task start and client per-turn token counters/model/turn IDs unavailable; usage empty means missing, not zero.",
+    "Measurements are allocated retained disk blocks, not minimum working space or peak memory. Shared runtime/dependency builds and shared Git storage are excluded from the17.3GiB tally.",
+    "Original unpublished data-bearing commits remain at a local archive ref for provenance; no push or remote history rewrite."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "15da21c7cc2e3e6fea72b957db087caca9845ce0",
+    "branch": "codex/strixel-pitch-truth-study",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": []
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [
+      "tracker",
+      "artifact-storage",
+      "CI"
+    ],
+    "related_ids": [
+      "DES-042"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-31-strixel-artifact-storage.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "du -sk build/strixel-ttbar* docs/validation/DES-042/ttbar-pu200 /private/tmp/nodd-strixel-ttbar",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "18,564,907,008allocatedbytes=17.2903GiB total. Successful generation+reconstruction9.25GiB; portableaudit1.47GiB; sixplotpairs1,728,512bytes=1.6484MiB. SharedGitstorage excluded."
+    },
+    {
+      "command": "git ls-remote origin refs/heads/codex/strixel-pitch-truth-study",
+      "status": "FAIL",
+      "exit_code": 128,
+      "result": "Sandbox DNS unavailable. GitHub connector fetch_commit on branch subsequently verifies remote aa9b0e717efc831bd858180a88ad1d4dba77eeed; search_prs finds no PR. No network mutation."
+    },
+    {
+      "command": "strixel_reconstruction unit suite including new publication guards, initial run",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "55/56pass; unsafe-name test instead hit missing-pair failure due dictionary order. Fixed checker to validate all inventory paths before resolving pairs; no weakened test."
+    },
+    {
+      "command": "strixel_reconstruction complete unit suite after guard fix",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "56tests pass3.390s, including7adverse publication/hash/source/path cases."
+    },
+    {
+      "command": "strixel_ttbar complete unit suite",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "66tests pass1.677s; synthetic matching/bootstrap/runtime controls unchanged."
+    },
+    {
+      "command": "strixel_pitch_study report.py then report.py --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Updated publication wording/local data references only; full numerical report deterministically replays with unchanged values."
+    }
+  ]
+}

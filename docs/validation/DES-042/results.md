@@ -4,6 +4,10 @@
 segmentation from 0.5 to 1/1.5/2 mm at fixed 75 µm fine pitch in both strixel
 systems: barrel z and endcap radial direction. EC counts include both ends.
 
+Per the 2026-10-31 publication instruction, event arrays and compressed/CSV
+datasets stay local and ignored. The PR contains plots, compact reports,
+provenance and rerun code. See [local artifact inventory](local-artifacts.json).
+
 ## Channel count and single-cell estimate
 
 | Local-v pitch | Binary σv | Barrel channels | EC channels | Total channels | Reduction |
@@ -121,7 +125,7 @@ sample. This fixed-material truth-associated scan does not measure any
 performance benefit from a hypothetical reduction of service material.
 
 All six perigee/derived quantities and every signed-eta bin are available in
-[summary.csv](summary.csv) and [profiles.json.gz](profiles.json.gz).
+local, ignored `summary.csv` and `profiles.json.gz`.
 Figures: [fit fractions](figures/fit-fractions.png),
 [1 GeV ratios](figures/ratio-pt1.png), [10 GeV ratios](figures/ratio-pt10.png),
 [100 GeV ratios](figures/ratio-pt100.png). Absolute widths and
@@ -178,8 +182,8 @@ This is a response-model sensitivity, not global fit calibration.
 Errors use the same paired-event bootstrap prescription, 400 draws.
 [Gaussian ratios](gaussian-control/figures/gaussian-ratio-pt100.png),
 [absolute widths](gaussian-control/figures/gaussian-absolute-pt100.png),
-[full control data](gaussian-control/profiles.json.gz) and
-[CSV](gaussian-control/summary.csv) retain all six quantities and eta bins.
+The local, ignored `gaussian-control/profiles.json.gz` and
+`gaussian-control/summary.csv` retain all six quantities and eta bins.
 
 ## Conditional power estimate
 

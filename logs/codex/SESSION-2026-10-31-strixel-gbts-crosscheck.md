@@ -67,7 +67,7 @@ instead of `active`, incomplete activity schema); corrected records then passed
 
 [SoftEng-01](SESSION-2026-10-31-strixel-gbts-crosscheck/SoftEng-01-result.md)
 reports9focused tests and8completed2-event smokes. Coordinator independently
-ran the unchanged classifier and [bridge](../../../software/analysis/strixel_reconstruction/bridge.py)
+ran the unchanged classifier and [bridge](../../software/analysis/strixel_reconstruction/bridge.py)
 for the three0.5mm smoke populations (Fatrasmuon/electron, Geant4electron):
 every original portable observable and NaN mask matches the same two retained
 reference events exactly. [Bridge pilot evidence](SESSION-2026-10-31-strixel-gbts-crosscheck/smoke-baseline-bridge.json).
@@ -232,7 +232,7 @@ has not been run or claimed; local full-matrix equivalents remain pending.
 
 Native controller21933 exited0. At observed07:53:54UTC all80cases had completed
 1000events each, all declaring source8c45136098d1e4d407c4d2f96e3590bb78eb6b75.
-[Campaign check](../../../docs/validation/DES-042/gbts/campaign-check.json)
+[Campaign check](../../docs/validation/DES-042/gbts/campaign-check.json)
 revalidated every case identity and all recorded output SHA256values. No native
 failure or retry. All47tests pass at the final offline source (3.140seconds);
 project/session records and diff whitespace checks pass. Earlier DES042 native
@@ -285,3 +285,74 @@ PDF skill applied for read-only export inspection. Bundled pypdf verifies a
 single-page Geant4electron pilot and Poppler renders its glyphs/labels/intervals
 correctly; the unused second momentum row is the explicit one-momentum pilot.
 Final20PDF/20PNG matrix QA remains pending. No dependency installation.
+
+
+### Complete portable evidence and export checks
+
+All80cases retained; producer24764 exited0 with20paired groups. Full
+`--verify` session22865 exited0 with exact point statistics, all400joint event
+bootstrap results and Markdown. Corrected ROOTwrapper at6bc69e1 passes all80
+cases and5406814persisted variance marginals; exact re-audit session51315
+exited0. Baseline20bridge and exact bridge replay pass812original observables
+including NaN masks. Native/frozen sources and numerical analyzer503bd05a
+remained unchanged during all checks.
+
+Sourceplot headings use ASCII hyphens for PDF export; no numerical change.
+Actual unrooted fullmatrix produces40PNG/PDFfiles; a fresh-directory rerender
+and fullmanifest match byte-for-byte. All20PDFs are single-page and render in
+Poppler; inspected the20-panel contact sheet and detailed Geant4muoneta,
+Fatrasmuonratios, Geant4electronwidths and pion efficiency: no clipping, overlap
+or broken glyphs. Marker helper succeeded once immediately before creation,
+expected20PDFs. Final49tests pass at current source in3.334seconds.
+
+[Summary](../../docs/validation/DES-042/gbts/summary.md) gives all20four-pitch
+efficiency rows, central100GeVmuon widths/pairedintervals, all-population100GeV
+charge/momentum tails, exact pairing and retry-noise qualification. It uses
+write-page editorial guidance at the repository's established destination.
+[Verification record](../../docs/validation/DES-042/gbts/verification.json)
+binds all source/data/export hashes and actual checks. No equivalence, physical
+coarse calibration or sensor acceptance is inferred. Independent exact committed
+evidence review remains the final scientific check.
+
+
+### Independent final assessment and local closeout
+
+[PhysVal-03](SESSION-2026-10-31-strixel-gbts-crosscheck/PhysVal-03-result.md)
+independently assessed exact scientific evidence commit
+`a9867564c4ebaeac774aa350e0f440f887916067`: zero unresolved material findings.
+All105pinned objects and240caseartifacts bind;49tests and20baseline bridges
+pass. The reviewer independently reconstructed1278653exactpointvalues, all80
+Wilson/paired-efficiency intervals and first-principles selected400-resample
+centralmuon z0/theta width/ratio intervals. Selected3actual100GeVROOTcases
+pass303741marginals plus event/candidate/representative gates. All80ROOTrecord
+bindings,40figurehashes and20single-pagePDFs checked;4figurefamilies rendered.
+Reviewer did not repeat the entire bootstrap/export campaign or all80rawROOT
+audits; coordinator's complete replays are separately retained. No scientific
+source/data/figure change followed this exact-revision review.
+
+Task TASK-TRACK-STRIXEL-GBTS is complete as a local isolated prototype. This
+assessment grants no human design sign-off or acceptance. The result remains a
+frozen Gaussian-response sensitivity scan with boundary-retry/noise coupling,
+fixed material and substantial pre-existing high-pTmomentum failures. Physical
+coarse calibration, occupancy and an explicit services/material redesign remain
+conditions for later detector-selection claims. No remote publication attempted.
+
+Local task commits are96748307ef5b0f5bee21051df91e56d8b2c4d99d,
+8c45136098d1e4d407c4d2f96e3590bb78eb6b75,
+fcc74d72fc81a9f9e5f97056bac0ca84971671cb,
+6bc69e1c25310f20e3f04a53fcbae6d3104beee5 and
+a9867564c4ebaeac774aa350e0f440f887916067. A subsequent metadata-only local
+closeout commit records this review/assignment, session and task disposition;
+its own hash cannot self-reference in its contents.
+
+Session summary and token dashboard validate/build pass. The309observed turns
+are historical project coverage: input1300427748/output6206186, combined
+1306633934; these are not task counters. Current task usage remains empty and
+unknown. No estimates, duplicate ownership or private client-state collection.
+Observed scientific closeout clock is2026-10-31T08:37:32Z; actual task start is
+unknown, and the active coordinator turn has no exposed final usage counter.
+
+
+Final closeout validators pass:217sessionrecords,81tasks/42documents/23reviews,
+eightroles/threeworkflow skills and Gitwhitespace check. Scientific source and
+all retained evidence remain exactly at the independently assessed revision.

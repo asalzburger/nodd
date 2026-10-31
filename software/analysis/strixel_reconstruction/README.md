@@ -201,8 +201,11 @@ python -m unittest discover -s software/analysis/strixel_reconstruction \
   -p 'test_*.py' -v
 ```
 
-The existing `unrooted` CI job runs the focused tests, replays all retained
-statistics/bootstrap and Markdown, verifies the20 baseline bridges, and regenerates
-the40 figure files without ACTS. Native ROOT re-auditing remains a local step
-requiring the original ignored outputs. A configured workflow is not a claim
-that a remote CI run has passed.
+Per the 2026-10-31 human publication instruction, portable arrays and compressed
+case/profile/native data remain local and ignored. CI runs the focused synthetic
+tests and verifies the published figure inventory, hashes and plotting-source
+bindings. Full statistics/bootstrap/bridge/ROOT and figure replay remain local
+checks requiring those files or a regenerated campaign. The original execution
+and review revisions remain in the local archive ref documented by
+`docs/validation/DES-042/local-artifacts.json`; the consolidated PR preserves their
+scientific source bytes. A configured workflow is not a remote CI pass.

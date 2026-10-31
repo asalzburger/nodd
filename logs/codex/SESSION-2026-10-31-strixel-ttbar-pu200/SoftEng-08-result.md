@@ -1,0 +1,9 @@
+# TTBAR-PU200-SoftEng-08 — denominator-first GBTS source-ready
+
+Five owned sources: Binding.cpp, CMakeLists.txt, DivisionAudit.hpp, generate.py and test_lencorr.cpp. New distinct Guarded classes/module retain NoddNativeGbts name/slot, graph/fit/quality settings and selected arithmetic. Compiled provenance binds5local/10upstream/30generated inputs, four native Core object flag/define blocks, compiler path/version/cache/ninja and pybind11 ABI. Policy select_denominator_before_division.
+
+Both native and strict CTests pass3.00s total; each522254exact expression-bit and36actual generated-filter state/acceptance comparisons, including signedzero/subnormal/infinity/NaN. Native original speculative FLTDIV is a positivecontrol; strict does not speculate. Genuine selectedendcap/innovation singularities remain monitored. Earlier native fixturefailure retained: .08² minus roundedvariance was not reliably zero underFMA; onlysyntheticfixture changed to exactbinary .125.
+
+Actualproductionmodule1be2d1d2c3caf2174d32594b8fc9448b40de8db0bcd1ce08a52940549ccec3b2 selects denominator0x7a1bc then divides0x7a1c0. All100fourvariant replay passes227.178545s:485545orderedseed IDs/qualitybits exact to preservedoriginal atall100events andallvariants. Only57has1FLTDIVinShared/Renamed/Observed; Guarded haszeroFPEs. Complete numericalaudit0..99, exactlyone affectedsource-unselectedupdate in57. Canonicalsanitizedproof inDES042/ttbar-pu200/gbts-numerical-repair.json; exactdriver andassemblyextract retainedhere.
+
+Allnativejobsstopped beforehandoff; sourcesremainfixed. No fullreconstruction/commit/delegation bychild. Parentverifiedactualmodule import/source/nativefingerprints andfull100audit parser, butcommittedsourcepilot/independentpinnedreview/freshfull4caseauditremainrequired. No acceptance/publication.

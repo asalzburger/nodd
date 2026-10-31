@@ -160,3 +160,13 @@ python -m unittest discover -s software/analysis/strixel_pitch_study -p 'test_*.
 
 See [DES-042](../../../docs/design/DES-042-strixel-pitch-study.md) and the
 [retained results](../../../docs/validation/DES-042/results.md).
+
+
+## Published output scope
+
+The 2026-10-31 human instruction keeps event arrays and compressed/CSV datasets
+local and ignored, including the original truth scan. Plots, compact reports,
+provenance and rerun code remain in the PR. Full verification/replot commands
+above require those local files or regenerated inputs. CI runs the synthetic
+analysis tests and checks published PNG/PDF hashes and plotting-source bindings
+with `software/analysis/strixel_reconstruction/verify_plots.py`.
