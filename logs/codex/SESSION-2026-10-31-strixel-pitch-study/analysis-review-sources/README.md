@@ -6,3 +6,6 @@ reachable Git objects. Their identities are in ../analysis-review-snapshot.json.
 They contain superseded defects described in ../PhysVal-03-result.md and are not
 production modules or the source used for the retained final numerical evidence.
 Use software/analysis/strixel_pitch_study/ for executable current code.
+
+The *.py.txt filenames prevent accidental imports or test discovery; file bytes
+and Git blob identities are unchanged.
