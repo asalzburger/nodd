@@ -55,6 +55,14 @@ jobs:
           python -B software/analysis/truth_tracking/plot_profiles.py --data docs/validation/truth-tracking-baseline/profiles.json.gz --output build/truth-tracking-baseline-replay
           python -B software/analysis/truth_tracking/plot_pulls.py --data docs/validation/truth-tracking-baseline/pulls/distributions.json.gz --output build/truth-tracking-baseline-replay/pulls
           python -B software/analysis/truth_tracking/plot_smearing.py --data docs/validation/truth-tracking-baseline/smearing/comparison.json.gz --output build/truth-tracking-smearing-replay
+      - name: Check strixel-pitch analysis with synthetic inputs
+        run: |
+          python -B -m unittest discover -s software/analysis/strixel_pitch_study -p 'test_*.py' -v
+      - name: Check strixel analysis and published figures without local event data
+        run: |
+          python -B -m unittest discover -s software/analysis/strixel_reconstruction -p 'test_*.py' -v
+          python -B -m unittest discover -s software/analysis/strixel_ttbar -p 'test_*.py' -v
+          python -B software/analysis/strixel_reconstruction/verify_plots.py
       - name: Check constrained tracker optimisation and retained confirmation evidence
         run: |
           python -B -m unittest discover -s software/analysis/tracker_optimization -p 'test_*.py' -v

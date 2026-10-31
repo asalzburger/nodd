@@ -1,0 +1,121 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-31-strixel-study-pr",
+  "title": "Publish strixel findings, plots and reproducibility scripts without run payloads",
+  "recorded_at": "2026-10-31T14:51:58Z",
+  "started_at": null,
+  "ended_at": "2026-10-31T15:00:17Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact task start and client per-turn token counters/model/turn identifiers unavailable; no estimated usage.",
+    "The latest explicit request authorizes PR publication and supersedes the earlier hold. No merge is authorized.",
+    "Raw/portable reference-run data remain local and ignored; published reports distinguish full local replay from data-free CI."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "f5af47d06386a68ae0fae49b867d0a23f0878802",
+    "branch": "codex/strixel-pitch-truth-study",
+    "initial_changes": [],
+    "result_commits": [
+      "56d83cfb2e48ba495de4ea3399a2de584311f1aa",
+      "2b69277270304ac81b67b52d1eac6fba63bb9c74"
+    ],
+    "changed_files": [
+      "interactions/pr-0109.json",
+      "logs/codex/SESSION-2026-10-31-strixel-study-pr.json",
+      "logs/codex/SESSION-2026-10-31-strixel-study-pr.md",
+      "project/tracking.json",
+      "software/analysis/strixel_ttbar/test_runtime.py"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [
+      "tracker",
+      "publication",
+      "reproducibility"
+    ],
+    "related_ids": [
+      "DES-041",
+      "DES-042",
+      "ADR-003"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-31-strixel-study-pr.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "Publication index/new-object guard and figure verifier",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No DES042run payloads inPRaddedfiles;674localexcludedfiles untracked. Fastforward ancestry fromremoteaa9b0e7. Newblobs12,588,232logicalbytes;largest396,968bytes. All78PNG/PDFexports andsourcehashes pass."
+    },
+    {
+      "command": "First local unit rerun using resolved interpreter symlink",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Resolving venv python to underlying system executable discarded venv package context, causing missingNumPy. No source/dependency change; rerun uses original absolute venv executable."
+    },
+    {
+      "command": "Analysis suites after correcting interpreter path, capacity-limited attempt",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "22truth+56GBTS pass;66ttbar suite ends19errors due transient ENOSPC in temp directory. Shared filesystem free322MiB on subsequent observation; no source/dependency/test changes. Prior clean data-absent144pass remains historical evidence; current66rerun pending."
+    },
+    {
+      "command": "Second66ttbar rerun before synthetic capacity isolation",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "64/66passed; two synthetic shared-link/zero-track fixtures reached realproduction2GiBguard on a host below2GiB. Resource guard behaved correctly. Fixture now supplies amplediskcapacity; productionruntime unchanged and dedicatedguardtest adds exactboundary andboundary-minus-one controls."
+    },
+    {
+      "command": "Final66ttbar suite after synthetic capacity isolation",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All66tests pass, combined with current22truth/56GBTS=144. Synthetic fixture alone mocksdisk_usage; realguard unchanged at2GiB and both threshold sides tested."
+    },
+    {
+      "command": "Git push to study branch after exactnewobject proof",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Auto-review firstrejected suspectedrun datasets. Exactaudit of256newblobs:12,620,323bytes total,largest396,968; transportpack8,103,962bytes; onlyhistoricalgzip2833bytecampaignconfig, noNPZ/ROOT/eventpayloads. Retriedsamepushwithproof; approvedandsucceeded aa9b0e7..2b69277. Noalternatepublishingroute orarchiverefpush."
+    },
+    {
+      "command": "gh pr create --repo asalzburger/nodd --base main --head codex/strixel-pitch-truth-study --body-file prepared-description",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Connectorcreate403Resource notaccessiblebyintegration; authenticatedCLI createshttps://github.com/asalzburger/nodd/pull/109 at14:57:42UTC. AttachedthroughCodex. No merge."
+    },
+    {
+      "command": "Connector PRmetadata/discussion/remote changed-file audit",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Open,non-draft,mergeable; head2b69277,base1dff045.323changedfiles, zeroNPZ/ROOT/GZ/CSVfiles;comments[]atcapture. Allfindings/plots/recipes present. RemoteCIpending; notclaimedpassed."
+    },
+    {
+      "command": "Initial project-record validation after PR link",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "PR registeredbroaderDES041/ADR003 refs thanprimarypitchtask owns. Restrictregistrydocumentlinks toprimarytaskDES042; broadercontext remains inPRscope/body andlinkedrelatedtasks. No scientificchange."
+    },
+    {
+      "command": "Project record corrected ownership and validator",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "82tasks/42documents/23reviewrounds validate. PR109linkedprimarypitchtask/DES042 plusURLs inall3study tasks; no lifecycleadvance."
+    },
+    {
+      "command": "gh pr edit109 --body-file prepared-description, refreshedconnector snapshot",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Description retains findings/78plots/recipes/rawexclusion; ledgercheckboxcompletedafterlocalcaptureandsync. Publicsnapshot refreshed atupdated14:59:22UTC; no comments atcapture. AttachedPR109 confirmed."
+    }
+  ]
+}
