@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-31-reference-run-artifact-policy",
+  "title": "Record repository and PR policy for compact reproducible reference-run evidence",
+  "recorded_at": "2026-10-31T13:11:24Z",
+  "started_at": null,
+  "ended_at": "2026-10-31T13:12:50Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact task start and client per-turn token counters/model/turn IDs unavailable. Empty usage is unknown, not zero.",
+    "Local governance update only; the user hold on PR creation/update remains in effect. No remote publication or shared-history rewrite."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "5da4f6c54ad1860f9e65f36bf486209012f20fa9",
+    "branch": "codex/strixel-pitch-truth-study",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      ".github/pull_request_template.md",
+      "AGENTS.md",
+      "docs/decisions/ADR-003-validation-and-artifact-policy.md",
+      "docs/validation/REPORT_TEMPLATE.md",
+      "logs/codex/SESSION-2026-10-31-reference-run-artifact-policy.json",
+      "logs/codex/SESSION-2026-10-31-reference-run-artifact-policy.md"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [
+      "repository-policy",
+      "reference-run-artifacts"
+    ],
+    "related_ids": [
+      "ADR-003"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-31-reference-run-artifact-policy.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 220 session records."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py summary --format json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Global historical records: 220sessions/309recorded disjoint turns. Current task exact counters unavailable; no usage estimate."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 82 tasks, 42 documents and 23 review rounds."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validate: 309 disjoint turns; 1,306,633,934 observed tokens; 309 dated turns."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py build --output _site/pages",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Build: 309 disjoint turns; 1,306,633,934 observed tokens; 309 dated turns."
+    },
+    {
+      "command": "python3 -B tools/agent_workflow/workflow.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated eight nODD roles and three workflow skills."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No findings."
+    }
+  ]
+}

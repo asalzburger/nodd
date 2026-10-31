@@ -130,6 +130,33 @@ Every new or changed geometry component requires validation appropriate to its s
 
 Validation output must record the commit SHA, configuration, tool versions, random seed where relevant, commands, and tolerances. Do not update reference outputs simply because a test fails. Explain and review the physical or technical reason for every intentional baseline change.
 
+## Reference-run artifacts and PR contents
+
+Human instruction, 2026-10-31: do not check large reference-run files into Git
+or include them in PRs. Retain resulting plots and the recipe to reproduce
+them. Include compact binwise storage only when needed for inspection,
+comparison or replotting; concise results and provenance may accompany it.
+
+- Keep full event samples, simulation/hit/track dumps, large ROOT/NPZ files,
+  caches and bulky run logs local and ignored, or in a maintainer-selected
+  artifact store. Do not upload them without authorization.
+- Binwise evidence should state edges, units, normalization, counts or
+  denominators and the statistics/uncertainties needed for the reported
+  observable. Preserve correlations where the claimed comparison needs them.
+  Do not disguise event-level payloads as binwise data or split/compress a
+  large dataset merely to make individual files small.
+- The reproduction recipe must identify source/configuration/input versions
+  or hashes, environment and dependencies, seeds, and exact generation,
+  analysis and plotting commands. Explain which checks require the local
+  full dataset and which can run from the committed summaries alone.
+- Inspect staged files and newly introduced Git objects before publishing a
+  PR. Removing a large file in a later commit does not exclude its earlier
+  blob from the pushed history. Preserve existing evidence locally when
+  cleaning unpublished commits; do not rewrite shared history without explicit
+  authorization. Compression or Git LFS is not an automatic exception.
+
+See [ADR-003](docs/decisions/ADR-003-validation-and-artifact-policy.md).
+
 ## Code and change discipline
 
 - Inspect existing conventions before adding dependencies, directories, abstractions, or build options.

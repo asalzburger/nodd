@@ -55,7 +55,16 @@ Never mark a check passed solely because its command exited successfully. Explai
 | --- | --- | --- | --- | --- | --- |
 | <ID> | <ID> | <location> | <format> | <size> | <hash> |
 
-Storage and retention policy: <reference or unresolved>. Keep large artifacts out of Git pending an approved storage policy.
+Storage and retention policy: <reference or unresolved>. Follow the
+[Git and PR artifact rule](../../AGENTS.md#reference-run-artifacts-and-pr-contents):
+commit plots and the reproduction recipe, adding compact binwise evidence only
+when needed. Keep large reference-run samples, dumps, caches and logs out of
+Git and PR history. State where full inputs remain available or how to regenerate
+them; distinguish local-only full replay from checks using committed summaries.
+
+For binwise evidence, record edges, units, normalization, counts/denominators
+and the statistics, uncertainties or correlations needed for the observable.
+Do not represent event-level payloads as compact binwise storage.
 
 ## Comparison and provenance
 
