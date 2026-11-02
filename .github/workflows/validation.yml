@@ -163,6 +163,10 @@ jobs:
           python3 -B -m unittest discover -s tools/tracker_dd4hep -p 'test_*.py' -v
       - name: Test material benchmark selection and profiler accounting
         run: python3 -B -m unittest discover -s tools/material_recording_profile -p 'test_*.py' -v
+      - name: Test proposed 2 mm strixel service redesign
+        run: |
+          python3 -B -m unittest discover -s tools/short_strip_redesign -p 'test_*.py' -v
+          python3 -B tools/short_strip_redesign/verify.py
       - name: Test short-strip barrel prototype controls
         run: python3 -B -m unittest discover -s tools/short_strip_barrel -p 'test_*.py' -v
       - name: Short-strip endcap controls

@@ -9,9 +9,9 @@
 
 ## Proposed baseline
 
-Use five more widely spaced short-strip endcap rings, extending finite active
-silicon to **703.9 mm**. Keep the long strips fixed. Reduce the physical active
-radial gap from **114.8 to 83.3 mm**, a **31.4 mm / 27.4%** improvement. Rebuild
+Use five more widely spaced short-strip endcap rings, extending the sampled full-azimuth target to **703 mm** and the finite active
+silicon envelope to **704.9 mm**. Keep the long strips fixed. Reduce the physical active
+radial gap from **114.8 to 82.3 mm**, a **32.4 mm / 28.3%** improvement. Rebuild
 the power distribution and module thermal interface; reserve a narrower shared
 service trunk, with an enlarged barrel collector connection.
 
@@ -29,10 +29,10 @@ proposal does not require larger sensor dies or changes to long-strip modules.
 | Short-strip barrel sensors | 8,064 | 8,064 |
 | Endcap sensors, both ends | 4,320 | **4,752** |
 | Sensors per disc / petal | 360 / 30 | **396 / 33** |
-| Finite active outer radius | 672.486 mm | **703.909 mm** |
-| Finite body outer radius | 676.001 mm | **707.424 mm** |
+| Finite active outer radius | 672.486 mm | **704.909 mm** |
+| Finite body outer radius | 676.001 mm | **708.424 mm** |
 | Long-strip finite active inner radius | 787.243 mm | 787.243 mm |
-| Physical active radial gap | 114.758 mm | **83.334 mm** |
+| Physical active radial gap | 114.758 mm | **82.335 mm** |
 | Short-strip channels, both systems | 380,436,480 | **393,707,520** |
 | Reduction versus original 0.5 mm population | 75% | **74.13%**, including added coverage |
 | External power/HV/control bundles, both ends | 1,584 | **1,008** |
@@ -72,28 +72,33 @@ explicit material proxies, not supplier measurements.
 | Ring | Centre radius [mm] | Modules/disc | Modules/petal |
 | --- | ---: | ---: | ---: |
 | 0 | 289.5 | 48 | 4 |
-| 1 | 381.0 | 60 | 5 |
-| 2 | 472.5 | 84 | 7 |
-| 3 | 564.0 | 96 | 8 |
-| 4 | 655.5 | 108 | 9 |
+| 1 | 381.25 | 60 | 5 |
+| 2 | 473.0 | 84 | 7 |
+| 3 | 564.75 | 96 | 8 |
+| 4 | 656.5 | 108 | 9 |
 
 Retain the six mirrored disc datums, original 3 mm ring and 1.5 mm phi
 staggering, 49 × 103 mm² module body allowance and inner active boundary.
 The finite rectangle edge, rather than its nearest corner, defines the true
 long-strip minimum radius. A finite-plane sampled union finds no radial holes
-in the target 243.5..701.5 mm annulus at the tested phi and z vertices. This
+in the target 243.5..703.0 mm annulus at the tested phi and z vertices, with0.610mm minimum sampled outer margin. This
 is not a reconstruction efficiency or continuous hermeticity claim.
 
 | Interface | Proposed bounds / requirement | Rationale and consequence |
 | --- | --- | --- |
-| Petal cold plate | r236..710 mm; original skin/core thicknesses | Clears body corner707.424 mm; larger plate debited in material |
+| Petal cold plate | r236..710 mm; original skin/core thicknesses | Clears body corner708.424 mm; larger plate debited in material |
 | Outer frame | r689..715 mm, 3 mm axial thickness at w=−12 mm | Preserve26 mm radial width; move load introduction and recheck stiffness |
 | Board | r695 mm, 52 × 20 × 8 mm³, centre w=14 mm | Bottom10 mm above fanout9.5; top18 mm below fan start20 |
-| Board supports | New peripheral entry beyond r707.424 mm, e.g.709..714 mm | Translating old posts would intersect outer-ring silicon; new cantilever/mount required |
+| Board supports | New peripheral entry beyond r708.424 mm, e.g.710..714 mm | Translating old posts would intersect outer-ring silicon; new cantilever/mount required |
 | Front fan/pocket | r690..781.5 mm, w20..100 mm | Routes in front of modules; preserves an80 mm axial bend/connector reservation |
 | Cooling ports | r712 mm; inner loop29°/28.5°, outer27.5°/27° | Four distinct ports; ordering avoids interloop fillet crossings |
 | Longitudinal shared tray | r717..781.5 mm, abs(z)1310..3500 mm; walls0.5 mm | 2 mm to fixed long-strip inner bearing ring783.5 mm |
 | Barrel collector | r244..781.5 mm, abs(z)1245..1310 mm | Extending the old750 mm endpoint avoids a failed joining throat |
+
+Following the human instruction to advance coverage to703mm, ring spacing is
+91.75mm. This supersedes the91.5mm engineering sketches in both input dossiers.
+The longest direct pipe-saddle path is bounded by8mm rather than the earlier
+6.6mm flat-contact estimate; the extra3.1mm insert reserve is debited.
 
 The proposed26 mm frame is deliberately wider than the17 mm sketch in the
 SysArch input; its larger material debit is retained. The front fan depth,
@@ -167,7 +172,7 @@ not asserted. The proposed hardware must meet the adverse budget or be revised.
 | Total strixel module+board heat [kW] | 207.14 | 283.38 | 435.87 |
 | New heat incl. upper service-loss allowances [kW] | 216.95 | 301.70 | 478.99 |
 | Total voltage drop [V] | 0.721 | 0.962 | **1.445 FAIL** |
-| Endcap maximum sensor temperature [°C] | −24.63 | −21.08 | **−13.99 FAIL** |
+| Endcap maximum sensor temperature [°C] | −24.32 | −20.66 | **−13.33 FAIL** |
 
 The historical0.5 mm channel-density reference is421.30 kW before feeder/bus
 losses. It is a comparison of assumptions; no measured current cooling-plant
@@ -195,14 +200,14 @@ The concrete module thermal proposal is:
 - Keep two6 ×60 mm² endcap and two20 ×64 mm² barrel thermal lands. Widening
   inner endcap lands would collide with adjacent sensor footprints.
 - Direct conductive inserts through backing/core windows to the pipe, maximum
- 6.6 mm path (including1.7 mm new core insertion); effective pickup conductivity
+ 8.0 mm path (including3.1 mm new core insertion); effective pickup conductivity
  ≥100 W/(m K), explicitly requiring a suitable orientation/material/interface.
 - Electrically insulating TIM, total0.10 mm, cold/irradiated conductivity
  ≥1.2 W/(m K). Contact resistance≤0.04 K/W and pipe/boiling allowance≤0.08 K/W
  are requirements to demonstrate, not measured results.
 - Coolant no warmer than−35 °C. Include a separate uniform2 W sensor-leakage
  corner allowance over the uncontacted16/18 mm endcap overhangs. The adverse
- endcap result is−21.084 °C: only1.08 K to the−20 °C requirement.
+ endcap result is−20.664 °C: only0.66 K to the−20 °C requirement.
 
 This bypasses the original foam/insulating backing path inside explicit windows;
 it cannot be achieved by keeping the old mechanical module unchanged. Preserve
@@ -214,11 +219,11 @@ radiation, noise, die bonding and failure isolation need module tests/FEA.
 
 ## Material consequence and limits
 
-The changed-component ledger predicts **−382.8 kg** under its cable insulation
+The changed-component ledger predicts **−308.4 kg** under its cable insulation
 proxy. More conservatively, take **no cable insulation saving**: the result is
-**−209.7 kg**. External power/HV/control/shield copper alone falls924.95→494.46 kg
-(−430.49 kg); local LV rails save4.75 kg. All positive additions total225.59 kg,
-including the extra sensors,19.58 kg spreader,93.78 kg direct inserts/pickups,
+**−135.2 kg**. External power/HV/control/shield copper alone falls924.95→494.46 kg
+(−430.49 kg); local LV rails save4.75 kg. All positive additions total300.05 kg,
+including the extra sensors,19.58 kg spreader,168.22 kg direct inserts/pickups,
 84.75 kg TIM plus5 g/module service reserve, larger supports and additional
 cooling pipe bank. **No ASIC mass reduction, removed foam/backing, optical
 saving or empty cable-envelope mass is credited.**
@@ -230,7 +235,7 @@ service corridor shrinks by that percentage. The radial tray allocation falls
 The inherited effective20% copper cable recipe anchors the old copper estimate;
 actual vendor cable data can change these results. Unmodelled fittings,
 manifolds, mounts and qualifications must fit the reserve or trigger a new
-ledger. The no-insulation-credit estimate has209.7 kg headroom to such additional
+ledger. The no-insulation-credit estimate has135.2 kg headroom to such additional
 mass beyond the allowances; it is not a measured full-tracker weight.
 
 ![Scoped material accounting](../validation/DES-043/figures/material-budget.png)

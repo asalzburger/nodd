@@ -22,3 +22,10 @@ The current tracker overlay uses the [expert-selected balanced baseline](../desi
 The [PR109 selected strixel baseline](../validation/DES-042/baseline-selection.md)
 uses 75 µm × 2 mm cells in the combined tracker. This readout amendment preserves
 all physical bounds and material, so these R–Z drawings need no regeneration.
+
+The open [SS-2MM-SVC-01 / DES043 service redesign](../design/DES-043-short-strip-service-redesign.md)
+proposes short-strip active coverage through703 mm (704.9 mm envelope) and a717..781.5 mm service
+trunk. Its [separate R–Z and capacity figure](../validation/DES-043/figures/handoff-capacity.png)
+is an unsigned design overlay; the current combined drawings above retain the
+merged PR109 physical geometry. Module, cable and cooling qualification and
+native integration remain pending.

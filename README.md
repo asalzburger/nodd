@@ -25,6 +25,11 @@ The selected candidate combines the maintained tracker with proposed solenoid
 and ECAL components. Open prototypes and remaining systems are identified on the
 main page; the combined layout has no engineering sign-off.
 
+The [DES043 short-strip services proposal](docs/design/DES-043-short-strip-service-redesign.md)
+extends active endcap coverage through703 mm (704.9 mm envelope), narrows the shared service tray and
+quantifies conditional cable/material savings. It requires module thermal and
+electronics redesign and remains an isolated proposed baseline.
+
 ## Current pixel baseline
 
 The standard combined build uses the expert-selected
