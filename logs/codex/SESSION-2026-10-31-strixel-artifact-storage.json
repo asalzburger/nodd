@@ -11,12 +11,13 @@
   "limitations": [
     "Exact task start and client per-turn token counters/model/turn IDs unavailable; usage empty means missing, not zero.",
     "Measurements are allocated retained disk blocks, not minimum working space or peak memory. Shared runtime/dependency builds and shared Git storage are excluded from the17.3GiB tally.",
-    "Original unpublished data-bearing commits remain at a local archive ref for provenance; no push or remote history rewrite."
+    "Original unpublished data-bearing commits remain at a local archive ref for provenance; no push or remote history rewrite.",
+    "2026-11-02 accounting correction: finalized usage recovered through authorized usage-only workflow; prior missing-usage statements describe generation-time state. Current root turn remains active and excluded; no totals split across tasks."
   ],
   "client": {
-    "name": "Codex",
+    "name": "Codex desktop",
     "version": null,
-    "thread_id": null
+    "thread_id": "01a167a1-7906-7b73-9408-509e483359fc"
   },
   "git": {
     "start_commit": "15da21c7cc2e3e6fea72b957db087caca9845ce0",
@@ -725,12 +726,42 @@
       "CI"
     ],
     "related_ids": [
-      "DES-042"
+      "DES-042",
+      "PR109"
     ]
   },
   "narrative": "logs/codex/SESSION-2026-10-31-strixel-artifact-storage.md",
   "activities": [],
-  "usage": [],
+  "usage": [
+    {
+      "client_thread_id": "01a167a1-7906-7b73-9408-509e483359fc",
+      "turn_id": "01a1920d-2ab6-7ce1-9bdc-e2195dcbf773",
+      "model": null,
+      "source": "logs/usage/USAGE-2026-11-02-pr109-accounting.json; exact cumulative increases equal last-request counters, persisted closed turn; exact visible request and recorded parent/child evidence reviewed.",
+      "limitations": [
+        "Actual execution model and client version are not exposed; cached/reasoning counters are subsets. Active root excluded."
+      ],
+      "input_tokens": 5197395,
+      "cached_input_tokens": 5142016,
+      "output_tokens": 37286,
+      "reasoning_output_tokens": 20698,
+      "total_tokens": 5234681
+    },
+    {
+      "client_thread_id": "01a167a1-7906-7b73-9408-509e483359fc",
+      "turn_id": "01a19215-cf63-7c70-a714-5c7c46b19f02",
+      "model": null,
+      "source": "logs/usage/USAGE-2026-11-02-pr109-accounting.json; exact cumulative increases equal last-request counters, persisted closed turn; exact visible request and recorded parent/child evidence reviewed.",
+      "limitations": [
+        "Actual execution model and client version are not exposed; cached/reasoning counters are subsets. Active root excluded."
+      ],
+      "input_tokens": 209711,
+      "cached_input_tokens": 209536,
+      "output_tokens": 246,
+      "reasoning_output_tokens": 219,
+      "total_tokens": 209957
+    }
+  ],
   "checks": [
     {
       "command": "du -sk build/strixel-ttbar* docs/validation/DES-042/ttbar-pu200 /private/tmp/nodd-strixel-ttbar",

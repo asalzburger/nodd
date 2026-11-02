@@ -1,5 +1,17 @@
 # Local token-usage recovery
 
+## PR109 strixel selection accounting — 2026-11-02
+
+[Usage-only recovery](USAGE-2026-11-02-pr109-accounting.json) and48allowlisted
+completed-turn snapshots reconcile **386,025,703observed input+output tokens**
+across2,216requests. The [merge-preparation journal](../codex/SESSION-2026-11-02-pr109-merge-preparation.md)
+identifies all8canonicalworkowners, exactsubtotals, verifiedroot/childboundaries
+andtheactualhuman2mm selection. Thisincludes featurecomparisoncontext, truth/
+services, singleparticleGBTS, ttbar, storage/policy/publication andtwofinalized
+selection-review specialistturns. Theactivecoordinator remains excluded. Cached/
+reasoning are subsets; actualmodels/clientversion/otherdevices remainunknown.
+InventoryandPRreferences are corroboration, never additionaltokenowners.
+
 ## PR107 approved reconstruction baseline accounting — 2026-10-30
 
 [Usage-only recovery](USAGE-2026-10-30-pr107-accounting.json) verifies26completed

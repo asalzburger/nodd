@@ -356,3 +356,7 @@ unknown, and the active coordinator turn has no exposed final usage counter.
 Final closeout validators pass:217sessionrecords,81tasks/42documents/23reviews,
 eightroles/threeworkflow skills and Gitwhitespace check. Scientific source and
 all retained evidence remain exactly at the independently assessed revision.
+
+## Finalized usage correction — 2026-11-02
+
+Usage-only inventory `logs/usage/USAGE-2026-11-02-pr109-accounting.json` and exact visible turn snapshots reconcile to this canonical account. Observed 8 closed turns, 588 requests: 93973495 input + 431805 output = 94405300 tokens. Cached input and reasoning output are subsets. Actual model/client version and unobserved devices remain unknown. Current root turn is active and excluded; no per-task allocation of shared turns. Inventory is corroboration, never an additional token owner.

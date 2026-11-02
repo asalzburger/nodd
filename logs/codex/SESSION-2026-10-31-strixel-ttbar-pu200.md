@@ -330,3 +330,7 @@ Closeout metadata correction: the session validator initially rejected the indep
 Final corrected closeout checks all pass; final ended_at 2026-10-31T13:00:49Z. Session218/project82tasks42documents23reviewrounds/workflow8roles3skills validate. Dashboard builds locally with309historical disjoint recorded turns; currenttask usage remainsunavailable.
 
 Final checklist serialization also needed explicit No findings text for the successful silent diff check; schema rejection retained and corrected. Final record closeout timestamp2026-10-31T13:00:52Z; subsequent validators rerun on this complete record before commit.
+
+## Finalized usage correction — 2026-11-02
+
+Usage-only inventory `logs/usage/USAGE-2026-11-02-pr109-accounting.json` and exact visible turn snapshots reconcile to this canonical account. Observed 18 closed turns, 1043 requests: 187331402 input + 716061 output = 188047463 tokens. Cached input and reasoning output are subsets. Actual model/client version and unobserved devices remain unknown. Current root turn is active and excluded; no per-task allocation of shared turns. Inventory is corroboration, never an additional token owner.

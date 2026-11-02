@@ -20,3 +20,7 @@ Final data-absent check uses a full tracked-file checkout at9e854fe (0.501GiB lo
 NewPRtree adds no DES042rawdataset vsorigin/main. Newreachableblob inventory relative to unchanged remoteaa9b0e7 is12,481,807logicalbytes /8,165,179diskbytes, largest396,968bytes; the only historical compressedpath is the smallpre-data campaignconfiguration. Large data-bearing history replaced by9e854fe; original15da history andall674datafiles staylocal. No forcepush/push/PR/externalmessage. No storage reclaimed from retaineddata/archiveref; no garbage collection on sharedGitstorage.
 
 Finalscientific/native/statistical/plot bytes andallfigurehashes preserved; roottruth report prose now explainslocaldatasets anditsdeterministic numericrendercheck passes. No humanacceptance/sign-off. Final taskjournal isclosedwithmissingexactusageexplicit; finalrecords/dashboard/diff validators runbeforelocalcloseoutcommit.
+
+## Finalized usage correction — 2026-11-02
+
+Usage-only inventory `logs/usage/USAGE-2026-11-02-pr109-accounting.json` and exact visible turn snapshots reconcile to this canonical account. Observed 2 closed turns, 31 requests: 5407106 input + 37532 output = 5444638 tokens. Cached input and reasoning output are subsets. Actual model/client version and unobserved devices remain unknown. Current root turn is active and excluded; no per-task allocation of shared turns. Inventory is corroboration, never an additional token owner.

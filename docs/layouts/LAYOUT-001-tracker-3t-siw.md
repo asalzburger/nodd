@@ -42,5 +42,5 @@ Reproduce the updated drawing with `python3 -B tools/forward_calorimeter/draw.py
 The tracker overlay is extracted from the maintained balanced DD4hep export in [tracker-baseline-balanced.json](tracker-baseline-balanced.json). It updates only the tracker sensitive bounds; the independently pinned calorimeter and magnet contexts are unchanged. The earlier pre-FCAL layout remains a historical control.
 
 The [PR109 selected strixel baseline](../validation/DES-042/baseline-selection.md)
-uses75µm ×2mm cells in the combined tracker. This readout amendment preserves
+uses 75 µm × 2 mm cells in the combined tracker. This readout amendment preserves
 all physical bounds and material, so these R–Z drawings need no regeneration.

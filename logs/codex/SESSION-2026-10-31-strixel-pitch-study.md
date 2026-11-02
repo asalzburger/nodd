@@ -167,3 +167,7 @@ Historical uncommitted PhysVal-03 source blobs are archived under
 analysis-review-sources/ with exact identities, preserving their Git reachability.
 They are superseded review inputs and are not executable production modules or
 the source used for the retained final statistics.
+
+## Finalized usage correction — 2026-11-02
+
+Usage-only inventory `logs/usage/USAGE-2026-11-02-pr109-accounting.json` and exact visible turn snapshots reconcile to this canonical account. Observed 14 closed turns, 464 requests: 78097581 input + 284045 output = 78381626 tokens. Cached input and reasoning output are subsets. Actual model/client version and unobserved devices remain unknown. Current root turn is active and excluded; no per-task allocation of shared turns. Inventory is corroboration, never an additional token owner.

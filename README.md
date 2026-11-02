@@ -40,7 +40,7 @@ The previous trimmed and quad-only configurations remain explicit controls.
 The [selection record](docs/design/inputs/DES-040-balanced-selection.json)
 records expert approval and implementation authorization. The design remains
 DRAFT, with service capacity, thermal qualification and coverage limits open.
-The [dated October29 full-tracker TDR review source](docs/publication/tracker-baseline-2026-10-29/README.md)
+The [dated October 29 full-tracker TDR review source](docs/publication/tracker-baseline-2026-10-29/README.md)
 updates the pixel chapter; it is a repository-owned copy of the current TDR.
 
 The [TDR outline](docs/publication/TDR-outline.md) and
@@ -71,7 +71,7 @@ the four historical comparison configurations reproducible.
 The [human-selected 75 µm × 2 mm strixel baseline](docs/validation/DES-042/baseline-selection.md)
 is integrated into the combined tracker in [PR109](https://github.com/asalzburger/nodd/pull/109).
 It has 380,436,480 strixel channels; calibrated response and physical service
-redesign remain open. The linked PR107 performance reports retain their dated0.5mm response.
+redesign remain open. The linked PR107 performance reports retain their dated 0.5 mm response.
 
 ## Agent roles
 

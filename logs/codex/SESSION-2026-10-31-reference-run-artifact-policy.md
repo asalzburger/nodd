@@ -9,3 +9,7 @@ Policy applies to newly pushed history, not only final tree. Removing a file in 
 Local documentation/governance checks are run before commit. No simulation rerun or newunit tests are needed for this policy-only update. No PRcreate/update, push, externalmessage or dataupload. Exact input/output/model/turn token counters unavailable; no estimate or private-state collection, usage empty.
 
 All existing session/project/token-dashboard/workflow and diff validators pass. Newpolicy anchors/targets are present inallfourdocuments; ADRstatus remainsDRAFT. Sessionclosedwithpartialusagecoverage. Current changesremainlocalandPRpublicationheld.
+
+## Finalized usage correction — 2026-11-02
+
+Usage-only inventory `logs/usage/USAGE-2026-11-02-pr109-accounting.json` and exact visible turn snapshots reconcile to this canonical account. Observed 1 closed turns, 6 requests: 1322421 input + 7468 output = 1329889 tokens. Cached input and reasoning output are subsets. Actual model/client version and unobserved devices remain unknown. Current root turn is active and excluded; no per-task allocation of shared turns. Inventory is corroboration, never an additional token owner.
