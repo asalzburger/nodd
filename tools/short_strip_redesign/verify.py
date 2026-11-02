@@ -37,7 +37,20 @@ def main():
     plumbing=expected['cooling_routes']
     if plumbing['pad_contacts']['failed_modules']:raise ValueError('Uncooled module saddle')
     if not plumbing['interloop_clearance']['passed'] or not all(x['passed'] for x in plumbing['same_loop_clearance'].values()):raise ValueError('Cooling source routing conflict')
-    print(f'PASS: source/summary replay, contacts, coverage, packing and{len(manifest["files"])}figure fingerprints; no local event data needed.')
+    native=json.loads((report/'native-summary.json').read_text())
+    if native['status']!='PASS' or native['errors'] or native['overlap_count']:raise ValueError('Native evidence failed')
+    if native['identifiers']!={'passed':True,'errors':[],'unique_volume_ids':792,'grid':[640,48],'cells_checked':3960}:raise ValueError('Native sensitive evidence incomplete')
+    if native['counts']['sensitive']!=792 or native['window_probes']!=7200:raise ValueError('Native payload/probe evidence incomplete')
+    if native['pipe_contact_screen']['definite_missing_contacts']:raise ValueError('Native pipe contact evidence failed')
+    for path,digest in native['provenance']['generated_source'].items():
+        if model.sha(model.ROOT/path)!=digest:raise ValueError('Native source evidence stale: '+path)
+    if native['curator_sha256']!=model.sha(model.HERE/'curate_native.py'):raise ValueError('Native curator stale')
+    barrel=json.loads((report/'barrel-summary.json').read_text())
+    if not barrel['passed'] or barrel['native_geometry_constructed']:raise ValueError('Barrel source evidence invalid')
+    if barrel['provenance']['input_sha256']!=model.sha(model.HERE/'inputs.json') or barrel['provenance']['producer_sha256']!=model.sha(model.HERE/'barrel_interfaces.py'):raise ValueError('Barrel source evidence stale')
+    for path,digest in barrel['provenance']['source_sha256'].items():
+        if model.sha(model.ROOT/path)!=digest:raise ValueError('Barrel baseline source stale')
+    print(f'PASS: numerical replay, contacts/coverage/packing, {len(manifest["files"])}figure fingerprints, native evidence bindings and barrel source evidence; no event data needed.')
 
 
 if __name__=='__main__':main()

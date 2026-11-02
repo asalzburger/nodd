@@ -34,5 +34,21 @@ independent replay. Plot source plus summary hashes detect stale figures.
 `diagnostics.py` implements finite-plane radial interval unions, planar cooling
 centreline length and interloop separation, and a Cu-only azimuth-average
 longitudinal-trunk diagnostic. It does not use DD4hep, Geant4 or ACTS. Detailed
-same-loop/solid overlaps, hardware performance and complete tracker material
+complete solid overlaps, hardware performance and complete tracker material
 remain outside its scope; see the qualification matrix in the validation report.
+
+The [native recipe](../../docs/validation/DES-043/README.md#native-reproduction-recipe)
+constructs explicit modules, cold-petal windows, saddles, tubes, rails and mounts
+with the unchanged generic DD4hep factory. Native build products remain local;
+`curate_native.py` retains aggregate evidence. `--full` / `NODD_RED_FULL` enables
+all12discs; default mirroredfirstpair contains792sensors.
+
+Run the repeatable barrel interfaces separately:
+
+```sh
+python3 -B tools/short_strip_redesign/barrel_interfaces.py --source-revision HEAD --output build/short-strip-redesign/barrel-interfaces.json
+```
+
+The full thermal screen explicitly charges the50µmASIC bond atκ≥1.2W/m/K
+and an additional upstream leakage-path budget≤0.5K/W. The adverse0.333K
+margin is conditional; these are requirements to verify, not qualified cold data.

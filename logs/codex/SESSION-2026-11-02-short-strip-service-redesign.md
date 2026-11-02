@@ -209,3 +209,162 @@ explicitrelated-ID fromnewusagejournal toavoid allocating futurework toPR109.
 That restores all98existingledger fingerprints without changing usage or any
 priorPRrecord. Initialtokenbuilder reportedstale whilethatlink existed; fixed.
 The session-summary CLI has no --session flag; rerun supportedglobalsummary.
+
+### Barrel-interface follow-up assignment
+
+```json
+{
+  "id": "DES043-SysArch-04",
+  "role": "SysArch",
+  "input_revision": "8ce2bc3e8fa08ae829606a94d144e6c5cda20166",
+  "inputs": [
+    "tools/short_strip_redesign/inputs.json",
+    "tools/short_strip_redesign/model.py",
+    "tools/short_strip_redesign/native.py",
+    "tools/short_strip_barrel/model.py",
+    "tools/short_strip_barrel/inputs-phi-tilted.json",
+    "tools/short_strip_barrel/export.py",
+    "docs/design/DES-043-short-strip-service-redesign.md"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Bounded additionalphysicalinterfacecheck ofBARRELmodule thermalinsert proposal. Nativecurrentprototypeonlyendcaps; coordinatorledgerdebitsbarrelinserts and2x20x64landsu\u00b112. Useexistingtiltedbarrelframes/stagger atpinnedinput andproposednormalstack(TIMbottom-.825, directinsertbottomw=-4.05 inhostsupportframe, topatmodulelift-.825; existingnewstackdownw=-1.025). Testfinite3DOBB inter-module guard/active/backing/flex clashes for extendedbarrel pickups acrossadjacentrows/staves, versusoldpickupheightending-1.3. Checkif20x64fullpadwindowseachstave canreachoriginal2.5ODlegsat\u00b112withoutencroachingneighbor modules/supportoutsideitsownwindow. Do notclaimactualbarrelnative or engineeringqualification. Endcapnativecurrentlyunderwayandnotthisassignment. SourceModelOBB/SATanalysisacceptable. Returnclearboundary: doescommonmodule thermalredesignneedbarrelshapeamendment, orcanoldbarrelfootprintremainpendingnative? Noedits/furtherdelegation.",
+  "deliverable": "Citednumericalphysicalinterface assessment atfixedrevision withactualchecks andlimitations; coordinatorsavesresult.",
+  "completion": "Identify finitebarrelcollision/contact risksor demonstratedsourceclearance; nohumanapproval/nativeclaim."
+}
+```
+
+### Corrected module scientific assessment
+
+```json
+{
+  "id": "DES043-PhysVal-05",
+  "role": "PhysVal",
+  "input_revision": "181cdc0c905d516fcf475c0496150ade2127ff88",
+  "inputs": [
+    "tools/short_strip_redesign/inputs.json",
+    "tools/short_strip_redesign/model.py",
+    "tools/short_strip_redesign/diagnostics.py",
+    "tools/short_strip_redesign/native.py",
+    "tools/short_strip_redesign/validate_native.py",
+    "tools/short_strip_redesign/test_model.py",
+    "tools/short_strip_redesign/test_native.py",
+    "tools/short_strip_redesign/verify.py",
+    "docs/validation/DES-043/summary.json",
+    "docs/design/DES-043-short-strip-service-redesign.md",
+    "docs/validation/DES-043/README.md"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Independentreview of correctedmodule+nativeprototype atfixed181cdc0. YouroldP1 contactsblocked895b9e1; nowONECENTRAL16x60saddle,3..27degreelegs, R10stadiumhairpins, orderedports29.7/29.2/28.7/28.2, thermalR~.546835, adverse\u221222.163. Native18mmcontrolfoundguardoverlaps0.32784;16mmcuresfinitefootprints withnewtest. Assess correctionfromprimarycode/inputs BEFOREprose. Independentlytestall17?portablecontrols, recomputepad/tubecontactsandguardclearance includingstagger,seams; assess nativeactualCSGwindow/contactprobe validity andfailclosedstatus. Recomputeledger(noASIC/insulationcreditclaim), updatedthermalrequirement andpowerbounds. Scopequotedsource-onlycoverage andmateriallimits. Actualfixed181native792sensorreportunderway separately; donotclaimruntimevalidation untilreportprovided. Do noteditfiles orfurtherdelegate. Retainoldadversereviewasdateddiagnostic, distinguishnewconclusionsfromengineeringqualification.",
+  "deliverable": "Cited finalcorrectedsourceassessment withfindings,severity,exactrevision,actualchecks andlimitations; coordinatorcuratesreport andwillprovidefixednativeevidenceifneeded.",
+  "completion": "Determinewhetheroldmissingcontact/guardpremises are remediedat sourcelevel andnativevalidatorhasmeaningfulgates; flaganyremainingmaterialscientificclaimbugs withoutacceptance."
+}
+```
+
+### Reproducible barrel source-screen assignment
+
+```json
+{
+  "id": "DES043-SysArch-07",
+  "role": "SysArch",
+  "input_revision": "476826f6b369a34d9fef08e56cfae5dfcdcda32e",
+  "inputs": [
+    "tools/short_strip_redesign/inputs.json",
+    "tools/short_strip_barrel/model.py",
+    "tools/short_strip_barrel/inputs-phi-tilted.json",
+    "tools/short_strip_barrel/export.py"
+  ],
+  "mode": "write",
+  "writable_paths": [
+    "tools/short_strip_redesign/barrel_interfaces.py"
+  ],
+  "task": "Package youralreadyexecuted independent SysArch04 finitebarrelOBB/SAT/contact/windowclearancechecks as a repeatable stdlib-onlysource script. Usecentralbarrel_pad_u_mm12 nowexplicit; oldsourcepinned. Preserve scope/sourcecomparisons and reportconservativeSATboundsnotclosestdistances. EmitcompactJSONstdoutor--output pathdefaultbuild, includeinput/source/producerhashes, exact source revision and counts/limits; no per-entity dumps. Meaningfulsmall SATpositive/negative selfcontrol permitted. Read newparamsfromcentralinputs butdoNOTeditsharedmodels/config/native/testfiles. No furtherdelegation ornativeclaims. Do notcommit; mainownsreport/journal/commit. Iffulloriginalscriptnotrecoverable, produce boundedrepeatablechecks andaccuratelyidentifycoveredsubset ratherthaninventpreviouscounts.",
+  "deliverable": "Oneowned reproducible barrel_interfaces.py script producing compact source-screen summary with claims/limits matching actualrun. Returncommand/results.",
+  "completion": "CoordinatorcanrepeatfinitebarrelcheckfromGit sources without hiddeninlinecode; no additionalengineeringacceptance."
+}
+```
+
+### Thermal-stack consistency and gate follow-up
+
+```json
+{
+  "id": "DES043-PhysVal-06",
+  "role": "PhysVal",
+  "input_revision": "476826f6b369a34d9fef08e56cfae5dfcdcda32e",
+  "inputs": [
+    "tools/short_strip_redesign/inputs.json",
+    "tools/short_strip_redesign/model.py",
+    "tools/short_strip_redesign/native.py",
+    "tools/short_strip_redesign/validate_native.py"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Finalthermalstackconsistencyquestionbeforecloseout: nativeexplicitASICglue50um sitsbetweenASICTilesandspreader; modelthermaltermsomitnamedbondbutincludecontactR.04. Iscurrentmaxsensor\u221222.163claimphysicallycomplete? Sourceactualtwo23.4tiles area, insulatingTIM100um\u03ba1.2, glue50um; sensorleak2W mustcrossinterposer/bumps andsensor-spreading beforegraphite. IndependentlydeterminewhethercontactR.04canlegitimatelycoverbothASICbondandotherinterfaces if\u03babond>=1.2, andwhetherleakagecornerallowanceonlygraphiteomits upstreamsensorresistance. Recommendexplicitadditionalbudget/interpretation, no inventedmeasuredproperties. Newdesignrequirement \u03babond1.2 andsensor-to-spreader extraR<=.5K/W arecandidateconservativebounds; assess arithmetic, feasibilityclaimlimits. Readonly,noedits/nativeexecution. Finalnative476PASS reportawaitingcuration, no needrerungeometryunlessphysicaldimensionschange.",
+  "deliverable": "Concise independentthermalconsistencyfindingandnumericaladequateexplicitbudget; alsoconfirm476actualsensitivitygatecorrectionbycodediff181..476.",
+  "completion": "Identifyomittedresistance/correctinterpretation beforefinalmaxsensorclaim; noqualification/acceptance."
+}
+```
+
+### Complete thermal-path final assessment
+
+```json
+{
+  "id": "DES043-PhysVal-08",
+  "role": "PhysVal",
+  "input_revision": "d21880cc90ce275abeab624c009eea7e4eca76db",
+  "inputs": [
+    "tools/short_strip_redesign/inputs.json",
+    "tools/short_strip_redesign/model.py",
+    "tools/short_strip_redesign/test_model.py",
+    "docs/validation/DES-043/summary.json",
+    "docs/design/DES-043-short-strip-service-redesign.md",
+    "tools/short_strip_redesign/native.py",
+    "tools/short_strip_redesign/validate_native.py"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "FinalsmallfollowupafteryourPhysVal06: explicitASICbond\u03ba1.2term andADDITIONALsensorupstreamR<=.5nowimplementedasdesignrequirements; commonR.584882898, upstream1K, adverse\u221220.332651C. Verifyexactnewinput/model/summary/tableagreement,nom/adverse/stresscontrols andtight.333Kqualifiedwording. Checknewmodelthermal-only amendmentdoesnotchangephysicalnativegeometryversus476. Existing476native reportretainedwithoriginalrevision; freshd218native rerununderwayonlyforcompletefinalbindings. No newfeasibilityclaimor humanapproval. Runportablechecks/numericalreviewreadonly; do notedit/spawn/future-nativeclaim.",
+  "deliverable": "Concise finalthermal/correctionclosure assessment atd218 withactualchecksandremainingqualificationlimits.",
+  "completion": "Confirmacceptedthermalomissioncorrectedwithoutdoublecountambiguity/staleclaims; noadditionalphysicaldesignretuning."
+}
+```
+
+Native rerun amendment: unchanged SoftEng02 ownership, final producer/input targetd21880cc90ce275abeab624c009eea7e4eca76db after explicit thermal-path correction. Preserve prior476 report at its actual revision; no relabeling.
+
+## Final complete thermal model and source review
+
+PhysVal06 identifies unbudgeted50umASICbond andupstreamsensorheatpath. Add
+bondκ≥1.2W/m/K separately fromthe0.04K/W contact allowance, plus an ADDITIONAL
+sensor/bump/redistributionleakR≤0.5K/W,not claimed measured/derived feasibility.
+FinalcommonR0.584882898K/W +1Kleakallowance yieldsadverse−20.332651C,only.333K
+margin. The old−22.163C value is explicitlysuperseded. No geometry, power,
+cooling, cable ormassresult changes. PhysVal08 independently matchesallterms,
+20portabletests andsameXML/materials/expectedconstructionbeforeprovenance.
+
+Native476PASSisretainedunchangedwithactualsource andrawhash. Refreshcomplete
+producer/inputbindings atd21880cc90ce275abeab624c009eea7e4eca76db; neverrelabelthe
+oldreport. FullgeneratedXML,expectedmap,libraries,ROOT/logs remainlocalignored.
+The savedcurator retainsaggregatesonly. Repeatablebarrelsourcecheck supplies
+3170144boxcomparisons withzero intersections andexplicitnative/thermallimits.
+
+Fullspecialistreconciliation: SESSION-2026-11-02-short-strip-service-redesign/assessments.md.
+No newPRpublication, productionintegration orscientific/hardwareacceptance.
+
+## Closeout
+
+FinalnativeactualPASSatd21880c:792actualsensitiveIDs,3960cells,16132solids,
+1656CSG,7200probes andzerooverlaps at1e-5mm. RawreportSHA
+234f904026f305f3e404ec4e9a53609752e37069b78611466472a802112c0d1b.
+Aggregatecuration/current-sourceverification passes. Final20portabletests and
+all10PNG/PDFbyte-replays pass. Project84tasks/43documents/24rounds,224session
+records,eightroles/three skills,98PRledgers andtokenvalidate/build pass.
+
+Fullprojectobservedcoverage:146/224sessions,357disjointturns;1684914712input+
+7744925output=1692659637tokens. Currenttask hasnoexactcounters and contributes
+noinventedusage. Cached/reasoning subsets notadded. No priorjournal changed.
+
+Gitpayloadreview: sciencehistory79newblobs,largest384162bytePNG,noneover1MB;
+noROOT/NPZ/GZ/buildpayloadpaths. Remainingstagedcloseoutfilesarecompacttext/
+JSON. NoPRpublication orproductionintegration. Hardware/fulltrackermaterial/
+reconstructionqualifications andtight.333Kthermalmargin remainexplicit.

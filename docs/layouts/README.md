@@ -27,5 +27,5 @@ The open [SS-2MM-SVC-01 / DES043 service redesign](../design/DES-043-short-strip
 proposes short-strip active coverage through703 mm (704.9 mm envelope) and a717..781.5 mm service
 trunk. Its [separate R–Z and capacity figure](../validation/DES-043/figures/handoff-capacity.png)
 is an unsigned design overlay; the current combined drawings above retain the
-merged PR109 physical geometry. Module, cable and cooling qualification and
-native integration remain pending.
+merged PR109 physical geometry. The explicit792sensor module/endcap prototype has native construction evidence;
+full-tracker integration and module/cable/cooling qualification remain pending.

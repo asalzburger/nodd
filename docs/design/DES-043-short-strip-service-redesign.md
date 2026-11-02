@@ -15,7 +15,7 @@ radial gap from **114.8 to 82.3 mm**, a **32.4 mm / 28.3%** improvement. Rebuild
 the power distribution and module thermal interface; reserve a narrower shared
 service trunk, with an enlarged barrel collector connection.
 
-**The module needs redesign.** Its 48 × 96 mm² active silicon outline and
+**The module is redesigned in the isolated prototype.** Its 48 × 96 mm² active silicon outline and
 200 µm thickness can remain. Electronics/interconnect, thermal contacts,
 spreader/backing, power flex, connectors and protection must change. Extended
 endcap petals also need new supports, board mounts and cooling circuits. The
@@ -269,6 +269,14 @@ geometry and directional X₀/interaction-length comparison is required before
 claiming the full tracker material improvement.
 
 ## Deliverables and qualification gates
+
+The native mirrored-first-disc prototype constructs792sensors, redesigned
+ASIC/bond/spreader/TIM/backing stacks, central saddles, cold windows, both
+petal cooling loops, rails, guards and new peripheral board mounts. Its actual
+construction/contact/identifier/overlap evidence is retained separately from
+engineering qualification. All12discs can be generated; native overlap
+validation currently covers the representative mirrored pair. Barrel insert
+interfaces are repeatably source-checked, with native barrel CSG still pending.
 
 The [validation report](../validation/DES-043/README.md) supplies exact recipes,
 source hashes, compact summaries, plots, checks and limitations. The proposed
