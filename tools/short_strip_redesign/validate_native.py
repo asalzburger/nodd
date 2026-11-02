@@ -29,10 +29,22 @@ def construction_errors(expected):
     return errors
 
 
+def sensitivity_errors(entities, sensors):
+    expected = {entity['name'] for entity in entities if entity['role'] == 'sensitive'}
+    actual = [sensor['name'] for sensor in sensors]
+    errors = []
+    if len(actual) != len(expected):
+        errors.append(f'Actual sensitive count differs: {len(actual)} versus {len(expected)}')
+    if set(actual) != expected or len(set(actual)) != len(actual):
+        errors.append('Actual sensitive volume names are missing, repeated or unexpected')
+    return errors
+
+
 def identifiers(detector, root, dd4hep, sensors, cells):
     readout = detector.readout('ShortStripRedesignHits')
     decoder, segmentation = readout.idSpec().decoder(), readout.segmentation()
     packed = set(); errors = []; checked = 0
+    if not sensors: errors.append('No actual sensitive volumes to validate')
     for sensor in sensors:
         fields = root.std.vector('pair<string,int>')()
         for key, value in sensor['ids'].items(): fields.emplace_back(key, value)
@@ -57,6 +69,9 @@ def inventory(detector, root, dd4hep, expected):
     unit = float(dd4hep.mm)
     def visit(node, parent, inherited):
         volume = node.GetVolume(); name = str(volume.GetName())
+        sensitive = bool(dd4hep.Volume(volume).isSensitive())
+        if sensitive != (lookup.get(name, {}).get('role') == 'sensitive'):
+            errors.append('Actual sensitivity flag differs from expected role: ' + name)
         matrix = root.TGeoHMatrix(parent); matrix.Multiply(node.GetMatrix())
         ids = dict(inherited)
         for field in dd4hep.PlacedVolume(node).volIDs(): ids[str(field.first)] = int(field.second)
@@ -72,7 +87,7 @@ def inventory(detector, root, dd4hep, expected):
                 errors.append('Expected explicit CSG windows/cuts differ: ' + name)
             found[name] = dict(shape=shape, node=node, centre_mm=centre)
             counts[entity['role']] += 1
-            if dd4hep.Volume(volume).isSensitive():
+            if sensitive:
                 rotation = matrix.GetRotationMatrix()
                 sensor = dict(name=name, center_mm=centre, ids=ids,
                     u=[float(rotation[3 * j]) for j in range(3)],
@@ -88,6 +103,7 @@ def inventory(detector, root, dd4hep, expected):
     visit(detector.manager().GetTopNode(), root.TGeoHMatrix(), {})
     if set(found) != set(lookup): errors.append('Missing required module/cooling/support solids')
     if dict(counts) != expected['counts']: errors.append('Actual component payload counts differ')
+    errors.extend(sensitivity_errors(expected['entities'], sensors))
     probes = 0
     for probe in expected['probes']:
         actual = found.get(probe['name'])

@@ -31,6 +31,7 @@ def load(path=HERE/'inputs.json'):
     for s in c['packing'].values():
         if not 0<s['phi_fraction']<=1 or not 0<s['packing_fraction']<=1 or s['spare_factor']<1:raise ValueError('Invalid packing')
     if c['thermal']['endcap_pad_mm']!=[16.,60.] or c['thermal']['endcap_pad_u_mm']!=0. or c['thermal']['endcap_pad_count']!=1:raise ValueError('Pickup envelope requires new finite collision assessment')
+    if c['thermal']['barrel_pad_u_mm']!=12.:raise ValueError('Barrel pickup offset needs amended overhang/contact checks')
     for path,digest in c['baseline_source_sha256'].items():
         if sha(ROOT/path)!=digest:raise ValueError('Historical source changed: '+path)
     return c

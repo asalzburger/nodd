@@ -363,7 +363,7 @@ def build(c, full=False):
         limitations=['No production integration, ACTS/Geant4 transport, engineering qualification or whole-tracker material claim.',
             'Intersecting/outside CSG cuts are intentional; no exact composite capacity or mass is obtained by subtracting full cut capacities.',
             'TIM is an epoxy density proxy; interposer/signal/protection/board materials are explicit effective allocations, not qualified hardware.',
-            'Only endcap module/petal/local services are constructed. Barrel20x64 lands remain an unchanged source-model interface.',
+            'Only endcap module/petal/local services are constructed. Barrel20x64 lands and their specified offsets are source-model requirements, not constructed or validated here.',
             'Thermal-contact misses are blockers: pipe-plane reach alone does not establish a conductive pipe contact.'])
     return doc, mat.root, expected
 

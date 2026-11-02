@@ -65,6 +65,14 @@ class NativeTests(unittest.TestCase):
         self.assertEqual(validate_native.construction_errors(fixture),
                          ['Missing finite pipe contacts; pipe-plane reach is insufficient'])
 
+    def test_empty_or_missing_actual_sensitive_volumes_cannot_pass(self):
+        expected = [dict(name='sensor0',role='sensitive'),dict(name='sensor1',role='sensitive'),
+                    dict(name='backing',role='backing')]
+        self.assertTrue(validate_native.sensitivity_errors(expected, []))
+        self.assertTrue(validate_native.sensitivity_errors(expected, [dict(name='sensor0')]))
+        self.assertEqual(validate_native.sensitivity_errors(expected,
+            [dict(name='sensor0'),dict(name='sensor1')]), [])
+
     def test_central_insert_guard_clearance_and_rejected_18mm_control(self):
         self.assertEqual(self.config['thermal']['endcap_pad_mm'], [16.,60.])
         self.assertGreater(self.expected['guard_clearance']['minimum_other_guard_clearance_mm'], .5)
