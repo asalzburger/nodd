@@ -96,7 +96,7 @@ def main():
     axes[0].set(xticks=xx,xticklabels=labels,ylabel='Electronics + leakage [W/module]',title='Conditional load; no measured ASIC claim');axes[0].grid(axis='y',alpha=.15)
     for i,q in enumerate(cases):axes[0].text(i,q['total_module_heat_W']+.6,f"{q['total_module_heat_W']:.2f} W",ha='center')
     for region,col in [('barrel',NEW),('endcap',HEAT)]:points(axes[1],xx.tolist(),[q['thermal'][region]['sensor_C'] for q in cases],col,region.capitalize())
-    axes[1].axhline(-20,color=RED,ls='--',label='Sensor requirement');axes[1].set(xticks=xx,xticklabels=labels,ylabel='Maximum sensor screen [°C]',title='−35 °C coolant, 0.35 mm spreader',ylim=(-31,-10));axes[1].grid(alpha=.15);axes[1].legend(fontsize=9)
+    axes[1].axhline(-20,color=RED,ls='--',label='Sensor requirement');axes[1].set(xticks=xx,xticklabels=labels,ylabel='Conditional sensor screen [°C]',title='−35 °C coolant, 0.35 mm spreader',ylim=(-31,-10));axes[1].grid(alpha=.15);axes[1].legend(fontsize=9)
     fig.text(.08,.11,'Required module redesign: two logical ASIC tiles + redistribution, thermal windows, direct inserts, insulating TIM and new power/flex protection.',fontsize=9)
     save(fig,a.output,'power-thermal',manifest)
     fig,axes=frame('Module redesign: retain the sensor, rebuild the thermal interface','Dimensioned source schematic. Central saddle reaches a physical tube; redistribution and material properties still need qualification.',size=(13,7.2))

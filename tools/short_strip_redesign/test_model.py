@@ -62,8 +62,8 @@ class DesignScreens(unittest.TestCase):
 
     def test_thermal_floor_and_no_scaling_rejection(self):
         t=model.thermal(self.c,'endcap')
-        self.assertLess(-35+(self.c['reference_electronics_W']*.625+2)*t['R_K_W']+t['distributed_leakage_corner_K'],-20)
-        self.assertGreater(-35+(self.c['reference_electronics_W']+2)*t['R_K_W']+t['distributed_leakage_corner_K'],-20)
+        self.assertLess(-35+(self.c['reference_electronics_W']*.625+2)*t['R_K_W']+t['distributed_leakage_corner_K']+t['upstream_sensor_leakage_K'],-20)
+        self.assertGreater(-35+(self.c['reference_electronics_W']+2)*t['R_K_W']+t['distributed_leakage_corner_K']+t['upstream_sensor_leakage_K'],-20)
 
     def test_pipe_ports_are_positive_and_disjoint(self):
         result=cooling_routes(self.c,self.parts[1])
@@ -73,6 +73,14 @@ class DesignScreens(unittest.TestCase):
         a=cooling_pieces(self.c['ring_centres_mm'][:3],[27,27.5],712)
         b=cooling_pieces(self.c['ring_centres_mm'][3:],[28,28.5],712)
         self.assertFalse(sampled_interloop_clearance(a,b,2.5)['passed'])
+
+    def test_explicit_upstream_and_ASIC_bond_heat_paths(self):
+        t=model.thermal(self.c,'endcap')
+        self.assertAlmostEqual(t['terms_K_W']['ASIC_bond'],.00005/(1.2*2*.0234**2))
+        self.assertEqual(t['upstream_sensor_leakage_K'],1.)
+        q=self.c['reference_electronics_W']*.625+2
+        maximum=-35+q*t['R_K_W']+t['distributed_leakage_corner_K']+t['upstream_sensor_leakage_K']
+        self.assertGreater(maximum,-20.34);self.assertLess(maximum,-20.32)
 
     def test_every_module_has_a_pipe_saddle(self):
         pipes=cooling_routes(self.c,self.parts[1]);contacts=pad_contacts(self.c,self.parts[-1],pipes)

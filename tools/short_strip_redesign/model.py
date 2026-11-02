@@ -75,14 +75,16 @@ def bus(taps,entry,watts,voltage,rho,area):
 
 def thermal(c,region):
     t=c['thermal'];w,h=t[region+'_pad_mm'];area=t[region+'_pad_count']*w*h*1e-6
-    terms=dict(TIM=t['insulating_TIM_total_mm']/1000/(t['TIM_k_W_mK']*area),
+    bond_thickness=abs(c['native_module']['ASIC_glue_w_mm'][1]-c['native_module']['ASIC_glue_w_mm'][0])/1000
+    bond_area=t['ASIC_tiles']*t['ASIC_tile_mm'][0]*t['ASIC_tile_mm'][1]*1e-6
+    terms=dict(ASIC_bond=bond_thickness/(t['ASIC_bond_k_min_W_mK']*bond_area),TIM=t['insulating_TIM_total_mm']/1000/(t['TIM_k_W_mK']*area),
         spreader_cross=t['spreader_mm']/1000/(t['spreader_perpendicular_k_W_mK']*area),
         spreading=t['hotspot_spreading_mm']/1000/(t['spreader_parallel_k_W_mK']*(t['spreader_mm']/1000)*(h/1000)*2),
         pickup=t['maximum_pickup_height_mm']/1000/(t['pickup_k_W_mK']*area),
         contact=t['contact_R_K_W'],pipe_boiling=t['pipe_boiling_R_K_W'])
     overhang=t['leakage_corner_overhang_mm'][region]
     corner=c['sensor_leakage_W']/(.048*.096)*sum((x/1000)**2 for x in overhang)/(2*t['spreader_parallel_k_W_mK']*t['spreader_mm']/1000)
-    return dict(terms_K_W=terms,R_K_W=sum(terms.values()),distributed_leakage_corner_K=corner,scope='Specified contact/TIM/pickup path with backing windows and ASIC re-layout; not measured/FEA performance')
+    return dict(terms_K_W=terms,R_K_W=sum(terms.values()),upstream_sensor_leakage_K=c['sensor_leakage_W']*t['sensor_upstream_extra_R_K_W'],distributed_leakage_corner_K=corner,scope='Specified contact/TIM/pickup path with backing windows and ASIC re-layout; not measured/FEA performance')
 
 
 def annulus_capacity(rin,rout,phi,pack,sectors=12,wall=.5):
@@ -182,7 +184,7 @@ def screen(c):
         islands=[sorted(taps_e)[i::3] for i in range(3)]
         e=[bus(t,c['endcap_bus_entry_mm'],watts,c['minimum_delivered_V'],rho,4*c['rail_thickness_mm']) for t in islands]
         feed_current=(14*watts+c['board_W'])/c['minimum_delivered_V'];feed_drop=2*rho*c['maximum_feeder_length_m']/c['lv_area_per_conductor_mm2']*feed_current
-        therm={r:dict(thermal(c,r),sensor_C=c['coolant_max_C']+q*thermal(c,r)['R_K_W']+thermal(c,r)['distributed_leakage_corner_K']) for r in ['barrel','endcap']}
+        therm={r:dict(thermal(c,r),sensor_C=c['coolant_max_C']+q*thermal(c,r)['R_K_W']+thermal(c,r)['distributed_leakage_corner_K']+thermal(c,r)['upstream_sensor_leakage_K']) for r in ['barrel','endcap']}
         flow=[]
         for region,n,loss,g in [('barrel',14,b['loss_W'],c['flow_g_s']['barrel'][name]),('endcap',17,sum(x['loss_W'] for x in e),c['flow_g_s']['endcap'][name])]:
             heat=n*q+c['board_W']/(1 if region=='barrel' else 2)+loss

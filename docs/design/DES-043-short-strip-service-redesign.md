@@ -172,7 +172,7 @@ not asserted. The proposed hardware must meet the adverse budget or be revised.
 | Total strixel module+board heat [kW] | 207.14 | 283.38 | 435.87 |
 | New heat incl. upper service-loss allowances [kW] | 216.95 | 301.69 | 478.97 |
 | Total voltage drop [V] | 0.721 | 0.962 | **1.445 FAIL** |
-| Endcap maximum sensor temperature [°C] | −25.42 | −22.16 | **−15.66 FAIL** |
+| Endcap maximum sensor temperature [°C] | −23.81 | −20.33 | **−13.37 FAIL** |
 
 The historical0.5 mm channel-density reference is421.30 kW before feeder/bus
 losses. It is a comparison of assumptions; no measured current cooling-plant
@@ -212,10 +212,14 @@ The concrete module thermal proposal is:
  ≥100 W/(m K), explicitly requiring a suitable orientation/material/interface.
 - Electrically insulating TIM, total0.10 mm, cold/irradiated conductivity
  ≥1.2 W/(m K). Contact resistance≤0.04 K/W and pipe/boiling allowance≤0.08 K/W
- are requirements to demonstrate, not measured results.
+ are requirements to demonstrate, not measured results. The separate50 µm
+ ASIC bond has a furtherκ≥1.2 W/(m K) requirement; its0.03805 K/W resistance
+ is added without consuming the0.04 K/W allowance. An additional upstream
+ sensor/bump/redistribution leakage-path budget≤0.5 K/W adds1 K at2 W. This
+ budget is a requirement to establish, not measured or derived feasibility.
 - Coolant no warmer than−35 °C. Include a separate uniform2 W sensor-leakage
  corner allowance over the uncontacted16/18 mm endcap overhangs. The adverse
- endcap result is−22.163 °C: only2.16 K to the−20 °C requirement.
+ endcap result is−20.333 °C: only0.33 K to the−20 °C requirement.
 
 This bypasses the original foam/insulating backing path inside explicit windows;
 it cannot be achieved by keeping the old mechanical module unchanged. Preserve
@@ -226,6 +230,12 @@ radiation, noise, die bonding and failure isolation need module tests/FEA.
 ![Power and thermal screens](../validation/DES-043/figures/power-thermal.png)
 
 ![Explicit module redesign](../validation/DES-043/figures/module-redesign.png)
+
+The complete conditional lumped screen includes the ASIC bond and the
+additional upstream sensor path. It gives−20.333 °C adverse, only0.333 K margin.
+The earlier−22.163 °C downstream-only value is superseded. Bonded area,
+interfaces, leakage feedback and operating bounds require module tests/FEA;
+this is not a qualified maximum sensor temperature.
 
 ## Material consequence and limits
 
