@@ -87,7 +87,7 @@ All generated primaries remain in efficiency denominators. Pixel-only measured s
 | geant4 / pion | 100 | 1.5 | 90.10% [88.09, 91.80] | 98.67% | 15 | 0 | 0 | 0 |
 | geant4 / pion | 100 | 2 | 90.40% [88.42, 92.07] | 98.78% | 15 | 0 | 0 | 0 |
 
-The compressed [machine report](profiles.json.gz) retains all rates, Wilson 68/95 intervals, exact one-sided 95% upper limits for zero failure/fake events, whole-event candidate-fraction bootstrap intervals and paired efficiency differences. Reconstructability requires six unique sensor measurements and three physical pixel groups; the nested four-group result is retained.
+The local-only compressed machine report (`profiles.json.gz`, regenerated with the documented analysis recipe) retains all rates, Wilson 68/95 intervals, exact one-sided 95% upper limits for zero failure/fake events, whole-event candidate-fraction bootstrap intervals and paired efficiency differences. Reconstructability requires six unique sensor measurements and three physical pixel groups; the nested four-group result is retained.
 
 Residuals are truth−reconstruction, with wrapped φ; relative pT is derived from θ and q/p. Central 68.27% half-widths need at least 30 finite entries. Bias, SD/RMS, quantiles, extrema and tails keep all finite matched entries, including wrong charge. All six bound pulls remain retained; time is prior dominated. Paired bootstrap uses 400 fixed-seed event resamples; the common-success control conditions on success at all four pitches. Unavailable widths/bins are null, never zero or NaN.
 

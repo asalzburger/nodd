@@ -24,3 +24,7 @@ The native FCAL checks cover both ends, body/collar component solids and conserv
 Reproduce with `python3 -B tools/forward_calorimeter/draw.py` in an environment with matplotlib. Full source revisions and hashes are retained in the named inputs.
 
 The tracker overlay is extracted from the maintained balanced DD4hep export in [tracker-baseline-balanced.json](tracker-baseline-balanced.json). It updates only the tracker sensitive bounds; the independently pinned calorimeter and magnet contexts are unchanged. The earlier pre-FCAL layout remains a historical control.
+
+The [PR109 selected strixel baseline](../validation/DES-042/baseline-selection.md)
+uses75µm ×2mm cells in the combined tracker. This readout amendment preserves
+all physical bounds and material, so these R–Z drawings need no regeneration.

@@ -1,15 +1,32 @@
 # DES-042 — Longitudinal strixel pitch sensitivity
 
-- Status: DRAFT; isolated **PROTOTYPE** study, not a baseline change.
-- Date: 2026-10-31.
+- Status: DRAFT; **PROTOTYPE** evidence with human-selected 2 mm working baseline.
+- Date: 2026-11-02.
 - Human request: truth tracking at 1, 1.5 and 2 mm longitudinal short-strip
   segmentation, and estimates of power and cable-space savings.
 - Source baseline: `1dff0452ed1e7ac24d7b746fccc02ee15df5258d`, containing the
   PR104 balanced working tracker and PR107 reconstruction infrastructure.
 
+## Current human selection
+
+On 2026-11-02, **asalzburger-review** [selected 2 mm as the new baseline](https://github.com/asalzburger/nodd/pull/109#issuecomment-6573426341)
+and [approved PR109](https://github.com/asalzburger/nodd/pull/109#pullrequestreview-5734614248).
+The [machine-readable selection](inputs/DES-042-strixel-selection.json) records
+this **NODD DESIGN CHOICE** and the reviewed revision. The user explicitly
+requests its registration in this PR and merge preparation. The maintained
+combined tracker now uses 75 µm × 2 mm readout; the original standalone component
+models, campaigns and reports retain their dated 0.5 mm control.
+
+The [baseline addendum and recipe](../validation/DES-042/baseline-selection.md)
+distinguish selected readout, extrapolated Gaussian response, historical native
+execution and unqualified service savings. The 100-event ttbar comparison has
+unchanged aggregate hard-scatter efficiency and a small measured fake increase;
+it does not establish statistical equivalence. Engineering lifecycle remains
+DRAFT, with hardware/occupancy calibration and service redesign open.
+
 ## Scope and provenance
 
-**FACT (repository baseline):** DES-007 specifies 48 × 96 mm² strixel sensors
+**FACT (study input baseline on 2026-10-31):** DES-007 specifies 48 × 96 mm² strixel sensors
 with 75 µm × 0.5 mm cells. DES-020/021 contain 8,064 barrel and 4,320 endcap
 sensors. The endcap count includes both ends. Baseline tracker layouts,
 materials, pixel segmentation and the long-strip one-coordinate measurements
@@ -18,7 +35,7 @@ remain fixed throughout this study.
 **NODD DESIGN CHOICE (study cases, human requested):** vary the strixel local-v
 pitch through 0.5, 1, 1.5 and 2 mm, retaining 75 µm in local-u. Local-v is z in
 the barrel and radial in the endcaps; it is not global z in the endcaps. These
-cases do not authorize integration of a coarser baseline.
+cases originally supplied sensitivity evidence; the subsequent human selection above authorizes the 2 mm working baseline.
 
 **INFERENCE:** integral grids have 192, 96, 64 and 48 bins along 96 mm.
 Channels scale inversely with pitch. Single-cell uniform binary errors are

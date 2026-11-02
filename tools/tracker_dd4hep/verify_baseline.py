@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Verify retained balanced-baseline execution and current source fingerprints.
+"""Verify retained balanced-baseline execution and explicitly dated source fingerprints.
 
 This replays provenance checks, not native construction or physics simulation.
 """
@@ -20,8 +20,16 @@ def read(name):
 
 def main():
     manifest = read('manifest.json')
+    # PR109 changes these sources for the selected2mm readout. Verify their
+    # original bytes against the unchanged run manifest, and test the current
+    # assembly separately in test_integration.py. Never relabel old native runs.
+    amended = {"tools/tracker_dd4hep/export.py", "detector/config/tracker.json",
+               "tools/tracker_dd4hep/verify_baseline.py"}
+    revision = "07b38a7814853ec2e44ef9102098c908f45a2147"
     for path, digest in manifest['files_sha256'].items():
-        if hashlib.sha256((REPO / path).read_bytes()).hexdigest() != digest:
+        payload = (subprocess.check_output(['git', 'show', revision + ':' + path], cwd=REPO)
+                   if path in amended else (REPO / path).read_bytes())
+        if hashlib.sha256(payload).hexdigest() != digest:
             raise ValueError('Retained baseline evidence/source changed: ' + path)
     native = read('native-tracker.json.gz')
     gen3 = read('gen3-geometry.json.gz')
@@ -50,7 +58,7 @@ def main():
     ], cwd=REPO, text=True).strip()
     if current_tree != publication['source_tree'] or publication['status'] != 'PASS':
         raise ValueError('Current TDR source differs from the compiled/reviewed tree')
-    print('PASS: balanced source/evidence fingerprints, native inventory, Gen3 round trip, Geant4 smoke and compiled TDR tree')
+    print('PASS: dated balanced source/evidence fingerprints, native inventory, Gen3 round trip, Geant4 smoke and compiled TDR tree')
 
 
 if __name__ == '__main__':
