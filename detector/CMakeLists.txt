@@ -113,6 +113,7 @@ file(GLOB_RECURSE NODD_TRACKER_INPUTS CONFIGURE_DEPENDS
 add_custom_command(OUTPUT "${NODD_TRACKER_DIR}/tracker.xml" "${NODD_TRACKER_DIR}/materials.xml" "${NODD_TRACKER_DIR}/expected.json"
   COMMAND "${Python3_EXECUTABLE}" -B "${PROJECT_SOURCE_DIR}/tools/tracker_dd4hep/export.py" --output "${NODD_TRACKER_DIR}"
   DEPENDS ${NODD_TRACKER_INPUTS} ${NODD_EXPORT_INPUTS} ${NODD_COMBINED_INPUTS}
+    "${PROJECT_SOURCE_DIR}/docs/design/inputs/DES-042-strixel-selection.json"
     "${NODD_PIXEL_DIR}/pixel-detector.xml" "${NODD_BEAMPIPE_DIR}/beampipe.xml"
   WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}" VERBATIM)
 add_custom_target(nodd-tracker-compact ALL DEPENDS "${NODD_TRACKER_DIR}/tracker.xml" "${NODD_TRACKER_DIR}/materials.xml" "${NODD_TRACKER_DIR}/expected.json")

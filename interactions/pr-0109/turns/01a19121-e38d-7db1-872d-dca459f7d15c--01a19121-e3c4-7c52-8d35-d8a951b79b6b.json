@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "thread_id": "01a19121-e38d-7db1-872d-dca459f7d15c",
+  "turn_id": "01a19121-e3c4-7c52-8d35-d8a951b79b6b",
+  "status": "completed",
+  "started_at": 1793436279,
+  "completed_at": 1793437079,
+  "token_accounts": [
+    "SESSION-2026-10-31-strixel-ttbar-pu200"
+  ],
+  "source": "Codex app read_thread; exact recorded thread/turn match",
+  "messages": [
+    {
+      "id": "msg_03d9901559577828016ae5ad8f76dc81918313551d3b226982",
+      "role": "assistant",
+      "phase": "final_answer",
+      "text": "TTBAR-PU200-SoftEng-02 complete against input `a734cf0d718846af84f919575725b9c7f0eee731`. Explicit SoftEng fallback applied; no native profile-loading claim.\n\nChanged only owned files:\n\n- `software/analysis/strixel_ttbar/analyze.py`\n- `software/analysis/strixel_ttbar/test_analyze.py`\n- `software/analysis/strixel_ttbar/plot.py`\n- `software/analysis/strixel_ttbar/test_plot.py`\n\nImplementation includes independent exhaustive multiparticle matching, frozen/guide selections, CKF/ambiguity metrics, HS/pileup efficiency, conditional denominators, truth/reconstructed profiles with overflow counts, candidate/event fake and duplicate rates, wrong charge, pure/estimated seed coverage, 2,000 jointly paired event-block bootstrap resamples and exact report replay.\n\nPortable retention uses numeric per-event NPZ chunks containing truth identities/initial kinematics, measurement associations, raw candidate links/fit fields, ambiguity shared-link occurrences and seed links. Case accumulation retains only sufficient counts. Original native-report bytes and canonical provenance identities are hashed before established logical-path sanitation.\n\nActual checks:\n\n- **47 tests passed**, 1.486 s; includes 24 analyzer and four plot tests, plus coordinator/native tests.\n- All six synthetic figure canvases rendered; synthetic PNG visually inspected. Production PDF exports remain coordinator-owned.\n- Four original native smoke cases independently retained/replayed at `/private/tmp/nodd-strixel-ttbar/analysis-development-smoke-v4`.\n- Full source/config/runtime/sample and geometry/material/baseline-response invariants passed.\n- Exact generated/simulated particle/hit pairing passed.\n- Pixel inputs, space points and both seed collections identical across pitches. Non-target realized smearing changed at every coarser pitch.\n- Largest retained event chunk: **1,329,573 bytes**.\n- Native 0.5 mm smoke checked 105,960 variance marginals, 20,896 measured pixel transforms, 3,816 muon hypotheses and all ambiguity survivors.\n- `git diff --check` passed.\n\nDevelopment-only seed coverage was 173/610 eligible particles at all lengths, from 601 seeds and 595 estimated seeds. It is **not an efficiency ceiling**: impure seeds can recover pure tracks.\n\nFinal source hashes:\n\n```text\nanalyze.py      e4737279d6c40a0b8f3f2fb03d508653c3da5a44cdb432e76488401be4948df2\ntest_analyze.py cea986118fb15016a708cef6e6914481cc30e3fa0ddcee299685b784c346687e\nplot.py         be0e980788a2be1f985ccfce45385742105e8ca0769af2d93c77de863fa3a756\ntest_plot.py    8318d7fa2d50cb0b7ddba20c2394027ec6f830e4e0405e8bd2e9adeb0a6ff4a9\n```\n\nCLI contract:\n\n```text\nanalyze.py retain RAW_CASE --output RETAINED_CASE --events 100\nanalyze.py replay RETAINED_CASE\nanalyze.py statistics --data CASE_ROOT --output REPORT_ROOT --replicates 2000\nanalyze.py statistics --data CASE_ROOT --output REPORT_ROOT --replicates 2000 --verify\nplot.py --data REPORT_ROOT/profiles.json.gz --output FIGURE_ROOT\n```\n\n`CASE_ROOT` contains `pitch0.5`, `pitch1`, `pitch1.5`, `pitch2`. Plotting produces six PNG/PDF pairs and `manifest.json`.\n\nNo native launches, production statistics, commits, shared dependency changes or publication performed. Remaining coordinator gates: final committed-source reader smoke/review, offline source freeze, 100-event production and final evidence review.",
+      "redacted": "no"
+    }
+  ],
+  "native_tools": [
+    {
+      "name": "commandExecution",
+      "calls": 51,
+      "failures": 2
+    },
+    {
+      "name": "subAgentActivity",
+      "calls": 21,
+      "failures": 0
+    },
+    {
+      "name": "fileChange",
+      "calls": 20,
+      "failures": 0
+    },
+    {
+      "name": "imageView",
+      "calls": 1,
+      "failures": 0
+    }
+  ],
+  "subagents": [],
+  "limitations": [
+    "Only userMessage and agentMessage text retained; reasoning, tool arguments/results and private state excluded.",
+    "Conservative path, credential, email and URL redaction is not a privacy guarantee; review retained text.",
+    "Exposed operation counts are per retained turn; journal counts can describe the same invocations and must not be added.",
+    "Peer/parent contact operations are not child-spawn evidence and are excluded from the subagents list; operation counts remain retained. Child relationships use verified root spawn metadata."
+  ],
+  "parent_thread_id": "01a167a1-7906-7b73-9408-509e483359fc"
+}

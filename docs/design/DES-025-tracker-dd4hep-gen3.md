@@ -4,6 +4,19 @@
 - Date: 2026-10-08
 - Scope: explicitly user-authorized integration for software review; no design sign-off.
 
+## Selected readout amendment — 2026-11-02
+
+**NODD DESIGN CHOICE:** [PR109 human selection](inputs/DES-042-strixel-selection.json)
+sets 75 µm × 2 mm strixels for the maintained combined tracker. The assembly
+applies this explicitly to barrel and endcap readouts after composing the
+historical standalone models. Local-v is barrel z and endcap radial; its grid
+offset is 1 mm. Sensor solids, placements, identifiers, materials and service
+allowances remain fixed. Each 48 × 96 mm² sensor has 640 × 48 channels.
+See the [current baseline addendum](../validation/DES-042/baseline-selection.md)
+for provenance, response preparation and the dated 0.5 mm controls.
+
+## Assembly structure
+
 Assemble DES024 pipe, DES019 trimmed mixed pixel, selected phi-tilted DES020
 short-strip barrel, DES021 endcap and DES022/023 paired long strips. Keep all
 sensor placements, signed local axes, bounds, disc datums and readout IDs unchanged.

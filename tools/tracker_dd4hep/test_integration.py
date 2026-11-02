@@ -6,7 +6,7 @@ import sys
 import tempfile
 import xml.etree.ElementTree as ET
 from aperture import enlarge_pixel_aperture
-from export import rename_materials
+from export import rename_materials, select_strixel_readout
 
 
 class IntegrationGuards(unittest.TestCase):
@@ -20,11 +20,34 @@ class IntegrationGuards(unittest.TestCase):
             self.assertEqual(actual['pixel_config'], 'detector/config/pixel-detector-balanced.json')
             self.assertEqual({c['name']:c['counts'].get('sensitive') for c in actual['components']},
                              dict(beam=None,pixel=12410,short_barrel=8064,short_endcap=4320,long_barrel=13968,long_endcap=7488))
+            xml = ET.parse(Path(directory)/'tracker.xml').getroot()
+            self.assertEqual(len(actual['strixel_readout_amendment']), 2)
+            for name in ('ShortStripBarrelHits', 'ShortStripEndcapHits'):
+                seg = xml.find(f"./readouts/readout[@name='{name}']/segmentation")
+                self.assertEqual(float(seg.get('grid_size_x')[:-3]), .075)
+                self.assertEqual(float(seg.get('grid_size_y')[:-3]), 2.)
+                self.assertEqual(float(seg.get('offset_y')[:-3]), 1.)
+            for key, filename in [('short_barrel','short-strip-barrel.xml'), ('short_endcap','short-strip-endcap.xml')]:
+                source = ET.parse(Path(directory)/'components'/key/filename).getroot()
+                self.assertEqual(float(source.find('./readouts/readout/segmentation').get('grid_size_y')[:-3]), .5)
             self.assertEqual(actual['config']['pixel_passive_aperture_mm'],28.8)
             self.assertEqual(actual['beam']['config']['inner_radius_mm'],27)
             self.assertEqual(actual['beam']['config']['wall_mm'],0.8)
             barrel = next(e for e in actual['components'] if e['name']=='pixel')['provenance']['placement']
             self.assertEqual(barrel['pixel_barrel_radii_mm'],[31.5,57,96,182])
+
+    def test_strixel_amendment_rejects_missing_readout_or_changed_source(self):
+        selection = dict(classification='NODD DESIGN CHOICE', pitch_mm=[.075,2.], previous_pitch_mm=[.075,.5])
+        doc = ET.fromstring('<lccdd><readouts/></lccdd>')
+        with self.assertRaisesRegex(ValueError, 'one selected'):
+            select_strixel_readout(doc, selection)
+        for name in ('ShortStripBarrelHits', 'ShortStripEndcapHits'):
+            node = ET.SubElement(doc.find('readouts'), 'readout', name=name)
+            ET.SubElement(node, 'segmentation', type='CartesianGridXY', grid_size_x='.075*mm', grid_size_y='1.0*mm', offset_x='.0375*mm', offset_y='.25*mm')
+        with self.assertRaisesRegex(ValueError, 'Historical strixel input changed'):
+            select_strixel_readout(doc, selection)
+        with self.assertRaisesRegex(ValueError, 'Unsupported strixel baseline'):
+            select_strixel_readout(doc, dict(selection, pitch_mm=[.075,1.5]))
 
     def test_all_material_attributes_are_translated(self):
         node = ET.fromstring(

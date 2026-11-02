@@ -42,6 +42,32 @@ def rename_materials(detector, names):
                     node.set(attribute, names[value])
 
 
+def select_strixel_readout(doc, selection):
+    """Apply the human-selected readout after composing historical components."""
+    if (selection.get("classification") != "NODD DESIGN CHOICE"
+            or selection.get("pitch_mm") != [.075, 2.]
+            or selection.get("previous_pitch_mm") != [.075, .5]):
+        raise ValueError("Unsupported strixel baseline selection")
+    changes = []
+    for name in ("ShortStripBarrelHits", "ShortStripEndcapHits"):
+        readouts = doc.findall(f"./readouts/readout[@name='{name}']")
+        if len(readouts) != 1:
+            raise ValueError("Require one selected strixel readout: " + name)
+        segmentation = readouts[0].find("segmentation")
+        expected = dict(grid_size_x=.075, grid_size_y=.5, offset_x=.0375, offset_y=.25)
+        if segmentation is None or segmentation.get("type") != "CartesianGridXY":
+            raise ValueError("Unsupported strixel segmentation")
+        for key, value in expected.items():
+            raw = segmentation.get(key, "")
+            if not raw.endswith("*mm") or float(raw[:-3]) != value:
+                raise ValueError("Historical strixel input changed: " + name + "/" + key)
+        before = dict(segmentation.attrib)
+        segmentation.set("grid_size_y", "2.0*mm")
+        segmentation.set("offset_y", "1.0*mm")
+        changes.append(dict(readout=name, before=before, after=dict(segmentation.attrib)))
+    return changes
+
+
 def export(output, pixel_aperture_mm=None, pixel_config=None):
     config = json.loads((ROOT / "detector/config/tracker.json").read_text())
     pixel_config = Path(pixel_config or ROOT / config["pixel_config"])
@@ -213,6 +239,9 @@ def export(output, pixel_aperture_mm=None, pixel_config=None):
         name="tracker_region_zmax",
         value=f"{config['tracker_region_zmax_mm']:.17g}*mm",
     )
+    selection_path = ROOT / config["strixel_selection"]
+    selection = json.loads(selection_path.read_text())
+    strixel_amendment = select_strixel_readout(doc, selection)
     entities, reconciliation = reconcile(doc, matdoc, entities, recipes)
     aperture_amendment = (
         enlarge_pixel_aperture(doc, matdoc, entities, recipes, pixel_aperture_mm)
@@ -225,6 +254,8 @@ def export(output, pixel_aperture_mm=None, pixel_config=None):
         pixel_config=str(pixel_config.relative_to(ROOT)) if pixel_config.is_relative_to(ROOT) else str(pixel_config),
         pixel_config_sha256=sha(pixel_config),
         pixel_aperture_amendment=aperture_amendment,
+        strixel_readout_amendment=strixel_amendment,
+        strixel_selection_sha256=sha(selection_path),
         service_reconciliation=reconciliation,
         entities=entities,
         materials=recipes,
@@ -239,6 +270,7 @@ def export(output, pixel_aperture_mm=None, pixel_config=None):
                 Path(__file__).with_name("services.py"),
                 Path(__file__).with_name("aperture.py"),
                 ROOT / "detector/config/tracker.json",
+                selection_path,
             )
         },
     )

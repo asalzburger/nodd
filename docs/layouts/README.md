@@ -18,3 +18,7 @@ Click either drawing for dimensions, interfaces, source revisions and limitation
 Reproduce with `python3 -B tools/forward_calorimeter/draw.py`. Named inputs are [LAYOUT-001-FCAL.json](LAYOUT-001-FCAL.json) and [LAYOUT-002-FCAL.json](LAYOUT-002-FCAL.json). The earlier [LAYOUT-001.json](LAYOUT-001.json) and its drawing remain a reproducible pre-FCAL envelope baseline.
 
 The current tracker overlay uses the [expert-selected balanced baseline](../design/inputs/DES-040-balanced-selection.json): 46,250 sensitive planes in 54 signed logical groups. [Extracted source bounds](tracker-baseline-balanced.json) and their hash are retained in both named FCAL inputs. This changes the tracker drawing only; it does not revise the frozen FCAL validation geometry. Use `draw.py --layouts-only` to refresh these views.
+
+The [PR109 selected strixel baseline](../validation/DES-042/baseline-selection.md)
+uses 75 µm × 2 mm cells in the combined tracker. This readout amendment preserves
+all physical bounds and material, so these R–Z drawings need no regeneration.
