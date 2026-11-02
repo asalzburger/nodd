@@ -3,7 +3,7 @@
 - Status: DRAFT
 - Date: 2026-11-02
 - Candidate: **SS-2MM-SVC-01**, isolated PROTOTYPE, proposed new working baseline.
-- Human selection/engineering approval: pending; no production integration.
+- Human authorization: proceed with module redesign for703mm coverage; formal engineering approval remains separate. No production integration.
 - Source baseline: merged PR109, `b564308fe2e76da42d0d62c6ba33f9c76876119c`.
 - Governing inputs: DES-042 selected readout; DES-007 module; DES-010 services; DES-020/021 short strips; DES-022/023 long strips; DES-025 assembly.
 
@@ -91,7 +91,7 @@ is not a reconstruction efficiency or continuous hermeticity claim.
 | Board | r695 mm, 52 × 20 × 8 mm³, centre w=14 mm | Bottom10 mm above fanout9.5; top18 mm below fan start20 |
 | Board supports | New peripheral entry beyond r708.424 mm, e.g.710..714 mm | Translating old posts would intersect outer-ring silicon; new cantilever/mount required |
 | Front fan/pocket | r690..781.5 mm, w20..100 mm | Routes in front of modules; preserves an80 mm axial bend/connector reservation |
-| Cooling ports | r712 mm; inner loop29°/28.5°, outer27.5°/27° | Four distinct ports; ordering avoids interloop fillet crossings |
+| Cooling ports | r712 mm; inner loop29.7°/29.2°, outer28.7°/28.2° | Four distinct ports; ordering avoids interloop fillet crossings |
 | Longitudinal shared tray | r717..781.5 mm, abs(z)1310..3500 mm; walls0.5 mm | 2 mm to fixed long-strip inner bearing ring783.5 mm |
 | Barrel collector | r244..781.5 mm, abs(z)1245..1310 mm | Extending the old750 mm endpoint avoids a failed joining throat |
 
@@ -170,14 +170,21 @@ not asserted. The proposed hardware must meet the adverse budget or be revised.
 | Electronics/module [W] | 13.881 | 19.831 | 31.729 |
 | Electronics+leakage/module [W] | 15.881 | 21.831 | 33.729 |
 | Total strixel module+board heat [kW] | 207.14 | 283.38 | 435.87 |
-| New heat incl. upper service-loss allowances [kW] | 216.95 | 301.70 | 478.99 |
+| New heat incl. upper service-loss allowances [kW] | 216.95 | 301.69 | 478.97 |
 | Total voltage drop [V] | 0.721 | 0.962 | **1.445 FAIL** |
-| Endcap maximum sensor temperature [°C] | −24.32 | −20.66 | **−13.33 FAIL** |
+| Endcap maximum sensor temperature [°C] | −25.42 | −22.16 | **−15.66 FAIL** |
 
 The historical0.5 mm channel-density reference is421.30 kW before feeder/bus
 losses. It is a comparison of assumptions; no measured current cooling-plant
 load is available. Added sensors/leakage, fixed electronics, boards and service
 losses are included explicitly. Full HV cable loss is not qualified.
+
+The inherited6..24° serpentine missed some edge-module lands and cannot support
+the earlier thermal claim. The redesigned arcs span3..27°; each hairpin uses
+two10 mm-radius quarter-bends and a radial straight rather than a wide
+semicircle. The central saddle intersects the assigned loop for every module
+in the finite contact screen. Both same-loop and interloop clearances are
+checked separately; thermal qualification still needs the actual contact.
 
 Retain2.5 mm OD /0.14 mm wall local tubes and8/12 mm OD,6/10 mm ID bulk pairs.
 Use two independent endcap circuits, inner3rings16 modules and outer2rings17.
@@ -197,8 +204,9 @@ The concrete module thermal proposal is:
   feasibility; it is a dimensional/hotspot allocation, not an available ASIC.
 - A0.35 mm full-area graphite spreader, design conductivity400 W/(m K)
   in-plane and10 W/(m K) through-plane; maximum hotspot spreading distance3.7 mm.
-- Keep two6 ×60 mm² endcap and two20 ×64 mm² barrel thermal lands. Widening
-  inner endcap lands would collide with adjacent sensor footprints.
+- Use one central16 ×60 mm² endcap saddle, keeping two20 ×64 mm² barrel lands.
+  Its ±8 mm tangential extent clears the neighboring inner-ring active edge;
+  finite solid checks must confirm all module/petal seams.
 - Direct conductive inserts through backing/core windows to the pipe, maximum
  8.0 mm path (including3.1 mm new core insertion); effective pickup conductivity
  ≥100 W/(m K), explicitly requiring a suitable orientation/material/interface.
@@ -207,7 +215,7 @@ The concrete module thermal proposal is:
  are requirements to demonstrate, not measured results.
 - Coolant no warmer than−35 °C. Include a separate uniform2 W sensor-leakage
  corner allowance over the uncontacted16/18 mm endcap overhangs. The adverse
- endcap result is−20.664 °C: only0.66 K to the−20 °C requirement.
+ endcap result is−22.163 °C: only2.16 K to the−20 °C requirement.
 
 This bypasses the original foam/insulating backing path inside explicit windows;
 it cannot be achieved by keeping the old mechanical module unchanged. Preserve
@@ -217,13 +225,15 @@ radiation, noise, die bonding and failure isolation need module tests/FEA.
 
 ![Power and thermal screens](../validation/DES-043/figures/power-thermal.png)
 
+![Explicit module redesign](../validation/DES-043/figures/module-redesign.png)
+
 ## Material consequence and limits
 
-The changed-component ledger predicts **−308.4 kg** under its cable insulation
+The changed-component ledger predicts **−287.8 kg** under its cable insulation
 proxy. More conservatively, take **no cable insulation saving**: the result is
-**−135.2 kg**. External power/HV/control/shield copper alone falls924.95→494.46 kg
-(−430.49 kg); local LV rails save4.75 kg. All positive additions total300.05 kg,
-including the extra sensors,19.58 kg spreader,168.22 kg direct inserts/pickups,
+**−114.6 kg**. External power/HV/control/shield copper alone falls924.95→494.46 kg
+(−430.49 kg); local LV rails save4.75 kg. All positive additions total320.60 kg,
+including the extra sensors,19.58 kg spreader,188.40 kg direct inserts/pickups,
 84.75 kg TIM plus5 g/module service reserve, larger supports and additional
 cooling pipe bank. **No ASIC mass reduction, removed foam/backing, optical
 saving or empty cable-envelope mass is credited.**
@@ -235,7 +245,7 @@ service corridor shrinks by that percentage. The radial tray allocation falls
 The inherited effective20% copper cable recipe anchors the old copper estimate;
 actual vendor cable data can change these results. Unmodelled fittings,
 manifolds, mounts and qualifications must fit the reserve or trigger a new
-ledger. The no-insulation-credit estimate has135.2 kg headroom to such additional
+ledger. The no-insulation-credit estimate has114.6 kg headroom to such additional
 mass beyond the allowances; it is not a measured full-tracker weight.
 
 ![Scoped material accounting](../validation/DES-043/figures/material-budget.png)
@@ -256,8 +266,8 @@ parameters live in [inputs.json](../../tools/short_strip_redesign/inputs.json).
 Original configurations, layouts and evidence remain frozen under their own
 identities; SS-2MM-SVC-01 is not wired into the combined detector.
 
-Before implementation/integration: human selection of the proposed requirements;
-ASIC/cable feasibility; detailed module and endcap CAD/native DD4hep solids with
+The human has authorized the isolated module redesign. Before production
+integration: ASIC/cable feasibility; detailed module and endcap CAD/native DD4hep solids with
 stable new identifiers and overlap checks; thermal/structural and hydraulic
 qualification; complete conductor/data/pressure interfaces; full material scans;
 ACTS conversion/navigation and curved-track/vertex coverage; repeated frozen

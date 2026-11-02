@@ -3,7 +3,7 @@ import copy
 import math
 import unittest
 import model
-from diagnostics import cooling_routes, sampled_interloop_clearance, cooling_pieces
+from diagnostics import cooling_routes, sampled_interloop_clearance, cooling_pieces, pad_contacts
 
 
 class DesignScreens(unittest.TestCase):
@@ -62,7 +62,6 @@ class DesignScreens(unittest.TestCase):
 
     def test_thermal_floor_and_no_scaling_rejection(self):
         t=model.thermal(self.c,'endcap')
-        self.assertAlmostEqual(t['R_K_W'],.6157010582010582)
         self.assertLess(-35+(self.c['reference_electronics_W']*.625+2)*t['R_K_W']+t['distributed_leakage_corner_K'],-20)
         self.assertGreater(-35+(self.c['reference_electronics_W']+2)*t['R_K_W']+t['distributed_leakage_corner_K'],-20)
 
@@ -75,12 +74,19 @@ class DesignScreens(unittest.TestCase):
         b=cooling_pieces(self.c['ring_centres_mm'][3:],[28,28.5],712)
         self.assertFalse(sampled_interloop_clearance(a,b,2.5)['passed'])
 
+    def test_every_module_has_a_pipe_saddle(self):
+        pipes=cooling_routes(self.c,self.parts[1]);contacts=pad_contacts(self.c,self.parts[-1],pipes)
+        self.assertEqual(contacts['checked_modules'],33)
+        self.assertEqual(contacts['failed_modules'],0)
+        legacy={key:cooling_pieces(centres,[29,28],712) for key,centres in [('inner',self.c['ring_centres_mm'][:3]),('outer',self.c['ring_centres_mm'][3:])]}
+        self.assertGreater(pad_contacts(self.c,self.parts[-1],legacy)['failed_modules'],0)
+
     def test_material_debits_and_no_void_mass(self):
         bc,ec,_,bl,old,_,new=self.parts;m=model.material(self.c,bc,ec,bl,old,new)
         self.assertEqual(m['power_feeds_both_ends'],dict(old=1584,new=1008))
         self.assertEqual(m['optical_groups_both_ends'],dict(old=1584,new=1584))
         by={x['component']:x for x in m['entries']}
-        self.assertGreater(by['Direct graphite inserts and added pickups']['delta_kg'],90)
+        self.assertGreater(by['Direct graphite inserts and added pickups']['delta_kg'],8064*2*20*64*3.1*2.21/1e6)
         self.assertGreater(by['New TIM and module service reserve']['delta_kg'],80)
         self.assertGreater(by['Additional EC cooling pipe bank']['delta_kg'],0)
         self.assertLess(m['delta_kg'],0)

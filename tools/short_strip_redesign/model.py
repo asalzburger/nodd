@@ -7,7 +7,7 @@ import importlib.util
 import json
 import math
 from pathlib import Path
-from diagnostics import coverage, cooling_routes, copper_profile
+from diagnostics import coverage, cooling_routes, copper_profile, pad_contacts, same_loop_clearance
 
 ROOT = Path(__file__).resolve().parents[2]
 HERE = Path(__file__).resolve().parent
@@ -30,7 +30,7 @@ def load(path=HERE/'inputs.json'):
     if c['leaf_pipe_OD_mm']!=2.5 or c['leaf_pipe_wall_mm']!=.14:raise ValueError('Hydraulic floor amendment requires review')
     for s in c['packing'].values():
         if not 0<s['phi_fraction']<=1 or not 0<s['packing_fraction']<=1 or s['spare_factor']<1:raise ValueError('Invalid packing')
-    if c['thermal']['endcap_pad_mm']!=[6.,60.] or c['thermal']['endcap_pad_u_mm']!=5.:raise ValueError('Pickup envelope requires new finite collision assessment')
+    if c['thermal']['endcap_pad_mm']!=[16.,60.] or c['thermal']['endcap_pad_u_mm']!=0. or c['thermal']['endcap_pad_count']!=1:raise ValueError('Pickup envelope requires new finite collision assessment')
     for path,digest in c['baseline_source_sha256'].items():
         if sha(ROOT/path)!=digest:raise ValueError('Historical source changed: '+path)
     return c
@@ -73,7 +73,7 @@ def bus(taps,entry,watts,voltage,rho,area):
 
 
 def thermal(c,region):
-    t=c['thermal'];w,h=t[region+'_pad_mm'];area=2*w*h*1e-6
+    t=c['thermal'];w,h=t[region+'_pad_mm'];area=t[region+'_pad_count']*w*h*1e-6
     terms=dict(TIM=t['insulating_TIM_total_mm']/1000/(t['TIM_k_W_mK']*area),
         spreader_cross=t['spreader_mm']/1000/(t['spreader_perpendicular_k_W_mK']*area),
         spreading=t['hotspot_spreading_mm']/1000/(t['spreader_parallel_k_W_mK']*(t['spreader_mm']/1000)*(h/1000)*2),
@@ -146,9 +146,10 @@ def material(c,bc,ec,bl,el,new):
     add('Conservative complete added modules',oldn*module_g(),newn*module_g(),'Retain8ASIC material per sensor; no ASIC-area credit for proposed2-tile layout')
     add('Extra graphite spreader',0,newn*48*96*(c['thermal']['spreader_mm']-.2)*2.21/1000,'Debit full additional thickness on all sensors')
     old_b=len(bl['modules']); old_e=len(el['modules']); new_e=len(new['modules'])
-    insert_volume=(old_b*2*20*64+new_e*2*6*60)*c['thermal']['extra_core_insert_mm']
-    added_pickups=(new_e-old_e)*2*6*60*4.9
-    add('Direct graphite inserts and added pickups',0,(insert_volume+added_pickups)*2.21/1000,'Debit1.7mm new core insertion for every existing/new pickup plus4.9mm old maximum pickup on added EC sensors; no displaced foam credit')
+    new_ec_area=c['thermal']['endcap_pad_count']*math.prod(c['thermal']['endcap_pad_mm'])
+    insert_volume=(old_b*2*20*64+new_e*new_ec_area)*c['thermal']['extra_core_insert_mm']
+    added_pickups=(new_e*new_ec_area-old_e*2*6*60)*4.9
+    add('Direct graphite inserts and added pickups',0,(insert_volume+added_pickups)*2.21/1000,'Debit3.1mm new core insertion on every module plus4.9mm existing-height allowance for added/expanded EC pads; no displaced foam credit')
     add('New TIM and module service reserve',0,newn*(c['material']['new_module_other_passive_reserve_g']+48*96*c['thermal']['insulating_TIM_total_mm']*c['material']['TIM_density_upper_g_cm3']/1000),'Full-area TIM upperdensity and5g/module design reserve; no backing/PI removal credit')
     oldplate=math.pi*(685**2-236**2);newplate=math.pi*(c['petal_outer_plate_mm']**2-236**2)
     add('Endcap support skins/core/glue',12*oldplate*(.3*1.73+5*.2+.2*2)/1000,12*newplate*(.3*1.73+5*.2+.2*2)/1000,'Gross solid stack; no cooling void credit; outer frame treated separately')
@@ -195,8 +196,10 @@ def screen(c):
         global_budget['new_heat_with_loss_upper_W']=electronics_heat+sensor_heat+local_loss+route_loss+global_budget['new_connector_loss_upper_W']
         cases.append(dict(global_budget=global_budget,scenario=name,fixed_fraction=fixed,electronics_W_module=watts,total_module_heat_W=q,barrel_bus=b,endcap_islands=e,maximum_feeder_round_trip_drop_V=feed_drop,connector_protection_drop_V=c['connector_protection_drop_V'],total_worst_drop_V=c['connector_protection_drop_V']+feed_drop+max(b['round_trip_drop_V'],max(x['round_trip_drop_V'] for x in e)),thermal=therm,cooling=flow,all_local_returns_pass=max(b['return_drop_V'],max(x['return_drop_V'] for x in e))<=c['maximum_local_return_drop_V']))
     packs=packing(c,bl,len(new['modules']));m=material(c,bc,ec,bl,el,new)
+    plumbing=cooling_routes(c,ec);plumbing['pad_contacts']=pad_contacts(c,new,plumbing)
+    plumbing['same_loop_clearance']={key:same_loop_clearance(plumbing[key],c['leaf_pipe_OD_mm']) for key in ('inner','outer')}
     n=len(bl['modules'])+len(new['modules']);legacy_channels=(len(bl['modules'])+len(el['modules']))*122880
-    return dict(status='DRAFT PROTOTYPE proposed baseline; source/engineering screens, not qualified hardware',geometry=dict(old_endcap_sensors=len(el['modules']),new_endcap_sensors=len(new['modules']),total_strixel_sensors=n,ring_centres_mm=c['ring_centres_mm'],modules_per_ring=[sum(x['layer']==0 and x['ring']==i for x in new['modules']) for i in range(5)],old_active_outer_mm=oldmax,new_active_outer_mm=newmax,long_active_inner_mm=longmin,old_gap_mm=longmin-oldmax,new_gap_mm=longmin-newmax,channels=n*30720,channel_reduction_vs_0p5=1-n*30720/legacy_channels,new_body_outer_mm=max(math.hypot(x['radius_mm']+51.5,24.5) for x in new['modules']),extra_sensor_area_m2=(len(new['modules'])-len(el['modules']))*48*96/1e6),engineering=cases,packing=packs,material=m,coverage=coverage(c,new),cooling_routes=cooling_routes(c,ec),copper_corridor_profile=copper_profile(c,ec,bl),
+    return dict(status='DRAFT PROTOTYPE proposed baseline; source/engineering screens, not qualified hardware',geometry=dict(old_endcap_sensors=len(el['modules']),new_endcap_sensors=len(new['modules']),total_strixel_sensors=n,ring_centres_mm=c['ring_centres_mm'],modules_per_ring=[sum(x['layer']==0 and x['ring']==i for x in new['modules']) for i in range(5)],old_active_outer_mm=oldmax,new_active_outer_mm=newmax,long_active_inner_mm=longmin,old_gap_mm=longmin-oldmax,new_gap_mm=longmin-newmax,channels=n*30720,channel_reduction_vs_0p5=1-n*30720/legacy_channels,new_body_outer_mm=max(math.hypot(x['radius_mm']+51.5,24.5) for x in new['modules']),extra_sensor_area_m2=(len(new['modules'])-len(el['modules']))*48*96/1e6),engineering=cases,packing=packs,material=m,coverage=coverage(c,new),cooling_routes=plumbing,copper_corridor_profile=copper_profile(c,ec,bl),
         qualifications=['Module ASIC redistribution/thermal windows/TIM contacts need redesign and verification.','No75%data reduction, no automatic coolant pipe shrink.','Pressure/drop/dryout, cold mechanics, dielectric/irradiation/ASIC feasibility, cable package and grounding remain qualification gates.','Straight-ray finite coverage is separate; no newGBTS/ttbar/Geant4 reconstruction or full-tracker X0 claim.'])
 
 

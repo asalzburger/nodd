@@ -34,7 +34,10 @@ def main():
         if model.sha(report/'figures'/path)!=digest:raise ValueError('Figure bytes changed: '+path)
     if any(x['failed_rays'] for x in expected['coverage']['checks']):raise ValueError('Candidate coverage failure')
     if not all(x['passed'] for x in expected['packing']):raise ValueError('Candidate trunk failure')
-    print('PASS: source/summary replay, coverage, packing and8figure fingerprints; no local event data needed.')
+    plumbing=expected['cooling_routes']
+    if plumbing['pad_contacts']['failed_modules']:raise ValueError('Uncooled module saddle')
+    if not plumbing['interloop_clearance']['passed'] or not all(x['passed'] for x in plumbing['same_loop_clearance'].values()):raise ValueError('Cooling source routing conflict')
+    print(f'PASS: source/summary replay, contacts, coverage, packing and{len(manifest["files"])}figure fingerprints; no local event data needed.')
 
 
 if __name__=='__main__':main()

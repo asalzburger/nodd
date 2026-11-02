@@ -39,9 +39,9 @@ def coverage(c, layout, samples=1440):
     return dict(method='Finite active rectangles at staggered z; union radial intervals on each disc datum; deterministic midpoint phi. Mirrored endcap symmetry. Not helices/reconstruction or continuous coverage proof.',target_annulus_mm=c['target_annulus_mm'],checks=checks,total_rays=sum(x['phi_samples'] for x in checks))
 
 
-def cooling_pieces(centres, ports, port_r, offset=20., bend=10.):
+def cooling_pieces(centres, ports, port_r, offset=20., bend=10., angles=(6.,24.), stadium=False):
     radii=[r+o for r in centres for o in (-offset,offset)]
-    pieces=[];a,b=map(math.radians,(6.,24.))
+    pieces=[];a,b=map(math.radians,angles)
     def arc(label,center,r,start,angle):
         pieces.append(dict(label=label,kind='arc',center=center,radius=r,start=start,angle=angle))
     for i,r in enumerate(radii):
@@ -55,7 +55,16 @@ def cooling_pieces(centres, ports, port_r, offset=20., bend=10.):
         arc('leg'+str(i),[0.,0.],r,a,end-a)
         if i<len(radii)-1:
             right=i%2==1;phi=b if right else a;mid=(r+radii[i+1])/2
-            arc('U'+str(i),[mid*math.cos(phi),mid*math.sin(phi)],(radii[i+1]-r)/2,phi if right else phi+math.pi,math.pi)
+            if not stadium:
+                arc('U'+str(i),[mid*math.cos(phi),mid*math.sin(phi)],(radii[i+1]-r)/2,phi if right else phi+math.pi,math.pi)
+            else:
+                if radii[i+1]-r<2*bend:raise ValueError('Hairpin radial pitch below two bend radii')
+                er=[math.cos(phi),math.sin(phi)];et=[-math.sin(phi),math.cos(phi)];sign=1 if right else -1
+                start1=phi+math.pi/2 if right else phi+math.pi
+                start2=phi if right else phi+3*math.pi/2
+                arc('U'+str(i)+'a',[(r+bend)*x for x in er],bend,start1,math.pi/2)
+                arc('U'+str(i)+'b',[(radii[i+1]-bend)*x for x in er],bend,start2,math.pi/2)
+                pieces.append(dict(label='U'+str(i)+'straight',kind='line',a=[(r+bend)*er[j]+sign*bend*et[j] for j in (0,1)],b=[(radii[i+1]-bend)*er[j]+sign*bend*et[j] for j in (0,1)]))
     return pieces
 
 
@@ -99,8 +108,8 @@ def cooling_routes(c, old):
     # Undo the temporary port extension to preserve the historical source's
     # signed analytical length, including its invalid negative final straight.
     old_signed_length=sum(map(piece_length,old_p))-2*(712.-old['port_radius_mm'])
-    inner=cooling_pieces(c['ring_centres_mm'][:3],c['cooling_ports_deg'][:2],c['cooling_port_radius_mm'])
-    outer=cooling_pieces(c['ring_centres_mm'][3:],c['cooling_ports_deg'][2:],c['cooling_port_radius_mm'])
+    inner=cooling_pieces(c['ring_centres_mm'][:3],c['cooling_ports_deg'][:2],c['cooling_port_radius_mm'],bend=c['cooling_hairpin_radius_mm'],angles=c['cooling_leg_angles_deg'],stadium=True)
+    outer=cooling_pieces(c['ring_centres_mm'][3:],c['cooling_ports_deg'][2:],c['cooling_port_radius_mm'],bend=c['cooling_hairpin_radius_mm'],angles=c['cooling_leg_angles_deg'],stadium=True)
     return dict(old_total_length_mm=old_signed_length,new_total_length_mm=sum(map(piece_length,inner+outer)),old_comparison='Historical five-ring signed analytical length; inherited678mm port has a negative straight and is not constructible as written. New length includes its correction; old geometry not repaired in place.',inner=inner,outer=outer,interloop_clearance=sampled_interloop_clearance(inner,outer,c['leaf_pipe_OD_mm']),loop_module_counts=[16,17])
 
 
@@ -122,3 +131,37 @@ def copper_profile(c,ec,bl):
             results.append(total)
         values.append(results)
     return dict(eta_edges=edges,old_X0=[v[0] for v in values],new_X0=[v[1] for v in values],normalization='Straight origin rays, azimuth-averaged homogeneous annulus copper density; positive end by symmetry. Only longitudinal power/HV/control/shield trunk Cu. Excludes all other tracker material, collectors, radial legs and scattering. No statistical uncertainty; design assumptions dominate.')
+
+
+def pad_contacts(c,layout,loops):
+    """Tube centreline points strictly inside every central EC insert footprint.
+
+    Centreline penetration by more than tube radius establishes a finite saddle
+    intersection in projection, not a measured contact resistance or thermal FEA.
+    """
+    sampled={key:[xy for p in loops[key] for xy in sample_piece(p,.25)] for key in ('inner','outer')}
+    checks=[];half_u,half_v=[x/2 for x in c['thermal']['endcap_pad_mm']]
+    for m in layout['modules']:
+        if m['layer']!=0 or m['petal']!=0:continue
+        x,y=m['center_mm'][:2];phi=math.atan2(y,x);co,si=math.cos(phi),math.sin(phi)
+        margins=[]
+        for px,py in sampled['inner' if m['ring']<3 else 'outer']:
+            u=-si*(px-x)+co*(py-y);v=-co*(px-x)-si*(py-y)
+            margins.append(min(half_u-abs(u),half_v-abs(v)))
+        margin=max(margins)
+        checks.append(dict(ring=m['ring'],phi_deg=math.degrees(phi),maximum_interior_margin_mm=margin,passed=margin>c['leaf_pipe_OD_mm']/2))
+    return dict(sample_step_mm=.25,checked_modules=len(checks),failed_modules=sum(not x['passed'] for x in checks),minimum_maximum_interior_margin_mm=min(x['maximum_interior_margin_mm'] for x in checks),checks=checks,scope='Finite projected central insert/assigned tube contact; full native subtraction/contact geometry and thermal qualification separate')
+
+
+def same_loop_clearance(pieces,diameter):
+    """Non-adjacent primitive pairs; shared endpoints excluded as designed joins."""
+    from itertools import combinations
+    values=[]
+    for a,b in combinations(pieces,2):
+        aa=sample_piece(a,10);bb=sample_piece(b,10)
+        if any(math.dist(x,y)<1e-6 for x in (aa[0],aa[-1]) for y in (bb[0],bb[-1])):continue
+        try:r=sampled_interloop_clearance([a],[b],diameter)
+        except ValueError:continue
+        values.append(dict(first=a['label'],second=b['label'],**r))
+    worst=min(values,key=lambda x:x['conservative_lower_bound_mm'])
+    return dict(passed=all(x['passed'] for x in values),worst=worst,nearby_pairs_checked=len(values),scope='Planar source screen; adjacent primitive joins and full solids require native overlaps')

@@ -99,6 +99,23 @@ def main():
     axes[1].axhline(-20,color=RED,ls='--',label='Sensor requirement');axes[1].set(xticks=xx,xticklabels=labels,ylabel='Maximum sensor screen [°C]',title='−35 °C coolant, 0.35 mm spreader',ylim=(-31,-10));axes[1].grid(alpha=.15);axes[1].legend(fontsize=9)
     fig.text(.08,.11,'Required module redesign: two logical ASIC tiles + redistribution, thermal windows, direct inserts, insulating TIM and new power/flex protection.',fontsize=9)
     save(fig,a.output,'power-thermal',manifest)
+    fig,axes=frame('Module redesign: retain the sensor, rebuild the thermal interface','Dimensioned source schematic. Central saddle reaches a physical tube; redistribution and material properties still need qualification.',size=(13,7.2))
+    layers=[('Sensor',-.1,.1,OLD),('Bumps',-.125,-.1,HEAT),('Redistribution',-.175,-.125,HEAT),('Two ASIC tiles',-.325,-.175,'#844b98'),('ASIC glue',-.375,-.325,'#888888'),('Graphite spreader',-.725,-.375,NEW),('Insulating TIM',-.825,-.725,'#d6ac58'),('Backing, with window',-1.025,-.825,OLD)]
+    for i,(label,lo,hi,col) in enumerate(layers):
+        y=8-i;axes[0].add_patch(Rectangle((-24,y-.28),48,.56,facecolor=col,alpha=.75));axes[0].text(27,y,f'{label} · {(hi-lo)*1000:.0f} µm',va='center',fontsize=9)
+    axes[0].add_patch(Rectangle((-8,-1),16,1.5,facecolor=NEW,alpha=.6));axes[0].text(27,-.2,'Central 16 × 60 mm saddle\n≤8 mm thermal path to pipe',va='center',fontsize=9)
+    axes[0].plot([-15,15],[-1.4,-1.4],color=HEAT,lw=7);axes[0].text(27,-1.4,'Ti tube OD 2.5 mm / wall 0.14 mm',va='center',fontsize=9)
+    axes[0].set(xlim=(-30,100),ylim=(-2.2,9),title='Normal stack · exploded spacing',xlabel='Local u [mm]');axes[0].set_yticks([])
+    ax=axes[1];ax.add_patch(Rectangle((-24,-48),48,96,facecolor=OLD,alpha=.12,edgecolor=OLD,lw=1.5))
+    ax.add_patch(Rectangle((-8,-30),16,60,facecolor=NEW,alpha=.35,label='Central saddle'))
+    for v in (-18,18):ax.add_patch(Rectangle((-11.7,v-11.7),23.4,23.4,facecolor='#844b98',alpha=.35,edgecolor='#844b98',label='ASIC tile' if v==-18 else None))
+    m=next(m for m in new['modules'] if m['layer']==0 and m['petal']==0 and m['ring']==4);phi=np.arctan2(m['center_mm'][1],m['center_mm'][0]);co,si=np.cos(phi),np.sin(phi);cx,cy=m['center_mm'][:2]
+    for piece in s['cooling_routes']['outer']:
+        xy=np.array(sample_piece(piece,.25));dx=xy[:,0]-cx;dy=xy[:,1]-cy;u=-si*dx+co*dy;v=-co*dx-si*dy
+        ax.plot(u,v,color=HEAT,lw=2)
+    ax.plot([],[],color=HEAT,lw=2,label='Actual assigned tube projection')
+    ax.set(xlim=(-28,28),ylim=(-52,52),title='Outer edge module · local footprint',xlabel='Local u [mm]',ylabel='Local v [mm]');ax.set_aspect('equal');ax.grid(alpha=.15);ax.legend(fontsize=8,loc='lower right')
+    save(fig,a.output,'module-redesign',manifest)
     metadata=dict(schema_version=1,input_sha256=model.sha(a.summary),plot_sha256=model.sha(__file__),versions={name:importlib.metadata.version(name) for name in ['numpy','matplotlib','unrooted']},files=manifest)
     (a.output/'manifest.json').write_text(json.dumps(metadata,indent=2)+'\n')
     print(json.dumps(metadata['versions']));print(len(manifest),'figure files')

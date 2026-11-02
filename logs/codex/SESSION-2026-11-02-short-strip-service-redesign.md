@@ -153,3 +153,59 @@ User: â€œGo ahead and do the module redesign to advance the coverage to 703 mmâ€
   "completion": "Actual explicit module/coldpetal prototype source generated and tested; anyphysical/implementationblockers identified. No engineering signoff or fulltrackerclaim."
 }
 ```
+
+### Independent scientific assessment assignment
+
+```json
+{
+  "id": "DES043-PhysVal-03",
+  "role": "PhysVal",
+  "input_revision": "895b9e1d6f5d7d365272cd273a2ba55a64d99d75",
+  "inputs": [
+    "tools/short_strip_redesign/inputs.json",
+    "tools/short_strip_redesign/model.py",
+    "tools/short_strip_redesign/diagnostics.py",
+    "tools/short_strip_redesign/test_model.py",
+    "docs/design/DES-043-short-strip-service-redesign.md",
+    "docs/validation/DES-043/README.md",
+    "docs/validation/DES-043/summary.json",
+    "docs/design/inputs/DES-043-tracktech-dossier.md",
+    "docs/design/inputs/DES-043-interface-assessment.md"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Independent scientific/engineering claims audit of new703mm shortstrip proposal. Read primaryinputscalculations BEFORE conclusions, exactrevision. Assesspowernormalization(fixedfractionstress, leakage, constantpower11V), mass/void/cooling/materialscopes, finitecoverage703target vsmaxcorner704.9, uncertaintiesand old2mmreconstructionnontransfer. Runportabletests/replay/independent numericalchecks; cancompare densecoverage2880 to1440, slotload/budgets. Nativeimplementation underway separately; do notclaimnativevalidation orreviewfuturecode. Identify substantivebugs and staleprosenumbers. Do not edit files orspawnagents. Native runtime unnecessary for this assignment.",
+  "deliverable": "Return cited findings with severity, exactrevision, commands/checkresults and scientificlimitations tocoordinator, who curatesreport.",
+  "completion": "Assessauthoritative calculations/sourceassumptions and flag unresolvedcriticalclaims; noacceptance/signoff."
+}
+```
+
+## Physical redesign amendment and adverse controls
+
+SoftEng found the inherited6..24degree paths miss edge-module contacts;
+PhysVal independently confirms3/33both-pad misses at895b9e1 (retained result).
+This blocks the old thermal-viability claim. Central18x60mm saddles and tighter
+R10stadiumhairpins restore source contact, but the first native792sensor
+construction found288overlaps:144oldroutecontacts and144pickup/neighbor-guard
+clashes, maximum0.32784086mm. No active-silicon clash was reported. Preserve
+those failed runs locally as negative controls; do not publish their payloads.
+
+Authorized correction: onecentral16x60mm endcap saddle,u0,3..27degree legarcs,
+R10twoquarterbends plusradialstraight, orderedports29.7/29.2/28.7/28.2degrees.
+Keepguards/sensoroutline unchanged.16mm supplies more guardclearance than17mm,
+while every assignedtube retains finite projected contact. The central-pad
+maximumhotspotspreading3.7mm matches the thermal requirement. Complete native
+solid checks are still required; oldanalyticalPASS does not establish them.
+
+Nativeownershipamendment toDES043-SoftEng-02: these new central input and
+diagnostic bytes supersede old6x60/6..24degree assignment parameters; ownedfiles,
+modeandhumanapproval boundaries unchanged. Main sourcecommits/hashes identify
+the final revision. Coordinatorassumptions/materialledger andfigures recomputed;
+newlyauthored arbitrarytestthresholds replaced by actual physical requirement
+and minimuminsertvolume checks. No approved regression gate relaxed.
+
+PR109 is an input dependency, not the PR delivering this task: remove its
+explicitrelated-ID fromnewusagejournal toavoid allocating futurework toPR109.
+That restores all98existingledger fingerprints without changing usage or any
+priorPRrecord. Initialtokenbuilder reportedstale whilethatlink existed; fixed.
+The session-summary CLI has no --session flag; rerun supportedglobalsummary.

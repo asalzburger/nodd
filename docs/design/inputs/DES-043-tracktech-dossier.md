@@ -1,5 +1,12 @@
 # DES-043 TrackTech input — 2 mm strixel modules and services
 
+> Coordinator note: this is the initial pinned input assessment. The final
+> [DES043 prototype](../DES-043-short-strip-service-redesign.md) supersedes
+> its91.5mm ring sketch, narrow endcap lands and6..24degree pipe path with
+> a703mm target, central16x60mm saddle and3..27degree stadium routing.
+> Preserve this input as evidence; its old thermal estimate is not validation
+> of the final module.
+
 - Status: **DRAFT / PROTOTYPE; engineering approval pending**.
 - Date: 2026-11-02.
 - Assignment: `DES043-TrackTech-01`, explicitly supplied TrackTech mandate.

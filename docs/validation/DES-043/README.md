@@ -16,14 +16,14 @@ silicon is82.335mm, versus114.758mm. The full design and qualifications are in
 [DES043](../../design/DES-043-short-strip-service-redesign.md).
 
 The package specifies10mm² LV conductors,8mm complete cable,0.17mm local rails,
-0.35mm spreader, insulating TIM and direct pipe saddles with8mm maximum thermal
+0.35mm spreader, insulating TIM and central16x60mm direct pipe saddles with8mm maximum thermal
 path. Cable/ASIC feasibility and cold properties remain requirements. Two
 circuits per petal retain tube dimensions. The nominal/adverse analytical
 screens pass; the no-power-scaling stress case fails electrical, thermal and
 enthalpy requirements. A finished8mm cable with all conductors/insulation is a
 critical unqualified dependency of the narrower717..781.5mm tray.
 
-The scoped material ledger gives−308.4kg, or **−135.2kg with no cable-insulation
+The scoped material ledger gives−287.8kg, or **−114.6kg with no cable-insulation
 saving credited**. It retains added sensors, full thermal insert thickness,
 additional cooling and5g/module passive reserve, and takes no ASIC mass credit.
 These estimates depend on the inherited effective cable composition and are
@@ -60,7 +60,7 @@ Execution used the existing ignored sibling study venv:
 `../nodd-gen3-material-mapping/build/truth-tracking-baseline/analysis-venv/bin/python`.
 Versions: NumPy2.4.6, Matplotlib3.11.2, unrooted0.1.0rc1 at
 `728465dce0c5cd5b876e67392e3858de6e982d05`. `figures/manifest.json` binds producer,
-input summary and all8PNG/PDF hashes. Inspect plots visually after regeneration;
+input summary and all10PNG/PDF hashes. Inspect plots visually after regeneration;
 rendering can differ with font/runtime versions. No event-level or large run
 artifact is required or committed.
 
@@ -73,12 +73,12 @@ artifact is required or committed.
 | Independent interface screen | SysArch input, exactb564308, tested earlier91.5mm candidate at1,440and2,880phis; new91.75mm result recomputed by coordinator |
 | Electrical adverse | Warm1.4ρ, constant-power current bound11V; includes0.15V connector/protection budget; worsttotal0.96206V;0.15mm rail and8mm² feeder counterexamples fail |
 | Cumulative service area | All12sectors incl. barrel +6discs/end, independent optical counts and doubled EC cooling; worst0.96184; old collector throat,725mm tray and10mm cable controls fail |
-| Planar two-loop routing | Ordered4ports, actual arc/straight lengths;0.5mm sampling lower-bound interloop surface separation6.683mm. Same-loop and solid/support clearances require native geometry |
-| Thermal adverse | Requiredκ/TIM/contact/boiling values; direct saddle8mm; distributed leakage-corner allowance; EC−20.660°C. No-scaling control fails |
+| Planar two-loop routing | Ordered4ports, actual arc/straight lengths;0.5mm sampling lower-bound interloop surface separation1.843mm. Same-loop source checks also pass; full solid/support clearances require native geometry |
+| Thermal adverse | Requiredκ/TIM/contact/boiling values; direct saddle8mm; distributed leakage-corner allowance; EC−22.163°C. No-scaling control fails |
 | Cooling | Enthalpy only, no pressure-drop/dryout qualification; nominal/adverse pass, stress control fails |
 | Material | Explicit conductor volumes + additions; empty envelope not mass; no ASIC/optical/backing-removal savings; no-insulation-credit sensitivity retained |
-| Portable unit tests | 10 requirements/negative controls; see session journal for final run |
-| Figure QA | Four figure families renderedPNG/PDF with unrooted/Matplotlib; coordinator inspected allPNG layouts |
+| Portable unit tests | 11 requirements/negative controls; see session journal for final run |
+| Figure QA | Five figure families renderedPNG/PDF with unrooted/Matplotlib; coordinator inspected allPNG layouts |
 
 The first test of a rounded newly calculated gap literal failed at8e-7mm; the
 literal was corrected to the exact finite-edge result. No approved tolerance
@@ -86,8 +86,10 @@ was relaxed. This is a test-authoring correction, not a physical discrepancy.
 
 ## Native module prototype and follow-up
 
-The user subsequently authorized the module redesign itself. Native exporter,
-explicit window/saddle geometry and construction checks are being developed
+The user subsequently authorized the module redesign itself. The inherited6..24degree loop missed edge-module lands, independently confirmed
+by PhysVal at895b9e1. It is superseded by3..27degree arcs, R10stadiumhairpins
+and onecentral16x60pad. All33assigned-module contacts are explicitly tested.
+Native exporter, explicit window/saddle geometry and construction checks are being developed
 under `DES043-SoftEng-02` from the isolated parameter contract. Retain native
 reports separately with actual revision/hashes, runtime and tested scope;
 source-screen success does not substitute for that result. Full tracker
