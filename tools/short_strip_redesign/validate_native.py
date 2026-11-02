@@ -17,6 +17,18 @@ import sys
 from model import ROOT, sha
 
 
+def construction_errors(expected):
+    """Finite geometry failures are hard gates even if ROOT sees no overlaps."""
+    errors = []
+    if any(check['failed_rays'] for check in expected['source_coverage']['checks']):
+        errors.append('Finite full-phi source coverage screen failed')
+    if expected['guard_clearance']['intersecting_rectangle_pairs']:
+        errors.append('Finite insert/neighbor-guard footprint collision')
+    if expected['thermal_contact_screen']['definite_missing_contacts']:
+        errors.append('Missing finite pipe contacts; pipe-plane reach is insufficient')
+    return errors
+
+
 def identifiers(detector, root, dd4hep, sensors, cells):
     readout = detector.readout('ShortStripRedesignHits')
     decoder, segmentation = readout.idSpec().decoder(), readout.segmentation()
@@ -110,10 +122,7 @@ def run(args):
         overlaps = [dict(description=str(x.GetTitle()), penetration_mm=float(x.GetOverlap()) / dd4hep.mm)
                     for x in manager.GetListOfOverlaps()]
         if overlaps: errors.append(f'{len(overlaps)} actual ROOT overlaps')
-        if any(check['failed_rays'] for check in expected['source_coverage']['checks']):
-            errors.append('Finite full-phi source coverage screen failed')
-        if expected['guard_clearance']['intersecting_rectangle_pairs']:
-            errors.append('Finite insert/neighbor-guard footprint collision')
+        errors.extend(construction_errors(expected))
         thermal_misses = expected['thermal_contact_screen']['definite_missing_contacts']
         for relative,digest in expected['provenance'].items():
             if sha(ROOT/relative) != digest: errors.append('Executing source changed during native validation: '+relative)

@@ -4,6 +4,7 @@ import math
 import unittest
 
 import native
+import validate_native
 
 
 class NativeTests(unittest.TestCase):
@@ -54,6 +55,15 @@ class NativeTests(unittest.TestCase):
         remote = dict(layer=0, petal=0, ring=0, radius_mm=100., phi_rad=0.)
         screen = native.contact_screen(self.config, [remote], pipes)
         self.assertEqual(screen['definite_missing_contacts'], 1)
+
+    def test_missing_contacts_fail_even_without_overlap_or_coverage_failures(self):
+        fixture = dict(source_coverage=dict(checks=[dict(failed_rays=0)]),
+            guard_clearance=dict(intersecting_rectangle_pairs=0),
+            thermal_contact_screen=dict(definite_missing_contacts=0))
+        self.assertEqual(validate_native.construction_errors(fixture), [])
+        fixture['thermal_contact_screen']['definite_missing_contacts'] = 1
+        self.assertEqual(validate_native.construction_errors(fixture),
+                         ['Missing finite pipe contacts; pipe-plane reach is insufficient'])
 
     def test_central_insert_guard_clearance_and_rejected_18mm_control(self):
         self.assertEqual(self.config['thermal']['endcap_pad_mm'], [16.,60.])
