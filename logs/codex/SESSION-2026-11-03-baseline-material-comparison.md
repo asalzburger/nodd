@@ -31,7 +31,7 @@ Exact client-reported per-turn counters were unavailable for coordinator and bot
 
 ## Follow-up
 
-Exact-revision PhysVal review is pending for source, retained map/binwise evidence and both figures. Geometry-conversion CSG discrepancy, phi averaging, locality and broader engineering/tracking qualification remain follow-ups independent of the delivered characterization.
+Exact-revision PhysVal review completed at e840575d48361cfa2df6597b4fa1d4118ee4105a with finalplot delta3f7884653664ff73837c4cfe03d92f2bc95c25fb; no material delivery blocker. Geometry-conversion CSG discrepancy, phi averaging, locality and broader engineering/tracking qualification remain follow-ups independent of the delivered characterization.
 
 ## Initial source and inputs
 
@@ -160,3 +160,20 @@ PhysVal identified that independence from the old training sample cannot be esta
 ## Final plot steering
 
 User: “remove the old short strip dotted line from the new base-line, only keep the old-style Geant4 total”. Removed the old short-strip reference and its legend entry from the current figure; retained the dotted old total. Re-rendered PNG/PDF/SVG and updated hashes. Material model, numerical summaries and component stack inputs unchanged.
+
+## Final assessment and closeout
+
+MATCOMPARE-PhysVal-02 found no material blocker for qualified delivery. Separately
+reproduced full100000-ray component/covariantSEM and currentvalidation reductions,
+all17tests,cropping/ratio/map/grid/manifest identities and all149/1043audit evidence.
+Allquery material signatures agree below6e-8,within unchanged5e-6 tolerance.
+It assessed e840575 numerical/source plus3f788465 final plot; no native transport,
+map/reload,build orinstall was rerun and no human acceptance granted.
+Curated result: docs/validation/baseline-material-comparison/review.md.
+
+Both original storage input hashes remain unchanged; new tracks/map storage
+copies match producer outputs. Project/session validation passes. session_log.py
+summary ran: this session has no observed client counters, so task input/output
+usage and specialist coverage remain unknown. New history inspected for event,
+cache and large blobs; no such payload committed. Final source/artifacts are on
+local codex/baseline-material-comparison; no PR/publication was requested/performed.

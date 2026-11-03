@@ -21,8 +21,7 @@ is opaque and passive material has alpha 0.5. Sensitivity follows the DD4hep
 volume flag, so ASIC/guard silicon remains passive. The beam pipe has no
 sensitive component. Black markers are the ACTS validation total,
 with ACTS/total-Geant4 below. On the current figure, the dotted curve shows the
-old Geant4 total. The user requested removal of the old short-strip reference
-from the final figure.
+old Geant4 total.
 
 The common support is **−4 < η < 4, signed bins of width 0.1**. The old scan and
 old ACTS validation originally cover ±4.5; selecting whole aligned bins retains
@@ -160,3 +159,8 @@ conservation/reload checks require the local or regenerated payloads. Node
 preflight flagged stale setup/lock/source-registry records; actual imports,
 factory builds, required datasets, recording, mapping and validation were checked
 directly without changing shared dependencies.
+
+The [separate PhysVal assessment](review.md) found no material blocker to the
+qualified map/figures at the named source and final plot revisions. It independently
+reduced all current categorized and validation rays and checked the149-case audit;
+it did not rerun native transport/mapping or grant human acceptance.
