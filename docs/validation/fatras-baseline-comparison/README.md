@@ -152,3 +152,12 @@ Forward high-pT momentum residuals can be non-Gaussian and nonlinear near zero
 fitted q/p; core widths must be read with signed-curvature, RMS and charge
 accounting. Successful runs and a separate agent recommendation do not grant
 engineering approval or performance acceptance.
+
+## Validation assessment
+
+Eight focused tests pass. Separate PhysVal assessed exact revision
+795f7861c61abfe9ee69302162f69b8f60dffd62 and independently reproduced full-data
+statistics and calibration audits, checked representative bootstrap intervals
+and inspected every figure. No material delivery blocker was found for this
+qualified prototype; see the [assessment](review.md) for actual checks and scope.
+Scientific data and plots are unchanged after that review.

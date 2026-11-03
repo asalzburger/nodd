@@ -48,10 +48,10 @@ or duplicated observations are recorded. Final session summary is appended.
 
 ## Follow-up
 
-Complete all eight cases, independently assess exact final results and retain
+Delivered all eight cases, independently assessed exact results and retained
 plots, configurations, compact binwise evidence and reproducible commands.
-Material-model and ideal-truth-seeding limits remain explicit; human scientific
-interpretation grants no automatic engineering sign-off.
+Human interpretation and future material-model/response/seeding qualification
+remain; this task grants no automatic engineering sign-off.
 
 ## Initial scope and assumptions
 
@@ -145,3 +145,56 @@ All eight fresh20k cases completed at native source326fed57. Old selected/attemp
 Final full analysis at14340803427eca12f75b76bb678be407366ad7a5 successfully checked all eight source/configuration/geometry/material/output/error identities and exact paired generatedevent/eta/phi/pT/charge, then produced400-bootstrap binwise widths and paired ratios. Allsix final PNGs inspected (1/5/10/100GeV6panels, ratios, fitaccounting); legends, units, counts, uncertainty and caveat text readable. PNG/PDF/SVG and allartifacthashes retained. Compact curation contains configurations/provenance/counts only, no event arrays.
 
 Independent root old-reference checks now cover all original20k rows at1,10,100GeV:generatedfields and allfive fittedbranches exactlyequal historical old samples. Centrald0 core ratios new/old=0.9663,0.9350,0.8861,0.9367 (see compact evidence for exact values); centralrelative-pT cores widen at all fourmomenta. Centralz0 improves at100GeV. Forward100GeV width68~114%old/105.5%new while fullRMS~5309%old/18150%new; no tail trimming or universalimprovement claim. These are full-baseline, ideal-truth-seeded, fixed-map/calibration sample results.
+
+## Assignment FATRASBASE-PhysVal-02
+
+```json
+{
+  "id": "FATRASBASE-PhysVal-02",
+  "role": "PhysVal",
+  "input_revision": "795f7861c61abfe9ee69302162f69b8f60dffd62",
+  "inputs": [
+    "software/analysis/fatras_baseline_comparison/analyze.py",
+    "software/analysis/fatras_baseline_comparison/plot.py",
+    "software/analysis/fatras_baseline_comparison/retain.py",
+    "software/analysis/fatras_baseline_comparison/run_native.py",
+    "software/analysis/fatras_baseline_comparison/test_analysis.py",
+    "software/analysis/fatras_baseline_comparison/test_native.py",
+    "docs/validation/fatras-baseline-comparison/README.md",
+    "docs/validation/fatras-baseline-comparison/profiles.json.gz",
+    "docs/validation/fatras-baseline-comparison/runs.json.gz",
+    "docs/validation/fatras-baseline-comparison/hit-error-training-audit.json",
+    "docs/validation/fatras-baseline-comparison/hit-error-parameterization.json",
+    "docs/validation/fatras-baseline-comparison/figures/plot-report.json",
+    "docs/validation/fatras-baseline-comparison/figures/resolution-ratios.png",
+    "docs/validation/fatras-baseline-comparison/figures/fit-accounting.png",
+    "docs/validation/fatras-baseline-comparison/figures/resolutions-pt1.png",
+    "docs/validation/fatras-baseline-comparison/figures/resolutions-pt5.png",
+    "docs/validation/fatras-baseline-comparison/figures/resolutions-pt10.png",
+    "docs/validation/fatras-baseline-comparison/figures/resolutions-pt100.png"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Final independent scientific assessment of exact pinned source, compact evidence and plots for requested old/current baseline Fatras truth-associated single-muon fits at fixed pT 1,5,10,100 GeV (20k/case, 3T). Native source326fed57; root analysis14340803427eca12f75b76bb678be407366ad7a5. Local full ROOT/report cases build/fatras-baseline-comparison/performance/{old,current}-pt{1,5,10,100}, training-current and calibration-current available; do not modify or rerun. Check exact source/output/geometry/map/calibration identities (especially absent-variant generic-reader shortcut: root must explicitly audit every case), generated truth pairing, no lost outcomes/tail or charge cuts, finite-fit vs covariance/pull handling, zero-barcode partial fits kept, own-population primary ratios with paired generated-event bootstrap and common-fit diagnostics. Independently reproduce generated/stage/charge/native-unmatched counts and all six primary residual widths from full raw files for all eight cases and |eta| bins using direct quantiles/definitions; sampling intervals may be assessed through algorithm and bounded repeat, no need to redo all400 replicas absent concern. Inspect independent calibration coverage/overflow/variance audits and old reference regression claims. Run focused8 offline tests in existing ../nodd-unrooted/software/build/unrooted-venv/bin/python. Inspect all six PNGs for units/legends/count definitions, ensure data/plotter/file hashes match pinned figure report. Evaluate report mixed findings, forward100GeV nonlinear tails/RMS/charge caveats, map single-phi/locality/CSG limitations, ideal truth seeds/no pattern-recognition/causal or acceptance claims. Review exact committed bytes via git show and verify working files before using them. Read-only scripts/analysis permitted; no native imports, builds, simulation, dependency installs, edits, publication or further delegation. Return material findings and exact reviewed revisions/hashes, actual checks/independent values and scope limits. This is agent assessment, not human acceptance.",
+  "deliverable": "Independent final recommendation with severity/evidence for any delivery blockers, actual full-data and figure checks, scope limits and any targeted remedy.",
+  "completion": "All requested evidence assessed at exact pinned revision with full-data checks, or precise blocker; no human signoff."
+}
+```
+
+## Operational closeout and retention checks
+
+SoftEng's final build-only execution-audit.json passes:118 files re-hashed including all56 ROOT outputs; all source/library/compact/material/five-factory/map/selection/calibration/settings identities stable, ROOT files ignored. Full material inventories old65keys/8550bins/45646planes and current67keys/8650bins/46682planes remain distinct. Agent changed only its3owned files, already committed326fed57. Coordinator independently validates allscientific5-file inputs/covariances and profiles.
+
+Committed evidence at795f7861c61abfe9ee69302162f69b8f60dffd62 is frozen for the separate review; current diffs are only journal records. Integrity check confirms8cases, generated-denominator closure in both eta binnings, all224 parameter/bin ratio intervals with400 valid replicas, 18artifacthashes plusdata/plotter hashes.32staged files and44introduced history blobs inspected:maximum402925bytes, no ROOT/NPZ/CSV/native/cache payloads. All8 focusedtests and project/session validators passed before review.
+
+Session summary executed against canonical records. This task has no exact per-turn observations for coordinator, SoftEng or PhysVal, so observed task input/output totals are unavailable and coverage unknown. Historical aggregate totals are not assigned to this task; usage remains empty rather than estimated.
+
+## Final independent assessment and outcome
+
+FATRASBASE-PhysVal-02 found no material delivery blocker at795f7861c61abfe9ee69302162f69b8f60dffd62. Independently reproduced29108 raw scalar statistics and224 primary/common-fit ratios; replayed4 complete400-bootstrap intervals, verified4021739 measured variances and current107/old106 calibration groups including overflows; checked58 ROOT outputs, source/runtime/geometry/maps/tables, old1/10/100 exact reference branches,8 tests, all6 PNGs and18 artifact hashes. Pinned scientific files matched; only coordinator journal content dirty. Full assessment curated at docs/validation/fatras-baseline-comparison/review.md. No native transport rerun or all-interval replay claimed.
+
+Taskcompleted:8 fresh20k fixed-pT truth-fit cases, independently trained current2mm errors, per-momentum six-parameter comparisons, ratio overview, accounting and full-binwise diagnostics/recipes retained. Centrald0 improves and centralrelative-pT cores widen; forward100GeV new core narrower but fullRMS substantiallylarger. No changes to frozen scientific sources/data/plots after review; only review/closeout metadata. Material model, fixed-calibration uncertainty, ideal truth association and nonlinear tails limit interpretation. No design, engineering or human acceptance granted. All native/event/cache payloads remain local and ignored; no publication/push requested or performed.
+
+Closeout validator initially rejected a PASS check with null exit code for the agent recommendation (schema permits null but semantic PASS requires observed process0); summary consequently also exited1. Corrected by moving both nonprocess PhysVal assessments into activity evidence and this narrative, retaining genuine executable checks separately. No fictitious process exit code assigned. Required validation/summary rerun below.
+
+Final closeout: project validator passes88tasks/43documents/24reviewrounds; session validator passes232records and summary passes (227closed records). This task has0 recorded usage turns; no observed input/output totals and unknown coverage for coordinator and specialists. Final commit contains only review/report/tracking/journal metadata after the frozen scientific evidence revision.
