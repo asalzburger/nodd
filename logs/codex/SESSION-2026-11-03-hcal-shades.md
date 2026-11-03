@@ -62,3 +62,17 @@ a later observed closed boundary.
 
 PR metadata update hit a transient GitHub connectivity error once; retry and
 connector verification succeeded. The interaction snapshot was refreshed.
+
+## Final completed-turn accounting — 2026-11-03
+
+The later final-accounting request recovered the completed HCAL/shade turn:
+6,895,810 input + 20,625 output = 6,916,435 tokens, counted once here alongside
+the already owned interrupted request. Cached input 6,872,576 and reasoning
+output 11,826 are subsets. The earlier active-turn exclusion describes the
+live closeout. Together all four finalized PR112 turns now total 24,080,277
+input + 71,658 output = 24,151,935 tokens. The separate current accounting turn
+is active and excluded. Model/client version remain unknown.
+
+The retained usage-only inventory and reviewed visible snapshot match the exact
+thread/turn and final response. All hosted checks passed at d7affe4 before this
+accounting-only update.
