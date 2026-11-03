@@ -35,8 +35,14 @@ def main():
     p.add_argument('--events',type=int,default=1000)
     p.add_argument('--tracks',type=int,default=100)
     p.add_argument('--seed',type=int,default=228)
+    p.add_argument('--hit-counter',type=Path,help='Optional native direct-sensitive-placement observer source')
+    p.add_argument('--hit-include',type=Path,action='append',default=[],help='JIT include path; repeat as needed')
+    p.add_argument('--expected-sensors',type=int,help='Required physical sensitive inventory with --hit-counter')
+    p.add_argument('--no-material-output',action='store_true',help='Keep material recording actions but omit the bulky ROOT writer')
     p.add_argument('--output',type=Path,required=True)
     a=p.parse_args()
+    if a.hit_counter and (not a.hit_counter.is_file() or not a.expected_sensors or a.expected_sensors<1):
+        p.error('--hit-counter requires existing source and positive --expected-sensors')
     if min(a.events,a.tracks)<=0 or a.seed<0:p.error('Require positive events/tracks and nonnegative seed')
     a.output=a.output.resolve()
     if a.output.exists():p.error('Output exists; select a fresh directory')
@@ -102,21 +108,32 @@ def main():
         recordElementFractions=False,excludeMaterials=['Air','Vacuum'])
     if handle is not None:kwargs['geant4Handle']=handle
     recorder=acts.examples.geant4.Geant4MaterialRecording(**kwargs)
+    if a.hit_counter:
+        for include in a.hit_include:root.gInterpreter.AddIncludePath(str(include.resolve()))
+        if not root.gInterpreter.Declare(a.hit_counter.read_text()):
+            raise RuntimeError('Cannot compile direct Geant4 hit observer')
+        root.nodd_hits.install(str(a.output/'hits.csv'),a.expected_sensors)
+        metrics['hit_counter']=dict(source=str(a.hit_counter.resolve()),sha256=sha(a.hit_counter),
+            expected_sensors=a.expected_sensors,includes=[str(p.resolve()) for p in a.hit_include])
     starts={}
     class Marker(acts.examples.IAlgorithm):
         def __init__(self,before):
             super().__init__('BeforeGeant4' if before else 'AfterGeant4',level);self.before=before
         def execute(self,ctx):
             now=(time.perf_counter(),time.process_time())
-            if self.before:starts[ctx.eventNumber]=now
+            if self.before:
+                if a.hit_counter:root.nodd_hits.begin(ctx.eventNumber)
+                starts[ctx.eventNumber]=now
             else:
+                if a.hit_counter:root.nodd_hits.end(ctx.eventNumber,a.tracks)
                 begin=starts.pop(ctx.eventNumber)
                 metrics['events'].append(dict(event=ctx.eventNumber,wall_s=now[0]-begin[0],cpu_s=now[1]-begin[1]))
                 save()
             return acts.examples.ProcessCode.SUCCESS
     seq.addAlgorithm(Marker(True));seq.addAlgorithm(recorder);seq.addAlgorithm(Marker(False))
-    seq.addWriter(RootMaterialTrackWriter(level=level,prePostStep=True,recalculateTotals=True,
-        inputMaterialTracks='material_tracks',treeName='material_tracks',filePath=str(a.output/'tracks.root')))
+    if not a.no_material_output:
+        seq.addWriter(RootMaterialTrackWriter(level=level,prePostStep=True,recalculateTotals=True,
+            inputMaterialTracks='material_tracks',treeName='material_tracks',filePath=str(a.output/'tracks.root')))
     stamp('pipeline_construction')
     try:
         seq.run()
@@ -128,6 +145,13 @@ def main():
         metrics['lifecycle']=dict(native.report(handle))
         first_report=dict(native.report(handle));native.finish(handle)
         metrics['finish_idempotent']=first_report==dict(native.report(handle))
+    if a.hit_counter:
+        root.nodd_hits.report(str(a.output/'hit-counter-report.json'))
+        metrics['hit_counter_report']=json.loads((a.output/'hit-counter-report.json').read_text())
+        metrics['hits_sha256']=sha(a.output/'hits.csv')
+        assert metrics['hit_counter_report']['events']==a.events
+        assert sha(a.hit_counter)==metrics['hit_counter']['sha256']
+    metrics['material_output_written']=not a.no_material_output
     stamp('sequencer_run')
     metrics.update(total_wall_s=time.perf_counter()-START,total_cpu_s=time.process_time(),
         peak_rss_bytes=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss,completed=True)
