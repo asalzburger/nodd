@@ -20,13 +20,11 @@ def read(name):
 
 def main():
     manifest = read('manifest.json')
-    # PR109 and DES043 integration intentionally amend these sources. Verify their
+    # PR109 changes these sources for the selected2mm readout. Verify their
     # original bytes against the unchanged run manifest, and test the current
     # assembly separately in test_integration.py. Never relabel old native runs.
     amended = {"tools/tracker_dd4hep/export.py", "detector/config/tracker.json",
-               "tools/tracker_dd4hep/verify_baseline.py",
-               "tools/tracker_dd4hep/services.py", "tools/tracker_dd4hep/validate.py",
-               "tools/tracker_dd4hep/export_gen3.py"}
+               "tools/tracker_dd4hep/verify_baseline.py"}
     revision = "07b38a7814853ec2e44ef9102098c908f45a2147"
     for path, digest in manifest['files_sha256'].items():
         payload = (subprocess.check_output(['git', 'show', revision + ':' + path], cwd=REPO)

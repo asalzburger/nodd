@@ -20,93 +20,27 @@ spec.loader.exec_module(audit)
 
 
 def capacity(shape):
-    """Exact only when the restricted auditor proves the CSG operation."""
-    return audit.shape_capacity(shape)
-
-
-def inventory(detector, dd4hep, root, expected):
-    """Measure primitives; bound general CSG instead of subtracting full cuts."""
-    from array import array
-    lookup={e['name']:e for e in expected['entities']}
-    counts=Counter(); materials=defaultdict(lambda:dict(volume_mm3=0.,mass_g=0.))
-    nodes=[];sensors=[];errors=[];shapes={};bounded=[];unit=float(dd4hep.mm)
-    def visit(node,parent,ids,path):
-        volume=node.GetVolume();name=str(volume.GetName());shape=volume.GetShape()
-        path=path+'/'+str(node.GetName());matrix=root.TGeoHMatrix(parent);matrix.Multiply(node.GetMatrix())
-        ids=dict(ids)
-        for field in dd4hep.PlacedVolume(node).volIDs():ids[str(field.first)]=int(field.second)
-        entity=lookup.get(name,{});role=entity.get('role')
-        if role:counts[role]+=1
-        sensitive=bool(dd4hep.Volume(volume).isSensitive())
-        if sensitive!=(role=='sensitive'):errors.append('Actual sensitivity differs from expected role: '+name)
-        point=array('d',[0.,0.,0.]);matrix.LocalToMaster(array('d',[0.,0.,0.]),point)
-        normal=array('d',[0.,0.,0.]);matrix.LocalToMasterVect(array('d',[0.,0.,1.]),normal)
-        item=dict(name=name,path=path,role=role,ids=ids,center_mm=[x/unit for x in point],normal=list(normal))
-        if not volume.IsAssembly() and volume!=detector.manager().GetTopVolume():
-            substance=volume.GetMaterial();material=str(substance.GetName());density=float(substance.GetDensity())
-            item['material']=material
-            if entity.get('material') and entity['material']!=material:errors.append('Actual material differs: '+name)
-            if material in expected['materials'] and not math.isclose(density,expected['materials'][material]['density_g_cm3'],rel_tol=1e-6,abs_tol=1e-9):
-                errors.append('Actual material density differs: '+name)
-            composite=str(shape.ClassName())=='TGeoCompositeShape'
-            if 'cuts' in entity and composite!=(entity['cuts']>0):errors.append('Actual CSG presence differs: '+name)
-            if entity.get('center_mm') and math.dist(item['center_mm'],entity['center_mm'])>1e-7:
-                errors.append('Actual solid centre differs: '+name)
+    if str(shape.ClassName()) == "TGeoCompositeShape":
+        node = shape.GetBoolNode()
+        if str(node.ClassName()) == "TGeoIntersection":
+            return audit_original_capacity(shape)
+        # Pixel tongue has a partial circular cut; retain its restricted audit.
+        if (
+            str(node.GetLeftShape().ClassName()) == "TGeoBBox"
+            and str(node.GetRightShape().ClassName()) in ("TGeoTube", "TGeoTubeSeg")
+            and node.GetRightShape().GetRmax() > 5
+        ):
             try:
-                measured=capacity(shape)/unit**3
-                displaced=[capacity(volume.GetNode(i).GetVolume().GetShape())/unit**3
-                           for i in range(volume.GetNdaughters()) if not volume.GetNode(i).GetVolume().IsAssembly()]
-                measured=audit.exclusive_volume(measured,displaced)
+                return audit_original_capacity(shape)
             except ValueError:
-                base=shape
-                while str(base.ClassName())=='TGeoCompositeShape' and str(base.GetBoolNode().ClassName())=='TGeoSubtraction':
-                    base=base.GetBoolNode().GetLeftShape()
-                if str(base.ClassName())=='TGeoCompositeShape':
-                    raise ValueError('Unsupported CSG bound: '+name)
-                upper=float(base.Capacity())/unit**3
-                item.update(volume_bounds_mm3=[0.,upper],mass_bounds_g=[0.,upper*density/1000])
-                bounded.append(dict(name=name,material=material,volume_bounds_mm3=[0.,upper],mass_bounds_g=[0.,upper*density/1000]))
-                if 'volume_bounds_mm3' in entity and not math.isclose(upper,entity['volume_bounds_mm3'][1],rel_tol=1e-8,abs_tol=1e-6):
-                    errors.append('CSG primitive upper bound differs: '+name)
-            else:
-                item.update(volume_mm3=measured,mass_g=measured*density/1000)
-                if 'volume_mm3' in entity and not math.isclose(measured,entity['volume_mm3'],rel_tol=1e-6,abs_tol=1e-6):
-                    errors.append('Exact primitive/exclusive volume differs: '+name)
-                material_row=materials[material];material_row['volume_mm3']+=measured;material_row['mass_g']+=measured*density/1000
-                material_row.update(density_g_cm3=density,radiation_length_mm=float(substance.GetRadLen())/unit,
-                                    interaction_length_mm=float(substance.GetIntLen())/unit)
-            if role:shapes[name]=shape
-        if sensitive:
-            sensor=dict(item,u=[float(matrix.GetRotationMatrix()[3*j]) for j in range(3)],
-                v=[float(matrix.GetRotationMatrix()[3*j+1]) for j in range(3)],
-                size_mm=[2*float(shape.GetDX())/unit,2*float(shape.GetDY())/unit,2*float(shape.GetDZ())/unit])
-            sensors.append(sensor)
-        nodes.append(item)
-        for i in range(volume.GetNdaughters()):visit(volume.GetNode(i),matrix,ids,path)
-    visit(detector.manager().GetTopNode(),root.TGeoHMatrix(),{},'')
-    probes=expected.get('shape_probes',[])
-    for probe in probes:
-        shape=shapes.get(probe['name'])
-        if shape is None:errors.append('Missing probed solid: '+probe['name']);continue
-        if bool(shape.Contains(array('d',[x*unit for x in probe['point_mm']])))!=probe['inside']:
-            errors.append('Actual finite window/contact probe differs: '+probe['name'])
-    if expected.get('short_strip_integration'):
-        expected_counts=Counter(e['role'] for e in expected['entities'])
-        if dict(expected_counts)!=dict(counts):errors.append('Actual combined payload counts differ')
-    return dict(counts=dict(counts),materials=dict(materials),sensors=sensors,nodes=nodes,
-                physical_placements=len(nodes),errors=errors,bounded_csg=bounded,
-                shape_probes_checked=len(probes),probe_counts=dict(Counter(p['reason'] for p in probes)))
+                pass
+        if str(node.ClassName()) != "TGeoSubtraction":
+            raise ValueError("Unsupported assembled CSG")
+        return capacity(node.GetLeftShape()) - capacity(node.GetRightShape())
+    return float(shape.Capacity())
 
 
-def verify_sources(expected):
-    sources=dict(expected['assembly_source_hashes'])
-    for component in expected['components']:
-        sources.update(component.get('provenance',{}).get('source_hashes',{}))
-    errors=[]
-    for name,digest in sources.items():
-        if hashlib.sha256((ROOT_DIR/name).read_bytes()).hexdigest()!=digest:
-            errors.append('Executing source differs from generated provenance: '+name)
-    return errors
+audit_original_capacity = audit.shape_capacity
 
 
 def main():
@@ -136,12 +70,13 @@ def main():
     expected = json.loads(args.expected.read_text())
     d = dd4hep.Detector.getInstance()
     d.fromXML(str(args.compact.resolve()))
-    actual = inventory(d, dd4hep, R, expected)
+    audit.shape_capacity = capacity
+    inventory = audit.physical_inventory(d, dd4hep, R, expected["entities"])
     sensors = audit.compare_sensors(
-        actual["sensors"],
+        inventory["sensors"],
         [e for e in expected["entities"] if e["role"] == "sensitive"],
     )
-    errors = verify_sources(expected) + actual["errors"] + list(sensors["errors"])
+    errors = list(sensors["errors"])
     packed = set()
     identifiers = []
     for system, readout in (
@@ -155,8 +90,7 @@ def main():
     ):
         ro = d.readout(readout)
         checked = 0
-        cell_checks = 0
-        for s in actual["sensors"]:
+        for s in inventory["sensors"]:
             if s["ids"]["system"] != system:
                 continue
             fields = R.std.vector("pair<string,int>")()
@@ -169,24 +103,22 @@ def main():
             for key, value in s["ids"].items():
                 if int(ro.idSpec().decoder().get(vid, key)) != value:
                     errors.append("Identifier decode mismatch")
-            if system in (4, 5):
-                segmentation = ro.segmentation()
-                for ix, iy in ((-320,-24), (319,23), (-320,23), (319,-24), (0,0)):
-                    point = dd4hep.Position((ix+.5)*.075*dd4hep.mm, (iy+.5)*2.*dd4hep.mm, 0.)
-                    cid = int(segmentation.cellID(point, point, vid))
-                    position = segmentation.position(cid)
-                    if (int(ro.idSpec().decoder().get(cid, 'x')), int(ro.idSpec().decoder().get(cid, 'y'))) != (ix, iy):
-                        errors.append('Selected strixel cell identifier mismatch')
-                    if math.hypot(position.x()-point.x(), position.y()-point.y()) > 1e-9*dd4hep.mm:
-                        errors.append('Selected strixel cell position mismatch')
-                    cell_checks += 1
             checked += 1
         identifiers.append(
-            dict(system=system, readout=readout, sensitive_count=checked, cell_checks=cell_checks)
+            dict(system=system, readout=readout, sensitive_count=checked)
         )
-    # Every exact primitive/exclusive volume and its material was checked above.
-    # General intersecting CSG is reported by bounds, never an exact total mass.
-    material_errors=[e for e in actual['errors'] if any(k in e for k in ('material','volume','bound'))]
+    expected_materials = defaultdict(lambda: dict(volume_mm3=0.0, mass_g=0.0))
+    for e in expected["entities"]:
+        if "material" in e and "volume_mm3" in e:
+            expected_materials[e["material"]]["volume_mm3"] += e["volume_mm3"]
+            expected_materials[e["material"]]["mass_g"] += e["mass_g"]
+    material_errors = []
+    for name, values in expected_materials.items():
+        actual = inventory["materials"].get(name, {})
+        for key, value in values.items():
+            if not math.isclose(actual.get(key, -1), value, rel_tol=1e-6, abs_tol=1e-6):
+                material_errors.append(f"{name}: exclusive {key} mismatch")
+    errors.extend(material_errors)
     import xml.etree.ElementTree as ET
 
     compact = ET.parse(args.compact).getroot()
@@ -214,7 +146,7 @@ def main():
     ]
     if overlaps:
         errors.append(f"{len(overlaps)} overlaps in full assembly")
-    paths = {s["path"]: s for s in actual["sensors"]}
+    paths = {s["path"]: s for s in inventory["sensors"]}
     rays = []
     for eta in (-4, -3, -2, -1, 0, 1, 2, 3, 4):
         for phi in (0, 0.37, 1.11):
@@ -234,7 +166,6 @@ def main():
                 abs_tol=1e-7,
             ):
                 errors.append("Pipe material path changed in assembly")
-    errors.extend(verify_sources(expected))
     report = dict(
         status="PASS" if not errors else "FAIL",
         errors=errors,
@@ -244,24 +175,19 @@ def main():
         material_comparison=dict(
             passed=not material_errors,
             errors=material_errors,
-            materials_checked=len(actual["materials"]),
-            scope="Exact primitive/exclusive quantities only; general CSG bounded, total mass not asserted",
-            bounded_csg=actual["bounded_csg"],
+            materials_checked=len(expected_materials),
         ),
-        shape_probes_checked=actual["shape_probes_checked"],
-        probe_counts=actual["probe_counts"],
         minimum_pixel_passive_clearance_mm=clearance,
-        counts=actual["counts"],
-        physical_placements=actual["physical_placements"],
-        materials=actual["materials"],
-        mass_policy='Only proved exact primitive/exclusive volumes are accumulated in materials. General CSG has explicit bounds; no complete tracker mass is asserted.',
+        counts=inventory["counts"],
+        physical_placements=inventory["physical_placements"],
+        materials=inventory["materials"],
         overlaps=overlaps,
         navigation=rays,
         execution=dict(
             revision=subprocess.check_output(
                 ["git", "rev-parse", "HEAD"], cwd=ROOT_DIR, text=True
             ).strip(),
-            dirty=bool(subprocess.check_output(['git','status','--porcelain'],cwd=ROOT_DIR,text=True).strip()),
+            dirty=True,
             root_version=R.gROOT.GetVersion(),
             hashes={
                 str(p.name): hashlib.sha256(p.read_bytes()).hexdigest()

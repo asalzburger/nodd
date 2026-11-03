@@ -22,21 +22,6 @@ from software.analysis.gen3_material_mapping.export_geometry import build_export
 from tools.tracker_dd4hep.check_gen3 import compare
 
 
-def selected_inventory(expected):
-    """Check the declared geometry family before exporting any native planes."""
-    counts = {c['name']: c['counts'].get('sensitive', 0) for c in expected['components']}
-    redesigned = bool(expected.get('short_strip_integration'))
-    target = dict(beam=0, pixel=12410, short_barrel=8064,
-                  short_endcap=4752 if redesigned else 4320,
-                  long_barrel=13968, long_endcap=7488)
-    count = 46682 if redesigned else 46250
-    sensors = [e for e in expected['entities'] if e['role'] == 'sensitive']
-    groups = {(e['ids']['system'], e['ids']['layer']) for e in sensors}
-    if counts != target or len(sensors) != count or len(groups) != 54:
-        raise ValueError('Expected complete selected tracker inventory; new planes must not be dropped')
-    return count, len(groups)
-
-
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--build-dir', type=Path, required=True)
@@ -47,7 +32,8 @@ def main():
     compact = directory / 'tracker/tracker.xml'
     expected_path = compact.with_name('expected.json')
     expected = json.loads(expected_path.read_text())
-    sensitive_count, group_count = selected_inventory(expected)
+    if sum(e['role'] == 'sensitive' for e in expected['entities']) != 46250:
+        raise ValueError('Expected selected balanced inventory of 46250 sensors')
     a.output_dir.mkdir(parents=True, exist_ok=True)
     ctypes.CDLL('libDDG4.dylib' if sys.platform == 'darwin' else 'libDDG4.so', mode=ctypes.RTLD_GLOBAL)
     import ROOT
@@ -71,9 +57,8 @@ def main():
         if native != json.loads(converter.toJson(context, decoded)):
             raise ValueError('Native serialized Gen3 round trip changed payload')
     result = build_export(native, report, lambda encoded: acts.GeometryIdentifier(**(encoded or {})).value)
-    if (result['checks']['sensitive_surfaces'] != sensitive_count or result['checks']['volumes'] != 120
-            or result['checks']['sensor_groups'] != group_count):
-        raise ValueError('Unexpected selected Gen3 inventory')
+    if result['checks']['sensitive_surfaces'] != 46250 or result['checks']['volumes'] != 120:
+        raise ValueError('Unexpected balanced Gen3 inventory')
     result['checks']['native_json_round_trip'] = 'PASS: complete serialized payload identical'
     files = [compact, compact.with_name('materials.xml'), expected_path, Path(__file__),
              REPO / 'tools/tracker_dd4hep/check_gen3.py',
@@ -89,7 +74,7 @@ def main():
         'ActsCore', 'ActsExamplesNodd', 'ActsPluginDD4hep', 'ActsPluginJson'))
     result['provenance'] = dict(
         source_revision=subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=REPO, text=True).strip(),
-        baseline='DES043' if expected.get('short_strip_integration') else 'balanced historical strips', ROOT=ROOT.gROOT.GetVersion(), python=platform.python_version(),
+        baseline='balanced', ROOT=ROOT.gROOT.GetVersion(), python=platform.python_version(),
         native_serialization_sha256=hashlib.sha256(serialized.encode()).hexdigest(),
         files=[dict(name=q.name, sha256=sha256(q)) for q in files],
         runtime_scope='Binary fingerprints identify the installed runtime; current external source HEAD is not asserted as its compiled revision.',

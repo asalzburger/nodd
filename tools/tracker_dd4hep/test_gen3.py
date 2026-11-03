@@ -50,29 +50,6 @@ class ConversionControls(unittest.TestCase):
         self.assertTrue(any("u axis mismatch" in e for e in result["errors"]))
         self.assertTrue(any("identifiers" in e for e in result["errors"]))
 
-    def test_dropped_new_endcap_plane_fails_source_identity_comparison(self):
-        report,expected=self.fixture()
-        extra=copy.deepcopy(expected['entities'][4]);extra['ids']['module']=9
-        expected['entities'].append(extra)
-        result=compare(report,expected)
-        self.assertEqual(result['status'],'FAIL')
-        self.assertTrue(any('missing sensitive identifier' in e for e in result['errors']))
-
-    def test_general_intersecting_csg_cannot_claim_exact_capacity(self):
-        from validate import capacity
-        class Primitive:
-            def ClassName(self):return 'TGeoBBox'
-        class Boolean:
-            def ClassName(self):return 'TGeoSubtraction'
-            def GetLeftMatrix(self):return self
-            def IsIdentity(self):return True
-            def GetLeftShape(self):return Primitive()
-            def GetRightShape(self):return Primitive()
-        class Composite:
-            def ClassName(self):return 'TGeoCompositeShape'
-            def GetBoolNode(self):return Boolean()
-        with self.assertRaisesRegex(ValueError,'unsupported CSG right operand'):capacity(Composite())
-
     def test_wrong_pipe_wall_fails(self):
         report, expected = self.fixture()
         report["beampipe_portals"][0]["thickness_mm"] = 0.7

@@ -10,15 +10,7 @@ def number(piece, key):
     return float(piece.get(key).removesuffix("*mm").removesuffix("*rad"))
 
 
-def reconcile(doc, matdoc, entities, recipes, des043=None):
-    if des043:
-        import importlib.util
-        import json
-        from pathlib import Path
-        root = Path(__file__).resolve().parents[2]
-        spec = importlib.util.spec_from_file_location('des043_shared_services', root/'tools/short_strip_redesign/integrated_services.py')
-        module = importlib.util.module_from_spec(spec); spec.loader.exec_module(module)
-        return module.replace(doc, matdoc, entities, recipes, des043, json.loads((root/des043['input']).read_text()))
+def reconcile(doc, matdoc, entities, recipes):
     by_name = {e["name"]: e for e in entities}
     removed = set()
     groups = defaultdict(list)

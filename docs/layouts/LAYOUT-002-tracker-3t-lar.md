@@ -1,8 +1,8 @@
 # LAYOUT-002 — Tracker + inner 3 T solenoid + LAr ECAL + FCAL
 
-**Alternative DRAFT / PROTOTYPE · updated 2026-11-03.** The tracker and conditional inner magnet are shared with 01. The LAr component envelopes remain pinned to their independent proposal; DES039 adds a common forward body and a short EM collar.
+**Alternative DRAFT / PROTOTYPE · updated 2026-10-29.** The tracker and conditional inner magnet are shared with 01. The LAr component envelopes remain pinned to their independent proposal; DES039 adds a common forward body and a short EM collar.
 
-![LAYOUT-002 with common forward body and short EM collar](figures/LAYOUT-002-DES043-rz.png)
+![LAYOUT-002 with common forward body and short EM collar](figures/LAYOUT-002-FCAL-rz.png)
 
 | Component | Candidate features | Evidence / status |
 | --- | --- | --- |
@@ -23,7 +23,8 @@ The native FCAL checks cover both ends, body/collar component solids and conserv
 
 Reproduce with `python3 -B tools/forward_calorimeter/draw.py` in an environment with matplotlib. Full source revisions and hashes are retained in the named inputs.
 
-The current tracker overlay is extracted from the maintained DES043 combined DD4hep export in [tracker-baseline-des043.json](tracker-baseline-des043.json). It updates the sensitive bounds while retaining the independently pinned calorimeter and magnet context. The physical short-strip module/services redesign remains an unqualified working prototype. See the [layout main page](README.md) for the exact regeneration recipe and historical controls.
+The tracker overlay is extracted from the maintained balanced DD4hep export in [tracker-baseline-balanced.json](tracker-baseline-balanced.json). It updates only the tracker sensitive bounds; the independently pinned calorimeter and magnet contexts are unchanged. The earlier pre-FCAL layout remains a historical control.
 
-
-[PR110 — short-strip integration, open for merge preparation](https://github.com/asalzburger/nodd/pull/110) retains fixed implementation source `d6c4d0d`, full native/payload/ACTS checks and the published TDR receipt. Human review/merge and engineering qualification are distinct.
+The [PR109 selected strixel baseline](../validation/DES-042/baseline-selection.md)
+uses 75 µm × 2 mm cells in the combined tracker. This readout amendment preserves
+all physical bounds and material, so these R–Z drawings need no regeneration.
