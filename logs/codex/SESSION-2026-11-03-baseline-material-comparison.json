@@ -1,0 +1,173 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-11-03-baseline-material-comparison",
+  "title": "Current baseline material mapping and legacy Geant4/ACTS comparison",
+  "recorded_at": "2026-11-03T16:18:50Z",
+  "started_at": null,
+  "ended_at": null,
+  "status": "open",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact client-reported per-turn token counters unavailable for coordinator and both specialists; usage empty means unknown, not zero.",
+    "Client version/thread ID and actual conversation start time unavailable.",
+    "Node preflight registry remains stale; direct task-specific runtime checks recorded separately."
+  ],
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "62f6056395e0dfee0c7985cf24e88dc9919c4e2d",
+    "branch": "codex/baseline-material-comparison",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      "docs/validation/baseline-material-comparison/README.md",
+      "docs/validation/baseline-material-comparison/classification-provenance.json",
+      "docs/validation/baseline-material-comparison/comparison.json",
+      "docs/validation/baseline-material-comparison/current-acts.json",
+      "docs/validation/baseline-material-comparison/current-geant4.json",
+      "docs/validation/baseline-material-comparison/current-mapping-report.json",
+      "docs/validation/baseline-material-comparison/current-validation-report.json",
+      "docs/validation/baseline-material-comparison/figures/.cache/fontconfig/CACHEDIR.TAG",
+      "docs/validation/baseline-material-comparison/figures/.cache/fontconfig/fe44ad603488fb7acf454c76fab8a727-le64.cache-12",
+      "docs/validation/baseline-material-comparison/figures/.mpl-cache/fontlist-v3.11.0.json",
+      "docs/validation/baseline-material-comparison/figures/material-current.pdf",
+      "docs/validation/baseline-material-comparison/figures/material-current.png",
+      "docs/validation/baseline-material-comparison/figures/material-current.svg",
+      "docs/validation/baseline-material-comparison/figures/material-old.pdf",
+      "docs/validation/baseline-material-comparison/figures/material-old.png",
+      "docs/validation/baseline-material-comparison/figures/material-old.svg",
+      "docs/validation/baseline-material-comparison/figures/plot-report.json",
+      "docs/validation/baseline-material-comparison/geant4-audit-summary.json",
+      "docs/validation/baseline-material-comparison/locality.json",
+      "docs/validation/baseline-material-comparison/material_map.json.gz",
+      "docs/validation/baseline-material-comparison/pr109-control.json",
+      "docs/validation/baseline-material-comparison/preparation-report.json",
+      "docs/validation/baseline-material-comparison/provenance.json",
+      "docs/validation/baseline-material-comparison/recording-report.json",
+      "docs/validation/baseline-material-comparison/selection.json",
+      "logs/codex/SESSION-2026-11-03-baseline-material-comparison.json",
+      "logs/codex/SESSION-2026-11-03-baseline-material-comparison.md",
+      "software/analysis/material_baseline_comparison/README.md",
+      "software/analysis/material_baseline_comparison/README_mapping.md",
+      "software/analysis/material_baseline_comparison/audit_geant4.C",
+      "software/analysis/material_baseline_comparison/audit_geant4.py",
+      "software/analysis/material_baseline_comparison/compare.py",
+      "software/analysis/material_baseline_comparison/control.py",
+      "software/analysis/material_baseline_comparison/locality.py",
+      "software/analysis/material_baseline_comparison/map_workflow.py",
+      "software/analysis/material_baseline_comparison/plot.py",
+      "software/analysis/material_baseline_comparison/reduce_validation.py",
+      "software/analysis/material_baseline_comparison/test_artifacts.py",
+      "software/analysis/material_baseline_comparison/test_audit.py",
+      "software/analysis/material_baseline_comparison/test_compare.py",
+      "software/analysis/material_baseline_comparison/test_mapping.py",
+      "software/running/nodd_geantino_recording.py",
+      "software/source/ActsExamples/MaterialRecording/CMakeLists.txt",
+      "software/source/ActsExamples/MaterialRecording/PersistentMaterial.cpp",
+      "software/source/ActsExamples/MaterialRecording/README.md",
+      "software/source/ActsExamples/MaterialRecording/check_native.py",
+      "project/tracking.json",
+      "software/analysis/material_profiles/categorize.C",
+      "software/analysis/material_profiles/categorize.py"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "tracker",
+      "material mapping",
+      "physics validation"
+    ],
+    "related_ids": [
+      "TASK-TRACK-BASELINE-MATERIAL-COMPARISON",
+      "DES-025",
+      "DES-043",
+      "ADR-003"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-11-03-baseline-material-comparison.md",
+  "activities": [
+    {
+      "kind": "skill",
+      "name": "acts-spack",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Node preflight and direct runtime checks; stale registry reported."
+    },
+    {
+      "kind": "skill",
+      "name": "nodd-coordinate",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Bounded explicit SoftEng and PhysVal assignments retained in paired narrative."
+    },
+    {
+      "kind": "skill",
+      "name": "nodd-review-validation",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Early independent PhysVal methodology and planned exact-revision artifact review."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "acts-spack preflight --require-sources",
+      "status": "FAIL",
+      "exit_code": 2,
+      "result": "Changed setup/lock fingerprints and unverified full-source registry; direct builds/runs passed separately."
+    },
+    {
+      "command": "nodd_geantino_recording.py --events1000 --tracks100 --seed228 --run-mode persistent",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "100k rays,1000 events,1runinit/termination,MaterialPhysicsList,noabort."
+    },
+    {
+      "command": "map_workflow.py prepare,map,validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "46682planes/120volumes;67portals/8650bins;100k training/validation,all nonzero budgets conserved,reload checked."
+    },
+    {
+      "command": "categorize.py without Geant4 audit",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "149 TGeo density disagreements retained;0 unassigned. No tolerance changed."
+    },
+    {
+      "command": "audit_geant4.py then categorize.py --geant4-audit",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "1043 native queries certify149 passiveGraphite assignments;full final classification0unresolved/0unassigned."
+    },
+    {
+      "command": "export_profiles.py --expected-tracks100000",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Independent native/per-ray means,variances,counts and closure agree."
+    },
+    {
+      "command": "compare.py; plot.py; visual PNG inspection",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Commoneta\u00b14;two unrooted figures PNG/PDF/SVG,matching palette/opacity/markers/ratios/old dotted references."
+    },
+    {
+      "command": "unittest discover -s software/analysis/material_baseline_comparison -p test_*.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "17 tests pass, including material-model/grid/artifact identities."
+    }
+  ]
+}

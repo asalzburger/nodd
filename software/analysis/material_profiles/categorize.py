@@ -7,6 +7,7 @@ import argparse
 import ctypes
 import hashlib
 import json
+import math
 import os
 from pathlib import Path
 import subprocess
@@ -21,6 +22,29 @@ def sha(path):
     return digest.hexdigest()
 
 
+def audit_labels(path, recording, compact, factories, output):
+    """Bind the bounded Geant4 CSG audit to the exact classification inputs."""
+    audit = json.loads(path.read_text())
+    if (audit['recording_sha256'] != sha(recording) or audit['compact_sha256'] != sha(compact) or
+            audit['materials_sha256'] != sha(compact.with_name('materials.xml')) or
+            sorted(f['sha256'] for f in audit['factories']) != sorted(sha(p) for p in factories)):
+        raise ValueError('Geant4 audit input identities do not match this classification')
+    if sha(path.with_name('lookups.json')) != audit['lookups_sha256']:
+        raise ValueError('Geant4 audit lookup bytes changed')
+    steps = audit['certified_steps']
+    if len(steps) != audit['rows'] or not steps:
+        raise ValueError('Incomplete Geant4 audit')
+    target = output/'geant4-audited-labels.txt'
+    lines = []
+    for row in steps:
+        if (row['category'] != 4 or 'ShortStripEndcap' not in row['path'] or
+                any(c.isspace() for c in row['volume']) or row['track'] < 0 or row['step'] < 0):
+            raise ValueError('Invalid bounded passive-endcap audit label')
+        lines.append(f"{row['track']} {row['step']} {row['volume']}\n")
+    target.write_text(''.join(lines))
+    return str(target)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--input", type=Path, required=True)
@@ -32,14 +56,22 @@ def main():
                         help="Also export per-step category/region labels for mapping studies")
     parser.add_argument("--limit", type=int, default=-1,
                         help="Diagnostic track limit; -1 means all tracks")
+    parser.add_argument("--eta-max", type=float, default=4.5,
+                        help="Symmetric profile support, aligned to 0.1 eta bins")
+    parser.add_argument("--geant4-audit", type=Path,
+                        help="Optional hash-bound native Geant4 audit for passive graphite CSG discrepancies")
     args = parser.parse_args()
     if args.limit == 0 or args.limit < -1:
         parser.error("--limit must be positive or -1")
+    if (not math.isfinite(args.eta_max) or args.eta_max <= 0 or
+            abs(10 * args.eta_max - round(10 * args.eta_max)) > 1e-9):
+        parser.error("--eta-max must be positive and aligned to 0.1 bins")
     for path in [args.input, args.compact, *args.factory]:
         if not path.is_file():
             parser.error(f"Missing input: {path}")
     args.output.mkdir(parents=True, exist_ok=True)
     output = args.output.resolve()
+    audit = audit_labels(args.geant4_audit, args.input, args.compact, args.factory, output) if args.geant4_audit else ''
     # Use the platform's library name and DD4hep's existing runtime search path.
     import sys
     ctypes.CDLL("libDDG4.dylib" if sys.platform == "darwin" else "libDDG4.so",
@@ -68,7 +100,8 @@ def main():
     if not ROOT.gInterpreter.Declare(code.read_text()):
         raise RuntimeError("Could not compile categorize.C")
     ROOT.categorize(str(args.input.resolve()), str(output / "profiles.root"),
-                    str(output / "classification-diagnostics.csv"), args.limit, args.write_steps)
+                    str(output / "classification-diagnostics.csv"), args.limit,
+                    args.write_steps, args.eta_max, audit)
     report = json.loads((output / "profiles.root.json").read_text())
     if report["unassigned_steps"] or report["density_mismatches"]:
         raise RuntimeError("Classification incomplete; inspect diagnostics before plotting")
@@ -82,6 +115,8 @@ def main():
     materials = args.compact.with_name("materials.xml")
     if materials.is_file():
         files.append(("materials", materials))
+    if args.geant4_audit:
+        files.append(("geant4_audit", args.geant4_audit))
     provenance = {
         "analysis_source_revision": revision, "ROOT": ROOT.gROOT.GetVersion(),
         "DD4hep_mm": float(dd4hep.mm), "wall_seconds": time.monotonic() - start,
