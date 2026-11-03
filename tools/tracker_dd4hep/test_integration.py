@@ -10,16 +10,15 @@ from export import rename_materials, select_strixel_readout
 
 
 class IntegrationGuards(unittest.TestCase):
-    def test_default_source_export_assembles_balanced_pixels_and_fixed_strips(self):
+    def test_default_source_export_assembles_balanced_pixels_and_des043_strips(self):
         root = Path(__file__).resolve().parents[2]
         with tempfile.TemporaryDirectory() as directory:
             subprocess.run([sys.executable, '-B', str(root/'tools/tracker_dd4hep/export.py'), '--output', directory], check=True, capture_output=True)
             actual = json.loads((Path(directory)/'expected.json').read_text())
-            # Preserve established strip counts while integrating the added
-            # donor2 disk pair and the source-level balanced placement config.
+            # Pixel and long strips stay fixed; DES043 adds432 short-strip planes.
             self.assertEqual(actual['pixel_config'], 'detector/config/pixel-detector-balanced.json')
             self.assertEqual({c['name']:c['counts'].get('sensitive') for c in actual['components']},
-                             dict(beam=None,pixel=12410,short_barrel=8064,short_endcap=4320,long_barrel=13968,long_endcap=7488))
+                             dict(beam=None,pixel=12410,short_barrel=8064,short_endcap=4752,long_barrel=13968,long_endcap=7488))
             xml = ET.parse(Path(directory)/'tracker.xml').getroot()
             self.assertEqual(len(actual['strixel_readout_amendment']), 2)
             for name in ('ShortStripBarrelHits', 'ShortStripEndcapHits'):
@@ -29,7 +28,15 @@ class IntegrationGuards(unittest.TestCase):
                 self.assertEqual(float(seg.get('offset_y')[:-3]), 1.)
             for key, filename in [('short_barrel','short-strip-barrel.xml'), ('short_endcap','short-strip-endcap.xml')]:
                 source = ET.parse(Path(directory)/'components'/key/filename).getroot()
-                self.assertEqual(float(source.find('./readouts/readout/segmentation').get('grid_size_y')[:-3]), .5)
+                self.assertEqual(float(source.find('./readouts/readout/segmentation').get('grid_size_y')[:-3]), 2.)
+            sensors=[e for e in actual['entities'] if e['role']=='sensitive']
+            self.assertEqual(len(sensors),46682)
+            from export_gen3 import selected_inventory
+            self.assertEqual(selected_inventory(actual),(46682,54))
+            self.assertEqual(len({(e['ids']['system'],e['ids']['layer']) for e in sensors}),54)
+            self.assertEqual(len(actual['shape_probes']),180288)
+            self.assertEqual(actual['service_reconciliation'][0]['route_totals']['power_feeds'],1008)
+            self.assertFalse(any(e['name'].startswith(('short_barrel_trunk_', 'short_barrel_collector_', 'short_endcap_trunk_', 'short_endcap_fan_')) for e in actual['entities']))
             self.assertEqual(actual['config']['pixel_passive_aperture_mm'],28.8)
             self.assertEqual(actual['beam']['config']['inner_radius_mm'],27)
             self.assertEqual(actual['beam']['config']['wall_mm'],0.8)
@@ -48,6 +55,30 @@ class IntegrationGuards(unittest.TestCase):
             select_strixel_readout(doc, selection)
         with self.assertRaisesRegex(ValueError, 'Unsupported strixel baseline'):
             select_strixel_readout(doc, dict(selection, pitch_mm=[.075,1.5]))
+
+    def test_already_selected_pitch_is_idempotent_and_offset_is_guarded(self):
+        selection=dict(classification='NODD DESIGN CHOICE', pitch_mm=[.075,2.], previous_pitch_mm=[.075,.5])
+        doc=ET.fromstring('<lccdd><readouts/></lccdd>')
+        for name in ('ShortStripBarrelHits','ShortStripEndcapHits'):
+            node=ET.SubElement(doc.find('readouts'),'readout',name=name)
+            ET.SubElement(node,'segmentation',type='CartesianGridXY',grid_size_x='.075*mm',grid_size_y='2*mm',offset_x='.0375*mm',offset_y='1*mm')
+        select_strixel_readout(doc,selection)
+        before=ET.tostring(doc);select_strixel_readout(doc,selection)
+        self.assertEqual(ET.tostring(doc),before)
+        doc.find('.//segmentation').set('offset_y','.25*mm')
+        with self.assertRaisesRegex(ValueError,'Historical strixel input changed'):select_strixel_readout(doc,selection)
+
+    def test_historical_short_strip_control_retains_old_hardware(self):
+        root=Path(__file__).resolve().parents[2]
+        with tempfile.TemporaryDirectory() as directory:
+            subprocess.run([sys.executable,'-B',str(root/'tools/tracker_dd4hep/export.py'),'--historical-short-strips','--output',directory],check=True,capture_output=True)
+            actual=json.loads((Path(directory)/'expected.json').read_text())
+            self.assertEqual(sum(e['role']=='sensitive' for e in actual['entities']),46250)
+            from export_gen3 import selected_inventory
+            self.assertEqual(selected_inventory(actual),(46250,54))
+            self.assertIsNone(actual['short_strip_integration'])
+            self.assertEqual(actual['shape_probes'],[])
+            self.assertEqual(next(c for c in actual['components'] if c['name']=='short_endcap')['counts']['sensitive'],4320)
 
     def test_all_material_attributes_are_translated(self):
         node = ET.fromstring(

@@ -20,7 +20,7 @@ class ProjectRecordTests(unittest.TestCase):
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name) / 'repo'
         self.root.mkdir()
-        for directory in ('project','docs','reference','logs','tools','skills','detector','prototypes','software'):
+        for directory in ('project','docs','reference','logs','interactions','tools','skills','detector','prototypes','software'):
             # Software deliverables are tracked alongside tools; installed
             # environments and third-party source checkouts are not fixtures.
             ignore = shutil.ignore_patterns('build', 'submodules') if directory == 'software' else None

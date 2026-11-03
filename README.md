@@ -19,11 +19,15 @@ The [DES039 common tungsten/quartz forward calorimeter](docs/design/DES-039-comm
 **[Open the layout main page](docs/layouts/README.md)** for both current candidates,
 its R–Z view and concise links to component decisions and pull requests.
 
-[![LAYOUT-001: tracker, inner 3 T solenoid, Si–W ECAL and common FCAL proposal](docs/layouts/figures/LAYOUT-001-FCAL-rz.png)](docs/layouts/LAYOUT-001-tracker-3t-siw.md)
+[![LAYOUT-001: tracker, inner 3 T solenoid, Si–W ECAL and common FCAL proposal](docs/layouts/figures/LAYOUT-001-DES043-rz.png)](docs/layouts/LAYOUT-001-tracker-3t-siw.md)
 
 The selected candidate combines the maintained tracker with proposed solenoid
 and ECAL components. Open prototypes and remaining systems are identified on the
 main page; the combined layout has no engineering sign-off.
+
+The [DES043 short-strip working baseline](docs/design/DES-043-short-strip-service-redesign.md)
+extends active endcap coverage through 703 mm (704.9 mm finite corner), narrows the shared service tray and
+quantifies conditional cable/material savings. The redesigned modules, cooling and shared services are integrated in the maintained DD4hep working prototype, with [full native and ACTS checks](docs/validation/DES-043/integration/README.md). ASIC/cable and thermal/hydraulic qualification remain open.
 
 ## Current pixel baseline
 
@@ -33,7 +37,7 @@ The standard combined build uses the expert-selected
 31.5, 57, 96 and 182 mm, with ten mirrored endcap stations including the
 new donor-2 disk at |z|=950 mm. Module types and local structures are preserved.
 The pixel system contains 5,666 modules and 12,410 sensitive chip areas;
-the full tracker contains 46,250 sensitive planes in 54 signed logical groups.
+with the integrated DES043 short strips, the full tracker contains 46,682 sensitive planes in 54 signed logical groups.
 
 Use the [build and validation workflow](tools/pixel_detector_dd4hep/README.md).
 The previous trimmed and quad-only configurations remain explicit controls.
@@ -41,7 +45,7 @@ The [selection record](docs/design/inputs/DES-040-balanced-selection.json)
 records expert approval and implementation authorization. The design remains
 DRAFT, with service capacity, thermal qualification and coverage limits open.
 The [dated October 29 full-tracker TDR review source](docs/publication/tracker-baseline-2026-10-29/README.md)
-updates the pixel chapter; it is a repository-owned copy of the current TDR.
+updates the pixel chapter and remains a frozen repository-owned review edition. The [current TDR publication receipt](docs/publication/short-strip-services-2026-11-03/README.md) records the integrated short-strip update published on Overleaf.
 
 The [TDR outline](docs/publication/TDR-outline.md) and
 [publication plan](docs/publication/publication-plan.md) organize chapters,
@@ -55,7 +59,7 @@ material and pitch/√12 momentum-resolution estimates versus eta.
 The [full tracker reconstruction prototype](docs/validation/tracker-reconstruction/results.md)
 uses Fatras, frozen Gaussian digitization, native ACTS GBTS and CKF on this
 baseline, with paired tuning and independent single-muon validation at
-pT 1, 5, 10 and 100 GeV in constant 3 T.
+pT 1, 5, 10 and 100 GeV in constant 3 T. These dated performance campaigns use the preceding physical geometry; they do not validate the DES043 redesign.
 The [species and transport comparison](docs/validation/tracker-reconstruction-species/results.md)
 adds Fatras electrons and Geant4 muons, electrons and charged pions with the same
 frozen GBTS and Gaussian response. It retains full pull distributions and the
@@ -70,8 +74,7 @@ tracking and separate conditional power/cable-space estimates. Its
 the four historical comparison configurations reproducible.
 The [human-selected 75 µm × 2 mm strixel baseline](docs/validation/DES-042/baseline-selection.md)
 is integrated into the combined tracker in [PR109](https://github.com/asalzburger/nodd/pull/109).
-It has 380,436,480 strixel channels; calibrated response and physical service
-redesign remain open. The linked PR107 performance reports retain their dated 0.5 mm response.
+That selection had 380,436,480 strixel channels on the preceding physical layout. The expanded DES043 layout has 393,707,520 channels (12,816 modules × 30,720). Its [combined native/module/service evidence](docs/validation/DES-043/integration/README.md) and [current layouts](docs/layouts/README.md) are distinct from the earlier reconstruction campaigns. Calibrated response and hardware/service qualification remain open; PR107 retains its dated 0.5 mm response.
 
 ## Agent roles
 
