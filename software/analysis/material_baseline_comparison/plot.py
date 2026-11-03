@@ -74,12 +74,6 @@ def main():
                 plot(hist(old['total'], 'Old total'), ax=ax,
                      style=HistogramStyle.as_line(line_color='#222222',
                          line_style=':', line_width=1.9))
-                short = {'mean': (np.array(old['short_strip_sensitive']['mean'])+
-                                  np.array(old['short_strip_nonsensitive']['mean'])).tolist(),
-                         'variance': np.zeros(80).tolist()}
-                plot(hist(short, 'Old short strips'), ax=ax,
-                     style=HistogramStyle.as_line(line_color=COLORS['short_strip'],
-                         line_style=':', line_width=2.1))
             plot(hist(reco, 'ACTS total'), ax=ax, style=marker_style)
             maximum = max(max(b['geant4']['quantities'][q]['total']['mean'])
                           for b in data['baselines'].values())
@@ -117,10 +111,8 @@ def main():
         handles.append(Line2D([], [], marker='o', linestyle='none', color='black',
                               markersize=4, label='ACTS total ± ray SEM'))
         if name == 'current':
-            handles.extend([Line2D([], [], color='#222222', linestyle=':', linewidth=1.9,
-                                   label='Old Geant4 total'),
-                            Line2D([], [], color=COLORS['short_strip'], linestyle=':', linewidth=2.1,
-                                   label='Old short strips\n(sensitive + passive)')])
+            handles.append(Line2D([], [], color='#222222', linestyle=':', linewidth=1.9,
+                                  label='Old Geant4 total'))
         fig.legend(handles=handles, loc='upper left', bbox_to_anchor=(.805, .84),
                    frameon=False, fontsize=10, labelspacing=1.15, handlelength=2.1)
         fig.text(.075, .063, 'Means include zero contributions. Passive opacity: 50%. '

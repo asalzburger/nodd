@@ -156,3 +156,7 @@ Preparation first rejected directory inputs; expanded to exact regular Git files
 ## Review correction
 
 PhysVal identified that independence from the old training sample cannot be established without its original seed. Changed old figure header to “validation rays” and the opening caption to “ACTS validation total”; retained documented current seed43 vs228 generation and conditional-on-map uncertainty caveat. Re-rendered figures and updated hashes; numerical/binwise/map data unchanged.
+
+## Final plot steering
+
+User: “remove the old short strip dotted line from the new base-line, only keep the old-style Geant4 total”. Removed the old short-strip reference and its legend entry from the current figure; retained the dotted old total. Re-rendered PNG/PDF/SVG and updated hashes. Material model, numerical summaries and component stack inputs unchanged.

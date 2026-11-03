@@ -20,9 +20,9 @@ the fixed beam-pipe, pixel, short-strip and long-strip colors; sensitive materia
 is opaque and passive material has alpha 0.5. Sensitivity follows the DD4hep
 volume flag, so ASIC/guard silicon remains passive. The beam pipe has no
 sensitive component. Black markers are the ACTS validation total,
-with ACTS/total-Geant4 below. On the current figure, dotted curves show the old
-Geant4 total and the old short-strip contribution (sensitive plus passive,
-drawn from zero rather than as a cumulative stack boundary).
+with ACTS/total-Geant4 below. On the current figure, the dotted curve shows the
+old Geant4 total. The user requested removal of the old short-strip reference
+from the final figure.
 
 The common support is **−4 < η < 4, signed bins of width 0.1**. The old scan and
 old ACTS validation originally cover ±4.5; selecting whole aligned bins retains
