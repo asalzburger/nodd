@@ -18,7 +18,7 @@ COLOURS={'matrix':'#bf6a50','case':'#b63e4c','fanout':'#d8b4e2','sensors':'#356d
 # README.md#detector-component-colors governs subsystem and legend colors.
 COMPONENT_COLOURS = {
     'beampipe': '#ffcc66', 'pixel': '#0066cc', 'short_strip': '#ff9933',
-    'long_strip': '#009999', 'ecal': '#cccc00', 'hcal': '#663311',
+    'long_strip': '#009999', 'ecal': '#cccc00', 'hcal': '#cc6600',
     'fcal': '#99ccff', 'muon': '#0066ff', 'magnets': '#999999',
 }
 FCAL_HATCHES = {'sampling': '', 'fanout': '///', 'sensors': '..',

@@ -16,7 +16,8 @@ token usage and an Interactions tab for browsing PR conversations. See the
 
 Use this fixed palette for all new or regenerated detector illustrations and
 component-resolved plots in the write-up, documentation and validation reports.
-The colors are a project style choice specified by the user on 2026-11-03.
+The colors are a project style choice specified by the user on 2026-11-03,
+including the HCAL update and permission to use lighter shades for substructure.
 
 | Component | Hex color |
 | --- | --- |
@@ -25,7 +26,7 @@ The colors are a project style choice specified by the user on 2026-11-03.
 | Short strips | `#ff9933` |
 | Long strips | `#009999` |
 | ECAL | `#cccc00` |
-| HCAL | `#663311` |
+| HCAL | `#cc6600` |
 | FCAL | `#99ccff` |
 | Muons | `#0066ff` |
 | Magnet system | `#999999` |
@@ -36,8 +37,10 @@ The colors are a project style choice specified by the user on 2026-11-03.
   according to this table.
 - Keep the same assignment across figures, including plots showing only a
   subset of components; do not select colors by plotting order.
-- Distinguish subcomponents or compared configurations with hatching, line
-  styles or marker shapes while retaining the subsystem color.
+- Substructure within a subsystem may use lighter versions of its assigned
+  color. Keep the base color for the subsystem as a whole and its main legend
+  entry; label any lighter shades used for subcomponents. Hatching, line styles
+  or marker shapes may also distinguish details or compared configurations.
 - Label components in the figure or legend so the meaning remains clear
   independently of color.
 

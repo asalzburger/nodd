@@ -80,3 +80,13 @@ narrative. PR112 references both sessions without copying or allocating counters
 Prepare the PR for human review and merge after the final current-head CI gates.
 Final usage for this active follow-up can only be recorded after a closed boundary
 is observed in a later turn.
+
+## Accounting correction — 2026-11-03
+
+After this turn completed, the HCAL follow-up recovered and verified its exact
+closed boundary: 14,664,601 input + 37,576 output = 14,702,177 tokens, counted
+once here. Cached input 14,578,944 and reasoning output 15,302 are subsets.
+The retained usage-only inventory is USAGE-2026-11-03-pr112-hcal-accounting.json.
+The earlier active-turn exclusion describes the original live closeout; model
+and client version remain unknown. The new HCAL turn is a separate account.
+All hosted PR checks passed on 6745ffd before the later color revision.
