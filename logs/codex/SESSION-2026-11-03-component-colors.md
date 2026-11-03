@@ -73,3 +73,20 @@ interaction record retains available request/outcome excerpts, primary-agent
 role and tool provenance with this session as the canonical account reference.
 Final active-turn token accounting remains unavailable and can be added only
 after an observed closed boundary.
+
+## Accounting and scope correction — 2026-11-03
+
+The follow-up user request asks for recolored front-page envelope drawings,
+complete available accounting and merge preparation. The exact original completed
+turn was verified with the Codex app and usage-only local recovery. Imported
+**2,306,233 input + 13,132 output = 2,319,365 tokens** once into this canonical
+owner. Cached input 2,226,048 and reasoning output 2,766 are subsets. The retained
+usage-only inventory records 29 requests for this completed turn; models/client
+version remain unknown. The current envelope follow-up remains active and is
+excluded. The earlier unavailable-counter statements describe the original live
+closeout and are not replaced with estimates.
+
+Hosted project validation rejected the writing-guide edit under the infrastructure
+path policy. The follow-up restores that file to its base revision; the rules stay
+in README and mandatory AGENTS guidance. No CI exemptions or scientific tracking
+entries are introduced. The palette and envelope rendering stay in PR112.
