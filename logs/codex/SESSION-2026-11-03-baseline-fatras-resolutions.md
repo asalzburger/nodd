@@ -100,3 +100,19 @@ User requestsFatras singlemuon truth-tracking parameterresolutions at1/5/10/100,
 ## Native source gate and pilots
 
 SoftEng completed3owned nativeworkflow files with4passingpuregates. ActualROOT6.40.04/Python3.14.5,observer/portalpybind3.0.4/ABI11 verified; old/currentmaps/compact/material/allfivefactories matchreferenceprovenance, oldrawdigitization/trainingtable identity checked.100eventoldpT5pilot:100selected/attempted/fitted,1465measurements,0invalidcovariance.100eventcurrentmeasurement-onlytrainingpilot:100generated/1441measurements. Fullnewcalibration/performancewaitedforcoordinator sourcecommit; precommitpilots identify executedbytes separately. Calibrationanalysis Python3.11.15/pandas2.3.3/uproot5.7.7/numpy2.4.6/matplotlib3.11.2 verified; unrootedvenv lacks pandas, so existingtruthanalysisvenvselected withoutinstalls.
+
+## Full current calibration and first performance reference
+
+Nativecurrentindependentmeasurement-only50ktraining completed:741888measurements,55.51s. Maintainedcalibration covers54volumes/94measuredcoordinatepairs,107cluster/overflowgroups (3341..48801entries); tableSHA69adad091d9f98986b2a82c0c1f204d64bb2ebaaff4de2ee8f7ee6aabaae2ecc.100eventcalibratedcurrentpT5control:100fits/1543measurements/0invalidcovariance. RootseparatelyreadfulloldpT1case:20kgenerated/19992finitefits/0wrongcharge,all input/output/error identities pass. Generatedevent/eta/phi/pT/q andallfivefitparameter branches exactlymatchpreviousoldFatras1GeV reference forfull20krows. A harmless nativeROOTemptyhistogram-fit warning appeared in smallpilot; actual KFcounts100/100 retained. Full sourcefixedat326fed57; rootanalyticsfiles independent anduntrackeduntilready.
+
+## First paired numerical reduction
+
+FullpT1pair read independently:20kgenerated each,old19992/current19997 selected/fitted,0nativeinvalidcovariance. Exactgeneratedevent/eta/phi/pT/charge pairingverified; eachcasegeometry/map/source identities andeveryobservedmeasurement covariance againstfrozencalibrationpass. Partialdiagnosticreductioninignoredbuild generated400bootstrapcorewidths/ratios andfirst6panelplot. Oldcentral|eta|<0.5 d0=52.9164um,z0=61.7539um,relativepTwidth0.543368% reproducespublishedreference. Currentcentralvalues51.1314um,61.7038um,0.611795%:changesmixed,notallparametersimprove. Fullfinite tails/SD/RMS/charge/accounting retained. Rootpartialsourceuncommitted atthisstage explicitlydiagnostic; finalanalysiswillrequirecommittedsourcefingerprints.
+
+## Reduction source gate and assignment activation
+
+Root's four statistical/contract tests and SoftEng's four native-contract tests pass (8 total) in the existing analysis interpreter. An initial invocation with system Python failed because awkward is unavailable there; rerun with the verified existing analysis environment passed. Root independently validates each native source, gun/field/readout contract, compact/material/five factories/map identity and every written measured covariance; the generic reader's absent-variant historical-reference shortcut is explicitly replaced. Four completed cases (old/current pT1 and5) reduce successfully with exact generated-event pairing and all-coordinate error audits.
+
+The early PhysVal assignment was prepared/recorded but initial send_message did not activate the completed existing agent. The coordinator discovered this via live status and activated it explicitly with followup_task at21:57UTC; it is now assessing pinned methods and separately identified execution revision326fed57. Final exact-results review remains required. No prior independent early assessment is claimed.
+
+Root adds binwise reducer, plotter, compact retention tool and reproduction instructions. Native executing sources stay frozen at326fed57 while root analysis receives its own committed source identity. All ROOT/events/caches remain under ignored build.
