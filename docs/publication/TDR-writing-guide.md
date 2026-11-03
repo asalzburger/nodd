@@ -1,8 +1,8 @@
 # TDR writing guide
 
 - ID: PUB-WRITING-2026-10-09
-- Updated: 2026-10-09
-- Basis: explicit human editorial direction and the authored TDR revision `279d882179e93b56e522fd6b390c965f6ab18e84`.
+- Updated: 2026-11-03
+- Basis: explicit human editorial direction, the authored TDR revision `279d882179e93b56e522fd6b390c965f6ab18e84` and the human-specified component palette of 2026-11-03.
 
 The TDR describes the current detector baseline at the accuracy needed for full
 simulation. Organize each subsystem around what a reader needs to reproduce its
@@ -28,6 +28,10 @@ sensitive geometry, passive material and service distribution.
 6. Use figures to explain distinct geometry or material features. Put numerical
    detail in a table rather than a long caption. Combine complementary views
    and avoid repeatedly illustrating the same service handoff.
+7. Apply the [detector component colors](../../README.md#detector-component-colors)
+   to all new or regenerated component illustrations and plots, including stacked
+   histograms and their legends. Keep colors consistent across figures and use
+   labels, hatching or line styles to distinguish details within a subsystem.
 
 Public literature supports technology claims. Internal revisions, producer and
 artifact hashes remain in provenance manifests. Historical checks, including
