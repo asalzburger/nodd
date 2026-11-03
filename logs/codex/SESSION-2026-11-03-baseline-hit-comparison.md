@@ -26,7 +26,7 @@ Recipes and compactmodel/binwisecontrol evidence under software/analysis/hit_bas
 
 ## Token accounting and follow-up
 
-Exact client-reported root/specialist token counters unavailable. Usage remains empty/unknown, not zero. No historicalusage duplicated. Final exact-revision PhysVal assessment of code/figures/nativecontrols is pending; no engineering/reconstruction acceptance inferred.
+Exact client-reported root/specialist token counters unavailable. Usage remains empty/unknown, not zero. No historicalusage duplicated. Final PhysVal assessment completed at0aec2ef08553a2fbc24867a7cff4fd4ada0b67ae with no material delivery blocker; no engineering/reconstruction acceptance inferred.
 
 ## Scope and initial approach
 
@@ -54,3 +54,69 @@ User requests old/new #hits versus eta, stacked+totalmarkers and individualmarke
   "completion": "Identify material blockers and minimum controls; return actualread-only checks and limits."
 }
 ```
+
+## Assignment HITCOMPARE-PhysVal-02
+
+```json
+{
+  "id": "HITCOMPARE-PhysVal-02",
+  "role": "PhysVal",
+  "input_revision": "0aec2ef08553a2fbc24867a7cff4fd4ada0b67ae",
+  "inputs": [
+    "docs/validation/baseline-hit-comparison/README.md",
+    "docs/validation/baseline-hit-comparison/current-box-control.json",
+    "docs/validation/baseline-hit-comparison/figures/.gitignore",
+    "docs/validation/baseline-hit-comparison/figures/hits-markers.pdf",
+    "docs/validation/baseline-hit-comparison/figures/hits-markers.png",
+    "docs/validation/baseline-hit-comparison/figures/hits-markers.svg",
+    "docs/validation/baseline-hit-comparison/figures/hits-stacked.pdf",
+    "docs/validation/baseline-hit-comparison/figures/hits-stacked.png",
+    "docs/validation/baseline-hit-comparison/figures/hits-stacked.svg",
+    "docs/validation/baseline-hit-comparison/figures/plot-report.json",
+    "docs/validation/baseline-hit-comparison/observer-noninterference.json",
+    "docs/validation/baseline-hit-comparison/old-box-control.json",
+    "docs/validation/baseline-hit-comparison/old-native-export-summary.json",
+    "docs/validation/baseline-hit-comparison/profiles.json",
+    "docs/validation/baseline-hit-comparison/provenance.json",
+    "docs/validation/baseline-hit-comparison/runs.json",
+    "software/analysis/hit_baseline_comparison/HitCounter.C",
+    "software/analysis/hit_baseline_comparison/README.md",
+    "software/analysis/hit_baseline_comparison/check_boxes.py",
+    "software/analysis/hit_baseline_comparison/check_observer.py",
+    "software/analysis/hit_baseline_comparison/plot.py",
+    "software/analysis/hit_baseline_comparison/reduce.py",
+    "software/analysis/hit_baseline_comparison/test_profiles.py",
+    "software/analysis/hit_baseline_comparison/test_retained.py",
+    "software/running/nodd_geantino_recording.py",
+    "README.md",
+    "docs/validation/baseline-material-comparison/classification-provenance.json",
+    "docs/validation/geantino-material-profiles/provenance.json"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Final bounded independent assessment at exact0aec2ef08553a2fbc24867a7cff4fd4ada0b67ae in /Users/salzburg/Documents/ChatGPT/agentic-detector/nodd-baseline-material-comparison. Inspect primary binwise profiles/nativecontrols and bothPNGs beforeauthorconclusions. Userwanted old/new #hitsvs eta, stacked+blacktotalmarkers and individualcomponentmarkers+blacktotalmarkers. Methodchangedafteryourfinding:directliveG4prestepfulltouchablephysicalpath+copyID positivepaths, DDsensitiveuniqueLogicalname/materialmatching+fullDD/G4inventory45646/46682. OriginalACTSMaterialSteppingAction forwardedfirst viaupstreamSteppingActionList.300observerraysall32materialbranches exactlyequal priorcurrentcampaign. Fullmatched100krays eachseed228 eta\u00b14, origin,fullphi,one thread,persistentlifecycle1run/noabort; checkrawCSV/metrics underignored build/hit-comparison/{old,current} and 300samplecurrent-observer-smoke asneeded withexisting analysisPython. IndependentnativeGen3 finitebox256rays old/current matches;plane-onlycontrol12/13differencesexplicitfiniteedgegrazes. Thisisvolume crossings,notACTSplanesorresponsehits. Bothbaselinesfreshgenerated; originaloldmaterialseedunknownnotused. Allnativecasescompletedexit0. Dedupbyperraysetfullphysicalindex; nosplitpositiveorzero-sensitive observedinactualsamples, noindependenttouchablemockfixtureclaimed. Checkaccounting,zeros,componentcovariance/totalSEM,exactraypairing,scopeclaims/palette/markers,originalmaterialsourceidentity andliveobservernoninterference. Youmayrun5focusedoffline tests and readnativeCSV/ROOT/JSON withsiblingnodd-unrootedPython3.11. DoNOT rerunsimulations/build/install/edit/delegate/publish. Actualsource/runtimeassessedlimitedtopinnedsource/retainedresults;reportmaterialdeliveryblockersorprecisequalifications,notengineeringacceptance. Keepbounded;rootonlyeditslogs/trackingduringreview.",
+  "deliverable": "Concise exact-source scientific/source/figure review withactualchecks,findings,limits and materialblockers toqualifieddelivery.",
+  "completion": "Assess finaltwofiguresandcount/evidence/identitymethod and returnboundedfindings;nohumanapproval."
+}
+```
+
+## Final identity/storage checks
+
+ACTS source rechecked clean at355ea68493b326956756c9386d2fd9eaf9328568. Both original top-level storage materialROOT hashes remain unchanged. Complete new native processes and fresh oldGen3 export exited0. New task staged/history payload inspection excludes fullCSV/ROOT/nativegeometry/cachefiles. session_log.py summary executed; current task stillhas no exactclient counters.
+
+## Final assessment and closeout
+
+HITCOMPARE-PhysVal-02 at0aec2ef08553a2fbc24867a7cff4fd4ada0b67ae found
+no material blocker to qualifieddelivery. Independently checked allraw100k
+CSV/metrics percase,80bin means/zeros/covariances/variances within1e-13,
+exactpairing,fullgeometry/input/source hashes,300×32materialbranchequality,
+256finiteboxrays perbaseline,5tests and bothPNG visuals. No nativejobs rerun,
+no filesedited, nohumanacceptance. Limitsofboundedcontrols and unexercised
+native splitpositive/zero-sensitive fixture remain explicit. Curated assessment
+retained in docs/validation/baseline-hit-comparison/review.md.
+
+Project/session validations and usage summary executed. This task has no exact
+client-reported tokenobservations, so coordinator/specialist input/output remain
+unknown. New taskhistory28stagedfiles/27blobs totals1295067bytes,largest273275byteSVG;
+noCSV/ROOT/nativegeometry/cachepayload committed. Figures/data/recipe complete,
+originalstorageinputs unchanged. No PR,push,publication or externalmessage requested/performed.

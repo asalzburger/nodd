@@ -115,3 +115,8 @@ The ACTS Spack preflight reports changed setup/lock fingerprints and unverified
 full-source registry records; actual DD4hep/Geant4 imports, source headers,
 geometry construction and these complete native runs were verified separately.
 No shared dependency install, geometry change or human acceptance occurred.
+
+The [separate PhysVal assessment](review.md) independently reproduced both full
+raw hit-table reductions, observer equality and bounded box controls at
+`0aec2ef08553a2fbc24867a7cff4fd4ada0b67ae`, with no material delivery blocker.
+It did not rerun native simulations or grant human acceptance.
