@@ -11,10 +11,19 @@ os.environ.setdefault('XDG_CACHE_HOME','/tmp/nodd-fcal-cache')
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-from matplotlib.patches import Rectangle, Circle
+from matplotlib.patches import Rectangle, Circle, Patch
 from model import ROOT, HERE, build, collar_config, sha
 
 COLOURS={'matrix':'#bf6a50','case':'#b63e4c','fanout':'#d8b4e2','sensors':'#356dad','electronics_cooling':'#6ab7c5','service_interface':'#bddad9','front':'#a4aeb7','rear':'#a4aeb7','sampling':'#bf6a50'}
+# README.md#detector-component-colors governs subsystem and legend colors.
+COMPONENT_COLOURS = {
+    'beampipe': '#ffcc66', 'pixel': '#0066cc', 'short_strip': '#ff9933',
+    'long_strip': '#009999', 'ecal': '#cccc00', 'hcal': '#cc6600',
+    'fcal': '#99ccff', 'muon': '#0066ff', 'magnets': '#999999',
+}
+FCAL_HATCHES = {'sampling': '', 'fanout': '///', 'sensors': '..',
+                'electronics_cooling': '\\\\', 'service_interface': '++',
+                'front': 'xx', 'rear': 'xx'}
 plt.rcParams.update({'font.family':'DejaVu Sans','font.size':10,'svg.fonttype':'none','svg.hashsalt':'DES039','axes.spines.top':False,'axes.spines.right':False,'savefig.facecolor':'white'})
 
 
@@ -36,34 +45,37 @@ def rect(ax,z0,z1,r0,r1,colour,side=1,**kwargs):
 def base_layout(ax,context,full=True):
     h,e,s=context['hcal'],context['ecal'],context['solenoid']
     for side in (-1,1):
-        rect(ax,0,h['barrel_half_length_m'],h['barrel_front_apothem_m'],h['barrel_outer_apothem_m'],'#e5e8ec',side,edgecolor='#8491a1',linestyle='--')
-        rect(ax,h['endcap_front_abs_z_m'],h['endcap_back_abs_z_m'],h['endcap_inner_apothem_m'],h['endcap_outer_apothem_m'],'#e5e8ec',side,edgecolor='#8491a1',linestyle='--')
+        rect(ax,0,h['barrel_half_length_m'],h['barrel_front_apothem_m'],h['barrel_outer_apothem_m'],COMPONENT_COLOURS['hcal'],side,edgecolor='#333333',linestyle='--')
+        rect(ax,h['endcap_front_abs_z_m'],h['endcap_back_abs_z_m'],h['endcap_inner_apothem_m'],h['endcap_outer_apothem_m'],COMPONENT_COLOURS['hcal'],side,edgecolor='#333333',linestyle='--')
         if 'barrel_front_apothem_m' in e:
-            rect(ax,0,e['barrel_flange_half_length_m'],e['barrel_front_apothem_m'],e['barrel_outer_apothem_m'],'#e9b551',side,edgecolor='#b17c24')
-            rect(ax,e['endcap_front_abs_z_m'],e['endcap_back_abs_z_m'],e['endcap_inner_apothem_m'],e['endcap_outer_apothem_m'],'#e9b551',side,edgecolor='#b17c24')
+            rect(ax,0,e['barrel_flange_half_length_m'],e['barrel_front_apothem_m'],e['barrel_outer_apothem_m'],COMPONENT_COLOURS['ecal'],side,edgecolor='#333333')
+            rect(ax,e['endcap_front_abs_z_m'],e['endcap_back_abs_z_m'],e['endcap_inner_apothem_m'],e['endcap_outer_apothem_m'],COMPONENT_COLOURS['ecal'],side,edgecolor='#333333')
         else:
-            rect(ax,0,e.get('barrel_half_length_m',4.1),e.get('barrel_inner_radius_m',2.0738),e.get('barrel_outer_radius_m',2.83),'#f4dab0',side,edgecolor='#bc985b')
-            rect(ax,0,e.get('barrel_active_half_length_m',3.91),e['barrel_sampling_inner_radius_m'],e['barrel_sampling_outer_radius_m'],'#e9b551',side)
-            rect(ax,e['endcap_front_abs_z_m'],e['endcap_back_abs_z_m'],e['endcap_inner_radius_m'],e['endcap_outer_radius_m'],'#f4dab0',side,edgecolor='#bc985b')
+            rect(ax,0,e.get('barrel_half_length_m',4.1),e.get('barrel_inner_radius_m',2.0738),e.get('barrel_outer_radius_m',2.83),COMPONENT_COLOURS['ecal'],side,edgecolor='#333333',hatch='..')
+            rect(ax,0,e.get('barrel_active_half_length_m',3.91),e['barrel_sampling_inner_radius_m'],e['barrel_sampling_outer_radius_m'],COMPONENT_COLOURS['ecal'],side)
+            rect(ax,e['endcap_front_abs_z_m'],e['endcap_back_abs_z_m'],e['endcap_inner_radius_m'],e['endcap_outer_radius_m'],COMPONENT_COLOURS['ecal'],side,edgecolor='#333333',hatch='..')
             for lo,hi in e['endcap_wheels_m']:
-                rect(ax,e['endcap_sampling_front_abs_z_m'],e['endcap_sampling_back_abs_z_m'],lo,hi,'#e9b551',side)
+                rect(ax,e['endcap_sampling_front_abs_z_m'],e['endcap_sampling_back_abs_z_m'],lo,hi,COMPONENT_COLOURS['ecal'],side)
     if full:
         for side in (-1,1):
-            rect(ax,0,s['vessel_half_length_m'],s['vessel_inner_radius_m'],s['vessel_outer_radius_m'],'#bc9bdb',side,edgecolor='#82629d',hatch='///',alpha=.8)
+            rect(ax,0,s['vessel_half_length_m'],s['vessel_inner_radius_m'],s['vessel_outer_radius_m'],COMPONENT_COLOURS['magnets'],side,edgecolor='#333333',hatch='///')
         for group in context['tracker']['sensitive_groups']:
-            colour='#8552a5' if group['component']=='pixel' else ('#367bad' if group['component'].startswith('short') else '#419f80')
-            ax.add_patch(Rectangle((group['z_min_m'],group['r_min_m']),group['z_max_m']-group['z_min_m'],group['r_max_m']-group['r_min_m'],facecolor=colour,alpha=.8))
-        ax.plot([-4,4],[.0278,.0278],color='#465468',lw=1)
+            subsystem={'pixel':'pixel','short_barrel':'short_strip',
+                       'short_endcap':'short_strip','long_barrel':'long_strip',
+                       'long_endcap':'long_strip'}[group['component']]
+            colour=COMPONENT_COLOURS[subsystem]
+            ax.add_patch(Rectangle((group['z_min_m'],group['r_min_m']),group['z_max_m']-group['z_min_m'],group['r_max_m']-group['r_min_m'],facecolor=colour))
+        ax.plot([-4,4],[.0278,.0278],color=COMPONENT_COLOURS['beampipe'],lw=1.5)
     ax.set_xlabel('z [m]');ax.set_ylabel('r [m]');ax.grid(alpha=.17);ax.set_axisbelow(True)
 
 
 def module_rects(ax,model,front,side=1):
     c=model['config'];m=c['module']
-    rect(ax,front/1000,(front+m['length_mm'])/1000,m['bore_radius_mm']/1000,m['outer_radius_mm']/1000,'#fff0ed',side,edgecolor=COLOURS['case'],lw=1.2)
+    rect(ax,front/1000,(front+m['length_mm'])/1000,m['bore_radius_mm']/1000,m['outer_radius_mm']/1000,COMPONENT_COLOURS['fcal'],side,edgecolor='#333333',lw=1.2)
     for zone,(a,b) in model['zones_mm'].items():
         lo,hi=m['sampling_inner_radius_mm'],m['sampling_outer_radius_mm']
         if zone!='sampling':lo,hi=m['bore_radius_mm']+5,m['rear_shell_inner_mm']
-        rect(ax,(front+a)/1000,(front+b)/1000,lo/1000,hi/1000,COLOURS[zone],side,alpha=.94)
+        rect(ax,(front+a)/1000,(front+b)/1000,lo/1000,hi/1000,COMPONENT_COLOURS['fcal'],side,edgecolor='#555555',lw=.35,hatch=FCAL_HATCHES[zone])
 
 
 def layout_figure(name,core,collar,context,report,suffix="FCAL"):
@@ -74,25 +86,30 @@ def layout_figure(name,core,collar,context,report,suffix="FCAL"):
         module_rects(a,core,fr,side)
         if name=='LAYOUT-002':module_rects(a,collar,4400.,side)
         route=report['layouts'][name]['service_route'];z0,z1=route['radial_handoff_abs_z_mm']
-        rect(a,z0/1000,z1/1000,.29,route['handoff_radius_mm']/1000,'#b7e0e6',side,edgecolor='#4a919e',alpha=.8,hatch='//')
+        rect(a,z0/1000,z1/1000,.29,route['handoff_radius_mm']/1000,COMPONENT_COLOURS['fcal'],side,edgecolor='#555555',hatch='//')
     a.set_xlim(-8.35,8.35);a.set_ylim(0,5.15);a.set_aspect('equal',adjustable='box')
     a.set_title(name+' · '+('Si–W ECAL' if name=='LAYOUT-001' else 'LAr ECAL')+' + common tungsten/quartz FCAL',loc='left',fontsize=16,weight='bold')
-    a.text(.5,4.7,'HCAL envelope',ha='center',color='#596779')
-    a.text(0,1.,'Tracker',ha='center',color='#244059')
-    a.text(0,1.7,'Inner solenoid allocation',ha='center',color='#73508c')
+    a.text(.5,4.7,'HCAL envelope',ha='center',color='#333333')
+    a.text(0,1.7,'Inner solenoid allocation',ha='center',color='#333333')
+    labels=[('beampipe','Beampipe'),('pixel','Pixels'),('short_strip','Short strips'),
+            ('long_strip','Long strips'),('ecal','ECAL'),('hcal','HCAL'),
+            ('fcal','FCAL'),('magnets','Magnet system')]
+    a.legend(handles=[Patch(facecolor=COMPONENT_COLOURS[key],label=label)
+                      for key,label in labels],loc='upper center',
+             bbox_to_anchor=(.5,-.17),ncol=8,fontsize=9,frameon=False)
     base_layout(b,context,False);module_rects(b,core,fr)
     if name=='LAYOUT-002':
         module_rects(b,collar,4400.)
-        b.add_patch(Rectangle((4.84,.291),.05,.147,facecolor='none',edgecolor='#0b7f86',lw=1.3))
-        b.plot([4.883,7.9059],[.294,.294],color='#0b7f86',lw=1.5,label='Collar service neck R ≤ 298 mm')
-        b.annotate('Short EM collar',xy=(4.46,.39),xytext=(4.42,.57),arrowprops={'arrowstyle':'-','color':'#6d3c35'},color='#6d3c35')
-        b.annotate('Collector before cryostat',xy=(4.865,.35),xytext=(5.15,.58),arrowprops={'arrowstyle':'-','color':'#0b7f86'},color='#0b7f86')
-    for eta,colour in [(4.,'#44586b'),(5.,'#cf3e55')]:
-        xx=[4.25,6.85];b.plot(xx,[x/math.sinh(eta) for x in xx],ls='--',lw=1.2,color=colour,label=f'Prompt straight ray |η| = {eta:g}')
+        b.add_patch(Rectangle((4.84,.291),.05,.147,facecolor='none',edgecolor=COMPONENT_COLOURS['fcal'],lw=1.3))
+        b.plot([4.883,7.9059],[.294,.294],color=COMPONENT_COLOURS['fcal'],lw=1.5,label='Collar service neck R ≤ 298 mm')
+        b.annotate('Short EM collar',xy=(4.46,.39),xytext=(4.42,.57),arrowprops={'arrowstyle':'-','color':'#333333'},color='#333333')
+        b.annotate('Collector before cryostat',xy=(4.865,.35),xytext=(5.15,.58),arrowprops={'arrowstyle':'-','color':'#333333'},color='#333333')
+    for eta,style in [(4.,'--'),(5.,':')]:
+        xx=[4.25,6.85];b.plot(xx,[x/math.sinh(eta) for x in xx],ls=style,lw=1.2,color='#333333',label=f'Prompt straight ray |η| = {eta:g}')
     b.set_xlim(4.28,6.78);b.set_ylim(.02,.64)
     b.set_title('Positive-side forward detail · negative assembly uses proper Rx(π)',loc='left',fontsize=11)
-    b.legend(loc='upper right',fontsize=8,frameon=False)
-    fig.text(.075,.025,'DRAFT / PROTOTYPE · coloured FCAL zones are a component proposal; neighbouring systems are pinned envelope context.\nSampling: brown · fibre fan-out: purple · SiPM: blue · cooling/electronics: cyan. Pipe beyond |z| = 4 m, full-detector response and engineering remain open.',fontsize=9,color='#4f5f70')
+    b.legend(loc='upper right',fontsize=8,frameon=True,facecolor='white',framealpha=1)
+    fig.text(.075,.025,'DRAFT / PROTOTYPE · subsystem colors follow the README palette; neighbouring systems are pinned envelope context.\nFCAL detail: sampling plain · fan-out /// · SiPM dots · FE/cooling backslashes · service interface ++. Pipe beyond |z| = 4 m, full-detector response and engineering remain open.',fontsize=9,color='#4f5f70')
     fig.subplots_adjust(hspace=.34,bottom=.13,top=.93)
     save(fig,ROOT/'docs/layouts/figures'/f'{name}-{suffix}-rz')
 
@@ -162,7 +179,7 @@ def main():
             named['source_scope']+=' Tracker sensitive bounds use the separately pinned tracker overlay; other component context is unchanged.'
         (ROOT/f'docs/layouts/{name}-{args.layout_suffix}.json').write_text(json.dumps(named,indent=2)+'\n')
     if not args.layouts_only:package_figure(core,collar,result)
-    print('Wrote two integrated layout views, common package drawing and named inputs')
+    print('Wrote two integrated layout views and named inputs'+('' if args.layouts_only else ', plus common package drawing'))
 
 
 if __name__=='__main__':main()

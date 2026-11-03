@@ -172,6 +172,15 @@ See [ADR-003](docs/decisions/ADR-003-validation-and-artifact-policy.md).
 
 ## Documentation conventions
 
+For all new or regenerated figures, follow the fixed
+[detector component colors](README.md#detector-component-colors). When a listed
+subsystem is shown in an illustration or component-resolved plot (including a
+stacked histogram), use its specified color and matching legend entry. Preserve
+the mapping across component subsets and plotting orders.
+Lighter versions of the assigned color may distinguish substructure within a
+subsystem; retain the base color for the subsystem and its main legend entry,
+and label the subcomponent shades.
+
 For TDR writing, follow [the publication writing guide](docs/publication/TDR-writing-guide.md).
 Describe the current baseline and its simulation representation. Do not narrate
 unsuccessful attempts or intermediate layouts in the TDR. Keep mounting and

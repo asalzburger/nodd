@@ -12,6 +12,38 @@ The [GitHub Pages resource ledger](https://asalzburger.github.io/nodd/) provides
 token usage and an Interactions tab for browsing PR conversations. See the
 [site guide](tools/token_usage/README.md) for builds and coverage boundaries.
 
+## Detector component colors
+
+Use this fixed palette for all new or regenerated detector illustrations and
+component-resolved plots in the write-up, documentation and validation reports.
+The colors are a project style choice specified by the user on 2026-11-03,
+including the HCAL update and permission to use lighter shades for substructure.
+
+| Component | Hex color |
+| --- | --- |
+| Beampipe | `#ffcc66` |
+| Pixels | `#0066cc` |
+| Short strips | `#ff9933` |
+| Long strips | `#009999` |
+| ECAL | `#cccc00` |
+| HCAL | `#cc6600` |
+| FCAL | `#99ccff` |
+| Muons | `#0066ff` |
+| Magnet system | `#999999` |
+
+- When a listed component is shown, use its assigned color for its filled area,
+  histogram stack, bar, curve or marker, and its legend entry. For example, a
+  stacked material-budget histogram must color each subsystem contribution
+  according to this table.
+- Keep the same assignment across figures, including plots showing only a
+  subset of components; do not select colors by plotting order.
+- Substructure within a subsystem may use lighter versions of its assigned
+  color. Keep the base color for the subsystem as a whole and its main legend
+  entry; label any lighter shades used for subcomponents. Hatching, line styles
+  or marker shapes may also distinguish details or compared configurations.
+- Label components in the figure or legend so the meaning remains clear
+  independently of color.
+
 ## Current detector layouts
 
 The [DES039 common tungsten/quartz forward calorimeter](docs/design/DES-039-common-forward-calorimeter.md) is shown in both candidates, with an additional EM collar in the LAr alternative. It remains a DRAFT / PROTOTYPE with explicit aperture and service amendments.
