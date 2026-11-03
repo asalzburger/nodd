@@ -87,3 +87,72 @@ Current source62f6056395e0dfee0c7985cf24e88dc9919c4e2d includes reduced-service 
   "completion": "Identify conditions needed for faithful comparison and any immediate scientific blocker, with source locators and scope limits."
 }
 ```
+
+## Assignment MATCOMPARE-PhysVal-02
+
+Preparation first rejected directory inputs; expanded to exact regular Git files before dispatch.
+
+```json
+{
+  "id": "MATCOMPARE-PhysVal-02",
+  "role": "PhysVal",
+  "input_revision": "e840575d48361cfa2df6597b4fa1d4118ee4105a",
+  "inputs": [
+    "docs/validation/baseline-material-comparison/README.md",
+    "docs/validation/baseline-material-comparison/classification-provenance.json",
+    "docs/validation/baseline-material-comparison/comparison.json",
+    "docs/validation/baseline-material-comparison/current-acts.json",
+    "docs/validation/baseline-material-comparison/current-geant4.json",
+    "docs/validation/baseline-material-comparison/current-mapping-report.json",
+    "docs/validation/baseline-material-comparison/current-validation-report.json",
+    "docs/validation/baseline-material-comparison/figures/.gitignore",
+    "docs/validation/baseline-material-comparison/figures/material-current.pdf",
+    "docs/validation/baseline-material-comparison/figures/material-current.png",
+    "docs/validation/baseline-material-comparison/figures/material-current.svg",
+    "docs/validation/baseline-material-comparison/figures/material-old.pdf",
+    "docs/validation/baseline-material-comparison/figures/material-old.png",
+    "docs/validation/baseline-material-comparison/figures/material-old.svg",
+    "docs/validation/baseline-material-comparison/figures/plot-report.json",
+    "docs/validation/baseline-material-comparison/geant4-audit-summary.json",
+    "docs/validation/baseline-material-comparison/locality.json",
+    "docs/validation/baseline-material-comparison/material_map.json.gz",
+    "docs/validation/baseline-material-comparison/pr109-control.json",
+    "docs/validation/baseline-material-comparison/preparation-report.json",
+    "docs/validation/baseline-material-comparison/provenance.json",
+    "docs/validation/baseline-material-comparison/recording-report.json",
+    "docs/validation/baseline-material-comparison/selection.json",
+    "docs/validation/geantino-material-profiles/profiles.json",
+    "docs/validation/gen3-material-map-run/validation-profiles.json",
+    "software/analysis/material_baseline_comparison/README.md",
+    "software/analysis/material_baseline_comparison/README_mapping.md",
+    "software/analysis/material_baseline_comparison/audit_geant4.C",
+    "software/analysis/material_baseline_comparison/audit_geant4.py",
+    "software/analysis/material_baseline_comparison/compare.py",
+    "software/analysis/material_baseline_comparison/control.py",
+    "software/analysis/material_baseline_comparison/locality.py",
+    "software/analysis/material_baseline_comparison/map_workflow.py",
+    "software/analysis/material_baseline_comparison/plot.py",
+    "software/analysis/material_baseline_comparison/reduce_validation.py",
+    "software/analysis/material_baseline_comparison/test_artifacts.py",
+    "software/analysis/material_baseline_comparison/test_audit.py",
+    "software/analysis/material_baseline_comparison/test_compare.py",
+    "software/analysis/material_baseline_comparison/test_mapping.py",
+    "software/analysis/material_profiles/categorize.C",
+    "software/analysis/material_profiles/categorize.py",
+    "software/running/nodd_geantino_recording.py",
+    "software/source/ActsExamples/MaterialRecording/CMakeLists.txt",
+    "software/source/ActsExamples/MaterialRecording/PersistentMaterial.cpp",
+    "software/source/ActsExamples/MaterialRecording/README.md",
+    "software/source/ActsExamples/MaterialRecording/check_native.py"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Final independent PhysVal assessment of exact source/artifact commit e840575d48361cfa2df6597b4fa1d4118ee4105a in /Users/salzburg/Documents/ChatGPT/agentic-detector/nodd-baseline-material-comparison. Inspect primary retained binwise/map inputs and both PNGs before author conclusions. Review commoneta[-4,4],zero-inclusive normalization,covariant totalSEM,blackACTSmarkers/conditionalratioerrors,PR112palette/passivealpha.5,dottedoldtotalandoldSS(sensitive+passive). Verify exactinput/currentgeometry/hashidentities and scope of149TGeoGraphite/TitaniumCSG disagreements: strictgate failed retained; optional nativeG4audit7strictinteriorqueries\u00d7149 matchesrho/X0/L0 and unique namedpassiveDDvolume, fullcertifiedclassification0unresolved. Geometryconversion itself remains explicitopenlimit. All149certificates+1043rawlookups+initializationmetrics under ignored build/material-comparison/geant4-final-audit are available to check against summary/hash. Currentrecording/map/validation underbuild; source files retain actualhashes. Mappingdrops185exactzero slabs per pinnedACTSreader; everyray exactnonzero/count/budgetpartition, zero unmapped. New67nativeIDs/8650bins/reloadverified. Assess legacy-to-current vs pairedPR109-to-current attribution (wholepackage not cable/pitch-only), missingoldseed/revision,phi1/localitylimits. You may run focused offline17tests using siblingnoddd-unrootedPython3.11 and read native payloads withuproot but do not mutate source/artifacts, build or rerunsimulations. Nativeenvironments needacts-spack if used; no dependencyinstall. Current code/artifacts clean at target; coordinator may edit logs/tracking only during review. No furtherdelegation/publication. Return exactsource reviewed,findingswithlocators,actualchecks,limits and whether anymaterialblocker to deliveringqualifiedmap+figures. No humanacceptance.",
+  "deliverable": "Independent concise exact-revision source/figure/numerical audit and material findings; root owns remediation.",
+  "completion": "Assess the two figures,currentmap and described provenance/statistics, with bounded checks and explicit limitations."
+}
+```
+
+## Review correction
+
+PhysVal identified that independence from the old training sample cannot be established without its original seed. Changed old figure header to “validation rays” and the opening caption to “ACTS validation total”; retained documented current seed43 vs228 generation and conditional-on-map uncertainty caveat. Re-rendered figures and updated hashes; numerical/binwise/map data unchanged.

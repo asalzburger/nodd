@@ -56,8 +56,9 @@ def main():
         fig.suptitle('nODD tracker material', x=.075, y=.972, ha='left',
                      fontsize=22, fontweight='bold')
         fig.text(.075, .921, titles[name], fontsize=14)
+        validation_label = 'validation rays' if name == 'old' else 'independent validation rays'
         fig.text(.075, .879, f"Geant4: {baseline['selected_geant4_rays']:,} rays  ·  "
-            f"ACTS: {baseline['selected_acts_rays']:,} independent validation rays  ·  Δη = 0.1",
+            f"ACTS: {baseline['selected_acts_rays']:,} {validation_label}  ·  Δη = 0.1",
             fontsize=10.5, color='#505050')
         for col, q in enumerate(('X0', 'L0')):
             ax, ratio_ax = axes[:, col]

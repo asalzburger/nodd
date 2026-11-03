@@ -19,7 +19,7 @@ Each figure shows radiation and interaction lengths. The Geant4 stack uses
 the fixed beam-pipe, pixel, short-strip and long-strip colors; sensitive material
 is opaque and passive material has alpha 0.5. Sensitivity follows the DD4hep
 volume flag, so ASIC/guard silicon remains passive. The beam pipe has no
-sensitive component. Black markers are the independently sampled ACTS total,
+sensitive component. Black markers are the ACTS validation total,
 with ACTS/total-Geant4 below. On the current figure, dotted curves show the old
 Geant4 total and the old short-strip contribution (sensitive plus passive,
 drawn from zero rather than as a cumulative stack boundary).
@@ -117,7 +117,8 @@ issue.** No physical material, navigator tolerance or recording budget changed.
 The float32 sensitivity-boundary rescue runs after a material mismatch, so
 same-density active/guard ambiguities can escape it. Its reported ambiguity
 budget is **detected-only**, not an exhaustive allocation bound. The original
-old recording has no embedded source revision or seed; its exact SHA matches
+old recording has no embedded source revision or seed; seed separation from the
+old validation sample therefore cannot be established. Its exact SHA matches
 the prior reference, whose explicit compact/factories and density checks are
 retained. That association does not recover missing original run provenance.
 
