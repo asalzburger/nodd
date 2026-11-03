@@ -214,3 +214,6 @@ Supplementary audit first attempt failed its self-fingerprint guard because the 
 
 
 Supplementary retry PASS: 617,018 exact physical solids, 1,316 material definitions, all 180,288 contact probes, 200 protected sources, all 16 XML/8 expected records and native compact/expected/five-library hashes verified. Maximum elemental mass-fraction residual 1.11e-16; density/atomic-mass residual zero. All audit/geometry bytes remained fixed. The isolated curation step first hit an inherited Spack/analysis-venv NumPy conflict; a fresh isolated Python invocation succeeded without changing dependencies. The aggregate summary is 26,067 bytes; raw geometry/run data stays local.
+
+
+PR110 created as a draft and attached to the task: https://github.com/asalzburger/nodd/pull/110 . GitHub connector creation/label mutations returned403 (integration write permission unavailable); the existing authenticated CLI completed those authorized operations. Labels enhancement/documentation and Tracker title prefix identify the work. Initial connector metadata/comments were refreshed and sanitized; discussion was empty at capture. Per-PR ledger references both canonical sessions and 17 reviewed allowlisted turn snapshots. GitHub account asalzburger is a publishing account under repository policy; local human identity/model names are not inferred.

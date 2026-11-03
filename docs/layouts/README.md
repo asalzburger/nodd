@@ -30,3 +30,6 @@ python3 -B tools/forward_calorimeter/draw.py --layouts-only \
 ```
 
 The earlier balanced [tracker overlay](tracker-baseline-balanced.json), [FCAL inputs](LAYOUT-001-FCAL.json) and [pre-FCAL inputs](LAYOUT-001.json) remain dated controls. The default `draw.py` still reproduces the retained FCAL views. The [DES043 validation report](../validation/DES-043/README.md) distinguishes integrated geometry evidence from engineering and reconstruction qualification.
+
+
+[PR110 — short-strip integration, open for merge preparation](https://github.com/asalzburger/nodd/pull/110) retains fixed implementation source `d6c4d0d`, full native/payload/ACTS checks and the published TDR receipt. Human review/merge and engineering qualification are distinct.

@@ -24,7 +24,8 @@
     "branch": "codex/short-strip-services-2mm-baseline",
     "initial_changes": [],
     "result_commits": [
-      "d6c4d0ddfa9e14129a3f4c426fced7c4cee0dcc4"
+      "d6c4d0ddfa9e14129a3f4c426fced7c4cee0dcc4",
+      "c31aa82911e3b75b91080f5eb7d9e1c191299f9a"
     ],
     "changed_files": []
   },
@@ -42,7 +43,8 @@
       "DES-043",
       "DES-025",
       "DES-042",
-      "TASK-TRACK-STRIXEL-SERVICE-INTEGRATION"
+      "TASK-TRACK-STRIXEL-SERVICE-INTEGRATION",
+      "PR-110"
     ]
   },
   "narrative": "logs/codex/SESSION-2026-11-03-short-strip-integration.md",
@@ -353,6 +355,12 @@
       "status": "FAIL",
       "exit_code": 1,
       "result": "New WS-TRACK task initially used the contributor role Software engineer instead of the stream responsibility Tracker technician. Corrected the register role to match WS-TRACK; contributor assignment records remain unchanged."
+    },
+    {
+      "command": "python3 -B tools/interactions/ledger.py capture --pr 110 (initial visible snapshot review)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "All interacted activities were initially treated as child links, including peer/parent messages, causing contradictory parentage. Curated relationship view now keeps only independently verified recovery parent_thread_id links; all visible messages and operation counts remain. No usage owner/counter or validation guard changed."
     }
   ]
 }

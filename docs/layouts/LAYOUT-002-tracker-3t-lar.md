@@ -24,3 +24,6 @@ The native FCAL checks cover both ends, body/collar component solids and conserv
 Reproduce with `python3 -B tools/forward_calorimeter/draw.py` in an environment with matplotlib. Full source revisions and hashes are retained in the named inputs.
 
 The current tracker overlay is extracted from the maintained DES043 combined DD4hep export in [tracker-baseline-des043.json](tracker-baseline-des043.json). It updates the sensitive bounds while retaining the independently pinned calorimeter and magnet context. The physical short-strip module/services redesign remains an unqualified working prototype. See the [layout main page](README.md) for the exact regeneration recipe and historical controls.
+
+
+[PR110 — short-strip integration, open for merge preparation](https://github.com/asalzburger/nodd/pull/110) retains fixed implementation source `d6c4d0d`, full native/payload/ACTS checks and the published TDR receipt. Human review/merge and engineering qualification are distinct.
