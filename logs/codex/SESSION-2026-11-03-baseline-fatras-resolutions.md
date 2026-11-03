@@ -1,42 +1,57 @@
-# SESSION-2026-11-03-baseline-fatras-resolutions — Fatras truth-tracking old/current baseline resolution comparison at four momenta
+# SESSION-2026-11-03-baseline-fatras-resolutions — Fatras old/new baseline truth-fit resolutions
 
 ## Scope and evidence
 
-State collection method, available context, limitations, related IDs and starting
-revision. Identify uncommitted user changes present before work.
+Contemporaneous curated record for this bounded task, starting at
+379901aec076ee3c2c2952439303771d6a7c65d1 on
+`codex/baseline-material-comparison`. The worktree was clean. Canonical scope:
+TASK-TRACK-BASELINE-FATRAS-RESOLUTIONS, DES-025, DES-043 and ADR-003.
+Previous material and sensitive-crossing studies remain preserved.
 
 ## Selected conversation
 
-Attribute requests to the user and outcomes to the assistant. Mark exact quotes
-and paraphrases explicitly. Include corrections and changes in direction.
-Exclude private model state, confidential content, and irrelevant system context.
+User, exact: “Now can you also run Fatras single muon resolutions 1, 5, 10, 100 comparing track parameters of old and new baseline - using truth tracking”.
+
+Assistant, paraphrase: use the established fixed-pT [GeV] benchmark, 3 T,
+eta[-4,4], one muon at the origin per event and 20,000 events per case. Train
+matching 2 mm errors independently. User informed that registry fingerprints
+are stale; actual runtime capabilities are verified through imports and native
+controls. Report differences and losses without a universal improvement claim.
 
 ## Decisions and outcomes
 
-State rationale, alternatives, consequences and what remains unresolved. Never
-convert implementation authorization into human design sign-off.
+Native generation and fitting use the existing maintained ACTS chain, unchanged
+geometry and matching material maps. New readout receives independent
+measurement-only calibration, not the old errors or fitted-pull tuning.
+Conditional core widths accompany complete generated-event outcome accounting,
+full SD/RMS and charge/pull diagnostics. No detector design or acceptance state
+is advanced. Final result and separate review are appended below.
 
 ## Commands and validation
 
-Record relevant commands, actual exits/results, failed attempts and remedies.
-Distinguish structural checks from detector acceptance.
+Execution/reduction/replot recipes are in
+`software/analysis/fatras_baseline_comparison/README{,_native}.md`.
+Concrete checks, commands, failures and remedies are recorded below and in the
+paired JSON. A successful execution is characterization, not acceptance.
 
 ## Changes and revision links
 
-List changed files or refer to the paired JSON inventory. Result commits are
-recorded only once they exist; Git history locates this record's enclosing commit.
+Native source committed at326fed57a3c3aa75466756f47cee2e69d5d22b9b.
+Root analysis source committed at1434080; full SHA recorded in final evidence.
+The paired JSON inventories result commits and changed paths at closeout.
 
 ## Token accounting
 
-Record the client-provided per-turn usage source and import command, or state why
-exact counters are unavailable. Report observed input/output sums and missing
-coverage from `session_log.py summary`; empty usage means unknown, not zero.
-Never copy raw client archives or private model state. Do not duplicate turns
-across tasks or add cached/reasoning subsets to the input/output totals.
+Exact client per-turn counters are unavailable for coordinator and specialists.
+Usage remains empty: unknown, not zero. No estimates, raw private client state
+or duplicated observations are recorded. Final session summary is appended.
 
 ## Follow-up
 
-List remaining work, missing measurements and any human review needed.
+Complete all eight cases, independently assess exact final results and retain
+plots, configurations, compact binwise evidence and reproducible commands.
+Material-model and ideal-truth-seeding limits remain explicit; human scientific
+interpretation grants no automatic engineering sign-off.
 
 ## Initial scope and assumptions
 
@@ -116,3 +131,17 @@ Root's four statistical/contract tests and SoftEng's four native-contract tests 
 The early PhysVal assignment was prepared/recorded but initial send_message did not activate the completed existing agent. The coordinator discovered this via live status and activated it explicitly with followup_task at21:57UTC; it is now assessing pinned methods and separately identified execution revision326fed57. Final exact-results review remains required. No prior independent early assessment is claimed.
 
 Root adds binwise reducer, plotter, compact retention tool and reproduction instructions. Native executing sources stay frozen at326fed57 while root analysis receives its own committed source identity. All ROOT/events/caches remain under ignored build.
+
+## Early independent assessment
+
+FATRASBASE-PhysVal-01 returned no methodological blocker, conditional on final evidence. Reviewed379901aec076ee3c2c2952439303771d6a7c65d1 (seven unchanged method inputs), plus separately identified new native runner at326fed57. Read-only source inspection only, no tests/native execution claimed. Identified absent-variant reader shortcut; root explicitly resolves this through source/geometry/readout gates and unconditional audit_calibration for every case. Requested full generated-event stages, invalid covariance/wrong charge/native-unmatched diagnostics, own-finite populations with paired generated-event bootstrap, minimum30 masking and pointwise intervals, full SD/RMS/pulls, fixed calibration/model and ideal-seeding limits. These are implemented and will receive exact-result review.
+
+A further independent root comparison of all20k old pT10 rows exactly matches the historical generated event/eta/phi/pT/q and all five fitted parameters. Native audit counts also reproduce original19998fits. Scalar equality evidence remains under ignored build pending curation.
+
+## Completed native campaign and final reduction
+
+All eight fresh20k cases completed at native source326fed57. Old selected/attempted/fitted:19992,19999,19998,19999 for pT1/5/10/100; current19997,20000,20000,20000. All returned bound parameters finite, no attempted-fit failures or invalid covariance. Wrong charge only at100GeV:old467/current419; one old1GeV guardedzero-barcode primary partialfit retained. Native walltime percase302.6..311.2s; measurement-only currenttraining55.5s.
+
+Final full analysis at14340803427eca12f75b76bb678be407366ad7a5 successfully checked all eight source/configuration/geometry/material/output/error identities and exact paired generatedevent/eta/phi/pT/charge, then produced400-bootstrap binwise widths and paired ratios. Allsix final PNGs inspected (1/5/10/100GeV6panels, ratios, fitaccounting); legends, units, counts, uncertainty and caveat text readable. PNG/PDF/SVG and allartifacthashes retained. Compact curation contains configurations/provenance/counts only, no event arrays.
+
+Independent root old-reference checks now cover all original20k rows at1,10,100GeV:generatedfields and allfive fittedbranches exactlyequal historical old samples. Centrald0 core ratios new/old=0.9663,0.9350,0.8861,0.9367 (see compact evidence for exact values); centralrelative-pT cores widen at all fourmomenta. Centralz0 improves at100GeV. Forward100GeV width68~114%old/105.5%new while fullRMS~5309%old/18150%new; no tail trimming or universalimprovement claim. These are full-baseline, ideal-truth-seeded, fixed-map/calibration sample results.
