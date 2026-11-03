@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated": "2026-11-02",
+  "updated": "2026-11-03",
   "note": "Curated register. Stage B architecture is active. PR #4\u2019s envelope baseline has explicit human approval and is merged; its documents still declare DRAFT and no formal sign-off record exists. Role ownership does not imply active agents. Chore PRs and infrastructure chores are excluded from project progress. Pixel-module design dossier opened by human direction in parallel with architecture; final component-method gates remain pending.",
   "stages": [
     {
@@ -3406,7 +3406,7 @@
     },
     {
       "id": "TASK-TRACK-STRIXEL-SERVICE-REDESIGN",
-      "title": "Redesign2mm short-strip services and endcap radial coverage",
+      "title": "Redesign 2 mm short-strip services and endcap radial coverage",
       "scope": "Human-authorized isolated DES043 module/endcap prototype for703mm sampled coverage, complete power/thermal/cooling interfaces, explicit native construction, finite barrel interfaces and scoped changed-component material accounting.",
       "stage": "B",
       "milestones": [
@@ -3444,10 +3444,51 @@
         "DES-020",
         "DES-021"
       ],
-      "updated": "2026-11-02",
-      "next_action": "Review the703mm prototype; establish ASIC/cable feasibility, the tight complete thermal-path budget and two-phase hydraulics; implement/validate barrel CSG and shared full-tracker services before production integration/material/ACTS/reconstruction comparison.",
+      "updated": "2026-11-03",
+      "next_action": "The dimensioned prototype is followed by TASK-TRACK-STRIXEL-SERVICE-INTEGRATION. Qualify the ASIC/cable, tight complete thermal path and two-phase hydraulics; obtain full material and new-geometry tracking comparisons.",
       "blocker": null,
       "disposition": "Dimensioned SS-2MM-SVC-01 DRAFT/PROTOTYPE delivered:703mm sampled target,704.909mm envelope,82.335mm active gap,396ECsensors/disc. User authorizedmodule redesign; explicit792sensor mirrored native prototype and source-only barrel interface screens supplied. AddedASICbond/upstream leakage thermal paths are explicit unqualified requirements; adverse\u221220.333C leaves.333Kmargin. Conservative no-insulation-credit material estimate\u2212114.6kg, no ASIC mass credit. No fulltracker material/reconstruction/hardware acceptance or PR publication inferred.",
+      "subsystem": "tracker"
+    },
+    {
+      "id": "TASK-TRACK-STRIXEL-SERVICE-INTEGRATION",
+      "title": "Integrate 703 mm short-strip modules and services into DD4hep and the TDR",
+      "scope": "Human-requested current working prototype integration of DES043 barrel modules, all 12 endcap discs, shared services, ACTS conversion and actual TDR update, with observed token/work labels and merge preparation.",
+      "stage": "B",
+      "milestones": [
+        "M1"
+      ],
+      "workstream": "WS-TRACK",
+      "role": "Tracker technician",
+      "owner": null,
+      "state": "active",
+      "dependencies": [
+        "TASK-TRACK-STRIXEL-SERVICE-REDESIGN"
+      ],
+      "deliverables": [
+        "detector/config/short-strip-des043.json",
+        "tools/short_strip_redesign/integration.py",
+        "tools/short_strip_redesign/barrel_native.py",
+        "tools/short_strip_redesign/integrated_services.py",
+        "tools/tracker_dd4hep/audit_payload.py",
+        "tools/tracker_dd4hep/curate_des043.py",
+        "docs/validation/DES-043/integration/README.md",
+        "docs/validation/DES-043/integration/summary.json",
+        "docs/publication/short-strip-services-2026-11-03/claims.json",
+        "docs/layouts/tracker-baseline-des043.json"
+      ],
+      "evidence": [
+        "logs/codex/SESSION-2026-11-03-short-strip-integration.md"
+      ],
+      "documents": [
+        "DES-043",
+        "DES-025",
+        "DES-042"
+      ],
+      "updated": "2026-11-03",
+      "next_action": "Finish the full native/payload checks and PR accounting/CI. The actual TDR is published at 80a6c998cb9002d0d116bd8c4a414193e904bbd2 under explicit Overleaf approval. Human decides merge; hardware qualification and full new-geometry material/reconstruction campaigns remain open.",
+      "blocker": null,
+      "disposition": "Combined source constructs 46,682 sensitive planes, 54 groups and redesigned services. ACTS export/complete native serialization round trip passes. Merge evidence is being completed; no engineering acceptance is inferred.",
       "subsystem": "tracker"
     }
   ],
@@ -3787,7 +3828,8 @@
       "path": "docs/design/DES-043-short-strip-service-redesign.md",
       "validation_reports": [
         "docs/validation/DES-043/README.md",
-        "docs/validation/DES-043/summary.json"
+        "docs/validation/DES-043/summary.json",
+        "docs/validation/DES-043/integration/README.md"
       ]
     }
   ],

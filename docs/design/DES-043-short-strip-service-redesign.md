@@ -276,18 +276,24 @@ petal cooling loops, rails, guards and new peripheral board mounts. Its actual
 construction/contact/identifier/overlap evidence is retained separately from
 engineering qualification. All12discs can be generated; native overlap
 validation currently covers the representative mirrored pair. Barrel insert
-interfaces are repeatably source-checked, with native barrel CSG still pending.
+interfaces have a repeatable source screen. The subsequent combined implementation is described below.
 
 The [validation report](../validation/DES-043/README.md) supplies exact recipes,
 source hashes, compact summaries, plots, checks and limitations. The proposed
 parameters live in [inputs.json](../../tools/short_strip_redesign/inputs.json).
 Original configurations, layouts and evidence remain frozen under their own
-identities; SS-2MM-SVC-01 is not wired into the combined detector.
+identities. The 2026-11-03 integration amendment below supersedes the earlier isolated-only scope.
 
-The human has authorized the isolated module redesign. Before production
-integration: ASIC/cable feasibility; detailed module and endcap CAD/native DD4hep solids with
-stable new identifiers and overlap checks; thermal/structural and hydraulic
-qualification; complete conductor/data/pressure interfaces; full material scans;
-ACTS conversion/navigation and curved-track/vertex coverage; repeated frozen
-single-particle and ttbar+200PU comparisons. The existing2 mm response evidence
+The human has authorized the module redesign and its integration into the current working simulation baseline. Engineering qualification still requires ASIC/cable feasibility, thermal/structural and hydraulic checks, complete conductor/data/pressure interfaces, full material scans, curved-track/vertex coverage and repeated frozen single-particle and ttbar+200PU comparisons. The existing2 mm response evidence
 belongs to the old physical geometry and cannot certify this expanded one.
+
+
+## Working-baseline integration amendment — 2026-11-03
+
+**NODD DESIGN CHOICE, explicitly requested by the human:** use SS-2MM-SVC-01 in the maintained combined DD4hep tracker and update the actual ODD TDR. This authorizes the working prototype integration and merge preparation; it grants no engineering sign-off or acceptance.
+
+The default `detector/config/tracker.json` selects [short-strip-des043.json](../../detector/config/short-strip-des043.json). It constructs all 12 endcap discs (4,752 sensors), redesigned barrel modules (8,064 sensors), explicit backing/core windows and direct thermal saddles, 0.17 mm copper rails and the shared collector/fan/trunk services. The complete tracker has 46,682 sensitive planes in 54 signed logical groups. Pixel and long-strip placements are retained. `export.py --historical-short-strips` preserves the 46,250-plane control.
+
+Fan pockets overlap the trunk's allocated region. The integration partitions those physical cells and tray walls, then allocates each conductor/fibre/pipe/coolant constituent once. Power feed counts, optical groups and cooling loops remain independent. The final disc joins the trunk at local w=100 mm. The analytical changed-component ledger retains a conservative extra 6.48 power-bundle metres; it is a scoped design estimate rather than an exact integrated material inventory.
+
+The [combined integration record](../validation/DES-043/integration/README.md) records the actual source revision, native tests, ACTS conversion, TDR publication identity and remaining checks. General intersecting CSG has explicit volume bounds: neither the exporter nor validation asserts an exact complete tracker mass from subtracting whole intersecting cutters. The earlier standalone native evidence remains immutable under its original identity.

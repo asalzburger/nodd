@@ -200,3 +200,8 @@ this does not imply hosted CI has executed the node-specific native job.
 
 Independentassessment history and limitations are in the
 [session reconciliation](../../../logs/codex/SESSION-2026-11-02-short-strip-service-redesign/assessments.md).
+
+
+## Combined working-baseline update — 2026-11-03
+
+The human subsequently requested integration into the current DD4hep tracker, the actual ODD TDR and merge preparation. See the separately dated [combined integration record](integration/README.md), [independent fixed-revision assessment](integration/assessment.md) and [publication receipt](../../publication/short-strip-services-2026-11-03/README.md). Those records supersede the earlier pending-integration wording above without changing the standalone November 2 evidence or its provenance.

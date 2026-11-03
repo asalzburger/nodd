@@ -368,3 +368,10 @@ Gitpayloadreview: sciencehistory79newblobs,largest384162bytePNG,noneover1MB;
 noROOT/NPZ/GZ/buildpayloadpaths. Remainingstagedcloseoutfilesarecompacttext/
 JSON. NoPRpublication orproductionintegration. Hardware/fulltrackermaterial/
 reconstructionqualifications andtight.333Kthermalmargin remainexplicit.
+
+## 2026-11-03 exact usage recovery correction
+
+Authorizedusage-onlyrecoveryplusallowlistedread_threadvisibleassignment/finalresponses andparent/childmetadata identifies11closedNov2turns: root1,TrackTech1,SysArch3,SoftEng2,PhysVal4. Canonicalowneristhissession; importadds70538147input+313083output=70851230observedtokens. Cached69493632andreasoning143229aresubsets,notadditions. Per-turnusageSHA/ordinalsandmatchedrolesareinlogs/usage/USAGE-2026-11-03-short-strip-design.json. No rawclientstate/reasoningcommitted; activeNov3rootturn excluded. Originalunknown-at-closurestatementisdatedhistory, notcurrentcoverage.
+
+
+2026-11-03 work-label correction: the session belongs to M1 / WS-TRACK detector design, matching its scientific project task. The initial M0 journal default was corrected; no usage was duplicated or reassigned.

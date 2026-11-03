@@ -30,7 +30,7 @@ def main():
         raise ValueError(f'Expected selected {count}-sensor/54-group tracker')
     selection_path=('detector/config/short-strip-des043.json' if args.baseline=='des043' else 'docs/design/inputs/DES-040-balanced-selection.json')
     selection=ROOT/selection_path
-    tracker = dict(display='DES0432mmstrixel/703mmcoverage working simulation baseline' if args.baseline=='des043' else 'Reviewer-selected balanced working baseline',
+    tracker = dict(display='DES043 2 mm strixel / 703 mm coverage working simulation baseline' if args.baseline=='des043' else 'Reviewer-selected balanced working baseline',
                    sensitive_elements=bounds['total_sensitive'],
                    snapshot_expected_sha256=bounds['expected_sha256'],
                    snapshot_extract_sha256=bounds['extract_sha256'],
@@ -39,6 +39,7 @@ def main():
                    sensitive_groups=bounds['groups'])
     result = dict(schema_version=1, baseline=args.baseline, date='2026-11-03' if args.baseline=='des043' else '2026-10-29',
                   source_revision=subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip(),
+                  source_dirty=bool(subprocess.check_output(['git', 'status', '--porcelain'], cwd=ROOT, text=True).strip()),
                   selection=selection_path,
                   selection_sha256=hashlib.sha256(selection.read_bytes()).hexdigest(),
                   producer='tools/tracker_dd4hep/des043_snapshot.py',
