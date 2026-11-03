@@ -40,7 +40,7 @@ Current parent turn `01a1a0d5-df1e-7353-bd3f-06b53594a5a7` is excluded until a l
 
 Human decides merge after CI/review gates. Overleaf publication is complete under the explicit user approval. Engineering qualification, directional material, curved navigation and frozen new-geometry single-particle/ttbar comparisons remain follow-up work.
 
-## Assignments recorded before dispatch
+## Specialist assignments and handoffs
 
 Explicit role-profile fallback; no native profile loading claim.
 
@@ -217,3 +217,9 @@ Supplementary retry PASS: 617,018 exact physical solids, 1,316 material definiti
 
 
 PR110 created as a draft and attached to the task: https://github.com/asalzburger/nodd/pull/110 . GitHub connector creation/label mutations returned403 (integration write permission unavailable); the existing authenticated CLI completed those authorized operations. Labels enhancement/documentation and Tracker title prefix identify the work. Initial connector metadata/comments were refreshed and sanitized; discussion was empty at capture. Per-PR ledger references both canonical sessions and 17 reviewed allowlisted turn snapshots. GitHub account asalzburger is a publishing account under repository policy; local human identity/model names are not inferred.
+
+
+Per-PR interaction curation corrected peer/parent communications that the generic activity view initially classified as children. The retained relationship view now requires independent recovered parent_thread_id evidence; all visible messages and operation counts remain. All 17 exact turn owners and counters are unchanged. Final local validators pass: 85 tasks, 43 documents, 24 review rounds, 225 sessions, 99 ledgers, eight roles/three skills. All 20 token-site Python tests and both JavaScript UI suites pass; current site work steps for November 2/3 link to PR110. The PR deploy job is intentionally skipped; publication follows main after human merge.
+
+
+Source/accounting handoff closed at 2026-11-03T11:06:46Z. The hosted project job at b839ce7 passed all preceding detector/source stages but failed synthetic project-record tests because their copied fixture omitted the newly referenced interactions directory. The fixture now includes it; no validator or negative assertion changed. All 28 project tests pass locally in 201.628 s, and all 33 logging tests pass in 2.058 s. The refreshed PR discussion is empty at this capture; labels remain documentation/enhancement. The final hosted checks are verified on the ensuing published head before PR readiness, without recording an unobserved pass in this snapshot. The assistant continues until that gate resolves; the active parent turn still has no final token boundary.
