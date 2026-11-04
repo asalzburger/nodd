@@ -11,6 +11,25 @@ pixel, short strip and long strip, with sensitive/non-sensitive contributions.
 The [analysis scripts](material_profiles/README.md) classify an existing recording
 against explicit DD4hep inputs and reproduce plots from compact retained data.
 
+## Current 2 mm tracker baseline
+
+The [current map record](../../docs/validation/baseline-material-comparison/material-map-record.json)
+binds the retained [material map](../../docs/validation/baseline-material-comparison/material_map.json.gz)
+to geometry `62f6056395e0dfee0c7985cf24e88dc9919c4e2d`, its compact,
+materials, factories and selected portals: 67 keys and 8,650 material bins.
+It is the reduced-service DES043 baseline characterization map. The historical
+0.5 mm map below remains separate; map IDs are geometry specific.
+
+- [Geant4/ACTS material comparison](../../docs/validation/baseline-material-comparison/README.md)
+- [Sensitive-volume crossings versus eta](../../docs/validation/baseline-hit-comparison/README.md)
+- [Fatras truth-fit parameter resolutions at fixed pT 1, 5, 10, 100 GeV](../../docs/validation/fatras-baseline-comparison/README.md)
+
+These whole-baseline results support continued study of the 2 mm choice, with
+mixed resolution changes and forward high-pT tails retained explicitly. They
+do not isolate segmentation or service effects or grant detector acceptance.
+Verify the map record without native dependencies using
+`python3 -B software/analysis/material_baseline_comparison/verify_record.py`.
+
 ## Gen3 material-mapping surfaces
 
 The [first-step mapping survey](gen3_material_mapping/README.md) overlays the

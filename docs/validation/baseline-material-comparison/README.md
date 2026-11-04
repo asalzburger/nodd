@@ -138,6 +138,10 @@ criteria. No magnetic transport, interaction response or tracking fit is tested.
 
 ## Artifacts and reproduction
 
+- [Current map record](material-map-record.json): geometry, compact/material/
+  factory hashes, map/selection identities, inventories and training/validation
+  seeds. This records the current 2 mm characterization map without changing
+  runtime defaults or replacing the historical map.
 - [Native map, lossless gzip](material_map.json.gz): 8,650 averaged material bins,
   not event data. Decompressed SHA-256
   `e61f5a99fcb062566793eeff2bf9c1807f19e4195a1634e36e5f1dc1e7ed9bd1`.
