@@ -23,7 +23,23 @@
 
 // No detector simulation or geometry mutation: look up recorded step interiors.
 void categorize(const char* input, const char* output, const char* diagnostics,
-                long long limit = -1, bool writeSteps = false) {
+                long long limit = -1, bool writeSteps = false, double etaMax = 4.5,
+                const char* geant4Audit = "") {
+  if (!std::isfinite(etaMax) || etaMax <= 0 ||
+      std::abs(10 * etaMax - std::round(10 * etaMax)) > 1e-9)
+    throw std::invalid_argument("etaMax must be positive and aligned to 0.1 bins");
+  const int halfEtaBins = std::lround(10 * etaMax);
+  std::map<std::pair<long long,size_t>,std::string> certified;
+  if (std::string(geant4Audit).size()) {
+    if (writeSteps) throw std::invalid_argument("Audited G4 paths are not TGeo region labels");
+    std::ifstream audit(geant4Audit);
+    if (!audit) throw std::runtime_error("Missing Geant4 audit labels");
+    long long track; size_t step; std::string volume;
+    while(audit >> track >> step >> volume)
+      if(!certified.emplace(std::make_pair(track,step),volume).second)
+        throw std::runtime_error("Duplicate audited step");
+    if(!audit.eof()) throw std::runtime_error("Invalid Geant4 audit labels");
+  }
   TFile source(input, "READ");
   auto* tree = source.Get<TTree>("material_tracks");
   if (!tree) throw std::runtime_error("Missing material_tracks");
@@ -72,8 +88,8 @@ void categorize(const char* input, const char* output, const char* diagnostics,
       tracks.Branch((names[c]+"_"+units[q]).c_str(), &totals[q][c]);
 
   const std::array<std::string,3> axes = {"eta", "abs_eta", "phi"};
-  const std::array<int,3> nbins = {90,45,72};
-  const std::array<double,3> lo = {-4.5,0,-M_PI}, hi = {4.5,4.5,M_PI};
+  const std::array<int,3> nbins = {2*halfEtaBins,halfEtaBins,72};
+  const std::array<double,3> lo = {-etaMax,0,-M_PI}, hi = {etaMax,etaMax,M_PI};
   std::unique_ptr<TProfile> profiles[3][2][9];
   std::unique_ptr<TH1D> occupancy[3];
   for (int a=0; a<3; ++a) {
@@ -93,6 +109,8 @@ void categorize(const char* input, const char* output, const char* diagnostics,
   // conversion with the beam-pipe Be entry, and then verify all step densities.
   double densityUnit = 0;
   long long nsteps=0, missing=0, densityMismatch=0, fallback=0, boundaryRescue=0, sensitivityAmbiguous=0;
+  long long tgeoDisagreements=0, geant4Rescue=0;
+  double auditedBudget[2] = {};
   std::array<long long,8> counts{};
   std::map<std::string,long long> materials;
   std::unordered_map<TGeoVolume*,int> categories;
@@ -195,15 +213,34 @@ void categorize(const char* input, const char* output, const char* diagnostics,
       }
       if (!node) { ++missing; continue; }
       auto* volume=node->GetVolume();
+      bool audited=false;
       if (!matches(node)) {
+        ++tgeoDisagreements;
+        const auto entry=certified.find(std::make_pair(i,j));
+        if(entry!=certified.end()) {
+          auto* checked=gGeoManager->FindVolumeFast(entry->second.c_str());
+          if(!checked || dd4hep::Volume(checked).isSensitive() ||
+             std::string(checked->GetMaterial()->GetName())!="Graphite" ||
+             std::abs(rho->at(j)-checked->GetMaterial()->GetDensity()*densityUnit)>
+               5e-6*std::max(checked->GetMaterial()->GetDensity()*densityUnit,static_cast<double>(rho->at(j))))
+            throw std::runtime_error("Audited Geant4 volume identity/density mismatch");
+          volume=checked; audited=true; ++geant4Rescue;
+          auditedBudget[0]+=len/x0->at(j); auditedBudget[1]+=len/l0->at(j);
+          certified.erase(entry);
+          log<<std::setprecision(17)<<i<<','<<j<<",geant4_audited_passive_graphite,"<<x->at(j)<<','<<y->at(j)<<','<<z->at(j)<<','
+             <<volume->GetName()<<','<<rho->at(j)<<','<<volume->GetMaterial()->GetDensity()<<'\n';
+        }
+      }
+      if (!matches(node) && !audited) {
         ++densityMismatch;
-        if (densityMismatch<101)
+        if (densityMismatch<1001)
           log<<i<<','<<j<<",density,"<<x->at(j)<<','<<y->at(j)<<','<<z->at(j)<<','
              <<navigator->GetPath()<<','<<rho->at(j)<<','<<volume->GetMaterial()->GetDensity()<<'\n';
       }
       int category=-1;
       auto cached=categories.find(volume);
-      if (cached!=categories.end()) category=cached->second;
+      if(audited) category=4; // Certified Geant4 ShortStripEndcap passive logical volume.
+      else if (cached!=categories.end()) category=cached->second;
       else {
         const std::string path=navigator->GetPath();
         int subdet=-1;
@@ -256,6 +293,7 @@ void categorize(const char* input, const char* output, const char* diagnostics,
     if (writeSteps) steps.Fill();
     if ((i+1)%10000==0) std::cout<<"PROGRESS "<<i+1<<" tracks / "<<nsteps<<" steps"<<std::endl;
   }
+  if(!certified.empty()) throw std::runtime_error("Unused Geant4 audit labels; recording/classifier changed");
   target.cd(); tracks.Write();
   if (writeSteps) {
     steps.Write();
@@ -270,7 +308,11 @@ void categorize(const char* input, const char* output, const char* diagnostics,
   // Write the numerical report through ROOT's JSON-independent C++ stream.
   std::ofstream report(std::string(output)+".json");
   report<<std::setprecision(17)<<"{\n\"tracks\":"<<ntracks<<",\n\"steps\":"<<nsteps
+        <<",\n\"profile_eta_max\":"<<etaMax
         <<",\n\"unassigned_steps\":"<<missing<<",\n\"density_mismatches\":"<<densityMismatch
+        <<",\n\"tgeo_density_disagreements\":"<<tgeoDisagreements
+        <<",\n\"geant4_audited_rescues\":"<<geant4Rescue
+        <<",\n\"geant4_audited_total_budget\":{\"X0\":"<<auditedBudget[0]<<",\"L0\":"<<auditedBudget[1]<<"}"
         <<",\n\"interior_fallback_steps\":"<<fallback<<",\n\"density_unit\":"<<densityUnit
         <<",\n\"float32_boundary_rescues\":"<<boundaryRescue
         <<",\n\"sensitivity_ambiguous_steps\":"<<sensitivityAmbiguous

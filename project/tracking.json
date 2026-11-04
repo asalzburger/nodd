@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated": "2026-11-03",
+  "updated": "2026-11-04",
   "note": "Curated register. Stage B architecture is active. PR #4\u2019s envelope baseline has explicit human approval and is merged; its documents still declare DRAFT and no formal sign-off record exists. Role ownership does not imply active agents. Chore PRs and infrastructure chores are excluded from project progress. Pixel-module design dossier opened by human direction in parallel with architecture; final component-method gates remain pending.",
   "stages": [
     {
@@ -3486,10 +3486,129 @@
         "DES-025",
         "DES-042"
       ],
-      "updated": "2026-11-03",
-      "next_action": "Verify required checks on PR110\u2019s final head, then human review/merge. Scientific implementation/TDR/accounting delivered; ASIC/cable, cold thermal interfaces, hydraulics and full new-geometry material/reconstruction qualification remain open.",
+      "updated": "2026-11-04",
+      "next_action": "PR110 merged; human interpretation of current material/truth-fit characterization in PR113. ASIC/cable, cold thermal interfaces, hydraulics and realistic reconstruction qualification remain open.",
       "blocker": null,
       "disposition": "Full native PASS: 46,682 unique sensitive IDs / 54 groups, zero overlaps at 1e-5 mm; supplementary audit of 617,018 solids and 1,316 materials PASS. ACTS 120-volume round trip, 128-track navigation, 3-event Geant4 smoke and compiled/published TDR supplied. No engineering acceptance.",
+      "subsystem": "tracker"
+    },
+    {
+      "id": "TASK-TRACK-BASELINE-MATERIAL-COMPARISON",
+      "title": "Map current DES043 tracker material and compare legacy/current Geant4 stacks",
+      "scope": "Fresh current-baseline100k geantinos, native Gen3 material map and100k independent ACTS rays; two palette-compliant sensitive/passive stacks with ACTS ratios and legacy total reference. Preserve supplied PR109 intermediate control.",
+      "stage": "B",
+      "milestones": [
+        "M1"
+      ],
+      "workstream": "WS-TRACK",
+      "role": "Tracker technician",
+      "owner": null,
+      "state": "completed",
+      "dependencies": [
+        "TASK-TRACK-STRIXEL-SERVICE-INTEGRATION",
+        "TASK-TRACK-GEN3-MATERIAL-MAP-TRIAL"
+      ],
+      "deliverables": [
+        "software/analysis/material_baseline_comparison/README.md",
+        "docs/validation/baseline-material-comparison/README.md",
+        "docs/validation/baseline-material-comparison/comparison.json",
+        "docs/validation/baseline-material-comparison/material_map.json.gz",
+        "docs/validation/baseline-material-comparison/material-map-record.json"
+      ],
+      "evidence": [
+        "logs/codex/SESSION-2026-11-03-baseline-material-comparison.md",
+        "docs/validation/baseline-material-comparison/current-mapping-report.json",
+        "docs/validation/baseline-material-comparison/current-validation-report.json",
+        "docs/validation/baseline-material-comparison/geant4-audit-summary.json",
+        "docs/validation/baseline-material-comparison/review.md",
+        "logs/codex/SESSION-2026-11-04-baseline-comparison-pr.md"
+      ],
+      "documents": [
+        "DES-025",
+        "DES-043"
+      ],
+      "updated": "2026-11-04",
+      "next_action": "Human review of qualified material characterization; investigate Geant4/TGeo CSG conversion, phi resolution and material locality/order before tracking-performance use.",
+      "blocker": null,
+      "disposition": "Delivered67-portal/8650-bin map,100k fresh Geant4 and100k independent current ACTS rays,two unrooted figures with final legacy-total-only reference. Every nonzero slab/budget conserved and reload checked;185exact-zero omissions explicit. All149TGeo disagreements audited against1043nativeG4queries. Separate PhysVal assessed e840575 plus finalplot3f788465:17tests and independent full current-ray reductions/hash checks pass,no delivery blocker. CSG conversion/locality/phi/legacyprovenance limits remain;no human acceptance.",
+      "subsystem": "tracker"
+    },
+    {
+      "id": "TASK-TRACK-BASELINE-HIT-COMPARISON",
+      "title": "Compare old/current sensitive crossings versus eta",
+      "scope": "Fresh matched straight-Geant4 sensitive physical-placement counts; old/new paired panels with stacked+blacktotal and individualcomponentmarkers+blacktotal options, fixed palette and zero-inclusive covariance-aware binwise summaries.",
+      "stage": "B",
+      "milestones": [
+        "M1"
+      ],
+      "workstream": "WS-TRACK",
+      "role": "Tracker technician",
+      "owner": null,
+      "state": "completed",
+      "dependencies": [
+        "TASK-TRACK-BASELINE-MATERIAL-COMPARISON"
+      ],
+      "deliverables": [
+        "software/analysis/hit_baseline_comparison/README.md",
+        "docs/validation/baseline-hit-comparison/README.md",
+        "docs/validation/baseline-hit-comparison/profiles.json"
+      ],
+      "evidence": [
+        "docs/validation/baseline-hit-comparison/runs.json",
+        "docs/validation/baseline-hit-comparison/observer-noninterference.json",
+        "docs/validation/baseline-hit-comparison/old-box-control.json",
+        "docs/validation/baseline-hit-comparison/current-box-control.json",
+        "logs/codex/SESSION-2026-11-03-baseline-hit-comparison.md",
+        "docs/validation/baseline-hit-comparison/review.md",
+        "logs/codex/SESSION-2026-11-04-baseline-comparison-pr.md"
+      ],
+      "documents": [
+        "DES-025",
+        "DES-043"
+      ],
+      "updated": "2026-11-04",
+      "next_action": "Human review/reuse of qualified geometric hit profiles. Charged transport, detector response and ACTS plane counts require separate explicitly configured studies.",
+      "blocker": null,
+      "disposition": "Delivered two unrooted old/current comparisons:stacked+totalmarkers and individualmarkers+totalmarkers.100k exactlymatchedrays perbaseline,complete45646/46682 native inventories,means14.07273\u219214.93379. Separate PhysVal at0aec2ef independently checked fullraw statistics/hashes,300\u00d732materialbranch equality,256finiteboxrays perbaseline and5tests;no delivery blocker. Geometricvolume-only/finitecontrol/no native splitstepfixture limits explicit;nohumanacceptance.",
+      "subsystem": "tracker"
+    },
+    {
+      "id": "TASK-TRACK-BASELINE-FATRAS-RESOLUTIONS",
+      "title": "Compare old/current Fatras single-muon truth-fit resolutions",
+      "scope": "Fresh matched old/current baseline truth-associated Kalman fits at fixed pT 1, 5, 10, 100 GeV; independently calibrated current 2 mm response; parameter resolutions, paired ratios and generated-event accounting.",
+      "stage": "B",
+      "milestones": [
+        "M1"
+      ],
+      "workstream": "WS-TRACK",
+      "role": "Tracker technician",
+      "owner": null,
+      "state": "completed",
+      "dependencies": [
+        "TASK-TRACK-BASELINE-MATERIAL-COMPARISON",
+        "TASK-TRACK-BASELINE-HIT-COMPARISON"
+      ],
+      "deliverables": [
+        "software/analysis/fatras_baseline_comparison/README.md",
+        "docs/validation/fatras-baseline-comparison/README.md",
+        "docs/validation/fatras-baseline-comparison/profiles.json.gz"
+      ],
+      "evidence": [
+        "logs/codex/SESSION-2026-11-03-baseline-fatras-resolutions.md",
+        "docs/validation/fatras-baseline-comparison/runs.json.gz",
+        "docs/validation/fatras-baseline-comparison/hit-error-training-audit.json",
+        "docs/validation/fatras-baseline-comparison/figures/plot-report.json",
+        "docs/validation/fatras-baseline-comparison/review.md",
+        "logs/codex/SESSION-2026-11-04-baseline-comparison-pr.md"
+      ],
+      "documents": [
+        "DES-025",
+        "DES-043"
+      ],
+      "updated": "2026-11-04",
+      "next_action": "Human interpretation/reuse of qualified truth-fit characterization; independent seeds, realistic response, pattern recognition and material locality/phi/conversion qualification remain future work.",
+      "blocker": null,
+      "disposition": "Delivered8 fresh20k cases, independent current50k calibration, six parameter/ratio/accounting figures and compact provenance/binwise evidence. Separate PhysVal at795f786 independently reproduces29108 raw scalar statistics,4021739 variances,224 ratios and bounded bootstrap intervals;8 tests and artifact hashes pass. Mixed core/tail results and ideal-seed/material-model limits explicit; no human acceptance.",
       "subsystem": "tracker"
     }
   ],
@@ -5008,18 +5127,36 @@
       "number": 110,
       "title": "Tracker: integrate 703 mm strixel modules, services and TDR",
       "url": "https://github.com/asalzburger/nodd/pull/110",
-      "state": "open",
-      "head_revision": "b839ce7ce699f161c3cb55a749719eaa7b8acf48",
-      "merge_commit": null,
-      "merged_at": null,
-      "collected_at": "2026-11-03T11:06:46Z",
+      "state": "merged",
+      "head_revision": "f182a2e0a37d81390d97e82c231581c57794d2e5",
+      "merge_commit": "c2d1b92d3c5686984d85b0f302bbd9977278f8f1",
+      "merged_at": "2026-11-03T12:38:44Z",
+      "collected_at": "2026-11-04T08:16:57Z",
       "task": "TASK-TRACK-STRIXEL-SERVICE-INTEGRATION",
       "documents": [
         "DES-043",
         "DES-025",
         "DES-042"
       ],
-      "scope": "Human-requested 703 mm module/services working prototype, full DD4hep native/payload/ACTS/navigation/Geant4 checks, published actual TDR, plots and recipes. 17 closed turns / 108,852,277 observed tokens; active parent excluded. Hardware qualification and new-geometry material/performance campaigns remain open. Merge requires human action.",
+      "scope": "Human-requested 703 mm module/services working prototype, full DD4hep native/payload/ACTS/navigation/Geant4 checks, published actual TDR, plots and recipes. 17 closed turns / 108,852,277 observed tokens; active parent excluded. Hardware qualification and new-geometry material/performance campaigns remain open. Merge requires human action. Human merge observed on2026-11-04 collection at the exact merge/head recorded here; this is not engineering acceptance. Current material/Fatras qualification is supplied separately by PR113.",
+      "category": "project"
+    },
+    {
+      "id": "PR-113",
+      "number": 113,
+      "title": "Tracker: record 2 mm baseline material map and performance comparisons",
+      "url": "https://github.com/asalzburger/nodd/pull/113",
+      "state": "open",
+      "head_revision": "ee715547cb9d0f493502962566d87b0a2583a8b7",
+      "merge_commit": null,
+      "merged_at": null,
+      "collected_at": "2026-11-04T08:16:57Z",
+      "task": "TASK-TRACK-BASELINE-MATERIAL-COMPARISON",
+      "documents": [
+        "DES-025",
+        "DES-043"
+      ],
+      "scope": "Record geometry-bound current2mm map and qualified material/hit/Fatras comparisons; includes TASK-TRACK-BASELINE-HIT-COMPARISON and TASK-TRACK-BASELINE-FATRAS-RESOLUTIONS.32 portable tests/replays and prior independent PhysVal checks; counterless selected interactions/canonical journals, no exact token counters exposed. Observed registration head ee71554 before accounting-only commits. Human merge required; no design acceptance.",
       "category": "project"
     }
   ]

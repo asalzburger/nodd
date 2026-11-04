@@ -1,0 +1,167 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-11-03-baseline-hit-comparison",
+  "title": "Old and current baseline sensitive hits versus eta",
+  "recorded_at": "2026-11-03T16:50:05Z",
+  "started_at": null,
+  "ended_at": "2026-11-03T17:08:56Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact client-reported per-turn token counters unavailable for coordinator and specialist; usage unknown,not zero.",
+    "Client version and actual conversation start unavailable; thread identity recovered on2026-11-04.",
+    "2026-11-04 connected app verifies completed parent turn 01a1a250-3368-7b71-9c91-87c5f0cf7619; exact counters still unavailable, usage remains empty."
+  ],
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": "01a15e18-aee8-7080-a61e-ed35d0448960"
+  },
+  "git": {
+    "start_commit": "fb6af4afbcde7603566e6c5941607f64764e7240",
+    "branch": "codex/baseline-material-comparison",
+    "initial_changes": [],
+    "result_commits": [
+      "0aec2ef08553a2fbc24867a7cff4fd4ada0b67ae"
+    ],
+    "changed_files": [
+      "docs/validation/baseline-hit-comparison/README.md",
+      "docs/validation/baseline-hit-comparison/current-box-control.json",
+      "docs/validation/baseline-hit-comparison/figures/.gitignore",
+      "docs/validation/baseline-hit-comparison/figures/hits-markers.pdf",
+      "docs/validation/baseline-hit-comparison/figures/hits-markers.png",
+      "docs/validation/baseline-hit-comparison/figures/hits-markers.svg",
+      "docs/validation/baseline-hit-comparison/figures/hits-stacked.pdf",
+      "docs/validation/baseline-hit-comparison/figures/hits-stacked.png",
+      "docs/validation/baseline-hit-comparison/figures/hits-stacked.svg",
+      "docs/validation/baseline-hit-comparison/figures/plot-report.json",
+      "docs/validation/baseline-hit-comparison/observer-noninterference.json",
+      "docs/validation/baseline-hit-comparison/old-box-control.json",
+      "docs/validation/baseline-hit-comparison/old-native-export-summary.json",
+      "docs/validation/baseline-hit-comparison/profiles.json",
+      "docs/validation/baseline-hit-comparison/provenance.json",
+      "docs/validation/baseline-hit-comparison/runs.json",
+      "logs/codex/SESSION-2026-11-03-baseline-hit-comparison.json",
+      "logs/codex/SESSION-2026-11-03-baseline-hit-comparison.md",
+      "software/analysis/hit_baseline_comparison/HitCounter.C",
+      "software/analysis/hit_baseline_comparison/README.md",
+      "software/analysis/hit_baseline_comparison/check_boxes.py",
+      "software/analysis/hit_baseline_comparison/check_observer.py",
+      "software/analysis/hit_baseline_comparison/plot.py",
+      "software/analysis/hit_baseline_comparison/reduce.py",
+      "software/analysis/hit_baseline_comparison/test_profiles.py",
+      "software/analysis/hit_baseline_comparison/test_retained.py",
+      "project/tracking.json",
+      "software/running/nodd_geantino_recording.py",
+      "docs/validation/baseline-hit-comparison/review.md"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "tracker",
+      "sensitive crossings",
+      "physics validation"
+    ],
+    "related_ids": [
+      "TASK-TRACK-BASELINE-HIT-COMPARISON",
+      "DES-025",
+      "DES-043",
+      "ADR-003"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-11-03-baseline-hit-comparison.md",
+  "activities": [
+    {
+      "kind": "skill",
+      "name": "acts-spack",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Preflight stale registry reported; direct native workflow verified."
+    },
+    {
+      "kind": "skill",
+      "name": "nodd-coordinate",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Bounded explicit PhysVal methodology assignment; coordinator tightlycoupled implementation."
+    },
+    {
+      "kind": "skill",
+      "name": "nodd-review-validation",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Early independent identity/normalization assessment; final exactrevision review pending."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "acts-spack preflight --require-sources",
+      "status": "FAIL",
+      "exit_code": 2,
+      "result": "Stale setup/lock,fullsource registry unverified; actual native commands pass separately."
+    },
+    {
+      "command": "nodd_geantino_recording.py --hit-counter --events3 --tracks100",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "46,682 uniqueDD/G4sensitive placements,300 currentrays; originalnativeMaterialSteppingAction forwarded."
+    },
+    {
+      "command": "check_observer.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All32 native materialbranches exactly equal prior currentcampaign for300rays."
+    },
+    {
+      "command": "nodd_geantino_recording.py old/current --events1000 --tracks100 --seed228 --no-material-output",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "100k matchedrays percase,1runinit/termination each,noabort;1,407,273old and1,493,379currentdistinctcrossings."
+    },
+    {
+      "command": "check_boxes.py --rays256 old/current",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Finitebox counts match all256rays percase; zero-thicknessplanes differ12/13rays as recorded diagnostic."
+    },
+    {
+      "command": "reduce.py;plot.py;visual PNG inspection",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Exactpaired raybank,zero-inclusive means/covarianttotalSEM,two plotoptions PNG/PDF/SVG readable."
+    },
+    {
+      "command": "unittest discover hit_baseline_comparison;material_baseline_comparison",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "5new focusedtests and17existingmaterialtests pass."
+    },
+    {
+      "command": "project_records/validate.py;session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "87tasks/43documents/24reviewrounds;231sessionrecords validate."
+    },
+    {
+      "command": "git staged object/payload/whitespace inspection",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "28files staged,allblobs<1MB;noCSV/ROOT/native/cachepayloads;whitespacegatepasses."
+    },
+    {
+      "command": "Separate HITCOMPARE-PhysVal-02 at0aec2ef08553a2fbc24867a7cff4fd4ada0b67ae",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "5tests,independent full100k raw-table reductions/identity/pairing,300\u00d732branch equality,256finiteboxcounts and bothplots pass;no deliveryblocker,no native rerun/humanacceptance."
+    }
+  ]
+}
