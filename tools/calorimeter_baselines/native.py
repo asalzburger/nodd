@@ -63,6 +63,10 @@ def audit(directory, libraries, output):
         return bool(overlaps)
     finally:
         dd4hep.Detector.destroyInstance()
+        # Match the maintained tracker validator: dispose the geometry while
+        # ROOT's thread infrastructure is still alive, before interpreter exit.
+        if R.gGeoManager:
+            R.gGeoManager.Delete()
 
 
 if __name__ == "__main__":
