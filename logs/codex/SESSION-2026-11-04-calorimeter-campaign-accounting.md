@@ -84,3 +84,7 @@ Public GitHub snapshots remain their explicitly captured dates; the campaign
 coordinator refreshes them before publication. A transient mid-import ledger
 snapshot was stale while source owners changed; the final post-import sync and
 validation pass. No failed snapshot was treated as final evidence.
+
+## Finalized specialist usage
+
+Exact completed accounting-child counters:12,867,619 input +36,722 output =12,904,341 tokens. One canonical owner, matched through the observed root/spawn edge. Current coordinator root turn remains excluded. Durable usage-only evidence is retained; no private rollout text is copied.
