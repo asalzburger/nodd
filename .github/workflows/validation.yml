@@ -15,6 +15,87 @@ concurrency:
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
+  unrooted:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+          submodules: false
+          fetch-depth: 0 # Audit executed native sources at their preserved launch revision.
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.11'
+      - name: Install pinned documentation plotting environment
+        run: python -m pip install -r software/analysis/requirements-unrooted.txt
+      - name: Check ROOT histogram reading and documentation plot exports
+        run: python -I software/analysis/unrooted_smoke.py
+      - name: Replot the retained Geant4 tracker material profiles
+        run: >-
+          python -B software/analysis/material_profiles/plot_profiles.py
+          --data docs/validation/geantino-material-profiles/profiles.json
+          --output build/material-profiles
+      - name: Check finite Gen3 material-survey geometry and replay its figures
+        run: |
+          python -B -m unittest discover -s software/analysis/gen3_material_mapping -p 'test_*.py' -v
+          python -B software/analysis/gen3_material_mapping/export_tables.py --data docs/validation/gen3-material-mapping --check
+          python -B software/analysis/gen3_material_mapping/plot.py --data docs/validation/gen3-material-mapping --output build/gen3-material-mapping-replay
+      - name: Audit retained native material map and replay the total validation overlay
+        run: |
+          python -B software/analysis/gen3_material_mapping/verify_trial.py
+          python -B software/analysis/gen3_material_mapping/plot_validation.py --truth docs/validation/geantino-material-profiles/profiles.json --validation docs/validation/gen3-material-map-run/validation-profiles.json --selection docs/validation/gen3-material-map-run/selection.json --output build/gen3-material-map-run-replay
+      - name: Audit and replay cumulative material requested by expert review
+        run: >-
+          python -B software/analysis/gen3_material_mapping/plot_cumulative.py
+          --data docs/validation/gen3-material-map-run/cumulative/profiles.json.gz
+          --output build/gen3-cumulative-material-replay
+      - name: Check current baseline map, hit and Fatras comparisons
+        run: |
+          python -B -m unittest discover -s software/analysis/material_baseline_comparison -p 'test_*.py' -v
+          python -B software/analysis/material_baseline_comparison/verify_record.py
+          python -B -m unittest discover -s software/analysis/hit_baseline_comparison -p 'test_*.py' -v
+          python -B -m unittest discover -s software/analysis/fatras_baseline_comparison -p 'test_*.py' -v
+          python -B software/analysis/material_baseline_comparison/plot.py --data docs/validation/baseline-material-comparison/comparison.json --output build/baseline-material-replay
+          python -B software/analysis/hit_baseline_comparison/plot.py --data docs/validation/baseline-hit-comparison/profiles.json --output build/baseline-hit-replay
+          python -B software/analysis/fatras_baseline_comparison/plot.py --data docs/validation/fatras-baseline-comparison/profiles.json.gz --output build/baseline-fatras-replay
+      - name: Check truth-tracking analysis and replay retained performance
+        run: |
+          python -B -m unittest discover -s software/analysis/truth_tracking -p 'test_*.py' -v
+          python -B software/analysis/truth_tracking/plot_profiles.py --data docs/validation/truth-tracking-baseline/profiles.json.gz --output build/truth-tracking-baseline-replay
+          python -B software/analysis/truth_tracking/plot_pulls.py --data docs/validation/truth-tracking-baseline/pulls/distributions.json.gz --output build/truth-tracking-baseline-replay/pulls
+          python -B software/analysis/truth_tracking/plot_smearing.py --data docs/validation/truth-tracking-baseline/smearing/comparison.json.gz --output build/truth-tracking-smearing-replay
+      - name: Check strixel-pitch analysis with synthetic inputs
+        run: |
+          python -B -m unittest discover -s software/analysis/strixel_pitch_study -p 'test_*.py' -v
+      - name: Check strixel analysis and published figures without local event data
+        run: |
+          python -B -m unittest discover -s software/analysis/strixel_reconstruction -p 'test_*.py' -v
+          python -B -m unittest discover -s software/analysis/strixel_ttbar -p 'test_*.py' -v
+          python -B software/analysis/strixel_reconstruction/verify_plots.py
+      - name: Check constrained tracker optimisation and retained confirmation evidence
+        run: |
+          python -B -m unittest discover -s software/analysis/tracker_optimization -p 'test_*.py' -v
+          python -B software/analysis/tracker_optimization/verify.py --data docs/validation/tracker-resolution-optimization/confirmation-geometric.json.gz --reports docs/validation/tracker-resolution-optimization/native-confirmation-geometric-reports.json.gz --prefix confirmation/geometric
+          python -B software/analysis/tracker_optimization/verify.py --data docs/validation/tracker-resolution-optimization/confirmation-gaussian.json.gz --reports docs/validation/tracker-resolution-optimization/native-confirmation-gaussian-reports.json.gz --prefix confirmation/gaussian
+          python -B software/analysis/tracker_optimization/verify.py --data docs/validation/tracker-resolution-optimization/late-confirmation-geometric.json.gz --reports docs/validation/tracker-resolution-optimization/native-late-confirmation-geometric-reports.json.gz --prefix confirmation-late/geometric
+          python -B software/analysis/tracker_optimization/verify.py --data docs/validation/tracker-resolution-optimization/late-confirmation-gaussian.json.gz --reports docs/validation/tracker-resolution-optimization/native-late-confirmation-gaussian-reports.json.gz --prefix confirmation-late/gaussian
+          python -B software/analysis/tracker_optimization/plot.py --input docs/validation/tracker-resolution-optimization/confirmation-geometric.json.gz --output build/tracker-optimisation-replay
+      - name: Check full GBTS reconstruction and replay held-out performance
+        run: |
+          python -B -m unittest discover -s software/analysis/tracker_reconstruction -p 'test_*.py' -v
+          python -B software/analysis/tracker_reconstruction/verify.py
+          python -B software/analysis/tracker_reconstruction/plot.py --data docs/validation/tracker-reconstruction/validation --output build/tracker-reconstruction-replay
+      - name: Verify species and transport reconstruction and replay comparisons
+        run: |
+          python -B software/analysis/tracker_reconstruction/species_evidence.py verify --data docs/validation/tracker-reconstruction-species
+          python -B software/analysis/tracker_reconstruction/species_report.py --data docs/validation/tracker-reconstruction-species --output build/tracker-species-replay
+          python -B software/analysis/tracker_reconstruction/species_plot.py --data docs/validation/tracker-reconstruction-species --output build/tracker-species-replay/figures
+      - name: Check float32 material-boundary rounding cells
+        run: |
+          c++ -std=c++17 software/analysis/material_profiles/test_rounding_cell.cpp -o build/test-rounding-cell
+          build/test-rounding-cell
+      - name: Check tracker crossing accounting and population profiles
+        run: python -B -m unittest discover -s tools/tracker_propagation -p 'test_*.py' -v
   build:
     runs-on: ubuntu-latest
     steps:
@@ -43,6 +124,10 @@ jobs:
           python3 -B -m unittest discover -s tools/siw_services -p 'test_*.py' -v
           python3 -B tools/siw_services/study.py --check
           python3 -B tools/layout_overview/draw.py --check
+      - name: Test common FCAL finite geometry and readout controls
+        run: |
+          python3 -B -m unittest discover -s tools/forward_calorimeter -p 'test_*.py' -v
+          python3 -B tools/forward_calorimeter/study.py --check
       - name: Validate specialist profiles, skills and assignment controls
         run: |
           python3 -B tools/agent_workflow/workflow.py validate
@@ -53,6 +138,12 @@ jobs:
         run: |
           python3 -m pip install -r tools/tracker_layout/requirements-controls.txt
           python3 -B -m unittest discover -s tools/tracker_layout -p 'test_*.py' -v
+      - name: Test solenoid vacuum sizing and interface controls
+        run: python3 -B -m unittest discover -s tools/solenoid_baseline -p 'test_*.py' -v
+      - name: Verify retained ODD IdRes documentation data
+        run: |
+          python3 -B -m unittest discover -s tools/odd_idres -p 'test_*.py' -v
+          python3 -B tools/odd_idres/verify.py
       - name: Test magnetic sizing and field controls
         run: python3 -B -m unittest discover -s tools/magnetic_study -p 'test_*.py' -v
       - name: Test finite-module geometry and coverage controls
@@ -71,12 +162,26 @@ jobs:
         run: python3 -B -m unittest discover -s tools/pixel_disc_eta_apertures -p 'test_*.py' -v
       - name: Test DD4hep pixel compact export controls
         run: python3 -B -m unittest discover -s tools/pixel_barrel_dd4hep -p 'test_*.py' -v
+      - name: Verify retained balanced baseline execution evidence
+        run: python3 -B tools/tracker_dd4hep/verify_baseline.py
+      - name: Verify current balanced TDR source and assets
+        run: python3 -B docs/publication/tracker-baseline-2026-10-29/scripts/balanced_snapshot.py --check
       - name: Test combined preliminary pixel export
         run: python3 -B -m unittest discover -s tools/pixel_detector_dd4hep -p 'test_*.py' -v
+      - name: Test selected strixel Gaussian response preparation
+        run: python3 -B -m unittest discover -s software/analysis/tracker_baseline -p 'test_*.py' -v
       - name: Test beampipe and combined tracker integration guards
         run: |
           python3 -B -m unittest discover -s tools/beampipe -p 'test_*.py' -v
           python3 -B -m unittest discover -s tools/tracker_dd4hep -p 'test_*.py' -v
+      - name: Test material benchmark selection and profiler accounting
+        run: python3 -B -m unittest discover -s tools/material_recording_profile -p 'test_*.py' -v
+      - name: Test proposed 2 mm strixel service redesign
+        run: |
+          python3 -B -m unittest discover -s tools/short_strip_redesign -p 'test_*.py' -v
+          python3 -B tools/short_strip_redesign/verify.py
+          python3 -B tools/tracker_dd4hep/curate_des043.py --check
+          python3 -B tools/short_strip_redesign/barrel_interfaces.py --output /tmp/nodd-barrel-interfaces.json
       - name: Test short-strip barrel prototype controls
         run: python3 -B -m unittest discover -s tools/short_strip_barrel -p 'test_*.py' -v
       - name: Short-strip endcap controls

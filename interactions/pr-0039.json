@@ -1,0 +1,354 @@
+{
+  "schema_version": 1,
+  "github": {
+    "captured_at": "2026-10-24T07:41:00.735Z",
+    "pull_request": {
+      "number": 39,
+      "url": "https://github.com/asalzburger/nodd/pull/39",
+      "title": "Tracker: Integrate preliminary pixel detector with current main",
+      "head": "design/pixel-endcap-support",
+      "head_sha": "c0fcccc090a9196cfca5d7619a91302c45d9152c",
+      "state": "closed",
+      "body": "This PR integrates the preliminary pixel barrel and both endcaps in a standalone DD4hep compact, with reusable module/support/service factories and portable nodehammer projects. DES-015 governs the combined implementation, using the PR34/35 barrel and DES-014 proposal B selected by the human maintainer. Issue #7 supplies the module context. The implementation remains an isolated PROTOTYPE with DRAFT design status.\n\nRebased onto current main `3db68765f09eb9953afedceaba677ab3744eef7c`, including PR #33's independent display settings. Module-only viewing preserves identifier-based barrel selection and selects the first positive-endcap module for the combined compact. Both selections are deterministic; the source module is recorded in the report. ROOT/config RGB and effective transparency remain independent, and the GLB translation correction and original audit tolerances are retained.\n\nValidation rerun on 2026-10-05:\n\n- All six native CTests pass: barrel and combined compact construction, source comparisons, navigation, identifiers, zero overlaps at 0.00001 mm, and ROOT display export/reopen.\n- All 14,858 sensitive elements and 74,290 pixel-cell centre checks pass; 93 deterministic navigation rays run. Detector counts, constituent material accounting, mass and packed identifiers match the retained DES-015 native report exactly.\n- All seven combined nodehammer views and four barrel-only views pass semantic/NHB, mesh-selection, GLB unit and RGBA checks. Module-only outputs contain 17 positive-endcap components or 8 barrel components, respectively.\n- 13 nodehammer safeguards and 27 dashboard tests pass; dashboard validation/build and session validation pass.\n- DD4hep 1.38 / ROOT 6.40.04 / Geant4 11.4.2 runtime verified. Geant4 initializes FTFP_BERT with 14,858 sensitive paths and seed 42. Zero events are transported.\n\nRebase evidence, configuration/runtime hashes and tolerances are retained separately in `docs/validation/DES-015/pr39-rebase.json`; historical reports are preserved. Repeatable local commands are in `tools/pixel_detector_dd4hep/README.md`, including `refresh.py --geant4-init`.\n\nThe existing thermal stress and rear-flange service-packing failures remain open. Effective supports, cooling and service cells preserve the documented inventory without qualifying manufactured routing or thermal conduction. This PR does not establish Geant4 hit response, ACTS coverage, formal sign-off or engineering acceptance. The rebase changes no detector geometry parameters.\n",
+      "actor": "asalzburger-review",
+      "created_at": "2026-10-05T10:24:07Z"
+    },
+    "comments": [],
+    "issues": [
+      {
+        "number": 7,
+        "url": "https://github.com/asalzburger/nodd/issues/7",
+        "title": "Design reusable RD53 pixel-module alternatives",
+        "body": "Develop DES-001 as a stand-alone RD53 pixel-module proposal with reusable structures, few module types, low material and realistic manufacture, services and thermal interfaces. The available RD53 chip is fixed; the exact inventory variant is being clarified. Pixel volume/layer layout is not selected by this task.\n\nThe Tracking Engineer leads two independent alternatives, each with top-view and cross-section drawings, source facts/derivations/design choices and explicit limitations. The Project Coordinator supplies a balanced comparison and conditional recommendation after technical synthesis.\n\nPublic RD53 documentation and ATLAS/CMS detector/upgrade TDRs are references, not an instruction to copy either experiment. Catalogue every new normative source in reference/manifest.yaml, distinguish RD53A from production successors, and leave unverified thickness/power/irradiation assumptions visible. Include active/inactive area, chip tiling, bumps, flex/adhesive/bonds, sensor bias/isolation, material accounting and credible cooling/power/data handoffs. Layout fit, radiation requirements, engineering tolerances and production sign-off remain separate gates.\n\nScope: DRAFT designs and source/design study evidence only; no detector geometry or reconstruction changes. Update project tracking in the same PR. Existing context: stage B/C of PLAN-NODD-001, global envelope baseline DES-003 / ADR-006, with the formal-sign-off documentation discrepancy preserved.\n",
+        "actor": "asalzburger",
+        "created_at": "2026-09-17T14:55:53Z",
+        "comments": []
+      }
+    ]
+  },
+  "curated": {
+    "journal_links": [],
+    "agents": [],
+    "tools": [],
+    "events": []
+  },
+  "derived": {
+    "parties": [
+      {
+        "id": "agent:SESSION-2026-10-01-pixel-endcap-support",
+        "name": "unspecified",
+        "kind": "agent"
+      },
+      {
+        "id": "agent:SESSION-2026-10-05-pr39-dashboard-fix",
+        "name": "Codex",
+        "kind": "agent"
+      },
+      {
+        "id": "agent:SESSION-2026-10-05-pr39-rebase",
+        "name": "Codex",
+        "kind": "agent"
+      },
+      {
+        "id": "github:asalzburger",
+        "name": "asalzburger",
+        "kind": "account"
+      },
+      {
+        "id": "github:asalzburger-review",
+        "name": "asalzburger-review",
+        "kind": "human"
+      },
+      {
+        "id": "unknown:project-user",
+        "name": "Project user (name unrecorded)",
+        "kind": "human"
+      }
+    ],
+    "journals": [
+      {
+        "session_id": "SESSION-2026-10-01-pixel-endcap-support",
+        "record": "logs/codex/SESSION-2026-10-01-pixel-endcap-support.json",
+        "attribution": [
+          "recorded_branch"
+        ],
+        "snapshot": null,
+        "snapshot_sha256": null,
+        "record_sha256": "184616e1e94439ddea28be246f249cc1a6f604a63a0476c7057483f6646eaacd",
+        "narrative_sha256": "5cde7be81e04e1dbeea10027fdc4302ffb160f76c5455ca56963b1b9a72320c4"
+      },
+      {
+        "session_id": "SESSION-2026-10-05-pr39-dashboard-fix",
+        "record": "logs/codex/SESSION-2026-10-05-pr39-dashboard-fix.json",
+        "attribution": [
+          "explicit_PR_reference"
+        ],
+        "snapshot": null,
+        "snapshot_sha256": null,
+        "record_sha256": "e38120185750dfd8fd8c5eaf9e5e0b3d8db572fdcd0f0d547f5901e58ffb2b46",
+        "narrative_sha256": "6d706e0bfd7bb29b6bff1738494003045cf57a209e93649ffb0e1f4b7dc4900e"
+      },
+      {
+        "session_id": "SESSION-2026-10-05-pr39-rebase",
+        "record": "logs/codex/SESSION-2026-10-05-pr39-rebase.json",
+        "attribution": [
+          "explicit_PR_reference"
+        ],
+        "snapshot": null,
+        "snapshot_sha256": null,
+        "record_sha256": "30d2f28b3b953d74c5e161f6095fa66bfdf668f1a8c928a104e2bf0fa4d56e5d",
+        "narrative_sha256": "c4be8d539495c25e8e29261eca9793af07007058b1be7ffca44d373bd7ce794d"
+      }
+    ],
+    "token_accounts": [
+      {
+        "id": "SESSION-2026-10-01-pixel-endcap-support",
+        "record": "logs/codex/SESSION-2026-10-01-pixel-endcap-support.json",
+        "scope": "canonical_session; shared PR references are not allocations",
+        "status": "unobserved",
+        "usage_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "turns": []
+      },
+      {
+        "id": "SESSION-2026-10-05-pr39-dashboard-fix",
+        "record": "logs/codex/SESSION-2026-10-05-pr39-dashboard-fix.json",
+        "scope": "canonical_session; shared PR references are not allocations",
+        "status": "unobserved",
+        "usage_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "turns": []
+      },
+      {
+        "id": "SESSION-2026-10-05-pr39-rebase",
+        "record": "logs/codex/SESSION-2026-10-05-pr39-rebase.json",
+        "scope": "canonical_session; shared PR references are not allocations",
+        "status": "unobserved",
+        "usage_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "turns": []
+      }
+    ],
+    "visible_sources": [],
+    "agents": [
+      {
+        "id": "agent:SESSION-2026-10-01-pixel-endcap-support",
+        "name": "unspecified",
+        "role": "session_agent",
+        "thread_id": null,
+        "models": [],
+        "source": "logs/codex/SESSION-2026-10-01-pixel-endcap-support.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      },
+      {
+        "id": "agent:SESSION-2026-10-05-pr39-dashboard-fix",
+        "name": "Codex",
+        "role": "session_agent",
+        "thread_id": null,
+        "models": [],
+        "source": "logs/codex/SESSION-2026-10-05-pr39-dashboard-fix.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      },
+      {
+        "id": "agent:SESSION-2026-10-05-pr39-rebase",
+        "name": "Codex",
+        "role": "session_agent",
+        "thread_id": null,
+        "models": [],
+        "source": "logs/codex/SESSION-2026-10-05-pr39-rebase.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      }
+    ],
+    "tools": {
+      "native_codex": [],
+      "codex_installed": [],
+      "instructed_software": [],
+      "unresolved": [
+        {
+          "name": "shell, git, gh and public-web research",
+          "category": "unresolved",
+          "version": null,
+          "calls": null,
+          "source": "logs/codex/SESSION-2026-10-01-pixel-endcap-support.json",
+          "evidence": "Selected commands in the paired narrative; only measured validation results retained.",
+          "token_account": "SESSION-2026-10-01-pixel-endcap-support",
+          "provenance": "Operation recorded; installation provenance needs explicit evidence."
+        }
+      ]
+    },
+    "events": [
+      {
+        "id": "github:https://github.com/asalzburger/nodd/pull/39",
+        "type": "response",
+        "direction": "action",
+        "actor": "github:asalzburger-review",
+        "recipients": [],
+        "text": "This PR integrates the preliminary pixel barrel and both endcaps in a standalone DD4hep compact, with reusable module/support/service factories and portable nodehammer projects. DES-015 governs the combined implementation, using the PR34/35 barrel and DES-014 proposal B selected by the human maintainer. Issue #7 supplies the module context. The implementation remains an isolated PROTOTYPE with DRAFT design status.\n\nRebased onto current main `3db68765f09eb9953afedceaba677ab3744eef7c`, including PR #33's independent display settings. Module-only viewing preserves identifier-based barrel selection and selects the first positive-endcap module for the combined compact. Both selections are deterministic; the source module is recorded in the report. ROOT/config RGB and effective transparency remain independent, and the GLB translation correction and original audit tolerances are retained.\n\nValidation rerun on 2026-10-05:\n\n- All six native CTests pass: barrel and combined compact construction, source comparisons, navigation, identifiers, zero overlaps at 0.00001 mm, and ROOT display export/reopen.\n- All 14,858 sensitive elements and 74,290 pixel-cell centre checks pass; 93 deterministic navigation rays run. Detector counts, constituent material accounting, mass and packed identifiers match the retained DES-015 native report exactly.\n- All seven combined nodehammer views and four barrel-only views pass semantic/NHB, mesh-selection, GLB unit and RGBA checks. Module-only outputs contain 17 positive-endcap components or 8 barrel components, respectively.\n- 13 nodehammer safeguards and 27 dashboard tests pass; dashboard validation/build and session validation pass.\n- DD4hep 1.38 / ROOT 6.40.04 / Geant4 11.4.2 runtime verified. Geant4 initializes FTFP_BERT with 14,858 sensitive paths and seed 42. Zero events are transported.\n\nRebase evidence, configuration/runtime hashes and tolerances are retained separately in `docs/validation/DES-015/pr39-rebase.json`; historical reports are preserved. Repeatable local commands are in `tools/pixel_detector_dd4hep/README.md`, including `refresh.py --geant4-init`.\n\nThe existing thermal stress and rear-flange service-packing failures remain open. Effective supports, cooling and service cells preserve the documented inventory without qualifying manufactured routing or thermal conduction. This PR does not establish Geant4 hit response, ACTS coverage, formal sign-off or engineering acceptance. The rebase changes no detector geometry parameters.\n",
+        "source": "https://github.com/asalzburger/nodd/pull/39",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [],
+        "timestamp": "2026-10-05T10:24:07Z",
+        "remote_input": null
+      },
+      {
+        "id": "github:https://github.com/asalzburger/nodd/issues/7",
+        "type": "issue",
+        "direction": "reaction",
+        "actor": "github:asalzburger",
+        "recipients": [],
+        "text": "Develop DES-001 as a stand-alone RD53 pixel-module proposal with reusable structures, few module types, low material and realistic manufacture, services and thermal interfaces. The available RD53 chip is fixed; the exact inventory variant is being clarified. Pixel volume/layer layout is not selected by this task.\n\nThe Tracking Engineer leads two independent alternatives, each with top-view and cross-section drawings, source facts/derivations/design choices and explicit limitations. The Project Coordinator supplies a balanced comparison and conditional recommendation after technical synthesis.\n\nPublic RD53 documentation and ATLAS/CMS detector/upgrade TDRs are references, not an instruction to copy either experiment. Catalogue every new normative source in reference/manifest.yaml, distinguish RD53A from production successors, and leave unverified thickness/power/irradiation assumptions visible. Include active/inactive area, chip tiling, bumps, flex/adhesive/bonds, sensor bias/isolation, material accounting and credible cooling/power/data handoffs. Layout fit, radiation requirements, engineering tolerances and production sign-off remain separate gates.\n\nScope: DRAFT designs and source/design study evidence only; no detector geometry or reconstruction changes. Update project tracking in the same PR. Existing context: stage B/C of PLAN-NODD-001, global envelope baseline DES-003 / ADR-006, with the formal-sign-off documentation discrepancy preserved.\n",
+        "source": "https://github.com/asalzburger/nodd/issues/7",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [],
+        "timestamp": "2026-09-17T14:55:53Z",
+        "remote_input": null
+      },
+      {
+        "id": "journal:SESSION-2026-10-01-pixel-endcap-support:0b387bea61d0ccec",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "agent:SESSION-2026-10-01-pixel-endcap-support"
+        ],
+        "text": "User, exact selected request:\n\n> Now, I need you to design the local disc support for the Pixel endcap disks.\n> Obviously with as little material as possible, common designs throughout the endcaps and with mounting rails and cable/cooling routing.\n> Go back to literature where needed.\n\n",
+        "source": "logs/codex/SESSION-2026-10-01-pixel-endcap-support.md#selected-conversation",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-01-pixel-endcap-support"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-10-01-pixel-endcap-support:49ef8eb726acfd0e",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-10-01-pixel-endcap-support",
+        "recipients": [],
+        "text": "Assistant outcome (paraphrase): inspect the actual 18-disc baseline; compare a\nretained-position backplate with a support-driven stagger amendment; develop a\ncommon sandwich disc, rails, carrier and routing concept; retain thermal and\nservice-capacity failures instead of presenting a qualified design.\n\nAn optional question asked whether revised staggering could be proposed. No answer\nhad arrived when preparing the draft. B is therefore explicitly a **proposal**;\nno baseline geometry or acceptance state is changed and no approval is inferred.\nNo subagents were used for this bounded task.",
+        "source": "logs/codex/SESSION-2026-10-01-pixel-endcap-support.md#selected-conversation",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-01-pixel-endcap-support"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-10-01-pixel-endcap-support:17254e5c20988543",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-10-01-pixel-endcap-support",
+        "recipients": [],
+        "text": "DES014 remains DRAFT/PROTOTYPE. All discs have the same x/y pattern:112 quads,\n448 chips, five radial rows. Candidate A's narrow central posts fit but have a\npoor optimistic thermal lower bound; increasing their width causes collisions.\nCandidate B uses a common 6.3 mm carbon sandwich, two routing planes, ten CO2\nhalf-ring circuits, 0/1.65/3.30 mm local support heights, a three-point coupling\nand rails bonded to a closed carrier shell. B keeps counts, x/y and IDs, but\nproposes new sensor z/mounting faces and a 3.5 mm first-disc/collector shift.\n\nThe initial two-level inner-ring trial collided with next-nearest neighbours;\nthree levels resolve the tested body intersections. Two crossing 2.8 mm pipe\nplanes require more than the initial 3.5 mm plate reservation; the documented\n6.3 mm prototype is retained. Neither exploratory input was an approved baseline.\n\nFinal local module/pickup/foot envelope checks have zero overlaps. The heat/quality\nbalance passes its 0.45 ceiling, but the pickup-temperature stress screen fails.\nThe current-barrel-plus-endcap reference trunk uses about97% of available area;\nadverse bandwidth scenarios fail. Pipe transitions, interfaces and flex artwork\nremain conceptual. The mass estimate includes curved tube saddles, displacements,\nprovisional flex and full-liquid local coolant; it is not a solid-model measurement.\nFive original drawing sheets, a PDF book, source dossier, placement comparison,\nconfigurable model, regression controls and exact source/artifact hashes are retained.\nPR35 merge metadata was reconciled without inferring new design approval.",
+        "source": "logs/codex/SESSION-2026-10-01-pixel-endcap-support.md#decisions-and-outcomes",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-01-pixel-endcap-support"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-10-01-pixel-endcap-support:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-10-01-pixel-endcap-support",
+        "recipients": [],
+        "text": "Design common pixel endcap disc supports, rails and services — see the canonical narrative for outcomes and checks.",
+        "source": "logs/codex/SESSION-2026-10-01-pixel-endcap-support.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-01-pixel-endcap-support"
+        ],
+        "content_kind": "reference_summary"
+      },
+      {
+        "id": "journal:SESSION-2026-10-05-pr39-dashboard-fix:606b8d7461b5c363",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "agent:SESSION-2026-10-05-pr39-dashboard-fix"
+        ],
+        "text": "User, exact: “The building of the project dashboard is still breaking in PR #39”.\nThis is a bounded workflow repair on the existing PR39 branch, starting at\n`cb76e517dc0ac8f1dd7bcf6f5184b3361ef50d0b`. The existing isolated worktree was\nclean. Primary local main and unrelated detector/display edits and usage records\nwere preserved. No subagents or Spack runtime were needed for this Git/Python fix.\nADR003 governs traceable evidence and ADR004 the session record; no scientific\nparameters, design states or review decisions change.",
+        "source": "logs/codex/SESSION-2026-10-05-pr39-dashboard-fix.md#scope-and-selected-request",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-05-pr39-dashboard-fix"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-10-05-pr39-dashboard-fix:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-10-05-pr39-dashboard-fix",
+        "recipients": [],
+        "text": "Fix PR39 dashboard failure in a fresh CI checkout — see the canonical narrative for outcomes and checks.",
+        "source": "logs/codex/SESSION-2026-10-05-pr39-dashboard-fix.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-05-pr39-dashboard-fix"
+        ],
+        "content_kind": "reference_summary"
+      },
+      {
+        "id": "journal:SESSION-2026-10-05-pr39-rebase:259df7cd68844896",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "agent:SESSION-2026-10-05-pr39-rebase"
+        ],
+        "text": "User, exact: “PR #39 also needs rebasing”. This bounded task updates\n[PR39](https://github.com/asalzburger/nodd/pull/39), preserving the DES015 preliminary\nprototype and existing human approval boundaries. No additional component design\nwas requested. Exact client per-turn counters and actual conversation start time\nwere unavailable.\n\nThe original remote head was `78bc60bb6da0c9d234baf00d37cadea9dd4964b4` on\n`design/pixel-endcap-support`. It merged PR37 into the already merged PR36 branch.\nIts tree exactly matched PR37 head `db74bec`; there were no separate merge-resolution\nchanges. The three unique implementation/evidence commits were replayed onto\nmain `3db68765f09eb9953afedceaba677ab3744eef7c`, which includes merged PR33.\n\nWork took place on `rebase/pr39-2026-10-05` in a separate worktree. Primary local\nmain stayed at `ed78a3f`, with unrelated edits to the detector README, palette,\nDES012 and ROOT exporter, an untracked display test and September 29/October 1\nusage records. The original design/endcap and combined-detector local worktrees\nwere preserved. The request explicitly authorizes rebasing this PR; publication\nuses an exact lease against the original remote head.",
+        "source": "logs/codex/SESSION-2026-10-05-pr39-rebase.md#scope-and-selected-request",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-05-pr39-rebase"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-10-05-pr39-rebase:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-10-05-pr39-rebase",
+        "recipients": [],
+        "text": "Rebase combined pixel detector PR39 onto current main — see the canonical narrative for outcomes and checks.",
+        "source": "logs/codex/SESSION-2026-10-05-pr39-rebase.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-05-pr39-rebase"
+        ],
+        "content_kind": "reference_summary"
+      }
+    ],
+    "coverage": {
+      "github_captured_at": "2026-10-24T07:41:00.735Z",
+      "prompts": "Available account-matched user-visible messages, public Codex inputs and curated journal excerpts. Historical full input coverage is unknown.",
+      "recovered_visible_turns": 0,
+      "unrecovered_account_turns": [],
+      "responses": "Public responses and recorded outcomes; no private model state or hidden reasoning.",
+      "token_accounting": "References only. Never sum accounts across PRs or assign a shared turn by text length.",
+      "unknowns": "Unrecorded names, models, tools, subagent identities and response links remain unknown; empty lists are not zero activity.",
+      "remote": "Snapshot, not live synchronization; deleted/edited history and emoji reactions are not recovered.",
+      "branch_only": "Pinned branch journal snapshots are references, not imported counters. Unretained or other-device inputs remain unknown."
+    }
+  }
+}

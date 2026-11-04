@@ -2,6 +2,7 @@
 """Assemble maintained subsystem exports, preserving recipes and transforms."""
 
 import argparse
+from collections import Counter
 import copy
 import hashlib
 import json
@@ -42,8 +43,38 @@ def rename_materials(detector, names):
                     node.set(attribute, names[value])
 
 
-def export(output, pixel_aperture_mm=None):
+def select_strixel_readout(doc, selection):
+    """Apply the human-selected readout after composing historical components."""
+    if (selection.get("classification") != "NODD DESIGN CHOICE"
+            or selection.get("pitch_mm") != [.075, 2.]
+            or selection.get("previous_pitch_mm") != [.075, .5]):
+        raise ValueError("Unsupported strixel baseline selection")
+    changes = []
+    for name in ("ShortStripBarrelHits", "ShortStripEndcapHits"):
+        readouts = doc.findall(f"./readouts/readout[@name='{name}']")
+        if len(readouts) != 1:
+            raise ValueError("Require one selected strixel readout: " + name)
+        segmentation = readouts[0].find("segmentation")
+        if segmentation is None or segmentation.get("type") != "CartesianGridXY":
+            raise ValueError("Unsupported strixel segmentation")
+        for key, value in dict(grid_size_x=.075, offset_x=.0375).items():
+            raw = segmentation.get(key, "")
+            if not raw.endswith("*mm") or float(raw[:-3]) != value:
+                raise ValueError("Historical strixel input changed: " + name + "/" + key)
+        raw_pitch, raw_offset = segmentation.get('grid_size_y', ''), segmentation.get('offset_y', '')
+        if (not raw_pitch.endswith('*mm') or not raw_offset.endswith('*mm')
+                or (float(raw_pitch[:-3]), float(raw_offset[:-3])) not in ((.5, .25), (2., 1.))):
+            raise ValueError('Historical strixel input changed: ' + name + '/longitudinal pair')
+        before = dict(segmentation.attrib)
+        segmentation.set("grid_size_y", "2.0*mm")
+        segmentation.set("offset_y", "1.0*mm")
+        changes.append(dict(readout=name, before=before, after=dict(segmentation.attrib)))
+    return changes
+
+
+def export(output, pixel_aperture_mm=None, pixel_config=None, historical_short_strips=False):
     config = json.loads((ROOT / "detector/config/tracker.json").read_text())
+    pixel_config = Path(pixel_config or ROOT / config["pixel_config"])
     if pixel_aperture_mm is None:
         pixel_aperture_mm = config["pixel_passive_aperture_mm"]
     output = Path(output)
@@ -69,23 +100,33 @@ def export(output, pixel_aperture_mm=None):
     entities = []
     provenance = {}
     components = []
+    shape_probes = []
+    strip_config_path = ROOT / config['short_strip_config'] if not historical_short_strips else None
+    strip_config = json.loads(strip_config_path.read_text()) if strip_config_path else None
     world = [0.0, 0.0, 0.0]
     for key, tool, filename in COMPONENTS:
         directory = output / "components" / key
-        subprocess.run(
-            [
+        command = [
                 sys.executable,
                 "-B",
                 str(ROOT / "tools" / tool / "export.py"),
                 "--output",
                 str(directory),
-            ],
+            ]
+        if key == "pixel":
+            command.extend(["--config", str(pixel_config)])
+        if strip_config and key in ('short_barrel', 'short_endcap'):
+            command = [sys.executable, '-B', str(ROOT/'tools/short_strip_redesign/integration.py'),
+                       '--component', key, '--config', str(strip_config_path), '--output', str(directory)]
+        subprocess.run(
+            command,
             check=True,
             stdout=subprocess.DEVNULL,
         )
         xml = ET.parse(directory / filename).getroot()
         material = ET.parse(directory / "materials.xml").getroot()
         expected = json.loads((directory / "expected.json").read_text())
+        shape_probes.extend(dict(probe, name=key+'_'+probe['name']) for probe in expected.get('shape_probes', []))
         local_recipes = expected.get("materials", expected.get("material_recipes", {}))
         # Beam and pixel have their own recipes; shared strip base materials are
         # reused only after exact recipe equality (including referenced names).
@@ -209,7 +250,19 @@ def export(output, pixel_aperture_mm=None):
         name="tracker_region_zmax",
         value=f"{config['tracker_region_zmax_mm']:.17g}*mm",
     )
-    entities, reconciliation = reconcile(doc, matdoc, entities, recipes)
+    selection_path = ROOT / config["strixel_selection"]
+    selection = json.loads(selection_path.read_text())
+    strixel_amendment = select_strixel_readout(doc, selection)
+    entities, reconciliation = reconcile(doc, matdoc, entities, recipes, strip_config)
+    for component in components:
+        component['source_counts'] = component['counts']
+        component['counts'] = dict(Counter(e['role'] for e in entities if e['component'] == component['name']))
+    if strip_config:
+        sensors = [e for e in entities if e['role'] == 'sensitive']
+        if pixel_config.resolve() == (ROOT/config['pixel_config']).resolve() and len(sensors) != strip_config['expected_combined_sensitive']:
+            raise ValueError('DES043 combined sensitive inventory differs')
+        if len({(e['ids']['system'], e['ids']['layer']) for e in sensors}) != strip_config['expected_logical_groups']:
+            raise ValueError('DES043 logical layer groups differ')
     aperture_amendment = (
         enlarge_pixel_aperture(doc, matdoc, entities, recipes, pixel_aperture_mm)
         if pixel_aperture_mm > 27
@@ -218,8 +271,15 @@ def export(output, pixel_aperture_mm=None):
     report = dict(
         status="DRAFT",
         config=config,
+        pixel_config=str(pixel_config.relative_to(ROOT)) if pixel_config.is_relative_to(ROOT) else str(pixel_config),
+        pixel_config_sha256=sha(pixel_config),
         pixel_aperture_amendment=aperture_amendment,
+        strixel_readout_amendment=strixel_amendment,
+        strixel_selection_sha256=sha(selection_path),
         service_reconciliation=reconciliation,
+        short_strip_integration=strip_config,
+        historical_short_strips=historical_short_strips,
+        shape_probes=shape_probes,
         entities=entities,
         materials=recipes,
         components=components,
@@ -232,10 +292,17 @@ def export(output, pixel_aperture_mm=None):
                 Path(__file__),
                 Path(__file__).with_name("services.py"),
                 Path(__file__).with_name("aperture.py"),
+                Path(__file__).with_name("validate.py"),
                 ROOT / "detector/config/tracker.json",
+                selection_path,
             )
         },
     )
+    if strip_config_path:
+        for path in (strip_config_path, ROOT/strip_config['input'],
+                     ROOT/'tools/short_strip_redesign/integration.py', ROOT/'tools/short_strip_redesign/integrated_services.py',
+                     ROOT/'tools/short_strip_redesign/barrel_native.py'):
+            report['assembly_source_hashes'][str(path.relative_to(ROOT))] = sha(path)
     write(output / "tracker.xml", doc)
     write(output / "materials.xml", matdoc)
     (output / "expected.json").write_text(
@@ -247,6 +314,10 @@ def export(output, pixel_aperture_mm=None):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--pixel-config", type=Path,
+                        help="Explicit pixel control; default is the DES040 balanced working baseline")
+    parser.add_argument('--historical-short-strips', action='store_true',
+                        help='Preserve DES020/021 modules and legacy shared services as a historical control')
     parser.add_argument(
         "--pixel-aperture-mm",
         type=float,
@@ -258,4 +329,4 @@ if __name__ == "__main__":
         help="Unamended control; overlaps the new pipe and must fail validation",
     )
     args = parser.parse_args()
-    export(args.output, 27 if args.keep_pixel_aperture else args.pixel_aperture_mm)
+    export(args.output, 27 if args.keep_pixel_aperture else args.pixel_aperture_mm, args.pixel_config, args.historical_short_strips)

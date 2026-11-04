@@ -33,10 +33,11 @@ class TrimmedTests(unittest.TestCase):
     def tearDownClass(cls):
         cls.tmp.cleanup()
 
-    def test_default_cli_selects_trimmed_mixed_baseline_and_reviewed_datums(self):
+    def test_explicit_historical_cli_preserves_trimmed_baseline_and_reviewed_datums(self):
         with tempfile.TemporaryDirectory() as folder:
             subprocess.run(
-                [sys.executable, "-B", str(HERE / "export.py"), "--output", folder],
+                [sys.executable, "-B", str(HERE / "export.py"), "--config",
+                 str(ROOT / "detector/config/pixel-detector-trimmed.json"), "--output", folder],
                 cwd=ROOT,
                 check=True,
                 capture_output=True,

@@ -1,0 +1,182 @@
+{
+  "schema_version": 1,
+  "github": {
+    "captured_at": "2026-10-24T07:41:01.793Z",
+    "pull_request": {
+      "number": 80,
+      "url": "https://github.com/asalzburger/nodd/pull/80",
+      "title": "Infrastructure: migrate calorimeter software and external tool adapters",
+      "head": "codex/software-calorimeter",
+      "head_sha": "530080cfe16c7513228bf60238b99d4b9938538a",
+      "state": "closed",
+      "body": "Fourth migration step, based on #79 and ADR-008. Moves the prepared calorimeter reconstruction, FastJet and EDM4hep hit/cluster/jet persistence out of the ACTS fork. Pure helpers live in software/source/Calorimeter, transient data in software/source/EDM, and framework algorithms/converters in software/source/ActsExamples/Calorimeter. Python steering and output inspection live in software/running and software/analysis. Existing IdRes and nodehammer build/display adapters are moved to software/source/externals, with compatibility links from their old tools paths.\n\nThe source is pinned by provenance to ACTS fork 8adca5eec180515a23d58d132a1e17e317a59e67. All 40 C++/header files, including retained controls, are byte-identical to that revision. Local CMake paths, ownership, Make targets and documentation are adapted. FastJet, EDM4hep and podio remain from the existing Spack CI dependency installation; the ACTS submodule stays pristine.\n\nValidation: all migrated libraries/examples built; 10/10 retained calorimeter C++ and pipeline controls passed, covering digitization, clustering, jets, input/output conversion, persistent relations and metadata. Six standalone header targets compiled 13 translation units. The Python-steered EDM4hep jet example passed; input/output ROOT files each contain three event entries and one metadata entry. The optional native nodehammer build passed all 602 upstream tests; relocated external glue passed 13 nodehammer and four IdRes controls. The repository node registry now matches reverified current setup/lock fingerprints. Session/project/token validators, source ownership checks and token preview passed. Earlier stack checks retain 10/10 detector tests, 10/10 local adapter/sensitivity tests, 128-track navigation, zero-error native/Gen3 comparison, and all 22 IdRes runs.\n\nmake software-test also runs geometry-test: fresh 128-track navigation followed by the independent native frame/bounds/material audit, so an ACTS gitlink update exercises that compatibility boundary. The original synthetic/prototype response contracts and limitations remain. This source-ownership refactor changes no detector parameter, calibration or accepted reference output. Merge in order: #77, #78, #79, then this PR.\n",
+      "actor": "asalzburger",
+      "created_at": "2026-10-14T15:14:24Z"
+    },
+    "comments": [
+      {
+        "id": 5523784495,
+        "url": "https://github.com/asalzburger/nodd/pull/80#pullrequestreview-5523784495",
+        "body": "",
+        "actor": "asalzburger-review",
+        "created_at": "2026-10-14T19:52:31Z",
+        "updated_at": null,
+        "review": "APPROVED",
+        "in_reply_to_id": null,
+        "path": null,
+        "line": null
+      }
+    ],
+    "issues": []
+  },
+  "curated": {
+    "journal_links": [
+      "SESSION-2026-10-14-software-layout"
+    ],
+    "agents": [],
+    "tools": [],
+    "events": []
+  },
+  "derived": {
+    "parties": [
+      {
+        "id": "agent:SESSION-2026-10-14-software-layout",
+        "name": "unspecified",
+        "kind": "agent"
+      },
+      {
+        "id": "github:asalzburger",
+        "name": "asalzburger",
+        "kind": "account"
+      },
+      {
+        "id": "github:asalzburger-review",
+        "name": "asalzburger-review",
+        "kind": "human"
+      },
+      {
+        "id": "unknown:project-user",
+        "name": "Project user (name unrecorded)",
+        "kind": "human"
+      }
+    ],
+    "journals": [
+      {
+        "session_id": "SESSION-2026-10-14-software-layout",
+        "record": "logs/codex/SESSION-2026-10-14-software-layout.json",
+        "attribution": [
+          "curated_session_link"
+        ],
+        "snapshot": null,
+        "snapshot_sha256": null,
+        "record_sha256": "fa1da83366515f5f7468d9573f566cf0e7cb70a2143fbcb758ffd09ce64133e9",
+        "narrative_sha256": "6c7f4549251f0aea03ea8835d43996733efa82b411e28b127bda198e67f84412"
+      }
+    ],
+    "token_accounts": [
+      {
+        "id": "SESSION-2026-10-14-software-layout",
+        "record": "logs/codex/SESSION-2026-10-14-software-layout.json",
+        "scope": "canonical_session; shared PR references are not allocations",
+        "status": "unobserved",
+        "usage_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "turns": []
+      }
+    ],
+    "visible_sources": [],
+    "agents": [
+      {
+        "id": "agent:SESSION-2026-10-14-software-layout",
+        "name": "unspecified",
+        "role": "session_agent",
+        "thread_id": null,
+        "models": [],
+        "source": "logs/codex/SESSION-2026-10-14-software-layout.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      }
+    ],
+    "tools": {
+      "native_codex": [],
+      "codex_installed": [],
+      "instructed_software": [],
+      "unresolved": []
+    },
+    "events": [
+      {
+        "id": "github:https://github.com/asalzburger/nodd/pull/80",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "github:asalzburger",
+        "recipients": [],
+        "text": "Fourth migration step, based on #79 and ADR-008. Moves the prepared calorimeter reconstruction, FastJet and EDM4hep hit/cluster/jet persistence out of the ACTS fork. Pure helpers live in software/source/Calorimeter, transient data in software/source/EDM, and framework algorithms/converters in software/source/ActsExamples/Calorimeter. Python steering and output inspection live in software/running and software/analysis. Existing IdRes and nodehammer build/display adapters are moved to software/source/externals, with compatibility links from their old tools paths.\n\nThe source is pinned by provenance to ACTS fork 8adca5eec180515a23d58d132a1e17e317a59e67. All 40 C++/header files, including retained controls, are byte-identical to that revision. Local CMake paths, ownership, Make targets and documentation are adapted. FastJet, EDM4hep and podio remain from the existing Spack CI dependency installation; the ACTS submodule stays pristine.\n\nValidation: all migrated libraries/examples built; 10/10 retained calorimeter C++ and pipeline controls passed, covering digitization, clustering, jets, input/output conversion, persistent relations and metadata. Six standalone header targets compiled 13 translation units. The Python-steered EDM4hep jet example passed; input/output ROOT files each contain three event entries and one metadata entry. The optional native nodehammer build passed all 602 upstream tests; relocated external glue passed 13 nodehammer and four IdRes controls. The repository node registry now matches reverified current setup/lock fingerprints. Session/project/token validators, source ownership checks and token preview passed. Earlier stack checks retain 10/10 detector tests, 10/10 local adapter/sensitivity tests, 128-track navigation, zero-error native/Gen3 comparison, and all 22 IdRes runs.\n\nmake software-test also runs geometry-test: fresh 128-track navigation followed by the independent native frame/bounds/material audit, so an ACTS gitlink update exercises that compatibility boundary. The original synthetic/prototype response contracts and limitations remain. This source-ownership refactor changes no detector parameter, calibration or accepted reference output. Merge in order: #77, #78, #79, then this PR.\n",
+        "source": "https://github.com/asalzburger/nodd/pull/80",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [],
+        "timestamp": "2026-10-14T15:14:24Z",
+        "remote_input": null
+      },
+      {
+        "id": "github:https://github.com/asalzburger/nodd/pull/80#pullrequestreview-5523784495",
+        "type": "review",
+        "direction": "reaction",
+        "actor": "github:asalzburger-review",
+        "recipients": [],
+        "text": "APPROVED",
+        "source": "https://github.com/asalzburger/nodd/pull/80#pullrequestreview-5523784495",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [],
+        "timestamp": "2026-10-14T19:52:31Z",
+        "remote_input": null
+      },
+      {
+        "id": "journal:SESSION-2026-10-14-software-layout:f2e883e8d79b503a",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "agent:SESSION-2026-10-14-software-layout"
+        ],
+        "text": "On 2026-10-14 the user requested node-bound Spack dependencies, Git submodules\nunder software/submodules, local ActsExamples algorithms, self-contained detector\nsources, Python steering, analysis, Makefiles and stepwise PRs preserving current\nfunctionality including acts-nodd. This record covers the entire staged migration.",
+        "source": "logs/codex/SESSION-2026-10-14-software-layout.md#selected-request-and-scope",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-14-software-layout"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-10-14-software-layout:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-10-14-software-layout",
+        "recipients": [],
+        "text": "Infrastructure: isolate dependencies, detector sources and ActsExamples jobs — see the canonical narrative for outcomes and checks.",
+        "source": "logs/codex/SESSION-2026-10-14-software-layout.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-14-software-layout"
+        ],
+        "content_kind": "reference_summary"
+      }
+    ],
+    "coverage": {
+      "github_captured_at": "2026-10-24T07:41:01.793Z",
+      "prompts": "Available account-matched user-visible messages, public Codex inputs and curated journal excerpts. Historical full input coverage is unknown.",
+      "recovered_visible_turns": 0,
+      "unrecovered_account_turns": [],
+      "responses": "Public responses and recorded outcomes; no private model state or hidden reasoning.",
+      "token_accounting": "References only. Never sum accounts across PRs or assign a shared turn by text length.",
+      "unknowns": "Unrecorded names, models, tools, subagent identities and response links remain unknown; empty lists are not zero activity.",
+      "remote": "Snapshot, not live synchronization; deleted/edited history and emoji reactions are not recovered.",
+      "branch_only": "Pinned branch journal snapshots are references, not imported counters. Unretained or other-device inputs remain unknown."
+    }
+  }
+}

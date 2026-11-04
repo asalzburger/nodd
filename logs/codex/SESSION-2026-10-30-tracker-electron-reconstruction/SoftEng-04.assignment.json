@@ -1,0 +1,22 @@
+{
+  "id": "SPECIES-SoftEng-04",
+  "role": "SoftEng",
+  "input_revision": "b8b8697ed4ec7e538b8ca2fedb6e7c468cdf791a",
+  "inputs": [
+    "software/source/ActsExamples/SafeFatras/CMakeLists.txt",
+    "software/source/ActsExamples/SafeFatras/SafeBetheHeitler.hpp",
+    "software/source/ActsExamples/SafeFatras/test_energy_loss.cpp",
+    "software/running/nodd_tracker_safe_fatras.py"
+  ],
+  "mode": "write",
+  "writable_paths": [
+    "software/source/ActsExamples/SafeFatras/CMakeLists.txt",
+    "software/source/ActsExamples/SafeFatras/Binding.cpp",
+    "software/source/ActsExamples/SafeFatras/SafeBetheHeitler.hpp",
+    "software/source/ActsExamples/SafeFatras/README.md",
+    "software/source/ActsExamples/SafeFatras/test_energy_loss.cpp"
+  ],
+  "task": "Bounded correction of only the same five SafeFatras owned files. First full native sidecar replay at1/5/10 still fails same11/5/12FLTUND. All SafeFatras processes now closed (100GeV interrupted), originalG4 stillactive: do not touch base runner/transport/audit source or binary. Independent system libm reproduction proves exp(-1e-300)-1 returns exact+0 but raisesFE_UNDERFLOW, whereas u800 result-1also underflows. Add exact tiny nonnegative branch0<=u<2^-54 returning+0, plus existingu>40branch-1. Retain every RNGdraw, aliases, onealgorithmslot, physics and FPEchecks. Expand hardware/nativeFPE checks to exponent-stratified tiny and large cases and test with production-equivalent optimization, not just strict test build. First sidecar built defaultO0+LTO versus nativeACTSFatras -O2 -g -DNDEBUG -std=gnu++20 (read build.ninja exactflags). Raw same-seed eventfirstdifferencesstart event13, including measurements/simulatedparticles thenfitstates(~1e-12). Match native numerical compile flags and Eigen/macros; disable pybind LTO extras if needed. Prefer function-local FENV_ACCESS only if actual speculative execution proven; do not globally change transport math. Check same-seed nativefull-event equality mainwillrun afterbuild. Preserve firstsidecarbinary bycopy to task-owned diagnostics beforeoverwrite. May rebuild same tasklocalnative-safe-fatras path now noSafeprocessactive. No full native simulation delegated. Return exact productionmodule flags/compiler,inputhashes,numericalchecks and any unavoidablebitdifferences. No otherfileswrites.",
+  "deliverable": "Repaired task-owned sidecar and meaningful tiny/large production-FPE tests, build identity, plus handoff for same-seed native replay.",
+  "completion": "Both mathematically rounded branches guarded, production-equivalent numerical tests pass, original native compile semantics matched or explicit limitation identified; unchanged shared runtime and original G4 snapshots."
+}

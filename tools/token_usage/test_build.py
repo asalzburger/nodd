@@ -22,6 +22,7 @@ class UsageTests(unittest.TestCase):
         for name in ("session_log.py", "session.schema.json"):
             shutil.copy(build.ROOT / "tools/session_logging" / name, source / name)
         (self.root / "project").mkdir()
+        (self.root / "interactions").mkdir()
         (self.root / "logs/usage").mkdir(parents=True)
         shutil.copy(build.ROOT / "logs/TEMPLATE.md", self.root / "logs/TEMPLATE.md")
         (self.root / "project/token-milestones.json").write_text(
@@ -236,7 +237,8 @@ class UsageTests(unittest.TestCase):
         build.build(self.root, second, "2026-10-12T10:00:00Z")
         self.assertEqual(
             {p.name for p in first.iterdir()},
-            {"index.html", "style.css", "app.js", "usage.json", ".nojekyll"},
+            {"index.html", "style.css", "app.js", "usage.json", ".nojekyll",
+             "interactions.html", "interactions.css", "interactions.js", "interactions.json"},
         )
         for path in first.iterdir():
             self.assertEqual(path.read_bytes(), (second / path.name).read_bytes())

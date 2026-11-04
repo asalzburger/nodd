@@ -1,8 +1,8 @@
 # BeamPipe + complete Tracker DD4hep entry point
 
-DES025 composes the existing maintained selected subsystem exporters. All
-geometry inputs remain owned by their original DES019–023 producers; standalone
-controls stay available. The user-requested DES024 beampipe is included.
+DES025 composes the existing maintained selected subsystem exporters. Historical
+geometry inputs remain owned by their original DES019–023 producers; DES043 adapts
+the selected short-strip modules and services. Standalone controls stay available. The user-requested DES024 beampipe is included.
 
 ```sh
 cmake -S . -B build/dd4hep -G Ninja -DBUILD_TESTING=ON
@@ -24,7 +24,7 @@ expected inventory records each original strip system ID.
 The DES023 cumulative long-strip corridor replaces the standalone barrel trunk.
 Shared short-strip trunks partition at source boundaries, conserve payload
 constituents and keep one carrier/unused-air volume. This does not qualify
-service-capacity limits. No sensor or carrier datum is moved.
+service-capacity limits. The current DES043 integration is described below.
 
 ACTS: use the companion `Examples/Nodd` Gen3 adapter in acts-nodd. Its default
 `getNoddDetector(nodd_dir=..., gen3=True)` reads this compact, obtains sensitive
@@ -59,3 +59,30 @@ python tools/tracker_dd4hep/check_navigation.py --directory build/gen3 \
 Gen3, Geant4 and regression checks. The adapter is in
 [ACTS fork PR3](https://github.com/asalzburger/acts/pull/3). DD4hep native validation
 is registered as a CTest; Gen3 validation requires the separately built ACTS runtime.
+
+## Historical balanced physical baseline (PR104)
+
+The default tracker now selects `pixel-detector-balanced.json` under the recorded
+human authorization in DES040. Historical DES025 counts and controls above refer
+to the earlier nine-disk geometry. That dated geometry has 46,250 sensors,
+54 signed logical groups and 120 native Gen3 volumes. Build from a fresh directory
+and run the same native validator. To export and compare the current Gen3 geometry:
+
+```sh
+python -B tools/tracker_dd4hep/export_gen3.py --build-dir build/dd4hep --output-dir build/balanced-gen3
+```
+
+This uses the installed ACTS adapter, checks every sensor against `expected.json`
+and requires an exact native JSON round trip. It does not regenerate a Geant4
+material map. [Integration evidence](../../docs/validation/DES-040-baseline/results.md)
+separates the detailed DD4hep geometry from the approved study's transported map
+and homogeneous material approximation for the added disk.
+
+
+## Current DES043 short-strip baseline
+
+The human-requested 2026-11-03 integration uses `short-strip-des043.json` by default. It retains balanced pixels and long strips, with 75 µm × 2 mm short-strip readout, redesigned barrel modules and all 12 expanded endcap discs. The combined inventory is **46,682 sensitive planes, 54 signed logical groups and 120 Gen3 volumes**. The 703 mm sampled active target has a finite corner at 704.909 mm. Shared fan/trunk cells partition their overlapping allocated regions and conserve each new payload constituent once.
+
+The native validator checks IDs, cells, transforms, finite contact/window probes and full ROOT overlaps at 1e-5 mm. A supplementary `audit_payload.py` checks all physical solids, source/artifact coverage and flattened native material mixtures. Intersecting CSG is bounded rather than treated as an exact subtracted volume. The current [integration recipe/evidence](../../docs/validation/DES-043/integration/README.md) also covers Gen3 conversion and Geant4 transport smoke checks. Full material mapping and new-geometry physics comparisons remain separate tasks.
+
+To regenerate the original selected 2 mm readout with the old physical modules/services, use `export.py --historical-short-strips --output PATH`. The dated DES040 reports, original standalone producers and historical plotting snapshots remain unchanged. Current layout views have distinct DES043 filenames and source hashes. Engineering qualification remains open.

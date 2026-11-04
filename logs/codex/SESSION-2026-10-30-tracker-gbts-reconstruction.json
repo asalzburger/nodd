@@ -1,0 +1,572 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-30-tracker-gbts-reconstruction",
+  "title": "Build and tune full tracker reconstruction with GBTS on balanced baseline",
+  "recorded_at": "2026-10-30T09:23:41Z",
+  "started_at": "2026-10-30T09:19:36Z",
+  "ended_at": "2026-10-30T10:35:31Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Client version is unavailable. The current bounded root turn start and stable root/child thread identities were verified through Codex app read_thread at closeout; active root usage is excluded.",
+    "No exact disjoint per-turn token counters were exposed for the active coordinator or completed specialist assignments; usage remains empty, meaning missing observations rather than zero tokens. No estimates or overlapping historical usage imported.",
+    "Selected user requests, public outcomes and bounded role handoffs are curated; this is not a complete conversation or private client-state export.",
+    "Failed initialization/debug attempts retain local reports/logs and curated corrections; not every intermediate uncommitted source state is preserved. Final scientific tuning/validation source bytes are pinned and verified.",
+    "2026-10-30 correction: original empty-usage statements describe prior capture. Exact counters for 7 completed turns are now imported from verified usage-only recovery; active coordinator usage remains excluded. See the dated narrative and PR107 attribution table."
+  ],
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": "01a176bd-cabc-77c0-8841-9d7ee1efa109"
+  },
+  "git": {
+    "start_commit": "b4928ac87a223dc4a749e8d8a05dc3cc4a78558d",
+    "branch": "codex/tracker-gbts-reconstruction",
+    "initial_changes": [],
+    "result_commits": [
+      "616fd2aee1717adeead136a040bb07f1f58a2b99",
+      "ff672a4a7ffe3906118c1c59a8855be140d9bf5a",
+      "d166334b93ec19692e0c433cf03dd343d648f135",
+      "5c532021a462118bfb5ff33af1a7cba3f0a032ba",
+      "08c1241828c38b39ff26eec712d95aa538a91124",
+      "780edf14acd16e5bed9e3f77545308e649f3eef8",
+      "0e3b921e703390adf5c7889e5e364a7991e09ce6",
+      "f9c5621800b714e738fe6e1b4b331c9143fb06b6",
+      "a01c19eda77f88ca26c9be88f3994853d904fa2b",
+      "8d4d95cc2223d474d244fa9d527a681bfbe37ea6"
+    ],
+    "changed_files": [
+      ".github/workflows/validation.yml",
+      "README.md",
+      "docs/design/DES-041-tracker-gbts-reconstruction.md",
+      "docs/validation/tracker-reconstruction/diagnostics/aborted-native-validation-reports.json.gz",
+      "docs/validation/tracker-reconstruction/diagnostics/build-guards.json",
+      "docs/validation/tracker-reconstruction/diagnostics/confirm.json",
+      "docs/validation/tracker-reconstruction/diagnostics/cuts.json",
+      "docs/validation/tracker-reconstruction/diagnostics/duplicates.json",
+      "docs/validation/tracker-reconstruction/diagnostics/replay.json",
+      "docs/validation/tracker-reconstruction/diagnostics/root-states-fpe.json",
+      "docs/validation/tracker-reconstruction/diagnostics/synthetic-native-smoke.json",
+      "docs/validation/tracker-reconstruction/figures/efficiency.pdf",
+      "docs/validation/tracker-reconstruction/figures/efficiency.png",
+      "docs/validation/tracker-reconstruction/figures/momentum-hits-fakes.pdf",
+      "docs/validation/tracker-reconstruction/figures/momentum-hits-fakes.png",
+      "docs/validation/tracker-reconstruction/figures/pull-tails.json",
+      "docs/validation/tracker-reconstruction/figures/pull-width-eta.pdf",
+      "docs/validation/tracker-reconstruction/figures/pull-width-eta.png",
+      "docs/validation/tracker-reconstruction/figures/pull-width-pt.pdf",
+      "docs/validation/tracker-reconstruction/figures/pull-width-pt.png",
+      "docs/validation/tracker-reconstruction/figures/pulls.pdf",
+      "docs/validation/tracker-reconstruction/figures/pulls.png",
+      "docs/validation/tracker-reconstruction/figures/resolution-eta.pdf",
+      "docs/validation/tracker-reconstruction/figures/resolution-eta.png",
+      "docs/validation/tracker-reconstruction/figures/resolution-pt.pdf",
+      "docs/validation/tracker-reconstruction/figures/resolution-pt.png",
+      "docs/validation/tracker-reconstruction/frozen/selected-campaign.json",
+      "docs/validation/tracker-reconstruction/frozen/selection.json",
+      "docs/validation/tracker-reconstruction/frozen/validation-campaign.json",
+      "docs/validation/tracker-reconstruction/manifest.json",
+      "docs/validation/tracker-reconstruction/native-tuning-reports.json.gz",
+      "docs/validation/tracker-reconstruction/native-validation-reports.json.gz",
+      "docs/validation/tracker-reconstruction/performance.json",
+      "docs/validation/tracker-reconstruction/results.md",
+      "docs/validation/tracker-reconstruction/root-audit.json",
+      "docs/validation/tracker-reconstruction/tuning/pt1/control/events.npz",
+      "docs/validation/tracker-reconstruction/tuning/pt1/control/summary.json.gz",
+      "docs/validation/tracker-reconstruction/tuning/pt1/pt4-loose-confirmed/events.npz",
+      "docs/validation/tracker-reconstruction/tuning/pt1/pt4-loose-confirmed/summary.json.gz",
+      "docs/validation/tracker-reconstruction/tuning/pt1/pt4-loose-triplet/events.npz",
+      "docs/validation/tracker-reconstruction/tuning/pt1/pt4-loose-triplet/summary.json.gz",
+      "docs/validation/tracker-reconstruction/tuning/pt1/pt4-nominal-confirmed/events.npz",
+      "docs/validation/tracker-reconstruction/tuning/pt1/pt4-nominal-confirmed/summary.json.gz",
+      "docs/validation/tracker-reconstruction/tuning/pt1/pt4-nominal-triplet/events.npz",
+      "docs/validation/tracker-reconstruction/tuning/pt1/pt4-nominal-triplet/summary.json.gz",
+      "docs/validation/tracker-reconstruction/tuning/pt1/pt6-loose-confirmed/events.npz",
+      "docs/validation/tracker-reconstruction/tuning/pt1/pt6-loose-confirmed/summary.json.gz",
+      "docs/validation/tracker-reconstruction/tuning/pt1/pt6-loose-triplet/events.npz",
+      "docs/validation/tracker-reconstruction/tuning/pt1/pt6-loose-triplet/summary.json.gz",
+      "docs/validation/tracker-reconstruction/tuning/pt1/pt6-nominal-confirmed/events.npz",
+      "docs/validation/tracker-reconstruction/tuning/pt1/pt6-nominal-confirmed/summary.json.gz",
+      "docs/validation/tracker-reconstruction/tuning/pt1/pt6-nominal-triplet/events.npz",
+      "docs/validation/tracker-reconstruction/tuning/pt1/pt6-nominal-triplet/summary.json.gz",
+      "docs/validation/tracker-reconstruction/tuning/pt1/pt8-loose-confirmed/events.npz",
+      "docs/validation/tracker-reconstruction/tuning/pt1/pt8-loose-confirmed/summary.json.gz",
+      "docs/validation/tracker-reconstruction/tuning/pt1/pt8-loose-triplet/events.npz",
+      "docs/validation/tracker-reconstruction/tuning/pt1/pt8-loose-triplet/summary.json.gz",
+      "docs/validation/tracker-reconstruction/tuning/pt1/pt8-nominal-confirmed/events.npz",
+      "docs/validation/tracker-reconstruction/tuning/pt1/pt8-nominal-confirmed/summary.json.gz",
+      "docs/validation/tracker-reconstruction/tuning/pt1/pt8-nominal-triplet/events.npz",
+      "docs/validation/tracker-reconstruction/tuning/pt1/pt8-nominal-triplet/summary.json.gz",
+      "docs/validation/tracker-reconstruction/tuning/pt10/control/events.npz",
+      "docs/validation/tracker-reconstruction/tuning/pt10/control/summary.json.gz",
+      "docs/validation/tracker-reconstruction/tuning/pt10/pt4-loose-confirmed/events.npz",
+      "docs/validation/tracker-reconstruction/tuning/pt10/pt4-loose-confirmed/summary.json.gz",
+      "docs/validation/tracker-reconstruction/tuning/pt10/pt4-loose-triplet/events.npz",
+      "docs/validation/tracker-reconstruction/tuning/pt10/pt4-loose-triplet/summary.json.gz",
+      "docs/validation/tracker-reconstruction/tuning/pt10/pt4-nominal-confirmed/events.npz",
+      "docs/validation/tracker-reconstruction/tuning/pt10/pt4-nominal-confirmed/summary.json.gz",
+      "docs/validation/tracker-reconstruction/tuning/pt10/pt4-nominal-triplet/events.npz",
+      "docs/validation/tracker-reconstruction/tuning/pt10/pt4-nominal-triplet/summary.json.gz",
+      "docs/validation/tracker-reconstruction/tuning/pt10/pt6-loose-confirmed/events.npz",
+      "docs/validation/tracker-reconstruction/tuning/pt10/pt6-loose-confirmed/summary.json.gz",
+      "docs/validation/tracker-reconstruction/tuning/pt10/pt6-loose-triplet/events.npz",
+      "docs/validation/tracker-reconstruction/tuning/pt10/pt6-loose-triplet/summary.json.gz",
+      "docs/validation/tracker-reconstruction/tuning/pt10/pt6-nominal-confirmed/events.npz",
+      "docs/validation/tracker-reconstruction/tuning/pt10/pt6-nominal-confirmed/summary.json.gz",
+      "docs/validation/tracker-reconstruction/tuning/pt10/pt6-nominal-triplet/events.npz",
+      "docs/validation/tracker-reconstruction/tuning/pt10/pt6-nominal-triplet/summary.json.gz",
+      "docs/validation/tracker-reconstruction/tuning/pt10/pt8-loose-confirmed/events.npz",
+      "docs/validation/tracker-reconstruction/tuning/pt10/pt8-loose-confirmed/summary.json.gz",
+      "docs/validation/tracker-reconstruction/tuning/pt10/pt8-loose-triplet/events.npz",
+      "docs/validation/tracker-reconstruction/tuning/pt10/pt8-loose-triplet/summary.json.gz",
+      "docs/validation/tracker-reconstruction/tuning/pt10/pt8-nominal-confirmed/events.npz",
+      "docs/validation/tracker-reconstruction/tuning/pt10/pt8-nominal-confirmed/summary.json.gz",
+      "docs/validation/tracker-reconstruction/tuning/pt10/pt8-nominal-triplet/events.npz",
+      "docs/validation/tracker-reconstruction/tuning/pt10/pt8-nominal-triplet/summary.json.gz",
+      "docs/validation/tracker-reconstruction/tuning/pt100/control/events.npz",
+      "docs/validation/tracker-reconstruction/tuning/pt100/control/summary.json.gz",
+      "docs/validation/tracker-reconstruction/tuning/pt100/pt4-loose-confirmed/events.npz",
+      "docs/validation/tracker-reconstruction/tuning/pt100/pt4-loose-confirmed/summary.json.gz",
+      "docs/validation/tracker-reconstruction/tuning/pt100/pt4-loose-triplet/events.npz",
+      "docs/validation/tracker-reconstruction/tuning/pt100/pt4-loose-triplet/summary.json.gz",
+      "docs/validation/tracker-reconstruction/tuning/pt100/pt4-nominal-confirmed/events.npz",
+      "docs/validation/tracker-reconstruction/tuning/pt100/pt4-nominal-confirmed/summary.json.gz",
+      "docs/validation/tracker-reconstruction/tuning/pt100/pt4-nominal-triplet/events.npz",
+      "docs/validation/tracker-reconstruction/tuning/pt100/pt4-nominal-triplet/summary.json.gz",
+      "docs/validation/tracker-reconstruction/tuning/pt100/pt6-loose-confirmed/events.npz",
+      "docs/validation/tracker-reconstruction/tuning/pt100/pt6-loose-confirmed/summary.json.gz",
+      "docs/validation/tracker-reconstruction/tuning/pt100/pt6-loose-triplet/events.npz",
+      "docs/validation/tracker-reconstruction/tuning/pt100/pt6-loose-triplet/summary.json.gz",
+      "docs/validation/tracker-reconstruction/tuning/pt100/pt6-nominal-confirmed/events.npz",
+      "docs/validation/tracker-reconstruction/tuning/pt100/pt6-nominal-confirmed/summary.json.gz",
+      "docs/validation/tracker-reconstruction/tuning/pt100/pt6-nominal-triplet/events.npz",
+      "docs/validation/tracker-reconstruction/tuning/pt100/pt6-nominal-triplet/summary.json.gz",
+      "docs/validation/tracker-reconstruction/tuning/pt100/pt8-loose-confirmed/events.npz",
+      "docs/validation/tracker-reconstruction/tuning/pt100/pt8-loose-confirmed/summary.json.gz",
+      "docs/validation/tracker-reconstruction/tuning/pt100/pt8-loose-triplet/events.npz",
+      "docs/validation/tracker-reconstruction/tuning/pt100/pt8-loose-triplet/summary.json.gz",
+      "docs/validation/tracker-reconstruction/tuning/pt100/pt8-nominal-confirmed/events.npz",
+      "docs/validation/tracker-reconstruction/tuning/pt100/pt8-nominal-confirmed/summary.json.gz",
+      "docs/validation/tracker-reconstruction/tuning/pt100/pt8-nominal-triplet/events.npz",
+      "docs/validation/tracker-reconstruction/tuning/pt100/pt8-nominal-triplet/summary.json.gz",
+      "docs/validation/tracker-reconstruction/tuning/pt5/control/events.npz",
+      "docs/validation/tracker-reconstruction/tuning/pt5/control/summary.json.gz",
+      "docs/validation/tracker-reconstruction/tuning/pt5/pt4-loose-confirmed/events.npz",
+      "docs/validation/tracker-reconstruction/tuning/pt5/pt4-loose-confirmed/summary.json.gz",
+      "docs/validation/tracker-reconstruction/tuning/pt5/pt4-loose-triplet/events.npz",
+      "docs/validation/tracker-reconstruction/tuning/pt5/pt4-loose-triplet/summary.json.gz",
+      "docs/validation/tracker-reconstruction/tuning/pt5/pt4-nominal-confirmed/events.npz",
+      "docs/validation/tracker-reconstruction/tuning/pt5/pt4-nominal-confirmed/summary.json.gz",
+      "docs/validation/tracker-reconstruction/tuning/pt5/pt4-nominal-triplet/events.npz",
+      "docs/validation/tracker-reconstruction/tuning/pt5/pt4-nominal-triplet/summary.json.gz",
+      "docs/validation/tracker-reconstruction/tuning/pt5/pt6-loose-confirmed/events.npz",
+      "docs/validation/tracker-reconstruction/tuning/pt5/pt6-loose-confirmed/summary.json.gz",
+      "docs/validation/tracker-reconstruction/tuning/pt5/pt6-loose-triplet/events.npz",
+      "docs/validation/tracker-reconstruction/tuning/pt5/pt6-loose-triplet/summary.json.gz",
+      "docs/validation/tracker-reconstruction/tuning/pt5/pt6-nominal-confirmed/events.npz",
+      "docs/validation/tracker-reconstruction/tuning/pt5/pt6-nominal-confirmed/summary.json.gz",
+      "docs/validation/tracker-reconstruction/tuning/pt5/pt6-nominal-triplet/events.npz",
+      "docs/validation/tracker-reconstruction/tuning/pt5/pt6-nominal-triplet/summary.json.gz",
+      "docs/validation/tracker-reconstruction/tuning/pt5/pt8-loose-confirmed/events.npz",
+      "docs/validation/tracker-reconstruction/tuning/pt5/pt8-loose-confirmed/summary.json.gz",
+      "docs/validation/tracker-reconstruction/tuning/pt5/pt8-loose-triplet/events.npz",
+      "docs/validation/tracker-reconstruction/tuning/pt5/pt8-loose-triplet/summary.json.gz",
+      "docs/validation/tracker-reconstruction/tuning/pt5/pt8-nominal-confirmed/events.npz",
+      "docs/validation/tracker-reconstruction/tuning/pt5/pt8-nominal-confirmed/summary.json.gz",
+      "docs/validation/tracker-reconstruction/tuning/pt5/pt8-nominal-triplet/events.npz",
+      "docs/validation/tracker-reconstruction/tuning/pt5/pt8-nominal-triplet/summary.json.gz",
+      "docs/validation/tracker-reconstruction/validation/control/pt1/events.npz",
+      "docs/validation/tracker-reconstruction/validation/control/pt1/summary.json.gz",
+      "docs/validation/tracker-reconstruction/validation/control/pt10/events.npz",
+      "docs/validation/tracker-reconstruction/validation/control/pt10/summary.json.gz",
+      "docs/validation/tracker-reconstruction/validation/control/pt100/events.npz",
+      "docs/validation/tracker-reconstruction/validation/control/pt100/summary.json.gz",
+      "docs/validation/tracker-reconstruction/validation/control/pt5/events.npz",
+      "docs/validation/tracker-reconstruction/validation/control/pt5/summary.json.gz",
+      "docs/validation/tracker-reconstruction/validation/selected/pt1/events.npz",
+      "docs/validation/tracker-reconstruction/validation/selected/pt1/summary.json.gz",
+      "docs/validation/tracker-reconstruction/validation/selected/pt10/events.npz",
+      "docs/validation/tracker-reconstruction/validation/selected/pt10/summary.json.gz",
+      "docs/validation/tracker-reconstruction/validation/selected/pt100/events.npz",
+      "docs/validation/tracker-reconstruction/validation/selected/pt100/summary.json.gz",
+      "docs/validation/tracker-reconstruction/validation/selected/pt5/events.npz",
+      "docs/validation/tracker-reconstruction/validation/selected/pt5/summary.json.gz",
+      "interactions/pr-0107.json",
+      "logs/codex/SESSION-2026-10-30-tracker-gbts-reconstruction.json",
+      "logs/codex/SESSION-2026-10-30-tracker-gbts-reconstruction.md",
+      "logs/codex/SESSION-2026-10-30-tracker-gbts-reconstruction/PhysVal-01-result.md",
+      "logs/codex/SESSION-2026-10-30-tracker-gbts-reconstruction/PhysVal-01.assignment.json",
+      "logs/codex/SESSION-2026-10-30-tracker-gbts-reconstruction/PhysVal-02-result.md",
+      "logs/codex/SESSION-2026-10-30-tracker-gbts-reconstruction/PhysVal-02.assignment.json",
+      "logs/codex/SESSION-2026-10-30-tracker-gbts-reconstruction/PhysVal-03-result.md",
+      "logs/codex/SESSION-2026-10-30-tracker-gbts-reconstruction/PhysVal-03.assignment.json",
+      "logs/codex/SESSION-2026-10-30-tracker-gbts-reconstruction/SoftEng-01-result.md",
+      "logs/codex/SESSION-2026-10-30-tracker-gbts-reconstruction/SoftEng-01.assignment.json",
+      "logs/codex/SESSION-2026-10-30-tracker-gbts-reconstruction/SoftEng-02-result.md",
+      "logs/codex/SESSION-2026-10-30-tracker-gbts-reconstruction/SoftEng-02.assignment.json",
+      "logs/codex/SESSION-2026-10-30-tracker-gbts-reconstruction/SoftEng-03-result.md",
+      "logs/codex/SESSION-2026-10-30-tracker-gbts-reconstruction/SoftEng-03.assignment.json",
+      "project/tracking.json",
+      "reference/manifest.yaml",
+      "software/analysis/tracker_reconstruction/README.md",
+      "software/analysis/tracker_reconstruction/analyze.py",
+      "software/analysis/tracker_reconstruction/audit_root.py",
+      "software/analysis/tracker_reconstruction/campaign.json",
+      "software/analysis/tracker_reconstruction/gbts.py",
+      "software/analysis/tracker_reconstruction/plot.py",
+      "software/analysis/tracker_reconstruction/prepare.py",
+      "software/analysis/tracker_reconstruction/report.py",
+      "software/analysis/tracker_reconstruction/retain.py",
+      "software/analysis/tracker_reconstruction/select_profile.py",
+      "software/analysis/tracker_reconstruction/test_analyze.py",
+      "software/analysis/tracker_reconstruction/test_gbts.py",
+      "software/analysis/tracker_reconstruction/verify.py",
+      "software/running/nodd_tracker_reconstruction.py",
+      "software/source/ActsExamples/TrackerGbts/CMakeLists.txt",
+      "software/source/ActsExamples/TrackerGbts/GbtsSeeding.cpp",
+      "software/source/ActsExamples/TrackerGbts/README.md",
+      "software/source/ActsExamples/TrackerGbts/test_native.py",
+      "software/source/ActsExamples/TrackerReconstruction/CMakeLists.txt",
+      "software/source/ActsExamples/TrackerReconstruction/Reconstruction.cpp"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "tracker",
+      "reconstruction",
+      "GBTS",
+      "Fatras",
+      "Gaussian digitization"
+    ],
+    "related_ids": [
+      "TASK-TRACK-GBTS-RECONSTRUCTION",
+      "DES-041",
+      "DES-040",
+      "DES-025",
+      "PR-107"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-30-tracker-gbts-reconstruction.md",
+  "activities": [
+    {
+      "kind": "skill",
+      "name": "nodd-coordinate",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Bounded SoftEng/PhysVal assignments and curated handoffs; explicit profile mandates, no native profile-loading claim."
+    },
+    {
+      "kind": "skill",
+      "name": "nodd-design-evidence",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "DES041 DRAFT protocol and pinned ACTS primary source/parameter choices."
+    },
+    {
+      "kind": "skill",
+      "name": "nodd-review-validation",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Exact-revision independent protocol, implementation and final evidence assessments."
+    },
+    {
+      "kind": "skill",
+      "name": "acts-spack",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Preflight warning and same-shell existing native environment verification; no shared installs."
+    },
+    {
+      "kind": "tool",
+      "name": "functions.exec / exec_command",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Observed local source edits, Git, compiler/native execution, analysis and validation; exact total API invocations not recorded."
+    },
+    {
+      "kind": "tool",
+      "name": "collaboration.spawn_agent / followup_task / send_message",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Recorded bounded explicit SoftEng/PhysVal assignments; exact per-turn client counters not exposed."
+    },
+    {
+      "kind": "tool",
+      "name": "ACTS Fatras / GBTS / CKF / ambiguity",
+      "version": "355ea68493b326956756c9386d2fd9eaf9328568",
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "52tuning and8finalvalidation sequencers completed; scientific native counts in retained reports. Failed/smoke/debug runs are separate."
+    },
+    {
+      "kind": "tool",
+      "name": "NumPy / uproot / Matplotlib",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Independent all-event reduction, exact ROOT persistence cross-check and seven PNG/PDF figure sets; existing isolated analysis environment."
+    },
+    {
+      "kind": "tool",
+      "name": "functions.view_image",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Visual QA of efficiency, integrated pulls and perigee resolution versus eta."
+    },
+    {
+      "kind": "tool",
+      "name": "GitHub connector / gh CLI / Codex app read_thread",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "GitHub integration PR creation returned403; authenticated gh created draftPR107. Connected GitHub tools captured public metadata/discussion; read_thread verified current root and three specialist identities and selected visible messages. Exact aggregate call count and per-turn token counters are unavailable."
+    }
+  ],
+  "usage": [
+    {
+      "client_thread_id": "01a176bd-cabc-77c0-8841-9d7ee1efa109",
+      "turn_id": "01a18c1b-877d-75c1-96fb-eb2d89753907",
+      "model": null,
+      "source": "logs/usage/USAGE-2026-10-30-pr107-accounting.json; usage-only cumulative deltas reconcile to last-request counters from zero; exact task ownership in logs/codex/SESSION-2026-10-30-tracker-gbts-merge-preparation/turn-attribution.json",
+      "limitations": [
+        "Actual execution model and client version are not exposed by the recovered counters. Cached input and reasoning output are subsets, not additional tokens."
+      ],
+      "input_tokens": 32224967,
+      "cached_input_tokens": 31636608,
+      "output_tokens": 151300,
+      "reasoning_output_tokens": 57106,
+      "total_tokens": 32376267
+    },
+    {
+      "client_thread_id": "01a18c20-53db-7ce3-a4b7-b587c07f0154",
+      "turn_id": "01a18c2e-f815-7cc3-8770-7f2c720abd0b",
+      "model": null,
+      "source": "logs/usage/USAGE-2026-10-30-pr107-accounting.json; usage-only cumulative deltas reconcile to last-request counters from zero; exact task ownership in logs/codex/SESSION-2026-10-30-tracker-gbts-merge-preparation/turn-attribution.json",
+      "limitations": [
+        "Actual execution model and client version are not exposed by the recovered counters. Cached input and reasoning output are subsets, not additional tokens."
+      ],
+      "input_tokens": 3534213,
+      "cached_input_tokens": 3484288,
+      "output_tokens": 11063,
+      "reasoning_output_tokens": 4527,
+      "total_tokens": 3545276
+    },
+    {
+      "client_thread_id": "01a18c20-53db-7ce3-a4b7-b587c07f0154",
+      "turn_id": "01a18c20-541f-7931-9ed5-73ce092811ca",
+      "model": null,
+      "source": "logs/usage/USAGE-2026-10-30-pr107-accounting.json; usage-only cumulative deltas reconcile to last-request counters from zero; exact task ownership in logs/codex/SESSION-2026-10-30-tracker-gbts-merge-preparation/turn-attribution.json",
+      "limitations": [
+        "Actual execution model and client version are not exposed by the recovered counters. Cached input and reasoning output are subsets, not additional tokens."
+      ],
+      "input_tokens": 3043717,
+      "cached_input_tokens": 2974976,
+      "output_tokens": 21311,
+      "reasoning_output_tokens": 3408,
+      "total_tokens": 3065028
+    },
+    {
+      "client_thread_id": "01a18c20-6c17-7cb2-980b-678607a7b8bc",
+      "turn_id": "01a18c49-9455-7023-9caf-97776b709e98",
+      "model": null,
+      "source": "logs/usage/USAGE-2026-10-30-pr107-accounting.json; usage-only cumulative deltas reconcile to last-request counters from zero; exact task ownership in logs/codex/SESSION-2026-10-30-tracker-gbts-merge-preparation/turn-attribution.json",
+      "limitations": [
+        "Actual execution model and client version are not exposed by the recovered counters. Cached input and reasoning output are subsets, not additional tokens."
+      ],
+      "input_tokens": 3639504,
+      "cached_input_tokens": 3575808,
+      "output_tokens": 10274,
+      "reasoning_output_tokens": 2970,
+      "total_tokens": 3649778
+    },
+    {
+      "client_thread_id": "01a18c20-6c17-7cb2-980b-678607a7b8bc",
+      "turn_id": "01a18c2f-05d8-72e0-9d1f-a2fffd9f04c1",
+      "model": null,
+      "source": "logs/usage/USAGE-2026-10-30-pr107-accounting.json; usage-only cumulative deltas reconcile to last-request counters from zero; exact task ownership in logs/codex/SESSION-2026-10-30-tracker-gbts-merge-preparation/turn-attribution.json",
+      "limitations": [
+        "Actual execution model and client version are not exposed by the recovered counters. Cached input and reasoning output are subsets, not additional tokens."
+      ],
+      "input_tokens": 3345720,
+      "cached_input_tokens": 3285376,
+      "output_tokens": 8433,
+      "reasoning_output_tokens": 2448,
+      "total_tokens": 3354153
+    },
+    {
+      "client_thread_id": "01a18c20-6c17-7cb2-980b-678607a7b8bc",
+      "turn_id": "01a18c20-6c5b-7051-8662-f0de2d0cacee",
+      "model": null,
+      "source": "logs/usage/USAGE-2026-10-30-pr107-accounting.json; usage-only cumulative deltas reconcile to last-request counters from zero; exact task ownership in logs/codex/SESSION-2026-10-30-tracker-gbts-merge-preparation/turn-attribution.json",
+      "limitations": [
+        "Actual execution model and client version are not exposed by the recovered counters. Cached input and reasoning output are subsets, not additional tokens."
+      ],
+      "input_tokens": 1663418,
+      "cached_input_tokens": 1575808,
+      "output_tokens": 8410,
+      "reasoning_output_tokens": 2240,
+      "total_tokens": 1671828
+    },
+    {
+      "client_thread_id": "01a18c49-acb6-7b01-920a-f59c53afb51a",
+      "turn_id": "01a18c49-ad1f-7010-8002-c5585a1b8e69",
+      "model": null,
+      "source": "logs/usage/USAGE-2026-10-30-pr107-accounting.json; usage-only cumulative deltas reconcile to last-request counters from zero; exact task ownership in logs/codex/SESSION-2026-10-30-tracker-gbts-merge-preparation/turn-attribution.json",
+      "limitations": [
+        "Actual execution model and client version are not exposed by the recovered counters. Cached input and reasoning output are subsets, not additional tokens."
+      ],
+      "input_tokens": 4323298,
+      "cached_input_tokens": 4172672,
+      "output_tokens": 12901,
+      "reasoning_output_tokens": 3822,
+      "total_tokens": 4336199
+    }
+  ],
+  "checks": [
+    {
+      "command": "initial project-record validation",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Role/workstream mismatch; corrected immediately inff672a4, subsequent project validation passes."
+    },
+    {
+      "command": "initial native observer compilation",
+      "status": "FAIL",
+      "exit_code": 2,
+      "result": "Version-specific enum/barcode API corrected; rebuilt with matching ACTS/pybind ABI."
+    },
+    {
+      "command": "native smoke attempts1\u20136",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Initialization/interface/provenance issues corrected and retained in narrative; attempt7 completes10events."
+    },
+    {
+      "command": "native full13profile\u00d74pT tuning at08c1241",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All52x500-event cases completed; paired generator/measurement/SP fingerprints identical within momentum."
+    },
+    {
+      "command": "initial validation with optional RootTrackStatesWriter",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Seed103042 aborted strict native FPE gate (159/93/55/4FLTINV); isolated1000-event113042 diagnostic locates writer; no accepted performance/retuning from failed sample."
+    },
+    {
+      "command": "native final5000events/pT\u00d7selected/control at0e3b921",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All8cases completed with FPE checks, freshseed123042 and unchanged scientific profile; native state observer replaces optional failing writer."
+    },
+    {
+      "command": "python -B -m unittest discover -s software/analysis/tracker_reconstruction -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "12meaningful configuration/matching/denominator/quality/heldout-input controls pass."
+    },
+    {
+      "command": "native truth_tracking regression suite",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "39tests pass with NODD_TRUTH_NATIVE_DIR selected; initial nonnative run skipped5 and was superseded by native execution."
+    },
+    {
+      "command": "native tracker_optimization regression suite",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "20tests pass including native homogeneous material mixture; initial nonnative run skipped1 and was superseded."
+    },
+    {
+      "command": "software/analysis/tracker_reconstruction/verify.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "60cases/66000processed entries; source/runtime/baseline/artifact identities and counts/residual/pull/conditional definitions reproduced. Repeated/paired entries are not pooled independent trials."
+    },
+    {
+      "command": "software/analysis/tracker_reconstruction/audit_root.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All8ROOT cases: full event/measurement/candidate counts, exact float32 measurement variances and perigee/sigma tuples match native audit."
+    },
+    {
+      "command": "software/analysis/tracker_reconstruction/select_profile.py retained replay",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Same selected profile/ranking; original frozen source hash preserved; gzip-reader extension changes only replay producer hash."
+    },
+    {
+      "command": "tools/tracker_dd4hep/verify_baseline.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Replays retained baseline source/native/Gen3/G4-smoke/TDR evidence fingerprints; not a fresh G4 run."
+    },
+    {
+      "command": "tools/project_records/validate.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "79tasks,41documents,22review rounds before final PR metadata."
+    },
+    {
+      "command": "tools/agent_workflow/workflow.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Eight role profiles and three workflow skills valid."
+    },
+    {
+      "command": "tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "212paired session records valid before final closeout."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors at scientific evidence pin."
+    },
+    {
+      "command": "TrackerReconstruction CMake source/version guards",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Matching355ea684/pybind3.0.4 configures; wrongACTSsource rejected(exit1); validated observer module hash unchanged. Configuration-only review fix."
+    },
+    {
+      "command": "initial PR107 token-site CI at a01c19e",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Expected missing newPR interaction record before number assignment; adding pr-0107.json and canonical journal synchronization. No scientific failure."
+    },
+    {
+      "command": "final local session/project/workflow/interaction/token/source validation",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "212 sessions, 79 tasks/41 documents/22 review rounds, eight roles/three skills, 96 PR interaction records, canonical usage boundaries and 60 native cases/66,000 processed entries validate. Required historical 78bc60b object fetched read-only; no evidence changed."
+    },
+    {
+      "command": "GitHub PR107 CI at 8d4d95cc2223d474d244fa9d527a681bfbe37ea6",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Project validation 41040394087: build 10m18s and unrooted 3m5s PASS. Accounting 41040394290: token-site 32s PASS; deploy correctly skipped for PR. Subsequent closeout changes only project/session/interaction metadata; no scientific code/data changes."
+    }
+  ]
+}

@@ -1,0 +1,129 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-20-pr89-accounting",
+  "title": "PR89 token accounting and merge readiness",
+  "recorded_at": "2026-10-20T13:25:53Z",
+  "started_at": null,
+  "ended_at": "2026-10-20T13:29:20Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "This accounting/readiness follow-up is still active in the client. Its final counters are unavailable and usage remains empty; the original PR89 closed turns are owned only by SESSION-2026-10-19-odd-idres-comparison.",
+    "Actual executed model and client version remain unestablished; no costs or missing counters estimated."
+  ],
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": "01a15367-213c-7ee0-b62c-99a53c3b5fae"
+  },
+  "git": {
+    "start_commit": "460fcb0977cd6ed8054439d554d1dc6b81c947be",
+    "branch": "codex/odd-idres-comparison",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      "logs/codex/SESSION-2026-10-19-odd-idres-comparison.json",
+      "logs/codex/SESSION-2026-10-19-odd-idres-comparison.md",
+      "logs/codex/SESSION-2026-10-20-pr89-accounting.json",
+      "logs/codex/SESSION-2026-10-20-pr89-accounting.md",
+      "logs/usage/USAGE-2026-10-20-pr89-accounting.json",
+      "logs/usage/README.md",
+      "project/tracking.json"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [
+      "session logging",
+      "PR89 accounting",
+      "merge readiness"
+    ],
+    "related_ids": [
+      "PR-89",
+      "ADR-004",
+      "TASK-PUB-ODD-IDRES"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-20-pr89-accounting.md",
+  "activities": [
+    {
+      "kind": "skill",
+      "name": "nodd-review-validation",
+      "version": null,
+      "calls": 1,
+      "failures": 0,
+      "duration_seconds": null,
+      "evidence": "Repository skill read and applied to scoped author follow-up PR89-READINESS-2026-10-20; starting head460fcb0977cd6ed8054439d554d1dc6b81c947be; no independent scientific review or human approval claimed."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 -B tools/session_logging/recover_usage.py --codex-home <local-store> --thread-id 01a15367-213c-7ee0-b62c-99a53c3b5fae --output <ignored-local-inventory>",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Explicit thread;3 closed turns and1 active turn;2 repeated snapshots;0 outside-turn observations; all request/cumulative arithmetic reconciles."
+    },
+    {
+      "command": "session_log.py import-usage --id SESSION-2026-10-19-odd-idres-comparison --file <curated-batch> --dry-run; import; replay dry-run",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "3 newly owned closed turns; replay0 additions/3 unchanged; observed total12837488 tokens."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "33 tests passed."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/token_usage -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "10 tests passed."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "185 paired session records valid."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py summary --format json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "213 unique observed turns;637136893 project tokens; original PR89 subtotal12837488; current turn excluded."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py validate; build --output _site/pr89-accounting",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "213 dated observed turns;637136893 tokens; preview built."
+    },
+    {
+      "command": "python3 -B tools/odd_idres/verify.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All retained input/data/SVG hashes, grids and controls verify; scientific data unchanged."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "67 tasks,36 documents,21 review rounds valid."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors."
+    },
+    {
+      "command": "gh pr view89 --json state,isDraft,mergeable,mergeStateStatus,reviews,statusCheckRollup; gh api pulls/89/comments",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Starting head460fcb0 is open/non-draft,clean and mergeable,zero reviews/comments; project validation and token-site successful."
+    }
+  ]
+}

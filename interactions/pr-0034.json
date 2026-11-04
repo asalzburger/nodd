@@ -1,0 +1,206 @@
+{
+  "schema_version": 1,
+  "github": {
+    "captured_at": "2026-10-24T07:41:00.632Z",
+    "pull_request": {
+      "number": 34,
+      "url": "https://github.com/asalzburger/nodd/pull/34",
+      "title": "Tracker: Test transverse pixel periphery and close z packing",
+      "head": "study/pixel-z-coverage",
+      "head_sha": "ac56d6db1dd2dc40882f5ed39a76125096171a06",
+      "state": "closed",
+      "body": "Move the inherited pixel readout periphery into r–phi and test close module packing along z, without changing the current DD4hep default. DES-013 is an isolated prototype for eventual expert approval; it preserves barrel radii/stave counts, pixel endcaps and strips.\n\nRecommend the **chip-centred 0.2 mm sensor-edge / 0.2 mm body-gap** hypothesis for engineering review. The active inter-module z gap becomes 0.6 mm; quad internal 0.2 mm readout seams remain inactive.\n\n| Matched off-grid metric | Baseline | Proposed target |\n| --- | ---: | ---: |\n| Missed reachable barrel layers, straight | 16.54% | 3.87% |\n| Missed layers, 1 GeV pT / 3 T, q+ | 16.43% | 3.86% |\n| Missed layers, 1 GeV pT / 3 T, q− | 16.65% | 4.01% |\n| All reachable barrel layers hit, straight | 59.02% | 88.62% |\n| Modules / ASICs | 2,750 / 6,206 | 3,050 / 6,794 |\n| Pixel-barrel sensor area | 2.5574 m² | 2.7491 m² |\n| Nominal ASIC power | 16.6817 kW | 18.2623 kW |\n\nThese are sampled geometric fractions, not event efficiencies or proof of hermeticity. Six cases separate rotation, packing, edge width and common row phase. A symmetric quad phase loses two central barrel stations; chip-centred packing restores four on those probes. A 0.5 mm edge control has a four-layer aligned hole at z=−11 mm, confirmed with ACTS. The aggressive 0.1 mm option improves the missing fraction by less than one further percentage point.\n\n**Cooling amendment required:** inherited quad flow gives stress exit quality 0.45705 against the 0.45 ceiling; single staves have almost no margin. The failure is retained. The report derives a minimum quad heat-balance flow and proposes further thermal/hydraulic and cable-capacity work; it does not change the cooling baseline or certify assembly tolerances, guards or bond geometry.\n\nReview entry points:\n- [DES-013 design and provenance](https://github.com/asalzburger/nodd/blob/study/pixel-z-coverage/docs/design/DES-013-pixel-barrel-z-coverage.md), linked to module issue #7 and DES-002/011/012.\n- [Results and all per-layer/subdetector tables](https://github.com/asalzburger/nodd/blob/study/pixel-z-coverage/docs/validation/DES-013-pixel-z/results.md).\n- [Recommendation, limitations and cooling amendment](https://github.com/asalzburger/nodd/blob/study/pixel-z-coverage/docs/validation/DES-013-pixel-z/recommendation.md).\n- [Repeatable workflow](https://github.com/asalzburger/nodd/blob/study/pixel-z-coverage/tools/pixel_z_coverage/README.md), including future shape updates, native setup and lossless evidence archiving.\n- Module-orientation and luminous-z seam SVGs accompany the report; complete layouts, per-track counts, configuration and runtime/source fingerprints are retained.\n\nValidation executed:\n- Six cases × 7,312 matched primary rays × 3 modes; separate 4,096-ray total-p=1 GeV sensitivity for both charges. Luminous box x/y ∈ [0,1] mm, z ∈ [−150,150] mm; |eta| ≤ 4.\n- **720 native ACTS track audits pass**, including explicit 1 µm inside/outside sensor-edge controls. Finite supporting-plane propagation and native bounds, not global navigator/reconstruction validation.\n- Zero occupied-body or outward-support envelope conflicts. Unchanged regions retain identical primary per-track counts.\n- 6 layout tests, 15 intersection tests, 3 native integration controls and 27 dashboard tests pass; dashboard validation/build and session-log validation pass.\n- Actual ACTS/ROOT runtime verified despite stale Spack registry fingerprints. No shared dependencies modified; the binding overlay's reused-build provenance remains explicit.\n\nNo formal sign-off or baseline adoption is inferred. This PR supplies evidence for that decision.\n",
+      "actor": "asalzburger",
+      "created_at": "2026-10-01T09:44:41Z"
+    },
+    "comments": [
+      {
+        "id": 5378949759,
+        "url": "https://github.com/asalzburger/nodd/pull/34#pullrequestreview-5378949759",
+        "body": "New Barrel baseline",
+        "actor": "asalzburger-review",
+        "created_at": "2026-10-01T12:03:09Z",
+        "updated_at": null,
+        "review": "APPROVED",
+        "in_reply_to_id": null,
+        "path": null,
+        "line": null
+      }
+    ],
+    "issues": [
+      {
+        "number": 7,
+        "url": "https://github.com/asalzburger/nodd/issues/7",
+        "title": "Design reusable RD53 pixel-module alternatives",
+        "body": "Develop DES-001 as a stand-alone RD53 pixel-module proposal with reusable structures, few module types, low material and realistic manufacture, services and thermal interfaces. The available RD53 chip is fixed; the exact inventory variant is being clarified. Pixel volume/layer layout is not selected by this task.\n\nThe Tracking Engineer leads two independent alternatives, each with top-view and cross-section drawings, source facts/derivations/design choices and explicit limitations. The Project Coordinator supplies a balanced comparison and conditional recommendation after technical synthesis.\n\nPublic RD53 documentation and ATLAS/CMS detector/upgrade TDRs are references, not an instruction to copy either experiment. Catalogue every new normative source in reference/manifest.yaml, distinguish RD53A from production successors, and leave unverified thickness/power/irradiation assumptions visible. Include active/inactive area, chip tiling, bumps, flex/adhesive/bonds, sensor bias/isolation, material accounting and credible cooling/power/data handoffs. Layout fit, radiation requirements, engineering tolerances and production sign-off remain separate gates.\n\nScope: DRAFT designs and source/design study evidence only; no detector geometry or reconstruction changes. Update project tracking in the same PR. Existing context: stage B/C of PLAN-NODD-001, global envelope baseline DES-003 / ADR-006, with the formal-sign-off documentation discrepancy preserved.\n",
+        "actor": "asalzburger",
+        "created_at": "2026-09-17T14:55:53Z",
+        "comments": []
+      }
+    ]
+  },
+  "curated": {
+    "journal_links": [],
+    "agents": [],
+    "tools": [],
+    "events": []
+  },
+  "derived": {
+    "parties": [
+      {
+        "id": "agent:SESSION-2026-10-01-pixel-z-coverage",
+        "name": "unspecified",
+        "kind": "agent"
+      },
+      {
+        "id": "github:asalzburger",
+        "name": "asalzburger",
+        "kind": "account"
+      },
+      {
+        "id": "github:asalzburger-review",
+        "name": "asalzburger-review",
+        "kind": "human"
+      },
+      {
+        "id": "unknown:project-user",
+        "name": "Project user (name unrecorded)",
+        "kind": "human"
+      }
+    ],
+    "journals": [
+      {
+        "session_id": "SESSION-2026-10-01-pixel-z-coverage",
+        "record": "logs/codex/SESSION-2026-10-01-pixel-z-coverage.json",
+        "attribution": [
+          "recorded_branch",
+          "explicit_PR_reference"
+        ],
+        "snapshot": null,
+        "snapshot_sha256": null,
+        "record_sha256": "b28f6802ddfbe83d1fcc53565a015719b1ec88c3224eed0dc42f761655eed578",
+        "narrative_sha256": "c7fa3f0dc0deb14c4ecefb4256b0333d577bddc0833bc4a21203bc617f54d99f"
+      }
+    ],
+    "token_accounts": [
+      {
+        "id": "SESSION-2026-10-01-pixel-z-coverage",
+        "record": "logs/codex/SESSION-2026-10-01-pixel-z-coverage.json",
+        "scope": "canonical_session; shared PR references are not allocations",
+        "status": "unobserved",
+        "usage_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "turns": []
+      }
+    ],
+    "visible_sources": [],
+    "agents": [
+      {
+        "id": "agent:SESSION-2026-10-01-pixel-z-coverage",
+        "name": "unspecified",
+        "role": "session_agent",
+        "thread_id": null,
+        "models": [],
+        "source": "logs/codex/SESSION-2026-10-01-pixel-z-coverage.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      }
+    ],
+    "tools": {
+      "native_codex": [],
+      "codex_installed": [],
+      "instructed_software": [],
+      "unresolved": []
+    },
+    "events": [
+      {
+        "id": "github:https://github.com/asalzburger/nodd/pull/34",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "github:asalzburger",
+        "recipients": [],
+        "text": "Move the inherited pixel readout periphery into r–phi and test close module packing along z, without changing the current DD4hep default. DES-013 is an isolated prototype for eventual expert approval; it preserves barrel radii/stave counts, pixel endcaps and strips.\n\nRecommend the **chip-centred 0.2 mm sensor-edge / 0.2 mm body-gap** hypothesis for engineering review. The active inter-module z gap becomes 0.6 mm; quad internal 0.2 mm readout seams remain inactive.\n\n| Matched off-grid metric | Baseline | Proposed target |\n| --- | ---: | ---: |\n| Missed reachable barrel layers, straight | 16.54% | 3.87% |\n| Missed layers, 1 GeV pT / 3 T, q+ | 16.43% | 3.86% |\n| Missed layers, 1 GeV pT / 3 T, q− | 16.65% | 4.01% |\n| All reachable barrel layers hit, straight | 59.02% | 88.62% |\n| Modules / ASICs | 2,750 / 6,206 | 3,050 / 6,794 |\n| Pixel-barrel sensor area | 2.5574 m² | 2.7491 m² |\n| Nominal ASIC power | 16.6817 kW | 18.2623 kW |\n\nThese are sampled geometric fractions, not event efficiencies or proof of hermeticity. Six cases separate rotation, packing, edge width and common row phase. A symmetric quad phase loses two central barrel stations; chip-centred packing restores four on those probes. A 0.5 mm edge control has a four-layer aligned hole at z=−11 mm, confirmed with ACTS. The aggressive 0.1 mm option improves the missing fraction by less than one further percentage point.\n\n**Cooling amendment required:** inherited quad flow gives stress exit quality 0.45705 against the 0.45 ceiling; single staves have almost no margin. The failure is retained. The report derives a minimum quad heat-balance flow and proposes further thermal/hydraulic and cable-capacity work; it does not change the cooling baseline or certify assembly tolerances, guards or bond geometry.\n\nReview entry points:\n- [DES-013 design and provenance](https://github.com/asalzburger/nodd/blob/study/pixel-z-coverage/docs/design/DES-013-pixel-barrel-z-coverage.md), linked to module issue #7 and DES-002/011/012.\n- [Results and all per-layer/subdetector tables](https://github.com/asalzburger/nodd/blob/study/pixel-z-coverage/docs/validation/DES-013-pixel-z/results.md).\n- [Recommendation, limitations and cooling amendment](https://github.com/asalzburger/nodd/blob/study/pixel-z-coverage/docs/validation/DES-013-pixel-z/recommendation.md).\n- [Repeatable workflow](https://github.com/asalzburger/nodd/blob/study/pixel-z-coverage/tools/pixel_z_coverage/README.md), including future shape updates, native setup and lossless evidence archiving.\n- Module-orientation and luminous-z seam SVGs accompany the report; complete layouts, per-track counts, configuration and runtime/source fingerprints are retained.\n\nValidation executed:\n- Six cases × 7,312 matched primary rays × 3 modes; separate 4,096-ray total-p=1 GeV sensitivity for both charges. Luminous box x/y ∈ [0,1] mm, z ∈ [−150,150] mm; |eta| ≤ 4.\n- **720 native ACTS track audits pass**, including explicit 1 µm inside/outside sensor-edge controls. Finite supporting-plane propagation and native bounds, not global navigator/reconstruction validation.\n- Zero occupied-body or outward-support envelope conflicts. Unchanged regions retain identical primary per-track counts.\n- 6 layout tests, 15 intersection tests, 3 native integration controls and 27 dashboard tests pass; dashboard validation/build and session-log validation pass.\n- Actual ACTS/ROOT runtime verified despite stale Spack registry fingerprints. No shared dependencies modified; the binding overlay's reused-build provenance remains explicit.\n\nNo formal sign-off or baseline adoption is inferred. This PR supplies evidence for that decision.\n",
+        "source": "https://github.com/asalzburger/nodd/pull/34",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [],
+        "timestamp": "2026-10-01T09:44:41Z",
+        "remote_input": null
+      },
+      {
+        "id": "github:https://github.com/asalzburger/nodd/pull/34#pullrequestreview-5378949759",
+        "type": "review",
+        "direction": "reaction",
+        "actor": "github:asalzburger-review",
+        "recipients": [],
+        "text": "New Barrel baseline",
+        "source": "https://github.com/asalzburger/nodd/pull/34#pullrequestreview-5378949759",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [],
+        "timestamp": "2026-10-01T12:03:09Z",
+        "remote_input": null
+      },
+      {
+        "id": "github:https://github.com/asalzburger/nodd/issues/7",
+        "type": "issue",
+        "direction": "reaction",
+        "actor": "github:asalzburger",
+        "recipients": [],
+        "text": "Develop DES-001 as a stand-alone RD53 pixel-module proposal with reusable structures, few module types, low material and realistic manufacture, services and thermal interfaces. The available RD53 chip is fixed; the exact inventory variant is being clarified. Pixel volume/layer layout is not selected by this task.\n\nThe Tracking Engineer leads two independent alternatives, each with top-view and cross-section drawings, source facts/derivations/design choices and explicit limitations. The Project Coordinator supplies a balanced comparison and conditional recommendation after technical synthesis.\n\nPublic RD53 documentation and ATLAS/CMS detector/upgrade TDRs are references, not an instruction to copy either experiment. Catalogue every new normative source in reference/manifest.yaml, distinguish RD53A from production successors, and leave unverified thickness/power/irradiation assumptions visible. Include active/inactive area, chip tiling, bumps, flex/adhesive/bonds, sensor bias/isolation, material accounting and credible cooling/power/data handoffs. Layout fit, radiation requirements, engineering tolerances and production sign-off remain separate gates.\n\nScope: DRAFT designs and source/design study evidence only; no detector geometry or reconstruction changes. Update project tracking in the same PR. Existing context: stage B/C of PLAN-NODD-001, global envelope baseline DES-003 / ADR-006, with the formal-sign-off documentation discrepancy preserved.\n",
+        "source": "https://github.com/asalzburger/nodd/issues/7",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [],
+        "timestamp": "2026-09-17T14:55:53Z",
+        "remote_input": null
+      },
+      {
+        "id": "journal:SESSION-2026-10-01-pixel-z-coverage:9c0f2222a519e824",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "agent:SESSION-2026-10-01-pixel-z-coverage"
+        ],
+        "text": "The user requested a new PR testing pixel-barrel refinement: orient RD53\nwire-bond space in r-phi, minimise inactive z edges and attachment gaps, run\nACTS, and report for eventual approval. This authorizes an isolated prototype,\nnot production geometry changes or human engineering sign-off.",
+        "source": "logs/codex/SESSION-2026-10-01-pixel-z-coverage.md#selected-request-and-authority",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-01-pixel-z-coverage"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-10-01-pixel-z-coverage:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-10-01-pixel-z-coverage",
+        "recipients": [],
+        "text": "Prototype pixel module rotation and dense z packing with ACTS — see the canonical narrative for outcomes and checks.",
+        "source": "logs/codex/SESSION-2026-10-01-pixel-z-coverage.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-01-pixel-z-coverage"
+        ],
+        "content_kind": "reference_summary"
+      }
+    ],
+    "coverage": {
+      "github_captured_at": "2026-10-24T07:41:00.632Z",
+      "prompts": "Available account-matched user-visible messages, public Codex inputs and curated journal excerpts. Historical full input coverage is unknown.",
+      "recovered_visible_turns": 0,
+      "unrecovered_account_turns": [],
+      "responses": "Public responses and recorded outcomes; no private model state or hidden reasoning.",
+      "token_accounting": "References only. Never sum accounts across PRs or assign a shared turn by text length.",
+      "unknowns": "Unrecorded names, models, tools, subagent identities and response links remain unknown; empty lists are not zero activity.",
+      "remote": "Snapshot, not live synchronization; deleted/edited history and emoji reactions are not recovered.",
+      "branch_only": "Pinned branch journal snapshots are references, not imported counters. Unretained or other-device inputs remain unknown."
+    }
+  }
+}

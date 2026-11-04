@@ -1,0 +1,174 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-20-fcal-pr88-merge-ready",
+  "title": "PR88 token accounting and merge-conflict reconciliation",
+  "recorded_at": "2026-10-20T14:39:00Z",
+  "started_at": null,
+  "ended_at": "2026-10-20T14:45:18Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "This accounting/conflict-resolution turn is active in the client; its final counters are unavailable and usage remains empty. Eleven completed FCAL turns are owned only by their three bounded task journals.",
+    "Actual executed model, client version and unobserved device history remain unknown; no costs or missing counters estimated.",
+    "This is an author merge/readiness follow-up, not an independent scientific review, a merge action or human sign-off."
+  ],
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": "01a149a1-86db-7151-b131-181e633d77bb"
+  },
+  "git": {
+    "start_commit": "3818a0712dbadcdca256c077b9ce5a0db4ee7838",
+    "branch": "codex/common-fcal-design",
+    "initial_changes": [],
+    "result_commits": [
+      "4e27f86c59f75780398b986c449ddc0dfbfae76f"
+    ],
+    "changed_files": [
+      "logs/codex/SESSION-2026-10-20-fcal-pr88-merge-ready.json",
+      "logs/codex/SESSION-2026-10-20-fcal-pr88-merge-ready.md",
+      "logs/design/SESSION-2026-10-17-common-fcal-design.json",
+      "logs/design/SESSION-2026-10-17-common-fcal-design.md",
+      "logs/design/SESSION-2026-10-17-common-fcal-recommendation.json",
+      "logs/design/SESSION-2026-10-17-common-fcal-recommendation.md",
+      "logs/design/SESSION-2026-10-20-fcal-3d-svg.json",
+      "logs/design/SESSION-2026-10-20-fcal-3d-svg.md",
+      "logs/usage/README.md",
+      "logs/usage/USAGE-2026-10-20-pr88-accounting.json",
+      "project/tracking.json"
+    ]
+  },
+  "work": {
+    "milestone": "B",
+    "components": [
+      "PR88 merge readiness",
+      "session and token accounting",
+      "preservation of independent project records"
+    ],
+    "related_ids": [
+      "PR-88",
+      "DES-039",
+      "ADR-010",
+      "ADR-004",
+      "TASK-B-CALO-FCAL"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-20-fcal-pr88-merge-ready.md",
+  "activities": [
+    {
+      "kind": "skill",
+      "name": "nodd-review-validation",
+      "version": null,
+      "calls": 1,
+      "failures": 0,
+      "duration_seconds": null,
+      "evidence": "Scoped author SoftEng follow-up PR88-READINESS-2026-10-20 at starting head3818a0712dbadcdca256c077b9ce5a0db4ee7838; read relevant mandate and workflow. No fresh independent scientific assessment or human approval claimed."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "gh pr view 88; gh api pulls/88/reviews; gh api pulls/88/comments",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Starting PR is OPEN/non-draft, CONFLICTING/DIRTY, with no reviews or inline review comments."
+    },
+    {
+      "command": "git merge --no-commit origin/main",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Expected content conflict in project/tracking.json; resolved by semantic three-way merge retaining both task records. All other changes merged automatically."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py; git commit -m \"Merge main and preserve FCAL and ODD IdRes tracking\"",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "68 tasks,38 documents,21 review rounds valid; ordinary merge retains main969a870 and FCAL head3818a07."
+    },
+    {
+      "command": "python3 -B tools/session_logging/recover_usage.py --codex-home <local-store> --thread-id <parent> --thread-id <four-recorded-children> --output <temporary-inventory>",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Five explicitly selected threads;11 closed turns,262 closed requests;26 repeated snapshots ignored;0 outside-turn observations. Parent/role edges and visible journal commands establish attribution."
+    },
+    {
+      "command": "session_log.py import-usage (three task owners): dry-run, import, replay dry-run",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "11 additions,0 previous owners; replay0 additions/11 unchanged. Recommendation1,common design9,SVG1; active accounting turn excluded."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "33 logging/recovery tests passed in1.628seconds."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/token_usage -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "10 token-site tests passed in1.745seconds."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "189 paired records valid."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py validate; build --output _site/pr88-merge-ready",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "224 disjoint dated turns;677400798 observed tokens; local preview built."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/forward_calorimeter -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "11 FCAL controls passed in1.927seconds."
+    },
+    {
+      "command": "python3 -B tools/forward_calorimeter/study.py --check; python3 -B tools/forward_calorimeter/draw_3d.py --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Physics report and3D SVG reproduce exactly."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/odd_idres -p 'test_*.py' -v; python3 -B tools/odd_idres/verify.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "8 tests pass;15runs,64881fit rows,7209profiles,54controls,7SVGs and all retained hashes/CSV/JSON agree."
+    },
+    {
+      "command": "git diff --exit-code 3818a0712dbadcdca256c077b9ce5a0db4ee7838 -- tools/forward_calorimeter docs/validation/DES-039 docs/design/figures/DES-039",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "FCAL scientific implementation, figures and native evidence unchanged by reconciliation."
+    },
+    {
+      "command": "gh pr view 88 --json body (first attempt)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Transient sandbox/network error; read repeated successfully with approved network access, preserving current PR prose."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/project_records -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "28 tests passed in115.723seconds, including adverse Git evidence failures."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No conflict markers or whitespace errors remain in changes."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py summary --format json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "224 unique turns;673585876input+3814922output=677400798observed project tokens;122of189records have usage;current turn excluded."
+    }
+  ]
+}

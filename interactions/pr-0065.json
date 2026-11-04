@@ -1,0 +1,336 @@
+{
+  "schema_version": 1,
+  "github": {
+    "captured_at": "2026-10-24T07:41:01.420Z",
+    "pull_request": {
+      "number": 65,
+      "url": "https://github.com/asalzburger/nodd/pull/65",
+      "title": "Calorimeter: assess hardware realism and missing detector description",
+      "head": "codex/calorimeter-description-assessment",
+      "head_sha": "353dc4c840eb9eb1ddd7512e87dc474ff4f94666",
+      "state": "closed",
+      "body": "## Executive summary\n\nODD already describes the calorimeter sampling layers and logical cells. To make nODD as physically explicit as its tracker, we need to describe the hardware that holds, cools, powers and reads out those layers. The maintained nODD assembly currently contains the beam pipe and tracker; a complete calorimeter hardware baseline is still to be established.\n\nThe largest gaps are physical sensor/tile modules and cassettes, load-bearing supports, cooling circuits, electronics and power distribution, service routes, and their interfaces to the new inner solenoid. The inherited copper-rich HCAL PCB mixture also needs a hardware/material justification. Cryostat requirements depend on the chosen technology: silicon/scintillator calorimeters need an operating and cooling design, while the superconducting solenoid needs an explicit cryogenic vessel and service system.\n\nThe proposed sequence is to agree the technology, operating conditions, material ledger and shared interfaces; design one realistic ECAL cassette and one HCAL cassette; then build sectors and complete barrel/endcap assemblies with reproducible geometry, mass and material checks. This PR supplies the assessment and that staged plan. Calorimeter response, reconstruction, jets and particle flow follow as a separate programme.\n\n## Assessment and evidence\n\nAssess the physical calorimeter description needed to bring nODD to tracker-level component detail. DES-027 distinguishes ODD's explicit sampling model, nODD's proposed envelopes, and the maintained beam-pipe/tracker assembly, which currently has no nODD calorimeter factory/configuration entry point.\n\nThe pinned static audit records ECAL48×5.05 mm and HCAL36×51 mm stacks, materials/readouts and distinct barrel/endcap polygon conventions. It identifies a major normalization question: HCAL's 16 mm copper-rich PCB mixture per layer totals 290.924 g/cm² normal areal mass. Logical segmentation also does not supply physical sensor/tile tiling or electronics packages.\n\nThe report provides an in-depth prioritized gap matrix for modules/cassettes, load-bearing supports, cooling, powering/readout, service corridors, environmental/cryostat ownership, magnetic steel and forward/integration interfaces. Public ATLAS/CMS engineering references inform hardware categories. A staged C0–C5 programme proceeds from operating/interface/material contracts through representative ECAL/HCAL cassettes and sectors to complete native geometry evidence. Performance, jets and particle-flow/software updates are deferred.\n\nValidation: four audit arithmetic/accounting controls passed; seven source files match pinned ODD revision c167363; public v6.0.2 ECAL/HCAL file bytes are identical; registered PDF hashes match. Project records, session logs, token-site build, document links and persisted hashes passed. No new dependencies, production geometry, technology adoption or design sign-off. Exact active-turn token counters remain unknown in the paired journal.\n\nDesign: `docs/design/DES-027-calorimeter-description-assessment.md`; reproducible source inventory: `docs/validation/DES-027/odd-inventory.json`; tools: `tools/calorimeter_audit/`. Companion 3 T solenoid proposal provides separate dimensions for joint interface review.\n\n- [x] Updated scientific project tracking and preserved DRAFT/human approval boundaries.\n- [x] Ran relevant controls, session validation, source/artifact checks and token-site build; recorded limitations.\n- [x] Recorded exact evidence revisions in project records and paired journals.\n\nCompanion: [PR #64 — 3 T tracker solenoid baseline](https://github.com/asalzburger/nodd/pull/64).\n",
+      "actor": "asalzburger",
+      "created_at": "2026-10-12T13:05:16Z"
+    },
+    "comments": [],
+    "issues": []
+  },
+  "curated": {
+    "journal_links": [],
+    "agents": [],
+    "tools": [],
+    "events": []
+  },
+  "derived": {
+    "parties": [
+      {
+        "id": "agent:SESSION-2026-10-12-calorimeter-assessment",
+        "name": "Codex desktop",
+        "kind": "agent"
+      },
+      {
+        "id": "agent:SESSION-2026-10-12-calorimeter-executive-summary-followup",
+        "name": "Codex desktop",
+        "kind": "agent"
+      },
+      {
+        "id": "agent:SESSION-2026-10-12-solenoid-material-followup",
+        "name": "Codex desktop",
+        "kind": "agent"
+      },
+      {
+        "id": "agent:SESSION-2026-10-20-pr64-token-conflicts",
+        "name": "Codex desktop",
+        "kind": "agent"
+      },
+      {
+        "id": "github:asalzburger",
+        "name": "asalzburger",
+        "kind": "account"
+      },
+      {
+        "id": "unknown:project-user",
+        "name": "Project user (name unrecorded)",
+        "kind": "human"
+      }
+    ],
+    "journals": [
+      {
+        "session_id": "SESSION-2026-10-12-calorimeter-assessment",
+        "record": "logs/codex/SESSION-2026-10-12-calorimeter-assessment.json",
+        "attribution": [
+          "recorded_branch",
+          "explicit_PR_reference"
+        ],
+        "snapshot": null,
+        "snapshot_sha256": null,
+        "record_sha256": "d91cdd45bd9f630790c635c69356a191baed68c865f27629ed4f289b267d9ba2",
+        "narrative_sha256": "fe4c8a506fd8ce03de482c3f23fe2dfd16ae1576b984f540cc61f9f09abaa3f9"
+      },
+      {
+        "session_id": "SESSION-2026-10-12-calorimeter-executive-summary-followup",
+        "record": "logs/codex/SESSION-2026-10-12-calorimeter-executive-summary-followup.json",
+        "attribution": [
+          "explicit_PR_reference"
+        ],
+        "snapshot": null,
+        "snapshot_sha256": null,
+        "record_sha256": "1ba9deb2a6ea7cbcc9afc729cd7eac6f941c45ca8fc983a752a04803261cb6f2",
+        "narrative_sha256": "abdd2122d514a8d318e7f2c39447a0751ce155d16e46ff88263f05c5de9269d7"
+      },
+      {
+        "session_id": "SESSION-2026-10-12-solenoid-material-followup",
+        "record": "logs/codex/SESSION-2026-10-12-solenoid-material-followup.json",
+        "attribution": [
+          "explicit_PR_reference"
+        ],
+        "snapshot": null,
+        "snapshot_sha256": null,
+        "record_sha256": "26907c18305d8c2b36901d3569dbeecb4ff7e678062560082d6812a66764b6f4",
+        "narrative_sha256": "1abd21d9abbd46911e390f5d0f1886538f0307056c27b367e117acedd98df84b"
+      },
+      {
+        "session_id": "SESSION-2026-10-20-pr64-token-conflicts",
+        "record": "logs/codex/SESSION-2026-10-20-pr64-token-conflicts.json",
+        "attribution": [
+          "explicit_PR_reference"
+        ],
+        "snapshot": null,
+        "snapshot_sha256": null,
+        "record_sha256": "5768c60352b6bca87d330949cf46beb200ba93f503de187cc4b6565a47d45c2c",
+        "narrative_sha256": "fe4c3177e7efa57270ee510d2147e24ed6f58120d9b72ada5d883b749f9d6cbe"
+      }
+    ],
+    "token_accounts": [
+      {
+        "id": "SESSION-2026-10-12-calorimeter-assessment",
+        "record": "logs/codex/SESSION-2026-10-12-calorimeter-assessment.json",
+        "scope": "canonical_session; shared PR references are not allocations",
+        "status": "unobserved",
+        "usage_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "turns": []
+      },
+      {
+        "id": "SESSION-2026-10-12-calorimeter-executive-summary-followup",
+        "record": "logs/codex/SESSION-2026-10-12-calorimeter-executive-summary-followup.json",
+        "scope": "canonical_session; shared PR references are not allocations",
+        "status": "unobserved",
+        "usage_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "turns": []
+      },
+      {
+        "id": "SESSION-2026-10-12-solenoid-material-followup",
+        "record": "logs/codex/SESSION-2026-10-12-solenoid-material-followup.json",
+        "scope": "canonical_session; shared PR references are not allocations",
+        "status": "unobserved",
+        "usage_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "turns": []
+      },
+      {
+        "id": "SESSION-2026-10-20-pr64-token-conflicts",
+        "record": "logs/codex/SESSION-2026-10-20-pr64-token-conflicts.json",
+        "scope": "canonical_session; shared PR references are not allocations",
+        "status": "unobserved",
+        "usage_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "turns": []
+      }
+    ],
+    "visible_sources": [],
+    "agents": [
+      {
+        "id": "agent:SESSION-2026-10-12-calorimeter-assessment",
+        "name": "Codex desktop",
+        "role": "session_agent",
+        "thread_id": "01a12426-1fc9-73b0-94ed-40f3eaf1e83c",
+        "models": [],
+        "source": "logs/codex/SESSION-2026-10-12-calorimeter-assessment.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      },
+      {
+        "id": "agent:SESSION-2026-10-12-calorimeter-executive-summary-followup",
+        "name": "Codex desktop",
+        "role": "session_agent",
+        "thread_id": "01a12426-1fc9-73b0-94ed-40f3eaf1e83c",
+        "models": [],
+        "source": "logs/codex/SESSION-2026-10-12-calorimeter-executive-summary-followup.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      },
+      {
+        "id": "agent:SESSION-2026-10-12-solenoid-material-followup",
+        "name": "Codex desktop",
+        "role": "session_agent",
+        "thread_id": "01a12426-1fc9-73b0-94ed-40f3eaf1e83c",
+        "models": [],
+        "source": "logs/codex/SESSION-2026-10-12-solenoid-material-followup.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      },
+      {
+        "id": "agent:SESSION-2026-10-20-pr64-token-conflicts",
+        "name": "Codex desktop",
+        "role": "session_agent",
+        "thread_id": "01a159f2-e7af-78b2-992c-d505bd3433d7",
+        "models": [],
+        "source": "logs/codex/SESSION-2026-10-20-pr64-token-conflicts.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      }
+    ],
+    "tools": {
+      "native_codex": [],
+      "codex_installed": [],
+      "instructed_software": [],
+      "unresolved": [
+        {
+          "name": "Git/GitHub CLI, Python and web primary-source inspection",
+          "category": "unresolved",
+          "version": null,
+          "calls": null,
+          "source": "logs/codex/SESSION-2026-10-12-calorimeter-assessment.json",
+          "evidence": "Dedicated clean worktree from main da5c469; preserve unrelated primary changes. Independent review of repository, PR6 and public hardware references.",
+          "token_account": "SESSION-2026-10-12-calorimeter-assessment",
+          "provenance": "Operation recorded; installation provenance needs explicit evidence."
+        },
+        {
+          "name": "Git/GitHub CLI and Python standard library",
+          "category": "unresolved",
+          "version": null,
+          "calls": null,
+          "source": "logs/codex/SESSION-2026-10-12-calorimeter-executive-summary-followup.json",
+          "evidence": "Verified merged PR65 head353dc4c/merge26258c9; reused clean worktree on a new branch from upstream main. Executed repository/session/site checks before push.",
+          "token_account": "SESSION-2026-10-12-calorimeter-executive-summary-followup",
+          "provenance": "Operation recorded; installation provenance needs explicit evidence."
+        },
+        {
+          "name": "Python/Matplotlib and GitHub CLI",
+          "category": "unresolved",
+          "version": null,
+          "calls": null,
+          "source": "logs/codex/SESSION-2026-10-12-solenoid-material-followup.json",
+          "evidence": "Standard-library finite-ray material calculator, existing NumPy/Matplotlib environment; primary PDG Al page; direct PR65 executive-summary edit.",
+          "token_account": "SESSION-2026-10-12-solenoid-material-followup",
+          "provenance": "Operation recorded; installation provenance needs explicit evidence."
+        },
+        {
+          "name": "Git/GitHub CLI and local usage-only recovery",
+          "category": "unresolved",
+          "version": null,
+          "calls": null,
+          "source": "logs/codex/SESSION-2026-10-20-pr64-token-conflicts.json",
+          "evidence": "Fetched main, ordinary merge with three reconciled files, opt-in read-only recovery and filtered user-visible thread attribution; exact import via logging CLI. No raw client history committed.",
+          "token_account": "SESSION-2026-10-20-pr64-token-conflicts",
+          "provenance": "Operation recorded; installation provenance needs explicit evidence."
+        }
+      ]
+    },
+    "events": [
+      {
+        "id": "github:https://github.com/asalzburger/nodd/pull/65",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "github:asalzburger",
+        "recipients": [],
+        "text": "## Executive summary\n\nODD already describes the calorimeter sampling layers and logical cells. To make nODD as physically explicit as its tracker, we need to describe the hardware that holds, cools, powers and reads out those layers. The maintained nODD assembly currently contains the beam pipe and tracker; a complete calorimeter hardware baseline is still to be established.\n\nThe largest gaps are physical sensor/tile modules and cassettes, load-bearing supports, cooling circuits, electronics and power distribution, service routes, and their interfaces to the new inner solenoid. The inherited copper-rich HCAL PCB mixture also needs a hardware/material justification. Cryostat requirements depend on the chosen technology: silicon/scintillator calorimeters need an operating and cooling design, while the superconducting solenoid needs an explicit cryogenic vessel and service system.\n\nThe proposed sequence is to agree the technology, operating conditions, material ledger and shared interfaces; design one realistic ECAL cassette and one HCAL cassette; then build sectors and complete barrel/endcap assemblies with reproducible geometry, mass and material checks. This PR supplies the assessment and that staged plan. Calorimeter response, reconstruction, jets and particle flow follow as a separate programme.\n\n## Assessment and evidence\n\nAssess the physical calorimeter description needed to bring nODD to tracker-level component detail. DES-027 distinguishes ODD's explicit sampling model, nODD's proposed envelopes, and the maintained beam-pipe/tracker assembly, which currently has no nODD calorimeter factory/configuration entry point.\n\nThe pinned static audit records ECAL48×5.05 mm and HCAL36×51 mm stacks, materials/readouts and distinct barrel/endcap polygon conventions. It identifies a major normalization question: HCAL's 16 mm copper-rich PCB mixture per layer totals 290.924 g/cm² normal areal mass. Logical segmentation also does not supply physical sensor/tile tiling or electronics packages.\n\nThe report provides an in-depth prioritized gap matrix for modules/cassettes, load-bearing supports, cooling, powering/readout, service corridors, environmental/cryostat ownership, magnetic steel and forward/integration interfaces. Public ATLAS/CMS engineering references inform hardware categories. A staged C0–C5 programme proceeds from operating/interface/material contracts through representative ECAL/HCAL cassettes and sectors to complete native geometry evidence. Performance, jets and particle-flow/software updates are deferred.\n\nValidation: four audit arithmetic/accounting controls passed; seven source files match pinned ODD revision c167363; public v6.0.2 ECAL/HCAL file bytes are identical; registered PDF hashes match. Project records, session logs, token-site build, document links and persisted hashes passed. No new dependencies, production geometry, technology adoption or design sign-off. Exact active-turn token counters remain unknown in the paired journal.\n\nDesign: `docs/design/DES-027-calorimeter-description-assessment.md`; reproducible source inventory: `docs/validation/DES-027/odd-inventory.json`; tools: `tools/calorimeter_audit/`. Companion 3 T solenoid proposal provides separate dimensions for joint interface review.\n\n- [x] Updated scientific project tracking and preserved DRAFT/human approval boundaries.\n- [x] Ran relevant controls, session validation, source/artifact checks and token-site build; recorded limitations.\n- [x] Recorded exact evidence revisions in project records and paired journals.\n\nCompanion: [PR #64 — 3 T tracker solenoid baseline](https://github.com/asalzburger/nodd/pull/64).\n",
+        "source": "https://github.com/asalzburger/nodd/pull/65",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [],
+        "timestamp": "2026-10-12T13:05:16Z",
+        "remote_input": null
+      },
+      {
+        "id": "journal:SESSION-2026-10-12-calorimeter-assessment:2b857e43c0784a36",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "agent:SESSION-2026-10-12-calorimeter-assessment"
+        ],
+        "text": "User requested two PRs: an ATLAS-style central3T solenoid around the tracker\nwith sufficient space and an R–Z view; and a detailed ODD/nODD calorimeter\nhardware assessment covering support, cryostat, powering and related services,\nwith performance/software updates deferred. PR8 proved to concern pixels; the\nuser confirmed PR6 as the intended magnet reference.",
+        "source": "logs/codex/SESSION-2026-10-12-calorimeter-assessment.md#user-visible-request-and-correction",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-12-calorimeter-assessment"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-10-12-calorimeter-assessment:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-10-12-calorimeter-assessment",
+        "recipients": [],
+        "text": "Calorimeter hardware description assessment — see the canonical narrative for outcomes and checks.",
+        "source": "logs/codex/SESSION-2026-10-12-calorimeter-assessment.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-12-calorimeter-assessment"
+        ],
+        "content_kind": "reference_summary"
+      },
+      {
+        "id": "journal:SESSION-2026-10-12-calorimeter-executive-summary-followup:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-10-12-calorimeter-executive-summary-followup",
+        "recipients": [],
+        "text": "Calorimeter executive summary follow-up after PR65 merge — see the canonical narrative for outcomes and checks.",
+        "source": "logs/codex/SESSION-2026-10-12-calorimeter-executive-summary-followup.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-12-calorimeter-executive-summary-followup"
+        ],
+        "content_kind": "reference_summary"
+      },
+      {
+        "id": "journal:SESSION-2026-10-12-solenoid-material-followup:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-10-12-solenoid-material-followup",
+        "recipients": [],
+        "text": "Solenoid added material and calorimeter PR executive summary — see the canonical narrative for outcomes and checks.",
+        "source": "logs/codex/SESSION-2026-10-12-solenoid-material-followup.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-12-solenoid-material-followup"
+        ],
+        "content_kind": "reference_summary"
+      },
+      {
+        "id": "journal:SESSION-2026-10-20-pr64-token-conflicts:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-10-20-pr64-token-conflicts",
+        "recipients": [],
+        "text": "PR64 exact token accounting and merge conflict resolution — see the canonical narrative for outcomes and checks.",
+        "source": "logs/codex/SESSION-2026-10-20-pr64-token-conflicts.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-20-pr64-token-conflicts"
+        ],
+        "content_kind": "reference_summary"
+      }
+    ],
+    "coverage": {
+      "github_captured_at": "2026-10-24T07:41:01.420Z",
+      "prompts": "Available account-matched user-visible messages, public Codex inputs and curated journal excerpts. Historical full input coverage is unknown.",
+      "recovered_visible_turns": 0,
+      "unrecovered_account_turns": [],
+      "responses": "Public responses and recorded outcomes; no private model state or hidden reasoning.",
+      "token_accounting": "References only. Never sum accounts across PRs or assign a shared turn by text length.",
+      "unknowns": "Unrecorded names, models, tools, subagent identities and response links remain unknown; empty lists are not zero activity.",
+      "remote": "Snapshot, not live synchronization; deleted/edited history and emoji reactions are not recovered.",
+      "branch_only": "Pinned branch journal snapshots are references, not imported counters. Unretained or other-device inputs remain unknown."
+    }
+  }
+}

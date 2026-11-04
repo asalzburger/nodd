@@ -13,6 +13,8 @@ from endcap_parts import Parts, volume
 from endcap_services import carrier
 from trimmed_modules import module_xml, patches
 from trimmed_services import transport
+from placements import disc_plan
+from model import dimensions
 
 TAU = 2 * math.pi
 
@@ -311,10 +313,13 @@ def export(config, output):
         not math.isfinite(z) or z <= 0 for z in datums
     ) or any(a >= b for a, b in zip(datums, datums[1:])):
         raise ValueError("Invalid reviewed disc datums")
-    discs = [dict(d, datum_mm=z) for d, z in zip(source_discs, datums)]
+    discs = disc_plan(config, source_discs, datums)
+    reference_discs = [dict(d, datum_mm=z) for d, z in zip(source_discs, datums)]
     die = read(ROOT / "tools/module_layout/review_models.json")["pixel"]
     bc = read(ROOT / config["barrel_config"])
     bc["cable_volume_fractions"] = fractions
+    if config.get("placement"):
+        bc["placement"] = copy.deepcopy(config["placement"])
     output.mkdir(parents=True, exist_ok=True)
     expected = barrel_export(bc, output / "barrel")
     compact = ET.parse(output / "barrel/pixel-barrel.xml").getroot()
@@ -347,20 +352,31 @@ def export(config, output):
             readout="PixelEndcapHits",
         )
         ET.SubElement(det, "sensitive", type="tracker")
-        for di, d in enumerate(discs, 1):
+        for d in discs:
+            di = d["logical_id"]
             datum = d["datum_mm"]
             name = f"disc{sideName}{di}"
             dx = ET.SubElement(det, "disc", id=str(di), name=name, z=mm(side * datum))
             entities.append(
                 dict(name=name, role="disc", center_mm=[0, 0, side * datum])
             )
-            modules = placed(template, source_discs[di - 1]["datum_mm"], d["removed_rows"], radial)
+            modules = placed(template, d["source_datum_mm"], d["removed_rows"], radial)
             for module in modules:
                 module["center_mm"][2] = datum + module["local_z_mm"]
             for m in modules:
+                start = len(entities)
                 module_xml(
                     dx, m, radial, bc["module"], entities, side, system, di, datum, die
                 )
+                # Historical source slots0..17 stay unchanged. New signed
+                # assemblies receive slots18/19; physical VolumeIDs use layer10.
+                if di > len(source_discs):
+                    old_slot = (0 if side < 0 else 9) + di - 1
+                    new_slot = 18 + (side > 0)
+                    for e in entities[start:]:
+                        for key in ("source_module_id", "source_patch_id"):
+                            if key in e:
+                                e[key] += (new_slot-old_slot)*10000
             account = support(
                 parts,
                 dx,
@@ -376,7 +392,7 @@ def export(config, output):
                 fractions,
                 config["local_service_w_mm"],
             )
-            account.update(side=side, disc=di, removed_rows=d["removed_rows"])
+            account.update(side=side, disc=di, donor_layer=d["donor_layer"], removed_rows=d["removed_rows"])
             accounting["discs"].append(account)
         carrier(
             parts,
@@ -386,7 +402,7 @@ def export(config, output):
             sideName,
             [
                 dict(proposed_z_mm=side * d["datum_mm"])
-                for d in discs
+                for d in sorted(discs, key=lambda d: d["datum_mm"])
             ],
         )
         accounting["transport_" + sideName] = transport(
@@ -401,6 +417,7 @@ def export(config, output):
             sideName,
             discs,
             template["rings"],
+            reference_discs=reference_discs if config.get("placement") else None,
         )
     targets = defaultdict(lambda: dict(volume_mm3=0.0, mass_g=0.0))
     for e in entities:
@@ -427,11 +444,37 @@ def export(config, output):
     )
     expected["provenance"]["combined_config"] = config
     expected["provenance"]["disc_position_reconciliation"] = [
-        dict(source_datum_mm=source["datum_mm"], datum_mm=datum,
-             signed_positive_shift_mm=datum - source["datum_mm"],
+        dict(logical_id=d["logical_id"], donor_layer=d["donor_layer"],
+             source_datum_mm=d["source_datum_mm"], reference_datum_mm=d["reference_datum_mm"], datum_mm=d["datum_mm"],
+             signed_positive_shift_mm=d["datum_mm"] - d["reference_datum_mm"],
              local_transforms="Preserved; rigid assembly shift only")
-        for source, datum in zip(source_discs, datums)
+        for d in discs
     ]
+    if config.get("placement"):
+        expected["provenance"]["placement"] = config["placement"]
+        expected["provenance"]["service_scope"] = (
+            "Complete local donor2 assemblies/collectors added and rail slots follow placements; "
+            "carrier/flanges and global trunk/bypass/rear geometry, densities and inventory remain "
+            "the reference control. Cumulative connectivity, capacity and hydraulic qualification remain open.")
+        audits = []
+        slot = dimensions(cfg)[0]
+        start, end = cfg["mounting"]["carrier_z_mm"]
+        flange = cfg["mounting"]["flange_axial_mm"]
+        reference_length = end-start-2*flange-len(source_discs)*slot
+        actual_length = end-start-2*flange-len(discs)*slot
+        added_id = config["placement"]["additional_pixel_disk"]["layer_id"]
+        for side, label in ((-1, "N"), (1, "P")):
+            rail_volume = sum(e["volume_mm3"] for e in entities
+                              if e["role"] == "rail" and e["name"].startswith("rail"+label+"_"))
+            before = rail_volume * reference_length / actual_length
+            added_collectors = [c for c in accounting["transport_"+label]["cells"]
+                                if c["name"] == f"collector{label}{added_id}_"]
+            audits.append(dict(side=side, rail_fixed_abs_z_span_mm=[start+flange,end-flange],
+                rail_slot_width_mm=slot, rail_volume_mm3_before=before,
+                rail_volume_mm3_after=rail_volume, CFRP_rail_volume_change_mm3=rail_volume-before,
+                added_collector_cells=added_collectors,
+                added_disc=next(d for d in accounting["discs"] if d["side"]==side and d["disc"]==added_id)))
+        expected["provenance"]["endcap_placement_audit"] = audits
     expected["provenance"]["combined_source_sha256"] = {
         str(p.relative_to(ROOT)): sha(p)
         for p in sorted(Path(__file__).parent.glob("*.py"))

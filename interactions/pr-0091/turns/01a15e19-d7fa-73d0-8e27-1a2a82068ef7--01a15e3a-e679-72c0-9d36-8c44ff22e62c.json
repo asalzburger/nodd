@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "thread_id": "01a15e19-d7fa-73d0-8e27-1a2a82068ef7",
+  "turn_id": "01a15e3a-e679-72c0-9d36-8c44ff22e62c",
+  "status": "completed",
+  "started_at": 1792582280,
+  "completed_at": 1792582400,
+  "token_accounts": [
+    "SESSION-2026-10-21-material-profile"
+  ],
+  "source": "Codex app read_thread; exact recorded thread/turn match",
+  "messages": [
+    {
+      "id": "msg_066d4b948c18e5c2016ad8a2f3a324819182316b18903238e5",
+      "role": "assistant",
+      "phase": "final_answer",
+      "text": "MATPROF-SoftEng-02 completed against `e2a01ae90f376914d53942ef81d64d424d2d13f1`. No edits, simulations, dependency changes or further delegation.\n\n**The load-order effect is measured; its precise native mechanism remains unresolved.** Existing evidence does not justify attributing it specifically to weak Geant4 accessor selection.\n\nMeasured evidence:\n\n| Existing run | Completed events when inspected | Steady-event median wall / CPU |\n|---|---:|---:|\n| `nodd-100` | 100 | 14.9446 / 14.9432 s |\n| `nodd-bootstrap-100` | 43; still active | 7.4358 / 7.4357 s |\n| `nodd-hidden-control` | 2 | 16.8873 / 16.8684 s |\n| `nodd-stable-phases` | 2 | 7.5117 / 7.5113 s |\n\nThese come from existing `build/jobs/material-profile/<run>/metrics.json`; the incomplete bootstrap value is provisional.\n\nBoth steady samples identify the same dominant call chain:\n\n`BeamOn → RunInitialization → UpdateCoupleTable → CreateCoupleTables → ScanAndSetCouple`\n\n`UpdateCoupleTable` accounts for 6192/6259 main-thread samples before bootstrap and 5816/5881 afterward—approximately 98.9% in both. The bootstrap changes the cost substantially without removing the repeated cut-association scan.\n\nStatic symbol/disassembly checks establish:\n\n- `G4LogicalVolume::GetMaterial()` is a **strong external definition** in `libG4geometry`, not a weak definition.\n- `libG4processes_core` binds that getter and `SetMaterialCutsCouple()` explicitly to `libG4geometry`; neither appears in its weak-bind table.\n- Both sampled processes execute `GetMaterial()` in `libG4geometry`, including `_tlv_get_addr`.\n- `ScanAndSetCouple` directly reads region/daughter fields, directly recurses, and calls the external material getter/setter. Its hot daughter accesses are already inlined.\n- The retained native-helper binaries inspected contain no public weak Geant4 accessor definitions matching the relevant logical/physical-volume methods. This does not reconstruct an unavailable earlier binary.\n\nThe samples match UUIDs for DDCore, DDG4, G4geometry, G4run and G4processes_core. This establishes common binary images, while leaving runtime binding/state/address-layout differences unmeasured.\n\n**Both processes still load two Xerces libraries.** UUIDs `30F031B1-48B2-3379-908B-9AB81CA3BBCD` and `D3A4DD97-84D9-3E03-87E4-2B5366A307EB` occur in both samples, with reversed loading order. Therefore DDG4-first avoids the observed parsing crash in these controls; it does not eliminate duplicate Xerces installations.\n\nSuggested report wording:\n\n> Loading DDG4 before PyROOT avoided the observed ODD parsing failure and approximately halved recurring nODD event CPU time in the existing controls. Both bootstrap orders retained the same principal Geant4/DD4hep binary UUIDs and remained dominated by repeated material-cut association scanning. The exact loader, initialization or memory-layout mechanism behind the timing difference has not been established. Final comparisons use the same DDG4-first bootstrap for both detectors and for instrumented controls.\n\nThe journal’s earlier assertion that the shim “changed dynamic symbol selection” and hidden visibility “restores the original accessor symbols” should be qualified accordingly.\n\nReproducible read-only commands included `nm -m`, `llvm-objdump --macho --bind`, `--weak-bind`, and bounded disassembly at `ScanAndSetCouple` offsets `0x1f6c8–0x1f768` and `GetMaterial` offsets `0x7e4ac–0x7e4e4`.\n\nProfile evidence:\n\n- `nodd-steady.sample.txt`, SHA-256 `68e764bac6dd226462fb6d44370f4df570c2f8c2ac60255a543da7954904f493`\n- `nodd-bootstrap-steady.sample.txt`, SHA-256 `ea5366782eb4bb6cf3725fc0b802c32e833c0d4f0f65ae3d5bc859e34c6f34d0`\n\nPreflight repeated the known stale-registry warning for setup/lock fingerprints. No source-level runtime compatibility or scientific acceptance claim is added.",
+      "redacted": "no"
+    }
+  ],
+  "native_tools": [
+    {
+      "name": "commandExecution",
+      "calls": 16,
+      "failures": 0
+    },
+    {
+      "name": "subAgentActivity",
+      "calls": 3,
+      "failures": 0
+    }
+  ],
+  "subagents": [
+    {
+      "thread_id": "01a15e18-aee8-7080-a61e-ed35d0448960",
+      "name": "/root",
+      "activity": "interacted"
+    },
+    {
+      "thread_id": "01a15e18-aee8-7080-a61e-ed35d0448960",
+      "name": "/root",
+      "activity": "interacted"
+    },
+    {
+      "thread_id": "01a15e18-aee8-7080-a61e-ed35d0448960",
+      "name": "/root",
+      "activity": "interacted"
+    }
+  ],
+  "limitations": [
+    "Only userMessage and agentMessage text retained; reasoning, tool arguments/results and private state excluded.",
+    "Conservative path, credential, email and URL redaction is not a privacy guarantee; review retained text.",
+    "Exposed operation counts are per retained turn; journal counts can describe the same invocations and must not be added."
+  ]
+}

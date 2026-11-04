@@ -1,0 +1,258 @@
+{
+  "schema_version": 1,
+  "github": {
+    "captured_at": "2026-10-24T07:41:01.345Z",
+    "pull_request": {
+      "number": 62,
+      "url": "https://github.com/asalzburger/nodd/pull/62",
+      "title": "Infrastructure: Synchronize remaining device token accounting",
+      "head": "infrastructure/device-accounting-sync-20261012",
+      "head_sha": "6a967cb7c50ddfac142bdfff5c8f3a77d43dfee4",
+      "state": "closed",
+      "body": "## Change\n\nRecover token usage retained on this device and synchronize it with the token dashboard merged in #63. Add **26 disjoint closed turns: 67,616,498 input + 258,998 output = 67,875,496 tokens**, including the completed audit and publication turns. The observed project subtotal is **620,812,827 tokens across 209 dated turns**; cached input and reasoning output remain subsets.\n\nRestore eight original publication journal pairs from exact local branch revision `7ec9d05dc5ee9aefdf6c0da30549615ebc06a0b0`, preserving their provenance and appending dated accounting corrections. Usage-only inventories retain verified request arithmetic, exact boundaries, event hashes and one canonical owner per turn. Three PubDoc child turns reconcile independently; shared multi-PR turns are counted once. All 183 observations and canonical owners on main, including #61's calorimeter attribution, are preserved.\n\nMerge current main (`2534ae86e89a10894ed3e7c47f3a83d451774de6`) with ordinary Git history. Although the textual merge is clean, the new token collector initially rejected a September 25 provisional snapshot when compared with its later final counters. Recognize explicitly in-progress, unclosed snapshots without completion boundaries as lower-bound evidence. They supply neither final counters nor dates, and cannot exceed known final counters. Finalized-counter/date conflicts and duplicate ownership still fail. Historical inventory files remain byte-identical; two new regression tests cover this case.\n\nCoverage remains partial: one token-gate turn (1,773,512 tokens) is retained pending reconciliation with excluded, pre-existing untracked work; 13 historical turns remain unassigned, four failed turns lack observations, and the current compatibility-check turn remains active. No estimates or scientific approval are introduced. Governing workflow: ADR-004, unchanged.\n\n## Dashboard and validation\n\n- [x] Infrastructure accounting/collector correction; no scientific progress entries added.\n- [x] **71 Python tests pass:** 10 token-site, 22 logger, 11 recovery and 28 project-record tests.\n- [x] Session validation/summary, current project validation, token-site validation/build and whitespace checks pass.\n- [x] All prior inventories and observations, scientific registers and four unrelated untracked files verified preserved.\n- [x] Human approval boundaries preserved; ordinary merge and push retain shared history.\n\nNode is unavailable locally; the unchanged JavaScript interaction check runs in hosted CI. The old dashboard CI success predates #63; the updated branch requests the current workflows.\n\nEvidence: `logs/codex/SESSION-2026-10-12-device-accounting-audit.md`, `SESSION-2026-10-12-device-accounting-pr.md` and `SESSION-2026-10-12-pr62-main-sync.md`.\n",
+      "actor": "asalzburger",
+      "created_at": "2026-10-12T11:42:09Z"
+    },
+    "comments": [],
+    "issues": []
+  },
+  "curated": {
+    "journal_links": [],
+    "agents": [],
+    "tools": [],
+    "events": []
+  },
+  "derived": {
+    "parties": [
+      {
+        "id": "agent:SESSION-2026-10-12-device-accounting-pr",
+        "name": "Codex",
+        "kind": "agent"
+      },
+      {
+        "id": "agent:SESSION-2026-10-12-pr62-main-sync",
+        "name": "Codex",
+        "kind": "agent"
+      },
+      {
+        "id": "github:asalzburger",
+        "name": "asalzburger",
+        "kind": "account"
+      },
+      {
+        "id": "unknown:project-user",
+        "name": "Project user (name unrecorded)",
+        "kind": "human"
+      }
+    ],
+    "journals": [
+      {
+        "session_id": "SESSION-2026-10-12-device-accounting-pr",
+        "record": "logs/codex/SESSION-2026-10-12-device-accounting-pr.json",
+        "attribution": [
+          "explicit_PR_reference"
+        ],
+        "snapshot": null,
+        "snapshot_sha256": null,
+        "record_sha256": "34371c317938c445563016ba81efac519c94a7648c94b1d12acfc0a67364f51a",
+        "narrative_sha256": "16895c5a66aed461880e1ce5d85b879fcd329552202959a49ed09a18dd91edc8"
+      },
+      {
+        "session_id": "SESSION-2026-10-12-pr62-main-sync",
+        "record": "logs/codex/SESSION-2026-10-12-pr62-main-sync.json",
+        "attribution": [
+          "recorded_branch",
+          "explicit_PR_reference"
+        ],
+        "snapshot": null,
+        "snapshot_sha256": null,
+        "record_sha256": "0f75bbbf4164d77d6acbdbf27d2cfc8c0a457ab3fcf8ef44f18808c2e23279ea",
+        "narrative_sha256": "16fdd3809d61a22150f57264832c329931e5af52a347d0281d1dc57e82d904cb"
+      }
+    ],
+    "token_accounts": [
+      {
+        "id": "SESSION-2026-10-12-device-accounting-pr",
+        "record": "logs/codex/SESSION-2026-10-12-device-accounting-pr.json",
+        "scope": "canonical_session; shared PR references are not allocations",
+        "status": "observed",
+        "usage_sha256": "d4912b22f64bc7728efee3e2fff964c448d065b698d266941d8d37da9568c725",
+        "turns": [
+          {
+            "client_thread_id": "01a12fdb-5a06-7020-b9e4-351946b80f31",
+            "turn_id": "01a12fe7-f1da-7ca0-b375-6e2e3919e8c1",
+            "model": null
+          }
+        ]
+      },
+      {
+        "id": "SESSION-2026-10-12-pr62-main-sync",
+        "record": "logs/codex/SESSION-2026-10-12-pr62-main-sync.json",
+        "scope": "canonical_session; shared PR references are not allocations",
+        "status": "observed",
+        "usage_sha256": "245f1cdd89e50d35a93b19c1d9af9031cec4003e01f84172a1cd1d22d11c9e6c",
+        "turns": [
+          {
+            "client_thread_id": "01a12fdb-5a06-7020-b9e4-351946b80f31",
+            "turn_id": "01a12ff7-2856-71b0-a53d-0a015ce525c0",
+            "model": null
+          }
+        ]
+      }
+    ],
+    "visible_sources": [],
+    "agents": [
+      {
+        "id": "agent:SESSION-2026-10-12-device-accounting-pr",
+        "name": "Codex",
+        "role": "session_agent",
+        "thread_id": "01a12fdb-5a06-7020-b9e4-351946b80f31",
+        "models": [],
+        "source": "logs/codex/SESSION-2026-10-12-device-accounting-pr.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      },
+      {
+        "id": "agent:SESSION-2026-10-12-pr62-main-sync",
+        "name": "Codex",
+        "role": "session_agent",
+        "thread_id": "01a12fdb-5a06-7020-b9e4-351946b80f31",
+        "models": [],
+        "source": "logs/codex/SESSION-2026-10-12-pr62-main-sync.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      }
+    ],
+    "tools": {
+      "native_codex": [
+        {
+          "name": "exec_command",
+          "category": "native_codex",
+          "version": null,
+          "calls": null,
+          "source": "logs/codex/SESSION-2026-10-12-device-accounting-pr.json",
+          "evidence": "Git/GitHub publication, exact closed-turn recovery and import, session validation and dashboard build. Invocation counts/durations not measured.",
+          "token_account": "SESSION-2026-10-12-device-accounting-pr",
+          "provenance": "Native API name"
+        }
+      ],
+      "codex_installed": [],
+      "instructed_software": [],
+      "unresolved": [
+        {
+          "name": "exec_command and apply_patch",
+          "category": "unresolved",
+          "version": null,
+          "calls": null,
+          "source": "logs/codex/SESSION-2026-10-12-pr62-main-sync.json",
+          "evidence": "GitHub inspection, ordinary Git merge, isolated compatibility reproduction, usage-only recovery, collector correction and actual checks. Invocation counts/durations not measured.",
+          "token_account": "SESSION-2026-10-12-pr62-main-sync",
+          "provenance": "Operation recorded; installation provenance needs explicit evidence."
+        }
+      ]
+    },
+    "events": [
+      {
+        "id": "github:https://github.com/asalzburger/nodd/pull/62",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "github:asalzburger",
+        "recipients": [],
+        "text": "## Change\n\nRecover token usage retained on this device and synchronize it with the token dashboard merged in #63. Add **26 disjoint closed turns: 67,616,498 input + 258,998 output = 67,875,496 tokens**, including the completed audit and publication turns. The observed project subtotal is **620,812,827 tokens across 209 dated turns**; cached input and reasoning output remain subsets.\n\nRestore eight original publication journal pairs from exact local branch revision `7ec9d05dc5ee9aefdf6c0da30549615ebc06a0b0`, preserving their provenance and appending dated accounting corrections. Usage-only inventories retain verified request arithmetic, exact boundaries, event hashes and one canonical owner per turn. Three PubDoc child turns reconcile independently; shared multi-PR turns are counted once. All 183 observations and canonical owners on main, including #61's calorimeter attribution, are preserved.\n\nMerge current main (`2534ae86e89a10894ed3e7c47f3a83d451774de6`) with ordinary Git history. Although the textual merge is clean, the new token collector initially rejected a September 25 provisional snapshot when compared with its later final counters. Recognize explicitly in-progress, unclosed snapshots without completion boundaries as lower-bound evidence. They supply neither final counters nor dates, and cannot exceed known final counters. Finalized-counter/date conflicts and duplicate ownership still fail. Historical inventory files remain byte-identical; two new regression tests cover this case.\n\nCoverage remains partial: one token-gate turn (1,773,512 tokens) is retained pending reconciliation with excluded, pre-existing untracked work; 13 historical turns remain unassigned, four failed turns lack observations, and the current compatibility-check turn remains active. No estimates or scientific approval are introduced. Governing workflow: ADR-004, unchanged.\n\n## Dashboard and validation\n\n- [x] Infrastructure accounting/collector correction; no scientific progress entries added.\n- [x] **71 Python tests pass:** 10 token-site, 22 logger, 11 recovery and 28 project-record tests.\n- [x] Session validation/summary, current project validation, token-site validation/build and whitespace checks pass.\n- [x] All prior inventories and observations, scientific registers and four unrelated untracked files verified preserved.\n- [x] Human approval boundaries preserved; ordinary merge and push retain shared history.\n\nNode is unavailable locally; the unchanged JavaScript interaction check runs in hosted CI. The old dashboard CI success predates #63; the updated branch requests the current workflows.\n\nEvidence: `logs/codex/SESSION-2026-10-12-device-accounting-audit.md`, `SESSION-2026-10-12-device-accounting-pr.md` and `SESSION-2026-10-12-pr62-main-sync.md`.\n",
+        "source": "https://github.com/asalzburger/nodd/pull/62",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [],
+        "timestamp": "2026-10-12T11:42:09Z",
+        "remote_input": null
+      },
+      {
+        "id": "journal:SESSION-2026-10-12-device-accounting-pr:172b17d0efd6a6f2",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "agent:SESSION-2026-10-12-device-accounting-pr"
+        ],
+        "text": "User: “Make a PR with this in order to synchronize the token business”.\nThis authorizes committing and publishing the preceding accounting changes.\nStarted on main at `fdfa09a0fb58dd29af467054f9a7dc0b023e30f1`, with the prior\n40-file audit change and four unrelated untracked token-gate files present.\nCreated `infrastructure/device-accounting-sync-20261012`; the token-gate files\nremain untouched and excluded. ADR-004 governs the infrastructure workflow.\nNo scientific progress entry or approval is created.",
+        "source": "logs/codex/SESSION-2026-10-12-device-accounting-pr.md#request-and-scope",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-12-device-accounting-pr"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-10-12-device-accounting-pr:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-10-12-device-accounting-pr",
+        "recipients": [],
+        "text": "Publish remaining-device token accounting PR — see the canonical narrative for outcomes and checks.",
+        "source": "logs/codex/SESSION-2026-10-12-device-accounting-pr.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-12-device-accounting-pr"
+        ],
+        "content_kind": "reference_summary"
+      },
+      {
+        "id": "journal:SESSION-2026-10-12-pr62-main-sync:cd648c1f48dfc0ed",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "agent:SESSION-2026-10-12-pr62-main-sync"
+        ],
+        "text": "The user asked whether PR62 needs rebasing after PR63 merged. Started from\nPR62 head `229e02aaddfe450af695dc221c624d7eaaf529c7` on\n`infrastructure/device-accounting-sync-20261012`; the four unrelated untracked\ntoken-gate files remain untouched. PR63 merged into main as\n`2534ae86e89a10894ed3e7c47f3a83d451774de6`, including the PR61 calorimeter\nownership correction. GitHub showed PR62 as mergeable with passing old-dashboard\nCI, but that did not validate the newly introduced token-site workflow.\n\nRead the changed repository instructions and current token/project validation\nguides. An ordinary merge in an isolated checkout was conflict-free but the new\ntoken collector failed against the combined records. The branch therefore needs\na compatibility correction, despite having no textual merge conflict. The\nrepository requires ordinary merges, so shared history is preserved.",
+        "source": "logs/codex/SESSION-2026-10-12-pr62-main-sync.md#request-and-inspected-revisions",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-12-pr62-main-sync"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-10-12-pr62-main-sync:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-10-12-pr62-main-sync",
+        "recipients": [],
+        "text": "Check and synchronize PR62 after the token dashboard merge — see the canonical narrative for outcomes and checks.",
+        "source": "logs/codex/SESSION-2026-10-12-pr62-main-sync.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-12-pr62-main-sync"
+        ],
+        "content_kind": "reference_summary"
+      }
+    ],
+    "coverage": {
+      "github_captured_at": "2026-10-24T07:41:01.345Z",
+      "prompts": "Available account-matched user-visible messages, public Codex inputs and curated journal excerpts. Historical full input coverage is unknown.",
+      "recovered_visible_turns": 0,
+      "unrecovered_account_turns": [
+        {
+          "thread_id": "01a12fdb-5a06-7020-b9e4-351946b80f31",
+          "turn_id": "01a12fe7-f1da-7ca0-b375-6e2e3919e8c1"
+        },
+        {
+          "thread_id": "01a12fdb-5a06-7020-b9e4-351946b80f31",
+          "turn_id": "01a12ff7-2856-71b0-a53d-0a015ce525c0"
+        }
+      ],
+      "responses": "Public responses and recorded outcomes; no private model state or hidden reasoning.",
+      "token_accounting": "References only. Never sum accounts across PRs or assign a shared turn by text length.",
+      "unknowns": "Unrecorded names, models, tools, subagent identities and response links remain unknown; empty lists are not zero activity.",
+      "remote": "Snapshot, not live synchronization; deleted/edited history and emoji reactions are not recovered.",
+      "branch_only": "Pinned branch journal snapshots are references, not imported counters. Unretained or other-device inputs remain unknown."
+    }
+  }
+}

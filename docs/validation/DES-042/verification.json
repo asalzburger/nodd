@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "status": "PROTOTYPE",
+  "kind": "observed execution audit, not an additional native run",
+  "analysis_source_revision": "c2453e91255c023f724028f2eb5f1b0f365106c3",
+  "native_source_revision": "8b7c147b3b0da4bd40dcd9ad06c98abcb2de58f9",
+  "checks": [
+    {
+      "command": "analyze.py --source build/strixel-pitch-study --pattern 'full-v3-*' --output docs/validation/DES-042 --replicates 400",
+      "result": "PASS:12cases, full native truth/fitted/covariance observable/flag replay before retention; paired generated and exact all/primary-hit payloads."
+    },
+    {
+      "command": "verify.py --bootstrap",
+      "result": "PASS:12nativecases,76032uncut point-statistic checks, fractions/differences/ratios,24servicecases and full deterministic paired-bootstrap uncertainty replay."
+    },
+    {
+      "command": "plot.py --output docs/validation/DES-042/figures",
+      "result": "22standalonePNG/PDF files rendered through unrooted scatter and Matplotlib; source/input/output hashes in figure manifest. Visual QA of100GeV ratios/absolute widths,fit fractions andservices."
+    },
+    {
+      "command": "control_analysis.py --verify",
+      "result": "PASS:four paired5000-event Gaussian controls, exact native/new/shared sources and full400-draw deterministic bootstrap replay."
+    },
+    {
+      "command": "control_plot.py; report.py",
+      "result": "4separate GaussianPNG/PDF exports and deterministic integrated numerical report; Gaussian ratioPNG visually inspected."
+    }
+  ],
+  "evidence_sha256": {
+    "native-reports.json.gz": "b8709852ba103e36a68e21f8de0df61b4b02ab30b2c3ebbddf1402259f4d18bf",
+    "profiles.json.gz": "f74d1ebaad4db1d225ec82f320889173d3fe6d228b9aa354801d09fd47fd6376",
+    "summary.csv": "1cc4727bcb1c1431c17d78319994187a61b2ddad6ad4a3dd0289e09fcda5897b",
+    "services.json": "181fb578f975bd8eb474fcba03d0ef1ac8a89d69921128706a6b0291e32d9341"
+  },
+  "gaussian_control_evidence_sha256": {
+    "native-reports.json.gz": "4fd5c18d576e64299266af18e9c959717c3f4c9b0eb49971ced7d7d250a7a7a6",
+    "profiles.json.gz": "6ced2835f3fb330afac8f6c2232a6ad1cb3aec70f4f98df1d29041058d1bb860",
+    "summary.csv": "97b24d97ae964e3346b5be9b3ac568a9756fc35b5852ef519369c0242ddac37d",
+    "native-summary.json": "9e748034feaabdb7c2f57eae243c1911e49675b8eb9cc1dca2310485af88aa0c"
+  }
+}

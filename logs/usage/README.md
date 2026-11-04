@@ -1,5 +1,119 @@
 # Local token-usage recovery
 
+## PR109 strixel selection accounting — 2026-11-02
+
+[Usage-only recovery](USAGE-2026-11-02-pr109-accounting.json) and48allowlisted
+completed-turn snapshots reconcile **386,025,703observed input+output tokens**
+across2,216requests. The [merge-preparation journal](../codex/SESSION-2026-11-02-pr109-merge-preparation.md)
+identifies all8canonicalworkowners, exactsubtotals, verifiedroot/childboundaries
+andtheactualhuman2mm selection. Thisincludes featurecomparisoncontext, truth/
+services, singleparticleGBTS, ttbar, storage/policy/publication andtwofinalized
+selection-review specialistturns. Theactivecoordinator remains excluded. Cached/
+reasoning are subsets; actualmodels/clientversion/otherdevices remainunknown.
+InventoryandPRreferences are corroboration, never additionaltokenowners.
+
+## PR107 approved reconstruction baseline accounting — 2026-10-30
+
+[Usage-only recovery](USAGE-2026-10-30-pr107-accounting.json) verifies26completed
+turns and744requests: **131,180,836input +475,655output =131,656,491 observed
+tokens**. Cached128,479,872 and reasoning194,352 are subsets. The original GBTS
+journal owns7turns/51,998,529tokens; the species-extension journal owns19turns/
+79,657,962tokens. Inventory observations corroborate those canonical owners and
+are never added again. The active root turn remains excluded; this is a partial
+subtotal. Exact [attribution and limitations](../codex/SESSION-2026-10-30-tracker-gbts-merge-preparation.md)
+record parent/child evidence, unknown execution models/client version and human
+baseline approval separately from formal detector-design acceptance.
+
+## PR97 tracker propagation accounting — 2026-10-26
+
+The [closed-parent inventory](USAGE-2026-10-26-pr97-accounting.json) finalizes
+the original scientific turn in its existing tracker journal. It adds
+27,512,660 input + 115,144 output = 27,627,804 tokens over 142 requests. With the
+five previously counted specialist turns, PR97's original work totals
+**33,698,822 input + 145,891 output = 33,844,713 observed tokens** across 205 requests.
+Cached 33,251,072 and reasoning 57,410 are subsets. The current merge-preparation
+turn remains active and excluded. Earlier issue95/PR96 work is separate.
+
+## Issue95 / PR96 unrooted installation accounting — 2026-10-23
+
+[The usage-only inventory](USAGE-2026-10-23-pr96-accounting.json) reconciles the
+explicitly selected desktop chat for the original issue95 implementation and
+PR96 creation/delivery. Those activities share **one completed turn**, covering
+60 observed requests, and are counted once in the
+[original journal](../codex/SESSION-2026-10-23-unrooted-install.md).
+
+| Contribution | Closed turns | Input | Output | Total |
+| --- | ---: | ---: | ---: | ---: |
+| Issue95 implementation and PR96 delivery | 1 | 7,137,997 | 24,680 | **7,162,677** |
+
+Cached input **7,031,040** and reasoning output **8,526** are subsets. Every
+cumulative increase matches its last-request counters from zero; no repeated
+snapshots, outside-turn events, existing canonical owners or child threads were
+found. Dry-run/import/replay yields one addition followed by zero additions and
+one unchanged entry. The inventory corroborates the journal and is not another
+contribution to totals.
+
+A later [closed-boundary capture](USAGE-2026-10-23-pr96-closeout.json) observes
+the accounting follow-up complete: 7,262,523 input + 17,992 output = 7,280,515
+additional tokens over 36 requests, owned by its existing accounting journal.
+Together the two issue95/PR96 turns contain **14,400,520 input + 42,672 output =
+14,443,192 tokens** across 96 requests. Cached 14,241,792 and reasoning 15,554 are
+subsets. The original provisional snapshot remains historical evidence.
+
+The new tracker-propagation task is separate. Its [specialist usage capture](USAGE-2026-10-23-tracker-propagation.json)
+is owned by the tracker journal, with the active scientific parent excluded from
+finalized totals. Execution model/client version, billing and other-device
+completeness remain unknown.
+
+## PR91 material-recording profiling accounting — 2026-10-21
+
+[The usage-only inventory](USAGE-2026-10-21-pr91-accounting.json) reconciles the
+explicitly selected PR91 desktop chat and its two recorded specialist children.
+Eight completed turns cover 267 observed requests: the original profiling/PR
+turn, two explanations, two SoftEng assignments and three PhysVal assessments.
+Ten repeated cumulative snapshots are excluded; no usage falls outside persisted
+turn boundaries. Each parent/child stream reconciles independently from zero;
+no inherited prefix or parent aggregate is counted twice.
+
+| Contribution | Closed turns | Input | Output | Total |
+| --- | ---: | ---: | ---: | ---: |
+| Main work and two explanations | 3 | 33,052,857 | 170,249 | 33,223,106 |
+| SoftEng specialist | 2 | 3,828,921 | 17,317 | 3,846,238 |
+| PhysVal specialist | 3 | 4,426,350 | 18,001 | 4,444,351 |
+| **Total** | **8** | **41,308,128** | **205,567** | **41,513,695** |
+
+Cached input 40,301,824 and reasoning output 100,184 are subsets. Input includes
+repeated/cached context; this is observed client accounting, not a billing or
+unique-text estimate. The [original journal](../codex/SESSION-2026-10-21-material-profile.md)
+owns all eight entries once. The current accounting turn is active and excluded.
+Dry-run/import/replay confirms eight additions and zero duplicate ownership.
+Actual execution model/client version and other-device completeness remain
+unknown. The inventory corroborates the journal; never add both to totals.
+
+## PR88 FCAL accounting — 2026-10-20
+
+The [usage-only inventory](USAGE-2026-10-20-pr88-accounting.json) reconciles
+five explicitly selected threads: the parent FCAL chat and its four recorded
+specialist children. Eleven completed turns add **40,048,091 input + 215,814
+output = 40,263,905 observed tokens** from 262 requests. Cached input
+39,084,928 and reasoning output 74,935 are subsets. Twenty-six repeated
+cumulative snapshots are excluded; no usage event falls outside persisted
+turn boundaries. Parent and child request streams reconcile separately from
+zero; no parent aggregate or inherited prefix is added again.
+
+| Canonical task owner | Closed turns | Input | Output | Total |
+| --- | ---: | ---: | ---: | ---: |
+| Common FCAL recommendation | 1 | 1,592,557 | 13,860 | 1,606,417 |
+| Common design, including eight specialist turns | 9 | 35,895,875 | 178,317 | 36,074,192 |
+| LAYOUT-001 SVG and summary | 1 | 2,559,659 | 23,637 | 2,583,296 |
+
+The original recommendation journal pair was copied from its existing authored
+record in the sister checkout without changing that checkout; original hashes
+are retained. Existing unknown-usage statements remain with dated corrections.
+Dry-run/import/replay confirms 11 additions and no duplicate ownership.
+The current accounting/conflict-resolution turn remains active and excluded.
+These are client observations, not a billing estimate or complete device history.
+
 ## Remaining-device audit — 2026-10-12
 
 The [audit inventory](USAGE-2026-10-12-device-audit.json) checks 16 local project
@@ -283,3 +397,21 @@ current PR6 update turn is active and excluded. One newly closed preceding
 PR62 synchronization turn was imported into its own original record, adding
 3,472,126 input and 14,452 output tokens (3,486,578 total) to project accounting.
 Unassigned historical observations retain their earlier disposition.
+
+
+## PR89 IdRes study accounting — 2026-10-20
+
+[The PR89 inventory](USAGE-2026-10-20-pr89-accounting.json) recovers three closed
+turns from the explicitly selected desktop chat:67 observed requests, with two
+repeated cumulative snapshots excluded and no outside-turn observations.
+All three turns belong to the original IdRes comparison and its continuation;
+none had an existing canonical owner. Interrupted/failed client statuses retain
+their observed consumption.
+
+The [original IdRes session](../codex/SESSION-2026-10-19-odd-idres-comparison.md)
+now owns **12,783,549 input + 53,939 output = 12,837,488 observed tokens**.
+Cached input12,530,816 and reasoning output15,583 are subsets, not additions.
+Dry-run/import/replay verified unique ownership; replay adds nothing.
+The active accounting/readiness follow-up remains excluded until it closes.
+The inventory is supporting evidence and must never be added again to the
+journal subtotal. Client version and actual execution model remain unknown.

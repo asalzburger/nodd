@@ -1,0 +1,255 @@
+{
+  "schema_version": 1,
+  "status": "PROTOTYPE",
+  "baseline_revision": "b4928ac87a223dc4a749e8d8a05dc3cc4a78558d",
+  "geometry": "PR104 maintained balanced Gen3 tracker",
+  "simulation": "fatras",
+  "particles_per_event": 1,
+  "particle": "electron",
+  "randomize_charge": true,
+  "vertex_mm": [
+    0,
+    0,
+    0
+  ],
+  "field_Bz_T": 3.0,
+  "pt_GeV": [
+    1.0,
+    5.0,
+    10.0,
+    100.0
+  ],
+  "eta_range": [
+    -4.0,
+    4.0
+  ],
+  "phi_range_rad": [
+    -3.141592653589793,
+    3.141592653589793
+  ],
+  "digitization": "Frozen PR101 pooled independent Gaussian widths remapped by physical system/layer, donor2 for added disks; pixels/short strips2D,long strips1D",
+  "material": "PR104 role-transported effective map with homogeneous added disks; no fresh mapping",
+  "sample_seeds": {
+    "connection_training": 83042,
+    "tuning": 133043,
+    "validation": 133042
+  },
+  "reconstruction": [
+    "pixel space points",
+    "ACTS GBTS hit seeding",
+    "seed parameter estimation",
+    "CKF over all seven tracker systems",
+    "ambiguity resolution",
+    "perigee/track quality selection"
+  ],
+  "truth_use": "Independent GBTS training and scoring only; no truth track grouping or truth-derived reconstruction seeds",
+  "metrics": {
+    "primary": "All-generated primary-particle reconstruction efficiency versus signed eta and pT",
+    "conditional": "Separate reconstructable denominator with exact hit and pixel-layer requirements retained",
+    "fake": "Unmatched to any simulated particle / accepted candidates; true secondary matches separate. Event fake incidence is independent-trial headline.",
+    "duplicate": "Additional candidates matched to an already reconstructed primary / matched candidates",
+    "uncertainty": "Wilson68/95 for event rates, event-block bootstrap candidate fractions, exact one-sided95 zero-event upper limit",
+    "residuals": "Full residual/pull distributions for all bound parameters; truth-reco sign convention retained"
+  },
+  "parameter_estimation": {
+    "spacepoint_selection": "SpreadTriplet",
+    "sigma_loc0_mm": 1.0,
+    "sigma_loc1_mm": 1.0,
+    "sigma_phi_deg": 1.0,
+    "sigma_theta_deg": 1.0,
+    "sigma_time_ns": 1.0,
+    "sigma_qoverpt_GeV_inv": 0.1,
+    "sigma_pt_relative": 0.1
+  },
+  "ckf": {
+    "measurement_chi2": 15.0,
+    "outlier_chi2": 25.0,
+    "max_measurements_per_surface": 10,
+    "max_steps": 100000,
+    "two_way": true,
+    "seed_deduplication": true,
+    "stay_on_seed": false
+  },
+  "quality": {
+    "minimum_measurements": 7,
+    "require_reference": true,
+    "positive_finite_covariance": true,
+    "positive_definite_covariance": true,
+    "finite_chi2_positive_ndf": true
+  },
+  "ambiguity": {
+    "maximum_shared_hits": 3,
+    "maximum_iterations": 4294967295
+  },
+  "matching": {
+    "purity": 0.5,
+    "completeness": 0.5,
+    "reconstructable_measurements": 6,
+    "reconstructable_pixel_groups": 3
+  },
+  "profiles": {
+    "control": {},
+    "pt4-nominal-confirmed": {
+      "seed_finder": {
+        "minPt": 0.4,
+        "z0HistogramMaxBarrelOrder": -1
+      }
+    },
+    "pt4-nominal-triplet": {
+      "seed_finder": {
+        "minPt": 0.4,
+        "minSeedLevel": 2,
+        "addTriplets": true,
+        "maxAbsEtaAddTriplets": 4.1,
+        "z0HistogramMaxBarrelOrder": -1
+      }
+    },
+    "pt4-loose-confirmed": {
+      "seed_finder": {
+        "minPt": 0.4,
+        "tauRatioCut": 0.014,
+        "tauRatioPrecut": 0.018,
+        "tauRatioCorr": 0.012,
+        "z0HistogramMaxBarrelOrder": -1
+      }
+    },
+    "pt4-loose-triplet": {
+      "seed_finder": {
+        "minPt": 0.4,
+        "tauRatioCut": 0.014,
+        "tauRatioPrecut": 0.018,
+        "tauRatioCorr": 0.012,
+        "minSeedLevel": 2,
+        "addTriplets": true,
+        "maxAbsEtaAddTriplets": 4.1,
+        "z0HistogramMaxBarrelOrder": -1
+      }
+    },
+    "pt6-nominal-confirmed": {
+      "seed_finder": {
+        "minPt": 0.6,
+        "z0HistogramMaxBarrelOrder": -1
+      }
+    },
+    "pt6-nominal-triplet": {
+      "seed_finder": {
+        "minPt": 0.6,
+        "minSeedLevel": 2,
+        "addTriplets": true,
+        "maxAbsEtaAddTriplets": 4.1,
+        "z0HistogramMaxBarrelOrder": -1
+      }
+    },
+    "pt6-loose-confirmed": {
+      "seed_finder": {
+        "minPt": 0.6,
+        "tauRatioCut": 0.014,
+        "tauRatioPrecut": 0.018,
+        "tauRatioCorr": 0.012,
+        "z0HistogramMaxBarrelOrder": -1
+      }
+    },
+    "pt6-loose-triplet": {
+      "seed_finder": {
+        "minPt": 0.6,
+        "tauRatioCut": 0.014,
+        "tauRatioPrecut": 0.018,
+        "tauRatioCorr": 0.012,
+        "minSeedLevel": 2,
+        "addTriplets": true,
+        "maxAbsEtaAddTriplets": 4.1,
+        "z0HistogramMaxBarrelOrder": -1
+      }
+    },
+    "pt8-nominal-confirmed": {
+      "seed_finder": {
+        "minPt": 0.8,
+        "z0HistogramMaxBarrelOrder": -1
+      }
+    },
+    "pt8-nominal-triplet": {
+      "seed_finder": {
+        "minPt": 0.8,
+        "minSeedLevel": 2,
+        "addTriplets": true,
+        "maxAbsEtaAddTriplets": 4.1,
+        "z0HistogramMaxBarrelOrder": -1
+      }
+    },
+    "pt8-loose-confirmed": {
+      "seed_finder": {
+        "minPt": 0.8,
+        "tauRatioCut": 0.014,
+        "tauRatioPrecut": 0.018,
+        "tauRatioCorr": 0.012,
+        "z0HistogramMaxBarrelOrder": -1
+      }
+    },
+    "pt8-loose-triplet": {
+      "seed_finder": {
+        "minPt": 0.8,
+        "tauRatioCut": 0.014,
+        "tauRatioPrecut": 0.018,
+        "tauRatioCorr": 0.012,
+        "minSeedLevel": 2,
+        "addTriplets": true,
+        "maxAbsEtaAddTriplets": 4.1,
+        "z0HistogramMaxBarrelOrder": -1
+      }
+    }
+  },
+  "tuning_protocol": {
+    "max_profiles": 13,
+    "events_per_pt": 500,
+    "validation_events_per_pt": 5000,
+    "selection_order": [
+      "highest worst-pT all-generated efficiency",
+      "highest mean all-generated efficiency",
+      "lowest fake event incidence",
+      "lowest duplicates",
+      "lowest wall time"
+    ],
+    "eta_edges": [
+      -4.0,
+      -3.5,
+      -3.0,
+      -2.5,
+      -2.0,
+      -1.5,
+      -1.0,
+      -0.5,
+      0.0,
+      0.5,
+      1.0,
+      1.5,
+      2.0,
+      2.5,
+      3.0,
+      3.5,
+      4.0
+    ],
+    "pre_scan_amendment": "After10pt10smoke, measured-SP replay identified optional innermost z0 histogram removesbarrel edges. Disable z0HistogramMaxBarrelOrder in12candidates, retainuntouchedcontrol. No500eventtuningorheldoutdataused."
+  },
+  "selected_profile": "pt4-nominal-triplet",
+  "selection_sha256": "06019041973b73fbe2b093695eac0dc1fd55a167eb075fe105cdbb8a60fbfb5c",
+  "validation_io_repair": {
+    "original_seed": 103042,
+    "new_seed": 123042,
+    "reason": "Initial validation aborted on unmasked FPE solely in native optional RootTrackStatesWriter; no physics results used for tuning. Native audit now retains state parameter/variance arrays; no FPE masks or scientific cuts changed.",
+    "parent_frozen_selection": "780edf14acd16e5bed9e3f77545308e649f3eef8"
+  },
+  "species_extension": {
+    "selected_profile": "pt4-nominal-triplet",
+    "smoke_seed": 133043,
+    "validation_events_per_pt": 5000,
+    "muon_reference": "docs/validation/tracker-reconstruction/validation/selected",
+    "muon_selection_sha256": "06019041973b73fbe2b093695eac0dc1fd55a167eb075fe105cdbb8a60fbfb5c",
+    "electron_retuning": false,
+    "comparison": "Population comparison; no cross-species event pairing assumed",
+    "fatras_limit": "Existing electron-ionization approximation and 0.5GeV absolute momentum cutoff; no precision shower claim",
+    "electron_two_way": false,
+    "pre_validation_compatibility": "Electron two-way native brems CKF reverseTrackStates inverts singular transport Jacobians (26FLTDIV+26FLTINV in100event smoke). Use one-way electron CKF; preserve ordinary two-way muon/pion. No FPE masks/check changes and no GBTS tuning.",
+    "ambiguity_convergence": "Pre-validation electron 100GeV smoke exhausted the original 1000-removal budget. Use native uint32 maximum; each iteration removes a track or terminates, so work remains bounded by input candidates. Keep maximum_shared_hits=3 and independently require all native survivors to have fewer than 3 shared measurements. No GBTS or physics-cut tuning.",
+    "fatras_numerical_guard": "Task-local SafeFatras: exactly rounded exp(-u)-1 is +0 for 0<=u<2^-54 and -1 for u>40. Preserve one algorithm in the same sequencer slot, every RNG draw, native numerical build flags and all physics. No FPE masks. Replay same validation seed after retained native and first-sidecar underflow failures."
+  }
+}

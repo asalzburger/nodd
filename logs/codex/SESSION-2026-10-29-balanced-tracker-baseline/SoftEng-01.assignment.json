@@ -1,0 +1,38 @@
+{
+  "id": "BAL-SoftEng-01",
+  "role": "SoftEng",
+  "input_revision": "45e5b9b95d099ff6288b8c9373fa01c15b2eb567",
+  "inputs": [
+    "docs/design/DES-040-tracker-resolution-optimization.md",
+    "docs/design/inputs/DES-040-balanced-selection.json",
+    "software/analysis/tracker_optimization/variants/balanced.json",
+    "tools/pixel_detector_dd4hep/export.py",
+    "tools/pixel_detector_dd4hep/trimmed_export.py",
+    "tools/pixel_barrel_dd4hep/export.py",
+    "tools/tracker_dd4hep/export.py",
+    "detector/CMakeLists.txt"
+  ],
+  "mode": "write",
+  "writable_paths": [
+    "detector/config/pixel-detector-balanced.json",
+    "detector/config/pixel-barrel-balanced.json",
+    "detector/config/tracker.json",
+    "tools/pixel_detector_dd4hep/export.py",
+    "tools/pixel_detector_dd4hep/trimmed_export.py",
+    "tools/pixel_detector_dd4hep/trimmed_services.py",
+    "tools/pixel_detector_dd4hep/placements.py",
+    "tools/pixel_detector_dd4hep/balanced_export.py",
+    "tools/pixel_detector_dd4hep/test_balanced.py",
+    "tools/pixel_detector_dd4hep/README.md",
+    "tools/pixel_barrel_dd4hep/export.py",
+    "tools/pixel_barrel_dd4hep/test_export.py",
+    "tools/tracker_dd4hep/export.py",
+    "tools/tracker_dd4hep/test_integration.py",
+    "tools/tracker_dd4hep/test_gen3.py",
+    "detector/CMakeLists.txt",
+    "tools/pixel_detector_dd4hep/test_trimmed.py"
+  ],
+  "task": "Implement the actual reviewer-selected BALANCED working DD4hep baseline in maintained configurations/generators. Current code default DES019 trimmed/pinned source, barrel exporter uses frozen layout, integrated tracker calls pixel exporter default. Need central configurable placement contract for31.5/57/96/182, unchanged12/22/18/30staves, original9disks moved per balancedJSON plus cloned originaldonor2 at950mm as logicalID10. Preserve complete local staves/modules/rings/feet/services; collectors/rails follow disk placements; fixed envelopes/pipe/strips/readouts. Default pixel AND integrated tracker must select it; keep explicit historicalreference configs exactly reproducible (do not silently repin old snapshots/configs). Proper source generation, NOT merely apply studycompact.py to a generatedXML; no runtime dependency from canonicaldetector code onto software/analysis/tracker_optimization. Reuse existing C++ factories when their XMLschema already supports parameters, avoid decorativefactory rewrite. Fullsource local geometry should match already-audited balancedstudycompact physically. Beware trimmed_export.placed recomputes datumdependent radialcompensation: preserve originaldonor local sensor/transforms and only rigidly relocate disc as in reviewedstudy, do not retune modules. Native fulltracker balanced compact at build/tracker-resolution-optimization/confirmation/geometric/balanced-pt10/tracker.xml; baseline in siblingbuild. All old study/native reports/frozenTDR/source-snapshot must stayunchanged. Preserve namedcalibration geometryIDs semantics existinglogicalIDs; added10avoids oldIDs, no renumber-by-z. New source audit must account physical material/ring/collector/rail inventory changes and keep global service model qualification visible, no fictitious cumulative capacity certification. Include meaningful tests preserving oldexplicitreference and independent physicalsourceequivalence/new default identities; do not weaken broad tests. Main owns native execution/builds/material-map followup, docsdesign/layout/TDR/records. No edits outside ownedfiles; ask for exact additionalownership if needed. Read preflight only if needed; no new native runs/sharedinstall changes/nestedagents. Return source changes, focusedtests/commands, how generate canonicalpixel/fulltracker outputs, compatibility/remainingrisks. Do not commit (main integrates/pins). Additional ownership granted for test_trimmed.py: retain all numerical assertions and explicitly select old trimmed config in historical CLI regression, while new test verifies balanced default.",
+  "deliverable": "Maintained canonical DD4hep source/config default, old controls preserved, focused tests and source audit contract.",
+  "completion": "New default exporter builds chosenbalancedgeometry from canonicalsources and fulltracker can consume it; tests or concrete blockers reported."
+}

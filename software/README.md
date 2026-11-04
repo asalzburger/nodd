@@ -17,6 +17,10 @@ Geant4 datasets, and reports setup/lockfile fingerprints.
 | `running` | Python job steering |
 | `analysis` | Output inspection and analysis |
 
+Documentation plotting uses an isolated, pinned [unrooted Python environment](analysis/README.md#documentation-plots-with-unrooted)
+under `software/build/unrooted-venv`. It can read ROOT histograms and export
+PNG/PDF/SVG or interactive HTML without loading the ACTS/Spack runtime.
+
 From the repository root use `make submodules`, `make doctor`, `make detector`
 and `make detector-test`. Software submodule initialisation deliberately targets
 only `software/submodules`; the existing Overleaf documentation is independent.
@@ -38,3 +42,19 @@ DD4hep, Geant4, ROOT, podio, EDM4hep and GSL remain Spack dependencies.
 
 The staged migration is recorded in
 [ADR-008](../docs/decisions/ADR-008-software-source-layout.md).
+
+## Tracker propagation profiles
+
+`make tracker-propagation` builds the current tracker, generates the DES-026
+3 T finite-winding map and runs native ACTS propagation at pT 1/10/100 GeV.
+The [repeatable workflow](../tools/tracker_propagation/README.md) includes complete
+generated-probe accounting, subdetector/full-tracker unrooted profiles,
+numerical controls and plotting from saved counts without ACTS.
+
+## Material-recording profiling
+
+The [matched ODD/nODD profiler](../tools/material_recording_profile/README.md)
+uses an explicitly selected existing software runtime. The
+[measured findings](../docs/validation/material-recording-profile/README.md)
+separate recurring Geant4 association scans, first-run voxelization and transport,
+with an opt-in immutable-geometry association-reuse experiment.
