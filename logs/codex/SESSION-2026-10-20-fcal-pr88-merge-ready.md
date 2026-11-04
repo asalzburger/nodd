@@ -36,3 +36,17 @@ Local completed checks: 33 logging/recovery tests, 10 token-site tests, 11 FCAL 
 The initial merge conflict and a transient network error retrieving the current PR description are retained in the paired JSON. The network read succeeded with approved access and existing PR prose was preserved. New artifact/accounting links were added. Hosted final-head CI and mergeability will be checked after this record is committed and pushed, with the result reported in the PR handoff; they must not be inferred from older checks or local success. No physics, machine or engineering approval is supplied by this readiness work.
 
 All 28 project-record regression tests passed in 115.723 seconds. The journal closes this retained local-accounting record before upload; hosted checks remain a separately observed final-head continuation.
+
+## Exact historical usage correction — 2026-11-04
+
+The campaign coordinator reviewed the exact thread/turn-to-session matches in
+`logs/usage/USAGE-2026-11-04-calorimeter-campaign.json` and accepted this sole
+bookkeeping owner. This is an agent accounting decision, not human detector
+sign-off. The original unknown-usage statements above describe the earlier
+capture and are preserved.
+
+1 disjoint finalized turns now supply **7,907,759 input + 25,831 output = 7,933,590 observed tokens**. Cached input and reasoning output are subsets; models,
+client version, costs and complete history remain unknown. Source event digests,
+original branch revisions, parent edges and assignment identities are retained
+in the inventory. Dry-run, import and identical replay passed; replay added no
+observations.
