@@ -1,0 +1,144 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-15-hcal-realism",
+  "title": "ODD HCAL technology, realism gaps and prototype plan",
+  "recorded_at": "2026-10-15T04:21:11Z",
+  "started_at": null,
+  "ended_at": "2026-10-15T04:31:57Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact conversation start time, client version/thread identity and completed per-turn token counters were not exposed. Parent and child usage remain unobserved; usage empty means unknown, not zero.",
+    "Specialists independently assessed pinned baseline evidence; no separate review of the final coordinator-authored report.",
+    "Historical native evidence inspected; no native/physics/engineering qualification rerun in this task."
+  ],
+  "client": {
+    "name": "unspecified",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "5b4e5d9e563505aea17e9b792458708c3175ec4a",
+    "branch": "codex/hcal-realism-assessment",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      "docs/README.md",
+      "docs/design/DES-035-hcal-realism-and-prototype-plan.md",
+      "docs/validation/DES-035/baseline-evidence.json",
+      "reference/manifest.yaml",
+      "project/tracking.json",
+      "logs/codex/SESSION-2026-10-15-hcal-realism.md",
+      "logs/codex/SESSION-2026-10-15-hcal-realism.json"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "HCAL",
+      "calorimeter technology",
+      "hardware realism",
+      "system interfaces",
+      "physics validation"
+    ],
+    "related_ids": [
+      "DES-035",
+      "DES-027",
+      "DES-028",
+      "DES-029",
+      "DES-034",
+      "ADR-006",
+      "TASK-B-HCAL-REALISM"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-15-hcal-realism.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "GitHub API retrieval of five ODD source files from sandboxed Python subprocess",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Network access denied; retried same command with approval, no data mutation."
+    },
+    {
+      "command": "Approved GitHub API retrieval and SHA256 comparison of five current ODD files",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Five source files match every corresponding DES027 hash at canonical main446d612dab5627e5849e1f01a1d3d9b633169218."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/calorimeter_audit -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "4 existing controls passed."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/calorimeter_hardware -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "14 existing cassette/assembly controls passed."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/siw_services -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "10 existing envelope controls passed."
+    },
+    {
+      "command": "python3 -B tools/siw_services/study.py --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Retained service and forward allocations reproduce."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "66 tasks,37 documents,21 review rounds validated."
+    },
+    {
+      "command": "New DD4hep/Geant4 showers, digitization and thermal/structural/radiation qualification",
+      "status": "NOT RUN",
+      "exit_code": null,
+      "result": "Documentation and source investigation; no new physics or engineering validation claimed."
+    },
+    {
+      "command": "Report source-ID/link/number consistency checks",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Unique/resolved manifest IDs, local links, five source hashes, screening formulas, historical channel count and forward bound checked."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "183 paired session records validated."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "210 disjoint observed turns validated; no current task token counters added."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py build --output _site/pages",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Local token-site preview built; no publication."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py summary --format json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Observed project input620754236/output3545169 tokens across210 recorded turns;65 of183 sessions have no usage, including this task. No inferred complete total."
+    }
+  ]
+}

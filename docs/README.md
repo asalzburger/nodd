@@ -15,6 +15,8 @@ The documents below establish proposals and recording formats. Their presence do
 
 ## Index
 
+- [DES-035: HCAL hadron-collider technology, realism gaps and staged prototype plan](design/DES-035-hcal-realism-and-prototype-plan.md)
+- [DES-036: common HCAL readout board and shared-carrier prototype](design/DES-036-hcal-common-readout-module.md)
 - [Magnetic options: two-page team evaluation and six one-page proposals](design/DES-004-options-summary.md)
 
 - [DES-004: magnetic candidates and first research increment](design/DES-004-magnetic-configurations.md)
