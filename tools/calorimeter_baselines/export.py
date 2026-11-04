@@ -122,7 +122,7 @@ def compose(components, output, layout):
     write(output / "materials.xml", material_doc)
     write(output / "detector.xml", doc)
     report = dict(layout=layout, status="DRAFT / PROTOTYPE; native integration audit pending",
-                  constructed=["DES043 tracker", "ECAL barrel", "ECAL endcaps"],
+                  constructed=["supplied tracker component", "ECAL barrel", "ECAL endcaps"],
                   design_only={"solenoid": "DES026 allocation; no field installed",
                                "HCAL": "DES035-038 design options; LAr regional adaptation pending",
                                "FCAL": "Merged DES039 ROOT geometry; DD4hep/readout integration pending"},
@@ -134,14 +134,13 @@ def compose(components, output, layout):
     return report
 
 
-def export(layout, output, tracker_compact=None):
+def export(layout, output):
     output = Path(output).resolve()
     output.mkdir(parents=True, exist_ok=True)
-    if tracker_compact is None:
-        tracker = output / "components/tracker"
-        subprocess.run([sys.executable, "-B", str(ROOT / "tools/tracker_dd4hep/export.py"),
-                        "--output", str(tracker)], check=True, cwd=ROOT)
-        tracker_compact = tracker / "tracker.xml"
+    tracker = output / "components/tracker"
+    subprocess.run([sys.executable, "-B", str(ROOT / "tools/tracker_dd4hep/export.py"),
+                    "--output", str(tracker)], check=True, cwd=ROOT)
+    tracker_compact = tracker / "tracker.xml"
     components = [("tracker", tracker_compact, {i: i for i in range(0, 8)})]
     for tag, script, filename, mapping in OPTIONS[layout]:
         directory = output / "components" / tag
@@ -152,6 +151,14 @@ def export(layout, output, tracker_compact=None):
         subprocess.run(command, check=True, cwd=ROOT)
         components.append((tag, directory / filename, mapping))
     report = compose(components, output, layout)
+    config = json.loads((ROOT / "detector/config/tracker.json").read_text())
+    report["tracker_generation"] = dict(
+        status="Fresh maintained DES043 export in this invocation; reuse is unsupported",
+        producer_sha256=sha(ROOT / "tools/tracker_dd4hep/export.py"),
+        config_sha256={p: sha(ROOT / p) for p in ("detector/config/tracker.json", config["pixel_config"], config["short_strip_config"], config["strixel_selection"])},
+        expected_sha256=sha(tracker / "expected.json"), compact_sha256=sha(tracker_compact),
+        materials_sha256=sha(tracker / "materials.xml"))
+    (output / "baseline.json").write_text(json.dumps(report, indent=2) + "\n")
     print(layout, "systems", report["system_ids"], "->", output / "detector.xml")
     return report
 
@@ -160,6 +167,5 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--layout", choices=OPTIONS, required=True)
     parser.add_argument("--output", type=Path, required=True)
-    parser.add_argument("--tracker-compact", type=Path, help="Reuse a maintained exported tracker")
     args = parser.parse_args()
-    export(args.layout, args.output, args.tracker_compact)
+    export(args.layout, args.output)

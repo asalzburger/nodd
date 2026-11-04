@@ -33,7 +33,7 @@ def check(directory):
         row=dict(cell_id=int(hit.cellID),energy_GeV=float(hit.energy))
         ids=valid_cell(row['cell_id'],expected);row['fields']=ids
         if not math.isfinite(row['energy_GeV']) or row['energy_GeV']<=0:raise ValueError('Nonpositive saved hit energy')
-        
+
         rows.append(row)
     if not rows:raise ValueError('No saved active LAr hits')
     f.Close();text=(directory/'smoke.log').read_text();v=re.search(r'Geant4 version Name:\s*(.+)',text)

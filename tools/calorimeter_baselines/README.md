@@ -4,8 +4,7 @@ Select the ECAL while keeping the maintained DES043 tracker:
 
 ```sh
 python3 -B tools/calorimeter_baselines/export.py --layout LAYOUT-001 --output build/baselines/01
-python3 -B tools/calorimeter_baselines/export.py --layout LAYOUT-002 --output build/baselines/02 \
-  --tracker-compact build/baselines/01/components/tracker/tracker.xml
+python3 -B tools/calorimeter_baselines/export.py --layout LAYOUT-002 --output build/baselines/02
 cmake -S prototypes/calorimeter -B build/baselines/factories -G Ninja
 cmake --build build/baselines/factories --parallel 3
 python3 -B -m unittest discover -s tools/calorimeter_baselines -p 'test_*.py' -v
@@ -33,3 +32,5 @@ See the [integration contract and retained review questions](../../docs/design/i
 The shared solenoid allocation, HCAL design options and ROOT-only FCAL design
 are recorded honestly rather than inserted as fictitious active detector volumes.
 Combined detector response, field and engineering qualification remain later work.
+
+Each CLI invocation regenerates the maintained tracker and records its producer, configuration and compact/material/expected hashes. Reusing an arbitrary pre-exported tracker is unsupported. The lower-level composition helper labels an unverified supplied tracker as such.
