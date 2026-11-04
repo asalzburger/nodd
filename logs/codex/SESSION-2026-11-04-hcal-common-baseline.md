@@ -63,3 +63,7 @@ remedy, and all checks reran successfully. Project observed subtotal is
 1,817,405,271 input +8,258,578 output across378 turns in151/237 sessions;
 86 sessions have no usage observations. These are project totals, not PR81
 cost or current campaign usage. No current counters were estimated.
+
+## Campaign accounting reference
+
+Completed HCAL specialist turns are owned once by `SESSION-2026-11-04-calorimeter-campaign`, shared with the other campaign PRs. The canonical inventory in PR116 and individual ledgers retain exact counters, parent edges and visible interactions. This per-PR narrative owns no additional copy. Root coordinator usage remains active and excluded.
