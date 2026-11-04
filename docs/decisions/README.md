@@ -28,3 +28,7 @@ Preserve historical decisions and evidence. A replacement ADR must link the prio
 | [ADR-006](ADR-006-global-envelope-and-field-hypotheses.md) | Global envelope and field hypotheses | DRAFT | TBD |
 | [ADR-007](ADR-007-itkpix-pixel-baseline.md) | RD53i pixel-module baseline | DRAFT | TBD |
 | [ADR-009](ADR-009-layout002-lar-calorimeter.md) | LAYOUT-002 LAr alternative, larger service/HCAL envelopes and later FCal | DRAFT / PROTOTYPE | TBD |
+
+| [ADR-008](ADR-008-software-source-layout.md) | Project software source ownership | DRAFT | TBD |
+| [ADR-010](ADR-010-common-forward-calorimeter.md) | Common forward calorimeter | DRAFT | TBD |
+| [ADR-011](ADR-011-prototype-ecal-forward-aperture.md) | Restored ECAL aperture/carriers (historical branch alias ADR008) | DRAFT | TBD |

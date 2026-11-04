@@ -8,7 +8,7 @@
   compare ODD, first nODD, optimized squares and squares with edge sensors.
 - Human clarification: extend optimized layouts toward |eta|=4 as a prototype target.
 - Engineering approval: pending. Implementation permission is not design sign-off.
-- Aperture/carrier decision: [ADR008](../decisions/ADR-008-prototype-ecal-forward-aperture.md)
+- Aperture/carrier decision: [ADR011](../decisions/ADR-011-prototype-ecal-forward-aperture.md)
 
 ## Wedge carrier architecture
 
