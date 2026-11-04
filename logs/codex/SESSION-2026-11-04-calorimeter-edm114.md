@@ -48,7 +48,7 @@ a wrong ACTS revision, modified tracked source or mismatched build source.
 
 ## Commands and actual validation
 
-The [executed report](../../docs/validation/issue #114/README.md) records exact
+The [executed report](../../docs/validation/issue114/README.md) records exact
 setup/build/test commands, installed versions, source origins and limits.
 Spack preflight returned 2 (stale fingerprints/full-source warnings), communicated
 before dependent work. Existing installed packages, ACTS source/build and actual
@@ -90,3 +90,5 @@ owns scientific tracking, exact PR/task identification and interaction/accountin
 synchronization. Realistic response/clustering, calibrated clusters/jets,
 cell-ID service and full-detector acceptance remain follow-up work. No human
 engineering approval or design lifecycle advancement is recorded.
+
+Implemented source and validation snapshot: `8652406ec992178a16f419b41d95aed73f40f1bc`. This later logging update records the already existing commit; it introduces no code or physics change.

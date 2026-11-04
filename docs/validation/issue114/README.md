@@ -4,7 +4,7 @@ Date: 2026-11-04. Scope: software plumbing, with no detector parameter or
 tracker-path change. Starting main revision:
 `cd3ec20da56537617ac6fbbcf28bd6f28104cc64`.
 
-The source restoration is pinned in the accompanying session record. Its
+Executed implementation revision: `8652406ec992178a16f419b41d95aed73f40f1bc`. The accompanying session record retains the source/build checks. Its
 origins are ACTS fork `8adca5eec180515a23d58d132a1e17e317a59e67` and nODD
 PR #80 head `530080cfe16c7513228bf60238b99d4b9938538a`.
 [Imported-source notice](../../../software/source/NOTICE.md) describes the
