@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-26-pr99-accounting",
+  "title": "Update PR99 usage and discussion records",
+  "recorded_at": "2026-10-26T09:35:19Z",
+  "started_at": null,
+  "ended_at": "2026-10-26T09:51:22.684561Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "No duplicate usage entries: all three completed turns are owned by SESSION-2026-10-26-geantino-material-stacks.",
+    "Current parent turn remains active and includes PR creation plus this accounting request; no finalized counters imported.",
+    "Actual models/client version and any unavailable discussion history remain unknown."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": "01a176bd-cabc-77c0-8841-9d7ee1efa109"
+  },
+  "git": {
+    "start_commit": "f46d89145e1b6e4f3b7f04aad7dafe5881c8153b",
+    "branch": "codex/geantino-material-stacks",
+    "initial_changes": [
+      "interactions/pr-0099.json",
+      "logs/codex/SESSION-2026-10-26-geantino-material-stacks.json",
+      "logs/codex/SESSION-2026-10-26-geantino-material-stacks.md",
+      "project/tracking.json"
+    ],
+    "result_commits": [],
+    "changed_files": [
+      "interactions/README.md",
+      "interactions/pr-0099.json",
+      "interactions/pr-0099/discussions/active-parent.json",
+      "interactions/pr-0099/turns/01a176bd-cabc-77c0-8841-9d7ee1efa109--01a176bd-ccb2-7240-89e0-9096831b558b.json",
+      "interactions/pr-0099/turns/01a17772-66ef-73d3-bb6d-195b7d8a2c89--01a17772-6742-7cb1-9b85-1d270d79ccca.json",
+      "interactions/pr-0099/turns/01a17772-66ef-73d3-bb6d-195b7d8a2c89--01a17778-e7ba-72f0-8a8a-1510c4358d0b.json",
+      "logs/codex/SESSION-2026-10-26-geantino-material-stacks.json",
+      "logs/codex/SESSION-2026-10-26-geantino-material-stacks.md",
+      "logs/codex/SESSION-2026-10-26-geantino-material-stacks/PhysVal-01-result.md",
+      "logs/codex/SESSION-2026-10-26-geantino-material-stacks/PhysVal-01.assignment.json",
+      "logs/codex/SESSION-2026-10-26-geantino-material-stacks/PhysVal-02-result.md",
+      "logs/codex/SESSION-2026-10-26-geantino-material-stacks/PhysVal-02.assignment.json",
+      "logs/codex/SESSION-2026-10-26-pr99-accounting.json",
+      "logs/codex/SESSION-2026-10-26-pr99-accounting.md",
+      "logs/usage/USAGE-2026-10-26-pr99-accounting.json",
+      "project/tracking.json",
+      "tools/interactions/ledger.py",
+      "tools/interactions/test_ledger.py",
+      "tools/interactions/visible.py"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [
+      "PR99 accounting",
+      "visible discussion"
+    ],
+    "related_ids": [
+      "PR-99"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-26-pr99-accounting.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 -B -m unittest discover -s tools/interactions -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "15 tests pass, including completed-child attribution without active parent usage."
+    },
+    {
+      "command": "session_log.py import-usage dry-run/import/replay for the material-profile session",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Three disjoint completed turns imported; replay idempotent."
+    },
+    {
+      "command": "python3 -B tools/interactions/ledger.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "92 individual PR records valid; all3 completed PR99 account turns have visible snapshots."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "200 paired sessions valid."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "237 disjoint turns /748349666 observed tokens; active parent excluded."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py build --output _site/pr99",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Two-tab token/interaction site preview built from synchronized records."
+    }
+  ]
+}

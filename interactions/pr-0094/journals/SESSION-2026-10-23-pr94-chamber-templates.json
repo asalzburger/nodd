@@ -1,0 +1,63 @@
+{
+  "session_id": "SESSION-2026-10-23-pr94-chamber-templates",
+  "title": "PR94 review: reuse chamber templates and regular placement loops",
+  "client": {
+    "name": "unspecified",
+    "version": null,
+    "thread_id": null
+  },
+  "source_revision": "52922c71a58a4d799abeccc716a716fa2ba52521",
+  "source_record": "https://github.com/asalzburger/nodd/blob/52922c71a58a4d799abeccc716a716fa2ba52521/logs/codex/SESSION-2026-10-23-pr94-chamber-templates.json",
+  "source_narrative": "https://github.com/asalzburger/nodd/blob/52922c71a58a4d799abeccc716a716fa2ba52521/logs/codex/SESSION-2026-10-23-pr94-chamber-templates.md",
+  "record_sha256": "1a5d5afe057bd5cd8f855065ad28afc52339bee4fe95ac839c2b0f4792d79648",
+  "narrative_sha256": "439e2d897c6fc2d99dfbba985c665a72b38eb966654ad1683c5a7609e6e3a747",
+  "sections": [
+    [
+      "Decisions and outcomes",
+      "Address comment6360225046 as a software representation refactor:22 shared chamber shapes,21 phi orbits,56rows including6longitudinal loops,936unchanged placements/IDs. Source/world-vertex equivalence is checked at unchanged1e-10m tolerance; shape matching uses exact source representatives within1e-12m, with actual maximum1.77636e-15m. Smaller hardware-clearance shapes remain distinct templates. No material, sensitivity, magnet or engineering-signoff change.\n\nCore XML decreases583236→28900bytes and5639→255lines. Initial native run verifies22sharedVolume/Solidobjects,936sourcevertex/ID/recoveredframe matches with max1.68520e-14m,288coil primitives,25248occupancy probes andzerooverlaps.1000persisted20GeVgamma events reproduce the prior primary bank and event-by-event particle multiplicities."
+    ],
+    [
+      "User request and review",
+      "User: “PR94has comments, and good ones!” Retrieved current PR/body/comment/reviewthreads. One top-level comment requests reusable shapes and phi/longitudinal loops; no inline threads or review submissions. Human changed PR fromdraft toready; preserve that state. Noauthorization to message reviewers inferred."
+    ],
+    [
+      "Specialist assignment",
+      "```json\n{\n  \"id\": \"PR94-TEMPLATES-SoftEng\",\n  \"role\": \"SoftEng\",\n  \"input_revision\": \"e168107549205d424d51077d31db6dbc64b72765\",\n  \"inputs\": [\n    \"docs/design/DES-040-muon-chambers-frame.md\",\n    \"tools/muon_dd4hep/export.py\",\n    \"tools/muon_dd4hep/validate.py\",\n    \"tools/muon_dd4hep/test_export.py\",\n    \"prototypes/muon/Muon.cpp\",\n    \"docs/validation/DES-040/sketched-stagger-2026-10-20/candidate/geometry.json\"\n  ],\n  \"mode\": \"write\",\n  \"writable_paths\": [\n    \"tools/muon_dd4hep/export.py\",\n    \"tools/muon_dd4hep/validate.py\",\n    \"tools/muon_dd4hep/test_export.py\",\n    \"tools/muon_dd4hep/templates.py\",\n    \"prototypes/muon/Muon.cpp\"\n  ],\n  \"task\": \"Address PR94 comment6360225046: XML currently repeats936full shapes/matrices. Factor22centred shape templates(15barrel+7endcap), regular phi/z placement loops, explicit irregular/smaller chamber templates. Preserve actual936source prismatic worldvertex sets and chamber/source IDs; native tolerance1e-10m unchanged. Group matching tolerance<=1e-12m using exact unrounded source representative; source native transforms may require canonical offset/recovery. Reuse nativeSolid+Volume pertemplate, stable per-placementDetElement/node names and IDs. Derive recurrences from actual source; no naive eta regularization or repacking. Prefer readable compact schema: template definitions plus barrel/endcap orbits/rows with phase,pitch,count and ID/source-name pattern; explicit placements only for genuinely nonregular source. Failclosed expansion/native audits cover936sourcecells, duplicate/missing IDs, invalid refs/counts/phase/pitch/basis, rarecutcases; test equivalence and meaningful reduction. Keep exact source fields in expected manifest, add template/offset/loop provenance. Mainowns compact regeneration,runtimeexecution,docs/reports/logs/CI/PRmetadata. You own listed5files only; agree any extra paths. No changes toroids/physics/scientificsource; no commit, no furtherdelegation. Read uncommitted DES040 refactor contract explicitly as current authorized software plan; pinned scientific source stays e168/PR90. Communicate schema/nativevalidation changes early.\",\n  \"deliverable\": \"Focused implementation +controls and handoff: schema, counts/reduction,actualtests,changedpaths,limits; coordinator regenerates compact and runs native checks.\",\n  \"completion\": \"All936sourcechambers reproduced with22orjustifiedtemplatecount and substantial XML reduction; focused tests pass except committedbundle test until coordinator regenerates; no unrelated changes.\"\n}\n```"
+    ],
+    [
+      "Frozen implementation review assignment",
+      "```json\n{\n  \"id\": \"PR94-TEMPLATES-PhysVal\",\n  \"role\": \"PhysVal\",\n  \"input_revision\": \"d5803de8bac013d918140585bd2c00de15632011\",\n  \"inputs\": [\n    \"tools/muon_dd4hep/templates.py\",\n    \"tools/muon_dd4hep/export.py\",\n    \"tools/muon_dd4hep/validate.py\",\n    \"tools/muon_dd4hep/test_export.py\",\n    \"prototypes/muon/Muon.cpp\",\n    \"prototypes/muon/compact/muon-system.xml\",\n    \"prototypes/muon/compact/expected.json\",\n    \"docs/design/DES-040-muon-chambers-frame.md\",\n    \"docs/validation/DES-040/dd4hep-templates-2026-10-23/representation-comparison.json\",\n    \"docs/validation/DES-040/dd4hep-templates-2026-10-23/committed-replay/geometry-validation.json\",\n    \"docs/validation/DES-040/dd4hep-templates-2026-10-23/committed-replay/run.json\",\n    \"docs/validation/DES-040/dd4hep-templates-2026-10-23/committed-replay/transport-comparison.json\",\n    \"docs/validation/DES-040/dd4hep-templates-2026-10-23/README.md\"\n  ],\n  \"mode\": \"read-only\",\n  \"writable_paths\": [],\n  \"task\": \"Independent exact-revision review of PR94 comment6360225046 refactor:22reused chamber templates plusphi/z loops instead936completeXMLshapes/matrices. Inspect source/code before conclusions. Check preservation of936 sourcevertexsets/IDs/station/side/sourceframes, source-derivedrecurrences including smallerhardwarecutfamilies, exact native22sharedVolume/Solidcounts and unchangedtolerance1e-10m; nohiddenrepacking. Assess failclosedmutationtests, zerooverlaps and1000gamma20GeV persistedtransport, before/afterprimarybankequivalence. Run15focused tests and nativeaudit ifuseful; verify localROOT reference/cache/pr94-templates/run-02/test_muon_system.root against pinned reporthash and originalbeforeROOT reference/cache/muon-dd4hep/run-06/test_muon_system.root. Distinguish exactrawsource/originalentity preservation from ~1.7e-14m frameworkreconstructionresiduals, no physicaldesign/responseacceptance. Currentruntime alreadyreverifiedDD4hep1.38,ROOT6.40.04,Geant4 11.4.3/12datasetpresence; preflightchangedfingerprintwarning reported. Useacts-spack ifneeded no sharedinstallationchanges. Read-only no trackedwrites/commits or furtherdelegation. Bounded review promptly; return anyactionabledefect severity/location orno materialfindings, actualchecks and limits. No need new DDSim rerun.\",\n  \"deliverable\": \"Separate exactrevision PhysVal report tocoordinator coveringXML/native/sourceequivalence, actualtests and savedROOTdata; findings+limits.\",\n  \"completion\": \"Assess whether reviewcomment is implemented correctly without physicalchanges or weakenedchecks; retain exacttarget, commands and source/evidence distinction, nohumanacceptance.\"\n}\n```"
+    ]
+  ],
+  "activities": [
+    {
+      "kind": "skill",
+      "name": "nodd-coordinate",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Explicitly applied repository/local skill; invocation counts/durations not measured. Curated assignments/results in paired narrative."
+    },
+    {
+      "kind": "skill",
+      "name": "nodd-review-validation",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Explicitly applied repository/local skill; invocation counts/durations not measured. Curated assignments/results in paired narrative."
+    },
+    {
+      "kind": "skill",
+      "name": "acts-spack",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Explicitly applied repository/local skill; invocation counts/durations not measured. Curated assignments/results in paired narrative."
+    }
+  ],
+  "usage_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+  "usage_refs": []
+}

@@ -1,0 +1,76 @@
+{
+  "session_id": "SESSION-2026-10-13-siw-barrel",
+  "title": "Detailed SiW barrel prototype following wedge endcaps",
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": null
+  },
+  "source_revision": "2776266570dda13386a16863e5b0e97432f27217",
+  "source_record": "https://github.com/asalzburger/nodd/blob/2776266570dda13386a16863e5b0e97432f27217/logs/design/SESSION-2026-10-13-siw-barrel.json",
+  "source_narrative": "https://github.com/asalzburger/nodd/blob/2776266570dda13386a16863e5b0e97432f27217/logs/design/SESSION-2026-10-13-siw-barrel.md",
+  "record_sha256": "6053d8100a5c7e50d285e10b4061af1bea9f723435446a9531461b1ab72ee29c",
+  "narrative_sha256": "94c9154f71ffc525ed27d8f70d0736a98a5f0ca1fd09fb6f93d5159eca585ee7",
+  "sections": [
+    [
+      "Scope and selected request",
+      "Human requests two PRs: a detailed SiW barrel prototype following PR70, and a\nseparate README-linked layout main page with one current candidate. They also\nrequire future approved/merged prototype changes to update that page.\nThis record covers the barrel and necessary parent integration; the main-page\nwork has its own journal/worktree. Exact current usage is unavailable."
+    ],
+    [
+      "Prepared bounded assignment",
+      "Explicit generic role assignment; native profile loading not claimed. Workflow instructions from main 7c6d453fef12c3207b468c4fc99633fb393072a4.\n\n```json\n{\n  \"id\": \"BARREL-SysArch\",\n  \"role\": \"SysArch\",\n  \"input_revision\": \"5664d16aea2df36222dc0099ba18594cf506304d\",\n  \"inputs\": [\n    \"docs/design/DES-030-ecal-edge-sensors.md\",\n    \"docs/design/DES-029-calorimeter-assemblies.md\",\n    \"tools/calorimeter_hardware/assemblies.json\",\n    \"tools/calorimeter_hardware/edge_sensors.json\",\n    \"tools/calorimeter_hardware/cassettes.json\",\n    \"docs/decisions/ADR-008-prototype-ecal-forward-aperture.md\"\n  ],\n  \"mode\": \"read-only\",\n  \"writable_paths\": [],\n  \"task\": \"Assess a detailed SiW ECAL barrel prototype matching PR70 detail while retaining DES029 radial/axial/16-sector/layer envelopes. Read public inherited choices from commit5664. Propose concrete physically manufacturable per-sector/layer board/slab packing with compact full square90mm sensors, explicit inactive guards, PCB/ASIC/thermal stack, shared interface bays and common cooling. Determine whether custom edge/short boards are needed for barrel and where seams/service/end losses remain. No performance acceptance or new envelope/technology choices. Consider assembly support/service routing and absorber ownership rather than just active area. Provide independent interface constraints/checks to root, who implements. Extra governing instructions from main7c6d453. Do not edit files, install dependencies, message tasks or create further agents.\",\n  \"deliverable\": \"Cited bounded interface proposal with coordinates, retained dimensions, uncertainties and minimum validation checks; return to coordinator for DES031/journal.\",\n  \"completion\": \"Concrete candidate packed inside existing envelope with alternatives and explicit mechanical/thermal/service limitations. Identify any unavoidable change needing human choice; do not infer design approval.\"\n}\n```"
+    ],
+    [
+      "SysArch handoff and implementation choices",
+      "BARREL-SysArch read5664d16 and primary CALICE source under main7c6d453\ninstructions. Independent checks support retained sixteen-sector/48-layer\ngeometry, compact94 mm boards,6/7/8 columns, seven1000 mm slabs and short ends;\nminimum PCB side clearance1.440 mm. A centered short grid collided with the\n40 mm bay when preserving5 mm frames;5 mm inward shift leaves3 mm clearance.\n359904 sensors,92135424 channels,15648 complete-lane interfaces give188.40 kW\nunder inherited continuous hypotheses. Headers/ports cannot be inferred from\nmaterial-filled allocations. The sector-centre eta0 ray samples only22 layers.\nNo native/thermal/performance qualification was supplied by that contribution.\n\nCoordinator's aligned control exposed an entirely blind eta0.25 band. Before\nextending implementation, DES031 records an unsigned physical-joint staggering\nchoice:alternate−96/+96 mm slab phases, retaining board count and envelope,\nwith276/468 mm end-slab families exchanged between ends. The central sensor row\nremains present. This is a separate coordinator amendment, not an independently\nreviewed SysArch conclusion. Native checks and separate PhysVal review follow.\n\nInitial script/export failures were corrected before any scientific evidence:\na duplicated center_mm keyword prevented export; a unit test confused radial\ncold-plate thickness with axial prism extrusion, and a zero-shift negative fixture\nfailed generic positivity before its intended bay check. The tests now check\nactual radial vertices and a positive1 mm inward shift that physically overlaps\nits bay. No tolerance or production input was relaxed.\n\nAll30 hardware controls pass, including eight new packing/cooling/ownership/\ncrack controls. The new standalone factory compiles against verified DD4hep1.38;\nCMake reports upstream policy/CLHEP warnings, preserved without suppression.\nNo new dependencies. Native execution remains pending at this initial source\ncommit; results are not claimed from successful compilation."
+    ],
+    [
+      "Fixed-revision PhysVal implementation assignment",
+      "```json\n{\n  \"id\": \"BARREL-PhysVal-implementation\",\n  \"role\": \"PhysVal\",\n  \"input_revision\": \"3d95e0b4485783fd3f62712527adc5b49869d277\",\n  \"inputs\": [\n    \"docs/design/DES-031-siw-barrel-prototype.md\",\n    \"tools/calorimeter_hardware/barrel.json\",\n    \"tools/calorimeter_hardware/barrel_layout.py\",\n    \"tools/calorimeter_hardware/barrel_export.py\",\n    \"tools/calorimeter_hardware/barrel_native.py\",\n    \"tools/calorimeter_hardware/test_barrel.py\",\n    \"prototypes/calorimeter/BarrelCalorimeter.cpp\",\n    \"prototypes/calorimeter/EdgeCalorimeter.cpp\"\n  ],\n  \"mode\": \"read-only\",\n  \"writable_paths\": [],\n  \"task\": \"Independently assess scientific definitions, readout/native validator soundness, geometric coverage, counts/power/mass, uncertainty and claim limits of this complete barrel implementation. Read exact committed inputs via git show; no substitution of dirty files. Native ROOT execution runs concurrently under coordinator; do not launch native jobs or edit files. Standard-library read-only scripts/tests are allowed. No further agents or external/task messages. Do not infer engineering/design approval. Inspect extra inherited docs at parent654b85a if needed and report the revision.\",\n  \"deliverable\": \"Return exact-revision cited findings, actual independent checks and remaining risks to coordinator for remediation and journal. No file writes.\",\n  \"completion\": \"Flag material defects and unsupported claims before final PR ready; distinguish algorithm/input checks from native/engineering performance qualification.\"\n}\n```"
+    ],
+    [
+      "Fixed-revision SysArch implementation assignment",
+      "```json\n{\n  \"id\": \"BARREL-SysArch-implementation\",\n  \"role\": \"SysArch\",\n  \"input_revision\": \"3d95e0b4485783fd3f62712527adc5b49869d277\",\n  \"inputs\": [\n    \"docs/design/DES-031-siw-barrel-prototype.md\",\n    \"tools/calorimeter_hardware/barrel.json\",\n    \"tools/calorimeter_hardware/barrel_layout.py\",\n    \"tools/calorimeter_hardware/barrel_export.py\",\n    \"tools/calorimeter_hardware/barrel_native.py\",\n    \"tools/calorimeter_hardware/test_barrel.py\",\n    \"prototypes/calorimeter/BarrelCalorimeter.cpp\",\n    \"prototypes/calorimeter/EdgeCalorimeter.cpp\"\n  ],\n  \"mode\": \"read-only\",\n  \"writable_paths\": [],\n  \"task\": \"Assess the implemented staggered axial slabs (alternate phases\\u221296/+96,276/468mm short families), actual PCB/bay/frame/cooling clearances, retained envelopes and unmodeled service routes. This supersedes the initially centered SysArch proposal only as an unsigned coordinator choice; independently identify defects. Read exact committed inputs via git show; no substitution of dirty files. Native ROOT execution runs concurrently under coordinator; do not launch native jobs or edit files. Standard-library read-only scripts/tests are allowed. No further agents or external/task messages. Do not infer engineering/design approval. Inspect extra inherited docs at parent654b85a if needed and report the revision.\",\n  \"deliverable\": \"Return exact-revision cited findings, actual independent checks and remaining risks to coordinator for remediation and journal. No file writes.\",\n  \"completion\": \"Flag material defects and unsupported claims before final PR ready; distinguish algorithm/input checks from native/engineering performance qualification.\"\n}\n```"
+    ]
+  ],
+  "activities": [
+    {
+      "kind": "skill",
+      "name": "acts-spack",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Runtime warning/re-verification and command evidence in narrative."
+    },
+    {
+      "kind": "skill",
+      "name": "nodd-coordinate / nodd-design-evidence / nodd-review-validation",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Generic bounded SysArch/PhysVal contracts and handoffs curated in narrative."
+    },
+    {
+      "kind": "tool",
+      "name": "DD4hep/ROOT/Geant4 and scientific plotting",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "docs/validation/DES-031/results.md"
+    },
+    {
+      "kind": "tool",
+      "name": "Generic subagents: SysArch and PhysVal",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Fixed geometry revision review; no native profile loading or human sign-off claimed."
+    }
+  ],
+  "usage_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+  "usage_refs": []
+}

@@ -1,0 +1,104 @@
+--- a/software/analysis/gen3_material_mapping/material_runtime.py
++++ b/software/analysis/gen3_material_mapping/material_runtime.py
+@@ -71,6 +71,38 @@
+     return ROOT, acts, sidecar
+ 
+ 
++def audit_material_inventory(manifest, inventory, phase):
++    """Require exact native types/counts, including finalized 1x1 slabs.
++
++    ACTS finalizes a 1x1 accumulator as HomogeneousSurfaceMaterial. A request
++    with either axis above one must still finalize as binned material.
++    """
++    if phase not in ("proto", "mapped"):
++        raise ValueError("Expected proto or mapped inventory phase")
++    by_id = {item["geometry_id"]: item for item in inventory}
++    expected_ids = {surface["geometry_id"] for surface in manifest["surfaces"]}
++    if set(by_id) != expected_ids or len(inventory) != len(expected_ids):
++        raise RuntimeError("Native material inventory identities/counts differ from the manifest")
++    for requested in manifest["surfaces"]:
++        actual = by_id[requested["geometry_id"]]
++        axis = "z" if requested["type"] == "cylinder" else "r"
++        counts = [requested["bins"]["phi"], requested["bins"][axis]]
++        expected_type = "proto" if phase == "proto" else (
++            "homogeneous" if counts == [1, 1] else "binned")
++        if actual.get("type") != expected_type or actual.get("axis_bin_counts") != counts:
++            raise RuntimeError("Native material type/binning differs from requested ProtoSurfaceMaterial")
++        if phase == "proto":
++            if (actual.get("material_key") != requested["material_key"]
++                    or actual.get("core_material_key") != requested["material_key"]):
++                raise RuntimeError("Native/core ProtoSurfaceMaterial key differs from the manifest")
++        else:
++            total = counts[0] * counts[1]
++            empty = actual.get("empty_bins")
++            if (actual.get("material_bins") != total or type(empty) is not int
++                    or not 0 <= empty <= total):
++                raise RuntimeError("Native mapped material-bin inventory is inconsistent")
++
++
+ def prepare_geometry(args, manifest, acts, sidecar, map_path=None):
+     from acts.examples.nodd import getNoddDetector
+     detector = getNoddDetector(
+@@ -85,14 +117,7 @@
+     if {surface.geometryId.value for surface in extracted} != expected or len(extracted) != len(expected):
+         raise RuntimeError("Native material extraction differs from the manifest")
+     actual = sidecar.material_inventory(geometry)
+-    actual_by_id = {item["geometry_id"]: item for item in actual}
+-    for requested in manifest["surfaces"]:
+-        item = actual_by_id[requested["geometry_id"]]
+-        other_axis = "z" if requested["type"] == "cylinder" else "r"
+-        if (item["type"] != "proto" or item["material_key"] != requested["material_key"]
+-                or item["core_material_key"] != requested["material_key"]
+-                or item["axis_bin_counts"] != [requested["bins"]["phi"], requested["bins"][other_axis]]):
+-            raise RuntimeError("Native ProtoSurfaceMaterial differs from requested key/binning")
++    audit_material_inventory(manifest, actual, "proto")
+     decoration["proto_inventory"] = actual
+     if map_path:
+         decoration.update(apply_saved_map(geometry, manifest, acts, map_path, sidecar))
+@@ -117,12 +142,7 @@
+               "map_key_count": len(maps.keyedSurfaces)}
+     if sidecar:
+         inventory = sidecar.material_inventory(geometry)
+-        by_id = {item["geometry_id"]: item for item in inventory}
+-        for requested in manifest["surfaces"]:
+-            actual = by_id[requested["geometry_id"]]
+-            axis = "z" if requested["type"] == "cylinder" else "r"
+-            if actual.get("axis_bin_counts") != [requested["bins"]["phi"], requested["bins"][axis]]:
+-                raise RuntimeError("Reloaded map binning differs from requested ProtoSurfaceMaterial")
++        audit_material_inventory(manifest, inventory, "mapped")
+         report["mapped_inventory"] = inventory
+         report["material_bins"] = sum(item.get("material_bins", 1) for item in inventory)
+         report["empty_bins"] = sum(item.get("empty_bins", 0) for item in inventory)
+@@ -138,8 +158,8 @@
+     files = [("selection_manifest", args.manifest.resolve()),
+              ("sidecar", Path(sidecar.__file__)),
+              ("runtime_helper", Path(__file__).resolve()),
+-             ("sidecar_source", Path(__file__).resolve().parent / "native/PortalMaterial.cpp"),
+-             ("sidecar_build_controls", Path(__file__).resolve().parent / "native/CMakeLists.txt"),
++             ("sidecar_source", root / "software/source/ActsExamples/MaterialMapping/PortalMaterial.cpp"),
++             ("sidecar_build_controls", root / "software/source/ActsExamples/MaterialMapping/CMakeLists.txt"),
+              ("steering", Path(sys.argv[0]).resolve()),
+              ("compact", detector_dir / "tracker/tracker.xml"),
+              ("materials", detector_dir / "tracker/materials.xml")]
+--- a/software/source/ActsExamples/MaterialMapping/PortalMaterial.cpp
++++ b/software/source/ActsExamples/MaterialMapping/PortalMaterial.cpp
+@@ -4,6 +4,7 @@
+ #include "Acts/Geometry/TrackingGeometryVisitor.hpp"
+ #include "Acts/Material/ProtoSurfaceMaterial.hpp"
+ #include "Acts/Material/BinnedSurfaceMaterial.hpp"
++#include "Acts/Material/HomogeneousSurfaceMaterial.hpp"
+ #include "Acts/Material/detail/MaterialSurfaceRegistry.hpp"
+ #include "Acts/Surfaces/CylinderBounds.hpp"
+ #include "Acts/Surfaces/CylinderSurface.hpp"
+@@ -183,6 +184,11 @@
+       }
+       entry["material_bins"] = total;
+       entry["empty_bins"] = empty;
++    } else if (const auto* homogeneous = dynamic_cast<const Acts::HomogeneousSurfaceMaterial*>(material)) {
++      entry["type"] = "homogeneous";
++      entry["axis_bin_counts"] = std::array<std::size_t, 2>{1, 1};
++      entry["material_bins"] = 1;
++      entry["empty_bins"] = homogeneous->materialSlab().thickness() == 0. ? 1 : 0;
+     } else {
+       entry["type"] = "other";
+     }

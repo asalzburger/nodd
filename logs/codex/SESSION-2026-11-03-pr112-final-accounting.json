@@ -1,0 +1,126 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-11-03-pr112-final-accounting",
+  "title": "PR112 final completed-turn accounting",
+  "recorded_at": "2026-11-03T15:44:01Z",
+  "started_at": null,
+  "ended_at": "2026-11-03T15:45:34.882426Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "This active final-accounting turn has no finalized boundary and is excluded.",
+    "Execution model and client version remain unknown. No counters are estimated or duplicated."
+  ],
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": "01a1a1dc-8e1f-7730-9fea-18282da2cae5"
+  },
+  "git": {
+    "start_commit": "d7affe4b5911de43fea5e5596432200c9ad84def",
+    "branch": "codex/detector-component-colors",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      "interactions/pr-0112.json",
+      "interactions/pr-0112/turns/01a1a1dc-8e1f-7730-9fea-18282da2cae5--01a1a201-76a5-7301-8fd7-61e3a07d207f.json",
+      "logs/codex/SESSION-2026-11-03-hcal-shades.json",
+      "logs/codex/SESSION-2026-11-03-hcal-shades.md",
+      "logs/codex/SESSION-2026-11-03-pr112-final-accounting.json",
+      "logs/codex/SESSION-2026-11-03-pr112-final-accounting.md",
+      "logs/usage/USAGE-2026-11-03-pr112-final-accounting.json"
+    ]
+  },
+  "work": {
+    "milestone": "Infrastructure",
+    "components": [
+      "PR112 final token accounting",
+      "interaction synchronization"
+    ],
+    "related_ids": [
+      "PR112"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-11-03-pr112-final-accounting.md",
+  "activities": [
+    {
+      "kind": "tool",
+      "name": "Codex app read_thread and usage-only recovery",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Matched the completed HCAL/shade turn to its exact user request and final response, and verified all cumulative increases against last-request counters."
+    },
+    {
+      "kind": "tool",
+      "name": "Codex command execution and existing Git/GitHub CLI",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Imported one new finalized turn into its canonical owner, retained sanitized visible evidence and prepared an ordinary accounting commit/push."
+    },
+    {
+      "kind": "tool",
+      "name": "GitHub connector",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Refreshed PR112 metadata, public discussion and review snapshots; existing CLI is the established metadata-write fallback."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "session_log.py import-usage --id SESSION-2026-11-03-hcal-shades (dry-run and import)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Added exactly one finalized HCAL/shade turn. Existing three owners retained; current active accounting turn excluded."
+    },
+    {
+      "command": "Exact recovery-to-canonical-owner coverage check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All four finalized PR112 chat turns match exact recovered counters and have one owner each; active final-accounting turn remains unowned/excluded."
+    },
+    {
+      "command": "Replay import-usage dry-run for completed HCAL/shade turn",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Zero additions and one unchanged entry; no duplicate counting."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 229 paired session records."
+    },
+    {
+      "command": "python3 -B tools/interactions/ledger.py validate --base-ref c2d1b92d3c5686984d85b0f302bbd9977278f8f1",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated all 100 PR records and historical retention."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py build --output _site/pages",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Resource ledger built with 378 disjoint dated turns and 1,825,663,849 observed project tokens."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py summary --format json --milestone Infrastructure",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Observed PR112 totals: 24,080,277 input and 71,658 output across four finalized turns. Active accounting turn remains unknown and excluded."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors."
+    }
+  ]
+}

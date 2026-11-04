@@ -1,0 +1,500 @@
+{
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "type": "integer",
+      "const": 1
+    },
+    "github": {
+      "type": "object",
+      "properties": {
+        "captured_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "pull_request": {
+          "type": "object",
+          "properties": {
+            "number": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "url": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "head": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "head_sha": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{40}$"
+            },
+            "state": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "body": {
+              "type": "string"
+            },
+            "actor": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "created_at": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "number",
+            "url",
+            "title",
+            "head",
+            "head_sha",
+            "state",
+            "body",
+            "actor",
+            "created_at"
+          ],
+          "additionalProperties": false
+        },
+        "comments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": [
+                  "integer",
+                  "string"
+                ]
+              },
+              "url": {
+                "type": "string"
+              },
+              "body": {
+                "type": "string"
+              },
+              "actor": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "created_at": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "updated_at": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "review": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "in_reply_to_id": {
+                "type": [
+                  "integer",
+                  "string",
+                  "null"
+                ]
+              },
+              "path": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "line": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "id",
+              "url",
+              "body",
+              "actor",
+              "created_at",
+              "updated_at",
+              "review",
+              "in_reply_to_id",
+              "path",
+              "line"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "issues": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "number": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "url": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "body": {
+                "type": "string"
+              },
+              "actor": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "created_at": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "comments": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": [
+                        "integer",
+                        "string"
+                      ]
+                    },
+                    "url": {
+                      "type": "string"
+                    },
+                    "body": {
+                      "type": "string"
+                    },
+                    "actor": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "created_at": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "updated_at": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "review": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "in_reply_to_id": {
+                      "type": [
+                        "integer",
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "path": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "line": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "url",
+                    "body",
+                    "actor",
+                    "created_at",
+                    "updated_at",
+                    "review",
+                    "in_reply_to_id",
+                    "path",
+                    "line"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "required": [
+              "number",
+              "url",
+              "title",
+              "body",
+              "actor",
+              "created_at",
+              "comments"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "captured_at",
+        "pull_request",
+        "comments",
+        "issues"
+      ],
+      "additionalProperties": false
+    },
+    "curated": {
+      "type": "object",
+      "properties": {
+        "journal_links": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "agents": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "role": {
+                "type": "string"
+              },
+              "thread_id": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "models": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "source": {
+                "type": "string"
+              },
+              "limitation": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "role",
+              "thread_id",
+              "models",
+              "source",
+              "limitation"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "tools": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "category": {
+                "type": "string",
+                "enum": [
+                  "native_codex",
+                  "codex_installed",
+                  "instructed_software",
+                  "unresolved"
+                ]
+              },
+              "version": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "calls": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 0
+              },
+              "source": {
+                "type": "string"
+              },
+              "evidence": {
+                "type": "string",
+                "minLength": 1
+              },
+              "token_account": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "provenance": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "name",
+              "category",
+              "version",
+              "calls",
+              "source",
+              "evidence",
+              "token_account",
+              "provenance"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "events": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string",
+                "enum": [
+                  "comment",
+                  "issue",
+                  "prompt",
+                  "upload",
+                  "response",
+                  "review",
+                  "reaction"
+                ]
+              },
+              "direction": {
+                "type": "string",
+                "enum": [
+                  "action",
+                  "reaction"
+                ]
+              },
+              "actor": {
+                "type": "string"
+              },
+              "recipients": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "text": {
+                "type": "string"
+              },
+              "source": {
+                "type": "string"
+              },
+              "in_reply_to": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "model": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "agent_roles": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "token_accounts": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "id",
+              "type",
+              "direction",
+              "actor",
+              "recipients",
+              "text",
+              "source",
+              "in_reply_to",
+              "model",
+              "agent_roles",
+              "token_accounts"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "journal_links",
+        "agents",
+        "tools",
+        "events"
+      ],
+      "additionalProperties": false
+    },
+    "derived": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": true
+    }
+  },
+  "required": [
+    "schema_version",
+    "github",
+    "curated",
+    "derived"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "nODD per-PR interaction ledger v1; derived content validated by ledger.py"
+}

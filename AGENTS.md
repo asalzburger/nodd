@@ -130,6 +130,33 @@ Every new or changed geometry component requires validation appropriate to its s
 
 Validation output must record the commit SHA, configuration, tool versions, random seed where relevant, commands, and tolerances. Do not update reference outputs simply because a test fails. Explain and review the physical or technical reason for every intentional baseline change.
 
+## Reference-run artifacts and PR contents
+
+Human instruction, 2026-10-31: do not check large reference-run files into Git
+or include them in PRs. Retain resulting plots and the recipe to reproduce
+them. Include compact binwise storage only when needed for inspection,
+comparison or replotting; concise results and provenance may accompany it.
+
+- Keep full event samples, simulation/hit/track dumps, large ROOT/NPZ files,
+  caches and bulky run logs local and ignored, or in a maintainer-selected
+  artifact store. Do not upload them without authorization.
+- Binwise evidence should state edges, units, normalization, counts or
+  denominators and the statistics/uncertainties needed for the reported
+  observable. Preserve correlations where the claimed comparison needs them.
+  Do not disguise event-level payloads as binwise data or split/compress a
+  large dataset merely to make individual files small.
+- The reproduction recipe must identify source/configuration/input versions
+  or hashes, environment and dependencies, seeds, and exact generation,
+  analysis and plotting commands. Explain which checks require the local
+  full dataset and which can run from the committed summaries alone.
+- Inspect staged files and newly introduced Git objects before publishing a
+  PR. Removing a large file in a later commit does not exclude its earlier
+  blob from the pushed history. Preserve existing evidence locally when
+  cleaning unpublished commits; do not rewrite shared history without explicit
+  authorization. Compression or Git LFS is not an automatic exception.
+
+See [ADR-003](docs/decisions/ADR-003-validation-and-artifact-policy.md).
+
 ## Code and change discipline
 
 - Inspect existing conventions before adding dependencies, directories, abstractions, or build options.
@@ -144,6 +171,15 @@ Validation output must record the commit SHA, configuration, tool versions, rand
 - Avoid destructive Git operations. Do not force-push, rewrite shared history, or discard local work unless a human explicitly authorizes the exact action.
 
 ## Documentation conventions
+
+For all new or regenerated figures, follow the fixed
+[detector component colors](README.md#detector-component-colors). When a listed
+subsystem is shown in an illustration or component-resolved plot (including a
+stacked histogram), use its specified color and matching legend entry. Preserve
+the mapping across component subsets and plotting orders.
+Lighter versions of the assigned color may distinguish substructure within a
+subsystem; retain the base color for the subsystem and its main legend entry,
+and label the subcomponent shades.
 
 For TDR writing, follow [the publication writing guide](docs/publication/TDR-writing-guide.md).
 Describe the current baseline and its simulation representation. Do not narrate
@@ -255,6 +291,29 @@ vacuum coil. Missing inputs must remain explicit blockers. Apply the checks to
 all active layouts; preserve dated historical fixtures as controls, clearly
 superseded. Changes to these review constraints require explicit human direction.
 No numerical study or CI pass grants detector design approval.
+
+## PR interaction and accounting synchronization
+
+Every PR, including infrastructure and historical PRs, has an individual
+`interactions/pr-NNNN.json`; optional source files belong under its own
+`interactions/pr-NNNN/` directory. Follow [the interaction workflow](interactions/README.md).
+Keep human actions (GitHub accounts other than `asalzburger`, excluding bots),
+all available user prompt inputs, public Codex remote inputs, and visible
+model/agent responses distinct. Name parties and exposed agent/subagent roles;
+retain evidence for interaction type, reply links and tool provenance. Keep
+unknown names/models/providers explicit. Do not store hidden reasoning or raw
+client rollouts.
+
+Whenever per-PR token accounting is performed, refresh and review that PR's
+public discussion and available visible-message evidence, update canonical
+session usage, then run `python3 -B tools/interactions/ledger.py sync --pr N`
+and `python3 -B tools/interactions/ledger.py validate`. Synchronize all affected
+PR records when a shared journal changes. Commit the affected interaction files
+with the accounting update. The ledger references each exact token owner; it
+must not copy/split counters or invent per-message usage. Record unavailable
+history and active-turn exclusions. CI rejects missing current-PR records and
+stale source/account fingerprints. Keep independent PR files separate to avoid
+unrelated merge conflicts.
 
 ## Node-specific software workflows
 

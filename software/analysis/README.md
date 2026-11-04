@@ -2,3 +2,103 @@
 
 Output inspection, plots and independent validation entry points belong here.
 Generated data stays under the ignored repository build directory.
+
+## Geant4 tracker material profiles
+
+The [100,000-geantino report](../../docs/validation/geantino-material-profiles/README.md)
+contains stacked radiation- and interaction-length profiles for beam pipe,
+pixel, short strip and long strip, with sensitive/non-sensitive contributions.
+The [analysis scripts](material_profiles/README.md) classify an existing recording
+against explicit DD4hep inputs and reproduce plots from compact retained data.
+
+## Current 2 mm tracker baseline
+
+The [current map record](../../docs/validation/baseline-material-comparison/material-map-record.json)
+binds the retained [material map](../../docs/validation/baseline-material-comparison/material_map.json.gz)
+to geometry `62f6056395e0dfee0c7985cf24e88dc9919c4e2d`, its compact,
+materials, factories and selected portals: 67 keys and 8,650 material bins.
+It is the reduced-service DES043 baseline characterization map. The historical
+0.5 mm map below remains separate; map IDs are geometry specific.
+
+- [Geant4/ACTS material comparison](../../docs/validation/baseline-material-comparison/README.md)
+- [Sensitive-volume crossings versus eta](../../docs/validation/baseline-hit-comparison/README.md)
+- [Fatras truth-fit parameter resolutions at fixed pT 1, 5, 10, 100 GeV](../../docs/validation/fatras-baseline-comparison/README.md)
+
+These whole-baseline results support continued study of the 2 mm choice, with
+mixed resolution changes and forward high-pT tails retained explicitly. They
+do not isolate segmentation or service effects or grant detector acceptance.
+Verify the map record without native dependencies using
+`python3 -B software/analysis/material_baseline_comparison/verify_record.py`.
+
+## Gen3 material-mapping surfaces
+
+The [first-step mapping survey](gen3_material_mapping/README.md) overlays the
+100k geantino material positions with actual native Gen3 portals, applies the
+pixel before/after convention and flags remote service material. It retains
+portable figures and a DRAFT surface proposal; no material map is installed.
+
+## Configurable Gen3 material mapping and validation
+
+The [portal material trial](../../docs/validation/gen3-material-map-run/README.md)
+selects one carrier per sensitive layer plus gap/shell surfaces, enables keyed
+ProtoSurfaceMaterial with configurable phi/z/r binning, runs native ACTS mapping
+and validation, and overlays only the validated total on the original Geant4
+stack. The [configuration](gen3_material_mapping/mapping_config.json) and
+[native build/run guide](../source/ActsExamples/MaterialMapping/README.md) define the
+reproducible entry points.
+
+## Documentation plots with unrooted
+
+[Issue #95](https://github.com/asalzburger/nodd/issues/95) requests
+[unrooted](https://github.com/asalzburger/unrooted) for future documentation plots.
+The source is pinned to `728465dce0c5cd5b876e67392e3858de6e982d05`
+(`0.1.0rc1`, MIT). Python 3.11 or newer is required. The optional Plotly backend
+is included for interactive HTML; Matplotlib supplies PNG, PDF and SVG figures.
+
+Run from the nODD repository root in a separate environment:
+
+```sh
+python3.11 -m venv software/build/unrooted-venv
+software/build/unrooted-venv/bin/python -m pip install -r software/analysis/requirements-unrooted.txt
+software/build/unrooted-venv/bin/python -I software/analysis/unrooted_smoke.py
+source software/build/unrooted-venv/bin/activate
+unrooted --help
+```
+
+With uv, use `uv venv --python 3.11 software/build/unrooted-venv`, followed by
+`uv pip sync --python software/build/unrooted-venv/bin/python software/analysis/requirements-unrooted.txt`.
+The dedicated environment is independent of the node-bound ACTS/Spack runtime.
+All dependencies are pinned in the generated requirements file; Git is needed
+to obtain the exact upstream source. This adds no submodule or C++ ROOT dependency.
+The local installation on 2026-10-23 used CPython 3.11.15 on macOS arm64; other
+platforms are not qualified by that local run. The universal requirements also
+resolve Python 3.12+ packages, without claiming those runtimes were tested locally.
+
+The smoke check writes synthetic ROOT input, compares loaded values, variances
+and edges exactly, checks the installed source revision, loads the bundled ODD
+palette, renders an overlay with a ratio, saves PNG/PDF/SVG and self-contained
+Plotly HTML, and exercises CLI help and PNG export. Results and package versions
+go to `build/unrooted-smoke/validation.json`; generated plots are in that same
+ignored directory. Fixture data is arbitrary test data and carries no detector
+performance claim. The [retained installation report](../../docs/validation/unrooted-installation.json)
+records the actual local run. Artifact hashes identify that run; binary figure
+metadata and ROOT file identifiers need not be identical on regeneration.
+
+For an existing histogram:
+
+```sh
+unrooted --input path/to/results.root --draw hist:histogram_name --output build/figure.pdf
+unrooted --input path/to/results.root --draw hist:histogram_name --backend plotly --output build/figure.html
+```
+
+Use the [upstream plotting guide](https://asalzburger.github.io/unrooted/user-guide/plotting/)
+for overlays and point clouds. Plotly HTML embeds JavaScript and needs no extra
+export runtime; static figures here use Matplotlib. No Plotly static-export
+dependency is installed. Use `deactivate` before returning to the ACTS environment.
+
+To deliberately update the upstream source, change `requirements-unrooted.in`,
+then regenerate pins with uv and rerun the smoke check:
+
+```sh
+uv pip compile --universal --python-version 3.11 software/analysis/requirements-unrooted.in --output-file software/analysis/requirements-unrooted.txt
+```

@@ -1,0 +1,1441 @@
+{
+  "schema_version": 1,
+  "github": {
+    "captured_at": "2026-10-24T07:40:59.885Z",
+    "pull_request": {
+      "number": 2,
+      "url": "https://github.com/asalzburger/nodd/pull/2",
+      "title": "Infrastructure: Add reusable literature reading tools and ATLAS/CMS source maps",
+      "head": "m0/reference-reading-pilot",
+      "head_sha": "c7fb95f91a39ef078b7806a264c04daa543fd064",
+      "state": "closed",
+      "body": "## Summary\n\nThe reference collection had download checksums but no reusable page text or\nnavigation maps. Add a pinned local PDF reader with extraction, literal search,\nselected rendering and hash-verified cache reuse, plus guides for five documents:\nATLAS Pixel TDR, CMS Tracker TDR, RD53A manual, and the ATLAS/CMS JINST overviews\n(1,712 pages in total).\n\nThe guides record source versions, physical/printed page mappings, reading\ncoverage and caveats, including RD53A's stale contents and the distinction between\nTDR requirements, prototype hardware and simulation assumptions. Whole-detector\nmaps and a literature-coverage assessment frame realistic component use for\nsimulation. Source metadata, overview acquisition receipts and curated session\nrecords preserve provenance; PDFs, full text, renders and environments stay ignored.\n\n## Scope and governance\n\n- M0 infrastructure and literature work, on `m0/reference-reading-pilot`.\n- ADR-005 remains DRAFT; related logging workflow: ADR-004.\n- Direct user requests; no linked issue.\n- No detector geometry, material, reconstruction configuration or sign-off changes.\n- DD4hep/XML generation remains a future discussion.\n\n## Validation\n\n- 7 synthetic reader tests, 15 logging/document-link tests and 4 downloader tests.\n- 12 known-answer retrieval checks across the five local documents, with\n  contiguous page coverage and the original RD53A footer checks.\n- Source/cache hash verification and selected rendered-page inspections.\n- Session-record validation and `git diff --check`.\n\nExact results, source/tool versions, hashes and measured timings are retained in:\n\n- [Original pilot](https://github.com/asalzburger/nodd/blob/m0/reference-reading-pilot/docs/validation/reference-reading-pilot.md) and paired JSON.\n- [CMS Tracker extension](https://github.com/asalzburger/nodd/blob/m0/reference-reading-pilot/docs/validation/cms-tracker-reading.md) and paired JSON.\n- [Overview intake](https://github.com/asalzburger/nodd/blob/m0/reference-reading-pilot/docs/validation/overview-reading.md) and paired JSON.\n\nThese are extraction and sampled-reading checks, not a complete scientific review.\nNo OCR, validated table transcription or public/local PDF byte comparison is\nclaimed. PyMuPDF licensing is recorded in the catalogue. Review cache provenance,\npage navigation and reading limits before the next focused evidence pass.\n",
+      "actor": "asalzburger",
+      "created_at": "2026-09-16T11:09:06Z"
+    },
+    "comments": [],
+    "issues": []
+  },
+  "curated": {
+    "journal_links": [],
+    "agents": [],
+    "tools": [
+      {
+        "name": "PyMuPDF",
+        "category": "codex_installed",
+        "version": null,
+        "calls": null,
+        "source": "logs/codex/SESSION-2026-09-15-reading-pilot.md",
+        "evidence": "Installed pinned PyMuPDF 1.28.2 in an ignored local environment; narrative Commands and validation.",
+        "token_account": "SESSION-2026-09-15-reading-pilot",
+        "provenance": "Installed pinned PyMuPDF 1.28.2 in an ignored local environment; narrative Commands and validation."
+      }
+    ],
+    "events": []
+  },
+  "derived": {
+    "parties": [
+      {
+        "id": "agent:SESSION-2026-09-15-reading-pilot",
+        "name": "Codex",
+        "kind": "agent"
+      },
+      {
+        "id": "agent:SESSION-2026-09-16-cms-tracker-reading",
+        "name": "Codex",
+        "kind": "agent"
+      },
+      {
+        "id": "agent:SESSION-2026-09-16-overview-reading",
+        "name": "Codex",
+        "kind": "agent"
+      },
+      {
+        "id": "agent:SESSION-2026-09-16-reading-pr",
+        "name": "Codex",
+        "kind": "agent"
+      },
+      {
+        "id": "agent:SESSION-2026-09-16-resource-coverage",
+        "name": "Codex",
+        "kind": "agent"
+      },
+      {
+        "id": "agent:SESSION-2026-09-16-simulation-scope",
+        "name": "Codex",
+        "kind": "agent"
+      },
+      {
+        "id": "codex-thread:01a0a573-f0f0-73c3-80e2-f37e2cc44e3f",
+        "name": "Codex thread 01a0a573-f0f0-73c3-80e2-f37e2cc44e3f",
+        "kind": "agent"
+      },
+      {
+        "id": "github:asalzburger",
+        "name": "asalzburger",
+        "kind": "account"
+      },
+      {
+        "id": "unknown:project-user",
+        "name": "Project user (name unrecorded)",
+        "kind": "human"
+      }
+    ],
+    "journals": [
+      {
+        "session_id": "SESSION-2026-09-15-reading-pilot",
+        "record": "logs/codex/SESSION-2026-09-15-reading-pilot.json",
+        "attribution": [
+          "recorded_branch"
+        ],
+        "snapshot": null,
+        "snapshot_sha256": null,
+        "record_sha256": "b7d851ea93d6703b3873945fad5edd3f3f074a2eeda65f4c6f27713050ceba56",
+        "narrative_sha256": "7cfc820415b3b64dc8e4b64c22f90e8072ddc0fa37d6fe88543306bf85f53d22"
+      },
+      {
+        "session_id": "SESSION-2026-09-16-cms-tracker-reading",
+        "record": "logs/codex/SESSION-2026-09-16-cms-tracker-reading.json",
+        "attribution": [
+          "recorded_branch"
+        ],
+        "snapshot": null,
+        "snapshot_sha256": null,
+        "record_sha256": "4ae73fcbbd3bd2af7e5e6f4a294fc0088a379ece118ddce91d8325649505f201",
+        "narrative_sha256": "3c765a9bf8fb1011f89fec66131c24fb283c5dbdbb9eeb670f84176cba77ac3c"
+      },
+      {
+        "session_id": "SESSION-2026-09-16-overview-reading",
+        "record": "logs/codex/SESSION-2026-09-16-overview-reading.json",
+        "attribution": [
+          "recorded_branch"
+        ],
+        "snapshot": null,
+        "snapshot_sha256": null,
+        "record_sha256": "050f7bbc35df37a2e4aa39e6e565f5364643d679a20831833c02689aab1a32c3",
+        "narrative_sha256": "97e1b16e98450d86d6fbd6af543df5cd0b33ea11bca53eb4513ca7c7fcebfb31"
+      },
+      {
+        "session_id": "SESSION-2026-09-16-reading-pr",
+        "record": "logs/codex/SESSION-2026-09-16-reading-pr.json",
+        "attribution": [
+          "recorded_branch"
+        ],
+        "snapshot": null,
+        "snapshot_sha256": null,
+        "record_sha256": "a521e99264781f95614bb8c033aa7a9a3e391e595eb69ba3375057ebf5d399d7",
+        "narrative_sha256": "6eb7dde6c05effdea699c73c451a3ff322d0a0deb04e208e2d62ce28aba4f4b0"
+      },
+      {
+        "session_id": "SESSION-2026-09-16-resource-coverage",
+        "record": "logs/codex/SESSION-2026-09-16-resource-coverage.json",
+        "attribution": [
+          "recorded_branch"
+        ],
+        "snapshot": null,
+        "snapshot_sha256": null,
+        "record_sha256": "d634ea836d2cf31a69b425fe0ae5959e0dde94aa4d57f43e467af0dde4e4bb80",
+        "narrative_sha256": "19199971ab16957771ca4ef1e9a1599446b05747a751f7ac87094301680313ea"
+      },
+      {
+        "session_id": "SESSION-2026-09-16-simulation-scope",
+        "record": "logs/codex/SESSION-2026-09-16-simulation-scope.json",
+        "attribution": [
+          "recorded_branch"
+        ],
+        "snapshot": null,
+        "snapshot_sha256": null,
+        "record_sha256": "c4db454dc200fc204720c0651b33419ea653173560b8588f37a0830d8720c11c",
+        "narrative_sha256": "0154d34cf61dd36a1a6eb2172686fadef5d48b6deb7991dfcfd962363ba8a43b"
+      }
+    ],
+    "token_accounts": [
+      {
+        "id": "SESSION-2026-09-15-reading-pilot",
+        "record": "logs/codex/SESSION-2026-09-15-reading-pilot.json",
+        "scope": "canonical_session; shared PR references are not allocations",
+        "status": "observed",
+        "usage_sha256": "00bae27910450ff2658a422bcdf3ef311f38f1a145cc99aaaa56e03835a984a5",
+        "turns": [
+          {
+            "client_thread_id": "01a0a573-f0f0-73c3-80e2-f37e2cc44e3f",
+            "turn_id": "01a0a5ac-d5c1-7173-a29f-edc2467f4c7a",
+            "model": null
+          }
+        ]
+      },
+      {
+        "id": "SESSION-2026-09-16-cms-tracker-reading",
+        "record": "logs/codex/SESSION-2026-09-16-cms-tracker-reading.json",
+        "scope": "canonical_session; shared PR references are not allocations",
+        "status": "observed",
+        "usage_sha256": "c9df924f7da070e2fddc26337b45068b05ac10d7ecf82cfc0fb45db2043938a6",
+        "turns": [
+          {
+            "client_thread_id": "01a0a573-f0f0-73c3-80e2-f37e2cc44e3f",
+            "turn_id": "01a0a92c-c525-7213-82d2-f66d32a730b1",
+            "model": null
+          }
+        ]
+      },
+      {
+        "id": "SESSION-2026-09-16-overview-reading",
+        "record": "logs/codex/SESSION-2026-09-16-overview-reading.json",
+        "scope": "canonical_session; shared PR references are not allocations",
+        "status": "observed",
+        "usage_sha256": "9b5afd5302589b197de1eb58d7c795f3e97ccce0547092f4e0069317206081c7",
+        "turns": [
+          {
+            "client_thread_id": "01a0a573-f0f0-73c3-80e2-f37e2cc44e3f",
+            "turn_id": "01a0a98e-068d-76f3-a2c4-34ccf138cb26",
+            "model": null
+          }
+        ]
+      },
+      {
+        "id": "SESSION-2026-09-16-reading-pr",
+        "record": "logs/codex/SESSION-2026-09-16-reading-pr.json",
+        "scope": "canonical_session; shared PR references are not allocations",
+        "status": "observed",
+        "usage_sha256": "9cf71967260998c369fdcf29bab6105a66a856a14c85336a390a613d9906408a",
+        "turns": [
+          {
+            "client_thread_id": "01a0a573-f0f0-73c3-80e2-f37e2cc44e3f",
+            "turn_id": "01a0a9e2-75b2-78b1-bb12-9b74496cc575",
+            "model": null
+          }
+        ]
+      },
+      {
+        "id": "SESSION-2026-09-16-resource-coverage",
+        "record": "logs/codex/SESSION-2026-09-16-resource-coverage.json",
+        "scope": "canonical_session; shared PR references are not allocations",
+        "status": "observed",
+        "usage_sha256": "fee6a7a07132d538fd4ec06e14c7543dbcf5ce4af890b4d69799ca2da3d0c1f1",
+        "turns": [
+          {
+            "client_thread_id": "01a0a573-f0f0-73c3-80e2-f37e2cc44e3f",
+            "turn_id": "01a0a939-1839-70f0-b9e1-87e5e8a92705",
+            "model": null
+          }
+        ]
+      },
+      {
+        "id": "SESSION-2026-09-16-simulation-scope",
+        "record": "logs/codex/SESSION-2026-09-16-simulation-scope.json",
+        "scope": "canonical_session; shared PR references are not allocations",
+        "status": "observed",
+        "usage_sha256": "0e7be47f65a050afe5d27f1e510a7cc18f59004ad79d9eff253c025e43b85f5b",
+        "turns": [
+          {
+            "client_thread_id": "01a0a573-f0f0-73c3-80e2-f37e2cc44e3f",
+            "turn_id": "01a0a93f-748e-74e0-a047-4985af4d7126",
+            "model": null
+          }
+        ]
+      }
+    ],
+    "visible_sources": [
+      {
+        "path": "interactions/pr-0002/turns/01a0a573-f0f0-73c3-80e2-f37e2cc44e3f--01a0a5ac-d5c1-7173-a29f-edc2467f4c7a.json",
+        "sha256": "40560796336c83ae40018021c584b824ff4279751a6bd476ad63ba22e3560eec"
+      },
+      {
+        "path": "interactions/pr-0002/turns/01a0a573-f0f0-73c3-80e2-f37e2cc44e3f--01a0a92c-c525-7213-82d2-f66d32a730b1.json",
+        "sha256": "83bc9a0b2c0d1bec563069fbed7b7309c17f988c127ba242be4848f9d0904859"
+      },
+      {
+        "path": "interactions/pr-0002/turns/01a0a573-f0f0-73c3-80e2-f37e2cc44e3f--01a0a939-1839-70f0-b9e1-87e5e8a92705.json",
+        "sha256": "879f7cd508ca1157d7bddb2cb3c3d34ad3d15862b1bcd4b31da3db7d90a0c8ad"
+      },
+      {
+        "path": "interactions/pr-0002/turns/01a0a573-f0f0-73c3-80e2-f37e2cc44e3f--01a0a93f-748e-74e0-a047-4985af4d7126.json",
+        "sha256": "9a598d744cc9aff0f1503c20ae2c20e74fa8ca8093f7bd59deea93148a06a781"
+      },
+      {
+        "path": "interactions/pr-0002/turns/01a0a573-f0f0-73c3-80e2-f37e2cc44e3f--01a0a98e-068d-76f3-a2c4-34ccf138cb26.json",
+        "sha256": "00d4546a2c2b470add414b61df2b96ec423dcb5424f335b2bde337bb0bcbea15"
+      },
+      {
+        "path": "interactions/pr-0002/turns/01a0a573-f0f0-73c3-80e2-f37e2cc44e3f--01a0a9e2-75b2-78b1-bb12-9b74496cc575.json",
+        "sha256": "2d61b9b0bb6c4f6972c886892fe64ebf832a47ee3bef155b5bc9d4c898f6bc1b"
+      }
+    ],
+    "agents": [
+      {
+        "id": "agent:SESSION-2026-09-15-reading-pilot",
+        "name": "Codex",
+        "role": "session_agent",
+        "thread_id": "01a0a573-f0f0-73c3-80e2-f37e2cc44e3f",
+        "models": [],
+        "source": "logs/codex/SESSION-2026-09-15-reading-pilot.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      },
+      {
+        "id": "agent:SESSION-2026-09-16-cms-tracker-reading",
+        "name": "Codex",
+        "role": "session_agent",
+        "thread_id": "01a0a573-f0f0-73c3-80e2-f37e2cc44e3f",
+        "models": [],
+        "source": "logs/codex/SESSION-2026-09-16-cms-tracker-reading.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      },
+      {
+        "id": "agent:SESSION-2026-09-16-overview-reading",
+        "name": "Codex",
+        "role": "session_agent",
+        "thread_id": "01a0a573-f0f0-73c3-80e2-f37e2cc44e3f",
+        "models": [],
+        "source": "logs/codex/SESSION-2026-09-16-overview-reading.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      },
+      {
+        "id": "agent:SESSION-2026-09-16-reading-pr",
+        "name": "Codex",
+        "role": "session_agent",
+        "thread_id": "01a0a573-f0f0-73c3-80e2-f37e2cc44e3f",
+        "models": [],
+        "source": "logs/codex/SESSION-2026-09-16-reading-pr.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      },
+      {
+        "id": "agent:SESSION-2026-09-16-resource-coverage",
+        "name": "Codex",
+        "role": "session_agent",
+        "thread_id": "01a0a573-f0f0-73c3-80e2-f37e2cc44e3f",
+        "models": [],
+        "source": "logs/codex/SESSION-2026-09-16-resource-coverage.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      },
+      {
+        "id": "agent:SESSION-2026-09-16-simulation-scope",
+        "name": "Codex",
+        "role": "session_agent",
+        "thread_id": "01a0a573-f0f0-73c3-80e2-f37e2cc44e3f",
+        "models": [],
+        "source": "logs/codex/SESSION-2026-09-16-simulation-scope.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      },
+      {
+        "id": "codex-thread:01a0a573-f0f0-73c3-80e2-f37e2cc44e3f",
+        "name": "Codex",
+        "role": "recorded_thread",
+        "thread_id": "01a0a573-f0f0-73c3-80e2-f37e2cc44e3f",
+        "models": [],
+        "source": "interactions/pr-0002/turns/01a0a573-f0f0-73c3-80e2-f37e2cc44e3f--01a0a5ac-d5c1-7173-a29f-edc2467f4c7a.json",
+        "limitation": "Execution model is retained only when reported by the canonical account."
+      },
+      {
+        "id": "codex-thread:01a0a573-f0f0-73c3-80e2-f37e2cc44e3f",
+        "name": "Codex",
+        "role": "recorded_thread",
+        "thread_id": "01a0a573-f0f0-73c3-80e2-f37e2cc44e3f",
+        "models": [],
+        "source": "interactions/pr-0002/turns/01a0a573-f0f0-73c3-80e2-f37e2cc44e3f--01a0a92c-c525-7213-82d2-f66d32a730b1.json",
+        "limitation": "Execution model is retained only when reported by the canonical account."
+      },
+      {
+        "id": "codex-thread:01a0a573-f0f0-73c3-80e2-f37e2cc44e3f",
+        "name": "Codex",
+        "role": "recorded_thread",
+        "thread_id": "01a0a573-f0f0-73c3-80e2-f37e2cc44e3f",
+        "models": [],
+        "source": "interactions/pr-0002/turns/01a0a573-f0f0-73c3-80e2-f37e2cc44e3f--01a0a939-1839-70f0-b9e1-87e5e8a92705.json",
+        "limitation": "Execution model is retained only when reported by the canonical account."
+      },
+      {
+        "id": "codex-thread:01a0a573-f0f0-73c3-80e2-f37e2cc44e3f",
+        "name": "Codex",
+        "role": "recorded_thread",
+        "thread_id": "01a0a573-f0f0-73c3-80e2-f37e2cc44e3f",
+        "models": [],
+        "source": "interactions/pr-0002/turns/01a0a573-f0f0-73c3-80e2-f37e2cc44e3f--01a0a93f-748e-74e0-a047-4985af4d7126.json",
+        "limitation": "Execution model is retained only when reported by the canonical account."
+      },
+      {
+        "id": "codex-thread:01a0a573-f0f0-73c3-80e2-f37e2cc44e3f",
+        "name": "Codex",
+        "role": "recorded_thread",
+        "thread_id": "01a0a573-f0f0-73c3-80e2-f37e2cc44e3f",
+        "models": [],
+        "source": "interactions/pr-0002/turns/01a0a573-f0f0-73c3-80e2-f37e2cc44e3f--01a0a98e-068d-76f3-a2c4-34ccf138cb26.json",
+        "limitation": "Execution model is retained only when reported by the canonical account."
+      },
+      {
+        "id": "codex-thread:01a0a573-f0f0-73c3-80e2-f37e2cc44e3f",
+        "name": "Codex",
+        "role": "recorded_thread",
+        "thread_id": "01a0a573-f0f0-73c3-80e2-f37e2cc44e3f",
+        "models": [],
+        "source": "interactions/pr-0002/turns/01a0a573-f0f0-73c3-80e2-f37e2cc44e3f--01a0a9e2-75b2-78b1-bb12-9b74496cc575.json",
+        "limitation": "Execution model is retained only when reported by the canonical account."
+      }
+    ],
+    "tools": {
+      "native_codex": [
+        {
+          "name": "exec_command",
+          "category": "native_codex",
+          "version": null,
+          "calls": null,
+          "source": "logs/codex/SESSION-2026-09-15-reading-pilot.json",
+          "evidence": "Visible shell runs; exact selected commands retained in narrative.",
+          "token_account": "SESSION-2026-09-15-reading-pilot",
+          "provenance": "Native API name"
+        },
+        {
+          "name": "web.run",
+          "category": "native_codex",
+          "version": null,
+          "calls": null,
+          "source": "logs/codex/SESSION-2026-09-15-reading-pilot.json",
+          "evidence": "Public package documentation and source identity checks.",
+          "token_account": "SESSION-2026-09-15-reading-pilot",
+          "provenance": "Native API name"
+        },
+        {
+          "name": "view_image",
+          "category": "native_codex",
+          "version": null,
+          "calls": null,
+          "source": "logs/codex/SESSION-2026-09-15-reading-pilot.json",
+          "evidence": "14 selected PDF page renders inspected; page lists retained in report.",
+          "token_account": "SESSION-2026-09-15-reading-pilot",
+          "provenance": "Native API name"
+        },
+        {
+          "name": "apply_patch",
+          "category": "native_codex",
+          "version": null,
+          "calls": null,
+          "source": "logs/codex/SESSION-2026-09-15-reading-pilot.json",
+          "evidence": "Visible edits to extraction and tests.",
+          "token_account": "SESSION-2026-09-15-reading-pilot",
+          "provenance": "Native API name"
+        },
+        {
+          "name": "exec_command",
+          "category": "native_codex",
+          "version": null,
+          "calls": null,
+          "source": "logs/codex/SESSION-2026-09-16-cms-tracker-reading.json",
+          "evidence": "Extraction, cached page reading, metadata and document updates; commands in narrative.",
+          "token_account": "SESSION-2026-09-16-cms-tracker-reading",
+          "provenance": "Native API name"
+        },
+        {
+          "name": "web.run",
+          "category": "native_codex",
+          "version": null,
+          "calls": null,
+          "source": "logs/codex/SESSION-2026-09-16-cms-tracker-reading.json",
+          "evidence": "CDS search and direct-open attempts; direct access encountered bot challenge.",
+          "token_account": "SESSION-2026-09-16-cms-tracker-reading",
+          "provenance": "Native API name"
+        },
+        {
+          "name": "view_image",
+          "category": "native_codex",
+          "version": null,
+          "calls": null,
+          "source": "logs/codex/SESSION-2026-09-16-cms-tracker-reading.json",
+          "evidence": "Inspected CMS PDF pages 1, 74, 82 and 251.",
+          "token_account": "SESSION-2026-09-16-cms-tracker-reading",
+          "provenance": "Native API name"
+        },
+        {
+          "name": "commandExecution",
+          "category": "native_codex",
+          "version": null,
+          "calls": 22,
+          "source": "interactions/pr-0002/turns/01a0a573-f0f0-73c3-80e2-f37e2cc44e3f--01a0a5ac-d5c1-7173-a29f-edc2467f4c7a.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 3 failures reported.",
+          "token_account": "SESSION-2026-09-15-reading-pilot",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "webSearch",
+          "category": "native_codex",
+          "version": null,
+          "calls": 6,
+          "source": "interactions/pr-0002/turns/01a0a573-f0f0-73c3-80e2-f37e2cc44e3f--01a0a5ac-d5c1-7173-a29f-edc2467f4c7a.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-09-15-reading-pilot",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "imageView",
+          "category": "native_codex",
+          "version": null,
+          "calls": 14,
+          "source": "interactions/pr-0002/turns/01a0a573-f0f0-73c3-80e2-f37e2cc44e3f--01a0a5ac-d5c1-7173-a29f-edc2467f4c7a.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-09-15-reading-pilot",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "fileChange",
+          "category": "native_codex",
+          "version": null,
+          "calls": 1,
+          "source": "interactions/pr-0002/turns/01a0a573-f0f0-73c3-80e2-f37e2cc44e3f--01a0a5ac-d5c1-7173-a29f-edc2467f4c7a.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-09-15-reading-pilot",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "commandExecution",
+          "category": "native_codex",
+          "version": null,
+          "calls": 20,
+          "source": "interactions/pr-0002/turns/01a0a573-f0f0-73c3-80e2-f37e2cc44e3f--01a0a92c-c525-7213-82d2-f66d32a730b1.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-09-16-cms-tracker-reading",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "webSearch",
+          "category": "native_codex",
+          "version": null,
+          "calls": 2,
+          "source": "interactions/pr-0002/turns/01a0a573-f0f0-73c3-80e2-f37e2cc44e3f--01a0a92c-c525-7213-82d2-f66d32a730b1.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-09-16-cms-tracker-reading",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "imageView",
+          "category": "native_codex",
+          "version": null,
+          "calls": 4,
+          "source": "interactions/pr-0002/turns/01a0a573-f0f0-73c3-80e2-f37e2cc44e3f--01a0a92c-c525-7213-82d2-f66d32a730b1.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-09-16-cms-tracker-reading",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "commandExecution",
+          "category": "native_codex",
+          "version": null,
+          "calls": 6,
+          "source": "interactions/pr-0002/turns/01a0a573-f0f0-73c3-80e2-f37e2cc44e3f--01a0a939-1839-70f0-b9e1-87e5e8a92705.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-09-16-resource-coverage",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "webSearch",
+          "category": "native_codex",
+          "version": null,
+          "calls": 1,
+          "source": "interactions/pr-0002/turns/01a0a573-f0f0-73c3-80e2-f37e2cc44e3f--01a0a939-1839-70f0-b9e1-87e5e8a92705.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-09-16-resource-coverage",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "webSearch",
+          "category": "native_codex",
+          "version": null,
+          "calls": 1,
+          "source": "interactions/pr-0002/turns/01a0a573-f0f0-73c3-80e2-f37e2cc44e3f--01a0a93f-748e-74e0-a047-4985af4d7126.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-09-16-simulation-scope",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "commandExecution",
+          "category": "native_codex",
+          "version": null,
+          "calls": 3,
+          "source": "interactions/pr-0002/turns/01a0a573-f0f0-73c3-80e2-f37e2cc44e3f--01a0a93f-748e-74e0-a047-4985af4d7126.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-09-16-simulation-scope",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "commandExecution",
+          "category": "native_codex",
+          "version": null,
+          "calls": 14,
+          "source": "interactions/pr-0002/turns/01a0a573-f0f0-73c3-80e2-f37e2cc44e3f--01a0a98e-068d-76f3-a2c4-34ccf138cb26.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 1 failures reported.",
+          "token_account": "SESSION-2026-09-16-overview-reading",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "imageView",
+          "category": "native_codex",
+          "version": null,
+          "calls": 4,
+          "source": "interactions/pr-0002/turns/01a0a573-f0f0-73c3-80e2-f37e2cc44e3f--01a0a98e-068d-76f3-a2c4-34ccf138cb26.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-09-16-overview-reading",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "commandExecution",
+          "category": "native_codex",
+          "version": null,
+          "calls": 21,
+          "source": "interactions/pr-0002/turns/01a0a573-f0f0-73c3-80e2-f37e2cc44e3f--01a0a9e2-75b2-78b1-bb12-9b74496cc575.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 2 failures reported.",
+          "token_account": "SESSION-2026-09-16-reading-pr",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        }
+      ],
+      "codex_installed": [
+        {
+          "name": "PyMuPDF",
+          "category": "codex_installed",
+          "version": null,
+          "calls": null,
+          "source": "logs/codex/SESSION-2026-09-15-reading-pilot.md",
+          "evidence": "Installed pinned PyMuPDF 1.28.2 in an ignored local environment; narrative Commands and validation.",
+          "token_account": "SESSION-2026-09-15-reading-pilot",
+          "provenance": "Installed pinned PyMuPDF 1.28.2 in an ignored local environment; narrative Commands and validation."
+        }
+      ],
+      "instructed_software": [],
+      "unresolved": []
+    },
+    "events": [
+      {
+        "id": "github:https://github.com/asalzburger/nodd/pull/2",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "github:asalzburger",
+        "recipients": [],
+        "text": "## Summary\n\nThe reference collection had download checksums but no reusable page text or\nnavigation maps. Add a pinned local PDF reader with extraction, literal search,\nselected rendering and hash-verified cache reuse, plus guides for five documents:\nATLAS Pixel TDR, CMS Tracker TDR, RD53A manual, and the ATLAS/CMS JINST overviews\n(1,712 pages in total).\n\nThe guides record source versions, physical/printed page mappings, reading\ncoverage and caveats, including RD53A's stale contents and the distinction between\nTDR requirements, prototype hardware and simulation assumptions. Whole-detector\nmaps and a literature-coverage assessment frame realistic component use for\nsimulation. Source metadata, overview acquisition receipts and curated session\nrecords preserve provenance; PDFs, full text, renders and environments stay ignored.\n\n## Scope and governance\n\n- M0 infrastructure and literature work, on `m0/reference-reading-pilot`.\n- ADR-005 remains DRAFT; related logging workflow: ADR-004.\n- Direct user requests; no linked issue.\n- No detector geometry, material, reconstruction configuration or sign-off changes.\n- DD4hep/XML generation remains a future discussion.\n\n## Validation\n\n- 7 synthetic reader tests, 15 logging/document-link tests and 4 downloader tests.\n- 12 known-answer retrieval checks across the five local documents, with\n  contiguous page coverage and the original RD53A footer checks.\n- Source/cache hash verification and selected rendered-page inspections.\n- Session-record validation and `git diff --check`.\n\nExact results, source/tool versions, hashes and measured timings are retained in:\n\n- [Original pilot](https://github.com/asalzburger/nodd/blob/m0/reference-reading-pilot/docs/validation/reference-reading-pilot.md) and paired JSON.\n- [CMS Tracker extension](https://github.com/asalzburger/nodd/blob/m0/reference-reading-pilot/docs/validation/cms-tracker-reading.md) and paired JSON.\n- [Overview intake](https://github.com/asalzburger/nodd/blob/m0/reference-reading-pilot/docs/validation/overview-reading.md) and paired JSON.\n\nThese are extraction and sampled-reading checks, not a complete scientific review.\nNo OCR, validated table transcription or public/local PDF byte comparison is\nclaimed. PyMuPDF licensing is recorded in the catalogue. Review cache provenance,\npage navigation and reading limits before the next focused evidence pass.\n",
+        "source": "https://github.com/asalzburger/nodd/pull/2",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [],
+        "timestamp": "2026-09-16T11:09:06Z",
+        "remote_input": null
+      },
+      {
+        "id": "journal:SESSION-2026-09-15-reading-pilot:02ebddc8f1afad7c",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "agent:SESSION-2026-09-15-reading-pilot"
+        ],
+        "text": "User, exact: \"I agree with this plan, go ahead with the first step, ATLAS Pixel TDR\nand RD53A manual.\"\n\n",
+        "source": "logs/codex/SESSION-2026-09-15-reading-pilot.md#selected-conversation",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-15-reading-pilot"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-09-15-reading-pilot:ce932bc49e6f029c",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "agent:SESSION-2026-09-15-reading-pilot"
+        ],
+        "text": "User, exact: \"Also suggest (if you can't create) a new local git branch and a PR\ndescription associated with it. Let's run this as a test case. Once read through\nwe will go by (3.) of your plan focussing it.\"\n\n",
+        "source": "logs/codex/SESSION-2026-09-15-reading-pilot.md#selected-conversation",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-15-reading-pilot"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-09-15-reading-pilot:8a8c0620420c7bce",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-09-15-reading-pilot",
+        "recipients": [],
+        "text": "Assistant, paraphrase: create a local branch, build reusable local extraction and\npage rendering, map both documents, check identity/quality, and prepare a PR\nbody. Keep focused engineering fact extraction for the next user-directed pass.",
+        "source": "logs/codex/SESSION-2026-09-15-reading-pilot.md#selected-conversation",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-15-reading-pilot"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-09-15-reading-pilot:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-09-15-reading-pilot",
+        "recipients": [],
+        "text": "ATLAS Pixel and RD53A extraction pilot — see the canonical narrative for outcomes and checks.",
+        "source": "logs/codex/SESSION-2026-09-15-reading-pilot.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-15-reading-pilot"
+        ],
+        "content_kind": "reference_summary"
+      },
+      {
+        "id": "journal:SESSION-2026-09-16-cms-tracker-reading:6e3df8a75758c26a",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "agent:SESSION-2026-09-16-cms-tracker-reading"
+        ],
+        "text": "User, exact request: “Can read the CMS Tracker TDR first, to gather two inputs\nfrom the RD53 usage - before we move on ?”\n\n",
+        "source": "logs/codex/SESSION-2026-09-16-cms-tracker-reading.md#selected-conversation",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-16-cms-tracker-reading"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-09-16-cms-tracker-reading:e9a1215b5b19901e",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-09-16-cms-tracker-reading",
+        "recipients": [],
+        "text": "Assistant, outcome paraphrase: extracted the CMS Tracker TDR, mapped its chapters,\nread selected RD53/module passages, checked four rendered pages, and added CMS\nto the ATLAS/RD53A reading routes before detailed comparative extraction.",
+        "source": "logs/codex/SESSION-2026-09-16-cms-tracker-reading.md#selected-conversation",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-16-cms-tracker-reading"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-09-16-cms-tracker-reading:c981bf1027d2f335",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-09-16-cms-tracker-reading",
+        "recipients": [],
+        "text": "- Reused the existing pinned reader and branch. Added a separate CMS validation\n  report; did not overwrite the previous pilot's measurements.\n- Verified local title, collaboration and report identifiers; retained the source\n  SHA-256 and separate title date/CERN stamp. Direct CDS access hit a bot challenge.\n  Public version, public/local byte equality and redistribution license remain\n  unverified. The supplied local PDF was accessible and sufficient for this pass.\n- Distinguished the planned CMS chip, RD53A demonstrator, earlier-chip tests and\n  simulation inputs. Recorded inconsistent planned submission dates without\n  selecting one as historical fact.\n- Added source observations and locators, not production detector parameters.\n  No design approval, sign-off, geometry or reconstruction change.",
+        "source": "logs/codex/SESSION-2026-09-16-cms-tracker-reading.md#decisions-and-outcomes",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-16-cms-tracker-reading"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-09-16-cms-tracker-reading:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-09-16-cms-tracker-reading",
+        "recipients": [],
+        "text": "CMS Tracker TDR reading and RD53 context map — see the canonical narrative for outcomes and checks.",
+        "source": "logs/codex/SESSION-2026-09-16-cms-tracker-reading.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-16-cms-tracker-reading"
+        ],
+        "content_kind": "reference_summary"
+      },
+      {
+        "id": "journal:SESSION-2026-09-16-overview-reading:cba41723758cf9b0",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "agent:SESSION-2026-09-16-overview-reading"
+        ],
+        "text": "User, exact: “Ok, the new ATLAS/CMS JINST overview papers are loaded”.\nContinued the established reference-intake workflow using the new entries in the\nuser's download instructions. Preserved that file and all prior working changes.\nStart commit, branch and initial changes are captured in paired JSON.",
+        "source": "logs/codex/SESSION-2026-09-16-overview-reading.md#request-and-scope",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-16-overview-reading"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-09-16-overview-reading:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-09-16-overview-reading",
+        "recipients": [],
+        "text": "Acquire and map ATLAS CMS overview papers — see the canonical narrative for outcomes and checks.",
+        "source": "logs/codex/SESSION-2026-09-16-overview-reading.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-16-overview-reading"
+        ],
+        "content_kind": "reference_summary"
+      },
+      {
+        "id": "journal:SESSION-2026-09-16-reading-pr:aea39057aaecfa22",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "agent:SESSION-2026-09-16-reading-pr"
+        ],
+        "text": "User, exact: “ok, let's make this a PR as it is a good break point.”\nPrepared the accumulated M0 reference-reading work for publication on the existing\nbranch. Initial changes in paired JSON cover all preceding pilot work and the\nuser's newly supplied public-reference download instructions. No unrelated work\nwas discarded. No detector design approval is implied by creating a PR.",
+        "source": "logs/codex/SESSION-2026-09-16-reading-pr.md#request-and-scope",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-16-reading-pr"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-09-16-reading-pr:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-09-16-reading-pr",
+        "recipients": [],
+        "text": "Prepare reference-reading pull request — see the canonical narrative for outcomes and checks.",
+        "source": "logs/codex/SESSION-2026-09-16-reading-pr.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-16-reading-pr"
+        ],
+        "content_kind": "reference_summary"
+      },
+      {
+        "id": "journal:SESSION-2026-09-16-resource-coverage:7acfc87832b95f3a",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "agent:SESSION-2026-09-16-resource-coverage"
+        ],
+        "text": "User clarification, paraphrased: the two RD53 inputs mean ATLAS and CMS use in\ntheir designs. User asked whether equivalent resources exist for strips,\ncalorimeters and muons. This task assessed availability; it did not authorize\nsubsystem implementation or a full extraction campaign.",
+        "source": "logs/codex/SESSION-2026-09-16-resource-coverage.md#scope-and-selected-conversation",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-16-resource-coverage"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-09-16-resource-coverage:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-09-16-resource-coverage",
+        "recipients": [],
+        "text": "Subsystem literature coverage assessment — see the canonical narrative for outcomes and checks.",
+        "source": "logs/codex/SESSION-2026-09-16-resource-coverage.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-16-resource-coverage"
+        ],
+        "content_kind": "reference_summary"
+      },
+      {
+        "id": "journal:SESSION-2026-09-16-simulation-scope:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-09-16-simulation-scope",
+        "recipients": [],
+        "text": "Clarify simulation realism and whole-detector references — see the canonical narrative for outcomes and checks.",
+        "source": "logs/codex/SESSION-2026-09-16-simulation-scope.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-16-simulation-scope"
+        ],
+        "content_kind": "reference_summary"
+      },
+      {
+        "id": "codex-message:01a0a5ac-d5ea-7a63-ab3a-eb93dd8e4c08",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "codex-thread:01a0a573-f0f0-73c3-80e2-f37e2cc44e3f"
+        ],
+        "text": "I agree with this plan, go ahead with the first step, ATLAS Pixel TDR and RD53A manual. \n\nAlso suggest (if you can't create) a new local git branch and a PR description associated with it. Let's run this as a test case. Once read through we will go by (3.) of your plan focussing it.",
+        "source": "interactions/pr-0002/turns/01a0a573-f0f0-73c3-80e2-f37e2cc44e3f--01a0a5ac-d5c1-7173-a29f-edc2467f4c7a.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-15-reading-pilot"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0bd2523593e1ec25016aa96393997487d292b82d916e87df73",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a0a573-f0f0-73c3-80e2-f37e2cc44e3f",
+        "recipients": [
+          "unknown:project-user"
+        ],
+        "text": "I’ll start the pilot with the ATLAS Pixel TDR and RD53A manual: extract page-level text, check document identity and extraction quality, and build reusable document maps. I’ll keep the reading broad for now, ready for the focused engineering questions in step 3.\n\nI’ll also try to create a local branch and prepare a PR description with the results and limitations.",
+        "source": "interactions/pr-0002/turns/01a0a573-f0f0-73c3-80e2-f37e2cc44e3f--01a0a5ac-d5c1-7173-a29f-edc2467f4c7a.json",
+        "in_reply_to": "codex-message:01a0a5ac-d5ea-7a63-ab3a-eb93dd8e4c08",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-15-reading-pilot"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0bd2523593e1ec25016aa963da4c2087d29cddbd1f054c15af",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a0a573-f0f0-73c3-80e2-f37e2cc44e3f",
+        "recipients": [
+          "unknown:project-user"
+        ],
+        "text": "The branch `m0/reference-reading-pilot` is created. I’m setting up a pinned PDF extractor in an ignored local environment, with text caches and page images kept out of Git.\n\nCERN’s catalogue pages returned a bot challenge. I’ll use the downloaded title pages and accessible public indexes to check identity, and leave any unresolved metadata explicit.",
+        "source": "interactions/pr-0002/turns/01a0a573-f0f0-73c3-80e2-f37e2cc44e3f--01a0a5ac-d5c1-7173-a29f-edc2467f4c7a.json",
+        "in_reply_to": "codex-message:01a0a5ac-d5ea-7a63-ab3a-eb93dd8e4c08",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-15-reading-pilot"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0bd2523593e1ec25016aa9649c7cd887d2a039d575d6f15636",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a0a573-f0f0-73c3-80e2-f37e2cc44e3f",
+        "recipients": [
+          "unknown:project-user"
+        ],
+        "text": "The first extraction found two details worth preserving: the Pixel TDR file has a July 2018 cover despite its 2017 report number, and the RD53A manual is version 3.51, dated August 2019.\n\nText was extracted from 482 and 79 pages respectively. The Pixel TDR has bookmarks; RD53A has none, so its map will need the printed contents. I also found duplicated cover text and pages with no extracted text, which I’ll check visually.",
+        "source": "interactions/pr-0002/turns/01a0a573-f0f0-73c3-80e2-f37e2cc44e3f--01a0a5ac-d5c1-7173-a29f-edc2467f4c7a.json",
+        "in_reply_to": "codex-message:01a0a5ac-d5ea-7a63-ab3a-eb93dd8e4c08",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-15-reading-pilot"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0bd2523593e1ec25016aa964f00ad087d284e2acf352dbbe7e",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a0a573-f0f0-73c3-80e2-f37e2cc44e3f",
+        "recipients": [
+          "unknown:project-user"
+        ],
+        "text": "The pilot caught a useful navigation problem: RD53A’s printed contents gives stale page numbers. For example, “Introduction” points to printed page 1, but starts on printed page 3, PDF page 4. I’ll build its map from the actual headings and footers.\n\nThe caches also preserve technical-table text, but the rendering checks show why we must inspect the original page before using table values or diagram labels.",
+        "source": "interactions/pr-0002/turns/01a0a573-f0f0-73c3-80e2-f37e2cc44e3f--01a0a5ac-d5c1-7173-a29f-edc2467f4c7a.json",
+        "in_reply_to": "codex-message:01a0a5ac-d5ea-7a63-ab3a-eb93dd8e4c08",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-15-reading-pilot"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0bd2523593e1ec25016aa9653d7be487d2ba71c30212a24ea4",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a0a573-f0f0-73c3-80e2-f37e2cc44e3f",
+        "recipients": [
+          "unknown:project-user"
+        ],
+        "text": "The document maps are taking shape, and I’ve added ligature normalization so searches for words such as “flex” can find PDF text encoded as “ﬂex.”\n\nCache reuse is working in the initial timing checks. The guides will also flag RD53A’s prototype status and the Pixel TDR’s proposed designs, so the focused pass can distinguish those from production evidence.",
+        "source": "interactions/pr-0002/turns/01a0a573-f0f0-73c3-80e2-f37e2cc44e3f--01a0a5ac-d5c1-7173-a29f-edc2467f4c7a.json",
+        "in_reply_to": "codex-message:01a0a5ac-d5ea-7a63-ab3a-eb93dd8e4c08",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-15-reading-pilot"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0bd2523593e1ec25016aa9665810f087d2b0ff434a6e17fce7",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a0a573-f0f0-73c3-80e2-f37e2cc44e3f",
+        "recipients": [
+          "unknown:project-user"
+        ],
+        "text": "The pilot checks now pass. Verified cache reuse took about 0.12 seconds for the Pixel TDR and 0.02 seconds for RD53A, compared with roughly 7 and 1 seconds for extraction on this machine. The four retrieval checks found the expected technical pages.\n\nI’m finishing the guides, validation report, and PR description, then checking that PDFs and generated caches remain excluded from Git.",
+        "source": "interactions/pr-0002/turns/01a0a573-f0f0-73c3-80e2-f37e2cc44e3f--01a0a5ac-d5c1-7173-a29f-edc2467f4c7a.json",
+        "in_reply_to": "codex-message:01a0a5ac-d5ea-7a63-ab3a-eb93dd8e4c08",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-15-reading-pilot"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0bd2523593e1ec25016aa966e8929087d2aaf9543704b8bdce",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a0a573-f0f0-73c3-80e2-f37e2cc44e3f",
+        "recipients": [
+          "unknown:project-user"
+        ],
+        "text": "Completed the pilot on branch **`m0/reference-reading-pilot`**.\n\n- Extracted all **561 pages** into reusable local caches.\n- Added [document maps]([redacted] search/render tools, and verified identity metadata.\n- Found and documented stale page references in RD53A’s contents.\n- Prepared the [PR description]([redacted] and [validation report]([redacted]\n\n**Checks:** 26 tests and four retrieval checks passed; all six session records validate. PDFs and caches remain ignored.\n\nThis covered extraction, broad mapping, and sampled reading—not a cover-to-cover scientific review. The material is ready for step 3’s focused questions.\n\nADR-005 remains DRAFT. No commits, pushes, or remote PR created.",
+        "source": "interactions/pr-0002/turns/01a0a573-f0f0-73c3-80e2-f37e2cc44e3f--01a0a5ac-d5c1-7173-a29f-edc2467f4c7a.json",
+        "in_reply_to": "codex-message:01a0a5ac-d5ea-7a63-ab3a-eb93dd8e4c08",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-15-reading-pilot"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:01a0a92c-c54c-7d43-92cf-a1e42604efba",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "codex-thread:01a0a573-f0f0-73c3-80e2-f37e2cc44e3f"
+        ],
+        "text": "Can read the CMS Tracker TDR first, to gather two inputs from the RD53 usage - before we move on ?",
+        "source": "interactions/pr-0002/turns/01a0a573-f0f0-73c3-80e2-f37e2cc44e3f--01a0a92c-c525-7213-82d2-f66d32a730b1.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-16-cms-tracker-reading"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0bd2523593e1ec25016aaa48e9464887d2b688d2c61d1c90bd",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a0a573-f0f0-73c3-80e2-f37e2cc44e3f",
+        "recipients": [
+          "unknown:project-user"
+        ],
+        "text": "I’ll give the CMS Tracker TDR the same extraction and broad reading pass, with a map of its RD53-related sections. That will give us both ATLAS and CMS inputs before the focused module-evidence work.",
+        "source": "interactions/pr-0002/turns/01a0a573-f0f0-73c3-80e2-f37e2cc44e3f--01a0a92c-c525-7213-82d2-f66d32a730b1.json",
+        "in_reply_to": "codex-message:01a0a92c-c54c-7d43-92cf-a1e42604efba",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-16-cms-tracker-reading"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0bd2523593e1ec25016aaa498164b487d2a975a0643cc6de15",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a0a573-f0f0-73c3-80e2-f37e2cc44e3f",
+        "recipients": [
+          "unknown:project-user"
+        ],
+        "text": "The CMS extraction is complete: 353 pages. One important distinction is already clear: the TDR discusses RD53A as a planned demonstrator, so its projected readout-chip requirements must stay separate from the later RD53A manual’s specifications. I’m recording that distinction alongside the CMS module and services references.",
+        "source": "interactions/pr-0002/turns/01a0a573-f0f0-73c3-80e2-f37e2cc44e3f--01a0a92c-c525-7213-82d2-f66d32a730b1.json",
+        "in_reply_to": "codex-message:01a0a92c-c54c-7d43-92cf-a1e42604efba",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-16-cms-tracker-reading"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0bd2523593e1ec25016aaa49a78b3087d294a468a94d656bd4",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a0a573-f0f0-73c3-80e2-f37e2cc44e3f",
+        "recipients": [
+          "unknown:project-user"
+        ],
+        "text": "The CMS pass adds useful module-level context: chip tiling, the flex circuit and base strips, serial powering, and the transition from electrical to optical links. I also found inconsistent planned submission dates for RD53A within the TDR; the guide will flag these as historical plans and keep them out of any design assumptions.",
+        "source": "interactions/pr-0002/turns/01a0a573-f0f0-73c3-80e2-f37e2cc44e3f--01a0a92c-c525-7213-82d2-f66d32a730b1.json",
+        "in_reply_to": "codex-message:01a0a92c-c54c-7d43-92cf-a1e42604efba",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-16-cms-tracker-reading"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0bd2523593e1ec25016aaa4a49a8e887d2a6d1510f0203f234",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a0a573-f0f0-73c3-80e2-f37e2cc44e3f",
+        "recipients": [
+          "unknown:project-user"
+        ],
+        "text": "The CMS guide and cross-source reading routes are now written. The 353-page cache passes the page-coverage and retrieval checks, and the documentation/logging tests pass. I’m finishing the session record; the next pass can compare ATLAS and CMS module choices against the shared RD53A reference.",
+        "source": "interactions/pr-0002/turns/01a0a573-f0f0-73c3-80e2-f37e2cc44e3f--01a0a92c-c525-7213-82d2-f66d32a730b1.json",
+        "in_reply_to": "codex-message:01a0a92c-c54c-7d43-92cf-a1e42604efba",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-16-cms-tracker-reading"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0bd2523593e1ec25016aaa4a89f3e087d283efca084793d8cb",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a0a573-f0f0-73c3-80e2-f37e2cc44e3f",
+        "recipients": [
+          "unknown:project-user"
+        ],
+        "text": "Done: extracted all **353 pages** and read the CMS passages on RD53, module construction, powering and services.\n\n- [CMS reading guide](reference/guides/SRC-CMS-TDR-014.md) records exact locators and caveats.\n- [Cross-source routes](reference/guides/README.md) now connect **ATLAS + CMS + RD53A**.\n- Updated provenance, ADR-005’s draft scope, PR description and session log.\n\nKey distinction: CMS’s target-chip requirements differ from the RD53A demonstrator specifications. The guide preserves that distinction.\n\n**Checks:** four retrieval checks, 15 documentation/logging tests and validation of all seven session records passed.\n\nChanges remain uncommitted on `m0/reference-reading-pilot`. Ready for the focused comparison; no detector parameters adopted.",
+        "source": "interactions/pr-0002/turns/01a0a573-f0f0-73c3-80e2-f37e2cc44e3f--01a0a92c-c525-7213-82d2-f66d32a730b1.json",
+        "in_reply_to": "codex-message:01a0a92c-c54c-7d43-92cf-a1e42604efba",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-16-cms-tracker-reading"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:01a0a939-1860-70e1-8af6-f591fc6d1326",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "codex-thread:01a0a573-f0f0-73c3-80e2-f37e2cc44e3f"
+        ],
+        "text": "The two inputs are the ATLAS and CMS use of the RD53 chip in their design. \n\nNow, imagine we want to go with the same level of details not only in the pixels, but also Strip, Calorimeter and Muon system. Do you have all resources ?",
+        "source": "interactions/pr-0002/turns/01a0a573-f0f0-73c3-80e2-f37e2cc44e3f--01a0a939-1839-70f0-b9e1-87e5e8a92705.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-16-resource-coverage"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0bd2523593e1ec25016aaa4c10596487d2b749325ad4c9d4d4",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a0a573-f0f0-73c3-80e2-f37e2cc44e3f",
+        "recipients": [
+          "unknown:project-user"
+        ],
+        "text": "Understood—the two inputs are ATLAS’s and CMS’s integration of RD53 into their detector designs. I’ll check the source catalogue for comparable coverage of strips, calorimeters and muon systems, and identify what is missing.",
+        "source": "interactions/pr-0002/turns/01a0a573-f0f0-73c3-80e2-f37e2cc44e3f--01a0a939-1839-70f0-b9e1-87e5e8a92705.json",
+        "in_reply_to": "codex-message:01a0a939-1860-70e1-8af6-f591fc6d1326",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-16-resource-coverage"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0bd2523593e1ec25016aaa4c30c54487d2be383c3dc5cbfec4",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a0a573-f0f0-73c3-80e2-f37e2cc44e3f",
+        "recipients": [
+          "unknown:project-user"
+        ],
+        "text": "The local collection is broader than the catalogue’s verified titles suggested: it already includes ATLAS and CMS muon upgrade TDRs, ATLAS LAr and Tile calorimeter upgrade TDRs, and CMS barrel and endcap calorimeter TDRs. That is enough to begin all three areas. It does not yet establish complete coverage of construction details—especially for existing detector structures retained through an upgrade.",
+        "source": "interactions/pr-0002/turns/01a0a573-f0f0-73c3-80e2-f37e2cc44e3f--01a0a939-1839-70f0-b9e1-87e5e8a92705.json",
+        "in_reply_to": "codex-message:01a0a939-1860-70e1-8af6-f591fc6d1326",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-16-resource-coverage"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0bd2523593e1ec25016aaa4c77b17887d28f105b4403820291",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a0a573-f0f0-73c3-80e2-f37e2cc44e3f",
+        "recipients": [
+          "unknown:project-user"
+        ],
+        "text": "Yes—the two inputs are **ATLAS and CMS integration of RD53 into their detector designs**. The chip manual supports that comparison.\n\n**We have enough resources locally to begin every subsystem, but not yet enough verified evidence to promise the same construction-level detail throughout.**\n\n### Already available\n\nI checked the local PDF titles:\n\n| System | ATLAS resources | CMS resources |\n|---|---|---|\n| Pixels | Pixel TDR; RD53C-ATLAS manual | Tracker TDR; RD53C-CMS manual |\n| Strips / outer tracker | Strip TDR **025** | Tracker TDR **014** |\n| Calorimeters | LAr upgrade **027**; Tile upgrade **028** | Barrel upgrade **015**; endcap upgrade **019** |\n| Muons | Muon upgrade **026** | Muon upgrade **016** |\n\nThe shared RD53A manual is also available. Most of these documents still need the extraction and reading pass we performed for pixels.\n\n### What is missing\n\nThe main gap is **upgrade documentation versus complete detector construction**. We should supplement the upgrade TDRs with:\n\n- **Original/as-built construction references:** absorbers, active layers, cryostats, chamber stacks and supports. Original calorimeter reports are listed separately in the [ATLAS TDR index]([external URL redacted; see source journal]).\n- **Component and integration documentation:** hybrids, readout assemblies, adhesives, cooling, cables and interfaces.\n- **Later production and qualification results:** to distinguish TDR proposals from what was built and tested.\n- **Material and validation evidence:** compositions, masses, service routing and measurements sufficient to check our simulation.\n\nFor comparable detail, each subsystem needs the same chain: **active element → readout → assembly → support/services → validation**.\n\n### Suggested next step\n\nStart with **ATLAS strips and CMS Outer Tracker**, using the existing PDFs. Then map calorimeters and muons and produce a precise missing-document list for each. **No additional downloads are needed to start.**\n\nSaved this assessment in [literature-coverage.md]([redacted] and logged it. Fifteen documentation/logging tests and validation of eight session records passed. ADR-005 remains draft; no detector changes were made.",
+        "source": "interactions/pr-0002/turns/01a0a573-f0f0-73c3-80e2-f37e2cc44e3f--01a0a939-1839-70f0-b9e1-87e5e8a92705.json",
+        "in_reply_to": "codex-message:01a0a939-1860-70e1-8af6-f591fc6d1326",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-16-resource-coverage"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:01a0a93f-74b3-7de2-95e1-749bc8fe27a5",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "codex-thread:01a0a573-f0f0-73c3-80e2-f37e2cc44e3f"
+        ],
+        "text": "Would the actual TDRs of ALTAS and CMS help to get the overall picture ? \n\nJust to set the scene correct:\n- we do not aim for CAD/engineering like accuracy in this project, we want to make the usage of the components in the detector realistic\n- and then we want to auto-generate DD4hep factory and xml code to build this detector in good accuracy with Geant4 (we will discuss this later)",
+        "source": "interactions/pr-0002/turns/01a0a573-f0f0-73c3-80e2-f37e2cc44e3f--01a0a93f-748e-74e0-a047-4985af4d7126.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-16-simulation-scope"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0bd2523593e1ec25016aaa4db4b83c87d2a7eb10784401da17",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a0a573-f0f0-73c3-80e2-f37e2cc44e3f",
+        "recipients": [
+          "unknown:project-user"
+        ],
+        "text": "That clarifies the target: realistic component use and detector integration, at the level needed for simulation. I’ll record that distinction and check which whole-detector references best complement the subsystem TDRs.",
+        "source": "interactions/pr-0002/turns/01a0a573-f0f0-73c3-80e2-f37e2cc44e3f--01a0a93f-748e-74e0-a047-4985af4d7126.json",
+        "in_reply_to": "codex-message:01a0a93f-74b3-7de2-95e1-749bc8fe27a5",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-16-simulation-scope"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0bd2523593e1ec25016aaa4de91c0c87d284086f9bb3dda816",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a0a573-f0f0-73c3-80e2-f37e2cc44e3f",
+        "recipients": [
+          "unknown:project-user"
+        ],
+        "text": "**Yes—whole-detector references would help establish the overall picture:** how subsystems fit together, where components sit, and how magnets, supports and services constrain their use.\n\nFor that purpose, I recommend adding these comprehensive detector-description papers alongside the TDRs:\n\n- [The ATLAS Experiment at the CERN Large Hadron Collider]([external URL redacted; see source journal])\n- [The CMS experiment at the CERN LHC](https://cds.cern.ch/record/1129810/)\n\nThese describe the original detectors; the upgrade TDRs supply the subsequent changes.\n\n### Your clarification changes the emphasis\n\nMy previous resource list put too much emphasis on construction detail. **Our target is simulation-relevant realism.** We need credible:\n\n- component dimensions, placement, repetition and segmentation;\n- active and passive materials;\n- supports, cooling and services where they affect material or integration;\n- sensitive regions and readout mapping.\n\nSmall details can use documented effective representations—for example, a service bundle represented by its envelope and material composition, without modelling every wire. Conversely, thin layers may deserve explicit treatment when their material contribution matters.\n\n### The intended destination\n\nI understand the workflow as:\n\n**Literature → reviewed detector/component specification → generated DD4hep factories and XML → Geant4 validation.**\n\nThe literature pass should therefore capture physical structure, parameters, provenance and justified approximations in a form that can later support generation. We can discuss the generator architecture and quantitative accuracy targets separately, as you suggest.\n\nI recorded this clarification in the repository’s [coverage assessment]([redacted] Session validation passed; no implementation or design approval was introduced.",
+        "source": "interactions/pr-0002/turns/01a0a573-f0f0-73c3-80e2-f37e2cc44e3f--01a0a93f-748e-74e0-a047-4985af4d7126.json",
+        "in_reply_to": "codex-message:01a0a93f-74b3-7de2-95e1-749bc8fe27a5",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-16-simulation-scope"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:01a0a98e-06b6-7df0-b29d-7d6e60b39a34",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "codex-thread:01a0a573-f0f0-73c3-80e2-f37e2cc44e3f"
+        ],
+        "text": "Ok, the new ATLAS/CMS JINST overview papers are loaded",
+        "source": "interactions/pr-0002/turns/01a0a573-f0f0-73c3-80e2-f37e2cc44e3f--01a0a98e-068d-76f3-a2c4-34ccf138cb26.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-16-overview-reading"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0bd2523593e1ec25016aaa61d0d54887d2ad28e515f661229c",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a0a573-f0f0-73c3-80e2-f37e2cc44e3f",
+        "recipients": [
+          "unknown:project-user"
+        ],
+        "text": "I’ll locate the new papers, verify their identities, and add them to the catalogue with reading maps for the whole-detector context.",
+        "source": "interactions/pr-0002/turns/01a0a573-f0f0-73c3-80e2-f37e2cc44e3f--01a0a98e-068d-76f3-a2c4-34ccf138cb26.json",
+        "in_reply_to": "codex-message:01a0a98e-06b6-7df0-b29d-7d6e60b39a34",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-16-overview-reading"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0bd2523593e1ec25016aaa620c972c87d28a61e375745aacf4",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a0a573-f0f0-73c3-80e2-f37e2cc44e3f",
+        "recipients": [
+          "unknown:project-user"
+        ],
+        "text": "Both downloads succeeded. They are the 2008 JINST detector overviews, which provide the whole-detector context we discussed. I’ll keep their original detector configurations clearly distinguished from the later upgrade designs.",
+        "source": "interactions/pr-0002/turns/01a0a573-f0f0-73c3-80e2-f37e2cc44e3f--01a0a98e-068d-76f3-a2c4-34ccf138cb26.json",
+        "in_reply_to": "codex-message:01a0a98e-06b6-7df0-b29d-7d6e60b39a34",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-16-overview-reading"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0bd2523593e1ec25016aaa62656f1c87d2855bdde8ee3f090e",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a0a573-f0f0-73c3-80e2-f37e2cc44e3f",
+        "recipients": [
+          "unknown:project-user"
+        ],
+        "text": "The reusable caches and chapter maps are ready: **437 ATLAS pages and 361 CMS pages**. I checked both title pages and sampled the overview, magnet and integration/service sections. The maps now give us entry points into each subsystem, with the 2008 scope and reading limits recorded.",
+        "source": "interactions/pr-0002/turns/01a0a573-f0f0-73c3-80e2-f37e2cc44e3f--01a0a98e-068d-76f3-a2c4-34ccf138cb26.json",
+        "in_reply_to": "codex-message:01a0a98e-06b6-7df0-b29d-7d6e60b39a34",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-16-overview-reading"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0bd2523593e1ec25016aaa62c7e1b087d2ab47c7c596f07d50",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a0a573-f0f0-73c3-80e2-f37e2cc44e3f",
+        "recipients": [
+          "unknown:project-user"
+        ],
+        "text": "Both papers are downloaded, catalogued and searchable:\n\n- [ATLAS overview map]([redacted] **437 pages**\n- [CMS overview map]([redacted] **361 pages**\n\nVerified their title pages, mapped chapters and skimmed selected overview, magnet and integration/service passages. These provide **2008 whole-detector context** alongside the later upgrade TDRs; a full scientific review remains pending.\n\nProvenance, validation evidence and session logs are recorded. Four retrieval checks, 15 documentation/logging tests and validation of all 10 session records passed. Changes remain uncommitted; no detector parameters or approval states changed.",
+        "source": "interactions/pr-0002/turns/01a0a573-f0f0-73c3-80e2-f37e2cc44e3f--01a0a98e-068d-76f3-a2c4-34ccf138cb26.json",
+        "in_reply_to": "codex-message:01a0a98e-06b6-7df0-b29d-7d6e60b39a34",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-16-overview-reading"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:01a0a9e2-75df-70d1-a1a7-6f1cb00025ff",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "codex-thread:01a0a573-f0f0-73c3-80e2-f37e2cc44e3f"
+        ],
+        "text": "ok, let's make this a PR as it is a good break point.",
+        "source": "interactions/pr-0002/turns/01a0a573-f0f0-73c3-80e2-f37e2cc44e3f--01a0a9e2-75b2-78b1-bb12-9b74496cc575.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-16-reading-pr"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0bd2523593e1ec25016aaa77704bf887d2800c1b6e383bf950",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a0a573-f0f0-73c3-80e2-f37e2cc44e3f",
+        "recipients": [
+          "unknown:project-user"
+        ],
+        "text": "I’ll review the accumulated changes, run the relevant checks, and create a PR with a description covering the reading tools, source maps, provenance and session records.",
+        "source": "interactions/pr-0002/turns/01a0a573-f0f0-73c3-80e2-f37e2cc44e3f--01a0a9e2-75b2-78b1-bb12-9b74496cc575.json",
+        "in_reply_to": "codex-message:01a0a9e2-75df-70d1-a1a7-6f1cb00025ff",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-16-reading-pr"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0bd2523593e1ec25016aaa77b181a887d29981cda60a5e0610",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a0a573-f0f0-73c3-80e2-f37e2cc44e3f",
+        "recipients": [
+          "unknown:project-user"
+        ],
+        "text": "The PR now covers five documents—1,712 extracted pages—along with the reusable reader and source maps. All 26 automated tests pass. I’m checking the remaining retrieval examples and final file list before committing and publishing the branch.",
+        "source": "interactions/pr-0002/turns/01a0a573-f0f0-73c3-80e2-f37e2cc44e3f--01a0a9e2-75b2-78b1-bb12-9b74496cc575.json",
+        "in_reply_to": "codex-message:01a0a9e2-75df-70d1-a1a7-6f1cb00025ff",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-16-reading-pr"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0bd2523593e1ec25016aaa78acf0fc87d2a07f66a2210a1f24",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a0a573-f0f0-73c3-80e2-f37e2cc44e3f",
+        "recipients": [
+          "unknown:project-user"
+        ],
+        "text": "The branch is committed and pushed. All 12 retrieval checks passed, and the staged files contain only code, documentation and curated records. I’m creating the PR now, then recording its link in the session log.",
+        "source": "interactions/pr-0002/turns/01a0a573-f0f0-73c3-80e2-f37e2cc44e3f--01a0a9e2-75b2-78b1-bb12-9b74496cc575.json",
+        "in_reply_to": "codex-message:01a0a9e2-75df-70d1-a1a7-6f1cb00025ff",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-16-reading-pr"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0bd2523593e1ec25016aaa79118adc87d2a525da23648f7d8b",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a0a573-f0f0-73c3-80e2-f37e2cc44e3f",
+        "recipients": [
+          "unknown:project-user"
+        ],
+        "text": "Created [PR #2: Reusable literature reading tools and ATLAS/CMS source maps](https://github.com/asalzburger/nodd/pull/2).\n\n- Includes five document maps, extraction tools, provenance and session records.\n- **26 tests, 12 retrieval checks and 11 session records validated.**\n- All changes committed and pushed; working tree clean.\n- Ready for review. ADR-005 remains DRAFT; no detector changes.",
+        "source": "interactions/pr-0002/turns/01a0a573-f0f0-73c3-80e2-f37e2cc44e3f--01a0a9e2-75b2-78b1-bb12-9b74496cc575.json",
+        "in_reply_to": "codex-message:01a0a9e2-75df-70d1-a1a7-6f1cb00025ff",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-09-16-reading-pr"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      }
+    ],
+    "coverage": {
+      "github_captured_at": "2026-10-24T07:40:59.885Z",
+      "prompts": "Available account-matched user-visible messages, public Codex inputs and curated journal excerpts. Historical full input coverage is unknown.",
+      "recovered_visible_turns": 6,
+      "unrecovered_account_turns": [],
+      "responses": "Public responses and recorded outcomes; no private model state or hidden reasoning.",
+      "token_accounting": "References only. Never sum accounts across PRs or assign a shared turn by text length.",
+      "unknowns": "Unrecorded names, models, tools, subagent identities and response links remain unknown; empty lists are not zero activity.",
+      "remote": "Snapshot, not live synchronization; deleted/edited history and emoji reactions are not recovered.",
+      "branch_only": "Pinned branch journal snapshots are references, not imported counters. Unretained or other-device inputs remain unknown."
+    }
+  }
+}

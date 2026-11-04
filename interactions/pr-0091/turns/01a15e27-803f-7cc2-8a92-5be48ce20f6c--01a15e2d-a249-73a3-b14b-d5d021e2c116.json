@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "thread_id": "01a15e27-803f-7cc2-8a92-5be48ce20f6c",
+  "turn_id": "01a15e2d-a249-73a3-b14b-d5d021e2c116",
+  "status": "completed",
+  "started_at": 1792581411,
+  "completed_at": 1792581471,
+  "token_accounts": [
+    "SESSION-2026-10-21-material-profile"
+  ],
+  "source": "Codex app read_thread; exact recorded thread/turn match",
+  "messages": [
+    {
+      "id": "msg_0250abbde357a6da016ad89f290814819182622355677928ae",
+      "role": "assistant",
+      "phase": "commentary",
+      "text": "I’ll review the corrected source and output-comparison method at the new pinned revision. I’ll keep the source assessment separate from the pending guard-test and full-run evidence.",
+      "redacted": "yes"
+    },
+    {
+      "id": "msg_0250abbde357a6da016ad89f59f32c8191a0f4e36f220cc805",
+      "role": "assistant",
+      "phase": "final_answer",
+      "text": "MATPROF-PhysVal-02 reviewed **f9826ca004a7d61c01a057472a975d28cfb0a602**, read-only. No files changed or runtime jobs executed.\n\nThe earlier source findings are addressed:\n\n- `native_timing.cpp:62,86–92`: configuring user energy-cut vectors permanently disables reuse.\n- `native_timing.cpp:75–80`: checks now include valid couple indices and exact table membership.\n- `native_timing.cpp:130–176`: controls cover in-place cut changes, null couples, stale indices, an extra region and open geometry. They also check original-update execution and resulting energy values.\n- `compare_output.py:29–39`: compares every branch after canonical ordering with zero numeric tolerance.\n- The report correctly limits the experiment, separates nested timings and excludes the earlier symbol-binding artifact.\n\n**Remaining P2 test gap:** `native_timing.cpp:155` calls `observe_energy_cuts` directly. This tests the wrapper and fallback, but does not prove that dyld intercepts an ordinary `SetEnergyCutVector` call. Exercise that API from a separate client image if claiming the interception itself is validated. This is not a blocker for the immutable fixture that never configures user vectors.\n\nThe comparison establishes **exact numeric value equality**, not bitwise identity; signed zeros may compare equal. Its naming is appropriate. [Awkward comparison semantics]([external URL redacted; see source journal]).\n\nFinal evidence must establish all **13 controls**, both completed 100-event runs, **10,000 tracks**, matching generated probes, output integrity and all **32 branches** equal without an event-prefix restriction. The report’s “completed comparison” wording at lines 13–16 remains conditional until those artifacts exist.\n\nThe Air/Vacuum exclusion clarification appropriately separates world-boundary transport effects from recorded material totals. Different physical pipe, module and passive models remain deliberate comparison differences.\n\nI find no further source blocker for this **immutable, single-world neutral-geantino harness**, subject to the pending evidence. This recommendation does not extend to arbitrary mutable Geant4 jobs or grant detector design acceptance.",
+      "redacted": "yes"
+    }
+  ],
+  "native_tools": [
+    {
+      "name": "commandExecution",
+      "calls": 4,
+      "failures": 0
+    },
+    {
+      "name": "subAgentActivity",
+      "calls": 2,
+      "failures": 0
+    },
+    {
+      "name": "webSearch",
+      "calls": 1,
+      "failures": 0
+    }
+  ],
+  "subagents": [
+    {
+      "thread_id": "01a15e18-aee8-7080-a61e-ed35d0448960",
+      "name": "/root",
+      "activity": "interacted"
+    },
+    {
+      "thread_id": "01a15e18-aee8-7080-a61e-ed35d0448960",
+      "name": "/root",
+      "activity": "interacted"
+    }
+  ],
+  "limitations": [
+    "Only userMessage and agentMessage text retained; reasoning, tool arguments/results and private state excluded.",
+    "Conservative path, credential, email and URL redaction is not a privacy guarantee; review retained text.",
+    "Exposed operation counts are per retained turn; journal counts can describe the same invocations and must not be added."
+  ]
+}

@@ -1,0 +1,247 @@
+{
+  "schema_version": 1,
+  "github": {
+    "captured_at": "2026-10-24T07:41:01.297Z",
+    "pull_request": {
+      "number": 60,
+      "url": "https://github.com/asalzburger/nodd/pull/60",
+      "title": "Infrastructure: replace progress dashboard with cumulative token usage",
+      "head": "codex/token-usage-dashboard",
+      "head_sha": "af5c824417a0fa7e857430f01b50d21e91188c16",
+      "state": "closed",
+      "body": "The unused progress dashboard mixed scientific-record validation with its Pages renderer/deployment. Retire that UI and workflow, and make GitHub Pages show cumulative observed project token usage with major feature markers on the time axis.\n\nThis PR is stacked on #59 (`codex/overleaf-online-sync`), which carries the conflict/CI repair and exact accounting backfill. Merge #59 first, then retarget this PR to main.\n\nThe replacement provides combined/input/output views, exact daily totals, linked merged-feature markers, keyboard point labels, and aggregate JSON download. It counts validated canonical turn observations once, uses recovery inventories only to corroborate counters and completion dates, and displays unknown coverage explicitly. Cached input and reasoning output remain subsets. Current observed data: **552,937,331 tokens across 183 disjoint closed turns through October 10**; the active October 12 turn and prior no-counting scopes remain excluded.\n\nScientific tracking/review records remain canonical. Their semantic validators, PR naming/tracking policy and public Git-evidence preparation move to `tools/project_records`; all 17 existing scientific/software test commands remain unchanged in a separate validation workflow. The old dashboard renderer/assets/deployment are removed; a retirement guide keeps historical documentation links valid.\n\nPages uses a read-only PR preview build and main-only GitHub Actions artifact deployment; generated site content is never pushed to a Git branch. The site is standard-library Python plus static HTML/CSS/JavaScript/SVG, with no new external package or installation. Downloaded data contains aggregates only, without private client paths, thread IDs or raw history.\n\nValidation: 8 usage/site tests, JavaScript mode/keyboard checks, 28 retained record/review/policy tests and 33 logger/recovery/link tests pass. Project validation passes (58 tasks / 31 documents / 19 reviews); 152 paired session records validate. The built daily curve reconciles all five fields with the canonical journal. Desktop preview rendering and controls inspected; no separate mobile viewport test is claimed. Whitespace checks pass. Pages deployment occurs after merge.\n",
+      "actor": "asalzburger",
+      "created_at": "2026-10-12T10:11:00Z"
+    },
+    "comments": [
+      {
+        "id": 5489814828,
+        "url": "https://github.com/asalzburger/nodd/pull/60#pullrequestreview-5489814828",
+        "body": "",
+        "actor": "asalzburger-review",
+        "created_at": "2026-10-12T11:02:43Z",
+        "updated_at": null,
+        "review": "APPROVED",
+        "in_reply_to_id": null,
+        "path": null,
+        "line": null
+      }
+    ],
+    "issues": []
+  },
+  "curated": {
+    "journal_links": [],
+    "agents": [],
+    "tools": [],
+    "events": []
+  },
+  "derived": {
+    "parties": [
+      {
+        "id": "agent:SESSION-2026-10-12-token-dashboard",
+        "name": "Codex desktop",
+        "kind": "agent"
+      },
+      {
+        "id": "agent:SESSION-2026-10-12-token-dashboard-main-integration",
+        "name": "Codex desktop",
+        "kind": "agent"
+      },
+      {
+        "id": "github:asalzburger",
+        "name": "asalzburger",
+        "kind": "account"
+      },
+      {
+        "id": "github:asalzburger-review",
+        "name": "asalzburger-review",
+        "kind": "human"
+      },
+      {
+        "id": "unknown:project-user",
+        "name": "Project user (name unrecorded)",
+        "kind": "human"
+      }
+    ],
+    "journals": [
+      {
+        "session_id": "SESSION-2026-10-12-token-dashboard-main-integration",
+        "record": "logs/codex/SESSION-2026-10-12-token-dashboard-main-integration.json",
+        "attribution": [
+          "explicit_PR_reference"
+        ],
+        "snapshot": null,
+        "snapshot_sha256": null,
+        "record_sha256": "b87ea8596d8f546a0b0c62f8236069a4b20bf763b2278e2586f23977512dfef5",
+        "narrative_sha256": "0a6fd09b676ee3e35aae41648a5b672075d2840213d252d1450661d0617933a6"
+      },
+      {
+        "session_id": "SESSION-2026-10-12-token-dashboard",
+        "record": "logs/codex/SESSION-2026-10-12-token-dashboard.json",
+        "attribution": [
+          "recorded_branch"
+        ],
+        "snapshot": null,
+        "snapshot_sha256": null,
+        "record_sha256": "09bf0731c9cd06682dc28855bb283ffa05a2852c8284794bd263752f8afcf567",
+        "narrative_sha256": "2af7fce4f546d1d3a5a61843106687da4adce3271400a767552880b066f75ba0"
+      }
+    ],
+    "token_accounts": [
+      {
+        "id": "SESSION-2026-10-12-token-dashboard-main-integration",
+        "record": "logs/codex/SESSION-2026-10-12-token-dashboard-main-integration.json",
+        "scope": "canonical_session; shared PR references are not allocations",
+        "status": "unobserved",
+        "usage_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "turns": []
+      },
+      {
+        "id": "SESSION-2026-10-12-token-dashboard",
+        "record": "logs/codex/SESSION-2026-10-12-token-dashboard.json",
+        "scope": "canonical_session; shared PR references are not allocations",
+        "status": "unobserved",
+        "usage_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "turns": []
+      }
+    ],
+    "visible_sources": [],
+    "agents": [
+      {
+        "id": "agent:SESSION-2026-10-12-token-dashboard-main-integration",
+        "name": "Codex desktop",
+        "role": "session_agent",
+        "thread_id": "01a12426-1fc9-73b0-94ed-40f3eaf1e83c",
+        "models": [],
+        "source": "logs/codex/SESSION-2026-10-12-token-dashboard-main-integration.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      },
+      {
+        "id": "agent:SESSION-2026-10-12-token-dashboard",
+        "name": "Codex desktop",
+        "role": "session_agent",
+        "thread_id": "01a12426-1fc9-73b0-94ed-40f3eaf1e83c",
+        "models": [],
+        "source": "logs/codex/SESSION-2026-10-12-token-dashboard.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      }
+    ],
+    "tools": {
+      "native_codex": [],
+      "codex_installed": [],
+      "instructed_software": [],
+      "unresolved": []
+    },
+    "events": [
+      {
+        "id": "github:https://github.com/asalzburger/nodd/pull/60",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "github:asalzburger",
+        "recipients": [],
+        "text": "The unused progress dashboard mixed scientific-record validation with its Pages renderer/deployment. Retire that UI and workflow, and make GitHub Pages show cumulative observed project token usage with major feature markers on the time axis.\n\nThis PR is stacked on #59 (`codex/overleaf-online-sync`), which carries the conflict/CI repair and exact accounting backfill. Merge #59 first, then retarget this PR to main.\n\nThe replacement provides combined/input/output views, exact daily totals, linked merged-feature markers, keyboard point labels, and aggregate JSON download. It counts validated canonical turn observations once, uses recovery inventories only to corroborate counters and completion dates, and displays unknown coverage explicitly. Cached input and reasoning output remain subsets. Current observed data: **552,937,331 tokens across 183 disjoint closed turns through October 10**; the active October 12 turn and prior no-counting scopes remain excluded.\n\nScientific tracking/review records remain canonical. Their semantic validators, PR naming/tracking policy and public Git-evidence preparation move to `tools/project_records`; all 17 existing scientific/software test commands remain unchanged in a separate validation workflow. The old dashboard renderer/assets/deployment are removed; a retirement guide keeps historical documentation links valid.\n\nPages uses a read-only PR preview build and main-only GitHub Actions artifact deployment; generated site content is never pushed to a Git branch. The site is standard-library Python plus static HTML/CSS/JavaScript/SVG, with no new external package or installation. Downloaded data contains aggregates only, without private client paths, thread IDs or raw history.\n\nValidation: 8 usage/site tests, JavaScript mode/keyboard checks, 28 retained record/review/policy tests and 33 logger/recovery/link tests pass. Project validation passes (58 tasks / 31 documents / 19 reviews); 152 paired session records validate. The built daily curve reconciles all five fields with the canonical journal. Desktop preview rendering and controls inspected; no separate mobile viewport test is claimed. Whitespace checks pass. Pages deployment occurs after merge.\n",
+        "source": "https://github.com/asalzburger/nodd/pull/60",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [],
+        "timestamp": "2026-10-12T10:11:00Z",
+        "remote_input": null
+      },
+      {
+        "id": "github:https://github.com/asalzburger/nodd/pull/60#pullrequestreview-5489814828",
+        "type": "review",
+        "direction": "reaction",
+        "actor": "github:asalzburger-review",
+        "recipients": [],
+        "text": "APPROVED",
+        "source": "https://github.com/asalzburger/nodd/pull/60#pullrequestreview-5489814828",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [],
+        "timestamp": "2026-10-12T11:02:43Z",
+        "remote_input": null
+      },
+      {
+        "id": "journal:SESSION-2026-10-12-token-dashboard-main-integration:2e4fdcf46385c69f",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "agent:SESSION-2026-10-12-token-dashboard-main-integration"
+        ],
+        "text": "The user asked whether PR60 was contained in PR61, and requested preparation of\nits integration into main if missing. A clean isolated branch starts from\n`5d3cda65a4512fa88220f41f60d17d1f5ce56911`, the PR61 merge on main.\nNo unrelated changes were present. Work is infrastructure only.",
+        "source": "logs/codex/SESSION-2026-10-12-token-dashboard-main-integration.md#scope-and-selected-request",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-12-token-dashboard-main-integration"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-10-12-token-dashboard-main-integration:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-10-12-token-dashboard-main-integration",
+        "recipients": [],
+        "text": "Integrate merged PR60 token dashboard into main after PR61 — see the canonical narrative for outcomes and checks.",
+        "source": "logs/codex/SESSION-2026-10-12-token-dashboard-main-integration.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-12-token-dashboard-main-integration"
+        ],
+        "content_kind": "reference_summary"
+      },
+      {
+        "id": "journal:SESSION-2026-10-12-token-dashboard:584ad8ad7d9ffa3e",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "agent:SESSION-2026-10-12-token-dashboard"
+        ],
+        "text": "The user requested retirement of the unused project-progress dashboard and its\ndeployment, replacing GitHub Pages with cumulative token usage over time and\nmajor features on the time axis. The user then asked about the October 6 cutoff\nafter switching to the ChatGPT app and Codex workspace.\n\nWork is isolated on `codex/token-usage-dashboard`, stacked on repaired PR59.\nThe primary checkout and unrelated publication output are preserved.",
+        "source": "logs/codex/SESSION-2026-10-12-token-dashboard.md#scope-and-selected-requests",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-12-token-dashboard"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-10-12-token-dashboard:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-10-12-token-dashboard",
+        "recipients": [],
+        "text": "Replace progress dashboard with cumulative token usage on GitHub Pages — see the canonical narrative for outcomes and checks.",
+        "source": "logs/codex/SESSION-2026-10-12-token-dashboard.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-12-token-dashboard"
+        ],
+        "content_kind": "reference_summary"
+      }
+    ],
+    "coverage": {
+      "github_captured_at": "2026-10-24T07:41:01.297Z",
+      "prompts": "Available account-matched user-visible messages, public Codex inputs and curated journal excerpts. Historical full input coverage is unknown.",
+      "recovered_visible_turns": 0,
+      "unrecovered_account_turns": [],
+      "responses": "Public responses and recorded outcomes; no private model state or hidden reasoning.",
+      "token_accounting": "References only. Never sum accounts across PRs or assign a shared turn by text length.",
+      "unknowns": "Unrecorded names, models, tools, subagent identities and response links remain unknown; empty lists are not zero activity.",
+      "remote": "Snapshot, not live synchronization; deleted/edited history and emoji reactions are not recovered.",
+      "branch_only": "Pinned branch journal snapshots are references, not imported counters. Unretained or other-device inputs remain unknown."
+    }
+  }
+}

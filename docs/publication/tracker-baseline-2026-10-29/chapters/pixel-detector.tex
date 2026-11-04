@@ -1,0 +1,418 @@
+% !TeX root = ../main.tex
+\section{Pixel detector}
+\label{sec:pixel-detector}
+The pixel detector comprises four barrel layers and ten discs at each end,
+with \num{5666} modules and \num{12410} active chip patches. The inner two
+barrels use single-chip modules and the outer two use quads. The endcaps combine
+four inner single-module rings and two outer quad rings, with a larger active
+aperture at the forward stations. Carbon sandwich staves and discs carry the
+modules, cooling and local services. \Cref{fig:pixel-overview} shows the selected
+layout and its connection to the outer service route.
+
+\begin{figure}[!htbp]
+\centering\includegraphics[width=\linewidth]{pixel-overview}
+\caption{Pixel barrel and positive endcap, including local cooling, cable
+routes and the barrel collection bay. The opposite end is reflected in $z$.}
+\label{fig:pixel-overview}
+\end{figure}
+
+\subsection{Modules and readout}
+\label{sec:pixel-modules}
+Each hybrid module uses a planar n-in-p sensor, ITkPix v2 ASICs and a backside
+flex. The \num{400} by \num{384} matrix has square
+\qty{50}{\micro\metre} pixels, giving an active area of
+\qty{20}{\milli\metre} by \qty{19.2}{\milli\metre} and
+\num{153600} channels per chip. The approximate
+\qty{20}{\milli\metre} by \qty{21}{\milli\metre} die reserves the remaining
+space for chip periphery.\cite{rd53} A quad shares one sensor and flex between
+four active patches, with \num{614400} channels. Guards and internal seams are
+passive silicon. The substrate, active patches and occupied module body are
+represented separately; their dimensions are given in
+\cref{tab:pixel-sensor-dimensions}.
+
+In n-in-p sensors the implants and guard structures face the readout chips;
+the backside flex carries bias, power and signals. Edge insulation separates
+the biased sensor from nearby chip surfaces.\cite{slim} The flex uses a
+\qty{25}{\micro\metre} polyimide core and two
+\qty{12.5}{\micro\metre} coverlays, represented together as
+\qty{50}{\micro\metre} of polyimide. Two \qty{18}{\micro\metre} copper foils
+at \qty{50}{\percent} coverage and \qty{25}{\micro\metre} epoxy complete
+its effective material inventory. Sensor and ASIC silicon are each
+\qty{150}{\micro\metre} thick, separated by a
+\qty{20}{\micro\metre} bump standoff. Chip peripheries connect to exposed
+flex pads through the selected \qty{25}{\micro\metre} aluminium bond-wire
+concept and a module-side termination.
+
+The stack runs from flex copper, polyimide, inner copper and epoxy through
+sensor, bump standoff, ASIC and graphite contact toward the support.
+The \qty{0.255}{\milli\metre} graphite shims connect the ASIC backs at
+$w=\qty{0.245}{\milli\metre}$ to the body-back plane at
+$w=\qty{0.5}{\milli\metre}$. Insulation separates the module's serial-power
+potential from conductive supports. \Cref{fig:pixel-modules} combines the
+module footprints and stack; the occupied body is \qty{1}{\milli\metre} deep.
+Endcap single bodies are \qty{20.4}{\milli\metre} tangentially by
+\qty{21.4}{\milli\metre} radially; quad bodies are
+\qty{43.2}{\milli\metre} by \qty{44.2}{\milli\metre}, with ASIC peripheries
+at the outer radial edges.
+
+\begin{table}[!htbp]
+\caption{Physical sensor and active-map dimensions in local $(u,v)$, in
+\unit{\milli\metre}. Active bounding spans include the quad's internal seams;
+active area is the sum of the separate patches.}
+\label{tab:pixel-sensor-dimensions}
+\centering\small
+\begingroup\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule & Single barrel & Quad barrel & Single endcap & Quad endcap\\\midrule
+Active bounding span & $19.2\times20.0$ & $38.6\times40.2$ & $20.0\times19.2$ & $40.2\times38.6$\\
+Sensor substrate & $20.2\times20.4$ & $39.6\times40.6$ & $20.2\times19.4$ & $40.4\times38.8$\\
+Guard per outer edge & $0.5,\ 0.2$ & $0.5,\ 0.2$ & $0.1,\ 0.1$ & $0.1,\ 0.1$\\
+Active area [\unit{\milli\metre\squared}] & 384 & 1536 & 384 & 1536\\\bottomrule
+\end{tabular}
+\endgroup
+\end{table}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=.87\linewidth]{pixel-modules}\par\smallskip
+\includegraphics[width=.78\linewidth]{pixel-module-stack}\par\smallskip
+\includegraphics[width=.92\linewidth]{pixel-module-edge}
+\caption{Module footprints (top), the quad material stack through one chip
+row (middle), and schematic bond access (bottom). Active patches, passive
+silicon and occupied envelopes are distinct. Stack thicknesses use an
+independent scale; the electrical detail illustrates discrete connections.}
+\label{fig:pixel-modules}\label{fig:pixel-module-stack}
+\end{figure}
+
+\subsection{Barrel layout}
+\label{sec:pixel-barrels}\label{sec:pixel-packing}
+The four layer datums are at
+\qtylist{31.5;57;96;182}{\milli\metre}. Single-chip staves tile the smaller
+circumferences; quads reduce repeated module edges at larger radii. Adjacent
+staves alternate radial levels, with the offsets and populations in
+\cref{tab:pixel-barrels}. Their modules have no azimuthal tilt.
+The \num{82} staves carry \num{3050} modules and \num{6794} chip patches.
+
+Local $u$ is tangential, $v$ follows $z$, and $w$ points radially outward.
+The \qty{20}{\milli\metre} active dimension follows $z$, placing the
+approximately \qty{1.8}{\milli\metre} chip periphery at the transverse edge.
+The longitudinal guard and body gap are each \qty{0.20}{\milli\metre}.
+Single/quad body lengths are \qtylist{20.4;40.6}{\milli\metre}, with pitches
+\qtylist{20.6;40.8}{\milli\metre}; neighbouring active edges are separated
+by \qty{0.60}{\milli\metre}, and quad chip seams are
+\qty{0.20}{\milli\metre}. The selected slim-edge geometry follows the
+planar-sensor development motivation.\cite{slim}
+
+Rows have constant pitch within the \qty{550}{\milli\metre} half-length
+allocation, with one chip centre at $z=0$ and a common longitudinal phase
+between staves. The single-module body is displaced
+\qty{0.9}{\milli\metre} tangentially from its active centre.
+\Cref{fig:pixel-barrels} shows the layer arrangement and packing.
+
+\begin{table}[!htbp]
+\caption{Selected barrel population. Radial offsets are rounded display values;
+the printed precision does not specify manufacturing tolerances. Rows means
+modules per stave. All dimensions are in \unit{\milli\metre}.}
+\label{tab:pixel-barrels}
+\centering\small
+\begin{tabular}{lrrrrr}
+\toprule
+Layer & Datum $r$ & Offset $\pm$ & Staves & Rows & Modules\\
+\midrule
+\csname @@input\endcsname generated/pixel-barrel-rows.tex
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=.53\linewidth]{pixel-barrels}\par\smallskip
+\includegraphics[width=.93\linewidth]{pixel-packing}
+\caption{Transverse barrel assembly projection (top) and central single/quad
+row packing (bottom). Module bodies overlap tangentially on staggered
+radial levels; cable envelopes pass outside the bearing rings. The lower
+panel resolves active intervals, guards and gaps about $z=0$.}
+\label{fig:pixel-barrels}\label{fig:pixel-packing}
+\end{figure}
+
+\subsection{Endcap layout}
+\label{sec:pixel-endcaps}\label{sec:pixel-endcap-placement}
+The six-ring pattern contains \num{102} singles and \num{50} quads,
+covering eight radial chip rows. Smaller modules follow the inner curvature;
+quads share support and service interfaces at larger radii. The local axes
+are tangential $u$ and radial $v$ around every disc. Module centres account
+for their individual mounting face and sensor depth.
+\Cref{tab:pixel-endcap-rings} gives the nominal ring parameters.
+
+\begin{table}[!htbp]
+\caption{Six-ring source pattern. Radii are the uncorrected radial placement
+parameters; actual module centres retain the face/height-dependent transverse
+compensation. Each ring occupies both mounting faces and two height levels per
+face. Quad rings contain two radial chip rows.}
+\label{tab:pixel-endcap-rings}
+\centering\small
+\begin{tabular}{l l r r r}
+\toprule Ring & Family & Nominal $r$ [\unit{\milli\metre}] & Modules & Chips\\\midrule
+\csname @@input\endcsname generated/pixel-ring-rows.tex
+\bottomrule
+\end{tabular}
+\end{table}
+
+The station inventory in \cref{tab:pixel-discs} specifies the retained inner
+rings and both outer quad rings at each datum. The larger forward active apertures are implemented by retaining the selected
+ring populations at each station. Local module positions, face assignments and
+sensor depths are preserved within each rigid disc assembly. Disc identifiers
+remain stable: disc 10 lies at $|z|=\qty{950}{\milli\metre}$ between discs
+2 and 3 and repeats the complete local geometry of disc 2. The table is ordered
+by distance from the interaction point. These apertures and datums do not imply
+complete acceptance for every trajectory.
+Both endcaps contain \num{2616} modules and
+\num{5616} chip patches. The negative end uses corresponding signed datums
+and support-facing module frames.
+
+\begin{table}[!htbp]
+\caption{Selected disc support datums and retained inventory on one side.
+Ring numbers refer to the six-ring source pattern; quad rings 5 and 6 remain
+at every station. The negative side uses the opposite datum sign and the same
+populations. Datums identify rigid assemblies, not manufacturing tolerances.}
+\label{tab:pixel-discs}
+\centering\small
+\begin{tabular}{@{}rrlrrrr@{}}
+\toprule Disc & $|z|$ [\unit{\milli\metre}] & Single rings & Singles & Quads & Chips & Circuits\\\midrule
+\csname @@input\endcsname generated/pixel-disc-rows.tex
+\bottomrule
+\end{tabular}
+\end{table}
+
+Modules alternate between the two plate faces and between two heights on
+each face, keeping overlapping occupied bodies separated in depth. A quad's
+four patches share one sensor plane. Sensor centres are at local
+$w=\pm4.10$ or $\pm5.75\,\unit{\milli\metre}$; ASICs and graphite contacts
+face the plate. An outgoing track crosses the plate before an outward-facing
+sensor. The first and last discs are compared in \cref{fig:pixel-endcap}.
+
+\begin{figure}[!htbp]
+\centering\includegraphics[width=\linewidth]{pixel-endcap}
+\caption{First and last positive discs at a common scale. The first has four
+single rings and two quad rings; the last retains single ring 4 and both quad
+rings. Colour distinguishes face and height. The views project all sensor
+depths onto the transverse plane.}
+\label{fig:pixel-endcap}
+\end{figure}
+
+\subsection{Supports and cooling}
+\label{sec:pixel-staves}\label{sec:pixel-barrel-mounting}
+\label{sec:pixel-disc-support}\label{sec:pixel-carrier}
+Barrel staves use carbon-foam cores, CFRP skins, graphite spreaders and two
+embedded titanium tubes. The \qty{10}{\milli\metre} single and
+\qty{24}{\milli\metre} quad spines support wider module-facing plates,
+bringing heat from the chip area toward the cooled core.
+The support lies radially outside the sensor. Six bearing rings per layer
+connect the staves to the barrel cage at $z=\pm110,\pm330,\pm546$
+\unit{\milli\metre}, giving \num{24} rings and \num{492} feet.
+The station at $z=-\qty{546}{\milli\metre}$ sets the axial datum; the
+remaining contacts guide the stave while allowing longitudinal contraction.
+Two independent evaporators per stave run in opposite directions between
+its ends. Carbon sandwiches and titanium cooling tubes have public pixel
+stave precedents.\cite{ibl}
+
+Each endcap plate remains a full annulus from $r=27$ to
+$188.5\,\unit{\milli\metre}$, including on discs with fewer active rings.
+These dimensions and the routing ledger describe the standalone pixel model.
+In the integrated tracker, passive inner apertures are clipped to
+\qty{28.8}{\milli\metre}, giving \qty{1}{\milli\metre} clearance
+to the \qty{27.8}{\milli\metre} outer beam pipe. Non-filler service
+and cooling inventory is conserved by the integrated material representation.
+A per-chip pickup and short graphite stem connect each ASIC to the sandwich
+and titanium tube. Graphite orientation defines the thermal-conduction
+path.\cite{graphite,tepx} Azimuthal and radial tube routes occupy separate
+planes at $w=\pm\qty{1.5}{\milli\metre}$. Each chip row has two independent
+half-ring circuits; the station totals are in \cref{tab:pixel-discs}, giving
+\num{280} circuits across the two endcaps. Three rim tongues transfer loads
+through cone/slot/plane contacts to box rails on a common CFRP carrier.
+\Cref{tab:pixel-support,fig:pixel-support} specify the local passive geometry.
+
+\begin{table}[!htbp]
+\caption{Support and mounting ledger. Lengths are in \unit{\milli\metre}.
+Internal adhesive and inserts replace core material within the stated envelope.}
+\label{tab:pixel-support}
+\centering\small
+\begin{tabular}{@{}p{.35\linewidth}p{.59\linewidth}@{}}\toprule
+Component & Selected dimensions\\\midrule
+Stave stack, module outward & Interface 0.100; insulation 0.025; graphite 0.200;
+CFRP 0.150; foam 4.100; CFRP 0.150; total 4.725. Internal adhesive equivalent 0.080.\\
+Barrel bearing rings/feet & Ring axial width 8, radial depth 1; reference corner
+clearance 0.5. Rings follow layer translations; current gaps are 0.474, 0.488,
+0.440 and 0.500. Foot width 4, axial length 8; height follows stagger.\\
+Passive stave span & Singles: $z=-551.0$ to $+552.8$; quads: $z=\pm552.8$.\\
+Disc sandwich & Core 6.0; each CFRP skin0.15; total 6.3.\\
+Per-chip pickup & Area $384\,\unit{\milli\metre\squared}$; graphite 0.30;
+cradle 0.075; insulation/interface/adhesive0.025 each; total 0.45.\\
+Disc stem and inserts & Stem section $6\times8$; heights 0 or 1.65; quad stems
+shift 1 toward module centre. Core insert 4.50; skin window 0.15;
+contact area $48\,\unit{\milli\metre\squared}$; adhesive equivalent 0.08.\\
+Disc tongues & Width 10; $r=186$--228 at $\phi=90,210,330^{\circ}$.\\
+Carrier rails/shell/flanges & Station-following coupling slots; three $8\times8$ box rails, wall 0.4 at
+$r=223.7$--231.7; shell $r=231.7$--232.0, $|z|=609$--3136;
+end flanges radial 10, axial 2.\\\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[!htbp]
+\centering\includegraphics[width=.95\linewidth]{pixel-stave}\par\smallskip
+\includegraphics[width=.95\linewidth]{pixel-disc-section}
+\caption{Stave sections (top) and a radial/axial disc projection (bottom).
+Carbon, foam, titanium and coolant form the passive thermal path. The disc
+panel superposes both mounting faces and heights; short pickups connect the
+chip backs to the plate. Thin layers are specified in the support ledger.}
+\label{fig:pixel-support}\label{fig:pixel-stave}\label{fig:pixel-disc-section}
+\end{figure}
+
+\begin{table}[!htbp]
+\caption{Reference cooling inputs. Diameters/walls are in
+\unit{\milli\metre}; flow is per independent tube or circuit.
+The common heat allowance is \qty{2.688}{\watt} per chip; the endcap flow
+budget uses a factor \num{1.5} stress load.}
+\label{tab:pixel-cooling}\centering\small
+\begin{tabular}{@{}lrrrr@{}}\toprule
+Location & Ti diameter & Ti wall & CO$_2$ [\unit{\degreeCelsius}] & Flow [\unit{\gram\per\second}]\\\midrule
+Inner barrel & 2.0 & 0.11 & $-35$ & 1.3\\
+Outer barrel & 2.8 & 0.15 & $-35$ & 2.5\\
+Endcap, inner chip rows & 2.8 & 0.15 & $-40$ & 1.0\\
+Endcap, outer quad chip rows & 2.8 & 0.15 & $-40$ & 1.1\\\bottomrule
+\end{tabular}
+\end{table}
+
+The barrel tube centres are tangentially at $\pm\qty{2.2}{\milli\metre}$
+for inner staves and $\pm\qty{6}{\milli\metre}$ for outer staves. The
+\num{164} full-length tubes join \num{82} feed and \num{82} return branches
+at each signed end. Thin titanium circuits with evaporative CO$_2$ provide
+the reference cooling topology.\cite{cooling,tepx}
+
+\FloatBarrier
+\subsection{Services and material representation}
+\label{sec:pixel-services}\label{sec:pixel-material}
+Barrel electrical services follow each half-stave toward its nearest end;
+the central single-chip module joins the positive half. Two serial chains
+serve each half-stave, with limits of \num{16} modules and \num{32} chips,
+giving \num{164} chains at either end. Cable envelopes grow with the
+cumulative module and chain load and pass outside the bearing rings.
+Cooling and electrical services collect in twelve sectors in the
+$|z|=555$--605\,\unit{\milli\metre} bay, then join the axial reservation
+near $r=\qty{212}{\milli\metre}$. Two sectors serve six staves each and
+ten serve seven each. \Cref{fig:pixel-barrel-routing} illustrates the local
+route; \cref{tab:pixel-routing} records its envelope rules.
+
+\begin{figure}[!htbp]
+\centering\includegraphics[width=\linewidth]{pixel-barrel-routing}
+\caption{Barrel service routes and cumulative cable footprint. The upper
+panel projects the occupied bodies, support, bearings and conceptual pickups.
+Counterflow paths are separated radially for display; their physical tubes
+are separated tangentially in the core.}
+\label{fig:pixel-barrel-routing}
+\end{figure}
+
+Endcap tails join ring buses on their own module face. Three radial fans
+per face gather them at the disc rim. Electrical chains stop at half-ring
+boundaries and contain at most \num{32} chips, independently of the cooling
+circuits: the full disc has \num{18} chains, reducing to
+\numlist{16;14;12} on the forward stations. A \qty{50}{\milli\metre}-deep
+collector carries each load into the axial trunk. The last disc uses an inner
+bypass to the rear turn at $|z|=\qty{3150}{\milli\metre}$.
+\Cref{fig:pixel-endcap-routing,fig:pixel-service-interfaces} show the face
+routes and effective transport cells.
+
+\begin{table}[!htbp]
+\caption{Electrical and remote-service ledger. Lengths are in
+\unit{\milli\metre}, areas in \unit{\milli\metre\squared}.
+Cable footprint and inter-cable packing are separate budgets.}
+\label{tab:pixel-routing}\centering\small
+\begin{tabular}{@{}p{.35\linewidth}p{.59\linewidth}@{}}\toprule
+Component & Allocation and route\\\midrule
+Barrel cables & One data and one command link per module, footprint 1 each;
+ancillary footprint 35 per chain from its first pickup. Sector width 75\% of
+stave pitch, packing 50\%; inner radius 0.5 beyond the outer bearing ring.\\
+Half-stave terminal loads & Singles: ancillary 70 plus links 52 at $-z$,54 at
+$+z$; quads: ancillary 70 plus links 26.\\
+Grouped coolant transport & Feed and return branches reserve diameter4;
+a grouped leg for $N$ staves has envelope diameter $4\sqrt{N}$.\\
+Endcap face flex & Ring buses $8\times0.20$; module tails $8\times0.12$;
+three radial fans per face.\\
+Disc collector & $r=27$--190; local outward $z=11.7$--61.7 from its datum.\\
+Axial trunk & Reservation $r=190$--234; material cells $r=192$--231.7.
+Three 90$^{\circ}$ sectors separated by 30$^{\circ}$ mounting sectors centred
+at $\phi=90,210,330^{\circ}$. Barrel load enters at $|z|=605$;
+disc collectors follow their station datums; the rearmost disc is logical disc 9.\\
+Rear interfaces & Last collector ends at $|z|=3131.7$; bypass $r=27$--188
+to rear turn $|z|=3150$. Rear cell extends to $|z|=3300$, $r=680$.
+Flange necks at $|z|=609$--611 and 3134--3136 have outer radius 222.\\\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[!htbp]
+\centering\includegraphics[width=.86\linewidth]{pixel-endcap-routing}
+\caption{Disc face buses and independent half-ring cooling paths. The
+first/last discs have sixteen/ten cooling circuits. Module outlines preserve
+their frames; bus lines, fans and inlet/outlet symbols show service topology.}
+\label{fig:pixel-endcap-routing}
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering\includegraphics[width=\linewidth]{pixel-service-interfaces}
+\caption{Effective collection, trunk, final-disc bypass and rear-turn cells.
+Carrier-flange necks retain their fixed bounds. Collector cells follow the station datums; the trunk and rear cells retain
+the reference constituent inventory within their fixed bounds.}
+\label{fig:pixel-service-interfaces}
+\end{figure}
+
+The simulation separates sensitive silicon from passive module bodies,
+supports and services. Explicit sensor substrates, chip patches, ASICs,
+graphite contacts, stave spines, tubes, rings and feet preserve material
+ordering around the measurements. Effective components conserve their
+constituent inventory as summarized in \cref{tab:pixel-material}.
+
+\begin{table}[!htbp]
+\caption{Selected representations and the physical quantities they preserve.
+The effective components remain identifiable material allocations.}
+\label{tab:pixel-material}
+\small\begin{tabular}{p{.29\linewidth}p{.62\linewidth}}
+\toprule Component & Representation and scope\\\midrule
+Disc sandwich & Explicit annulus and disjoint tongues; constituent-normalized
+core for inserts, adhesive and closeouts.\\
+Cooling & Explicit Ti/CO$_2$ evaporator tori; summed half-ring length preserved.
+Radial legs and bends retain effective inventory.\\
+Module pickup & Explicit per-chip pickup stacks and short stems; contact windows and
+cradle openings preserved through effective volumes.\\
+Disc flex and fittings & Local effective annulus beyond module envelopes;
+flex, clip, coupling and bend allowances remain separate inventory terms.\\
+Collector and trunk & Effective transport cells preserve conductor, insulation,
+titanium and coolant volumes through service handoffs.\\
+Carrier & Shell, curved box rails and flanges partitioned to avoid counting
+intersections twice; coupling pockets remain reserved.\\\bottomrule
+\end{tabular}
+\end{table}
+
+Remote cable footprint uses provisional volume fractions of
+\qty{10}{\percent} copper, \qty{40}{\percent} polyimide and
+\qty{50}{\percent} air, with a separate \qty{50}{\percent} inter-cable
+packing allowance. CO$_2$ inventory uses a reference density of
+\qty{1.0964}{\gram\per\centi\metre\cubed}, the saturated liquid density
+at \qty{-35}{\degreeCelsius}.\cite{nistco2} The standalone pixel model-inventory mass is
+\qty{204.747}{\kilogram}, including \qty{159.749}{\kilogram} in downstream
+transport cells. The maintained DD4hep geometry repeats the detailed disc assemblies, including
+sensors, passive stacks, cooling, mounting tongues and local collectors. Rail
+coupling slots follow all ten stations; carrier and service envelopes remain
+fixed. Global trunk, bypass and rear cells retain the reference material
+inventory. Their cumulative connectivity and capacity for the selected
+populations, and the thermal, hydraulic and mechanical margins, remain
+unqualified.
+
+The reconstruction comparison uses a separate effective ACTS material
+representation: existing material profiles are transported with their assigned
+surfaces and the added disc has a homogeneous donor-disc material layer behind
+its sensors. That approximation does not replace the detailed DD4hep assembly.
+A new Geant4 material map and candidate-specific response validation remain
+separate requirements.
+
+\clearpage
+\input{chapters/pixel-references}

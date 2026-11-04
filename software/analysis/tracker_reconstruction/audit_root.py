@@ -1,0 +1,81 @@
+"""Cross-check optional native ROOT persistence against independent event arrays."""
+import argparse
+import gzip
+import hashlib
+import json
+from pathlib import Path
+import awkward as ak
+import numpy as np
+import uproot
+
+
+PARAMETERS=("LOC0","LOC1","PHI","THETA","QOP","T")
+
+
+def contains_perigee_tuple(tree,row,target,sigma):
+    """Compare complete tuples in one event without per-candidate Python I/O."""
+    values=np.column_stack([ak.to_numpy(tree["e"+name+"_fit"][row]) for name in PARAMETERS])
+    errors=np.column_stack([ak.to_numpy(tree["err_e"+name+"_fit"][row]) for name in PARAMETERS])
+    return bool(np.any(np.all(values==target,axis=1)&np.all(errors==sigma,axis=1)))
+
+
+def audit(native,analysis,output):
+    native,analysis=Path(native),Path(analysis);result={}
+    reports=sorted(native.glob("*/*/run-report.json"))
+    if not reports:raise ValueError("No native ROOT cases found; require a nonempty campaign")
+    for report_path in reports:
+        case=report_path.parent;relative=case.relative_to(native);r=json.loads(report_path.read_text())
+        if r["outcome"]!="completed":raise ValueError("ROOT audit requires completed native run")
+        summary=json.loads((analysis/relative/"summary.json").read_text());a=np.load(analysis/relative/"events.npz")
+        widths=json.loads((case/"error-table.json").read_text());checked=0
+        coordinates={}
+        for group in widths["groups"]:
+            indices=coordinates.setdefault(group["volume"],set())
+            if group["index"] in indices:raise ValueError("Duplicate response coordinate")
+            indices.add(group["index"])
+        if any(indices not in ({0},{0,1}) for indices in coordinates.values()):raise ValueError("Invalid response dimensions")
+        with uproot.open(case/"measurements.root") as f:
+            m=f["measurements"].arrays(["volume_id","var_loc0","var_loc1","clus_size"],library="np")
+        if len(m["volume_id"])!=summary["stage_counts"]["measurements"]:raise ValueError("ROOT measurement count differs from audit")
+        if not set(map(int,m["volume_id"])).issubset(coordinates):raise ValueError("Unknown persisted measurement volume")
+        for group in widths["groups"]:
+            actual=m["var_loc"+str(group["index"])][m["volume_id"]==group["volume"]]
+            if not np.all(actual==np.float32(group["sigma_mm"]**2)):raise ValueError("Persisted ROOT variance changed")
+            checked+=len(actual)
+        expected_marginals=sum(len(coordinates[int(volume)]) for volume in m["volume_id"])
+        if checked!=expected_marginals:raise ValueError("Incomplete persisted variance coverage")
+        if np.any(m["clus_size"]!=0):raise ValueError("Gaussian digitization unexpectedly has geometric clusters")
+        stages={}
+        for stage in ("ckf","ambi"):
+            with uproot.open(case/("tracksummary_"+stage+".root")) as f:
+                fields=["event_nr","track_nr",*["e"+x+"_fit" for x in ("LOC0","LOC1","PHI","THETA","QOP","T")],*["err_e"+x+"_fit" for x in ("LOC0","LOC1","PHI","THETA","QOP","T")]]
+                t=f["tracksummary"].arrays(fields,library="ak")
+            if len(t)!=summary["events"]:raise ValueError("ROOT dropped zero-track events")
+            root_events=ak.to_numpy(t["event_nr"])
+            if (len(np.unique(root_events))!=len(root_events) or
+                len(np.unique(a["event"]))!=len(a["event"]) or
+                not np.array_equal(np.sort(root_events),np.sort(a["event"]))):
+                raise ValueError("ROOT event IDs do not exactly cover native analysis events")
+            count=int(ak.sum(ak.num(t["track_nr"],axis=1)))
+            if count!=summary["stages"][stage]["counts"]["raw"]:raise ValueError("ROOT candidate count differs from native audit")
+            rows={int(e):i for i,e in enumerate(root_events)};parameters=0
+            for i,event in enumerate(a["event"]):
+                if not a[stage+"_matched"][i]:continue
+                j=rows[int(event)]
+                # CKF can contain duplicates even when ambiguity removes them.
+                # Join the complete persisted perigee+uncertainty tuple within
+                # the same event, rather than assuming the first candidate.
+                target=np.asarray(a[stage+"_reco"][i],dtype=np.float32)
+                sigma=np.asarray(np.sqrt(a[stage+"_variance"][i]),dtype=np.float32)
+                if not contains_perigee_tuple(t,j,target,sigma):raise ValueError("Native representative perigee+sigma tuple absent from ROOT event")
+                parameters+=len(PARAMETERS)
+            stages[stage]={"events":len(t),"exact_event_ids_match":True,"candidates":count,"matched_parameter_marginals":parameters,"exact_float32_perigee_and_sigma_match":True}
+        result[str(relative)]={"measurement_rows":len(m["volume_id"]),"checked_variance_marginals":checked,"expected_variance_marginals":expected_marginals,"all_measurement_volumes_known":True,"exact_float32_variance_match":True,"stages":stages,
+            "root_sha256":{p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in case.glob("*.root")}}
+    payload={"schema_version":1,"status":"PASS","source_sha256":hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),"cases":result}
+    Path(output).write_text(json.dumps(payload,indent=2)+"\n")
+    print("PASS:",len(result),"native ROOT cases; all event/measurement/candidate counts and persisted covariance marginals agree")
+
+
+if __name__=="__main__":
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument("--native",type=Path,required=True);p.add_argument("--analysis",type=Path,required=True);p.add_argument("--output",type=Path,required=True);a=p.parse_args();audit(a.native,a.analysis,a.output)

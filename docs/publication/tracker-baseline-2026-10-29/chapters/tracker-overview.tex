@@ -1,0 +1,166 @@
+% !TeX root = ../main.tex
+\section{Full-tracker baseline}
+\label{sec:tracker-overview}
+The tracker combines three silicon technologies in a common cylindrical layout:
+pixels close to the beam pipe, short-strip strixels at intermediate radii, and
+long-strip stereo pairs at the outer radii. This edition fixes the selected
+layouts, local supports and service reservations as a baseline for technical
+review. The dimensions below are nODD design choices. They describe the selected
+models, including their engineering approximations; they do not constitute
+construction approval or a demonstrated tracking-performance specification.
+
+The pixel system supplies two-coordinate measurements for vertexing and forward
+tracking. The short-strip sensor also measures two coordinates, using a fine
+transverse pitch and a coarser second coordinate. The outer system uses two
+separate one-dimensional strip sensors at a small relative stereo angle. Its
+larger lever arm is intended to constrain the track curvature while controlling
+channel count. The long-strip pair needs a trajectory model to combine its
+separated measurements; two sensor faces are not interchangeable with a single
+two-coordinate plane.
+
+\subsection{Layout and coordinate conventions}
+The beam direction defines $z$, and $r=\sqrt{x^2+y^2}$ is the transverse radius.
+The nominal interaction point is at the origin. The selected architecture has
+ten barrel assemblies: four pixel, four short-strip and two long-strip layers.
+Each signed end contains ten pixel discs, six short-strip discs and six
+long-strip discs, giving 22 disc assemblies per end. A long-strip assembly contains both faces of every stereo
+pair. \Cref{fig:tracker-layout,tab:tracker-inventory} distinguish assembly counts
+from sensitive-element counts.
+
+\begin{figure}[tbp]
+\centering\includegraphics[width=\linewidth]{tracker-layout}
+\caption{Selected tracker layer and disc datums in the $r$--$z$ plane. The
+complete barrel and positive discs are shown; the negative end has corresponding
+signed placements. The lines mark nominal layers and active annuli, rather than
+all staggered sensor planes or passive volumes. Dashed rays are straight
+trajectories from the nominal interaction point, not coverage predictions in
+the field. The red origin interval illustrates the luminous-region hypothesis.}
+\label{fig:tracker-layout}
+\end{figure}
+
+\begin{table}[tbp]
+\centering\small
+\caption{Selected tracker inventory. Endcap totals include both ends. Pixel
+chips are active readout patches; strixels are complete two-coordinate sensors;
+long-strip faces are separate one-dimensional sensors. The maintained full
+tracker contains \num{46250} sensitive elements.}
+\label{tab:tracker-inventory}
+\begin{tabular}{@{}lrrp{58mm}@{}}\toprule
+Assembly & Layers/discs & Modules/pairs & Sensitive inventory\\\midrule
+Pixel barrel & 4 & \num{3050} & \num{6794} chip patches\\
+Pixel endcaps & $2\times10$ & \num{2616} & \num{5616} chip patches\\
+Short-strip barrel & 4 & \num{8064} & \num{8064} strixels\\
+Short-strip endcaps & $2\times6$ & \num{4320} & \num{4320} strixels\\
+Long-strip barrel & 2 & \num{6984} pairs & \num{13968} strip faces\\
+Long-strip endcaps & $2\times6$ & \num{3744} pairs & \num{7488} strip faces\\\bottomrule
+\end{tabular}
+\end{table}
+
+Pixel barrel datums are at $r=31.5,57,96,182\,\unit{\milli\metre}$, with nominal
+active extent $|z|\leq\qty{550}{\milli\metre}$. Short-strip stave anchors lie at
+$r=260,340,480,660\,\unit{\milli\metre}$ with nominal active extent
+$|z|\leq\qty{1200}{\milli\metre}$. Long-strip anchors lie at
+$r=840,1060\,\unit{\milli\metre}$, with an inherited nominal active half-length
+of \qty{1287.33}{\milli\metre}. These radii are datums, not average sensor radii:
+tilt, module elevation, passive stacks and stereo separation give each sensitive
+element its own position and normal.
+
+Disc support datums extend to \qty{3070}{\milli\metre} for pixels,
+\qty{3080}{\milli\metre} for short strips and \qty{3120}{\milli\metre} for long
+strips. The first short-strip disc is at \qty{1335}{\milli\metre} and the first
+long-strip disc at \qty{1470}{\milli\metre}; both were moved outward to clear
+their barrel collectors. The associated old-reference coverage losses are
+retained in the subsystem sections. The geometry is therefore a coherent
+review layout, with integration and transition-performance questions still open.
+
+The short-strip barrel uses a common $+\qty{15}{\degree}$ azimuthal tilt and the
+long-strip barrel a common $+\qty{12}{\degree}$ tilt. The complete cold structure
+rotates with its sensors, tubes and local services. This removes the
+alternating-radius stave lanes of the earlier short-strip layout and makes the
+local geometry covariant under a one-stave rotation. Different layer
+populations and sector services still produce an azimuth-dependent material
+distribution. Neither this symmetry nor geometric overlap establishes uniform
+resolution. In the endcaps, module axes follow the local polar frame rather
+than global $x$--$y$ directions. Proper rotations define the negative-end strip
+frames and their identifiers.
+
+\subsection{Coverage hypotheses and measurement model}
+The architecture targets charged-particle tracking to $|\eta|<4$. The pixel
+active apertures retain the selected ring populations, whose original design
+screen considered first outward trajectories with
+$\pt\geq\qty{1}{\giga\electronvolt}$, a luminous interval
+$z_0\in[-150,150]\,\unit{\milli\metre}$ and the stated uniform axial-field
+hypotheses up to \qty{4}{\tesla}. This interval is a design-screen envelope,
+not a measured beam distribution. It permits progressively larger pixel active
+apertures at the outer stations while retaining their common mechanical plate.
+It does not imply that every strip subsystem independently covers $|\eta|<4$.
+
+The retained strip screens sample straight tracks and vacuum helices at selected
+momenta, fields, vertices and azimuths. They use finite sensor planes and retain
+the original ideal-cylinder or annulus denominators. They are neither proofs
+for every intermediate momentum nor simulations of scattering, energy loss,
+dead channels or track reconstruction. Nonzero misses remain at barrel ends and
+shifted first discs. A finite Fatras truth-tracking comparison uses origin muons at
+$\pt=1,10,100\,\unit{\giga\electronvolt}$, $|\eta|\leq4$ and a constant
+\qty{3}{\tesla} axial field, with geometric digitization as the primary
+response. About \qty{98.2}{\percent} of generated tracks have at least ten
+physical measurements. This integrated fraction retains forward gaps; it is
+not a minimum-hit guarantee throughout the acceptance. The selected geometry
+also has a low-momentum resolution tradeoff. Detailed residuals, pulls and
+material/response assumptions belong to the accompanying validation evidence.
+
+Pixel readout uses square \qty{50}{\micro\metre} cells. The short-strip fixture
+uses \qty{75}{\micro\metre} by \qty{0.5}{\milli\metre} cells, with no added
+stereo pair. Long-strip sensors use \qty{80}{\micro\metre} one-dimensional
+pitch and physical axes at $\pm\qty{20}{\milli\radian}$ about the nominal
+module direction. These are segmentation and geometry choices. Charge sharing,
+Lorentz drift, alignment covariance and calibrated spatial resolution remain
+separate response-model requirements.
+
+\subsection{Support hierarchy and shared services}
+The load path is sensor and electronics, local thermal contact, structural
+sandwich, bearing or petal contacts, then subsystem frames and the global tracker
+support. In the long-strip system the cooled sandwich is itself the stave or
+petal; a second hidden carrier is not added between the stereo sensors. The
+pixel endcaps share a closed carrier with longitudinal rails. Strip barrels use
+bearing rings, and strip discs use removable petals located by constrained and
+sliding contacts. These local constructions define load transfer and thermal
+motion concepts. A qualified global cage, installation tooling and connections
+to the surrounding detector are still required.
+
+All three systems route local LV, HV and signal services to accessible end
+boards or rim interfaces, and then to longitudinal trunks. Embedded titanium
+tubes carry the provisional evaporative CO$_2$ circuits. Supply, return, cable
+strain relief and sensor mounting need independent constraints so service loads
+do not act through silicon bonds. Local loops and common manifolds must also
+permit pressure testing and subsystem assembly before installation.
+
+\begin{figure}[tbp]
+\centering\includegraphics[width=\linewidth]{tracker-services}
+\caption{Positive-side service reservations at the selected fixed radii. Filled
+regions show barrel collection bays, disc fans and longitudinal trunk envelopes;
+they are not filled solids or a cable-installation model. The short-strip
+envelope is $r=710$--$783$ mm and the long-strip envelope
+$r=1144$--$1169$ mm. Pixel services occupy their separate inner corridor.
+Individual fittings, bend sweeps and combined subsystem clearance require review.}
+\label{fig:tracker-services}
+\end{figure}
+
+The inner pixel trunk reserves $r=190$--$234\,\unit{\milli\metre}$ before the
+rear handoff. The short-strip trunk reserves $r=710$--$783\,\unit{\milli\metre}$
+from $|z|=1310$ to \qty{3500}{\milli\metre}; the long-strip trunk reserves
+$r=1144$--$1169\,\unit{\milli\metre}$ from $|z|=1435$ to
+\qty{3500}{\milli\metre}. These fixed envelopes are not expanded when a capacity
+screen fails. Their separated radial bands alone do not prove installation
+clearance at collection bays, frames or the rear transitions.
+
+Detailed models contain explicit local sensors, foams, skins, pickups, pipes and
+selected mounting components. Remote services additionally use effective cells
+that conserve constituent volumes and residual void. Gross cable area remains
+a separate packing budget. A combined model must replace the barrel-only strip
+service cells with the corresponding cumulative barrel-plus-endcap inventory;
+overlaying independent compacts would allocate the same corridor and material
+twice. For the same reason, their standalone model masses must not be summed
+as a tracker mass or material budget. The maintained integrated exporter reconciles the strip service inventories.
+Global pixel service capacity and fresh integrated directional material maps
+remain separate review deliverables.

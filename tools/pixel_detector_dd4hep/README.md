@@ -1,120 +1,103 @@
-# Preliminary pixel detector
+# Pixel detector DD4hep source
 
-[DES019](../../docs/design/DES-019-trimmed-mixed-pixel-dd4hep.md) is the default
-working pixel baseline on main: the selected PR34/35 barrel plus concentric
-four single-module rings and two quad-module rings, with DES018 inner-ring
-removals on outer discs and the reviewed PR40 disc datums. This human-selected
-**preliminary baseline** remains separate from production ODD. Formal design
-status stays DRAFT. Coverage, thermal and service-space failures remain open.
+The maintained default is the **DES040 balanced working baseline**, selected by
+expert review and the human implementation direction on 2026-10-29. Its pixel
+barrel nominal radii are **31.5/57/96/182 mm**, with **12/22/18/30 staves**.
+Existing endcap logical layers 1..9 sit at |z|=615/865/1115/1333/1565/1780/2090/
+2440/3070 mm; new logical layer 10 is at 950 mm on each end. It repeats the
+complete original layer 2 local module/support/cooling assembly. IDs follow
+logical layer identity, not longitudinal ordering. The working pixel inventory
+is **5,666 modules and 12,410 sensitive chip areas**, including the unchanged
+3,050 barrel modules and 6,794 barrel chip areas.
 
-## Build, validate and prepare nodehammer
+The selection, tradeoffs and scope are in
+[DES040](../../docs/design/DES-040-tracker-resolution-optimization.md) and the
+[human selection record](../../docs/design/inputs/DES-040-balanced-selection.json).
+This working simulation baseline does not certify engineering service capacity,
+thermal performance or a new Geant4 material map. The retained optimisation uses
+its separately qualified effective profile transport and homogeneous added-disk
+ACTS material; detailed DD4hep donor geometry and that approximation are distinct.
 
-Read the [acts-spack workflow](../../skills/acts-spack/SKILL.md) and run preflight.
-On the current Mac, from this checkout, use one shell:
+## Generate from maintained sources
 
-```sh
-python3 skills/acts-spack/scripts/preflight.py
-source /Users/salzburg/cernbox/configs/acts/acts_setup.sh
-unset ACTS_SPACK_SETUP
-setup_spack
-source /Users/salzburg/Documents/work/externals/ci-dependencies/.spack-env/view/bin/thisdd4hep.sh
-source /Users/salzburg/Documents/work/externals/ci-dependencies/.spack-env/view/bin/geant4.sh
-python3 -B tools/pixel_detector_dd4hep/refresh.py --geant4-init
-```
-
-The recorded Spack fingerprints differ from this installation; DD4hep 1.38,
-ROOT 6.40.04 and Geant4 11.4.2 were verified for this task. The helper uses the
-active Python, builds only repository code, runs all six CTests, exports ROOT,
-audits nodehammer and optionally initializes Geant4 **without events**. It writes
-commands, log hashes and outcomes to `build/dd4hep/pixel-workflow.json`. It does
-not install dependencies. Native nodehammer must already be built using
-[its instructions](../nodehammer/README.md). `--nodehammer /absolute/path/nodehammer`
-can reuse the existing binary and adjacent build manifest from another checkout.
-`--without-display` runs the geometry checks without that optional tool.
-
-Inspect the resulting projects:
+Pure generation and source controls require Python only:
 
 ```sh
-build/nodehammer/native/nodehammer viewer open build/nodehammer/pixel-detector/full.nhproj
-build/nodehammer/native/nodehammer viewer open build/nodehammer/pixel-detector/disc.nhproj
-```
-
-Other views are `sensitive`, `barrel`, `stave`, `endcap` (positive side), and
-`module` (one positive-endcap module, components only). Each project is portable;
-copy the `.nhproj` alone to a nodehammer installation. Native transparency remains
-an upstream limitation. Use selections/cutaways to expose nested material.
-The GLB companions retain opacity and metre units. The workflow repairs only the
-verified upstream float32 translation-rescaling error, preserving binary meshes
-and the existing audit tolerance; raw-export hashes and corrections are recorded.
-
-For DD4hep's viewer:
-
-```sh
-export DD4HEP_LIBRARY_PATH="$PWD/build/dd4hep/detector:${DD4HEP_LIBRARY_PATH:-}"
-export DYLD_LIBRARY_PATH="$PWD/build/dd4hep/detector:${DYLD_LIBRARY_PATH:-}"
-geoDisplay -input "$PWD/build/dd4hep/detector/pixel-detector/pixel-detector.xml"
-```
-
-On Linux set `LD_LIBRARY_PATH` instead of `DYLD_LIBRARY_PATH`. The coloured ROOT
-export is `build/dd4hep/detector/pixel-detector.root`. The original barrel entry
-point `build/dd4hep/detector/compact/pixel-barrel.xml` remains available.
-
-## Inputs and reusable blocks
-
-- [pixel-detector-trimmed.json](../../detector/config/pixel-detector-trimmed.json):
-  default mixed baseline, pinned layouts/apertures and service reservations.
-- [pixel-detector.json](../../detector/config/pixel-detector.json): explicit DES015
-  quad-only control, reconciled to the reviewed PR40 disc datums.
-- `export.py`: composes the unchanged barrel with repeated endcap assemblies.
-- `endcap_modules.py`: source-derived quad modules with support-facing ASIC stacks.
-- `endcap_parts.py`: explicit unit-bearing shapes and exclusive volume inventory.
-- `endcap_services.py`: carrier, slotted rails and reference service cells.
-- `PixelComponents`: shared C++ sensor/module factory.
-- `PixelEndcapParts`: passive primitives and disjoint tongue construction.
-- `PixelEndcap`: short factory assigning disc/module/sensor placement IDs.
-
-No endcap applies the barrel's slim-z module rotation. Single modules have one active rectangle; quad modules retain four distinct
-active rectangles and passive silicon seams. Endcap system IDs are 2 (negative) and 3
-(positive), with disc 1..9 and unchanged module/patch IDs. The existing barrel
-system ID and bit layout are preserved. Endcap bit layout is documented in DES015.
-
-Update source designs first, then deliberately update reviewed SHA pins. Export
-fails on stale inputs. Never edit generated XML or silently repin after a failed
-check. Rebuild and refresh all viewer projects after changing a source model.
-Pure export/source-conservation checks need only Python:
-
-```sh
+python3 -B tools/pixel_barrel_dd4hep/export.py --output build/pixel-barrel
+python3 -B tools/pixel_detector_dd4hep/export.py --output build/pixel-detector
+python3 -B tools/tracker_dd4hep/export.py --output build/tracker
+python3 -B -m unittest discover -s tools/pixel_barrel_dd4hep -p 'test_*.py' -v
 python3 -B -m unittest discover -s tools/pixel_detector_dd4hep -p 'test_*.py' -v
+python3 -B -m unittest discover -s tools/tracker_dd4hep -p 'test_*.py' -v
 ```
 
-## Geant4 follow-up boundary
+CMake builds these same defaults. The pixel output contains `pixel-detector.xml`,
+`materials.xml`, `expected.json`, `service-accounting.json`, `config.json` and
+`manifest.json`, with the standalone barrel under `barrel/`. The integrated
+tracker retains its beam pipe, 28.8 mm passive pixel aperture, strips, readouts
+and existing factories. No canonical source imports the optimisation prototype.
 
-`--geant4-init` tests DDG4 conversion, 11,806 sensitive paths in the default
-baseline (14,858 in the explicit quad-only control), the standard truth
-handler and FTFP_BERT initialization. No events are transported. The compact has
-no magnetic-field definition, beam pipe, strips or surrounding detector. A next
-PR should add explicit field/gun settings, small event runs, hit/energy-deposit
-inspection, step limits/cuts suited to thin silicon, reproducible seeds and
-Geant4 overlap checks. The initialization defaults are not physics qualification.
+[The balanced pixel configuration](../../detector/config/pixel-detector-balanced.json)
+centralises placements; [the barrel configuration](../../detector/config/pixel-barrel-balanced.json)
+retains the frozen barrel inputs and refers to that placement contract. Generators
+emit complete repeated units at those coordinates. They never patch a previously
+generated XML. The original donor datum still determines radial luminous-region
+compensation, patch placement and support inventory; changing a disk station is
+a rigid translation. Barrel local module and stave structures stay fixed. Ring
+radii and foot faces follow the corresponding layer without recomputing the
+local mounting design. Cable radial bands move while wedge angle preserves
+exact reference inventory.
 
-Detailed results, effective-material limitations and the rear flange packing
-failure are in [the validation report](../../docs/validation/DES-015/results.md).
-The default combined compact now implements the **DES019 trimmed mixed-module
-preliminary baseline** selected on 2026-10-06. Configuration:
-[`pixel-detector-trimmed.json`](../../detector/config/pixel-detector-trimmed.json).
-The existing `pixel-detector.json` remains an explicit DES015 quad-only control with PR40 datums;
-pass it explicitly with `--config` to reproduce that export. Old validation
-reports are historical controls, not evidence for the new default.
+The source audits report ring/foot CFRP volume changes, local cable placement,
+donor identity, new support/cooling and collector inventory. Existing collectors
+move with their logical disks; layer 10 adds donor 2 collectors. Rails retain the
+fixed carrier/flange span and cross-sections with one slot at each physical
+station. **Global trunk, bypass and rear-turn geometry, material recipes and
+inventory stay the reference control.** Their cumulative branch connectivity,
+capacity and hydraulic performance are not requalified by the added disk.
+Inherited service-space failures remain visible.
 
-The endcaps retain DES017 radial/tangential single and quad frames, frozen
-support faces/colours, compensated centres and DES018 per-disc ring removals.
-The combined inventory is 5,362 modules and 11,806 sensitive chip areas; barrel
-3,050/6,794 is unchanged. Service inventories use 248 retained endcap cooling
-circuits, not nine identical discs. The native readout maps template IDs
-losslessly to bounded fields; source identifiers are recorded in `expected.json`.
-See [DES019](../../docs/design/DES-019-trimmed-mixed-pixel-dd4hep.md) and its
-[results](../../docs/validation/DES-019/results.md). Preliminary selection is
-not sign-off; inherited coverage, thermal, routing and packing limits remain.
+## Historical explicit controls
 
-Main integration checks and rigid disc-position reconciliation are retained in
-[the integration report](../../docs/validation/DES-019/main-integration/results.md).
+No old input snapshot or reference configuration is repinned. Use these explicit
+controls to reproduce their geometry:
+
+```sh
+python3 -B tools/pixel_detector_dd4hep/export.py \
+  --config detector/config/pixel-detector-trimmed.json --output build/pixel-des019
+python3 -B tools/pixel_detector_dd4hep/export.py \
+  --config detector/config/pixel-detector.json --output build/pixel-des015
+python3 -B tools/pixel_barrel_dd4hep/export.py \
+  --config detector/config/pixel-barrel.json --output build/barrel-des013
+python3 -B tools/tracker_dd4hep/export.py \
+  --pixel-config detector/config/pixel-detector-trimmed.json --output build/tracker-reference
+```
+
+DES019 has 5,362 modules/11,806 chip areas and nine disks per end at the original
+PR40 stations. DES015 is the explicit quad-only control. PR29 barrel configuration
+also remains available. Artifact metadata and generator hashes identify the
+executing source revision, so physical reference reproducibility does not imply
+byte-identical regenerated metadata. Original frozen TDR and validation reports
+remain historical evidence.
+
+## Native construction and display
+
+Read the [ACTS Spack workflow](../../skills/acts-spack/SKILL.md) and run the node
+preflight before native work. Do not modify a shared dependency installation to
+satisfy that preflight. Use the task's verified runtime and repository-local build.
+Construction, overlaps, ACTS conversion and Geant4 checks are separate from the
+Python source tests. Existing historical native reports establish only their
+recorded source/configuration, not an automatic pass for a new default.
+
+`tools/pixel_detector_dd4hep/refresh.py` can build repository factories, run its
+configured CTests and export ROOT/nodehammer views in an activated environment.
+Its `--geant4-init` option initializes DDG4/FTFP_BERT without transporting events;
+it is not a material scan or tracking validation. The standalone pixel compact
+has no beam pipe, strips or magnetic field. Use the integrated tracker entrypoint
+for those components, with a separate explicit field/transport configuration.
+
+The reusable C++ factories remain `PixelComponents`, `PixelEndcapParts` and
+`PixelEndcap`. Existing XML parameters already express the balanced placement;
+no factory schema or sensitive-detector change is required. Endcap systems remain
+2 (negative) and 3 (positive); barrel system 1 and all segmentation/bit fields stay
+fixed. New logical layer 10 fits the existing unsigned four-bit endcap field.

@@ -97,3 +97,15 @@ The [tool guide](../../tools/hcal_readout/README.md) reproduces the exporter, co
 ![Common board, shared carrier and physical sections](figures/DES-036/common-module.png)
 
 [Vector drawing](figures/DES-036/common-module.svg). The two cooling branches terminate at four declared external handoffs. Board removal in +z requires disconnecting those handoffs and removing the rear cover/common plate and thermal contacts first; independent board extraction with the plate installed is not claimed.
+
+## Working baseline selection — 2026-11-04
+
+The human-directed calorimeter campaign selects this unchanged common module as
+the shared HCAL **baseline design option** for the Si–W and LAr detector studies.
+The source remains the isolated DES036 fixture. Barrel/endcap placement studies
+from DES037/DES038 currently use LAYOUT-001 dimensions; their reuse for the larger
+LAr envelope requires a separate dimension-specific adaptation and validation.
+This selection authorizes campaign preparation and preserves DRAFT status; it
+does not provide human engineering sign-off or production acceptance.
+
+[Campaign replay and merge provenance](../validation/DES-036/campaign-2026-11-04.md).

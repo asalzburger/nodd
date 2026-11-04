@@ -1,0 +1,1838 @@
+{
+  "schema_version": 1,
+  "github": {
+    "captured_at": "2026-10-24T07:41:02.080Z",
+    "pull_request": {
+      "number": 91,
+      "url": "https://github.com/asalzburger/nodd/pull/91",
+      "title": "Software: profile tracker material recording and guard static cut reuse",
+      "head": "codex/material-recording-profile",
+      "head_sha": "6d867fe608679f6d98bc1d152442afb5a30a27f2",
+      "state": "closed",
+      "body": "## Executive summary\n\nThe matched 100 events × 100 neutral geantinos took 810.953 s for nODD and 13.535 s for ODD. Native sampling attributes 98.9% of recurring nODD samples to Geant4 material-cut association rebuilding: ACTS calls BeamOn(1) per event, causing a full region traversal per material.\n\nThe opt-in immutable-geantino reuse experiment reduced nODD to 101.905 s (7.96× overall; steady median 7.425 → 0.150 s). All 32 scalar/jagged ROOT branches match at zero numeric tolerance for all 10,000 probes in both detectors, and all 14 adverse-state controls pass.\n\n## Change\n\nAdds the node-bound benchmark, task-local ODD build/selection, native timers, hierarchy inventory, exact output checks and reproducible evidence report. Both comparators use the same ACTS/DD4hep/Geant4 binaries and DDG4-first bootstrap. Geometry, passive material, identifiers and the normal recorder remain unchanged.\n\nThe guard is an explicit experiment for one immutable world and neutral geantinos. It checks every material/cut association and delegates on invalid state; ordinary energy-cut API configuration disables reuse. It preserves the BeamOn(1) lifecycle. DES-024/025 remain DRAFT; ADR-008 and TASK-SOFT-MATERIAL-PROFILE provide context. No detector or general mutable-Geant4 acceptance is claimed.\n\nThe report separates parsing, construction, conversion, voxelization, recurring scans, transport/stepping and ROOT writing, with wall/CPU/RSS and source/binary hashes. Earlier mixed-Xerces failures and bootstrap sensitivity are retained; their precise native mechanism remains unresolved. Independent PhysVal assessment at 25fa2d01ca9b135f070a8549d50dfe3b5af4ced2 found no P1/P2 blocker for this bounded characterization. Its P3 timing-boundary wording correction is included; no detector or general Geant4 approval is granted.\n\n## Token accounting\n\nRecovered **41,308,128 input + 205,567 output = 41,513,695 observed tokens** across **8 completed turns and 267 requests**, including both specialist agents and the two explanation follow-ups.\n\n| Contribution | Input | Output | Total |\n| --- | ---: | ---: | ---: |\n| Main work and explanations | 33,052,857 | 170,249 | 33,223,106 |\n| SoftEng specialist | 3,828,921 | 17,317 | 3,846,238 |\n| PhysVal specialist | 4,426,350 | 18,001 | 4,444,351 |\n| **Total** | **41,308,128** | **205,567** | **41,513,695** |\n\nCached input **40,301,824** and reasoning output **100,184** are subsets, not additional tokens. These are client observations including cached/repeated context, not a billing estimate. Ten duplicate cumulative snapshots were ignored; each parent/child request stream reconciles independently from zero. Import replay adds no entries. The accounting follow-up was active at capture and is excluded until its final boundary can be recovered.\n\nThe [canonical journal](https://github.com/asalzburger/nodd/blob/6d867fe608679f6d98bc1d152442afb5a30a27f2/logs/codex/SESSION-2026-10-21-material-profile.json) owns all eight observations once; the [usage-only inventory](https://github.com/asalzburger/nodd/blob/6d867fe608679f6d98bc1d152442afb5a30a27f2/logs/usage/USAGE-2026-10-21-pr91-accounting.json) corroborates counters, closed-turn boundaries and attribution. Local checks pass: 33 logging/recovery/document tests, 10 dashboard tests, JavaScript controls, usage validation/build and project-record validation.\n\n## Dashboard and validation\n\n- [x] Updated project/tracking.json for TASK-SOFT-MATERIAL-PROFILE.\n- [x] Completed matched and guarded 100×100 runs; exact full-branch comparisons; 14 native guards; 3 tool, 33 logging/document and 28 project-record controls; session and project validators.\n- [x] Preserved DRAFT states, scoped experiment boundaries and exact review/evidence revisions in the paired journal.\n- [x] Layout main page/R–Z unaffected: no detector geometry, material or layout changes.\n\nSee docs/validation/material-recording-profile/README.md for measured results, commands and limitations.\n\n",
+      "actor": "asalzburger",
+      "created_at": "2026-10-21T11:42:12Z"
+    },
+    "comments": [
+      {
+        "id": 5611395010,
+        "url": "https://github.com/asalzburger/nodd/pull/91#pullrequestreview-5611395010",
+        "body": "",
+        "actor": "asalzburger-review",
+        "created_at": "2026-10-22T08:34:32Z",
+        "updated_at": null,
+        "review": "APPROVED",
+        "in_reply_to_id": null,
+        "path": null,
+        "line": null
+      },
+      {
+        "id": 6336436576,
+        "url": "https://github.com/asalzburger/nodd/pull/91#issuecomment-6336436576",
+        "body": "We merge for now, and update to a new ACTS version with an API call fix to Geant4\r\n",
+        "actor": "asalzburger-review",
+        "created_at": "2026-10-22T08:35:02Z",
+        "updated_at": "2026-10-22T08:35:02Z",
+        "review": null,
+        "in_reply_to_id": null,
+        "path": null,
+        "line": null
+      }
+    ],
+    "issues": []
+  },
+  "curated": {
+    "journal_links": [],
+    "agents": [],
+    "tools": [],
+    "events": []
+  },
+  "derived": {
+    "parties": [
+      {
+        "id": "agent:SESSION-2026-10-21-material-profile",
+        "name": "Codex desktop",
+        "kind": "agent"
+      },
+      {
+        "id": "agent:SESSION-2026-10-21-pr91-token-accounting",
+        "name": "Codex desktop",
+        "kind": "agent"
+      },
+      {
+        "id": "codex-thread:01a15e18-aee8-7080-a61e-ed35d0448960",
+        "name": "Codex parent thread 01a15e18-aee8-7080-a61e-ed35d0448960",
+        "kind": "agent"
+      },
+      {
+        "id": "codex-thread:01a15e19-d7fa-73d0-8e27-1a2a82068ef7",
+        "name": "Codex thread 01a15e19-d7fa-73d0-8e27-1a2a82068ef7",
+        "kind": "agent"
+      },
+      {
+        "id": "codex-thread:01a15e27-803f-7cc2-8a92-5be48ce20f6c",
+        "name": "Codex thread 01a15e27-803f-7cc2-8a92-5be48ce20f6c",
+        "kind": "agent"
+      },
+      {
+        "id": "github:asalzburger",
+        "name": "asalzburger",
+        "kind": "account"
+      },
+      {
+        "id": "github:asalzburger-review",
+        "name": "asalzburger-review",
+        "kind": "human"
+      },
+      {
+        "id": "unknown:project-user",
+        "name": "Project user (name unrecorded)",
+        "kind": "human"
+      }
+    ],
+    "journals": [
+      {
+        "session_id": "SESSION-2026-10-21-material-profile",
+        "record": "logs/codex/SESSION-2026-10-21-material-profile.json",
+        "attribution": [
+          "recorded_branch"
+        ],
+        "snapshot": null,
+        "snapshot_sha256": null,
+        "record_sha256": "b535cf6a781f66306e1897921de3c3e76a8655b80786dbeeed2b3c3f095f74ef",
+        "narrative_sha256": "521739cb0c8173cfc0525de9c38149a687c7988ccdd4ac39e4ff41dbeb0a9422"
+      },
+      {
+        "session_id": "SESSION-2026-10-21-pr91-token-accounting",
+        "record": "logs/codex/SESSION-2026-10-21-pr91-token-accounting.json",
+        "attribution": [
+          "recorded_branch",
+          "explicit_PR_reference"
+        ],
+        "snapshot": null,
+        "snapshot_sha256": null,
+        "record_sha256": "e1c309bf13093ffc25b7e3a260949ca67405598a58957f22787bc6d07a774572",
+        "narrative_sha256": "2cbf858a5df6f97895675e4e22cf8bc4c118e2e29d1feda6a65836d997931fa7"
+      }
+    ],
+    "token_accounts": [
+      {
+        "id": "SESSION-2026-10-21-material-profile",
+        "record": "logs/codex/SESSION-2026-10-21-material-profile.json",
+        "scope": "canonical_session; shared PR references are not allocations",
+        "status": "observed",
+        "usage_sha256": "a0b76512b30bf6851abfe76b4b5c0e5ae885fa1b6feffc164898244b9bc1c01f",
+        "turns": [
+          {
+            "client_thread_id": "01a15e18-aee8-7080-a61e-ed35d0448960",
+            "turn_id": "01a15e18-b002-7093-8323-98a9483eed10",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a15e18-aee8-7080-a61e-ed35d0448960",
+            "turn_id": "01a15e60-bb59-7732-a388-450a31272172",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a15e18-aee8-7080-a61e-ed35d0448960",
+            "turn_id": "01a15e61-e922-7753-8e7e-0bfaf18244c3",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a15e19-d7fa-73d0-8e27-1a2a82068ef7",
+            "turn_id": "01a15e19-d847-7892-9761-f890a14dfb18",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a15e19-d7fa-73d0-8e27-1a2a82068ef7",
+            "turn_id": "01a15e3a-e679-72c0-9d36-8c44ff22e62c",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a15e27-803f-7cc2-8a92-5be48ce20f6c",
+            "turn_id": "01a15e27-807e-7b92-af63-ec1ec09cb379",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a15e27-803f-7cc2-8a92-5be48ce20f6c",
+            "turn_id": "01a15e2d-a249-73a3-b14b-d5d021e2c116",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a15e27-803f-7cc2-8a92-5be48ce20f6c",
+            "turn_id": "01a15e43-9b4a-70b1-9fd4-2c209d24a58c",
+            "model": null
+          }
+        ]
+      },
+      {
+        "id": "SESSION-2026-10-21-pr91-token-accounting",
+        "record": "logs/codex/SESSION-2026-10-21-pr91-token-accounting.json",
+        "scope": "canonical_session; shared PR references are not allocations",
+        "status": "unobserved",
+        "usage_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "turns": []
+      }
+    ],
+    "visible_sources": [
+      {
+        "path": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e18-b002-7093-8323-98a9483eed10.json",
+        "sha256": "ac1996947e7fbca88c42261812021994cc8811fc901d148c8d2c026943bdf7f4"
+      },
+      {
+        "path": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e60-bb59-7732-a388-450a31272172.json",
+        "sha256": "22fe646bdd4c1802fb828686c394f8b0d9d7e3d09142fc2d3178bb5a2ba346ae"
+      },
+      {
+        "path": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e61-e922-7753-8e7e-0bfaf18244c3.json",
+        "sha256": "8c1f791f7d9185fb87f19f8172b0a70412aaeb5662943a26bc372d4700604762"
+      },
+      {
+        "path": "interactions/pr-0091/turns/01a15e19-d7fa-73d0-8e27-1a2a82068ef7--01a15e19-d847-7892-9761-f890a14dfb18.json",
+        "sha256": "c4ec7f9195173f7812b74917dc50dff26da952b07603458cc6fb0bd60c9ed6fc"
+      },
+      {
+        "path": "interactions/pr-0091/turns/01a15e19-d7fa-73d0-8e27-1a2a82068ef7--01a15e3a-e679-72c0-9d36-8c44ff22e62c.json",
+        "sha256": "d25054cd6bbb79e1ee267b90c156dfd38e9ba157944d792bc4e88790acad97aa"
+      },
+      {
+        "path": "interactions/pr-0091/turns/01a15e27-803f-7cc2-8a92-5be48ce20f6c--01a15e27-807e-7b92-af63-ec1ec09cb379.json",
+        "sha256": "e701ae17cf62f68e4c3189db4186ebaf7ad76e3ef85ca9965377ca26f7dfce1a"
+      },
+      {
+        "path": "interactions/pr-0091/turns/01a15e27-803f-7cc2-8a92-5be48ce20f6c--01a15e2d-a249-73a3-b14b-d5d021e2c116.json",
+        "sha256": "3807c3993d0b336e66f3e83117fffaf86e7dc92cd905faf911e2850731e7c3b2"
+      },
+      {
+        "path": "interactions/pr-0091/turns/01a15e27-803f-7cc2-8a92-5be48ce20f6c--01a15e43-9b4a-70b1-9fd4-2c209d24a58c.json",
+        "sha256": "e619e5ca7d1c25a764e6c24c4720c89335d3103251452517d20da14f54c3e405"
+      }
+    ],
+    "agents": [
+      {
+        "id": "agent:SESSION-2026-10-21-material-profile",
+        "name": "Codex desktop",
+        "role": "session_agent",
+        "thread_id": "01a15e18-aee8-7080-a61e-ed35d0448960",
+        "models": [],
+        "source": "logs/codex/SESSION-2026-10-21-material-profile.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      },
+      {
+        "id": "agent:SESSION-2026-10-21-material-profile:SoftEng:41dc6243",
+        "name": "SoftEng",
+        "role": "reported_specialist_assignment",
+        "thread_id": null,
+        "models": [],
+        "source": "logs/codex/SESSION-2026-10-21-material-profile.md#specialist-assignment-matprof-softeng-01",
+        "limitation": "Role contract is recorded; native profile loading and process identity are not inferred."
+      },
+      {
+        "id": "agent:SESSION-2026-10-21-material-profile:PhysVal:b2c7e466",
+        "name": "PhysVal",
+        "role": "reported_specialist_assignment",
+        "thread_id": null,
+        "models": [],
+        "source": "logs/codex/SESSION-2026-10-21-material-profile.md#specialist-assignment-matprof-physval-01",
+        "limitation": "Role contract is recorded; native profile loading and process identity are not inferred."
+      },
+      {
+        "id": "agent:SESSION-2026-10-21-pr91-token-accounting",
+        "name": "Codex desktop",
+        "role": "session_agent",
+        "thread_id": "01a15e18-aee8-7080-a61e-ed35d0448960",
+        "models": [],
+        "source": "logs/codex/SESSION-2026-10-21-pr91-token-accounting.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      },
+      {
+        "id": "codex-thread:01a15e18-aee8-7080-a61e-ed35d0448960",
+        "name": "Codex",
+        "role": "recorded_thread",
+        "thread_id": "01a15e18-aee8-7080-a61e-ed35d0448960",
+        "models": [],
+        "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e18-b002-7093-8323-98a9483eed10.json",
+        "limitation": "Execution model is retained only when reported by the canonical account."
+      },
+      {
+        "id": "codex-child:01a15e19-d7fa-73d0-8e27-1a2a82068ef7",
+        "name": "/root/softeng_inventory",
+        "role": "subagent",
+        "thread_id": "01a15e19-d7fa-73d0-8e27-1a2a82068ef7",
+        "models": [],
+        "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e18-b002-7093-8323-98a9483eed10.json",
+        "limitation": "Parent thread 01a15e18-aee8-7080-a61e-ed35d0448960; activity started. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a15e19-d7fa-73d0-8e27-1a2a82068ef7",
+        "name": "/root/softeng_inventory",
+        "role": "subagent",
+        "thread_id": "01a15e19-d7fa-73d0-8e27-1a2a82068ef7",
+        "models": [],
+        "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e18-b002-7093-8323-98a9483eed10.json",
+        "limitation": "Parent thread 01a15e18-aee8-7080-a61e-ed35d0448960; activity completed. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a15e27-803f-7cc2-8a92-5be48ce20f6c",
+        "name": "/root/physval_review",
+        "role": "subagent",
+        "thread_id": "01a15e27-803f-7cc2-8a92-5be48ce20f6c",
+        "models": [],
+        "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e18-b002-7093-8323-98a9483eed10.json",
+        "limitation": "Parent thread 01a15e18-aee8-7080-a61e-ed35d0448960; activity started. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a15e27-803f-7cc2-8a92-5be48ce20f6c",
+        "name": "/root/physval_review",
+        "role": "subagent",
+        "thread_id": "01a15e27-803f-7cc2-8a92-5be48ce20f6c",
+        "models": [],
+        "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e18-b002-7093-8323-98a9483eed10.json",
+        "limitation": "Parent thread 01a15e18-aee8-7080-a61e-ed35d0448960; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a15e27-803f-7cc2-8a92-5be48ce20f6c",
+        "name": "/root/physval_review",
+        "role": "subagent",
+        "thread_id": "01a15e27-803f-7cc2-8a92-5be48ce20f6c",
+        "models": [],
+        "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e18-b002-7093-8323-98a9483eed10.json",
+        "limitation": "Parent thread 01a15e18-aee8-7080-a61e-ed35d0448960; activity completed. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a15e27-803f-7cc2-8a92-5be48ce20f6c",
+        "name": "/root/physval_review",
+        "role": "subagent",
+        "thread_id": "01a15e27-803f-7cc2-8a92-5be48ce20f6c",
+        "models": [],
+        "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e18-b002-7093-8323-98a9483eed10.json",
+        "limitation": "Parent thread 01a15e18-aee8-7080-a61e-ed35d0448960; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a15e27-803f-7cc2-8a92-5be48ce20f6c",
+        "name": "/root/physval_review",
+        "role": "subagent",
+        "thread_id": "01a15e27-803f-7cc2-8a92-5be48ce20f6c",
+        "models": [],
+        "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e18-b002-7093-8323-98a9483eed10.json",
+        "limitation": "Parent thread 01a15e18-aee8-7080-a61e-ed35d0448960; activity completed. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a15e19-d7fa-73d0-8e27-1a2a82068ef7",
+        "name": "/root/softeng_inventory",
+        "role": "subagent",
+        "thread_id": "01a15e19-d7fa-73d0-8e27-1a2a82068ef7",
+        "models": [],
+        "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e18-b002-7093-8323-98a9483eed10.json",
+        "limitation": "Parent thread 01a15e18-aee8-7080-a61e-ed35d0448960; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a15e19-d7fa-73d0-8e27-1a2a82068ef7",
+        "name": "/root/softeng_inventory",
+        "role": "subagent",
+        "thread_id": "01a15e19-d7fa-73d0-8e27-1a2a82068ef7",
+        "models": [],
+        "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e18-b002-7093-8323-98a9483eed10.json",
+        "limitation": "Parent thread 01a15e18-aee8-7080-a61e-ed35d0448960; activity completed. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a15e27-803f-7cc2-8a92-5be48ce20f6c",
+        "name": "/root/physval_review",
+        "role": "subagent",
+        "thread_id": "01a15e27-803f-7cc2-8a92-5be48ce20f6c",
+        "models": [],
+        "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e18-b002-7093-8323-98a9483eed10.json",
+        "limitation": "Parent thread 01a15e18-aee8-7080-a61e-ed35d0448960; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a15e27-803f-7cc2-8a92-5be48ce20f6c",
+        "name": "/root/physval_review",
+        "role": "subagent",
+        "thread_id": "01a15e27-803f-7cc2-8a92-5be48ce20f6c",
+        "models": [],
+        "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e18-b002-7093-8323-98a9483eed10.json",
+        "limitation": "Parent thread 01a15e18-aee8-7080-a61e-ed35d0448960; activity completed. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-thread:01a15e18-aee8-7080-a61e-ed35d0448960",
+        "name": "Codex",
+        "role": "recorded_thread",
+        "thread_id": "01a15e18-aee8-7080-a61e-ed35d0448960",
+        "models": [],
+        "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e60-bb59-7732-a388-450a31272172.json",
+        "limitation": "Execution model is retained only when reported by the canonical account."
+      },
+      {
+        "id": "codex-thread:01a15e18-aee8-7080-a61e-ed35d0448960",
+        "name": "Codex",
+        "role": "recorded_thread",
+        "thread_id": "01a15e18-aee8-7080-a61e-ed35d0448960",
+        "models": [],
+        "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e61-e922-7753-8e7e-0bfaf18244c3.json",
+        "limitation": "Execution model is retained only when reported by the canonical account."
+      },
+      {
+        "id": "codex-thread:01a15e19-d7fa-73d0-8e27-1a2a82068ef7",
+        "name": "Codex",
+        "role": "recorded_thread",
+        "thread_id": "01a15e19-d7fa-73d0-8e27-1a2a82068ef7",
+        "models": [],
+        "source": "interactions/pr-0091/turns/01a15e19-d7fa-73d0-8e27-1a2a82068ef7--01a15e19-d847-7892-9761-f890a14dfb18.json",
+        "limitation": "Execution model is retained only when reported by the canonical account."
+      },
+      {
+        "id": "codex-child:01a15e18-aee8-7080-a61e-ed35d0448960",
+        "name": "/root",
+        "role": "subagent",
+        "thread_id": "01a15e18-aee8-7080-a61e-ed35d0448960",
+        "models": [],
+        "source": "interactions/pr-0091/turns/01a15e19-d7fa-73d0-8e27-1a2a82068ef7--01a15e19-d847-7892-9761-f890a14dfb18.json",
+        "limitation": "Parent thread 01a15e19-d7fa-73d0-8e27-1a2a82068ef7; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a15e18-aee8-7080-a61e-ed35d0448960",
+        "name": "/root",
+        "role": "subagent",
+        "thread_id": "01a15e18-aee8-7080-a61e-ed35d0448960",
+        "models": [],
+        "source": "interactions/pr-0091/turns/01a15e19-d7fa-73d0-8e27-1a2a82068ef7--01a15e19-d847-7892-9761-f890a14dfb18.json",
+        "limitation": "Parent thread 01a15e19-d7fa-73d0-8e27-1a2a82068ef7; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a15e18-aee8-7080-a61e-ed35d0448960",
+        "name": "/root",
+        "role": "subagent",
+        "thread_id": "01a15e18-aee8-7080-a61e-ed35d0448960",
+        "models": [],
+        "source": "interactions/pr-0091/turns/01a15e19-d7fa-73d0-8e27-1a2a82068ef7--01a15e19-d847-7892-9761-f890a14dfb18.json",
+        "limitation": "Parent thread 01a15e19-d7fa-73d0-8e27-1a2a82068ef7; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a15e18-aee8-7080-a61e-ed35d0448960",
+        "name": "/root",
+        "role": "subagent",
+        "thread_id": "01a15e18-aee8-7080-a61e-ed35d0448960",
+        "models": [],
+        "source": "interactions/pr-0091/turns/01a15e19-d7fa-73d0-8e27-1a2a82068ef7--01a15e19-d847-7892-9761-f890a14dfb18.json",
+        "limitation": "Parent thread 01a15e19-d7fa-73d0-8e27-1a2a82068ef7; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a15e18-aee8-7080-a61e-ed35d0448960",
+        "name": "/root",
+        "role": "subagent",
+        "thread_id": "01a15e18-aee8-7080-a61e-ed35d0448960",
+        "models": [],
+        "source": "interactions/pr-0091/turns/01a15e19-d7fa-73d0-8e27-1a2a82068ef7--01a15e19-d847-7892-9761-f890a14dfb18.json",
+        "limitation": "Parent thread 01a15e19-d7fa-73d0-8e27-1a2a82068ef7; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-thread:01a15e19-d7fa-73d0-8e27-1a2a82068ef7",
+        "name": "Codex",
+        "role": "recorded_thread",
+        "thread_id": "01a15e19-d7fa-73d0-8e27-1a2a82068ef7",
+        "models": [],
+        "source": "interactions/pr-0091/turns/01a15e19-d7fa-73d0-8e27-1a2a82068ef7--01a15e3a-e679-72c0-9d36-8c44ff22e62c.json",
+        "limitation": "Execution model is retained only when reported by the canonical account."
+      },
+      {
+        "id": "codex-child:01a15e18-aee8-7080-a61e-ed35d0448960",
+        "name": "/root",
+        "role": "subagent",
+        "thread_id": "01a15e18-aee8-7080-a61e-ed35d0448960",
+        "models": [],
+        "source": "interactions/pr-0091/turns/01a15e19-d7fa-73d0-8e27-1a2a82068ef7--01a15e3a-e679-72c0-9d36-8c44ff22e62c.json",
+        "limitation": "Parent thread 01a15e19-d7fa-73d0-8e27-1a2a82068ef7; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a15e18-aee8-7080-a61e-ed35d0448960",
+        "name": "/root",
+        "role": "subagent",
+        "thread_id": "01a15e18-aee8-7080-a61e-ed35d0448960",
+        "models": [],
+        "source": "interactions/pr-0091/turns/01a15e19-d7fa-73d0-8e27-1a2a82068ef7--01a15e3a-e679-72c0-9d36-8c44ff22e62c.json",
+        "limitation": "Parent thread 01a15e19-d7fa-73d0-8e27-1a2a82068ef7; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a15e18-aee8-7080-a61e-ed35d0448960",
+        "name": "/root",
+        "role": "subagent",
+        "thread_id": "01a15e18-aee8-7080-a61e-ed35d0448960",
+        "models": [],
+        "source": "interactions/pr-0091/turns/01a15e19-d7fa-73d0-8e27-1a2a82068ef7--01a15e3a-e679-72c0-9d36-8c44ff22e62c.json",
+        "limitation": "Parent thread 01a15e19-d7fa-73d0-8e27-1a2a82068ef7; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-thread:01a15e27-803f-7cc2-8a92-5be48ce20f6c",
+        "name": "Codex",
+        "role": "recorded_thread",
+        "thread_id": "01a15e27-803f-7cc2-8a92-5be48ce20f6c",
+        "models": [],
+        "source": "interactions/pr-0091/turns/01a15e27-803f-7cc2-8a92-5be48ce20f6c--01a15e27-807e-7b92-af63-ec1ec09cb379.json",
+        "limitation": "Execution model is retained only when reported by the canonical account."
+      },
+      {
+        "id": "codex-child:01a15e18-aee8-7080-a61e-ed35d0448960",
+        "name": "/root",
+        "role": "subagent",
+        "thread_id": "01a15e18-aee8-7080-a61e-ed35d0448960",
+        "models": [],
+        "source": "interactions/pr-0091/turns/01a15e27-803f-7cc2-8a92-5be48ce20f6c--01a15e27-807e-7b92-af63-ec1ec09cb379.json",
+        "limitation": "Parent thread 01a15e27-803f-7cc2-8a92-5be48ce20f6c; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a15e18-aee8-7080-a61e-ed35d0448960",
+        "name": "/root",
+        "role": "subagent",
+        "thread_id": "01a15e18-aee8-7080-a61e-ed35d0448960",
+        "models": [],
+        "source": "interactions/pr-0091/turns/01a15e27-803f-7cc2-8a92-5be48ce20f6c--01a15e27-807e-7b92-af63-ec1ec09cb379.json",
+        "limitation": "Parent thread 01a15e27-803f-7cc2-8a92-5be48ce20f6c; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-thread:01a15e27-803f-7cc2-8a92-5be48ce20f6c",
+        "name": "Codex",
+        "role": "recorded_thread",
+        "thread_id": "01a15e27-803f-7cc2-8a92-5be48ce20f6c",
+        "models": [],
+        "source": "interactions/pr-0091/turns/01a15e27-803f-7cc2-8a92-5be48ce20f6c--01a15e2d-a249-73a3-b14b-d5d021e2c116.json",
+        "limitation": "Execution model is retained only when reported by the canonical account."
+      },
+      {
+        "id": "codex-child:01a15e18-aee8-7080-a61e-ed35d0448960",
+        "name": "/root",
+        "role": "subagent",
+        "thread_id": "01a15e18-aee8-7080-a61e-ed35d0448960",
+        "models": [],
+        "source": "interactions/pr-0091/turns/01a15e27-803f-7cc2-8a92-5be48ce20f6c--01a15e2d-a249-73a3-b14b-d5d021e2c116.json",
+        "limitation": "Parent thread 01a15e27-803f-7cc2-8a92-5be48ce20f6c; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a15e18-aee8-7080-a61e-ed35d0448960",
+        "name": "/root",
+        "role": "subagent",
+        "thread_id": "01a15e18-aee8-7080-a61e-ed35d0448960",
+        "models": [],
+        "source": "interactions/pr-0091/turns/01a15e27-803f-7cc2-8a92-5be48ce20f6c--01a15e2d-a249-73a3-b14b-d5d021e2c116.json",
+        "limitation": "Parent thread 01a15e27-803f-7cc2-8a92-5be48ce20f6c; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-thread:01a15e27-803f-7cc2-8a92-5be48ce20f6c",
+        "name": "Codex",
+        "role": "recorded_thread",
+        "thread_id": "01a15e27-803f-7cc2-8a92-5be48ce20f6c",
+        "models": [],
+        "source": "interactions/pr-0091/turns/01a15e27-803f-7cc2-8a92-5be48ce20f6c--01a15e43-9b4a-70b1-9fd4-2c209d24a58c.json",
+        "limitation": "Execution model is retained only when reported by the canonical account."
+      },
+      {
+        "id": "codex-child:01a15e18-aee8-7080-a61e-ed35d0448960",
+        "name": "/root",
+        "role": "subagent",
+        "thread_id": "01a15e18-aee8-7080-a61e-ed35d0448960",
+        "models": [],
+        "source": "interactions/pr-0091/turns/01a15e27-803f-7cc2-8a92-5be48ce20f6c--01a15e43-9b4a-70b1-9fd4-2c209d24a58c.json",
+        "limitation": "Parent thread 01a15e27-803f-7cc2-8a92-5be48ce20f6c; activity interacted. Agent path is not proof of native role-profile loading."
+      }
+    ],
+    "tools": {
+      "native_codex": [
+        {
+          "name": "collaboration.followup_task: MATPROF-PhysVal-03",
+          "category": "native_codex",
+          "version": null,
+          "calls": null,
+          "source": "logs/codex/SESSION-2026-10-21-material-profile.json",
+          "evidence": "Independent read-only assessment of25fa2d01ca9b135f070a8549d50dfe3b5af4ced2: no P1/P2 blocker in scope; P3 timing-boundary wording corrected. This is a manual assessment, not a command with an observed process exit.",
+          "token_account": "SESSION-2026-10-21-material-profile",
+          "provenance": "Native API name"
+        },
+        {
+          "name": "commandExecution",
+          "category": "native_codex",
+          "version": null,
+          "calls": 252,
+          "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e18-b002-7093-8323-98a9483eed10.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 30 failures reported.",
+          "token_account": "SESSION-2026-10-21-material-profile",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "codex_apps.github.search_prs",
+          "category": "native_codex",
+          "version": null,
+          "calls": 1,
+          "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e18-b002-7093-8323-98a9483eed10.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-10-21-material-profile",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "subAgentActivity",
+          "category": "native_codex",
+          "version": null,
+          "calls": 11,
+          "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e18-b002-7093-8323-98a9483eed10.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-10-21-material-profile",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "fileChange",
+          "category": "native_codex",
+          "version": null,
+          "calls": 38,
+          "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e18-b002-7093-8323-98a9483eed10.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-10-21-material-profile",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "codex_apps.github.fetch_file",
+          "category": "native_codex",
+          "version": null,
+          "calls": 4,
+          "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e18-b002-7093-8323-98a9483eed10.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-10-21-material-profile",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "sleep",
+          "category": "native_codex",
+          "version": null,
+          "calls": 6,
+          "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e18-b002-7093-8323-98a9483eed10.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-10-21-material-profile",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "codex_apps.github.create_pull_request",
+          "category": "native_codex",
+          "version": null,
+          "calls": 1,
+          "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e18-b002-7093-8323-98a9483eed10.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 1 failures reported.",
+          "token_account": "SESSION-2026-10-21-material-profile",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "codex_app.attach_artifact",
+          "category": "native_codex",
+          "version": null,
+          "calls": 1,
+          "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e18-b002-7093-8323-98a9483eed10.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-10-21-material-profile",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "codex_app.open_in_codex",
+          "category": "native_codex",
+          "version": null,
+          "calls": 1,
+          "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e18-b002-7093-8323-98a9483eed10.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-10-21-material-profile",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "commandExecution",
+          "category": "native_codex",
+          "version": null,
+          "calls": 3,
+          "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e61-e922-7753-8e7e-0bfaf18244c3.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-10-21-material-profile",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "codex_apps.github.fetch_file",
+          "category": "native_codex",
+          "version": null,
+          "calls": 2,
+          "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e61-e922-7753-8e7e-0bfaf18244c3.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-10-21-material-profile",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "commandExecution",
+          "category": "native_codex",
+          "version": null,
+          "calls": 30,
+          "source": "interactions/pr-0091/turns/01a15e19-d7fa-73d0-8e27-1a2a82068ef7--01a15e19-d847-7892-9761-f890a14dfb18.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-10-21-material-profile",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "subAgentActivity",
+          "category": "native_codex",
+          "version": null,
+          "calls": 5,
+          "source": "interactions/pr-0091/turns/01a15e19-d7fa-73d0-8e27-1a2a82068ef7--01a15e19-d847-7892-9761-f890a14dfb18.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-10-21-material-profile",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "commandExecution",
+          "category": "native_codex",
+          "version": null,
+          "calls": 16,
+          "source": "interactions/pr-0091/turns/01a15e19-d7fa-73d0-8e27-1a2a82068ef7--01a15e3a-e679-72c0-9d36-8c44ff22e62c.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-10-21-material-profile",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "subAgentActivity",
+          "category": "native_codex",
+          "version": null,
+          "calls": 3,
+          "source": "interactions/pr-0091/turns/01a15e19-d7fa-73d0-8e27-1a2a82068ef7--01a15e3a-e679-72c0-9d36-8c44ff22e62c.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-10-21-material-profile",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "commandExecution",
+          "category": "native_codex",
+          "version": null,
+          "calls": 23,
+          "source": "interactions/pr-0091/turns/01a15e27-803f-7cc2-8a92-5be48ce20f6c--01a15e27-807e-7b92-af63-ec1ec09cb379.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 3 failures reported.",
+          "token_account": "SESSION-2026-10-21-material-profile",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "webSearch",
+          "category": "native_codex",
+          "version": null,
+          "calls": 3,
+          "source": "interactions/pr-0091/turns/01a15e27-803f-7cc2-8a92-5be48ce20f6c--01a15e27-807e-7b92-af63-ec1ec09cb379.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-10-21-material-profile",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "subAgentActivity",
+          "category": "native_codex",
+          "version": null,
+          "calls": 2,
+          "source": "interactions/pr-0091/turns/01a15e27-803f-7cc2-8a92-5be48ce20f6c--01a15e27-807e-7b92-af63-ec1ec09cb379.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-10-21-material-profile",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "commandExecution",
+          "category": "native_codex",
+          "version": null,
+          "calls": 4,
+          "source": "interactions/pr-0091/turns/01a15e27-803f-7cc2-8a92-5be48ce20f6c--01a15e2d-a249-73a3-b14b-d5d021e2c116.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-10-21-material-profile",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "subAgentActivity",
+          "category": "native_codex",
+          "version": null,
+          "calls": 2,
+          "source": "interactions/pr-0091/turns/01a15e27-803f-7cc2-8a92-5be48ce20f6c--01a15e2d-a249-73a3-b14b-d5d021e2c116.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-10-21-material-profile",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "webSearch",
+          "category": "native_codex",
+          "version": null,
+          "calls": 1,
+          "source": "interactions/pr-0091/turns/01a15e27-803f-7cc2-8a92-5be48ce20f6c--01a15e2d-a249-73a3-b14b-d5d021e2c116.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-10-21-material-profile",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "commandExecution",
+          "category": "native_codex",
+          "version": null,
+          "calls": 14,
+          "source": "interactions/pr-0091/turns/01a15e27-803f-7cc2-8a92-5be48ce20f6c--01a15e43-9b4a-70b1-9fd4-2c209d24a58c.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-10-21-material-profile",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "subAgentActivity",
+          "category": "native_codex",
+          "version": null,
+          "calls": 1,
+          "source": "interactions/pr-0091/turns/01a15e27-803f-7cc2-8a92-5be48ce20f6c--01a15e43-9b4a-70b1-9fd4-2c209d24a58c.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-10-21-material-profile",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        }
+      ],
+      "codex_installed": [],
+      "instructed_software": [],
+      "unresolved": [
+        {
+          "name": "Read-only usage recovery, logging import and Git/GitHub tools",
+          "category": "unresolved",
+          "version": null,
+          "calls": null,
+          "source": "logs/codex/SESSION-2026-10-21-pr91-token-accounting.json",
+          "evidence": "Eight closed turns attributed to original material-profile record. No scientific progress entry, source change, design approval or merge is performed.",
+          "token_account": "SESSION-2026-10-21-pr91-token-accounting",
+          "provenance": "Operation recorded; installation provenance needs explicit evidence."
+        }
+      ]
+    },
+    "events": [
+      {
+        "id": "github:https://github.com/asalzburger/nodd/pull/91",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "github:asalzburger",
+        "recipients": [],
+        "text": "## Executive summary\n\nThe matched 100 events × 100 neutral geantinos took 810.953 s for nODD and 13.535 s for ODD. Native sampling attributes 98.9% of recurring nODD samples to Geant4 material-cut association rebuilding: ACTS calls BeamOn(1) per event, causing a full region traversal per material.\n\nThe opt-in immutable-geantino reuse experiment reduced nODD to 101.905 s (7.96× overall; steady median 7.425 → 0.150 s). All 32 scalar/jagged ROOT branches match at zero numeric tolerance for all 10,000 probes in both detectors, and all 14 adverse-state controls pass.\n\n## Change\n\nAdds the node-bound benchmark, task-local ODD build/selection, native timers, hierarchy inventory, exact output checks and reproducible evidence report. Both comparators use the same ACTS/DD4hep/Geant4 binaries and DDG4-first bootstrap. Geometry, passive material, identifiers and the normal recorder remain unchanged.\n\nThe guard is an explicit experiment for one immutable world and neutral geantinos. It checks every material/cut association and delegates on invalid state; ordinary energy-cut API configuration disables reuse. It preserves the BeamOn(1) lifecycle. DES-024/025 remain DRAFT; ADR-008 and TASK-SOFT-MATERIAL-PROFILE provide context. No detector or general mutable-Geant4 acceptance is claimed.\n\nThe report separates parsing, construction, conversion, voxelization, recurring scans, transport/stepping and ROOT writing, with wall/CPU/RSS and source/binary hashes. Earlier mixed-Xerces failures and bootstrap sensitivity are retained; their precise native mechanism remains unresolved. Independent PhysVal assessment at 25fa2d01ca9b135f070a8549d50dfe3b5af4ced2 found no P1/P2 blocker for this bounded characterization. Its P3 timing-boundary wording correction is included; no detector or general Geant4 approval is granted.\n\n## Token accounting\n\nRecovered **41,308,128 input + 205,567 output = 41,513,695 observed tokens** across **8 completed turns and 267 requests**, including both specialist agents and the two explanation follow-ups.\n\n| Contribution | Input | Output | Total |\n| --- | ---: | ---: | ---: |\n| Main work and explanations | 33,052,857 | 170,249 | 33,223,106 |\n| SoftEng specialist | 3,828,921 | 17,317 | 3,846,238 |\n| PhysVal specialist | 4,426,350 | 18,001 | 4,444,351 |\n| **Total** | **41,308,128** | **205,567** | **41,513,695** |\n\nCached input **40,301,824** and reasoning output **100,184** are subsets, not additional tokens. These are client observations including cached/repeated context, not a billing estimate. Ten duplicate cumulative snapshots were ignored; each parent/child request stream reconciles independently from zero. Import replay adds no entries. The accounting follow-up was active at capture and is excluded until its final boundary can be recovered.\n\nThe [canonical journal](https://github.com/asalzburger/nodd/blob/6d867fe608679f6d98bc1d152442afb5a30a27f2/logs/codex/SESSION-2026-10-21-material-profile.json) owns all eight observations once; the [usage-only inventory](https://github.com/asalzburger/nodd/blob/6d867fe608679f6d98bc1d152442afb5a30a27f2/logs/usage/USAGE-2026-10-21-pr91-accounting.json) corroborates counters, closed-turn boundaries and attribution. Local checks pass: 33 logging/recovery/document tests, 10 dashboard tests, JavaScript controls, usage validation/build and project-record validation.\n\n## Dashboard and validation\n\n- [x] Updated project/tracking.json for TASK-SOFT-MATERIAL-PROFILE.\n- [x] Completed matched and guarded 100×100 runs; exact full-branch comparisons; 14 native guards; 3 tool, 33 logging/document and 28 project-record controls; session and project validators.\n- [x] Preserved DRAFT states, scoped experiment boundaries and exact review/evidence revisions in the paired journal.\n- [x] Layout main page/R–Z unaffected: no detector geometry, material or layout changes.\n\nSee docs/validation/material-recording-profile/README.md for measured results, commands and limitations.\n\n",
+        "source": "https://github.com/asalzburger/nodd/pull/91",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [],
+        "timestamp": "2026-10-21T11:42:12Z",
+        "remote_input": null
+      },
+      {
+        "id": "github:https://github.com/asalzburger/nodd/pull/91#pullrequestreview-5611395010",
+        "type": "review",
+        "direction": "reaction",
+        "actor": "github:asalzburger-review",
+        "recipients": [],
+        "text": "APPROVED",
+        "source": "https://github.com/asalzburger/nodd/pull/91#pullrequestreview-5611395010",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [],
+        "timestamp": "2026-10-22T08:34:32Z",
+        "remote_input": null
+      },
+      {
+        "id": "github:https://github.com/asalzburger/nodd/pull/91#issuecomment-6336436576",
+        "type": "comment",
+        "direction": "action",
+        "actor": "github:asalzburger-review",
+        "recipients": [],
+        "text": "We merge for now, and update to a new ACTS version with an API call fix to Geant4\r\n",
+        "source": "https://github.com/asalzburger/nodd/pull/91#issuecomment-6336436576",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [],
+        "timestamp": "2026-10-22T08:35:02Z",
+        "remote_input": null
+      },
+      {
+        "id": "journal:SESSION-2026-10-21-material-profile:e70ff3ec961cd91d",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "agent:SESSION-2026-10-21-material-profile"
+        ],
+        "text": "User request, paraphrased: identify why nODD tracker material recording is much slower than ODD using the same100×100, seed228, uniform eta[-4,4]/phi[0,360degrees], origin, one-thread setup; separate construction, initialization, transport, stepping and output; propose and verify a safe software response and deliver a Software PR. The coordinator communicated the stale preflight limitation, recurring association-scan hotspot, runtime XML/bootstrap sensitivity and completed controls as evidence arrived.",
+        "source": "logs/codex/SESSION-2026-10-21-material-profile.md#selected-conversation",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-21-material-profile"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-10-21-material-profile:1bebd0407d656928",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-10-21-material-profile",
+        "recipients": [],
+        "text": "Keep detector geometry/materials/IDs and generator/run lifecycle unchanged. Use the existing build and pinned ODD source, rebuild only the task-local unchanged ODD factory, standardize DDG4-first initialization, and expose guarded association reuse solely as an opt-in immutable-geantino experiment. Keep initial startup variants and failed diagnostics distinct from the matched benchmark. No scientific design approval or production acceptance is recorded.",
+        "source": "logs/codex/SESSION-2026-10-21-material-profile.md#decisions-and-outcomes",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-21-material-profile"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-10-21-material-profile:fbb1b053a1b78d29",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "agent:SESSION-2026-10-21-material-profile",
+        "recipients": [],
+        "text": "Explicit generic-agent role assignment from software-layout profile at 530080c. Native profile loading is not claimed.\n\n```json\n{\n  \"id\": \"MATPROF-SoftEng-01\",\n  \"role\": \"SoftEng\",\n  \"input_revision\": \"530080cfe16c7513228bf60238b99d4b9938538a\",\n  \"inputs\": [\n    \"software/source/detectors/src/PixelComponents.cpp\",\n    \"software/source/detectors/src/ShortStripBarrel.cpp\",\n    \"software/source/detectors/src/ShortStripEndcap.cpp\",\n    \"software/source/detectors/src/LongStrip.cpp\",\n    \"software/running/nodd_material_recording.py\"\n  ],\n  \"mode\": \"read-only\",\n  \"writable_paths\": [],\n  \"task\": \"Inspect source geometry hierarchy/volume reuse and material recorder setup. Identify measurable scaling risks without changing geometry or materials. Compare with existing ODD source in sibling software/submodules/OpenDataDetector. Establish tracker compact scope and how to exclude magnets/calorimeters/muons faithfully. No runtime benchmarking (coordinator owns those runs), no edits, no further delegation. Read git snapshots for assigned nODD inputs. Additional ODD checkout identity must be recorded.\",\n  \"deliverable\": \"Return source locators, volume reuse and hierarchy risks, exact ODD tracker-only selection recommendation; coordinator retains curated result in this session.\",\n  \"completion\": \"Report actual reads/checks, revision identities, limits and no invented performance claims.\"\n}\n```",
+        "source": "logs/codex/SESSION-2026-10-21-material-profile.md#specialist-assignment-matprof-softeng-01",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [
+          "SoftEng"
+        ],
+        "token_accounts": [
+          "SESSION-2026-10-21-material-profile"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-10-21-material-profile:efd4ab4139a6f7bf",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "agent:SESSION-2026-10-21-material-profile",
+        "recipients": [],
+        "text": "```json\n{\n  \"id\": \"MATPROF-PhysVal-01\",\n  \"role\": \"PhysVal\",\n  \"input_revision\": \"937422566fe0da577ec51862edf258631602026f\",\n  \"inputs\": [\n    \"tools/material_recording_profile/run.py\",\n    \"tools/material_recording_profile/prepare_odd.py\",\n    \"tools/material_recording_profile/native_timing.cpp\",\n    \"tools/material_recording_profile/build_native.sh\"\n  ],\n  \"mode\": \"read-only\",\n  \"writable_paths\": [],\n  \"task\": \"Independently assess matched benchmark protocol, scientific fidelity and the opt-in guarded reuse of Geant4 material-cut associations. Inspect the actual guard and possible invalidation gaps; assess what output equivalence and adverse tests must establish. No runtime jobs (coordinator has primary100-event runs active), no edits or further delegation. Additional immutable Geant4 v11.4.3 source may be read using official GitHub. Current ignored observations are supporting evidence only, identify them as such: build/jobs/material-profile/nodd-steady.summary.json and nodd-phases/inventory.json. Earlier unhidden native timing trials had a different observed cost and are excluded; the proposed weak-symbol cause was subsequently not established; current helper uses hidden inline visibility. Final100-event output/evidence is pending and will be sent for follow-up review.\",\n  \"deliverable\": \"Return findings with severity/locators, validity limits and required corrections; coordinator retains assessment in session and report.\",\n  \"completion\": \"Provide independent assessment of exact9374225 source, scientific claims and negative controls without granting sign-off.\"\n}\n```",
+        "source": "logs/codex/SESSION-2026-10-21-material-profile.md#specialist-assignment-matprof-physval-01",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [
+          "PhysVal"
+        ],
+        "token_accounts": [
+          "SESSION-2026-10-21-material-profile"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-10-21-material-profile:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-10-21-material-profile",
+        "recipients": [],
+        "text": "Profile matched ODD and nODD tracker material recording — see the canonical narrative for outcomes and checks.",
+        "source": "logs/codex/SESSION-2026-10-21-material-profile.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-21-material-profile"
+        ],
+        "content_kind": "reference_summary"
+      },
+      {
+        "id": "journal:SESSION-2026-10-21-pr91-token-accounting:65e980574042452d",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "agent:SESSION-2026-10-21-pr91-token-accounting"
+        ],
+        "text": "The user asked to add token accounting to PR91 so they can merge it, and will\nfollow up with ACTS themselves. Update the existing PR; do not merge it or\nimplement the proposed ACTS initialization change. Starting source is\nd11e8bb43aa5b4473974f234da08092cc5934705 with a clean worktree.",
+        "source": "logs/codex/SESSION-2026-10-21-pr91-token-accounting.md#scope-and-request",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-21-pr91-token-accounting"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-10-21-pr91-token-accounting:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-10-21-pr91-token-accounting",
+        "recipients": [],
+        "text": "PR91 exact token accounting and merge readiness — see the canonical narrative for outcomes and checks.",
+        "source": "logs/codex/SESSION-2026-10-21-pr91-token-accounting.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-21-pr91-token-accounting"
+        ],
+        "content_kind": "reference_summary"
+      },
+      {
+        "id": "codex-message:msg_00acef29dc73d7f5016ad899ca9c0081919fd3437092985705",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a15e18-aee8-7080-a61e-ed35d0448960",
+        "recipients": [
+          "codex-thread:01a15e27-803f-7cc2-8a92-5be48ce20f6c"
+        ],
+        "text": "I’ll check the repository rules and remote runtime, then run matched ODD and nODD benchmarks and profile the dominant phases. I’ll keep generated data out of Git and prepare a Software PR for any justified fix or reproducible benchmark findings.",
+        "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e18-b002-7093-8323-98a9483eed10.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-21-material-profile"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_00acef29dc73d7f5016ad899d44f00819191e9e7d1c12d752d",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a15e18-aee8-7080-a61e-ed35d0448960",
+        "recipients": [
+          "codex-thread:01a15e27-803f-7cc2-8a92-5be48ce20f6c"
+        ],
+        "text": "The `acts-spack` preflight reports changed setup and lockfile fingerprints, plus no verified DD4hep or Geant4 source trees. I’m using that skill and will verify the installed runtime directly. The existing software worktree has only the prior session’s two untracked journal files; I’ll preserve them.",
+        "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e18-b002-7093-8323-98a9483eed10.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-21-material-profile"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_00acef29dc73d7f5016ad899f79d18819193e01d86301806a0",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a15e18-aee8-7080-a61e-ed35d0448960",
+        "recipients": [
+          "codex-thread:01a15e27-803f-7cc2-8a92-5be48ce20f6c"
+        ],
+        "text": "PRs 77–80 are marked merged, but I’m checking their actual source paths before choosing the benchmark inputs. The profiling branch is now isolated from current main. I’ll also use the repository’s specialist workflow for an independent comparison assessment.",
+        "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e18-b002-7093-8323-98a9483eed10.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-21-material-profile"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_00acef29dc73d7f5016ad89a4e4a2c81919a74b26a2727f1ef",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a15e18-aee8-7080-a61e-ed35d0448960",
+        "recipients": [
+          "codex-thread:01a15e27-803f-7cc2-8a92-5be48ce20f6c"
+        ],
+        "text": "The ODD “Tracker” compact includes the solenoid, so its name alone does not define a tracker-only comparison. I’ll generate a comparison compact that excludes the solenoid, calorimeters, muons and field block while retaining the beam pipe, tracker and passive supports. Both detectors will run 100 events with 100 neutral geantinos per event.",
+        "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e18-b002-7093-8323-98a9483eed10.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-21-material-profile"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_00acef29dc73d7f5016ad89a74a7188191a6628c01db36e17b",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a15e18-aee8-7080-a61e-ed35d0448960",
+        "recipients": [
+          "codex-thread:01a15e27-803f-7cc2-8a92-5be48ce20f6c"
+        ],
+        "text": "The first matched nODD run has finished DD4hep construction and reached Geant4. Source inspection points to a possible scaling cost: nODD uses many nested assemblies, which may become a large flat set of Geant4 daughters. I’m checking native call stacks and the converted hierarchy before attributing the slowdown.",
+        "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e18-b002-7093-8323-98a9483eed10.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-21-material-profile"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_00acef29dc73d7f5016ad89accc0e881919637e5745eb3e71e",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a15e18-aee8-7080-a61e-ed35d0448960",
+        "recipients": [
+          "codex-thread:01a15e27-803f-7cc2-8a92-5be48ce20f6c"
+        ],
+        "text": "The profiler confirms that the slow first event includes Geant4 voxel construction, so its timing cannot be treated as per-track transport cost. The next event took about 15 seconds for 100 probes. The required nODD run is continuing; I’m now separating initialization, navigation, material stepping and output costs.",
+        "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e18-b002-7093-8323-98a9483eed10.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-21-material-profile"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_00acef29dc73d7f5016ad89b0ccfbc8191b78d831a1ebc9e2f",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a15e18-aee8-7080-a61e-ed35d0448960",
+        "recipients": [
+          "codex-thread:01a15e27-803f-7cc2-8a92-5be48ce20f6c"
+        ],
+        "text": "The steady-state profile found a larger cause: almost all sampled time was spent rebuilding Geant4 material/cut associations at the start of each event. ACTS calls `BeamOn(1)` for every event, triggering scans over the large geometry and its many materials. I’m adding phase timers to measure that work separately from transport.",
+        "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e18-b002-7093-8323-98a9483eed10.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-21-material-profile"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_00acef29dc73d7f5016ad89ba647008191a55f447d8736d6c1",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a15e18-aee8-7080-a61e-ed35d0448960",
+        "recipients": [
+          "codex-thread:01a15e27-803f-7cc2-8a92-5be48ce20f6c"
+        ],
+        "text": "The nODD run continues at roughly 15 seconds per event. In the steady-state sample, material/cut association rebuilding accounts for about 99% of main-thread samples. The first-event profile separately shows voxel construction. That gives a measured distinction between recurring setup work and transport; the converted hierarchy inventory will test what drives the setup cost.",
+        "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e18-b002-7093-8323-98a9483eed10.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-21-material-profile"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_00acef29dc73d7f5016ad89c3540b88191aca92b700334eab5",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a15e18-aee8-7080-a61e-ed35d0448960",
+        "recipients": [
+          "codex-thread:01a15e27-803f-7cc2-8a92-5be48ce20f6c"
+        ],
+        "text": "The runtime inventory confirms the flattening hypothesis: nODD has 649,614 daughters directly in the Geant4 world, versus 5 for ODD. nODD also has 661,997 logical volumes and 1,159 instantiated materials; ODD has 440 and 9. Geant4’s source confirms that each run scans the region volume tree for each material, explaining the severe recurring cost.",
+        "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e18-b002-7093-8323-98a9483eed10.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-21-material-profile"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_00acef29dc73d7f5016ad89cd817208191bc947d3ed2705179",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a15e18-aee8-7080-a61e-ed35d0448960",
+        "recipients": [
+          "codex-thread:01a15e27-803f-7cc2-8a92-5be48ce20f6c"
+        ],
+        "text": "I’m testing a software optimization that leaves the physical model intact: reuse material/cut associations only when every logical volume still has the correct material, region and cut object. It will fall back to Geant4’s normal update when those checks fail. I’ll compare the recorded output with the baseline before including it in the PR.",
+        "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e18-b002-7093-8323-98a9483eed10.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-21-material-profile"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_00acef29dc73d7f5016ad89d93ba50819191580d1335e846b1",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a15e18-aee8-7080-a61e-ed35d0448960",
+        "recipients": [
+          "codex-thread:01a15e27-803f-7cc2-8a92-5be48ce20f6c"
+        ],
+        "text": "An instrumentation check caught a measurement artifact: the timing helper changed which weak inline Geant4 symbols were loaded. I’ve excluded those trials and corrected the helper; its control scan now agrees with the original slow path. The untouched 100-event baseline continues, and the guarded optimization is running against the same 10,000-probe setup.",
+        "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e18-b002-7093-8323-98a9483eed10.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-21-material-profile"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_00acef29dc73d7f5016ad89e9907748191832df431c112b1a9",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a15e18-aee8-7080-a61e-ed35d0448960",
+        "recipients": [
+          "codex-thread:01a15e27-803f-7cc2-8a92-5be48ce20f6c"
+        ],
+        "text": "The first guarded run completed all 100 events in about 102 seconds. Its first 200 probes match the uncached control exactly in all 32 ROOT branches. The full 10,000-probe comparison is waiting for the baseline to finish. Independent review also found an energy-cut-vector invalidation gap, which I’ve addressed; the revised guard is being rerun with additional adverse controls.",
+        "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e18-b002-7093-8323-98a9483eed10.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-21-material-profile"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_00acef29dc73d7f5016ad89fb462c48191995892285d2d8f7f",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a15e18-aee8-7080-a61e-ed35d0448960",
+        "recipients": [
+          "codex-thread:01a15e27-803f-7cc2-8a92-5be48ce20f6c"
+        ],
+        "text": "The baseline has passed 80 events. The recurring scan remains the dominant cost; the native diagnostic measures actual transport plus material recording at about 0.06 seconds for 100 probes. I’m finishing output checks and the guard’s fallback tests, including an ordinary Geant4 API call from a separate client library.",
+        "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e18-b002-7093-8323-98a9483eed10.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-21-material-profile"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_00acef29dc73d7f5016ad8a06902d8819183168053c66bfa6a",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a15e18-aee8-7080-a61e-ed35d0448960",
+        "recipients": [
+          "codex-thread:01a15e27-803f-7cc2-8a92-5be48ce20f6c"
+        ],
+        "text": "All 14 final guard controls now pass, including external API interception and fallback execution. The baseline is nearly finished. ODD’s matched run is queued directly after it; I’ll then compare all 10,000 probes and 32 ROOT branches and add the timing, CPU, memory and integrity results to the PR.",
+        "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e18-b002-7093-8323-98a9483eed10.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-21-material-profile"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_00acef29dc73d7f5016ad8a0abd9488191a0009cb3808ff3d3",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a15e18-aee8-7080-a61e-ed35d0448960",
+        "recipients": [
+          "codex-thread:01a15e27-803f-7cc2-8a92-5be48ce20f6c"
+        ],
+        "text": "The full nODD comparison is complete: 1,569.9 seconds for the baseline versus 104.0 seconds with guarded reuse, with exact numeric equality across all 10,000 probes and 32 ROOT branches.\n\nThe unprofiled ODD run exposed a separate runtime problem: the sister ODD factory loads an incompatible Xerces variant. I’m rebuilding that factory locally against the same dependency view to keep the comparison matched.",
+        "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e18-b002-7093-8323-98a9483eed10.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-21-material-profile"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_00acef29dc73d7f5016ad8a1538628819189ed853916f880ad",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a15e18-aee8-7080-a61e-ed35d0448960",
+        "recipients": [
+          "codex-thread:01a15e27-803f-7cc2-8a92-5be48ce20f6c"
+        ],
+        "text": "The fresh ODD factory had the same parser failure. Loading DDG4 before PyROOT resolved it, and ODD completed 100 events in 13.53 seconds. I’m applying that same bootstrap to both detectors and repeating the nODD baseline so the final comparison uses a consistent startup path. The earlier nODD run remains recorded as diagnostic evidence.",
+        "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e18-b002-7093-8323-98a9483eed10.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-21-material-profile"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_00acef29dc73d7f5016ad8a229d00c81919e7b7bedabc851d9",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a15e18-aee8-7080-a61e-ed35d0448960",
+        "recipients": [
+          "codex-thread:01a15e27-803f-7cc2-8a92-5be48ce20f6c"
+        ],
+        "text": "The common bootstrap also changes nODD’s recurring scan cost from roughly 15 to 7.4 seconds per event. That makes library load order a material part of the benchmark. I’m keeping DDG4 first in both the final baseline and optimization runs so that effect stays separate from association reuse.",
+        "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e18-b002-7093-8323-98a9483eed10.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-21-material-profile"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_00acef29dc73d7f5016ad8a32274948191bcb9cc2b09ecdefc",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a15e18-aee8-7080-a61e-ed35d0448960",
+        "recipients": [
+          "codex-thread:01a15e27-803f-7cc2-8a92-5be48ce20f6c"
+        ],
+        "text": "The matched run confirms that repeated material-cut association scans dominate nODD’s recurring event cost. Loading DDG4 first roughly halves that cost and avoids the observed ODD parsing crash, but the native review has not established why. I’m using the same bootstrap throughout the final comparison and checking the remaining output and timing evidence.",
+        "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e18-b002-7093-8323-98a9483eed10.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-21-material-profile"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_00acef29dc73d7f5016ad8a34ba6d88191b80dc3d54298f286",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a15e18-aee8-7080-a61e-ed35d0448960",
+        "recipients": [
+          "codex-thread:01a15e27-803f-7cc2-8a92-5be48ce20f6c"
+        ],
+        "text": "The guarded reuse run has finished: nODD took 101.9 seconds for all 10,000 probes, and all 14 adverse-state controls passed. The uncached run is still progressing at about 7.4 seconds per event. The guard saves the repeated scans; its first scan was slower in this run, so I’ll report that separately.",
+        "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e18-b002-7093-8323-98a9483eed10.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-21-material-profile"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_00acef29dc73d7f5016ad8a39db85881918886bc964fe1b159",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a15e18-aee8-7080-a61e-ed35d0448960",
+        "recipients": [
+          "codex-thread:01a15e27-803f-7cc2-8a92-5be48ce20f6c"
+        ],
+        "text": "Both detectors produced the same generated probe bank. ODD’s baseline and guarded outputs also match exactly in all 32 ROOT branches. The inventories help explain the cost difference: nODD has 661,997 Geant4 logical volumes and 1,159 materials, compared with ODD’s 440 and 9.",
+        "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e18-b002-7093-8323-98a9483eed10.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-21-material-profile"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_00acef29dc73d7f5016ad8a41617d481918513e7f4dcef193d",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a15e18-aee8-7080-a61e-ed35d0448960",
+        "recipients": [
+          "codex-thread:01a15e27-803f-7cc2-8a92-5be48ce20f6c"
+        ],
+        "text": "The uncached nODD run has passed 80 events. Native timers put transport plus recording at about 0.06 seconds per 100 probes, against about 7.37 seconds for the recurring association scan. I’m retaining the startup failures and timing variations in the journal and keeping them outside the matched comparison.",
+        "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e18-b002-7093-8323-98a9483eed10.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-21-material-profile"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_00acef29dc73d7f5016ad8a478e4e48191a899c52026dbbb48",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a15e18-aee8-7080-a61e-ed35d0448960",
+        "recipients": [
+          "codex-thread:01a15e27-803f-7cc2-8a92-5be48ce20f6c"
+        ],
+        "text": "The matched benchmark is nearly complete. The report now separates first-event voxelization from recurring scans, includes CPU and peak memory, and limits the reuse experiment to this immutable geantino harness. Once the final output closes, I’ll run the full branch comparisons and send the committed evidence for independent review.",
+        "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e18-b002-7093-8323-98a9483eed10.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-21-material-profile"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_00acef29dc73d7f5016ad8a4b73d6881919501ff2ab8b3d2d3",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a15e18-aee8-7080-a61e-ed35d0448960",
+        "recipients": [
+          "codex-thread:01a15e27-803f-7cc2-8a92-5be48ce20f6c"
+        ],
+        "text": "The matched runs are complete: nODD took 810.95 seconds and ODD 13.53 seconds. Guarded reuse reduced nODD to 101.90 seconds, with exact numeric equality in all 32 branches for all 10,000 probes. The evidence is committed; I’m requesting the final independent assessment before opening the Software PR.",
+        "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e18-b002-7093-8323-98a9483eed10.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-21-material-profile"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_00acef29dc73d7f5016ad8a510647881919ce3e2cb98b3d096",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a15e18-aee8-7080-a61e-ed35d0448960",
+        "recipients": [
+          "codex-thread:01a15e27-803f-7cc2-8a92-5be48ce20f6c"
+        ],
+        "text": "The local checks passed, including all 81 shared loaded-library hashes matching between comparators. The GitHub connector cannot create PRs with its current integration permissions, so I’m using the authenticated local CLI while the final review runs.",
+        "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e18-b002-7093-8323-98a9483eed10.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-21-material-profile"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_00acef29dc73d7f5016ad8a54d6b60819186b2350871d72e00",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a15e18-aee8-7080-a61e-ed35d0448960",
+        "recipients": [
+          "codex-thread:01a15e27-803f-7cc2-8a92-5be48ce20f6c"
+        ],
+        "text": "[PR #91](https://github.com/asalzburger/nodd/pull/91) is open. The independent PhysVal review found no remaining P1/P2 blocker for the bounded characterization. It requested one wording correction about which hashing enters the timings; that is fixed. Hosted checks are running.",
+        "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e18-b002-7093-8323-98a9483eed10.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-21-material-profile"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_00acef29dc73d7f5016ad8a56c18e48191ab93c0ae0b8d23e8",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a15e18-aee8-7080-a61e-ed35d0448960",
+        "recipients": [
+          "codex-thread:01a15e27-803f-7cc2-8a92-5be48ce20f6c"
+        ],
+        "text": "A closeout validator caught an invalid journal entry: I had marked the manual review as a passing command without an exit code. I’m correcting the record and rerunning its checks. The benchmark evidence and measured results are unchanged.",
+        "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e18-b002-7093-8323-98a9483eed10.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-21-material-profile"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_00acef29dc73d7f5016ad8a5d968d08191bcc0c8b6d3d8a02e",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a15e18-aee8-7080-a61e-ed35d0448960",
+        "recipients": [
+          "codex-thread:01a15e27-803f-7cc2-8a92-5be48ce20f6c"
+        ],
+        "text": "PR #91 is ready for review and merges cleanly with `main`. The benchmark, output comparisons, guard controls, local checks and independent assessment are complete. I’m waiting for the hosted validation on the final pushed revision.",
+        "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e18-b002-7093-8323-98a9483eed10.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-21-material-profile"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_00acef29dc73d7f5016ad8a627639c81918ad384c2b8996318",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a15e18-aee8-7080-a61e-ed35d0448960",
+        "recipients": [
+          "codex-thread:01a15e27-803f-7cc2-8a92-5be48ce20f6c"
+        ],
+        "text": "The final validation run has started, and the token dashboard check has passed. The full measurements and reproduction commands are in the PR’s report. The working tree is clean.",
+        "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e18-b002-7093-8323-98a9483eed10.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-21-material-profile"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_00acef29dc73d7f5016ad8a687d37481918e436348f8652d69",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a15e18-aee8-7080-a61e-ed35d0448960",
+        "recipients": [
+          "codex-thread:01a15e27-803f-7cc2-8a92-5be48ce20f6c"
+        ],
+        "text": "Hosted validation has passed the governance, source-audit, specialist-workflow, calorimeter and magnet checks. It is now running the geometry tests; no failures have been reported.",
+        "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e18-b002-7093-8323-98a9483eed10.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-21-material-profile"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_00acef29dc73d7f5016ad8a6de14588191b522a19b2bf61cc3",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a15e18-aee8-7080-a61e-ed35d0448960",
+        "recipients": [
+          "codex-thread:01a15e27-803f-7cc2-8a92-5be48ce20f6c"
+        ],
+        "text": "The finite-module and pixel geometry checks have passed. Hosted validation has moved on to DD4hep export and tracker integration checks, which exercise the existing prototype tooling.",
+        "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e18-b002-7093-8323-98a9483eed10.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-21-material-profile"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_00acef29dc73d7f5016ad8a71a436c8191975f5dc44dd36f02",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a15e18-aee8-7080-a61e-ed35d0448960",
+        "recipients": [
+          "codex-thread:01a15e27-803f-7cc2-8a92-5be48ce20f6c"
+        ],
+        "text": "The new benchmark tests and the existing DD4hep/tracker prototype tests have passed in CI. The remaining checks cover project records, documentation links and node-preflight controls.",
+        "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e18-b002-7093-8323-98a9483eed10.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-21-material-profile"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_00acef29dc73d7f5016ad8a75710188191b13f4a6c6c6ed457",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a15e18-aee8-7080-a61e-ed35d0448960",
+        "recipients": [
+          "codex-thread:01a15e27-803f-7cc2-8a92-5be48ce20f6c"
+        ],
+        "text": "[PR #91](https://github.com/asalzburger/nodd/pull/91) is ready for review; CI passed.\n\nMatched **100 × 100 probes**:\n\n| Run | Wall time |\n|---|---:|\n| ODD | 13.53 s |\n| nODD | 810.95 s |\n| nODD guarded reuse | 101.90 s |\n\nRepeated Geant4 material-cut association scans account for **98.9%** of steady-state samples.\n\nThe opt-in reuse experiment preserves exact numeric output across **10,000 probes and all 32 branches**; all 14 guard controls pass. Geometry and passive materials remain unchanged. Reuse is scoped to this immutable geantino harness.\n\n[Full report, CPU/RSS measurements and provenance]([redacted]",
+        "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e18-b002-7093-8323-98a9483eed10.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-21-material-profile"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:01a15e60-bb71-7380-9e46-3bda0cc16895",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "codex-thread:01a15e27-803f-7cc2-8a92-5be48ce20f6c",
+        "recipients": [
+          "codex-thread:01a15e18-aee8-7080-a61e-ed35d0448960"
+        ],
+        "text": "Can you explain how you improved the execution time ?",
+        "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e60-bb59-7732-a388-450a31272172.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-21-material-profile"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_00acef29dc73d7f5016ad8ac43a5748191a1bbb037e53ef523",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a15e18-aee8-7080-a61e-ed35d0448960",
+        "recipients": [
+          "codex-thread:01a15e27-803f-7cc2-8a92-5be48ce20f6c"
+        ],
+        "text": "Most of the time was spent repeating setup before transporting particles.\n\nACTS calls Geant4’s `BeamOn(1)` for every event. Each call rebuilds the material/cut associations by scanning the geometry once per material. For nODD, that means roughly **662,000 volumes × 1,159 materials ≈ 767 million volume visits per event**, even though the detector is unchanged.\n\nI added an **opt-in reuse prototype** for this fixed-geometry geantino job. It checks that every volume already has the correct material/cut association, then skips the redundant rebuild. Unsupported or changed states fall back to Geant4’s original update. Event boundaries, geometry, materials and particle transport remain unchanged.\n\nThat reduced:\n\n| Measurement | Original | With reuse |\n|---|---:|---:|\n| Typical event after initialization | 7.43 s | 0.15 s |\n| Complete 100 × 100 job | 810.95 s | 101.90 s |\n\nThe complete job improves by **about 8×** because parsing, detector construction and first-event voxelization still cost time. All **32 output branches matched exactly numerically across 10,000 probes**.\n\nSeparately, loading DDG4 before PyROOT avoided the observed ODD parsing crash and reduced nODD’s original startup-order result from roughly 1,570 to 811 seconds. The precise cause of that load-order timing effect remains unresolved.",
+        "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e60-bb59-7732-a388-450a31272172.json",
+        "in_reply_to": "codex-message:01a15e60-bb71-7380-9e46-3bda0cc16895",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-21-material-profile"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:01a15e61-e949-7701-9528-094da1180584",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "codex-thread:01a15e27-803f-7cc2-8a92-5be48ce20f6c",
+        "recipients": [
+          "codex-thread:01a15e18-aee8-7080-a61e-ed35d0448960"
+        ],
+        "text": "Can this be done at initialize ?",
+        "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e61-e922-7753-8e7e-0bfaf18244c3.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-21-material-profile"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_00acef29dc73d7f5016ad8ac877ebc8191a74967b453e412aa",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a15e18-aee8-7080-a61e-ed35d0448960",
+        "recipients": [
+          "codex-thread:01a15e27-803f-7cc2-8a92-5be48ce20f6c"
+        ],
+        "text": "I’ll check which Geant4 initialization stage creates these associations and whether they can be reused safely from there.",
+        "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e61-e922-7753-8e7e-0bfaf18244c3.json",
+        "in_reply_to": "codex-message:01a15e61-e949-7701-9528-094da1180584",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-21-material-profile"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_00acef29dc73d7f5016ad8acb1a8188191a225ac4fb699c139",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a15e18-aee8-7080-a61e-ed35d0448960",
+        "recipients": [
+          "codex-thread:01a15e27-803f-7cc2-8a92-5be48ce20f6c"
+        ],
+        "text": "**Yes—for this fixed detector, building the associations once during initialization is the cleaner approach.**\n\nACTS already calls `G4RunManager::Initialize()`. However, every subsequent `BeamOn(1)` performs **run initialization**, which unconditionally updates regions and rebuilds material/cut associations. Simply moving the first rebuild into ACTS `initialize()` would leave those repeated rebuilds in place. [Geant4 implementation](https://github.com/Geant4/geant4/blob/v11.4.3/source/run/src/G4RunManagerKernel.cc#L609)\n\nA production implementation would:\n\n1. Build the associations after geometry, materials, regions and cuts are finalized.\n2. Reuse them during subsequent events.\n3. Invalidate and rebuild them whenever relevant configuration changes—including explicit energy-cut vectors.\n4. Preserve event seeds and normal run/event callbacks.\n\nWith reliably enforced immutability or complete invalidation tracking, this could also replace the prototype’s conservative **per-event volume check** with a cheap state check.\n\nSo initialization is the appropriate home for the one-time work; the performance improvement comes from ensuring later run initialization reuses that work. **The current PR demonstrates guarded reuse; it does not yet implement that initialization-based integration.**",
+        "source": "interactions/pr-0091/turns/01a15e18-aee8-7080-a61e-ed35d0448960--01a15e61-e922-7753-8e7e-0bfaf18244c3.json",
+        "in_reply_to": "codex-message:01a15e61-e949-7701-9528-094da1180584",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-21-material-profile"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_066d4b948c18e5c2016ad89abfdb188191929c0a241ef98150",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a15e19-d7fa-73d0-8e27-1a2a82068ef7",
+        "recipients": [
+          "codex-thread:01a15e18-aee8-7080-a61e-ed35d0448960"
+        ],
+        "text": "MATPROF-SoftEng-01 completed read-only. No files changed, simulation jobs run, or further agents delegated.\n\nExamined nODD commit `530080cfe16c7513228bf60238b99d4b9938538a` and clean ODD submodule commit `d70556f33b1c36abdf101a07ad8cf57eb56fbdf1`. Applied the explicit SoftEng mandate and `nodd-review-validation` skill.\n\nThe strongest source-level explanation is geometry representation:\n\n- nODD builds fresh solids and material-bearing volumes for every XML constituent. Barrel, layer, stave, module, disc, petal and long-strip groups are predominantly `Assembly` objects.\n- ODD reuses module/stave templates and gives barrel/endcap layers real Air envelopes. `ODDStripBarrel_geo.cpp:53–74` shows its physical barrel/stave envelopes and single module-template construction; repeated placements and cloned DetElements follow.\n- If DD4hep converts assembly hierarchies into imprints in the nearest material-bearing mother, nODD loses most of its navigational hierarchy. This is a hypothesis requiring the coordinator’s Geant4 hierarchy/profile evidence.\n\nPinned nODD source locators:\n\n- `PixelComponents.cpp:51–95`: new module assembly, substrate, sensitive patches and passive constituents on every call.\n- `PixelComponents.cpp:98–143`: assembly stave; real core → pipe → coolant nesting.\n- `PixelBarrel.cpp:20–47`: fresh layer/stave/module assemblies throughout the repetition loops.\n- `ShortStripBarrel.cpp:31–42,49–76`: fresh volume per piece and assembly-only barrel/layer/stave/module hierarchy.\n- `ShortStripEndcap.cpp:24–32,36–55`: equivalent disc/petal/module construction.\n- `LongStrip.cpp:11–13`: assembly mother/groups; new solid and volume for every piece. Global piece transforms are preserved; there are no physical module envelopes.\n- Each strip factory constructs a `SubtractionSolid` per XML cut. Shape families include boxes, tubes/sectors, tori and extruded shoes; pixel feet additionally use intersections.\n\nRead-only inventory of the existing generated compact gives:\n\n| Component | Source-derived material volumes | Assemblies |\n|---|---:|---:|\n| Beam pipe | 2 | 0 |\n| Pixel barrel | 40,114 | 3,137 |\n| Pixel endcap, each side | 27,377 | 1,166 |\n| Short-strip barrel | 243,684 | 8,357 |\n| Short-strip endcap | 108,744 | 4,477 |\n| Long-strip barrel | 128,922 | 230 |\n| Long-strip endcap | 85,776 | 170 |\n| **Total, excluding world** | **661,996** | **18,703** |\n\nThese counts follow factory construction from the XML; they are **not runtime Geant4 counts**. There are 45,646 sensitive leaves, 567,126 strip pieces and 47,344 cuts. Strip pieces include 527,834 boxes, 16,958 tubes, 10,480 tori, 5,890 shoes and 5,964 sectors.\n\nA direct test of the flattening hypothesis is **approximately 649,614 world daughters**: total material volumes minus 11,806 patches nested in substrates, 328 cooling daughters nested in pixel cores, and 248 coolant parts nested in endcap parts. All 567,126 strip pieces have assembly-only ancestors. Inspect actual Geant4 world/max-daughter counts and `G4SmartVoxelHeader` call stacks before attributing measured time.\n\nThe artifact inventory also found:\n\n- `tracker.xml`: 200,451,288 bytes; SHA-256 `a27b807cbeda51c21b2994fdd5f5c60f96585ff54d788209f61a3a6bdc282ed3`.\n- `materials.xml`: 1,396 material definitions and 98 elements.\n- ODD’s two upstream definition files contain 21 material definitions plus 98 elemental material definitions. This compares definitions, not materials actually traversed.\n- All four assembly-input hashes embedded in `expected.json` match pinned nODD source. This does not establish compiled-library identity or a fresh export.\n\n**Exact ODD tracker selection:** `xml/OpenDataDetectorTracker.xml` includes `detectors/Solenoid.xml`. That solenoid carries `DetType_TRACKER`, so tracker-type filtering does not reliably exclude it.\n\nCreate a derived wrapper from pinned `OpenDataDetector.xml` that preserves elements/materials, envelopes/types, identifiers, visualization, ACTS support and plugins. Include the original BeamPipe, TrackerPixels, TrackerShortStrips and TrackerLongStrips descriptions and retain the `OpenDataTracker` assembly/plugins. Remove only the Solenoid include from that tracker description; omit calorimeter, muon and field sections. Preserve PST and every tracker support/service definition. Resolve relative includes through their original source directory or explicitly recorded absolute references.\n\nFor matched world extent, nODD currently specifies half sizes `(4000,4000,4100) mm`; these contain ODD’s retained tracker and ±4000 mm pipe. Record any wrapper world change explicitly. Preserve native material recipes and document differences: ODD’s pipe is 23.6–24.4 mm, nODD’s 27–27.8 mm; both extend ±4000 mm. nODD also explicitly models a vacuum bore. Do not remove these differences to improve speed.\n\nRecorder setup at `nodd_material_recording.py:29–92,137–153` matches the requested initial settings: CLI default **100 tracks/event**, seed 228, uniform eta, zero vertex width/mean, neutral invalid-PDG probes, one thread, `gen3=False`, no element fractions, and ROOT pre/post-step output with recalculated totals. The callable function separately defaults to 10,000 tracks, so benchmark commands must specify `--tracks 100`.\n\nActual checks were Git identity/status inspection, pinned `git show` reads, and standard-library XML/hash inventories. No native performance ranking, source-to-binary verification, transport validation or design sign-off is claimed.",
+        "source": "interactions/pr-0091/turns/01a15e19-d7fa-73d0-8e27-1a2a82068ef7--01a15e19-d847-7892-9761-f890a14dfb18.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-21-material-profile"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_066d4b948c18e5c2016ad8a2f3a324819182316b18903238e5",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a15e19-d7fa-73d0-8e27-1a2a82068ef7",
+        "recipients": [
+          "codex-thread:01a15e18-aee8-7080-a61e-ed35d0448960"
+        ],
+        "text": "MATPROF-SoftEng-02 completed against `e2a01ae90f376914d53942ef81d64d424d2d13f1`. No edits, simulations, dependency changes or further delegation.\n\n**The load-order effect is measured; its precise native mechanism remains unresolved.** Existing evidence does not justify attributing it specifically to weak Geant4 accessor selection.\n\nMeasured evidence:\n\n| Existing run | Completed events when inspected | Steady-event median wall / CPU |\n|---|---:|---:|\n| `nodd-100` | 100 | 14.9446 / 14.9432 s |\n| `nodd-bootstrap-100` | 43; still active | 7.4358 / 7.4357 s |\n| `nodd-hidden-control` | 2 | 16.8873 / 16.8684 s |\n| `nodd-stable-phases` | 2 | 7.5117 / 7.5113 s |\n\nThese come from existing `build/jobs/material-profile/<run>/metrics.json`; the incomplete bootstrap value is provisional.\n\nBoth steady samples identify the same dominant call chain:\n\n`BeamOn → RunInitialization → UpdateCoupleTable → CreateCoupleTables → ScanAndSetCouple`\n\n`UpdateCoupleTable` accounts for 6192/6259 main-thread samples before bootstrap and 5816/5881 afterward—approximately 98.9% in both. The bootstrap changes the cost substantially without removing the repeated cut-association scan.\n\nStatic symbol/disassembly checks establish:\n\n- `G4LogicalVolume::GetMaterial()` is a **strong external definition** in `libG4geometry`, not a weak definition.\n- `libG4processes_core` binds that getter and `SetMaterialCutsCouple()` explicitly to `libG4geometry`; neither appears in its weak-bind table.\n- Both sampled processes execute `GetMaterial()` in `libG4geometry`, including `_tlv_get_addr`.\n- `ScanAndSetCouple` directly reads region/daughter fields, directly recurses, and calls the external material getter/setter. Its hot daughter accesses are already inlined.\n- The retained native-helper binaries inspected contain no public weak Geant4 accessor definitions matching the relevant logical/physical-volume methods. This does not reconstruct an unavailable earlier binary.\n\nThe samples match UUIDs for DDCore, DDG4, G4geometry, G4run and G4processes_core. This establishes common binary images, while leaving runtime binding/state/address-layout differences unmeasured.\n\n**Both processes still load two Xerces libraries.** UUIDs `30F031B1-48B2-3379-908B-9AB81CA3BBCD` and `D3A4DD97-84D9-3E03-87E4-2B5366A307EB` occur in both samples, with reversed loading order. Therefore DDG4-first avoids the observed parsing crash in these controls; it does not eliminate duplicate Xerces installations.\n\nSuggested report wording:\n\n> Loading DDG4 before PyROOT avoided the observed ODD parsing failure and approximately halved recurring nODD event CPU time in the existing controls. Both bootstrap orders retained the same principal Geant4/DD4hep binary UUIDs and remained dominated by repeated material-cut association scanning. The exact loader, initialization or memory-layout mechanism behind the timing difference has not been established. Final comparisons use the same DDG4-first bootstrap for both detectors and for instrumented controls.\n\nThe journal’s earlier assertion that the shim “changed dynamic symbol selection” and hidden visibility “restores the original accessor symbols” should be qualified accordingly.\n\nReproducible read-only commands included `nm -m`, `llvm-objdump --macho --bind`, `--weak-bind`, and bounded disassembly at `ScanAndSetCouple` offsets `0x1f6c8–0x1f768` and `GetMaterial` offsets `0x7e4ac–0x7e4e4`.\n\nProfile evidence:\n\n- `nodd-steady.sample.txt`, SHA-256 `68e764bac6dd226462fb6d44370f4df570c2f8c2ac60255a543da7954904f493`\n- `nodd-bootstrap-steady.sample.txt`, SHA-256 `ea5366782eb4bb6cf3725fc0b802c32e833c0d4f0f65ae3d5bc859e34c6f34d0`\n\nPreflight repeated the known stale-registry warning for setup/lock fingerprints. No source-level runtime compatibility or scientific acceptance claim is added.",
+        "source": "interactions/pr-0091/turns/01a15e19-d7fa-73d0-8e27-1a2a82068ef7--01a15e3a-e679-72c0-9d36-8c44ff22e62c.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-21-material-profile"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0250abbde357a6da016ad89d96be64819189bec288062bb70a",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a15e27-803f-7cc2-8a92-5be48ce20f6c",
+        "recipients": [
+          "codex-thread:01a15e18-aee8-7080-a61e-ed35d0448960"
+        ],
+        "text": "I’ll review the pinned benchmark and cache guard independently, focusing on matched physics settings, invalidation risks and the evidence needed to support performance claims. I’ll keep this review read-only and leave the active benchmark undisturbed.",
+        "source": "interactions/pr-0091/turns/01a15e27-803f-7cc2-8a92-5be48ce20f6c--01a15e27-807e-7b92-af63-ec1ec09cb379.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-21-material-profile"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0250abbde357a6da016ad89db3271c81918266738b6e3d2122",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a15e27-803f-7cc2-8a92-5be48ce20f6c",
+        "recipients": [
+          "codex-thread:01a15e18-aee8-7080-a61e-ed35d0448960"
+        ],
+        "text": "The guard checks each logical volume’s material, region and cut association, which is stronger than checking counts alone. The supporting profile places most sampled cost in repeated material-cut table scans; the final comparison still needs to show that the shortcut preserves every recorded material step.",
+        "source": "interactions/pr-0091/turns/01a15e27-803f-7cc2-8a92-5be48ce20f6c--01a15e27-807e-7b92-af63-ec1ec09cb379.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-21-material-profile"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0250abbde357a6da016ad89e0ef1588191a5994756bb1f264f",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a15e27-803f-7cc2-8a92-5be48ce20f6c",
+        "recipients": [
+          "codex-thread:01a15e18-aee8-7080-a61e-ed35d0448960"
+        ],
+        "text": "I’m applying the repository’s `nodd-review-validation` skill. I found one cache invalidation gap: Geant4 can update user energy-cut vectors without `IsModified()` becoming true. The coordinator is adding a sentinel for that path. The unchanged neutral-geantino setup remains a viable bounded experiment, pending full output equivalence checks.",
+        "source": "interactions/pr-0091/turns/01a15e27-803f-7cc2-8a92-5be48ce20f6c--01a15e27-807e-7b92-af63-ec1ec09cb379.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-21-material-profile"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0250abbde357a6da016ad89e1897408191830eb520e2d52955",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a15e27-803f-7cc2-8a92-5be48ce20f6c",
+        "recipients": [
+          "codex-thread:01a15e18-aee8-7080-a61e-ed35d0448960"
+        ],
+        "text": "MATPROF-PhysVal-01 reviewed **937422566fe0da577ec51862edf258631602026f**, read-only. No files changed or simulations run. Current dirty helper changes are outside this assessment.\n\n- **P1 — Invalidation gap before broader use.** `native_timing.cpp:43–62,111–119` can skip required energy-cut updates: Geant4’s `SetEnergyCutVector` does not set the status tested by `IsModified()`, while `UpdateCoupleTable` handles those vectors separately. The proposed sentinel addresses this gap, but its implementation needs a new revision review. This does not invalidate an unchanged geantino fixture that never sets these vectors. [Geant4 v11.4.3 implementation](https://github.com/Geant4/geant4/blob/v11.4.3/source/processes/cuts/src/G4ProductionCutsTable.cc#L113), [status check](https://github.com/Geant4/geant4/blob/v11.4.3/source/processes/cuts/include/G4ProductionCutsTable.hh#L239).\n\n- **P2 — Existing adverse controls are insufficient for a general safety claim.** `native_timing.cpp:67–94` tests three pointer replacements. Add in-place production-cut modification, null/stale couple, open geometry and extra region/root/world rejection. Check fallback execution as well as rejection. Couple membership/index consistency is not explicitly verified; retain the immutable-harness scope.\n\n- **Required evidence — Output equivalence remains pending.** Compare baseline and opt-in output after both ROOT files close: generated probes, event/track counts, every scalar branch and every jagged material-step branch. Equal totals alone can conceal changed material boundaries or compensating differences. Bitwise branch equality is the appropriate initial criterion for identical inputs and an association-only shortcut.\n\nThe matched protocol is sound at the inspected sources: **100 events × 100 tracks**, seed 228, neutral geantinos, uniform η ∈ [−4,4], φ ∈ [0,360°], origin vertex, one thread and identical recorder options. `run.py:115–116` overrides the recorder function’s larger multiplicity default. The actual generator settings were checked in runtime source **530080cfe16c7513228bf60238b99d4b9938538a**.\n\nThe ODD selection is faithful for submodule **d70556f33b1c36abdf101a07ad8cf57eb56fbdf1**. `prepare_odd.py:15–31` retains beam pipe, pixels, PST, short/long strips and passive constituents, removing the explicit solenoid. Calorimeter, muon and field definitions enter through the excluded full-detector compact. Preserve and document the native world differences: ODD 12 m half sizes versus the supporting nODD compact’s 4 m, 4 m, 4.1 m. These and the different beam-pipe/material models limit direct material-total comparisons.\n\nThe ignored supporting evidence strongly supports repeated initialization as the current leading cause: **6192/6259** sampled main-thread stacks contain `UpdateCoupleTable`, versus **18** under event processing. Geant4 scans the volume tree separately for each region material; the supporting inventory implies approximately **767 million volume visits per update**. This explains a plausible scaling mechanism, without establishing the final timing ratio. [Geant4 scan implementation](https://github.com/Geant4/geant4/blob/v11.4.3/source/processes/cuts/src/G4ProductionCutsTable.cc#L126).\n\nReport native timers as **inclusive/nested**; avoid summing them. Event markers include repeated run initialization, so their duration is not pure transport cost. Record the runtime Python source and native shim hashes alongside library/compact provenance. Exclude the earlier symbol-binding-altering trials.\n\nRecommendation: retain the benchmark/profiling work and the narrowly scoped opt-in experiment, subject to the corrections and completed equivalence evidence above. These measurements characterize software behavior; they do not validate detector material realism, overlaps, reconstruction performance or DES-024/025 design acceptance.",
+        "source": "interactions/pr-0091/turns/01a15e27-803f-7cc2-8a92-5be48ce20f6c--01a15e27-807e-7b92-af63-ec1ec09cb379.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-21-material-profile"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0250abbde357a6da016ad89f290814819182622355677928ae",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a15e27-803f-7cc2-8a92-5be48ce20f6c",
+        "recipients": [
+          "codex-thread:01a15e18-aee8-7080-a61e-ed35d0448960"
+        ],
+        "text": "I’ll review the corrected source and output-comparison method at the new pinned revision. I’ll keep the source assessment separate from the pending guard-test and full-run evidence.",
+        "source": "interactions/pr-0091/turns/01a15e27-803f-7cc2-8a92-5be48ce20f6c--01a15e2d-a249-73a3-b14b-d5d021e2c116.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-21-material-profile"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0250abbde357a6da016ad89f59f32c8191a0f4e36f220cc805",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a15e27-803f-7cc2-8a92-5be48ce20f6c",
+        "recipients": [
+          "codex-thread:01a15e18-aee8-7080-a61e-ed35d0448960"
+        ],
+        "text": "MATPROF-PhysVal-02 reviewed **f9826ca004a7d61c01a057472a975d28cfb0a602**, read-only. No files changed or runtime jobs executed.\n\nThe earlier source findings are addressed:\n\n- `native_timing.cpp:62,86–92`: configuring user energy-cut vectors permanently disables reuse.\n- `native_timing.cpp:75–80`: checks now include valid couple indices and exact table membership.\n- `native_timing.cpp:130–176`: controls cover in-place cut changes, null couples, stale indices, an extra region and open geometry. They also check original-update execution and resulting energy values.\n- `compare_output.py:29–39`: compares every branch after canonical ordering with zero numeric tolerance.\n- The report correctly limits the experiment, separates nested timings and excludes the earlier symbol-binding artifact.\n\n**Remaining P2 test gap:** `native_timing.cpp:155` calls `observe_energy_cuts` directly. This tests the wrapper and fallback, but does not prove that dyld intercepts an ordinary `SetEnergyCutVector` call. Exercise that API from a separate client image if claiming the interception itself is validated. This is not a blocker for the immutable fixture that never configures user vectors.\n\nThe comparison establishes **exact numeric value equality**, not bitwise identity; signed zeros may compare equal. Its naming is appropriate. [Awkward comparison semantics]([external URL redacted; see source journal]).\n\nFinal evidence must establish all **13 controls**, both completed 100-event runs, **10,000 tracks**, matching generated probes, output integrity and all **32 branches** equal without an event-prefix restriction. The report’s “completed comparison” wording at lines 13–16 remains conditional until those artifacts exist.\n\nThe Air/Vacuum exclusion clarification appropriately separates world-boundary transport effects from recorded material totals. Different physical pipe, module and passive models remain deliberate comparison differences.\n\nI find no further source blocker for this **immutable, single-world neutral-geantino harness**, subject to the pending evidence. This recommendation does not extend to arbitrary mutable Geant4 jobs or grant detector design acceptance.",
+        "source": "interactions/pr-0091/turns/01a15e27-803f-7cc2-8a92-5be48ce20f6c--01a15e2d-a249-73a3-b14b-d5d021e2c116.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-21-material-profile"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0250abbde357a6da016ad8a4c578ac819184d8d0fb417f3126",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a15e27-803f-7cc2-8a92-5be48ce20f6c",
+        "recipients": [
+          "codex-thread:01a15e18-aee8-7080-a61e-ed35d0448960"
+        ],
+        "text": "I’ll review the final pinned report and evidence, checking completion, output integrity and the earlier conditions. This remains a read-only assessment.",
+        "source": "interactions/pr-0091/turns/01a15e27-803f-7cc2-8a92-5be48ce20f6c--01a15e43-9b4a-70b1-9fd4-2c209d24a58c.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-21-material-profile"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0250abbde357a6da016ad8a4ebaa388191bd917bb7a5d6335f",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a15e27-803f-7cc2-8a92-5be48ce20f6c",
+        "recipients": [
+          "codex-thread:01a15e18-aee8-7080-a61e-ed35d0448960"
+        ],
+        "text": "The committed results record 10,000 tracks and all 32 branches numerically equal for each baseline/reuse pair. Both detectors also record 14 passing guard controls, including the separate-client energy-cut call. I’m checking provenance and timing consistency next, especially the bootstrap sensitivity.",
+        "source": "interactions/pr-0091/turns/01a15e27-803f-7cc2-8a92-5be48ce20f6c--01a15e43-9b4a-70b1-9fd4-2c209d24a58c.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-21-material-profile"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0250abbde357a6da016ad8a5363d4c8191823e4f29618072cd",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a15e27-803f-7cc2-8a92-5be48ce20f6c",
+        "recipients": [
+          "codex-thread:01a15e18-aee8-7080-a61e-ed35d0448960"
+        ],
+        "text": "MATPROF-PhysVal-03 reviewed **25fa2d01ca9b135f070a8549d50dfe3b5af4ced2**. The committed evidence supports the reported results for the scoped immutable geantino harness.\n\n- **Prior conditions resolved:** all four runs completed 100 × 100 probes; settings and generated-bank hashes match; both detector comparisons and the startup-order comparison record exact numeric equality across all **32 branches and 10,000 tracks**. All **14 guard controls** pass.\n- The separate client now calls the ordinary energy-vector API (`energy_cut_client.cpp:5–7`), and `native_timing.cpp:158–175` verifies interception, original fallback and native absent-gamma semantics.\n- The measured ratios recalculate correctly: baseline nODD/ODD **59.916×**, guarded nODD total improvement **7.958×**, steady-event improvement **49.440×**. Repeated association scans remain the supported dominant cause.\n\n**One P3 documentation correction:** report `README.md:225–230` excludes “hashing” from timing, but `run.py:49–50,78–79` hashes steering, pipeline and factories inside timed phases. Specify that the **post-run library audit** is excluded; initial hashes remain included. This does not materially affect the conclusions.\n\nActual read-only checks passed:\n\n- Parsed and checked committed result, equivalence, guard and provenance records.\n- Recalculated ratios, RSS conversions and native-row summary arithmetic.\n- Verified the frozen helper’s source hash against the pinned source.\n- Compared shared loaded-image hashes across available inventories.\n- Verified retained hashes for seven metrics files, all four ROOT files and four native timing files; ROOT sizes also match.\n\nNo simulations or ROOT comparisons were rerun. No files changed. Dirty journal content and the untracked library-check artifact were excluded.\n\nThe report appropriately retains unresolved bootstrap/mixed-Xerces sensitivity and the **16.506 s versus 7.409 s** first-scan discrepancy. Native evidence does **not** establish a weak-accessor explanation. These are observed timings from a shared host, not universal performance estimates.\n\nNo remaining P1/P2 blocker was found for this bounded characterization. This assessment grants no general mutable-Geant4 safety claim, production authorization or detector design acceptance.",
+        "source": "interactions/pr-0091/turns/01a15e27-803f-7cc2-8a92-5be48ce20f6c--01a15e43-9b4a-70b1-9fd4-2c209d24a58c.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-21-material-profile"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      }
+    ],
+    "coverage": {
+      "github_captured_at": "2026-10-24T07:41:02.080Z",
+      "prompts": "Available account-matched user-visible messages, public Codex inputs and curated journal excerpts. Historical full input coverage is unknown.",
+      "recovered_visible_turns": 8,
+      "unrecovered_account_turns": [],
+      "responses": "Public responses and recorded outcomes; no private model state or hidden reasoning.",
+      "token_accounting": "References only. Never sum accounts across PRs or assign a shared turn by text length.",
+      "unknowns": "Unrecorded names, models, tools, subagent identities and response links remain unknown; empty lists are not zero activity.",
+      "remote": "Snapshot, not live synchronization; deleted/edited history and emoji reactions are not recovered.",
+      "branch_only": "Pinned branch journal snapshots are references, not imported counters. Unretained or other-device inputs remain unknown."
+    }
+  }
+}

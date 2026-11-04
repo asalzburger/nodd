@@ -1,0 +1,768 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-30-tracker-electron-reconstruction",
+  "title": "Extend tracker reconstruction to electrons in Fatras and muons/electrons/pions in Geant4",
+  "recorded_at": "2026-10-30T10:50:14Z",
+  "started_at": null,
+  "ended_at": "2026-10-30T13:44:01Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact root/child per-turn token counters and client version are not exposed; usage remains unobserved, not zero. Active root usage is excluded.",
+    "Selected visible requests, findings and handoffs are curated; not a complete private client export.",
+    "Completed PhysVal10 turn01a18cfb-8df2-7fe3-b5ec-a1a36852d842 was read through the first-party API; its exposed turn fields contain no exact usage counters. No raw client-state collection or estimated token allocation was performed.",
+    "2026-10-30 correction: original empty-usage statements describe prior capture. Exact counters for 19 completed turns are now imported from verified usage-only recovery; active coordinator usage remains excluded. See the dated narrative and PR107 attribution table."
+  ],
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": "01a176bd-cabc-77c0-8841-9d7ee1efa109"
+  },
+  "git": {
+    "start_commit": "aae262694535523b1e0fd968e4170b061429f0a6",
+    "branch": "codex/tracker-gbts-reconstruction",
+    "initial_changes": [],
+    "result_commits": [
+      "9f30a4fdb25f81a6edd16288ca46277293fb4961",
+      "adf1c3146d7e201e471b37c6f9e79f3c0574c30e",
+      "6dcb51deccb33bc010ba38f3c0091a40e811de6f",
+      "caa5487c4315557604797be5c9152606867e0c28",
+      "1c8ad58a87dd4bb5c85b0bdbecdc5599fddce5c1",
+      "dabb1cc7d1d9793bbcc18ab86980689064718001",
+      "72f9c8fb18077c9234546f1913800c1c902826ec",
+      "e71ecd03d1c54ccd84bcefaa3b7ef04f1fb01a50",
+      "e27bea651106968c959204c77e70643783e4f565",
+      "f5d4c26243078a204e9251f8f30de24062995d7e",
+      "b8b8697ed4ec7e538b8ca2fedb6e7c468cdf791a",
+      "b9fc3aa4917027098f8a1739f1cf346f23d77288",
+      "1f92f143f1aa15e42e5f4c7130b22bb13af8a432",
+      "17a4b2e8831081ddfdfb625c3eee15c52862befa",
+      "228edf1a2503897b68f04f17bfd9acffe179c465",
+      "9e6a2bf921656b6c389bf51c6391758996a25487",
+      "cdc290a0d35e3ebcd03d7292d996c744bf182329",
+      "467065927e3c55ca3a3de7b7641ebcd616bcb169",
+      "157994cbcbc2ec3551dc6bcbad51b3fc9c0a212e",
+      "c851eb46063d7b6b7173b39157bc0bebca8e35f0"
+    ],
+    "changed_files": [
+      ".github/workflows/validation.yml",
+      "README.md",
+      "docs/design/DES-041-tracker-gbts-reconstruction.md",
+      "docs/validation/tracker-reconstruction-species/diagnostics/ambiguity-convergence.json",
+      "docs/validation/tracker-reconstruction-species/diagnostics/electron-two-way-fpe.json",
+      "docs/validation/tracker-reconstruction-species/diagnostics/fatras-pt1-underflow.json",
+      "docs/validation/tracker-reconstruction-species/diagnostics/fatras-pt10-underflow.json",
+      "docs/validation/tracker-reconstruction-species/diagnostics/fatras-pt5-underflow.json",
+      "docs/validation/tracker-reconstruction-species/diagnostics/initial-fatras-files.json",
+      "docs/validation/tracker-reconstruction-species/diagnostics/initial-fatras-reports.json.gz",
+      "docs/validation/tracker-reconstruction-species/diagnostics/interrupted-fatras-pt100.json",
+      "docs/validation/tracker-reconstruction-species/diagnostics/muon-reference-ambiguity.json",
+      "docs/validation/tracker-reconstruction-species/diagnostics/muon-regression.json",
+      "docs/validation/tracker-reconstruction-species/diagnostics/safe-fatras-native-regression.json",
+      "docs/validation/tracker-reconstruction-species/diagnostics/safe-v1-pt1-underflow.json",
+      "docs/validation/tracker-reconstruction-species/diagnostics/safe-v1-pt10-underflow.json",
+      "docs/validation/tracker-reconstruction-species/diagnostics/safe-v1-pt5-underflow.json",
+      "docs/validation/tracker-reconstruction-species/diagnostics/safe-v1-reports.json.gz",
+      "docs/validation/tracker-reconstruction-species/diagnostics/smoke-reports.json.gz",
+      "docs/validation/tracker-reconstruction-species/fatras/electron/pt1/events.npz",
+      "docs/validation/tracker-reconstruction-species/fatras/electron/pt1/summary.json.gz",
+      "docs/validation/tracker-reconstruction-species/fatras/electron/pt10/events.npz",
+      "docs/validation/tracker-reconstruction-species/fatras/electron/pt10/summary.json.gz",
+      "docs/validation/tracker-reconstruction-species/fatras/electron/pt100/events.npz",
+      "docs/validation/tracker-reconstruction-species/fatras/electron/pt100/summary.json.gz",
+      "docs/validation/tracker-reconstruction-species/fatras/electron/pt5/events.npz",
+      "docs/validation/tracker-reconstruction-species/fatras/electron/pt5/summary.json.gz",
+      "docs/validation/tracker-reconstruction-species/figures/efficiency-comparison-pt.pdf",
+      "docs/validation/tracker-reconstruction-species/figures/efficiency-comparison-pt.png",
+      "docs/validation/tracker-reconstruction-species/figures/efficiency-comparison.pdf",
+      "docs/validation/tracker-reconstruction-species/figures/efficiency-comparison.png",
+      "docs/validation/tracker-reconstruction-species/figures/fatras/electron/efficiency.pdf",
+      "docs/validation/tracker-reconstruction-species/figures/fatras/electron/efficiency.png",
+      "docs/validation/tracker-reconstruction-species/figures/fatras/electron/momentum-hits-fakes.pdf",
+      "docs/validation/tracker-reconstruction-species/figures/fatras/electron/momentum-hits-fakes.png",
+      "docs/validation/tracker-reconstruction-species/figures/fatras/electron/pull-tails.json",
+      "docs/validation/tracker-reconstruction-species/figures/fatras/electron/pull-width-eta.pdf",
+      "docs/validation/tracker-reconstruction-species/figures/fatras/electron/pull-width-eta.png",
+      "docs/validation/tracker-reconstruction-species/figures/fatras/electron/pull-width-pt.pdf",
+      "docs/validation/tracker-reconstruction-species/figures/fatras/electron/pull-width-pt.png",
+      "docs/validation/tracker-reconstruction-species/figures/fatras/electron/pulls.pdf",
+      "docs/validation/tracker-reconstruction-species/figures/fatras/electron/pulls.png",
+      "docs/validation/tracker-reconstruction-species/figures/fatras/electron/resolution-eta.pdf",
+      "docs/validation/tracker-reconstruction-species/figures/fatras/electron/resolution-eta.png",
+      "docs/validation/tracker-reconstruction-species/figures/fatras/electron/resolution-pt.pdf",
+      "docs/validation/tracker-reconstruction-species/figures/fatras/electron/resolution-pt.png",
+      "docs/validation/tracker-reconstruction-species/figures/geant4/electron/efficiency.pdf",
+      "docs/validation/tracker-reconstruction-species/figures/geant4/electron/efficiency.png",
+      "docs/validation/tracker-reconstruction-species/figures/geant4/electron/momentum-hits-fakes.pdf",
+      "docs/validation/tracker-reconstruction-species/figures/geant4/electron/momentum-hits-fakes.png",
+      "docs/validation/tracker-reconstruction-species/figures/geant4/electron/pull-tails.json",
+      "docs/validation/tracker-reconstruction-species/figures/geant4/electron/pull-width-eta.pdf",
+      "docs/validation/tracker-reconstruction-species/figures/geant4/electron/pull-width-eta.png",
+      "docs/validation/tracker-reconstruction-species/figures/geant4/electron/pull-width-pt.pdf",
+      "docs/validation/tracker-reconstruction-species/figures/geant4/electron/pull-width-pt.png",
+      "docs/validation/tracker-reconstruction-species/figures/geant4/electron/pulls.pdf",
+      "docs/validation/tracker-reconstruction-species/figures/geant4/electron/pulls.png",
+      "docs/validation/tracker-reconstruction-species/figures/geant4/electron/resolution-eta.pdf",
+      "docs/validation/tracker-reconstruction-species/figures/geant4/electron/resolution-eta.png",
+      "docs/validation/tracker-reconstruction-species/figures/geant4/electron/resolution-pt.pdf",
+      "docs/validation/tracker-reconstruction-species/figures/geant4/electron/resolution-pt.png",
+      "docs/validation/tracker-reconstruction-species/figures/geant4/muon/efficiency.pdf",
+      "docs/validation/tracker-reconstruction-species/figures/geant4/muon/efficiency.png",
+      "docs/validation/tracker-reconstruction-species/figures/geant4/muon/momentum-hits-fakes.pdf",
+      "docs/validation/tracker-reconstruction-species/figures/geant4/muon/momentum-hits-fakes.png",
+      "docs/validation/tracker-reconstruction-species/figures/geant4/muon/pull-tails.json",
+      "docs/validation/tracker-reconstruction-species/figures/geant4/muon/pull-width-eta.pdf",
+      "docs/validation/tracker-reconstruction-species/figures/geant4/muon/pull-width-eta.png",
+      "docs/validation/tracker-reconstruction-species/figures/geant4/muon/pull-width-pt.pdf",
+      "docs/validation/tracker-reconstruction-species/figures/geant4/muon/pull-width-pt.png",
+      "docs/validation/tracker-reconstruction-species/figures/geant4/muon/pulls.pdf",
+      "docs/validation/tracker-reconstruction-species/figures/geant4/muon/pulls.png",
+      "docs/validation/tracker-reconstruction-species/figures/geant4/muon/resolution-eta.pdf",
+      "docs/validation/tracker-reconstruction-species/figures/geant4/muon/resolution-eta.png",
+      "docs/validation/tracker-reconstruction-species/figures/geant4/muon/resolution-pt.pdf",
+      "docs/validation/tracker-reconstruction-species/figures/geant4/muon/resolution-pt.png",
+      "docs/validation/tracker-reconstruction-species/figures/geant4/pion/efficiency.pdf",
+      "docs/validation/tracker-reconstruction-species/figures/geant4/pion/efficiency.png",
+      "docs/validation/tracker-reconstruction-species/figures/geant4/pion/momentum-hits-fakes.pdf",
+      "docs/validation/tracker-reconstruction-species/figures/geant4/pion/momentum-hits-fakes.png",
+      "docs/validation/tracker-reconstruction-species/figures/geant4/pion/pull-tails.json",
+      "docs/validation/tracker-reconstruction-species/figures/geant4/pion/pull-width-eta.pdf",
+      "docs/validation/tracker-reconstruction-species/figures/geant4/pion/pull-width-eta.png",
+      "docs/validation/tracker-reconstruction-species/figures/geant4/pion/pull-width-pt.pdf",
+      "docs/validation/tracker-reconstruction-species/figures/geant4/pion/pull-width-pt.png",
+      "docs/validation/tracker-reconstruction-species/figures/geant4/pion/pulls.pdf",
+      "docs/validation/tracker-reconstruction-species/figures/geant4/pion/pulls.png",
+      "docs/validation/tracker-reconstruction-species/figures/geant4/pion/resolution-eta.pdf",
+      "docs/validation/tracker-reconstruction-species/figures/geant4/pion/resolution-eta.png",
+      "docs/validation/tracker-reconstruction-species/figures/geant4/pion/resolution-pt.pdf",
+      "docs/validation/tracker-reconstruction-species/figures/geant4/pion/resolution-pt.png",
+      "docs/validation/tracker-reconstruction-species/frozen/electron_campaign.json",
+      "docs/validation/tracker-reconstruction-species/frozen/geant4_campaign.json",
+      "docs/validation/tracker-reconstruction-species/geant4/electron/pt1/events.npz",
+      "docs/validation/tracker-reconstruction-species/geant4/electron/pt1/geant4-mapping.json.gz",
+      "docs/validation/tracker-reconstruction-species/geant4/electron/pt1/summary.json.gz",
+      "docs/validation/tracker-reconstruction-species/geant4/electron/pt10/events.npz",
+      "docs/validation/tracker-reconstruction-species/geant4/electron/pt10/geant4-mapping.json.gz",
+      "docs/validation/tracker-reconstruction-species/geant4/electron/pt10/summary.json.gz",
+      "docs/validation/tracker-reconstruction-species/geant4/electron/pt100/events.npz",
+      "docs/validation/tracker-reconstruction-species/geant4/electron/pt100/geant4-mapping.json.gz",
+      "docs/validation/tracker-reconstruction-species/geant4/electron/pt100/summary.json.gz",
+      "docs/validation/tracker-reconstruction-species/geant4/electron/pt5/events.npz",
+      "docs/validation/tracker-reconstruction-species/geant4/electron/pt5/geant4-mapping.json.gz",
+      "docs/validation/tracker-reconstruction-species/geant4/electron/pt5/summary.json.gz",
+      "docs/validation/tracker-reconstruction-species/geant4/muon/pt1/events.npz",
+      "docs/validation/tracker-reconstruction-species/geant4/muon/pt1/geant4-mapping.json.gz",
+      "docs/validation/tracker-reconstruction-species/geant4/muon/pt1/summary.json.gz",
+      "docs/validation/tracker-reconstruction-species/geant4/muon/pt10/events.npz",
+      "docs/validation/tracker-reconstruction-species/geant4/muon/pt10/geant4-mapping.json.gz",
+      "docs/validation/tracker-reconstruction-species/geant4/muon/pt10/summary.json.gz",
+      "docs/validation/tracker-reconstruction-species/geant4/muon/pt100/events.npz",
+      "docs/validation/tracker-reconstruction-species/geant4/muon/pt100/geant4-mapping.json.gz",
+      "docs/validation/tracker-reconstruction-species/geant4/muon/pt100/summary.json.gz",
+      "docs/validation/tracker-reconstruction-species/geant4/muon/pt5/events.npz",
+      "docs/validation/tracker-reconstruction-species/geant4/muon/pt5/geant4-mapping.json.gz",
+      "docs/validation/tracker-reconstruction-species/geant4/muon/pt5/summary.json.gz",
+      "docs/validation/tracker-reconstruction-species/geant4/pion/pt1/events.npz",
+      "docs/validation/tracker-reconstruction-species/geant4/pion/pt1/geant4-mapping.json.gz",
+      "docs/validation/tracker-reconstruction-species/geant4/pion/pt1/summary.json.gz",
+      "docs/validation/tracker-reconstruction-species/geant4/pion/pt10/events.npz",
+      "docs/validation/tracker-reconstruction-species/geant4/pion/pt10/geant4-mapping.json.gz",
+      "docs/validation/tracker-reconstruction-species/geant4/pion/pt10/summary.json.gz",
+      "docs/validation/tracker-reconstruction-species/geant4/pion/pt100/events.npz",
+      "docs/validation/tracker-reconstruction-species/geant4/pion/pt100/geant4-mapping.json.gz",
+      "docs/validation/tracker-reconstruction-species/geant4/pion/pt100/summary.json.gz",
+      "docs/validation/tracker-reconstruction-species/geant4/pion/pt5/events.npz",
+      "docs/validation/tracker-reconstruction-species/geant4/pion/pt5/geant4-mapping.json.gz",
+      "docs/validation/tracker-reconstruction-species/geant4/pion/pt5/summary.json.gz",
+      "docs/validation/tracker-reconstruction-species/manifest.json",
+      "docs/validation/tracker-reconstruction-species/native-reports.json.gz",
+      "docs/validation/tracker-reconstruction-species/performance.json",
+      "docs/validation/tracker-reconstruction-species/results.md",
+      "docs/validation/tracker-reconstruction-species/root-audit.json",
+      "interactions/pr-0107.json",
+      "interactions/pr-0107/species-visible-events.json",
+      "logs/codex/SESSION-2026-10-30-tracker-electron-reconstruction.json",
+      "logs/codex/SESSION-2026-10-30-tracker-electron-reconstruction.md",
+      "logs/codex/SESSION-2026-10-30-tracker-electron-reconstruction/PhysVal-01-result.md",
+      "logs/codex/SESSION-2026-10-30-tracker-electron-reconstruction/PhysVal-01.assignment.json",
+      "logs/codex/SESSION-2026-10-30-tracker-electron-reconstruction/PhysVal-02-result.md",
+      "logs/codex/SESSION-2026-10-30-tracker-electron-reconstruction/PhysVal-02.assignment.json",
+      "logs/codex/SESSION-2026-10-30-tracker-electron-reconstruction/PhysVal-03-result.md",
+      "logs/codex/SESSION-2026-10-30-tracker-electron-reconstruction/PhysVal-03.assignment.json",
+      "logs/codex/SESSION-2026-10-30-tracker-electron-reconstruction/PhysVal-04-result.md",
+      "logs/codex/SESSION-2026-10-30-tracker-electron-reconstruction/PhysVal-04.assignment.json",
+      "logs/codex/SESSION-2026-10-30-tracker-electron-reconstruction/PhysVal-05-result.md",
+      "logs/codex/SESSION-2026-10-30-tracker-electron-reconstruction/PhysVal-05.assignment.json",
+      "logs/codex/SESSION-2026-10-30-tracker-electron-reconstruction/PhysVal-06-result.md",
+      "logs/codex/SESSION-2026-10-30-tracker-electron-reconstruction/PhysVal-06.assignment.json",
+      "logs/codex/SESSION-2026-10-30-tracker-electron-reconstruction/PhysVal-07-result.md",
+      "logs/codex/SESSION-2026-10-30-tracker-electron-reconstruction/PhysVal-07.assignment.json",
+      "logs/codex/SESSION-2026-10-30-tracker-electron-reconstruction/PhysVal-08-result.md",
+      "logs/codex/SESSION-2026-10-30-tracker-electron-reconstruction/PhysVal-08.assignment.json",
+      "logs/codex/SESSION-2026-10-30-tracker-electron-reconstruction/PhysVal-09-result.md",
+      "logs/codex/SESSION-2026-10-30-tracker-electron-reconstruction/PhysVal-09.assignment.json",
+      "logs/codex/SESSION-2026-10-30-tracker-electron-reconstruction/PhysVal-10-result.md",
+      "logs/codex/SESSION-2026-10-30-tracker-electron-reconstruction/PhysVal-10.assignment.json",
+      "logs/codex/SESSION-2026-10-30-tracker-electron-reconstruction/SoftEng-01-result.md",
+      "logs/codex/SESSION-2026-10-30-tracker-electron-reconstruction/SoftEng-01.assignment.json",
+      "logs/codex/SESSION-2026-10-30-tracker-electron-reconstruction/SoftEng-02-result.md",
+      "logs/codex/SESSION-2026-10-30-tracker-electron-reconstruction/SoftEng-02.assignment.json",
+      "logs/codex/SESSION-2026-10-30-tracker-electron-reconstruction/SoftEng-03-result.md",
+      "logs/codex/SESSION-2026-10-30-tracker-electron-reconstruction/SoftEng-03.assignment.json",
+      "logs/codex/SESSION-2026-10-30-tracker-electron-reconstruction/SoftEng-04-result.md",
+      "logs/codex/SESSION-2026-10-30-tracker-electron-reconstruction/SoftEng-04.assignment.json",
+      "logs/codex/SESSION-2026-10-30-tracker-electron-reconstruction/SoftEng-05-result.md",
+      "logs/codex/SESSION-2026-10-30-tracker-electron-reconstruction/SoftEng-05.assignment.json",
+      "logs/codex/SESSION-2026-10-30-tracker-electron-reconstruction/SoftEng-06-result.md",
+      "logs/codex/SESSION-2026-10-30-tracker-electron-reconstruction/SoftEng-06.assignment.json",
+      "logs/codex/SESSION-2026-10-30-tracker-electron-reconstruction/SoftEng-07-result.md",
+      "logs/codex/SESSION-2026-10-30-tracker-electron-reconstruction/SoftEng-07.assignment.json",
+      "project/tracking.json",
+      "software/analysis/tracker_reconstruction/README.md",
+      "software/analysis/tracker_reconstruction/analyze.py",
+      "software/analysis/tracker_reconstruction/audit_root.py",
+      "software/analysis/tracker_reconstruction/electron_campaign.json",
+      "software/analysis/tracker_reconstruction/geant4_campaign.json",
+      "software/analysis/tracker_reconstruction/plot.py",
+      "software/analysis/tracker_reconstruction/species.py",
+      "software/analysis/tracker_reconstruction/species_evidence.py",
+      "software/analysis/tracker_reconstruction/species_plot.py",
+      "software/analysis/tracker_reconstruction/species_report.py",
+      "software/analysis/tracker_reconstruction/test_analyze.py",
+      "software/analysis/tracker_reconstruction/test_audit_root.py",
+      "software/analysis/tracker_reconstruction/test_species.py",
+      "software/analysis/tracker_reconstruction/test_transport.py",
+      "software/analysis/tracker_reconstruction/transport.py",
+      "software/running/nodd_tracker_reconstruction.py",
+      "software/running/nodd_tracker_safe_fatras.py",
+      "software/source/ActsExamples/SafeFatras/Binding.cpp",
+      "software/source/ActsExamples/SafeFatras/CMakeLists.txt",
+      "software/source/ActsExamples/SafeFatras/README.md",
+      "software/source/ActsExamples/SafeFatras/SafeBetheHeitler.hpp",
+      "software/source/ActsExamples/SafeFatras/test_energy_loss.cpp",
+      "software/source/ActsExamples/TrackerReconstruction/CMakeLists.txt",
+      "software/source/ActsExamples/TrackerReconstruction/Reconstruction.cpp"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "tracker",
+      "reconstruction",
+      "GBTS",
+      "Fatras",
+      "Geant4",
+      "Gaussian digitization"
+    ],
+    "related_ids": [
+      "PR-107",
+      "DES-041",
+      "TASK-TRACK-GBTS-RECONSTRUCTION"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-30-tracker-electron-reconstruction.md",
+  "activities": [
+    {
+      "kind": "skill",
+      "name": "nodd-coordinate",
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "version": null,
+      "evidence": "Bounded PhysVal and SoftEng assignments with exact revision contracts."
+    },
+    {
+      "kind": "skill",
+      "name": "nodd-review-validation",
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "version": null,
+      "evidence": "Separate scientific native/ROOT assessment of all80000events, technical negative controls and final canonical integration at157994c; no human acceptance."
+    },
+    {
+      "kind": "skill",
+      "name": "nodd-design-evidence",
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "version": null,
+      "evidence": "DES041 DRAFT protocol and explicitly recorded compatibility/numerical amendments."
+    },
+    {
+      "kind": "skill",
+      "name": "acts-spack",
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "version": null,
+      "evidence": "Preflight warnings retained; installed runtime/dataset CLI and native smokes verified without shared dependency changes."
+    },
+    {
+      "kind": "skill",
+      "name": "pdf:pdf",
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "version": null,
+      "evidence": "PhysVal10 explicitly applied PDF export validation: six actual PDF renders visually checked and all30PDFs reproduced modulo CreationDate metadata."
+    }
+  ],
+  "usage": [
+    {
+      "client_thread_id": "01a18c6e-900f-71a0-a297-68e56d22a87b",
+      "turn_id": "01a18cfb-8df2-7fe3-b5ec-a1a36852d842",
+      "model": null,
+      "source": "logs/usage/USAGE-2026-10-30-pr107-accounting.json; usage-only cumulative deltas reconcile to last-request counters from zero; exact task ownership in logs/codex/SESSION-2026-10-30-tracker-gbts-merge-preparation/turn-attribution.json",
+      "limitations": [
+        "Actual execution model and client version are not exposed by the recovered counters. Cached input and reasoning output are subsets, not additional tokens."
+      ],
+      "input_tokens": 5992849,
+      "cached_input_tokens": 5911552,
+      "output_tokens": 19774,
+      "reasoning_output_tokens": 10880,
+      "total_tokens": 6012623
+    },
+    {
+      "client_thread_id": "01a18c6e-900f-71a0-a297-68e56d22a87b",
+      "turn_id": "01a18cd2-1e85-79b3-81fd-257b87c9359b",
+      "model": null,
+      "source": "logs/usage/USAGE-2026-10-30-pr107-accounting.json; usage-only cumulative deltas reconcile to last-request counters from zero; exact task ownership in logs/codex/SESSION-2026-10-30-tracker-gbts-merge-preparation/turn-attribution.json",
+      "limitations": [
+        "Actual execution model and client version are not exposed by the recovered counters. Cached input and reasoning output are subsets, not additional tokens."
+      ],
+      "input_tokens": 15589631,
+      "cached_input_tokens": 15557120,
+      "output_tokens": 42374,
+      "reasoning_output_tokens": 26177,
+      "total_tokens": 15632005
+    },
+    {
+      "client_thread_id": "01a18c6e-900f-71a0-a297-68e56d22a87b",
+      "turn_id": "01a18cc7-4414-7e40-91dc-0b81c4f3dafb",
+      "model": null,
+      "source": "logs/usage/USAGE-2026-10-30-pr107-accounting.json; usage-only cumulative deltas reconcile to last-request counters from zero; exact task ownership in logs/codex/SESSION-2026-10-30-tracker-gbts-merge-preparation/turn-attribution.json",
+      "limitations": [
+        "Actual execution model and client version are not exposed by the recovered counters. Cached input and reasoning output are subsets, not additional tokens."
+      ],
+      "input_tokens": 4493801,
+      "cached_input_tokens": 4487296,
+      "output_tokens": 13400,
+      "reasoning_output_tokens": 8263,
+      "total_tokens": 4507201
+    },
+    {
+      "client_thread_id": "01a18c6e-900f-71a0-a297-68e56d22a87b",
+      "turn_id": "01a18cbe-60b4-7fd2-bfbc-7fd5b4c09073",
+      "model": null,
+      "source": "logs/usage/USAGE-2026-10-30-pr107-accounting.json; usage-only cumulative deltas reconcile to last-request counters from zero; exact task ownership in logs/codex/SESSION-2026-10-30-tracker-gbts-merge-preparation/turn-attribution.json",
+      "limitations": [
+        "Actual execution model and client version are not exposed by the recovered counters. Cached input and reasoning output are subsets, not additional tokens."
+      ],
+      "input_tokens": 3889688,
+      "cached_input_tokens": 3859456,
+      "output_tokens": 17403,
+      "reasoning_output_tokens": 10341,
+      "total_tokens": 3907091
+    },
+    {
+      "client_thread_id": "01a18c6e-900f-71a0-a297-68e56d22a87b",
+      "turn_id": "01a18cb7-d1a6-7ab1-81d4-2c588255f168",
+      "model": null,
+      "source": "logs/usage/USAGE-2026-10-30-pr107-accounting.json; usage-only cumulative deltas reconcile to last-request counters from zero; exact task ownership in logs/codex/SESSION-2026-10-30-tracker-gbts-merge-preparation/turn-attribution.json",
+      "limitations": [
+        "Actual execution model and client version are not exposed by the recovered counters. Cached input and reasoning output are subsets, not additional tokens."
+      ],
+      "input_tokens": 3464845,
+      "cached_input_tokens": 3382656,
+      "output_tokens": 16678,
+      "reasoning_output_tokens": 4726,
+      "total_tokens": 3481523
+    },
+    {
+      "client_thread_id": "01a18c6e-900f-71a0-a297-68e56d22a87b",
+      "turn_id": "01a18cae-283e-7171-b22a-65b8bbb034c5",
+      "model": null,
+      "source": "logs/usage/USAGE-2026-10-30-pr107-accounting.json; usage-only cumulative deltas reconcile to last-request counters from zero; exact task ownership in logs/codex/SESSION-2026-10-30-tracker-gbts-merge-preparation/turn-attribution.json",
+      "limitations": [
+        "Actual execution model and client version are not exposed by the recovered counters. Cached input and reasoning output are subsets, not additional tokens."
+      ],
+      "input_tokens": 9048257,
+      "cached_input_tokens": 9009024,
+      "output_tokens": 20612,
+      "reasoning_output_tokens": 10230,
+      "total_tokens": 9068869
+    },
+    {
+      "client_thread_id": "01a18c6e-900f-71a0-a297-68e56d22a87b",
+      "turn_id": "01a18ca0-ac89-7f01-9205-7ed6727d3f15",
+      "model": null,
+      "source": "logs/usage/USAGE-2026-10-30-pr107-accounting.json; usage-only cumulative deltas reconcile to last-request counters from zero; exact task ownership in logs/codex/SESSION-2026-10-30-tracker-gbts-merge-preparation/turn-attribution.json",
+      "limitations": [
+        "Actual execution model and client version are not exposed by the recovered counters. Cached input and reasoning output are subsets, not additional tokens."
+      ],
+      "input_tokens": 3593728,
+      "cached_input_tokens": 3310976,
+      "output_tokens": 7208,
+      "reasoning_output_tokens": 2721,
+      "total_tokens": 3600936
+    },
+    {
+      "client_thread_id": "01a18c6e-900f-71a0-a297-68e56d22a87b",
+      "turn_id": "01a18c94-a327-7052-b6df-644fcfe2e38e",
+      "model": null,
+      "source": "logs/usage/USAGE-2026-10-30-pr107-accounting.json; usage-only cumulative deltas reconcile to last-request counters from zero; exact task ownership in logs/codex/SESSION-2026-10-30-tracker-gbts-merge-preparation/turn-attribution.json",
+      "limitations": [
+        "Actual execution model and client version are not exposed by the recovered counters. Cached input and reasoning output are subsets, not additional tokens."
+      ],
+      "input_tokens": 3531158,
+      "cached_input_tokens": 3505920,
+      "output_tokens": 7192,
+      "reasoning_output_tokens": 3281,
+      "total_tokens": 3538350
+    },
+    {
+      "client_thread_id": "01a18c6e-900f-71a0-a297-68e56d22a87b",
+      "turn_id": "01a18c8b-db23-7050-a14d-5fbe1ba051e0",
+      "model": null,
+      "source": "logs/usage/USAGE-2026-10-30-pr107-accounting.json; usage-only cumulative deltas reconcile to last-request counters from zero; exact task ownership in logs/codex/SESSION-2026-10-30-tracker-gbts-merge-preparation/turn-attribution.json",
+      "limitations": [
+        "Actual execution model and client version are not exposed by the recovered counters. Cached input and reasoning output are subsets, not additional tokens."
+      ],
+      "input_tokens": 3332948,
+      "cached_input_tokens": 3107968,
+      "output_tokens": 7996,
+      "reasoning_output_tokens": 3089,
+      "total_tokens": 3340944
+    },
+    {
+      "client_thread_id": "01a18c6e-900f-71a0-a297-68e56d22a87b",
+      "turn_id": "01a18c7f-f68c-7d21-8c58-ae6e4720c7f3",
+      "model": null,
+      "source": "logs/usage/USAGE-2026-10-30-pr107-accounting.json; usage-only cumulative deltas reconcile to last-request counters from zero; exact task ownership in logs/codex/SESSION-2026-10-30-tracker-gbts-merge-preparation/turn-attribution.json",
+      "limitations": [
+        "Actual execution model and client version are not exposed by the recovered counters. Cached input and reasoning output are subsets, not additional tokens."
+      ],
+      "input_tokens": 4238007,
+      "cached_input_tokens": 4056448,
+      "output_tokens": 7588,
+      "reasoning_output_tokens": 2116,
+      "total_tokens": 4245595
+    },
+    {
+      "client_thread_id": "01a18c6e-900f-71a0-a297-68e56d22a87b",
+      "turn_id": "01a18c71-c98a-7a52-a976-50d50f8c4093",
+      "model": null,
+      "source": "logs/usage/USAGE-2026-10-30-pr107-accounting.json; usage-only cumulative deltas reconcile to last-request counters from zero; exact task ownership in logs/codex/SESSION-2026-10-30-tracker-gbts-merge-preparation/turn-attribution.json",
+      "limitations": [
+        "Actual execution model and client version are not exposed by the recovered counters. Cached input and reasoning output are subsets, not additional tokens."
+      ],
+      "input_tokens": 1663263,
+      "cached_input_tokens": 1624704,
+      "output_tokens": 4630,
+      "reasoning_output_tokens": 1192,
+      "total_tokens": 1667893
+    },
+    {
+      "client_thread_id": "01a18c6e-900f-71a0-a297-68e56d22a87b",
+      "turn_id": "01a18c6e-9056-7e73-ad9a-adf85b757a12",
+      "model": null,
+      "source": "logs/usage/USAGE-2026-10-30-pr107-accounting.json; usage-only cumulative deltas reconcile to last-request counters from zero; exact task ownership in logs/codex/SESSION-2026-10-30-tracker-gbts-merge-preparation/turn-attribution.json",
+      "limitations": [
+        "Actual execution model and client version are not exposed by the recovered counters. Cached input and reasoning output are subsets, not additional tokens."
+      ],
+      "input_tokens": 1576222,
+      "cached_input_tokens": 1489792,
+      "output_tokens": 5982,
+      "reasoning_output_tokens": 1040,
+      "total_tokens": 1582204
+    },
+    {
+      "client_thread_id": "01a18c71-68a7-70e0-bd48-4f5e3e7a9ccf",
+      "turn_id": "01a18cb8-6445-7330-bf38-e4a14933766b",
+      "model": null,
+      "source": "logs/usage/USAGE-2026-10-30-pr107-accounting.json; usage-only cumulative deltas reconcile to last-request counters from zero; exact task ownership in logs/codex/SESSION-2026-10-30-tracker-gbts-merge-preparation/turn-attribution.json",
+      "limitations": [
+        "Actual execution model and client version are not exposed by the recovered counters. Cached input and reasoning output are subsets, not additional tokens."
+      ],
+      "input_tokens": 1353272,
+      "cached_input_tokens": 1343744,
+      "output_tokens": 2043,
+      "reasoning_output_tokens": 924,
+      "total_tokens": 1355315
+    },
+    {
+      "client_thread_id": "01a18c71-68a7-70e0-bd48-4f5e3e7a9ccf",
+      "turn_id": "01a18cb4-9f27-7311-acb6-cc8e96b62f06",
+      "model": null,
+      "source": "logs/usage/USAGE-2026-10-30-pr107-accounting.json; usage-only cumulative deltas reconcile to last-request counters from zero; exact task ownership in logs/codex/SESSION-2026-10-30-tracker-gbts-merge-preparation/turn-attribution.json",
+      "limitations": [
+        "Actual execution model and client version are not exposed by the recovered counters. Cached input and reasoning output are subsets, not additional tokens."
+      ],
+      "input_tokens": 3179455,
+      "cached_input_tokens": 3151104,
+      "output_tokens": 9049,
+      "reasoning_output_tokens": 6287,
+      "total_tokens": 3188504
+    },
+    {
+      "client_thread_id": "01a18c71-68a7-70e0-bd48-4f5e3e7a9ccf",
+      "turn_id": "01a18caf-71c6-7e42-bdca-7913cff50bba",
+      "model": null,
+      "source": "logs/usage/USAGE-2026-10-30-pr107-accounting.json; usage-only cumulative deltas reconcile to last-request counters from zero; exact task ownership in logs/codex/SESSION-2026-10-30-tracker-gbts-merge-preparation/turn-attribution.json",
+      "limitations": [
+        "Actual execution model and client version are not exposed by the recovered counters. Cached input and reasoning output are subsets, not additional tokens."
+      ],
+      "input_tokens": 4895796,
+      "cached_input_tokens": 4647808,
+      "output_tokens": 13449,
+      "reasoning_output_tokens": 8166,
+      "total_tokens": 4909245
+    },
+    {
+      "client_thread_id": "01a18c71-68a7-70e0-bd48-4f5e3e7a9ccf",
+      "turn_id": "01a18c99-6cd6-75e0-92e4-045598a6ff48",
+      "model": null,
+      "source": "logs/usage/USAGE-2026-10-30-pr107-accounting.json; usage-only cumulative deltas reconcile to last-request counters from zero; exact task ownership in logs/codex/SESSION-2026-10-30-tracker-gbts-merge-preparation/turn-attribution.json",
+      "limitations": [
+        "Actual execution model and client version are not exposed by the recovered counters. Cached input and reasoning output are subsets, not additional tokens."
+      ],
+      "input_tokens": 2463886,
+      "cached_input_tokens": 2444672,
+      "output_tokens": 12887,
+      "reasoning_output_tokens": 6039,
+      "total_tokens": 2476773
+    },
+    {
+      "client_thread_id": "01a18c71-68a7-70e0-bd48-4f5e3e7a9ccf",
+      "turn_id": "01a18c8e-ff6a-74a1-ab09-8b45acd671c0",
+      "model": null,
+      "source": "logs/usage/USAGE-2026-10-30-pr107-accounting.json; usage-only cumulative deltas reconcile to last-request counters from zero; exact task ownership in logs/codex/SESSION-2026-10-30-tracker-gbts-merge-preparation/turn-attribution.json",
+      "limitations": [
+        "Actual execution model and client version are not exposed by the recovered counters. Cached input and reasoning output are subsets, not additional tokens."
+      ],
+      "input_tokens": 3344045,
+      "cached_input_tokens": 3210752,
+      "output_tokens": 18371,
+      "reasoning_output_tokens": 6270,
+      "total_tokens": 3362416
+    },
+    {
+      "client_thread_id": "01a18c71-68a7-70e0-bd48-4f5e3e7a9ccf",
+      "turn_id": "01a18c77-4f65-7ad1-9648-ebfd8214ef47",
+      "model": null,
+      "source": "logs/usage/USAGE-2026-10-30-pr107-accounting.json; usage-only cumulative deltas reconcile to last-request counters from zero; exact task ownership in logs/codex/SESSION-2026-10-30-tracker-gbts-merge-preparation/turn-attribution.json",
+      "limitations": [
+        "Actual execution model and client version are not exposed by the recovered counters. Cached input and reasoning output are subsets, not additional tokens."
+      ],
+      "input_tokens": 1880541,
+      "cached_input_tokens": 1858944,
+      "output_tokens": 15697,
+      "reasoning_output_tokens": 3953,
+      "total_tokens": 1896238
+    },
+    {
+      "client_thread_id": "01a18c71-68a7-70e0-bd48-4f5e3e7a9ccf",
+      "turn_id": "01a18c71-68ef-7d91-b8cb-325667270d81",
+      "model": null,
+      "source": "logs/usage/USAGE-2026-10-30-pr107-accounting.json; usage-only cumulative deltas reconcile to last-request counters from zero; exact task ownership in logs/codex/SESSION-2026-10-30-tracker-gbts-merge-preparation/turn-attribution.json",
+      "limitations": [
+        "Actual execution model and client version are not exposed by the recovered counters. Cached input and reasoning output are subsets, not additional tokens."
+      ],
+      "input_tokens": 1874607,
+      "cached_input_tokens": 1814400,
+      "output_tokens": 9630,
+      "reasoning_output_tokens": 2136,
+      "total_tokens": 1884237
+    }
+  ],
+  "checks": [
+    {
+      "command": "python3 skills/acts-spack/scripts/preflight.py --require-sources",
+      "exit_code": 2,
+      "status": "FAIL",
+      "result": "Setup/lock drift and unverified full Geant4/DD4hep sources; installed matching runtime used with separate native checks."
+    },
+    {
+      "command": "analysis-venv/bin/python -m unittest discover -s software/analysis/tracker_reconstruction -p test_*.py",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "25 controls pass including shared-hit convergence boundary, matching, species identities and transport cleanup."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py",
+      "exit_code": 1,
+      "status": "FAIL",
+      "result": "Initial extension task state in_progress rejected; corrected to schema value active."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "79 tasks, 41 documents,22 review rounds."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "213 session records."
+    },
+    {
+      "command": "analysis-venv/bin/python software/analysis/tracker_reconstruction/verify.py",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "Original60nativecases/66000processedentries retain original source, paired samples, full residuals/pulls and baseline response."
+    },
+    {
+      "command": "python3 -B tools/tracker_dd4hep/verify_baseline.py",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "Balanced source/evidence fingerprints, native inventory, Gen3 roundtrip, G4 smoke and TDR tree unchanged."
+    },
+    {
+      "command": "python3 -B docs/publication/tracker-baseline-2026-10-29/scripts/balanced_snapshot.py --check",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "67 current source/assets,10strip controls, tables/source identities."
+    },
+    {
+      "command": "geant4-config --datasets; geant4-config --check-datasets",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "Geant4 11.4.3; all12 compiled-path datasets report INSTALLED, no dataset content hashing."
+    },
+    {
+      "command": "nodd_tracker_reconstruction.py --phase smoke (separate cases)",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "Muon Fatras100events exactly reproduces35originalarrays; G4 muon2/electron20/pion20 all46250 active mappings and nativeeventcounts; one-way electron smokes1/100GeV complete."
+    },
+    {
+      "command": "analyze.py electron-fatras-pt100-converged100eventsmoke",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "90matched primaries,109survivors,0duplicates,maximum shared2 after compute-budget repair. Original capped smoke retained2758survivors and1735duplicates."
+    },
+    {
+      "command": "initial5000eventFatras electron validation at1/5/10GeV",
+      "exit_code": 1,
+      "status": "FAIL",
+      "result": "All events processed but strict FPE gate catches11/5/12underflows respectively in native BetheHeitler exp(-u); preserve failure and repair numerically without masks."
+    },
+    {
+      "command": "SafeFatras production-equivalent and strict native CTests",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "Both variants pass1,572,432bitwise loss comparisons,6000parent/photon/RNG comparisons and127,229exponent-stratified hardware/FPE checks, including tiny/large underflow positive controls."
+    },
+    {
+      "command": "Independent SPECIES-PhysVal-06 same-seed full native and ROOT replay",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "15000events at1/5/10GeV match every native audit byte and all9ROOTtree branch buffers between failed-original and passing SafeFatrasv2; no claimed ROOTcontainerbyte identity."
+    },
+    {
+      "command": "Independent SPECIES-PhysVal-07 completed14case reclassification",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "70000generated events; exact both-stage classification, representatives/fulluncut arrays, outcome/parent/source/runtime identities; excludes both100GeV electrons at its pin."
+    },
+    {
+      "command": "Independent SPECIES-SoftEng-06 syntheticROOT negative controls",
+      "exit_code": 1,
+      "status": "FAIL",
+      "result": "Duplicatezero-trackeventIDs and unknownmeasurementvolumes erroneously pass oldaudit; actual nativecorruption not demonstrated. Corrected and separately reassessed."
+    },
+    {
+      "command": "Independent SPECIES-SoftEng-07 corrected ROOT integrity controls",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "BothP2 findings resolved at9e6a2bf; validfixtures pass, corruptions reject withoutPASSartifact; final actualmatrixaudit remains separate."
+    },
+    {
+      "command": "build/truth-tracking-baseline/analysis-venv/bin/python -E -B -m unittest discover -s software/analysis/tracker_reconstruction -p 'test_*.py' -v",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "30controls pass after exacttuple vectorization and crossed-candidate/changed-sigma negativecontrol."
+    },
+    {
+      "command": "audit_root.py --native build/tracker-reconstruction-species/final-native/fatras --analysis build/tracker-reconstruction-species/validation-analysis/fatras --output build/tracker-reconstruction-species/root-fatras-audit-v2.json",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "All4Fatrascases pass actualROOTevent/candidate/measurementcounts, unique full5000eventIDs, knownvolumes/allresponsecoordinates and complete same-event6parameter+6sigma tuples. Vectorized auditor sourcecdc290a."
+    },
+    {
+      "command": "Original Fatras muon20kevent native ambiguity replay",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "All4referencecases maximum shared0 and maximuminitialCKFcandidates2/1/1/2; old1000iterationbudget was not limiting."
+    },
+    {
+      "command": "Original species matrix driver final status",
+      "exit_code": 1,
+      "status": "FAIL",
+      "result": "InitialfailedFatras attempts and inherited-Spack-PYTHONPATH NumPyanalysis import errors remain in originaldriver status. Accepted SafeFatrasv2 reports and clean python-E analyses provide the finalmatrix; no failure masking."
+    },
+    {
+      "command": "Completed accepted native16case species/transport reports",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "All16cases5000events each completed with configuredFPE/source-runtime/input/output/nativecount gates; last G4electron100wall5736.1187s. Geant4internalBeamOn FPEscope remains qualified."
+    },
+    {
+      "command": "Independent SPECIES-PhysVal-09 closed Geant4electron100 native/analysis/ROOT assessment",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "All5000 finalevents, bothstages, fulluncutarrays,16etabins/Wilson/102bootstrapintervals agree; closedstream/native/runtime/output/actualROOT checks pass. Complete all80k independent event classification across07/08/09; canonicalmatrix integration remains separate."
+    },
+    {
+      "command": "build/tracker-reconstruction-species/finalize_matrix.py",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "Accepted16case retain, complete actual16case ROOT audit, report,30PNG/30PDF figures,manifest andspeciesverify allpass;80k generatedevents. Full receipt retained ignored, canonical outputs committed. ROOT replay199.5481s; plotting16.0052s."
+    },
+    {
+      "command": "python3 -B tools/tracker_dd4hep/verify_baseline.py; balanced_snapshot.py --check; agent_workflow/workflow.py validate",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "Repeated final baseline/TDR fingerprints and eightrole/threeskill contracts pass;30reconstruction controls also pass."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py build --output _site/species-extension-preview (before resync)",
+      "exit_code": 1,
+      "status": "FAIL",
+      "result": "Build correctly refuses stale interaction/accounting fingerprint after journal inventory update; synchronized canonical ledger before final rebuild. No token observations changed."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py validate; build --output _site/species-extension-preview (after sync)",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "Validated disjoint historical project observations and built the PR interaction/accounting preview after ledger synchronization. This task still has no exposed exact counters; usage=[] is unobserved, not zero."
+    },
+    {
+      "command": "Independent SPECIES-PhysVal-10 canonical integration, fresh report/figure replay and visual/PDF assessment at157994c",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "All130manifest files,16retained case byte identities/native reports and12mapping identities agree; originalmuon reference unchanged; retainedverify/all20population statistics/120pullnormalizations pass. Report/30PNG/4tailJSON byte-identical;30PDF differ only CreationDate;6PNG+actualPDF renders readable. Prior all80k raw classification reused, no human acceptance."
+    },
+    {
+      "command": "GitHub connector update_pull_request PR107",
+      "exit_code": null,
+      "status": "FAIL",
+      "result": "Connector403 Resource not accessible by integration; authenticated gh CLI fallback succeeds without changing requested scope."
+    },
+    {
+      "command": "git push origin codex/tracker-gbts-reconstruction; gh pr edit107 --body-file prepared description",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "Normal push aae2626..c851eb4; PR title/body updated and verified through connected read; draft remains true, no external comment/reviewer request. CI queued."
+    },
+    {
+      "command": "GitHub Actions PR107 project/scientific replay/token-site checks atc851eb46063d7b6b7173b39157bc0bebca8e35f0",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "All three jobs succeed. Project/scientific run41063873743; token-site run41063819714. Earlier project run was superseded by the PR metadata edit, without a test failure. Public discussion refreshed: no comments/reviews; draft remains true. Final following commit is record/metadata only."
+    }
+  ]
+}

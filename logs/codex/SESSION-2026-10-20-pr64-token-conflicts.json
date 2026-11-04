@@ -1,0 +1,167 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-20-pr64-token-conflicts",
+  "title": "PR64 exact token accounting and merge conflict resolution",
+  "recorded_at": "2026-10-20T15:35:27Z",
+  "started_at": null,
+  "ended_at": "2026-10-20T15:40:56Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "The current repair turn is active; its final token counters, actual execution model and client version are unavailable. Usage is empty for this maintenance record, not measured zero.",
+    "Historical shared-turn usage covers PR64 and companion PR65/66 work without per-PR allocation. Other-device completeness and billing remain unknown.",
+    "Original scientific evidence and DRAFT/human sign-off boundaries are preserved. No native detector execution or design approval is claimed.",
+    "Journal ended_at is the observed bounded-task curation closeout, not the active client turn boundary. Hosted CI for the final metadata head will be checked separately."
+  ],
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": "01a159f2-e7af-78b2-992c-d505bd3433d7"
+  },
+  "git": {
+    "start_commit": "4e44d7c650ac0a2931f7fc1637b5b3f2dfbe4c95",
+    "branch": "codex/tracker-solenoid-baseline",
+    "initial_changes": [],
+    "result_commits": [
+      "6c98618b9ab0eee62be1c1e4c72f2c03ae8aa0af"
+    ],
+    "changed_files": [
+      ".github/workflows/validation.yml",
+      "project/tracking.json",
+      "reference/manifest.yaml",
+      "logs/usage/USAGE-2026-10-20-pr64-accounting.json",
+      "logs/codex/SESSION-2026-10-12-solenoid-baseline.json",
+      "logs/codex/SESSION-2026-10-12-solenoid-baseline.md",
+      "logs/codex/SESSION-2026-10-12-solenoid-material-followup.json",
+      "logs/codex/SESSION-2026-10-12-solenoid-material-followup.md",
+      "logs/codex/SESSION-2026-10-12-calorimeter-assessment.json",
+      "logs/codex/SESSION-2026-10-12-calorimeter-assessment.md",
+      "logs/codex/SESSION-2026-10-12-calorimeter-executive-summary-followup.json",
+      "logs/codex/SESSION-2026-10-12-calorimeter-executive-summary-followup.md",
+      "logs/codex/SESSION-2026-10-20-pr64-token-conflicts.json",
+      "logs/codex/SESSION-2026-10-20-pr64-token-conflicts.md"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [
+      "PR64 maintenance",
+      "exact historical token accounting",
+      "ordinary merge conflict resolution"
+    ],
+    "related_ids": [
+      "PR64",
+      "PR65",
+      "PR66",
+      "DES-026",
+      "DES-027",
+      "ADR-004"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-10-20-pr64-token-conflicts.md",
+  "activities": [
+    {
+      "kind": "tool",
+      "name": "Git/GitHub CLI and local usage-only recovery",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Fetched main, ordinary merge with three reconciled files, opt-in read-only recovery and filtered user-visible thread attribution; exact import via logging CLI. No raw client history committed."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "git merge --no-commit --no-ff origin/main",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Initial merge reported conflicts in CI, project tracking and ATLAS solenoid source entry. Reconciled both contributions; no unmerged paths remain."
+    },
+    {
+      "command": "recover_usage.py --thread-id 01a12426-1fc9-73b0-94ed-40f3eaf1e83c and prior audit comparison",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "28 completed turns fully reconciled; 74 repeats ignored; no outside-turn usage. Retain only the matched PR64 shared turn, 81 requests. Exact counters and event digest match October 19 audit; no earlier child in source family."
+    },
+    {
+      "command": "session_log.py import-usage --id SESSION-2026-10-12-solenoid-baseline (dry-run, then import)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "One new unique observation; 14,806,844 input + 109,196 output = 14,916,040 tokens. Three companion journal references prevent duplication."
+    },
+    {
+      "command": "session_log.py validate; project_records/validate.py; token_usage/build.py validate and build",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "192 session pairs; 69 tasks, 39 documents, 21 review rounds; token site builds 225 disjoint dated turns and 692,316,838 observed tokens."
+    },
+    {
+      "command": "node tools/token_usage/test_app.js; python3 -B tools/odd_idres/verify.py; retained DES-026 hash checks",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Chart interaction checks pass. IdRes: 15 runs, 64881 fit rows, 7209 profiles, 54 controls, 7 SVGs verified. Every DES-026 figure input/output hash matches; model/material and retained numerical evidence unchanged."
+    },
+    {
+      "command": "git diff --cached --check (whole merge)",
+      "status": "FAIL",
+      "exit_code": 2,
+      "result": "Existing trailing whitespace/blank lines in 16 imported main SVG/log paths. Preserved source evidence; no unrelated rewrite. PR diff relative to origin/main passes whitespace checks."
+    },
+    {
+      "command": "Recovery presentation and metadata inspection attempts",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "One recovery display treated Unix integer time as text; corrected to use exact turn ID. One process inspection was denied by sandbox and abandoned. Initial network fetch/read attempts required approved network escalation; subsequent fetch/PR read succeeded. Counters and source data unaffected."
+    },
+    {
+      "command": "/Users/salzburg/Documents/work/projects/nodd/reference/cache/envelope-venv/bin/python -B -m unittest discover -s tools/solenoid_baseline -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "----------------------------------------------------------------------\nRan 12 tests in 0.529s\n\nOK"
+    },
+    {
+      "command": "/Users/salzburg/Documents/work/projects/nodd/reference/cache/envelope-venv/bin/python -B -m unittest discover -s tools/magnetic_study -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "----------------------------------------------------------------------\nRan 26 tests in 1.258s\n\nOK"
+    },
+    {
+      "command": "/Users/salzburg/Documents/work/projects/nodd/reference/cache/envelope-venv/bin/python -B -m unittest discover -s tools/odd_idres -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "----------------------------------------------------------------------\nRan 8 tests in 0.060s\n\nOK"
+    },
+    {
+      "command": "/Users/salzburg/Documents/work/projects/nodd/reference/cache/envelope-venv/bin/python -B -m unittest discover -s tools/project_records -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "----------------------------------------------------------------------\nRan 28 tests in 116.381s\n\nOK"
+    },
+    {
+      "command": "/Users/salzburg/Documents/work/projects/nodd/reference/cache/envelope-venv/bin/python -B -m unittest discover -s tools/session_logging -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "----------------------------------------------------------------------\nRan 33 tests in 1.474s\n\nOK"
+    },
+    {
+      "command": "/Users/salzburg/Documents/work/projects/nodd/reference/cache/envelope-venv/bin/python -B -m unittest discover -s tools/token_usage -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "----------------------------------------------------------------------\nRan 10 tests in 1.653s\n\nOK"
+    },
+    {
+      "command": "git diff --cached origin/main --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "PR-relative staged diff passes; the inherited whitespace noted in the full merge is absent from PR64 changes."
+    },
+    {
+      "command": "git push origin HEAD:codex/tracker-solenoid-baseline; gh pr edit/view 64",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Published merge 6c98618b9ab0eee62be1c1e4c72f2c03ae8aa0af and updated description. GitHub mergeable=MERGEABLE, mergeStateStatus=UNSTABLE at publication snapshot. Hosted checks pending; no PR merged."
+    }
+  ]
+}

@@ -75,6 +75,22 @@ validator, and a token total are not measures of scientific correctness.
 
 ## Add token accounting
 
+Every per-PR accounting pass also updates that PR's individual
+[interaction record](../interactions/README.md). Refresh the public discussion
+and available visible inputs/responses, preserve party/role/tool provenance,
+and synchronize the record after importing usage:
+
+```sh
+python3 -B tools/interactions/ledger.py sync --pr "$pr_number"
+python3 -B tools/interactions/ledger.py validate
+```
+
+If shared journals affect other PR references, run `sync` without `--pr` and
+commit only changed records. The interaction ledger references canonical usage
+owners and exact thread/turn keys; it does not create another token total.
+Missing history/model/provider evidence remains explicit. CI checks these
+fingerprints alongside the canonical accounting gates.
+
 Record exact, client-reported usage for each completed turn when it is available.
 Use the client's stable thread and turn IDs, including distinct child-thread IDs
 for any separately reported subagent usage. Do not count a parent aggregate that

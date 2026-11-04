@@ -1,0 +1,587 @@
+{
+  "schema_version": 1,
+  "github": {
+    "captured_at": "2026-10-24T07:41:01.670Z",
+    "pull_request": {
+      "number": 75,
+      "url": "https://github.com/asalzburger/nodd/pull/75",
+      "title": "Documentation: reviewer overview of Si-W and LAr ECAL layouts",
+      "head": "codex/ecal-layout-review-entry",
+      "head_sha": "7c7f847bc5a5d52c091c1d2f32203d20f70c27f9",
+      "state": "open",
+      "body": "# nODD ECAL layouts - reviewer overview\n\nSi-W and ALLEGRO LAr candidates. Review entry, not a TDR.\n\nSnapshot: 2026-10-14. [Four-page PDF](https://github.com/asalzburger/nodd/blob/codex/ecal-layout-review-entry/docs/layouts/review/ecal-layout-review.pdf).\n\n## 1 - Candidate layouts\n\nBoth candidates retain the documented tracker (45,646 sensitive planes) and the proposed inner solenoid (3 T central target; [PR #64](https://github.com/asalzburger/nodd/pull/64), open). Its radial service reservation reaches 1.64 m; the computed vessel ends at r=1.559 m and |z|=3.85 m. These DRAFT prototypes have no complete-detector, installed-field or engineering acceptance.\n\n![Si-W candidate R-Z view with tracker, conditional solenoid and HCAL outline](https://raw.githubusercontent.com/asalzburger/nodd/codex/ecal-layout-review-entry/docs/layouts/review/figures/layout001-rz.png)\n\nLAYOUT-001: Si-W ECAL, enlarged HCAL outline and empty service/FCal reservations. FCal and muon systems remain unbuilt.\n\n![LAr candidate R-Z view with enlarged calorimeter and service allocations](https://raw.githubusercontent.com/asalzburger/nodd/codex/ecal-layout-review-entry/docs/layouts/review/figures/layout002-rz.png)\n\nLAYOUT-002: LAr ECAL, enlarged HCAL outline and empty service/forward reservations. Neither forward collar nor FCal is built.\n\n## 2 - Si-W ECAL prototype\n\nOpen component proposals: [PR #71](https://github.com/asalzburger/nodd/pull/71) (Si-W ECAL barrel prototype) and [PR #70](https://github.com/asalzburger/nodd/pull/70) (Si-W ECAL endcap prototype). The same sampling and board stack is carried through sixteen barrel sectors and sixteen wedge carriers per endcap. [PR #76](https://github.com/asalzburger/nodd/pull/76) adds service/forward envelopes under [DES034](https://github.com/asalzburger/nodd/blob/0a26796518d690bf26934d2864d63ecad7582675/docs/design/DES-034-siw-service-envelopes.md).\n\n| Element | Current prototype choice |\n| --- | --- |\n| Sampling / sensors | 48 layers; 1.9 mm tungsten alloy and 0.5 mm silicon. Standard 90 mm blanks have an 88 mm active window and 5.5 mm pad pitch; physical guards remain passive. |\n| Barrel construction | Seven 1 m slabs plus two short end slabs per sector/layer. Alternating ±96 mm shifts move service joints through depth; 94 mm boards on a 96 mm pitch retain real gaps. |\n| Endcap packing | 76 squares plus 36 custom edge sensors per wedge/layer; 29 mask profiles. The 100 mm aperture apothem, 30 mm inner support and 120 mm outer service bay are unsigned allocations. |\n| Support / cooling | Aluminium skins and frames, explicit PCB/ASIC/thermal contacts; a 3 mm copper plate with 2 mm-OD Ti/water runs. External collectors/ports remain absent; PR76 reserves an outer backbone and HCAL rear egress. |\n\n### Material and service drivers\n\nRecorded model masses are 299.003 t for the barrel and 98.949 t for both endcaps. Copper contributes 119.693/40.591 t, dominated by the cooling plates. Continuous heat hypotheses give 188.40/71.05 kW; the summed ideal water flow is 12.414 kg/s for a 5 K rise. These are inventory/power calculations, not thermal or hydraulic qualification. A 300 mm annulus and 400 mm rear break reserve cable/water exits; local cassette ports and support loads remain open. The 30 mm front seam is installation-only; services are allocated outside the endcap.\n\n### Coverage and evidence limits\n\nBarrel active-face area is 54.88-64.57% by layer; aligned sector-centre cracks remain. Custom masks give 69.47% endcap active-face area. At η=4, 68.89% of 360 one-degree-centred azimuth rays cross active silicon in at least one endcap layer; seams and guards leave blind directions. Native construction, IDs, mass and overlap checks plus sparse saved hits establish the isolated implementation; efficiencies and showers remain unvalidated.\n\n[Barrel design and evidence](https://github.com/asalzburger/nodd/blob/2776266570dda13386a16863e5b0e97432f27217/docs/design/DES-031-siw-barrel-prototype.md) · [Endcap design and evidence](https://github.com/asalzburger/nodd/blob/654b85a48abeb38735ad7fe0866c5d1082882df7/docs/design/DES-030-ecal-edge-sensors.md)\n\n## 3 - ALLEGRO-style LAr ECAL prototype\n\nOpen component proposals: [PR #73](https://github.com/asalzburger/nodd/pull/73) (LAr ECAL barrel and service interfaces prototype) and [PR #74](https://github.com/asalzburger/nodd/pull/74) (LAr ECAL endcaps and layout prototype). The separate inner 3 T coil is retained; ALLEGRO’s outer-solenoid proxy is omitted.\n\n| Element | Current prototype choice |\n| --- | --- |\n| Barrel sampling | 1,536 inclined periods, eleven compartments, two active gaps per electrode. Sampling radii 2.1728-2.5783 m; active half-length 3.910 m. Pb core 1.8 mm, total steel/glue 0.2/0.1 mm and 1.2 mm PCB; first core is passive LAr. |\n| Turbine endcaps | Three wheels, 384/720/1,360 periods, 49° tilt, active r=410-2,790 mm and 450 mm depth. Inner Pb core 1.1 mm, total steel/glue 0.2/0.1 mm and 1.3 mm electrode. Radial/axial readout is virtual, distinct from source calibration subdivisions. |\n| Supports / cold boards | Sixteen barrel H-rings and 5,888 wet board slots. Each endcap has three wheel support tubes, a 30 mm rear annulus (1.954 t/end) and 1,584 board slots. The unported rear annulus blocks direct signal/HV routes; passages and attachments need redesign. |\n| Cryostat / cooling | Explicit warm/vacuum/cold wall proxies, 170 mm barrel rear bath and 250 mm endcap rear bath. N2 branches have 18 mm bore/20 mm OD; headers, seals, pressure/temperature and return-circuit qualification remain open. |\n\n### Space and engineering consequences\n\nThe model has 2.286 million barrel cells and 601,600 per endcap. The Cartesian turbine taper differs from cylindrical-radius intent by up to 0.117 mm in the inner wheel. Physical mass includes bath displacement and cold service proxies. A 200 kW cooling allowance falls 58 kW short of the 258 kW adverse planning scenario, before complete static-heat qualification.\n\nThe 800 mm front gap budgets provisional cryogenic S-bends; this nODD routing choice is not an intrinsic LAr requirement. Native component checks and the ECAL-only combined audit do not qualify the tracker/coil/HCAL union. LAr remains uncovered at η=4; forward reservations contain no hardware. Barrel/endcap transition directions have partial depth, requiring later material/response design.\n\n[Barrel/service design](https://github.com/asalzburger/nodd/blob/48e97256f8badd75c022a84ab1c4ff71977c56a2/docs/design/DES-032-allegro-lar-barrel.md) · [Endcap/forward design](https://github.com/asalzburger/nodd/blob/72d37ee9a56182e4ba974791a848a738c19cf092/docs/design/DES-033-allegro-lar-endcaps.md)\n\n## 4 - Budgets and review priorities\n\n| Budget / boundary | Si-W candidate | LAr candidate |\n| --- | --- | --- |\n| ECAL model mass: barrel / both ends / total | 299.003 / 98.949 / 397.952 t | 252.508 / 131.173 / 383.681 t |\n| Principal material inventory | 198.595 t W alloy; 160.284 t Cu | 187.692 t Pb; 98.668 t LAr; 58.636 t Al |\n| Barrel ECAL package bounds | Apothem 1.700-2.233 m; &#124;z&#124;≤3.920 m | Radius 2.100-2.830 m; &#124;z&#124;≤4.100 m |\n| Endcap ECAL package bounds | &#124;z&#124;=3.950-4.483 m; outer apothem 2.223 m | &#124;z&#124;=4.900-5.860 m; outer radius 2.949 m |\n| ECAL / HCAL routing allocations | 300 mm circular annulus; 400 mm rear egress break; 30 mm front seam is installation-only | 300 mm barrel radial; 181 mm beside endcap; 800/500 mm axial before/after endcap |\n| Forward reservation | R=0.080-0.290 m; &#124;z&#124;=4.533-6.379 m; empty FCal | Empty EM collar and FCal; no active η=4 LAr coverage |\n| HCAL outline extent | Outer apothem 4.096 m; &#124;z&#124;max=6.379 m | Outer apothem 4.626 m; &#124;z&#124;max=7.856 m |\n| Outline max corner radius / full axial length | 4.176 m / 12.758 m | 4.717 m / 15.712 m |\n\nECAL masses are native-ledger sums with different passive/service hypotheses; shared tracker/solenoid, detailed HCAL and absent systems are excluded. Aluminium totals include walls, supports and boards. Masses do not rank performance. Compared with the service-amended Si-W layout, LAr HCAL outline volume is ×1.43; loads and magnetic effects remain unvalidated.\n\nShared tracker+Be inventory: 2.860 t (Be 2.036 kg); planning region r≤1.20 m, |z|≤3.60 m does not bound passive services. At η=0, separate examples are tracker 0.329-0.418 X0 and illustrative solenoid 1.402 X0 (1.00-2.10 scenarios). These are not a combined pre-ECAL map. Solenoid mass/support inventory remains unassigned. [Solenoid material assumptions](https://github.com/asalzburger/nodd/blob/4e44d7c650ac0a2931f7fc1637b5b3f2dfbe4c95/docs/validation/DES-026/material-estimate.md).\n\n### Bounded reviewer decisions\n\nReview Si-W copper cooling, collector ports, balanced station wiring and custom-mask seams/process; review LAr vessel/support proxies, blocked service paths and cryogenic heat margin. Both have explicit external/forward space, with no installed FCal. Si-W merged lanes reserve 880×220 mm for a 166,698 mm² adverse load; its partial feed Cu/water estimates are 0.918/1.005 t, excluding other cables and supports. Routing, loads, shielding and beam-pipe continuation need separate design.\n\n### Status and traceability\n\nAll four ECAL component PRs and service PR76 remain open in this 2026-10-14 snapshot. Dimensions/services are unsigned nODD choices; native budgets are model inferences. Recorded checks grant no engineering sign-off, installed field or shower/jet/particle-flow validation. This brief is a common review entry; the pinned component records remain authoritative.\n\n[Frozen source and evidence catalogue](https://github.com/asalzburger/nodd/blob/codex/ecal-layout-review-entry/docs/layouts/review/sources.json) · [Si-W layout inputs](https://github.com/asalzburger/nodd/blob/codex/ecal-layout-review-entry/docs/layouts/review/layout001.json) · [LAr layout inputs](https://github.com/asalzburger/nodd/blob/codex/ecal-layout-review-entry/docs/layouts/review/layout002.json)\n",
+      "actor": "asalzburger",
+      "created_at": "2026-10-14T05:27:34Z"
+    },
+    "comments": [
+      {
+        "id": 6163562396,
+        "url": "https://github.com/asalzburger/nodd/pull/75#issuecomment-6163562396",
+        "body": "Why does the ALLEGRO style barrel need a spacy gap between LAr Barrel and Endcap - and why is this not necessary for the Si-W prototype?",
+        "actor": "asalzburger-review",
+        "created_at": "2026-10-14T07:49:23Z",
+        "updated_at": "2026-10-14T07:49:23Z",
+        "review": null,
+        "in_reply_to_id": null,
+        "path": null,
+        "line": null
+      },
+      {
+        "id": 6163783411,
+        "url": "https://github.com/asalzburger/nodd/pull/75#issuecomment-6163783411",
+        "body": "The **800 mm is a provisional nODD front-routing allocation**, rather than a demonstrated minimum for ALLEGRO or LAr calorimetry. The layouts currently use different service-exit strategies:\n\n| | LAr LAYOUT-002 | Si-W LAYOUT-001 |\n| --- | --- | --- |\n| ECAL barrel/endcap package gap | 800 mm for front cryogenic bends/access | 30 mm installation seam |\n| Service route | Assumed front S-bend to the exterior backbone, then 500 mm rear HCAL break | Backbone outside both ECAL packages, then 400 mm rear HCAL break |\n| Largest assumed jacket | 100 mm LAr utilities; 80 mm N2 | 50 mm water |\n\nFor LAr, the current calculation moves a pipe from R=2735.3 to 3029 mm. With a chosen bend radius of 4x100=400 mm, its two-arc S-bend occupies **739.4 mm**, including the 100 mm jacket and 20 mm clearance. This motivated the rounded 800 mm reservation. The cryostat end/front layers are already inside the package bounds; they do not independently justify the extra 800 mm. [Pinned service calculation](https://github.com/asalzburger/nodd/blob/48e97256f8badd75c022a84ab1c4ff71977c56a2/tools/lar_calorimeter/services.py), [DES032](https://github.com/asalzburger/nodd/blob/48e97256f8badd75c022a84ab1c4ff71977c56a2/docs/design/DES-032-allegro-lar-barrel.md#service-packing-and-amended-hcal-interface).\n\nThere is a missing premise: **the calculation uses the N2 exchanger radius for the 100 mm LAr utilities too**. Their actual headers, feedthrough origins and wall penetrations are undefined. The jacket sizes/bend rule are planning choices. The arithmetic sizes that assumed route; it cannot prove that the front gap is necessary or minimal.\n\nSi-W has substantial service space as well. Its 300 mm exterior annulus continues outside both endcap and barrel corners; services exit radially through the **400 mm rear HCAL gap**. A chosen 50 mm water jacket needs 245 mm for one quarter-turn including clearance. Its 30 mm front seam is **not** the service-routing budget. Local cassette collectors/ports remain unresolved, so this topology is also an allocation rather than a qualified network. [DES034](https://github.com/asalzburger/nodd/blob/0a26796518d690bf26934d2864d63ecad7582675/docs/design/DES-034-siw-service-envelopes.md#external-backbone-and-hcal-interfaces).\n\nI have clarified both paragraphs in the overview and regenerated the matching four-page PDF. Proposed follow-up:\n\n1. Define actual LAr header/feedthrough endpoints, jacket/bend/connector dimensions, supports and installation access; close the Si-W collector endpoints to the same standard.\n2. Compare the present front S-bend with barrel-side outlets into the exterior annulus and rear egress. This is a plausible way to reduce the LAr front separation, subject to cryostat/route design.\n3. Only then reduce/move the endcap and recheck containment, transition material/full-depth crossings and HCAL/collar/FCal interfaces. Keep 800 mm as the current reservation until an alternative is demonstrated.\n\n[Retained explanation and bounded action proposal](https://github.com/asalzburger/nodd/blob/codex/ecal-layout-review-entry/docs/design/inputs/DES-032-transition-review.md). No geometry or performance claim has been changed by this reply.\n",
+        "actor": "asalzburger",
+        "created_at": "2026-10-14T08:03:11Z",
+        "updated_at": "2026-10-14T08:03:11Z",
+        "review": null,
+        "in_reply_to_id": null,
+        "path": null,
+        "line": null
+      },
+      {
+        "id": 6278091329,
+        "url": "https://github.com/asalzburger/nodd/pull/75#issuecomment-6278091329",
+        "body": "1. In the ALLEGRO (Layout 002) geometry, what is the purpose of the (large) empty space between the magnet and the central ECAL? Is it related to services, cables, or the preshower (distance)?\r\n\r\n2. Similarly, why are the ALLEGRO forward ECAL endcap \"turbines\" so far away from the central barrel along the z-axis? What is the service space between them needed for? Perhaps compare with the existing ALLEGRO references.\r\n\r\n3. Why does the Si-W (Layout 001) proposal require much less service space, i.e., why is it more compact? Is this due to, for example, reduced cryogenic requirements because of the different calorimeter technology?\r\n\r\n4. The cyan color (service space) and dashed gray (HCAL) are very similar, and I cannot actually see the dashing at all. The plots should be improved.\r\n\r\n5. How are the materials and dimensions derived? Are they based on existing literature references and/or on optimization of some starting design? Describe the procedure.\r\n\r\n6. What were the main physics performance criteria taken into account when deriving the designs? They look similar to previous HEP detectors, but give me the reasons.\r\n\r\n7. Describe the procedure and simulations behind the mechanical engineering computations (flows, forces, masses, heat transfer, etc.), and/or provide a reference.\r\n\r\n8. How is the 3D object geometry checked? Did you use an existing geometry processing package, or was something similar built on the fly, using geometry overlap/intersection algorithms such as AABB trees and/or ray tracing?\r\n\r\n9. Give me an overall force/mass structure hierarchy and numbers, i.e., prove that the ECAL is not, for example, too heavy. Provide a reference for typical engineering design target values, i.e., what values (ranges) are actually feasible.\r\n\r\n10. Give a systematic object structure of the 3D geometry that shows the distances to other objects, i.e., surface tolerances. That is, make it mathematically watertight that the necessary tolerances and empty spaces are satisfied and that all typical requirements (cabling, services, pipes, etc.) are taken into account.\r\n\r\n11. Provide answers to the questions above for both designs, with an emphasis on the ECAL, but take into account the full detector as required.",
+        "actor": "mieskolainen",
+        "created_at": "2026-10-19T21:45:34Z",
+        "updated_at": "2026-10-19T21:45:34Z",
+        "review": null,
+        "in_reply_to_id": null,
+        "path": null,
+        "line": null
+      }
+    ],
+    "issues": []
+  },
+  "curated": {
+    "journal_links": [],
+    "agents": [],
+    "tools": [],
+    "events": []
+  },
+  "derived": {
+    "parties": [
+      {
+        "id": "agent:SESSION-2026-10-14-ecal-layout-review",
+        "name": "Codex desktop",
+        "kind": "agent"
+      },
+      {
+        "id": "agent:SESSION-2026-10-14-ecal-review-envelope-update",
+        "name": "Codex desktop",
+        "kind": "agent"
+      },
+      {
+        "id": "agent:SESSION-2026-10-14-pr75-transition-question",
+        "name": "Codex desktop",
+        "kind": "agent"
+      },
+      {
+        "id": "agent:SESSION-2026-10-14-siw-service-envelopes",
+        "name": "Codex desktop",
+        "kind": "agent"
+      },
+      {
+        "id": "github:asalzburger",
+        "name": "asalzburger",
+        "kind": "account"
+      },
+      {
+        "id": "github:asalzburger-review",
+        "name": "asalzburger-review",
+        "kind": "human"
+      },
+      {
+        "id": "github:mieskolainen",
+        "name": "mieskolainen",
+        "kind": "human"
+      },
+      {
+        "id": "unknown:project-user",
+        "name": "Project user (name unrecorded)",
+        "kind": "human"
+      }
+    ],
+    "journals": [
+      {
+        "session_id": "SESSION-2026-10-14-siw-service-envelopes",
+        "record": "logs/design/SESSION-2026-10-14-siw-service-envelopes.json",
+        "attribution": [
+          "explicit_PR_reference"
+        ],
+        "snapshot": null,
+        "snapshot_sha256": null,
+        "record_sha256": "0ffb5597ee19266ef9c9f37f6b22e6b0d8949f7ffdafe3e782813f5207d452ec",
+        "narrative_sha256": "1e5e587995cd9807bb47d87ee1ffa528a019d94c64eed7a128fb22948374a4a4"
+      },
+      {
+        "session_id": "SESSION-2026-10-14-ecal-layout-review",
+        "record": "https://github.com/asalzburger/nodd/blob/7c7f847bc5a5d52c091c1d2f32203d20f70c27f9/logs/design/SESSION-2026-10-14-ecal-layout-review.json",
+        "attribution": [
+          "pinned_branch_journal_snapshot"
+        ],
+        "snapshot": "interactions/pr-0075/journals/SESSION-2026-10-14-ecal-layout-review.json",
+        "snapshot_sha256": "7a1b1b92068e26111bc471972bd0cb6e27afd45f0401d80670263a58d348933f",
+        "record_sha256": "80fe841babc5da1de278a8aeff109f5916736340393eca5addb6a5f3c22e889b",
+        "narrative_sha256": "3df4f5c235891a26597ac0df5515a3ee2c685f5134337b1a71a3769535c87573"
+      },
+      {
+        "session_id": "SESSION-2026-10-14-ecal-review-envelope-update",
+        "record": "https://github.com/asalzburger/nodd/blob/7c7f847bc5a5d52c091c1d2f32203d20f70c27f9/logs/design/SESSION-2026-10-14-ecal-review-envelope-update.json",
+        "attribution": [
+          "pinned_branch_journal_snapshot"
+        ],
+        "snapshot": "interactions/pr-0075/journals/SESSION-2026-10-14-ecal-review-envelope-update.json",
+        "snapshot_sha256": "124e4655d509b564d48d96b4671baca4c7cacb4b24dfeca084878d635ced677d",
+        "record_sha256": "6ccdd85457d11f7a7e491237825383deb413a404afb5e8e16f56e2856c927ccd",
+        "narrative_sha256": "94de6b75db6def3e944399ec8171779ac5f0bace58640440ea1824d0b50d6c60"
+      },
+      {
+        "session_id": "SESSION-2026-10-14-pr75-transition-question",
+        "record": "https://github.com/asalzburger/nodd/blob/7c7f847bc5a5d52c091c1d2f32203d20f70c27f9/logs/design/SESSION-2026-10-14-pr75-transition-question.json",
+        "attribution": [
+          "pinned_branch_journal_snapshot"
+        ],
+        "snapshot": "interactions/pr-0075/journals/SESSION-2026-10-14-pr75-transition-question.json",
+        "snapshot_sha256": "b97793dc8bb5dac86af0584de88d34be5968aabc866e86a373a208937f50339c",
+        "record_sha256": "17e69b5a6264acc2034752529150a995290e31c7d6ac892ff986e97bb7b033b8",
+        "narrative_sha256": "f24679b9bcc7bf0e6005efa58b581889075633665fd8433478031f75f112a6ec"
+      }
+    ],
+    "token_accounts": [
+      {
+        "id": "SESSION-2026-10-14-siw-service-envelopes",
+        "record": "logs/design/SESSION-2026-10-14-siw-service-envelopes.json",
+        "scope": "canonical_session; shared PR references are not allocations",
+        "status": "unobserved",
+        "usage_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "turns": []
+      },
+      {
+        "id": "SESSION-2026-10-14-ecal-layout-review",
+        "record": "https://github.com/asalzburger/nodd/blob/7c7f847bc5a5d52c091c1d2f32203d20f70c27f9/logs/design/SESSION-2026-10-14-ecal-layout-review.json",
+        "scope": "pinned_branch_reference; not imported into main accounting",
+        "status": "unobserved",
+        "usage_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "turns": []
+      },
+      {
+        "id": "SESSION-2026-10-14-ecal-review-envelope-update",
+        "record": "https://github.com/asalzburger/nodd/blob/7c7f847bc5a5d52c091c1d2f32203d20f70c27f9/logs/design/SESSION-2026-10-14-ecal-review-envelope-update.json",
+        "scope": "pinned_branch_reference; not imported into main accounting",
+        "status": "unobserved",
+        "usage_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "turns": []
+      },
+      {
+        "id": "SESSION-2026-10-14-pr75-transition-question",
+        "record": "https://github.com/asalzburger/nodd/blob/7c7f847bc5a5d52c091c1d2f32203d20f70c27f9/logs/design/SESSION-2026-10-14-pr75-transition-question.json",
+        "scope": "pinned_branch_reference; not imported into main accounting",
+        "status": "unobserved",
+        "usage_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "turns": []
+      }
+    ],
+    "visible_sources": [],
+    "agents": [
+      {
+        "id": "agent:SESSION-2026-10-14-siw-service-envelopes",
+        "name": "Codex desktop",
+        "role": "session_agent",
+        "thread_id": null,
+        "models": [],
+        "source": "logs/design/SESSION-2026-10-14-siw-service-envelopes.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      },
+      {
+        "id": "agent:SESSION-2026-10-14-siw-service-envelopes:SysArch:f6e283d6",
+        "name": "SysArch",
+        "role": "reported_specialist_assignment",
+        "thread_id": null,
+        "models": [],
+        "source": "logs/design/SESSION-2026-10-14-siw-service-envelopes.md#decisions-and-handoffs",
+        "limitation": "Role contract is recorded; native profile loading and process identity are not inferred."
+      },
+      {
+        "id": "agent:SESSION-2026-10-14-siw-service-envelopes:PhysVal:f6e283d6",
+        "name": "PhysVal",
+        "role": "reported_specialist_assignment",
+        "thread_id": null,
+        "models": [],
+        "source": "logs/design/SESSION-2026-10-14-siw-service-envelopes.md#decisions-and-handoffs",
+        "limitation": "Role contract is recorded; native profile loading and process identity are not inferred."
+      },
+      {
+        "id": "agent:SESSION-2026-10-14-siw-service-envelopes:SysArch:856d2606",
+        "name": "SysArch",
+        "role": "reported_specialist_assignment",
+        "thread_id": null,
+        "models": [],
+        "source": "logs/design/SESSION-2026-10-14-siw-service-envelopes.md#sysarch-handoff-and-implementation",
+        "limitation": "Role contract is recorded; native profile loading and process identity are not inferred."
+      },
+      {
+        "id": "agent:SESSION-2026-10-14-ecal-layout-review",
+        "name": "Codex desktop",
+        "role": "session_agent",
+        "thread_id": null,
+        "models": [],
+        "source": "https://github.com/asalzburger/nodd/blob/7c7f847bc5a5d52c091c1d2f32203d20f70c27f9/logs/design/SESSION-2026-10-14-ecal-layout-review.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      },
+      {
+        "id": "agent:SESSION-2026-10-14-ecal-layout-review:SoftEng:88452306",
+        "name": "SoftEng",
+        "role": "reported_specialist_assignment",
+        "thread_id": null,
+        "models": [],
+        "source": "https://github.com/asalzburger/nodd/blob/7c7f847bc5a5d52c091c1d2f32203d20f70c27f9/logs/design/SESSION-2026-10-14-ecal-layout-review.md#specialist-handoffs",
+        "limitation": "Role contract is recorded; native profile loading and process identity are not inferred."
+      },
+      {
+        "id": "agent:SESSION-2026-10-14-ecal-layout-review:PhysVal:88452306",
+        "name": "PhysVal",
+        "role": "reported_specialist_assignment",
+        "thread_id": null,
+        "models": [],
+        "source": "https://github.com/asalzburger/nodd/blob/7c7f847bc5a5d52c091c1d2f32203d20f70c27f9/logs/design/SESSION-2026-10-14-ecal-layout-review.md#specialist-handoffs",
+        "limitation": "Role contract is recorded; native profile loading and process identity are not inferred."
+      },
+      {
+        "id": "agent:SESSION-2026-10-14-ecal-layout-review:PubDoc:88452306",
+        "name": "PubDoc",
+        "role": "reported_specialist_assignment",
+        "thread_id": null,
+        "models": [],
+        "source": "https://github.com/asalzburger/nodd/blob/7c7f847bc5a5d52c091c1d2f32203d20f70c27f9/logs/design/SESSION-2026-10-14-ecal-layout-review.md#specialist-handoffs",
+        "limitation": "Role contract is recorded; native profile loading and process identity are not inferred."
+      },
+      {
+        "id": "agent:SESSION-2026-10-14-ecal-review-envelope-update",
+        "name": "Codex desktop",
+        "role": "session_agent",
+        "thread_id": null,
+        "models": [],
+        "source": "https://github.com/asalzburger/nodd/blob/7c7f847bc5a5d52c091c1d2f32203d20f70c27f9/logs/design/SESSION-2026-10-14-ecal-review-envelope-update.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      },
+      {
+        "id": "agent:SESSION-2026-10-14-pr75-transition-question",
+        "name": "Codex desktop",
+        "role": "session_agent",
+        "thread_id": null,
+        "models": [],
+        "source": "https://github.com/asalzburger/nodd/blob/7c7f847bc5a5d52c091c1d2f32203d20f70c27f9/logs/design/SESSION-2026-10-14-pr75-transition-question.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      },
+      {
+        "id": "agent:SESSION-2026-10-14-pr75-transition-question:SysArch:2d483aa0",
+        "name": "SysArch",
+        "role": "reported_specialist_assignment",
+        "thread_id": null,
+        "models": [],
+        "source": "https://github.com/asalzburger/nodd/blob/7c7f847bc5a5d52c091c1d2f32203d20f70c27f9/logs/design/SESSION-2026-10-14-pr75-transition-question.md#evidence-and-role-assignment",
+        "limitation": "Role contract is recorded; native profile loading and process identity are not inferred."
+      }
+    ],
+    "tools": {
+      "native_codex": [],
+      "codex_installed": [],
+      "instructed_software": [],
+      "unresolved": [
+        {
+          "name": "Generic PhysVal read-only assessments",
+          "category": "unresolved",
+          "version": null,
+          "calls": null,
+          "source": "https://github.com/asalzburger/nodd/blob/7c7f847bc5a5d52c091c1d2f32203d20f70c27f9/logs/design/SESSION-2026-10-14-ecal-layout-review.json",
+          "evidence": "Budget, final claim and P3 assignments/results are curated in the paired narrative with exact source revisions; no native profile loading or human approval claimed.",
+          "token_account": "SESSION-2026-10-14-ecal-layout-review",
+          "provenance": "Operation recorded; installation provenance needs explicit evidence."
+        }
+      ]
+    },
+    "events": [
+      {
+        "id": "github:https://github.com/asalzburger/nodd/pull/75",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "github:asalzburger",
+        "recipients": [],
+        "text": "# nODD ECAL layouts - reviewer overview\n\nSi-W and ALLEGRO LAr candidates. Review entry, not a TDR.\n\nSnapshot: 2026-10-14. [Four-page PDF](https://github.com/asalzburger/nodd/blob/codex/ecal-layout-review-entry/docs/layouts/review/ecal-layout-review.pdf).\n\n## 1 - Candidate layouts\n\nBoth candidates retain the documented tracker (45,646 sensitive planes) and the proposed inner solenoid (3 T central target; [PR #64](https://github.com/asalzburger/nodd/pull/64), open). Its radial service reservation reaches 1.64 m; the computed vessel ends at r=1.559 m and |z|=3.85 m. These DRAFT prototypes have no complete-detector, installed-field or engineering acceptance.\n\n![Si-W candidate R-Z view with tracker, conditional solenoid and HCAL outline](https://raw.githubusercontent.com/asalzburger/nodd/codex/ecal-layout-review-entry/docs/layouts/review/figures/layout001-rz.png)\n\nLAYOUT-001: Si-W ECAL, enlarged HCAL outline and empty service/FCal reservations. FCal and muon systems remain unbuilt.\n\n![LAr candidate R-Z view with enlarged calorimeter and service allocations](https://raw.githubusercontent.com/asalzburger/nodd/codex/ecal-layout-review-entry/docs/layouts/review/figures/layout002-rz.png)\n\nLAYOUT-002: LAr ECAL, enlarged HCAL outline and empty service/forward reservations. Neither forward collar nor FCal is built.\n\n## 2 - Si-W ECAL prototype\n\nOpen component proposals: [PR #71](https://github.com/asalzburger/nodd/pull/71) (Si-W ECAL barrel prototype) and [PR #70](https://github.com/asalzburger/nodd/pull/70) (Si-W ECAL endcap prototype). The same sampling and board stack is carried through sixteen barrel sectors and sixteen wedge carriers per endcap. [PR #76](https://github.com/asalzburger/nodd/pull/76) adds service/forward envelopes under [DES034](https://github.com/asalzburger/nodd/blob/0a26796518d690bf26934d2864d63ecad7582675/docs/design/DES-034-siw-service-envelopes.md).\n\n| Element | Current prototype choice |\n| --- | --- |\n| Sampling / sensors | 48 layers; 1.9 mm tungsten alloy and 0.5 mm silicon. Standard 90 mm blanks have an 88 mm active window and 5.5 mm pad pitch; physical guards remain passive. |\n| Barrel construction | Seven 1 m slabs plus two short end slabs per sector/layer. Alternating ±96 mm shifts move service joints through depth; 94 mm boards on a 96 mm pitch retain real gaps. |\n| Endcap packing | 76 squares plus 36 custom edge sensors per wedge/layer; 29 mask profiles. The 100 mm aperture apothem, 30 mm inner support and 120 mm outer service bay are unsigned allocations. |\n| Support / cooling | Aluminium skins and frames, explicit PCB/ASIC/thermal contacts; a 3 mm copper plate with 2 mm-OD Ti/water runs. External collectors/ports remain absent; PR76 reserves an outer backbone and HCAL rear egress. |\n\n### Material and service drivers\n\nRecorded model masses are 299.003 t for the barrel and 98.949 t for both endcaps. Copper contributes 119.693/40.591 t, dominated by the cooling plates. Continuous heat hypotheses give 188.40/71.05 kW; the summed ideal water flow is 12.414 kg/s for a 5 K rise. These are inventory/power calculations, not thermal or hydraulic qualification. A 300 mm annulus and 400 mm rear break reserve cable/water exits; local cassette ports and support loads remain open. The 30 mm front seam is installation-only; services are allocated outside the endcap.\n\n### Coverage and evidence limits\n\nBarrel active-face area is 54.88-64.57% by layer; aligned sector-centre cracks remain. Custom masks give 69.47% endcap active-face area. At η=4, 68.89% of 360 one-degree-centred azimuth rays cross active silicon in at least one endcap layer; seams and guards leave blind directions. Native construction, IDs, mass and overlap checks plus sparse saved hits establish the isolated implementation; efficiencies and showers remain unvalidated.\n\n[Barrel design and evidence](https://github.com/asalzburger/nodd/blob/2776266570dda13386a16863e5b0e97432f27217/docs/design/DES-031-siw-barrel-prototype.md) · [Endcap design and evidence](https://github.com/asalzburger/nodd/blob/654b85a48abeb38735ad7fe0866c5d1082882df7/docs/design/DES-030-ecal-edge-sensors.md)\n\n## 3 - ALLEGRO-style LAr ECAL prototype\n\nOpen component proposals: [PR #73](https://github.com/asalzburger/nodd/pull/73) (LAr ECAL barrel and service interfaces prototype) and [PR #74](https://github.com/asalzburger/nodd/pull/74) (LAr ECAL endcaps and layout prototype). The separate inner 3 T coil is retained; ALLEGRO’s outer-solenoid proxy is omitted.\n\n| Element | Current prototype choice |\n| --- | --- |\n| Barrel sampling | 1,536 inclined periods, eleven compartments, two active gaps per electrode. Sampling radii 2.1728-2.5783 m; active half-length 3.910 m. Pb core 1.8 mm, total steel/glue 0.2/0.1 mm and 1.2 mm PCB; first core is passive LAr. |\n| Turbine endcaps | Three wheels, 384/720/1,360 periods, 49° tilt, active r=410-2,790 mm and 450 mm depth. Inner Pb core 1.1 mm, total steel/glue 0.2/0.1 mm and 1.3 mm electrode. Radial/axial readout is virtual, distinct from source calibration subdivisions. |\n| Supports / cold boards | Sixteen barrel H-rings and 5,888 wet board slots. Each endcap has three wheel support tubes, a 30 mm rear annulus (1.954 t/end) and 1,584 board slots. The unported rear annulus blocks direct signal/HV routes; passages and attachments need redesign. |\n| Cryostat / cooling | Explicit warm/vacuum/cold wall proxies, 170 mm barrel rear bath and 250 mm endcap rear bath. N2 branches have 18 mm bore/20 mm OD; headers, seals, pressure/temperature and return-circuit qualification remain open. |\n\n### Space and engineering consequences\n\nThe model has 2.286 million barrel cells and 601,600 per endcap. The Cartesian turbine taper differs from cylindrical-radius intent by up to 0.117 mm in the inner wheel. Physical mass includes bath displacement and cold service proxies. A 200 kW cooling allowance falls 58 kW short of the 258 kW adverse planning scenario, before complete static-heat qualification.\n\nThe 800 mm front gap budgets provisional cryogenic S-bends; this nODD routing choice is not an intrinsic LAr requirement. Native component checks and the ECAL-only combined audit do not qualify the tracker/coil/HCAL union. LAr remains uncovered at η=4; forward reservations contain no hardware. Barrel/endcap transition directions have partial depth, requiring later material/response design.\n\n[Barrel/service design](https://github.com/asalzburger/nodd/blob/48e97256f8badd75c022a84ab1c4ff71977c56a2/docs/design/DES-032-allegro-lar-barrel.md) · [Endcap/forward design](https://github.com/asalzburger/nodd/blob/72d37ee9a56182e4ba974791a848a738c19cf092/docs/design/DES-033-allegro-lar-endcaps.md)\n\n## 4 - Budgets and review priorities\n\n| Budget / boundary | Si-W candidate | LAr candidate |\n| --- | --- | --- |\n| ECAL model mass: barrel / both ends / total | 299.003 / 98.949 / 397.952 t | 252.508 / 131.173 / 383.681 t |\n| Principal material inventory | 198.595 t W alloy; 160.284 t Cu | 187.692 t Pb; 98.668 t LAr; 58.636 t Al |\n| Barrel ECAL package bounds | Apothem 1.700-2.233 m; &#124;z&#124;≤3.920 m | Radius 2.100-2.830 m; &#124;z&#124;≤4.100 m |\n| Endcap ECAL package bounds | &#124;z&#124;=3.950-4.483 m; outer apothem 2.223 m | &#124;z&#124;=4.900-5.860 m; outer radius 2.949 m |\n| ECAL / HCAL routing allocations | 300 mm circular annulus; 400 mm rear egress break; 30 mm front seam is installation-only | 300 mm barrel radial; 181 mm beside endcap; 800/500 mm axial before/after endcap |\n| Forward reservation | R=0.080-0.290 m; &#124;z&#124;=4.533-6.379 m; empty FCal | Empty EM collar and FCal; no active η=4 LAr coverage |\n| HCAL outline extent | Outer apothem 4.096 m; &#124;z&#124;max=6.379 m | Outer apothem 4.626 m; &#124;z&#124;max=7.856 m |\n| Outline max corner radius / full axial length | 4.176 m / 12.758 m | 4.717 m / 15.712 m |\n\nECAL masses are native-ledger sums with different passive/service hypotheses; shared tracker/solenoid, detailed HCAL and absent systems are excluded. Aluminium totals include walls, supports and boards. Masses do not rank performance. Compared with the service-amended Si-W layout, LAr HCAL outline volume is ×1.43; loads and magnetic effects remain unvalidated.\n\nShared tracker+Be inventory: 2.860 t (Be 2.036 kg); planning region r≤1.20 m, |z|≤3.60 m does not bound passive services. At η=0, separate examples are tracker 0.329-0.418 X0 and illustrative solenoid 1.402 X0 (1.00-2.10 scenarios). These are not a combined pre-ECAL map. Solenoid mass/support inventory remains unassigned. [Solenoid material assumptions](https://github.com/asalzburger/nodd/blob/4e44d7c650ac0a2931f7fc1637b5b3f2dfbe4c95/docs/validation/DES-026/material-estimate.md).\n\n### Bounded reviewer decisions\n\nReview Si-W copper cooling, collector ports, balanced station wiring and custom-mask seams/process; review LAr vessel/support proxies, blocked service paths and cryogenic heat margin. Both have explicit external/forward space, with no installed FCal. Si-W merged lanes reserve 880×220 mm for a 166,698 mm² adverse load; its partial feed Cu/water estimates are 0.918/1.005 t, excluding other cables and supports. Routing, loads, shielding and beam-pipe continuation need separate design.\n\n### Status and traceability\n\nAll four ECAL component PRs and service PR76 remain open in this 2026-10-14 snapshot. Dimensions/services are unsigned nODD choices; native budgets are model inferences. Recorded checks grant no engineering sign-off, installed field or shower/jet/particle-flow validation. This brief is a common review entry; the pinned component records remain authoritative.\n\n[Frozen source and evidence catalogue](https://github.com/asalzburger/nodd/blob/codex/ecal-layout-review-entry/docs/layouts/review/sources.json) · [Si-W layout inputs](https://github.com/asalzburger/nodd/blob/codex/ecal-layout-review-entry/docs/layouts/review/layout001.json) · [LAr layout inputs](https://github.com/asalzburger/nodd/blob/codex/ecal-layout-review-entry/docs/layouts/review/layout002.json)\n",
+        "source": "https://github.com/asalzburger/nodd/pull/75",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [],
+        "timestamp": "2026-10-14T05:27:34Z",
+        "remote_input": null
+      },
+      {
+        "id": "github:https://github.com/asalzburger/nodd/pull/75#issuecomment-6163562396",
+        "type": "comment",
+        "direction": "action",
+        "actor": "github:asalzburger-review",
+        "recipients": [],
+        "text": "Why does the ALLEGRO style barrel need a spacy gap between LAr Barrel and Endcap - and why is this not necessary for the Si-W prototype?",
+        "source": "https://github.com/asalzburger/nodd/pull/75#issuecomment-6163562396",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [],
+        "timestamp": "2026-10-14T07:49:23Z",
+        "remote_input": null
+      },
+      {
+        "id": "github:https://github.com/asalzburger/nodd/pull/75#issuecomment-6163783411",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "github:asalzburger",
+        "recipients": [],
+        "text": "The **800 mm is a provisional nODD front-routing allocation**, rather than a demonstrated minimum for ALLEGRO or LAr calorimetry. The layouts currently use different service-exit strategies:\n\n| | LAr LAYOUT-002 | Si-W LAYOUT-001 |\n| --- | --- | --- |\n| ECAL barrel/endcap package gap | 800 mm for front cryogenic bends/access | 30 mm installation seam |\n| Service route | Assumed front S-bend to the exterior backbone, then 500 mm rear HCAL break | Backbone outside both ECAL packages, then 400 mm rear HCAL break |\n| Largest assumed jacket | 100 mm LAr utilities; 80 mm N2 | 50 mm water |\n\nFor LAr, the current calculation moves a pipe from R=2735.3 to 3029 mm. With a chosen bend radius of 4x100=400 mm, its two-arc S-bend occupies **739.4 mm**, including the 100 mm jacket and 20 mm clearance. This motivated the rounded 800 mm reservation. The cryostat end/front layers are already inside the package bounds; they do not independently justify the extra 800 mm. [Pinned service calculation](https://github.com/asalzburger/nodd/blob/48e97256f8badd75c022a84ab1c4ff71977c56a2/tools/lar_calorimeter/services.py), [DES032](https://github.com/asalzburger/nodd/blob/48e97256f8badd75c022a84ab1c4ff71977c56a2/docs/design/DES-032-allegro-lar-barrel.md#service-packing-and-amended-hcal-interface).\n\nThere is a missing premise: **the calculation uses the N2 exchanger radius for the 100 mm LAr utilities too**. Their actual headers, feedthrough origins and wall penetrations are undefined. The jacket sizes/bend rule are planning choices. The arithmetic sizes that assumed route; it cannot prove that the front gap is necessary or minimal.\n\nSi-W has substantial service space as well. Its 300 mm exterior annulus continues outside both endcap and barrel corners; services exit radially through the **400 mm rear HCAL gap**. A chosen 50 mm water jacket needs 245 mm for one quarter-turn including clearance. Its 30 mm front seam is **not** the service-routing budget. Local cassette collectors/ports remain unresolved, so this topology is also an allocation rather than a qualified network. [DES034](https://github.com/asalzburger/nodd/blob/0a26796518d690bf26934d2864d63ecad7582675/docs/design/DES-034-siw-service-envelopes.md#external-backbone-and-hcal-interfaces).\n\nI have clarified both paragraphs in the overview and regenerated the matching four-page PDF. Proposed follow-up:\n\n1. Define actual LAr header/feedthrough endpoints, jacket/bend/connector dimensions, supports and installation access; close the Si-W collector endpoints to the same standard.\n2. Compare the present front S-bend with barrel-side outlets into the exterior annulus and rear egress. This is a plausible way to reduce the LAr front separation, subject to cryostat/route design.\n3. Only then reduce/move the endcap and recheck containment, transition material/full-depth crossings and HCAL/collar/FCal interfaces. Keep 800 mm as the current reservation until an alternative is demonstrated.\n\n[Retained explanation and bounded action proposal](https://github.com/asalzburger/nodd/blob/codex/ecal-layout-review-entry/docs/design/inputs/DES-032-transition-review.md). No geometry or performance claim has been changed by this reply.\n",
+        "source": "https://github.com/asalzburger/nodd/pull/75#issuecomment-6163783411",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [],
+        "timestamp": "2026-10-14T08:03:11Z",
+        "remote_input": null
+      },
+      {
+        "id": "github:https://github.com/asalzburger/nodd/pull/75#issuecomment-6278091329",
+        "type": "comment",
+        "direction": "action",
+        "actor": "github:mieskolainen",
+        "recipients": [],
+        "text": "1. In the ALLEGRO (Layout 002) geometry, what is the purpose of the (large) empty space between the magnet and the central ECAL? Is it related to services, cables, or the preshower (distance)?\r\n\r\n2. Similarly, why are the ALLEGRO forward ECAL endcap \"turbines\" so far away from the central barrel along the z-axis? What is the service space between them needed for? Perhaps compare with the existing ALLEGRO references.\r\n\r\n3. Why does the Si-W (Layout 001) proposal require much less service space, i.e., why is it more compact? Is this due to, for example, reduced cryogenic requirements because of the different calorimeter technology?\r\n\r\n4. The cyan color (service space) and dashed gray (HCAL) are very similar, and I cannot actually see the dashing at all. The plots should be improved.\r\n\r\n5. How are the materials and dimensions derived? Are they based on existing literature references and/or on optimization of some starting design? Describe the procedure.\r\n\r\n6. What were the main physics performance criteria taken into account when deriving the designs? They look similar to previous HEP detectors, but give me the reasons.\r\n\r\n7. Describe the procedure and simulations behind the mechanical engineering computations (flows, forces, masses, heat transfer, etc.), and/or provide a reference.\r\n\r\n8. How is the 3D object geometry checked? Did you use an existing geometry processing package, or was something similar built on the fly, using geometry overlap/intersection algorithms such as AABB trees and/or ray tracing?\r\n\r\n9. Give me an overall force/mass structure hierarchy and numbers, i.e., prove that the ECAL is not, for example, too heavy. Provide a reference for typical engineering design target values, i.e., what values (ranges) are actually feasible.\r\n\r\n10. Give a systematic object structure of the 3D geometry that shows the distances to other objects, i.e., surface tolerances. That is, make it mathematically watertight that the necessary tolerances and empty spaces are satisfied and that all typical requirements (cabling, services, pipes, etc.) are taken into account.\r\n\r\n11. Provide answers to the questions above for both designs, with an emphasis on the ECAL, but take into account the full detector as required.",
+        "source": "https://github.com/asalzburger/nodd/pull/75#issuecomment-6278091329",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [],
+        "timestamp": "2026-10-19T21:45:34Z",
+        "remote_input": null
+      },
+      {
+        "id": "journal:SESSION-2026-10-14-siw-service-envelopes:1ce32ccd2c58b7ab",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "agent:SESSION-2026-10-14-siw-service-envelopes"
+        ],
+        "text": "Contemporaneous task starting from clean main e33ae62ce16592c26c581c5311c4dc493d9714b1\nin a dedicated worktree, branch codex/layout001-service-envelopes.\n\n",
+        "source": "logs/design/SESSION-2026-10-14-siw-service-envelopes.md#scope-and-selected-request",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-14-siw-service-envelopes"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-10-14-siw-service-envelopes:d2820e4be516b35f",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "agent:SESSION-2026-10-14-siw-service-envelopes"
+        ],
+        "text": "User request (verbatim):\n\n> This needs one more adaptation: layout-1 does not yet have the same level of envelope prototyping: service and cooling space for Si-W EM such as the routing through the HCAL is not defined, similar eventual FCAL envelopes are missing.\n> Bring them en par with an additional PR, then update the overview document (and PR) you are currently drafting.\n\nThe additional prototype PR is independent of open Si-W PR70/71. It will pin\nthose sources, define service/forward reservations and amend the HCAL outline;\nno unreviewed detector production integration or new external package. Existing\nPR75 will retain identical common-source Markdown/PR-description/four-page PDF.\nAll PR70/71/73/74/75 remain open at inspected heads on 2026-10-14; main is e33ae62.",
+        "source": "logs/design/SESSION-2026-10-14-siw-service-envelopes.md#scope-and-selected-request",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-14-siw-service-envelopes"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-10-14-siw-service-envelopes:49cb2e11569844b9",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-10-14-siw-service-envelopes",
+        "recipients": [],
+        "text": "Design/evidence stub precedes envelope implementation. Native source parameter\nfacts, inference and new choices remain separate. The SysArch assignment will\naddress cross-system interfaces; a separate PhysVal context will assess a frozen\nimplemented allocation before publication. Root owns implementation, documents,\nrecords and PR75 synchronization. Generic role prompts are explicit assignments,\nnot native profile loading or human sign-off.",
+        "source": "logs/design/SESSION-2026-10-14-siw-service-envelopes.md#decisions-and-handoffs",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [
+          "SysArch",
+          "PhysVal"
+        ],
+        "token_accounts": [
+          "SESSION-2026-10-14-siw-service-envelopes"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-10-14-siw-service-envelopes:b6df5fe18849d134",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "agent:SESSION-2026-10-14-siw-service-envelopes",
+        "recipients": [],
+        "text": "SIW-SERVICE-SysArch-input examined source 62b8b35765ff55163c504e3d551f4366a536948b\nand pinned PR70/71/73/74 sources. Separate generic child /root/siw_services_sysarch\nreturned service counts, area/heat/flow/power/length estimates, HCAL bounds and\nnon-overlapping forward options. It resolved the native interface role count:\npassive PCBs and powered interface chips have one combined role. Six initial\nsource SHA bindings matched. No edits/native jobs/new dependencies/sign-off.\n\nRoot selected the outer circular backbone, unchanged ECAL and 400 mm rear break.\nRoot narrowed the proposed 900x220 mm merged junction to 880x220 mm to preserve\n20 mm sector-edge clearance as well as radial clearance. Root selected a 25 mm\nwater bore (SysArch considered 20 mm) and 50 mm forward front clearance. These\nare named new choices, not changed source facts or approvals. Retain the station\nbalance and digital link assumptions, +/-50% lengths, and absent local ports.\n\nActual controls: eight meaningful negative cases pass, source-bound report and\nlayout values reproduce, all eleven pinned primary SHA256 values match, updated\nRZ SVG reproduces and PNG visually fits. An initial tuple/list serialization\nmismatch made report --check fail; retained route points now use JSON lists and\nreproduction passes. No geometry was changed to remove a physics failure.",
+        "source": "logs/design/SESSION-2026-10-14-siw-service-envelopes.md#sysarch-handoff-and-implementation",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [
+          "SysArch"
+        ],
+        "token_accounts": [
+          "SESSION-2026-10-14-siw-service-envelopes"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-10-14-siw-service-envelopes:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-10-14-siw-service-envelopes",
+        "recipients": [],
+        "text": "LAYOUT-001 service and forward envelope parity — see the canonical narrative for outcomes and checks.",
+        "source": "logs/design/SESSION-2026-10-14-siw-service-envelopes.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-14-siw-service-envelopes"
+        ],
+        "content_kind": "reference_summary"
+      },
+      {
+        "id": "journal:SESSION-2026-10-14-ecal-layout-review:c37faf078add15c7",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "agent:SESSION-2026-10-14-ecal-layout-review"
+        ],
+        "text": "User request (verbatim):\n\n> For both, the ECAL Si-W and LAr Layouts, make a single documentation PR that links and connects to the barrel / EC PRs and only summarizes the layout:\n> - overall envelope viewing and drawing (the layout drawing in rz)\n> - summary of the detector (including material, space and support budget)\n> - concise description of EC and barrel (with links to the PR)\n> - all in the description box of the PR (and separately as a 4 page pdf with identical content)\n>\n> This is a central entry for the reviewers, not (yet) a TDR\n\nCoordinator interpretation: one documentation PR and four pages total cover both\ncandidates. A single structured source generates all prose, tables, captions and\npublic links into the PR description and PDF. Source snapshots retain the exact\nmain / component PR revisions; no open implementation stack is imported.",
+        "source": "https://github.com/asalzburger/nodd/blob/7c7f847bc5a5d52c091c1d2f32203d20f70c27f9/logs/design/SESSION-2026-10-14-ecal-layout-review.md#selected-conversation",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-14-ecal-layout-review"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-10-14-ecal-layout-review:c925997ecf05fe5b",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-10-14-ecal-layout-review",
+        "recipients": [],
+        "text": "- Page 1: common tracker/proposed inner 3 T coil and equal-scale RZ illustrations.\n- Page 2: Si-W barrel/endcaps, explicit silicon/boards/cooling/support, model\n  masses and coverage limits; links PR70/71 and pinned governing documents.\n- Page 3: ALLEGRO-style LAr barrel/turbine endcaps, cryostat/cold support/service\n  proxies and remaining service/cooling/forward issues; links PR73/74.\n- Page 4: comparative material, envelope and space budgets; common pre-ECAL\n  material examples, bounded reviewer decisions and source catalogue.\n\nMasses are native model inventories, not installed engineering masses or\nperformance rankings. HCAL mass and solenoid support/mass remain unassigned;\nreserved volumes do not claim routed services or FCal hardware. Separate tracker\nand solenoid X0 examples are not a combined material map. Neither a merge nor\nrecorded native/sparse Geant4 execution supplies engineering or response sign-off.\n\nVerified GitHub snapshot on 2026-10-14: PR64/70/71/73/74 open at their pinned heads;\nPR69 and PR72 merged. Reconcile those two existing tracking records with observed\nhead/merge SHA and timestamps, preserving historical review evidence.",
+        "source": "https://github.com/asalzburger/nodd/blob/7c7f847bc5a5d52c091c1d2f32203d20f70c27f9/logs/design/SESSION-2026-10-14-ecal-layout-review.md#decisions-and-outcomes",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-14-ecal-layout-review"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-10-14-ecal-layout-review:8f291fc187cf1ff0",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "agent:SESSION-2026-10-14-ecal-layout-review",
+        "recipients": [],
+        "text": "The repository coordination/evidence/review skills and PDF skill were applied.\nGeneric child contexts received explicit role instructions; native profile\nloading is not claimed. Contract preparation precedes dispatch below.\n\n- `ECAL-REVIEW-PubDoc-draft`, child `/root/layout_main_page`: authored only\n  `brief.json` against source commit a53c29867130b4c36658a9aa5f6f14dd5650130f.\n  Returned a concise four-page common source, public links and unsigned-state\n  wording; schema/table/link/word-count checks passed. Its earlier SoftEng role\n  was explicitly replaced by PubDoc. It is the author, not an independent reviewer.\n- `ECAL-REVIEW-PhysVal-budget`, child `/root/lar_fit_physval`: read-only exact\n  source review. Checked all nine initial hash bindings, primary mass/material\n  sums, HCAL corner/envelope derivations, service/heat and coverage limitations.\n  Returned corrected LAr both-end mass 131.173 t (the old 139.557 t value is\n  superseded), tracker+Be inventory 2.860 t, and missing installed/HCAL budgets.\n  An initial statement about a top-level Air inventory entry was withdrawn after\n  exact primary-source inspection; no Air claim is retained. This child helped\n  earlier LAr design work; that origin overlap is disclosed. No native jobs,\n  edits, dependency installs or human sign-off were performed by this assignment.\n\nCoordinator reconciled the facts, included the pinned solenoid material note as\nsource 10, and changed the endcap support shorthand to wheel support tubes.",
+        "source": "https://github.com/asalzburger/nodd/blob/7c7f847bc5a5d52c091c1d2f32203d20f70c27f9/logs/design/SESSION-2026-10-14-ecal-layout-review.md#specialist-handoffs",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [
+          "SoftEng",
+          "PhysVal",
+          "PubDoc"
+        ],
+        "token_accounts": [
+          "SESSION-2026-10-14-ecal-layout-review"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-10-14-ecal-layout-review:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-10-14-ecal-layout-review",
+        "recipients": [],
+        "text": "Single reviewer entry for Si-W and LAr ECAL layouts — see the canonical narrative for outcomes and checks.",
+        "source": "https://github.com/asalzburger/nodd/blob/7c7f847bc5a5d52c091c1d2f32203d20f70c27f9/logs/design/SESSION-2026-10-14-ecal-layout-review.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-14-ecal-layout-review"
+        ],
+        "content_kind": "reference_summary"
+      },
+      {
+        "id": "journal:SESSION-2026-10-14-ecal-review-envelope-update:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-10-14-ecal-review-envelope-update",
+        "recipients": [],
+        "text": "Synchronize reviewer overview with Si-W service envelopes — see the canonical narrative for outcomes and checks.",
+        "source": "https://github.com/asalzburger/nodd/blob/7c7f847bc5a5d52c091c1d2f32203d20f70c27f9/logs/design/SESSION-2026-10-14-ecal-review-envelope-update.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-14-ecal-review-envelope-update"
+        ],
+        "content_kind": "reference_summary"
+      },
+      {
+        "id": "journal:SESSION-2026-10-14-pr75-transition-question:4181c627de858d51",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "agent:SESSION-2026-10-14-pr75-transition-question",
+        "recipients": [],
+        "text": "Existing DES032/services and DES034 source arithmetic are inspected at pinned\nrevisions; a bounded SysArch comparison checks route/topology interpretation.\nPrimary evidence is existing prototype software/documents; no native geometry\nor engineering qualification is inferred. Current exact token counters are\nunexposed, so usage remains empty and unknown.",
+        "source": "https://github.com/asalzburger/nodd/blob/7c7f847bc5a5d52c091c1d2f32203d20f70c27f9/logs/design/SESSION-2026-10-14-pr75-transition-question.md#evidence-and-role-assignment",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [
+          "SysArch"
+        ],
+        "token_accounts": [
+          "SESSION-2026-10-14-pr75-transition-question"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-10-14-pr75-transition-question:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-10-14-pr75-transition-question",
+        "recipients": [],
+        "text": "PR75 review response on LAr and Si-W service gaps — see the canonical narrative for outcomes and checks.",
+        "source": "https://github.com/asalzburger/nodd/blob/7c7f847bc5a5d52c091c1d2f32203d20f70c27f9/logs/design/SESSION-2026-10-14-pr75-transition-question.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-10-14-pr75-transition-question"
+        ],
+        "content_kind": "reference_summary"
+      }
+    ],
+    "coverage": {
+      "github_captured_at": "2026-10-24T07:41:01.670Z",
+      "prompts": "Available account-matched user-visible messages, public Codex inputs and curated journal excerpts. Historical full input coverage is unknown.",
+      "recovered_visible_turns": 0,
+      "unrecovered_account_turns": [],
+      "responses": "Public responses and recorded outcomes; no private model state or hidden reasoning.",
+      "token_accounting": "References only. Never sum accounts across PRs or assign a shared turn by text length.",
+      "unknowns": "Unrecorded names, models, tools, subagent identities and response links remain unknown; empty lists are not zero activity.",
+      "remote": "Snapshot, not live synchronization; deleted/edited history and emoji reactions are not recovered.",
+      "branch_only": "Pinned branch journal snapshots are references, not imported counters. Unretained or other-device inputs remain unknown."
+    }
+  }
+}
