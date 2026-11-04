@@ -51,9 +51,7 @@ PASS reports: ROOT’s ClearThreadData throws `mutex lock failed: Invalid argume
 The auditor now explicitly deletes the remaining TGeoManager before interpreter
 thread teardown, matching the maintained tracker validator. A native BeamPipe
 fixture exercises the exact auditor with24 checker threads and exits0. The
-complete clean-exit replays use auditor source 6fdf31c3bd8e4c824106986914a316686cde5a06; their final reports
-are added only after actual completion. A geometric PASS from the earlier
-attempt is not represented as a clean end-to-end process exit.
+complete clean-exit replays use auditor source 6fdf31c3bd8e4c824106986914a316686cde5a06; both complete replays now pass with process exit0. The final compact reports are [LAYOUT-001](native-LAYOUT-001.json) and [LAYOUT-002](native-LAYOUT-002.json). Each checks10 native root system IDs and reports zero overlaps at1e-5mm. Mesh generation/checking took1402.14/37.2101s for01 and1413.04/36.1379s for02 on this node. The first geometric PASS reports remain separate from these successful end-to-end executions.
 
 ## Reproduction and artifact policy
 
