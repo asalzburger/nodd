@@ -45,6 +45,11 @@
         "kind": "agent"
       },
       {
+        "id": "agent:SESSION-2026-11-04-calorimeter-campaign-accounting",
+        "name": "Codex desktop",
+        "kind": "agent"
+      },
+      {
         "id": "github:asalzburger",
         "name": "asalzburger",
         "kind": "account"
@@ -69,14 +74,39 @@
         ],
         "snapshot": null,
         "snapshot_sha256": null,
-        "record_sha256": "fa1da83366515f5f7468d9573f566cf0e7cb70a2143fbcb758ffd09ce64133e9",
-        "narrative_sha256": "6c7f4549251f0aea03ea8835d43996733efa82b411e28b127bda198e67f84412"
+        "record_sha256": "926d744e711be5bb89216fa5162ebe39e6e94d11cc158b3e1d5f2f8e5f0bdc20",
+        "narrative_sha256": "407c42dc0b85410fe99579179d11bd2b1b1faf2a43a3a24dcfb58be7f8cdfeb1"
+      },
+      {
+        "session_id": "SESSION-2026-11-04-calorimeter-campaign-accounting",
+        "record": "logs/codex/SESSION-2026-11-04-calorimeter-campaign-accounting.json",
+        "attribution": [
+          "explicit_PR_reference"
+        ],
+        "snapshot": null,
+        "snapshot_sha256": null,
+        "record_sha256": "09b253d6733a115c8898b005284ed5d498ad9d4aeddfc868567d354cdb4420db",
+        "narrative_sha256": "f644a1eb5d37701eaab5faaded95ddc2b06b364333da6a5dc835d88e4e5224ac"
       }
     ],
     "token_accounts": [
       {
         "id": "SESSION-2026-10-14-software-layout",
         "record": "logs/codex/SESSION-2026-10-14-software-layout.json",
+        "scope": "canonical_session; shared PR references are not allocations",
+        "status": "observed",
+        "usage_sha256": "dd23fbc14e47cecdee10424c38cc51987a4c0cc6f4e55596c488c7b8be11fbed",
+        "turns": [
+          {
+            "client_thread_id": "01a13ace-8c3b-7310-adad-4c812ec98261",
+            "turn_id": "01a13ace-8da3-7862-9c2c-3fa498d0fd63",
+            "model": null
+          }
+        ]
+      },
+      {
+        "id": "SESSION-2026-11-04-calorimeter-campaign-accounting",
+        "record": "logs/codex/SESSION-2026-11-04-calorimeter-campaign-accounting.json",
         "scope": "canonical_session; shared PR references are not allocations",
         "status": "unobserved",
         "usage_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
@@ -93,13 +123,52 @@
         "models": [],
         "source": "logs/codex/SESSION-2026-10-14-software-layout.json",
         "limitation": "Usage may include children; model/role is not assigned to every response."
+      },
+      {
+        "id": "agent:SESSION-2026-11-04-calorimeter-campaign-accounting",
+        "name": "Codex desktop",
+        "role": "session_agent",
+        "thread_id": null,
+        "models": [],
+        "source": "logs/codex/SESSION-2026-11-04-calorimeter-campaign-accounting.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      },
+      {
+        "id": "agent:SESSION-2026-11-04-calorimeter-campaign-accounting:SoftEng:4e5d2b6f",
+        "name": "SoftEng",
+        "role": "reported_specialist_assignment",
+        "thread_id": null,
+        "models": [],
+        "source": "logs/codex/SESSION-2026-11-04-calorimeter-campaign-accounting.md#assignment-and-scope",
+        "limitation": "Role contract is recorded; native profile loading and process identity are not inferred."
       }
     ],
     "tools": {
       "native_codex": [],
       "codex_installed": [],
       "instructed_software": [],
-      "unresolved": []
+      "unresolved": [
+        {
+          "name": "Codex command execution",
+          "category": "unresolved",
+          "version": null,
+          "calls": null,
+          "source": "logs/codex/SESSION-2026-11-04-calorimeter-campaign-accounting.json",
+          "evidence": "Scoped commands run existing Python3.14/Python3.11/Git and zstd; no package install or shared dependency changes.",
+          "token_account": "SESSION-2026-11-04-calorimeter-campaign-accounting",
+          "provenance": "Operation recorded; installation provenance needs explicit evidence."
+        },
+        {
+          "name": "Codex app read_thread",
+          "category": "unresolved",
+          "version": null,
+          "calls": null,
+          "source": "logs/codex/SESSION-2026-11-04-calorimeter-campaign-accounting.json",
+          "evidence": "Reviewed visible historical user inputs and child final assignment/source identities; omitted reasoning and command/results from retained inventory.",
+          "token_account": "SESSION-2026-11-04-calorimeter-campaign-accounting",
+          "provenance": "Operation recorded; installation provenance needs explicit evidence."
+        }
+      ]
     },
     "events": [
       {
@@ -165,13 +234,52 @@
           "SESSION-2026-10-14-software-layout"
         ],
         "content_kind": "reference_summary"
+      },
+      {
+        "id": "journal:SESSION-2026-11-04-calorimeter-campaign-accounting:b5ed2a12a355d803",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "agent:SESSION-2026-11-04-calorimeter-campaign-accounting",
+        "recipients": [],
+        "text": "Explicit fallback SoftEng assignment `CAL114-Accounting`, from the campaign\ncoordinator, source main `cd3ec20da56537617ac6fbbcf28bd6f28104cc64`.\nThe worktree `codex/calorimeter-campaign-record` began clean. The paired journal\nwas created after this assignment's own recovery-tool edits, so its captured\n`initial_changes` accurately lists those edits; no unrelated edits existed.\nRead the full prepared mandate and relevant repository/logging/interaction\ninstructions. No delegation, remote mutation, scientific source edits, package\ninstallation or human sign-off was performed.\n\nThe user asks to preserve work, tokens, interactions and PR identities when\nconsolidating ECAL70/71/73/74/75 with issue114, and to prepare HCAL/FCAL PRs.\nThe coordinator's initial historical recovery failed because the client had\ncompressed archived `.jsonl` paths into `.jsonl.zst` without updating the stored\nplain paths. This assignment fixes that infrastructure boundary and recovers\nonly allowlisted usage evidence.",
+        "source": "logs/codex/SESSION-2026-11-04-calorimeter-campaign-accounting.md#assignment-and-scope",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [
+          "SoftEng"
+        ],
+        "token_accounts": [
+          "SESSION-2026-11-04-calorimeter-campaign-accounting"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-11-04-calorimeter-campaign-accounting:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-11-04-calorimeter-campaign-accounting",
+        "recipients": [],
+        "text": "Compressed archival usage recovery for the calorimeter consolidation campaign — see the canonical narrative for outcomes and checks.",
+        "source": "logs/codex/SESSION-2026-11-04-calorimeter-campaign-accounting.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-04-calorimeter-campaign-accounting"
+        ],
+        "content_kind": "reference_summary"
       }
     ],
     "coverage": {
       "github_captured_at": "2026-10-24T07:41:01.769Z",
       "prompts": "Available account-matched user-visible messages, public Codex inputs and curated journal excerpts. Historical full input coverage is unknown.",
       "recovered_visible_turns": 0,
-      "unrecovered_account_turns": [],
+      "unrecovered_account_turns": [
+        {
+          "thread_id": "01a13ace-8c3b-7310-adad-4c812ec98261",
+          "turn_id": "01a13ace-8da3-7862-9c2c-3fa498d0fd63"
+        }
+      ],
       "responses": "Public responses and recorded outcomes; no private model state or hidden reasoning.",
       "token_accounting": "References only. Never sum accounts across PRs or assign a shared turn by text length.",
       "unknowns": "Unrecorded names, models, tools, subagent identities and response links remain unknown; empty lists are not zero activity.",

@@ -7,17 +7,21 @@ The output is a recovery inventory, not automatically attributed project usage.
 
 import argparse
 from collections import Counter
+from contextlib import contextmanager
 from datetime import datetime, timezone
 import hashlib
+import importlib
 import json
 from pathlib import Path
 import re
+import shutil
 import sqlite3
+import subprocess
 
 from session_log import TOKEN_FIELDS, require
 
 FIELDS = (*TOKEN_FIELDS, 'cache_write_input_tokens')
-TOKEN_EVENT = re.compile(r'"type"\s*:\s*"token_count"')
+TOKEN_EVENT = re.compile(rb'"type"\s*:\s*"token_count"')
 
 
 def counters(value, check_sum=True):
@@ -38,17 +42,66 @@ def counters(value, check_sum=True):
     return result
 
 
+@contextmanager
+def compressed_stream(path):
+    """Decode an existing archive in memory, without a raw temporary file."""
+    try:
+        zstd = importlib.import_module('compression.zstd')
+    except ImportError:
+        zstd = None
+    if zstd is not None:
+        with zstd.open(path, 'rb') as handle:
+            yield handle
+        return
+    executable = shutil.which('zstd')
+    require(executable is not None,
+            'Compressed history needs Python 3.14 compression.zstd or an existing zstd executable')
+    process = subprocess.Popen(
+        [executable, '--decompress', '--stdout', '--no-progress', '--', str(path)],
+        stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
+    try:
+        yield process.stdout
+        process.stdout.close()
+        require(process.wait() == 0, 'zstd archive decompression failed')
+    finally:
+        if process.poll() is None:
+            process.terminate()
+            process.wait()
+        if process.stdout is not None:
+            process.stdout.close()
+
+
+def archive_path(path):
+    """Prefer the recorded file; only consider its exact compressed sibling."""
+    path = Path(path)
+    if not path.exists() and path.suffix != '.zst':
+        compressed = path.with_name(path.name + '.zst')
+        if compressed.exists():
+            return compressed
+    return path
+
+
 def extract_events(path):
-    """Read up to the observed file size; never retain non-usage lines."""
+    """Read a bounded plain snapshot or a stable compressed archive.
+
+    Every line retains its original ordinal, but only token-count objects are
+    decoded and exported. Compressed history must be unchanged over the read;
+    an actively written archive is not a finalized accounting source.
+    """
+    path = archive_path(path)
+    before = path.stat()
+    compressed = path.suffix == '.zst'
     events = []
-    with path.open('rb') as handle:
-        limit = path.stat().st_size
+    with (compressed_stream(path) if compressed else path.open('rb')) as handle:
+        limit = before.st_size
         ordinal = 0
-        while handle.tell() < limit:
-            line = handle.readline(limit - handle.tell())
+        while compressed or handle.tell() < limit:
+            line = handle.readline() if compressed else handle.readline(limit - handle.tell())
+            if not line:
+                break
             if not line.endswith(b'\n'):
                 break  # An actively written final line is not evidence yet.
-            if TOKEN_EVENT.search(line.decode('utf-8')):
+            if TOKEN_EVENT.search(line):
                 obj = json.loads(line)
                 payload = obj.get('payload', {})
                 if obj.get('type') == 'event_msg' and payload.get('type') == 'token_count':
@@ -58,6 +111,11 @@ def extract_events(path):
                                        'total': counters(info['total_token_usage']),
                                        'last': counters(info['last_token_usage'], check_sum=False)})
             ordinal += 1
+    if compressed:
+        after = path.stat()
+        require((before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns)
+                == (after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns),
+                'Compressed history changed during recovery; retry a finalized archive')
     return events
 
 
