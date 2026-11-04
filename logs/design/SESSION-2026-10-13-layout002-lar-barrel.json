@@ -1,0 +1,108 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-10-13-layout002-lar-barrel",
+  "title": "LAYOUT-002 ALLEGRO-style LAr barrel and service interfaces",
+  "recorded_at": "2026-10-13T12:39:37Z",
+  "started_at": null,
+  "ended_at": "2026-10-13T14:07:29Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact current root/child per-turn usage and client version/thread identity are not exposed; usage unknown.",
+    "New isolated prototype exploration, no human engineering/performance sign-off."
+  ],
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "e33ae62ce16592c26c581c5311c4dc493d9714b1",
+    "branch": "codex/layout002-lar-barrel",
+    "initial_changes": [],
+    "result_commits": [
+      "706b78923125d6573af6fc15d7400683da5df4fd",
+      "879e8365b3f2b4cc474c2b433ac422c8a61d93f0",
+      "ced5a39183f4335b426a6b10fd03eb83a603df42",
+      "5f8c505e26f0f325f17d801583042849f06f62a2"
+    ],
+    "changed_files": []
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "LAYOUT-002 LAr ECAL barrel",
+      "HCAL envelopes and service routing"
+    ],
+    "related_ids": [
+      "LAYOUT-002",
+      "PR-72"
+    ]
+  },
+  "narrative": "logs/design/SESSION-2026-10-13-layout002-lar-barrel.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 -B tools/project_records/validate.py",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "New DES032 record used unsupported title/task fields; removed those fields to match existing schema without changing the gate."
+    },
+    {
+      "command": "acts-spack node preflight then fresh actual DD4hep/Geant4/ROOT imports and dataset checks",
+      "status": "FAIL",
+      "exit_code": 2,
+      "result": "Recorded fingerprint mismatch warning; actual fresh capabilities separately verified, no dependency modifications."
+    },
+    {
+      "command": "cmake build nODDLArBarrelPrototype initial",
+      "status": "FAIL",
+      "exit_code": 2,
+      "result": "Ambiguous Segmentation base; qualified DDSegmentation base and rebuilt successfully."
+    },
+    {
+      "command": "barrel_native.py initial",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Full-circle TGeoTubeSeg was too narrowly rejected; now explicitly requires360degree azimuth, strict2section/unshifted/unit-scale Xtru added; no geometric gate weakened."
+    },
+    {
+      "command": "check_transport.py initial saved-event audit",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Incorrect EVENT/energyDeposit names; actual EDM4hep events/energy schema checked successfully after correction."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/lar_calorimeter -p test*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "12 geometry/readout/service controls; nonpositive gap, lane/bend and mother-displacement failures detected."
+    },
+    {
+      "command": "barrel_export.py --services barrel_services.py; barrel_native.py at ced5a39183f4335b426a6b10fd03eb83a603df42",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "33,792native rawIDs;2,285,568logicalcells;0full overlaps at10nm;45rays;252.507699t. Hash-bound scientific files; dirty prepared review journal."
+    },
+    {
+      "command": "DDSim two-period fixture then check_transport.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "One10GeV muon event actually saved positive-energy LAr hit with valid canonical fields; no assembly/shower/ACTS claim."
+    },
+    {
+      "command": "barrel export/native/transport rerun at5f8c505e26f0f325f17d801583042849f06f62a2",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Clean tracked producer source;0overlaps10nm,33792IDs,2285568cells,45finite-volume gated rays, one hash-bound savedhit with realtheta membership."
+    },
+    {
+      "command": "13 standard-library geometry/service/hit controls",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Ghost theta2047 and unsupported packing parameters rejected; no baseline tolerance relaxed."
+    }
+  ]
+}
