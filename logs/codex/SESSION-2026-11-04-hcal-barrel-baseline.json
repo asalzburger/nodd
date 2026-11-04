@@ -1,0 +1,145 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-11-04-hcal-barrel-baseline",
+  "title": "Prepare PR84 SiW HCAL barrel baseline design option",
+  "recorded_at": "2026-11-04T14:15:13Z",
+  "started_at": null,
+  "ended_at": "2026-11-04T14:17:46Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact current per-turn token counters, client thread ID and executed model are unavailable. The active campaign turn is excluded; empty usage means unknown, not zero.",
+    "Regional evidence is analytical geometry, not fresh full native or transport validation. LAr regional dimensions remain follow-up.",
+    "Session created after the ordinary integration merge; the initial regional checkout was clean."
+  ],
+  "client": {
+    "name": "Codex explicit CaloTech assignment",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "0e8530d56d171f38c9d53d3c60c8b48803680bbd",
+    "branch": "codex/calorimeter-hcal-barrel-refresh",
+    "initial_changes": [],
+    "result_commits": [
+      "d25ab1385e7e5fdd83da5b61255f0f2646cc8916"
+    ],
+    "changed_files": [
+      "docs/design/DES-037-hcal-barrel-common-module.md",
+      "docs/layouts/LAYOUT-001-tracker-3t-siw.md",
+      "docs/validation/DES-037/campaign-2026-11-04.md",
+      "interactions/pr-0081.json",
+      "interactions/pr-0084.json",
+      "logs/codex/SESSION-2026-11-04-hcal-barrel-baseline.json",
+      "logs/codex/SESSION-2026-11-04-hcal-barrel-baseline.md",
+      "project/tracking.json"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "HCAL",
+      "barrel",
+      "baseline design option",
+      "ordinary integration merge"
+    ],
+    "related_ids": [
+      "DES-037",
+      "DES-036",
+      "TASK-B-HCAL-BARREL-DESIGN",
+      "TASK-B-HCAL-COMMON-MODULE",
+      "PR-84",
+      "ISSUE-114"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-11-04-hcal-barrel-baseline.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "git merge --no-ff --no-commit 90e36850f0c9694e34a9ed3307ea3faeb14ef46e",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Expected layout-page conflict; retained complete current tracker/FCAL text and regional section, then committed ordinary merge."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/hcal_barrel -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "15 regional controls passed on integrated source."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/hcal_readout -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "44 unchanged common-module/provenance controls passed."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "91 tasks,46 documents,24 review rounds before campaign closeout edits."
+    },
+    {
+      "command": "git diff --cached --check (broad scan relative to old regional parent)",
+      "status": "FAIL",
+      "exit_code": null,
+      "result": "Inherited main SVG/CSV evidence has pre-existing trailing whitespace. Preserved historical bytes; scoped reconciliation check against updated common history passed. Individual scan exit not retained by the compound inspection command; no exit number inferred."
+    },
+    {
+      "command": "git diff --check codex/calorimeter-hcal-refresh -- .github/workflows/validation.yml docs/layouts/LAYOUT-001-tracker-3t-siw.md project/tracking.json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors in reconciled integration edits."
+    },
+    {
+      "command": "python3 -B tools/interactions/ledger.py validate (initial regional closeout)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Imported regional journal also references PR81, making its shared ledger stale. Synchronized PR81 and regional PR; full validation then passed."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "239 paired session records validated."
+    },
+    {
+      "command": "python3 -B tools/interactions/ledger.py sync --pr 84",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Regional PR canonical journal links synchronized; usage unchanged."
+    },
+    {
+      "command": "python3 -B tools/interactions/ledger.py sync --pr 81",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Shared common PR references refreshed after importing regional journal."
+    },
+    {
+      "command": "python3 -B tools/interactions/ledger.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "101 PR interaction records validated after shared-ledger correction."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "378 disjoint observed turns;1,825,663,849 tokens. Current campaign excluded."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py build --output _site/pages",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Token dashboard preview built successfully."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py summary --format json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Observed project subtotal1,817,405,271 input+8,258,578 output;378 turns in151 of239 sessions.88 sessions unobserved; current regional task usage unknown."
+    }
+  ]
+}

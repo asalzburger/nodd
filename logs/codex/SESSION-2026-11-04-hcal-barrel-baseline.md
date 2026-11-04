@@ -1,0 +1,66 @@
+# SESSION-2026-11-04-hcal-barrel-baseline — HCAL barrel baseline preparation
+
+## Scope and evidence
+
+Assignment `CAL114-CaloTech-update`, explicit CaloTech mandate supplied to
+a generic child context. Original PR84 source `0e8530d56d171f38c9d53d3c60c8b48803680bbd`; refreshed shared
+history `90e36850f0c9694e34a9ed3307ea3faeb14ef46e`; ordinary integration `d25ab1385e7e5fdd83da5b61255f0f2646cc8916`. The regional checkout was
+clean before integration. This journal was created after the merge.
+
+## Selected conversation
+
+User request, paraphrase: update HCAL/FCAL PRs as baseline design options,
+record tokens/interactions/task IDs, and prepare merging within two ECAL options.
+Coordinator assignment, paraphrase: ordinary merges retain main and original
+regional histories; resolve layout page preserving current tracker/FCAL context;
+classify current regional dimensions as SiW-specific; leave LAr adaptation
+explicit, and leave remote publication/exact recovery to the coordinator.
+
+## Decisions and outcomes
+
+Retained original regional source/config/evidence unchanged. The common hardware
+can be reused by both ECAL studies; these regional dimensions and resulting
+counts/budgets describe LAYOUT-001 only. The campaign selects a baseline design
+option, with DRAFT/PROTOTYPE status and human-only acceptance unchanged.
+The named full-detector drawings remain historical context; the regional
+drawing separately records its 62.1mm outline amendment.
+
+## Commands and validation
+
+15 regional controls and44 common-module controls passed on integrated
+source. Project validation passed91 tasks,46 documents,24 review rounds.
+Byte comparison preserves original regional source and retained evidence.
+The ordinary merge's layout conflict was resolved by keeping independent
+contributions. A broad whitespace scan flagged pre-existing inherited main
+SVG/CSV whitespace; those bytes were preserved. Scoped integration changes
+passed whitespace checks against the refreshed common history. Further
+log/interactions/site validation is recorded in paired JSON.
+No fresh native/DD4hep/Geant4/shower execution is claimed.
+
+## Changes and revision links
+
+See paired JSON inventory and [campaign report](../../docs/validation/DES-037/campaign-2026-11-04.md).
+
+## Token accounting
+
+Current per-turn counters are unavailable while this campaign turn is active;
+empty usage is unknown, not zero. Historical recovery and fresh remote
+interaction capture belong to the coordinator. Every token observation
+retains its sole canonical owner; no allocation or duplicate import occurs.
+
+## Follow-up
+
+Merge common PR81 first, then retarget regional PR84 to main. LAr-specific
+regional adaptation, full native assemblies, connected external services,
+response/shower performance and engineering qualification remain follow-ups.
+No human design sign-off or acceptance is recorded.
+
+## Bounded preparation complete
+
+Project/session/interactions/token validators and token-site preview pass.
+The original regional journal also references PR81, so initial full ledger
+validation found stale common-PR provenance. Synchronizing both affected
+records resolved it without changing canonical usage. Observed project totals
+remain1,817,405,271 input+8,258,578 output over378 turns in151/239 sessions;
+88 sessions have no observations. These totals are not a PR allocation.
+The current campaign/root/child turn is excluded; no token estimate is made.

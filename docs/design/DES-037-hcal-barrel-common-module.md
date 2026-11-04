@@ -76,3 +76,20 @@ Review the depth amendment, usable edge-carrier alternatives, sector cracks, col
 ![Barrel layout and design diagnostics](figures/DES-037/barrel-design.png)
 
 [Vector drawing](figures/DES-037/barrel-design.svg).
+
+## Working baseline design option — 2026-11-04
+
+The human-directed calorimeter campaign retains this unchanged regional design
+as the HCAL barrel **baseline design option for LAYOUT-001 (Si–W)**. The
+source-preserving integration keeps the current-main tracker and merged FCAL
+context. Its regional drawing shows the explicit 62.1 mm envelope amendment
+separately; the existing named full-detector drawing inputs are historical
+context and do not certify adoption or combined native construction.
+
+The DES036 common hardware is shared with the LAr candidate. The dimensions,
+placement counts and budgets of this regional study are Si–W-specific. The
+larger LAr regional envelope needs a separate parameterization and validation.
+DRAFT/PROTOTYPE status, residual gaps, unconnected services and all response/
+engineering limitations remain. No human sign-off or acceptance is recorded.
+
+[Campaign preparation and source identity](../validation/DES-037/campaign-2026-11-04.md).
