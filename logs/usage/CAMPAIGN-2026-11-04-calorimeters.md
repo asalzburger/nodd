@@ -135,3 +135,46 @@ with parent/child evidence. Missing current counters remain unknown.
 - Canonical session validation and token-site validation/build passed before
   import and are rerun after all 54 finalized historical observations. This establishes infrastructure
   consistency, not calorimeter correctness or engineering acceptance.
+
+
+## Consolidation, merge order and labels
+
+[Replacement ECAL PR115](https://github.com/asalzburger/nodd/pull/115) targets main
+and preserves original branch ancestry through ordinary merges. It restores the
+Si–W and LAr component designs and standalone issue114 EDM4hep support. It carries
+scientific tracking, validation and the unresolved eleven-question PR75 review.
+This infrastructure PR preserves accounting and interactions; it is excluded
+from scientific progress. Both PRs target main to avoid the earlier merged-parent
+stack failure. Merge this accounting record first, then115 after its current
+checks pass; use an ordinary retarget to main when HCAL dependencies land.
+
+| Original PR | Original source head | Campaign disposition / task |
+| --- | --- | --- |
+|70 |654b85a48abeb38735ad7fe0866c5d1082882df7 | Superseded by115; Si–W endcaps / TASK-B-CALO-EDGE-SENSORS |
+|71 |2776266570dda13386a16863e5b0e97432f27217 | Superseded by115; Si–W barrel / TASK-B-CALO-BARREL |
+|73 |48e97256f8badd75c022a84ab1c4ff71977c56a2 | Superseded by115; LAr barrel / TASK-B-CALO-LAR-BARREL |
+|74 |72d37ee9a56182e4ba974791a848a738c19cf092 | Superseded by115; LAr endcaps / TASK-B-CALO-LAR-ENDCAPS |
+|75 |7c7f847bc5a5d52c091c1d2f32203d20f70c27f9 | Superseded by115; reviewer overview and all open human review inputs retained |
+|81 |abd95bdc64b9d7971561d659bf953e71de4e7e99 | Refreshed common HCAL baseline design / TASK-B-HCAL-REALISM, TASK-B-HCAL-COMMON-MODULE |
+|84 |0e8530d56d171f38c9d53d3c60c8b48803680bbd | Refreshed Si–W barrel HCAL design / TASK-B-HCAL-BARREL-DESIGN |
+|85 |c1f11013b03391a4f09d86b39dff57e6c3f58ab2 | Refreshed Si–W endcap HCAL design / TASK-B-HCAL-ENDCAP-DESIGN |
+|88 |8e5e056a70691f3f653064d4f37567ec218433c7 | Already merged at91235ecf904a33770f4a7bc60a64b43aaaec59ae; retain common FCAL / TASK-B-CALO-FCAL |
+
+The old ECAL branches, commits, journals, figures, public discussions and formal
+review decisions remain available after closure. Supersession is an administrative
+handover, not approval or a claim that PR75's engineering questions were solved.
+The new baseline selector has distinct tracker/ECAL construction, HCAL/FCAL/magnet
+design, calibrated digitization and full detector qualification gates.
+
+The human requested PR labelling. Four additive repository labels were created:
+`campaign:calorimeters` (campaign membership), `status:superseded` (linked replacement),
+`scope:baseline-design` (working design, no sign-off) and `scope:edm-io` (data/persistence
+interfaces). Apply campaign+superseded to70/71/73/74/75; campaign+baseline-design to
+81/84/85/88; campaign+baseline-design+edm-io to115 and issue114 as appropriate.
+Original labels are retained. Current exact remote state is a dated snapshot in
+individual interaction ledgers; publication receipts follow once observed.
+
+Public snapshots for70/71/73/74/75/76/78/79/80/81/84/85/88 were refreshed via the
+connected GitHub reader on2026-11-04. PR75 includes the October19 human questions;
+none was treated as resolved by closure. The GitHub app denied PR creation with
+403, so publication uses the existing authenticated gh CLI without changing credentials.
