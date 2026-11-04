@@ -178,3 +178,9 @@ Public snapshots for70/71/73/74/75/76/78/79/80/81/84/85/88 were refreshed via th
 connected GitHub reader on2026-11-04. PR75 includes the October19 human questions;
 none was treated as resolved by closure. The GitHub app denied PR creation with
 403, so publication uses the existing authenticated gh CLI without changing credentials.
+
+## Visible interaction preservation and administrative handover
+
+Selected canonical thread/turns were explicitly reread through the connected app. Visible user/assistant messages, operation names/counts and parent/child identities are retained in each affected PR’s `turns/` directory. Reasoning, commands/results, arbitrary tool arguments, images and private state are excluded; paths/credentials/emails/private URLs are redacted. The large historical ECAL thread required one-turn pagination with a bounded item cap; possible long-message truncation is explicitly recorded. Journals and public review text remain complementary evidence. Shared snapshots reference one canonical token owner and add no numeric counters.
+
+PR70/71/73/74/75 are now closed as superseded, with reciprocal links to115 and116, campaign/superseded labels, and original branches retained. Their unresolved review questions remain in115’s integration contract. PR115 is held in draft until its final native overlap evidence is retained. HCAL81/84/85 have ordinary merge preparation and shared canonical accounting; FCAL88 remains merged. No design approval is inferred from these administrative actions.
