@@ -62,7 +62,7 @@ def compose(components, output, layout):
         recipes = ET.parse(materials).getroot()
         if recipes.tag != "materials":
             raise ValueError("Expected standalone material definitions: " + tag)
-        names = {node.get("name"): (node.get("name") if tag == "tracker" and node.get("name") in ("Air", "Vacuum")
+        names = {node.get("name"): (node.get("name") if tag == "tracker"
                                     else tag.replace("-", "_") + "_" + node.get("name"))
                  for node in recipes}
         for node in recipes:
@@ -79,7 +79,7 @@ def compose(components, output, layout):
             else:
                 material_seen[key] = sig
                 material_doc.append(node)
-        transformed = deepcopy(source)
+        transformed = source
         for node in transformed.iter():
             for attr, value in list(node.attrib.items()):
                 if (attr == "material" or attr.endswith("_material")) and value in names:
@@ -106,13 +106,13 @@ def compose(components, output, layout):
                     continue
                 if not name:
                     raise ValueError("Unnamed compact entry: " + tag + "/" + section)
-                sig = signature(node)
+                sig = signature(node) if section == "define" else True
                 if name in section_seen[section]:
                     if section != "define" or section_seen[section][name] != sig:
                         raise ValueError("Duplicate/conflicting compact entry: " + section + "/" + name)
                 else:
                     section_seen[section][name] = sig
-                    sections[section].append(deepcopy(node))
+                    sections[section].append(node)
         records.append(dict(component=tag, compact=str(compact.resolve()), compact_sha256=sha(compact),
                             materials_sha256=sha(materials), system_mapping=root_map))
     if set(world) != {"world_x", "world_y", "world_z"}:

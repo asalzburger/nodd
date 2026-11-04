@@ -21,7 +21,7 @@ manifests and native output stay under ignored `build/`.
 The standalone Si–W endcap system8 becomes9 only in the combined output. Beam-pipe0 and tracker
 systems1–7, Si–W barrel8 and LAr10/11 remain. FCAL12 and HCAL13/14 are reserved
 for later integration, preserving the original standalone proposals. Material
-definitions and references receive consistent component namespaces; world Air/Vacuum remain owned by the tracker. Component Air/Vacuum are namespaced too; duplicate readouts/root IDs and conflicting recipes fail closed.
+definitions and references receive consistent component namespaces; all maintained tracker material/element names remain unchanged, including hardcoded Beryllium. Component Air/Vacuum are namespaced too; duplicate readouts/root IDs and conflicting recipes fail closed.
 
 The common EDM4hep I/O and algorithm skeletons are built independently under
 `software/source/ActsExamples/Calorimeter`. They provide the initial data and

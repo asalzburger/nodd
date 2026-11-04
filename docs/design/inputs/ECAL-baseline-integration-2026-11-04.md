@@ -36,8 +36,8 @@ These reservations do not modify the standalone FCAL/HCAL proposals or establish
 a cell-ID service. The exporter records each actual source→integrated root ID;
 readout bit layouts, local IDs, placements and materials retain their meaning.
 
-Custom material names are prefixed per component, with fraction references and
-detector material attributes transformed together. The tracker owns global world Air/Vacuum; ECAL Air/Vacuum are also namespaced, preserving even source serialization or recipe differences. Conflicting definitions within one namespace fail. This prevents two
+Added ECAL material names are prefixed per component, with fraction references and
+detector material attributes transformed together. The tracker retains every existing material/element name, including the factory’s hardcoded Beryllium; ECAL Air/Vacuum are also namespaced, preserving even source serialization or recipe differences. Conflicting definitions within one namespace fail. This prevents two
 components from silently selecting different recipes under one shared name.
 
 ## Initial digitization boundary

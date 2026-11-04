@@ -47,6 +47,16 @@ class CompositionTests(unittest.TestCase):
         for path, content in before.items():
             self.assertEqual(path.read_bytes(), content)
 
+    def test_tracker_hardcoded_material_names_and_beam_id_preserved(self):
+        tracker = self.component("beam", 0)
+        report = compose([("tracker", tracker, {0: 0})], self.root / "out", "LAYOUT-001")
+        doc = ET.parse(self.root / "out/detector.xml")
+        self.assertEqual(report["system_ids"], [0])
+        self.assertEqual(doc.find("detectors/detector/piece").get("material"), "Sensor")
+        recipes = ET.parse(self.root / "out/materials.xml")
+        self.assertIsNotNone(recipes.find("material[@name='Sensor']"))
+        self.assertEqual(recipes.find("material/fraction").get("ref"), "Si")
+
     def test_duplicate_or_unmapped_ids_fail(self):
         a = self.component("a", 8)
         b = self.component("b", 8)
