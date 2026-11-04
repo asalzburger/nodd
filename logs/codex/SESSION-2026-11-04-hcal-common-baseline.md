@@ -67,3 +67,19 @@ cost or current campaign usage. No current counters were estimated.
 ## Campaign accounting reference
 
 Completed HCAL specialist turns are owned once by `SESSION-2026-11-04-calorimeter-campaign`, shared with the other campaign PRs. The canonical inventory in PR116 and individual ledgers retain exact counters, parent edges and visible interactions. This per-PR narrative owns no additional copy. Root coordinator usage remains active and excluded.
+
+## Coordinator merge-queue verification
+
+After all individual heads passed hosted checks, a merge-tree rehearsal exposed
+conflicts between final ECAL PR115 and this common-module PR. An ordinary merge
+of `14898df4022363bb038577d170daaf5ed8cdc547` retains both histories; scientific
+tracking/source manifests were reconciled by stable IDs and PR81's curated
+interaction links were combined before deterministic synchronization. The queue
+is now #116 → #115 → #81 → #84 → #85, with every open PR targeting main.
+
+On this combined source, 44 HCAL module controls, 32 restored calorimeter
+controls and 36 logging tests pass. Project validation reports 99 tasks,
+51 documents and 24 review rounds. Native ECAL/EDM evidence is inherited at its
+recorded executed revisions; no fresh HCAL native/response result is asserted.
+These coordinator actions share the existing campaign owner and add no duplicate
+usage observations.

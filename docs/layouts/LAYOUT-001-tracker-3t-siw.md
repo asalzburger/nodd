@@ -55,9 +55,12 @@ the amendment separately. The selected candidate inputs and existing R–Z image
 remain unchanged pending review. The 2026-11-04 campaign retains this as the Si–W baseline design option. It remains DRAFT/PROTOTYPE; residual
 cracks, forward handover and engineering qualification remain unresolved.
 
-[Draft regional PR84](https://github.com/asalzburger/nodd/pull/84) · [Companion PR85](https://github.com/asalzburger/nodd/pull/85). Both depend on the common-module PR81.
+[Regional PR84](https://github.com/asalzburger/nodd/pull/84) · [Companion PR85](https://github.com/asalzburger/nodd/pull/85). Both depend on the common-module PR81.
 
 The [2026-11-04 campaign replay](../validation/DES-037/campaign-2026-11-04.md)
 retains source identities, tasks and actual checks. The unchanged common
 hardware can also serve LAr; these regional dimensions and budgets cannot be
 transferred to LAYOUT-002 without a separate adaptation.
+## Restored working baseline
+
+The [baseline selector](../../tools/calorimeter_baselines/README.md) exports the maintained tracker with this option’s ECAL barrel and endcaps. [Integration and remaining review gates](../design/inputs/ECAL-baseline-integration-2026-11-04.md) distinguish runnable geometry, the shared HCAL/FCAL design stages and initial EDM4hep I/O.

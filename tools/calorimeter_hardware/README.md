@@ -109,3 +109,119 @@ python3 -B tools/calorimeter_hardware/check_shapes.py \
 It requires both ROOT and expected-inventory hashes to match the completed
 overlap audit and verifies native primitive dimensions, polygon vertices/depth
 and Boolean cutter dimensions/transforms. It does not relax any overlap gate.
+
+## Custom ECAL edge masks and optimized endcaps (DES030)
+
+The new DRAFT prototype is isolated from DES029's historical cassette assemblies
+and production entry points. Sixteen wedge carriers retain DES029 drawing B's
+topology and the outer16-gon. A100mm-apothem16-gon aperture with30mm inner rim
+explores the user-requested|eta|4 target; full90mm squares cannot fit there.
+Single-sensor boards,2mm PCB margins/gaps and120mm outer shared service bays
+follow B's compact-board approach. Grouped full/half-board engineering remains
+open. Custom inner/side masks fit within one wedge. The earlier four-quadrant
+alternative is preserved in `docs/validation/DES-030/quadrant-study` and the
+matching figure/input archives; its results do not describe this prototype.
+Square and custom-edge cases share the same reservations. Custom sensor/guard/
+PCB/electrode polygons are explicit; small connected pad fragments are merged.
+`nODDEdgeGrid` preserves their real ID mapping and interior reference points.
+
+```sh
+python3 -B tools/calorimeter_hardware/edge_export.py --output build/calorimeter/edges/wedges
+python3 -B tools/calorimeter_hardware/edge_export.py \
+  --output build/calorimeter/edges/wedge-squares --layout squares
+# Activate and verify the existing acts-spack runtime in this shell.
+cmake -S prototypes/calorimeter -B build/calorimeter/factory
+cmake --build build/calorimeter/factory
+python3 -B tools/calorimeter_hardware/edge_native.py \
+  --compact build/calorimeter/edges/wedges/calorimeter.xml \
+  --expected build/calorimeter/edges/wedges/expected.json \
+  --library build/calorimeter/factory/libnODDCalorimeterPrototype.dylib \
+  --output build/calorimeter/edges/wedges/native.json
+# Repeat for wedge-squares; Linux uses .so.
+```
+
+With the existing Matplotlib environment, `edge_plot.py` produces the requested
+four-stageSVG/PNG, a single-wedge before/after SVG/PNG, the profile catalogue and
+eta/phi layer-count samples. Native
+checks audit actual shapes/materials/replicas, every volume ID and every logical
+electrode/raw fragment, closed-boundary ties, full overlaps and bounded material
+rays. No native ODD construction is claimed by the source-derived ODD panel.
+
+`edge_fixture.py --directory build/calorimeter/edges/wedges` creates a sparse
+single-layer custom-inner-module fixture on each side for two10GeV mu- events.
+Directions/expected electrode are saved in `fixture.json`; DDSim seeds43/44.
+`edge_transport.py` checks saved positive energies and full parent/pad IDs.
+The fixture retains plates/cooling/interface material; it removes other sensor
+boards and structural frames. It does not validate complete-detector transport.
+See DES030 for masks, operating assumptions, aperture and engineering limits.
+
+## Detailed SiW barrel (DES031)
+
+The isolated barrel uses 94 mm square boards on 96 mm pitch, explicit inactive
+silicon guards, PCB/ASIC/thermal stacks, common 3 mm copper cooling plates and
+shared lane interfaces. Seven 1000 mm slabs plus 276/468 mm end slabs retain the
+48-layer envelope; alternating −96/+96 mm phases stagger axial service joints.
+It does not modify the production compact, DES029 historical fixtures or endcaps.
+See [DES031](../../docs/design/DES-031-siw-barrel-prototype.md) and its
+[executed evidence](../../docs/validation/DES-031/results.md).
+
+```sh
+python3 -B tools/calorimeter_hardware/barrel_export.py --output build/calorimeter/barrel
+# Activate the verified existing acts-spack DD4hep/Geant4 runtime first.
+cmake -S prototypes/calorimeter -B build/calorimeter/barrel-factory
+cmake --build build/calorimeter/barrel-factory
+python3 -B tools/calorimeter_hardware/barrel_native.py \
+  --compact build/calorimeter/barrel/calorimeter.xml \
+  --expected build/calorimeter/barrel/expected.json \
+  --library build/calorimeter/barrel-factory/libnODDCalorimeterPrototype.dylib \
+  --output build/calorimeter/barrel/native.json --overlap-seed 31
+python3 -B tools/calorimeter_hardware/barrel_readout.py \
+  --compact build/calorimeter/barrel/calorimeter.xml \
+  --expected build/calorimeter/barrel/expected.json \
+  --library build/calorimeter/barrel-factory/libnODDCalorimeterPrototype.dylib \
+  --output build/calorimeter/barrel/readout.json
+python3 -B tools/calorimeter_hardware/barrel_compare.py \
+  --expected build/calorimeter/barrel/expected.json \
+  --native build/calorimeter/barrel/native.json \
+  --output build/calorimeter/barrel/ray-comparison.json
+python3 -B tools/calorimeter_hardware/barrel_fixture.py --directory build/calorimeter/barrel
+```
+
+Linux uses `.so`. The full native checker retains mass/material, all physical
+sensor IDs and full-overlap gates. Supplemental `barrel_readout.py` covers all
+logical module electrode addresses; `barrel_compare.py` independently compares
+finite silicon boxes to ROOT rays, preserving centre-plane approximation results.
+The factory library must be discoverable in the active runtime:
+
+```sh
+export LD_LIBRARY_PATH="$PWD/build/calorimeter/barrel-factory:${LD_LIBRARY_PATH:-}"
+export DYLD_LIBRARY_PATH="$PWD/build/calorimeter/barrel-factory:${DYLD_LIBRARY_PATH:-}"
+python3 - <<'PYTHON'
+import json, shutil, subprocess, sys
+from pathlib import Path
+root = Path('build/calorimeter/barrel')
+for q in json.loads((root / 'fixtures.json').read_text())['fixtures']:
+    name = q['name']
+    args = [sys.executable, shutil.which('ddsim'),
+            '--compactFile', str(root / (name + '-fixture.xml')),
+            '--runType', 'batch', '--numberOfEvents', '1', '--enableGun',
+            '--gun.particle', 'mu-', '--gun.energy', '10*GeV',
+            '--gun.position', '0 0 0',
+            '--gun.direction', ' '.join(map(str, q['direction'])),
+            '--random.seed', str(q['seed']), '--part.userParticleHandler', '',
+            '--outputFile', str(root / (name + '-smoke.root'))]
+    with (root / (name + '-smoke.log')).open('w') as log:
+        subprocess.run(args, stdout=log, stderr=subprocess.STDOUT, check=True)
+PYTHON
+python3 -B tools/calorimeter_hardware/barrel_transport.py \
+  --directory build/calorimeter/barrel --output build/calorimeter/barrel/transport.json
+python3 -B tools/calorimeter_hardware/barrel_plot.py \
+  --directory build/calorimeter/barrel --output docs/design/figures/DES-031
+```
+
+These three single-board/single-layer fixtures use seeds 45/46/47 and zero field.
+They retain local material and test saved parent/pad IDs and positive energies;
+complete-barrel transport and realistic response remain open. Plotting uses the
+already available Matplotlib runtime. Headers, ports, power/data routes and
+thermal/structural qualification are absent; material-filled reservations must
+not be read as empty service corridors.
