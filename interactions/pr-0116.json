@@ -1,0 +1,338 @@
+{
+  "schema_version": 1,
+  "curated": {
+    "journal_links": [],
+    "agents": [],
+    "tools": [],
+    "events": []
+  },
+  "github": {
+    "captured_at": "2026-11-04T14:39:36.945Z",
+    "pull_request": {
+      "number": 116,
+      "url": "https://github.com/asalzburger/nodd/pull/116",
+      "title": "Infrastructure: preserve calorimeter campaign history and token accounting",
+      "head": "codex/calorimeter-campaign-record",
+      "head_sha": "71325da453c0463f1d2e6f95ea7fcbf71075fa1d",
+      "state": "open",
+      "body": "Preserves the audit trail while ECAL #70/#71/#73/#74/#75 move into the single main-targeted replacement #115. The campaign table retains every original source head, task identity, shared-account relationship, label and unresolved #75 human review. HCAL #81/#84/#85 are refreshed separately; FCAL #88 is already merged.\n\nRecovered54 previously uncounted finalized turns into17 existing canonical session owners: **258,511,843 input +1,432,322 output =259,944,165 observed tokens**. Repeated snapshots, already-counted turns, mixed-task allocations and active campaign turns are excluded. Shared turns have one owner and multiple PR references. Existing FCAL recommendation accounting is linked rather than duplicated.\n\nThe recovery reader now streams existing compressed .jsonl.zst archives when the client database retains the original .jsonl path. It never retains raw transcripts/private state and installs no dependency. Thirteen original paired journals are retained from immutable branch revisions; individual interaction ledgers are refreshed and synchronized.\n\nValidation:36 logging tests;14 recovery controls also pass on Python3.11 with the existing zstd executable;247 paired journals,101 interaction ledgers and432 dated token turns validate; token-site build passes. This PR changes infrastructure/accounting only and is excluded from scientific progress. Detector geometry and validation remain in #115 and the subsystem PRs.\n\nMerge this main-targeted infrastructure record before #115. Once replacement provenance is published, close the five superseded PRs with reciprocal links and additive campaign/supersession labels. No branch deletion, history rewriting or review approval is implied. The active root turn remains uncounted until a later finalized capture.\n\nFull mapping, exact owner subtotals, import/replay evidence and limitations: `logs/usage/CAMPAIGN-2026-11-04-calorimeters.md` and its adjacent usage-only inventory.\n",
+      "actor": "asalzburger",
+      "created_at": "2026-11-04T14:29:03Z"
+    },
+    "comments": [],
+    "issues": []
+  },
+  "derived": {
+    "parties": [
+      {
+        "id": "agent:SESSION-2026-11-04-calorimeter-campaign-accounting",
+        "name": "Codex desktop",
+        "kind": "agent"
+      },
+      {
+        "id": "codex-thread:01a1a6e2-62c9-7a72-abb9-f21506ccaec6",
+        "name": "Codex parent thread 01a1a6e2-62c9-7a72-abb9-f21506ccaec6",
+        "kind": "agent"
+      },
+      {
+        "id": "codex-thread:01a1a6e8-a582-7290-886a-eef0d888ebc6",
+        "name": "Codex thread 01a1a6e8-a582-7290-886a-eef0d888ebc6",
+        "kind": "agent"
+      },
+      {
+        "id": "github:asalzburger",
+        "name": "asalzburger",
+        "kind": "account"
+      },
+      {
+        "id": "unknown:project-user",
+        "name": "Project user (name unrecorded)",
+        "kind": "human"
+      }
+    ],
+    "journals": [
+      {
+        "session_id": "SESSION-2026-11-04-calorimeter-campaign-accounting",
+        "record": "logs/codex/SESSION-2026-11-04-calorimeter-campaign-accounting.json",
+        "attribution": [
+          "recorded_branch"
+        ],
+        "snapshot": null,
+        "snapshot_sha256": null,
+        "record_sha256": "1229a1a9b7e74144518ebf0d7afd2ed9338ccdd722a910a2670d05eda5b25228",
+        "narrative_sha256": "1918a47f19c3ee79e82efdefdb27cfeae69e70a18b6214e6f3792cb39cf27a0d"
+      }
+    ],
+    "token_accounts": [
+      {
+        "id": "SESSION-2026-11-04-calorimeter-campaign-accounting",
+        "record": "logs/codex/SESSION-2026-11-04-calorimeter-campaign-accounting.json",
+        "scope": "canonical_session; shared PR references are not allocations",
+        "status": "observed",
+        "usage_sha256": "79e6749c507272a9de246ee145134e60ff82f092d376143f9426de1be8d807b5",
+        "turns": [
+          {
+            "client_thread_id": "01a1a6e8-a582-7290-886a-eef0d888ebc6",
+            "turn_id": "01a1a6e8-a5c7-73d1-a0d8-d9e72d62ab02",
+            "model": null
+          }
+        ]
+      }
+    ],
+    "visible_sources": [
+      {
+        "path": "interactions/pr-0116/turns/01a1a6e8-a582-7290-886a-eef0d888ebc6--01a1a6e8-a5c7-73d1-a0d8-d9e72d62ab02.json",
+        "sha256": "a0fb98569112eadf2a6e85d6d90bdaf4d94ec72712ad2c983c42905e7ab31ab6"
+      }
+    ],
+    "agents": [
+      {
+        "id": "agent:SESSION-2026-11-04-calorimeter-campaign-accounting",
+        "name": "Codex desktop",
+        "role": "session_agent",
+        "thread_id": null,
+        "models": [],
+        "source": "logs/codex/SESSION-2026-11-04-calorimeter-campaign-accounting.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      },
+      {
+        "id": "agent:SESSION-2026-11-04-calorimeter-campaign-accounting:SoftEng:4e5d2b6f",
+        "name": "SoftEng",
+        "role": "reported_specialist_assignment",
+        "thread_id": null,
+        "models": [],
+        "source": "logs/codex/SESSION-2026-11-04-calorimeter-campaign-accounting.md#assignment-and-scope",
+        "limitation": "Role contract is recorded; native profile loading and process identity are not inferred."
+      },
+      {
+        "id": "codex-thread:01a1a6e8-a582-7290-886a-eef0d888ebc6",
+        "name": "Codex",
+        "role": "recorded_thread",
+        "thread_id": "01a1a6e8-a582-7290-886a-eef0d888ebc6",
+        "models": [],
+        "source": "interactions/pr-0116/turns/01a1a6e8-a582-7290-886a-eef0d888ebc6--01a1a6e8-a5c7-73d1-a0d8-d9e72d62ab02.json",
+        "limitation": "Execution model is retained only when reported by the canonical account."
+      },
+      {
+        "id": "codex-child:01a1a6e2-62c9-7a72-abb9-f21506ccaec6",
+        "name": "/root",
+        "role": "subagent",
+        "thread_id": "01a1a6e2-62c9-7a72-abb9-f21506ccaec6",
+        "models": [],
+        "source": "interactions/pr-0116/turns/01a1a6e8-a582-7290-886a-eef0d888ebc6--01a1a6e8-a5c7-73d1-a0d8-d9e72d62ab02.json",
+        "limitation": "Parent thread 01a1a6e8-a582-7290-886a-eef0d888ebc6; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1a6e2-62c9-7a72-abb9-f21506ccaec6",
+        "name": "/root",
+        "role": "subagent",
+        "thread_id": "01a1a6e2-62c9-7a72-abb9-f21506ccaec6",
+        "models": [],
+        "source": "interactions/pr-0116/turns/01a1a6e8-a582-7290-886a-eef0d888ebc6--01a1a6e8-a5c7-73d1-a0d8-d9e72d62ab02.json",
+        "limitation": "Parent thread 01a1a6e8-a582-7290-886a-eef0d888ebc6; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1a6e2-62c9-7a72-abb9-f21506ccaec6",
+        "name": "/root",
+        "role": "subagent",
+        "thread_id": "01a1a6e2-62c9-7a72-abb9-f21506ccaec6",
+        "models": [],
+        "source": "interactions/pr-0116/turns/01a1a6e8-a582-7290-886a-eef0d888ebc6--01a1a6e8-a5c7-73d1-a0d8-d9e72d62ab02.json",
+        "limitation": "Parent thread 01a1a6e8-a582-7290-886a-eef0d888ebc6; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1a6e2-62c9-7a72-abb9-f21506ccaec6",
+        "name": "/root",
+        "role": "subagent",
+        "thread_id": "01a1a6e2-62c9-7a72-abb9-f21506ccaec6",
+        "models": [],
+        "source": "interactions/pr-0116/turns/01a1a6e8-a582-7290-886a-eef0d888ebc6--01a1a6e8-a5c7-73d1-a0d8-d9e72d62ab02.json",
+        "limitation": "Parent thread 01a1a6e8-a582-7290-886a-eef0d888ebc6; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1a6e2-62c9-7a72-abb9-f21506ccaec6",
+        "name": "/root",
+        "role": "subagent",
+        "thread_id": "01a1a6e2-62c9-7a72-abb9-f21506ccaec6",
+        "models": [],
+        "source": "interactions/pr-0116/turns/01a1a6e8-a582-7290-886a-eef0d888ebc6--01a1a6e8-a5c7-73d1-a0d8-d9e72d62ab02.json",
+        "limitation": "Parent thread 01a1a6e8-a582-7290-886a-eef0d888ebc6; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1a6e2-62c9-7a72-abb9-f21506ccaec6",
+        "name": "/root",
+        "role": "subagent",
+        "thread_id": "01a1a6e2-62c9-7a72-abb9-f21506ccaec6",
+        "models": [],
+        "source": "interactions/pr-0116/turns/01a1a6e8-a582-7290-886a-eef0d888ebc6--01a1a6e8-a5c7-73d1-a0d8-d9e72d62ab02.json",
+        "limitation": "Parent thread 01a1a6e8-a582-7290-886a-eef0d888ebc6; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1a6e2-62c9-7a72-abb9-f21506ccaec6",
+        "name": "/root",
+        "role": "subagent",
+        "thread_id": "01a1a6e2-62c9-7a72-abb9-f21506ccaec6",
+        "models": [],
+        "source": "interactions/pr-0116/turns/01a1a6e8-a582-7290-886a-eef0d888ebc6--01a1a6e8-a5c7-73d1-a0d8-d9e72d62ab02.json",
+        "limitation": "Parent thread 01a1a6e8-a582-7290-886a-eef0d888ebc6; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1a6e2-62c9-7a72-abb9-f21506ccaec6",
+        "name": "/root",
+        "role": "subagent",
+        "thread_id": "01a1a6e2-62c9-7a72-abb9-f21506ccaec6",
+        "models": [],
+        "source": "interactions/pr-0116/turns/01a1a6e8-a582-7290-886a-eef0d888ebc6--01a1a6e8-a5c7-73d1-a0d8-d9e72d62ab02.json",
+        "limitation": "Parent thread 01a1a6e8-a582-7290-886a-eef0d888ebc6; activity interacted. Agent path is not proof of native role-profile loading."
+      }
+    ],
+    "tools": {
+      "native_codex": [
+        {
+          "name": "commandExecution",
+          "category": "native_codex",
+          "version": null,
+          "calls": 31,
+          "source": "interactions/pr-0116/turns/01a1a6e8-a582-7290-886a-eef0d888ebc6--01a1a6e8-a5c7-73d1-a0d8-d9e72d62ab02.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 1 failures reported.",
+          "token_account": "SESSION-2026-11-04-calorimeter-campaign-accounting",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "subAgentActivity",
+          "category": "native_codex",
+          "version": null,
+          "calls": 8,
+          "source": "interactions/pr-0116/turns/01a1a6e8-a582-7290-886a-eef0d888ebc6--01a1a6e8-a5c7-73d1-a0d8-d9e72d62ab02.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-04-calorimeter-campaign-accounting",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "fileChange",
+          "category": "native_codex",
+          "version": null,
+          "calls": 4,
+          "source": "interactions/pr-0116/turns/01a1a6e8-a582-7290-886a-eef0d888ebc6--01a1a6e8-a5c7-73d1-a0d8-d9e72d62ab02.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-04-calorimeter-campaign-accounting",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "codex_app.read_thread",
+          "category": "native_codex",
+          "version": null,
+          "calls": 17,
+          "source": "interactions/pr-0116/turns/01a1a6e8-a582-7290-886a-eef0d888ebc6--01a1a6e8-a5c7-73d1-a0d8-d9e72d62ab02.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 1 failures reported.",
+          "token_account": "SESSION-2026-11-04-calorimeter-campaign-accounting",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        }
+      ],
+      "codex_installed": [],
+      "instructed_software": [],
+      "unresolved": [
+        {
+          "name": "Codex command execution",
+          "category": "unresolved",
+          "version": null,
+          "calls": null,
+          "source": "logs/codex/SESSION-2026-11-04-calorimeter-campaign-accounting.json",
+          "evidence": "Scoped commands run existing Python3.14/Python3.11/Git and zstd; no package install or shared dependency changes.",
+          "token_account": "SESSION-2026-11-04-calorimeter-campaign-accounting",
+          "provenance": "Operation recorded; installation provenance needs explicit evidence."
+        },
+        {
+          "name": "Codex app read_thread",
+          "category": "unresolved",
+          "version": null,
+          "calls": null,
+          "source": "logs/codex/SESSION-2026-11-04-calorimeter-campaign-accounting.json",
+          "evidence": "Reviewed visible historical user inputs and child final assignment/source identities; omitted reasoning and command/results from retained inventory.",
+          "token_account": "SESSION-2026-11-04-calorimeter-campaign-accounting",
+          "provenance": "Operation recorded; installation provenance needs explicit evidence."
+        }
+      ]
+    },
+    "events": [
+      {
+        "id": "github:https://github.com/asalzburger/nodd/pull/116",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "github:asalzburger",
+        "recipients": [],
+        "text": "Preserves the audit trail while ECAL #70/#71/#73/#74/#75 move into the single main-targeted replacement #115. The campaign table retains every original source head, task identity, shared-account relationship, label and unresolved #75 human review. HCAL #81/#84/#85 are refreshed separately; FCAL #88 is already merged.\n\nRecovered54 previously uncounted finalized turns into17 existing canonical session owners: **258,511,843 input +1,432,322 output =259,944,165 observed tokens**. Repeated snapshots, already-counted turns, mixed-task allocations and active campaign turns are excluded. Shared turns have one owner and multiple PR references. Existing FCAL recommendation accounting is linked rather than duplicated.\n\nThe recovery reader now streams existing compressed .jsonl.zst archives when the client database retains the original .jsonl path. It never retains raw transcripts/private state and installs no dependency. Thirteen original paired journals are retained from immutable branch revisions; individual interaction ledgers are refreshed and synchronized.\n\nValidation:36 logging tests;14 recovery controls also pass on Python3.11 with the existing zstd executable;247 paired journals,101 interaction ledgers and432 dated token turns validate; token-site build passes. This PR changes infrastructure/accounting only and is excluded from scientific progress. Detector geometry and validation remain in #115 and the subsystem PRs.\n\nMerge this main-targeted infrastructure record before #115. Once replacement provenance is published, close the five superseded PRs with reciprocal links and additive campaign/supersession labels. No branch deletion, history rewriting or review approval is implied. The active root turn remains uncounted until a later finalized capture.\n\nFull mapping, exact owner subtotals, import/replay evidence and limitations: `logs/usage/CAMPAIGN-2026-11-04-calorimeters.md` and its adjacent usage-only inventory.\n",
+        "source": "https://github.com/asalzburger/nodd/pull/116",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [],
+        "timestamp": "2026-11-04T14:29:03Z",
+        "remote_input": null
+      },
+      {
+        "id": "journal:SESSION-2026-11-04-calorimeter-campaign-accounting:b5ed2a12a355d803",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "agent:SESSION-2026-11-04-calorimeter-campaign-accounting",
+        "recipients": [],
+        "text": "Explicit fallback SoftEng assignment `CAL114-Accounting`, from the campaign\ncoordinator, source main `cd3ec20da56537617ac6fbbcf28bd6f28104cc64`.\nThe worktree `codex/calorimeter-campaign-record` began clean. The paired journal\nwas created after this assignment's own recovery-tool edits, so its captured\n`initial_changes` accurately lists those edits; no unrelated edits existed.\nRead the full prepared mandate and relevant repository/logging/interaction\ninstructions. No delegation, remote mutation, scientific source edits, package\ninstallation or human sign-off was performed.\n\nThe user asks to preserve work, tokens, interactions and PR identities when\nconsolidating ECAL70/71/73/74/75 with issue114, and to prepare HCAL/FCAL PRs.\nThe coordinator's initial historical recovery failed because the client had\ncompressed archived `.jsonl` paths into `.jsonl.zst` without updating the stored\nplain paths. This assignment fixes that infrastructure boundary and recovers\nonly allowlisted usage evidence.",
+        "source": "logs/codex/SESSION-2026-11-04-calorimeter-campaign-accounting.md#assignment-and-scope",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [
+          "SoftEng"
+        ],
+        "token_accounts": [
+          "SESSION-2026-11-04-calorimeter-campaign-accounting"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-11-04-calorimeter-campaign-accounting:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-11-04-calorimeter-campaign-accounting",
+        "recipients": [],
+        "text": "Compressed archival usage recovery for the calorimeter consolidation campaign — see the canonical narrative for outcomes and checks.",
+        "source": "logs/codex/SESSION-2026-11-04-calorimeter-campaign-accounting.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-04-calorimeter-campaign-accounting"
+        ],
+        "content_kind": "reference_summary"
+      },
+      {
+        "id": "codex-message:msg_0dadd8cb0e080e1c016aeb40a6cf3087d2ad4b02606ac6f7ee",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1a6e8-a582-7290-886a-eef0d888ebc6",
+        "recipients": [
+          "codex-thread:01a1a6e2-62c9-7a72-abb9-f21506ccaec6"
+        ],
+        "text": "Committed `8845463d7a5f420447be1c850a4f99c6e1bc850f` on `codex/calorimeter-campaign-record`; working tree clean.\n\n- Imported 54 historical turns once: **258,511,843 input + 1,432,322 output = 259,944,165 tokens**.\n- Restored 13 original journal pairs and synchronized 17 affected PR ledgers.\n- Passed 36 logging tests, 14 Python 3.11 recovery tests, journal/interaction validation, and token-site build.\n- No scientific files or remote state changed.\n\nCurrent completed-child accounting is in `/tmp/nodd-cal114-current-children.json`: **24,575,707 tokens across five finalized turns**, with exact parent edges and proposed owners. Those entries remain unimported; active root/accounting turns are excluded.",
+        "source": "interactions/pr-0116/turns/01a1a6e8-a582-7290-886a-eef0d888ebc6--01a1a6e8-a5c7-73d1-a0d8-d9e72d62ab02.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-04-calorimeter-campaign-accounting"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      }
+    ],
+    "coverage": {
+      "github_captured_at": "2026-11-04T14:39:36.945Z",
+      "prompts": "Available account-matched user-visible messages, public Codex inputs and curated journal excerpts. Historical full input coverage is unknown.",
+      "recovered_visible_turns": 1,
+      "unrecovered_account_turns": [],
+      "responses": "Public responses and recorded outcomes; no private model state or hidden reasoning.",
+      "token_accounting": "References only. Never sum accounts across PRs or assign a shared turn by text length.",
+      "unknowns": "Unrecorded names, models, tools, subagent identities and response links remain unknown; empty lists are not zero activity.",
+      "remote": "Snapshot, not live synchronization; deleted/edited history and emoji reactions are not recovered.",
+      "branch_only": "Pinned branch journal snapshots are references, not imported counters. Unretained or other-device inputs remain unknown."
+    }
+  }
+}
