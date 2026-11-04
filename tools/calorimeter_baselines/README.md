@@ -34,3 +34,38 @@ are recorded honestly rather than inserted as fictitious active detector volumes
 Combined detector response, field and engineering qualification remain later work.
 
 Each CLI invocation regenerates the maintained tracker and records its producer, configuration and compact/material/expected hashes. Reusing an arbitrary pre-exported tracker is unsupported. The lower-level composition helper labels an unverified supplied tracker as such.
+
+## Native union check
+
+Build only the existing tracker factories and audit each complete tracker/ECAL
+union at the same10nm numerical tolerance used by the component audits:
+
+```sh
+source software/env/truth_tracking.sh
+cmake -S . -B build/baselines/tracker-factories -G Ninja -DBUILD_TESTING=OFF
+cmake --build build/baselines/tracker-factories --parallel 3 --target \
+  nODDPixelBarrel nODDBeamPipe nODDShortStripBarrel nODDShortStripEndcap nODDLongStrip
+tracker_libraries=(
+  --library build/baselines/tracker-factories/detector/libnODDPixelBarrel.dylib
+  --library build/baselines/tracker-factories/detector/libnODDBeamPipe.dylib
+  --library build/baselines/tracker-factories/detector/libnODDShortStripBarrel.dylib
+  --library build/baselines/tracker-factories/detector/libnODDShortStripEndcap.dylib
+  --library build/baselines/tracker-factories/detector/libnODDLongStrip.dylib
+)
+python3 -B tools/calorimeter_baselines/native.py --directory build/baselines/01 \
+  "${tracker_libraries[@]}" \
+  --library build/baselines/factories/libnODDCalorimeterPrototype.dylib \
+  --output build/baselines/01/native.json
+python3 -B tools/calorimeter_baselines/native.py --directory build/baselines/02 \
+  "${tracker_libraries[@]}" \
+  --library build/baselines/factories/libnODDLArBarrelPrototype.dylib \
+  --library build/baselines/factories/libnODDLArEndcapPrototype.dylib \
+  --output build/baselines/02/native.json
+```
+
+These are the verified macOS library suffixes; use the platform's actual shared
+library paths elsewhere. The scans inspect the actual ROOT overlap collection,
+check all native root IDs against the integration map, and retain launch source,
+compiled-library and compact/material fingerprints. Full scans can take a long
+time for these complete assemblies. A construction pass is distinct from an
+overlap result, and neither establishes response or engineering acceptance.
