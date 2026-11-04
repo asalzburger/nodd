@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "thread_id": "01a138ec-03f0-71a3-8c51-77e0f301d12b",
+  "turn_id": "01a138ec-0437-70f0-8dcd-68898bd2c7fd",
+  "status": "completed",
+  "started_at": 1791956354,
+  "completed_at": 1791956720,
+  "token_accounts": [
+    "SESSION-2026-10-14-siw-service-envelopes"
+  ],
+  "source": "Codex app read_thread; exact canonical thread/turn match reviewed for this campaign",
+  "messages": [
+    {
+      "id": "msg_0a71a56e552f70b6016acf16c3c75081918bffc85ca4f0a47e",
+      "role": "assistant",
+      "phase": "final_answer",
+      "text": "SIW-SERVICE-SysArch-input completed at **62b8b35765ff55163c504e3d551f4366a536948b**. No files changed, new packages, native jobs or sign-off.\n\nThe proposed outer backbone and rear HCAL break are credible **space allocations** while preserving PR70/71 ECAL packages and placements. Physical cassette collectors and penetrations remain unresolved, as they do for the LAr prototype.\n\n**Source-count reconciliation**\n\nThe native `interface` role counts include passive shared PCBs:\n\n- Barrel: **22,560 = 15,648 powered interface chips + 6,912 shared PCBs**. There is one PCB per slab/layer/sector: 9×48×16.\n- Both endcaps: **6,144 = 4,608 powered interface chips + 1,536 shared PCBs**. Each wedge/layer has one PCB and three interface chips.\n\nThus 15,648 barrel interfaces and 2,304 per endcap govern the recorded interface-power hypothesis and external link allocation. Using the larger native role counts as independently powered units would double-count passive PCBs.\n\nExact primary locators:\n\n- PR71 revision `2776266570dda13386a16863e5b0e97432f27217`, `tools/calorimeter_hardware/barrel_export.py:60–63`; `barrel_layout.py:58–73`; `docs/validation/DES-031/native.json`, `physical_counts`.\n- PR70 revision `654b85a48abeb38735ad7fe0866c5d1082882df7`, `tools/calorimeter_hardware/edge_export.py:70–76`; `edge_layout.py:218–220`; `docs/validation/DES-030/native-edges.json`, `physical_counts`.\n\n**External station and packing proposal**\n\nThese are **unsigned NODD DESIGN CHOICES**, following the existing LAr allocation conventions rather than selected Si-W cable hardware:\n\n| Quantity | Barrel | Each endcap |\n|---|---:|---:|\n| Stations | 32: 16 sectors × 2 ends | 16: one per wedge |\n| Powered interfaces/station, balanced average | 489 | 144 |\n| 2.5 mm data-pair cables/station | 1,956 | 576 |\n| 2 mm fibres/station | 1,956 | 576 |\n| 3 mm HV cables/station | 12 | 20 |\n| Power/ground/control cables/station | 4×12 / 2×8 / 4×3 mm | Same |\n| Supply/return water jackets/station | 2×50 mm OD | Same |\n| Nominal packed area, 40% fill | 50,849 mm² | 23,216 mm² |\n| Adverse area: double data/fibres, 30% fill | 120,286 mm² | 46,412 mm² |\n\nFour data pairs and four fibres per interface are deliberately conservative routing hypotheses, not a qualified bandwidth architecture. The balanced barrel station assignment and local collector graph are not yet demonstrated.\n\nA **700×150 mm** lane fits nominal loads but fails the barrel adverse scenario. A **900×150 mm** lane fits each subsystem separately. At each rear junction the combined barrel/endcap nominal area is **74,065 mm²**, and adverse area **166,698 mm²**. Reserve a **900×220 mm junction envelope**, centred at **R=2.430 m**, to contain both:\n\n- inner radial face: 2.320 m;\n- far corner: √(2.540²+0.450²) = **2.5796 m**;\n- maximum angular extent: atan(0.450/2.320) = **10.98°**, below the 11.25° half-sector;\n- capacity: **198,000 mm²**, with approximately 20 mm clearance to each circular backbone boundary.\n\nThis checks footprint containment, not installed packing, connector access or a complete bend network.\n\nUsing the LAr-style 20 m/barrel-station and 12 m/endcap-station route hypotheses gives:\n\n| Cable length | Barrel | Each endcap |\n|---|---:|---:|\n| Data pairs / fibres | 1,251.840 / 1,251.840 km | 110.592 / 110.592 km |\n| HV | 7.680 km | 3.840 km |\n| Power / ground / control | 2.560 / 1.280 / 2.560 km | 0.768 / 0.384 / 0.768 km |\n| Water jackets, supply + return | 1.280 km | 0.384 km |\n\nThese large Si-W link lengths expose the cost of exporting every existing interface without further aggregation. Optical-only backbones or local multiplexing are alternatives requiring electronics, heat and bandwidth assessment. Retain ±50% route-length uncertainty; these sums include routes outside the detector handoff and are not installed mass.\n\n**Cooling and electrical input**\n\nReproducing the pinned formulas gives:\n\n- Barrel heat: **188.401475 kW**.\n- Each endcap: **35.525470 kW**.\n- Total: **259.452415 kW**.\n- Ideal water at 4,180 J/(kg·K), ΔT=5 K: **12.413991 kg/s**.\n- Per station: barrel **0.281701 kg/s**, endcap **0.106236 kg/s**.\n\nA chosen **20 mm water bore inside the 50 mm external jacket** gives nominal bulk velocities of **0.897 / 0.338 m/s**. A 1.5× load scenario requires **18.621 kg/s total**, before hydraulic/thermal qualification.\n\nThe source heat formula already includes 90%-efficient conversion; do **not** divide it by 0.9 again. A new 48 V upstream feed hypothesis gives **122.66 / 46.26 A per barrel/endcap station**. With two parallel 25 mm² Cu conductors per polarity, a 40 m supply-plus-return loop and ρ=1.72×10⁻⁸ Ωm:\n\n- nominal drops: **1.688 / 0.636 V**;\n- nominal external losses: **207.0 / 29.4 W per station**;\n- 1.5× load drops: **2.532 / 0.955 V**;\n- aggregate nominal external cable loss: **7.57 kW**, additional to the recorded local ECAL heat.\n\nAmpacity, converter placement, voltage drop at temperature and removal of external cable heat are unqualified.\n\nThere are **51,552 local coolant runs and 103,104 endpoints** across the ECAL. Hierarchical collectors are essential. The proposed backbone does not connect those endpoints automatically.\n\n**HCAL amendments**\n\nRetain the ECAL packages and original **1.4959 m HCAL sampling/cover depth**:\n\n| Allocation | Proposed value |\n|---|---:|\n| Circular service backbone | R=2.300–2.600 m |\n| HCAL barrel inner / outer apothems | 2.600 / 4.0959 m |\n| HCAL barrel half-length | 4.4832 m |\n| Rear barrel/endcap break | 0.400 m |\n| HCAL endcap front / back | |z|=4.8832 / 6.3791 m |\n| HCAL endcap inner / outer apothems | 0.300 / 4.0859 m |\n\nThe retained barrel package's maximum corner radius is **2.276951 m**, leaving **23.049 mm** to the circular backbone. The endcap corner radius is **2.266755 m**. HCAL barrel corners reach **4.176143 m**.\n\nRoutes travel axially outside ECAL, then radially through the rear break and out beyond the HCAL corner, avoiding drilled active HCAL. A 50 mm jacket with a chosen 4×OD bend radius needs **245 mm** axial allocation for one 90° turn, including half-OD and 20 mm clearance. The 400 mm break supports this individual-pipe check; it does **not** establish a two-elbow S-bend or full junction engineering. Use an external pipe-centre handoff around **R≥4.23 m**.\n\nThe unchanged **30 mm front barrel/endcap seam remains installation-only**, with no qualified route through it. Local Si-W service allowances contain tungsten/aluminium, and tube ends stop 5 mm inside plates. Cassette-side collection ports, header attachments, load paths and local clearances remain missing.\n\nHCAL outline volume rises **×1.241** relative to the pinned LAYOUT-001: barrel 224.783→285.832 m³, each endcap 66.489→79.052 m³. These are envelope/load indicators, not installed mass or a magnetic solution.\n\n**Forward reservation**\n\nDo not copy LAr's upstream collar at |z|4.40–4.85 m: it intersects the retained Si-W endcap through 4.4832 m.\n\nA simple non-overlapping alternative is an **empty FCal reservation**:\n\n- R=0.080–0.290 m;\n- |z|=4.5332–6.3791 m;\n- 50 mm behind ECAL;\n- 10 mm inside HCAL's minimum circular aperture, set by its 0.300 m inner apothem.\n\nAn η=4 IP ray has radii **166.11 / 233.75 mm** at its front/back. This is a reservation fit check, not acceptance or containment.\n\nIf a wider prospective collar is desired, split the allocation without overlap:\n\n- rear collar: R=0.080–0.450 m, |z|4.5332–4.8332 m;\n- narrow FCal: R=0.080–0.290 m, |z|4.8332–6.3791 m.\n\nTechnology, beam pipe beyond its current 4 m end, shielding, supports, services and shower depth remain unresolved. No forward target beyond the existing prototype exploration is selected.\n\nAll six pinned DES034 source hashes were independently recomputed and matched. Read-only arithmetic and exact Git-source inspection were performed; no runtime or engineering checks were claimed. One scratch arithmetic command had a syntax error, then was corrected and completed successfully.",
+      "redacted": "no"
+    }
+  ],
+  "native_tools": [
+    {
+      "name": "commandExecution",
+      "calls": 23,
+      "failures": 2
+    },
+    {
+      "name": "subAgentActivity",
+      "calls": 6,
+      "failures": 0
+    }
+  ],
+  "subagents": [
+    {
+      "thread_id": "01a12426-1fc9-73b0-94ed-40f3eaf1e83c",
+      "name": "/root",
+      "activity": "interacted"
+    },
+    {
+      "thread_id": "01a12426-1fc9-73b0-94ed-40f3eaf1e83c",
+      "name": "/root",
+      "activity": "interacted"
+    },
+    {
+      "thread_id": "01a12426-1fc9-73b0-94ed-40f3eaf1e83c",
+      "name": "/root",
+      "activity": "interacted"
+    },
+    {
+      "thread_id": "01a12426-1fc9-73b0-94ed-40f3eaf1e83c",
+      "name": "/root",
+      "activity": "interacted"
+    },
+    {
+      "thread_id": "01a12426-1fc9-73b0-94ed-40f3eaf1e83c",
+      "name": "/root",
+      "activity": "interacted"
+    },
+    {
+      "thread_id": "01a12426-1fc9-73b0-94ed-40f3eaf1e83c",
+      "name": "/root",
+      "activity": "interacted"
+    }
+  ],
+  "limitations": [
+    "Only selected userMessage and agentMessage text retained; reasoning, command text/results, tool arguments and private state excluded.",
+    "Conservative path, credential, email and URL redaction applied; retained visible text reviewed for campaign scope.",
+    "Operation counts belong to this retained turn and may describe the same operations as its journal; do not add them."
+  ],
+  "parent_thread_id": "01a12426-1fc9-73b0-94ed-40f3eaf1e83c"
+}

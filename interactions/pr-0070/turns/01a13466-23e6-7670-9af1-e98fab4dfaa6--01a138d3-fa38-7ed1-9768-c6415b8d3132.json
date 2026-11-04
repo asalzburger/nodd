@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "thread_id": "01a13466-23e6-7670-9af1-e98fab4dfaa6",
+  "turn_id": "01a138d3-fa38-7ed1-9768-c6415b8d3132",
+  "status": "completed",
+  "started_at": 1791954778,
+  "completed_at": 1791955161,
+  "token_accounts": [
+    "SESSION-2026-10-14-ecal-layout-review"
+  ],
+  "source": "Codex app read_thread; exact canonical thread/turn match reviewed for this campaign",
+  "messages": [
+    {
+      "id": "msg_0327d47db26ea831016acf0f5f31c081918c337d89bc5c42b3",
+      "role": "assistant",
+      "phase": "commentary",
+      "text": "I’ll inspect the pinned comparison inputs and retained evidence, then provide a compact budget ledger for the four-page review. I’ll distinguish model totals from budgets that remain missing or unqualified.",
+      "redacted": "no"
+    },
+    {
+      "id": "msg_0327d47db26ea831016acf0f886bd88191971249a79d32b6ad",
+      "role": "assistant",
+      "phase": "commentary",
+      "text": "The comparison uses model envelopes and retained validation reports. The common tracker report includes passive supports and services, though the drawings omit them. The solenoid remains a conditional vacuum-sizing result without a material mass, and neither candidate has a selected complete HCAL mass or load budget.",
+      "redacted": "no"
+    },
+    {
+      "id": "msg_0327d47db26ea831016acf1084f54c8191becc2bb75db570c4",
+      "role": "assistant",
+      "phase": "commentary",
+      "text": "The retained ECAL model masses sum to 397.952 t for SiW and 383.681 t for LAr. This does not establish an overall mass advantage: the LAr candidate has larger HCAL envelopes whose mass is still unbudgeted. Including polygon corners, the HCAL outline grows from 7.665 × 12.018 m to 9.433 × 15.712 m in diameter × axial length.",
+      "redacted": "no"
+    },
+    {
+      "id": "msg_0327d47db26ea831016acf10b9618481919fa672da82cc22ba",
+      "role": "assistant",
+      "phase": "final_answer",
+      "text": "**ECAL-REVIEW-PhysVal-budget** assessed `a53c29867130b4c36658a9aa5f6f14dd5650130f` read-only. All **nine source-file SHA-256 bindings match** their pinned primary revisions. The only dirty input is the session journal.\n\nThe following facts are suitable for the central review brief:\n\n| Budget / envelope | LAYOUT-001: SiW | LAYOUT-002: LAr |\n|---|---:|---:|\n| ECAL model mass: barrel / both endcaps / sum | **299.003 / 98.949 / 397.952 t** | **252.508 / 131.173 / 383.681 t** |\n| Principal modeled constituents, whole ECAL | W alloy **198.595 t**, Cu **160.284 t**, Al **20.713 t** | Pb **187.692 t**, LAr **98.668 t**, Al **58.636 t**, steel **15.641 t**, PCB **21.102 t** |\n| ECAL maximum transverse radius / complete axial span | **2.276951 m / 8.9664 m**; radius includes 16-gon barrel corners | **2.949 m / 11.720 m**; maximum is warm endcap radius |\n| HCAL maximum corner radius / complete axial span | **3.832745 m / 12.0182 m** | **4.716527 m / 15.7118 m** |\n| HCAL-bound circumscribed diameter × axial length | **7.66549 × 12.0182 m** | **9.43305 × 15.7118 m** |\n| Minimum radial ECAL–HCAL allocation | **30 mm**, between aligned polygon apothems | **300 mm** beside barrel; **181 mm** beside endcaps |\n| ECAL barrel–endcap axial allocation | **30 mm**, flange end to endcap front | **800 mm**, warm barrel end to warm endcap front |\n| ECAL endcap–HCAL axial allocation | **30 mm** | **500 mm** |\n| Heat assumptions | Barrel **188.401 kW**, both endcaps **71.051 kW**; sum **259.452 kW** | **86 / 172 / 258 kW** at **20 / 40 / 60 mW** per planning channel |\n| Cooling interpretation | Ideal water **12.414 kg/s** for a 5 K rise; no hydraulic qualification | **200 kW** planning allocation; adverse case exceeds it by **58 kW**, before static heat |\n\nMass/heat sources: pinned [SiW barrel, DES031](https://github.com/asalzburger/nodd/blob/2776266570dda13386a16863e5b0e97432f27217/docs/design/DES-031-siw-barrel-prototype.md#L103), [SiW endcaps, DES030](https://github.com/asalzburger/nodd/blob/654b85a48abeb38735ad7fe0866c5d1082882df7/docs/design/DES-030-ecal-edge-sensors.md#L91), [LAr barrel inventory](https://github.com/asalzburger/nodd/blob/48e97256f8badd75c022a84ab1c4ff71977c56a2/docs/validation/DES-032/native.json), [corrected LAr endcap inventory](https://github.com/asalzburger/nodd/blob/72d37ee9a56182e4ba974791a848a738c19cf092/docs/validation/DES-033/native.json), and [LAr heat/service assumptions](https://github.com/asalzburger/nodd/blob/48e97256f8badd75c022a84ab1c4ff71977c56a2/docs/design/DES-032-allegro-lar-barrel.md#L179). Geometry derives from the pinned [LAYOUT-001](https://github.com/asalzburger/nodd/blob/e33ae62ce16592c26c581c5311c4dc493d9714b1/docs/layouts/LAYOUT-001.json#L798) and [LAYOUT-002](https://github.com/asalzburger/nodd/blob/72d37ee9a56182e4ba974791a848a738c19cf092/docs/layouts/LAYOUT-002.json#L764) inputs, using `Rcorner = apothem/cos(π/16)`.\n\nThe trustworthy common budget is:\n\n- **Tracker + Be pipe: 2.860075 t**, derived by summing the pinned exclusive native inventory; Be contributes **2.036162 kg**. The producer excludes world material and assemblies and subtracts daughter displacement. There is no top-level Air entry. Effective support/service recipes are included; this is a model inventory. The drawing’s **r = 1.2 m, |z| = 3.6 m** outline is a planning/software reservation, not an audited passive envelope. [DES025 evidence](https://github.com/asalzburger/nodd/blob/e33ae62ce16592c26c581c5311c4dc493d9714b1/docs/validation/DES-025/results.md#L19).\n- **Solenoid: mass remains unassigned.** Conditional dimensions are vessel radii **1.240–1.558656 m**, full vessel length **7.700 m**, cold length **7.200 m**; vacuum energy **143.174 MJ**. The assembly-to-ECAL radial allocation is **60 mm / 460 mm**, and vessel-end-to-ECAL-front separation **100 mm / 1050 mm** for SiW/LAr. These are allocations, not demonstrated service capacities. [DES026](https://github.com/asalzburger/nodd/blob/4e44d7c650ac0a2931f7fc1637b5b3f2dfbe4c95/docs/design/DES-026-tracker-solenoid-baseline.md#L96).\n- For upstream material context, three retained central tracker rays give **0.329–0.418 X₀**. The separate illustrative solenoid reference adds **1.402 X₀ at η0**, with **1.00–2.10 X₀** scenario spread. These are separate inventories; the complete pre-ECAL map, local supports/chimney/penetrations and installed field remain missing. [Solenoid material estimate](https://github.com/asalzburger/nodd/blob/4e44d7c650ac0a2931f7fc1637b5b3f2dfbe4c95/docs/validation/DES-026/material-estimate.md#L76).\n\nRetain these review limits prominently:\n\n- **Neither candidate has a selected complete HCAL mass/load budget.** ECAL sums cannot establish an overall technology mass ranking. LAr’s larger HCAL also requires a new magnetic solution.\n- SiW’s **3 mm Cu plates**, continuous electronics power and external headers/routes remain proposals. LAr includes **16 H-rings**, cold-board proxies and cryostat walls; its **1.953598 t/end unported rear support** blocks direct electrode-to-board routing and requires redesign. Al totals are not dedicated structural-support masses. [SiW limitations](https://github.com/asalzburger/nodd/blob/2776266570dda13386a16863e5b0e97432f27217/docs/design/DES-031-siw-barrel-prototype.md#L119), [LAr support disposition](https://github.com/asalzburger/nodd/blob/72d37ee9a56182e4ba974791a848a738c19cf092/docs/design/DES-033-allegro-lar-endcaps.md#L100).\n- SiW custom masks reach η4 in some azimuths, with seam/guard zero-hit directions; **uniform acceptance is unestablished**. LAr η4 is uncovered, its barrel/endcap transition has partial depth, and forward reservations contain no hardware. The retained **300 mm HCAL aperture** supplies no η4 repair. [SiW coverage](https://github.com/asalzburger/nodd/blob/654b85a48abeb38735ad7fe0866c5d1082882df7/docs/validation/DES-030/results.md#L44), [LAr limits](https://github.com/asalzburger/nodd/blob/72d37ee9a56182e4ba974791a848a738c19cf092/docs/design/DES-033-allegro-lar-endcaps.md#L131).\n\nChecks performed: exact `git show` reads, source-hash comparisons, inventory sums, heat arithmetic and envelope derivations. No edits, native jobs, installs or sign-off. I previously contributed LAr design inputs; that shared provenance remains acknowledged.",
+      "redacted": "no"
+    }
+  ],
+  "native_tools": [
+    {
+      "name": "commandExecution",
+      "calls": 24,
+      "failures": 1
+    },
+    {
+      "name": "subAgentActivity",
+      "calls": 2,
+      "failures": 0
+    }
+  ],
+  "subagents": [
+    {
+      "thread_id": "01a12426-1fc9-73b0-94ed-40f3eaf1e83c",
+      "name": "/root",
+      "activity": "interacted"
+    },
+    {
+      "thread_id": "01a12426-1fc9-73b0-94ed-40f3eaf1e83c",
+      "name": "/root",
+      "activity": "interacted"
+    }
+  ],
+  "limitations": [
+    "Only selected userMessage and agentMessage text retained; reasoning, command text/results, tool arguments and private state excluded.",
+    "Conservative path, credential, email and URL redaction applied; retained visible text reviewed for campaign scope.",
+    "Operation counts belong to this retained turn and may describe the same operations as its journal; do not add them."
+  ],
+  "parent_thread_id": "01a12426-1fc9-73b0-94ed-40f3eaf1e83c"
+}
