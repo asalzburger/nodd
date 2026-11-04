@@ -48,7 +48,7 @@ a wrong ACTS revision, modified tracked source or mismatched build source.
 
 ## Commands and actual validation
 
-The [executed report](../../docs/validation/issue114/README.md) records exact
+The [executed report](https://github.com/asalzburger/nodd/blob/b260305b4dc091e89c611632c2c941961f7e2bdd/docs/validation/issue114/README.md) records exact
 setup/build/test commands, installed versions, source origins and limits.
 Spack preflight returned 2 (stale fingerprints/full-source warnings), communicated
 before dependent work. Existing installed packages, ACTS source/build and actual
@@ -96,3 +96,5 @@ Implemented source and validation snapshot: `8652406ec992178a16f419b41d95aed73f4
 ## Completed specialist usage — 2026-11-04
 
 Exact completed child counters are imported once from the usage-only campaign child inventory, matched through the observed parent/spawn edge and assignment. Shared HCAL/SysArch/PhysVal work belongs once to the campaign owner; the implementation child belongs to the EDM session. Current root and accounting turns remain active and excluded. These are observed counters, not per-PR allocations or billing.
+
+Execution-report link pinned to the final immutable implementation journal revision for portability across the infrastructure and scientific PRs.

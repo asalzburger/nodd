@@ -42,7 +42,7 @@ provenance and NaN-energy acceptance. Main corrected both, added nine fault
 controls and reran native and Geant4. PhysVal closure review at
 `97d0bb64c22f63c0680c543a97c5b05ce2acc4b8` confirmed both fixed in source and nine
 controls passing. It did not execute the final native/transport rerun. See the
-[review record](../../docs/validation/DES-036/review.md).
+[review record](https://github.com/asalzburger/nodd/blob/abd95bdc64b9d7971561d659bf953e71de4e7e99/docs/validation/DES-036/review.md).
 
 Final conditional paired-unit mass is 3.018 kg and nominal heat 5.939 W; the
 reference steel patch is sector-owned and excluded. Nominal DAQ utilization is
@@ -54,7 +54,7 @@ and irradiated sensor operation remain open.
 ## Commands and validation
 
 Actual final checks and source identities are retained in
-[DES036 results](../../docs/validation/DES-036/results.md). Standard-library
+[DES036 results](https://github.com/asalzburger/nodd/blob/abd95bdc64b9d7971561d659bf953e71de4e7e99/docs/validation/DES-036/results.md). Standard-library
 module/provenance suite: 44 passed, exit 0. Existing hardware/assembly regression:
 14 passed, exit 0. Isolated CMake configure/build succeeded. Native audit passed
 395 physical parts, 72 unique sensitive IDs, 360 local cell probes and zero
@@ -253,3 +253,7 @@ client version, costs and complete history remain unknown. Source event digests,
 original branch revisions, parent edges and assignment identities are retained
 in the inventory. Dry-run, import and identical replay passed; replay added no
 observations.
+
+## Portable source links — 2026-11-04
+
+Repository-relative validation links now resolve to their exact original public Git revision so this historical journal remains valid on the independent infrastructure/ECAL/HCAL branches. The linked evidence, prior narrative meaning and token ownership are unchanged; original bytes remain in their source commits and earlier journal history.
