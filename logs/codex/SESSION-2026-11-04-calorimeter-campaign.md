@@ -105,3 +105,7 @@ No separate review implies human approval.
 
 Final native overlap results and publication/accounting receipts are appended
 when observed. Active root counters remain excluded until this turn closes.
+
+## Completed specialist usage — 2026-11-04
+
+Exact completed child counters are imported once from the usage-only campaign child inventory, matched through the observed parent/spawn edge and assignment. Shared HCAL/SysArch/PhysVal work belongs once to the campaign owner; the implementation child belongs to the EDM session. Current root and accounting turns remain active and excluded. These are observed counters, not per-PR allocations or billing.

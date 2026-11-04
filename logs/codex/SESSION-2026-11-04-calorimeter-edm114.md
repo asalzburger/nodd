@@ -92,3 +92,7 @@ cell-ID service and full-detector acceptance remain follow-up work. No human
 engineering approval or design lifecycle advancement is recorded.
 
 Implemented source and validation snapshot: `8652406ec992178a16f419b41d95aed73f40f1bc`. This later logging update records the already existing commit; it introduces no code or physics change.
+
+## Completed specialist usage — 2026-11-04
+
+Exact completed child counters are imported once from the usage-only campaign child inventory, matched through the observed parent/spawn edge and assignment. Shared HCAL/SysArch/PhysVal work belongs once to the campaign owner; the implementation child belongs to the EDM session. Current root and accounting turns remain active and excluded. These are observed counters, not per-PR allocations or billing.
