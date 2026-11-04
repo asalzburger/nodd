@@ -256,3 +256,17 @@ Retarget regionalPRs to main afterPR81 merges, preserving bothindependent
 contributions. Record-only publicationcloseout is located by this journal's
 enclosingcommit. Local checkoutpaths inassignmenttext are normalized aliases;
 full prepared prompts remained in tasktemporaryfiles.
+
+## Exact historical usage correction — 2026-11-04
+
+The campaign coordinator reviewed the exact thread/turn-to-session matches in
+`logs/usage/USAGE-2026-11-04-calorimeter-campaign.json` and accepted this sole
+bookkeeping owner. This is an agent accounting decision, not human detector
+sign-off. The original unknown-usage statements above describe the earlier
+capture and are preserved.
+
+3 disjoint finalized turns now supply **7,855,855 input + 40,349 output = 7,896,204 observed tokens**. Cached input and reasoning output are subsets; models,
+client version, costs and complete history remain unknown. Source event digests,
+original branch revisions, parent edges and assignment identities are retained
+in the inventory. Dry-run, import and identical replay passed; replay added no
+observations.

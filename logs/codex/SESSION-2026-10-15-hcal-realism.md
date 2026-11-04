@@ -172,3 +172,17 @@ Explicit role mandates passed through prepared prompt files; native profile load
   "completion": "Report findings, exact examined source revisions, primary-source locators, actual checks and unresolved questions; no sign-off, no further delegation, no file edits."
 }
 ```
+
+## Exact historical usage correction — 2026-11-04
+
+The campaign coordinator reviewed the exact thread/turn-to-session matches in
+`logs/usage/USAGE-2026-11-04-calorimeter-campaign.json` and accepted this sole
+bookkeeping owner. This is an agent accounting decision, not human detector
+sign-off. The original unknown-usage statements above describe the earlier
+capture and are preserved.
+
+4 disjoint finalized turns now supply **15,344,953 input + 62,182 output = 15,407,135 observed tokens**. Cached input and reasoning output are subsets; models,
+client version, costs and complete history remain unknown. Source event digests,
+original branch revisions, parent edges and assignment identities are retained
+in the inventory. Dry-run, import and identical replay passed; replay added no
+observations.

@@ -239,3 +239,17 @@ bounded to the two checker findings, `smoke.py`, `transport.py`,
 `test_transport.py` and guide changes. No writable paths. Completion: report
 exact snapshot, controls actually run, closure or remaining findings, without
 engineering sign-off. Both findings closed in source; nine controls passed.
+
+## Exact historical usage correction — 2026-11-04
+
+The campaign coordinator reviewed the exact thread/turn-to-session matches in
+`logs/usage/USAGE-2026-11-04-calorimeter-campaign.json` and accepted this sole
+bookkeeping owner. This is an agent accounting decision, not human detector
+sign-off. The original unknown-usage statements above describe the earlier
+capture and are preserved.
+
+8 disjoint finalized turns now supply **31,031,357 input + 123,037 output = 31,154,394 observed tokens**. Cached input and reasoning output are subsets; models,
+client version, costs and complete history remain unknown. Source event digests,
+original branch revisions, parent edges and assignment identities are retained
+in the inventory. Dry-run, import and identical replay passed; replay added no
+observations.

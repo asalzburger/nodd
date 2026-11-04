@@ -67,3 +67,17 @@ Its first push failed with exit128 because sandboxed SSH could not resolve
 GitHub. Retrying the same push with approved network access succeeded, exit0.
 This final journal correction preserves the transient failure and remedy;
 its enclosing commit makes no scientific change.
+
+## Exact historical usage correction — 2026-11-04
+
+The campaign coordinator reviewed the exact thread/turn-to-session matches in
+`logs/usage/USAGE-2026-11-04-calorimeter-campaign.json` and accepted this sole
+bookkeeping owner. This is an agent accounting decision, not human detector
+sign-off. The original unknown-usage statements above describe the earlier
+capture and are preserved.
+
+1 disjoint finalized turns now supply **2,874,616 input + 11,832 output = 2,886,448 observed tokens**. Cached input and reasoning output are subsets; models,
+client version, costs and complete history remain unknown. Source event digests,
+original branch revisions, parent edges and assignment identities are retained
+in the inventory. Dry-run, import and identical replay passed; replay added no
+observations.

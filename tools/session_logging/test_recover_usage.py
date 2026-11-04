@@ -1,8 +1,13 @@
 """Synthetic token fixtures only; no real client history is used by tests."""
 import json
+import importlib
+from contextlib import contextmanager
 from pathlib import Path
+import shutil
+import subprocess
 import tempfile
 import unittest
+from unittest.mock import patch
 import sqlite3
 
 import recover_usage as recovery
@@ -77,6 +82,80 @@ class RecoveryTests(unittest.TestCase):
             self.assertEqual(result[0]['ordinal'], 1)
             self.assertNotIn('SYNTHETIC_PRIVATE_CONTENT', json.dumps(result))
 
+    def compress(self, path, data):
+        try:
+            zstd = importlib.import_module('compression.zstd')
+        except ImportError:
+            zstd = None
+        if zstd is not None:
+            path.write_bytes(zstd.compress(data))
+        elif shutil.which('zstd'):
+            with path.open('wb') as output:
+                subprocess.run(['zstd', '--compress', '--stdout', '--no-progress'],
+                               input=data, stdout=output, check=True,
+                               stderr=subprocess.DEVNULL)
+        else:
+            self.skipTest('No existing zstd decoder/encoder for archive fixture')
+
+    def test_compressed_sibling_preserves_ordinals_counters_and_usage_only_digest(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / 'synthetic.jsonl'
+            usage = {'type': 'event_msg', 'timestamp': '2026-09-24T00:00:00Z',
+                     'payload': {'type': 'token_count', 'info': {
+                         'total_token_usage': self.usage(), 'last_token_usage': self.usage()}}}
+            # Private/invalid-UTF8 lines must not even be JSON/UTF8 decoded.
+            data = (b'SYNTHETIC_PRIVATE_CONTENT\xff\n'
+                    + json.dumps(usage).encode() + b'\n' + b'{"unfinished":')
+            path.write_bytes(data)
+            plain = recovery.extract_events(path)
+            archive = path.with_name(path.name + '.zst')
+            self.compress(archive, data)
+            # A plain file is the preferred exact recorded source when present.
+            self.assertEqual(recovery.archive_path(path), path)
+            path.unlink()
+            compressed = recovery.extract_events(path)
+            self.assertEqual(recovery.archive_path(path), archive)
+            self.assertEqual(plain, compressed)
+            self.assertEqual(recovery.reconcile('test', [self.turn(start=0)], plain),
+                             recovery.reconcile('test', [self.turn(start=0)], compressed))
+            self.assertNotIn('PRIVATE', json.dumps(compressed))
+
+    def test_compressed_cli_fallback_is_streamed_and_failure_is_not_partial_success(self):
+        if not shutil.which('zstd'):
+            self.skipTest('No existing zstd executable')
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / 'synthetic.jsonl.zst'
+            usage = {'type': 'event_msg', 'timestamp': '2026-09-24T00:00:00Z',
+                     'payload': {'type': 'token_count', 'info': {
+                         'total_token_usage': self.usage(), 'last_token_usage': self.usage()}}}
+            self.compress(path, json.dumps(usage).encode() + b'\n')
+            expected = recovery.extract_events(path)
+            with patch.object(recovery.importlib, 'import_module', side_effect=ImportError):
+                self.assertEqual(recovery.extract_events(path), expected)
+                path.write_bytes(b'invalid compressed fixture')
+                with self.assertRaisesRegex(ValueError, 'decompression failed'):
+                    recovery.extract_events(path)
+
+    def test_changed_compressed_archive_rejected_and_decoder_absence_explicit(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / 'synthetic.jsonl.zst'
+            self.compress(path, b'private fixture\n')
+            # A changed fingerprint cannot be accepted as a finalized archive.
+            original = recovery.compressed_stream
+            @contextmanager
+            def changing_archive(selected):
+                with original(selected) as stream:
+                    yield stream
+                with selected.open('ab') as archive:
+                    archive.write(b'\x00')
+            with patch.object(recovery, 'compressed_stream', changing_archive):
+                with self.assertRaisesRegex(ValueError, 'changed during recovery'):
+                    recovery.extract_events(path)
+            with patch.object(recovery.importlib, 'import_module', side_effect=ImportError), \
+                    patch.object(recovery.shutil, 'which', return_value=None):
+                with self.assertRaisesRegex(ValueError, 'existing zstd executable'):
+                    recovery.extract_events(path)
+
     def test_digest_is_stable_and_changes_with_counter_evidence(self):
         first = recovery.reconcile('test', [self.turn()], [self.event()])
         again = recovery.reconcile('test', [self.turn()], [self.event()])
@@ -112,6 +191,10 @@ class RecoveryTests(unittest.TestCase):
             result = recovery.recover(home, thread_ids=['workspace'])
             self.assertEqual([t['thread_id'] for t in result['threads']], ['workspace'])
             self.assertEqual(result['threads'][0]['turns'][0]['tokens']['total_tokens'], 120)
+            self.compress(selected.with_name(selected.name + '.zst'), selected.read_bytes())
+            selected.unlink()
+            archived = recovery.recover(home, thread_ids=['workspace'])
+            self.assertEqual(archived['threads'], result['threads'])
             with self.assertRaisesRegex(ValueError, 'unknown selected'):
                 recovery.recover(home, thread_ids=['workspace', 'missing'])
             with self.assertRaisesRegex(ValueError, 'either'):
