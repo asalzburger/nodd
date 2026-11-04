@@ -206,3 +206,17 @@ retained data; both signed saved-hit bindings/canonical fields pass. Producer
 revisions464e393 and7894524 are explicitly distinct from reviewed cbb129f.
 Scope remainsECAL-only native/sparse transport, with no engineering, forward
 response or complete-field acceptance.
+
+## Exact historical usage correction — 2026-11-04
+
+The campaign coordinator reviewed the exact thread/turn-to-session matches in
+`logs/usage/USAGE-2026-11-04-calorimeter-campaign.json` and accepted this sole
+bookkeeping owner. This is an agent accounting decision, not human detector
+sign-off. The original unknown-usage statements above describe the earlier
+capture and are preserved.
+
+5 disjoint finalized turns now supply **10,449,772 input + 78,364 output = 10,528,136 observed tokens**. Cached input and reasoning output are subsets; models,
+client version, costs and complete history remain unknown. Source event digests,
+original branch revisions, parent edges and assignment identities are retained
+in the inventory. Dry-run, import and identical replay passed; replay added no
+observations.

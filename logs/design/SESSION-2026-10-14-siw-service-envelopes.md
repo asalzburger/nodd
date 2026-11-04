@@ -173,3 +173,17 @@ PR76 is the additional main-based prototype; PR75 consumes it as a dependency so
 its review diff remains documentation. All changes stay public/reviewable, with
 no new externals and no merge performed by the agent. Current exact usage stays
 unavailable; the token-site build must retain observed sums without estimation.
+
+## Exact historical usage correction — 2026-11-04
+
+The campaign coordinator reviewed the exact thread/turn-to-session matches in
+`logs/usage/USAGE-2026-11-04-calorimeter-campaign.json` and accepted this sole
+bookkeeping owner. This is an agent accounting decision, not human detector
+sign-off. The original unknown-usage statements above describe the earlier
+capture and are preserved.
+
+3 disjoint finalized turns now supply **4,479,349 input + 26,803 output = 4,506,152 observed tokens**. Cached input and reasoning output are subsets; models,
+client version, costs and complete history remain unknown. Source event digests,
+original branch revisions, parent edges and assignment identities are retained
+in the inventory. Dry-run, import and identical replay passed; replay added no
+observations.

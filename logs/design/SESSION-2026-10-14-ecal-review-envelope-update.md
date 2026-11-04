@@ -116,3 +116,22 @@ Project/session/token-site checks passed:66 tasks/36 documents/21 review rounds,
 input +3,545,169 output =624,299,405 total. Cached599,210,880 input and1,177,538
 reasoning output are subsets. Current two task records have no exposed usage;
 64 session records lack observations, and no totals were estimated or duplicated.
+
+## Exact historical usage correction — 2026-11-04
+
+The campaign coordinator reviewed the exact thread/turn-to-session matches in
+`logs/usage/USAGE-2026-11-04-calorimeter-campaign.json` and accepted this sole
+bookkeeping owner. This is an agent accounting decision, not human detector
+sign-off. The original unknown-usage statements above describe the earlier
+capture and are preserved.
+
+2 disjoint finalized turns now supply **10,403,418 input + 64,735 output = 10,468,153 observed tokens**. Cached input and reasoning output are subsets; models,
+client version, costs and complete history remain unknown. Source event digests,
+original branch revisions, parent edges and assignment identities are retained
+in the inventory. Dry-run, import and identical replay passed; replay added no
+observations.
+
+This owner retains entire shared root/review turns once. Related PRs and sibling
+journals reference the same canonical account; they do not receive split or
+duplicated counters. The inventory records the exact whole-turn ownership
+choice.

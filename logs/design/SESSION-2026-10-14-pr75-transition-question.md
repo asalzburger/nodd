@@ -99,3 +99,17 @@ Existing observed usage remains210 disjoint turns:620,754,236 input +3,545,169
 output =624,299,405 total, with cached/reasoning counters as subsets. The current
 turn has no exact exposed counters and no estimate or duplicate observation is
 added. Journal/project/token-site validation and summary are run at closeout.
+
+## Exact historical usage correction — 2026-11-04
+
+The campaign coordinator reviewed the exact thread/turn-to-session matches in
+`logs/usage/USAGE-2026-11-04-calorimeter-campaign.json` and accepted this sole
+bookkeeping owner. This is an agent accounting decision, not human detector
+sign-off. The original unknown-usage statements above describe the earlier
+capture and are preserved.
+
+2 disjoint finalized turns now supply **3,355,042 input + 19,307 output = 3,374,349 observed tokens**. Cached input and reasoning output are subsets; models,
+client version, costs and complete history remain unknown. Source event digests,
+original branch revisions, parent edges and assignment identities are retained
+in the inventory. Dry-run, import and identical replay passed; replay added no
+observations.

@@ -200,3 +200,22 @@ asalzburger/nodd repository. Task completion denotes delivered prototype
 scope, not design acceptance. Actual current root/child token counts remain
 unexposed; usage stays empty, historical observations are neither guessed nor
 duplicated. Exact endcap follow-up reviews also recheck these corrections.
+
+## Exact historical usage correction — 2026-11-04
+
+The campaign coordinator reviewed the exact thread/turn-to-session matches in
+`logs/usage/USAGE-2026-11-04-calorimeter-campaign.json` and accepted this sole
+bookkeeping owner. This is an agent accounting decision, not human detector
+sign-off. The original unknown-usage statements above describe the earlier
+capture and are preserved.
+
+7 disjoint finalized turns now supply **40,894,936 input + 250,370 output = 41,145,306 observed tokens**. Cached input and reasoning output are subsets; models,
+client version, costs and complete history remain unknown. Source event digests,
+original branch revisions, parent edges and assignment identities are retained
+in the inventory. Dry-run, import and identical replay passed; replay added no
+observations.
+
+This owner retains entire shared root/review turns once. Related PRs and sibling
+journals reference the same canonical account; they do not receive split or
+duplicated counters. The inventory records the exact whole-turn ownership
+choice.

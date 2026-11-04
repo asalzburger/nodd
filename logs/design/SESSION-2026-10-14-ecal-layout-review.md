@@ -287,3 +287,17 @@ validator exit 0 (65 tasks / 35 documents / 21 review rounds), and whitespace
 check exit 0. Session summary has 118 records with observations / 62 without;
 this task stays unknown. The final correction changes only the curated journal;
 reviewed PDF/content bytes and detector sources are unchanged.
+
+## Exact historical usage correction — 2026-11-04
+
+The campaign coordinator reviewed the exact thread/turn-to-session matches in
+`logs/usage/USAGE-2026-11-04-calorimeter-campaign.json` and accepted this sole
+bookkeeping owner. This is an agent accounting decision, not human detector
+sign-off. The original unknown-usage statements above describe the earlier
+capture and are preserved.
+
+5 disjoint finalized turns now supply **24,138,489 input + 94,393 output = 24,232,882 observed tokens**. Cached input and reasoning output are subsets; models,
+client version, costs and complete history remain unknown. Source event digests,
+original branch revisions, parent edges and assignment identities are retained
+in the inventory. Dry-run, import and identical replay passed; replay added no
+observations.

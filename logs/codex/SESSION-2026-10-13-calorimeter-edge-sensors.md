@@ -87,3 +87,17 @@ unsupported; querying the actual PR number succeeded. Final metadata records
 the observed source revision, not a guessed future merge or human approval.
 Repository summary retains209 disjoint observed turns and620812827 observed
 tokens, with no available measurement for this task.
+
+## Exact historical usage correction — 2026-11-04
+
+The campaign coordinator reviewed the exact thread/turn-to-session matches in
+`logs/usage/USAGE-2026-11-04-calorimeter-campaign.json` and accepted this sole
+bookkeeping owner. This is an agent accounting decision, not human detector
+sign-off. The original unknown-usage statements above describe the earlier
+capture and are preserved.
+
+1 disjoint finalized turns now supply **17,776,027 input + 163,609 output = 17,939,636 observed tokens**. Cached input and reasoning output are subsets; models,
+client version, costs and complete history remain unknown. Source event digests,
+original branch revisions, parent edges and assignment identities are retained
+in the inventory. Dry-run, import and identical replay passed; replay added no
+observations.

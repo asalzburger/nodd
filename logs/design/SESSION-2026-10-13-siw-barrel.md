@@ -214,3 +214,22 @@ shortening: endpoint extent now derives directly from panel length, end-frame
 and port-setback parameters (±490mm for the shown slab). SVG whitespace is
 normalized by the plotter; outputs/source bindings regenerated. No physical
 geometry, material or audit input changed. Final hosted checks follow the push.
+
+## Exact historical usage correction — 2026-11-04
+
+The campaign coordinator reviewed the exact thread/turn-to-session matches in
+`logs/usage/USAGE-2026-11-04-calorimeter-campaign.json` and accepted this sole
+bookkeeping owner. This is an agent accounting decision, not human detector
+sign-off. The original unknown-usage statements above describe the earlier
+capture and are preserved.
+
+4 disjoint finalized turns now supply **22,142,443 input + 165,477 output = 22,307,920 observed tokens**. Cached input and reasoning output are subsets; models,
+client version, costs and complete history remain unknown. Source event digests,
+original branch revisions, parent edges and assignment identities are retained
+in the inventory. Dry-run, import and identical replay passed; replay added no
+observations.
+
+This owner retains entire shared root/review turns once. Related PRs and sibling
+journals reference the same canonical account; they do not receive split or
+duplicated counters. The inventory records the exact whole-turn ownership
+choice.
