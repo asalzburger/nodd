@@ -109,3 +109,17 @@ observed PR/source metadata without altering geometry/drawing inputs. Hosted
 checks are verified after the final push. Local179 paired journals and token
 Pages build pass;210 observations total624299405(input620754236,output3545169),
 with61 records missing usage. This task adds no fabricated counters.
+
+## Exact historical usage correction — 2026-11-04
+
+The campaign coordinator reviewed the exact thread/turn-to-session matches in
+`logs/usage/USAGE-2026-11-04-calorimeter-campaign.json` and accepted this sole
+bookkeeping owner. This is an agent accounting decision, not human detector
+sign-off. The original unknown-usage statements above describe the earlier
+capture and are preserved.
+
+1 disjoint finalized turns now supply **1,272,058 input + 12,826 output = 1,284,884 observed tokens**. Cached input and reasoning output are subsets; models,
+client version, costs and complete history remain unknown. Source event digests,
+original branch revisions, parent edges and assignment identities are retained
+in the inventory. Dry-run, import and identical replay passed; replay added no
+observations.

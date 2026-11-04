@@ -55,3 +55,22 @@ scientific-path README rather than a rename, and PR78's existing policy gate
 rejected it. The marker is now .gitkeep; the actual detector README remains in the
 next stage. No policy gate is changed or weakened. Downstream ordinary merges
 retain the real README and make Git's source relocation visible as a rename.
+
+## Exact historical usage correction — 2026-11-04
+
+The campaign coordinator reviewed the exact thread/turn-to-session matches in
+`logs/usage/USAGE-2026-11-04-calorimeter-campaign.json` and accepted this sole
+bookkeeping owner. This is an agent accounting decision, not human detector
+sign-off. The original unknown-usage statements above describe the earlier
+capture and are preserved.
+
+1 disjoint finalized turns now supply **25,811,707 input + 130,287 output = 25,941,994 observed tokens**. Cached input and reasoning output are subsets; models,
+client version, costs and complete history remain unknown. Source event digests,
+original branch revisions, parent edges and assignment identities are retained
+in the inventory. Dry-run, import and identical replay passed; replay added no
+observations.
+
+This owner retains entire shared root/review turns once. Related PRs and sibling
+journals reference the same canonical account; they do not receive split or
+duplicated counters. The inventory records the exact whole-turn ownership
+choice.
