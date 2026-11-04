@@ -10,6 +10,10 @@ from export import ROOT, sha
 
 
 def audit(directory, libraries, output):
+    launch = dict(
+        source_commit=subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip(),
+        source_dirty=bool(subprocess.check_output(["git", "status", "--porcelain"], cwd=ROOT, text=True)),
+        native_auditor_sha256=sha(__file__), libraries={Path(p).name: sha(p) for p in libraries})
     import ROOT as R
     import dd4hep
 
@@ -32,7 +36,12 @@ def audit(directory, libraries, output):
         top = manager.GetTopVolume()
         roots = [str(top.GetNode(i).GetVolume().GetName()) for i in range(top.GetNdaughters())]
         wanted = [m for c in record["components"] for m in c["system_mapping"]]
-        if len(roots) != len(wanted) or set(roots) != {m["name"] for m in wanted}:
+        # The unchanged beam-pipe factory places bore and wall directly in world;
+        # its DetElement is attached to the wall rather than an Assembly.
+        expected_roots = {m["name"] for m in wanted if m["name"] != "BeamPipe"}
+        if any(m["name"] == "BeamPipe" for m in wanted):
+            expected_roots.update(("BeamPipe_bore", "BeamPipe_wall"))
+        if len(roots) != len(expected_roots) or set(roots) != expected_roots:
             raise ValueError("Unexpected constructed detector roots: " + str(roots))
         observed = {m["name"]: int(detector.detector(m["name"]).id()) for m in wanted}
         if observed != {m["name"]: m["integrated_system_id"] for m in wanted}:
@@ -41,11 +50,9 @@ def audit(directory, libraries, output):
         overlaps = [dict(description=str(x.GetTitle()), penetration_mm=float(x.GetOverlap()) / float(dd4hep.mm))
                     for x in manager.GetListOfOverlaps()]
         result = dict(status="FAIL" if overlaps else "PASS", layout=record["layout"],
-                      source_commit=subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip(),
-                      source_dirty=bool(subprocess.check_output(["git", "status", "--porcelain"], cwd=ROOT, text=True)),
+                      **launch,
                       ROOT=R.gROOT.GetVersion(), baseline_manifest_sha256=sha(directory / "baseline.json"),
                       compact_sha256=record["compact_sha256"], materials_sha256=record["materials_sha256"],
-                      native_auditor_sha256=sha(__file__), libraries={Path(p).name: sha(p) for p in libraries},
                       native_systems=observed, overlap_tolerance_mm=1e-5, overlap_seed=114,
                       overlap_count=len(overlaps), overlaps=overlaps,
                       scope="Actual maintained tracker plus selected complete ECAL barrel/endcaps and local services; no HCAL/FCAL/solenoid/field or response qualification")
