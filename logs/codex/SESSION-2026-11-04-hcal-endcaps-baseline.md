@@ -64,3 +64,7 @@ records resolved it without changing canonical usage. Observed project totals
 remain1,817,405,271 input+8,258,578 output over378 turns in151/239 sessions;
 88 sessions have no observations. These totals are not a PR allocation.
 The current campaign/root/child turn is excluded; no token estimate is made.
+
+## Campaign accounting reference
+
+Completed HCAL specialist turns are owned once by `SESSION-2026-11-04-calorimeter-campaign`, shared with the other campaign PRs. The canonical inventory in PR116 and individual ledgers retain exact counters, parent edges and visible interactions. This per-PR narrative owns no additional copy. Root coordinator usage remains active and excluded.
