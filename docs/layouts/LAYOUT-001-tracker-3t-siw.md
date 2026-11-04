@@ -43,3 +43,7 @@ The current tracker overlay is extracted from the maintained DES043 combined DD4
 
 
 [PR110 — short-strip integration, open for merge preparation](https://github.com/asalzburger/nodd/pull/110) retains fixed implementation source `d6c4d0d`, full native/payload/ACTS checks and the published TDR receipt. Human review/merge and engineering qualification are distinct.
+
+## Restored working baseline
+
+The [baseline selector](../../tools/calorimeter_baselines/README.md) exports the maintained tracker with this option’s ECAL barrel and endcaps. [Integration and remaining review gates](../design/inputs/ECAL-baseline-integration-2026-11-04.md) distinguish runnable geometry, the shared HCAL/FCAL design stages and initial EDM4hep I/O.
