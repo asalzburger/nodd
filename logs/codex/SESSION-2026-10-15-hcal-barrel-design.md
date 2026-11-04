@@ -66,8 +66,8 @@ exited0 after an unrelated worktree listing); retrying fetch and PR81 view with
 approved network access succeeded. Separate localworktrees/branches preserve
 independentregiondiffs. Project/session/source/link/site checks and publication
 outcomes are recorded after actual execution. No private client state/archive
-or raw model rollout is collected. See [results](../../docs/validation/DES-037/results.md)
-and [review](../../docs/validation/DES-037/review.md).
+or raw model rollout is collected. See [results](https://github.com/asalzburger/nodd/blob/0e8530d56d171f38c9d53d3c60c8b48803680bbd/docs/validation/DES-037/results.md)
+and [review](https://github.com/asalzburger/nodd/blob/0e8530d56d171f38c9d53d3c60c8b48803680bbd/docs/validation/DES-037/review.md).
 
 ## Token accounting
 
@@ -247,3 +247,7 @@ This owner retains entire shared root/review turns once. Related PRs and sibling
 journals reference the same canonical account; they do not receive split or
 duplicated counters. The inventory records the exact whole-turn ownership
 choice.
+
+## Portable source links — 2026-11-04
+
+Repository-relative validation links now resolve to their exact original public Git revision so this historical journal remains valid on the independent infrastructure/ECAL/HCAL branches. The linked evidence, prior narrative meaning and token ownership are unchanged; original bytes remain in their source commits and earlier journal history.
