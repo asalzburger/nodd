@@ -1,0 +1,84 @@
+# nODD ECAL layouts - reviewer overview
+
+Si-W and ALLEGRO LAr candidates. Review entry, not a TDR.
+
+Snapshot: 2026-10-14. [Four-page PDF](https://github.com/asalzburger/nodd/blob/codex/ecal-layout-review-entry/docs/layouts/review/ecal-layout-review.pdf).
+
+## 1 - Candidate layouts
+
+Both candidates retain the documented tracker (45,646 sensitive planes) and the proposed inner solenoid (3 T central target; [PR #64](https://github.com/asalzburger/nodd/pull/64), open). Its radial service reservation reaches 1.64 m; the computed vessel ends at r=1.559 m and |z|=3.85 m. These DRAFT prototypes have no complete-detector, installed-field or engineering acceptance.
+
+![Si-W candidate R-Z view with tracker, conditional solenoid and HCAL outline](https://raw.githubusercontent.com/asalzburger/nodd/codex/ecal-layout-review-entry/docs/layouts/review/figures/layout001-rz.png)
+
+LAYOUT-001: Si-W ECAL, enlarged HCAL outline and empty service/FCal reservations. FCal and muon systems remain unbuilt.
+
+![LAr candidate R-Z view with enlarged calorimeter and service allocations](https://raw.githubusercontent.com/asalzburger/nodd/codex/ecal-layout-review-entry/docs/layouts/review/figures/layout002-rz.png)
+
+LAYOUT-002: LAr ECAL, enlarged HCAL outline and empty service/forward reservations. Neither forward collar nor FCal is built.
+
+## 2 - Si-W ECAL prototype
+
+Open component proposals: [PR #71](https://github.com/asalzburger/nodd/pull/71) (Si-W ECAL barrel prototype) and [PR #70](https://github.com/asalzburger/nodd/pull/70) (Si-W ECAL endcap prototype). The same sampling and board stack is carried through sixteen barrel sectors and sixteen wedge carriers per endcap. [PR #76](https://github.com/asalzburger/nodd/pull/76) adds service/forward envelopes under [DES034](https://github.com/asalzburger/nodd/blob/0a26796518d690bf26934d2864d63ecad7582675/docs/design/DES-034-siw-service-envelopes.md).
+
+| Element | Current prototype choice |
+| --- | --- |
+| Sampling / sensors | 48 layers; 1.9 mm tungsten alloy and 0.5 mm silicon. Standard 90 mm blanks have an 88 mm active window and 5.5 mm pad pitch; physical guards remain passive. |
+| Barrel construction | Seven 1 m slabs plus two short end slabs per sector/layer. Alternating ±96 mm shifts move service joints through depth; 94 mm boards on a 96 mm pitch retain real gaps. |
+| Endcap packing | 76 squares plus 36 custom edge sensors per wedge/layer; 29 mask profiles. The 100 mm aperture apothem, 30 mm inner support and 120 mm outer service bay are unsigned allocations. |
+| Support / cooling | Aluminium skins and frames, explicit PCB/ASIC/thermal contacts; a 3 mm copper plate with 2 mm-OD Ti/water runs. External collectors/ports remain absent; PR76 reserves an outer backbone and HCAL rear egress. |
+
+### Material and service drivers
+
+Recorded model masses are 299.003 t for the barrel and 98.949 t for both endcaps. Copper contributes 119.693/40.591 t, dominated by the cooling plates. Continuous heat hypotheses give 188.40/71.05 kW; the summed ideal water flow is 12.414 kg/s for a 5 K rise. These are inventory/power calculations, not thermal or hydraulic qualification. A 300 mm annulus and 400 mm rear break reserve cable/water exits; local cassette ports and support loads remain open. The 30 mm front seam is installation-only; services are allocated outside the endcap.
+
+### Coverage and evidence limits
+
+Barrel active-face area is 54.88-64.57% by layer; aligned sector-centre cracks remain. Custom masks give 69.47% endcap active-face area. At η=4, 68.89% of 360 one-degree-centred azimuth rays cross active silicon in at least one endcap layer; seams and guards leave blind directions. Native construction, IDs, mass and overlap checks plus sparse saved hits establish the isolated implementation; efficiencies and showers remain unvalidated.
+
+[Barrel design and evidence](https://github.com/asalzburger/nodd/blob/2776266570dda13386a16863e5b0e97432f27217/docs/design/DES-031-siw-barrel-prototype.md) · [Endcap design and evidence](https://github.com/asalzburger/nodd/blob/654b85a48abeb38735ad7fe0866c5d1082882df7/docs/design/DES-030-ecal-edge-sensors.md)
+
+## 3 - ALLEGRO-style LAr ECAL prototype
+
+Open component proposals: [PR #73](https://github.com/asalzburger/nodd/pull/73) (LAr ECAL barrel and service interfaces prototype) and [PR #74](https://github.com/asalzburger/nodd/pull/74) (LAr ECAL endcaps and layout prototype). The separate inner 3 T coil is retained; ALLEGRO’s outer-solenoid proxy is omitted.
+
+| Element | Current prototype choice |
+| --- | --- |
+| Barrel sampling | 1,536 inclined periods, eleven compartments, two active gaps per electrode. Sampling radii 2.1728-2.5783 m; active half-length 3.910 m. Pb core 1.8 mm, total steel/glue 0.2/0.1 mm and 1.2 mm PCB; first core is passive LAr. |
+| Turbine endcaps | Three wheels, 384/720/1,360 periods, 49° tilt, active r=410-2,790 mm and 450 mm depth. Inner Pb core 1.1 mm, total steel/glue 0.2/0.1 mm and 1.3 mm electrode. Radial/axial readout is virtual, distinct from source calibration subdivisions. |
+| Supports / cold boards | Sixteen barrel H-rings and 5,888 wet board slots. Each endcap has three wheel support tubes, a 30 mm rear annulus (1.954 t/end) and 1,584 board slots. The unported rear annulus blocks direct signal/HV routes; passages and attachments need redesign. |
+| Cryostat / cooling | Explicit warm/vacuum/cold wall proxies, 170 mm barrel rear bath and 250 mm endcap rear bath. N2 branches have 18 mm bore/20 mm OD; headers, seals, pressure/temperature and return-circuit qualification remain open. |
+
+### Space and engineering consequences
+
+The model has 2.286 million barrel cells and 601,600 per endcap. The Cartesian turbine taper differs from cylindrical-radius intent by up to 0.117 mm in the inner wheel. Physical mass includes bath displacement and cold service proxies. A 200 kW cooling allowance falls 58 kW short of the 258 kW adverse planning scenario, before complete static-heat qualification.
+
+The 800 mm front gap budgets provisional cryogenic S-bends; this nODD routing choice is not an intrinsic LAr requirement. Native component checks and the ECAL-only combined audit do not qualify the tracker/coil/HCAL union. LAr remains uncovered at η=4; forward reservations contain no hardware. Barrel/endcap transition directions have partial depth, requiring later material/response design.
+
+[Barrel/service design](https://github.com/asalzburger/nodd/blob/48e97256f8badd75c022a84ab1c4ff71977c56a2/docs/design/DES-032-allegro-lar-barrel.md) · [Endcap/forward design](https://github.com/asalzburger/nodd/blob/72d37ee9a56182e4ba974791a848a738c19cf092/docs/design/DES-033-allegro-lar-endcaps.md)
+
+## 4 - Budgets and review priorities
+
+| Budget / boundary | Si-W candidate | LAr candidate |
+| --- | --- | --- |
+| ECAL model mass: barrel / both ends / total | 299.003 / 98.949 / 397.952 t | 252.508 / 131.173 / 383.681 t |
+| Principal material inventory | 198.595 t W alloy; 160.284 t Cu | 187.692 t Pb; 98.668 t LAr; 58.636 t Al |
+| Barrel ECAL package bounds | Apothem 1.700-2.233 m; &#124;z&#124;≤3.920 m | Radius 2.100-2.830 m; &#124;z&#124;≤4.100 m |
+| Endcap ECAL package bounds | &#124;z&#124;=3.950-4.483 m; outer apothem 2.223 m | &#124;z&#124;=4.900-5.860 m; outer radius 2.949 m |
+| ECAL / HCAL routing allocations | 300 mm circular annulus; 400 mm rear egress break; 30 mm front seam is installation-only | 300 mm barrel radial; 181 mm beside endcap; 800/500 mm axial before/after endcap |
+| Forward reservation | R=0.080-0.290 m; &#124;z&#124;=4.533-6.379 m; empty FCal | Empty EM collar and FCal; no active η=4 LAr coverage |
+| HCAL outline extent | Outer apothem 4.096 m; &#124;z&#124;max=6.379 m | Outer apothem 4.626 m; &#124;z&#124;max=7.856 m |
+| Outline max corner radius / full axial length | 4.176 m / 12.758 m | 4.717 m / 15.712 m |
+
+ECAL masses are native-ledger sums with different passive/service hypotheses; shared tracker/solenoid, detailed HCAL and absent systems are excluded. Aluminium totals include walls, supports and boards. Masses do not rank performance. Compared with the service-amended Si-W layout, LAr HCAL outline volume is ×1.43; loads and magnetic effects remain unvalidated.
+
+Shared tracker+Be inventory: 2.860 t (Be 2.036 kg); planning region r≤1.20 m, |z|≤3.60 m does not bound passive services. At η=0, separate examples are tracker 0.329-0.418 X0 and illustrative solenoid 1.402 X0 (1.00-2.10 scenarios). These are not a combined pre-ECAL map. Solenoid mass/support inventory remains unassigned. [Solenoid material assumptions](https://github.com/asalzburger/nodd/blob/4e44d7c650ac0a2931f7fc1637b5b3f2dfbe4c95/docs/validation/DES-026/material-estimate.md).
+
+### Bounded reviewer decisions
+
+Review Si-W copper cooling, collector ports, balanced station wiring and custom-mask seams/process; review LAr vessel/support proxies, blocked service paths and cryogenic heat margin. Both have explicit external/forward space, with no installed FCal. Si-W merged lanes reserve 880×220 mm for a 166,698 mm² adverse load; its partial feed Cu/water estimates are 0.918/1.005 t, excluding other cables and supports. Routing, loads, shielding and beam-pipe continuation need separate design.
+
+### Status and traceability
+
+All four ECAL component PRs and service PR76 remain open in this 2026-10-14 snapshot. Dimensions/services are unsigned nODD choices; native budgets are model inferences. Recorded checks grant no engineering sign-off, installed field or shower/jet/particle-flow validation. This brief is a common review entry; the pinned component records remain authoritative.
+
+[Frozen source and evidence catalogue](https://github.com/asalzburger/nodd/blob/codex/ecal-layout-review-entry/docs/layouts/review/sources.json) · [Si-W layout inputs](https://github.com/asalzburger/nodd/blob/codex/ecal-layout-review-entry/docs/layouts/review/layout001.json) · [LAr layout inputs](https://github.com/asalzburger/nodd/blob/codex/ecal-layout-review-entry/docs/layouts/review/layout002.json)

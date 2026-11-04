@@ -79,3 +79,4 @@ The registered ADRs remain drafts. Their proposals do not override existing repo
 Track completion with linked issues, reviews, and immutable evidence. Required work includes an approved operating model, public source catalogue, pinned upstream baseline, reproducible characterization tools and CI, a reviewed baseline report, repository review protections, and a reproducible baseline tag. None is implied complete by these templates.
 
 - [DES038 — Endcap HCAL from the common readout module](design/DES-038-hcal-endcap-common-module.md) — DRAFT regional proposal; common-module working basis, no production integration.
+- [DES037 — Barrel HCAL from the common readout module](design/DES-037-hcal-barrel-common-module.md) — DRAFT regional proposal; common-module working basis, no production integration.

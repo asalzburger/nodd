@@ -464,3 +464,7 @@ Review this programme and resolve the following at their natural checkpoints:
 
 The current request establishes project objectives and asks for this plan. It does
 not constitute approval of any as-yet unwritten detector design or ADR.
+
+## Calorimeter baseline restoration campaign (2026-11-04)
+
+The human campaign request restores both ECAL options and the issue114 EDM/I/O interfaces on current main. Follow the [integration contract and review handover](design/inputs/ECAL-baseline-integration-2026-11-04.md). Scientific tasks are `TASK-CALO-BASELINE-RESTORE`, `TASK-CALO-EDM-IO`, `TASK-CALO-DIGITIZATION` and `TASK-CALO-FULL-INTEGRATION`; existing HCAL and FCAL tasks retain their individual histories. The infrastructure accounting PR records superseded PRs and unique usage ownership without claiming scientific progress. Physical response, calibrated clustering, full unions and engineering acceptance have distinct follow-up gates.

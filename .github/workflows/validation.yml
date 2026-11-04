@@ -117,6 +117,8 @@ jobs:
         run: python3 -B -m unittest discover -s tools/calorimeter_hardware -p 'test_*.py' -v
       - name: Test common-module HCAL endcap design controls
         run: python3 -B -m unittest discover -s tools/hcal_endcap -p 'test_*.py' -v
+      - name: Test common-module HCAL barrel design controls
+        run: python3 -B -m unittest discover -s tools/hcal_barrel -p 'test_*.py' -v
       - name: Test common HCAL readout module controls
         run: python3 -B -m unittest discover -s tools/hcal_readout -p 'test_*.py' -v
       - name: Test Si-W service and forward envelope allocations
@@ -124,6 +126,10 @@ jobs:
           python3 -B -m unittest discover -s tools/siw_services -p 'test_*.py' -v
           python3 -B tools/siw_services/study.py --check
           python3 -B tools/layout_overview/draw.py --check
+      - name: Test selectable calorimeter baseline composition
+        run: python3 -B -m unittest discover -s tools/calorimeter_baselines -p 'test_*.py' -v
+      - name: Test restored LAr barrel, endcaps and service controls
+        run: python3 -B -m unittest discover -s tools/lar_calorimeter -p 'test_*.py' -v
       - name: Test common FCAL finite geometry and readout controls
         run: |
           python3 -B -m unittest discover -s tools/forward_calorimeter -p 'test_*.py' -v

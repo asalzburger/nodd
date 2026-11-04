@@ -1,0 +1,24 @@
+{
+  "id": "CAL114-Accounting",
+  "role": "SoftEng",
+  "input_revision": "cd3ec20da56537617ac6fbbcf28bd6f28104cc64",
+  "inputs": [
+    "AGENTS.md",
+    "logs/README.md",
+    "interactions/README.md",
+    "tools/session_logging/recover_usage.py",
+    "tools/session_logging/test_recover_usage.py"
+  ],
+  "mode": "write",
+  "writable_paths": [
+    "tools/session_logging/recover_usage.py",
+    "tools/session_logging/test_recover_usage.py",
+    "logs/usage/USAGE-2026-11-04-calorimeter-campaign.json",
+    "logs/usage/CAMPAIGN-2026-11-04-calorimeters.md",
+    "logs/codex/SESSION-2026-11-04-calorimeter-campaign-accounting.json",
+    "logs/codex/SESSION-2026-11-04-calorimeter-campaign-accounting.md"
+  ],
+  "task": "In isolated nodd-calorimeter-campaign-record worktree at main implement bounded usage-only reading of existing compressed .jsonl.zst local Codex archives when DB points to missing .jsonl. Root attempted recover_usage and FileNotFound; compressed sibling files exist. Use existing standard compression.zstd (Python3.14) or zstd executable streaming fallback without installing packages, never retain/decompress full raw rollouts on disk; only parse token_count events with original cumulative/turn semantics, verify finalized compressed input stable. Unit-test parity/no private lines retained/failure behavior. Then recover usage-only for relevant ECAL70/71/73/74/75, software78-80, HCAL81/84/85, FCAL88 thread families, identifying metadata through read-only sqlite and known branch journals. Retain curated bounded report with explicit exact assignments or unresolved candidates, no guessed allocation; do not import counters yet without coordinator review. Relevant HCAL root01a13dca-5b25-7263-b403-a8892ab46b1d; current campaign01a1a6e2-62c9-7a72-abb9-f21506ccaec6 active exclude. Can write additional /tmp usage-only reports freely; report additional permanent owned paths before writing. No GitHub mutation/push, no further delegation. Coordinator handles interaction refresh/canonical imports and infra PR publication. Do not modify current-root shared worktree.",
+  "deliverable": "Committed robust compressed archival usage reader/tests plus bounded usage-only inventory, confident turn-to-session mapping recommendations and exact limitations.",
+  "completion": "All original+new recovery tests pass and only allowlisted usage metadata retained. Report precise recovery totals by canonical session with ownership proof; active/unresolved turns excluded."
+}
