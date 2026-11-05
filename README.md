@@ -46,6 +46,8 @@ including the HCAL update and permission to use lighter shades for substructure.
 
 ## Current detector layouts
 
+[ECAL reviewer overview](docs/layouts/review/ecal-layout-review.md) retains the historical comparison and bounded transition review; current candidate pages carry later tracker and FCAL changes.
+
 The [DES039 common tungsten/quartz forward calorimeter](docs/design/DES-039-common-forward-calorimeter.md) is shown in both candidates, with an additional EM collar in the LAr alternative. It remains a DRAFT / PROTOTYPE with explicit aperture and service amendments.
 
 **[Open the layout main page](docs/layouts/README.md)** for both current candidates,
