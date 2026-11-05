@@ -16,10 +16,22 @@ import matplotlib.pyplot as plt
 def statistics(sample):
     m = sample["moments"]
     n = m["n"]
+    if n < 2:
+        raise ValueError("At least two events are needed for a response-width plot")
     mean = m["sum_digitized"] / n
     variance = max(0, (m["sum_digitized_squared"] - n * mean * mean) / (n - 1))
     sigma = math.sqrt(variance)
-    return mean, sigma, math.sqrt(variance / n)
+    population_variance = variance * (n - 1) / n
+    if mean <= 0 or population_variance <= 0:
+        raise ValueError("Relative-width uncertainty requires positive mean and variance")
+    central3 = m["sum_digitized_cubed"] / n - 3 * mean * m["sum_digitized_squared"] / n + 2 * mean**3
+    central4 = m["sum_digitized_fourth"] / n - 4 * mean * m["sum_digitized_cubed"] / n + 6 * mean**2 * m["sum_digitized_squared"] / n - 3 * mean**4
+    # Delta-method uncertainty of RMS/mean, retaining covariance of the mean
+    # and variance and the observed non-Gaussian third/fourth central moments.
+    relative_variance = (central4 - population_variance**2) / (4 * population_variance * mean**2)
+    relative_variance += population_variance**2 / mean**4 - central3 / mean**3
+    rms_error = math.sqrt(max(0, relative_variance / n))
+    return mean, sigma, math.sqrt(variance / n), rms_error
 
 
 def main():
@@ -31,7 +43,8 @@ def main():
     shower_samples = [s for s in data["samples"] if s["particle"] in ("e-", "gamma")]
     args.output.mkdir(parents=True, exist_ok=True)
     plt.rcParams.update({"font.size": 10, "axes.spines.top": False, "axes.spines.right": False})
-    fig, axes = plt.subplots(1, 2, figsize=(11, 4.8), layout="constrained")
+    fig, axes = plt.subplots(1, 2, figsize=(12, 5.6))
+    fig.subplots_adjust(left=.085, right=.985, bottom=.21, top=.79, wspace=.30)
     shades = ["#cccc00", "#999900", "#666600"]
     for particle, marker, linestyle in [("e-", "o", "-"), ("gamma", "s", "--")]:
         etas = sorted({s["eta"] for s in data["samples"] if s["particle"] == particle})
@@ -44,9 +57,9 @@ def main():
                              yerr=[v[2] / e for v,e in zip(values,energy)],
                              marker=marker, ls=linestyle, color=color, label=label, capsize=3)
             axes[1].errorbar(energy, [v[1]/v[0] for v in values],
-                             yerr=[v[1]/v[0]/math.sqrt(2*(s["moments"]["n"]-1)) for v,s in zip(values,samples)],
+                             yerr=[v[3] for v in values],
                              marker=marker, ls=linestyle, color=color, capsize=3)
-    axes[0].set(ylabel="Mean deposit-equivalent digitized energy / beam energy", xlabel="Beam energy [GeV]")
+    axes[0].set(ylabel="Mean deposit-equivalent digitized energy /\nbeam energy", xlabel="Beam energy [GeV]")
     axes[1].set(ylabel="Digitized event-energy RMS / mean", xlabel="Beam energy [GeV]")
     # SRC-CALICE-SIW-ELECTRONS-2008, arXiv:0811.2354v1 section6.2.
     # The published 6--45 GeV range and different geometry are explicit.
@@ -63,14 +76,14 @@ def main():
     settings = sorted({(s["configuration"]["noise_MIP"], s["configuration"]["threshold_MIP"]) for s in shower_samples})
     setting_text = "; ".join(f"{noise:g} MIP noise, {threshold:g} MIP threshold" for noise, threshold in settings)
     fig.suptitle(f"ODD Si–W ECAL · original Marlin silicon energy kernel · PROTOTYPE\nSparse signal cells; {setting_text}; {count_text} events / point", fontsize=11)
-    fig.get_layout_engine().set(rect=(0,.08,1,1))
-    fig.text(.03,.025,"Mean errors: standard error. RMS errors: Gaussian approximation; shower tails and systematics unquantified.\nNo shower-energy calibration, detector-wide noise, pileup, or original full-processor agreement established.",fontsize=8)
+    fig.text(.03,.025,"Mean errors: standard error. RMS errors: empirical-moment delta approximation; rare tails remain statistically limited.\nNo shower-energy calibration, detector-wide noise, pileup, or original full-processor agreement established.",fontsize=8)
     fig.savefig(args.output / "response.png", dpi=170)
     plt.close(fig)
 
     central = next(s for s in data["samples"] if s["particle"]=="mu-" and s["eta"]==0)
     mip = data["calibration"]["mip_energy_GeV"]
-    fig, axes = plt.subplots(1,2,figsize=(10,4.4),layout="constrained")
+    fig, axes = plt.subplots(1,2,figsize=(11,4.9))
+    fig.subplots_adjust(left=.075, right=.985, bottom=.23, top=.80, wspace=.25)
     for axis, key, scale, label in [(axes[0],"sim_cell_energy",1/mip,"Held-out simulated silicon cell deposits"),
                                    (axes[1],"digitized_cell_energy",1,"Held-out digitized ECAL cells")]:
         h=central[key]
@@ -79,7 +92,6 @@ def main():
         axis.set(xlabel="Cell energy [MIP]",ylabel="Cell counts",title=label,xlim=(0,3))
         axis.legend(fontsize=8)
     fig.suptitle(f"{central['beam_energy_GeV']:g} GeV central muons · {central['moments']['n']} held-out events · PROTOTYPE",fontsize=11)
-    fig.get_layout_engine().set(rect=(0,.08,1,1))
     calibration_count = data["calibration"]["calibration_events"][1] - data["calibration"]["calibration_events"][0]
     calibration_width = 2 * data["calibration"]["bin_quantization_half_width_GeV"] * 1e6
     fig.text(.03,.025,f"MIP scale {mip*1e6:.2f} keV, frozen from {calibration_count} separate events using a {calibration_width:g} keV binned mode.\nNo Landau–Gaussian fit, angular calibration or systematic uncertainty established.",fontsize=8)

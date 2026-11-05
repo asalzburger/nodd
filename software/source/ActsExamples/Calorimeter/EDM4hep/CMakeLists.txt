@@ -22,3 +22,9 @@ target_link_libraries(nodd_silicon_campaign PRIVATE
   nODDCalorimeterEDM4hep EDM4HEP::edm4hepDict podio::podioRootIO)
 set_target_properties(nodd_silicon_campaign PROPERTIES
   BUILD_RPATH "${NODD_ACTS_BUILD}/lib")
+
+add_executable(nodd_silicon_reference SiliconReferenceComparison.cpp)
+target_link_libraries(nodd_silicon_reference PRIVATE
+  nODDCalorimeterEDM4hep EDM4HEP::edm4hepDict podio::podioRootIO)
+set_target_properties(nodd_silicon_reference PROPERTIES
+  BUILD_RPATH "${NODD_ACTS_BUILD}/lib")

@@ -53,11 +53,12 @@ struct Histogram {
 
 struct Moments {
   std::uint64_t n = 0;
-  double x=0, y=0, xx=0, yy=0, xy=0;
-  void fill(double a, double b) { ++n; x+=a; y+=b; xx+=a*a; yy+=b*b; xy+=a*b; }
+  double x=0, y=0, xx=0, yy=0, xy=0, yyy=0, yyyy=0;
+  void fill(double a, double b) { ++n; x+=a; y+=b; xx+=a*a; yy+=b*b; xy+=a*b; yyy+=b*b*b; yyyy+=b*b*b*b; }
   json data() const { return {{"n",n},{"sum_visible",x},{"sum_digitized",y},
       {"sum_visible_squared",xx},{"sum_digitized_squared",yy},{"sum_product",xy},
-      {"unit","GeV; squared and product quantities GeV^2"}}; }
+      {"sum_digitized_cubed",yyy},{"sum_digitized_fourth",yyyy},
+      {"unit","GeV; squared and product quantities GeV^2; third/fourth powers GeV^3/GeV^4"}}; }
 };
 }  // namespace
 

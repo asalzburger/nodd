@@ -26,4 +26,8 @@ if(TARGET nodd_marlin_silicon_backend)
   target_compile_definitions(CalorimeterSiliconDigitization PRIVATE
     NODD_SILICON_BACKEND="$<TARGET_FILE:nodd_marlin_silicon_backend>")
   add_dependencies(CalorimeterSiliconDigitization nodd_marlin_silicon_backend)
+  add_test(NAME CalorimeterSiliconReferenceUtility
+    COMMAND nodd_silicon_reference --self-test
+      "$<TARGET_FILE:nodd_marlin_silicon_backend>"
+      "${CMAKE_CURRENT_BINARY_DIR}/synthetic-reference-utility")
 endif()
