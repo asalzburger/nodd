@@ -72,6 +72,49 @@ Other tests cover Poisson variance, deterministic MIP/range controls, strict
 threshold equality, stable event replay, malformed/range-overflow input,
 position modes, all-channel empty events and signal/noise truth semantics.
 
+## Existing exploratory previews
+
+At the user's request, the PR embeds two plots prepared from the retained
+**pre-deferral** electron/muon summaries. Publishing and replotting these
+summaries does not resume the Marlin study. The full original-framework
+comparison and physics qualification remain deferred.
+
+![Exploratory ODD electron response and relative energy spread](previews/response.png)
+
+Electron-only preview: 200 events at each of 5, 20, and 50 GeV and η=0/1/2
+(1,800 events). Energies are deposit-equivalent, with no shower calibration.
+RMS errors use the retained preview's Gaussian approximation; rare tails and
+systematics are unquantified. The CALICE curve supplies scale context for a
+different geometry and is not an acceptance criterion or a source-framework
+agreement test. The η=2 tails remain unresolved.
+
+![Held-out central muon MIP spectrum](previews/mip.png)
+
+Central 10 GeV muons: 250 held-out events, with the 148.75 keV MIP scale frozen
+from a separate 250-event calibration half. The spectra are binned
+characterization, without a Landau–Gaussian fit or angular/systematic validation.
+
+The compact [binwise data](previews/binwise.json) contain edges, units, counts,
+normalizations, event-energy moments and source/configuration/input identities.
+Machine-specific directory prefixes in descriptive metadata are replaced by
+`${NODD_WORKSPACE}` and `${USER_HOME}`; numeric values and original file hashes
+are unchanged. The metadata records the unmodified local summary's SHA-256.
+There are no event-level samples in this file. The additional η=2 muon control
+is retained in the data but not plotted here; there are no photon digitization
+results in this preview.
+
+Replot these existing summaries without ROOT, ACTS, Geant4 or Marlin:
+
+```sh
+/path/to/matplotlib-python software/analysis/calorimeter_digitization/plot.py \
+  docs/validation/issue117/previews/binwise.json docs/validation/issue117/previews
+```
+
+The preview was rendered with Python 3.14.5 and Matplotlib 3.11.2. The plotter
+explicitly labels Gaussian RMS errors when third/fourth moments are absent,
+while newer summaries retain the empirical-moment mode. Regenerating transport
+or digitization remains a separate future workflow below.
+
 ## Prepared reproduction recipe — Marlin phase deferred
 
 The following recipe preserves the prepared workflow for future resumption.
@@ -127,9 +170,9 @@ retain the completed input identities. Digitization uses all event deposits with
 a time cut and sparse signal cells; empty detector cells are not simulated here.
 
 The full ROOT events, intermediate summaries and run logs stay ignored under
-`build/issue117/`. No full study results are committed in this preparation change. Exploratory
-plots and binwise outputs remain local; retained study evidence will be added
-after resumption. Replotting prepared summaries needs JSON and Matplotlib. Regeneration, the MIP split,
+`build/issue117/`. The two existing exploratory plots and compact binwise summaries above are
+retained at the user's subsequent request. They do not establish the completed
+Marlin study. Replotting them needs JSON and Matplotlib. Regeneration, the MIP split,
 per-event correlated checks and a full original-framework comparison need the
 local or regenerated event files and verified runtime.
 
@@ -138,10 +181,10 @@ local or regenerated event files and verified runtime.
 | Issue deliverable | State / evidence |
 | --- | --- |
 | Draft recommendation per technology | Available: DES-044, six pinned source implementations and explicit pp/μ=200 gaps |
-| Si–W implementation and unit tests | Available: opt-in prototype, five passing native suites |
+| Si–W implementation and unit tests | Available: opt-in prototype, six passing native suites |
 | Original-framework same-hit comparison | **DEFERRED BY USER** until appropriate software is installed; [prepared recipe and comparator](../../../software/analysis/calorimeter_digitization/reference.md) |
 | Muon expected MIP peak | Exploratory local binned characterization only; fitted/path-aware Marlin study deferred |
-| Shower plots / linearity / resolution | Geant4 inputs and analysis recipe prepared; further digitized study deferred; no complete physics qualification |
+| Shower plots / linearity / resolution | Existing electron/muon previews embedded on request; further digitized study deferred; no complete physics qualification |
 | Remaining technology follow-ups | Three bounded issue drafts listed in DES-044 for maintainer triage |
 
 The visible response is deposited silicon energy / generated energy.
@@ -161,6 +204,7 @@ execution is claimed, and no installation was attempted. Six native software
 suites passed before this direction. A partial electron-only exploratory analysis
 and muon calibration were run before the deferral, not accepted as the completed
 Marlin/physics study. The code, source survey, comparison utility and future
-recipe are retained; full study plots/results are left for the later software
-installation. Full Geant4 input-generation counts are recorded in the session
+recipe are retained. The user subsequently asked to embed the existing
+pre-deferral plots; these previews are now included above. The full study
+remains deferred until the later software installation. Full Geant4 input-generation counts are recorded in the session
 journal; these are independent transport inputs, not a Marlin validation pass.

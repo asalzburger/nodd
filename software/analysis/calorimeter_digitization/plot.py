@@ -24,6 +24,13 @@ def statistics(sample):
     population_variance = variance * (n - 1) / n
     if mean <= 0 or population_variance <= 0:
         raise ValueError("Relative-width uncertainty requires positive mean and variance")
+    higher_moments = ("sum_digitized_cubed" in m, "sum_digitized_fourth" in m)
+    if higher_moments[0] != higher_moments[1]:
+        raise ValueError("Third and fourth moments must be supplied together")
+    if not higher_moments[0]:
+        # Preserve the explicitly labelled approximation used by the existing
+        # pre-deferral preview, whose retained summaries contain only moments1/2.
+        return mean, sigma, math.sqrt(variance / n), sigma / mean / math.sqrt(2 * (n - 1))
     central3 = m["sum_digitized_cubed"] / n - 3 * mean * m["sum_digitized_squared"] / n + 2 * mean**3
     central4 = m["sum_digitized_fourth"] / n - 4 * mean * m["sum_digitized_cubed"] / n + 6 * mean**2 * m["sum_digitized_squared"] / n - 3 * mean**4
     # Delta-method uncertainty of RMS/mean, retaining covariance of the mean
@@ -76,7 +83,14 @@ def main():
     settings = sorted({(s["configuration"]["noise_MIP"], s["configuration"]["threshold_MIP"]) for s in shower_samples})
     setting_text = "; ".join(f"{noise:g} MIP noise, {threshold:g} MIP threshold" for noise, threshold in settings)
     fig.suptitle(f"ODD Si–W ECAL · original Marlin silicon energy kernel · PROTOTYPE\nSparse signal cells; {setting_text}; {count_text} events / point", fontsize=11)
-    fig.text(.03,.025,"Mean errors: standard error. RMS errors: empirical-moment delta approximation; rare tails remain statistically limited.\nNo shower-energy calibration, detector-wide noise, pileup, or original full-processor agreement established.",fontsize=8)
+    moment_modes = {"sum_digitized_fourth" in s["moments"] for s in shower_samples}
+    if moment_modes == {False}:
+        width_error_note = "Gaussian approximation; shower tails and systematics unquantified."
+    elif moment_modes == {True}:
+        width_error_note = "empirical-moment delta approximation; rare tails remain statistically limited."
+    else:
+        width_error_note = "empirical moments where available, otherwise Gaussian approximation."
+    fig.text(.03,.025,f"Mean errors: standard error. RMS errors: {width_error_note}\nNo shower-energy calibration, detector-wide noise, pileup, or original full-processor agreement established.",fontsize=8)
     fig.savefig(args.output / "response.png", dpi=170)
     plt.close(fig)
 
