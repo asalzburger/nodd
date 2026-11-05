@@ -100,10 +100,10 @@ BOOST_AUTO_TEST_CASE(NoiseOnlyUnsuppressedRmsAndThresholdRate) {
   const double countSigma = std::sqrt(count * probability * (1 - probability));
   // Six statistical standard deviations; numerical tests, not detector
   // acceptance.
-  BOOST_CHECK_SMALL(mean, 6 * config.noiseMip / std::sqrt(count));
+  BOOST_CHECK_SMALL(mean, 5 * config.noiseMip / std::sqrt(count));
   BOOST_CHECK_SMALL(rms - config.noiseMip,
-                    6 * config.noiseMip / std::sqrt(2. * (count - 1)));
-  BOOST_CHECK_SMALL(static_cast<double>(accepted) - expected, 6 * countSigma);
+                    5 * config.noiseMip / std::sqrt(2. * (count - 1)));
+  BOOST_CHECK_SMALL(static_cast<double>(accepted) - expected, 5 * countSigma);
   BOOST_TEST_MESSAGE("Noise-only fixture N="
                      << count << " mean=" << mean << " rms=" << rms
                      << " threshold accepted=" << accepted

@@ -26,8 +26,10 @@ def main():
     source_revision = subprocess.check_output(["git", "-C", str(root), "rev-parse", "HEAD"], text=True).strip()
     args.work.mkdir(parents=True, exist_ok=True)
     results = []
+    generation_manifests = []
     for manifest_path in args.samples:
         manifest = json.loads(manifest_path.read_text())
+        generation_manifests.append(dict(sha256=sha256(manifest_path), metadata=manifest))
         for sample in manifest["samples"]:
             path = Path(sample["path"])
             if sample["exit_code"] != 0 or sha256(path) != sample["sha256"]:
@@ -57,6 +59,7 @@ def main():
                   odd_revision=manifest["odd_revision"], calibration=calibration,
                   native_binary_sha256=sha256(args.binary), backend_sha256=sha256(args.backend),
                   source_revision=source_revision, executed_source_sha256=source_hashes,
+                  generation_manifests=generation_manifests,
                   analysis_sha256=sha256(Path(__file__)), samples=results,
                   parameter_provenance={"noise_MIP": "0.13: CALICE arXiv:0811.2354v1 comparator setting; not nODD approval",
                                         "threshold_MIP": "0.6: same CALICE comparator setting; not nODD approval",

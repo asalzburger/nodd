@@ -28,6 +28,7 @@ def main():
     parser.add_argument("output", type=Path)
     args = parser.parse_args()
     data = json.loads(args.input.read_text())
+    shower_samples = [s for s in data["samples"] if s["particle"] in ("e-", "gamma")]
     args.output.mkdir(parents=True, exist_ok=True)
     plt.rcParams.update({"font.size": 10, "axes.spines.top": False, "axes.spines.right": False})
     fig, axes = plt.subplots(1, 2, figsize=(11, 4.8), layout="constrained")
@@ -47,11 +48,21 @@ def main():
                              marker=marker, ls=linestyle, color=color, capsize=3)
     axes[0].set(ylabel="Mean deposit-equivalent digitized energy / beam energy", xlabel="Beam energy [GeV]")
     axes[1].set(ylabel="Digitized event-energy RMS / mean", xlabel="Beam energy [GeV]")
+    # SRC-CALICE-SIW-ELECTRONS-2008, arXiv:0811.2354v1 section6.2.
+    # The published 6--45 GeV range and different geometry are explicit.
+    context_energy = [6 + 39 * i / 100 for i in range(101)]
+    axes[1].plot(context_energy, [math.hypot(.166 / math.sqrt(e), .011) for e in context_energy],
+                 color="#777777", ls=":", label="CALICE 2008: different geometry, scale context")
+    axes[1].legend(fontsize=8)
     for axis in axes:
         axis.grid(alpha=.2)
         axis.set_xticks([5,20,50])
     axes[0].legend(fontsize=8, ncol=2)
-    fig.suptitle("ODD Si–W ECAL · original Marlin silicon energy kernel · PROTOTYPE\nSparse signal cells, 0.13 MIP noise, 0.6 MIP threshold; 200 events / point", fontsize=11)
+    counts = sorted({s["moments"]["n"] for s in shower_samples})
+    count_text = str(counts[0]) if len(counts) == 1 else "/".join(map(str, counts))
+    settings = sorted({(s["configuration"]["noise_MIP"], s["configuration"]["threshold_MIP"]) for s in shower_samples})
+    setting_text = "; ".join(f"{noise:g} MIP noise, {threshold:g} MIP threshold" for noise, threshold in settings)
+    fig.suptitle(f"ODD Si–W ECAL · original Marlin silicon energy kernel · PROTOTYPE\nSparse signal cells; {setting_text}; {count_text} events / point", fontsize=11)
     fig.get_layout_engine().set(rect=(0,.08,1,1))
     fig.text(.03,.025,"Mean errors: standard error. RMS errors: Gaussian approximation; shower tails and systematics unquantified.\nNo shower-energy calibration, detector-wide noise, pileup, or original full-processor agreement established.",fontsize=8)
     fig.savefig(args.output / "response.png", dpi=170)
@@ -67,9 +78,11 @@ def main():
         axis.axvline(1,color="#444444",ls="--",lw=1,label="Frozen calibration MIP")
         axis.set(xlabel="Cell energy [MIP]",ylabel="Cell counts",title=label,xlim=(0,3))
         axis.legend(fontsize=8)
-    fig.suptitle("10 GeV central muons · 250 held-out events · PROTOTYPE",fontsize=11)
+    fig.suptitle(f"{central['beam_energy_GeV']:g} GeV central muons · {central['moments']['n']} held-out events · PROTOTYPE",fontsize=11)
     fig.get_layout_engine().set(rect=(0,.08,1,1))
-    fig.text(.03,.025,f"MIP scale {mip*1e6:.2f} keV, frozen from the separate first 250 events using a 2.5 keV binned mode.\nNo Landau–Gaussian fit, angular calibration or systematic uncertainty established.",fontsize=8)
+    calibration_count = data["calibration"]["calibration_events"][1] - data["calibration"]["calibration_events"][0]
+    calibration_width = 2 * data["calibration"]["bin_quantization_half_width_GeV"] * 1e6
+    fig.text(.03,.025,f"MIP scale {mip*1e6:.2f} keV, frozen from {calibration_count} separate events using a {calibration_width:g} keV binned mode.\nNo Landau–Gaussian fit, angular calibration or systematic uncertainty established.",fontsize=8)
     fig.savefig(args.output / "mip.png",dpi=170)
     plt.close(fig)
 
