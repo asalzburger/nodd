@@ -1,0 +1,119 @@
+{
+  "status": "DRAFT; source identity, screening arithmetic and historical prototype ledgers; no new native or physics validation",
+  "access_date": "2026-10-15",
+  "nodd_input_revision": "5b4e5d9e563505aea17e9b792458708c3175ec4a",
+  "upstream_observed_main": "446d612dab5627e5849e1f01a1d3d9b633169218",
+  "upstream_observed_latest_release": "v4.0.5",
+  "upstream_nodd_gitlink": "d70556f33b1c36abdf101a07ad8cf57eb56fbdf1",
+  "upstream_historical_study": "c167363f3d4ad1540a577af99071283caf54f3a6",
+  "source_files": [
+    {
+      "path": "xml/detectors/CalorimeterHCal.xml",
+      "sha256": "f7ae7005d5b2f5cf78e59a652b6f94c85786ac41b426974753029168a326ce3c",
+      "matches_DES027": true,
+      "url": "https://github.com/OpenDataDetector/OpenDataDetector/blob/446d612dab5627e5849e1f01a1d3d9b633169218/xml/detectors/CalorimeterHCal.xml"
+    },
+    {
+      "path": "xml/OpenDataDetectorMaterials.xml",
+      "sha256": "b54be00d28a7d049d1066c9151b50ad036ca8b87ea74db6a6a38ff7fb9d707a1",
+      "matches_DES027": true,
+      "url": "https://github.com/OpenDataDetector/OpenDataDetector/blob/446d612dab5627e5849e1f01a1d3d9b633169218/xml/OpenDataDetectorMaterials.xml"
+    },
+    {
+      "path": "xml/OpenDataDetectorEnvelopes.xml",
+      "sha256": "f6d7f905fc6abc1437b1953d365d6faeb6ad0f1fd92ba82f21c774bca6bf05a4",
+      "matches_DES027": true,
+      "url": "https://github.com/OpenDataDetector/OpenDataDetector/blob/446d612dab5627e5849e1f01a1d3d9b633169218/xml/OpenDataDetectorEnvelopes.xml"
+    },
+    {
+      "path": "factory/calorimeter/ODDPolyhedraBarrelCalorimeter_geo.cpp",
+      "sha256": "79a1d9afa3742467282b99d6f94331e638f7a13a9fbd1fad6e1218067435a4ee",
+      "matches_DES027": true,
+      "url": "https://github.com/OpenDataDetector/OpenDataDetector/blob/446d612dab5627e5849e1f01a1d3d9b633169218/factory/calorimeter/ODDPolyhedraBarrelCalorimeter_geo.cpp"
+    },
+    {
+      "path": "factory/calorimeter/ODDPolyhedraEndcapCalorimeter_geo.cpp",
+      "sha256": "03fba144f0f1afbcd8bc352115defe1199672af6882b9672098b5b78a6a021e0",
+      "matches_DES027": true,
+      "url": "https://github.com/OpenDataDetector/OpenDataDetector/blob/446d612dab5627e5849e1f01a1d3d9b633169218/factory/calorimeter/ODDPolyhedraEndcapCalorimeter_geo.cpp"
+    }
+  ],
+  "scope": "Five compared files only; metadata and source fetched with gh api; no clone/build/runtime.",
+  "screening": {
+    "classification": "INFERENCE",
+    "inputs": {
+      "layers": 36,
+      "pcb_thickness_cm_layer": 1.6,
+      "pcb_density_g_cm3": 5.05076923076923,
+      "pcb_Cu_mass_fraction": 0.818763326226013,
+      "copper_density_g_cm3": 8.96,
+      "copper_nuclear_lambdaI_g_cm2": 137.3,
+      "steel_thickness_mm": 1080,
+      "pure_iron_nuclear_lambdaI_mm": 167.7
+    },
+    "formulas": {
+      "pcb_areal_mass": "layers * pcb_thickness_cm_layer * pcb_density_g_cm3",
+      "Cu_areal_mass": "pcb_areal_mass * pcb_Cu_mass_fraction",
+      "Cu_equivalent_mm": "Cu_areal_mass / copper_density_g_cm3 * 10",
+      "Cu_nuclear_lambdaI": "Cu_areal_mass / copper_nuclear_lambdaI_g_cm2",
+      "Fe_proxy_nuclear_lambdaI": "steel_thickness_mm / pure_iron_nuclear_lambdaI_mm"
+    },
+    "results": {
+      "pcb_areal_mass_g_cm2": 290.92430769230765,
+      "Cu_areal_mass_g_cm2": 238.19815384615387,
+      "Cu_equivalent_mm": 265.84615384615387,
+      "Cu_nuclear_lambdaI": 1.7348736623900498,
+      "Fe_proxy_nuclear_lambdaI": 6.440071556350627
+    },
+    "limits": "Elemental screening estimates only. Not native Steel235/full-mixture depths, pion interaction lengths, shower containment or exact old-new difference."
+  },
+  "historical_DES029_HCAL": {
+    "classification": "FACT about retained prototype ledger; calculated from unsigned design hypotheses",
+    "cassettes": 36416,
+    "channels": 5243904,
+    "mass_t": 2099.8157228683594,
+    "continuous_heat_kW": 110.63407388444442,
+    "ideal_water_kg_s": 5.293496358107388,
+    "interface_heat_before_conversion_kW": 72.832,
+    "scope": "Old DES029 hardware geometry only, not the enlarged DES034 outline"
+  },
+  "forward_outline_screening": {
+    "classification": "INFERENCE",
+    "formula": "r_m = abs(z_m) / sinh(abs(eta)); entry_z_m = inner_radius_m * sinh(abs(eta))",
+    "FCal": {
+      "r_inner_m": 0.08,
+      "r_outer_m": 0.29,
+      "z_front_m": 4.5332,
+      "z_back_m": 6.3791
+    },
+    "eta4_HCAL_front_back_r_m": [
+      0.17893788261526694,
+      0.23375299946572928
+    ],
+    "eta5_FCal_front_back_r_m": [
+      0.06109169623122645,
+      0.08596797834391086
+    ],
+    "eta5_entry_z_m": 5.936256846223101,
+    "eta5_axial_intersection_m": 0.44284315377689953,
+    "eta5_2_FCal_back_r_m": 0.07038357413987416,
+    "limits": "Sector-centre straight rays, outline accommodation only. No active hardware or shower containment."
+  },
+  "new_manifest_ids": [
+    "SRC-ODD-HCAL-CURRENT",
+    "SRC-ATLAS-TILE-RUN2",
+    "SRC-CMS-HGCAL-TILE-CHAIN-2025",
+    "SRC-CMS-HGCROC3-2026",
+    "SRC-CMS-HGCAL-COLD-2026",
+    "SRC-CMS-SIPM-UPGRADE-2026",
+    "SRC-CMS-SCINT-DOSE-2020",
+    "SRC-CMS-RUN3-2024",
+    "SRC-PDG-CU-2025",
+    "SRC-PDG-FE-2026"
+  ],
+  "read_only_specialist_assignments": [
+    "HCAL-20261015-CaloTech",
+    "HCAL-20261015-SysArch",
+    "HCAL-20261015-PhysVal"
+  ]
+}

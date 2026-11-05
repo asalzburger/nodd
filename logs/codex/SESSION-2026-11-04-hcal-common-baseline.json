@@ -1,0 +1,137 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-11-04-hcal-common-baseline",
+  "title": "Prepare HCAL common module PR81 as shared baseline design option",
+  "recorded_at": "2026-11-04T14:11:44Z",
+  "started_at": null,
+  "ended_at": "2026-11-04T14:13:59Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact current per-turn token counters, client thread ID and executed model are unavailable. The active campaign turn is excluded; empty usage means unknown, not zero.",
+    "Native and Geant4 evidence is retained historical execution, not a new run.",
+    "The session pair was created after integration began; initial checkout was clean and the captured merge changes were produced by this assignment.",
+    "Completed HCAL specialist turns are accounted once in SESSION-2026-11-04-calorimeter-campaign; this per-PR narrative does not duplicate those counters."
+  ],
+  "client": {
+    "name": "Codex explicit CaloTech assignment",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "cd3ec20da56537617ac6fbbcf28bd6f28104cc64",
+    "branch": "codex/calorimeter-hcal-refresh",
+    "initial_changes": [],
+    "result_commits": [
+      "8e06de4ca9bc35b57c2597544d0e3eb3c760bef9"
+    ],
+    "changed_files": [
+      "docs/design/DES-036-hcal-common-readout-module.md",
+      "docs/validation/DES-036/campaign-2026-11-04.md",
+      "interactions/pr-0081.json",
+      "logs/codex/SESSION-2026-11-04-hcal-common-baseline.json",
+      "logs/codex/SESSION-2026-11-04-hcal-common-baseline.md",
+      "project/tracking.json"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "HCAL",
+      "baseline design option",
+      "ordinary integration merge"
+    ],
+    "related_ids": [
+      "DES-035",
+      "DES-036",
+      "TASK-B-HCAL-REALISM",
+      "TASK-B-HCAL-COMMON-MODULE",
+      "PR-81",
+      "ISSUE-114"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-11-04-hcal-common-baseline.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 -B -m unittest discover -s tools/hcal_readout -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "44 common-module and saved-run provenance controls passed on integrated source."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/calorimeter_hardware -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "14 historical calorimeter controls passed."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "90 tasks,45 documents,24 review rounds before closeout edits."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "237 paired session records before closeout edits."
+    },
+    {
+      "command": "git merge --no-ff --no-commit origin/codex/hcal-realism-assessment",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Expected tracking/manifest conflicts reconciled by stable ID; all independent main and branch records retained."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate (first closeout attempt)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Rejected PASS with expected merge-conflict exit1. Corrected the entry to FAIL and retained the resolved conflict history."
+    },
+    {
+      "command": "python3 -B tools/interactions/ledger.py sync --pr 81",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "One PR ledger synchronized with canonical session links; usage unchanged."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "237 paired session records validated after correction."
+    },
+    {
+      "command": "python3 -B tools/interactions/ledger.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "101 PR interaction records validated."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "378 disjoint observed turns;1,825,663,849 tokens. Current campaign excluded."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py build --output _site/pages",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Token dashboard preview built successfully."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py summary --format json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Observed project subtotal1,817,405,271 input+8,258,578 output;378 turns in151 of237 sessions.86 sessions unobserved; current common task usage unknown."
+    },
+    {
+      "command": "Coordinator queue integration: HCAL / calorimeter / logging controls and project validation",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "44 HCAL,32 restored calorimeter,36 logging controls;99 tasks/51 documents/24 review rounds after ordinary merge of final ECAL14898df4. No fresh HCAL native claim."
+    }
+  ]
+}
