@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-11-05-endcap-hit-xy",
+  "title": "ECAL endcap sensitive-hit x-y projection and segmentation view",
+  "recorded_at": "2026-11-05T21:28:13Z",
+  "started_at": null,
+  "ended_at": null,
+  "status": "open",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact client-reported disjoint turn counters, client version and thread/turn IDs were not exposed; usage empty and input/output totals unknown.",
+    "Fixed-phi raw-hit sample does not establish full-face efficiency or detector-performance acceptance. Marlin study remains deferred."
+  ],
+  "client": {
+    "name": "unspecified",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "e4d478b34c6392130d4de21383d87eb55245b13c",
+    "branch": "codex/issue117-calorimeter-digitization",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": []
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "ECAL endcap",
+      "sensitive-hit projection",
+      "readout segmentation"
+    ],
+    "related_ids": [
+      "#117",
+      "#118",
+      "DES-044",
+      "ADR-003"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-11-05-endcap-hit-xy.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "acts-spack preflight.py",
+      "status": "FAIL",
+      "exit_code": 2,
+      "result": "Recorded setup/lockfile fingerprints changed; user warned before dependent work. Actual ROOT/podio imports and reads reverified separately."
+    },
+    {
+      "command": "Active ROOT/podio imports and saved EDM4hep file read",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "ROOT6.40.04 imports;200-event input read successfully. No transport/digitization or software installation."
+    },
+    {
+      "command": "endcap_xy.py extract and compact-data audit",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "309693+z entries across48layers; layer14 selected with12924 entries. All source/ID-derived positions within float32-persistence bound; input/script hashes and count denominators valid."
+    },
+    {
+      "command": "endcap_xy.py plot; visual QA",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Two-panel projection renders. Corrected initial clipping/spacing, then checked axes, module/cell outlines, units and hit-count normalization."
+    }
+  ]
+}

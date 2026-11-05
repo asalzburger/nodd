@@ -115,6 +115,67 @@ explicitly labels Gaussian RMS errors when third/fourth moments are absent,
 while newer summaries retain the empirical-moment mode. Regenerating transport
 or digitization remains a separate future workflow below.
 
+## ECAL endcap sensitive-hit x–y projection
+
+![Raw ECAL endcap sensitive-hit projection and readout-cell zoom](previews/endcap-xy.png)
+
+This view uses the saved 200-event 50 GeV electron sample at η=2, φ=0.123 rad.
+It selects the **+z ECAL endcap** and stored `SimCalorimeterHit` cell centres;
+no digitization, new transport or Marlin study is run. The left panel sums
+309,693 hit entries across 48 sensitive layers into 20×20 mm display bins. The
+right panel resolves the actual 5.1×5.1 mm local readout grid in layer 14, the
+layer with the most stored entries (12,924). Its 140 mm window is centred on
+the most frequently hit cell and crosses the boundary between modules 13/14.
+
+Grey outlines are the source geometry's 16 silicon-module wedges, with 2.5 mm
+removed from each module's tangential half-width. Labels use the stored
+four-bit `module` field; factory module 16 is encoded 0. The zoom's nominal
+readout-cell polygons are clipped to the silicon-module footprint. ODD models
+a continuous sensitive silicon wedge per layer with virtual readout cells;
+this does not introduce an individual-wafer tiling model. Uncolored regions
+mean unhit in this fixed-φ sample, not missing/disabled channels.
+
+**FACT — pinned primary source:** ODD
+`d70556f33b1c36abdf101a07ad8cf57eb56fbdf1`,
+`xml/detectors/CalorimeterECal.xml` (CartesianGridXZ, cell pitch, layers/slices),
+`xml/OpenDataDetectorEnvelopes.xml` (endcap dimensions), and
+`factory/calorimeter/ODDPolyhedraEndcapCalorimeter_geo.cpp` (`placeStaves`,
+module/layer/slice placements). The source hashes and readout encoding are in
+[the compact occupancy data](previews/endcap-xy-binwise.json).
+
+The extractor checks every selected stored global cell centre against its
+source placement and signed local cell indices. Maximum residuals are
+0.000061/0.000057/0.000098 mm in x/y/z, within a per-coordinate bound of
+`4 × float32 epsilon × max(1 mm, |expected coordinate|)` for float persistence.
+It rejects repeated cell IDs within an event and checks the event/count
+normalization. Thirty opposite-endcap entries are excluded. These are
+source/representation checks, not geometry or detector-performance acceptance.
+
+The compact JSON contains a projected count histogram, layer-selection
+metadata, readout-cell occupancy bins for the zoom, geometry/input/script
+hashes and denominators. It contains no per-event payload. Replot without
+ROOT, DD4hep, Geant4, ACTS or Marlin:
+
+```sh
+/path/to/matplotlib-python software/analysis/calorimeter_digitization/endcap_xy.py plot \
+  --input docs/validation/issue117/previews/endcap-xy-binwise.json \
+  --output docs/validation/issue117/previews/endcap-xy.png
+```
+
+Re-extract from the retained raw simulation file with the verified ROOT/podio
+runtime (no transport or digitization):
+
+```sh
+software/env/run.sh python3 software/analysis/calorimeter_digitization/endcap_xy.py extract \
+  --manifest build/issue117/showers/samples.json \
+  --odd-source /path/to/pinned/OpenDataDetector \
+  --output docs/validation/issue117/previews/endcap-xy-binwise.json
+```
+
+The input SHA-256 must match the generation manifest. `--layer N` overrides
+the default most-populated-layer choice; `--zoom-width-mm` and
+`--overview-bin-mm` are display settings, not detector parameters.
+
 ## Prepared reproduction recipe — Marlin phase deferred
 
 The following recipe preserves the prepared workflow for future resumption.
