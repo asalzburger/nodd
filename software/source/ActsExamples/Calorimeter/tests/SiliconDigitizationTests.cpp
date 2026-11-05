@@ -56,6 +56,11 @@ BOOST_AUTO_TEST_CASE(RejectInvalidSiliconConfigurationsAndEnergies) {
       std::invalid_argument);
   config.executable = "/usr/bin/false";
   BOOST_CHECK_THROW(runMarlinSilicon(config, {1}, 0), std::runtime_error);
+  config = fixtureConfig();
+  config.pairEnergyEv = 3.6;
+  BOOST_CHECK_THROW(
+      runMarlinSilicon(config, {1e12 * Acts::UnitConstants::GeV}, 0),
+      std::invalid_argument);
 }
 
 BOOST_AUTO_TEST_CASE(OriginalKernelZeroNoiseMipAndDynamicRangeControls) {

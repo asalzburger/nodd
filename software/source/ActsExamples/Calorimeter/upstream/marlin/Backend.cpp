@@ -26,7 +26,8 @@ std::uint64_t mix(std::uint64_t value) {
 float finiteFloat(const nlohmann::json &value) {
   const double number = value.get<double>();
   if (!std::isfinite(number) || number < 0 ||
-      number > std::numeric_limits<float>::max()) {
+      number > std::numeric_limits<float>::max() ||
+      (number > 0 && static_cast<float>(number) == 0)) {
     throw std::invalid_argument("Backend parameter outside float range");
   }
   return static_cast<float>(number);
@@ -62,6 +63,16 @@ int main(int argc, char **argv) {
     std::vector<double> values;
     for (const auto &entry : request.at("energiesGeV")) {
       const float energy = finiteFloat(entry);
+      if (energy > 0 && pairEnergy > 0) {
+        const double pairs = 1e9 * energy / pairEnergy;
+        if (!std::isfinite(pairs) ||
+            static_cast<float>(pairs) >=
+                static_cast<double>(std::numeric_limits<long>::max()) ||
+            static_cast<float>(pairs) == 0) {
+          throw std::invalid_argument(
+              "Pair expectation outside CLHEP Poisson range");
+        }
+      }
       // The upstream silicon method divides by its positive pair expectation.
       // For empty channels only, disable that step before calling unchanged
       // EnergyDigi so electronics noise can be evaluated. Not upstream sparse

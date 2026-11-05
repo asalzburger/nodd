@@ -74,6 +74,8 @@ runMarlinSilicon(const SiliconDigitizationConfig &config,
     }
     if (config.pairEnergyEv > 0 && gev > 0 &&
         (!representableFloat(1e9 * gev / config.pairEnergyEv) ||
+         1e9 * gev / config.pairEnergyEv >=
+             static_cast<double>(std::numeric_limits<long>::max()) ||
          static_cast<float>(1e9 * gev / config.pairEnergyEv) == 0)) {
       throw std::invalid_argument(
           "Silicon pair expectation exceeds float range");
