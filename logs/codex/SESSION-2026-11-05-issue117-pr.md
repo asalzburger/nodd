@@ -39,3 +39,14 @@ client archives or hidden reasoning were collected.
 Resume the Marlin study only after appropriate software is installed, as the
 user requested. Review this draft as preparation, with no scientific acceptance
 or human sign-off inferred from publication.
+
+## Published draft
+
+Draft PR: https://github.com/asalzburger/nodd/pull/118 . The connector create
+action returned403 Resource not accessible by integration. Authenticated gh CLI
+creation succeeded. Connected read operations supplied sanitized PR/issue
+metadata for the individual interaction record. No additional Marlin study or
+installation was performed. Git history inspection found no reference-run
+payloads; largest new blobs are existing textual tracking/source catalogues.
+
+Final local checks:254 paired journals,104 interaction records and project records validate; token-site build and whitespace checks pass. Exact task input/output token totals are unknown; usage remains empty. The PR is draft and the Marlin study remains deferred. No new native study or installation was run for this publication.

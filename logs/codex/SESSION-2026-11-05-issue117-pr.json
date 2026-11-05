@@ -4,8 +4,8 @@
   "title": "Publish issue117 preparation as draft PR with Marlin study deferred",
   "recorded_at": "2026-11-05T20:57:52Z",
   "started_at": null,
-  "ended_at": null,
-  "status": "open",
+  "ended_at": "2026-11-05T21:00:55.731635Z",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
@@ -21,8 +21,16 @@
     "start_commit": "6c036dd28c28c1e86a6605032db75c91cce57181",
     "branch": "codex/issue117-calorimeter-digitization",
     "initial_changes": [],
-    "result_commits": [],
-    "changed_files": []
+    "result_commits": [
+      "9320ba40b9dc419d2adcbe29e908b5d86c381475"
+    ],
+    "changed_files": [
+      "docs/design/DES-044-calorimeter-digitization.md",
+      "project/tracking.json",
+      "interactions/pr-0118.json",
+      "logs/codex/SESSION-2026-11-05-issue117-pr.json",
+      "logs/codex/SESSION-2026-11-05-issue117-pr.md"
+    ]
   },
   "work": {
     "milestone": "M1",
@@ -33,11 +41,61 @@
     "related_ids": [
       "#117",
       "DES-044",
-      "ADR-003"
+      "ADR-003",
+      "#118"
     ]
   },
   "narrative": "logs/codex/SESSION-2026-11-05-issue117-pr.md",
   "activities": [],
   "usage": [],
-  "checks": []
+  "checks": [
+    {
+      "command": "git diff and rev-list/cat-file new-object audit",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No ROOT/NPZ/LCIO payloads, build trees or reference caches in new history; largest new blobs textual project/source catalogues."
+    },
+    {
+      "command": "GitHub connector create_pull_request",
+      "status": "FAIL",
+      "exit_code": null,
+      "result": "403 Resource not accessible by integration. No user permission denial or automatic approval review was involved; used authenticated CLI fallback."
+    },
+    {
+      "command": "gh pr create --draft; gh pr edit118 --body-file",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Draft https://github.com/asalzburger/nodd/pull/118 opened against main; body retains deferred Marlin scope and no closing reference to issue117."
+    },
+    {
+      "command": "python3 -B tools/interactions/ledger.py capture/sync/validate --pr118",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Sanitized connected GitHub snapshot and curated user/agent/tool evidence synchronized;104 individual records valid; canonical usage unchanged."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "254 paired session records valid."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "101tasks,54documents,24review rounds valid."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py build --output _site/issue117-pr",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Preview site build passes; historical totals are not assigned to this task."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors."
+    }
+  ]
 }
