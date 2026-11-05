@@ -5,7 +5,8 @@
       "SESSION-2026-11-05-calorimeter-digitization117",
       "SESSION-2026-11-05-issue117-pr",
       "SESSION-2026-11-05-issue118-plots",
-      "SESSION-2026-11-05-endcap-hit-xy"
+      "SESSION-2026-11-05-endcap-hit-xy",
+      "SESSION-2026-11-05-tiled-endcap-hit-view"
     ],
     "agents": [
       {
@@ -86,6 +87,26 @@
         "evidence": "200 saved events read; all309693+z cell centres checked against source/ID placement; compact binwise map rendered and public PNG URL verified.",
         "token_account": "SESSION-2026-11-05-endcap-hit-xy",
         "provenance": "Existing user ROOT/podio/Matplotlib environment. No transport, digitization, installation or Marlin study."
+      },
+      {
+        "name": "Source-matched DD4hep/Geant4 tiled-endcap raw display fixture",
+        "category": "instructed_software",
+        "version": "DD4hep1.38; Geant4 11.4.3; ROOT6.40.04",
+        "calls": null,
+        "source": "logs/codex/SESSION-2026-11-05-tiled-endcap-hit-view.md",
+        "evidence": "512raw muon events;1231saved hits;1001unique layer/pad bins. All current IDs valid; XML/materials match fresh source export and10inputs match PR115.",
+        "token_account": "SESSION-2026-11-05-tiled-endcap-hit-view",
+        "provenance": "Existing user Spack runtime; registry fingerprint warning communicated, actual imports/datasets rechecked. No shared installation, digitization or Marlin."
+      },
+      {
+        "name": "Matplotlib tiled-sensor guide and pad-occupancy plot",
+        "category": "unresolved",
+        "version": "Matplotlib3.11.2",
+        "calls": null,
+        "source": "logs/codex/SESSION-2026-11-05-tiled-endcap-hit-view.md",
+        "evidence": "Four-panel PNG rendered from compact layout/hit bins and visually inspected; plot rejects mismatched source hashes.",
+        "token_account": "SESSION-2026-11-05-tiled-endcap-hit-view",
+        "provenance": "Existing user Python installation; installer/provider not established. Scientific static figure."
       }
     ],
     "events": [
@@ -223,23 +244,69 @@
         "token_accounts": [
           "SESSION-2026-11-05-endcap-hit-xy"
         ]
+      },
+      {
+        "id": "local:i118-tiled-correction",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [],
+        "text": "Exact user correction: I do not understand the segmentation - didn’t PR 115 introduce the tiled silicon readout modules ?",
+        "source": "logs/codex/SESSION-2026-11-05-tiled-endcap-hit-view.md",
+        "in_reply_to": "local:i118-xy-result",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-05-tiled-endcap-hit-view"
+        ]
+      },
+      {
+        "id": "local:i118-tiled-result",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-11-05-tiled-endcap-hit-view",
+        "recipients": [],
+        "text": "Paraphrased assistant outcome: confirmed PR115 tiled geometry, acknowledged the earlier wrong upstream ODD geometry selection, and produced the correct112sensor/wedge,5.5mm-pad view with actual raw-Geant4 display hits. Preserved ODD figure as labelled comparison and Marlin deferral.",
+        "source": "logs/codex/SESSION-2026-11-05-tiled-endcap-hit-view.md",
+        "in_reply_to": "local:i118-tiled-correction",
+        "model": null,
+        "agent_roles": [
+          "SoftEng",
+          "PhysVal"
+        ],
+        "token_accounts": [
+          "SESSION-2026-11-05-tiled-endcap-hit-view"
+        ]
       }
     ]
   },
   "github": {
-    "captured_at": "2026-11-05T21:40:49.054452Z",
+    "captured_at": "2026-11-05T21:54:24.025Z",
     "pull_request": {
       "number": 118,
       "url": "https://github.com/asalzburger/nodd/pull/118",
       "title": "Calorimeter: prepare digitization model reuse and isolated Si-W prototype",
       "head": "codex/issue117-calorimeter-digitization",
-      "head_sha": "ce609eb6cedf459594134d12994db01882f219fe",
+      "head_sha": "026efea28b4a8c58fbc0e1426dfa5d61d7118dea",
       "state": "open",
-      "body": "## Executive summary\n\nRefs #117. Adds the calorimeter model survey and an isolated, opt-in Si–W digitization prototype that reuses pinned original MarlinReco energy methods. **The Marlin study and original-framework/physics validation remain deferred at the user's request until appropriate software is installed.** This draft does not close #117 or claim design acceptance.\n\n## Change\n\n- Draft DES-044 compares existing models for Si–W, LAr, SiPM-on-tile HCAL and quartz-fibre FCAL, with pinned sources, framework coupling, licensing and μ=200 gaps.\n- Connect the ACTS skeleton to the original silicon energy kernel through a separate GPL executable; preserve explicit position modes, deterministic event seeds and signal/noise provenance.\n- Prepare a same-hit comparison utility and a source-verified Key4hep steering recipe for later execution.\n- Retain reproduction recipes, project tracking and session evidence. Existing exploratory plots and compact binwise summaries are included; full ROOT samples, caches and run logs remain local.\n\n## Existing exploratory previews\n\nThese electron/muon plots were prepared **before the Marlin-study deferral**. This update publishes the saved summaries without running new transport, digitization or a full-framework comparison. The original Marlin/Key4hep study remains deferred.\n\n### Electron response and relative energy spread\n\n[![Exploratory electron response and relative energy spread](https://raw.githubusercontent.com/asalzburger/nodd/01da03456fcfc107992f3b955d0ffaf0449c5c82/docs/validation/issue117/previews/response.png)](https://github.com/asalzburger/nodd/blob/01da03456fcfc107992f3b955d0ffaf0449c5c82/docs/validation/issue117/previews/response.png)\n\n200 electron events at each of 5, 20 and 50 GeV and η = 0, 1 and 2 (1,800 events). Energies are deposit-equivalent, with no shower calibration. RMS error bars use a Gaussian approximation; forward tails remain unqualified. The CALICE curve provides scale context for a different geometry, not a validation band.\n\n### Held-out muon MIP spectrum\n\n[![Held-out central muon MIP spectrum](https://raw.githubusercontent.com/asalzburger/nodd/01da03456fcfc107992f3b955d0ffaf0449c5c82/docs/validation/issue117/previews/mip.png)](https://github.com/asalzburger/nodd/blob/01da03456fcfc107992f3b955d0ffaf0449c5c82/docs/validation/issue117/previews/mip.png)\n\n250 held-out central 10 GeV muon events. The 148.75 keV MIP scale was frozen from a separate 250-event calibration sample. These are binned spectra, without a Landau–Gaussian fit or angular/systematic validation.\n\n[Compact binwise data](https://github.com/asalzburger/nodd/blob/01da03456fcfc107992f3b955d0ffaf0449c5c82/docs/validation/issue117/previews/binwise.json) · [Replotting recipe and limitations](https://github.com/asalzburger/nodd/blob/01da03456fcfc107992f3b955d0ffaf0449c5c82/docs/validation/issue117/README.md#existing-exploratory-previews)\n\n## ECAL endcap sensitive-hit x–y view\n\n[![Raw ECAL endcap sensitive-hit projection and readout-cell zoom](https://raw.githubusercontent.com/asalzburger/nodd/ce609eb6cedf459594134d12994db01882f219fe/docs/validation/issue117/previews/endcap-xy.png)](https://github.com/asalzburger/nodd/blob/ce609eb6cedf459594134d12994db01882f219fe/docs/validation/issue117/previews/endcap-xy.png)\n\nSaved 50 GeV electron sample, η = 2, φ = 0.123 rad, 200 events; +z endcap only. **Left:** 309,693 raw SimHit entries across 48 layers, projected into 20 mm display bins, with the 16 source module outlines. **Right:** layer 14, showing the **5.1 × 5.1 mm virtual readout cells** and the boundary/orientation change between modules **13 and 14**.\n\nCell centres were checked against the pinned geometry and signed cell indices, with maximum x/y/z residuals below 0.0001 mm. The zoom cells are clipped to the silicon-module footprints. Uncolored regions are unhit in this fixed-φ sample; this is a segmentation inspection, not an efficiency map. ODD models virtual cells inside silicon wedges rather than an individual-wafer tiling.\n\nThis view reads existing raw simulation output. No new transport, digitization or Marlin study was run.\n\n[Compact occupancy data](https://github.com/asalzburger/nodd/blob/ce609eb6cedf459594134d12994db01882f219fe/docs/validation/issue117/previews/endcap-xy-binwise.json) · [Recipe and source/validation details](https://github.com/asalzburger/nodd/blob/ce609eb6cedf459594134d12994db01882f219fe/docs/validation/issue117/README.md#ecal-endcap-sensitive-hit-xy-projection)\n\n## Dashboard and validation\n\n- [x] Updated project tracking and retained DRAFT/PROTOTYPE approval boundaries; detector geometry/layout is unaffected.\n- [x] Six native CTest suites passed, including eight silicon cases, existing ROOT I/O and synthetic comparator corruption checks.\n- [x] Session records, project records, token-site build and whitespace checks passed during preparation.\n- [x] Audited all new Git objects: no ROOT/NPZ/LCIO samples, build trees or reference caches enter this PR.\n- [x] Added `interactions/pr-0118.json`, linked both canonical session records, and validated the interaction ledger.\n\nThe signed-noise software fixture measured RMS 0.200103546 MIP for configured 0.2 MIP, with 4,518 entries above 0.4 MIP versus 4,550.026 expected over 200,000 draws. This is a unit fixture, not detector noise qualification. The reference utility tests use synthetic controls; no original full-framework comparison is claimed.\n\nSee [preparation report](docs/validation/issue117/README.md), [DES-044](docs/design/DES-044-calorimeter-digitization.md) and [deferred reference recipe](software/analysis/calorimeter_digitization/reference.md).\n\n\n",
+      "body": "## Executive summary\n\nRefs #117. Adds the calorimeter model survey and an isolated, opt-in Si–W digitization prototype that reuses pinned original MarlinReco energy methods. **The Marlin study and original-framework/physics validation remain deferred at the user's request until appropriate software is installed.** This draft does not close #117 or claim design acceptance.\n\n## Change\n\n- Draft DES-044 compares existing models for Si–W, LAr, SiPM-on-tile HCAL and quartz-fibre FCAL, with pinned sources, framework coupling, licensing and μ=200 gaps.\n- Connect the ACTS skeleton to the original silicon energy kernel through a separate GPL executable; preserve explicit position modes, deterministic event seeds and signal/noise provenance.\n- Prepare a same-hit comparison utility and a source-verified Key4hep steering recipe for later execution.\n- Retain reproduction recipes, project tracking and session evidence. Existing exploratory plots and compact binwise summaries are included; full ROOT samples, caches and run logs remain local.\n\n## Existing exploratory previews\n\nThese electron/muon plots were prepared **before the Marlin-study deferral**. These two previews reuse saved upstream ODD summaries, with no new digitization or full-framework comparison. A separate raw-hit display fixture below uses the tiled nODD geometry. The original Marlin/Key4hep study remains deferred.\n\n### Electron response and relative energy spread\n\n[![Exploratory electron response and relative energy spread](https://raw.githubusercontent.com/asalzburger/nodd/01da03456fcfc107992f3b955d0ffaf0449c5c82/docs/validation/issue117/previews/response.png)](https://github.com/asalzburger/nodd/blob/01da03456fcfc107992f3b955d0ffaf0449c5c82/docs/validation/issue117/previews/response.png)\n\n**Upstream ODD comparison geometry:** 200 electron events at each of 5, 20 and 50 GeV and η = 0, 1 and 2 (1,800 events). Energies are deposit-equivalent, with no shower calibration. RMS error bars use a Gaussian approximation; forward tails remain unqualified. The CALICE curve provides scale context for a different geometry, not a validation band.\n\n### Held-out muon MIP spectrum\n\n[![Held-out central muon MIP spectrum](https://raw.githubusercontent.com/asalzburger/nodd/01da03456fcfc107992f3b955d0ffaf0449c5c82/docs/validation/issue117/previews/mip.png)](https://github.com/asalzburger/nodd/blob/01da03456fcfc107992f3b955d0ffaf0449c5c82/docs/validation/issue117/previews/mip.png)\n\n**Upstream ODD comparison geometry:** 250 held-out central 10 GeV muon events. The 148.75 keV MIP scale was frozen from a separate 250-event calibration sample. These are binned spectra, without a Landau–Gaussian fit or angular/systematic validation.\n\n[Compact binwise data](https://github.com/asalzburger/nodd/blob/01da03456fcfc107992f3b955d0ffaf0449c5c82/docs/validation/issue117/previews/binwise.json) · [Replotting recipe and limitations](https://github.com/asalzburger/nodd/blob/01da03456fcfc107992f3b955d0ffaf0449c5c82/docs/validation/issue117/README.md#existing-exploratory-previews)\n\n## Tiled nODD endcap — geometry restored by PR #115\n\n**Correction:** the first endcap projection used the upstream ODD comparison detector. [PR #115](https://github.com/asalzburger/nodd/pull/115) restored the tiled nODD Si–W endcap: **16 wedge carriers × 112 sensor modules per layer**, with **76 square + 36 custom edge sensors per wedge**. Square silicon is 90 mm across (88 mm active); pads have a nominal **5.5 × 5.5 mm** pitch. `sector` identifies the wedge; `module` identifies an individual sensor tile.\n\n[![Corrected tiled nODD endcap with raw sensitive hits, sensor modules and custom pad zoom](https://raw.githubusercontent.com/asalzburger/nodd/026efea28b4a8c58fbc0e1426dfa5d61d7118dea/docs/validation/issue117/previews/nodd-tiled-endcap-xy.png)](https://github.com/asalzburger/nodd/blob/026efea28b4a8c58fbc0e1426dfa5d61d7118dea/docs/validation/issue117/previews/nodd-tiled-endcap-xy.png)\n\n**A:** full +z sensor-layout guide, 1,792 tiles per layer. **B:** raw Geant4 hit cell references on one wedge. **C/D:** square tile 27 beside custom tile 26, with the true custom pad polygons and merged edge pads. Pad colors sum raw hit entries over the three simulated layers.\n\nThe display fixture uses **512 simulated 10 GeV muons**, +z sector 0, layers 0–2, with unchanged PR #115 sensor masks, segmentation and local layer hardware. Illumination is deliberately stratified across the wedge and the two zoom tiles. Other sectors, layers, the opposite endcap and the supported wedge frame are omitted; the full-face panel is a geometry guide. White pads mean unhit in this sample. This is a segmentation display, with no efficiency or full-detector performance claim.\n\nAll ten geometry inputs match PR #115 head `14898df`; fresh component XML/material exports are byte-identical to the executed component. **1,231 saved hits / 1,001 occupied layer-pad bins / 87 modules**; every parent/pad ID matches the catalogue, and maximum stored-position residual is below 0.0001 mm. This separate raw-hit transport uses no digitization or Marlin. The Marlin-study deferral remains active.\n\n[Compact layout/pad polygons](https://github.com/asalzburger/nodd/blob/026efea28b4a8c58fbc0e1426dfa5d61d7118dea/docs/validation/issue117/previews/nodd-tiled-endcap-layout.json) · [Raw-hit bins and provenance](https://github.com/asalzburger/nodd/blob/026efea28b4a8c58fbc0e1426dfa5d61d7118dea/docs/validation/issue117/previews/nodd-tiled-endcap-hit-bins.json) · [Scope and reproduction recipe](https://github.com/asalzburger/nodd/blob/026efea28b4a8c58fbc0e1426dfa5d61d7118dea/docs/validation/issue117/README.md#nodd-tiled-endcap--geometry-restored-by-pr-115)\n\n<details>\n<summary>Earlier upstream ODD comparison view — continuous wedges and 5.1 mm virtual cells</summary>\n\nThis retained plot shows upstream ODD, **not the tiled nODD geometry restored by PR #115**.\n\n[![Raw ECAL endcap sensitive-hit projection and readout-cell zoom](https://raw.githubusercontent.com/asalzburger/nodd/ce609eb6cedf459594134d12994db01882f219fe/docs/validation/issue117/previews/endcap-xy.png)](https://github.com/asalzburger/nodd/blob/ce609eb6cedf459594134d12994db01882f219fe/docs/validation/issue117/previews/endcap-xy.png)\n\nSaved 50 GeV electron sample, η = 2, φ = 0.123 rad, 200 events; +z endcap only. **Left:** 309,693 raw SimHit entries across 48 layers, projected into 20 mm display bins, with the 16 source module outlines. **Right:** layer 14, showing the **5.1 × 5.1 mm virtual readout cells** and the boundary/orientation change between modules **13 and 14**.\n\nCell centres were checked against the pinned geometry and signed cell indices, with maximum x/y/z residuals below 0.0001 mm. The zoom cells are clipped to the silicon-module footprints. Uncolored regions are unhit in this fixed-φ sample; this is a segmentation inspection, not an efficiency map. ODD models virtual cells inside silicon wedges rather than an individual-wafer tiling.\n\nThis view reads existing raw simulation output. No new transport, digitization or Marlin study was run.\n\n[Compact occupancy data](https://github.com/asalzburger/nodd/blob/ce609eb6cedf459594134d12994db01882f219fe/docs/validation/issue117/previews/endcap-xy-binwise.json) · [Recipe and source/validation details](https://github.com/asalzburger/nodd/blob/026efea28b4a8c58fbc0e1426dfa5d61d7118dea/docs/validation/issue117/README.md#upstream-odd-comparison--continuous-wedge-sensitive-hit-projection)\n\n</details>\n\n## Dashboard and validation\n\n- [x] Updated project tracking and retained DRAFT/PROTOTYPE approval boundaries; detector geometry/layout is unaffected.\n- [x] Six native CTest suites passed, including eight silicon cases, existing ROOT I/O and synthetic comparator corruption checks.\n- [x] Session records, project records, token-site build and whitespace checks passed during preparation.\n- [x] Audited all new Git objects: no ROOT/NPZ/LCIO samples, build trees or reference caches enter this PR.\n- [x] Added `interactions/pr-0118.json`, linked the canonical session records, and validated the interaction ledger.\n\nThe signed-noise software fixture measured RMS 0.200103546 MIP for configured 0.2 MIP, with 4,518 entries above 0.4 MIP versus 4,550.026 expected over 200,000 draws. This is a unit fixture, not detector noise qualification. The reference utility tests use synthetic controls; no original full-framework comparison is claimed.\n\nSee [preparation report](docs/validation/issue117/README.md), [DES-044](docs/design/DES-044-calorimeter-digitization.md) and [deferred reference recipe](software/analysis/calorimeter_digitization/reference.md).\n",
       "actor": "asalzburger",
       "created_at": "2026-11-05T20:58:49Z"
     },
-    "comments": [],
+    "comments": [
+      {
+        "id": 6669878499,
+        "url": "https://github.com/asalzburger/nodd/pull/118#issuecomment-6669878499",
+        "body": "Hey @trahxam - this pulled the code from Marlin (cross-comparison is still missing).\r\n\r\nWhat would be good plots to see if this makes any sense, except what's already shown there?",
+        "actor": "asalzburger-review",
+        "created_at": "2026-11-05T21:21:49Z",
+        "updated_at": "2026-11-05T21:21:49Z",
+        "review": null,
+        "in_reply_to_id": null,
+        "path": null,
+        "line": null
+      }
+    ],
     "issues": [
       {
         "number": 117,
@@ -290,9 +357,19 @@
         "kind": "agent"
       },
       {
+        "id": "agent:SESSION-2026-11-05-tiled-endcap-hit-view",
+        "name": "unspecified",
+        "kind": "agent"
+      },
+      {
         "id": "github:asalzburger",
         "name": "asalzburger",
         "kind": "account"
+      },
+      {
+        "id": "github:asalzburger-review",
+        "name": "asalzburger-review",
+        "kind": "human"
       },
       {
         "id": "github:trahxam",
@@ -353,6 +430,18 @@
         "snapshot_sha256": null,
         "record_sha256": "b192b8adbdedbbd1531d2161caa9f56f4790ca859884ca5c7f69263e06c3717d",
         "narrative_sha256": "5a2b53e79d807a732f0556cbea8872a569ff8fb652c1a3c01e9c6ae4eb841cc0"
+      },
+      {
+        "session_id": "SESSION-2026-11-05-tiled-endcap-hit-view",
+        "record": "logs/codex/SESSION-2026-11-05-tiled-endcap-hit-view.json",
+        "attribution": [
+          "curated_session_link",
+          "recorded_branch"
+        ],
+        "snapshot": null,
+        "snapshot_sha256": null,
+        "record_sha256": "cfc45aa32a55e1b32607ce0a06eb824fc19ac762237cb3f5b223dd88eaaed40e",
+        "narrative_sha256": "b3b1cdd607b0bb1528db3f9432df85bc3881d6ae482d061f7716dc2e1800c22c"
       }
     ],
     "token_accounts": [
@@ -383,6 +472,14 @@
       {
         "id": "SESSION-2026-11-05-issue118-plots",
         "record": "logs/codex/SESSION-2026-11-05-issue118-plots.json",
+        "scope": "canonical_session; shared PR references are not allocations",
+        "status": "unobserved",
+        "usage_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "turns": []
+      },
+      {
+        "id": "SESSION-2026-11-05-tiled-endcap-hit-view",
+        "record": "logs/codex/SESSION-2026-11-05-tiled-endcap-hit-view.json",
         "scope": "canonical_session; shared PR references are not allocations",
         "status": "unobserved",
         "usage_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
@@ -455,6 +552,33 @@
         "limitation": "Usage may include children; model/role is not assigned to every response."
       },
       {
+        "id": "agent:SESSION-2026-11-05-tiled-endcap-hit-view",
+        "name": "unspecified",
+        "role": "session_agent",
+        "thread_id": null,
+        "models": [],
+        "source": "logs/codex/SESSION-2026-11-05-tiled-endcap-hit-view.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      },
+      {
+        "id": "agent:SESSION-2026-11-05-tiled-endcap-hit-view:SoftEng:13bc2c98",
+        "name": "SoftEng",
+        "role": "reported_specialist_assignment",
+        "thread_id": null,
+        "models": [],
+        "source": "logs/codex/SESSION-2026-11-05-tiled-endcap-hit-view.md#assignment-before-dispatch",
+        "limitation": "Role contract is recorded; native profile loading and process identity are not inferred."
+      },
+      {
+        "id": "agent:SESSION-2026-11-05-tiled-endcap-hit-view:PhysVal:8aed2df7",
+        "name": "PhysVal",
+        "role": "reported_specialist_assignment",
+        "thread_id": null,
+        "models": [],
+        "source": "logs/codex/SESSION-2026-11-05-tiled-endcap-hit-view.md#physval-assignment-before-dispatch",
+        "limitation": "Role contract is recorded; native profile loading and process identity are not inferred."
+      },
+      {
         "id": "agent:/root/calotech117",
         "name": "/root/calotech117",
         "role": "CaloTech",
@@ -516,6 +640,16 @@
           "evidence": "200 saved events read; all309693+z cell centres checked against source/ID placement; compact binwise map rendered and public PNG URL verified.",
           "token_account": "SESSION-2026-11-05-endcap-hit-xy",
           "provenance": "Existing user ROOT/podio/Matplotlib environment. No transport, digitization, installation or Marlin study."
+        },
+        {
+          "name": "Source-matched DD4hep/Geant4 tiled-endcap raw display fixture",
+          "category": "instructed_software",
+          "version": "DD4hep1.38; Geant4 11.4.3; ROOT6.40.04",
+          "calls": null,
+          "source": "logs/codex/SESSION-2026-11-05-tiled-endcap-hit-view.md",
+          "evidence": "512raw muon events;1231saved hits;1001unique layer/pad bins. All current IDs valid; XML/materials match fresh source export and10inputs match PR115.",
+          "token_account": "SESSION-2026-11-05-tiled-endcap-hit-view",
+          "provenance": "Existing user Spack runtime; registry fingerprint warning communicated, actual imports/datasets rechecked. No shared installation, digitization or Marlin."
         }
       ],
       "unresolved": [
@@ -538,6 +672,16 @@
           "evidence": "Saved pre-deferral summaries re-rendered; both PNGs identical to originals and to public immutable URLs by SHA-256.",
           "token_account": "SESSION-2026-11-05-issue118-plots",
           "provenance": "Existing user Python/Matplotlib installation; installer/provider not established. No new transport, digitization or Marlin study."
+        },
+        {
+          "name": "Matplotlib tiled-sensor guide and pad-occupancy plot",
+          "category": "unresolved",
+          "version": "Matplotlib3.11.2",
+          "calls": null,
+          "source": "logs/codex/SESSION-2026-11-05-tiled-endcap-hit-view.md",
+          "evidence": "Four-panel PNG rendered from compact layout/hit bins and visually inspected; plot rejects mismatched source hashes.",
+          "token_account": "SESSION-2026-11-05-tiled-endcap-hit-view",
+          "provenance": "Existing user Python installation; installer/provider not established. Scientific static figure."
         }
       ]
     },
@@ -548,13 +692,28 @@
         "direction": "reaction",
         "actor": "github:asalzburger",
         "recipients": [],
-        "text": "## Executive summary\n\nRefs #117. Adds the calorimeter model survey and an isolated, opt-in Si–W digitization prototype that reuses pinned original MarlinReco energy methods. **The Marlin study and original-framework/physics validation remain deferred at the user's request until appropriate software is installed.** This draft does not close #117 or claim design acceptance.\n\n## Change\n\n- Draft DES-044 compares existing models for Si–W, LAr, SiPM-on-tile HCAL and quartz-fibre FCAL, with pinned sources, framework coupling, licensing and μ=200 gaps.\n- Connect the ACTS skeleton to the original silicon energy kernel through a separate GPL executable; preserve explicit position modes, deterministic event seeds and signal/noise provenance.\n- Prepare a same-hit comparison utility and a source-verified Key4hep steering recipe for later execution.\n- Retain reproduction recipes, project tracking and session evidence. Existing exploratory plots and compact binwise summaries are included; full ROOT samples, caches and run logs remain local.\n\n## Existing exploratory previews\n\nThese electron/muon plots were prepared **before the Marlin-study deferral**. This update publishes the saved summaries without running new transport, digitization or a full-framework comparison. The original Marlin/Key4hep study remains deferred.\n\n### Electron response and relative energy spread\n\n[![Exploratory electron response and relative energy spread](https://raw.githubusercontent.com/asalzburger/nodd/01da03456fcfc107992f3b955d0ffaf0449c5c82/docs/validation/issue117/previews/response.png)](https://github.com/asalzburger/nodd/blob/01da03456fcfc107992f3b955d0ffaf0449c5c82/docs/validation/issue117/previews/response.png)\n\n200 electron events at each of 5, 20 and 50 GeV and η = 0, 1 and 2 (1,800 events). Energies are deposit-equivalent, with no shower calibration. RMS error bars use a Gaussian approximation; forward tails remain unqualified. The CALICE curve provides scale context for a different geometry, not a validation band.\n\n### Held-out muon MIP spectrum\n\n[![Held-out central muon MIP spectrum](https://raw.githubusercontent.com/asalzburger/nodd/01da03456fcfc107992f3b955d0ffaf0449c5c82/docs/validation/issue117/previews/mip.png)](https://github.com/asalzburger/nodd/blob/01da03456fcfc107992f3b955d0ffaf0449c5c82/docs/validation/issue117/previews/mip.png)\n\n250 held-out central 10 GeV muon events. The 148.75 keV MIP scale was frozen from a separate 250-event calibration sample. These are binned spectra, without a Landau–Gaussian fit or angular/systematic validation.\n\n[Compact binwise data](https://github.com/asalzburger/nodd/blob/01da03456fcfc107992f3b955d0ffaf0449c5c82/docs/validation/issue117/previews/binwise.json) · [Replotting recipe and limitations](https://github.com/asalzburger/nodd/blob/01da03456fcfc107992f3b955d0ffaf0449c5c82/docs/validation/issue117/README.md#existing-exploratory-previews)\n\n## ECAL endcap sensitive-hit x–y view\n\n[![Raw ECAL endcap sensitive-hit projection and readout-cell zoom](https://raw.githubusercontent.com/asalzburger/nodd/ce609eb6cedf459594134d12994db01882f219fe/docs/validation/issue117/previews/endcap-xy.png)](https://github.com/asalzburger/nodd/blob/ce609eb6cedf459594134d12994db01882f219fe/docs/validation/issue117/previews/endcap-xy.png)\n\nSaved 50 GeV electron sample, η = 2, φ = 0.123 rad, 200 events; +z endcap only. **Left:** 309,693 raw SimHit entries across 48 layers, projected into 20 mm display bins, with the 16 source module outlines. **Right:** layer 14, showing the **5.1 × 5.1 mm virtual readout cells** and the boundary/orientation change between modules **13 and 14**.\n\nCell centres were checked against the pinned geometry and signed cell indices, with maximum x/y/z residuals below 0.0001 mm. The zoom cells are clipped to the silicon-module footprints. Uncolored regions are unhit in this fixed-φ sample; this is a segmentation inspection, not an efficiency map. ODD models virtual cells inside silicon wedges rather than an individual-wafer tiling.\n\nThis view reads existing raw simulation output. No new transport, digitization or Marlin study was run.\n\n[Compact occupancy data](https://github.com/asalzburger/nodd/blob/ce609eb6cedf459594134d12994db01882f219fe/docs/validation/issue117/previews/endcap-xy-binwise.json) · [Recipe and source/validation details](https://github.com/asalzburger/nodd/blob/ce609eb6cedf459594134d12994db01882f219fe/docs/validation/issue117/README.md#ecal-endcap-sensitive-hit-xy-projection)\n\n## Dashboard and validation\n\n- [x] Updated project tracking and retained DRAFT/PROTOTYPE approval boundaries; detector geometry/layout is unaffected.\n- [x] Six native CTest suites passed, including eight silicon cases, existing ROOT I/O and synthetic comparator corruption checks.\n- [x] Session records, project records, token-site build and whitespace checks passed during preparation.\n- [x] Audited all new Git objects: no ROOT/NPZ/LCIO samples, build trees or reference caches enter this PR.\n- [x] Added `interactions/pr-0118.json`, linked both canonical session records, and validated the interaction ledger.\n\nThe signed-noise software fixture measured RMS 0.200103546 MIP for configured 0.2 MIP, with 4,518 entries above 0.4 MIP versus 4,550.026 expected over 200,000 draws. This is a unit fixture, not detector noise qualification. The reference utility tests use synthetic controls; no original full-framework comparison is claimed.\n\nSee [preparation report](docs/validation/issue117/README.md), [DES-044](docs/design/DES-044-calorimeter-digitization.md) and [deferred reference recipe](software/analysis/calorimeter_digitization/reference.md).\n\n\n",
+        "text": "## Executive summary\n\nRefs #117. Adds the calorimeter model survey and an isolated, opt-in Si–W digitization prototype that reuses pinned original MarlinReco energy methods. **The Marlin study and original-framework/physics validation remain deferred at the user's request until appropriate software is installed.** This draft does not close #117 or claim design acceptance.\n\n## Change\n\n- Draft DES-044 compares existing models for Si–W, LAr, SiPM-on-tile HCAL and quartz-fibre FCAL, with pinned sources, framework coupling, licensing and μ=200 gaps.\n- Connect the ACTS skeleton to the original silicon energy kernel through a separate GPL executable; preserve explicit position modes, deterministic event seeds and signal/noise provenance.\n- Prepare a same-hit comparison utility and a source-verified Key4hep steering recipe for later execution.\n- Retain reproduction recipes, project tracking and session evidence. Existing exploratory plots and compact binwise summaries are included; full ROOT samples, caches and run logs remain local.\n\n## Existing exploratory previews\n\nThese electron/muon plots were prepared **before the Marlin-study deferral**. These two previews reuse saved upstream ODD summaries, with no new digitization or full-framework comparison. A separate raw-hit display fixture below uses the tiled nODD geometry. The original Marlin/Key4hep study remains deferred.\n\n### Electron response and relative energy spread\n\n[![Exploratory electron response and relative energy spread](https://raw.githubusercontent.com/asalzburger/nodd/01da03456fcfc107992f3b955d0ffaf0449c5c82/docs/validation/issue117/previews/response.png)](https://github.com/asalzburger/nodd/blob/01da03456fcfc107992f3b955d0ffaf0449c5c82/docs/validation/issue117/previews/response.png)\n\n**Upstream ODD comparison geometry:** 200 electron events at each of 5, 20 and 50 GeV and η = 0, 1 and 2 (1,800 events). Energies are deposit-equivalent, with no shower calibration. RMS error bars use a Gaussian approximation; forward tails remain unqualified. The CALICE curve provides scale context for a different geometry, not a validation band.\n\n### Held-out muon MIP spectrum\n\n[![Held-out central muon MIP spectrum](https://raw.githubusercontent.com/asalzburger/nodd/01da03456fcfc107992f3b955d0ffaf0449c5c82/docs/validation/issue117/previews/mip.png)](https://github.com/asalzburger/nodd/blob/01da03456fcfc107992f3b955d0ffaf0449c5c82/docs/validation/issue117/previews/mip.png)\n\n**Upstream ODD comparison geometry:** 250 held-out central 10 GeV muon events. The 148.75 keV MIP scale was frozen from a separate 250-event calibration sample. These are binned spectra, without a Landau–Gaussian fit or angular/systematic validation.\n\n[Compact binwise data](https://github.com/asalzburger/nodd/blob/01da03456fcfc107992f3b955d0ffaf0449c5c82/docs/validation/issue117/previews/binwise.json) · [Replotting recipe and limitations](https://github.com/asalzburger/nodd/blob/01da03456fcfc107992f3b955d0ffaf0449c5c82/docs/validation/issue117/README.md#existing-exploratory-previews)\n\n## Tiled nODD endcap — geometry restored by PR #115\n\n**Correction:** the first endcap projection used the upstream ODD comparison detector. [PR #115](https://github.com/asalzburger/nodd/pull/115) restored the tiled nODD Si–W endcap: **16 wedge carriers × 112 sensor modules per layer**, with **76 square + 36 custom edge sensors per wedge**. Square silicon is 90 mm across (88 mm active); pads have a nominal **5.5 × 5.5 mm** pitch. `sector` identifies the wedge; `module` identifies an individual sensor tile.\n\n[![Corrected tiled nODD endcap with raw sensitive hits, sensor modules and custom pad zoom](https://raw.githubusercontent.com/asalzburger/nodd/026efea28b4a8c58fbc0e1426dfa5d61d7118dea/docs/validation/issue117/previews/nodd-tiled-endcap-xy.png)](https://github.com/asalzburger/nodd/blob/026efea28b4a8c58fbc0e1426dfa5d61d7118dea/docs/validation/issue117/previews/nodd-tiled-endcap-xy.png)\n\n**A:** full +z sensor-layout guide, 1,792 tiles per layer. **B:** raw Geant4 hit cell references on one wedge. **C/D:** square tile 27 beside custom tile 26, with the true custom pad polygons and merged edge pads. Pad colors sum raw hit entries over the three simulated layers.\n\nThe display fixture uses **512 simulated 10 GeV muons**, +z sector 0, layers 0–2, with unchanged PR #115 sensor masks, segmentation and local layer hardware. Illumination is deliberately stratified across the wedge and the two zoom tiles. Other sectors, layers, the opposite endcap and the supported wedge frame are omitted; the full-face panel is a geometry guide. White pads mean unhit in this sample. This is a segmentation display, with no efficiency or full-detector performance claim.\n\nAll ten geometry inputs match PR #115 head `14898df`; fresh component XML/material exports are byte-identical to the executed component. **1,231 saved hits / 1,001 occupied layer-pad bins / 87 modules**; every parent/pad ID matches the catalogue, and maximum stored-position residual is below 0.0001 mm. This separate raw-hit transport uses no digitization or Marlin. The Marlin-study deferral remains active.\n\n[Compact layout/pad polygons](https://github.com/asalzburger/nodd/blob/026efea28b4a8c58fbc0e1426dfa5d61d7118dea/docs/validation/issue117/previews/nodd-tiled-endcap-layout.json) · [Raw-hit bins and provenance](https://github.com/asalzburger/nodd/blob/026efea28b4a8c58fbc0e1426dfa5d61d7118dea/docs/validation/issue117/previews/nodd-tiled-endcap-hit-bins.json) · [Scope and reproduction recipe](https://github.com/asalzburger/nodd/blob/026efea28b4a8c58fbc0e1426dfa5d61d7118dea/docs/validation/issue117/README.md#nodd-tiled-endcap--geometry-restored-by-pr-115)\n\n<details>\n<summary>Earlier upstream ODD comparison view — continuous wedges and 5.1 mm virtual cells</summary>\n\nThis retained plot shows upstream ODD, **not the tiled nODD geometry restored by PR #115**.\n\n[![Raw ECAL endcap sensitive-hit projection and readout-cell zoom](https://raw.githubusercontent.com/asalzburger/nodd/ce609eb6cedf459594134d12994db01882f219fe/docs/validation/issue117/previews/endcap-xy.png)](https://github.com/asalzburger/nodd/blob/ce609eb6cedf459594134d12994db01882f219fe/docs/validation/issue117/previews/endcap-xy.png)\n\nSaved 50 GeV electron sample, η = 2, φ = 0.123 rad, 200 events; +z endcap only. **Left:** 309,693 raw SimHit entries across 48 layers, projected into 20 mm display bins, with the 16 source module outlines. **Right:** layer 14, showing the **5.1 × 5.1 mm virtual readout cells** and the boundary/orientation change between modules **13 and 14**.\n\nCell centres were checked against the pinned geometry and signed cell indices, with maximum x/y/z residuals below 0.0001 mm. The zoom cells are clipped to the silicon-module footprints. Uncolored regions are unhit in this fixed-φ sample; this is a segmentation inspection, not an efficiency map. ODD models virtual cells inside silicon wedges rather than an individual-wafer tiling.\n\nThis view reads existing raw simulation output. No new transport, digitization or Marlin study was run.\n\n[Compact occupancy data](https://github.com/asalzburger/nodd/blob/ce609eb6cedf459594134d12994db01882f219fe/docs/validation/issue117/previews/endcap-xy-binwise.json) · [Recipe and source/validation details](https://github.com/asalzburger/nodd/blob/026efea28b4a8c58fbc0e1426dfa5d61d7118dea/docs/validation/issue117/README.md#upstream-odd-comparison--continuous-wedge-sensitive-hit-projection)\n\n</details>\n\n## Dashboard and validation\n\n- [x] Updated project tracking and retained DRAFT/PROTOTYPE approval boundaries; detector geometry/layout is unaffected.\n- [x] Six native CTest suites passed, including eight silicon cases, existing ROOT I/O and synthetic comparator corruption checks.\n- [x] Session records, project records, token-site build and whitespace checks passed during preparation.\n- [x] Audited all new Git objects: no ROOT/NPZ/LCIO samples, build trees or reference caches enter this PR.\n- [x] Added `interactions/pr-0118.json`, linked the canonical session records, and validated the interaction ledger.\n\nThe signed-noise software fixture measured RMS 0.200103546 MIP for configured 0.2 MIP, with 4,518 entries above 0.4 MIP versus 4,550.026 expected over 200,000 draws. This is a unit fixture, not detector noise qualification. The reference utility tests use synthetic controls; no original full-framework comparison is claimed.\n\nSee [preparation report](docs/validation/issue117/README.md), [DES-044](docs/design/DES-044-calorimeter-digitization.md) and [deferred reference recipe](software/analysis/calorimeter_digitization/reference.md).\n",
         "source": "https://github.com/asalzburger/nodd/pull/118",
         "in_reply_to": null,
         "model": null,
         "agent_roles": [],
         "token_accounts": [],
         "timestamp": "2026-11-05T20:58:49Z",
+        "remote_input": null
+      },
+      {
+        "id": "github:https://github.com/asalzburger/nodd/pull/118#issuecomment-6669878499",
+        "type": "comment",
+        "direction": "action",
+        "actor": "github:asalzburger-review",
+        "recipients": [],
+        "text": "Hey @trahxam - this pulled the code from Marlin (cross-comparison is still missing).\r\n\r\nWhat would be good plots to see if this makes any sense, except what's already shown there?",
+        "source": "https://github.com/asalzburger/nodd/pull/118#issuecomment-6669878499",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [],
+        "timestamp": "2026-11-05T21:21:49Z",
         "remote_input": null
       },
       {
@@ -844,6 +1003,110 @@
         "content_kind": "reference_summary"
       },
       {
+        "id": "journal:SESSION-2026-11-05-tiled-endcap-hit-view:d7cb038137887509",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "agent:SESSION-2026-11-05-tiled-endcap-hit-view"
+        ],
+        "text": "User, exact correction: “I do not understand the segmentation - didn’t PR 115\nintroduce the tiled silicon readout modules ?” The earlier request was an endcap\nx/y sensitive-hit projection to inspect readout modules, followed by integration\nof plots in the PR description.\n\n",
+        "source": "logs/codex/SESSION-2026-11-05-tiled-endcap-hit-view.md#selected-conversation",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-05-tiled-endcap-hit-view"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-11-05-tiled-endcap-hit-view:24367f985734ad87",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-11-05-tiled-endcap-hit-view",
+        "recipients": [],
+        "text": "Assistant, paraphrased response: confirmed PR115's tiled nODD Si-W geometry,\nacknowledged that the first projection used the wrong upstream ODD comparison\ngeometry, and undertook to correct the view and PR captions. Explained the\nsector/wedge, module/sensor, pad hierarchy. The explicit Marlin-study deferral\nremains active; this display uses only raw Geant4 transport and no digitization.",
+        "source": "logs/codex/SESSION-2026-11-05-tiled-endcap-hit-view.md#selected-conversation",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-05-tiled-endcap-hit-view"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-11-05-tiled-endcap-hit-view:dd29176788c90815",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-11-05-tiled-endcap-hit-view",
+        "recipients": [],
+        "text": "PR115 head `14898df4022363bb038577d170daaf5ed8cdc547` restores the DES030\n112-sensor wedge:76square+36custom,90mm blanks,88mm square active window,\n5.5mm nominal pads. The upstream comparison uses continuous wedges/5.1mm cells.\nAll ten unique current geometry/configuration source hashes equal PR115 head.\nFresh `edge_export.py` output matches cached executed component XML/materials\nbyte for byte. Older462-module quadrant artifacts were rejected as obsolete.\n\nSoftEng I118-Tiled-SoftEng supplied a display-only fixture:positive side1 sector0,\nfirst3layers,all112unchanged modules/layer and local layer hardware. Other\nreplicas and supported frame are omitted.51210GeV muons,zero field,FTFP_BERT,\nseeds118030–118032:256broad directions,128angular bounding rectangle of custom\nmodule26,128of square27. Sampling includes misses and provides no efficiency\ninference. The raw sample has1231saved hits,1001occupied layer-pad bins,87modules,\n92no-hit events;407/417/407entries in layers0/1/2. All IDs validate; maximum\nsaved-vs-catalog reference residual9.765625e-5mm, tolerance.002mm for float\npersistence. Source/raw/library/script identities and compact bins are retained;\nROOT events, library, full exports and logs stay ignored.\n\nMain renders full-face geometry,onewedge raw-hit overlay,adjacent square/custom\nsensor pad maps and merged-edge close-up using fixed ECAL yellow and shades.\nUnhit pads and unsimulated guide coverage are explicitly distinguished. The\nprevious ODD figure remains as a labelled comparison. Existing electron/MIP\nresponse previews remain upstream ODD; no tiled-detector digitization is claimed.\nNo human approval or full-detector performance acceptance follows from this.",
+        "source": "logs/codex/SESSION-2026-11-05-tiled-endcap-hit-view.md#decisions-and-outcomes",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [
+          "SoftEng"
+        ],
+        "token_accounts": [
+          "SESSION-2026-11-05-tiled-endcap-hit-view"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-11-05-tiled-endcap-hit-view:c19239c1c4ee957a",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "agent:SESSION-2026-11-05-tiled-endcap-hit-view",
+        "recipients": [],
+        "text": "```json\n{\n  \"input_revision\": \"8e4838fff8008f040aa2506fc8f6f48a4c5da19b\",\n  \"id\": \"I118-Tiled-SoftEng\",\n  \"role\": \"SoftEng\",\n  \"inputs\": [\n    \"tools/calorimeter_baselines/export.py\",\n    \"tools/calorimeter_hardware/edge_export.py\",\n    \"tools/calorimeter_hardware/edge_fixture.py\",\n    \"tools/calorimeter_hardware/edge_transport.py\",\n    \"docs/design/DES-030-ecal-edge-sensors.md\"\n  ],\n  \"mode\": \"write\",\n  \"writable_paths\": [\n    \"software/analysis/calorimeter_digitization/tiled_endcap_transport.py\",\n    \"docs/validation/issue117/previews/nodd-tiled-endcap-hit-bins.json\"\n  ],\n  \"task\": \"User corrected upstream ODD projection: they intended PR115 current tiled nODD endcap (DES030112sensors/wedge:76square+36custom). Inspect exact current source and matched existing raw G4 hit files first; older assessment release462-module quadrant exports are obsolete and must not be reused as current. Need actual sensitive-hit bins on correct tiled geometry for coordinator figure. If matched existing hits only sparse custom fixture, label accurately; preferably run a small task-owned current endcap Geant4 view sample (no Marlin/digitization) with same sensor/mask/segmentation definitions. You may make a documented isolated display fixture retaining representative tiled modules or full component as feasible, without altering production geometry/config. Prefer finite few-event/electron or muon illumination crossing several boards/pad rows; full geometry guide coordinator draws from current export. Build/use current matching EdgeCalorimeter factory if required. Do not modify shared dependencies. Verify preflight/imports, current source fingerprints and deposited hit cellIDs against current pad catalog. Return aggregated per-pad counts and bin keys (no event dumps committed), exact source/compact/library/input hashes, side/sector/layer selection, scope and commands. Own only listed source/data; task-owned ignored outputs under build/tiled-endcap-view are yours. No further delegation.\",\n  \"deliverable\": \"Matched actual raw simulated hit bins plus reproducible script/commands and scope; report blockers rather than using old geometry or invented hits.\",\n  \"completion\": \"Sensitive IDs decode against current DES030 catalog; no incorrect full-detector/performance/Marlin claims; raw/root/log artifacts remain ignored. Tell coordinator source/dataset options promptly.\"\n}\n```",
+        "source": "logs/codex/SESSION-2026-11-05-tiled-endcap-hit-view.md#assignment-before-dispatch",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [
+          "SoftEng"
+        ],
+        "token_accounts": [
+          "SESSION-2026-11-05-tiled-endcap-hit-view"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-11-05-tiled-endcap-hit-view:8845f8cf4573a0f7",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "agent:SESSION-2026-11-05-tiled-endcap-hit-view",
+        "recipients": [],
+        "text": "```json\n{\n  \"id\": \"I118-Tiled-PhysVal\",\n  \"role\": \"PhysVal\",\n  \"input_revision\": \"026efea28b4a8c58fbc0e1426dfa5d61d7118dea\",\n  \"inputs\": [\n    \"software/analysis/calorimeter_digitization/tiled_endcap_transport.py\",\n    \"software/analysis/calorimeter_digitization/tiled_endcap_xy.py\",\n    \"docs/validation/issue117/README.md\",\n    \"docs/validation/issue117/previews/nodd-tiled-endcap-layout.json\",\n    \"docs/validation/issue117/previews/nodd-tiled-endcap-hit-bins.json\",\n    \"docs/validation/issue117/previews/nodd-tiled-endcap-xy.png\",\n    \"docs/design/DES-030-ecal-edge-sensors.md\"\n  ],\n  \"mode\": \"read-only\",\n  \"writable_paths\": [],\n  \"task\": \"Review corrected PR118 endcap visualization against exact revision and primary PR115 geometry inputs. User noted previous XY figure wrongly used upstream ODD continuous wedges instead of PR115 tiled nODD. Check current112sensor/wedge hierarchy,5.5mm pad geometry, true custom merged polygons, source-hash correspondence to PR115 head14898df4022363bb038577d170daaf5ed8cdc547, bins/count normalization, raw-hit fixture scope and no full-detector/digitization/acceptance inference. Inspect primary source inputs before README conclusions. Can replot compact summaries using existing Matplotlib at /Users/salzburg/Documents/work/installed/acts-nodd/pyvenv/bin/python; put scratch in /private/tmp or ignored build. Do not run new transport, Marlin or modify shared software. No further delegation. Report any scientific/visual/provenance errors needing correction. Main verified fresh component XML/materials match cached executed source exactly and position/ID audits; independently assess these claims where feasible.\",\n  \"deliverable\": \"Read-only review identifying revision/source set, actual checks and limits, plus actionable findings or no blockers. Inspect final PNG.\",\n  \"completion\": \"No wrong-geometry interpretation; distinguish guide from3layer/onewedge raw transport, ODD electron/MIP response unchanged/deferred Marlin; no human signoff.\"\n}\n```",
+        "source": "logs/codex/SESSION-2026-11-05-tiled-endcap-hit-view.md#physval-assignment-before-dispatch",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [
+          "PhysVal"
+        ],
+        "token_accounts": [
+          "SESSION-2026-11-05-tiled-endcap-hit-view"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-11-05-tiled-endcap-hit-view:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-11-05-tiled-endcap-hit-view",
+        "recipients": [],
+        "text": "Correct endcap segmentation visualization to PR115 tiled nODD baseline — see the canonical narrative for outcomes and checks.",
+        "source": "logs/codex/SESSION-2026-11-05-tiled-endcap-hit-view.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-05-tiled-endcap-hit-view"
+        ],
+        "content_kind": "reference_summary"
+      },
+      {
         "id": "local:i117-request",
         "type": "prompt",
         "direction": "action",
@@ -977,10 +1240,43 @@
         "token_accounts": [
           "SESSION-2026-11-05-endcap-hit-xy"
         ]
+      },
+      {
+        "id": "local:i118-tiled-correction",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [],
+        "text": "Exact user correction: I do not understand the segmentation - didn’t PR 115 introduce the tiled silicon readout modules ?",
+        "source": "logs/codex/SESSION-2026-11-05-tiled-endcap-hit-view.md",
+        "in_reply_to": "local:i118-xy-result",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-05-tiled-endcap-hit-view"
+        ]
+      },
+      {
+        "id": "local:i118-tiled-result",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-11-05-tiled-endcap-hit-view",
+        "recipients": [],
+        "text": "Paraphrased assistant outcome: confirmed PR115 tiled geometry, acknowledged the earlier wrong upstream ODD geometry selection, and produced the correct112sensor/wedge,5.5mm-pad view with actual raw-Geant4 display hits. Preserved ODD figure as labelled comparison and Marlin deferral.",
+        "source": "logs/codex/SESSION-2026-11-05-tiled-endcap-hit-view.md",
+        "in_reply_to": "local:i118-tiled-correction",
+        "model": null,
+        "agent_roles": [
+          "SoftEng",
+          "PhysVal"
+        ],
+        "token_accounts": [
+          "SESSION-2026-11-05-tiled-endcap-hit-view"
+        ]
       }
     ],
     "coverage": {
-      "github_captured_at": "2026-11-05T21:40:49.054452Z",
+      "github_captured_at": "2026-11-05T21:54:24.025Z",
       "prompts": "Available account-matched user-visible messages, public Codex inputs and curated journal excerpts. Historical full input coverage is unknown.",
       "recovered_visible_turns": 0,
       "unrecovered_account_turns": [],

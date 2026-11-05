@@ -1,0 +1,103 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-11-05-tiled-endcap-hit-view",
+  "title": "Correct endcap segmentation visualization to PR115 tiled nODD baseline",
+  "recorded_at": "2026-11-05T21:42:23Z",
+  "started_at": null,
+  "ended_at": "2026-11-05T21:54:24.106615Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact disjoint client/child token counters, client version and actual thread/turn IDs unavailable; task input/output unknown.",
+    "One-wedge three-layer display fixture; full-face outlines are geometry guide, not simulated coverage. Marlin remains deferred."
+  ],
+  "client": {
+    "name": "unspecified",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "8e4838fff8008f040aa2506fc8f6f48a4c5da19b",
+    "branch": "codex/issue117-calorimeter-digitization",
+    "initial_changes": [],
+    "result_commits": [
+      "026efea28b4a8c58fbc0e1426dfa5d61d7118dea"
+    ],
+    "changed_files": [
+      "software/analysis/calorimeter_digitization/tiled_endcap_transport.py",
+      "software/analysis/calorimeter_digitization/tiled_endcap_xy.py",
+      "docs/validation/issue117/README.md",
+      "docs/validation/issue117/previews/nodd-tiled-endcap-hit-bins.json",
+      "docs/validation/issue117/previews/nodd-tiled-endcap-layout.json",
+      "docs/validation/issue117/previews/nodd-tiled-endcap-xy.png",
+      "project/tracking.json",
+      "interactions/pr-0118.json",
+      "logs/codex/SESSION-2026-11-05-tiled-endcap-hit-view.json",
+      "logs/codex/SESSION-2026-11-05-tiled-endcap-hit-view.md"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "ECAL endcap",
+      "tiled sensor readout",
+      "raw hit display"
+    ],
+    "related_ids": [
+      "#115",
+      "#117",
+      "#118",
+      "DES-030",
+      "DES-044",
+      "ADR-003"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-11-05-tiled-endcap-hit-view.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "acts-spack registry preflight",
+      "status": "FAIL",
+      "exit_code": 2,
+      "result": "Changed setup/lock fingerprints; warning communicated. Actual task runtime checked separately."
+    },
+    {
+      "command": "Spack runtime doctor, CMake factory build,3stratum ddsim and raw analysis",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "DD4hep/DDG4 and12datasets passed. Factory Components target resolves initial missing-registration launch;512muons/1231hits, every current pad/parent ID valid, max reference residual9.77e-5mm."
+    },
+    {
+      "command": "Fresh edge_export.py + PR115 git-source hash comparison + independent compact-bin audit",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All10source inputs match PR115; XML/materials byte-identical.1001unique bins, correct pad areas/reference coordinates, totals407/417/407."
+    },
+    {
+      "command": "tiled_endcap_xy.py prepare/plot + visual QA",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Replot from compact committed summaries succeeds; four panels distinguish complete sensor guide from sparse raw hits, square/custom sensors and merged pads."
+    },
+    {
+      "command": "Separate PhysVal review at026efea28b4a8c58fbc0e1426dfa5d61d7118dea",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No blocking finding; source/catalog/bin relations and10artifact hashes valid; replot byte-identical and scope/claims clear."
+    },
+    {
+      "command": "Wrong-geometry rejection + public immutable PNG hash + PR body read-back",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Mismatched source hashes rejected. Public PNG byte-identical; corrected nODD section plus explicitly labelled ODD comparison and Marlin deferral published."
+    },
+    {
+      "command": "Session/project/interaction validation, token-site build, object audit and whitespace",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "257paired sessions and project records valid, interaction record synced; token site built. No raw events/build/cache objects; task input/output usage unknown."
+    }
+  ]
+}
