@@ -1,0 +1,78 @@
+#!/usr/bin/env python3
+"""Replot issue117 compact evidence without event files or a simulation runtime."""
+import argparse
+import json
+import math
+import os
+from pathlib import Path
+import tempfile
+
+os.environ.setdefault("MPLCONFIGDIR", str(Path(tempfile.gettempdir()) / "nodd-issue117-matplotlib"))
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+
+
+def statistics(sample):
+    m = sample["moments"]
+    n = m["n"]
+    mean = m["sum_digitized"] / n
+    variance = max(0, (m["sum_digitized_squared"] - n * mean * mean) / (n - 1))
+    sigma = math.sqrt(variance)
+    return mean, sigma, math.sqrt(variance / n)
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("input", type=Path)
+    parser.add_argument("output", type=Path)
+    args = parser.parse_args()
+    data = json.loads(args.input.read_text())
+    args.output.mkdir(parents=True, exist_ok=True)
+    plt.rcParams.update({"font.size": 10, "axes.spines.top": False, "axes.spines.right": False})
+    fig, axes = plt.subplots(1, 2, figsize=(11, 4.8), layout="constrained")
+    shades = ["#cccc00", "#999900", "#666600"]
+    for particle, marker, linestyle in [("e-", "o", "-"), ("gamma", "s", "--")]:
+        etas = sorted({s["eta"] for s in data["samples"] if s["particle"] == particle})
+        for eta, color in zip(etas, shades):
+            samples = sorted((s for s in data["samples"] if s["particle"] == particle and s["eta"] == eta), key=lambda s: s["beam_energy_GeV"])
+            energy = [s["beam_energy_GeV"] for s in samples]
+            values = [statistics(s) for s in samples]
+            label = f"ECAL {particle}, η={eta:g}"
+            axes[0].errorbar(energy, [v[0] / e for v,e in zip(values,energy)],
+                             yerr=[v[2] / e for v,e in zip(values,energy)],
+                             marker=marker, ls=linestyle, color=color, label=label, capsize=3)
+            axes[1].errorbar(energy, [v[1]/v[0] for v in values],
+                             yerr=[v[1]/v[0]/math.sqrt(2*(s["moments"]["n"]-1)) for v,s in zip(values,samples)],
+                             marker=marker, ls=linestyle, color=color, capsize=3)
+    axes[0].set(ylabel="Mean deposit-equivalent digitized energy / beam energy", xlabel="Beam energy [GeV]")
+    axes[1].set(ylabel="Digitized event-energy RMS / mean", xlabel="Beam energy [GeV]")
+    for axis in axes:
+        axis.grid(alpha=.2)
+        axis.set_xticks([5,20,50])
+    axes[0].legend(fontsize=8, ncol=2)
+    fig.suptitle("ODD Si–W ECAL · original Marlin silicon energy kernel · PROTOTYPE\nSparse signal cells, 0.13 MIP noise, 0.6 MIP threshold; 200 events / point", fontsize=11)
+    fig.get_layout_engine().set(rect=(0,.08,1,1))
+    fig.text(.03,.025,"Mean errors: standard error. RMS errors: Gaussian approximation; shower tails and systematics unquantified.\nNo shower-energy calibration, detector-wide noise, pileup, or original full-processor agreement established.",fontsize=8)
+    fig.savefig(args.output / "response.png", dpi=170)
+    plt.close(fig)
+
+    central = next(s for s in data["samples"] if s["particle"]=="mu-" and s["eta"]==0)
+    mip = data["calibration"]["mip_energy_GeV"]
+    fig, axes = plt.subplots(1,2,figsize=(10,4.4),layout="constrained")
+    for axis, key, scale, label in [(axes[0],"sim_cell_energy",1/mip,"Held-out simulated silicon cell deposits"),
+                                   (axes[1],"digitized_cell_energy",1,"Held-out digitized ECAL cells")]:
+        h=central[key]
+        axis.stairs(h["counts"],[x*scale for x in h["edges"]],fill=True,color="#cccc00",label="ECAL")
+        axis.axvline(1,color="#444444",ls="--",lw=1,label="Frozen calibration MIP")
+        axis.set(xlabel="Cell energy [MIP]",ylabel="Cell counts",title=label,xlim=(0,3))
+        axis.legend(fontsize=8)
+    fig.suptitle("10 GeV central muons · 250 held-out events · PROTOTYPE",fontsize=11)
+    fig.get_layout_engine().set(rect=(0,.08,1,1))
+    fig.text(.03,.025,f"MIP scale {mip*1e6:.2f} keV, frozen from the separate first 250 events using a 2.5 keV binned mode.\nNo Landau–Gaussian fit, angular calibration or systematic uncertainty established.",fontsize=8)
+    fig.savefig(args.output / "mip.png",dpi=170)
+    plt.close(fig)
+
+
+if __name__ == "__main__":
+    main()

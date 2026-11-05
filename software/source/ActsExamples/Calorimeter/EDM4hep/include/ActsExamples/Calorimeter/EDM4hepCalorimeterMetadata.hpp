@@ -23,7 +23,7 @@
 #include "ActsExamples/Framework/IAlgorithm.hpp"
 
 namespace ActsExamples {
-/// Attach immutable I/O configuration and explicit unimplemented-stage status
+/// Attach immutable I/O configuration and explicit processing-stage status
 /// to each event's original frame. Runs after converters; transfers frame
 /// ownership to a distinct whiteboard key.
 class EDM4hepCalorimeterMetadata final : public IAlgorithm {

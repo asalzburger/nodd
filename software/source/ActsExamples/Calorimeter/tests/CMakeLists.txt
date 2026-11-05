@@ -20,3 +20,10 @@ nodd_calorimeter_test(CalorimeterAlgorithmSkeletons
   "${CMAKE_CURRENT_SOURCE_DIR}/AlgorithmSkeletonTests.cpp")
 add_test(NAME CalorimeterEDM4hepRootRoundTrip
   COMMAND nodd_calorimeter_io_fixture "${CMAKE_CURRENT_BINARY_DIR}/root-round-trip")
+if(TARGET nodd_marlin_silicon_backend)
+  nodd_calorimeter_test(CalorimeterSiliconDigitization
+    "${CMAKE_CURRENT_SOURCE_DIR}/SiliconDigitizationTests.cpp")
+  target_compile_definitions(CalorimeterSiliconDigitization PRIVATE
+    NODD_SILICON_BACKEND="$<TARGET_FILE:nodd_marlin_silicon_backend>")
+  add_dependencies(CalorimeterSiliconDigitization nodd_marlin_silicon_backend)
+endif()

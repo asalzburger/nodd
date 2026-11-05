@@ -32,6 +32,11 @@ class EDM4hepCalorimeterInputConverter final : public PodioInputConverter {
     /// once per cell per event; must support concurrent calls for parallel
     /// runs.
     std::function<Acts::Vector3(std::uint64_t)> cellCentre;
+    /// Opt in only for files whose SimCalorimeterHit position is the cell
+    /// centre (for example the selected DDG4 calorimeter action). Positions
+    /// are read in EDM4hep mm, never from individual shower contributions.
+    /// Mutually exclusive with cellCentre; the geometry lookup remains default.
+    bool useHitPosition = false;
   };
 
   explicit EDM4hepCalorimeterInputConverter(

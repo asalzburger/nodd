@@ -46,13 +46,38 @@ EDM4hepCalorimeterMetadata::EDM4hepCalorimeterMetadata(
   auto& numbers = m_parameters.numbers;
   strings["acts.calo.geometry"] = {config.geometryIdentifier};
   strings["acts.calo.units"] = {"energy=GeV", "length=mm", "time=ns"};
-  strings["acts.calo.response.status"] = {"unimplemented skeleton"};
+  strings["acts.calo.response.status"] = {
+      config.response.silicon ? "PROTOTYPE MarlinReco silicon energy subset"
+                             : "unimplemented skeleton"};
   strings["acts.calo.clustering.status"] = {"unimplemented skeleton"};
   strings["acts.calo.cluster.unmeasured"] = {"intrinsic direction",
                                              "covariance", "shower shapes"};
   strings["acts.calo.links.weight"] = {
       "accepted deposited energy fraction per calibrated cell"};
   strings["acts.calo.input.simHits"] = {config.input.inputSimHits};
+  strings["acts.calo.input.position"] = {
+      config.input.useHitPosition ? "SimCalorimeterHit position; cell-centre assertion"
+                                  : "explicit cell-centre callback"};
+  if (config.response.silicon) {
+    const auto& response = *config.response.silicon;
+    strings["acts.calo.response.source"] = {
+        "iLCSoft/MarlinReco@255967eb855ebbc8f75ebaac190b268b63332e8b"};
+    strings["acts.calo.response.backend"] = {response.executable};
+    strings["acts.calo.response.seed"] = {std::to_string(response.seed)};
+    strings["acts.calo.response.coverage"] = {
+        config.response.channels.empty() ? "sparse input cells" : "declared channel inventory"};
+    strings["acts.calo.response.time"] = {
+        "native deposited-energy-weighted time; zero placeholder for noise-only cells"};
+    numbers["acts.calo.response.mipEnergyGeV"] = {
+        response.mipEnergy / Acts::UnitConstants::GeV};
+    numbers["acts.calo.response.pairEnergyEv"] = {response.pairEnergyEv};
+    numbers["acts.calo.response.noiseMip"] = {response.noiseMip};
+    numbers["acts.calo.response.dynamicRangeMip"] = {response.dynamicRangeMip};
+    numbers["acts.calo.response.thresholdMip"] = {response.thresholdMip};
+  }
+  strings["acts.calo.output.noiseOnlyHits"] = {
+      config.hitOutput.allowNoiseOnlyHits ? "allowed; no truth links, zero placeholder time"
+                                        : "rejected"};
   strings["acts.calo.native.deposits"] = {config.input.outputDeposits};
   strings["acts.calo.native.sources"] = {config.input.outputSources};
   strings["acts.calo.native.hits"] = {config.response.outputHits};
