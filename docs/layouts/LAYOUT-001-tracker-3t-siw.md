@@ -61,6 +61,25 @@ The [2026-11-04 campaign replay](../validation/DES-037/campaign-2026-11-04.md)
 retains source identities, tasks and actual checks. The unchanged common
 hardware can also serve LAr; these regional dimensions and budgets cannot be
 transferred to LAYOUT-002 without a separate adaptation.
+
 ## Restored working baseline
 
 The [baseline selector](../../tools/calorimeter_baselines/README.md) exports the maintained tracker with this option’s ECAL barrel and endcaps. [Integration and remaining review gates](../design/inputs/ECAL-baseline-integration-2026-11-04.md) distinguish runnable geometry, the shared HCAL/FCAL design stages and initial EDM4hep I/O.
+
+## HCAL endcap baseline design option
+
+[DES038](../design/DES-038-hcal-endcap-common-module.md) uses the common
+readout module from [PR81](https://github.com/asalzburger/nodd/pull/81) as its
+working basis. It proposes a 1.558 m HCAL stack,62.1 mm beyond the outline above,
+with regional packing, partial material/services budgets and core-plane masks.
+Its [regional R–Z drawing](../design/figures/DES-038/endcap-design.png) shows
+the amendment separately. The selected candidate inputs and existing R–Z image
+remain unchanged pending review. The 2026-11-04 campaign retains this as the Si–W baseline design option. It remains DRAFT/PROTOTYPE; residual
+cracks, forward handover and engineering qualification remain unresolved.
+
+[Regional PR85](https://github.com/asalzburger/nodd/pull/85) · [Companion PR84](https://github.com/asalzburger/nodd/pull/84). Both depend on the common-module PR81.
+
+The [2026-11-04 campaign replay](../validation/DES-038/campaign-2026-11-04.md)
+retains source identities, tasks and actual checks. The unchanged common
+hardware can also serve LAr; these regional dimensions and budgets cannot be
+transferred to LAYOUT-002 without a separate adaptation.
