@@ -171,3 +171,11 @@ already-created GitHub issues.
 
 Technical/domain/validation reviewer assignments and exact reviewed revision are
 pending. Only identified humans may sign off DES044 or accept detector response.
+
+## Current execution disposition
+
+On 2026-11-05 the user deferred the Marlin study until appropriate software is
+installed. The isolated prototype and comparison capability are preparation,
+not a completed original-framework or physics validation. See the
+[preparation report](../validation/issue117/README.md). No study acceptance or
+design sign-off is implied.
