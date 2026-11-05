@@ -115,11 +115,100 @@ explicitly labels Gaussian RMS errors when third/fourth moments are absent,
 while newer summaries retain the empirical-moment mode. Regenerating transport
 or digitization remains a separate future workflow below.
 
-## ECAL endcap sensitive-hit x–y projection
+## nODD tiled endcap — geometry restored by PR #115
+
+**Correction to the first endcap view:** [PR #115](https://github.com/asalzburger/nodd/pull/115) restored the tiled nODD Si–W
+endcap. The earlier 5.1 mm-cell plot below uses the upstream ODD comparison
+detector and does not show those tiles. The existing digitization response and
+MIP previews also use that upstream ODD sample, as requested in #117; they have
+not been rerun on the nODD tiled baseline.
+
+The nODD readout hierarchy is:
+
+| Level | PR #115 Si–W endcap representation |
+| --- | --- |
+| Endcap | 16 wedge carriers (`sector`), 48 sensitive layers |
+| Wedge/layer | 112 individual sensor modules: 76 square + 36 custom edge sensors |
+| Square sensor | 90 mm outer silicon, 88 mm active window, 0.5 mm thickness |
+| Readout pad | Nominal 5.5 × 5.5 mm; custom-edge fragments are clipped and small connected fragments merged |
+
+These are **NODD DESIGN CHOICE** prototype parameters recorded in
+[DES-030](../../design/DES-030-ecal-edge-sensors.md), not new choices in this PR.
+The `module` field identifies a sensor tile; `sector` identifies its wedge.
+The standalone component uses system 8; the integrated LAYOUT-001 package
+remaps the endcap to system 9, as documented in the
+[integration contract](../../design/inputs/ECAL-baseline-integration-2026-11-04.md).
+
+![PR115 tiled nODD endcap with raw sensitive hits, sensor tiles and custom pad zoom](previews/nodd-tiled-endcap-xy.png)
+
+Panel A shows the complete **geometry guide**, 1,792 sensor tiles per layer.
+Panel B overlays raw Geant4 hit cell reference positions on one wedge. Panels C/D
+show adjacent square/custom sensors and the true custom electrode polygons,
+including connected merged edge pads; pad colors sum stored hit entries over
+the three simulated layers. Light/dark yellow sensor shades distinguish square
+and custom silicon. White pads received no hit in this display sample.
+
+The isolated **display fixture** retains all 112 modules and unchanged local
+hardware in +z sector 0, layers 0–2. Other wedges, the opposite endcap, remaining
+layers and the supported wedge frame are omitted. This is not full-detector
+transport. The gun uses 512 10 GeV muons from the origin, zero field,
+`FTFP_BERT`: 256 broadly illuminate the wedge, 128 sample the angular bounding
+rectangle of custom module 26, and 128 that of square module 27. Seeds are
+118030/118031/118032. Bounding rectangles include misses; this sampling is a
+display choice and supplies no efficiency, response or acceptance measurement.
+No digitization or Marlin study is run.
+
+There are 1,231 saved hits in 1,001 occupied layer/pad bins across 87 modules;
+92 events have no saved hit. Layers 0/1/2 contain 407/417/407 entries. Every
+parent and pad ID matches the current catalogue. Maximum saved cell-reference
+position residual is 0.000098 mm, below the stated 0.002 mm float-persistence
+consistency tolerance. These are software correspondence checks.
+
+All ten geometry source/configuration files match PR #115 head
+`14898df4022363bb038577d170daaf5ed8cdc547` byte for byte. A fresh export also
+reproduces the executed component's `calorimeter.xml` and `materials.xml`
+byte for byte. The compact [layout guide](previews/nodd-tiled-endcap-layout.json)
+contains sensor/board/active outlines and zoom electrode polygons; the
+[raw-hit bins](previews/nodd-tiled-endcap-hit-bins.json) contain pad keys, counts,
+energy sums/moments, event denominator, seeds and source/input/library hashes.
+They contain no event-level payload. Full ROOT files and logs remain ignored.
+
+Replot the committed summaries without DD4hep, ROOT, Geant4 or Marlin:
+
+```sh
+/path/to/matplotlib-python software/analysis/calorimeter_digitization/tiled_endcap_xy.py plot \
+  --layout docs/validation/issue117/previews/nodd-tiled-endcap-layout.json \
+  --hits docs/validation/issue117/previews/nodd-tiled-endcap-hit-bins.json \
+  --output docs/validation/issue117/previews/nodd-tiled-endcap-xy.png
+```
+
+To regenerate the display transport, first run the Spack preflight and runtime
+doctor described above. Use task-owned outputs and the unchanged PR #115 inputs:
+
+```sh
+python3 -B tools/calorimeter_hardware/edge_export.py --output build/tiled-endcap-source
+software/env/run.sh cmake -S prototypes/calorimeter -B build/tiled-endcap-view/factory -G Ninja -DCMAKE_BUILD_TYPE=Release
+software/env/run.sh cmake --build build/tiled-endcap-view/factory --target Components_nODDCalorimeterPrototype --parallel 4
+python3 -B software/analysis/calorimeter_digitization/tiled_endcap_transport.py prepare --component build/tiled-endcap-source
+software/env/run.sh python3 software/analysis/calorimeter_digitization/tiled_endcap_transport.py run --component build/tiled-endcap-source --events 512 --seed 118030
+software/env/run.sh python3 software/analysis/calorimeter_digitization/tiled_endcap_transport.py analyze --component build/tiled-endcap-source
+python3 -B software/analysis/calorimeter_digitization/tiled_endcap_xy.py prepare \
+  --expected build/tiled-endcap-source/expected.json \
+  --output docs/validation/issue117/previews/nodd-tiled-endcap-layout.json
+```
+
+The original local execution reused the source-matched component export from
+the PR #115 campaign; the fresh-export check above establishes correspondence.
+The factory build must include its `.components` registration target. The first
+launch without it failed before transport; building that target resolved the
+failure. No shared installation or detector geometry was changed.
+
+## Upstream ODD comparison — continuous-wedge sensitive-hit projection
 
 ![Raw ECAL endcap sensitive-hit projection and readout-cell zoom](previews/endcap-xy.png)
 
-This view uses the saved 200-event 50 GeV electron sample at η=2, φ=0.123 rad.
+**This is the upstream ODD comparison geometry, not PR #115's tiled nODD
+endcap.** This view uses the saved 200-event 50 GeV electron sample at η=2, φ=0.123 rad.
 It selects the **+z ECAL endcap** and stored `SimCalorimeterHit` cell centres;
 no digitization, new transport or Marlin study is run. The left panel sums
 309,693 hit entries across 48 sensitive layers into 20×20 mm display bins. The
