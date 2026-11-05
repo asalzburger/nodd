@@ -50,3 +50,12 @@ both earlier previews. Public URL/read-back and final ledger/journal/project
 checks are recorded in the paired JSON. No exact disjoint client-reported token
 counters were exposed; input/output totals remain unknown, usage empty.
 No private client archives or hidden reasoning were accessed.
+
+Published asset commit: `ce609eb6cedf459594134d12994db01882f219fe`. The raw
+public image returned the exact local PNG bytes, SHA-256
+`a0d17e52ac584514c74a6654cd2356b95a138c6804d820b8061bfe4276860040`.
+PR118 read-back contains all three figure embeds and remains draft.
+
+Final checks passed:256 paired session records, PR118 ledger, project records,
+token-site build and whitespace. Task input/output totals remain unknown;
+no exact client counters were exposed.
