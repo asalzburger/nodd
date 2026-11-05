@@ -200,6 +200,14 @@ For each case/energy/point retain and plot:
 - Tiled/control mean ratio at each matched point, with the uncertainty of both
   independent samples. An energy-independent calibration is not introduced by
   normalizing this ratio. Report mean ratios even where width comparisons are weak.
+  If a mean is zero, retain its zero response and event denominator: RMS/mean
+  is undefined for that population, and a tiled/control ratio is undefined when
+  the control mean is zero. Store these undefined values as `null`, never as
+  zero or infinity. Record the count of bootstrap replicates with undefined
+  ratios/relative widths; do not silently drop them. Mark unconditional width
+  uncertainty undefined if such replicates prevent its definition, or explicitly
+  label any conditional summary. This is particularly relevant to exact seam S,
+  where the physical gap remains in both geometry cases.
 - A common low-response tail: use `f_visible < f_cut`, where `f_cut` is fixed
   by the separate 100-event continuous-C 20 GeV calibration, for **both cases,
   all energies and every point**. The factor 0.8 is an explicit study choice, not
