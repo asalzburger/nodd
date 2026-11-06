@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-11-06-pr126-token-accounting",
+  "title": "PR126 token coverage and review readiness",
+  "recorded_at": "2026-11-06T16:22:35Z",
+  "started_at": null,
+  "ended_at": "2026-11-06T16:23:48.216543Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "This accounting turn is still active; its exact counters remain excluded.",
+    "Desktop publication/fix usage could not be recovered from the available exact-thread token streams; no estimates or zero substitutes were entered."
+  ],
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": "01a1b036-cfd7-7d70-8bbb-db0b64b153da"
+  },
+  "git": {
+    "start_commit": "13532e321ad94a01cdba8e603d8e0baff1ece1c2",
+    "branch": "codex/pr126-token-accounting",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      "interactions/pr-0126.json",
+      "logs/codex/SESSION-2026-11-06-pr126-token-accounting.json",
+      "logs/codex/SESSION-2026-11-06-pr126-token-accounting.md",
+      "logs/codex/SESSION-2026-11-06-publisher-head-confirmation.json",
+      "logs/codex/SESSION-2026-11-06-publisher-head-confirmation.md",
+      "logs/usage/COVERAGE-2026-11-06-pr126-desktop.json"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [
+      "infrastructure",
+      "token accounting",
+      "interaction provenance"
+    ],
+    "related_ids": [
+      "PR126"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-11-06-pr126-token-accounting.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "whole-thread desktop usage recovery and bounded exact-turn coverage audit",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Whole-thread reconciliation rejects inherited/missing usage; neither exact-thread source has token observations within selected ordinals 895\u20131125. Coverage gap retained without importing counters."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate; python3 -B tools/interactions/ledger.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "258 sessions and 107 PR records validated; only PR126 synchronization changed."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py validate; python3 -B tools/token_usage/build.py build --output _site/pr126-accounting; python3 -B tools/session_logging/session_log.py summary --format json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "438 existing disjoint dated turns remain unchanged. PR126 has no observed input/output subtotal; desktop/active-turn gaps explicit."
+    },
+    {
+      "command": "git diff --check and coverage-evidence review",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors or raw reasoning/tool payloads retained; zero source observations are distinguished from unknown token consumption."
+    }
+  ]
+}

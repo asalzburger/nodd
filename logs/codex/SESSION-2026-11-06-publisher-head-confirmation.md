@@ -59,3 +59,24 @@ Recovered task124 publication in [draft PR125](https://github.com/asalzburger/no
 with final verification passing and its link in state/result. This fix is
 [draft PR126](https://github.com/asalzburger/nodd/pull/126). No duplicate task
 PR or new model execution was required.
+
+
+## Token accounting coverage — 2026-11-06
+
+Selected the closed desktop turn by exact thread/turn ID and visible request,
+final response and implementation/publication evidence. The app's visible chat
+aliases the persisted runtime thread; the turn UUID and times match exactly.
+Its persisted range is 895–1125. Available exact-thread token streams contain no
+observations in that range (last observed ordinals 408 and 814), and full-thread
+recovery rejects inherited/missing usage. No private conversations were queried
+from client databases; the app supplied allowlisted visible messages.
+
+PR126's observed token subtotal is **unknown**, not zero. This desktop turn also
+published PR125; its unavailable usage is neither split nor duplicated. The
+worker/SoftEng observations belonging to PR125 are not attributed to this fix.
+The current active accounting turn is excluded. Configured model names and
+thread totals are not substituted for exact per-turn observations.
+
+See [coverage evidence](../usage/COVERAGE-2026-11-06-pr126-desktop.json). The
+original absence statements remain historical; no numerical usage entry was
+fabricated for an unobserved turn.
