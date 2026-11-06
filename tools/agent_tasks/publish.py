@@ -7,6 +7,7 @@ import re
 import signal
 import subprocess
 import sys
+import time
 
 
 PREFIXES = ("Magnet System", "Tracker", "Calorimeter", "Muon System", "Global",
@@ -134,11 +135,19 @@ def publish_draft(config, worktree, run_dir, key, data, control_root):
     (run_dir / "publication.json").write_text(json.dumps(progress, indent=2) + "\n")
 
     def verify():
-        pr = json.loads(checked(["gh", "api", "--hostname", "github.com", f"repos/{repo}/pulls/{number}"]))
-        if (pr["state"] != "open" or not pr["draft"] or pr["head"]["ref"] != branch
-                or pr["base"]["ref"] != base
-                or pr["head"]["sha"] != checked(["git", "rev-parse", "HEAD"], worktree)):
-            raise ValueError("task result is not an open draft PR at the published revision")
+        expected = checked(["git", "rev-parse", "HEAD"], worktree)
+        for attempt in range(5):
+            pr = json.loads(checked(["gh", "api", "--hostname", "github.com", f"repos/{repo}/pulls/{number}"]))
+            if (pr["state"] != "open" or not pr["draft"] or pr["head"]["ref"] != branch
+                    or pr["base"]["ref"] != base):
+                raise ValueError("task result is not an open draft PR on the assigned branches")
+            if pr["head"]["sha"] == expected:
+                return
+            if attempt < 4:
+                # GitHub can briefly return the old PR head after a successful Git push.
+                time.sleep(0.5 * 2 ** attempt)
+        raise ValueError(f"draft PR {url} has not confirmed published revision {expected}; "
+                         f"GitHub reports {pr['head']['sha']}")
 
     verify()
     # PR numbers exist only after creation. Add the individual interaction record before completion.

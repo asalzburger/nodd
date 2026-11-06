@@ -66,7 +66,15 @@ elif a[0]=='api':
         print(json.dumps({'state':'open','head':{'ref':'source-branch','sha':os.environ.get('FAKE_GH_SOURCE_SHA','changed')}}))
     else:
         sha=subprocess.check_output(['git','--git-dir',os.environ['FAKE_GH_ORIGIN'],'rev-parse','refs/heads/'+s['head']],text=True).strip()
-        print(json.dumps({'state':'open','draft':os.environ.get('FAKE_GH_READY')!='1','head':{'ref':s['head'],'sha':sha},'base':{'ref':s['base']}}))
+        reported=sha
+        if os.environ.get('FAKE_GH_ALWAYS_OLD'):
+            reported=os.environ['FAKE_GH_ALWAYS_OLD']
+        elif os.environ.get('FAKE_GH_DELAY_FINAL')=='1' and s.get('confirmed_sha') and s['confirmed_sha']!=sha and not s.get('stale_head_returned'):
+            reported=s['confirmed_sha']
+            s['stale_head_returned']=True
+        s['confirmed_sha']=reported
+        store.write_text(json.dumps(s))
+        print(json.dumps({'state':'open','draft':os.environ.get('FAKE_GH_READY')!='1','head':{'ref':s['head'],'sha':reported},'base':{'ref':s['base']}}))
 else: sys.exit(2)
 ''')
         gh.chmod(0o755)
@@ -108,6 +116,20 @@ else: sys.exit(2)
                 self.publish()
         self.publish()
         self.assertEqual(json.loads((self.root / "gh.json").read_text())["creates"], 1)
+
+    def test_final_push_can_wait_for_a_stale_github_head(self):
+        with patch.dict(os.environ, {"FAKE_GH_DELAY_FINAL": "1"}), patch("publish.time.sleep") as pause:
+            result = self.publish()
+        self.assertEqual(result["draft_pr_number"], 7)
+        pause.assert_called_once_with(0.5)
+        self.assertTrue(json.loads((self.root / "gh.json").read_text())["stale_head_returned"])
+
+    def test_persistent_wrong_head_still_fails_with_diagnostics(self):
+        with patch.dict(os.environ, {"FAKE_GH_ALWAYS_OLD": self.revision}), patch("publish.time.sleep") as pause:
+            with self.assertRaisesRegex(ValueError, "has not confirmed published revision"):
+                self.publish()
+        self.assertEqual(pause.call_count, 4)
+        self.assertFalse((self.run_dir / "result.md").exists())
 
     def test_existing_ready_pr_cannot_count_as_completed_draft(self):
         self.publish()
