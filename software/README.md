@@ -1,5 +1,12 @@
 # nODD software
 
+The maintained [software inventory](../docs/software-inventory.md) records
+software usage, integration, installation/version evidence and related PRs.
+Edit `software/inventory.json` when adding or changing software, then run
+`python3 -B tools/software_inventory/inventory.py refresh` from the repository
+root and review the generated page and dependency-review receipts. CI and
+`make check` enforce coverage and freshness; see the page for scope and limits.
+
 Dependencies remain bound to the existing ACTS Spack `ci-dependencies` installation
 on `acts-mac-studio-01.cern.ch`. The Makefiles activate it; they never install,
 concretize or rewrite it. `make doctor` checks actual imports, package hashes and

@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "source": {
+    "kind": "runner-supplied public GitHub snapshot",
+    "issue_url": "https://github.com/asalzburger/nodd/issues/124",
+    "input_revision": "4497737721d35df1e8971d5d01e8a5727def14aa",
+    "request_key": "124-35358784063",
+    "remote_refreshed": false
+  },
+  "parties": [
+    {
+      "name": "asalzburger-review",
+      "role": "public issue author and requesting reviewer"
+    },
+    {
+      "name": "local user relay",
+      "role": "runner task instructions; no additional GitHub identity inferred"
+    },
+    {
+      "name": "Codex coordinator",
+      "role": "inventory author, implementation and local validation",
+      "model": "not reported"
+    },
+    {
+      "name": "/root/inventory_evidence",
+      "role": "SoftEng read-only baseline evidence assessment",
+      "model": "not reported"
+    }
+  ],
+  "inputs": [
+    {
+      "type": "issue",
+      "speaker": "asalzburger-review",
+      "url": "https://github.com/asalzburger/nodd/issues/124",
+      "created_at": "2026-11-06T14:51:04Z",
+      "text_kind": "exact supplied issue body",
+      "text": "Create a software inventory and keep it up to date, the following categories:\n\nDescribe externals from the pre-existing spack build in a table:\n\nSoftware that was written by the agents and added to nodd, flag a PR if exists\n- to run within the ActsExamples\n- for cross validation\n\nSoftware that is used to run tests and validation in a table:\n- IdRes, Geant4, DD4hep, ROOT, ACTS, Marlin, ... (and how it was installed or used from the pre-existing spack build), flag the PR if exists\n\nSoftware that is used to perform analysis\n - dedicated analysis software if needed (e.g. unrooted, ... ) and how it was installed, flag the PR if exists\n\nFor each component, write keywords for the main usage\n\nFor each component, tell how it is integrated (submodule, local installation, source added to nodd)\n\nMake a page accessible from the main page to do so.\nMake sure it is always updated when a new software piece is added."
+    },
+    {
+      "type": "label request",
+      "speaker": "asalzburger-review",
+      "url": "https://api.github.com/repos/asalzburger/nodd/issues/events/35358784063",
+      "created_at": "2026-11-06T14:51:09Z",
+      "label": "agent_task"
+    },
+    {
+      "type": "local prompt",
+      "speaker": "local user relay",
+      "text_kind": "selected paraphrase",
+      "text": "Work in the isolated request worktree at the input revision; implement issue124, run checks and prepare curated session and interaction evidence. Do not push, publish, post, merge, approve or change machine configuration."
+    }
+  ],
+  "responses": [
+    {
+      "type": "selected assistant response",
+      "speaker": "Codex coordinator",
+      "text_kind": "paraphrase",
+      "text": "Trace existing software and installation evidence, build an inventory linked from README, and add offline maintenance checks. Treat historical versions as observations and keep current calorimeter I/O distinct from unimplemented response/clustering."
+    },
+    {
+      "type": "specialist evidence handoff",
+      "speaker": "/root/inventory_evidence",
+      "assignment_id": "SW124-SoftEng-evidence",
+      "text_kind": "paraphrase",
+      "text": "Reviewed baseline software/validation sources and Git integration history at the full input revision. Returned software pins, recorded runtime versions, integration methods and PR mappings. Found no baseline Marlin/LCIO integration evidence; current calorimeter source supplies I/O and explicit processing skeletons. No files changed and no runtime activated."
+    }
+  ],
+  "tool_provenance": [
+    {
+      "category": "native_codex",
+      "operations": [
+        "functions.exec",
+        "exec_command",
+        "apply_patch",
+        "write_stdin",
+        "collaboration.spawn_agent",
+        "collaboration.followup_task"
+      ],
+      "evidence": "Observed native wrappers for shell reads, edits, checks and one bounded specialist assignment; programs executed through those wrappers are separate from the wrapper provider."
+    },
+    {
+      "category": "instructed_software",
+      "operations": [
+        "Git read-only inspection",
+        "Python standard-library maintenance checks",
+        "make check"
+      ],
+      "evidence": "Actual local commands recorded in the paired session; no native detector runtime operated in this task."
+    }
+  ],
+  "limitations": [
+    "Selected public snapshot and visible task evidence only; no raw client archive or hidden reasoning retained.",
+    "No new PR exists within the sandboxed task; the host publisher must capture and validate interactions/pr-NNNN.json after assigning the draft PR number.",
+    "Exact completed-turn counters and client/model IDs were unavailable; no usage observations created.",
+    "Historical software observations do not establish current runtime availability."
+  ]
+}
