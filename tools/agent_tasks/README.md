@@ -100,6 +100,9 @@ publication/size manifests and operational stderr), and
 `worktrees/NUMBER-EVENT/` on branches named `codex/agent-task-NUMBER-EVENT`.
 `completed` requires a zero model exit, a pushed branch, its individual PR
 interaction record, and a verified open **draft** PR at the final pushed SHA.
+After a push, the publisher allows five head-confirmation reads with bounded
+backoff (7.5 seconds of total delay). A closed/ready PR or wrong branch fails
+immediately; a persistently wrong SHA still fails and reports both revisions.
 The state contains `draft_pr_url`/`draft_pr_number`, and `result.md` starts with
 the clickable PR link. Inspect the draft for actual validation and limitations;
 completion is not human approval. For a task on an existing PR, the new draft
