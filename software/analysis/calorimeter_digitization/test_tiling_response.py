@@ -43,6 +43,18 @@ class ResponseAccounting(unittest.TestCase):
         return dict(id=name, file=name + '.root', geometry='tiled', point_id='C', energy_GeV=20,
                     n=n, kind=kind, seed=123, seed_pair=[123, 456])
 
+    def test_prepare_refuses_existing_manifest_before_any_write(self):
+        manifest = self.work / 'manifest.json'
+        original = b'{"existing_execution": true}\n'
+        manifest.write_bytes(original)
+        files_before = {p: p.read_bytes() for p in self.work.rglob('*') if p.is_file()}
+        with patch.object(response, 'verify_component') as verify_component:
+            with self.assertRaisesRegex(ValueError, 'fresh --work'):
+                response.prepare(self.args)
+            verify_component.assert_not_called()
+        self.assertEqual(manifest.read_bytes(), original)
+        self.assertEqual({p: p.read_bytes() for p in self.work.rglob('*') if p.is_file()}, files_before)
+
     def controller_fixtures(self, final_contents=None):
         """Emulate output-file closure, including a change after checkpoint."""
         class Reader:

@@ -96,6 +96,8 @@ def write_xml(path, tree):
 
 
 def prepare(args):
+    if (args.work/'manifest.json').exists():
+        raise ValueError('Prepared manifest already exists; choose a fresh --work directory to preserve execution evidence')
     expected, original, sources = verify_component(args.component)
     committed = subprocess.check_output(['git','show',PROTOCOL_REVISION+':'+str(PROTOCOL.relative_to(ROOT))],cwd=ROOT)
     if hashlib.sha256(committed).hexdigest() != sha(PROTOCOL):
