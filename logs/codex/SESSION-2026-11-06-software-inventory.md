@@ -192,3 +192,19 @@ historical project-record object must be available before full `make check`
 can pass; normal CI already has a historical-evidence fetch step. No design
 sign-off is requested or recorded. Future software changes update the inventory
 in the same PR; automatic matching fingerprints do not replace semantic review.
+
+
+## Token accounting correction — 2026-11-06
+
+Recovered three closed CLI/SoftEng turns from usage-only observations, with every
+cumulative increase matching its last request. Exact task cwd/input revision,
+the recorded parent/child edge and selected visible turns establish ownership.
+This session owns all three disjoint observations once. Input **5,316,485** +
+output **44,869** = **5,361,354 observed tokens**. Cached input **5,145,728** and
+reasoning output **11,622** are subsets, not extra tokens. Actual execution model
+remains unknown. Earlier absence statements describe preparation-time evidence.
+
+Evidence: [usage inventory](../usage/USAGE-2026-11-06-pr125-token-accounting.json).
+The shared desktop publication/fix turn has no observations in its available
+streams and is excluded, as is the active accounting turn. This is a partial
+observed subtotal, not complete PR usage or billing.

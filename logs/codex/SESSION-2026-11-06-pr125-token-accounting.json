@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-11-06-pr125-token-accounting",
+  "title": "PR125 token accounting and review readiness",
+  "recorded_at": "2026-11-06T16:22:34Z",
+  "started_at": null,
+  "ended_at": "2026-11-06T16:23:47.073059Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "This accounting turn is still active; its exact counters remain excluded.",
+    "Desktop publication/fix usage could not be recovered from the available exact-thread token streams; no estimates or zero substitutes were entered."
+  ],
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": "01a1b036-cfd7-7d70-8bbb-db0b64b153da"
+  },
+  "git": {
+    "start_commit": "40992e2d7be4005fabe07871a338cefc22d50221",
+    "branch": "codex/pr125-token-accounting",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      "interactions/pr-0125.json",
+      "interactions/pr-0125/turns/01a1b166-6e5c-75c2-a16d-bae98ba853f8--01a1b166-7603-7d73-aa69-4f97b7d0f4e6.json",
+      "interactions/pr-0125/turns/01a1b167-1d3e-73b2-87e7-8e483edd6a5e--01a1b167-1e65-7b52-bef7-c15b03439ab2.json",
+      "interactions/pr-0125/turns/01a1b167-1d3e-73b2-87e7-8e483edd6a5e--01a1b16b-35f8-7652-bc31-fb42942b0343.json",
+      "logs/codex/SESSION-2026-11-06-pr125-token-accounting.json",
+      "logs/codex/SESSION-2026-11-06-pr125-token-accounting.md",
+      "logs/codex/SESSION-2026-11-06-software-inventory.json",
+      "logs/codex/SESSION-2026-11-06-software-inventory.md",
+      "logs/codex/SESSION-2026-11-06-task124-publication-recovery.json",
+      "logs/codex/SESSION-2026-11-06-task124-publication-recovery.md",
+      "logs/usage/COVERAGE-2026-11-06-pr125-desktop.json",
+      "logs/usage/USAGE-2026-11-06-pr125-token-accounting.json"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [
+      "infrastructure",
+      "token accounting",
+      "interaction provenance"
+    ],
+    "related_ids": [
+      "PR125"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-11-06-pr125-token-accounting.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "usage-only recovery for the two explicitly selected CLI worker/subagent threads",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Three closed turns reconcile from zero; no repeated or outside-turn observations."
+    },
+    {
+      "command": "whole-thread desktop usage recovery and bounded exact-turn coverage audit",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Whole-thread reconciliation rejects inherited/missing usage; neither exact-thread source has token observations within selected ordinals 895\u20131125. Coverage gap retained without importing counters."
+    },
+    {
+      "command": "session_log.py import-usage: dry-run, import, replay dry-run",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Three worker/child observations imported once; replay adds zero and matches all three."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate; python3 -B tools/interactions/ledger.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "259 sessions and 107 PR records validated; only PR125 synchronization changed."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py validate; python3 -B tools/token_usage/build.py build --output _site/pr125-accounting; python3 -B tools/session_logging/session_log.py summary --format json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "441 disjoint dated turns; project observed input 2118614183 and output 9835233. PR125 newly observed input 5316485 and output 44869; current accounting turn excluded."
+    },
+    {
+      "command": "git diff --check and allowlisted visible-source privacy review",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors or retained private paths, reasoning objects, tool arguments or command-output fields in the new turn snapshots."
+    }
+  ]
+}

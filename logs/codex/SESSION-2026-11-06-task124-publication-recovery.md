@@ -49,3 +49,7 @@ counters and historical project totals are not copied or allocated here.
 Review the resulting draft and resolve the missing historical-project-object
 prerequisite before claiming full make-check success. Future deployments must
 advance the stable runner checkout to the merged publisher revision.
+
+## Accounting coverage — 2026-11-06
+
+The shared publication/fix desktop turn remains unmeasured. See [coverage evidence](../usage/COVERAGE-2026-11-06-pr125-desktop.json); no zero or estimated usage was entered. Worker usage is owned separately by the software-inventory session.
