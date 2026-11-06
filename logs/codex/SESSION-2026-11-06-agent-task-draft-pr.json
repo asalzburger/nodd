@@ -22,7 +22,9 @@
     "start_commit": "2ce4e9c81006a3779e89a3cedc3a45a7f1bf72d7",
     "branch": "codex/agent-task-draft-pr",
     "initial_changes": [],
-    "result_commits": [],
+    "result_commits": [
+      "13e0a17651156f28b736015501c84496f1f292f8"
+    ],
     "changed_files": [
       "AGENTS.md",
       "README.md",
@@ -33,7 +35,8 @@
       "tools/agent_tasks/test_poll.py",
       "tools/agent_tasks/test_publish.py",
       "logs/codex/SESSION-2026-11-06-agent-task-draft-pr.json",
-      "logs/codex/SESSION-2026-11-06-agent-task-draft-pr.md"
+      "logs/codex/SESSION-2026-11-06-agent-task-draft-pr.md",
+      "interactions/pr-0122.json"
     ]
   },
   "work": {
@@ -45,7 +48,8 @@
     ],
     "related_ids": [
       "ISSUE-120",
-      "ADR-004"
+      "ADR-004",
+      "PR122"
     ]
   },
   "narrative": "logs/codex/SESSION-2026-11-06-agent-task-draft-pr.md",
@@ -85,6 +89,24 @@
       "status": "FAIL",
       "exit_code": 1,
       "result": "Historical PR IDs in the new session would auto-link it into existing ledgers. Narrowed related IDs to the bounded rule task; no historical ledgers changed."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate; python3 -B tools/interactions/ledger.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "254 sessions and 104 existing PR records validated after narrowing the independent rule-session related IDs."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py build --output _site/draft-rule; python3 -B tools/session_logging/session_log.py summary --format json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Token site built; this rule session has no observed input/output counters. Existing canonical totals unchanged."
+    },
+    {
+      "command": "Final deployed source fingerprint check and authenticated --dry-run; git var GIT_AUTHOR_IDENT (identity not retained)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Final tested poller/publisher/schema deployed with permission configuration and queue history preserved. Live dry-run found task118 eligible without claiming it; Git author identity is configured."
     }
   ]
 }

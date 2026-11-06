@@ -76,3 +76,9 @@ attempt with local diagnostic information and any known PR URL.
 An initial validation caught historical PR IDs auto-linking this independent
 rule session into an old ledger. Narrowed structured related IDs to this bounded
 task and reran validation, preserving historical records.
+
+## Published draft
+
+Published as [PR #122](https://github.com/asalzburger/nodd/pull/122). This task
+ends in a draft as required. The deployed runtime matches the tested source;
+Git author identity is configured (no identity details retained here).
