@@ -298,40 +298,42 @@ def run(args):
     for row in rows:
         record_path=args.work/(row['id']+'.execution.json')
         if record_path.exists():
-            record=json.loads(record_path.read_text());output=args.work/row['file']
-            if record['exit_code']==0 and output.exists() and record['output_sha256']==sha(output) and record['compact_sha256']==manifest['compacts'][args.geometry]: continue
-            raise ValueError('Existing sample has invalid/stale evidence: '+row['id'])
-        pending.append(row)
+            execution_record(args,manifest,row)
+            continue
+        pending.append(deepcopy(row))
     if not pending: print('All requested samples already complete');return
     point_map={p['id']:p for p in manifest['points']}
-    macro=args.work/(args.geometry+('-calibration' if args.calibration_only else '-bulk')+'.mac')
+    # Each attempt keeps distinct evidence/output paths, including after resume.
+    suffix=('calibration' if args.calibration_only else 'bulk')
+    attempt=args.work/'attempts'/(args.geometry+'-'+suffix+'-'+str(time.time_ns()))
+    attempt.mkdir(parents=True,exist_ok=False)
+    macro=attempt/'commands.mac'
     lines=['/gun/particle e-','/gun/position 0 0 0 mm']
     for run_number,row in enumerate(pending):
         row['actual_run_number']=run_number
+        row['file']=str((attempt/(row['id']+'.edm4hep.root')).relative_to(args.work))
         lines += ['/ddg4/EDM4hepOutput/Output '+str((args.work/row['file']).resolve()),
                   f"/gun/energy {row['energy_GeV']} GeV",'/gun/direction '+' '.join(format(v,'.17g') for v in point_map[row['point_id']]['direction']),
                   '/random/setSeeds '+' '.join(str(v) for v in row['seed_pair']),f"/run/beamOn {row['n']}"]
     macro.write_text('\n'.join(lines)+'\n')
-    suffix=('calibration' if args.calibration_only else 'bulk')
     command=[sys.executable,shutil.which('ddsim'),'--compactFile',str((args.work/(args.geometry+'.xml')).resolve()),'--runType','run','--enableG4Gun',
         '--macroFile',str(macro.resolve()),'--numberOfThreads','1','--random.seed','11839999','--physics.list','FTFP_BERT','--physics.rangecut','0.7',
-        '--part.userParticleHandler','','--outputConfig.forceEDM4HEP','--outputFile',str((args.work/(args.geometry+'-unused.edm4hep.root')).resolve())]
+        '--part.userParticleHandler','','--outputConfig.forceEDM4HEP','--outputFile',str((attempt/'unused.edm4hep.root').resolve())]
     environment=os.environ.copy();factory=(ROOT/manifest['factory']['path']).parent
     for name in ('DD4HEP_LIBRARY_PATH','DYLD_LIBRARY_PATH','LD_LIBRARY_PATH'): environment[name]=str(factory)+os.pathsep+environment.get(name,'')
-    snapshot=args.work/(args.geometry+'-'+suffix+'-producer.py');shutil.copyfile(__file__,snapshot)
-    logfile=args.work/(args.geometry+'-'+suffix+'.log');start=time.monotonic()
+    snapshot=attempt/'producer.py';shutil.copyfile(__file__,snapshot)
+    logfile=attempt/'transport.log';start=time.monotonic()
     from podio import root_io
     completed=set()
     records={}
     def observe(final=False, exit_code=None):
         text=logfile.read_text(errors='replace')
         finished={int(n) for n in re.findall(r'Finished run (\d+) after',text)}
-        rss=re.search(r'(\d+)\s+maximum resident set size',text)
         for row in pending:
             output=args.work/row['file']
             if row['id'] in completed and not final:
                 continue
-            if row['id'] not in completed:
+            if row['id'] not in completed or final:
                 if row['actual_run_number'] not in finished or not output.exists(): continue
                 try:
                     count=sum(1 for _ in root_io.Reader(str(output)).get('events'))
@@ -341,11 +343,14 @@ def run(args):
                 if count!=row['n']:
                     if final: raise RuntimeError('Incomplete finished run: '+row['id'])
                     continue
-                completed.add(row['id'])
-                records[row['id']]=dict(sample=row,exit_code=0,block_completed=True,seed_provenance=seed_provenance,
+                if row['id'] not in completed:
+                    completed.add(row['id'])
+                    records[row['id']]=dict(sample=row,exit_code=0,block_completed=True,seed_provenance=seed_provenance,
                     group_exit_code=None,command=command,log_file=relative(logfile),macro_file=relative(macro),producer_file=relative(snapshot),macro_sha256=sha(macro),producer_sha256=sha(snapshot),
                     compact_sha256=manifest['compacts'][args.geometry],protocol_sha256=manifest['protocol_sha256'],
-                    output_sha256=sha(output),output_bytes=output.stat().st_size)
+                    checkpoint_output_sha256=sha(output))
+                records[row['id']].update(output_sha256=sha(output),output_bytes=output.stat().st_size,
+                    final_output_verified=final,verified_event_count=count)
             record=records[row['id']]
             if 'EventSeeder added' in text:
                 raise RuntimeError('Unexpected per-event seeder in execution')
@@ -370,15 +375,26 @@ def decode_control(cell_id):
     return dict(system=cell_id&255,side=(cell_id>>8)&3,sector=(cell_id>>10)&15,layer=(cell_id>>14)&63,module=(cell_id>>20)&1023,x=signed((cell_id>>30)&65535),y=signed((cell_id>>46)&65535))
 
 
-def read_sample(args,manifest,row):
-    from podio import root_io
-    import numpy as np
-    path=args.work/row['file'];record=json.loads((args.work/(row['id']+'.execution.json')).read_text())
+def execution_record(args,manifest,row):
+    record=json.loads((args.work/(row['id']+'.execution.json')).read_text())
     sample_keys=('geometry','point_id','energy_GeV','n','kind','seed','seed_pair')
     if any(record['sample'].get(k)!=row.get(k) for k in sample_keys):
         raise ValueError('Sample configuration changed: '+row['id'])
-    if record['exit_code']!=0 or sha(path)!=record['output_sha256'] or record['protocol_sha256']!=manifest['protocol_sha256']:
+    path=args.work/record['sample']['file']
+    if (record['exit_code']!=0 or record.get('group_exit_code') is None
+        or sha(path)!=record['output_sha256'] or record['protocol_sha256']!=manifest['protocol_sha256']
+        or record['compact_sha256']!=manifest['compacts'][row['geometry']]):
         raise ValueError('Stale or unsuccessful raw artifact: '+row['id'])
+    for kind in ('macro','producer','log'):
+        if sha(ROOT/record[kind+'_file'])!=record[kind+'_sha256']:
+            raise ValueError('Changed '+kind+' evidence: '+row['id'])
+    return record
+
+
+def read_sample(args,manifest,row):
+    from podio import root_io
+    import numpy as np
+    record=execution_record(args,manifest,row);path=args.work/record['sample']['file']
     expected=json.loads((args.work/'expected.json').read_text())
     modules={m['index']:m for m in expected['modules']};catalog={(m['index'],*p['key']):p for m in expected['modules'] for p in m['pads']}
     replicas={(r['sector'],r['layer']):r for r in expected['replicas'] if r['side']==1 and r['region']=='edge_layer'}
@@ -431,6 +447,63 @@ def moments(values):
                 sum_E3=math.fsum(float(v)**3 for v in values),sum_E4=math.fsum(float(v)**4 for v in values))
 
 
+def sensitive_defaults():
+    from DDSim.Helper.Action import Action
+    from DDSim.Helper.Filter import Filter
+    from DDSim.Helper.Random import Random
+    action,filtering,random=Action(),Filter(),Random()
+    if (action.calo!='Geant4ScintillatorCalorimeterAction' or action.mapActions
+        or filtering.calo!='edep0' or filtering.mapDetFilter
+        or filtering.filters['edep0']!={'name':'EnergyDepositMinimumCut/Cut0','parameter':{'Cut':0.0}}
+        or random.enableEventSeed is not False):
+        raise ValueError('Installed sensitive/seed defaults differ from executed conditions')
+    return dict(action=action.calo,filter=filtering.calo,filter_definition=filtering.filters['edep0'],
+        action_map=action.mapActions,filter_map=filtering.mapDetFilter,enableEventSeed=False,
+        helper_sha256={c.__name__:sha(sys.modules[c.__module__].__file__) for c in (Action,Filter,Random)},
+        analysis_hit_threshold=None,analysis_event_selection=None,
+        distinction='Cut0 is the intrinsic step energy-deposit filter, separate from the 0.7mm secondary production range cut. No additional analysis energy threshold.')
+
+
+def sensitive(args):
+    """One excluded event checks actual G4 Silicon Birks constant, same materials."""
+    manifest=verify(args)
+    producer=args.work/'sensitive-diagnostic-producer.py';shutil.copyfile(__file__,producer)
+    import ROOT as R
+    from DDSim.DD4hepSimulation import DD4hepSimulation
+    defaults=sensitive_defaults()
+    R.gSystem.Load(str(ROOT/manifest['factory']['path']))
+    include=Path(shutil.which('geant4-config')).resolve().parents[1]/'include'
+    R.gInterpreter.AddIncludePath(str(include));R.gInterpreter.AddIncludePath(str(include/'Geant4'))
+    R.gInterpreter.Declare('''
+#include "G4Material.hh"
+#include "G4IonisParamMat.hh"
+#include "G4SystemOfUnits.hh"
+double nodd_actual_silicon_birks_mm_per_MeV() {
+ const auto* m=G4Material::GetMaterial("Silicon",false);
+ if(!m) throw std::runtime_error("Silicon material missing");
+ return m->GetIonisation()->GetBirksConstant()/(mm/MeV);
+}
+''')
+    tree=ET.parse(args.work/'tiled.xml');detector=tree.getroot().find('detectors/detector')
+    for replica in list(detector.findall('replica')):
+        if not (replica.get('region')=='edge_layer' and replica.get('sector')=='0' and replica.get('layer')=='0'):
+            detector.remove(replica)
+    if len(detector.findall('replica'))!=1: raise ValueError('Diagnostic replica selection failed')
+    compact=args.work/'sensitive-diagnostic.xml';write_xml(compact,tree)
+    sim=DD4hepSimulation();sim.compactFile=[str(compact)];sim.runType='batch';sim.numberOfEvents=1;sim.enableGun=True
+    sim.gun.particle='e-';sim.gun.energy='20*GeV';sim.gun.direction=' '.join(str(v) for v in manifest['points'][0]['direction'])
+    sim.random.seed=11890001;sim.part.userParticleHandler='';sim.outputConfig.forceEDM4HEP=True
+    sim.outputFile=str(args.work/'sensitive-diagnostic.edm4hep.root');sim.physics.list='FTFP_BERT';sim.physics.rangecut=.7
+    result=sim.run()
+    if result not in (None,0): raise RuntimeError('Sensitive diagnostic transport failed')
+    birks=float(R.nodd_actual_silicon_birks_mm_per_MeV())
+    if birks!=0: raise ValueError('Unexpected nonzero Silicon Birks constant')
+    save(args.work/'sensitive-diagnostic.json',dict(status='PASS',defaults=defaults,birks_constant_mm_per_MeV=birks,
+        actual_G4Material_name='Silicon',query='G4Material::GetMaterial(Silicon)->GetIonisation()->GetBirksConstant()/(mm/MeV)',
+        scope='One sector/layer diagnostic only, same original logical layer and materials, one event excluded from all response/calibration samples.',
+        materials_sha256=sha(args.work/'materials.xml'),compact_sha256=sha(compact),producer_file=relative(producer),producer_sha256=sha(producer)))
+
+
 def analyze(args):
     import numpy as np
     manifest=verify(args);rows=[r for group in manifest['groups'].values() for r in group]
@@ -438,6 +511,8 @@ def analyze(args):
     cal,cal_layers,cal_checks,cal_execution=read_sample(args,manifest,calibration)
     rng=np.random.default_rng(manifest['analysis']['bootstrap_seed']);replicates=manifest['analysis']['bootstrap_replicates']
     reference=float(cal.mean()/20);cut=.8*reference
+    if not math.isfinite(reference) or reference<=0 or not math.isfinite(cut) or cut<=0:
+        raise ValueError('Calibration mean/cut must be finite and strictly positive')
     cal_boot=cal[rng.integers(0,len(cal),size=(replicates,len(cal)))].mean(axis=1)/20
     cut_boot=.8*cal_boot
     tail_definition=dict(visible_fraction_cut=cut,reference_mean_visible_fraction=reference,
@@ -445,7 +520,7 @@ def analyze(args):
         calibration=dict(sample=calibration,moments=moments(cal),checks=cal_checks,execution=public(cal_execution)),
         reference_mean_bootstrap_standard_error=float(cal_boot.std(ddof=1)),reference_cut_bootstrap_percentile95=np.quantile(cut_boot,[.025,.975]).tolist(),
         conditional_intervals='Wilson95% from fixed observed calibration cut; joint bootstrap additionally varies the independent reference cut; bootstrap intervals do not replace Wilson upper bounds at zero tail count.')
-    samples=[]
+    samples=[];tail_replicas=[];sample_ids=[]
     for index,row in enumerate(r for r in rows if r['kind']=='response'):
         values,layer,checks,execution=read_sample(args,manifest,row)
         sample_rng=np.random.default_rng(manifest['analysis']['bootstrap_seed']+1000+index)
@@ -458,8 +533,9 @@ def analyze(args):
         counts[-1]-=int(np.count_nonzero(values==edges[-1]))
         tail_events=int(np.count_nonzero(values/row['energy_GeV']<cut))
         tail_boot=(boot/row['energy_GeV']<cut_boot[:,None]).mean(axis=1)
+        tail_replicas.append(tail_boot);sample_ids.append(row['id'])
         q=np.quantile(values,[.05,.16,.5,.84,.95]).tolist()
-        samples.append(dict(geometry=row['geometry'],point_id=row['point_id'],energy_GeV=row['energy_GeV'],seed=row['seed'],seed_pair=row['seed_pair'],
+        samples.append(dict(id=row['id'],geometry=row['geometry'],point_id=row['point_id'],energy_GeV=row['energy_GeV'],seed=row['seed'],seed_pair=row['seed_pair'],
             moments=moments(values),zero_events=int(np.count_nonzero(values==0)),mean_E_GeV=float(values.mean()),sample_RMS_GeV=float(values.std(ddof=1)),relative_width=relative_width,
             quantiles_GeV=dict(zip(['q05','q16','q50','q84','q95'],q)),tail_events=tail_events,
             bootstrap=dict(replicates=replicates,seed=manifest['analysis']['bootstrap_seed']+1000+index,undefined_width_replicates=undefined,
@@ -475,13 +551,38 @@ def analyze(args):
     version_file=Path(os.environ.get('DD4hep_DIR',configured_dd4hep.group(1) if configured_dd4hep else ''))/'DD4hepConfigVersion.cmake'
     dd4hep_match=re.search(r'set\(PACKAGE_VERSION "([^"]+)"\)',version_file.read_text()) if version_file.exists() else None
     runtime=dict(Python=platform.python_version(),ROOT=str(R.gROOT.GetVersion()),Geant4=subprocess.check_output(['geant4-config','--version'],text=True).strip(),DD4hep=dd4hep_match.group(1) if dd4hep_match else None,NumPy=np.__version__,bootstrap_bit_generator=type(rng.bit_generator).__name__,ddsim_entrypoint_sha256=sha(shutil.which('ddsim')))
-    artifact_paths=[args.work/'manifest.json',args.work/'tiled.xml',args.work/'continuous.xml',args.work/'materials.xml',ROOT/manifest['factory']['path'],args.factory/'libnODDCalorimeterPrototype.components']
+    sensitive_report=json.loads((args.work/'sensitive-diagnostic.json').read_text())
+    if (sensitive_report['status']!='PASS' or sensitive_report['materials_sha256']!=manifest['materials_sha256']
+        or sensitive_report['defaults']!=sensitive_defaults() or sensitive_report['birks_constant_mm_per_MeV']!=0
+        or sha(ROOT/sensitive_report['producer_file'])!=sensitive_report['producer_sha256']
+        or sha(args.work/'sensitive-diagnostic.xml')!=sensitive_report['compact_sha256']):
+        raise ValueError('Sensitive-material defaults probe is missing/stale')
+    artifact_paths=[args.work/'manifest.json',args.work/'tiled.xml',args.work/'continuous.xml',args.work/'materials.xml',args.work/'expected.json',
+        ROOT/manifest['factory']['path'],args.factory/'libnODDCalorimeterPrototype.components',PROTOCOL,
+        args.work/'sensitive-diagnostic.json',args.work/'sensitive-diagnostic.xml',args.work/'sensitive-diagnostic.edm4hep.root',args.work/'sensitive-diagnostic.log',
+        ROOT/sensitive_report['producer_file'],
+        args.work/'pilot-checks.json',args.work/'pilot-tiled.edm4hep.root',args.work/'pilot-tiled.log',
+        args.work/'tiled-native.json',args.work/'continuous-native.json']
+    evidence_logs=set()
     for row in rows:
         record=json.loads((args.work/(row['id']+'.execution.json')).read_text())
-        artifact_paths += [args.work/row['file'],args.work/(row['id']+'.execution.json'),ROOT/record['log_file'],ROOT/record['macro_file'],ROOT/record['producer_file']]
+        artifact_paths += [args.work/record['sample']['file'],args.work/(row['id']+'.execution.json'),ROOT/record['log_file'],ROOT/record['macro_file'],ROOT/record['producer_file']]
+        evidence_logs.add(ROOT/record['log_file'])
+    for path in evidence_logs:
+        text=path.read_text()
+        if ("Setting up SD for EDGE with Geant4ScintillatorCalorimeterAction" not in text
+            or "Adding default filter 'edep0' to sensitive detector for 'EDGE'" not in text
+            or not re.search(r'GlobalRangeCut.*0\.700000.*mm',text)):
+            raise ValueError('Executed action/filter/range conditions not confirmed in '+str(path))
     artifacts={relative(p):dict(sha256=sha(p),bytes=p.stat().st_size) for p in sorted(set(artifact_paths))}
     result=dict(status='PROTOTYPE full-positive-end raw-Geant4 electron characterization; no digitization',runtime=runtime,artifacts=artifacts,pilot=json.loads((args.work/'pilot-checks.json').read_text()),manifest=public(manifest),points=manifest['points'],samples=samples,
-        tail_definition=tail_definition,native={g:json.loads((args.work/(g+'-native.json')).read_text()) for g in ('tiled','continuous')},
+        sensitive_response=sensitive_report,tail_definition=tail_definition,
+        joint_tail_bootstrap=dict(sample_ids=sample_ids,covariance=np.cov(np.stack(tail_replicas,axis=1),rowvar=False,ddof=1).tolist(),
+            units='tail fraction squared',replicates=replicates,calibration_seed=manifest['analysis']['bootstrap_seed'],
+            sample_seeds=[s['bootstrap']['seed'] for s in samples],
+            convention='Independent event resampling per sample; each replicate shares the same independent calibration-cut resample across all samples. Sample order labels both covariance axes.',
+            caveat='An observed zero tail may have zero bootstrap variance; Wilson95 upper bounds remain required.'),
+        native={g:json.loads((args.work/(g+'-native.json')).read_text()) for g in ('tiled','continuous')},
         analysis_script_sha256=sha(__file__),limitations=['Independent unpaired populations; no event covariance across geometry cases.',
         'Continuous sheet adds silicon and activates guards while retaining nonuniform module electronics: not a pure readout segmentation comparison.',
         'Other detector subsystems/opposite end absent; raw visible spread is not reconstructed resolution or detector acceptance.',
@@ -490,14 +591,14 @@ def analyze(args):
 
 
 def main():
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('stage',choices=['prepare','native','run','analyze'])
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('stage',choices=['prepare','native','sensitive','run','analyze'])
     p.add_argument('--component',type=Path,default=ROOT/'build/tiled-endcap-geometry-check');p.add_argument('--work',type=Path,default=ROOT/'build/nodd-tiling-response')
     p.add_argument('--factory',type=Path,default=ROOT/'build/tiled-endcap-view/factory');p.add_argument('--geometry',choices=['tiled','continuous'])
     p.add_argument('--calibration-only',action='store_true');p.add_argument('--skip-calibration',action='store_true')
     p.add_argument('--output',type=Path,default=ROOT/'docs/validation/issue117/previews/nodd-tiling-response.json')
     a=p.parse_args()
     if a.stage in ('native','run') and not a.geometry: p.error('--geometry is required')
-    {'prepare':prepare,'native':native,'run':run,'analyze':analyze}[a.stage](a)
+    {'prepare':prepare,'native':native,'sensitive':sensitive,'run':run,'analyze':analyze}[a.stage](a)
 
 
 if __name__=='__main__': main()

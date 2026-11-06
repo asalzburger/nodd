@@ -41,7 +41,7 @@ def statistics(sample):
     return dict(n=n, mean_GeV=mean, rms_GeV=sigma, mean_error_GeV=sem,
                 relative_width=sigma / mean if mean else None,
                 relative_width_error=sample["bootstrap"]["relative_width_standard_error"],
-                relative_width_delta_error=math.sqrt(max(0., error2)))
+                relative_width_delta_error=math.sqrt(max(0., error2)) if mean else None)
 
 
 def independent_ratio(a, b):
@@ -182,6 +182,28 @@ def plot(data, output):
     fig.suptitle("nODD Si–W endcap · 20 GeV electrons · PROTOTYPE\nRaw deposited energy; all generated events retained", fontsize=14, y=.97)
     fig.text(.025, .035, "Each distribution uses its generated-event denominator. No independent per-point energy rescaling or electronics response.\nFinite statistics and this endcap-only setup do not establish reconstructed energy resolution or general detector acceptance.", fontsize=9)
     fig.savefig(output / "nodd-tiling-spectra.png", dpi=160)
+    plt.close(fig)
+    profile_ids = [p for p in ("C", "G", "S") if p in ids]
+    fig, axes = plt.subplots(1, len(profile_ids), figsize=(15, 5), squeeze=False)
+    fig.subplots_adjust(left=.065, right=.98, bottom=.22, top=.77, wspace=.30)
+    for axis, p in zip(axes.flat, profile_ids):
+        for geometry, color, label in (("tiled", ECAL, "ECAL tiled nODD"), ("continuous", CONTROL, "ECAL continuous control")):
+            sample = samples[geometry, p, primary]
+            n = sample["moments"]["n"]
+            total = np.asarray(sample["layer_energy"]["sum_GeV"])
+            square = np.asarray(sample["layer_energy"]["sum_GeV2"])
+            mean = total / n / primary * 100
+            error = np.sqrt(np.maximum(0., (square-total**2/n)/(n-1)/n)) / primary * 100
+            layer = np.arange(48)
+            axis.plot(layer, mean, color=color, label=label)
+            axis.fill_between(layer, np.maximum(0., mean-error), mean+error, color=color, alpha=.25)
+        axis.set(title=f'{p}: {points[p]["label"]}', xlabel="Sensitive layer index",
+                 ylabel="Mean silicon energy / beam energy\n[% per layer]")
+        axis.grid(alpha=.2)
+        axis.legend(fontsize=8)
+    fig.suptitle("nODD Si–W endcap · 20 GeV electron longitudinal deposits · PROTOTYPE\nAll sectors summed; all events retained", fontsize=13, y=.96)
+    fig.text(.025, .035, "Bands: marginal MC standard error per layer. Total event moments retain longitudinal correlations; layers must not be treated as independent.\nFirst-plane impact labels do not imply a fixed x/y through depth. Escaping energy is not scored; this is not a leakage measurement.", fontsize=9)
+    fig.savefig(output / "nodd-tiling-longitudinal.png", dpi=160)
     plt.close(fig)
     return [dict(point_id=p, label=points[p]["label"], tiled_to_continuous=ratios[i][0],
                  ratio_error=ratios[i][1], tiled=values["tiled", p, primary],
