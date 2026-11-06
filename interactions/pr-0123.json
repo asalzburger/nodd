@@ -7,19 +7,44 @@
     "events": []
   },
   "github": {
-    "captured_at": "2026-11-06T12:16:03.830739Z",
+    "captured_at": "2026-11-06T13:01:34Z",
     "pull_request": {
       "number": 123,
       "url": "https://github.com/asalzburger/nodd/pull/123",
-      "title": "Calorimeter: record blocked PR118 digitization review follow-up",
+      "title": "Software: install original Key4hep digitization reference runtime",
       "head": "codex/agent-task-118-35344007412",
-      "head_sha": "812265090e92e20c29b8c3e48bcbe04e0c08d910",
+      "head_sha": "c7ed6f3d311877fc27242c331a27d34fb9611cb9",
       "state": "open",
-      "body": "Task request: https://github.com/asalzburger/nodd/pull/118\nLabel request: `118-35344007412`\n\nRefs #118 and #117; request `118-35344007412`, assessed at `da94b693a0034cb211e96f42dee83970deb59886`.\n\nThe requested study is blocked: the configured environment lacks Key4hep/Gaudi/Marlin. No original-framework comparison or new digitized MIP, threshold-efficiency or e/gamma plots were produced.\n\nThis follow-up adds `docs/validation/issue117/pr118-review-request.md`, links it from the preparation README, updates calorimeter tracking, refreshes `interactions/pr-0118.json`, and adds a paired curated session record. Existing geometry evidence is preserved. DES-044 remains DRAFT/PROTOTYPE; no detector parameters or source-manifest entries changed.\n\nActual checks:\n\n- DD4hep/DDG4 imports and all twelve Geant4 dataset presence checks passed after the stale-fingerprint preflight warning.\n- Required reference-runtime probe failed, confirming the blocker.\n- Session validation, interaction validation, token-site validation and final preview build passed. A transient stale-fingerprint preview failure is retained in the journal.\n- Whitespace and six-file content/size audits passed; no raw reference-run data was added.\n- Project-record validation failed because this isolated Git store lacks pre-existing PR #37 merge evidence `78bc60bb6da0c9d234baf00d37cadea9dd4964b4`. Native CTest and physics studies were not run.\n\nHuman input remains necessary: provide a usable pinned RecCaloDigi runtime or independently produced same-hit reference, and decide the proposed endcap geometry issue/PR split. Exact task token counters were unavailable; usage remains unestimated.\n",
+      "body": "Refs #117 and #118. Addresses the [installation question](https://github.com/asalzburger/nodd/pull/123#issuecomment-6684945961).\n\nThe missing original-framework runtime is now installed and exercised against the existing local ACTS Spack environment. The earlier blocked report is retained as historical evidence.\n\n- Add eight pinned submodules: Gaudi, k4FWCore, k4RecCalorimeter, k4SimGeant4, Boost, range-v3, Microsoft GSL and MarlinReco.\n- Build the unchanged original RecCaloDigi algorithms and GeoSvc through a narrow CMake wrapper. Build missing Boost components and headers locally; reuse Spack DD4hep, Geant4, ROOT, EDM4hep, podio, TBB, CLHEP, fmt and JSON.\n- Provide `make key4hep-submodules`, `make key4hep`, `make key4hep-test` and command-scoped activation. Installation stays under ignored `software/build/key4hep/install`.\n- Add an installation report and compact source/library/fixture hash receipt; update ADR-008, source catalogue, tracking and session/interaction records.\n\nValidation actually run:\n\n- Selected stack build/install passed; shared Spack setup and lock hashes unchanged.\n- Original Gaudi `DigitiserSiliconMip` executed two synthetic EDM4hep events: two input cells, one accepted at exactly 2 MIP, one rejected and one empty event. High cell ID, event identity, retained SimHits/contributions, truth links, position and earliest time passed.\n- Software pin audit, project/session/interaction validation, syntax/whitespace checks and token preview build passed. Earlier build/activation/fixture failures and corrections are retained in the journal.\n- New-object audit found only source gitlinks and curated text; full ROOT events/build logs remain ignored.\n\nThe ODD same-hit comparison, noise-on distributions, digitized MIP/threshold efficiency and e/gamma physics studies remain unexecuted. Upstream full test suites were not run. DES-044 remains DRAFT/PROTOTYPE; endcap issue/PR disposition is still a maintainer decision.\n",
       "actor": "asalzburger",
       "created_at": "2026-11-06T12:15:55Z"
     },
-    "comments": [],
+    "comments": [
+      {
+        "id": 6684945961,
+        "url": "https://github.com/asalzburger/nodd/pull/123#issuecomment-6684945961",
+        "body": "Why can you not install the necessary frameworks exactly?",
+        "actor": "trahxam",
+        "created_at": "2026-11-06T12:35:14Z",
+        "updated_at": "2026-11-06T12:35:14Z",
+        "review": null,
+        "in_reply_to_id": null,
+        "path": null,
+        "line": null
+      },
+      {
+        "id": 6685411641,
+        "url": "https://github.com/asalzburger/nodd/pull/123#issuecomment-6685411641",
+        "body": "Yes, it is possible. The [earlier task](https://github.com/asalzburger/nodd/pull/123#issuecomment-6684945961) established that the reference runtime was missing; it did not establish that installation was impossible.\n\nImplemented in c7ed6f3d311877fc27242c331a27d34fb9611cb9: pinned source submodules and a local installation of Gaudi v41r0, k4FWCore, the original RecCaloDigi algorithms and GeoSvc from k4SimGeant4, built against the existing Spack dependencies. Missing Boost 1.90 components and header dependencies are built locally. MarlinReco is also pinned for the existing nODD helper. The shared Spack environment is unchanged.\n\nThe original `DigitiserSiliconMip` processor now passes an actual two-event EDM4hep smoke: expected 2 MIP output, threshold rejection, full 64-bit ID, retained simulation inputs/event headers, truth links and empty-event handling.\n\nReproduce with `make key4hep-submodules`, `make key4hep` and `make key4hep-test`. See the [installation report](https://github.com/asalzburger/nodd/blob/c7ed6f3d311877fc27242c331a27d34fb9611cb9/docs/validation/issue117/pr123-framework-install.md) for exact pins, commands and verification.\n\nThe installation blocker is resolved. The ODD same-hit/noise comparison and requested MIP/e/gamma physics studies remain to run; this installation check does not substitute for them.\n",
+        "actor": "asalzburger",
+        "created_at": "2026-11-06T13:01:20Z",
+        "updated_at": "2026-11-06T13:01:20Z",
+        "review": null,
+        "in_reply_to_id": null,
+        "path": null,
+        "line": null
+      }
+    ],
     "issues": []
   },
   "derived": {
@@ -38,6 +63,11 @@
         "id": "github:asalzburger",
         "name": "asalzburger",
         "kind": "account"
+      },
+      {
+        "id": "github:trahxam",
+        "name": "trahxam",
+        "kind": "human"
       },
       {
         "id": "unknown:project-user",
@@ -66,8 +96,8 @@
         ],
         "snapshot": null,
         "snapshot_sha256": null,
-        "record_sha256": "2dad861efddb62a13c271b86f025739077ff3e69f0deaeecb42a0c4c4ac04749",
-        "narrative_sha256": "8c4e1673a9596acd332c31ad47a9e72f0873cbb36773e87ec542a2fb25c94fc3"
+        "record_sha256": "8b009a781cfc341f304eee1e8ca5d3a2d4cdaf0299c5033d0863dccdb0c03fa2",
+        "narrative_sha256": "e27e1faa9778ca339906312f26e3cfaba70c5356e051246e962c416c018207ea"
       }
     ],
     "token_accounts": [
@@ -173,13 +203,43 @@
         "direction": "reaction",
         "actor": "github:asalzburger",
         "recipients": [],
-        "text": "Task request: https://github.com/asalzburger/nodd/pull/118\nLabel request: `118-35344007412`\n\nRefs #118 and #117; request `118-35344007412`, assessed at `da94b693a0034cb211e96f42dee83970deb59886`.\n\nThe requested study is blocked: the configured environment lacks Key4hep/Gaudi/Marlin. No original-framework comparison or new digitized MIP, threshold-efficiency or e/gamma plots were produced.\n\nThis follow-up adds `docs/validation/issue117/pr118-review-request.md`, links it from the preparation README, updates calorimeter tracking, refreshes `interactions/pr-0118.json`, and adds a paired curated session record. Existing geometry evidence is preserved. DES-044 remains DRAFT/PROTOTYPE; no detector parameters or source-manifest entries changed.\n\nActual checks:\n\n- DD4hep/DDG4 imports and all twelve Geant4 dataset presence checks passed after the stale-fingerprint preflight warning.\n- Required reference-runtime probe failed, confirming the blocker.\n- Session validation, interaction validation, token-site validation and final preview build passed. A transient stale-fingerprint preview failure is retained in the journal.\n- Whitespace and six-file content/size audits passed; no raw reference-run data was added.\n- Project-record validation failed because this isolated Git store lacks pre-existing PR #37 merge evidence `78bc60bb6da0c9d234baf00d37cadea9dd4964b4`. Native CTest and physics studies were not run.\n\nHuman input remains necessary: provide a usable pinned RecCaloDigi runtime or independently produced same-hit reference, and decide the proposed endcap geometry issue/PR split. Exact task token counters were unavailable; usage remains unestimated.\n",
+        "text": "Refs #117 and #118. Addresses the [installation question](https://github.com/asalzburger/nodd/pull/123#issuecomment-6684945961).\n\nThe missing original-framework runtime is now installed and exercised against the existing local ACTS Spack environment. The earlier blocked report is retained as historical evidence.\n\n- Add eight pinned submodules: Gaudi, k4FWCore, k4RecCalorimeter, k4SimGeant4, Boost, range-v3, Microsoft GSL and MarlinReco.\n- Build the unchanged original RecCaloDigi algorithms and GeoSvc through a narrow CMake wrapper. Build missing Boost components and headers locally; reuse Spack DD4hep, Geant4, ROOT, EDM4hep, podio, TBB, CLHEP, fmt and JSON.\n- Provide `make key4hep-submodules`, `make key4hep`, `make key4hep-test` and command-scoped activation. Installation stays under ignored `software/build/key4hep/install`.\n- Add an installation report and compact source/library/fixture hash receipt; update ADR-008, source catalogue, tracking and session/interaction records.\n\nValidation actually run:\n\n- Selected stack build/install passed; shared Spack setup and lock hashes unchanged.\n- Original Gaudi `DigitiserSiliconMip` executed two synthetic EDM4hep events: two input cells, one accepted at exactly 2 MIP, one rejected and one empty event. High cell ID, event identity, retained SimHits/contributions, truth links, position and earliest time passed.\n- Software pin audit, project/session/interaction validation, syntax/whitespace checks and token preview build passed. Earlier build/activation/fixture failures and corrections are retained in the journal.\n- New-object audit found only source gitlinks and curated text; full ROOT events/build logs remain ignored.\n\nThe ODD same-hit comparison, noise-on distributions, digitized MIP/threshold efficiency and e/gamma physics studies remain unexecuted. Upstream full test suites were not run. DES-044 remains DRAFT/PROTOTYPE; endcap issue/PR disposition is still a maintainer decision.\n",
         "source": "https://github.com/asalzburger/nodd/pull/123",
-        "in_reply_to": null,
+        "in_reply_to": "github:https://github.com/asalzburger/nodd/pull/123#issuecomment-6684945961",
         "model": null,
         "agent_roles": [],
         "token_accounts": [],
         "timestamp": "2026-11-06T12:15:55Z",
+        "remote_input": null
+      },
+      {
+        "id": "github:https://github.com/asalzburger/nodd/pull/123#issuecomment-6684945961",
+        "type": "comment",
+        "direction": "action",
+        "actor": "github:trahxam",
+        "recipients": [],
+        "text": "Why can you not install the necessary frameworks exactly?",
+        "source": "https://github.com/asalzburger/nodd/pull/123#issuecomment-6684945961",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [],
+        "timestamp": "2026-11-06T12:35:14Z",
+        "remote_input": null
+      },
+      {
+        "id": "github:https://github.com/asalzburger/nodd/pull/123#issuecomment-6685411641",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "github:asalzburger",
+        "recipients": [],
+        "text": "Yes, it is possible. The [earlier task](https://github.com/asalzburger/nodd/pull/123#issuecomment-6684945961) established that the reference runtime was missing; it did not establish that installation was impossible.\n\nImplemented in c7ed6f3d311877fc27242c331a27d34fb9611cb9: pinned source submodules and a local installation of Gaudi v41r0, k4FWCore, the original RecCaloDigi algorithms and GeoSvc from k4SimGeant4, built against the existing Spack dependencies. Missing Boost 1.90 components and header dependencies are built locally. MarlinReco is also pinned for the existing nODD helper. The shared Spack environment is unchanged.\n\nThe original `DigitiserSiliconMip` processor now passes an actual two-event EDM4hep smoke: expected 2 MIP output, threshold rejection, full 64-bit ID, retained simulation inputs/event headers, truth links and empty-event handling.\n\nReproduce with `make key4hep-submodules`, `make key4hep` and `make key4hep-test`. See the [installation report](https://github.com/asalzburger/nodd/blob/c7ed6f3d311877fc27242c331a27d34fb9611cb9/docs/validation/issue117/pr123-framework-install.md) for exact pins, commands and verification.\n\nThe installation blocker is resolved. The ODD same-hit/noise comparison and requested MIP/e/gamma physics studies remain to run; this installation check does not substitute for them.\n",
+        "source": "https://github.com/asalzburger/nodd/pull/123#issuecomment-6685411641",
+        "in_reply_to": "github:https://github.com/asalzburger/nodd/pull/123#issuecomment-6684945961",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [],
+        "timestamp": "2026-11-06T13:01:20Z",
         "remote_input": null
       },
       {
@@ -370,7 +430,7 @@
       }
     ],
     "coverage": {
-      "github_captured_at": "2026-11-06T12:16:03.830739Z",
+      "github_captured_at": "2026-11-06T13:01:34Z",
       "prompts": "Available account-matched user-visible messages, public Codex inputs and curated journal excerpts. Historical full input coverage is unknown.",
       "recovered_visible_turns": 0,
       "unrecovered_account_turns": [],

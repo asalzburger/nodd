@@ -183,3 +183,26 @@ physics campaign or upstream full test-suite pass is claimed by this install.
   This task and its SoftEng turns have unavailable counters and empty usage.
 - After installation, setup and Spack lock SHA-256 values were re-read and
   match the report exactly; shared configuration remains unchanged.
+
+## Publication and reply
+
+Implementation commit `c7ed6f3d311877fc27242c331a27d34fb9611cb9` pushed
+with an ordinary fast-forward update to PR123's existing branch. Staged-file
+and new-object audits found eight gitlinks and curated text only; maximum new
+blob was the existing updated tracking register,276612 bytes. No event samples,
+binaries, caches or bulky run logs were committed.
+
+GitHub connector metadata updates and comment publication returned403
+“Resource not accessible by integration”. This was an integration permission
+limitation, not an automatic approval-review rejection. The authenticated
+GitHub CLI2.100.0 succeeded using the explicit user authorization to address
+and answer the PR comment. Updated title/body to describe the final software
+installation; PR remains draft. Posted answer:
+https://github.com/asalzburger/nodd/pull/123#issuecomment-6685411641
+
+The answer states installation is possible, names the actual installed original
+processor and passing synthetic event checks, and preserves the separate ODD/
+physics gates. The original-framework installation, source/build recipe and
+receipt are complete. The shared Spack environment is unchanged. Public PR
+metadata and both comments were refreshed through the read-capable connector
+after publication; sanitized snapshot retained in the PR123 interaction record.
