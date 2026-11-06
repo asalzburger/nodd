@@ -179,3 +179,9 @@ installed. The isolated prototype and comparison capability are preparation,
 not a completed original-framework or physics validation. See the
 [preparation report](../validation/issue117/README.md). No study acceptance or
 design sign-off is implied.
+
+On 2026-11-06 the user also authorized the
+[raw Geant4 nODD tiling-response study](../validation/issue117/tiling-response.md).
+It characterizes the physical endcap layout without running digitization or the
+deferred original framework. Its response distributions do not advance the
+same-hit original-processor comparison or detector acceptance gates.

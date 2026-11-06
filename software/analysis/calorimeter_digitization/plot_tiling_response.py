@@ -108,17 +108,21 @@ def plot(data, output):
     plt.rcParams.update({"font.size": 10, "axes.spines.top": False, "axes.spines.right": False})
     output.mkdir(parents=True, exist_ok=True)
     fig, axes = plt.subplots(2, 2, figsize=(15, 10))
-    fig.subplots_adjust(left=.075, right=.98, bottom=.12, top=.86, hspace=.48, wspace=.27)
+    fig.subplots_adjust(left=.075, right=.98, bottom=.18, top=.86, hspace=.54, wspace=.27)
     a, b, c, d = axes.flat
     ratios = [independent_ratio(values["tiled", p, primary], values["continuous", p, primary]) for p in ids]
     finite = lambda value: np.nan if value is None else value
-    a.errorbar(x, [finite(r[0]) for r in ratios], yerr=[finite(r[1]) for r in ratios], color=CONTROL,
+    # The predeclared common mechanical seam has negligible energy and mostly
+    # zero events. Its formal ratio is retained in the numerical output, while
+    # spectra/profiles expose that population without an unstable ratio axis.
+    a.errorbar(x, [finite(r[0]) if p != "S" else np.nan for p, r in zip(ids, ratios)],
+               yerr=[finite(r[1]) if p != "S" else np.nan for p, r in zip(ids, ratios)], color=CONTROL,
                marker="o", markerfacecolor=ECAL, markeredgecolor=CONTROL, capsize=3, ls="none")
     a.axhline(1, ls="--", lw=1, color="#888888")
-    a.set(title="A  Mean raw silicon signal: tiled / continuous", ylabel="Ratio of means", ylim=(0, max(1.1, max((r[0]+r[1] for r in ratios if r[0] is not None), default=1)*1.08)))
-    for i, r in enumerate(ratios):
-        if r[0] is None:
-            a.text(i, .03, "undefined", transform=a.get_xaxis_transform(), rotation=90, ha="center", va="bottom", fontsize=8)
+    a.set(title="A  Mean raw silicon signal: tiled / continuous", ylabel="Ratio of means", ylim=(0, max(1.1, max((r[0]+r[1] for p,r in zip(ids,ratios) if r[0] is not None and p != "S"), default=1)*1.08)))
+    for i, (p, r) in enumerate(zip(ids, ratios)):
+        if p == "S" or r[0] is None:
+            a.text(i, .03, "near-zero signal" if p == "S" else "undefined", transform=a.get_xaxis_transform(), rotation=90, ha="center", va="bottom", fontsize=8)
     for geometry, color, marker, shift, label in (("tiled", ECAL, "o", -.09, "ECAL tiled nODD"),
                                                    ("continuous", CONTROL, "s", .09, "ECAL idealized continuous control")):
         vals = [values[geometry, p, primary] for p in ids]
@@ -132,14 +136,15 @@ def plot(data, output):
         c.errorbar(x + shift, [100*v[0] for v in intervals],
                    yerr=[[100*(v[0]-v[1]) for v in intervals], [100*(v[2]-v[0]) for v in intervals]],
                    color=color, marker=marker, markeredgecolor=CONTROL, ls="none", capsize=3)
-    b.set(title="B  Raw event-energy spread", ylabel="RMS / mean [%]")
+    b.set(title="B  Raw event-energy spread (log scale)", ylabel="RMS / mean [%]", yscale="log")
     b.legend(fontsize=8)
+    b.text(.03, .5, "Width error unavailable when\nbootstrap means can be zero", transform=b.transAxes, fontsize=8)
     c.set(title="C  Fraction below the common frozen signal cut", ylabel="Events below cut [%]", ylim=(-3, 103))
     for axis in (a, b, c):
         axis.set_xticks(x, labels, rotation=23, ha="right", fontsize=9)
         axis.set_xlabel("First-plane impact point (definitions in scan protocol)", fontsize=9)
         axis.grid(axis="y", alpha=.2)
-    multi = [p for p in ids if sum(("tiled", p, e) in samples for e in (5, 20, 50)) > 1]
+    multi = [p for p in ids if p != "S" and sum(("tiled", p, e) in samples for e in (5, 20, 50)) > 1]
     shades = [ECAL, "#999900", "#555500"]
     for p, color in zip(multi, shades):
         energies = sorted(e for g, point, e in samples if g == "tiled" and point == p)
@@ -149,9 +154,10 @@ def plot(data, output):
     d.axhline(1, ls="--", lw=1, color="#888888")
     d.set(title="D  Selected energy dependence", xlabel="Electron beam energy [GeV]", ylabel="Mean tiled / continuous", xticks=[5, 20, 50])
     d.legend(fontsize=8)
+    d.text(.03, .45, "S: near-zero signal; see distributions/data", transform=d.transAxes, fontsize=8)
     d.grid(alpha=.2)
     fig.suptitle(f"nODD Si–W endcap · raw Geant4 electron response · PROTOTYPE\n48 layers, all +z wedges; {count_text} independent events / geometry / point; panels A–C:20 GeV", fontsize=14, y=.96)
-    fig.text(.025, .025, "Errors: MC standard errors; width: whole-event bootstrap. Tails: thin bars = fixed-cut Wilson95%; wide bars = joint sample/reference bootstrap95%.\nIdealized control adds gap silicon and activates guards. Mechanical seams remain. No digitization, energy calibration or full-detector performance claim.", fontsize=9)
+    fig.text(.025, .02, "Errors: MC standard errors; width: whole-event bootstrap. Tails: thin bars = fixed-cut Wilson95%; wide bars = joint sample/reference bootstrap95%.\nCommon seam S is shown in distributions/profiles; its unstable mean ratio is omitted from A/D. All populations are retained in data.\nIdealized control adds gap silicon and activates guards. No digitization, energy calibration or full-detector performance claim.", fontsize=9, va="bottom")
     fig.savefig(output / "nodd-tiling-response.png", dpi=160)
     plt.close(fig)
 
@@ -159,7 +165,7 @@ def plot(data, output):
     preferred = [p for p in ("C", "G", "K-gap", "S") if p in ids]
     chosen = preferred[:4] if len(preferred) >= 4 else ids[:4]
     fig, axes = plt.subplots(2, 2, figsize=(12, 8))
-    fig.subplots_adjust(left=.08, right=.98, bottom=.14, top=.87, hspace=.36, wspace=.27)
+    fig.subplots_adjust(left=.08, right=.98, bottom=.16, top=.80, hspace=.52, wspace=.27)
     cut = data["tail_definition"]["visible_fraction_cut"]
     for axis, p in zip(axes.flat, chosen):
         occupied_max = 0.
@@ -177,6 +183,7 @@ def plot(data, output):
         axis.set(title=f'{p}: {points[p]["label"]}\nZero signal: {zero_text}',
                  xlabel="Raw silicon energy / beam energy [%]", ylabel="Probability density /\npercentage point",
                  xlim=(0, max(occupied_max*1.05, 110*cut)))
+        axis.title.set_fontsize(10)
         axis.grid(alpha=.2)
         axis.legend(fontsize=8)
     fig.suptitle("nODD Si–W endcap · 20 GeV electrons · PROTOTYPE\nRaw deposited energy; all generated events retained", fontsize=14, y=.97)

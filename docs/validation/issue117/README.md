@@ -72,6 +72,27 @@ Other tests cover Poisson variance, deterministic MIP/range controls, strict
 threshold equality, stable event replay, malformed/range-overflow input,
 position modes, all-channel empty events and signal/noise truth semantics.
 
+## Raw nODD tiled-endcap response
+
+On 2026-11-06 the user authorized a raw Geant4 electron scan on the PR #115
+tiled nODD endcap, compared with an idealized continuous-silicon control in the
+same retained absorber/hardware stack. All 48 layers and 16 positive-end wedges
+are included. This uses no Marlin processor or digitization.
+
+The [executed report](tiling-response.md) records 7,600 response events plus a
+separate 100-event reference. At 20 GeV, the first-plane centre point records
+9.4% less silicon energy than the control; a tangential gap records 65.4% less.
+Statistical errors are 0.4 and 0.2 percentage points. The scan is intentionally
+concentrated on boundaries and supplies no area-averaged loss or reconstructed
+resolution. The control adds silicon and makes guards sensitive; mechanical
+seams and other hardware remain. Marlin/reference and design acceptance gates
+are unchanged.
+
+![nODD raw response versus impact position and energy](previews/nodd-tiling-response.png)
+
+See the [protocol](tiling-response-plan.md), [all figures and recipe](tiling-response.md)
+and [compact distributions/moments/provenance](previews/nodd-tiling-response.json).
+
 ## Existing exploratory previews
 
 At the user's request, the PR embeds two plots prepared from the retained
