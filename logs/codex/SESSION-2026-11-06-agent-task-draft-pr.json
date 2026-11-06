@@ -1,0 +1,112 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-11-06-agent-task-draft-pr",
+  "title": "Require a draft PR for every completed agent task",
+  "recorded_at": "2026-11-06T11:53:13Z",
+  "started_at": null,
+  "ended_at": "2026-11-06T12:02:36.018290Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact per-turn counters, stable client thread/turn IDs and execution model were not exposed; usage remains empty.",
+    "Tests used a real local bare Git remote and fake GitHub CLI, with no paid model call. Live authenticated dry-run verified queue access; a new scheduled model task was not started manually.",
+    "The new runner files were deployed as explicit local overrides in the stable checkout at the user request; merge this draft and reconcile those overrides against merged main while preserving the separately edited permission config."
+  ],
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "2ce4e9c81006a3779e89a3cedc3a45a7f1bf72d7",
+    "branch": "codex/agent-task-draft-pr",
+    "initial_changes": [],
+    "result_commits": [
+      "13e0a17651156f28b736015501c84496f1f292f8"
+    ],
+    "changed_files": [
+      "AGENTS.md",
+      "README.md",
+      "tools/agent_tasks/README.md",
+      "tools/agent_tasks/poll.py",
+      "tools/agent_tasks/publish.py",
+      "tools/agent_tasks/pr-response.schema.json",
+      "tools/agent_tasks/test_poll.py",
+      "tools/agent_tasks/test_publish.py",
+      "logs/codex/SESSION-2026-11-06-agent-task-draft-pr.json",
+      "logs/codex/SESSION-2026-11-06-agent-task-draft-pr.md",
+      "interactions/pr-0122.json"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [
+      "repository infrastructure",
+      "scheduled agent tasks",
+      "draft PR delivery"
+    ],
+    "related_ids": [
+      "ISSUE-120",
+      "ADR-004",
+      "PR122"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-11-06-agent-task-draft-pr.md",
+  "activities": [
+    {
+      "kind": "tool",
+      "name": "functions.exec / exec_command / apply_patch / write_stdin",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Native Codex execution and editing wrappers; GitHub connector reads and authenticated Git/GitHub CLI used for explicitly requested draft publication. Counts not measured."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 -B -m unittest discover -s tools/agent_tasks -p 'test_*.py' -q",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "25 tests passed, including draft/SHA verification, idempotent/lost-response publication, actual local Git push and interaction follow-up, source-PR base/movement, refusal to update ready PRs, size/history guard and failure state/link retention."
+    },
+    {
+      "command": "Deploy runtime files under the existing task lock, preserving permission config/state; run live poller --dry-run",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Initial deployment and authenticated preview succeeded; task #118 eligible, no task claimed or model run started. Final tested source update verified separately."
+    },
+    {
+      "command": "Publish completed task #120 as a draft PR",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Draft PR #121 created and interaction record validated; its link added to the existing local task result/state, preserving the original worker worktree."
+    },
+    {
+      "command": "python3 -B tools/interactions/ledger.py validate (initial rule-session draft)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Historical PR IDs in the new session would auto-link it into existing ledgers. Narrowed related IDs to the bounded rule task; no historical ledgers changed."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate; python3 -B tools/interactions/ledger.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "254 sessions and 104 existing PR records validated after narrowing the independent rule-session related IDs."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py build --output _site/draft-rule; python3 -B tools/session_logging/session_log.py summary --format json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Token site built; this rule session has no observed input/output counters. Existing canonical totals unchanged."
+    },
+    {
+      "command": "Final deployed source fingerprint check and authenticated --dry-run; git var GIT_AUTHOR_IDENT (identity not retained)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Final tested poller/publisher/schema deployed with permission configuration and queue history preserved. Live dry-run found task118 eligible without claiming it; Git author identity is configured."
+    }
+  ]
+}

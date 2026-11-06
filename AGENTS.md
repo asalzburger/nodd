@@ -159,6 +159,16 @@ See [ADR-003](docs/decisions/ADR-003-validation-and-artifact-policy.md).
 
 ## Code and change discipline
 
+Human instruction, 2026-11-06: **every repository task must end in a draft pull
+request**. Push the dedicated task branch and open a draft PR with the task/issue,
+actual validation and limitations before reporting completion. Investigations,
+no-code outcomes and blocked work still need a reviewable curated session record
+in their draft PR. Do not mark the PR ready or merge it without explicit human
+instruction. If publication fails, report the blocker and any existing PR URL;
+the task is not complete. For scheduled `agent_task` jobs, the host publisher owns
+the commit/push/PR steps and records the verified draft URL in task state/results;
+the sandboxed agent prepares the changes and structured PR title/body.
+
 - Inspect existing conventions before adding dependencies, directories, abstractions, or build options.
 - Make focused changes. Do not combine unrelated cleanup with scientific modifications.
 - Add or update tests with the implementation.
