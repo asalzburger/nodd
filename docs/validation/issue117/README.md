@@ -9,6 +9,12 @@ prototype code and exploratory results remain isolated; no additional Marlin
 study is run after that direction. No design sign-off or physics acceptance is
 recorded.
 
+The [2026-11-06 review follow-up](pr118-review-request.md) records the requested
+noise-off/noise-on Key4hep comparisons, digitized MIP/threshold studies and paired
+e/gamma plots. Execution is blocked by the missing original-framework runtime
+in the rechecked local environment. The proposed endcap-geometry issue split
+remains a maintainer decision; prior evidence is retained.
+
 ## Implementation and reference identity
 
 Starting nODD main: `96dbf57d0da7f3027e59109c1846d992d68d4d44`.
