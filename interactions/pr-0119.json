@@ -1,0 +1,225 @@
+{
+  "schema_version": 1,
+  "curated": {
+    "journal_links": [],
+    "agents": [],
+    "tools": [],
+    "events": []
+  },
+  "github": {
+    "captured_at": "2026-11-06T09:49:48.693Z",
+    "pull_request": {
+      "number": 119,
+      "url": "https://github.com/asalzburger/nodd/pull/119",
+      "title": "Infrastructure: pick up reviewer-labeled agent tasks hourly on mac-studio-01",
+      "head": "codex/hourly-agent-tasks",
+      "head_sha": "1c79d1baa35d02d2f3974366227d3acc9573078f",
+      "state": "open",
+      "body": "## Executive summary\n\nReviewers can now queue bounded work by applying `agent_task` to an open issue or same-repository PR. This PR adds an hourly macOS LaunchAgent for `acts-mac-studio-01`, a poller that attempts one new request per tick, and deployment instructions. The GitHub label has already been created, and `asalzburger-review` was verified to have write access.\n\nThe scheduler is **not loaded**. Review and merge first, then deploy from a stable checkout using [the operations guide](tools/agent_tasks/README.md). Loading starts an immediate check as well as checks at minute 7 each hour. The macOS user must be logged in, and the Mac awake and online.\n\n## Change\n\n- Accept requests labeled by `asalzburger-review` or `asalzburger`; support issues and same-repository PRs, including PR review context.\n- Use the label event ID for durable deduplication. Removing/reapplying the label requests a fresh attempt; comments and failed/interrupted attempts do not automatically repeat.\n- Recheck queued requests, lock out overlapping workers, cap each run at 3300 seconds, and use a separate worktree at the latest main/captured PR head.\n- Run Codex with `workspace-write` and no interactive approval. Leave local changes and final results for human review; the initial runner does not publish changes, comment, mutate labels, merge or grant sign-off.\n- Add queue tests to CI and document authentication, deployment, sleep/logout behavior, failures, retries and shutdown.\n\nThis is repository infrastructure under the existing ADR-003/ADR-004 policies; both ADRs remain DRAFT. No detector parameters, scientific provenance, project progress entries or sign-off states change. The user confirmed that both issues and PRs should be supported.\n\n## Dashboard and validation\n\n- [x] Infrastructure PR: no maintenance entries added to scientific progress tracking.\n- [x] 15 queue tests pass, including real local Git fetch/worktree creation with a fake Codex executable, deduplication, cancellation/relabel races, failed attempts, locking, PR head changes, fork filtering and timeout cleanup.\n- [x] Live read-only GitHub dry-run succeeds on mac-studio-01; no eligible tasks and no task started.\n- [x] Generated LaunchAgent passes `plutil -lint`; no live scheduler loaded and no paid model call used for testing.\n- [x] Project records validate and the token dashboard builds.\n- [x] Session records validate; staged diff and new Git objects inspected, with no large run artifacts or credentials.\n- [x] Individual PR interaction record synchronized and validated.\n- [x] Human approval boundaries preserved; layout and detector validation unaffected.\n\nCurated session: `SESSION-2026-11-06-hourly-agent-tasks`. Exact token counters for the active session are unavailable; no usage was estimated.\n",
+      "actor": "asalzburger",
+      "created_at": "2026-11-06T09:46:51Z"
+    },
+    "comments": [],
+    "issues": []
+  },
+  "derived": {
+    "parties": [
+      {
+        "id": "agent:SESSION-2026-11-06-hourly-agent-tasks",
+        "name": "Codex desktop",
+        "kind": "agent"
+      },
+      {
+        "id": "github:asalzburger",
+        "name": "asalzburger",
+        "kind": "account"
+      },
+      {
+        "id": "unknown:project-user",
+        "name": "Project user (name unrecorded)",
+        "kind": "human"
+      }
+    ],
+    "journals": [
+      {
+        "session_id": "SESSION-2026-11-06-hourly-agent-tasks",
+        "record": "logs/codex/SESSION-2026-11-06-hourly-agent-tasks.json",
+        "attribution": [
+          "recorded_branch",
+          "explicit_PR_reference"
+        ],
+        "snapshot": null,
+        "snapshot_sha256": null,
+        "record_sha256": "2fd483c3c3aef4d940e2d985c356e71fbf3b614e4c96699bb8e7a6435b528954",
+        "narrative_sha256": "18ccf85b0047395b64cb13b20a6c7a75894758b97f45d4bf2d384568731796bd"
+      }
+    ],
+    "token_accounts": [
+      {
+        "id": "SESSION-2026-11-06-hourly-agent-tasks",
+        "record": "logs/codex/SESSION-2026-11-06-hourly-agent-tasks.json",
+        "scope": "canonical_session; shared PR references are not allocations",
+        "status": "unobserved",
+        "usage_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "turns": []
+      }
+    ],
+    "visible_sources": [],
+    "agents": [
+      {
+        "id": "agent:SESSION-2026-11-06-hourly-agent-tasks",
+        "name": "Codex desktop",
+        "role": "session_agent",
+        "thread_id": null,
+        "models": [],
+        "source": "logs/codex/SESSION-2026-11-06-hourly-agent-tasks.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      }
+    ],
+    "tools": {
+      "native_codex": [
+        {
+          "name": "functions.exec",
+          "category": "native_codex",
+          "version": null,
+          "calls": null,
+          "source": "logs/codex/SESSION-2026-11-06-hourly-agent-tasks.json",
+          "evidence": "Exposed native execution wrapper; used exec_command, apply_patch, web.run and GitHub connector operations. Counts not measured.",
+          "token_account": "SESSION-2026-11-06-hourly-agent-tasks",
+          "provenance": "Native API name"
+        }
+      ],
+      "codex_installed": [],
+      "instructed_software": [],
+      "unresolved": []
+    },
+    "events": [
+      {
+        "id": "github:https://github.com/asalzburger/nodd/pull/119",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "github:asalzburger",
+        "recipients": [],
+        "text": "## Executive summary\n\nReviewers can now queue bounded work by applying `agent_task` to an open issue or same-repository PR. This PR adds an hourly macOS LaunchAgent for `acts-mac-studio-01`, a poller that attempts one new request per tick, and deployment instructions. The GitHub label has already been created, and `asalzburger-review` was verified to have write access.\n\nThe scheduler is **not loaded**. Review and merge first, then deploy from a stable checkout using [the operations guide](tools/agent_tasks/README.md). Loading starts an immediate check as well as checks at minute 7 each hour. The macOS user must be logged in, and the Mac awake and online.\n\n## Change\n\n- Accept requests labeled by `asalzburger-review` or `asalzburger`; support issues and same-repository PRs, including PR review context.\n- Use the label event ID for durable deduplication. Removing/reapplying the label requests a fresh attempt; comments and failed/interrupted attempts do not automatically repeat.\n- Recheck queued requests, lock out overlapping workers, cap each run at 3300 seconds, and use a separate worktree at the latest main/captured PR head.\n- Run Codex with `workspace-write` and no interactive approval. Leave local changes and final results for human review; the initial runner does not publish changes, comment, mutate labels, merge or grant sign-off.\n- Add queue tests to CI and document authentication, deployment, sleep/logout behavior, failures, retries and shutdown.\n\nThis is repository infrastructure under the existing ADR-003/ADR-004 policies; both ADRs remain DRAFT. No detector parameters, scientific provenance, project progress entries or sign-off states change. The user confirmed that both issues and PRs should be supported.\n\n## Dashboard and validation\n\n- [x] Infrastructure PR: no maintenance entries added to scientific progress tracking.\n- [x] 15 queue tests pass, including real local Git fetch/worktree creation with a fake Codex executable, deduplication, cancellation/relabel races, failed attempts, locking, PR head changes, fork filtering and timeout cleanup.\n- [x] Live read-only GitHub dry-run succeeds on mac-studio-01; no eligible tasks and no task started.\n- [x] Generated LaunchAgent passes `plutil -lint`; no live scheduler loaded and no paid model call used for testing.\n- [x] Project records validate and the token dashboard builds.\n- [x] Session records validate; staged diff and new Git objects inspected, with no large run artifacts or credentials.\n- [x] Individual PR interaction record synchronized and validated.\n- [x] Human approval boundaries preserved; layout and detector validation unaffected.\n\nCurated session: `SESSION-2026-11-06-hourly-agent-tasks`. Exact token counters for the active session are unavailable; no usage was estimated.\n",
+        "source": "https://github.com/asalzburger/nodd/pull/119",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [],
+        "timestamp": "2026-11-06T09:46:51Z",
+        "remote_input": null
+      },
+      {
+        "id": "journal:SESSION-2026-11-06-hourly-agent-tasks:5c2967bde77f41cb",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "agent:SESSION-2026-11-06-hourly-agent-tasks"
+        ],
+        "text": "User, exact request: \"I need a new infratructure PR: The git repository needs to\nhave label \\\"agent_task\\\" which the reviewer can set. Then on mac-studio-01 we\nneed to hourly check if there are new tasks to pick up. Can this work ?\"\n\n",
+        "source": "logs/codex/SESSION-2026-11-06-hourly-agent-tasks.md#selected-conversation",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-06-hourly-agent-tasks"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-11-06-hourly-agent-tasks:06342a128d008800",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-11-06-hourly-agent-tasks",
+        "recipients": [],
+        "text": "Assistant, paraphrase: confirmed feasibility of a local macOS LaunchAgent,\ninspected repository governance and existing workflow, asked whether issues,\nPRs or both should be eligible, and initially proceeded with both. The user\nsubsequently confirmed, exactly: \"Both issues and pull requests\". Reported\ncreating the label and verifying reviewer access. Explained\nthat worker results remain local for review and scheduler loading follows PR\nreview and merge.\n\n",
+        "source": "logs/codex/SESSION-2026-11-06-hourly-agent-tasks.md#selected-conversation",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-06-hourly-agent-tasks"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-11-06-hourly-agent-tasks:8cfc5fe139a82d32",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "agent:SESSION-2026-11-06-hourly-agent-tasks"
+        ],
+        "text": "User, exact follow-ups: \"What's necessary to run on the apple-studio-01 to do\nthis ?\" and \"Then, can I make a permission list of people who are allowed to\nset this flag ?\"\n\n",
+        "source": "logs/codex/SESSION-2026-11-06-hourly-agent-tasks.md#selected-conversation",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-06-hourly-agent-tasks"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-11-06-hourly-agent-tasks:61142e24f7f0f04c",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-11-06-hourly-agent-tasks",
+        "recipients": [],
+        "text": "Assistant, paraphrase: explained Python/Git/gh/Codex prerequisites, existing\nauthentication, stable merged checkout and one-time LaunchAgent loading, plus\nlogged-in/awake/online operation. Verified the installed versions and Codex\nlogin. Confirmed the existing configurable reviewer allowlist gates task pickup;\nGitHub's general triage/write label permissions still govern who can visibly\napply labels. Unauthorized label actors do not trigger worker execution.",
+        "source": "logs/codex/SESSION-2026-11-06-hourly-agent-tasks.md#selected-conversation",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-06-hourly-agent-tasks"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-11-06-hourly-agent-tasks:5a4b8af54ff14a68",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-11-06-hourly-agent-tasks",
+        "recipients": [],
+        "text": "Created the GitHub `agent_task` label (purple `6F42C1`) with the requested queue\nmeaning. GitHub CLI confirmed `asalzburger-review` has write access. No repository\npermission was changed. The connector's collaborator permission endpoint returned\n403, so the authenticated GitHub CLI was used for that read and label creation.\n\nAdded a Python standard-library poller and explicit LaunchAgent generator. The\nschedule is once hourly at minute 7 and at load, restricted to the verified host\n`acts-mac-studio-01`. The allowlist contains the established reviewer and repository\npublishing accounts. One task is attempted per tick, using a separate worktree.\nEach label event is claimed durably before starting; repeated ticks, comments and\nfailed/interrupted attempts do not duplicate execution. Removing/reapplying the\nlabel requests a fresh attempt. A local lock prevents overlapping workers using\nthe same state directory. This is not a distributed queue.\n\nBoth issues and same-repository PRs are supported. PRs include public review\ncontext and are tied to the captured head revision; external-fork PRs are skipped.\nCodex uses `workspace-write` and never requests interactive approval. The prompt\nrequires repository governance, tests and curated reporting, and leaves local\nchanges/results for human review without pushing, publishing, commenting, label\nmutation, merging or human sign-off. Missing permissions remain blockers.\n\nThe generator writes a reviewable plist with absolute executable paths and shell\nPATH but never loads a job. No live scheduler or paid Codex task was started in\nthis implementation session. Deployment after merge uses the documented stable\ncheckout, logged-in macOS user and existing CLI authentication. Sleeping/offline\nmachines cannot provide an exact wall-clock hourly service.",
+        "source": "logs/codex/SESSION-2026-11-06-hourly-agent-tasks.md#decisions-and-outcomes",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-06-hourly-agent-tasks"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-11-06-hourly-agent-tasks:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-11-06-hourly-agent-tasks",
+        "recipients": [],
+        "text": "Hourly reviewer-labeled task pickup on mac-studio-01 — see the canonical narrative for outcomes and checks.",
+        "source": "logs/codex/SESSION-2026-11-06-hourly-agent-tasks.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-06-hourly-agent-tasks"
+        ],
+        "content_kind": "reference_summary"
+      }
+    ],
+    "coverage": {
+      "github_captured_at": "2026-11-06T09:49:48.693Z",
+      "prompts": "Available account-matched user-visible messages, public Codex inputs and curated journal excerpts. Historical full input coverage is unknown.",
+      "recovered_visible_turns": 0,
+      "unrecovered_account_turns": [],
+      "responses": "Public responses and recorded outcomes; no private model state or hidden reasoning.",
+      "token_accounting": "References only. Never sum accounts across PRs or assign a shared turn by text length.",
+      "unknowns": "Unrecorded names, models, tools, subagent identities and response links remain unknown; empty lists are not zero activity.",
+      "remote": "Snapshot, not live synchronization; deleted/edited history and emoji reactions are not recovered.",
+      "branch_only": "Pinned branch journal snapshots are references, not imported counters. Unretained or other-device inputs remain unknown."
+    }
+  }
+}
