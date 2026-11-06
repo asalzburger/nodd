@@ -130,6 +130,9 @@ defines their full mandates and responsibility boundaries.
 These are responsibility roles, not a requirement for eight simultaneous agent
 processes. Only identified humans may grant design sign-off or acceptance.
 
+The [hourly task queue](tools/agent_tasks/README.md) lets reviewers request work
+with `agent_task` for pickup on `acts-mac-studio-01` after scheduler deployment.
+
 The [agent workflow](docs/AGENT_WORKFLOW.md) connects these mandates to reusable
 Codex profiles and skills, bounded assignments and revision-specific handoffs.
 Start Codex in the nODD checkout (or its worktree) to discover project guidance.

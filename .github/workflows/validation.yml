@@ -138,6 +138,8 @@ jobs:
         run: |
           python3 -B tools/agent_workflow/workflow.py validate
           python3 -B -m unittest discover -s tools/agent_workflow -p 'test_*.py' -v
+      - name: Test hourly reviewer task pickup and scheduler configuration
+        run: python3 -B -m unittest discover -s tools/agent_tasks -p 'test_*.py' -v
       - name: Test calorimeter source audit arithmetic and accounting
         run: python3 -B -m unittest discover -s tools/calorimeter_audit -p 'test_*.py' -v
       - name: Test public tracker prototype controls
