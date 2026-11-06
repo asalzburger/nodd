@@ -15,6 +15,8 @@ import subprocess
 import sys
 from urllib.parse import urlencode
 
+from publish import publish_draft
+
 
 ROOT = Path(__file__).resolve().parents[2]
 CONFIG = Path(__file__).with_name("config.json")
@@ -143,8 +145,14 @@ For a PR, address the requested changes at its captured head revision. For an
 issue, implement its bounded request from {config['base_branch']}.
 Work only in this isolated task worktree. Run relevant checks and prepare the
 required curated session record and interaction evidence. Keep raw data local.
-Leave changes and a clear final summary for human review, identifying tests,
-blockers and next steps. Do not push, open/modify PRs, post comments, alter labels,
+Every task must end in a draft PR. Prepare all reviewable changes and inspect
+their file sizes and contents. Include a new curated session record even for
+an investigation or a blocked/no-code result. Return the required JSON object
+with title and body for the draft PR; use exactly one repository title prefix
+and explain the result, actual tests, blockers and remaining human decisions.
+The host publisher will commit, push the assigned branch, create a DRAFT PR and
+record its interactions. Do not perform these publication steps yourself.
+Do not post comments, alter labels,
 merge, approve a design, record human sign-off or change machine configuration.
 If required access or human decisions are missing, report the blocker and stop.
 Do not bypass the sandbox.\n\nPublic GitHub task snapshot:\n{json.dumps(data, indent=2)}\n"""
@@ -170,8 +178,9 @@ def execute(config, repo, state_dir, key, data, codex):
     (run_dir / "prompt.txt").write_text(prompt)
     # No JSONL/raw rollout capture. Only the final response and operational stderr stay local.
     args = [codex, "exec", "--sandbox", "workspace-write",
-            "-c", 'approval_policy="never"', "--color", "never", "-C", str(worktree), "-"]
-    with (run_dir / "result.md").open("w") as output, (run_dir / "stderr.log").open("w") as errors:
+            "-c", 'approval_policy="never"', "--color", "never", "-C", str(worktree),
+            "--output-schema", str(Path(__file__).with_name("pr-response.schema.json")), "-"]
+    with (run_dir / "result.json").open("w") as output, (run_dir / "stderr.log").open("w") as errors:
         process = subprocess.Popen(args, stdin=subprocess.PIPE, stdout=output,
                                    stderr=errors, text=True, start_new_session=True)
         try:
@@ -185,9 +194,16 @@ def execute(config, repo, state_dir, key, data, codex):
                 os.killpg(process.pid, signal.SIGKILL)
                 process.wait()
             raise
-    return {"status": "completed" if process.returncode == 0 else "failed",
+    result = {"status": "failed",
             "exit_code": process.returncode, "revision": revision,
             "branch": branch, "worktree": str(worktree), "result": str(run_dir / "result.md")}
+    if process.returncode == 0:
+        publication_data = {**data, "input_revision": revision}
+        result.update(publish_draft(config, worktree, run_dir, key, publication_data, ROOT))
+        result["status"] = "completed"
+    else:
+        (run_dir / "result.md").write_text(f"Task failed with exit code {process.returncode}; no completed draft PR.\n")
+    return result
 
 
 def poll(config, repo, state_dir, codex, dry_run=False):
@@ -217,9 +233,18 @@ def poll(config, repo, state_dir, codex, dry_run=False):
             state["attempts"][key] = attempt
             save(state_path, state)
             try:
-                attempt.update(execute(config, repo, state_dir, key, data, codex))
+                outcome = execute(config, repo, state_dir, key, data, codex)
+                if outcome["status"] == "completed" and not outcome.get("draft_pr_url"):
+                    raise ValueError("task cannot complete without a draft PR URL")
+                attempt.update(outcome)
             except Exception as error:
-                attempt.update(status="failed", error=str(error))
+                detail = str(error)
+                if isinstance(error, subprocess.CalledProcessError) and error.stderr:
+                    detail += ": " + error.stderr.strip()[-2000:]
+                attempt.update(status="failed", error=detail)
+                progress = state_dir / "runs" / key / "publication.json"
+                if progress.exists():
+                    attempt.update(json.loads(progress.read_text()))
             attempt["ended_at"] = now()
             save(state_path, state)
             print(json.dumps(attempt))

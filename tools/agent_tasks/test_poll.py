@@ -92,7 +92,8 @@ class QueueTests(unittest.TestCase):
         def execute(*args):
             saved = json.loads((self.state / "state.json").read_text())
             self.assertEqual(saved["attempts"]["1-10"]["status"], "started")
-            return {"status": "completed", "exit_code": 0}
+            return {"status": "completed", "exit_code": 0,
+                    "draft_pr_url": "https://github.com/example/test/pull/7"}
         with patch("poll.verify_origin"), patch("poll.api", side_effect=self.fake_api), \
                 patch("poll.execute", side_effect=execute) as run:
             self.assertEqual(poll.poll(CONFIG, self.repo, self.state, "codex"), 0)
@@ -106,6 +107,27 @@ class QueueTests(unittest.TestCase):
             self.assertEqual(poll.poll(CONFIG, self.repo, self.state, "codex"), 0)
             self.assertEqual(run.call_count, 1)
         self.assertEqual(json.loads((self.state / "state.json").read_text())["attempts"]["1-10"]["status"], "failed")
+
+    def test_successful_agent_without_a_draft_is_not_complete(self):
+        with patch("poll.verify_origin"), patch("poll.api", side_effect=self.fake_api), \
+                patch("poll.execute", return_value={"status": "completed", "exit_code": 0}):
+            self.assertEqual(poll.poll(CONFIG, self.repo, self.state, "codex"), 1)
+        result = json.loads((self.state / "state.json").read_text())["attempts"]["1-10"]
+        self.assertEqual(result["status"], "failed")
+        self.assertIn("draft PR", result["error"])
+
+    def test_publication_error_retains_existing_draft_link(self):
+        def fail(*args):
+            run_dir = self.state / "runs/1-10"
+            run_dir.mkdir(parents=True)
+            poll.save(run_dir / "publication.json", {"draft_pr_url": "https://github.com/example/test/pull/7"})
+            raise RuntimeError("ledger push failed")
+        with patch("poll.verify_origin"), patch("poll.api", side_effect=self.fake_api), \
+                patch("poll.execute", side_effect=fail):
+            self.assertEqual(poll.poll(CONFIG, self.repo, self.state, "codex"), 1)
+        result = json.loads((self.state / "state.json").read_text())["attempts"]["1-10"]
+        self.assertEqual(result["status"], "failed")
+        self.assertEqual(result["draft_pr_url"], "https://github.com/example/test/pull/7")
 
     def test_dry_run_does_not_claim_or_execute(self):
         with patch("poll.verify_origin"), patch("poll.api", side_effect=self.fake_api), \
@@ -164,9 +186,11 @@ class QueueTests(unittest.TestCase):
         codex.chmod(0o755)
         self.state.mkdir()
         data = {"issue": issue(), "request": event(), "comments": []}
-        result = poll.execute(CONFIG, self.repo, self.state, "1-10", data, str(codex))
+        with patch("poll.publish_draft", return_value={"draft_pr_url": "https://github.com/example/test/pull/7"}) as publish:
+            result = poll.execute(CONFIG, self.repo, self.state, "1-10", data, str(codex))
+            self.assertEqual(publish.call_args.args[4]["input_revision"], result["revision"])
         self.assertEqual(result["status"], "completed")
-        self.assertEqual(Path(result["result"]).read_text(), "fake Codex result\n")
+        self.assertEqual((self.state / "runs/1-10/result.json").read_text(), "fake Codex result\n")
         self.assertEqual((Path(result["worktree"]) / "example.txt").read_text(), "before\n")
         self.assertEqual(poll.command(["git", "status", "--porcelain"], self.repo), "")
         # A stale captured PR head must never execute the agent.

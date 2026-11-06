@@ -3,9 +3,11 @@
 A reviewer applies `agent_task` to an open issue or PR in `asalzburger/nodd`.
 The LaunchAgent on **acts-mac-studio-01** checks at minute 7 of every hour and
 once when loaded. Each tick picks up at most one new request, oldest issue first,
-and runs Codex in a separate Git worktree. A result is a local change proposal
-and final response for human review. This infrastructure does not merge changes
-or grant scientific approval.
+and runs Codex in a separate Git worktree. Every completed task ends in a
+**draft PR** for human review. The host commits
+and pushes the task branch, creates the draft PR, records its interactions and
+verifies the remote draft/head before marking the task complete. It does not
+merge changes or grant scientific approval.
 
 ## Reviewer workflow
 
@@ -38,7 +40,9 @@ gh label create agent_task --repo asalzburger/nodd --color 6F42C1 \
   --description 'Reviewer requests agent work; picked up hourly on mac-studio-01'
 ```
 
-The poller only reads GitHub. It never adds/removes labels or posts comments.
+Queue discovery reads GitHub. The host publisher pushes only the assigned task
+branch and creates its draft PR; it never adds/removes labels, posts comments,
+marks a PR ready, merges or changes repository permissions.
 
 ## Deploy after review and merge
 
@@ -46,7 +50,8 @@ Use a stable checkout on `acts-mac-studio-01`, not a temporary PR worktree.
 Python 3.11+, Git, GitHub CLI and Codex CLI must be installed. The observed
 Codex version during implementation was `0.166.0`; verify supported flags after
 CLI upgrades. Authenticate interactively once as the same macOS user that will
-run the job (`gh auth login`, `codex login`) and verify Git fetch access. Do not
+run the job (`gh auth login`, `codex login`) and verify Git fetch/push access
+and permission to create draft PRs. Do not
 put tokens or auth files in Git or in the plist. Existing credentials are reused.
 
 From that checkout, inspect the read-only pickup preview first:
@@ -80,8 +85,9 @@ first scheduled run through its logs.
 
 This is a per-user LaunchAgent: the user must be logged in. The Mac must be
 awake and online to check GitHub. Missed calendar events while asleep coalesce
-into a wakeup check; the schedule does not wake or power on the Mac. A run is
-bounded to 3300 seconds by default, with one process lock shared by manual and
+into a wakeup check; the schedule does not wake or power on the Mac. The model phase is
+bounded to 3300 seconds by default. Publication follows with a 180-second timeout
+per host command; the same process lock covers both phases and all manual and
 scheduled calls. Pending tasks beyond the one-per-tick limit wait for later
 hours. This is a single-machine queue; do not run a second independent worker
 with another state directory.
@@ -89,24 +95,41 @@ with another state directory.
 ## Results, failures and maintenance
 
 The private local state directory contains `state.json`, `runs/NUMBER-EVENT/`
-(public input snapshot, prompt, final `result.md`, operational stderr), and
+(public input snapshot, prompt, structured `result.json`, final `result.md`,
+publication/size manifests and operational stderr), and
 `worktrees/NUMBER-EVENT/` on branches named `codex/agent-task-NUMBER-EVENT`.
-`completed` means Codex exited zero, not that the implementation passed all
-tests or received human approval. Inspect the final response and worktree.
-Publish reviewed changes through the normal PR workflow. No GitHub feedback is
-posted by this initial runner; monitor the local scheduler logs and results.
+`completed` requires a zero model exit, a pushed branch, its individual PR
+interaction record, and a verified open **draft** PR at the final pushed SHA.
+The state contains `draft_pr_url`/`draft_pr_number`, and `result.md` starts with
+the clickable PR link. Inspect the draft for actual validation and limitations;
+completion is not human approval. For a task on an existing PR, the new draft
+targets that PR's captured head branch so it contains only the follow-up delta.
+The source PR must still be open at its captured SHA before publication.
 
 Codex runs with `workspace-write` and `approval_policy="never"`; existing sandbox
 network and writable-directory restrictions still apply. Access requiring
-approval must be reported as a blocker. The task prompt forbids pushing,
-publishing, comments, label changes, machine configuration and human sign-off.
-This policy is an instruction to the agent, not a replacement for the sandbox.
+approval must be reported as a blocker. The sandboxed agent returns a JSON PR
+title/body under
+[the final-response schema](pr-response.schema.json) and leaves reviewable changes,
+including a curated session record for investigations, blocked or no-code tasks.
+The host publisher performs commit/push/draft creation outside that sandbox using
+the operator's existing GitHub login. The prompt forbids the agent from publishing
+itself, posting comments, changing labels/machine configuration or granting human
+sign-off. The host checks branch/origin, title, curated records, staged paths and
+new Git blobs. Credential paths and new/staged blobs above 5 MiB fail unattended
+publication and require manual review. These checks complement the repository
+artifact rules; they are not a full content/secret scanner.
 Use bounded, reviewed tasks on this workstation. Dependencies are not installed
 automatically and submodules are not initialized automatically. Follow the
 repository's ACTS preflight whenever a task actually requires that environment.
 
-A failed/timed-out attempt is retained and returns a nonzero exit. An interrupted
-poller can leave `started` in state. Both are suppressed on future ticks; inspect
+A failed/timed-out attempt, missing/invalid PR response or publication failure
+is retained and returns a nonzero exit; it cannot be reported as completed.
+If draft creation succeeded before a later failure, `publication.json` and state
+retain its URL so the operator can inspect that draft. Retrying publication on
+the same assigned branch reuses its existing draft rather than creating another.
+An interrupted poller can leave `started` in state. Failed and interrupted
+attempts are suppressed on future ticks; inspect
 the worktree and logs, then remove/reapply the label if a fresh attempt is needed.
 Do not delete the state directory to retry: that loses deduplication history.
 Network/API failures before claiming consume no request and retry next hour.
@@ -131,8 +154,14 @@ python3 -B -m unittest discover -s tools/agent_tasks -p 'test_*.py' -v
 ```
 
 Tests use local Git repositories and fake Codex/GitHub responses. They make no
-paid model calls and do not load a LaunchAgent. This PR intentionally leaves
-deployment for after human review/merge.
+paid model calls and do not load a LaunchAgent. Publisher integration tests use
+a real local bare Git remote and a fake GitHub CLI; they verify draft creation,
+interaction follow-up, remote SHA checks, idempotence and failure paths.
+
+For the existing installation, deploy the reviewed `poll.py`, `publish.py` and
+`pr-response.schema.json` together. Preserve the local permission-list config,
+state and completed worktrees. Source updates at the same program path do not
+require another `launchctl bootstrap`; inspect the next scheduled result.
 
 - [GitHub label permissions](https://docs.github.com/en/issues/using-labels-and-milestones-to-track-work/managing-labels)
 - [Apple LaunchAgent and timed-job guide](https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingLaunchdJobs.html)
