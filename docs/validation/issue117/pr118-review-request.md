@@ -1,6 +1,10 @@
-# PR #118 — digitization review request: blocked execution
+# PR #118 — digitization review request: historical blocked execution
 
-Date: 2026-11-06. Status: **BLOCKED**, isolated **PROTOTYPE** remains unsigned.
+The missing-runtime finding below describes the earlier restricted task.
+The subsequent authorized installation and its actual checks are recorded in
+[the PR #123 installation follow-up](pr123-framework-install.md).
+
+Date: 2026-11-06. Historical status: **BLOCKED**, isolated **PROTOTYPE** remains unsigned.
 Examined source: `da94b693a0034cb211e96f42dee83970deb59886`.
 Task request: `118-35344007412`.
 

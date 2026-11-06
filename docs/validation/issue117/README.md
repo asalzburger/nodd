@@ -1,5 +1,9 @@
 # Issue #117 — existing-model Si–W digitization prototype
 
+The [PR #123 framework installation follow-up](pr123-framework-install.md)
+records the later user-authorized original Key4hep runtime build. Its synthetic
+installation check is separate from the ODD same-hit and physics gates below.
+
 Date: 2026-11-05. **PROTOTYPE**, governed by [DES-044](../../design/DES-044-calorimeter-digitization.md).
 The model survey and opt-in implementation are available. Native software tests
 pass. The Marlin study and original-framework comparison are **DEFERRED BY HUMAN

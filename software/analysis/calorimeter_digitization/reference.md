@@ -28,6 +28,10 @@ were inspected for this recipe. The package records its MarlinReco ancestry.
 This is the full independent Gaudi event algorithm; it must not be replaced
 with nODD's isolated helper on the reference side.
 
+The optional [local installation recipe](../../source/Key4hepReference/README.md)
+builds the original processor from pinned submodules against the existing Spack
+environment. Its synthetic event smoke is distinct from the same-hit ODD gate.
+
 The upstream component consumes deposited GeV and writes **MIP values** to
 `edm4hep::CalorimeterHit::energy`. Do not run
 `CellEnergyCalibratorSiliconMip` before this comparison; its shower-GeV output
@@ -43,7 +47,7 @@ route requires an additional verified, lossless round trip preserving full
 64-bit IDs, contribution energies/times/positions and EventHeader identity.
 That bridge has not been supplied or tested; the EDM4hep-native route avoids it.
 
-## Original Key4hep steering, not yet executed
+## Original Key4hep steering
 
 Use a runtime actually containing the pinned `RecCaloDigi` plugin and compatible
 Gaudi, k4FWCore, DD4hep, EDM4hep and podio. Record source revisions, local patches,
@@ -87,11 +91,11 @@ The guide specifies that omitting `CollectionNames` reads all inputs and
 import json
 import os
 from pathlib import Path
-from Configurables import GeoSvc, UniqueIDGenSvc, DigitiserSiliconMip
+from Configurables import GeoSvc, UniqueIDGenSvc, DigitiserSiliconMip, EventDataSvc
 from k4FWCore import ApplicationMgr, IOSvc
 
 cfg = json.loads(Path(os.environ["I117_REFERENCE_CONFIG"]).read_text())
-geo = GeoSvc("GeoSvc", detectors=[os.environ["I117_REFERENCE_COMPACT"]])
+geo = GeoSvc("GeoSvc", detectors=[os.environ["I117_REFERENCE_COMPACT"]], EnableGeant4Geo=False)
 io = IOSvc("IOSvc")
 io.Input = os.environ["I117_REFERENCE_INPUT"]
 io.Output = os.environ["I117_REFERENCE_OUTPUT"]
@@ -120,7 +124,7 @@ for index, names in enumerate(cfg["collections"]):
     ))
 ApplicationMgr(
     TopAlg=algorithms, EvtSel="NONE", EvtMax=-1,
-    ExtSvc=[io, geo, UniqueIDGenSvc("UniqueIDGenSvc")],
+    ExtSvc=[EventDataSvc("EventDataSvc"), geo, UniqueIDGenSvc("UniqueIDGenSvc")],
 )
 ```
 

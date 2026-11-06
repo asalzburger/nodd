@@ -38,3 +38,14 @@ and redistribution remain separate from using a source-reference gitlink.
 Validation must exercise detector exports/build, source identities, Gen3
 conversion/navigation, Geant4 material recording and prepared calorimeter/EDM4hep
 controls. Expected behavior and actually executed checks remain distinct.
+
+## Original digitization reference extension — 2026-11-06
+
+The human explicitly requested installing the missing PR #123 reference runtime
+from Git submodules against the existing local Spack environment. The optional
+[Key4hep reference build](../../software/source/Key4hepReference/README.md) adds
+pinned Gaudi/k4FWCore/RecCaloDigi and its original k4SimGeant4 geometry service,
+plus missing Boost/header dependencies, to a separate ignored installation.
+MarlinReco's previously selected silicon source is now a gitlink as well.
+These are reference-processing tools; ActsExamples remains the nODD processing
+framework. This authorization permits the local build, not design approval.

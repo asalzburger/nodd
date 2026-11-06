@@ -1,0 +1,223 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-11-06-pr123-framework-install",
+  "title": "Install original calorimeter digitization framework for PR123",
+  "recorded_at": "2026-11-06T12:42:41Z",
+  "started_at": null,
+  "ended_at": null,
+  "status": "open",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact client per-turn token counters, client thread IDs and separately reported SoftEng usage were unavailable. Usage is empty and unestimated.",
+    "Only this verified macOS node was exercised. Upstream full test suites and the ODD/physics campaign were not run."
+  ],
+  "client": {
+    "name": "unspecified",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "0b26fd3c5199602ff92241d11fd4240d0b44cf65",
+    "branch": "codex/agent-task-118-35344007412",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      ".gitmodules",
+      "Makefile",
+      "docs/decisions/ADR-008-software-source-layout.md",
+      "docs/validation/issue117/README.md",
+      "docs/validation/issue117/pr118-review-request.md",
+      "docs/validation/issue117/pr123-framework-install.md",
+      "docs/validation/issue117/pr123-runtime.json",
+      "interactions/pr-0118.json",
+      "interactions/pr-0123.json",
+      "logs/codex/SESSION-2026-11-06-pr123-framework-install.json",
+      "logs/codex/SESSION-2026-11-06-pr123-framework-install.md",
+      "project/tracking.json",
+      "reference/manifest.yaml",
+      "software/Makefile",
+      "software/README.md",
+      "software/analysis/calorimeter_digitization/reference.md",
+      "software/env/build_key4hep.py",
+      "software/env/check_layout.py",
+      "software/env/key4hep-pins.json",
+      "software/env/key4hep_run.sh",
+      "software/env/key4hep_smoke.py",
+      "software/source/ActsExamples/Calorimeter/README.md",
+      "software/source/Key4hepReference/CMakeLists.txt",
+      "software/source/Key4hepReference/README.md",
+      "software/submodules/GSL",
+      "software/submodules/Gaudi",
+      "software/submodules/MarlinReco",
+      "software/submodules/boost",
+      "software/submodules/k4FWCore",
+      "software/submodules/k4RecCalorimeter",
+      "software/submodules/k4SimGeant4",
+      "software/submodules/range-v3"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [
+      "software",
+      "calorimeter digitization",
+      "original-framework reference",
+      "reproducibility"
+    ],
+    "related_ids": [
+      "ADR-008",
+      "DES-044",
+      "issue-117",
+      "PR-118",
+      "PR-123"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-11-06-pr123-framework-install.md",
+  "activities": [
+    {
+      "kind": "skill",
+      "name": "acts-spack",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Read skill/workflow, ran preflight and actual node runtime verification."
+    },
+    {
+      "kind": "skill",
+      "name": "nodd-coordinate",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Read repository skill; recorded and prepared two explicit SoftEng fallback assignments."
+    },
+    {
+      "kind": "tool",
+      "name": "GitHub connector",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Read PR123 comment and original source files; publication recorded after completion."
+    },
+    {
+      "kind": "tool",
+      "name": "collaboration",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Explicit SoftEng dependency review and single-file smoke implementation; coordinator owns integration and execution."
+    },
+    {
+      "kind": "tool",
+      "name": "functions.exec",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Source acquisition, local builds, runtime checks and repository validators; selected commands/results in narrative."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 /Users/salzburg/.codex/skills/acts-spack/scripts/preflight.py",
+      "status": "FAIL",
+      "exit_code": 2,
+      "result": "Setup and lock fingerprints differ from registry; warned before dependent work, then actually reverified."
+    },
+    {
+      "command": "software/env/run.sh python3 software/env/doctor.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "DD4hep1.38/DDG4 imports, Geant4 11.4.3 and twelve dataset presence checks; not physics qualification."
+    },
+    {
+      "command": "Initial Gaudi/Boost/range-v3 configure and build attempts (commands in narrative)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Missing legacy boost_system, opt-in Boost.Python, optional pkg-config/ZSTD and libc++ incompatibility were corrected with supported configuration/source pins."
+    },
+    {
+      "command": "make key4hep JOBS=12",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Pinned selected stack compiled and installed against existing Spack. Later k4FWCore/reference stage install-layout correction also passed."
+    },
+    {
+      "command": "Initial installation smoke attempts 1-4 (commands in narrative)",
+      "status": "FAIL",
+      "exit_code": 2,
+      "result": "Detected Python/plugin path and hand-written material-fixture issues. Retained locally and corrected; individual processor exits detailed in narrative."
+    },
+    {
+      "command": "make key4hep-test KEY4HEP_TEST_WORK=\"$PWD/build/key4hep-smoke-5\"",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Original Gaudi processor executed two EDM4hep events; 2MIP, threshold, high ID, truth, retained input/event identity, time and empty-event checks passed."
+    },
+    {
+      "command": "python3 -B software/env/check_layout.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Software directories/gitlinks and reference source pins agree."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "101 tasks,54 documents,24 review rounds. Unlike earlier isolated task, this Git store contains historical merge evidence."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate (first JSON activity edit)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Activity schema fields were missing; corrected to the established schema before final validation."
+    },
+    {
+      "command": "python3 -B tools/interactions/ledger.py validate after PR-only sync",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "PR118 stale through shared session reference; full affected-record sync corrected it."
+    },
+    {
+      "command": "python3 -B tools/interactions/ledger.py sync; python3 -B tools/interactions/ledger.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "105 records validated; only affected PR118/PR123 files changed."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "438 disjoint recorded turns; no fabricated current-task counters."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py build --output build/pr123-token-preview",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Preview output must be under _site/. Corrected command follows."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py build --output _site/pr123-token-preview",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Preview built; full generated site remains ignored."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py summary --format json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Repository totals recorded in narrative; current task has no observed token counters."
+    },
+    {
+      "command": "Python compilation, zsh syntax, whitespace and configuration hash checks",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Changed Python/shell syntax valid, no whitespace errors, shared setup/lock hashes unchanged."
+    }
+  ]
+}
