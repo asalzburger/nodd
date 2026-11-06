@@ -206,3 +206,20 @@ physics gates. The original-framework installation, source/build recipe and
 receipt are complete. The shared Spack environment is unchanged. Public PR
 metadata and both comments were refreshed through the read-capable connector
 after publication; sanitized snapshot retained in the PR123 interaction record.
+
+## 2026-11-06 accounting and numerical-wording correction
+
+The later merge-preparation task recovered the completed installation turn and
+its two SoftEng turns by exact client thread/turn IDs and assignment metadata.
+The canonical record now owns21,742,184 input +67,505 output =21,809,689
+observed tokens across130 requests in3 disjoint turns. Cached input21,460,224
+and reasoning output24,136 are subsets. The active merge/accounting turn and
+the earlier automated blocked task remain excluded/unmeasured. Original claims
+that counters were unavailable describe the earlier capture; they are superseded
+by this dated recovery. Actual model/client version remain unknown.
+
+The previous zero-residual/exact-energy prose was incorrect: the saved runtime
+receipt and original smoke summary both report maximum absolute residual
+2.384185791015625e-7 MIP, below the unchanged2e-6 MIP numerical tolerance.
+The current installation report is corrected; original receipt and test remain
+unchanged. No detector parameter, reference result or tolerance is retuned.

@@ -75,8 +75,9 @@ make key4hep-test KEY4HEP_TEST_WORK="$PWD/build/key4hep-smoke-5"
 ```
 
 It passed with **two events, two input cells, one accepted cell, one rejected
-cell and one empty event**. The accepted energy is exactly **2 MIP** (maximum
-absolute residual 0 MIP; predeclared tolerance 0.000002 MIP). Full 64-bit cell
+cell and one empty event**. The accepted energy agrees with **2 MIP** (maximum
+absolute residual 0.0000002384185791015625 MIP; predeclared tolerance
+0.000002 MIP). Full 64-bit cell
 ID, event header, original SimHits/contributions, truth-link endpoints/weight,
 position and earliest-contribution timing checks passed. Original Gaudi
 initialization, processing, finalization and output persistence succeeded.
