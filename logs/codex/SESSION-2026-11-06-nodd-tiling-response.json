@@ -1,0 +1,158 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-11-06-nodd-tiling-response",
+  "title": "Raw Geant4 nODD tiled endcap electron response against continuous silicon control",
+  "recorded_at": "2026-11-05T23:44:59Z",
+  "started_at": null,
+  "ended_at": "2026-11-06T00:58:13.430504Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact disjoint client-reported parent/child turn counters and actual client thread/turn identifiers unavailable; usage remains empty.",
+    "Raw Geant4 standalone endcap characterization only; no Marlin, electronics response, detector-wide field/material or physics acceptance."
+  ],
+  "client": {
+    "name": "unspecified",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "ad5c45293a306864c8ec34332df9bfab0a553e53",
+    "branch": "codex/issue117-calorimeter-digitization",
+    "initial_changes": [],
+    "result_commits": [
+      "8c7f2279f8ef18957639ae6672b8c5739e8c8d42",
+      "6f9bcdfc04adbd5068ab2aa049ccd010f869b957",
+      "02f4170d599580336cb95e316e5e328148008541",
+      "77b9beea7e007f24c30aa603e2e601502c8a1017",
+      "c502251c26636e13fe934fd303fbd36b39652192",
+      "0b706a126a8139aa809e7d445b1dfc60308ee2b9",
+      "efa4d6fdd22b42a7e523311c701728c9b9b28954",
+      "97ba1015c1c3616d854e45be638d93d2d358160b"
+    ],
+    "changed_files": [
+      "software/analysis/calorimeter_digitization/tiling_response.py",
+      "software/analysis/calorimeter_digitization/plot_tiling_response.py",
+      "software/analysis/calorimeter_digitization/test_tiling_response.py",
+      "docs/validation/issue117/tiling-response-plan.md",
+      "docs/validation/issue117/tiling-response.md",
+      "docs/validation/issue117/README.md",
+      "docs/validation/issue117/previews/nodd-tiling-response.json",
+      "docs/validation/issue117/previews/nodd-tiling-response.png",
+      "docs/validation/issue117/previews/nodd-tiling-spectra.png",
+      "docs/validation/issue117/previews/nodd-tiling-longitudinal.png",
+      "docs/design/DES-030-ecal-edge-sensors.md",
+      "docs/design/DES-044-calorimeter-digitization.md",
+      "project/tracking.json",
+      "interactions/pr-0118.json",
+      "logs/codex/SESSION-2026-11-06-nodd-tiling-response.md",
+      "logs/codex/SESSION-2026-11-06-nodd-tiling-response.json"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "Si-W ECAL endcap",
+      "raw Geant4 response",
+      "physical sensor tiling"
+    ],
+    "related_ids": [
+      "#115",
+      "#117",
+      "#118",
+      "DES-030",
+      "DES-044",
+      "ADR-003"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-11-06-nodd-tiling-response.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "acts-spack registry preflight",
+      "status": "FAIL",
+      "exit_code": 2,
+      "result": "Setup/lock fingerprints changed; warned before dependent work and actual runtime reverified."
+    },
+    {
+      "command": "software/env/run.sh python3 software/env/doctor.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "DD4hep1.38/DDG4,Geant4 11.4.3/all12datasets present; no shared installation changes."
+    },
+    {
+      "command": "CaloTech protocol and separate PhysVal source/point assessment",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All10source fingerprints and13impact classifications valid; documented material/scoring confound. Zero-denominator clarification added separately."
+    },
+    {
+      "command": "Full+z48layer tiled20event pilot and tiny nativeG4macro output tests",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Fullpilot242.382swall. Macro2x2event files/runIDs/PDG11/kinetic-vs-totalenergy verified; first one-output reset corrected beforebulk."
+    },
+    {
+      "command": "Plot statistical controls with skewed zero-inclusive/all-zero populations",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Mean/RMS/bootstrapSE selection, undefinedzero ratios and Wilson95endpoints pass after floating endpoint correction."
+    },
+    {
+      "command": "Full+z native tiled/control layer audits with normalcleanup",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "768layer/16frame replicas each;86016tiled/768control sensitiveplacements;0logical-layer overlaps at1e-5mm; expected masses/addedSi volume match. Initial ROOTteardown133 corrected beforebulk."
+    },
+    {
+      "command": "Same-material sensitive-action/Birks diagnostic and nativeworldquery",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Geant4ScintillatorCalorimeterAction;edep0Cut0.0;actualSiBirks0mm/MeV after excludeddiagnostic event. NativeworldAir density.0012g/cm3."
+    },
+    {
+      "command": "Focused response software regressions + separate PhysVal code assessment",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Sixfocused tests pass(.065s latestmainrun); previous5 independently rerun byPhysVal. Provenance/tamper/resume/zero/covariance/defaultfactory/prepareguard defects addressed. No newphysics acceptance."
+    },
+    {
+      "command": "Independent C20/G20 ROOT numerical audits",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "400events perpoint acrossbothgeometries; rawSHA/header/primary/direction/parentchecks valid. Cmeanratio.90579970175\u00b1.00413030318; G.34584422730\u00b1.00214454895. Await finalsummaryclosure."
+    },
+    {
+      "command": "Complete full+z Geant4campaign and strict finalanalysis",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Bothgroups normal0,39blocks/7700events;38responses/7600+100reference. Allprimaries/IDs/positions/evidencehashes,hist/layer/zero/covariance checks pass;maxresidual.000195313mm. FinaldataSHA dcf347d9e95dbdea8b5954717953155d43032847a076d66323028058c7914e09."
+    },
+    {
+      "command": "Final separate PhysVal review at97ba1015c1c3616d854e45be638d93d2d358160b",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No blockingfindings.102artifacthashes and38populations verified;800additionalraw events/444176hits reproduced;all3PNGbytes match andvisualclaims/scope clear. No humanacceptance."
+    },
+    {
+      "command": "Immutable publicPNGhashes andPR118body read-back",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All3publicPNGs byte-identical;7imageembeds,newnODDresponse,collapsedODDcomparisons,draft/Marlin-deferral preserved."
+    },
+    {
+      "command": "Gitnew-objectaudit sincead5c4529 +project/pairedsession checks",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "23newblobs;largest1.602MBcompactJSON;noROOT/NPZ/LCIO/build/cache payload.101tasks/54docs/24reviewrounds and258pairedsessions validate;whitespaceclean."
+    },
+    {
+      "command": "Final session summary/validation, project validation, PR 118 interaction sync/validation, token preview build and git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "258 session pairs and 101 tasks/54 documents/24 review rounds validate. PR interaction record synchronized and valid against 96dbf57d0da7f3027e59109c1846d992d68d4d44. Token preview builds successfully; current task usage remains unmeasured. Whitespace check passes."
+    }
+  ]
+}
