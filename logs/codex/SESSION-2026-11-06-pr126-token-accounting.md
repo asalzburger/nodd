@@ -32,3 +32,7 @@ The paired records/evidence preserve exact IDs and counter hashes. Missing deskt
 and active-turn observations remain explicit. These are partial client observations,
 not a billing estimate or complete PR/device total. Review the existing PR; no new
 PR, label change, ready-state reversal or merge is requested by this accounting work.
+
+## Publication and review readiness
+
+Accounting commit `cb06fc2cb1b05692279b651873d231cc5c2c025a` is published on PR #126's existing branch. The PR description now includes the dated accounting result and immutable evidence links. Connected GitHub reads verify the updated body and open, ready-for-review state. PR #125 was already ready; PR #126 was marked ready under the explicit user instruction. Public PR/discussion evidence was refreshed after the update. No merge or scientific sign-off was performed. The active accounting turn remains excluded.
