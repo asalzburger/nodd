@@ -67,16 +67,15 @@ adapter. Original code and adapter form the separate GPL-3.0 executable
 temporary files with the MPL framework adapter; it is never linked into ACTS
 or the MPL libraries. See the [source notice](../../NOTICE.md).
 
-Obtain the public external source in an ignored/local directory, then configure:
+Initialize the pinned public source submodule, then configure from the repository root:
 
 ```sh
-git clone https://github.com/iLCSoft/MarlinReco.git /path/to/MarlinReco
-git -C /path/to/MarlinReco checkout 255967eb855ebbc8f75ebaac190b268b63332e8b
+git submodule update --init -- software/submodules/MarlinReco
 software/env/run.sh cmake -S software/source/ActsExamples/Calorimeter \
   -B build/calorimeter-io -G Ninja \
   -DNODD_ACTS_SOURCE=/path/to/pristine/acts355ea684 \
   -DNODD_ACTS_BUILD=/path/to/existing/acts/build \
-  -DNODD_MARLINRECO_SOURCE=/path/to/MarlinReco
+  -DNODD_MARLINRECO_SOURCE="$PWD/software/submodules/MarlinReco"
 software/env/run.sh cmake --build build/calorimeter-io --parallel 4
 software/env/run.sh ctest --test-dir build/calorimeter-io --output-on-failure
 ```

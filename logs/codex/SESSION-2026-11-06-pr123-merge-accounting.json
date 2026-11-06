@@ -1,0 +1,128 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-11-06-pr123-merge-accounting",
+  "title": "PR123 token accounting and merge readiness",
+  "recorded_at": "2026-11-06T13:14:48Z",
+  "started_at": null,
+  "ended_at": "2026-11-06T13:21:25.288542Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "This active merge/accounting turn has provisional counters and is excluded until closed; no estimates.",
+    "Actual model/client version and earlier automated blocked-task usage remain unavailable.",
+    "This is a readiness/accounting snapshot; GitHub records the eventual final-head checks and guarded merge result."
+  ],
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": "01a1b0df-9293-7783-b489-406f29af5ffb"
+  },
+  "git": {
+    "start_commit": "47bbc5181dba224912f4220964b0885578ecbe82",
+    "branch": "codex/agent-task-118-35344007412",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      "docs/validation/issue117/pr123-framework-install.md",
+      "interactions/pr-0118.json",
+      "interactions/pr-0123.json",
+      "interactions/pr-0123/turns/01a1b0df-9293-7783-b489-406f29af5ffb--01a1b0e0-b972-74c1-9568-8d28dfcbb20f.json",
+      "interactions/pr-0123/turns/01a1b0e2-3f72-76f3-8865-587ffd891596--01a1b0e2-3fc9-7ac3-8904-bb688f46d93d.json",
+      "interactions/pr-0123/turns/01a1b0e2-3f72-76f3-8865-587ffd891596--01a1b0e3-ec20-7123-ae7b-f87e38b127be.json",
+      "logs/codex/SESSION-2026-11-06-pr123-framework-install.json",
+      "logs/codex/SESSION-2026-11-06-pr123-framework-install.md",
+      "logs/codex/SESSION-2026-11-06-pr123-merge-accounting.json",
+      "logs/codex/SESSION-2026-11-06-pr123-merge-accounting.md",
+      "logs/usage/USAGE-2026-11-06-pr123-installation.json"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [
+      "token accounting",
+      "PR123 merge readiness"
+    ],
+    "related_ids": [
+      "PR-123",
+      "PR-118",
+      "DES-044",
+      "ADR-008"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-11-06-pr123-merge-accounting.md",
+  "activities": [
+    {
+      "kind": "skill",
+      "name": "nodd-review-validation",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Read repository skill and SoftEng mandate; same-agent exact-revision readiness recheck, not independent review."
+    },
+    {
+      "kind": "tool",
+      "name": "recover_usage.py",
+      "version": null,
+      "calls": 2,
+      "failures": 0,
+      "duration_seconds": null,
+      "evidence": "Explicit selected parent and child thread metadata; usage-only event extraction."
+    },
+    {
+      "kind": "tool",
+      "name": "Codex app read_thread",
+      "version": null,
+      "calls": 2,
+      "failures": 0,
+      "duration_seconds": null,
+      "evidence": "Reviewed allowlisted visible snapshots for completed parent and SoftEng turns."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "recover_usage.py --thread-id (exact parent and child)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Three closed turns recovered; active merge excluded; counters reconcile without overlap."
+    },
+    {
+      "command": "session_log.py import-usage dry-run/import/replay",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "3 new observations, then 3 identical replay entries; no duplicate usage."
+    },
+    {
+      "command": "Standard-library runtime receipt/hash audit",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Saved residual, unchanged tolerance, all library/fixture/script hashes agree."
+    },
+    {
+      "command": "session_log.py validate; interactions/ledger.py validate; token_usage/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "261 sessions,105 PR records,441 disjoint turns; global observed total2,144,897,751."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging (initialized local tree)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "237 link subtest failures all under initialized third-party submodule docs; no first-party link failure. No test changed."
+    },
+    {
+      "command": "Same full session_logging suite in exact staged Git tree a370ed1caaa3aac3ca2ef9e0802bca5e6edb4e80, submodules uninitialized as CI",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "36 tests passed."
+    },
+    {
+      "command": "unittest discover tools/interactions and tools/token_usage",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "15 and20 tests passed."
+    }
+  ]
+}

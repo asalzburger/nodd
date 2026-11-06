@@ -1,0 +1,183 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-11-06-pr118-review-request",
+  "title": "PR118 digitization review request and runtime blockers",
+  "recorded_at": "2026-11-06T12:08:20Z",
+  "started_at": null,
+  "ended_at": "2026-11-06T12:13:28Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact client thread/turn identifiers, client version and per-turn token counters are not exposed; active-turn usage is unavailable, not zero. No private client store was accessed.",
+    "No verified original Key4hep/Gaudi/Marlin runtime is available in the configured environment. Requested reference and physics studies were not executed.",
+    "Sandbox sysctl and ps probes were denied during existing environment activation; no escalation was attempted.",
+    "Project-record validation is blocked by missing pre-existing PR37 merge object 78bc60bb6da0c9d234baf00d37cadea9dd4964b4 in the isolated Git store.",
+    "Public PR/issue context was refreshed through the connector; deleted/unavailable history and the unfinished final response are not reconstructed.",
+    "Main agent handled this bounded blocker investigation; no separate specialist or independent scientific assessment was performed."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "da94b693a0034cb211e96f42dee83970deb59886",
+    "branch": "codex/agent-task-118-35344007412",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      "docs/validation/issue117/README.md",
+      "docs/validation/issue117/pr118-review-request.md",
+      "interactions/pr-0118.json",
+      "project/tracking.json",
+      "logs/codex/SESSION-2026-11-06-pr118-review-request.json",
+      "logs/codex/SESSION-2026-11-06-pr118-review-request.md"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "calorimeter digitization",
+      "runtime verification",
+      "review follow-up"
+    ],
+    "related_ids": [
+      "PR-118",
+      "ISSUE-117",
+      "DES-044",
+      "ADR-003",
+      "TASK-CALO-DIGITIZATION",
+      "118-35344007412"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-11-06-pr118-review-request.md",
+  "activities": [
+    {
+      "kind": "skill",
+      "name": "nodd-review-validation",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Read and applied for exact-revision runtime/evidence assessment and explicit limits."
+    },
+    {
+      "kind": "skill",
+      "name": "acts-spack",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Read available and repository skill plus workflow; preflight warning followed by actual runtime checks without dependency changes."
+    },
+    {
+      "kind": "tool",
+      "name": "functions.exec",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Repository inspection, probes, edits and required repository validators; selected commands in narrative."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "git status --short; git branch --show-current; git rev-parse HEAD",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Clean initial worktree; assigned codex/agent-task-118-35344007412 branch at captured da94b693a0034cb211e96f42dee83970deb59886."
+    },
+    {
+      "command": "python3 skills/acts-spack/scripts/preflight.py",
+      "status": "FAIL",
+      "exit_code": 2,
+      "result": "Recorded setup_script and spack_lock fingerprints changed; warned before dependent checks."
+    },
+    {
+      "command": "software/env/run.sh python3 software/env/doctor.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "DD4hep1.38/DDG4 imports; Geant4 11.4.3; all twelve dataset presence checks. Exact hashes in blocker report. Not simulation readiness."
+    },
+    {
+      "command": "software/env/run.sh zsh -f -c (Spack package, executable and Python-module probes recorded in blocker report)",
+      "status": "FAIL",
+      "exit_code": 0,
+      "result": "Diagnostic shell completed but spack find reported no matching gaudi/k4fwcore/k4reccalorimeter/marlin/marlinreco/lcio package; k4run/gaudirun.py/Marlin and Gaudi/k4FWCore/Configurables unavailable. Zero shell exit does not mean runtime exists."
+    },
+    {
+      "command": "software/env/run.sh python3 - (required-runtime probe reproduced verbatim in docs/validation/issue117/pr118-review-request.md)",
+      "status": "FAIL",
+      "exit_code": 2,
+      "result": "Required Key4hep executable/modules absent; ddsim found. Reference run blocked."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Cannot resolve pre-existing Git merge evidence 78bc60bb6da0c9d234baf00d37cadea9dd4964b4; reference already present in captured source tracking.json for PR37; git cat-file confirms object absent (exit128). Gate and historical evidence unchanged."
+    },
+    {
+      "command": "Key4hep reference comparison, noise-on distributions, digitized MIP/threshold and paired e/gamma campaign; native CTest",
+      "status": "NOT RUN",
+      "exit_code": null,
+      "result": "Missing original runtime stops dependent campaign; no code changed. Earlier historical tests were not rerun or claimed as current results."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated all 259 paired session records."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py summary --format json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "438 observed turns; cumulative input2113297698/output9790364/total2123088062;171of259 sessions with usage,88without. This task usage remains empty/unknown."
+    },
+    {
+      "command": "python3 -B tools/interactions/ledger.py capture --pr 118 --snapshot /tmp/pr118-review-github.json; python3 -B tools/interactions/ledger.py sync --pr 118",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Captured selected sanitized fresh connector discussion at original captured head; linked this new session and synchronized canonical evidence without importing usage."
+    },
+    {
+      "command": "python3 -B tools/interactions/ledger.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated104 PR interaction records; canonical usage unchanged."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "438 disjoint dated turns;2123088062 observed cumulative tokens, without task usage estimates."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py build --output _site/pr118-review",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Successful ignored local token-site preview;438 disjoint dated turns. No publication."
+    },
+    {
+      "command": "git diff --check; git diff --cached --name-status; git rev-list --objects da94b693a0034cb211e96f42dee83970deb59886..HEAD",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors, staged files or new Git objects/commits from task; host publisher must audit its eventual staged files and new commit objects."
+    },
+    {
+      "command": "Task-local Python file/content audit of paired JSON changed_files inventory against git diff and untracked files",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Exactly six intended UTF-8 text files; no NUL/trailing whitespace; JSON parses, local report links resolve, unrelated tracking entries equal captured source. Inspected file contents and sizes; no ROOT/NPZ/LCIO payloads or other reference-run data added."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py build --output _site/pr118-review (overlapping closeout edit)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "A later preview overlapped source closeout edits and rejected stale interaction/accounting evidence. Initial build had passed. Preserve failure, synchronize after completed edits and rebuild; final outcome in draft-PR handoff."
+    }
+  ]
+}

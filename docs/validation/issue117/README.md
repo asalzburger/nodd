@@ -1,5 +1,9 @@
 # Issue #117 — existing-model Si–W digitization prototype
 
+The [PR #123 framework installation follow-up](pr123-framework-install.md)
+records the later user-authorized original Key4hep runtime build. Its synthetic
+installation check is separate from the ODD same-hit and physics gates below.
+
 Date: 2026-11-05. **PROTOTYPE**, governed by [DES-044](../../design/DES-044-calorimeter-digitization.md).
 The model survey and opt-in implementation are available. Native software tests
 pass. The Marlin study and original-framework comparison are **DEFERRED BY HUMAN
@@ -8,6 +12,12 @@ reconstruction runtime is installed in the verified local environment. Existing
 prototype code and exploratory results remain isolated; no additional Marlin
 study is run after that direction. No design sign-off or physics acceptance is
 recorded.
+
+The [2026-11-06 review follow-up](pr118-review-request.md) records the requested
+noise-off/noise-on Key4hep comparisons, digitized MIP/threshold studies and paired
+e/gamma plots. Execution is blocked by the missing original-framework runtime
+in the rechecked local environment. The proposed endcap-geometry issue split
+remains a maintainer decision; prior evidence is retained.
 
 ## Implementation and reference identity
 
