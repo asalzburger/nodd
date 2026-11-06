@@ -34,10 +34,13 @@ struct CalorimeterHit {
   Acts::Vector3 position = Acts::Vector3::Zero();
   /// Calibrated cell energy, distinct from simulated deposited energy.
   double energy = 0;
-  /// Deposited-energy-weighted time of accepted deposits.
+  /// Deposited-energy-weighted time of accepted deposits. For explicitly
+  /// generated noise-only cells, zero is a placeholder rather than a time
+  /// measurement; sourceIndices is empty.
   double time = 0;
   /// Indices into the input SimCalorimeterHit collection for this event.
   /// These are transient provenance links, not persistent podio ObjectIDs.
+  /// Empty only for noise-only cells; no fabricated simulated truth link.
   std::vector<std::size_t> sourceIndices;
 };
 

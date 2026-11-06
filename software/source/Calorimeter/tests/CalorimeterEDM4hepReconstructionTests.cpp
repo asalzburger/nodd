@@ -207,5 +207,84 @@ BOOST_AUTO_TEST_CASE(RejectInvalidOutputAndMetadataConfiguration) {
                       std::invalid_argument);
   }
 }
+
+BOOST_AUTO_TEST_CASE(ExplicitStoredCellCentreInputAndMalformedPositions) {
+  for (int variant = 0; variant < 3; ++variant) {
+    edm4hep::SimCalorimeterHitCollection hits;
+    edm4hep::CaloHitContributionCollection contributions;
+    auto hit = hits.create();
+    hit.setCellID(42);
+    hit.setEnergy(.1f);
+    hit.setPosition({100.f, 20.f, variant == 1
+        ? std::numeric_limits<float>::quiet_NaN() : 3.f});
+    auto contribution = contributions.create();
+    contribution.setEnergy(.1f);
+    contribution.setTime(7);
+    contribution.setStepPosition({999, 888, 777});
+    hit.addToContributions(contribution);
+    if (variant == 2) {
+      auto repeated = hits.create();
+      repeated.setCellID(42);
+      repeated.setEnergy(0);
+      repeated.setPosition({101, 20, 3});
+    }
+    podio::Frame frame;
+    frame.put(std::move(contributions), "CaloContributions");
+    frame.put(std::move(hits), "SimCaloHits");
+    CalorimeterIoEvent event{std::move(frame)};
+    auto config = Fixture::inputConfig();
+    config.cellCentre = {};
+    config.useHitPosition = true;
+    if (variant == 0) {
+      BOOST_CHECK(EDM4hepCalorimeterInputConverter{config}.execute(event.context) ==
+                  ProcessCode::SUCCESS);
+      const auto& deposits = event.read<SimCalorimeterHitContainer>("calo_deposits");
+      BOOST_REQUIRE_EQUAL(deposits.size(), 1);
+      BOOST_CHECK(deposits[0].position == Acts::Vector3(100, 20, 3) * Acts::UnitConstants::mm);
+    } else {
+      BOOST_CHECK_THROW(EDM4hepCalorimeterInputConverter{config}.execute(event.context),
+                        std::invalid_argument);
+      BOOST_CHECK(!event.board.exists("calo_deposits"));
+    }
+  }
+  auto config = Fixture::inputConfig();
+  config.useHitPosition = true;
+  BOOST_CHECK_THROW(EDM4hepCalorimeterInputConverter{config}, std::invalid_argument);
+}
+
+BOOST_AUTO_TEST_CASE(ExplicitNoiseOnlyOutputHasNoSimulatedTruthLinks) {
+  CalorimeterIoEvent event{emptyCalorimeterFrame()};
+  EDM4hepCalorimeterInputConverter{Fixture::inputConfig()}.execute(event.context);
+  event.write("calo_hits", CalorimeterHitContainer{
+      {42, Acts::Vector3{100, 20, 3}, .1 * Acts::UnitConstants::GeV, 0, {}}});
+  auto config = Fixture::hitOutputConfig();
+  BOOST_CHECK_THROW(EDM4hepCalorimeterOutputConverter{config}.execute(event.context),
+                    std::invalid_argument);
+  config.allowNoiseOnlyHits = true;
+  BOOST_CHECK(EDM4hepCalorimeterOutputConverter{config}.execute(event.context) ==
+              ProcessCode::SUCCESS);
+  BOOST_REQUIRE_EQUAL(event.readPodio<edm4hep::CalorimeterHitCollection>("CaloHits").size(), 1);
+  BOOST_CHECK(event.readPodio<edm4hep::CaloHitSimCaloHitLinkCollection>("CaloLinks").empty());
+}
+
+BOOST_AUTO_TEST_CASE(PrototypeMetadataRetainsSourceConfigurationAndLimitations) {
+  CalorimeterIoEvent event;
+  event.provideFixture();
+  event.persistClusters();
+  auto config = Fixture::metadataConfig();
+  SiliconDigitizationConfig silicon;
+  silicon.executable = "test-fixture-backend-not-executed";
+  silicon.mipEnergy = 1e-4 * Acts::UnitConstants::GeV;
+  config.response.silicon = silicon;
+  BOOST_CHECK(EDM4hepCalorimeterMetadata{config}.execute(event.context) == ProcessCode::SUCCESS);
+  const auto& frame = event.read<podio::Frame>("calo_events");
+  BOOST_CHECK(frame.getParameter<std::string>("acts.calo.response.status") ==
+              "PROTOTYPE MarlinReco silicon energy subset");
+  BOOST_CHECK(frame.getParameter<std::string>("acts.calo.response.coverage") ==
+              "sparse input cells");
+  BOOST_CHECK(frame.getParameter<double>("acts.calo.response.mipEnergyGeV") == 1e-4);
+  BOOST_CHECK(frame.getParameter<std::string>("acts.calo.clustering.status") ==
+              "unimplemented skeleton");
+}
 BOOST_AUTO_TEST_SUITE_END()
 }  // namespace ActsTests

@@ -1,0 +1,112 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-11-05-issue118-plots",
+  "title": "Embed existing exploratory plots in PR118 without resuming Marlin study",
+  "recorded_at": "2026-11-05T21:10:46Z",
+  "started_at": null,
+  "ended_at": "2026-11-05T21:15:35.428418Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact client-reported disjoint per-turn counters and stable client thread/turn IDs were not exposed; usage remains empty, totals unknown.",
+    "These are exploratory pre-deferral electron/muon previews; no new Marlin study or physics acceptance is claimed."
+  ],
+  "client": {
+    "name": "unspecified",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "1e5fbf71d8fd6379d682d4bd459773d0cb944366",
+    "branch": "codex/issue117-calorimeter-digitization",
+    "initial_changes": [],
+    "result_commits": [
+      "01da03456fcfc107992f3b955d0ffaf0449c5c82"
+    ],
+    "changed_files": [
+      "docs/validation/issue117/README.md",
+      "docs/validation/issue117/previews/binwise.json",
+      "docs/validation/issue117/previews/response.png",
+      "docs/validation/issue117/previews/mip.png",
+      "software/analysis/calorimeter_digitization/plot.py",
+      "project/tracking.json",
+      "interactions/pr-0118.json",
+      "logs/codex/SESSION-2026-11-05-issue118-plots.json",
+      "logs/codex/SESSION-2026-11-05-issue118-plots.md"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "calorimeter digitization",
+      "exploratory plots",
+      "PR documentation"
+    ],
+    "related_ids": [
+      "#117",
+      "#118",
+      "DES-044",
+      "ADR-003"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-11-05-issue118-plots.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "Retained binwise grid/moment/histogram audit",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Nine electron points, finite moments and per-event histogram denominators verified; numerical data unchanged by portable metadata path substitutions."
+    },
+    {
+      "command": "Matplotlib-only replot of retained pre-deferral binwise summaries",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Both response.png and mip.png reproduced byte-for-byte identically to existing local figures; no transport/digitization/Marlin execution."
+    },
+    {
+      "command": "Visual review of both exact PNG byte sequences",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Titles, axes, legends, uncertainty labels and footnotes checked; exploratory scope and held-out split explicit."
+    },
+    {
+      "command": "curl -fL immutable raw image URLs and local SHA-256 comparison",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Both public image URLs return exactly the committed PNG bytes."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "255 paired records valid."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "101 tasks,54 documents,24 review rounds valid."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors."
+    },
+    {
+      "command": "gh pr edit118 --body-file; connected read-back of description",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Description contains both image embeds at immutable asset commit URLs; draft state and Marlin deferral remain intact."
+    },
+    {
+      "command": "Final journal summary, interaction/project validation and token-site build",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "255 sessions,104 interaction ledgers and project records validate; preview site builds. Task token observations absent, input/output totals unknown."
+    }
+  ]
+}

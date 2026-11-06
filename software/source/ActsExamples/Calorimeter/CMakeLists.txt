@@ -56,13 +56,38 @@ target_link_libraries(nODDActsExamplesIoPodio INTERFACE
 
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/../../EDM" "EDM")
 add_library(nODDCalorimeterAlgorithms
-  src/CalorimeterDigitizationAlgorithm.cpp src/CalorimeterClusteringAlgorithm.cpp)
+  src/CalorimeterDigitizationAlgorithm.cpp src/CalorimeterClusteringAlgorithm.cpp
+  src/SiliconDigitization.cpp)
 target_compile_features(nODDCalorimeterAlgorithms PUBLIC cxx_std_20)
 target_include_directories(nODDCalorimeterAlgorithms PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>)
 target_link_libraries(nODDCalorimeterAlgorithms PUBLIC nODD::EDM nODDActsExamplesFramework)
 set_target_properties(nODDCalorimeterAlgorithms PROPERTIES
   BUILD_RPATH "${NODD_ACTS_BUILD}/lib")
+
+# Optional separate GPL program. No MarlinReco implementation is compiled into
+# or linked against nODDCalorimeterAlgorithms or ACTS. Sources are user supplied;
+# preparation verifies exact upstream hashes and performs no network access.
+set(NODD_MARLINRECO_SOURCE "" CACHE PATH "External MarlinReco255967eb source for PROTOTYPE backend")
+if(NODD_MARLINRECO_SOURCE)
+  find_package(Python3 REQUIRED COMPONENTS Interpreter)
+  find_path(NODD_CLHEP_INCLUDE CLHEP/Random/Random.h REQUIRED)
+  find_library(NODD_CLHEP_LIBRARY NAMES CLHEP REQUIRED)
+  set(NODD_MARLIN_ADAPTER "${CMAKE_CURRENT_SOURCE_DIR}/upstream/marlin")
+  set(NODD_MARLIN_GENERATED "${CMAKE_CURRENT_BINARY_DIR}/marlin-upstream")
+  execute_process(COMMAND "${Python3_EXECUTABLE}" "${NODD_MARLIN_ADAPTER}/prepare.py"
+    --source "${NODD_MARLINRECO_SOURCE}" --output "${NODD_MARLIN_GENERATED}"
+    COMMAND_ERROR_IS_FATAL ANY)
+  add_executable(nodd_marlin_silicon_backend
+    "${NODD_MARLIN_ADAPTER}/Backend.cpp"
+    "${NODD_MARLIN_GENERATED}/RealisticCaloDigiSilicon.cc"
+    "${NODD_MARLIN_GENERATED}/OriginalEnergyDigi.cc")
+  target_compile_features(nodd_marlin_silicon_backend PRIVATE cxx_std_20)
+  target_include_directories(nodd_marlin_silicon_backend PRIVATE
+    "${NODD_MARLIN_ADAPTER}" "${NODD_CLHEP_INCLUDE}")
+  target_link_libraries(nodd_marlin_silicon_backend PRIVATE
+    "${NODD_CLHEP_LIBRARY}" nlohmann_json::nlohmann_json)
+endif()
 add_subdirectory(EDM4hep)
 
 include(CTest)

@@ -33,7 +33,8 @@ EDM4hepCalorimeterInputConverter::EDM4hepCalorimeterInputConverter(
       config.outputDeposits.empty() || config.outputSources.empty() ||
       config.outputDeposits == config.outputSources ||
       config.inputFrame == config.outputDeposits ||
-      config.inputFrame == config.outputSources || !config.cellCentre) {
+      config.inputFrame == config.outputSources ||
+      (static_cast<bool>(config.cellCentre) == config.useHitPosition)) {
     throw std::invalid_argument(
         "Invalid calorimeter input converter configuration");
   }
@@ -55,12 +56,22 @@ ProcessCode EDM4hepCalorimeterInputConverter::convert(
       throw std::invalid_argument("Invalid EDM4hep simulated calorimeter hit");
     }
     const auto id = hit.getCellID();
+    const auto storedPosition = hit.getPosition();
+    const Acts::Vector3 hitPosition{
+        storedPosition.x * Acts::UnitConstants::mm,
+        storedPosition.y * Acts::UnitConstants::mm,
+        storedPosition.z * Acts::UnitConstants::mm};
     auto [centre, inserted] = centres.try_emplace(id, Acts::Vector3::Zero());
     if (inserted) {
-      centre->second = m_config.cellCentre(id);
+      centre->second = m_config.useHitPosition ? hitPosition
+                                              : m_config.cellCentre(id);
       if (!centre->second.allFinite()) {
         throw std::invalid_argument("Nonfinite calorimeter cell centre");
       }
+    } else if (m_config.useHitPosition &&
+               (!hitPosition.allFinite() || hitPosition != centre->second)) {
+      throw std::invalid_argument(
+          "Inconsistent stored positions for one calorimeter cell");
     }
     double energySum = 0;
     for (const auto& contribution : hit.getContributions()) {

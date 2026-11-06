@@ -29,6 +29,9 @@ class EDM4hepCalorimeterOutputConverter final : public PodioOutputConverter {
     std::string inputSources;
     std::string outputHits;
     std::string outputLinks;
+    /// Explicit PROTOTYPE noise extension: permit positive noise-only hits
+    /// with empty provenance, zero placeholder time and no truth links.
+    bool allowNoiseOnlyHits = false;
   };
 
   explicit EDM4hepCalorimeterOutputConverter(

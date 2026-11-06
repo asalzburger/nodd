@@ -94,8 +94,16 @@ ProcessCode EDM4hepCalorimeterOutputConverter::execute(
   for (const auto& hit : hits) {
     if (!std::isfinite(hit.energy) || hit.energy <= 0 ||
         !std::isfinite(hit.time) || !hit.position.allFinite() ||
-        hit.sourceIndices.empty() || !usedCells.insert(hit.cellId).second) {
+        (!m_config.allowNoiseOnlyHits && hit.sourceIndices.empty()) ||
+        !usedCells.insert(hit.cellId).second) {
       throw std::invalid_argument("Invalid calibrated calorimeter hit");
+    }
+    if (hit.sourceIndices.empty() &&
+        (hit.time != 0 ||
+         std::ranges::any_of(deposits, [&hit](const auto& deposit) {
+           return deposit.cellId == hit.cellId && deposit.depositedEnergy > 0;
+         }))) {
+      throw std::invalid_argument("Noise-only hit has signal deposits or a measured time");
     }
     double totalEnergy = 0;
     std::map<edm4hep::SimCalorimeterHit, double> contributions;
