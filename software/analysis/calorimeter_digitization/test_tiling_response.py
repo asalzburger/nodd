@@ -180,6 +180,9 @@ class ResponseAccounting(unittest.TestCase):
 
     def test_zero_sparse_widths_and_histogram_denominators(self):
         self.analysis_fixtures()
+        # Fresh reproduction may prepare a different factory than the CLI
+        # default. Analysis must retain the manifest's actual registration.
+        self.args.factory = self.work / 'unrelated-cli-default'
         response.analyze(self.args)
         result = json.loads(self.args.output.read_text())
         zero, sparse = result['samples']

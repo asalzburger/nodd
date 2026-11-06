@@ -196,6 +196,9 @@ def verify(args):
         raise ValueError('Prepared inventory changed')
     if sha(args.work/'materials.xml')!=manifest['materials_sha256'] or sha(ROOT/manifest['factory']['path'])!=manifest['factory']['sha256']:
         raise ValueError('Executed material or factory changed')
+    components=(ROOT/manifest['factory']['path']).parent/'libnODDCalorimeterPrototype.components'
+    if sha(components)!=manifest['factory']['components_sha256']:
+        raise ValueError('Executed factory component registration changed')
     return manifest
 
 
@@ -558,7 +561,7 @@ def analyze(args):
         or sha(args.work/'sensitive-diagnostic.xml')!=sensitive_report['compact_sha256']):
         raise ValueError('Sensitive-material defaults probe is missing/stale')
     artifact_paths=[args.work/'manifest.json',args.work/'tiled.xml',args.work/'continuous.xml',args.work/'materials.xml',args.work/'expected.json',
-        ROOT/manifest['factory']['path'],args.factory/'libnODDCalorimeterPrototype.components',PROTOCOL,
+        ROOT/manifest['factory']['path'],(ROOT/manifest['factory']['path']).parent/'libnODDCalorimeterPrototype.components',PROTOCOL,
         args.work/'sensitive-diagnostic.json',args.work/'sensitive-diagnostic.xml',args.work/'sensitive-diagnostic.edm4hep.root',args.work/'sensitive-diagnostic.log',
         ROOT/sensitive_report['producer_file'],
         args.work/'pilot-checks.json',args.work/'pilot-tiled.edm4hep.root',args.work/'pilot-tiled.log',
