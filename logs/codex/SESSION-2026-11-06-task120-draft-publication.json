@@ -1,0 +1,120 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-11-06-task120-draft-publication",
+  "title": "Publish task 120 as a draft PR",
+  "recorded_at": "2026-11-06T11:53:00Z",
+  "started_at": null,
+  "ended_at": "2026-11-06T11:55:59.960903Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact per-turn counters, stable client turn/thread IDs and execution model were not exposed; usage remains empty.",
+    "No native reproduction was performed; the cleanup plan keeps evidence-preservation and consumer-migration prerequisites explicit."
+  ],
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "2ce4e9c81006a3779e89a3cedc3a45a7f1bf72d7",
+    "branch": "codex/task120-cleanup-draft",
+    "initial_changes": [
+      ".github/workflows/validation.yml",
+      "AGENTS.md",
+      "README.md",
+      "docs/decisions/ADR-004-session-logging-and-traceability.md",
+      "docs/maintenance/issue-120-inventory.json",
+      "docs/maintenance/issue-120-repository-cleanup.md",
+      "interactions/README.md",
+      "logs/README.md",
+      "logs/codex/SESSION-2026-11-06-repository-cleaning.json",
+      "logs/codex/SESSION-2026-11-06-repository-cleaning.md",
+      "logs/codex/SESSION-2026-11-06-repository-cleaning/request.json",
+      "tools/interactions/ledger.py",
+      "tools/interactions/test_ledger.py",
+      "tools/repository_cleanup/README.md",
+      "tools/repository_cleanup/audit.py",
+      "tools/repository_cleanup/test_audit.py",
+      "tools/session_logging/session_log.py",
+      "tools/session_logging/test_session_log.py"
+    ],
+    "result_commits": [],
+    "changed_files": [
+      ".github/workflows/validation.yml",
+      "AGENTS.md",
+      "README.md",
+      "docs/decisions/ADR-004-session-logging-and-traceability.md",
+      "docs/maintenance/issue-120-inventory.json",
+      "docs/maintenance/issue-120-repository-cleanup.md",
+      "interactions/README.md",
+      "logs/README.md",
+      "logs/codex/SESSION-2026-11-06-repository-cleaning.json",
+      "logs/codex/SESSION-2026-11-06-repository-cleaning.md",
+      "logs/codex/SESSION-2026-11-06-repository-cleaning/request.json",
+      "tools/interactions/ledger.py",
+      "tools/interactions/test_ledger.py",
+      "tools/repository_cleanup/README.md",
+      "tools/repository_cleanup/audit.py",
+      "tools/repository_cleanup/test_audit.py",
+      "tools/session_logging/session_log.py",
+      "tools/session_logging/test_session_log.py",
+      "logs/codex/SESSION-2026-11-06-task120-draft-publication.json",
+      "logs/codex/SESSION-2026-11-06-task120-draft-publication.md"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [
+      "repository infrastructure",
+      "draft PR publication"
+    ],
+    "related_ids": [
+      "ISSUE-120",
+      "ADR-003",
+      "ADR-004"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-11-06-task120-draft-publication.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p 'test_*.py' -q",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "37 tests passed."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/interactions -p 'test_*.py' -q",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "19 tests passed."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/repository_cleanup -p 'test_*.py' -q",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "3 tests passed."
+    },
+    {
+      "command": "python3 -B tools/repository_cleanup/audit.py --revision 2ce4e9c81006a3779e89a3cedc3a45a7f1bf72d7 --output docs/maintenance/issue-120-inventory.json --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "145 triaged files verified."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/token_usage -p 'test_*.py' -q",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "20 tests passed."
+    },
+    {
+      "command": "node tools/token_usage/test_app.js; node tools/token_usage/test_interactions.js",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Both JavaScript suites passed."
+    }
+  ]
+}

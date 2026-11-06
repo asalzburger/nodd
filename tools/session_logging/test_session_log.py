@@ -280,12 +280,14 @@ class SessionLoggingTests(unittest.TestCase):
                         '--allow-empty', '-qm', 'synthetic test baseline'], check=True)
         (self.root / 'user-change.txt').write_text('Preserve this synthetic user file.\n')
         cli = [sys.executable, '-B', str(Path(log.__file__).resolve()), '--repo', str(self.root)]
-        create = cli + ['new', '--id', self.path.stem, '--title', 'CLI synthetic test']
+        create = cli + ['new', '--id', self.path.stem, '--title', 'CLI synthetic test',
+                        '--pr', '2', '--pr', '1', '--pr', '2']
         result = subprocess.run(create, capture_output=True, text=True)
         self.assertEqual(result.returncode, 0, result.stderr)
         original = self.path.read_bytes()
         created = json.loads(original)
         self.assertIn('user-change.txt', created['git']['initial_changes'])
+        self.assertEqual(created['work']['related_ids'], ['PR1', 'PR2'])
         self.assertEqual(subprocess.run(create, capture_output=True).returncode, 1)
         self.assertEqual(self.path.read_bytes(), original)
         result = subprocess.run(cli + ['validate'], capture_output=True, text=True)
@@ -298,6 +300,16 @@ class SessionLoggingTests(unittest.TestCase):
         self.path.write_text('{}')
         result = subprocess.run(cli + ['summary', '--milestone', 'M1'], capture_output=True)
         self.assertEqual(result.returncode, 1)  # Invalid unselected records still fail.
+
+    def test_new_invalid_pr_does_not_create_or_modify_records(self):
+        self.save()
+        before = {path: path.read_bytes() for path in self.directory.iterdir()}
+        for number in (0, -1, True, '1'):
+            with self.subTest(number=number):
+                with self.assertRaisesRegex(ValueError, 'positive integers'):
+                    log.new_record(self.root, 'SESSION-2026-09-15-new', 'Synthetic',
+                                   'codex', 'M0', [number])
+                self.assertEqual({path: path.read_bytes() for path in self.directory.iterdir()}, before)
 
     def test_orphan_narrative_rejected(self):
         with self.assertRaisesRegex(ValueError, 'orphan narrative'):

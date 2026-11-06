@@ -1,0 +1,214 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-11-06-repository-cleaning",
+  "title": "Issue 120: repository cleanup and conflict-resistant accounting",
+  "recorded_at": "2026-11-06T10:26:54Z",
+  "started_at": null,
+  "ended_at": "2026-11-06T10:36:13Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Actual conversation start time, exact client version, stable thread/turn IDs and execution model are not exposed.",
+    "Exact parent and specialist token counters are unavailable; usage is empty and the active final turn is excluded.",
+    "Curated public task snapshot and selected visible outcomes only; no live GitHub refresh, raw client archives or private state.",
+    "No native runtime reproduction or full project CI execution was performed; deletions remain conditional and source/consumer holds are explicit.",
+    "Separate SoftEng assessment found no blocking audit/report issues; accounting author/reviewer overlap and unverified native removal prerequisites remain explicit in the narrative."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "2ce4e9c81006a3779e89a3cedc3a45a7f1bf72d7",
+    "branch": "codex/agent-task-120-35337160503",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      ".github/workflows/validation.yml",
+      "AGENTS.md",
+      "README.md",
+      "docs/decisions/ADR-004-session-logging-and-traceability.md",
+      "docs/maintenance/issue-120-inventory.json",
+      "docs/maintenance/issue-120-repository-cleanup.md",
+      "interactions/README.md",
+      "logs/README.md",
+      "logs/codex/SESSION-2026-11-06-repository-cleaning.json",
+      "logs/codex/SESSION-2026-11-06-repository-cleaning.md",
+      "logs/codex/SESSION-2026-11-06-repository-cleaning/request.json",
+      "tools/interactions/ledger.py",
+      "tools/interactions/test_ledger.py",
+      "tools/repository_cleanup/README.md",
+      "tools/repository_cleanup/audit.py",
+      "tools/repository_cleanup/test_audit.py",
+      "tools/session_logging/session_log.py",
+      "tools/session_logging/test_session_log.py"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [
+      "infrastructure",
+      "repository cleanup",
+      "session logging",
+      "interaction provenance"
+    ],
+    "related_ids": [
+      "ISSUE-120",
+      "REQUEST-120-35337160503",
+      "ADR-003",
+      "ADR-004"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-11-06-repository-cleaning.md",
+  "activities": [
+    {
+      "kind": "skill",
+      "name": "nodd-coordinate",
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "version": null,
+      "evidence": "Observed in this task; selected operations and specialist handoffs are curated in the paired narrative. Exact invocation counts/durations were not measured."
+    },
+    {
+      "kind": "skill",
+      "name": "nodd-review-validation",
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "version": null,
+      "evidence": "Observed in this task; selected operations and specialist handoffs are curated in the paired narrative. Exact invocation counts/durations were not measured."
+    },
+    {
+      "kind": "tool",
+      "name": "functions.exec / exec_command / apply_patch / write_stdin",
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "version": null,
+      "evidence": "Observed in this task; selected operations and specialist handoffs are curated in the paired narrative. Exact invocation counts/durations were not measured."
+    },
+    {
+      "kind": "tool",
+      "name": "collaboration.spawn_agent / followup_task / send_message",
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "version": null,
+      "evidence": "Observed in this task; selected operations and specialist handoffs are curated in the paired narrative. Exact invocation counts/durations were not measured."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 -B -m unittest discover -s tools/session_logging -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "37 tests passed; executed by SoftEng."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/interactions -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "19 tests passed; executed by SoftEng."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/repository_cleanup -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "3 tests passed."
+    },
+    {
+      "command": "python3 -B tools/repository_cleanup/audit.py --revision 2ce4e9c81006a3779e89a3cedc3a45a7f1bf72d7 --output docs/maintenance/issue-120-inventory.json --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "145 files and immutable content fingerprints verified."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/token_usage -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "20 tests passed."
+    },
+    {
+      "command": "node tools/token_usage/test_app.js",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Chart interaction checks passed."
+    },
+    {
+      "command": "node tools/token_usage/test_interactions.js",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "PR conversation checks passed."
+    },
+    {
+      "command": "python3 -B tools/interactions/ledger.py validate --base-ref 2ce4e9c81006a3779e89a3cedc3a45a7f1bf72d7",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "104 PR records retained; canonical usage unchanged."
+    },
+    {
+      "command": "python3 -B tools/interactions/ledger.py sync --session SESSION-2026-11-06-repository-cleaning",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Zero associated PRs, no ledger writes."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "438 disjoint dated turns; 2123088062 observed tokens."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py build --output _site/pages",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Ignored resource-ledger site built successfully."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "254 paired session records validated."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py summary --format json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Observed input 2113297698; output 9790364; 83/254 sessions without usage."
+    },
+    {
+      "command": "python3 -B tools/agent_workflow/workflow.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Eight role profiles and three skills validated."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors."
+    },
+    {
+      "command": "python3 inline local-document-link and inventory-state reconciliation",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All new document paths exist; 145 triaged files reconcile."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate (first finalized-record attempt)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "New session activities omitted required version/evidence fields and supplied unsupported components. Corrected only the new record to match the unchanged schema; final validation rerun required."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Final rerun after activity-schema correction: 254 paired records validated; no unresolved schema failures. Summary and token-site validate/build also reran successfully."
+    }
+  ]
+}

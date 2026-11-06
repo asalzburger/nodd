@@ -80,12 +80,33 @@ python3 -B tools/session_logging/session_log.py validate
 python3 -B tools/token_usage/build.py validate
 ```
 
-Use `sync` without `--pr` when a shared journal affects several existing PR
-references. It only writes records whose contents change. It does not contact
-GitHub or make a remote snapshot current. `capture` explicitly reads GitHub using
+When a session changes, select every affected PR by session ID:
+
+```sh
+python3 -B tools/interactions/ledger.py sync --session "$project_session_id"
+```
+
+The repeatable `--session` selector finds both current journal associations and
+previous derived links, so removal or reassignment also refreshes the old PR.
+Unknown IDs fail before writing. This selector is supported only by `sync`,
+excludes `--pr`, and never writes unrelated records. Global `sync` remains
+available for deliberate full reconciliation; either form only writes changed
+contents. Always run the full validator afterward. Neither selector contacts
+GitHub or makes a remote snapshot current. `capture` explicitly reads GitHub using
 the authenticated `gh` CLI when `--snapshot` is absent; it never posts messages.
 Keep the remote capture date visible. Capture and review new public discussion
 at each accounting pass; an offline validator cannot detect remote edits.
+
+Start new PR work or accounting follow-ups with a unique paired session and
+`session_log.py new --pr N`; see the [logging workflow](../logs/README.md).
+The flag writes the existing explicit PR reference; legacy recorded-branch
+matching remains additive. Distinct task/PR branches prevent accidental sharing
+when a branch name would otherwise match several records. Keep new usage
+inventories uniquely named and linked from that session instead of routinely
+editing the shared usage README or a growing multi-PR campaign journal. Retained
+shared accounts keep their sole canonical owner, exact counters and fingerprints;
+corrections still refresh every PR that references them. No bulk migration or
+duplication of historical evidence is needed.
 
 `tools/interactions/interaction.schema.json` specifies the selected GitHub and
 curated input format. `ledger.py` also checks source fingerprints, account/turn
