@@ -278,11 +278,13 @@ def git(root, *args):
     return output if '-z' in args else output.strip()
 
 
-def new_record(root, session_id, title, category, milestone):
+def new_record(root, session_id, title, category, milestone, prs=()):
     schema = read_json(SCHEMA_PATH)
     check_schema(schema)
     validate_value(session_id, schema['properties']['session_id'])
     date.fromisoformat(session_id[8:18])
+    require(all(type(number) is int and number > 0 for number in prs),
+            'PR numbers must be positive integers')
     load_records(root)
     for existing in (root / 'logs').glob('*/*.json'):
         require(existing.stem != session_id, 'session ID already exists')
@@ -304,7 +306,8 @@ def new_record(root, session_id, title, category, milestone):
         'git': {'start_commit': git(root, 'rev-parse', 'HEAD'),
                 'branch': git(root, 'branch', '--show-current') or None,
                 'initial_changes': sorted(changed), 'result_commits': [], 'changed_files': []},
-        'work': {'milestone': milestone, 'components': [], 'related_ids': []},
+        'work': {'milestone': milestone, 'components': [],
+                 'related_ids': [f'PR{number}' for number in sorted(set(prs))]},
         'narrative': relative.with_suffix('.md').as_posix(),
         'activities': [], 'usage': [], 'checks': [],
     }
@@ -329,6 +332,8 @@ def main(argv=None):
     create.add_argument('--title', required=True)
     create.add_argument('--category', choices=('codex', 'design'), default='codex')
     create.add_argument('--milestone', default='M0')
+    create.add_argument('--pr', type=int, action='append', default=[],
+                        help='related PR number; repeat only for a genuinely shared task')
     commands.add_parser('validate', help='validate all session records')
     summary = commands.add_parser('summary', help='report observed usage and coverage')
     summary.add_argument('--format', choices=('json', 'markdown'), default='markdown')
@@ -351,7 +356,7 @@ def main(argv=None):
     root = args.repo.resolve()
     try:
         if args.command == 'new':
-            record = new_record(root, args.id, args.title, args.category, args.milestone)
+            record = new_record(root, args.id, args.title, args.category, args.milestone, args.pr)
             print(f"Created {record['narrative']} and paired JSON; complete and review before committing.")
         elif args.command in ('import-usage', 'record-usage'):
             if args.command == 'import-usage':

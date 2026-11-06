@@ -308,7 +308,14 @@ Whenever per-PR token accounting is performed, refresh and review that PR's
 public discussion and available visible-message evidence, update canonical
 session usage, then run `python3 -B tools/interactions/ledger.py sync --pr N`
 and `python3 -B tools/interactions/ledger.py validate`. Synchronize all affected
-PR records when a shared journal changes. Commit the affected interaction files
+PR records when a shared journal changes, using `sync --session SESSION-ID`
+to select both current and former links. Start independent PR tasks/accounting
+follow-ups in distinct paired sessions (`session_log.py new --pr N` when the PR
+exists) and distinct task branches. Keep new recovery inventories uniquely named
+and explain them in that session or a same-stem narrative; do not routinely
+append to shared usage/campaign journals. Preserve existing canonical turn
+owners and refresh all their references when correcting historical evidence.
+Commit the affected interaction files
 with the accounting update. The ledger references each exact token owner; it
 must not copy/split counters or invent per-message usage. Record unavailable
 history and active-turn exclusions. CI rejects missing current-PR records and

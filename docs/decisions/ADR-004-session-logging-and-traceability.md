@@ -106,3 +106,17 @@ turns, pending branch-only matches and unmatched observations. Historical
 narratives are preserved with dated corrections; no inference from token counts
 grants scientific progress or human sign-off. The earlier absence-of-usage finding
 describes the logs before this recovery, not the retained local client evidence.
+
+## Implementation update — 2026-11-06, issue #120
+
+The [repository cleanup request](https://github.com/asalzburger/nodd/issues/120)
+authorizes rationalizing accounting to reduce independent PR conflicts.
+`session_log.py new --pr N` records explicit references in the existing schema;
+`ledger.py sync --session SESSION-ID` selects both current and former PR links
+without a shared dependency index. Existing automatic branch matching remains
+additive. New bounded follow-ups use separate sessions, task branches and dated
+inventory files, with explanations beside their evidence rather than in shared
+growing journals. Existing canonical ownership, exact counters, full fingerprint
+checks and historical evidence remain intact. These changes do not grant ADR
+approval or transfer already-owned usage. See the [workflow](../../logs/README.md)
+and [cleanup schedule](../maintenance/issue-120-repository-cleanup.md).

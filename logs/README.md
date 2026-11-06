@@ -19,6 +19,21 @@ HEAD, branch, initial modified/untracked paths, and recording time, then creates
 a JSON record and a Markdown narrative. It never commits or overwrites files.
 It does not claim that the actual conversation began at the recording time.
 
+For an existing PR, record its number at creation rather than relying on a branch
+name or updating a common index:
+
+```sh
+python3 tools/session_logging/session_log.py new \
+  --id SESSION-2026-11-06-pr96-accounting --title "PR96 accounting follow-up" --pr 96
+```
+
+`--pr` populates the existing `work.related_ids` field. Repeat it only when the
+bounded task actually covers several PRs. It does not create a PR, collect remote
+evidence or replace the recorded Git branch. Legacy branch matching remains
+additive in the interaction ledger: use distinct task/PR branches, and inspect
+the linked sessions when branches have been reused. For an issue with no PR,
+leave `--pr` absent; add the actual PR reference after a PR exists.
+
 During work, keep the narrative's selected requests, outcomes, corrections,
 commands, and open questions current. At session end, fill the JSON changed-file
 inventory and checks; set status to `closed` and record an end timestamp only
@@ -85,11 +100,40 @@ python3 -B tools/interactions/ledger.py sync --pr "$pr_number"
 python3 -B tools/interactions/ledger.py validate
 ```
 
-If shared journals affect other PR references, run `sync` without `--pr` and
-commit only changed records. The interaction ledger references canonical usage
+To synchronize every PR affected by a changed session, including a removed old
+association, name the session instead of rewriting every PR ledger:
+
+```sh
+python3 -B tools/interactions/ledger.py sync --session "$project_session_id"
+```
+
+Repeat `--session` for several changed sessions. It selects both current and
+previously retained links, rejects unknown IDs, and leaves unrelated PR records
+untouched. It is available only for `sync` and cannot be combined with `--pr`.
+Global `sync` remains available for deliberate repository-wide reconciliation.
+Commit only changed records. The interaction ledger references canonical usage
 owners and exact thread/turn keys; it does not create another token total.
 Missing history/model/provider evidence remains explicit. CI checks these
 fingerprints alongside the canonical accounting gates.
+
+Keep independent PR work in independent paired session files. A new follow-up
+or accounting pass gets its own bounded session, even in the same client chat.
+Newly recovered, previously unowned closed turns may belong to that accounting
+record when their original task, attribution evidence and completion dates are
+explicitly retained. Link the original task narrative; do not copy its existing
+usage or move owned turns merely to avoid a conflict. Corrections to already
+owned observations still update their canonical owner and all affected ledgers.
+Historical shared sessions stay shared; this workflow does not split their
+tokens among PRs or weaken their fingerprints.
+
+Use a unique task/PR-named recovery inventory under `logs/usage/`, with its
+explanation in the task narrative or a same-stem Markdown file. Link it there
+rather than appending routine accounting entries to `logs/usage/README.md` or a
+shared campaign journal. Retain dated inventories unchanged and add a new named
+snapshot for later evidence. There is no required shared session/usage index;
+validators and the token site discover the files. Keep generated summary/site
+outputs under ignored `build/` or `_site/`. Raw client archives stay local and
+are never part of this workflow.
 
 Record exact, client-reported usage for each completed turn when it is available.
 Use the client's stable thread and turn IDs, including distinct child-thread IDs

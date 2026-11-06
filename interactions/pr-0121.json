@@ -1,0 +1,461 @@
+{
+  "schema_version": 1,
+  "curated": {
+    "journal_links": [
+      "SESSION-2026-11-06-repository-cleaning",
+      "SESSION-2026-11-06-task120-draft-publication"
+    ],
+    "agents": [],
+    "tools": [],
+    "events": []
+  },
+  "github": {
+    "captured_at": "2026-11-06T11:58:35.502Z",
+    "pull_request": {
+      "number": 121,
+      "url": "https://github.com/asalzburger/nodd/pull/121",
+      "title": "Infrastructure: plan repository cleanup and isolate PR accounting",
+      "head": "codex/task120-cleanup-draft",
+      "head_sha": "9e12e850623304457ead2b821e07ab2b8ca3bcaf",
+      "state": "open",
+      "body": "## Executive summary\n\nTask #120 now has a reviewable cleanup proposal and accounting changes. The immutable inventory schedules 122 generated-output files (193.6 MB, 34% of the captured checkout bytes) for removal only after evidence preservation, consumer migration and reproduction checks. This PR deletes no data and rewrites no history; it does not reduce existing Git history or certify native reproduction.\n\n## Change\n\nRefs https://github.com/asalzburger/nodd/issues/120.\n\n- Add a deterministic metadata inventory at `2ce4e9c81006a3779e89a3cedc3a45a7f1bf72d7`, a staged cleanup plan with dependencies/holds, and suggestions for further repository-size maintenance.\n- Support PR-linked session creation and targeted interaction synchronization by session, including both current and former PR links.\n- Document independent task journals and uniquely named recovery inventories to reduce shared-file conflicts; retain canonical token ownership.\n- Add tests and CI validation for the immutable cleanup inventory.\n\nThe draft publishes the worker's completed local proposal at the user's request. The original worker worktree is preserved. ADR-003 and ADR-004 remain DRAFT. Scientific project tracking and sign-off states are unchanged. The standing rule requiring draft PR delivery is handled in a separate infrastructure change.\n\n## Dashboard and validation\n\n- [x] Infrastructure only; no scientific progress entry added.\n- [x] 79 Python tests passed: session logging (37), interactions (19), cleanup audit (3), token site (20).\n- [x] Both token-site JavaScript suites passed; inventory verifies 145 triaged files at the pinned revision.\n- [x] Session and existing interaction records validated; token site built; staged files/new Git objects inspected.\n- [x] Large raw samples and private client state excluded; no generated evidence deleted.\n- [x] Native reproduction and deletion prerequisites remain explicitly outstanding.\n\nCurated sessions: `SESSION-2026-11-06-repository-cleaning` and `SESSION-2026-11-06-task120-draft-publication`. Exact task token counters are unavailable; none were estimated.\n",
+      "actor": "asalzburger",
+      "created_at": "2026-11-06T11:57:36Z"
+    },
+    "comments": [],
+    "issues": [
+      {
+        "number": 120,
+        "url": "https://github.com/asalzburger/nodd/issues/120",
+        "title": "Infrastructure: repository cleaning",
+        "body": "Go through the repository and:\n- identify files that represented data output from tests that could be repeated (and hence the data deleted), schedule those files for deletion\n- rationalize the logging and accounting infrastructure such that individual PRs would not easily create merge conflicts.\n\nSuggest other repository cleaning options (with the aim to compress the repo a bit)",
+        "actor": "asalzburger-review",
+        "created_at": "2026-11-06T10:18:01Z",
+        "comments": []
+      }
+    ]
+  },
+  "derived": {
+    "parties": [
+      {
+        "id": "agent:SESSION-2026-11-06-repository-cleaning",
+        "name": "Codex",
+        "kind": "agent"
+      },
+      {
+        "id": "agent:SESSION-2026-11-06-task120-draft-publication",
+        "name": "Codex desktop",
+        "kind": "agent"
+      },
+      {
+        "id": "github:asalzburger",
+        "name": "asalzburger",
+        "kind": "account"
+      },
+      {
+        "id": "github:asalzburger-review",
+        "name": "asalzburger-review",
+        "kind": "human"
+      },
+      {
+        "id": "unknown:project-user",
+        "name": "Project user (name unrecorded)",
+        "kind": "human"
+      }
+    ],
+    "journals": [
+      {
+        "session_id": "SESSION-2026-11-06-repository-cleaning",
+        "record": "logs/codex/SESSION-2026-11-06-repository-cleaning.json",
+        "attribution": [
+          "curated_session_link"
+        ],
+        "snapshot": null,
+        "snapshot_sha256": null,
+        "record_sha256": "5e17a12b3c975850ea9384e52583450c90ab3f1bc9600ff7ecdd9fdb2d1a9a18",
+        "narrative_sha256": "57f9a2435989d1fd970312dd546f3f769701a90a91a606d49959f3f5f73414d9"
+      },
+      {
+        "session_id": "SESSION-2026-11-06-task120-draft-publication",
+        "record": "logs/codex/SESSION-2026-11-06-task120-draft-publication.json",
+        "attribution": [
+          "curated_session_link",
+          "recorded_branch",
+          "explicit_PR_reference"
+        ],
+        "snapshot": null,
+        "snapshot_sha256": null,
+        "record_sha256": "dc00c594dad8f79d625a86c20cd07b1246268000355071e6c6c5c4708411c562",
+        "narrative_sha256": "b6909b75d1e509c9fb5eaf22aa71b4c75c6a5b6fb829d717b6465974b1a9e80a"
+      }
+    ],
+    "token_accounts": [
+      {
+        "id": "SESSION-2026-11-06-repository-cleaning",
+        "record": "logs/codex/SESSION-2026-11-06-repository-cleaning.json",
+        "scope": "canonical_session; shared PR references are not allocations",
+        "status": "unobserved",
+        "usage_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "turns": []
+      },
+      {
+        "id": "SESSION-2026-11-06-task120-draft-publication",
+        "record": "logs/codex/SESSION-2026-11-06-task120-draft-publication.json",
+        "scope": "canonical_session; shared PR references are not allocations",
+        "status": "unobserved",
+        "usage_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "turns": []
+      }
+    ],
+    "visible_sources": [],
+    "agents": [
+      {
+        "id": "agent:SESSION-2026-11-06-repository-cleaning",
+        "name": "Codex",
+        "role": "session_agent",
+        "thread_id": null,
+        "models": [],
+        "source": "logs/codex/SESSION-2026-11-06-repository-cleaning.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      },
+      {
+        "id": "agent:SESSION-2026-11-06-repository-cleaning:SoftEng:ac0d7d39",
+        "name": "SoftEng",
+        "role": "reported_specialist_assignment",
+        "thread_id": null,
+        "models": [],
+        "source": "logs/codex/SESSION-2026-11-06-repository-cleaning.md#specialist-assignments-and-handoffs",
+        "limitation": "Role contract is recorded; native profile loading and process identity are not inferred."
+      },
+      {
+        "id": "agent:SESSION-2026-11-06-repository-cleaning:SoftEng:bd0b25ef",
+        "name": "SoftEng",
+        "role": "reported_specialist_assignment",
+        "thread_id": null,
+        "models": [],
+        "source": "logs/codex/SESSION-2026-11-06-repository-cleaning.md#audit-review-assignment",
+        "limitation": "Role contract is recorded; native profile loading and process identity are not inferred."
+      },
+      {
+        "id": "agent:SESSION-2026-11-06-repository-cleaning:SoftEng:0df96813",
+        "name": "SoftEng",
+        "role": "reported_specialist_assignment",
+        "thread_id": null,
+        "models": [],
+        "source": "logs/codex/SESSION-2026-11-06-repository-cleaning.md#accounting-implementation-handoff",
+        "limitation": "Role contract is recorded; native profile loading and process identity are not inferred."
+      },
+      {
+        "id": "agent:SESSION-2026-11-06-repository-cleaning:SoftEng:2b643296",
+        "name": "SoftEng",
+        "role": "reported_specialist_assignment",
+        "thread_id": null,
+        "models": [],
+        "source": "logs/codex/SESSION-2026-11-06-repository-cleaning.md#audit-review-handoff",
+        "limitation": "Role contract is recorded; native profile loading and process identity are not inferred."
+      },
+      {
+        "id": "agent:SESSION-2026-11-06-task120-draft-publication",
+        "name": "Codex desktop",
+        "role": "session_agent",
+        "thread_id": null,
+        "models": [],
+        "source": "logs/codex/SESSION-2026-11-06-task120-draft-publication.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      }
+    ],
+    "tools": {
+      "native_codex": [
+        {
+          "name": "collaboration.spawn_agent / followup_task / send_message",
+          "category": "native_codex",
+          "version": null,
+          "calls": null,
+          "source": "logs/codex/SESSION-2026-11-06-repository-cleaning.json",
+          "evidence": "Observed in this task; selected operations and specialist handoffs are curated in the paired narrative. Exact invocation counts/durations were not measured.",
+          "token_account": "SESSION-2026-11-06-repository-cleaning",
+          "provenance": "Native API name"
+        }
+      ],
+      "codex_installed": [],
+      "instructed_software": [],
+      "unresolved": [
+        {
+          "name": "functions.exec / exec_command / apply_patch / write_stdin",
+          "category": "unresolved",
+          "version": null,
+          "calls": null,
+          "source": "logs/codex/SESSION-2026-11-06-repository-cleaning.json",
+          "evidence": "Observed in this task; selected operations and specialist handoffs are curated in the paired narrative. Exact invocation counts/durations were not measured.",
+          "token_account": "SESSION-2026-11-06-repository-cleaning",
+          "provenance": "Operation recorded; installation provenance needs explicit evidence."
+        }
+      ]
+    },
+    "events": [
+      {
+        "id": "github:https://github.com/asalzburger/nodd/pull/121",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "github:asalzburger",
+        "recipients": [],
+        "text": "## Executive summary\n\nTask #120 now has a reviewable cleanup proposal and accounting changes. The immutable inventory schedules 122 generated-output files (193.6 MB, 34% of the captured checkout bytes) for removal only after evidence preservation, consumer migration and reproduction checks. This PR deletes no data and rewrites no history; it does not reduce existing Git history or certify native reproduction.\n\n## Change\n\nRefs https://github.com/asalzburger/nodd/issues/120.\n\n- Add a deterministic metadata inventory at `2ce4e9c81006a3779e89a3cedc3a45a7f1bf72d7`, a staged cleanup plan with dependencies/holds, and suggestions for further repository-size maintenance.\n- Support PR-linked session creation and targeted interaction synchronization by session, including both current and former PR links.\n- Document independent task journals and uniquely named recovery inventories to reduce shared-file conflicts; retain canonical token ownership.\n- Add tests and CI validation for the immutable cleanup inventory.\n\nThe draft publishes the worker's completed local proposal at the user's request. The original worker worktree is preserved. ADR-003 and ADR-004 remain DRAFT. Scientific project tracking and sign-off states are unchanged. The standing rule requiring draft PR delivery is handled in a separate infrastructure change.\n\n## Dashboard and validation\n\n- [x] Infrastructure only; no scientific progress entry added.\n- [x] 79 Python tests passed: session logging (37), interactions (19), cleanup audit (3), token site (20).\n- [x] Both token-site JavaScript suites passed; inventory verifies 145 triaged files at the pinned revision.\n- [x] Session and existing interaction records validated; token site built; staged files/new Git objects inspected.\n- [x] Large raw samples and private client state excluded; no generated evidence deleted.\n- [x] Native reproduction and deletion prerequisites remain explicitly outstanding.\n\nCurated sessions: `SESSION-2026-11-06-repository-cleaning` and `SESSION-2026-11-06-task120-draft-publication`. Exact task token counters are unavailable; none were estimated.\n",
+        "source": "https://github.com/asalzburger/nodd/pull/121",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [],
+        "timestamp": "2026-11-06T11:57:36Z",
+        "remote_input": null
+      },
+      {
+        "id": "github:https://github.com/asalzburger/nodd/issues/120",
+        "type": "issue",
+        "direction": "action",
+        "actor": "github:asalzburger-review",
+        "recipients": [],
+        "text": "Go through the repository and:\n- identify files that represented data output from tests that could be repeated (and hence the data deleted), schedule those files for deletion\n- rationalize the logging and accounting infrastructure such that individual PRs would not easily create merge conflicts.\n\nSuggest other repository cleaning options (with the aim to compress the repo a bit)",
+        "source": "https://github.com/asalzburger/nodd/issues/120",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [],
+        "timestamp": "2026-11-06T10:18:01Z",
+        "remote_input": null
+      },
+      {
+        "id": "journal:SESSION-2026-11-06-repository-cleaning:6e78380fa89c3b6f",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "agent:SESSION-2026-11-06-repository-cleaning"
+        ],
+        "text": "User (public issue, exact): “identify files that represented data output from\ntests that could be repeated (and hence the data deleted), schedule those files\nfor deletion”; “rationalize the logging and accounting infrastructure such that\nindividual PRs would not easily create merge conflicts.” Also requested other\ncleaning options aimed at reducing repository size.\n\n",
+        "source": "logs/codex/SESSION-2026-11-06-repository-cleaning.md#selected-conversation",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-06-repository-cleaning"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-11-06-repository-cleaning:9222cfc01c2aebb4",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "agent:SESSION-2026-11-06-repository-cleaning"
+        ],
+        "text": "User (runner request, paraphrase): work at the captured input revision, prepare\nchecks, curated journal and interaction evidence, leave local changes for human\nreview without pushing or changing GitHub state.\n\n",
+        "source": "logs/codex/SESSION-2026-11-06-repository-cleaning.md#selected-conversation",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-06-repository-cleaning"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-11-06-repository-cleaning:b35e8e7e2974bddb",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-11-06-repository-cleaning",
+        "recipients": [],
+        "text": "Assistant (paraphrase): audit tracked outputs, retain traceability and prepare a\ndeletion schedule; improve bounded accounting rather than rewriting evidence.",
+        "source": "logs/codex/SESSION-2026-11-06-repository-cleaning.md#selected-conversation",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-06-repository-cleaning"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-11-06-repository-cleaning:b910f2e89b6125ce",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "agent:SESSION-2026-11-06-repository-cleaning",
+        "recipients": [],
+        "text": "Assignment `CLEAN120-SoftEng`, role SoftEng, input revision\n`2ce4e9c81006a3779e89a3cedc3a45a7f1bf72d7`, write mode. Inputs:\n`tools/session_logging/session_log.py`, `tools/interactions/ledger.py`,\n`tools/session_logging/test_session_log.py`, `tools/interactions/test_ledger.py`,\n`logs/README.md`, `interactions/README.md`,\n`docs/decisions/ADR-004-session-logging-and-traceability.md`.\nOwned files: the first six named inputs only. Deliver a backwards-compatible\nway to create explicitly PR-scoped bounded session records and synchronize\nonly records affected by a named session, with regression tests and workflow\nguidance avoiding shared growing journals and inventories. Preserve canonical\nturn ownership and existing fingerprints/validation. Completion: report exact\nchanges, test commands/results and limitations. No delegation, commits, remote\nmutations or historical evidence regeneration. Main agent owns cleanup audit,\npolicy reconciliation, this journal and final checks.",
+        "source": "logs/codex/SESSION-2026-11-06-repository-cleaning.md#specialist-assignments-and-handoffs",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [
+          "SoftEng"
+        ],
+        "token_accounts": [
+          "SESSION-2026-11-06-repository-cleaning"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-11-06-repository-cleaning:f465512c3acbf6f0",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-11-06-repository-cleaning",
+        "recipients": [],
+        "text": "Prepared the [cleanup schedule](../../docs/maintenance/issue-120-repository-cleanup.md)\nand [immutable inventory](../../docs/maintenance/issue-120-inventory.json).\nThe captured tree contains 4,727 files / 569,769,442 bytes. Conditional removal\ncovers 122 files / 193,586,653 bytes: 41 historical study outputs, 76 event-array\nfiles and five execution transcripts. One frozen layout (2,324,679 bytes) and\nmaterial scatter with incomplete original-recording provenance (6,537,331 bytes)\nare explicit holds; 21 other large numerical files need further consumer review.\nNo numerical evidence was removed. Existing plots, recipes, input snapshots,\nrejected controls and manifests remain intact. Removal prerequisites include\ncompact comparisons, preserved correlations where needed, exact original-source\nreproduction checks, compatibility migrations and relevant regressions. Ordinary\nfuture deletions reduce checkout size, not reachable full-clone history.\n\nAdded repeatable `session_log.py new --pr N` and `ledger.py sync --session ID`.\nThe selector handles both current and previously linked PRs without modifying\nunrelated records. Workflow updates use independent bounded sessions/branches\nand uniquely named immutable inventories, avoiding routine growth of shared\ncampaign journals and usage README files. Legacy branch matching stays additive.\nCanonical token ownership, exact counters, schemas, fingerprint checks and all\n104 historical PR ledgers remain unchanged. No project progress/tracking entry\nwas added for this infrastructure task. ADR-004 has an implementation note and\nremains DRAFT; ADR-003 is referenced but unchanged. No DES was modified.\n\nSelected public issue/request evidence is retained in\n[request.json](SESSION-2026-11-06-repository-cleaning/request.json). This issue\nhas no assigned new PR number; no fictitious PR120 ledger was created. No\nGitHub writes, pushes, commits, published artifacts, machine changes or raw\nprivate client data collection occurred.",
+        "source": "logs/codex/SESSION-2026-11-06-repository-cleaning.md#decisions-and-outcomes",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-06-repository-cleaning"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-11-06-repository-cleaning:4a5aa7174d979fa7",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "agent:SESSION-2026-11-06-repository-cleaning",
+        "recipients": [],
+        "text": "Assignment `CLEAN120-AuditReview`, SoftEng, read-only. Source baseline\n`2ce4e9c81006a3779e89a3cedc3a45a7f1bf72d7`; review explicitly includes the\nuncommitted audit implementation and report at these SHA-256 identities:\n\n- `tools/repository_cleanup/audit.py`: `de96aa1c5431b0ddb2ff5cdbf74701f73aa84f19060ea216e37f7af69da89fea`.\n- `tools/repository_cleanup/test_audit.py`: `566bdf49b8401223aad4e6aab9039752e487f397567bdca186ffc8af59e9b553`.\n- `tools/repository_cleanup/README.md`: `fb8b75f5ef3d4b915f19bfbb24e3f1e9714726d25d4dfb44ac3a81a22924a910`.\n- `docs/maintenance/issue-120-repository-cleanup.md`: `c15c053bb4fa45be26c554921c32211a24e64c99223ff08ff0595128964f963a`.\n- `docs/maintenance/issue-120-inventory.json`: `eebc06f1fd41eb22644cc0127869ff17b3749bd6644c46ca98b55b5000edb341`.\n\nInputs include AGENTS, PROJECT, ADR-003/004 and linked repository recipes.\nNo owned write files. Deliver findings on arithmetic, safety, reproduction\nclaims and dependency/retention boundaries; completion is a cited result with\nactual checks and limitations. This specialist authored the accounting changes,\nso that part has author/reviewer overlap; the audit was authored by the main\nagent. No scientific acceptance assessment or human approval is requested.",
+        "source": "logs/codex/SESSION-2026-11-06-repository-cleaning.md#audit-review-assignment",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [
+          "SoftEng"
+        ],
+        "token_accounts": [
+          "SESSION-2026-11-06-repository-cleaning"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-11-06-repository-cleaning:da1919bd2d4fe876",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "agent:SESSION-2026-11-06-repository-cleaning",
+        "recipients": [],
+        "text": "`CLEAN120-SoftEng`, child `/root/accounting_cleanup`, reported the six owned\nfiles changed, 37 logging tests, 19 interaction tests, all 104 PR ledgers validated\nand `git diff --check` passing. Main agent inspected the implementation and its\nregressions, then ran token-site integration checks. Native role selection was\nrequested through the exposed SoftEng role and the prepared full role text was\nsupplied; no claim of independently verified model/provider or human expertise\nis made. The accounting author and its narrow test executor are the same agent.\nExact child usage counters are unavailable.",
+        "source": "logs/codex/SESSION-2026-11-06-repository-cleaning.md#accounting-implementation-handoff",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [
+          "SoftEng"
+        ],
+        "token_accounts": [
+          "SESSION-2026-11-06-repository-cleaning"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-11-06-repository-cleaning:9cf49bd4eb6b970e",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "agent:SESSION-2026-11-06-repository-cleaning",
+        "recipients": [],
+        "text": "`CLEAN120-AuditReview`, SoftEng child `/root/accounting_cleanup`: no blocking\nfindings in the five assigned files; SHA-256 identities matched before and after\nreview. Independently recomputed Git arithmetic: 4,727 files, 569,769,442 bytes,\n551,773,583 unique-blob bytes; scheduled groups 122 files / 193,586,653 bytes\n(33.9763%). Verified immutable Git reads, exclusive output creation/check-only\nmode, named frozen-layout and event-array consumers, historical configuration\ndistinctions, missing material-recording provenance, conditional removal\nrequirements and checkout/history size distinctions. No edits or native jobs.\nThe main-authored audit received a separate assessment; the specialist-authored\naccounting implementation was inspected by the coordinator, without a separate\nindependent reviewer. Native regeneration and deletion readiness remain unverified\nprerequisites, not findings resolved by the infrastructure tests.\n\nFinal content inspection found eight new files totaling 119,665 bytes at that\ninspection, with the largest the 71,922-byte metadata inventory. No staged files,\nnew numerical run payloads or scientific-evidence/production-input edits were\npresent. This journal grows slightly as closeout checks are recorded.",
+        "source": "logs/codex/SESSION-2026-11-06-repository-cleaning.md#audit-review-handoff",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [
+          "SoftEng"
+        ],
+        "token_accounts": [
+          "SESSION-2026-11-06-repository-cleaning"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-11-06-repository-cleaning:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-11-06-repository-cleaning",
+        "recipients": [],
+        "text": "Issue 120: repository cleanup and conflict-resistant accounting — see the canonical narrative for outcomes and checks.",
+        "source": "logs/codex/SESSION-2026-11-06-repository-cleaning.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-06-repository-cleaning"
+        ],
+        "content_kind": "reference_summary"
+      },
+      {
+        "id": "journal:SESSION-2026-11-06-task120-draft-publication:d8465868b59cc1a8",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "agent:SESSION-2026-11-06-task120-draft-publication"
+        ],
+        "text": "User, exact: \"Make it a rule that tasks always end in a draft PR 0 and make one now\"\n\n",
+        "source": "logs/codex/SESSION-2026-11-06-task120-draft-publication.md#selected-conversation",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-06-task120-draft-publication"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-11-06-task120-draft-publication:33908ba588e7ae1f",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-11-06-task120-draft-publication",
+        "recipients": [],
+        "text": "Assistant, paraphrase: will publish task #120 now and implement the standing\nrule and deterministic runner publication in a separate infrastructure draft PR.\nThe user explicitly authorizes pushing and creating draft PRs for task results.",
+        "source": "logs/codex/SESSION-2026-11-06-task120-draft-publication.md#selected-conversation",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-06-task120-draft-publication"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-11-06-task120-draft-publication:e1307c0fb12f2147",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-11-06-task120-draft-publication",
+        "recipients": [],
+        "text": "The proposal inventories historical output, schedules 122 files (193.6 MB)\nconditionally, and adds conflict-resistant per-task logging/accounting helpers.\nNo evidence is deleted and no history is rewritten. Required consumer migration,\npreservation and native reproduction remain prerequisites. ADR-003/ADR-004 stay\nDRAFT; no scientific progress entry or human sign-off is added.\nThe individual PR interaction record is added after GitHub assigns its number.",
+        "source": "logs/codex/SESSION-2026-11-06-task120-draft-publication.md#decisions-and-outcomes",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-06-task120-draft-publication"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-11-06-task120-draft-publication:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-11-06-task120-draft-publication",
+        "recipients": [],
+        "text": "Publish task 120 as a draft PR — see the canonical narrative for outcomes and checks.",
+        "source": "logs/codex/SESSION-2026-11-06-task120-draft-publication.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-06-task120-draft-publication"
+        ],
+        "content_kind": "reference_summary"
+      }
+    ],
+    "coverage": {
+      "github_captured_at": "2026-11-06T11:58:35.502Z",
+      "prompts": "Available account-matched user-visible messages, public Codex inputs and curated journal excerpts. Historical full input coverage is unknown.",
+      "recovered_visible_turns": 0,
+      "unrecovered_account_turns": [],
+      "responses": "Public responses and recorded outcomes; no private model state or hidden reasoning.",
+      "token_accounting": "References only. Never sum accounts across PRs or assign a shared turn by text length.",
+      "unknowns": "Unrecorded names, models, tools, subagent identities and response links remain unknown; empty lists are not zero activity.",
+      "remote": "Snapshot, not live synchronization; deleted/edited history and emoji reactions are not recovered.",
+      "branch_only": "Pinned branch journal snapshots are references, not imported counters. Unretained or other-device inputs remain unknown."
+    }
+  }
+}

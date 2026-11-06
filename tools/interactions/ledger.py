@@ -47,6 +47,25 @@ def path_for(root, number):
     return root / 'interactions' / f'pr-{number:04d}.json'
 
 
+def paths_for_sessions(root, paths, session_ids, records):
+    """Select current and formerly linked PRs without a shared dependency index."""
+    requested = set(session_ids)
+    known = {record['session_id'] for record in records}
+    selected = []
+    for path in paths:
+        snapshot = logger.read_json(path)
+        validate_snapshot(snapshot, int(path.stem.removeprefix('pr-')))
+        previous = {item['session_id'] for item in snapshot['derived'].get('journals', [])}
+        previous.update(item['id'] for item in snapshot['derived'].get('token_accounts', []))
+        current = {record['session_id'] for record, _ in journal_links(root, snapshot, records)}
+        known.update(previous | current)
+        if requested & (previous | current):
+            selected.append(path)
+    logger.require(requested <= known,
+                   'unknown session IDs: ' + ', '.join(sorted(requested - known)))
+    return selected
+
+
 def require_retained_records(root, revision):
     """Protect historical records without a shared mutable inventory file."""
     logger.require(re.fullmatch('[0-9a-f]{40}', revision) is not None,
@@ -497,12 +516,16 @@ def main(argv=None):
     parser.add_argument('--repo', type=Path, default=ROOT)
     parser.add_argument('command', choices=('sync', 'validate', 'capture', 'snapshot-journals'))
     parser.add_argument('--pr', type=int)
+    parser.add_argument('--session', action='append', default=[],
+                        help='sync current/former PR references to this session; repeatable, excludes --pr')
     parser.add_argument('--base-ref', help='full base commit SHA; reject removed historical PR records')
     parser.add_argument('--snapshot', type=Path,
                         help='public, sanitized GitHub snapshot supplied by a connector')
     args = parser.parse_args(argv)
     root = args.repo.resolve()
     try:
+        logger.require(not args.session or (args.command == 'sync' and args.pr is None),
+                       '--session requires sync without --pr')
         records = logger.load_records(root)
         if args.base_ref:
             require_retained_records(root, args.base_ref)
@@ -520,6 +543,8 @@ def main(argv=None):
         else:
             paths = [path_for(root, args.pr)] if args.pr else sorted((root / 'interactions').glob('pr-*.json'))
             logger.require(paths, 'no PR interaction records found')
+            if args.session:
+                paths = paths_for_sessions(root, paths, args.session, records)
             for path in paths:
                 number = int(path.stem.removeprefix('pr-'))
                 snapshot = logger.read_json(path)

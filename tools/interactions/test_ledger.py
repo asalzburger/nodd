@@ -121,6 +121,77 @@ class LedgerTests(unittest.TestCase):
         self.assertEqual(path.read_bytes(), before)
         self.assertEqual(other.read_text(), 'Unrelated work remains untouched\n')
 
+    def write_pr(self, number):
+        snapshot = copy.deepcopy(self.snapshot)
+        snapshot['github']['pull_request'].update(number=number, url=ledger.BASE + f'/pull/{number}',
+                                                 head=f'fixture-pr-{number}')
+        snapshot['derived'] = ledger.derive(self.root, snapshot, ledger.logger.load_records(self.root))
+        path = ledger.path_for(self.root, number)
+        ledger.write(path, snapshot)
+        return path
+
+    def test_sync_session_updates_only_linked_pr_and_preserves_usage(self):
+        self.record['work']['related_ids'] = ['PR1']
+        self.record['usage'] = [self.turn()]
+        ledger.write(self.record_path, self.record)
+        path, other = self.write_pr(1), self.write_pr(2)
+        untouched = other.read_bytes(), other.stat().st_mtime_ns
+        original_usage = ledger.logger.summarize(ledger.logger.load_records(self.root))['tokens']
+        self.narrative.write_text('## Selected conversation\nUser: changed fixture input.\n')
+        args = ['--repo', str(self.root), 'sync', '--session', self.record['session_id']]
+        before = path.read_bytes()
+        self.assertEqual(ledger.main(args), 0)
+        self.assertNotEqual(path.read_bytes(), before)
+        self.assertEqual((other.read_bytes(), other.stat().st_mtime_ns), untouched)
+        current = path.read_bytes(), path.stat().st_mtime_ns
+        self.assertEqual(ledger.main(args), 0)
+        self.assertEqual((path.read_bytes(), path.stat().st_mtime_ns), current)
+        self.assertEqual(ledger.logger.summarize(ledger.logger.load_records(self.root))['tokens'], original_usage)
+        self.assertEqual(ledger.main(['--repo', str(self.root), 'validate']), 0)
+
+    def test_sync_session_handles_previous_and_new_associations(self):
+        self.record['work']['related_ids'] = ['PR1']
+        ledger.write(self.record_path, self.record)
+        old_path, new_path, other = self.write_pr(1), self.write_pr(2), self.write_pr(3)
+        untouched = other.read_bytes(), other.stat().st_mtime_ns
+        self.record['work']['related_ids'] = ['PR2']
+        ledger.write(self.record_path, self.record)
+        self.assertEqual(ledger.main(['--repo', str(self.root), 'sync',
+                                      '--session', self.record['session_id']]), 0)
+        self.assertEqual(ledger.logger.read_json(old_path)['derived']['journals'], [])
+        self.assertEqual(ledger.logger.read_json(new_path)['derived']['journals'][0]['session_id'],
+                         self.record['session_id'])
+        self.assertEqual((other.read_bytes(), other.stat().st_mtime_ns), untouched)
+        self.assertEqual(ledger.main(['--repo', str(self.root), 'validate']), 0)
+
+    def test_sync_session_keeps_shared_pr_references_current(self):
+        self.record['work']['related_ids'] = ['PR1', 'PR2']
+        ledger.write(self.record_path, self.record)
+        first, second = self.write_pr(1), self.write_pr(2)
+        before = first.read_bytes(), second.read_bytes()
+        self.narrative.write_text('## Selected conversation\nUser: corrected shared fixture.\n')
+        self.assertEqual(ledger.main(['--repo', str(self.root), 'sync',
+                                      '--session', self.record['session_id'],
+                                      '--session', self.record['session_id']]), 0)
+        self.assertNotEqual(first.read_bytes(), before[0])
+        self.assertNotEqual(second.read_bytes(), before[1])
+        self.assertEqual(ledger.main(['--repo', str(self.root), 'validate']), 0)
+
+    def test_unknown_session_or_invalid_selector_combination_leaves_files_untouched(self):
+        self.record['work']['related_ids'] = ['PR1']
+        ledger.write(self.record_path, self.record)
+        path = self.write_pr(1)
+        before = path.read_bytes()
+        self.narrative.write_text('## Selected conversation\nUser: stale until a valid sync.\n')
+        for options in (['sync', '--session', self.record['session_id'], '--session', 'unknown'],
+                        ['sync', '--session', self.record['session_id'], '--pr', '1'],
+                        ['validate', '--session', self.record['session_id']],
+                        ['capture', '--session', self.record['session_id'], '--pr', '1'],
+                        ['snapshot-journals', '--session', self.record['session_id']]):
+            with self.subTest(options=options):
+                self.assertEqual(ledger.main(['--repo', str(self.root), *options]), 1)
+                self.assertEqual(path.read_bytes(), before)
+
     def test_missing_pr_and_bad_filename_identity_fail(self):
         self.assertEqual(ledger.main(['--repo', str(self.root), 'validate', '--pr', '9']), 1)
         self.snapshot['github']['pull_request']['number'] = 2
