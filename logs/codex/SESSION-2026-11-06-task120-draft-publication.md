@@ -44,3 +44,7 @@ No counters from the original worker session were copied or allocated here.
 Review the draft PR's conditional cleanup and accounting changes. Execute any
 future evidence removal only after the documented prerequisites. The separate
 runner-rule PR governs future task delivery.
+
+## Published draft
+
+Published as [PR #121](https://github.com/asalzburger/nodd/pull/121). Its individual interaction record links both canonical sessions; the original worker worktree remains unchanged.
