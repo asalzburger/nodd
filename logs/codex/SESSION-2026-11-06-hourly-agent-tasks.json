@@ -4,14 +4,13 @@
   "title": "Hourly reviewer-labeled task pickup on mac-studio-01",
   "recorded_at": "2026-11-06T09:39:33Z",
   "started_at": null,
-  "ended_at": null,
-  "status": "open",
+  "ended_at": "2026-11-06T09:49:48.834536Z",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
     "Exact client per-turn token counters, stable turn/thread identifiers and actual conversation start time were unavailable.",
-    "No paid Codex execution or loaded LaunchAgent was exercised; local Git/fake-executable integration, live read-only GitHub preview and plist rendering were verified.",
-    "Task scope defaults to both issues and same-repository PRs pending any further user preference."
+    "No paid Codex execution or loaded LaunchAgent was exercised; local Git/fake-executable integration, live read-only GitHub preview and plist rendering were verified."
   ],
   "client": {
     "name": "Codex desktop",
@@ -22,7 +21,9 @@
     "start_commit": "96dbf57d0da7f3027e59109c1846d992d68d4d44",
     "branch": "codex/hourly-agent-tasks",
     "initial_changes": [],
-    "result_commits": [],
+    "result_commits": [
+      "1c79d1baa35d02d2f3974366227d3acc9573078f"
+    ],
     "changed_files": [
       ".github/workflows/validation.yml",
       "README.md",
@@ -32,7 +33,8 @@
       "tools/agent_tasks/test_poll.py",
       "tools/agent_tasks/README.md",
       "logs/codex/SESSION-2026-11-06-hourly-agent-tasks.json",
-      "logs/codex/SESSION-2026-11-06-hourly-agent-tasks.md"
+      "logs/codex/SESSION-2026-11-06-hourly-agent-tasks.md",
+      "interactions/pr-0119.json"
     ]
   },
   "work": {
@@ -42,7 +44,8 @@
     ],
     "related_ids": [
       "ADR-003",
-      "ADR-004"
+      "ADR-004",
+      "PR119"
     ]
   },
   "narrative": "logs/codex/SESSION-2026-11-06-hourly-agent-tasks.md",
@@ -115,6 +118,36 @@
       "status": "FAIL",
       "exit_code": 1,
       "result": "Draft activity metadata used incorrect schema fields; corrected to the published activity/check schema."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "253 session records validated after draft schema fields were corrected."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py summary --format json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "253 sessions, 438 observed turns, 82 sessions without usage; this session has no observed input/output counters. Existing project totals are not attributed to this task."
+    },
+    {
+      "command": "python3 --version; git --version; gh --version; codex login status",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Python 3.14.6, Git 2.54.0, gh 2.100.0; Codex logged in using ChatGPT. GitHub authentication and fetch were verified separately."
+    },
+    {
+      "command": "GitHub Actions token-site job 127824700376 at initial PR head",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "PR119 interaction record did not exist before number assignment; added and validated in the follow-up commit."
+    },
+    {
+      "command": "python3 -B tools/interactions/ledger.py validate --pr 119; python3 -B tools/interactions/ledger.py validate --base-ref 96dbf57d0da7f3027e59109c1846d992d68d4d44",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "PR119 and all 104 PR records validated; historical interaction files retained."
     }
   ]
 }

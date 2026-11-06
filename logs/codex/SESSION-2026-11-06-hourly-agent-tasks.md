@@ -16,10 +16,22 @@ need to hourly check if there are new tasks to pick up. Can this work ?"
 
 Assistant, paraphrase: confirmed feasibility of a local macOS LaunchAgent,
 inspected repository governance and existing workflow, asked whether issues,
-PRs or both should be eligible, and proceeded with both when no answer was
-available. Reported creating the label and verifying reviewer access. Explained
+PRs or both should be eligible, and initially proceeded with both. The user
+subsequently confirmed, exactly: "Both issues and pull requests". Reported
+creating the label and verifying reviewer access. Explained
 that worker results remain local for review and scheduler loading follows PR
 review and merge.
+
+User, exact follow-ups: "What's necessary to run on the apple-studio-01 to do
+this ?" and "Then, can I make a permission list of people who are allowed to
+set this flag ?"
+
+Assistant, paraphrase: explained Python/Git/gh/Codex prerequisites, existing
+authentication, stable merged checkout and one-time LaunchAgent loading, plus
+logged-in/awake/online operation. Verified the installed versions and Codex
+login. Confirmed the existing configurable reviewer allowlist gates task pickup;
+GitHub's general triage/write label permissions still govern who can visibly
+apply labels. Unauthorized label actors do not trigger worker execution.
 
 ## Decisions and outcomes
 
@@ -74,6 +86,15 @@ machines cannot provide an exact wall-clock hourly service.
 - `python3 -B tools/token_usage/build.py build --output _site/agent-tasks-preview`:
   exit 0. This verifies the existing resource site still builds.
 - `git diff --check`: exit 0.
+- Initial session-metadata validation exposed incorrect activity/check field
+  names in the draft record; corrected to the existing published schema.
+- Opened [PR #119](https://github.com/asalzburger/nodd/pull/119) through authenticated
+  GitHub CLI after the connector's create-PR endpoint returned 403. The connector
+  remained available for read-only PR/discussion capture. Added the individual
+  interaction record from a sanitized public snapshot and canonical session links.
+- The initial token-site CI run failed because the just-assigned PR interaction
+  file was not in the first commit. Inspected the failing job log, added
+  `interactions/pr-0119.json` and validated it locally before the follow-up push.
 
 Session/interaction validation and final resource summary are recorded in the
 paired JSON. These checks do not imply detector acceptance or design sign-off.
