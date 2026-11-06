@@ -159,6 +159,17 @@ See [ADR-003](docs/decisions/ADR-003-validation-and-artifact-policy.md).
 
 ## Code and change discipline
 
+Maintain the [software inventory](docs/software-inventory.md) in the same PR
+whenever software is added, removed or its integration, dependencies or usage
+changes. Update `software/inventory.json` with usage keywords, integration
+(submodule, local installation or source added to nODD), installation/use recipe,
+recorded version or explicit unknown status, evidence and related PRs when known.
+Include optional tools and new externals used within an existing script.
+After reviewing dependency/build/source-pin changes, run
+`python3 -B tools/software_inventory/inventory.py refresh`, review both inventory
+and page diffs, then run `python3 -B tools/software_inventory/inventory.py check`.
+Do not treat refreshed fingerprints as evidence of installation or execution.
+
 Human instruction, 2026-11-06: **every repository task must end in a draft pull
 request**. Push the dedicated task branch and open a draft PR with the task/issue,
 actual validation and limitations before reporting completion. Investigations,

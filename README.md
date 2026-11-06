@@ -5,6 +5,11 @@ OpenDataDetector for DD4hep simulation and ACTS-compatible reconstruction.
 See the [project scope](PROJECT.md), [development plan](docs/DEVELOPMENT_PLAN.md)
 and [documentation index](docs/README.md).
 
+The [software inventory](docs/software-inventory.md) lists the pre-existing
+Spack dependencies, pinned source dependencies, local ActsExamples extensions,
+cross-validation tools and analysis environments, with usage keywords,
+installation evidence and related PRs. Update it in the same PR as software changes.
+
 The [PR interaction ledger](interactions/README.md) records available human
 inputs, agent responses, parties, roles, tools and canonical token-account
 references in separate files for each PR.
