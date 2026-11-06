@@ -553,9 +553,13 @@ def analyze(args):
     import ROOT as R
     factory_cache=((ROOT/manifest['factory']['path']).parent/'CMakeCache.txt').read_text()
     configured_dd4hep=re.search(r'^DD4hep_DIR:PATH=(.+)$',factory_cache,re.MULTILINE)
-    version_file=Path(os.environ.get('DD4hep_DIR',configured_dd4hep.group(1) if configured_dd4hep else ''))/'DD4hepConfigVersion.cmake'
+    if configured_dd4hep is None: raise ValueError('Factory build has no recorded DD4hep config directory')
+    # thisdd4hep.sh exports an installation prefix, whereas CMake records the
+    # actual configuration directory used to build this factory.
+    version_file=Path(configured_dd4hep.group(1))/'DD4hepConfigVersion.cmake'
     dd4hep_match=re.search(r'set\(PACKAGE_VERSION "([^"]+)"\)',version_file.read_text()) if version_file.exists() else None
-    runtime=dict(Python=platform.python_version(),ROOT=str(R.gROOT.GetVersion()),Geant4=subprocess.check_output(['geant4-config','--version'],text=True).strip(),DD4hep=dd4hep_match.group(1) if dd4hep_match else None,NumPy=np.__version__,bootstrap_bit_generator=type(rng.bit_generator).__name__,ddsim_entrypoint_sha256=sha(shutil.which('ddsim')))
+    if dd4hep_match is None: raise ValueError('Factory DD4hep package version is unavailable')
+    runtime=dict(Python=platform.python_version(),ROOT=str(R.gROOT.GetVersion()),Geant4=subprocess.check_output(['geant4-config','--version'],text=True).strip(),DD4hep=dd4hep_match.group(1),DD4hep_version_file_sha256=sha(version_file),NumPy=np.__version__,bootstrap_bit_generator=type(rng.bit_generator).__name__,ddsim_entrypoint_sha256=sha(shutil.which('ddsim')))
     sensitive_report=json.loads((args.work/'sensitive-diagnostic.json').read_text())
     if (sensitive_report['status']!='PASS' or sensitive_report['materials_sha256']!=manifest['materials_sha256']
         or sensitive_report['defaults']!=sensitive_defaults() or sensitive_report['birks_constant_mm_per_MeV']!=0

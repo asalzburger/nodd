@@ -187,7 +187,7 @@ class ResponseAccounting(unittest.TestCase):
         self.stack.enter_context(patch.dict('sys.modules', {'ROOT': SimpleNamespace(gROOT=SimpleNamespace(GetVersion=lambda: 'software-fixture'))}))
         self.stack.enter_context(patch.object(response.shutil, 'which', return_value=str(self.factory / 'library')))
         self.stack.enter_context(patch.object(response.subprocess, 'check_output', return_value='software-fixture'))
-        self.stack.enter_context(patch.dict(response.os.environ, {'DD4hep_DIR': str(version)}))
+        self.stack.enter_context(patch.dict(response.os.environ, {'DD4hep_DIR': str(self.work / 'install-prefix-not-cmake-dir')}))
         return arrays
 
     def test_zero_sparse_widths_and_histogram_denominators(self):
@@ -197,6 +197,7 @@ class ResponseAccounting(unittest.TestCase):
         self.args.factory = self.work / 'unrelated-cli-default'
         response.analyze(self.args)
         result = json.loads(self.args.output.read_text())
+        self.assertEqual(result['runtime']['DD4hep'], 'software-fixture')
         zero, sparse = result['samples']
         self.assertIsNone(zero['relative_width'])
         self.assertEqual(zero['bootstrap']['undefined_width_replicates'], 2000)
