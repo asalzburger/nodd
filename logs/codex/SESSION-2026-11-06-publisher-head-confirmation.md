@@ -52,3 +52,10 @@ Review and merge the infrastructure fix, then reconcile the identical local
 publisher override against merged main. The queue still runs hourly and never
 marks PRs ready or merges them. The software-inventory draft retains its separate
 historical-project-object blocker for full make check.
+
+## Published drafts
+
+Recovered task124 publication in [draft PR125](https://github.com/asalzburger/nodd/pull/125),
+with final verification passing and its link in state/result. This fix is
+[draft PR126](https://github.com/asalzburger/nodd/pull/126). No duplicate task
+PR or new model execution was required.

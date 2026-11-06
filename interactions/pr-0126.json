@@ -1,0 +1,164 @@
+{
+  "schema_version": 1,
+  "curated": {
+    "journal_links": [],
+    "agents": [],
+    "tools": [],
+    "events": []
+  },
+  "github": {
+    "captured_at": "2026-11-06T16:05:59.831Z",
+    "pull_request": {
+      "number": 126,
+      "url": "https://github.com/asalzburger/nodd/pull/126",
+      "title": "Infrastructure: confirm draft PR heads after publication",
+      "head": "codex/publisher-head-confirmation",
+      "head_sha": "a7ba6091b3ec370873d234de00ee2bfea7e38470",
+      "state": "open",
+      "body": "## Executive summary\n\nThe publisher can reject a valid draft immediately after pushing its final interaction-record commit. During task #124 recovery, draft PR #125 and its new head were published, an immediate generic verification failed, and subsequent PR/ref reads matched the local SHA. This change allows a short bounded head-confirmation retry while retaining the exact same completion checks.\n\n## Change\n\n- Read the expected local SHA once and allow five GitHub PR-head reads with 0.5/1/2/4-second backoff.\n- Continue to reject a closed/ready PR or wrong source/target branch immediately. A persistently wrong SHA still fails; the diagnostic now includes both revisions and the PR URL.\n- Add integration tests for a stale final head that converges and a permanently mismatched head that fails. Document the bounded confirmation behavior.\n\nThe old generic error did not retain its mismatched field, so short head propagation is a supported failure hypothesis rather than a reconstructed API response. This does not weaken exact SHA, draft-state or branch verification. No model, artifact or approval policy changes.\n\nThe tested publisher module is deployed locally pending this draft's review/merge. The stable runner was advanced to merged main, and task #124's prepared proposal is in draft PR #125. Configuration, task history and scheduler settings were preserved.\n\n## Dashboard and validation\n\n- [x] Infrastructure only; no scientific tracking or sign-off changes.\n- [x] 27 queue/publisher tests pass, including real local Git push and fake GitHub integration.\n- [x] Persistent wrong heads still fail and do not produce a completed result.\n- [x] Sessions/interactions validate and the token site builds; staged/new Git objects inspected.\n- [x] No paid model call, native runtime or large data artifact used.\n\nSession: `SESSION-2026-11-06-publisher-head-confirmation`. Exact task counters are unavailable; usage is unknown, not zero.\n",
+      "actor": "asalzburger",
+      "created_at": "2026-11-06T16:05:16Z"
+    },
+    "comments": [],
+    "issues": []
+  },
+  "derived": {
+    "parties": [
+      {
+        "id": "agent:SESSION-2026-11-06-publisher-head-confirmation",
+        "name": "Codex desktop",
+        "kind": "agent"
+      },
+      {
+        "id": "github:asalzburger",
+        "name": "asalzburger",
+        "kind": "account"
+      },
+      {
+        "id": "unknown:project-user",
+        "name": "Project user (name unrecorded)",
+        "kind": "human"
+      }
+    ],
+    "journals": [
+      {
+        "session_id": "SESSION-2026-11-06-publisher-head-confirmation",
+        "record": "logs/codex/SESSION-2026-11-06-publisher-head-confirmation.json",
+        "attribution": [
+          "recorded_branch",
+          "explicit_PR_reference"
+        ],
+        "snapshot": null,
+        "snapshot_sha256": null,
+        "record_sha256": "a3fe1811f55d210e685ac4d1869b7640f9dbc769e1709868556a03d13e32358a",
+        "narrative_sha256": "962c5c461a8ff60c7782ee4fd4a4b364c2f48e2d08c939abd0ce0f6192140d55"
+      }
+    ],
+    "token_accounts": [
+      {
+        "id": "SESSION-2026-11-06-publisher-head-confirmation",
+        "record": "logs/codex/SESSION-2026-11-06-publisher-head-confirmation.json",
+        "scope": "canonical_session; shared PR references are not allocations",
+        "status": "unobserved",
+        "usage_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "turns": []
+      }
+    ],
+    "visible_sources": [],
+    "agents": [
+      {
+        "id": "agent:SESSION-2026-11-06-publisher-head-confirmation",
+        "name": "Codex desktop",
+        "role": "session_agent",
+        "thread_id": null,
+        "models": [],
+        "source": "logs/codex/SESSION-2026-11-06-publisher-head-confirmation.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      }
+    ],
+    "tools": {
+      "native_codex": [],
+      "codex_installed": [],
+      "instructed_software": [],
+      "unresolved": []
+    },
+    "events": [
+      {
+        "id": "github:https://github.com/asalzburger/nodd/pull/126",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "github:asalzburger",
+        "recipients": [],
+        "text": "## Executive summary\n\nThe publisher can reject a valid draft immediately after pushing its final interaction-record commit. During task #124 recovery, draft PR #125 and its new head were published, an immediate generic verification failed, and subsequent PR/ref reads matched the local SHA. This change allows a short bounded head-confirmation retry while retaining the exact same completion checks.\n\n## Change\n\n- Read the expected local SHA once and allow five GitHub PR-head reads with 0.5/1/2/4-second backoff.\n- Continue to reject a closed/ready PR or wrong source/target branch immediately. A persistently wrong SHA still fails; the diagnostic now includes both revisions and the PR URL.\n- Add integration tests for a stale final head that converges and a permanently mismatched head that fails. Document the bounded confirmation behavior.\n\nThe old generic error did not retain its mismatched field, so short head propagation is a supported failure hypothesis rather than a reconstructed API response. This does not weaken exact SHA, draft-state or branch verification. No model, artifact or approval policy changes.\n\nThe tested publisher module is deployed locally pending this draft's review/merge. The stable runner was advanced to merged main, and task #124's prepared proposal is in draft PR #125. Configuration, task history and scheduler settings were preserved.\n\n## Dashboard and validation\n\n- [x] Infrastructure only; no scientific tracking or sign-off changes.\n- [x] 27 queue/publisher tests pass, including real local Git push and fake GitHub integration.\n- [x] Persistent wrong heads still fail and do not produce a completed result.\n- [x] Sessions/interactions validate and the token site builds; staged/new Git objects inspected.\n- [x] No paid model call, native runtime or large data artifact used.\n\nSession: `SESSION-2026-11-06-publisher-head-confirmation`. Exact task counters are unavailable; usage is unknown, not zero.\n",
+        "source": "https://github.com/asalzburger/nodd/pull/126",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [],
+        "timestamp": "2026-11-06T16:05:16Z",
+        "remote_input": null
+      },
+      {
+        "id": "journal:SESSION-2026-11-06-publisher-head-confirmation:546aa064220d284a",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "agent:SESSION-2026-11-06-publisher-head-confirmation"
+        ],
+        "text": "User asked whether another worker picked up work in the last hour. Assistant\nconfirmed issue124 at 16:07 Europe/Zurich and found its prepared output was local.\nUnder the user's existing instruction that every task ends in a draft PR, the\nassistant restored the deployed merged publisher and recovered publication.",
+        "source": "logs/codex/SESSION-2026-11-06-publisher-head-confirmation.md#selected-conversation",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-06-publisher-head-confirmation"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-11-06-publisher-head-confirmation:fb2446341708e21e",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-11-06-publisher-head-confirmation",
+        "recipients": [],
+        "text": "The inactive stable checkout was still before the publisher merge. Recovery\nadvanced it to merged main while preserving configuration and queue history.\nPublishing issue124 created [draft PR125](https://github.com/asalzburger/nodd/pull/125)\nand pushed its interaction record, but immediate final verification failed.\nA subsequent PR and branch-ref API read both matched local revision\n`c4b8107fae7d60d55ce28a5cdd51612934684323`. The original generic error did not\nretain the mismatched response field, so a short head-propagation delay is the\nsupported hypothesis, not a reconstructed fact.\n\nHead confirmation now allows five reads with 0.5/1/2/4-second backoff. The exact\npublished SHA must still match, and a wrong branch or closed/ready PR still fails\nimmediately. Persistent SHA mismatch fails after the bound and reports expected\nand observed revisions. No acceptance requirement, title policy, artifact guard\nor model sandbox is weakened. Updated the operations guide and deployed the\ntested publisher module under the existing queue lock; retained rollback source.",
+        "source": "logs/codex/SESSION-2026-11-06-publisher-head-confirmation.md#decisions-and-outcomes",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-06-publisher-head-confirmation"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-11-06-publisher-head-confirmation:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-11-06-publisher-head-confirmation",
+        "recipients": [],
+        "text": "Confirm published PR heads after GitHub propagation delays — see the canonical narrative for outcomes and checks.",
+        "source": "logs/codex/SESSION-2026-11-06-publisher-head-confirmation.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-06-publisher-head-confirmation"
+        ],
+        "content_kind": "reference_summary"
+      }
+    ],
+    "coverage": {
+      "github_captured_at": "2026-11-06T16:05:59.831Z",
+      "prompts": "Available account-matched user-visible messages, public Codex inputs and curated journal excerpts. Historical full input coverage is unknown.",
+      "recovered_visible_turns": 0,
+      "unrecovered_account_turns": [],
+      "responses": "Public responses and recorded outcomes; no private model state or hidden reasoning.",
+      "token_accounting": "References only. Never sum accounts across PRs or assign a shared turn by text length.",
+      "unknowns": "Unrecorded names, models, tools, subagent identities and response links remain unknown; empty lists are not zero activity.",
+      "remote": "Snapshot, not live synchronization; deleted/edited history and emoji reactions are not recovered.",
+      "branch_only": "Pinned branch journal snapshots are references, not imported counters. Unretained or other-device inputs remain unknown."
+    }
+  }
+}
