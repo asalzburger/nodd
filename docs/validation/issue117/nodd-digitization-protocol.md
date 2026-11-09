@@ -83,6 +83,39 @@ No integrated transport/runtime pass is claimed by this document. Reverify Spack
 DD4hep/DDG4, datasets and the actual factory registrations before dependent work.
 Record every executed source/library/compact/material hash and namespace mapping.
 
+### Pre-output PhysVal clarifications — 2026-11-09
+
+The separate assessment of `554b087c3c0088773199466a779a580a25841017`
+identified three implementation definitions, frozen here before transport:
+
+1. A native intersection of the initial IP ray predicts geometric active layers;
+   it is a separately labelled straight-ray diagnostic. Multiple scattering and
+   secondary production mean it cannot certify the transported muon's crossing.
+   Primary-associated deposits identify observed active crossings. A nominal
+   layer without such a deposit remains an **unknown transported crossing**,
+   unless independently persisted trajectory information resolves it. Neither
+   a missing hit nor a predicted gap is silently promoted to a known zero signal.
+   Target nominal trials are BARREL/side0 at η0, EDGE/side1 at η2 and EDGE/side2
+   at η−2, with the corresponding ODD descriptor/placement identities. Derive
+   each target's layer inventory from construction; retain other-region primary
+   deposits separately rather than merging equal numeric layer labels.
+2. A centroid chord uses the immediately previous and next **constructed physical
+   layer**, within the same region and side. The native inventory defines this
+   adjacency, including each geometry's different layer-number origin. Both
+   neighbours must have qualified centroids; never bridge an unobserved layer.
+3. Installed DDSim explicitly adds `G4StepLimiterPhysics`; the ODD sensitive-Si
+   `cal_limits` maximum of 5 mm is therefore an effective transport setting,
+   whereas the maintained nODD factories attach no corresponding limit.
+   **NODD DESIGN CHOICE — matched transport fixture:** before any event, apply
+   and audit a 5-mm maximum charged-particle step in sensitive ECAL silicon for
+   **both** geometries. Preserve other existing user limits. The task-owned
+   DDSim initialization callback changes only that transport fixture, not any
+   TGeo geometry, material, sensitive mask, identifier or source factory.
+   Record the actual Geant4 StepLimiter processes, field samples, material Birks
+   constants and effective region production cuts before the first event. Require
+   zero sampled field and the same ECAL 5-mm limit; retain source-specific cuts
+   elsewhere explicitly rather than asserting unmeasured equivalence.
+
 Create a task-local original-Key4hep compact wrapper for the **same nODD geometry**
 containing only the required named encoding constants and resolved references.
 The Key4hep full processor reads `BARRELHits` and `EDGEHits`, with the shared
