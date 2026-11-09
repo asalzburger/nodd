@@ -510,10 +510,10 @@ def reference_plot(data, path):
         table.append([tag, f"{result['events']:,}", f"{result['input_sim_cells']:,}",
                       f"{result['matched_cells']:,}", "PASS" if result["passed"] else "FAIL"])
     artist = axes[0, 1].table(cellText=table, colLabels=["Population", "Events", "Input cells", "Matched", "Gate"],
-                              colWidths=[.28, .12, .23, .23, .14], cellLoc="right", loc="center")
+                              colWidths=[.28, .12, .23, .23, .14], cellLoc="right",
+                              bbox=[0, 0, 1, .96])
     artist.auto_set_font_size(False)
     artist.set_fontsize(7.2)
-    artist.scale(1, 1.15)
     for (row, col), cell in artist.get_celld().items():
         cell.set_edgecolor("#dddddd")
         if row == 0:
