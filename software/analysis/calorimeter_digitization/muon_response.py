@@ -314,15 +314,17 @@ def muon_summary(rows,args,pedestal):
             counts=np.asarray(counts)
             total=counts.sum(axis=0)
             resampled_denominator=denominators[indices].sum(axis=1)
-            if np.any(resampled_denominator==0):
-                raise ValueError('Undefined category bootstrap denominator')
-            category_joint=counts[indices].sum(axis=1)/resampled_denominator[:,None,None]
+            category_joint=np.full((1000,2,len(thresholds)),np.nan)
+            np.divide(counts[indices].sum(axis=1),resampled_denominator[:,None,None],
+                      out=category_joint,where=resampled_denominator[:,None,None]>0)
+            undefined=int(np.sum(resampled_denominator==0))
             low,high=wilson(total,denominator)
             categories[name]=dict(denominator=denominator,
                 accepted_counts=total.tolist(),efficiency=(total/denominator).tolist(),
                 conditional_crossing_Wilson95=[low.tolist(),high.tolist()],
-                event_cluster_bootstrap_SE=category_joint.std(axis=0,ddof=1).tolist(),
-                event_cluster_bootstrap_CI95=np.quantile(category_joint,[.025,.975],axis=0).tolist())
+                event_cluster_bootstrap_undefined_replicates=undefined,
+                event_cluster_bootstrap_SE=None if undefined else category_joint.std(axis=0,ddof=1).tolist(),
+                event_cluster_bootstrap_CI95=None if undefined else np.quantile(category_joint,[.025,.975],axis=0).tolist())
         spectra={}
         for stage in values:
             h=histogram(values[stage],np.linspace(0,5,201),'MIP at 0.5 mm equivalent path')
