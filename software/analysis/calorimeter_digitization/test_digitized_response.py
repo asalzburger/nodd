@@ -1,10 +1,14 @@
 """Numerical controls for compact scientific diagnostics (no simulation)."""
 import math
+import json
+from pathlib import Path
+import tempfile
+from types import SimpleNamespace
 import unittest
 
 import numpy as np
 
-from digitized_response import bootstrap_sample,histogram
+from digitized_response import bootstrap_sample,covariance,histogram,sha,uncertainty,verify_run
 
 
 class DiagnosticStatistics(unittest.TestCase):
@@ -24,6 +28,37 @@ class DiagnosticStatistics(unittest.TestCase):
         np.testing.assert_allclose(means[:,1],2*means[:,0],rtol=1e-14)
         np.testing.assert_allclose(widths[:,0],widths[:,1],rtol=1e-14)
         np.testing.assert_allclose(widths[:,0],widths[:,2],rtol=1e-14)
+
+    def test_zero_response_width_is_explicitly_undefined(self):
+        means,widths,events=bootstrap_sample(np.zeros((10,3)),np.random.default_rng(117))
+        self.assertTrue(np.all(means==0))
+        self.assertTrue(np.all(events==0))
+        self.assertTrue(np.isnan(widths).all())
+        self.assertEqual(uncertainty(widths[:,0]),dict(SE=None,CI95=None,undefined_replicates=5000))
+        self.assertEqual(covariance(widths),[[None]*3 for _ in range(3)])
+
+    def test_changed_execution_identity_is_rejected(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory)
+            for name in ['binary','backend','input.root','native.log','diagnostics.jsonl']:
+                (root/name).write_text(name)
+            config={'noise_MIP':.13}
+            (root/'config.json').write_text(json.dumps(config))
+            receipt=dict(exit_code=0,identity=dict(input_sha256=sha(root/'input.root'),
+                binary_sha256=sha(root/'binary'),backend_sha256=sha(root/'backend'),configuration=config),
+                config_sha256=sha(root/'config.json'),log_sha256=sha(root/'native.log'),output_sha256=sha(root/'diagnostics.jsonl'))
+            (root/'execution.json').write_text(json.dumps(receipt))
+            row=dict(diagnostics=str(root/'diagnostics.jsonl'),receipt=receipt,
+                sample=dict(path=str(root/'input.root'),sha256=sha(root/'input.root')))
+            args=SimpleNamespace(binary=root/'binary',backend=root/'backend')
+            verify_run(row,args)
+            (root/'backend').write_text('different executable')
+            with self.assertRaisesRegex(ValueError,'binary/backend'):
+                verify_run(row,args)
+            (root/'backend').write_text('backend')
+            (root/'native.log').write_text('different log')
+            with self.assertRaisesRegex(ValueError,'log/output'):
+                verify_run(row,args)
 
     def test_landau_gaussian_mpv_convention(self):
         try:

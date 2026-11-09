@@ -63,8 +63,23 @@ def bootstrap_sample(x, rng):
     index = rng.integers(0, len(x), (5000, len(x)))
     bs = x[index]
     means = bs.mean(axis=1)
-    widths = bs.std(axis=1, ddof=1) / means
+    widths = np.full_like(means,np.nan)
+    np.divide(bs.std(axis=1,ddof=1),means,out=widths,where=means!=0)
     return means, widths, bs
+
+
+def uncertainty(values):
+    if not np.isfinite(values).all():
+        return dict(SE=None,CI95=None,undefined_replicates=int(np.sum(~np.isfinite(values))))
+    return dict(SE=float(values.std(ddof=1)),CI95=np.quantile(values,[.025,.975]).tolist(),undefined_replicates=0)
+
+
+def covariance(values):
+    # Preserve undefined width rows/columns; never drop events or silently
+    # condition width errors on the bootstrap samples that happened to be nonzero.
+    valid=np.isfinite(values).all(axis=0)
+    return [[float(np.cov(values[:,i],values[:,j],ddof=1)[0,1]) if valid[i] and valid[j] else None
+             for j in range(values.shape[1])] for i in range(values.shape[1])]
 
 
 def run_samples(args):
@@ -128,10 +143,32 @@ def read_events(row):
     events = [json.loads(line) for line in path.read_text().splitlines()]
     if len(events) != row["sample"]["requested_events"]:
         raise ValueError("Event denominator mismatch")
+    if [e["index"] for e in events]!=list(range(len(events))):
+        raise ValueError("Diagnostic event order changed")
     identities = [tuple(e["identity"]) for e in events]
     if len(set(identities)) != len(events):
         raise ValueError("Duplicate event identities")
     return events
+
+
+def verify_run(row,args):
+    data_path=Path(row["diagnostics"])
+    receipt_path=data_path.parent/"execution.json"
+    receipt=json.loads(receipt_path.read_text())
+    if receipt!=row["receipt"] or receipt["exit_code"]!=0:
+        raise ValueError("Execution receipt changed or failed")
+    identity=receipt["identity"]
+    if identity["input_sha256"]!=row["sample"]["sha256"] or sha(row["sample"]["path"])!=identity["input_sha256"]:
+        raise ValueError("Executed raw input changed")
+    if sha(args.binary)!=identity["binary_sha256"] or sha(args.backend)!=identity["backend_sha256"]:
+        raise ValueError("Executed binary/backend differs from analysis arguments")
+    config_path=data_path.parent/"config.json"
+    if sha(config_path)!=receipt["config_sha256"] or json.loads(config_path.read_text())!=identity["configuration"]:
+        raise ValueError("Executed configuration changed")
+    if sha(data_path.parent/"native.log")!=receipt["log_sha256"] or sha(data_path)!=receipt["output_sha256"]:
+        raise ValueError("Executed native log/output changed")
+    return dict(receipt_sha256=sha(receipt_path),input_size_bytes=Path(row["sample"]["path"]).stat().st_size,
+                output_size_bytes=data_path.stat().st_size)
 
 
 def truth_summary(row):
@@ -173,11 +210,16 @@ def shower_summary(rows,args):
             continue
         x = array_events(read_events(row))
         off = x[:, 1]
+        if not np.isfinite(off).all() or off.mean()<=0:
+            raise ValueError("Independent calibration has no finite positive mean")
         # One independent noise-off electron calibration per direction, common to
         # species, test energy and raw/off/on. No per-point rescaling.
         truth=row["truth"]
         factor = truth["total_energy_GeV"] / float(off.mean())
-        rep = truth["total_energy_GeV"] / off[rng.integers(0,len(off),(5000,len(off)))].mean(axis=1)
+        reference_means=off[rng.integers(0,len(off),(5000,len(off)))].mean(axis=1)
+        if np.any(reference_means<=0):
+            raise ValueError("Undefined resampled independent calibration; no events discarded")
+        rep = truth["total_energy_GeV"] / reference_means
         calibration[row["sample"]["eta"]] = (factor, rep, dict(
             n=len(off), energy_GeV=row["sample"]["energy_GeV"], factor=factor,
             factor_SE=float(rep.std(ddof=1)), off=basic(off), input_sha256=row["sample"]["sha256"]))
@@ -204,18 +246,21 @@ def shower_summary(rows,args):
                     n=len(x), phi_rad=sample["phi_rad"], stages={},
                     stage_order=STAGES, paired_energy_covariance_GeV2=np.cov(x.T,ddof=1).tolist(),
                     response_bootstrap_covariance=np.cov(corrected.T,ddof=1).tolist(),
-                    width_bootstrap_covariance=np.cov(widths.T,ddof=1).tolist())
+                    width_bootstrap_covariance=covariance(widths))
         from muon_response import wilson
         for j, stage in enumerate(STAGES):
             values=x[:,j]
             tail_count=int(np.sum(values*factor/beam<.8))
             tail_low,tail_high=wilson(tail_count,len(values))
+            width_unc=uncertainty(widths[:,j])
             item["stages"][stage]=dict(basic(values),
                 calibrated_response=float(values.mean()*factor/beam),
                 calibrated_response_SE=float(corrected[:,j].std(ddof=1)),
-                RMS_over_mean_SE=float(widths[:,j].std(ddof=1)),
-                RMS_over_mean_CI95=np.quantile(widths[:,j],[.025,.975]).tolist(),
+                RMS_over_mean_SE=width_unc["SE"],
+                RMS_over_mean_CI95=width_unc["CI95"],
+                RMS_over_mean_undefined_bootstrap_replicates=width_unc["undefined_replicates"],
                 calibrated_response_CI95=np.quantile(corrected[:,j],[.025,.975]).tolist(),
+                calibrated_energy=histogram(values*factor,np.linspace(0,2.5*beam,201),"GeV"),
                 low_response_tail=dict(cut_calibrated_response=.8,count=tail_count,denominator=len(values),
                     fraction=tail_count/len(values),conditional_Wilson95=[float(tail_low),float(tail_high)],
                     joint_reference_event_bootstrap_SE=float(tails[:,j].std(ddof=1)),
@@ -225,10 +270,10 @@ def shower_summary(rows,args):
             boot_tails.append(tails[:,j])
         item["paired_on_minus_raw_GeV"] = basic(x[:,2]-x[:,0])
         item["paired_on_minus_off_GeV"] = basic(x[:,2]-x[:,1])
-        item["paired_width_changes"]=dict(on_minus_off=item["stages"]["on"]["RMS_over_mean"]-item["stages"]["off"]["RMS_over_mean"],
-            on_minus_off_SE=float((widths[:,2]-widths[:,1]).std(ddof=1)),
-            on_minus_off_CI95=np.quantile(widths[:,2]-widths[:,1],[.025,.975]).tolist(),
-            on_minus_raw_SE=float((widths[:,2]-widths[:,0]).std(ddof=1)))
+        a=item["stages"]["on"]["RMS_over_mean"];b=item["stages"]["off"]["RMS_over_mean"]
+        item["paired_width_changes"]=dict(on_minus_off_value=a-b if a is not None and b is not None else None,
+            on_minus_off_uncertainty=uncertainty(widths[:,2]-widths[:,1]),
+            on_minus_raw_uncertainty=uncertainty(widths[:,2]-widths[:,0]))
         results.append(item)
     return dict(calibrations=frozen, calibration_freeze_sha256=sha(freeze_path), samples=results,
                 response_covariance_labels=boot_labels,
@@ -243,19 +288,40 @@ def pedestal(args, mip):
     request=dict(schema=1,event=0,seed=119402,mipGeV=mip,pairEnergyEv=0.,
                  noiseMip=.13,dynamicRangeMip=2500.,energiesGeV=[0.]*200000)
     input_path=directory/"input.json"; output_path=directory/"output.json"
+    receipt_path=directory/"execution.json"
+    identity=dict(backend_sha256=sha(args.backend),configuration=request)
     if not input_path.exists():
         write(input_path,request)
     elif json.loads(input_path.read_text())!=request:
         raise ValueError("Pedestal request changed")
-    if not output_path.exists():
+    if output_path.exists():
+        if not receipt_path.exists():
+            raise ValueError("Unreceipted pedestal output")
+        receipt=json.loads(receipt_path.read_text())
+        if receipt["identity"]!=identity or sha(output_path)!=receipt["output_sha256"]:
+            raise ValueError("Pedestal execution identity changed")
+    else:
         subprocess.run([str(args.backend.resolve()),str(input_path.resolve()),str(output_path.resolve())],check=True)
+        write(receipt_path,dict(identity=identity,output_sha256=sha(output_path),exit_code=0))
     response=json.loads(output_path.read_text())
     if response["upstream"]!="iLCSoft/MarlinReco@255967eb855ebbc8f75ebaac190b268b63332e8b":
         raise ValueError("Wrong pedestal backend")
     values=np.asarray(response["mip"])
+    if len(values)!=200000 or not np.isfinite(values).all():
+        raise ValueError("Invalid pedestal denominator/values")
+    expected_probability=.5*math.erfc(2/math.sqrt(2))
+    measured=basic(values)
+    mean_z=measured["mean"]/(.13/math.sqrt(len(values)))
+    RMS_z=(measured["SD"]-.13)/(.13/math.sqrt(2*(len(values)-1)))
+    tail=int(np.sum(values>np.float32(.26)))
+    tail_z=(tail-len(values)*expected_probability)/math.sqrt(len(values)*expected_probability*(1-expected_probability))
     return dict(basic(values), signed=histogram(values,np.linspace(-.65,.65,131),"MIP"),
                 thresholds_MIP=[.26,.6], accepted_counts=[int(np.sum(values>np.float32(t))) for t in [.26,.6]],
                 input_sha256=sha(input_path),output_sha256=sha(output_path),
+                execution_receipt_sha256=sha(receipt_path),
+                gaussian_control=dict(mean_z=mean_z,RMS_z=RMS_z,tail_2sigma_z=tail_z,
+                                      passed=all(abs(z)<=5 for z in [mean_z,RMS_z,tail_z]),
+                                      criterion="each analytic Gaussian deviation <=5 standard errors; configured sigma0.13MIP"),
                 scope="explicit empty-channel extension bypasses undefined zero-energy pair statistics; not original sparse-processor equivalence or detector-wide occupancy")
 
 
@@ -286,7 +352,13 @@ def main():
     if not args.output or args.output.exists():
         parser.error("A fresh output path is required")
     rows=json.loads((args.work/"runs.json").read_text())
-    for row in rows:
+    for index,row in enumerate(rows):
+        row["verified_execution"]=verify_run(row,args)
+        expected=dict(mip_energy_GeV=json.loads(args.mip_calibration.read_text())["mip_energy_GeV"],threshold_MIP=.6,
+                      dynamic_range_MIP=2500.,seed=119117+100*index,collections=COLLECTIONS,
+                      modes=MODES,save_cells=row["kind"]=="muons")
+        if row["receipt"]["identity"]["configuration"]!=expected:
+            raise ValueError("Executed configuration differs from frozen study")
         row["truth"]=truth_summary(row)
     result=dict(status="PROTOTYPE digitized response characterization; no detector acceptance",
                 settings=dict(mip_energy_GeV=json.loads(args.mip_calibration.read_text())["mip_energy_GeV"],
@@ -301,6 +373,9 @@ def main():
         runs=[dict(kind=r["kind"],particle=r["sample"]["particle"],energy_GeV=r["sample"]["energy_GeV"],eta=r["sample"]["eta"],
                    n=r["sample"]["requested_events"],input_sha256=r["sample"]["sha256"],manifest_sha256=r["manifest_sha256"],
                    truth=r["truth"],
+                   verified_execution=r["verified_execution"],
+                   executed_binary_sha256=r["receipt"]["identity"]["binary_sha256"],
+                   executed_backend_sha256=r["receipt"]["identity"]["backend_sha256"],
                    simulation_seed=r["sample"]["seed"],configuration=r["receipt"]["identity"]["configuration"],
                    output_sha256=r["receipt"]["output_sha256"],exit_code=r["receipt"]["exit_code"],
                    native_log_sha256=r["receipt"]["log_sha256"],configuration_sha256=r["receipt"]["config_sha256"],

@@ -18,6 +18,9 @@ def geometry(args):
     import dd4hep
     from podio import root_io
     from digitized_response import sha, write
+    args.work.mkdir(parents=True,exist_ok=True)
+    if (args.work/'muon-geometry.json').exists():
+        raise ValueError('Geometry summary already exists; use a fresh work path')
     ROOT.DisableImplicitMT()
     ROOT.gROOT.SetBatch(True)
     if ROOT.gSystem.Load(str(args.odd_library.resolve())) < 0:
@@ -69,6 +72,9 @@ def geometry(args):
                 maximum_cell_reference_residual_mm=maximum_reference_residual,position_tolerance_mm=.002,
                 odd_library_sha256=sha(args.odd_library),
                 odd_xml_sha256=sha(args.odd_source/'xml/detectors/CalorimeterECal.xml'),
+                muon_manifest_sha256=sha(args.muon_samples),
+                source_sha256=sha(Path(__file__)),
+                input_sha256=[s['sha256'] for s in json.loads(args.muon_samples.read_text())['samples']],
                 query='DD4hep VolumeManager sensitive-volume lookup by cellID; Silicon barrel box DZ=0.25mm, endcap trapezoid Dy1=Dy2=0.25mm; local-z/barrel or local-y/endcap normal transformed to world; all references checked against native segmentation',
                 limitations=['All persisted cell centres in these two detailed-muon samples were queried; this does not map unhit channels or transported zero-deposit crossings.'])
     write(args.work/'muon-geometry.json',result)
@@ -76,7 +82,7 @@ def geometry(args):
     print('Muon native geometry normals verified',len(normals))
 
 
-def fit_landau_gaussian(hist, label):
+def fit_landau_gaussian(hist, label, full=True):
     import ROOT
     ROOT.gROOT.SetBatch(True)
     if not hasattr(ROOT,'nodd_validation_langau'):
@@ -114,19 +120,36 @@ double nodd_validation_langau(double* x, double* p) {
     status=int(result)
     if status or result.CovMatrixStatus()<2:
         raise RuntimeError(f'LandauGaussian fit failed ({label}): {status}, covariance {result.CovMatrixStatus()}')
+    if not full:
+        return dict(underlying_Landau_MPV=float(f.GetParameter(1)),convolved_peak=float(f.GetMaximumX(.25,2.5)))
     xs=np.linspace(.25,2.5,451)
+    observed=np.asarray(hist['counts'][10:100],dtype=float)
+    expected=np.array([float(f.Integral(edges[i],edges[i+1])/width) for i in range(10,100)])
+    positive=observed>0
+    deviance=2*float(np.sum(expected-observed)+np.sum(observed[positive]*np.log(observed[positive]/expected[positive])))
+    p_value=float(ROOT.TMath.Prob(deviance,int(f.GetNDF())))
+    bounds=[(1.,100000.),(.6,1.4),(.01,.3),(.002,.4)]
+    boundary=[i for i,(low,high) in enumerate(bounds) if min(f.GetParameter(i)-low,high-f.GetParameter(i))<1e-4*(high-low)]
+    flags=[]
+    if boundary:flags.append('parameter_near_fit_limit')
+    if p_value<.001:flags.append('asymptotic_deviance_p_below_0.001')
     return dict(model='Normalized Landau convolved with Gaussian; binned Poisson likelihood',
                 fit_range_MIP=[.25,2.5],bin_width_MIP=width,
                 range_expected_entries=float(f.Integral(.25,2.5)/width),
                 likelihood_normalization='Bin-integrated Poisson means; free total-area coefficient profiles normalization over the finite fitted range',
                 parameter_names=['area_times_binwidth','Landau_MPV','Landau_width','Gaussian_sigma'],
                 parameters=[float(f.GetParameter(i)) for i in range(4)],
+                parameter_bounds=[list(v) for v in bounds],
+                boundary_parameter_indices=boundary,model_diagnostic_flags=flags,
+                disposition='conditional model characterization with diagnostic flags' if flags else 'conditional model characterization; optimizer converged',
                 parameter_errors=[float(f.GetParError(i)) for i in range(4)],
                 covariance=[[float(result.CovMatrix(i,j)) for j in range(4)] for i in range(4)],
                 underlying_Landau_MPV=float(f.GetParameter(1)),MPV_fit_SE=float(f.GetParError(1)),
                 convolved_peak=float(f.GetMaximumX(.25,2.5)),
                 fit_status=status,covariance_status=int(result.CovMatrixStatus()),
-                deviance=float(f.GetChisquare()),ndf=int(f.GetNDF()),
+                deviance=deviance,ndf=int(f.GetNDF()),
+                asymptotic_deviance_p_value=p_value,
+                goodness_of_fit_caveat='Asymptotic Poisson deviance diagnostic; correlated cells violate independent-bin sampling. Interpret with event-cluster uncertainties and residual shape.',
                 curve_x_MIP=xs.tolist(),curve_counts_per_bin=[float(f.Eval(float(x))) for x in xs],
                 uncertainty='Marginal fit covariance only; separate event-cluster bootstrap MPV supplied in summary. No path/material/fit-model systematic included.')
 
@@ -144,6 +167,9 @@ def muon_summary(rows,args,pedestal):
     from podio import root_io
     from digitized_response import basic,histogram,read_events,sha
     geometry_data=json.loads((args.work/'muon-geometry.json').read_text())
+    manifest=json.loads(args.muon_samples.read_text())
+    if geometry_data['muon_manifest_sha256']!=sha(args.muon_samples) or geometry_data['input_sha256']!=[s['sha256'] for s in manifest['samples']] or geometry_data['odd_library_sha256']!=manifest['odd_library_sha256']:
+        raise ValueError('Geometry summary does not match executed muon input/factory identity')
     output=[]
     thresholds=np.array([0,.2,.4,.6,.8,1.,1.2,1.5,2.])
     mip=json.loads(args.mip_calibration.read_text())['mip_energy_GeV']
@@ -165,7 +191,7 @@ def muon_summary(rows,args,pedestal):
         raw_paths=[]; chord_cosines=[]; path_ratio=[]
         counters=dict(nominal_layer_opportunities=48*len(frames),missing_primary_layer=0,
                       split_primary_layer=0,contaminated_single_cell_layer=0,
-                      qualified_spectrum_crossings=0,chord_unavailable=0,
+                      qualified_spectrum_crossings=0,chord_unavailable=0,incidence_rejected=0,
                       detailed_muon_contributions=0,non_muon_contributions=0)
         for index,(frame,event) in enumerate(zip(frames,diagnostics)):
             headers=frame.get('EventHeader')
@@ -249,6 +275,7 @@ def muon_summary(rows,args,pedestal):
                 straight=abs(float(truth@normal))
                 if cosine<.9:
                     # Fixed near-normal category; retained efficiency denominator.
+                    counters['incidence_rejected']+=1
                     continue
                 chord_cosines.append(cosine)
                 raw_paths.append(.5/cosine)
@@ -275,7 +302,7 @@ def muon_summary(rows,args,pedestal):
                 efficiency=(totals[j]/(48*len(frames))).tolist(),
                 event_cluster_bootstrap_SE=joint[:,j].std(axis=0,ddof=1).tolist(),
                 event_cluster_bootstrap_CI95=np.quantile(joint[:,j],[.025,.975],axis=0).tolist(),
-                conditional_crossing_Wilson95=[low.tolist(),high.tolist()])
+                nominal_opportunity_Wilson95=[low.tolist(),high.tolist()])
         categories={}
         for name,counts,denominators in [('identified_single',single_counts,single_denominators),
                                         ('identified_split',split_counts,split_denominators)]:
@@ -290,8 +317,10 @@ def muon_summary(rows,args,pedestal):
             if np.any(resampled_denominator==0):
                 raise ValueError('Undefined category bootstrap denominator')
             category_joint=counts[indices].sum(axis=1)/resampled_denominator[:,None,None]
+            low,high=wilson(total,denominator)
             categories[name]=dict(denominator=denominator,
                 accepted_counts=total.tolist(),efficiency=(total/denominator).tolist(),
+                conditional_crossing_Wilson95=[low.tolist(),high.tolist()],
                 event_cluster_bootstrap_SE=category_joint.std(axis=0,ddof=1).tolist(),
                 event_cluster_bootstrap_CI95=np.quantile(category_joint,[.025,.975],axis=0).tolist())
         spectra={}
@@ -306,7 +335,7 @@ def muon_summary(rows,args,pedestal):
             for b in range(1000):
                 bh=dict(h,counts=counts_by_event[fit_rng.integers(0,len(frames),len(frames))].sum(axis=0).tolist())
                 try:
-                    bf=fit_landau_gaussian(bh,f'eta{eta}_{stage}_b{b}')
+                    bf=fit_landau_gaussian(bh,f'eta{eta}_{stage}_b{b}',full=False)
                     boot.append(bf['underlying_Landau_MPV'])
                     peaks.append(bf['convolved_peak'])
                 except RuntimeError:
@@ -319,7 +348,9 @@ def muon_summary(rows,args,pedestal):
             fit['bootstrap_replications']=len(boot)
             fit['convolved_peak_event_cluster_bootstrap_SE']=float(np.std(peaks,ddof=1))
             fit['convolved_peak_event_cluster_bootstrap_CI95']=np.quantile(peaks,[.025,.975]).tolist()
-            spectra[stage]=dict(histogram=h,fit=fit)
+            spectra[stage]=dict(histogram=h,fit=fit,
+                empirical_mode_MIP=float((np.asarray(h['edges'][:-1])+np.asarray(h['edges'][1:]))[int(np.argmax(h['counts']))]/2),
+                empirical_quantiles_MIP=np.quantile(values[stage],[.1,.25,.5,.75,.9]).tolist())
             # Threshold is applied in actual pulse units before path correction.
             # Persist the separate selected-output histogram to avoid presenting
             # a prethreshold model prediction as a measured digitized spectrum.
