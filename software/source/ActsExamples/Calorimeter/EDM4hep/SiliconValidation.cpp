@@ -113,6 +113,9 @@ int main(int argc, char** argv) try {
             const auto mip=signedMip.at(index++);
             cells.push_back({id,mip});
             if (mip>static_cast<float>(response.thresholdMip)) {
+              const auto& actual=access.hits(context).at(accepted);
+              if (actual.cellId!=id || actual.energy!=mip*response.mipEnergy)
+                throw std::runtime_error("Signed diagnostic cell ID/amplitude differs from native algorithm");
               ++accepted;
               checkSum+=mip*response.mipEnergy/Acts::UnitConstants::GeV;
             }

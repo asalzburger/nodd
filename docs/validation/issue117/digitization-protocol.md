@@ -340,3 +340,38 @@ or unavailable, with actual evidence. A deterministic/stochastic agreement does
 not prove timing, pulse/ADC, empty-detector occupancy, irradiated response,
 pileup, nODD tiling performance or production acceptance. The comparator study
 keeps DES044 DRAFT; only identified humans may grant sign-off or acceptance.
+
+## Dated analysis clarification before C/D outputs — 2026-11-09
+
+Separate PhysVal protocol assessment at `baf36920` found A/B coherent and requested
+three analysis choices be made explicit before C/D scientific outputs. The
+following are frozen while new raw samples are being generated and before their
+response analysis. No observed performance or failing gate motivated them.
+
+1. The MIP spectrum category is **single-cell, near-normal primary muon**, not a
+   certified Geant4 path-length or wafer-edge containment category. Require one
+   generator-status-1 PDG13 primary; select contributions with PDG13 and that
+   exact MC relation endpoint. At a layer require exactly one such cell and no
+   contributions of another particle in that cell. Require primary contribution
+   centroids in both immediately adjacent layers. Their energy-weighted centroid
+   chord defines local direction; require `abs(n dot u)>=0.9` using the native
+   slab normal. Layers 1 and 48 consequently cannot enter the fitted spectrum.
+   There is no pulse-height selection. Split cells, contamination, unavailable
+   chords and missing primary layers are counted separately. Efficiencies use
+   the unnormalized full cell pulse and retain split layers; all 48 nominal
+   opportunities/event remain a separate denominator. Known positive crossings
+   and unknown/missing truth are explicitly distinguished. No claim of complete
+   crossing efficiency is made when zero-signal geometry inventory is unresolved.
+2. SNR uses the **underlying Landau-component MPV** of the path-normalized PN
+   prethreshold fit divided by the signed pedestal RMS. The numerical convolved
+   mode and its event-bootstrap uncertainty are reported separately. This is a
+   normal-incidence-equivalent study convention; no hardware SNR is inferred.
+3. Shower low-response tail means **`C_eta*S_stage/E_generated < 0.8`**, for all
+   stages/species/energies. Retain conditional binomial intervals and joint
+   whole-event/reference-bootstrap uncertainty/covariance. The same independently
+   calibrated factor is used in the tail cut; no per-population cut or tuning.
+
+Native diagnostic digitization streams start at seed119117, adding100 times the
+manifest row index and then the barrel/endcap collection index. The same stream
+convention applies across D/PN; their random draws are not claimed paired. The
+paired bootstrap pairs the underlying event and its raw/D/PN outcomes.
