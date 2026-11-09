@@ -337,9 +337,12 @@ def main():
     parser.add_argument("--work",type=Path,required=True)
     parser.add_argument("--output",type=Path)
     parser.add_argument("--jobs",type=int,default=4)
+    parser.add_argument("--fit-workers",type=int,default=8)
     parser.add_argument("--odd-source",type=Path)
     parser.add_argument("--odd-library",type=Path)
     args=parser.parse_args()
+    if args.fit_workers<1:
+        parser.error("Fit workers must be positive")
     from muon_response import geometry,muon_summary
     if args.stage=="geometry":
         if not args.odd_source or not args.odd_library:

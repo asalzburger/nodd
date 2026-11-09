@@ -6,8 +6,10 @@ incidence. They do not reconstruct Geant4 step lengths. Efficiency retains all
 48 nominal opportunities per event separately from the qualified spectrum.
 """
 from array import array
+from concurrent.futures import ProcessPoolExecutor
 import json
 import math
+import multiprocessing
 from pathlib import Path
 
 import numpy as np
@@ -161,6 +163,23 @@ def wilson(k,n):
     center=(p+z*z/(2*n))/denominator
     half=z*np.sqrt(p*(1-p)/n+z*z/(4*n*n))/denominator
     return np.maximum(0,center-half),np.minimum(1,center+half)
+
+
+def bootstrap_fit_task(task):
+    hist,label=task
+    try:
+        return fit_landau_gaussian(hist,label,full=False)
+    except RuntimeError:
+        return None
+
+
+def bootstrap_fits(tasks,workers):
+    if workers==1:
+        return list(map(bootstrap_fit_task,tasks))
+    # Spawn independent ROOT runtimes. Input resamples are generated once in the
+    # coordinator; map preserves their order and never draws or retries seeds.
+    with ProcessPoolExecutor(max_workers=workers,mp_context=multiprocessing.get_context('spawn')) as pool:
+        return list(pool.map(bootstrap_fit_task,tasks,chunksize=10))
 
 
 def muon_summary(rows,args,pedestal):
@@ -334,13 +353,15 @@ def muon_summary(rows,args,pedestal):
             counts_by_event=np.array([np.histogram(v,bins=np.asarray(h['edges']))[0] for v in event_values[stage]])
             fit_rng=np.random.Generator(np.random.PCG64(119401))
             boot=[]; peaks=[]; failed=0
+            tasks=[]
             for b in range(1000):
                 bh=dict(h,counts=counts_by_event[fit_rng.integers(0,len(frames),len(frames))].sum(axis=0).tolist())
-                try:
-                    bf=fit_landau_gaussian(bh,f'eta{eta}_{stage}_b{b}',full=False)
+                tasks.append((bh,f'eta{eta}_{stage}_b{b}'))
+            for bf in bootstrap_fits(tasks,args.fit_workers):
+                if bf is not None:
                     boot.append(bf['underlying_Landau_MPV'])
                     peaks.append(bf['convolved_peak'])
-                except RuntimeError:
+                else:
                     failed+=1
             if failed>50:
                 raise RuntimeError(f'MIP bootstrap has {failed} undefined fits (>5%); no interval quoted')
@@ -348,11 +369,13 @@ def muon_summary(rows,args,pedestal):
             fit['MPV_event_cluster_bootstrap_SE']=float(np.std(boot,ddof=1))
             fit['MPV_event_cluster_bootstrap_CI95']=np.quantile(boot,[.025,.975]).tolist()
             fit['bootstrap_replications']=len(boot)
+            fit['bootstrap_workers']=args.fit_workers
             fit['convolved_peak_event_cluster_bootstrap_SE']=float(np.std(peaks,ddof=1))
             fit['convolved_peak_event_cluster_bootstrap_CI95']=np.quantile(peaks,[.025,.975]).tolist()
             spectra[stage]=dict(histogram=h,fit=fit,
                 empirical_mode_MIP=float((np.asarray(h['edges'][:-1])+np.asarray(h['edges'][1:]))[int(np.argmax(h['counts']))]/2),
                 empirical_quantiles_MIP=np.quantile(values[stage],[.1,.25,.5,.75,.9]).tolist())
+            print(f"MIP eta={eta:g} stage={stage}: {len(boot)} fitted bootstrap replicas, {failed} undefined",flush=True)
             # Threshold is applied in actual pulse units before path correction.
             # Persist the separate selected-output histogram to avoid presenting
             # a prethreshold model prediction as a measured digitized spectrum.

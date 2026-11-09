@@ -77,6 +77,19 @@ class DiagnosticStatistics(unittest.TestCase):
         in_range=sum(h['counts'][10:100])
         self.assertLess(abs(result['range_expected_entries']-in_range),.01*in_range)
 
+    def test_parallel_fits_reproduce_serial(self):
+        try:
+            import ROOT
+        except ImportError:
+            self.skipTest('Activated ROOT required for the fit control')
+        from muon_response import bootstrap_fits
+        rng=ROOT.TRandom3(119497)
+        h=histogram([rng.Landau(1+.22278298*.07,.07)+rng.Gaus(0,.13) for _ in range(10000)],np.linspace(0,5,201),'MIP')
+        tasks=[(h,'parallel_control_0'),(h,'parallel_control_1')]
+        serial=bootstrap_fits(tasks,1)
+        parallel=bootstrap_fits(tasks,2)
+        self.assertEqual(serial,parallel)
+
 
 if __name__=='__main__':
     unittest.main()
