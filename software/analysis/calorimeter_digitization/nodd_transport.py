@@ -30,12 +30,14 @@ def configure_audit(kernel):
 #include <G4Field.hh>
 #include <G4ParticleTable.hh>
 #include <G4ProcessManager.hh>
+#include <G4VProcess.hh>
 #include <G4SystemOfUnits.hh>
 #include <nlohmann/json.hpp>
 #include <set>
 #include <string>
 #include <cmath>
 #include <stdexcept>
+#include <algorithm>
 std::string I118NativeTransportAudit() {
   using nlohmann::json;
   json result;
@@ -48,16 +50,21 @@ std::string I118NativeTransportAudit() {
   auto* electron=G4ParticleTable::GetParticleTable()->FindParticle("e-");
   G4Track track(new G4DynamicParticle(electron,G4ThreeVector(1.,0.,0.),CLHEP::GeV),0.,G4ThreeVector());
   long long selected=0;
+  std::set<std::string> roles;
   for(auto* volume:*G4LogicalVolumeStore::GetInstance()) {
     if(volume->GetFieldManager()) fields.insert(volume->GetFieldManager());
     auto* sd=volume->GetSensitiveDetector();
     if(!sd) continue;
     const std::string name=sd->GetName();
     bool ecal=name=="BARREL" || name=="EDGE" || name=="ECalBarrel" || name=="ECalEndcap";
+    if(name=="BARREL" || name=="ECalBarrel") roles.insert("barrel");
+    if(name=="EDGE" || name=="ECalEndcap") roles.insert("endcap");
     for(int i=0;i<sd->GetNumberOfCollections();++i) {
       const std::string collection=sd->GetCollectionName(i);
       ecal=ecal || collection=="BARRELHits" || collection=="EDGEHits"
         || collection=="ECalBarrelCollection" || collection=="ECalEndcapCollection";
+      if(collection=="BARRELHits" || collection=="ECalBarrelCollection") roles.insert("barrel");
+      if(collection=="EDGEHits" || collection=="ECalEndcapCollection") roles.insert("endcap");
     }
     if(!ecal) continue;
     auto* material=volume->GetMaterial();
@@ -78,6 +85,9 @@ std::string I118NativeTransportAudit() {
     ++selected;
   }
   if(selected==0) throw std::runtime_error("Transport audit ran before sensitive-detector initialization");
+  if(roles!=std::set<std::string>{"barrel","endcap"})
+    throw std::runtime_error("Both ECAL barrel/endcap identities must be initialized and audited");
+  result["audited_ECAL_roles"]=roles;
   double maxfield=0.;
   for(auto* manager:fields) {
     auto* field=manager ? manager->GetDetectorField() : nullptr;
@@ -122,6 +132,11 @@ std::string I118NativeTransportAudit() {
         path.write_text(result + "\n")
         print("I118 initialized native field/cut/step audit written", path, flush=True)
 
+    # cppyy's std::function trampoline does not retain the Python callable.
+    # Keep a process-lifetime reference until native kernel termination.
+    callbacks = getattr(ROOT, "_i118_transport_callbacks", [])
+    callbacks.append(after_initialize)
+    ROOT._i118_transport_callbacks = callbacks
     kernel.get().register_initialize(after_initialize)
 
 

@@ -169,6 +169,7 @@ def audit_input(path, row, collections):
     identities = set()
     counts = {name: 0 for name in collections}
     maximum_momentum_residual = 0.
+    maximum_origin_residual = 0.
     total_energies = []
     reader = root_io.Reader(str(path))
     for frame in reader.get("events"):
@@ -176,6 +177,8 @@ def audit_input(path, row, collections):
         if len(headers) != 1:
             raise ValueError("Expected one EventHeader")
         identity = (headers[0].getRunNumber(), headers[0].getEventNumber())
+        if identity != (row["actual_run_number"], len(identities)):
+            raise ValueError("Run/event boundary differs from the frozen macro block")
         if identity in identities:
             raise ValueError("Duplicate EventHeader")
         identities.add(identity)
@@ -184,6 +187,15 @@ def audit_input(path, row, collections):
             raise ValueError("Incorrect primary multiplicity/species")
         primary = primaries[0]
         p = primary.getMomentum()
+        vertex = primary.getVertex()
+        persisted = [p.x, p.y, p.z, vertex.x, vertex.y, vertex.z, primary.getEnergy()]
+        if not all(math.isfinite(value) for value in persisted):
+            raise ValueError("Nonfinite primary kinematics/origin")
+        origin_residual = max(abs(vertex.x), abs(vertex.y), abs(vertex.z))
+        maximum_origin_residual = max(maximum_origin_residual, origin_residual)
+        expected_energy = math.hypot(row["energy_GeV"], row["mass_GeV"])
+        if origin_residual > 1e-7 or abs(primary.getEnergy()-expected_energy) > 1e-7:
+            raise ValueError("Persisted primary origin/total energy differs from protocol")
         momentum = math.sqrt(p.x*p.x + p.y*p.y + p.z*p.z)
         eta = math.asinh(p.z / math.hypot(p.x, p.y))
         phi = math.atan2(p.y, p.x)
@@ -200,8 +212,11 @@ def audit_input(path, row, collections):
             counts[name] += len(ids)
     if len(identities) != row["requested_events"]:
         raise ValueError("Incomplete raw population")
+    if max(total_energies)-min(total_energies) > 1e-7:
+        raise ValueError("Population is not monoenergetic")
     return dict(events=len(identities), cells_by_collection=counts,
                 maximum_momentum_residual_GeV=maximum_momentum_residual,
+                maximum_origin_residual_mm=maximum_origin_residual,
                 generated_total_energy_GeV=math.fsum(total_energies)/len(total_energies),
                 generated_total_energy_range_GeV=[min(total_energies), max(total_energies)])
 
@@ -305,9 +320,9 @@ def index(args):
             raise ValueError("Executed population differs from protocol")
     save(work / "samples.json", dict(manifest_sha256=sha(work / "manifest.json"), receipts=receipts, samples=indexed))
     geom = manifest["geometries"]["nodd"]
-    save(work / "reference-input.json", dict(geometry="LAYOUT-001", compact=dict(path=geom["compact"], sha256=sha(geom["compact"])),
+    save(work / "reference-input.json", dict(geometry_label="LAYOUT-001", compact=dict(path=geom["compact"], sha256=sha(geom["compact"])),
          libraries=[dict(path=p, sha256=sha(p)) for p in geom["libraries"]],
-         evidence=[dict(path=str(work / "manifest.json"), sha256=sha(work / "manifest.json")),
+         artifacts=[dict(path=str(work / "manifest.json"), sha256=sha(work / "manifest.json")),
                    dict(path=str(work / "samples.json"), sha256=sha(work / "samples.json")), *receipts],
          samples=[dict(id=r["id"], path=r["path"], sha256=r["sha256"], events=r["requested_events"],
                        particle=r["particle"], energy_GeV=r["energy_GeV"], eta=r["eta"], exit_code=r["exit_code"])
