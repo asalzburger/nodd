@@ -511,3 +511,50 @@ By18:15UTC both initialized G4 audits match (field0,cuts.7,Birks0,maxstep5mm).
 All hosted checks pass atb77d31e3:build12m41s,unrooted3m36s,token-site33s.
 At18:28UTC disk free159.8GiB; current new raw-data tree4.109GiB. No raw event,
 trial, bootstrap draw or profile data is staged for Git.
+
+### I118-NODD-PhysVal-MuonScope
+
+```json
+{
+  "id": "I118-NODD-PhysVal-MuonScope",
+  "role": "PhysVal",
+  "input_revision": "7bd0b2ec76f3052a0d6fa73d79b6dee4c55da614",
+  "inputs": [
+    "docs/validation/issue117/nodd-digitization-protocol.md",
+    "docs/validation/issue117/nodd-digitization-analysis-notes.md",
+    "software/analysis/calorimeter_digitization/nodd_response.py",
+    "software/analysis/calorimeter_digitization/test_nodd_response.py",
+    "software/analysis/calorimeter_digitization/nodd_muon_response.py",
+    "software/analysis/calorimeter_digitization/nodd_generate.py"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Bounded separate source review before new native response outputs. Raw transport/protocol frozen5af unchanged; both muon groups now normal0 and all1500events verified, shower groupstillrunning. Main adds explicit six-closed-muon scope to overlap native muon analysis with remaining shower transport. Review exact newcommit, especially globalindices38..43/configseeds unchanged, full-default all48 remains strict, all source/native-PASS/RNG/closedreceipt/raw checks retained, exact scope/sample/order bindings, muon geometry sourcechecks, cached compact-result completion/source/settings/pedestal/input/native-row bindings when later attached to fully verified global run inventory. No new event selection, fit model/gate, response coefficient or bootstrap draw is allowed; all38controls pass and actual ordered_samples on closed6passes whilefullscope rejects it. No new native response/fit outputs exist. Primarysources first, do not read authored result report as validation. Read-only; focused synthetic or closed-metadata checks allowed. No geometry/transport execution, source edits, dependency changes, job interruption, publication or delegation. Return consequential findings promptly; assessment of actual outcomes will follow separately.",
+  "deliverable": "Exact-revision source assessment of independent closed-muon execution and later full-result reuse, actual checks and any correction needed before native outputs.",
+  "completion": "Return evidence-based source assessment; no actual data/figure or detector validation is inferred."
+}
+```
+
+## Muon-scope source closure before response execution
+
+Separate PhysVal assessment at7bd0b2ec returned four actionable provenance/
+preservation gaps before any new native response: cached reuse skipped pinned
+legacy-helper verification; closed raw receipt manifest/protocol/producer were
+not explicitly bound to selected transport; final output could overwrite a
+closed cache; and a truncated technical transport envelope could redefine the
+full inventory/global index. Main closed all four prospectively. Helper hashes
+are verified/recorded before any stage and again on reuse; raw receipts match
+manifest/protocol/producer/steering; fresh summary/checkpoint output paths protect
+inputs/cache/snapshots; canonical48point/order/seed fields precede scope selection
+and global-index lookup. Existing mass metadata is retained. No selection,
+coefficient, fit, uncertainty or gate changes. Frozen raw code5af is unchanged.
+
+All42focused controls pass1.365s, including cached-helper drift, stale receipt
+identity, protected outputs and technical-envelope/global-index controls.
+Actual six-muon metadata still verifies with indices38..43; default full scope
+rejects the subset. PhysVal independently checked the prior7bd real inputs:
+1500events acrosssixpopulations, unchanged native seeds129300..129800, actual
+receipt digests already matching selected inputs;8changed-module controls pass
+0.121s. No new native/scientific outputs or geometry query were inspected by that
+assessment. The final corrected source receives exact-revision confirmation
+before execution.

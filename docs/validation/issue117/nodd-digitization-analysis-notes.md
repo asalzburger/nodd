@@ -49,3 +49,14 @@ response coefficient, event selection or statistical gate changes here.
   input-manifest hash and exact six native row bindings to match the newly
   verified complete run inventory. No event selection, random draw, fit model,
   coefficient, uncertainty method or statistical gate changes.
+  Each raw receipt must additionally match the selected transport-manifest,
+  protocol, frozen producer and steering digests. Pinned legacy helper checks
+  run before either fresh or cached analysis, and their identities are recorded;
+  compact reuse cannot bypass those checks.
+  All analysis summaries require fresh output paths. Cached muon summaries,
+  their completion records, input manifests and preserved run snapshots are
+  reserved. Final shower checkpoints use the chosen output's own sidecar path;
+  rerunning to a fresh destination retains earlier evidence.
+  Both scopes require the canonical 48-row transport plan and its exact point,
+  order and seed fields before selection; six-row or two-block technical
+  transport manifests cannot become science inputs or renumber global seeds.

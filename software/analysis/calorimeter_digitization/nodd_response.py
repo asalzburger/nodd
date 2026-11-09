@@ -17,7 +17,7 @@ import xml.etree.ElementTree as ET
 import numpy as np
 
 from digitized_response import basic, histogram, covariance, uncertainty, read_events
-from nodd_generate import ROOT, PROTOCOL, referenced_files, sha, save, verify, bind_native
+from nodd_generate import ROOT, PROTOCOL, referenced_files, sha, save, verify, bind_native, rows as frozen_rows
 
 MIP = .00014875
 STAGES = ["raw", "off", "on"]
@@ -33,7 +33,19 @@ def expected_configuration(index, sample, manifest):
                 modes=MODES, save_cells=True)
 
 
+def validate_frozen_inventory(manifest):
+    expected = frozen_rows()
+    actual = manifest.get('samples', [])
+    if len(actual) != len(expected):
+        raise ValueError('Transport manifest must contain the canonical frozen 48 populations')
+    for recorded, point in zip(actual, expected, strict=True):
+        if (any(recorded.get(key) != value for key, value in point.items())
+                or set(recorded)-set(point)-{'mass_GeV', 'kinetic_energy_GeV'}):
+            raise ValueError('Transport manifest differs from the canonical frozen population order/settings')
+
+
 def global_index(manifest, sample):
+    validate_frozen_inventory(manifest)
     matches = [i for i, row in enumerate(manifest['samples'])
                if (row['geometry'], row['id']) == (sample['geometry'], sample['id'])]
     if len(matches) != 1:
@@ -46,6 +58,33 @@ def muon_bindings(runs):
             for row in runs if row['kind'] == 'muons']
 
 
+def verify_analysis_helpers():
+    from nodd_muon_response import helpers, HELPERS
+    helpers()
+    return dict(HELPERS)
+
+
+def bind_transport_receipt(receipt, expected):
+    if any(receipt.get(key) != value for key, value in expected.items()):
+        raise ValueError('Closed raw receipt differs from the selected transport manifest/protocol/producer')
+
+
+def analysis_output(args):
+    output = args.output or args.work / ('muon-summary.json' if args.stage == 'muons' else 'summary.json')
+    if args.stage not in ('showers', 'muons', 'analyze'):
+        return output
+    reserved = {Path(p).resolve() for p in (args.transport_manifest, args.samples,
+                args.work/'runs.json', args.work/'runs-muons.json', args.work/'shower-summary-checkpoint.json')}
+    if args.muon_summary:
+        reserved.update((args.muon_summary.resolve(), Path(str(args.muon_summary)+'.completion.json').resolve()))
+    outputs = [output]
+    if args.stage == 'muons': outputs.append(Path(str(output)+'.completion.json'))
+    if args.stage == 'analyze': outputs.append(Path(str(output)+'.showers-checkpoint.json'))
+    if output.resolve() in reserved or any(p.exists() or p.is_symlink() for p in outputs):
+        raise ValueError('Choose fresh analysis output paths; closed/input evidence is reserved')
+    return output
+
+
 def bind_configuration(receipt, config, expected, input_sha256):
     if (config != expected or receipt['identity']['configuration'] != expected
             or receipt['identity']['input_sha256'] != input_sha256):
@@ -54,6 +93,7 @@ def bind_configuration(receipt, config, expected, input_sha256):
 
 def ordered_samples(args):
     manifest = verify(args.transport_manifest.parent)
+    validate_frozen_inventory(manifest)
     bind_native(args.transport_manifest.parent, manifest)
     registration = args.transport_manifest.parent / 'plugin-registration-audit.json'
     proof = json.loads(registration.read_text())
@@ -64,11 +104,14 @@ def ordered_samples(args):
     if data["manifest_sha256"] != sha(args.transport_manifest):
         raise ValueError("Generation manifest identity changed")
     executed = {}
+    transport_identity = dict(manifest_sha256=sha(args.transport_manifest), protocol_sha256=sha(PROTOCOL),
+        producer_sha256=manifest['producer_sha256'], steering_sha256=sha(Path(__file__).with_name('nodd_transport.py')))
     for artifact in data["receipts"]:
         path = Path(artifact["path"])
         if sha(path) != artifact["sha256"]:
             raise ValueError("Closed transport receipt changed")
         receipt = json.loads(path.read_text())
+        bind_transport_receipt(receipt, transport_identity)
         if receipt["exit_code"] or not receipt.get("all_inputs_verified"):
             raise ValueError("Incomplete/failed transport group")
         for name, key in (("commands.mac", "macro_sha256"), ("producer.py", "producer_sha256"),
@@ -377,6 +420,9 @@ def pedestal(args):
 
 
 def reuse_muons(args, runs, result):
+    verified_helpers = verify_analysis_helpers()
+    if result['provenance']['pinned_helper_sha256'] != verified_helpers:
+        raise ValueError('Current analysis helper identity changed')
     cached = json.loads(args.muon_summary.read_text())
     completion_path = Path(str(args.muon_summary) + '.completion.json')
     completion = json.loads(completion_path.read_text())
@@ -384,7 +430,7 @@ def reuse_muons(args, runs, result):
         raise ValueError('Closed muon analysis output changed')
     previous = cached['provenance']
     keys = ('analysis_sha256', 'protocol_sha256', 'analysis_notes_sha256',
-            'plugin_registration_audit_sha256', 'transport_manifest_sha256', 'muon_source_sha256')
+            'plugin_registration_audit_sha256', 'transport_manifest_sha256', 'muon_source_sha256', 'pinned_helper_sha256')
     if (cached['settings'] != result['settings'] or any(previous[k] != result['provenance'][k] for k in keys)
             or previous['muon_bindings'] != muon_bindings(runs)
             or previous['native_runs_sha256'] != sha(args.work / 'runs-muons.json')
@@ -421,9 +467,8 @@ def main():
         parser.error('Shower/final analysis requires the complete frozen population')
     if args.muon_summary and args.stage != 'analyze':
         parser.error('--muon-summary is only valid for the full final analysis')
-    output = args.output or args.work / ('muon-summary.json' if args.stage == 'muons' else 'summary.json')
-    if args.stage == 'muons' and (output.exists() or Path(str(output)+'.completion.json').exists()):
-        raise ValueError('Choose a fresh muon summary path; closed evidence exists')
+    output = analysis_output(args)
+    verified_helpers = verify_analysis_helpers()
     if args.stage == "run":
         run(args)
         return
@@ -443,13 +488,14 @@ def main():
                                   transport_manifest_sha256=sha(args.transport_manifest), samples_sha256=sha(args.samples),
                                   native_runs_sha256=sha(args.work / 'runs.json')))
     result['provenance']['muon_source_sha256'] = sha(Path(__file__).with_name('nodd_muon_response.py'))
+    result['provenance']['pinned_helper_sha256'] = verified_helpers
     result['provenance']['muon_bindings'] = muon_bindings(runs)
     if args.stage != 'muons':
         result['showers'] = shower_summary(runs, manifest, args)
     if args.stage in ('analyze', 'muons'):
         if args.stage == 'analyze':
             checkpoint = json.loads(json.dumps(result, allow_nan=False).replace(str(ROOT), '${NODD_REPO}').replace(str(Path.home()), '${USER_HOME}'))
-            save(args.work / 'shower-summary-checkpoint.json', checkpoint)
+            save(Path(str(output)+'.showers-checkpoint.json'), checkpoint)
         from nodd_muon_response import muon_summary
         result["pedestal"] = pedestal(args)
         result["muons"] = (reuse_muons(args, runs, result) if args.muon_summary else

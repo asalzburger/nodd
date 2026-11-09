@@ -12,11 +12,58 @@ import numpy as np
 
 from nodd_response import (bind_configuration, decode, descriptors, longitudinal, ratio,
                            shower_summary, verify_runs, global_index, expected_configuration,
-                           muon_bindings, reuse_muons, sha)
+                           muon_bindings, reuse_muons, sha, verify_analysis_helpers,
+                           bind_transport_receipt, analysis_output, validate_frozen_inventory)
 from nodd_generate import rows
 
 
 class ResponseControls(unittest.TestCase):
+    def test_technical_manifests_cannot_become_science_inventory(self):
+        manifest=dict(samples=rows())
+        validate_frozen_inventory(manifest)
+        for selected in ([r for r in rows() if r['kind']=='muons'],rows()[:2],list(reversed(rows()))):
+            with self.subTest(size=len(selected)):
+                with self.assertRaisesRegex(ValueError,'canonical frozen'):
+                    validate_frozen_inventory(dict(samples=selected))
+                with self.assertRaisesRegex(ValueError,'canonical frozen'):
+                    global_index(dict(samples=selected),selected[0])
+        changed=rows();changed[0]['seed_pair'][0]+=1
+        with self.assertRaisesRegex(ValueError,'canonical frozen'):
+            validate_frozen_inventory(dict(samples=changed))
+
+    def test_analysis_output_preserves_inputs_and_closed_cache(self):
+        with tempfile.TemporaryDirectory() as directory:
+            work=Path(directory)
+            args=SimpleNamespace(work=work,stage='analyze',output=work/'fresh.json',
+                transport_manifest=work/'transport.json',samples=work/'samples.json',muon_summary=work/'muons.json')
+            self.assertEqual(analysis_output(args),args.output)
+            for path in (args.transport_manifest,args.samples,args.muon_summary,work/'runs-muons.json'):
+                with self.subTest(path=path):
+                    args.output=path
+                    with self.assertRaisesRegex(ValueError,'fresh analysis output'):
+                        analysis_output(args)
+            for stage in ('muons','showers','analyze'):
+                args.stage=stage;args.output=work/'existing.json';args.output.write_text('closed evidence')
+                with self.subTest(stage=stage):
+                    with self.assertRaisesRegex(ValueError,'fresh analysis output'):
+                        analysis_output(args)
+                self.assertEqual(args.output.read_text(),'closed evidence')
+                args.output.unlink()
+
+    def test_closed_raw_receipt_is_bound_to_transport_identity(self):
+        expected=dict(manifest_sha256='geometry-A',protocol_sha256='protocol-A',
+                      producer_sha256='producer-A',steering_sha256='steering-A')
+        bind_transport_receipt(dict(expected),expected)
+        for key in expected:
+            with self.subTest(key=key):
+                with self.assertRaisesRegex(ValueError,'selected transport'):
+                    bind_transport_receipt(dict(expected,**{key:'stale'}),expected)
+
+    def test_cached_analysis_still_checks_pinned_helpers(self):
+        with patch.dict('nodd_muon_response.HELPERS',{'digitized_response':'0'*64}):
+            with self.assertRaisesRegex(ValueError,'Pinned muon analysis helper changed'):
+                reuse_muons(SimpleNamespace(),[],{})
+
     def test_muon_subset_preserves_full_population_seeds(self):
         manifest = dict(samples=rows(), geometries={g:dict(collections=[g]) for g in ('nodd','odd-zero')})
         selected = [s for s in manifest['samples'] if s['kind']=='muons']
@@ -33,6 +80,7 @@ class ResponseControls(unittest.TestCase):
             snapshot=work/'runs-muons.json';snapshot.write_text(json.dumps(runs))
             provenance={k:'frozen' for k in ('analysis_sha256','protocol_sha256','analysis_notes_sha256',
                 'plugin_registration_audit_sha256','transport_manifest_sha256','muon_source_sha256')}
+            provenance['pinned_helper_sha256']=verify_analysis_helpers()
             current=dict(settings=dict(threshold=.6),pedestal=dict(SD=.13),provenance=provenance)
             cached=copy.deepcopy(current);cached['muons']=dict(scope='synthetic aggregate')
             cached['provenance'].update(muon_bindings=muon_bindings(runs),native_runs_sha256=sha(snapshot),samples_sha256=sha(samples))
