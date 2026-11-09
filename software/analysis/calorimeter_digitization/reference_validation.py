@@ -360,6 +360,7 @@ def stochastic(a):
 
 def strict_bound(result):
     h=result['normalized_residual'];edges=h['edges']
+    if sum(h['counts'])+h['underflow']+h['overflow']!=result['matched_cells']:raise RuntimeError('Residual histogram denominator mismatch')
     occupied=[i for i,n in enumerate(h['counts']) if n]
     if h['underflow'] or h['overflow'] or not occupied:raise RuntimeError('Cannot bound strict reference-only tolerance')
     margin=max(max(abs(edges[i]),abs(edges[i+1])) for i in occupied)
@@ -369,6 +370,7 @@ def strict_bound(result):
     if not passed:raise RuntimeError('Strict reference-only tolerance not established; perform per-cell audit')
     return dict(passed=True,comparator='absolute + relative*max(abs(native),abs(reference))',
                 protocol='absolute + relative*abs(reference)',
+                absolute_tolerance_MIP=result['configuration']['absolute_tolerance_MIP'],relative_tolerance=relative,
                 maximum_strict_normalized_residual_upper_bound=bound,
                 proof='If e<=m*(strictTol+r*e), then e/strictTol<=m/(1-m*r); histogram occupied-bin edges bound m, with no under/overflow.')
 
@@ -471,25 +473,41 @@ def stochastic_summary(a,fixture,mode):
 
 
 def summarize(a):
+    if a.output.exists():raise RuntimeError('Refusing public output overwrite')
     m=verify(a.work);det=[];audits=[]
     for sample in m['samples']:
         directory=a.work/'deterministic'/sample['id'];p=directory/'comparison-summary.json';result=json.loads(p.read_text())
+        if result['events']!=sample['events'] or result['unique_ordered_run_event_ids']!=sample['events']:raise RuntimeError('Requested/raw/reference event denominator mismatch')
         audit_path=directory/'retained-audit.json'
-        audit=retained_audit(Path(sample['path']),directory/'original.root');save(audit_path,audit)
+        audit=retained_audit(Path(sample['path']),directory/'original.root')
+        if audit_path.exists():
+            if json.loads(audit_path.read_text())!=audit:raise RuntimeError('Changed retained-audit evidence')
+        else:save(audit_path,audit)
         det.append(dict(sample={k:v for k,v in sample.items() if k!='path'},**{k:v for k,v in result.items() if k not in ('configuration','limitations')},
                         strict_reference_tolerance=strict_bound(result),retained_audit=audit))
     stoch=[stochastic_summary(a,f,mode) for f in (0,1) for mode in (0,1)]
     artifacts={str(p.relative_to(ROOT)):dict(sha256=sha(p),bytes=p.stat().st_size) for p in a.work.rglob('*') if p.is_file() and p.suffix in ('.root','.json','.jsonl','.xml','.py','.log','.md')}
-    if a.output.exists():raise RuntimeError('Refusing public output overwrite')
+    receipts=[]
+    for path in sorted(a.work.rglob('*.execution.json')):
+        record=json.loads(path.read_text());log=Path(record['log'])
+        if sha(log)!=record['log_sha256']:raise RuntimeError('Changed execution log: '+str(log))
+        receipts.append(dict(role=str(path.relative_to(a.work)),**record))
+    control=a.work/'software-control';control_result=json.loads((control/'run/comparison-summary.json').read_text())
+    control_config=json.loads((control/'frozen-control.json').read_text())
+    failure_paths=list(a.work.parent.glob('*.log'))+list((a.work.parent/'pilot').rglob('*'))
+    failures={str(p.relative_to(ROOT)):dict(sha256=sha(p),bytes=p.stat().st_size) for p in failure_paths if p.is_file()}
     save(a.output,public(dict(status='PROTOTYPE original-framework software comparison',deterministic=dict(passed=all(d['passed'] for d in det),samples=det),
         stochastic=dict(passed=all(s['passed'] for s in stoch),comparisons=stoch),sources=m['sources'],encodings=m['encodings'],runtime=m['runtime'],
         response=dict(m['response'],modes=dict(D=dict(pair_energy_eV=0,noise_MIP=0),P=dict(pair_energy_eV=3.6,noise_MIP=0),PN=dict(pair_energy_eV=3.6,noise_MIP=.13)),timing_window_ns=[-1e30,1e30],fixed_gain=True,dead_cells=False),
         native_identity=json.loads((a.work/'B-native-identity.json').read_text()),
+        software_control=dict(scope='Synthetic boundary/range/empty control, not physics input',nominal_MIP=control_config['nominal_MIP'],
+            events=control_result['events'],input_cells=control_result['input_sim_cells'],accepted_cells=control_result['matched_cells'],
+            passed=control_result['passed'],max_absolute_difference_MIP=control_result['max_absolute_difference_MIP'],input_sha256=control_config['input_sha256']),
         corrections=['Include-only wrapper initialized a world before Vacuum was loaded; corrected root-copy wrapper differs only by two encoding constants and absolute source references.',
                      'Pilot steering placeholder once replaced the MIP unit literal; corrected unique placeholder and regression-tested.',
                      'ROOT high-bit-only event seed changes alias after low32 truncation; varied replay run and event IDs, and audited every effective seed.',
                      'Mutating cached read Header objects did not persist IDs; rebuilding the Header collection preserves all other fields and round-trip checks now precede execution.'],
-        execution_artifacts=artifacts,immutable_source_runtime_sha256=m['immutable'],protocol_sha256=sha(PROTOCOL),analysis_source_sha256=hashlib.sha256(LOADED_SOURCE).hexdigest(),
+        execution_receipts=receipts,execution_artifacts=artifacts,prior_attempt_artifacts=failures,immutable_source_runtime_sha256=m['immutable'],protocol_sha256=sha(PROTOCOL),analysis_source_sha256=hashlib.sha256(LOADED_SOURCE).hexdigest(),
         limitations=['Conditional replay tests repeat two fixed real showers; not independent shower performance.','ROOT and CLHEP draws independent; no stochastic bitwise equivalence claimed.',
                     'Sparse populated-cell processing; no detector-wide empty-channel occupancy, pulse/ADC, timing or pileup acceptance.'])))
     print('Compact original-framework reference written',a.output,flush=True)
@@ -515,7 +533,7 @@ void I117CorruptRelation(podio::Frame& f) {
  c[0].addToParents(c[0]);
 }''')
     R.I117CorruptRelation(frame._frame);assert fingerprint(frame,names)!=before
-    e1=R.TRandom3(6339446041409160839);e2=R.TRandom3(6339446045704128135)
+    e1=R.TRandom3();e1.SetSeed(6339446041409160839);e2=R.TRandom3();e2.SetSeed(6339446045704128135)
     assert [e1.Rndm() for _ in range(5)]==[e2.Rndm() for _ in range(5)]
     for p in (a.work/'deterministic').glob('*/comparison-summary.json'):assert strict_bound(json.loads(p.read_text()))['passed']
     print('PASS steering MIP token, discrete/constant CDF controls, shifted-population rejection, header-only replay, MC relation corruption rejection, actual ROOT high-bit seed alias, strict tolerance bounds')
