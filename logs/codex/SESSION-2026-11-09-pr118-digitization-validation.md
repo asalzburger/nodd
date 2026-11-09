@@ -397,3 +397,23 @@ preceded final journal/ledger closeout. The current metadata commit includes the
 validated pair and synchronized ledger, resolving that missing-file condition;
 no scientific source, criterion or CI gate is weakened. Token-site on the asset
 head already passed. Final-head hosted status is checked after this push.
+
+## Integration with updated main inventory policy
+
+The first final-head hosted build passed project/physical/role checks but failed
+new-main software inventory coverage for the two families introduced by this
+PR118/PR123 chain. Brought main61af5cd9 by ordinary conflict-free merge942c7587,
+preserving independent journals and accounting; no scientific file, plot or
+compact-data byte changed from the reviewed asset. Updated inventory entries for
+the digitization analysis, original-reference wrapper, eight pinned sources and
+direct existing CLHEP use; corrected prior I/O-only and Marlin/LCIO descriptions.
+Versions/install/use evidence distinguish existing Spack, local PR123 builds,
+MarlinReco source methods and uninstalled Marlin/LCIO runtime. CLHEP header and
+Spack both report2.4.7.2 /ijdbc5e. Reviewed changed dependency/build/gitlink inputs
+before refreshing fingerprints/page. Inventory passes67components/101families/
+52inputs/12pins and10controls; immutable cleanup145files and3controls pass.
+Initial cleanup invocation omitted its required revision and exited2; corrected
+to the workflow command targeting2ce4e9c8 and passed. New main draft-publication
+rule was read; this user explicitly requested continuation on existing PR118,
+whose human-selected Ready state is preserved, not promoted by this agent.
+No new PR, sign-off, dependency install, scientific criterion or CI gate change.

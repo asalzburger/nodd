@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated": "2026-11-06",
+  "updated": "2026-11-09",
   "source_revision": "4497737721d35df1e8971d5d01e8a5727def14aa",
   "components": [
     {
@@ -47,7 +47,7 @@
       "id": "EXT-ROOT",
       "name": "ROOT / PyROOT",
       "category": "spack",
-      "usage": "TGeo audits; native ROOT I/O; geometry display",
+      "usage": "TGeo audits; native ROOT I/O; geometry display; silicon digitization reference/MIP/shower characterization",
       "integration": "Existing local Spack ci-dependencies environment; external to Git, not installed by nODD agents in this task.",
       "version": "Recorded 6.40.04 /szgev3e; older instance /7nazwew. Separate from Python uproot.",
       "installation": "Activate with the node-specific preflight and software/env/run.sh (or the campaign-specific wrapper); record actual package/hash and runtime checks before use.",
@@ -55,11 +55,14 @@
       "evidence": [
         "docs/validation/DES-042/environment-supplement.json",
         "docs/validation/DES-012/environment.json",
-        "docs/validation/issue114/README.md"
+        "docs/validation/issue114/README.md",
+        "docs/validation/issue117/digitization-results.md"
       ],
       "prs": [
         "https://github.com/asalzburger/nodd/pull/77",
-        "https://github.com/asalzburger/nodd/pull/115"
+        "https://github.com/asalzburger/nodd/pull/115",
+        "https://github.com/asalzburger/nodd/pull/118",
+        "https://github.com/asalzburger/nodd/pull/123"
       ]
     },
     {
@@ -262,15 +265,20 @@
       "name": "Marlin / LCIO",
       "category": "validation",
       "usage": "possible calorimeter reconstruction chain",
-      "integration": "No integration, installation or execution evidence found in the reviewed baseline software/tools/validation records.",
+      "integration": "Marlin/LCIO runtime remains unestablished. The separate pinned MarlinReco source supplies original energy methods; the executed full reference is EDM4hep-native Key4hep/Gaudi, without an LCIO bridge.",
       "version": "Unknown / not established; an example in issue124 is not an installed dependency.",
       "installation": "No installation recipe asserted. Record public source, installation and actual use here if adopted.",
       "paths": [],
       "evidence": [
         "software/README.md",
-        "software/source/ActsExamples/Calorimeter/README.md"
+        "software/source/ActsExamples/Calorimeter/README.md",
+        "docs/validation/issue117/pr123-framework-install.md",
+        "docs/validation/issue117/digitization-results.md"
       ],
-      "prs": []
+      "prs": [
+        "https://github.com/asalzburger/nodd/pull/118",
+        "https://github.com/asalzburger/nodd/pull/123"
+      ]
     },
     {
       "id": "EXT-FASTJET",
@@ -294,10 +302,10 @@
       "id": "NODD-CALO-IO",
       "name": "Calorimeter converters, EDM and fixtures",
       "category": "acts-examples",
-      "usage": "ActsExamples collections; EDM4hep input/output; persistent relations",
+      "usage": "ActsExamples collections; EDM4hep input/output; persistent relations; opt-in silicon digitization; same-hit original-framework comparison; native paired diagnostics",
       "integration": "Local source added to nODD; compile as a sidecar against an explicitly selected matching ACTS source/build and Python/pybind ABI.",
-      "version": "Current restoration supplies I/O only. Digitization/clustering execute() throw logic_error; fixtures supply synthetic hits/clusters.",
-      "installation": "Use the standalone Calorimeter CMake/CTest recipe; existing Spack EDM4hep/podio/ROOT. Imported source attribution is in NOTICE.md.",
+      "version": "PROTOTYPE: opt-in silicon response reuses pinned MarlinReco methods through a separate GPL executable. Original Key4hep energy/selection and conditional stochastic gates executed; clustering remains a stub. No production acceptance.",
+      "installation": "Use the standalone Calorimeter CMake/CTest recipe; existing Spack EDM4hep/podio/ROOT. Imported source attribution is in NOTICE.md. Optional backend requires pinned MarlinReco source and existing CLHEP; native reference/validation executables use the same sidecar build.",
       "paths": [
         "software/source/ActsExamples/Calorimeter",
         "software/source/EDM",
@@ -305,11 +313,14 @@
       ],
       "evidence": [
         "software/source/ActsExamples/Calorimeter/README.md",
-        "software/source/NOTICE.md"
+        "software/source/NOTICE.md",
+        "docs/validation/issue117/digitization-results.md"
       ],
       "prs": [
         "https://github.com/asalzburger/nodd/pull/80",
-        "https://github.com/asalzburger/nodd/pull/115"
+        "https://github.com/asalzburger/nodd/pull/115",
+        "https://github.com/asalzburger/nodd/pull/118",
+        "https://github.com/asalzburger/nodd/pull/123"
       ]
     },
     {
@@ -736,18 +747,21 @@
       "id": "ANA-NUMPY",
       "name": "NumPy",
       "category": "analysis",
-      "usage": "array reductions; numerical controls; histogram analysis",
+      "usage": "array reductions; numerical controls; histogram analysis; silicon digitization reference/MIP/shower characterization",
       "integration": "Python package in isolated analysis/control environments; native environments may have different versions.",
-      "version": "unrooted receipt: 2.4.6; historical design-control pins: 2.5.3. These are distinct environments.",
+      "version": "unrooted receipt: 2.4.6; historical design-control pins: 2.5.3. These are distinct environments. Digitization run: NumPy 2.5.4/PCG64, recorded 2026-11-09.",
       "installation": "Install the relevant family requirements, not a combined set of incompatible historical pins.",
       "paths": [],
       "evidence": [
         "software/analysis/requirements-unrooted.txt",
         "tools/tracker_layout/requirements-controls.txt",
-        "docs/validation/unrooted-installation.json"
+        "docs/validation/unrooted-installation.json",
+        "docs/validation/issue117/digitization-results.md"
       ],
       "prs": [
-        "https://github.com/asalzburger/nodd/pull/96"
+        "https://github.com/asalzburger/nodd/pull/96",
+        "https://github.com/asalzburger/nodd/pull/118",
+        "https://github.com/asalzburger/nodd/pull/123"
       ]
     },
     {
@@ -771,18 +785,21 @@
       "id": "ANA-PLOTS",
       "name": "Matplotlib, Plotly and Pillow",
       "category": "analysis",
-      "usage": "static figures; interactive HTML; image output",
+      "usage": "static figures; interactive HTML; image output; silicon digitization reference/MIP/shower characterization",
       "integration": "pip/uv-installed plotting backends and image support in isolated analysis venv.",
-      "version": "Recorded Matplotlib 3.11.2, Plotly 7.1.0, Pillow 13.0.0 in unrooted environment. Historical plot venv pins differ.",
+      "version": "Recorded Matplotlib 3.11.2, Plotly 7.1.0, Pillow 13.0.0 in unrooted environment. Historical plot venv pins differ. Digitization replot: Matplotlib 3.11.2 in the existing ACTS Python environment; installer not established.",
       "installation": "Pinned requirements include the optional Plotly backend; static exports here use Matplotlib. All transitive packages are retained in the lock-style requirements and installation receipt.",
       "paths": [],
       "evidence": [
         "software/analysis/README.md",
         "software/analysis/requirements-unrooted.txt",
-        "docs/validation/unrooted-installation.json"
+        "docs/validation/unrooted-installation.json",
+        "docs/validation/issue117/digitization-results.md"
       ],
       "prs": [
-        "https://github.com/asalzburger/nodd/pull/96"
+        "https://github.com/asalzburger/nodd/pull/96",
+        "https://github.com/asalzburger/nodd/pull/118",
+        "https://github.com/asalzburger/nodd/pull/123"
       ]
     },
     {
@@ -1146,6 +1163,234 @@
       "prs": [
         "https://github.com/asalzburger/nodd/pull/77"
       ]
+    },
+    {
+      "id": "ANA-CALO-DIGITIZATION",
+      "name": "Silicon digitization analysis and original-framework validation",
+      "category": "analysis",
+      "usage": "DDSim inputs; Key4hep/ACTS comparison; MIP fit; SNR; thresholds; paired electron/photon response; physical tiling diagnostic",
+      "integration": "Local nODD Python analysis, isolated PROTOTYPE; uses actual original Gaudi and native ACTS executables plus ROOT/NumPy/Matplotlib. Geometry tiling study remains separate from digitizer agreement.",
+      "version": "Pinned model identities and executed2026-11-09 results; NumPy 2.5.4, ROOT6.40.04, Matplotlib 3.11.2. Source/result hashes retained; no detector acceptance.",
+      "installation": "Use software/env/run.sh and the PR123 command-scoped key4hep wrapper; exact generation/reference/analysis/replot commands in the results report. Existing ACTS/Spack runtime; no shared dependency change.",
+      "paths": [
+        "software/analysis/calorimeter_digitization"
+      ],
+      "evidence": [
+        "docs/validation/issue117/digitization-results.md",
+        "docs/validation/issue117/digitization-protocol.md"
+      ],
+      "prs": [
+        "https://github.com/asalzburger/nodd/pull/118",
+        "https://github.com/asalzburger/nodd/pull/123"
+      ]
+    },
+    {
+      "id": "NODD-KEY4HEP-REFERENCE",
+      "name": "Original Key4hep digitizer reference build wrapper",
+      "category": "validation",
+      "usage": "Gaudi; RecCaloDigi; GeoSvc; original processor; independent EDM4hep reference",
+      "integration": "Local CMake wrapper builds unchanged pinned RecCaloDigi and GeoSvc sources; optional ignored install over pre-existing Spack packages.",
+      "version": "PR123 installation and PR118 executed full-processor reference; not a full Key4hep distribution or detector qualification.",
+      "installation": "make key4hep-submodules, make key4hep and make key4hep-test; activate software/env/key4hep_run.sh per command. Builds under ignored software/build/key4hep; shared Spack unchanged.",
+      "paths": [
+        "software/source/Key4hepReference"
+      ],
+      "evidence": [
+        "software/source/Key4hepReference/README.md",
+        "software/env/build_key4hep.py",
+        "docs/validation/issue117/pr123-framework-install.md",
+        "docs/validation/issue117/digitization-results.md"
+      ],
+      "prs": [
+        "https://github.com/asalzburger/nodd/pull/118",
+        "https://github.com/asalzburger/nodd/pull/123"
+      ]
+    },
+    {
+      "id": "EXT-GAUDI",
+      "name": "Gaudi",
+      "category": "validation",
+      "usage": "Event framework; component discovery; original reference processing",
+      "integration": "Pinned Git submodule software/submodules/Gaudi. Built locally against existing Spack libraries with optional unrelated packages disabled.",
+      "version": "Gaudi 41.0; source bdbe77445b2e1f4168de88a080945b491d133d5b",
+      "installation": "Explicit make key4hep-submodules initializes sources; use the optional Key4hep build recipe or silicon-backend recipe as appropriate. Existing PR123 local installation exercised by PR118; no installation performed in this validation follow-up.",
+      "paths": [],
+      "evidence": [
+        "software/env/key4hep-pins.json",
+        "software/source/Key4hepReference/README.md",
+        "docs/validation/issue117/pr123-framework-install.md",
+        "docs/validation/issue117/digitization-results.md"
+      ],
+      "prs": [
+        "https://github.com/asalzburger/nodd/pull/118",
+        "https://github.com/asalzburger/nodd/pull/123"
+      ],
+      "gitlink": "software/submodules/Gaudi"
+    },
+    {
+      "id": "EXT-K4FWCORE",
+      "name": "k4FWCore",
+      "category": "validation",
+      "usage": "EDM4hep I/O; EventDataSvc; UniqueIDGenSvc; k4run",
+      "integration": "Pinned Git submodule software/submodules/k4FWCore. Built in the local Key4hep prefix; effective event-seed behavior audited in the reference study.",
+      "version": "k4FWCore 1.8; source f95187d5cd69d1e079e170e4e2e7f6d828e6a92d",
+      "installation": "Explicit make key4hep-submodules initializes sources; use the optional Key4hep build recipe or silicon-backend recipe as appropriate. Existing PR123 local installation exercised by PR118; no installation performed in this validation follow-up.",
+      "paths": [],
+      "evidence": [
+        "software/env/key4hep-pins.json",
+        "software/source/Key4hepReference/README.md",
+        "docs/validation/issue117/pr123-framework-install.md",
+        "docs/validation/issue117/digitization-results.md"
+      ],
+      "prs": [
+        "https://github.com/asalzburger/nodd/pull/118",
+        "https://github.com/asalzburger/nodd/pull/123"
+      ],
+      "gitlink": "software/submodules/k4FWCore"
+    },
+    {
+      "id": "EXT-K4RECCALORIMETER",
+      "name": "k4RecCalorimeter",
+      "category": "validation",
+      "usage": "Original DigitiserSiliconMip and shared integration/noise/threshold algorithms",
+      "integration": "Pinned Git submodule software/submodules/k4RecCalorimeter. Build wrapper includes unchanged upstream RecCaloDigi CMake; no copied helper as original reference.",
+      "version": "Pinned RecCaloDigi source; source 03b3676cecbdf85818f6de159ecf90ffe2482cec",
+      "installation": "Explicit make key4hep-submodules initializes sources; use the optional Key4hep build recipe or silicon-backend recipe as appropriate. Existing PR123 local installation exercised by PR118; no installation performed in this validation follow-up.",
+      "paths": [],
+      "evidence": [
+        "software/env/key4hep-pins.json",
+        "software/source/Key4hepReference/README.md",
+        "docs/validation/issue117/pr123-framework-install.md",
+        "docs/validation/issue117/digitization-results.md"
+      ],
+      "prs": [
+        "https://github.com/asalzburger/nodd/pull/118",
+        "https://github.com/asalzburger/nodd/pull/123"
+      ],
+      "gitlink": "software/submodules/k4RecCalorimeter"
+    },
+    {
+      "id": "EXT-K4SIMGEANT4",
+      "name": "k4SimGeant4",
+      "category": "validation",
+      "usage": "Original geometry service and GeoConstruction",
+      "integration": "Pinned Git submodule software/submodules/k4SimGeant4. Only GeoSvc/GeoConstruction built for the reference; no unrelated simulation actions.",
+      "version": "Pinned GeoSvc source; source 339b3842109f45a269929d9896c3d8279e69b83c",
+      "installation": "Explicit make key4hep-submodules initializes sources; use the optional Key4hep build recipe or silicon-backend recipe as appropriate. Existing PR123 local installation exercised by PR118; no installation performed in this validation follow-up.",
+      "paths": [],
+      "evidence": [
+        "software/env/key4hep-pins.json",
+        "software/source/Key4hepReference/README.md",
+        "docs/validation/issue117/pr123-framework-install.md",
+        "docs/validation/issue117/digitization-results.md"
+      ],
+      "prs": [
+        "https://github.com/asalzburger/nodd/pull/118",
+        "https://github.com/asalzburger/nodd/pull/123"
+      ],
+      "gitlink": "software/submodules/k4SimGeant4"
+    },
+    {
+      "id": "EXT-BOOST-KEY4HEP",
+      "name": "boost",
+      "category": "validation",
+      "usage": "Gaudi-required Python; thread; log; fiber components",
+      "integration": "Pinned Git submodule software/submodules/boost. Local build supplies components absent from Spack Boost of the same release; no shared Boost overwrite.",
+      "version": "Boost 1.90; source 1bed2b0712b2119f20d66c5053def9173c8462a5",
+      "installation": "Explicit make key4hep-submodules initializes sources; use the optional Key4hep build recipe or silicon-backend recipe as appropriate. Existing PR123 local installation exercised by PR118; no installation performed in this validation follow-up.",
+      "paths": [],
+      "evidence": [
+        "software/env/key4hep-pins.json",
+        "software/source/Key4hepReference/README.md",
+        "docs/validation/issue117/pr123-framework-install.md",
+        "docs/validation/issue117/digitization-results.md"
+      ],
+      "prs": [
+        "https://github.com/asalzburger/nodd/pull/118",
+        "https://github.com/asalzburger/nodd/pull/123"
+      ],
+      "gitlink": "software/submodules/boost"
+    },
+    {
+      "id": "EXT-RANGE-V3",
+      "name": "range-v3",
+      "category": "validation",
+      "usage": "Range headers required by Gaudi",
+      "integration": "Pinned Git submodule software/submodules/range-v3. Header dependency built/installed in the ignored local prefix.",
+      "version": "Pinned range-v3 source; source 5ba39112d2eafbb3c851a16a537f29b445022998",
+      "installation": "Explicit make key4hep-submodules initializes sources; use the optional Key4hep build recipe or silicon-backend recipe as appropriate. Existing PR123 local installation exercised by PR118; no installation performed in this validation follow-up.",
+      "paths": [],
+      "evidence": [
+        "software/env/key4hep-pins.json",
+        "software/source/Key4hepReference/README.md",
+        "docs/validation/issue117/pr123-framework-install.md",
+        "docs/validation/issue117/digitization-results.md"
+      ],
+      "prs": [
+        "https://github.com/asalzburger/nodd/pull/118",
+        "https://github.com/asalzburger/nodd/pull/123"
+      ],
+      "gitlink": "software/submodules/range-v3"
+    },
+    {
+      "id": "EXT-MICROSOFT-GSL",
+      "name": "GSL",
+      "category": "validation",
+      "usage": "Guidelines Support Library headers; distinct from GNU GSL",
+      "integration": "Pinned Git submodule software/submodules/GSL. Header dependency built/installed in the ignored local prefix.",
+      "version": "Microsoft GSL 4.2; source 2828399820ef4928cc89b65605dca5dc68efca6e",
+      "installation": "Explicit make key4hep-submodules initializes sources; use the optional Key4hep build recipe or silicon-backend recipe as appropriate. Existing PR123 local installation exercised by PR118; no installation performed in this validation follow-up.",
+      "paths": [],
+      "evidence": [
+        "software/env/key4hep-pins.json",
+        "software/source/Key4hepReference/README.md",
+        "docs/validation/issue117/pr123-framework-install.md",
+        "docs/validation/issue117/digitization-results.md"
+      ],
+      "prs": [
+        "https://github.com/asalzburger/nodd/pull/118",
+        "https://github.com/asalzburger/nodd/pull/123"
+      ],
+      "gitlink": "software/submodules/GSL"
+    },
+    {
+      "id": "EXT-MARLINRECO",
+      "name": "MarlinReco",
+      "category": "validation",
+      "usage": "Original silicon energy methods; separate GPL backend",
+      "integration": "Pinned Git submodule software/submodules/MarlinReco. Source-only dependency for the isolated helper; no Marlin/LCIO runtime or format bridge is implied.",
+      "version": "MarlinReco 255967eb; source 255967eb855ebbc8f75ebaac190b268b63332e8b",
+      "installation": "Explicit make key4hep-submodules initializes sources; use the optional Key4hep build recipe or silicon-backend recipe as appropriate. Existing PR123 local installation exercised by PR118; no installation performed in this validation follow-up.",
+      "paths": [],
+      "evidence": [
+        "software/env/key4hep-pins.json",
+        "software/source/Key4hepReference/README.md",
+        "docs/validation/issue117/pr123-framework-install.md",
+        "docs/validation/issue117/digitization-results.md"
+      ],
+      "prs": [
+        "https://github.com/asalzburger/nodd/pull/118",
+        "https://github.com/asalzburger/nodd/pull/123"
+      ],
+      "gitlink": "software/submodules/MarlinReco"
+    },
+    {
+      "id": "EXT-CLHEP",
+      "name": "CLHEP",
+      "category": "spack",
+      "usage": "Original MarlinReco Poisson/Gaussian draws; event-local HepJamesRandom backend",
+      "integration": "Pre-existing ACTS Spack library; directly linked by the separate GPL silicon executable, not installed or updated by this validation task.",
+      "version": "Verified 2.4.7.2 /ijdbc5e (header and installed Spack package,2026-11-09); native binary/source identities retained with comparison data.",
+      "installation": "CMake resolves CLHEP headers/library from the activated existing environment; the optional MarlinReco backend uses it through software/env/run.sh.",
+      "paths": [],
+      "evidence": [
+        "software/source/ActsExamples/Calorimeter/CMakeLists.txt",
+        "software/source/ActsExamples/Calorimeter/upstream/marlin/Backend.cpp",
+        "docs/validation/issue117/digitization-results.md"
+      ],
+      "prs": [
+        "https://github.com/asalzburger/nodd/pull/118"
+      ]
     }
   ],
   "checked_inputs": {
@@ -1153,9 +1398,9 @@
     ".github/workflows/tdr.yml": "27d3f227c91821f7151917644fbe567863043a30ff36e5937843008ec5e38ce4",
     ".github/workflows/token-usage.yml": "02480c1c40fb9e12566d2acedfa58a74bf40b7a0404ac70e76d5aeea0ff52ce8",
     ".github/workflows/validation.yml": "9e02f8d27f460b530764c8733a9e79fdb6b54399a59ca5d9538278cfa6434c58",
-    ".gitmodules": "232fd9ef64c50f2e26d226c693743d25edb2a1bff582bcc98f82caeb4647d539",
+    ".gitmodules": "5f85441b511a41ed8bc20fcd6392378072fbdb8c8baf7bc4e629e30031062165",
     "CMakeLists.txt": "48072b61a7a639418b153c16e60dddcba65190dbef686fbcacadf7ed2cc5165e",
-    "Makefile": "461eba4608d667f853038e8784c99509b05e93f6e99f9530575aa7cc86a1e722",
+    "Makefile": "17c4d9f1ad84ffcd247d45d202e54fee08aeccf04f5350b2fabfe56ea092b84b",
     "detector/CMakeLists.txt": "8fe27c7def450856615c259ee6d12f4c31727f6a32a3566fb6c75f0e81c31825",
     "prototypes/calorimeter/CMakeLists.txt": "4d1898dd64b3a2346af1ac93924639d6348cbf439cabb1161f5b429f1b689099",
     "prototypes/hcal_readout/CMakeLists.txt": "68f4251b4ae9abf86fb2b1e412e5619a0858af6dd6e60277743a681861bc96a5",
@@ -1166,7 +1411,7 @@
     "prototypes/short_strip_redesign/CMakeLists.txt": "3b424ce433b5cb019678fe19d39f8d2888071c16c3749f351e2240ddc7083cf2",
     "skills/acts-spack/references/nodes.json": "ed25d7d91a1329b1aa3947b53d5466e08001bf522357f060d196c2eba77c7a92",
     "skills/acts-spack/scripts/smoke/CMakeLists.txt": "38e1e00161ae6ee94358fc992c78352e0b5c91b2c5534a56c4ce9e2f9412c2f5",
-    "software/Makefile": "a631a2efb239348ca0365843804b5ae0dfe8196ad320f6b8e37ceb525f39e101",
+    "software/Makefile": "d0c2d3ad1b13c83a5cc6f840e3be0b77c75c5a4fb4b297735ec605ab6ead1876",
     "software/analysis/requirements-unrooted.in": "03a857d682f7489c3b70236679d4c170a3830f3be56b87c13b5b2571e816616e",
     "software/analysis/requirements-unrooted.txt": "c894a106f48600616ba6392acc625cc1658452675b7113bee3d2a9b434d79af5",
     "software/analysis/strixel_pitch_study/requirements.txt": "77d39f8c56695d41bafeb2e6a0449bfd2728a3137baa9767fd1a02c59fa31a49",
@@ -1176,9 +1421,9 @@
     "software/env/doctor.py": "2ca73847a82443d8562280f899a303b397f8cc775cecfc25abefd40c394f78d9",
     "software/env/run.sh": "34fbd1023a8f3e593c5384ae7071d5abc4431cfa7974e0a2f14826e63311d9c8",
     "software/env/truth_tracking.sh": "afc5b75c3784147f5950a0c1bf6b8245edac47822387006331b2047764a28170",
-    "software/source/ActsExamples/Calorimeter/CMakeLists.txt": "96da267b1e8c101a16e470d7e4d9585cffd22c1bf7641d12ae0cf599e9a31517",
-    "software/source/ActsExamples/Calorimeter/EDM4hep/CMakeLists.txt": "7d2657a9ccbe7f6e2c70f765f9ae7961b8aace446dd97c5b881298832a8886dc",
-    "software/source/ActsExamples/Calorimeter/tests/CMakeLists.txt": "50bc3320b8f4446f9d4c6abc449c418eff8e7b286c39f9d29a8f0d199d245fe7",
+    "software/source/ActsExamples/Calorimeter/CMakeLists.txt": "8c0789d586f9a2d98053d549d0441d1a713ef2d709073366ecfbeeda2bfdebb4",
+    "software/source/ActsExamples/Calorimeter/EDM4hep/CMakeLists.txt": "9781525679c2d912e995340559f27a8ebee6aa84c5d9a09d0bf01366dd2fcc58",
+    "software/source/ActsExamples/Calorimeter/tests/CMakeLists.txt": "c6774c18879a5604419cd2030c90b2d528fa088f692c400574f43f2240fe16cf",
     "software/source/ActsExamples/MaterialMapping/CMakeLists.txt": "b93a53b5d2bc7680eabf9010618ffe4c59c114c264f51f5dff6bb14db38f071d",
     "software/source/ActsExamples/MaterialRecording/CMakeLists.txt": "df4f73372b4a409cdb0620a4c944b6b7ebcc550f230794bbf08d66b892099697",
     "software/source/ActsExamples/SafeFatras/CMakeLists.txt": "61183e261c8264a35bd5631fae8dfb4b71ab0e90b28576f9f06fcf6e1a47aa18",
@@ -1190,6 +1435,7 @@
     "software/source/ActsExamples/TrackerReconstruction/CMakeLists.txt": "9155b5b9792282b4f8704045e73d5863bad9d34c866b941c7d7de90382bd2617",
     "software/source/ActsExamples/TruthTracking/CMakeLists.txt": "1d9388c981aaf2f092b7a4eb5926ae802128ae947fc44a251bb4f21fe1793029",
     "software/source/EDM/CMakeLists.txt": "e7aad59cfec481c7ba9266a16099d7d6bab3d0bf22225de86a7290c6bfc03bc6",
+    "software/source/Key4hepReference/CMakeLists.txt": "dc3de2fc78f7c8eadcfef4405ea52f272364815eb85e29ade21629336873d5ff",
     "tools/acts_binding_probe/requirements-plot.txt": "3a452fe997028c6dbfe696fa0b3506a735955db1c107fedff0210fb38bda81b2",
     "tools/acts_binding_probe/requirements.txt": "171d349c8b1ddfee46db5f19b59b9c25c54be081520642ae4e03a4111e9bc95e",
     "tools/envelope_study/requirements.txt": "b6dab00b392625b3c7447030c7ec6506f16a0ff9775b3a9826df9a3e600a890e",
@@ -1202,9 +1448,17 @@
     "tools/tracker_layout/requirements-idres-plotting.txt": "411fec29776da08429e054edfc6c5f50004f6c11998ea55e52f3212f9a52146e"
   },
   "source_pins": {
+    "software/submodules/GSL": "2828399820ef4928cc89b65605dca5dc68efca6e",
+    "software/submodules/Gaudi": "bdbe77445b2e1f4168de88a080945b491d133d5b",
     "software/submodules/IdRes": "d54d0e3c465cc0308becb737b04364ce5c68ce16",
+    "software/submodules/MarlinReco": "255967eb855ebbc8f75ebaac190b268b63332e8b",
     "software/submodules/OpenDataDetector": "d70556f33b1c36abdf101a07ad8cf57eb56fbdf1",
     "software/submodules/acts": "355ea68493b326956756c9386d2fd9eaf9328568",
-    "software/submodules/nodehammer": "30b19dcbd9329b742d98b1383a1484600fc3e0c3"
+    "software/submodules/boost": "1bed2b0712b2119f20d66c5053def9173c8462a5",
+    "software/submodules/k4FWCore": "f95187d5cd69d1e079e170e4e2e7f6d828e6a92d",
+    "software/submodules/k4RecCalorimeter": "03b3676cecbdf85818f6de159ecf90ffe2482cec",
+    "software/submodules/k4SimGeant4": "339b3842109f45a269929d9896c3d8279e69b83c",
+    "software/submodules/nodehammer": "30b19dcbd9329b742d98b1383a1484600fc3e0c3",
+    "software/submodules/range-v3": "5ba39112d2eafbb3c851a16a537f29b445022998"
   }
 }
