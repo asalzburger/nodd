@@ -609,7 +609,7 @@ the task contract below. No execution occurred before valid preparation.
 }
 ```
 
-## Corrected source accepted for execution; native muon stages
+## Corrected source assessment and native muon execution
 
 Separate PhysVal confirms all four findings closed at
 c9f2fa7992391987a46c81f038623a2d14e79990. Independent12/12 changed-module
@@ -638,3 +638,59 @@ eta0/+2/-2. These remain approximate geometric diagnostics; missing primary
 deposits are not reclassified as known transported crossings. Fixed1000-bootstrap
 perstage/population muon fits now run with16workers. No source, MIP, noise,
 threshold, selection or fit setting changed. No fit result is claimed yet.
+
+### I118-NODD-PhysVal-MuonData
+
+```json
+{
+  "id": "I118-NODD-PhysVal-MuonData",
+  "role": "PhysVal",
+  "input_revision": "c9f2fa7992391987a46c81f038623a2d14e79990",
+  "inputs": [
+    "docs/validation/issue117/nodd-digitization-protocol.md",
+    "docs/validation/issue117/nodd-digitization-analysis-notes.md",
+    "software/analysis/calorimeter_digitization/nodd_response.py",
+    "software/analysis/calorimeter_digitization/nodd_muon_response.py",
+    "software/analysis/calorimeter_digitization/muon_response.py",
+    "software/analysis/calorimeter_digitization/digitized_response.py"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Separate scientific review of completed actual six-muon results, numericaldataonly; figuresnotgeneratedyet. First inspect pinned primarysource and actualclosedinputs beforeauthor conclusions or authored report. Runtime data: build/issue117/nodd/muon-samples.json; response/runs-muons.json SHA30841e90b936a2f8c3b36c999cdbbed53259144038ca982279e150e19dded0d9; response/muon-summary.json SHA59540ebdbacff877d01691516120e2687a112692092f48bc6ff4ed0b10f7c44b and its .completion.json SHA43517a5c7becddc1d657dd45c501f0b254b77207bdd51189c040945a1d500e7a. All paths under build/issue117/nodd. Tree released by execution owner. Actualsourcec9, native6jobs andbothnativegeometryprocesses andfixed1000fitbootstrap18stage/populationcombinations closednormal0. Read primary rawROOT/diagnostics/nativegeometrycaches/proofs asneeded; independentlycheck identities/actualscope, source/config/binary/raw/closedreceiptbindings, physicalID/positionclosure evidence, immediate-constructed-neighbour/pureprimaryselection and approximatepath conventions, allnominal/identified/missing-unknown/split/contaminated denominators andactual.6counts, spectra/histogram/thresholdmassclosure andmonotonicity, preservedundefinedrare-categoryuncertainties, fits/conventions/diagnosticflags andeventbootstrap/SNR/pedestalinterpretation. Choose meaningfulactualrecomputations/refits/representativebootstrapchecks asneeded; no need duplicateevery expensive fit absentnewconcerns. Do not accept statedzero flags as substitute forchecking. Report measured findings/limits andwhether \u03bcnumberssupporttheir scoped plots, withoutdetectoracceptance or concludingunexecuted full originalKey4hep/showercomparison. The frozenfullshowertransport remainsactive; neverinterrupt/modify it. Read-onlyrepo/no geometryortransportexecution, no newevents, sourceedits, dependencychanges, externalmessages, commits orfurtherdelegation. Task-owned /private/tmp scratchforchecks permitted. Main willcuratefigures andfulloutcomelater; no expectedpass requested.",
+  "deliverable": "Exact-c9 separate actual-muon data assessment with independently checked numerical evidence, consequential findings, measuredchecks andscientific limits before publication.",
+  "completion": "Return evidence-based assessment and any blocker; actualfullshower/originalframework/figure review remainsseparate."
+}
+```
+
+## Closed muon analysis handoff, scientific assessment pending
+
+SoftEng releases response tree after all stages normal0: native22.885s,
+nODDgeometry36.579s,ODDgeometry7.642s, muon analysis1172.258s with16workers.
+All18point fits available and18000/18000bootstrap fits converged;zero failure,
+boundary or shape/deviance flags reported. Main reads actualsummary1,472,988bytes
+and verifies its sourcec9 and SHA59540ebdbacff877d01691516120e2687a112692092f48bc6ff4ed0b10f7c44b.
+Completion43517a5c7becddc1d657dd45c501f0b254b77207bdd51189c040945a1d500e7a;
+preserved runs-muons30841e90b936a2f8c3b36c999cdbbed53259144038ca982279e150e19dded0d9.
+Controllercompletebd63632b09bf92f5f326f85883aa705151e52a1df7b972e24eceb72e8439b31d;
+post-analysis-auditee3e37c4b9fedf665d6b128efa0f00cba6d05a82d96f92056841cb824b4647b4.
+Controller audits57artifacts, exact1500orderedidentities and acceptedcounts,
+signed-pulse/eventenergy closure≤5.55e-17GeV; no allzero muonevents.
+
+ReportedPN MPV±event-bootstrapSE ateta0/+2/-2 (MIP):
+nODD.957671±.003041/.966695±.003047/.961869±.003038;
+ODD.961183±.002804/.958711±.002570/.961877±.002662.
+Nominal12000trials each. IdentifiednODD10513/10704/10698, unknownmissing
+1487/1296/1302;ODD12000identifiedeach. PN>.6nominalnODD
+.872833/.888167/.888083;conditionalidentified.996290/.995703/.996168.
+ODD.997000/.997667/.997417forbothdenominators. SNRnODD7.360/7.429/7.392
+versusODD7.387/7.368/7.392. These are scoped comparator/model statistics,
+not hardware or complete detector efficiency. Rare split-category undefined
+bootstrap replicas retainnullerrors (nODD1000/7/128,ODD1000/142/7); no
+conditioning away zero-denominator cases. Allfigures and broaderinterpretation
+await independent assessment; source μdata assignment precedes these author
+conclusions in the reviewer contract. Full shower/original comparison pending.
+
+Renderer caption-only refinement before first new figures explicitly defines
+D/PN and distinguishes the nODD tracker+ECAL stage from ODD's complete
+comparison geometry atzero field. No plotted statistic or selection changes.
+Matplotlib CLI smoke passes. RawROOT/JSONL/trials/bootstrapdraws remain ignored.

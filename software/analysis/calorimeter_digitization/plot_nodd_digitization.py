@@ -33,8 +33,10 @@ LINESTYLES = {"raw": ":", "off": "--", "on": "-"}
 MARKERS = {"raw": "s", "off": "^", "on": "o"}
 ETA_COLUMNS = (0, 1, 2)
 MUON_COLUMNS = (0, 2, -2)
-SETTINGS = "148.75 keV/MIP; Gaussian noise 0.13 MIP; strict threshold 0.6 MIP"
-SCOPE = "PROTOTYPE · Zero-field tracker + ECAL stage; nODD field/HCAL/FCAL absent. No detector acceptance."
+SETTINGS = ("148.75 keV/MIP; D: pair/noise off; PN: 3.6 eV/pair + 0.13 MIP Gaussian noise; "
+            "digitized threshold > 0.6 MIP")
+SCOPE = ("PROTOTYPE · nODD: zero-field tracker + ECAL only; "
+         "ODD: full comparison geometry with B = 0. No detector acceptance.")
 
 
 def finite(value):

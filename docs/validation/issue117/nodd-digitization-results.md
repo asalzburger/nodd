@@ -43,11 +43,13 @@ The complete zero-field ODD control has generated and verified **4950events**:
 event generation. Its initialized field/cut/step audit passes. The first closed
 200-event electron population passes truth-only checks: origin zero, momentum
 residual at most1.8e-15GeV, monoenergetic total energy5.000000026111991GeV,
-ordered headers and unique cell IDs. The muon job remains in mapping. A process
-sample also identifies recurring Geant4 material/cut-couple scanning at each
-beam-run boundary. Neither runtime nor geometry is modified to bypass it.
-Original/native nODD agreement, new response fits and scientific figures are
-**not yet executed**;
+ordered headers and unique cell IDs. The complete 750-event nODD muon group now closes normally and passes all
+generation checks. Six native muon jobs and both actual cell-position audits
+pass; all 18,000 fixed-bootstrap fits converge. Their separate scientific
+assessment is in progress. A process sample identifies recurring Geant4
+material/cut-couple scanning at each beam-run boundary. Neither runtime nor
+geometry is modified to bypass it. Full shower response, original/native nODD
+agreement and the combined figures are **not yet executed**;
 the earlier ODD-only pass must not be relabelled as an nODD pass.
 
 ## Frozen samples and interpretation
@@ -88,7 +90,7 @@ the fresh native report and every binary/XML/material/configuration identity
 are bound before nODD events. Analysis correction
 `855ccf7886bfb78718d16887b2b39145af5c6293` closes separately reproduced module16,
 empty-population and configuration/input-binding defects before new digitization.
-All36focused controls pass, including a native DD4hep encoder check and rejection
+All42focused controls pass, including a native DD4hep encoder check and rejection
 of outer geometry/population labels inconsistent with the bound sample.
 
 ODD physically numbers modules1–16, while the actual four-bit readout encoder
