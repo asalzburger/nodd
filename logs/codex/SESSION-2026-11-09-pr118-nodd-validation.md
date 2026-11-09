@@ -404,3 +404,52 @@ combination. The reviewer inspected no new scientific outputs, ran no transport
 or geometry construction and edited nothing. This source assessment does not
 replace the still-pending independent actual-data and figure review. Main's
 all36controls additionally pass. Matplotlib CLI smoke passes after legend fix.
+
+### I118-NODD-SoftEng-MappingAssessment
+
+```json
+{
+  "id": "I118-NODD-SoftEng-MappingAssessment",
+  "role": "SoftEng",
+  "input_revision": "2dd8f38a4a8e714150f5a8cd180760e4ef6b6084",
+  "inputs": [
+    "software/analysis/calorimeter_digitization/nodd_generate.py",
+    "software/analysis/calorimeter_digitization/nodd_transport.py",
+    "docs/validation/issue117/nodd-digitization-protocol.md",
+    "docs/validation/issue117/nodd-digitization-analysis-notes.md",
+    "tools/calorimeter_baselines/native.py"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Read-only runtime scaling assessment while current frozen jobs continue. Both full LAYOUT-001 Geant4 transports are active, first PID38979 started16:16:25UTC, nowabout17:16UTC; no events. Conversion24.740s, then1CPU in Geant4VolumeManager Populator scanPhysicalVolume and memcmp assembly-imprint path matching. One-second profiles at9min and51min show same path; raw profiles local /private/tmp/nodd-pr118-nodd/nodd-initialization.sample.txt and nodd-initialization-51min.sample.txt. 64GiBhost, firstprocessabout10GiBRSS. Existing official v01-38 source downloaded read-only at /private/tmp/nodd-pr118-nodd/DD4hep-v01-38-Geant4VolumeManager.cpp, but do not assume byte-identical installed source. Installed headers in /Users/salzburg/Documents/work/externals/ci-dependencies/.spack-env/view/include/DDG4. Determine whether documented existing DD4hep/DDSim configuration/API options could reduce this mapping overhead without changing constructed geometry, sensitive masks, physics or stable hit IDs. Assess options only; do not edit any file, change source/binaries/configuration, stop/attach debugger to jobs, install/acquire dependencies, change frozen inputs, execute new simulations or publish. Primary-source inspections and ordinary native header/source reads allowed after relevant skill. If no safe existing option, report that plainly with exact evidence, uncertainty and whether only a separate task-local performance patch would help. No timing extrapolation presented as fact. Current jobs must keep running unchanged.",
+  "deliverable": "Bounded source/runtime assessment of available semantics-preserving mapping options and limits; no implementation or acceptance.",
+  "completion": "Return actionable evidence-backed findings or explicit absence of a safe existing option; preserve all active jobs and dependencies."
+}
+```
+
+## First nODD transport progress and truth-only check
+
+The shower job cleared DDG4 path mapping by17:25UTC, unchanged, about69minutes
+after process start. Actual initialized audit passes zero sampled field, both
+ECAL roles,0.7mm region cuts, zeroSiBirks and chargedStepLimiter/maxstep5mm.
+The first200-event block finished by17:38UTC. A separate early read of that
+closed first file through the frozen producer audit_input passed: ordered
+run0/events0..199, one correct primary, origin0, maximum p residual
+1.7763568394002505e-15GeV, totalE5.000000026111991GeV constant, unique source
+cells (31752BARRELHits,10EDGEHits). InputSHA
+56de8fde676ded30c2d0cfd1a67f0a248f6cc8e5c7fc2ded460ca30b83457f67.
+This checks truth/identity only; no signal sum or scientific response was
+examined, and full group/postflight/index verification remains required.
+The primary sample is retained in its frozen population, not replaced by a
+technical fixture. Interim source/audit/truth hashes and aggregate counts are
+added to the compact native proof without event payload.
+
+A one-second process sample during second beamOn,17:39UTC, shows
+G4RunManager::RunInitialization → G4ProductionCutsTable::CreateCoupleTables →
+ScanAndSetCouple. This is distinct from the earlier DDG4 path-map bottleneck.
+Current jobs continue unchanged; no installed dependency, cut or geometry was
+modified. At this point only one of19shower blocks had finished; the separate
+muon group had not reached its initialized audit. Raw profiles remain local.
+Hosted checks all pass on1299e3b7:build9m6s,unrooted4m24s,token-site38s.
+Later prospective analysis fixes39e16df0 and2dd8f38a were not part of that
+hosted head; their local36controls/source assessment are separately recorded.

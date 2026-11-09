@@ -39,9 +39,15 @@ Four pilot muons have exact origin0, ordered run/event identities and momentum
 residual at most3.6e-15GeV. They never enter response denominators.
 
 The complete zero-field ODD control has generated and verified **4950events**:
-4550test/muon events and400independent electron references. Fresh nODD transport
-is still initializing its Geant4 volume/path mapping. Original/native nODD
-agreement, new response fits and scientific figures are **not yet executed**;
+4550test/muon events and400independent electron references. The nODD shower job has cleared its slow Geant4 volume/path mapping and begun
+event generation. Its initialized field/cut/step audit passes. The first closed
+200-event electron population passes truth-only checks: origin zero, momentum
+residual at most1.8e-15GeV, monoenergetic total energy5.000000026111991GeV,
+ordered headers and unique cell IDs. The muon job remains in mapping. A process
+sample also identifies recurring Geant4 material/cut-couple scanning at each
+beam-run boundary. Neither runtime nor geometry is modified to bypass it.
+Original/native nODD agreement, new response fits and scientific figures are
+**not yet executed**;
 the earlier ODD-only pass must not be relabelled as an nODD pass.
 
 ## Frozen samples and interpretation
