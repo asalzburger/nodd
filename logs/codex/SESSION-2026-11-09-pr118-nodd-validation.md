@@ -365,3 +365,21 @@ interaction110records and paired-session272records validation pass.
   "completion": "Return evidence-based source assessment and actual checks; no actual nODD response or detector acceptance claimed."
 }
 ```
+
+## Prospective population-label closure
+
+Follow-up separate PhysVal source assessment at5d4262a9 confirmed the prior
+three fixes and identified a fourth guard gap: runs.json outer geometry/kind
+labels were trusted after only the nested sample identity was bound. Main
+added an explicit equality rejection in verify_runs, before receipt/path access.
+A focused control independently changes each outer label while retaining the
+bound sample; both are rejected. All36focused controls pass in1.380s in the
+verified native runtime. This changes no frozen transport input or statistical
+gate and precedes all new native response execution. Pre-analysis notes explain
+the additional binding.
+
+Published progress at1299e3b7e88c96ebfdf4633946d397727c4be8be to the existing
+draft118, with a clearly marked running nODD section and immutable native proof,
+protocol and report links. Exact body/title/head/draft readback succeeded;
+all three hosted checks started. The existing completed ODD-only figures remain
+visible with their original scope. No new public conversation comment posted.

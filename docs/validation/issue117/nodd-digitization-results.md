@@ -82,7 +82,8 @@ the fresh native report and every binary/XML/material/configuration identity
 are bound before nODD events. Analysis correction
 `855ccf7886bfb78718d16887b2b39145af5c6293` closes separately reproduced module16,
 empty-population and configuration/input-binding defects before new digitization.
-All35focused controls pass, including a native DD4hep encoder check.
+All36focused controls pass, including a native DD4hep encoder check and rejection
+of outer geometry/population labels inconsistent with the bound sample.
 
 ODD physically numbers modules1–16, while the actual four-bit readout encoder
 maps physical16 to encoded0. The analysis retains all physical/decoded fields

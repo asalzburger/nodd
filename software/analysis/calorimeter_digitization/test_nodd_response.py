@@ -1,5 +1,6 @@
 """Scientific controls: descriptor identity and shared-reference covariance."""
 import tempfile
+import json
 from pathlib import Path
 from types import SimpleNamespace
 import sys
@@ -8,10 +9,23 @@ from unittest.mock import patch
 
 import numpy as np
 
-from nodd_response import bind_configuration, decode, descriptors, longitudinal, ratio, shower_summary
+from nodd_response import bind_configuration, decode, descriptors, longitudinal, ratio, shower_summary, verify_runs
 
 
 class ResponseControls(unittest.TestCase):
+    def test_outer_population_labels_cannot_override_bound_sample(self):
+        sample = dict(geometry='nodd', kind='showers')
+        with tempfile.TemporaryDirectory() as directory:
+            args = SimpleNamespace(work=Path(directory))
+            for key, changed in (('geometry', 'odd-zero'), ('kind', 'calibration')):
+                with self.subTest(key=key):
+                    row = dict(sample=sample, **sample)
+                    row[key] = changed
+                    (args.work/'runs.json').write_text(json.dumps([row]))
+                    with patch('nodd_response.ordered_samples', return_value=({}, [sample])):
+                        with self.assertRaisesRegex(ValueError, 'labels differ'):
+                            verify_runs(args)
+
     def test_configuration_and_raw_identity_are_bound(self):
         expected={'seed':125500,'collections':['BARRELHits','EDGEHits']}
         receipt={'identity':{'configuration':expected,'input_sha256':'raw-A'}}

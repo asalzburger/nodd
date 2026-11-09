@@ -132,6 +132,8 @@ def verify_runs(args):
     if [r["sample"] for r in runs] != samples:
         raise ValueError("Native population identity/order changed")
     for index, row in enumerate(runs):
+        if any(row[key] != row["sample"][key] for key in ("geometry", "kind")):
+            raise ValueError("Native geometry/population labels differ from the bound sample")
         directory = Path(row["directory"])
         receipt = json.loads((directory / "execution.json").read_text())
         if receipt != row["receipt"] or receipt["exit_code"]:

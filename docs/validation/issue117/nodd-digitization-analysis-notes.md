@@ -26,6 +26,9 @@ response coefficient, event selection or statistical gate changes here.
 - Read-time native validation binds current configuration JSON and receipt
   identity to the frozen MIP/noise/threshold/range, collection names, population
   order/seed and actual raw input hash, alongside source/binary/output hashes.
+  It also rejects outer geometry/population labels that disagree with that
+  bound sample, preventing metadata from reversing a geometry comparison or
+  promoting test events to calibration events.
 - The first nODD launch failed before events because tracker plugin registration
   targets had not been built. Generate their `Components_*` targets, verify that
   all factory binaries remain byte-identical to the native audit, and retain
