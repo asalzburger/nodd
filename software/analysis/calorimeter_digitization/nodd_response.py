@@ -377,6 +377,8 @@ def main():
                                   transport_manifest_sha256=sha(args.transport_manifest), samples_sha256=sha(args.samples),
                                   native_runs_sha256=sha(args.work / 'runs.json')))
     if args.stage == "analyze":
+        checkpoint = json.loads(json.dumps(result, allow_nan=False).replace(str(ROOT), '${NODD_REPO}').replace(str(Path.home()), '${USER_HOME}'))
+        save(args.work / 'shower-summary-checkpoint.json', checkpoint)
         from nodd_muon_response import muon_summary
         result["pedestal"] = pedestal(args)
         result["muons"] = muon_summary(runs, args, result["pedestal"])
