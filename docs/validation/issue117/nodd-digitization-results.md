@@ -1,7 +1,13 @@
 # nODD geometry and silicon digitization comparison
 
-Date: 2026-11-09. **PROTOTYPE; execution in progress, no detector acceptance.**
+Date: 2026-11-09. **PROTOTYPE; frozen comparison completed with one failed stochastic gate. No detector acceptance.**
 Requested in [PR118 comment6744059438](https://github.com/asalzburger/nodd/pull/118#issuecomment-6744059438).
+Noise-off software agreement passes on 1,712,671 accepted cells, while the
+pair-only muon replay fails the frozen energy-width equivalence gate. The other
+three stochastic cases pass. **Full stochastic validation is not established**;
+the failed result is retained without new seeds, retries or changed criteria.
+The large nODD/ODD raw-response difference is separate geometry evidence.
+
 The [frozen protocol](nodd-digitization-protocol.md) and
 [pre-analysis clarifications](nodd-digitization-analysis-notes.md) govern this
 extension. The earlier [fielded ODD digitizer study](digitization-results.md)
@@ -51,9 +57,10 @@ no runtime, factory or geometry is modified to bypass them.
 
 Both actual cell-position audits and the closed six-muon analysis pass. A
 separate PhysVal agent reproduces its counts, spectra, uncertainty calculations
-and all central fits before author conclusions. Full shower statistics and the first four response figures now close and pass
-separate scientific assessment. The original/native nODD framework comparison
-is still running; the earlier ODD-only pass remains separate evidence.
+and all central fits before author conclusions. Full shower statistics and response figures pass separate scientific assessment.
+The complete original/native nODD comparison finishes with a deterministic pass
+and one retained stochastic width-gate failure, described below. The earlier
+ODD-only pass remains separate evidence.
 
 ## Frozen samples and interpretation
 
@@ -85,6 +92,85 @@ crossing yield are separate; straight-ray active-mask predictions are explicitly
 approximate. The fixed Landau–Gaussian model/1000-event bootstrap can remain
 unavailable or flagged; the MIP scale and fit range are never retuned.
 
+## Original Key4hep comparison on actual nODD hits
+
+The deterministic full-processor comparison closes normally on **22 files /
+4,550 events**: 2,008,792 input simulated cells and **1,712,671 matched accepted
+cells**, with zero energy, event, missing-cell or extra-cell mismatches.
+The original Key4hep `DigitiserSiliconMip` runs through Gaudi/GeoSvc with the
+maintained nODD compacts and factories. The wrapper adds only the two required
+readout-encoding metadata constants; canonical detector geometry is unchanged.
+Original hit collections, MC endpoints, ordered event headers and all
+18,734,621 contributions are audited unchanged. Measured input coverage is
+1,194,614 barrel cells, 694,681 positive-endcap cells and 119,497 negative-endcap
+cells across the full file inventory.
+
+The comparator's symmetric float tolerance is `1e-5 + 5e-6·max(|native|,|ref|)`
+MIP. Occupied residual-bin bounds separately prove the stricter frozen
+reference-only tolerance `1e-5 + 5e-6·|ref|` for every cell, with worst normalized
+upper bound **0.2000002000002002 < 1** and exact accepted-cell sets. The largest
+absolute difference, 0.000244140625 MIP, occurs under that energy-dependent
+tolerance; it is not compared to the absolute term alone. The controller exits
+0 in 1,691.860 s, after all per-file identity/payload checks.
+
+A separate PhysVal agent directly rechecks all 22 files / 4,550 events /
+1,712,671 accepted cells: exact sets, headers, residual histograms and all
+18,734,621 contribution counts/times agree. Its directly measured maximum
+strict normalized residual is 0.1966895445, consistent with the conservative
+0.2000002000 bound. Independent deep retained-payload/MC-endpoint checks cover
+1,264 events (the first six populations and four distributed events in each
+remaining file), alongside verification of the producer's unchanged complete
+4,550-event audit receipts. This separate assessment grants no human sign-off.
+
+Both prescribed event-0 fixtures pass 1,000-frame header/collection/MC-endpoint
+roundtrip checks. Each of the four P/PN cases has 1,000 original and 1,000 native
+responses, and 2,000 distinct nonzero effective ROOT seeds across the two
+collection algorithms. These are conditional repetitions of two real events,
+not independent showers. All mean checks and event-energy/count CDF checks pass,
+but the **central-muon P energy-width gate fails**:
+
+| Fixture, mode | Energy CDF p | Count CDF p | Native/original energy SD | SD-ratio 95% interval | All gates |
+| --- | --- | --- | --- | --- | --- |
+| Central muon, P | 0.269773 | 0.298870 | 1.21369 | [0.90142, 1.66978] | **FAIL** |
+| Central muon, PN | 0.285571 | 0.760924 | 0.99369 | [0.93449, 1.05634] | PASS |
+| Endcap γ20, P | 0.953705 | 0.015798 | 1.04529 | [0.96782, 1.12911] | PASS |
+| Endcap γ20, PN | 0.887711 | 0.011799 | 0.97701 | [0.91410, 1.04456] | PASS |
+
+The frozen gate requires the entire 10,000-bootstrap interval inside
+[0.85, 1.15]; the muon-P interval does not satisfy it. Its mean shift is 1.696
+combined SE and the interval includes unity, so this result neither establishes
+width equivalence nor by itself proves an implementation defect. There are no
+undefined width replicas. No alternative fixture, seed, trial count or gate is
+tried after observing the failure. The runtime stages close normally, but the
+outer controller deliberately returns **1** for this retained failed gate.
+Further stochastic qualification requires a separately specified follow-up;
+this result must not be relabelled as a full pass.
+
+An independent post-run variance decomposition isolates sparse threshold
+migration in the existing muon-P draws: one threshold-adjacent cell is the only
+variable accepted cell, giving 46 accepted cells in 9/1,000 original and
+15/1,000 native events, with 45 cells otherwise. The two count strata explain
+70.6% / 79.8% of the original/native event variance. Descriptively excluding
+that cell gives core SDs 0.037049 / 0.037317 MIP (ratio 1.00724), while the
+unchanged analytic Poisson model predicts about 12.09 crossings per 1,000 in
+both implementations. This identifies the measured width's sensitivity to
+rare threshold migration. It is **not a replacement gate**: the original
+all-event distributions, failed interval and criteria remain unchanged. These
+draws do not establish equivalence or exclude a model difference.
+
+PhysVal independently reproduces all eight energy/count gate calculations,
+all four original/native event ensembles and their source/configuration/output/
+ordered-header bindings. Per case, 2,000 distinct nonzero original effective
+seeds and 2,000 distinct native engine seeds are verified. Independent deep
+replay-payload/MC-endpoint checks sample ten distributed events per case,
+alongside the producer's complete 1,000-event audit.
+
+The [compact original/native result](previews/nodd-digitization-reference.json)
+retains all 22 cases, four distributions and gates, source/runtime identities,
+365 artifact hashes, 812 immutable input hashes and 59 execution receipts.
+
+![Original Key4hep versus native nODD comparison, including failed muon-P width gate](previews/nodd-digitization-reference.png)
+
 ## Electron/photon response and geometry comparison
 
 Across all 19 matched gun points, the nODD/ODD mean **raw silicon visible-energy
@@ -95,6 +181,15 @@ this study cannot isolate its cause or assign it to tiling alone. It provides
 no area-averaged tiling loss or detector acceptance. The earlier isolated
 [tiled/continuous-silicon control](tiling-response.md) addresses a narrower
 question and retains its own input geometry.
+
+For a concrete construction difference, both ECAL descriptions specify 48
+layers with 1.9-mm tungsten and 0.5-mm silicon, but nODD also represents the
+3-mm copper cooling plates and detailed board/ASIC/service/guard structures
+described in [DES031](../../design/DES-031-siw-barrel-prototype.md) and
+[DES030](../../design/DES-030-ecal-edge-sensors.md). The pinned
+[ODD sampling stack](https://github.com/OpenDataDetector/OpenDataDetector/blob/d70556f33b1c36abdf101a07ad8cf57eb56fbdf1/xml/detectors/CalorimeterECal.xml)
+has no such copper plate. This identifies a material-scope difference; this
+study does not measure its individual contribution to the observed deficit.
 
 Representative 20 GeV/c mean ratios are below (± whole-event bootstrap SE).
 The negative-η electron point is a bounded control, not a complete signed scan.
@@ -164,8 +259,10 @@ depths; these are approximate geometric diagnostics, not transported truth.
 Layer-to-layer chords and the single-cell/primary selection also limit the
 interpretation of the normalized MIP peak.
 
-All 18 central fits and 18,000/18,000 fixed bootstrap fits converge, without
-boundary or diagnostic flags. Independent checks reproduce all 18 central fits,
+All 18 central fits and 18,000/18,000 fixed bootstrap fits converge. The 18
+central fits have no boundary or shape/deviance flags; the bootstrap fitter
+does not compute the full central-fit diagnostics for each replica.
+Independent checks reproduce all 18 central fits,
 all 1,500 muon frames/74,767 hit references and the full 1,000-fit nODD central
 PN bootstrap. Rare split categories retain undefined uncertainty replicas and
 null errors where appropriate; no failed or undefined replicas are discarded.
@@ -176,8 +273,8 @@ empty detector channels and real detector occupancy are outside this study.
 ## Response figures
 
 The following figures use only the committed compact response, fixed component
-colors and the unchanged source-identified renderer. All four are visually
-checked by CaloTech and the coordinator; the MIP image reproduces the earlier
+colors and the source-identified renderer. All four are visually
+checked by CaloTech, PhysVal and the coordinator; the MIP image reproduces the earlier
 closed-subset preview byte for byte.
 
 ![Electron raw and digitized response](previews/nodd-digitized-electron.png)
@@ -213,7 +310,7 @@ Node preflight warned of changed setup/lock fingerprints. Actual DD4hep1.38,
 Geant411.4.3, ROOT6.40.04, DD4hep/DDG4 imports and all12dataset paths were
 reverified. Existing Key4hep/Gaudi imports passed. No shared install changed.
 Raw ROOT/JSONL samples, RNG states and detailed logs stay local and ignored;
-only compact binwise/statistical evidence, plots and exact recipes will be kept.
+only compact binwise/statistical evidence, plots and exact recipes are kept.
 
 ## Reproduction boundary
 
@@ -230,8 +327,8 @@ all seed pairs, compacts and the source/native-PASS binding.
 Native diagnostics/common-scale analysis use `nodd_response.py`; original full
 Key4hep comparison uses `nodd_reference_validation.py`. The plotter
 `plot_nodd_digitization.py` reads compact summaries without ROOT or event files.
-Exact completed commands, compact-result links and figures will be added after
-their actual execution. No unexecuted command is a validation pass.
+The commands below identify the completed execution. A normal runtime exit
+is distinct from the failed stochastic acceptance gate.
 
 ## Export, build and transport recipe
 
@@ -299,8 +396,145 @@ software/env/run.sh python3 -B software/analysis/calorimeter_digitization/nodd_g
   --work "$task_work" --geometry odd-zero --population muons
 ```
 
-Indexing, original-framework processing, response execution and actual-data
-plotting remain pending at this report revision. Their final commands and
-closed execution identities will be recorded with the results. The generation
-manifest freezes the exact 48 populations and 9,500-event total; technical probes
-and failed pre-event attempts are excluded.
+Indexing and full native response execution now close normally. The following
+commands reproduce the executed incremental analysis order. They require the
+full local event/diagnostic files; the canonical 48-population transport
+manifest remains unchanged when the six-muon subset is selected. Subset native
+seeds retain global indices 38–43. The final analysis independently revalidates
+the complete inventory and attaches the closed muon result only after matching
+its source/settings/inputs/receipts/completion and pedestal identities.
+
+```sh
+software/env/run.sh python3 -B software/analysis/calorimeter_digitization/nodd_generate.py index \
+  --work "$task_work"
+python3 - <<'PY_SUBSET'
+import json
+from pathlib import Path
+b = Path('build/issue117/nodd')
+data = json.loads((b/'samples.json').read_text())
+subset = dict(manifest_sha256=data['manifest_sha256'],
+              receipts=[r for r in data['receipts'] if Path(r['path']).parent.name.endswith('-muons')],
+              samples=[r for r in data['samples'] if r['kind'] == 'muons'])
+with (b/'muon-samples.json').open('x') as output:
+    json.dump(subset, output, indent=2)
+    output.write('\n')
+PY_SUBSET
+
+software/env/run.sh python3 -B software/analysis/calorimeter_digitization/nodd_response.py run \
+  --population muons --transport-manifest "$task_work/manifest.json" \
+  --samples "$task_work/muon-samples.json" --work "$task_work/response" --jobs 4
+software/env/run.sh python3 -B software/analysis/calorimeter_digitization/nodd_response.py geometry \
+  --population muons --geometry nodd --transport-manifest "$task_work/manifest.json" \
+  --samples "$task_work/muon-samples.json" --work "$task_work/response"
+software/env/run.sh python3 -B software/analysis/calorimeter_digitization/nodd_response.py geometry \
+  --population muons --geometry odd-zero --transport-manifest "$task_work/manifest.json" \
+  --samples "$task_work/muon-samples.json" --work "$task_work/response"
+software/env/run.sh python3 -B software/analysis/calorimeter_digitization/nodd_response.py muons \
+  --population muons --transport-manifest "$task_work/manifest.json" \
+  --samples "$task_work/muon-samples.json" --work "$task_work/response" --fit-workers 16 \
+  --output "$task_work/response/muon-summary.json"
+software/env/run.sh python3 -B software/analysis/calorimeter_digitization/nodd_response.py run \
+  --transport-manifest "$task_work/manifest.json" --samples "$task_work/samples.json" \
+  --work "$task_work/response" --jobs 4
+software/env/run.sh python3 -B software/analysis/calorimeter_digitization/nodd_response.py analyze \
+  --transport-manifest "$task_work/manifest.json" --samples "$task_work/samples.json" \
+  --work "$task_work/response" --fit-workers 16 \
+  --muon-summary "$task_work/response/muon-summary.json" \
+  --output "$task_work/response/summary.json"
+```
+
+The subset recipe above is checked to produce exactly the executed six-muon
+JSON object. Its geometry caches are bound to that subset and reused through
+the closed-muon result, rather than substituted into a fresh full-scope fit.
+Producer source bytes are frozen at
+`c9f2fa7992391987a46c81f038623a2d14e79990`; the full native/shower execution HEAD
+is `e43bd0d2d5431237cd50bddb9a593bc1aa01b1df`. The closed runtime response SHA is
+`adbdbe66978e033c415aa6aea905a409b554aacf37758ae69eacd37248abc58d`.
+Public response JSON uses compact serialization with exactly equal decoded
+content (SHA `ae770b1113ee96df5f9667d8bd590e27ffde0c6f89582cc5a81ddca66ae53fd8`).
+No event totals or bootstrap draws are exported.
+
+The separate descriptive attachment executes after source commit
+`45e17d0e797d4ab6c2a1dee835f50d73f966b638`, using the same NumPy 2.5.4 runtime:
+
+```sh
+/Users/salzburg/Documents/work/installed/acts-nodd/pyvenv/bin/python -B \
+  software/analysis/calorimeter_digitization/nodd_response_quantiles.py \
+  --response docs/validation/issue117/previews/nodd-digitized-response.json \
+  --runs "$task_work/response/runs.json" \
+  --output docs/validation/issue117/previews/nodd-response-quantiles.json
+```
+
+For re-execution choose a fresh output path; accepted evidence is not overwritten.
+The attachment SHA is
+`5e06a66c69d0638c6a09796db17715fbeccf36668b023368080e7cd2f90f74fe`.
+All 3,078 quantile values are independently reproduced from event totals.
+
+Original framework processing is a separate sequence through the existing
+command-scoped Key4hep runtime. All six runtime stages below close normally.
+The outer execution controller returns 1 because the statistical summary
+retains the muon-P width-gate failure; runtime completion is not a gate pass:
+
+```sh
+../nodd-pr123-frameworks/software/env/key4hep_run.sh python3 -B \
+  software/analysis/calorimeter_digitization/nodd_reference_validation.py prepare
+../nodd-pr123-frameworks/software/env/key4hep_run.sh python3 -B \
+  software/analysis/calorimeter_digitization/nodd_reference_validation.py pilot
+../nodd-pr123-frameworks/software/env/key4hep_run.sh python3 -B \
+  software/analysis/calorimeter_digitization/nodd_reference_validation.py deterministic
+../nodd-pr123-frameworks/software/env/key4hep_run.sh python3 -B \
+  software/analysis/calorimeter_digitization/nodd_reference_validation.py replays
+../nodd-pr123-frameworks/software/env/key4hep_run.sh python3 -B \
+  software/analysis/calorimeter_digitization/nodd_reference_validation.py stochastic
+../nodd-pr123-frameworks/software/env/key4hep_run.sh python3 -B \
+  software/analysis/calorimeter_digitization/nodd_reference_validation.py summarize
+```
+
+The compact-only overall gate check below returns **1** for this retained result:
+
+```sh
+python3 - <<'PY_GATES'
+import json
+from pathlib import Path
+data = json.loads(Path('docs/validation/issue117/previews/nodd-digitization-reference.json').read_text())
+passed = data['deterministic']['passed'] and data['stochastic']['passed']
+print('Deterministic:', data['deterministic']['passed'], 'stochastic:', data['stochastic']['passed'])
+raise SystemExit(0 if passed else 1)
+PY_GATES
+```
+
+Defaults select this task's `build/issue117/nodd/reference-input.json`, fresh
+`build/issue117/nodd-reference-validation` directory and existing native/backend
+binaries. Indexing generates the reference input. The actual run retains that
+input unchanged as `reference-input.generated.json` and adds two closed metadata
+proof artifacts (plugin-registration audit and full-inventory validation), for
+10 artifacts total and input SHA
+`6c1a3904b9e2b40e992f71baa875d6014e64fea321e66cb20ce8d7e76c4d4db7`.
+These are provenance additions; physics inputs and all 22 raw-file hashes stay
+unchanged. The full-inventory proof records the exact validator/helper source
+hashes and immutable manifest, samples, native PASS, registration and four
+closed transport receipts. A fresh run must create its own proofs after its
+own successful validation; fingerprints from this run are not execution proof
+for another run.
+
+All five figures can be reproduced without ROOT, simulation, native
+binaries or event files:
+
+```sh
+MPLCONFIGDIR=/private/tmp/nodd-issue117-matplotlib \
+  /Users/salzburg/Documents/work/installed/acts-nodd/pyvenv/bin/python -B \
+  software/analysis/calorimeter_digitization/plot_nodd_digitization.py \
+  --response docs/validation/issue117/previews/nodd-digitized-response.json \
+  --reference docs/validation/issue117/previews/nodd-digitization-reference.json \
+  --output build/issue117/nodd/replot
+```
+
+The executed renderer uses Matplotlib 3.11.2 and source SHA
+`4c53f0254f245329dd9f8eb7c51fefb72d713971607bfd6724991611bab7f06f`
+at source commit `7db84cd42fdfd2d091b4c9686c92c4fc411354cd` (table layout only). It preserves the four prior
+response PNGs byte for byte and displays the failed gate in the fifth figure.
+The initial private reference figure had an overlapping table title; that image
+is retained, and the committed renderer fits all 22 case rows within its panel. Raw transport, native diagnostics, event-level
+longitudinal/selection checks, fits and quantile recomputation require the local
+full data; plotting and histogram/count/provenance inspection use public compact
+summaries alone.

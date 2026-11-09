@@ -26,8 +26,11 @@ DES030 tiled endcaps. This is a separate zero-field prototype comparison with
 ODD; detector geometry, materials and segmentation remain unchanged. Its
 [frozen protocol](../validation/issue117/nodd-digitization-protocol.md) and
 [execution report](../validation/issue117/nodd-digitization-results.md) retain the
-actual status and boundaries. This extension does not inherit an nODD pass from
-the earlier ODD digitizer study or isolated endcap tiling study.
+actual status and boundaries. The extension records zero deterministic
+mismatches across 1,712,671 accepted cells, but one of four frozen stochastic
+cases fails its energy-width interval gate. Full stochastic qualification is
+therefore incomplete; no gate or geometry is retuned. It does not inherit an
+nODD pass from the earlier ODD digitizer or isolated endcap tiling study.
 
 **FACT about scope:** DES031 is silicon/tungsten; DES032/033 are inclined/turbine
 LAr; DES036–038 use scintillator tiles with SiPMs; DES039 uses tungsten and
