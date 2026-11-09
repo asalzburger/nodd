@@ -374,9 +374,10 @@ Published branch through reviewed asset6936cc5e; updated PR118 title to
 “Calorimeter: validate silicon digitization against Key4hep” and body with4new
 plots plus7earlier historical embeds. New asset URLs pin6936cc5e; all4publicPNG
 hashes match local files. Fresh authenticated gh readback confirms exact body,
-title and head. Connector had reported stale draft status; fresh CLI shows the
-human Ready state (isDraft=false), which is preserved. DRAFT refers to DES044,
-not a conversion of PR state. Transient readback network failure was retried
+title and head. Connector had reported stale draft status; fresh CLI initially
+showed an existing Ready state (isDraft=false); its transition actor is unknown.
+The subsequent main-policy reconciliation returns this same PR to draft below.
+Transient readback network failure was retried
 through existing gh-pr authorization and succeeded. No new comment, review,
 review request, email or issue was posted. No shared install was changed.
 
@@ -414,6 +415,33 @@ before refreshing fingerprints/page. Inventory passes67components/101families/
 52inputs/12pins and10controls; immutable cleanup145files and3controls pass.
 Initial cleanup invocation omitted its required revision and exited2; corrected
 to the workflow command targeting2ce4e9c8 and passed. New main draft-publication
-rule was read; this user explicitly requested continuation on existing PR118,
-whose human-selected Ready state is preserved, not promoted by this agent.
+rule was read; the initial interpretation to preserve the observed Ready state
+was corrected below. No evidence identifies who made that earlier transition.
 No new PR, sign-off, dependency install, scientific criterion or CI gate change.
+
+## Publisher test isolation and draft-state closeout
+
+Hosted build42633015098 at e4c287e1 passed token-site and unrooted but failed
+the publisher stale-head unit control. Its global mock of time.sleep also
+intercepted Python3.12 subprocess polling, recording two .001-second sleeps
+in addition to the intended .5-second publisher backoff. The two retry tests
+now mock only publish.time and retain exact backoff count/value assertions;
+the stale-head control additionally proves shared time.sleep is unchanged.
+Production publisher code and CI criteria are unchanged. All27 publisher
+tests pass7.860s; software inventory still passes.
+
+AGENTS.md now explicitly requires every repository task to end in a draft PR.
+The current request authorizes continuing118 without an instruction to make it
+Ready. Returned existing118 to draft, with completed results and historical
+geometry evidence retained. Connector mutation was denied403; the existing
+authenticated gh fallback succeeded. Fresh readback confirms isDraft=true.
+No new public comment/review/request or duplicate PR was posted. The earlier
+Ready transition remains actor-unknown, not attributed to a human.
+
+Final post-integration local checks pass:271session pairs;110PRinteraction
+records againstbase61af5cd9;101tasks/54documents/24review rounds;software
+inventory67components/101families/52inputs/12pins;token preview444disjoint
+historical turns;session summary andwhitespace. Currenttask usage remains
+empty/unmeasured. Final pushed-head CI is checked separately; no green hosted
+claim is inferred from local tests. Ledger capture initially hit sandbox network
+failure; explicit escalated read-only retry succeeded with fourpublic comments.
