@@ -558,3 +558,83 @@ receipt digests already matching selected inputs;8changed-module controls pass
 0.121s. No new native/scientific outputs or geometry query were inspected by that
 assessment. The final corrected source receives exact-revision confirmation
 before execution.
+
+### I118-NODD-PhysVal-MuonScope-Closure
+
+```json
+{
+  "id": "I118-NODD-PhysVal-MuonScope-Closure",
+  "role": "PhysVal",
+  "input_revision": "c9f2fa7992391987a46c81f038623a2d14e79990",
+  "inputs": [
+    "docs/validation/issue117/nodd-digitization-protocol.md",
+    "docs/validation/issue117/nodd-digitization-analysis-notes.md",
+    "software/analysis/calorimeter_digitization/nodd_response.py",
+    "software/analysis/calorimeter_digitization/test_nodd_response.py",
+    "software/analysis/calorimeter_digitization/nodd_muon_response.py",
+    "software/analysis/calorimeter_digitization/nodd_generate.py"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Verify exact corrected revision closes the four findings from I118-NODD-PhysVal-MuonScope: helper checks before cached/fresh statistics, raw receipt binding to selected manifest/protocol/frozen producer/steering, fresh/protected output and checkpoint paths, and canonical48-row inventory before scope/global-index lookup. All42controls and actual six-muon metadata pass; full scope rejects subset. No new native response/fit outputs yet. Inspect primarysource and meaningful focused guards; do not inspect authored outcome report as validation. Same read-only boundaries: no source changes, geometry/transport, dependencies, job interruption, publication or delegation. Confirm correction closure or return remaining consequential finding promptly before execution. Actual result/figure assessment is separately pending.",
+  "deliverable": "Exact-c9f2fa79 source closure assessment with actual checks and remaining limits before independent muon response execution.",
+  "completion": "Return evidence-based source assessment; no actual data/figure or detector validation is inferred."
+}
+```
+
+### I118-NODD-SoftEng-MuonExecution
+
+Initial prepare rejected ignored runtime paths as revision inputs; corrected
+the input list to tracked sources. Runtime artifact paths remain explicit in
+the task contract below. No execution occurred before valid preparation.
+
+```json
+{
+  "id": "I118-NODD-SoftEng-MuonExecution",
+  "role": "SoftEng",
+  "input_revision": "c9f2fa7992391987a46c81f038623a2d14e79990",
+  "inputs": [
+    "docs/validation/issue117/nodd-digitization-protocol.md",
+    "docs/validation/issue117/nodd-digitization-analysis-notes.md",
+    "software/analysis/calorimeter_digitization/nodd_response.py",
+    "software/analysis/calorimeter_digitization/nodd_muon_response.py"
+  ],
+  "mode": "write",
+  "writable_paths": [
+    "build/issue117/nodd/response"
+  ],
+  "task": "Execute the newly closed six-muon native diagnostic and fixed-MIP analysis now. Exact source c9f2fa79 confirmed independently by PhysVal: all4scope/provenance findings closed;42controls pass; actual6metadata pass with unchanged globalindices38..43/seeds129300..129800 and fullscope correctlyrejects subset. Bothmuongroups normal0,1500events total, allrawverified. Frozen rawproducer/steering/protocol5af remain unchanged; showertransport stillactive separately. Sole ownedignoredoutput tree build/issue117/nodd/response; do not edit any trackedsource, protocol, notes, geometry, publicreport, commits or sharedinstall. Fresh task shell software/env/run.sh asverifiedexistingruntime; followacts-spack preflight boundary and reportstale fingerprints withoutinstalling. Commands use nodd_response.py run --population muons --transport-manifest build/issue117/nodd/manifest.json --samples build/issue117/nodd/muon-samples.json --work build/issue117/nodd/response --jobs 4. Defaults native_validation/backend paths /private/tmp/nodd-digitization117-build verified. After normal native6closures, run geometry twice in separate nativeprocesses with sameargs --population muons and --geometry nodd/odd-zero; may run2independentprocesses concurrently ifmemorypermits. Then stage muons with sameargs --population muons --fit-workers16 --output build/issue117/nodd/response/muon-summary.json. This uses fixed1000wholeeventbootstrap perstage/population; do not reducefits, alterselection, retuneMIP/noise/threshold/model/range orfixanyfailedfitbycherry-picking. Preserve actualundefined/failedresults. Refuseclosedoutputoverwrites; retainerrorsandreportbeforeanysourcechanges. Runsthissourcebeforeanynewnativeoutput; preserve runs-muons.json and completionproof. Record command exits, source/binary/config/input/output/log hashes, actualgeometryquery counts/residuals/IDs and fixedfit outcomes. No original-framework study yet; that separatehandoff awaitsall22nODDrawfiles. No additional transport, externalmessages, publication, installations, jobinterruptions ordelegation. Main willnotwriteownedresponse tree untilyoureleaseit; reportsource/runtime problems promptly, do not silently retry differentinputs/criteria.",
+  "deliverable": "Closed six native jobs, actual nODD/ODD native muon geometry proofs and fixed-statistics muon-summary.json+completion proof, actual commands/checks/numerical outcomes and explicit limits; retain allrawlocal.",
+  "completion": "Return measured results and artifact/hash paths with normal-exit evidence, or a concrete retainedfailure. Release response tree oncompletion; no detector/humanapproval implied."
+}
+```
+
+## Corrected source accepted for execution; native muon stages
+
+Separate PhysVal confirms all four findings closed at
+c9f2fa7992391987a46c81f038623a2d14e79990. Independent12/12 changed-module
+controls pass0.063s from pinned git-show modules; allsix assignedSHA256s and
+legacy helper identities match. Actual six closed populations/1500events
+retain indices38..43 and seeds129300..129800. Full scope rejects the subset;
+native-pass-binding bytes unchanged. No actual scientific outputs, geometry or
+transport were reviewed/executed by this source assessment. Final data review
+remains pending. Only after this handoff was SoftEng muon execution triggered.
+
+SoftEng reports fresh runtime probe0 (Python3.14.5,ROOT6.40.04,NumPy2.5.4,
+Geant411.4.3 and DD4hep/DDG4/podio imports); known registry fingerprint warning
+retained, no installs. Allsix native250event jobs close0 in22.885s with fixed
+global seeds. runs.json and preserved runs-muons.json exist.
+Actual native geometry queries run in separate processes and both close0:
+
+- nODD36.579s:2304planes,35353references,4963uniquecells; maximum residual
+  0.000195312500182mm<.002mm;zero collisions/no changed physical fields.
+  CompactSHA902a6c3776d9ebbadf216d9886f8ace90b18c51b83d1b57ef604bd8de071f390.
+- ODD7.642s:2304planes,39414references,3381uniquecells; maximum residual
+  0.000097656250091mm;144module-field16→encoded0 changes,zero collisions.
+  CompactSHA3cf7618a3591df2acc3a0243ededf2751805a3605f730f3bcd1a502a10b30483.
+
+Initial straight rays cross42/43/43active planes in nODD versus48/48/48ODD at
+eta0/+2/-2. These remain approximate geometric diagnostics; missing primary
+deposits are not reclassified as known transported crossings. Fixed1000-bootstrap
+perstage/population muon fits now run with16workers. No source, MIP, noise,
+threshold, selection or fit setting changed. No fit result is claimed yet.
