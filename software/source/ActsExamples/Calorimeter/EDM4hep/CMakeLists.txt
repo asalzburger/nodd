@@ -28,3 +28,11 @@ target_link_libraries(nodd_silicon_reference PRIVATE
   nODDCalorimeterEDM4hep EDM4HEP::edm4hepDict podio::podioRootIO)
 set_target_properties(nodd_silicon_reference PROPERTIES
   BUILD_RPATH "${NODD_ACTS_BUILD}/lib")
+
+# Local event-level diagnostics stay ignored; Python reduces these to binwise
+# evidence. Runs the actual input converter and digitization algorithm.
+add_executable(nodd_silicon_validation SiliconValidation.cpp)
+target_link_libraries(nodd_silicon_validation PRIVATE
+  nODDCalorimeterEDM4hep EDM4HEP::edm4hepDict podio::podioRootIO)
+set_target_properties(nodd_silicon_validation PROPERTIES
+  BUILD_RPATH "${NODD_ACTS_BUILD}/lib")

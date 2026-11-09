@@ -32,6 +32,8 @@ def main():
     parser.add_argument("--etas", type=float, nargs="+", default=[0, 1.5])
     parser.add_argument("--particles", nargs="+", default=["e-", "gamma"])
     parser.add_argument("--seed", type=int, default=117000)
+    parser.add_argument("--detailed-showers", action="store_true",
+                        help="Record contribution PDG and step positions for crossing diagnostics")
     args = parser.parse_args()
     source = args.odd_source.resolve()
     library = args.odd_library.resolve()
@@ -71,6 +73,8 @@ def main():
                            "--gun.distribution", "uniform", "--compactFile", str(source / "xml/OpenDataDetector.xml"),
                            "--outputFile", str(output), "--outputConfig.forceEDM4HEP",
                            "--random.seed", str(seed), "--physics.list", "FTFP_BERT", "--printLevel", "WARNING"]
+                if args.detailed_showers:
+                    command.append("--enableDetailedShowerMode")
                 started = time.monotonic()
                 with (directory / "ddsim.log").open("w") as log:
                     result = subprocess.run(command, env=env, stdout=log, stderr=subprocess.STDOUT)
@@ -80,6 +84,7 @@ def main():
                               path=str(output), sha256=sha256(output) if output.exists() else None)
                 samples.append(sample)
                 manifest = dict(status="PROTOTYPE characterization", odd_revision=revision,
+                                detailed_showers=args.detailed_showers,
                                 odd_library_sha256=sha256(library), generator_sha256=sha256(Path(__file__)),
                                 python=sys.version, samples=samples,
                                 limitations=["Sparse signal-cell digitization does not establish full-detector noise occupancy.",
