@@ -383,3 +383,24 @@ draft118, with a clearly marked running nODD section and immutable native proof,
 protocol and report links. Exact body/title/head/draft readback succeeded;
 all three hosted checks started. The existing completed ODD-only figures remain
 visible with their original scope. No new public conversation comment posted.
+
+## Separate correction assessment completed
+
+I118-NODD-PhysVal-Corrections assessed exact5d4262a905932ce73c40915f0516fcf1d17c1254,
+verified all12assigned SHA256s and independently passed35controls in1.355s,
+including actual DD4hep1.38 IDDescriptor module1..16→1..15/0 without geometry
+construction. All three original blockers are closed at that revision.
+The reviewer also verified main's prospective outer-label guard and actual
+verify_runs tamper control (0.002s), plus the deduplicated cross-column MIP
+legend fix. A synthetic no-central/present-endcap control retains both geometry
+labels exactly once. Assessed correction hashes:
+
+- nodd_response.py:567dc26005baf1479be9308c572985c0473923bf5037b5a1b7a21b4aec893ae8
+- plot_nodd_digitization.py:06e333101c08304d37af6c37737878e0f295582e746819941cc3adae5c563f01
+- analysis notes:5e8b845428e3e038a8fcd9cd851a5385c83935a0e98fe2b83c43706bd4dcfb35
+
+No remaining consequential source/schema finding was identified in that
+combination. The reviewer inspected no new scientific outputs, ran no transport
+or geometry construction and edited nothing. This source assessment does not
+replace the still-pending independent actual-data and figure review. Main's
+all36controls additionally pass. Matplotlib CLI smoke passes after legend fix.

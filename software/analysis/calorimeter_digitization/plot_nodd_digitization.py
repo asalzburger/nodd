@@ -364,7 +364,7 @@ def efficiency_curve(ax, sample, geometry, identified):
 def muon_plot(data, path):
     index = muon_index(data)
     fig, axes = plt.subplots(3, 3, figsize=(17, 15.2))
-    global_handles = []
+    global_handles = {}
     for col, eta in enumerate(MUON_COLUMNS):
         details = []
         flow_lines = []
@@ -380,8 +380,7 @@ def muon_plot(data, path):
                     artist = draw_histogram(axes[0, col], hist, count, color=color,
                                             label=f"{label} {STAGE_LABELS[stage]} prethreshold",
                                             linestyle=LINESTYLES[stage])
-                    if col == 0:
-                        global_handles.append(artist)
+                    global_handles.setdefault(artist.get_label(), artist)
                 else:
                     unavailable.append(f"{label}: no qualified spectrum trials")
             pn = sample["spectra"]["on"]
@@ -389,8 +388,7 @@ def muon_plot(data, path):
             if selected is not None and count:
                 artist = draw_histogram(axes[0, col], selected, count, color=color,
                                         label=f"{label} PN actual output", linestyle="--", fill=True)
-                if col == 0:
-                    global_handles.append(artist)
+                global_handles.setdefault(artist.get_label(), artist)
             flow_lines.append(f"{label} qualified {count:,}; PN prethreshold " + flow_text(pn["histogram"]))
             fit = pn.get("fit") or {}
             if fit.get("status") != "unavailable" and "curve_x_MIP" in fit and count:
@@ -399,8 +397,7 @@ def muon_plot(data, path):
                 if x.shape != y.shape or not np.isfinite(x).all() or not np.isfinite(y).all():
                     raise ValueError("Invalid stored MIP fit curve")
                 line, = axes[0, col].plot(x, y, color=color, ls="-.", lw=1.3, label=f"{label} PN fit")
-                if col == 0:
-                    global_handles.append(line)
+                global_handles.setdefault(line.get_label(), line)
             interval_note = efficiency_curve(axes[1, col], sample, geometry, False)
             identified_note = efficiency_curve(axes[1, col], sample, geometry, True)
             if interval_note:
@@ -449,7 +446,7 @@ def muon_plot(data, path):
     caption += "Selected-output densities use all qualified crossings, including rejected pulses. Bands: whole-event 95% bootstrap. "
     caption += "Nominal depth opportunities, identified crossings and initial rays are distinct; no unseen crossing inventory is inferred."
     finish(fig, path, "nODD and zero-field ODD · digitized MIP, SNR and threshold response",
-           caption, global_handles, ncol=4, bottom=.18)
+           caption, list(global_handles.values()), ncol=4, bottom=.18)
 
 
 def reference_cases(data):

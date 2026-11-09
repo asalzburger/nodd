@@ -118,3 +118,75 @@ Key4hep comparison uses `nodd_reference_validation.py`. The plotter
 `plot_nodd_digitization.py` reads compact summaries without ROOT or event files.
 Exact completed commands, compact-result links and figures will be added after
 their actual execution. No unexecuted command is a validation pass.
+
+## Export, build and transport recipe
+
+The following uses the executed task-owned directory layout and macOS library
+suffixes. Choose fresh directories for a new execution; completed manifests and
+raw files are immutable. Use the pinned clean ODD checkout and the reverified
+Spack runtime described above. Build the native response executables and the
+original Key4hep reference with the existing [implementation recipe](../../../software/source/ActsExamples/Calorimeter/README.md)
+and [PR123 installation recipe](pr123-framework-install.md); no shared packages
+are installed by this study.
+
+```sh
+python3 /Users/salzburg/.codex/skills/acts-spack/scripts/preflight.py
+software/env/run.sh python3 software/env/doctor.py
+
+task_work=build/issue117/nodd
+odd_source=../nodd-software-layout/software/submodules/OpenDataDetector
+python3 -B tools/calorimeter_baselines/export.py \
+  --layout LAYOUT-001 --output "$task_work/geometry/nodd"
+software/env/run.sh cmake -S . -B "$task_work/factories/tracker" \
+  -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF
+software/env/run.sh cmake --build "$task_work/factories/tracker" --parallel 3 \
+  --target Components_nODDPixelBarrel Components_nODDBeamPipe \
+  Components_nODDShortStripBarrel Components_nODDShortStripEndcap Components_nODDLongStrip
+software/env/run.sh cmake -S prototypes/calorimeter -B "$task_work/factories/calo" \
+  -G Ninja -DCMAKE_BUILD_TYPE=Release
+software/env/run.sh cmake --build "$task_work/factories/calo" --parallel 3 \
+  --target Components_nODDCalorimeterPrototype
+
+nodd_libraries=(
+  --library "$task_work/factories/tracker/detector/libnODDPixelBarrel.dylib"
+  --library "$task_work/factories/tracker/detector/libnODDBeamPipe.dylib"
+  --library "$task_work/factories/tracker/detector/libnODDShortStripBarrel.dylib"
+  --library "$task_work/factories/tracker/detector/libnODDShortStripEndcap.dylib"
+  --library "$task_work/factories/tracker/detector/libnODDLongStrip.dylib"
+  --library "$task_work/factories/calo/libnODDCalorimeterPrototype.dylib"
+)
+software/env/run.sh python3 -B tools/calorimeter_baselines/native.py \
+  --directory "$task_work/geometry/nodd" "${nodd_libraries[@]}" \
+  --output "$task_work/geometry/nodd-native.json"
+software/env/run.sh python3 -B software/analysis/calorimeter_digitization/nodd_generate.py prepare \
+  --work "$task_work" --nodd-directory "$task_work/geometry/nodd" \
+  --native-report "$task_work/geometry/nodd-native.json" "${nodd_libraries[@]}" \
+  --odd-source "$odd_source" --odd-library build/odd/factory/libOpenDataDetector.dylib
+```
+
+The six library paths must identify the binaries used by the native PASS. Build
+ODD at its pinned source with the earlier recipe if its task-owned library is
+absent. The native scan can take tens of minutes. DDG4 path-map initialization
+for the integrated nODD geometry is substantially slower than ODD; a successful
+conversion message alone is not evidence that any event has run.
+
+Run these four independent groups, retaining each controller output. They may
+run in separate processes, subject to available memory. Every group must close
+normally and pass postflight checks before indexing:
+
+```sh
+software/env/run.sh python3 -B software/analysis/calorimeter_digitization/nodd_generate.py run \
+  --work "$task_work" --geometry nodd --population showers
+software/env/run.sh python3 -B software/analysis/calorimeter_digitization/nodd_generate.py run \
+  --work "$task_work" --geometry nodd --population muons
+software/env/run.sh python3 -B software/analysis/calorimeter_digitization/nodd_generate.py run \
+  --work "$task_work" --geometry odd-zero --population showers
+software/env/run.sh python3 -B software/analysis/calorimeter_digitization/nodd_generate.py run \
+  --work "$task_work" --geometry odd-zero --population muons
+```
+
+Indexing, original-framework processing, response execution and actual-data
+plotting remain pending at this report revision. Their final commands and
+closed execution identities will be recorded with the results. The generation
+manifest freezes the exact 48 populations and 9,500-event total; technical probes
+and failed pre-event attempts are excluded.
