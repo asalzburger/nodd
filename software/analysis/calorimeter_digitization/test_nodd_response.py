@@ -2,15 +2,35 @@
 import tempfile
 from pathlib import Path
 from types import SimpleNamespace
+import sys
 import unittest
 from unittest.mock import patch
 
 import numpy as np
 
-from nodd_response import decode, descriptors, ratio, shower_summary
+from nodd_response import bind_configuration, decode, descriptors, longitudinal, ratio, shower_summary
 
 
 class ResponseControls(unittest.TestCase):
+    def test_configuration_and_raw_identity_are_bound(self):
+        expected={'seed':125500,'collections':['BARRELHits','EDGEHits']}
+        receipt={'identity':{'configuration':expected,'input_sha256':'raw-A'}}
+        bind_configuration(receipt,dict(expected),expected,'raw-A')
+        with self.assertRaisesRegex(ValueError,'configuration/input'):
+            bind_configuration(receipt,dict(expected,seed=125600),expected,'raw-A')
+        with self.assertRaisesRegex(ValueError,'configuration/input'):
+            bind_configuration(receipt,dict(expected),expected,'raw-B')
+
+    def test_fully_empty_longitudinal_population_retains_events(self):
+        events=[dict(raw_GeV=0.,modes={mode:dict(energy_GeV=0.,cells={'A':[],'B':[]}) for mode in ('off','on')}) for _ in range(4)]
+        frame=SimpleNamespace(get=lambda name:[])
+        podio=SimpleNamespace(root_io=SimpleNamespace(Reader=lambda path:SimpleNamespace(get=lambda name:[frame]*4)))
+        with patch.dict(sys.modules,{'podio':podio}),patch('nodd_response.descriptors',return_value={'A':{},'B':{}}):
+            result=longitudinal({'sample':{'path':'synthetic-empty'}},events,{'compact':'unused','collections':['A','B']})
+        self.assertEqual(result['events'],4)
+        self.assertEqual(result['axes'],[])
+        self.assertEqual(result['stages']['raw']['mean'],[])
+
     def test_zero_denominator_remains_undefined(self):
         result = ratio(np.array([0., 2.]), np.array([0., 4.]))
         self.assertTrue(np.isnan(result[0]))

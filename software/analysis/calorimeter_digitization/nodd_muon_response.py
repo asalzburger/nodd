@@ -105,6 +105,36 @@ def key_text(key):
     return ":".join(map(str, key))
 
 
+def encode_physical_ids(id_spec, descriptor, physical_ids, ROOT):
+    """Use the actual native readout encoder before interpreting physical IDs.
+
+    ODD's pinned factory numbers modules 1..16, while its four-bit field encodes
+    physical module 16 as zero. Do not emulate this with range relaxation or
+    hand masking: preserve all physical and decoded fields for the crosswalk.
+    """
+    ids = ROOT.std.vector("pair<string,int>")()
+    for name, value in sorted(physical_ids.items()):
+        if name not in descriptor.fields:
+            raise ValueError("Physical ID absent from actual readout descriptor: " + name)
+        ids.emplace_back(name, int(value))
+    encoded = int(id_spec.encode(ids))
+    decoded = descriptor.decode(encoded)
+    native_decoder = id_spec.decoder()
+    if any(value != int(native_decoder.get(encoded, name)) for name, value in decoded.items()):
+        raise ValueError("Native and independent descriptor decoding disagree")
+    return encoded, decoded
+
+
+def register_physical_plane(geometry, collection, physical_ids, id_spec, descriptor, ROOT, crosswalk):
+    encoded, decoded = encode_physical_ids(id_spec, descriptor, physical_ids, ROOT)
+    key = plane_key(geometry, collection, decoded)
+    if key in crosswalk:
+        raise ValueError("Physical-to-encoded plane collision")
+    crosswalk[key] = dict(physical_ids=dict(physical_ids), encoded_volume_id=encoded,
+                         decoded_fields=decoded, plane=list(key))
+    return key
+
+
 def physical_neighbors(key, inventory):
     """Use constructed planes, never the next observed primary deposit."""
     siblings = sorted(k for k in inventory if k[:3] == key[:3])
@@ -193,11 +223,12 @@ def geometry(args):
         manager = detector.manager(); mm = float(dd4hep.mm)
         volume_manager = populated_volume_manager(detector, dd4hep)
         roles = collection_roles(args.geometry)
-        descriptors = {c: Descriptor(str(detector.readout(c).idSpec().fieldDescription())) for c in roles}
+        id_specs = {c: detector.readout(c).idSpec() for c in roles}
+        descriptors = {c: Descriptor(str(id_specs[c].fieldDescription())) for c in roles}
         # Match readouts to actual root IDs, rather than a legacy ODD bit mask.
         names = {"BARRELHits": "BARREL", "EDGEHits": "EDGE", "ECalBarrelCollection": "ECalBarrel", "ECalEndcapCollection": "ECalEndcap"}
         systems = {int(detector.detector(names[c]).id()): c for c in roles}
-        inventory = set(); sensitive_memo = {}; inspected = 0
+        inventory = set(); physical_crosswalk = {}; sensitive_memo = {}; inspected = 0
 
         def sensitive(volume):
             nonlocal inspected
@@ -217,9 +248,8 @@ def geometry(args):
             collection = systems.get(ids.get("system"))
             required = ("side", "sector", "layer") if args.geometry == "nodd" else ("barrel", "module", "layer")
             if collection and all(k in ids for k in required):
-                key = plane_key(args.geometry, collection, ids)
-                if key in inventory:
-                    raise ValueError("Ambiguous duplicate physical layer group")
+                key = register_physical_plane(args.geometry, collection, ids, id_specs[collection],
+                                              descriptors[collection], ROOT, physical_crosswalk)
                 inventory.add(key)
                 return
             for i in range(volume.GetNdaughters()):
@@ -289,8 +319,10 @@ def geometry(args):
                         queries += 1; max_residual = max(max_residual, residual)
                         group = groups[key_text(key[:3])]; group["queries"] += 1
                         group["maximum_reference_residual_mm"] = max(group["maximum_reference_residual_mm"], residual)
-            ray_results.append(native_ray(manager, dd4hep, systems, args.geometry, ray_truth, sample["eta"], inventory))
-        cache = dict(identity=identity, cells=cells, inventory=[list(k) for k in sorted(inventory)], initial_rays=ray_results)
+            ray_results.append(native_ray(manager, dd4hep, systems, args.geometry, ray_truth, sample["eta"], inventory,
+                                          id_specs, descriptors, ROOT))
+        cache = dict(identity=identity, cells=cells, inventory=[list(k) for k in sorted(inventory)], initial_rays=ray_results,
+                     physical_to_encoded=[physical_crosswalk[k] for k in sorted(physical_crosswalk)])
         write(cache_path, cache)
         # Public output deliberately omits per-cell IDs and per-event histories.
         public = dict(identity=identity, geometry=args.geometry, ROOT=ROOT.gROOT.GetVersion(),
@@ -298,6 +330,11 @@ def geometry(args):
                       query_method="Actual native DD4hep VolumeManager sensitive-volume lookup; actual solid thin axis and transformed basis; segmentation reference closure",
                       volume_manager_initialization="VolumeManager.getVolumeManager(detector); DD4hep invokes population plugin when absent; valid handle required",
                       unique_logical_volumes_inspected=inspected, constructed_plane_groups=len(inventory),
+                      physical_encoding_audit=dict(encoder="Actual readout IDDescriptor.encode(vector<pair<string,int>>); native decoder cross-checked",
+                          physical_plane_groups=len(physical_crosswalk), encoded_plane_collisions=0,
+                          changed_physical_fields=dict(Counter(name for row in physical_crosswalk.values()
+                              for name, value in row["physical_ids"].items() if row["decoded_fields"][name] != value)),
+                          crosswalk_storage="Full physical IDs, encoded volume IDs and all decoded fields retained in hashed local geometry cache"),
                       groups=list(groups.values()), cell_reference_queries=queries, unique_cells=len(cells),
                       maximum_reference_residual_mm=max_residual, position_tolerance_mm=.002,
                       local_cache_sha256=sha(cache_path),
@@ -313,7 +350,7 @@ def geometry(args):
             ROOT.gGeoManager.Delete()
 
 
-def native_ray(manager, dd4hep, systems, geometry_name, truth, eta, inventory):
+def native_ray(manager, dd4hep, systems, geometry_name, truth, eta, inventory, id_specs, descriptors, ROOT):
     origin, direction = truth; mm = float(dd4hep.mm)
     manager.InitTrack(*[float(x)*mm for x in origin], *[float(x) for x in direction])
     nav = manager.GetCurrentNavigator(); distance = 0.; steps = 0; paths = defaultdict(float)
@@ -326,7 +363,8 @@ def native_ray(manager, dd4hep, systems, geometry_name, truth, eta, inventory):
         collection = systems.get(ids.get("system"))
         key = None
         if collection and dd4hep.Volume(node.GetVolume()).isSensitive():
-            key = plane_key(geometry_name, collection, ids)
+            _, decoded = encode_physical_ids(id_specs[collection], descriptors[collection], ids, ROOT)
+            key = plane_key(geometry_name, collection, decoded)
             if key not in inventory:
                 raise ValueError("Native ray crossed unlisted sensitive plane")
         nav.FindNextBoundaryAndStep((12000.-distance)*mm)

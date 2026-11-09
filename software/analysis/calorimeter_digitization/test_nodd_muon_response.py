@@ -1,6 +1,7 @@
 """Synthetic controls for geometry-aware muon accounting; no transport evidence."""
 from collections import defaultdict
 from types import SimpleNamespace
+import importlib.util
 import unittest
 from unittest.mock import patch
 
@@ -24,6 +25,49 @@ def crossing(cid, pure=True, energy=1):
 
 
 class MuonAccountingTests(unittest.TestCase):
+    def test_physical_module16_crosswalk_and_collision_control(self):
+        descriptor = m.Descriptor("system:8,barrel:3,module:4,stave:1,layer:6,slice:5,x:32:-16,y:-16")
+        class Vector(list):
+            def emplace_back(self, name, value): self.append((name, value))
+        root = SimpleNamespace(std=SimpleNamespace(vector=lambda name: Vector))
+        calls = []
+        # Recorded native IDDescriptor-only fixture: module16 -> module0,
+        # with no carry into stave/layer; no local production masking is used.
+        class Spec:
+            def encode(self, pairs):
+                fields = dict(pairs); calls.append(fields)
+                self.asserted = fields["module"] in (0, 16)
+                return 65544
+            def decoder(self):
+                return SimpleNamespace(get=lambda encoded, name: descriptor.decode(encoded)[name])
+        spec = Spec(); crosswalk = {}
+        physical = dict(system=8, barrel=0, module=16, layer=1)
+        key = m.register_physical_plane("odd-zero", "ECalBarrelCollection", physical, spec, descriptor, root, crosswalk)
+        self.assertEqual(calls, [physical])
+        self.assertEqual(key, ("ECalBarrelCollection", 0, 0, 1))
+        self.assertEqual(crosswalk[key]["physical_ids"]["module"], 16)
+        self.assertEqual(crosswalk[key]["decoded_fields"]["module"], 0)
+        self.assertEqual(crosswalk[key]["decoded_fields"]["stave"], 0)
+        self.assertEqual(set(crosswalk[key]["decoded_fields"]), set(descriptor.fields))
+        with self.assertRaisesRegex(ValueError, "collision"):
+            m.register_physical_plane("odd-zero", "ECalBarrelCollection", dict(physical, module=0), spec, descriptor, root, crosswalk)
+
+    @unittest.skipUnless(importlib.util.find_spec("ROOT") and importlib.util.find_spec("dd4hep"), "Requires installed ROOT/DD4hep runtime; descriptor-only control")
+    def test_actual_native_module1_through16_encoding(self):
+        import ROOT
+        import dd4hep  # Loads DDCore dictionaries; no geometry construction.
+        text = "system:8,barrel:3,module:4,stave:1,layer:6,slice:5,x:32:-16,y:-16"
+        descriptor = m.Descriptor(text)
+        spec = ROOT.dd4hep.IDDescriptor("nodd_muon_module16_control", text)
+        crosswalk = {}
+        for module in range(1, 17):
+            physical = dict(system=8, barrel=0, module=module, layer=1)
+            key = m.register_physical_plane("odd-zero", "ECalBarrelCollection", physical, spec, descriptor, ROOT, crosswalk)
+            self.assertEqual(key[2], module if module < 16 else 0)
+            self.assertEqual(crosswalk[key]["decoded_fields"]["stave"], 0)
+            self.assertEqual(crosswalk[key]["decoded_fields"]["layer"], 1)
+        self.assertEqual(len(crosswalk), 16)
+
     def test_population_accessor_is_required_and_invalid_manager_fails_closed(self):
         # The synthetic composed-root detector's direct getter is unavailable.
         # Only the public population accessor supplies a valid lookup handle.

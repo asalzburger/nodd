@@ -24,10 +24,28 @@ STAGES = ["raw", "off", "on"]
 MODES = [dict(name="off", pair_energy_eV=0., noise_MIP=0.),
          dict(name="on", pair_energy_eV=3.6, noise_MIP=.13)]
 LOADED_SOURCE = Path(__file__).read_bytes()
+ANALYSIS_NOTES = ROOT / 'docs/validation/issue117/nodd-digitization-analysis-notes.md'
+
+
+def expected_configuration(index, sample, manifest):
+    return dict(mip_energy_GeV=MIP, threshold_MIP=.6, dynamic_range_MIP=2500.,
+                seed=125500+100*index, collections=manifest['geometries'][sample['geometry']]['collections'],
+                modes=MODES, save_cells=True)
+
+
+def bind_configuration(receipt, config, expected, input_sha256):
+    if (config != expected or receipt['identity']['configuration'] != expected
+            or receipt['identity']['input_sha256'] != input_sha256):
+        raise ValueError('Native configuration/input differs from the frozen execution identity')
 
 
 def ordered_samples(args):
     manifest = verify(args.transport_manifest.parent)
+    registration = args.transport_manifest.parent / 'plugin-registration-audit.json'
+    proof = json.loads(registration.read_text())
+    for name, digest in proof['immutable'].items():
+        if sha(name) != digest:
+            raise ValueError('Executed plugin registration changed')
     data = json.loads(args.samples.read_text())
     if data["manifest_sha256"] != sha(args.transport_manifest):
         raise ValueError("Generation manifest identity changed")
@@ -74,9 +92,7 @@ def run(args):
         directory.mkdir(exist_ok=True)
         output = directory / "diagnostics.jsonl"
         receipt_path = directory / "execution.json"
-        config = dict(mip_energy_GeV=MIP, threshold_MIP=.6, dynamic_range_MIP=2500.,
-                      seed=125500+100*index, collections=manifest["geometries"][sample["geometry"]]["collections"],
-                      modes=MODES, save_cells=True)
+        config = expected_configuration(index, sample, manifest)
         identity = dict(input_sha256=sample["sha256"], binary_sha256=sha(args.binary),
                         backend_sha256=sha(args.backend), configuration=config)
         if receipt_path.exists():
@@ -96,6 +112,7 @@ def run(args):
             receipt = dict(identity=identity, command=command, exit_code=result.returncode,
                            source_commit=revision, producer_sha256=hashlib.sha256(LOADED_SOURCE).hexdigest(),
                            protocol_sha256=sha(PROTOCOL), elapsed_seconds=time.monotonic()-started,
+                           analysis_notes_sha256=sha(ANALYSIS_NOTES),
                            config_sha256=sha(directory / "config.json"), log_sha256=sha(directory / "native.log"),
                            output_sha256=sha(output) if output.exists() else None)
             save(receipt_path, receipt)
@@ -114,11 +131,15 @@ def verify_runs(args):
     runs = json.loads((args.work / "runs.json").read_text())
     if [r["sample"] for r in runs] != samples:
         raise ValueError("Native population identity/order changed")
-    for row in runs:
+    for index, row in enumerate(runs):
         directory = Path(row["directory"])
         receipt = json.loads((directory / "execution.json").read_text())
         if receipt != row["receipt"] or receipt["exit_code"]:
             raise ValueError("Native receipt changed")
+        config = json.loads((directory/'config.json').read_text())
+        bind_configuration(receipt, config, expected_configuration(index,row['sample'],manifest),row['sample']['sha256'])
+        if receipt['analysis_notes_sha256'] != sha(ANALYSIS_NOTES):
+            raise ValueError('Pre-analysis clarification changed after execution')
         for name, key in (("config.json", "config_sha256"), ("native.log", "log_sha256"), ("producer.py", "producer_sha256")):
             if sha(directory / name) != receipt[key]:
                 raise ValueError("Native execution evidence changed")
@@ -196,7 +217,7 @@ def longitudinal(row, events, geom):
             raise ValueError("Per-layer native/raw energy closure failed")
         per_event.append(values)
     labels = sorted({name for values in per_event for name in values})
-    data = np.array([[values.get(name, np.zeros(3)) for name in labels] for values in per_event])
+    data = np.array([[values.get(name, np.zeros(3)) for name in labels] for values in per_event]).reshape(len(events), len(labels), 3)
     return dict(axes=labels, unit="GeV per generated event", events=len(events),
                 stages={stage: dict(mean=data[:, :, i].mean(axis=0).tolist(),
                                      SEM=(data[:, :, i].std(axis=0, ddof=1)/math.sqrt(len(events))).tolist())
@@ -267,6 +288,8 @@ def shower_summary(runs, manifest, args):
             changes[label] = dict(energy_GeV=basic(x[:, left]-x[:, right]),
                                   visible_fraction_bootstrap=uncertainty((means[:, left]-means[:, right])/energy),
                                   mean_response_change=float((x[:, left]-x[:, right]).mean()*factor/energy),
+                                  relative_mean_change_to_raw=float((x[:, left]-x[:, right]).mean()/x[:,0].mean()) if x[:,0].mean() else None,
+                                  relative_change_bootstrap=uncertainty(ratio(means[:,left]-means[:,right],means[:,0])),
                                   response_change_bootstrap=uncertainty(responses[:, left]-responses[:, right]),
                                   width_change_bootstrap=uncertainty(widths[:, left]-widths[:, right]))
         output.append(dict(geometry=row["geometry"], particle=sample["particle"], momentum_GeV=sample["energy_GeV"],
@@ -277,17 +300,17 @@ def shower_summary(runs, manifest, args):
         boot_response.append(responses)
         boot_width.append(widths)
         boot_tail.append(tails)
-        populations[(row["geometry"], sample["particle"], sample["energy_GeV"], sample["eta"])] = (x, means, widths)
+        populations[(row["geometry"], sample["particle"], sample["energy_GeV"], sample["eta"])] = (x, means, widths, energy)
         print("Characterized", row["geometry"], sample["id"], flush=True)
     comparisons = []
     for geometry, particle, momentum, eta in populations:
         if geometry != "nodd":
             continue
-        n, nb, nw = populations[("nodd", particle, momentum, eta)]
-        o, ob, ow = populations[("odd-zero", particle, momentum, eta)]
+        n, nb, nw, ne = populations[("nodd", particle, momentum, eta)]
+        o, ob, ow, oe = populations[("odd-zero", particle, momentum, eta)]
         comparisons.append(dict(particle=particle, momentum_GeV=momentum, eta=eta,
-                                stages={stage: dict(mean_ratio_nodd_over_ODD=float(n[:, i].mean()/o[:, i].mean()) if o[:, i].mean() else None,
-                                                    mean_ratio_bootstrap=uncertainty(ratio(nb[:, i], ob[:, i])),
+                                stages={stage: dict(mean_ratio_nodd_over_ODD=float((n[:, i].mean()/ne)/(o[:, i].mean()/oe)) if o[:, i].mean() else None,
+                                                    mean_ratio_bootstrap=uncertainty(ratio(nb[:, i]/ne, ob[:, i]/oe)),
                                                     width_difference_bootstrap=uncertainty(nw[:, i]-ow[:, i]))
                                         for i, stage in enumerate(STAGES)},
                                 sampling="Independent transports; event bootstrap independent across geometries, paired only across stages within geometry"))
@@ -349,6 +372,8 @@ def main():
                   showers=shower_summary(runs, manifest, args),
                   provenance=dict(source_commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
                                   analysis_sha256=hashlib.sha256(LOADED_SOURCE).hexdigest(), protocol_sha256=sha(PROTOCOL),
+                                  analysis_notes_sha256=sha(ANALYSIS_NOTES),
+                                  plugin_registration_audit_sha256=sha(args.transport_manifest.parent/'plugin-registration-audit.json'),
                                   transport_manifest_sha256=sha(args.transport_manifest), samples_sha256=sha(args.samples),
                                   native_runs_sha256=sha(args.work / 'runs.json')))
     if args.stage == "analyze":
