@@ -38,19 +38,22 @@ charged StepLimiter processes/maxstep5mm, and independent reset RNG states.
 Four pilot muons have exact origin0, ordered run/event identities and momentum
 residual at most3.6e-15GeV. They never enter response denominators.
 
-The complete zero-field ODD control has generated and verified **4950events**:
-4550test/muon events and400independent electron references. The nODD shower job has cleared its slow Geant4 volume/path mapping and begun
-event generation. Its initialized field/cut/step audit passes. The first closed
-200-event electron population passes truth-only checks: origin zero, momentum
-residual at most1.8e-15GeV, monoenergetic total energy5.000000026111991GeV,
-ordered headers and unique cell IDs. The complete 750-event nODD muon group now closes normally and passes all
-generation checks. Six native muon jobs and both actual cell-position audits
-pass; all 18,000 fixed-bootstrap fits converge. Their separate scientific
-assessment is in progress. A process sample identifies recurring Geant4
-material/cut-couple scanning at each beam-run boundary. Neither runtime nor
-geometry is modified to bypass it. Full shower response, original/native nODD
-agreement and the combined figures are **not yet executed**;
-the earlier ODD-only pass must not be relabelled as an nODD pass.
+All **9,500 transport events** and **48 native digitization jobs** now close
+normally. Four transport receipts bind the full frozen inventory, actual
+initialized field/cuts/step settings, source/configuration/library hashes and
+independent RNG states. Every population passes truth, ordered header, count,
+unique-cell and raw-hash checks. The [compact transport/native execution
+record](previews/nodd-transport-validation.json) retains all 48 population
+identities, aggregate counts, seeds and hashes, without event payloads.
+The nODD shower and muon groups take 12,389.345 s and 7,215.299 s respectively.
+Slow DDG4 path mapping and repeated Geant4 material/cut-couple scans are retained;
+no runtime, factory or geometry is modified to bypass them.
+
+Both actual cell-position audits and the closed six-muon analysis pass. A
+separate PhysVal agent reproduces its counts, spectra, uncertainty calculations
+and all central fits before author conclusions. Full shower statistics,
+original/native nODD agreement and the combined figures are still pending here;
+the earlier ODD-only pass is separate evidence.
 
 ## Frozen samples and interpretation
 
@@ -81,6 +84,43 @@ transported crossings. Nominal opportunity yield and conditional identified
 crossing yield are separate; straight-ray active-mask predictions are explicitly
 approximate. The fixed Landau–Gaussian model/1000-event bootstrap can remain
 unavailable or flagged; the MIP scale and fit range are never retuned.
+
+## Muon response and geometric opportunities
+
+Each entry below uses 250 independent 10 GeV/c muons at fixed φ=0.123 rad.
+The opportunity denominator is 250 × 48 nominal depths = 12,000. The
+path-normalized PN fit reports the **underlying Landau MPV**, rather than the
+mode of its Gaussian convolution; uncertainties are whole-event bootstrap SE.
+SNR divides that MPV by the signed model-pedestal RMS, 0.130119 MIP.
+
+| Geometry, η | PN Landau MPV ± SE (MIP) | Model SNR | Identified depths / 12,000 | PN >0.6 MIP / 12,000 | PN yield among identified depths |
+| --- | --- | --- | --- | --- | --- |
+| nODD, 0 | 0.95767 ± 0.00304 | 7.360 | 10,513 | 10,474 (87.283%) | 99.629% |
+| nODD, +2 | 0.96670 ± 0.00305 | 7.429 | 10,704 | 10,658 (88.817%) | 99.570% |
+| nODD, −2 | 0.96187 ± 0.00304 | 7.392 | 10,698 | 10,657 (88.808%) | 99.617% |
+| ODD, 0 | 0.96118 ± 0.00280 | 7.387 | 12,000 | 11,964 (99.700%) | 99.700% |
+| ODD, +2 | 0.95871 ± 0.00257 | 7.368 | 12,000 | 11,972 (99.767%) | 99.767% |
+| ODD, −2 | 0.96188 ± 0.00266 | 7.392 | 12,000 | 11,969 (99.742%) | 99.742% |
+
+nODD has 1,487 / 1,296 / 1,302 missing deposits at η=0/+2/−2. Their transported
+crossing status is **unknown**. These nominal-layer yields cannot be interpreted
+as measured electronics inefficiency, acceptance or hardware performance.
+Actual native cell-position checks find 2,304 constructed plane groups in each
+geometry and maximum reference residuals 0.000195313 / 0.000097656 mm (nODD/ODD),
+below the fixed 0.002-mm tolerance, with no encoded plane collisions.
+Initial straight native rays intersect 42/43/43 nODD depths versus 48/48/48 ODD
+depths; these are approximate geometric diagnostics, not transported truth.
+Layer-to-layer chords and the single-cell/primary selection also limit the
+interpretation of the normalized MIP peak.
+
+All 18 central fits and 18,000/18,000 fixed bootstrap fits converge, without
+boundary or diagnostic flags. Independent checks reproduce all 18 central fits,
+all 1,500 muon frames/74,767 hit references and the full 1,000-fit nODD central
+PN bootstrap. Rare split categories retain undefined uncertainty replicas and
+null errors where appropriate; no failed or undefined replicas are discarded.
+The 200,000-draw signed pedestal is reused only after exact backend, request,
+output and receipt identity checks. It tests the configured Gaussian model;
+empty detector channels and real detector occupancy are outside this study.
 
 ## Source and execution provenance
 

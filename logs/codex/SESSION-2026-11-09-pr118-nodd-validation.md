@@ -735,3 +735,100 @@ initial rays are geometry diagnostics. No numeric/statistical/source-selection
 or scale changes. Source-readySHA
 e535056258d61073c8084ef6614db900fd3e6f6831f782ad8cd0bb4798a3b8e9;
 syntax/import/CLI/diff controls pass. Main commits before revised export.
+
+### I118-NODD-SoftEng-OriginalExecution
+
+```json
+{
+  "id": "I118-NODD-SoftEng-OriginalExecution",
+  "role": "SoftEng",
+  "input_revision": "e43bd0d2d5431237cd50bddb9a593bc1aa01b1df",
+  "inputs": [
+    "docs/validation/issue117/nodd-digitization-protocol.md",
+    "software/analysis/calorimeter_digitization/nodd_reference_validation.py",
+    "software/analysis/calorimeter_digitization/reference_validation.py",
+    "software/analysis/calorimeter_digitization/test_nodd_reference_validation.py",
+    "software/source/ActsExamples/Calorimeter/README.md"
+  ],
+  "mode": "write",
+  "writable_paths": [
+    "build/issue117/nodd-reference-validation",
+    "docs/validation/issue117/previews/nodd-digitization-reference.json"
+  ],
+  "task": "Actual full original-Key4hep vs native nODD same-hit execution, only after main sends activation with globallyclosed/indexed/verified input. The latest frozenmatrix has22nODDfiles/4550events (19shower200each plus3muon250each), not earlier20/4600 draftscope. Main owns frozenrawgeneration andwillrun index andstrictfull48/9500verification, retainunaugmentedreferenceinput andappendclosedplugin-registration/full-inventoryproofartifacts; wait forthisexplicitactivation. Readfull source/protocol, preserveoldODDsource/data unchanged. Solewriteownedfreshignoredwork build/issue117/nodd-reference-validation andnewcompactpublicreferenceJSON. Use originalinstallation ../nodd-pr123-frameworks/software/env/key4hep_run.sh, runner nodd_reference_validation.py withdefaultframework/comparator/backend/native_validation paths. Freshactualruntime/source/status checks then stages prepare,pilot,deterministic,replays,stochastic,summarize, sequentialdependentgates. Assertinputexact22distinctNDids/4550events, maintainedfulltracker+BARRELHits8/EDGEHits9bothends; originalwrappergeometry/readoutcanonicalproof, allsource/library/input/closedreceipt/RNGidentityclosure. Aall22files mustrunactualfullGaudiDigitiserSiliconMip andnativecomparison with exactacceptedcellsets andstrictreference-only1e-5+5e-6abs(ref)MIPboundproof; retainallzeroevents andallfailures. Bfixedfirstrealcentralmuon andfirstgamma20eta2event0, two1000eventconditionalreplays P/PN each, independentROOT/CLHEPstreams andactualnonzero/uniqueseeds. Frozen1252xx/1253xxseeds,125800+1000fixture+iheaderidentity,126000+2f+manalysis; unchangedmean\u22645SE,10kpermutationCDFp\u2265.001 and10kbootstrapenergy-SDratio95CIwholly[.85,1.15]. Neverrelaxgates,chooseseeds/eventsafterseeingoutcomes ordiscardfailed/degeneratecases. PreserveallSimHits/contributions/MCendpoints/orderedEventHeaders; no timing/hardwareacceptanceclaim. No newtransport,geometry/model/source/sharedinstallchanges, commits, externalmessages orfurtherdelegation. Ifsource/runtime/gatefailure, retainclosedlogs/payload/receipts andreportmainbeforeanyremediation; do not overwriteexistingevidence. Compactsummaryonlybinwise/gates/moments/provenance, noevent/cell/trialpayload. Return actualcount/outcome/tolerancenorms/gates/versions/commands/hashes andlimits. Mainmayupdateunrelatedmetadataandnative-responseoutputsbutwillnotalterreferenceproducer/helper/protocol oryourworktreeoutputswhileactive.",
+  "deliverable": "Newsource-pinned original/native nODD deterministic andfourconditionalstochastic comparisons withcompactnewreferenceJSON, actualclosedexits/hashes/counts/gates andretainedfailures.",
+  "completion": "Returnactualallcaseoutcomes/provenance orconcretefailure andreleaseownedpaths; no broadergeometry/hardwareapproval inferred."
+}
+```
+
+## Independent actual muon assessment and refined figure
+
+PhysVal I118-NODD-PhysVal-MuonData reports no consequential finding at exactc9.
+Allsix source/threeartifact hashes match; actual verification covers all1500raw
+frames/74767ECAL hit references, source/native/config/backend/helper/completion
+bindings, generator endpoints, primary purity/split/depth/chord/path selection,
+all18unthresholded+12selected spectra and all1000-resample threshold/category
+uncertainties/covariances. Counts reproduce exactly, including unknown crossings
+and rare splitundefinedreplicas1000/7/128/1000/142/7 withnull errors retained.
+Both2304plane inventories/actualencodercrosswalks close; maximum nativeposition
+residual.000195313mm<.002mm. All18centralROOTfits replay exactly withpositive
+covariance, no nearbound/devianceflags; diagnosticp.3346–.9347. Acomplete1000fit
+nODDeta0PNbootstrap replay matchesMPVSE.00304096484 andCI95
+[.951576129,.963625267],zerofailures. Recomputed200kpedestalSD.130119248,
+mean−.0000504523MIP,4610above2sigma/0above.6,analyticdeviations<.9SE.
+SNRreproduces7.360–7.429. Scratch checks at
+/private/tmp/nodd-physval-muon-{audit,fits,additional}.{py,json} remainlocal.
+No authored outcome report read, repo edits, geometry build or transport.
+Fits characterize selected approximatepathnormalized populations; geometry/model
+systematics and detectoroccupancy are excluded. Full shower/originalreference
+and allfigure assessment remain separate.
+
+Main exports revisedprivateMIP from committed e43bd0d2 renderer, using the same
+rcParams as full-five CLI. RendererSHAe535056258d61073c8084ef6614db900fd3e6f6831f782ad8cd0bb4798a3b8e9;
+input59540...unchanged; output build/issue117/nodd/muon-preview/refined.png SHA
+fc5aa712969f1cbcf3d18c2540ab1d5b0fdf08871502ff3b11af8375b51561bf.
+Matplotlib3.11.2/NumPy2.5.4; normal0. Mainview confirms labels, flowcounts,
+qualifying/selectedN, fit/SE/SNRconvention, fixedgunphi/p, tables, captions and
+legends visible; no cropping/overlap. Initialpreviewretained. Finalfullbatch
+willregenerate this figure andcheck againstthiscandidate aftercached-result
+attachment. No statisticalsource/settings changed.
+
+## Full raw/native closure and separate comparison assignment
+
+All four raw groups close normally; 48 populations / 9,500 events pass canonical inventory, truth, ordered headers, unique source-cell IDs, immutable hashes and actual RNG-state checks. nODD showers complete in 12,389.345 s; no technical/failed events enter this inventory. Index exits 0 and produces 22 nODD reference files / 4,550 events. The retained generated reference input is augmented only with closed plugin-registration and full-inventory proof artifacts (10 total); augmented SHA 6c1a3904b9e2b40e992f71baa875d6014e64fea321e66cb20ce8d7e76c4d4db7. Original execution activation follows this full closure. Its pilot exits 0 in 36.790 s: 333 input cells, 279 accepted, zero mismatches and strict normalized upper bound 0.10000005. Full original comparison is running.
+
+All 48 native jobs now close normally, preserving six muon cache identities and global seeds. Full analyze runs with the exact closed muon summary, so expensive fits are reused only after full verification; results remain pending. Hosted checks at published 2fcd47cf all pass (build 9m56s, unrooted 2m18s, token 40s).
+
+### I118-NODD-PhysVal-FullComparison
+
+```json
+{
+  "id": "I118-NODD-PhysVal-FullComparison",
+  "role": "PhysVal",
+  "input_revision": "e43bd0d2d5431237cd50bddb9a593bc1aa01b1df",
+  "inputs": [
+    "docs/validation/issue117/nodd-digitization-protocol.md",
+    "docs/validation/issue117/nodd-digitization-analysis-notes.md",
+    "software/analysis/calorimeter_digitization/nodd_response.py",
+    "software/analysis/calorimeter_digitization/nodd_muon_response.py",
+    "software/analysis/calorimeter_digitization/nodd_reference_validation.py",
+    "software/analysis/calorimeter_digitization/reference_validation.py",
+    "software/analysis/calorimeter_digitization/plot_nodd_digitization.py"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Separate scientific assessment of actual complete zero-field nODD/ODD comparison, primary inputs first. Previous actual muon review stands; do not duplicate all expensive muon fits absent a new concern. All 48 raw populations / 9500 events and 48 native outputs are now closed normal 0; build/issue117/nodd/{manifest.json,samples.json,response/runs.json,validated-full-inventory.json} are immutable. Statistical producer bytes remain c9f2fa79, current committed source e43bd0d2; raw producer/protocol 5afb019e. Main runs full final analyze to response/summary.json with closed muon cache; this output is still pending, wait for its explicit SHA handoff before conclusions. Original Key4hep full comparison is also running under SoftEng; do not interfere, wait for summary SHA handoff before reviewing gates. Start independently inspecting source/frozen protocol and actual primary raw/native inputs, source/binary/config/receipt bindings and sample plan now. Assess 38 shower populations, 4 independent 100-event ODD D references, true-total-energy denominators, shared calibration, paired stage changes, independent geometry comparisons, 5000 whole-event/reference bootstrap and 114-axis response/width/tail covariance. Choose meaningful independent recomputations from events, not just consistency among authored summaries. Check zero-event/tails/longitudinal normalization/histogram flows and retain failures. Check same closed muon cache and pedestal exact attachment. Then assess full original 22-file/4550-event comparison and four fixed conditional replay gates when handed off, including strict reference-only tolerance, actual cell sets/event identities/payload closure and independent seed identities. Figures will be rendered later and main will hand off actual PNGs for visual/scientific QA; no need wait for figures to report numeric findings. Do not read author's outcome report before primary data. No new transport, geometry/material/source/helper/protocol edits, gate/seed changes, shared installs, repo edits, commits, external messages or further delegation. Private /private/tmp scratch and necessary verified runtime checks permitted. Report adverse geometry response distinctly from digitizer software agreement; no tiling-only, hardware, complete fielded nODD or human acceptance claim.",
+  "deliverable": "Exact-revision independent full comparison assessment with actual numeric recomputations, consequential findings, measured checks and interpretation limits. Coordinator curates it in paired session.",
+  "completion": "Return source/data/gate assessment or blockers after explicit pending-artifact handoffs; figures may be a separate follow-up."
+}
+```
+
+## Full response closure and quantile correction
+
+Full analyze exits 0 at source HEAD e43bd0d2d5431237cd50bddb9a593bc1aa01b1df; statistical producer bytes remain c9. Runtime output SHA adbdbe66978e033c415aa6aea905a409b554aacf37758ae69eacd37248abc58d (5,818,881 indented bytes). The public nodd-digitized-response.json uses compact JSON serialization (2,526,638 bytes, SHA ae770b1113ee96df5f9667d8bd590e27ffde0c6f89582cc5a81ddca66ae53fd8); exact decoded-object equality is checked. It stores 38 shower populations, 19 geometry pairs and three full 114-axis covariance matrices, plus the previously closed muon statistics. Muon and pedestal objects compare exactly with the independent closed subset; no fit rerun or settings change.
+
+PhysVal independently identifies a protocol omission: stage moments lack descriptive quantiles required by protocol line340. Preserve the closed frozen producer/output; add nodd_response_quantiles.py as an explicit separate attachment to the same event totals. The post-run descriptive grid is [0,.01,.05,.16,.5,.84,.95,.99,1], linear interpolation, with no new gate, event selection, seed or calibration tuning. Bind exact full-response/runs/output/input identities, preserve zeros and ordered event headers, and reproduce all closed means/SD/zeros before export. Four focused controls pass (0.059s): independent order-statistic interpolation, output tamper, wrong population/moments and reordered identities. Source is committed before real attachment execution. The initial omission and original output remain inspectable.
+
+Observed primary full-response ranges, still under separate assessment: nODD/ODD raw means .488009–.629338 and PN means .485926–.628229; substantial baseline geometry differences are not assigned solely to tiling or digitization. PN/raw mean changes are −1.2143% to −0.6644% in nODD and −.7932% to −.4859% in ODD. No raw zero-energy shower events occur in either geometry. Full original-framework agreement is still running; no pass is inferred from this characterization.
+
+The new transport/native compact record is 268,914 bytes, SHA a66bd142cea60a0f95ec05bb77594594ac97280fc16f6f6fd3cd95072a8819fc: exact source/SDK/geometry/registration/48-population seed/input/output/receipt hashes, four initialized Geant4 audits and native query aggregate proofs. It contains no event/cell/trial payload or serialized RNG state.
