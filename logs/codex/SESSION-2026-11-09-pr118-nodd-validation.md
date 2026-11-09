@@ -453,3 +453,61 @@ muon group had not reached its initialized audit. Raw profiles remain local.
 Hosted checks all pass on1299e3b7:build9m6s,unrooted4m24s,token-site38s.
 Later prospective analysis fixes39e16df0 and2dd8f38a were not part of that
 hosted head; their local36controls/source assessment are separately recorded.
+
+## Read-only runtime assessment closeout
+
+I118-NODD-SoftEng-MappingAssessment examined
+2dd8f38a4a8e714150f5a8cd180760e4ef6b6084, installed
+DDG4/Geant4Mapping.h and DDSim/Helper/Geometry.py, official DD4hep v01-38
+Geant4DetectorGeometryConstruction.cpp, Geant4Mapping.cpp and
+Geant4VolumeManager.cpp, and the supplied task profiles. No safe existing
+mapping bypass was found. HaveVolManager=false prevents subsequent mapping
+access; sensitive UseVolumeManager=false returns root IDs and skips segmentation.
+Neither is acceptable for the frozen stable-ID/readout contract. Debug/print/dump
+options do not supply an alternative indexed or parallel mapper. An indexed
+assembly-path lookup would require separate implementation/equivalence work.
+Official tag bytes were not proven identical to installed binaries. No runtime
+completion-time extrapolation is claimed. No files/jobs/configuration/dependency
+were changed by the assessment; main ended further research once its bounded
+answer was sufficient. Actual original/native execution receives a separate
+handoff only after global closed inputs exist.
+
+At17:50UTC the first three nODD shower blocks had finished (600events reported
+by run logs; only the first200 had an additional early truth read). Owned
+process38979:elapsed1:33:46,CPU93:43.83,100%,RSS16556736KiB. Owned muon40979:
+elapsed1:21:58,CPU81:57.77,100%,RSS5574640KiB; still prior to its initialized
+audit. Both active, no failed receipt. Repeated Geant4 material/cut-couple scans
+are observed between shower blocks. All original runtime and frozen inputs
+remain unchanged. Source/first-truth progress published at
+b77d31e365fa028ceb7de9e82886ebe6fcef3c90; exact current PR description and draft
+state readback verified. This is not a completed nODD digitizer comparison.
+
+## Independent muon execution order, before new native response
+
+Both muon groups are now closed: nODD normal0 in7215.299s, all750events verified;
+ODD750 likewise closed/verified. A separate immutable muon-samples.json gathers
+exactly their six original sample records and two closed receipts, bound to the
+unchanged frozen global transport manifest. To overlap independent work with
+slow remaining shower transport, main added an explicit closed-muon scope to
+nodd_response.py. Source/settings/gates and event selections stay fixed. Global
+indices38..43 and seeds129300..129800 remain exactly those of the complete
+48population inventory; subsets are never renumbered. The default/final scope
+still rejects a six-population inventory. Native-PASS, SDK, registration, raw,
+closed receipt, RNG and source checks apply before both scopes.
+
+A preserved runs-muons.json and source/settings/row bindings close the independent
+muon result. Optional reuse in the final full analysis checks completion/output
+hash, source/protocol/notes, pedestal, selected-input digest, preserved native run
+snapshot and all six exact native rows after complete verification. Fit model,
+1000bootstrap seeds and errors do not change. No new native response/fit outputs
+have been examined yet. Analysis notes record this prospective execution-order
+clarification; active raw producer/transport/protocol at5af remain unchanged.
+All38focused controls pass1.591s, including global subset seeds and changed
+cached-output/final-input rejection. Actual six-muon metadata verification passes;
+default full scope rejects it. This change receives separate source assessment
+before native response execution.
+
+By18:15UTC both initialized G4 audits match (field0,cuts.7,Birks0,maxstep5mm).
+All hosted checks pass atb77d31e3:build12m41s,unrooted3m36s,token-site33s.
+At18:28UTC disk free159.8GiB; current new raw-data tree4.109GiB. No raw event,
+trial, bootstrap draw or profile data is staged for Git.

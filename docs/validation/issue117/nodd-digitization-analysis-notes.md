@@ -36,3 +36,16 @@ response coefficient, event selection or statistical gate changes here.
   was relocated with byte hashes and its original paths recorded before retry;
   no failed output enters a response denominator. The compact, materials,
   physical parameters and active transport producer remain unchanged.
+- Execution-order clarification before any new native response output: once
+  both three-population muon groups close, analyze their six held-out populations
+  while shower transport continues. A separate immutable muon manifest includes
+  both closed receipts and all six unchanged sample records. The explicit
+  `--population muons` scope retains every source/RNG/raw/receipt/native-PASS
+  check and uses the original **global** population indices 38–43, never a
+  renumbered subset. The full default still requires all 48 populations.
+  Geometry and 1,000-replicate fits use this closed six-population manifest.
+  Reusing their compact result in the final analysis requires its completion
+  digest, source/settings/pedestal identity, preserved run snapshot, selected
+  input-manifest hash and exact six native row bindings to match the newly
+  verified complete run inventory. No event selection, random draw, fit model,
+  coefficient, uncertainty method or statistical gate changes.

@@ -17,7 +17,7 @@ import xml.etree.ElementTree as ET
 import numpy as np
 
 from digitized_response import basic, histogram, covariance, uncertainty, read_events
-from nodd_generate import ROOT, PROTOCOL, referenced_files, sha, save, verify
+from nodd_generate import ROOT, PROTOCOL, referenced_files, sha, save, verify, bind_native
 
 MIP = .00014875
 STAGES = ["raw", "off", "on"]
@@ -33,6 +33,19 @@ def expected_configuration(index, sample, manifest):
                 modes=MODES, save_cells=True)
 
 
+def global_index(manifest, sample):
+    matches = [i for i, row in enumerate(manifest['samples'])
+               if (row['geometry'], row['id']) == (sample['geometry'], sample['id'])]
+    if len(matches) != 1:
+        raise ValueError('Population has no unique frozen global index')
+    return matches[0]
+
+
+def muon_bindings(runs):
+    return [hashlib.sha256(json.dumps(row, sort_keys=True, separators=(',', ':')).encode()).hexdigest()
+            for row in runs if row['kind'] == 'muons']
+
+
 def bind_configuration(receipt, config, expected, input_sha256):
     if (config != expected or receipt['identity']['configuration'] != expected
             or receipt['identity']['input_sha256'] != input_sha256):
@@ -41,6 +54,7 @@ def bind_configuration(receipt, config, expected, input_sha256):
 
 def ordered_samples(args):
     manifest = verify(args.transport_manifest.parent)
+    bind_native(args.transport_manifest.parent, manifest)
     registration = args.transport_manifest.parent / 'plugin-registration-audit.json'
     proof = json.loads(registration.read_text())
     for name, digest in proof['immutable'].items():
@@ -70,7 +84,15 @@ def ordered_samples(args):
     indexed = {(r["geometry"], r["id"]): r for r in data["samples"]}
     if indexed != executed:
         raise ValueError("Indexed samples differ from their executed receipts")
-    samples = [indexed[(r["geometry"], r["id"])] for r in manifest["samples"]]
+    scope = getattr(args, 'population', None)
+    if scope not in (None, 'muons'):
+        raise ValueError('Only the closed six-muon subset is supported')
+    if len(indexed) != len(data['samples']):
+        raise ValueError('Repeated indexed population')
+    expected_rows = [r for r in manifest['samples'] if scope is None or r['kind'] == scope]
+    if set(indexed) != {(r['geometry'], r['id']) for r in expected_rows}:
+        raise ValueError('Indexed populations differ from the complete frozen scope')
+    samples = [indexed[(r["geometry"], r["id"])] for r in expected_rows]
     if len(samples) != len(indexed):
         raise ValueError("Unexpected population inventory")
     for sample in samples:
@@ -122,7 +144,13 @@ def run(args):
         return dict(kind=sample["kind"], geometry=sample["geometry"], sample=sample,
                     diagnostics=str(output.resolve()), directory=str(directory.resolve()), receipt=receipt)
     with ThreadPoolExecutor(max_workers=args.jobs) as pool:
-        executed = list(pool.map(execute, enumerate(samples)))
+        executed = list(pool.map(execute, [(global_index(manifest, sample), sample) for sample in samples]))
+    if getattr(args, 'population', None) == 'muons':
+        snapshot = args.work / 'runs-muons.json'
+        if snapshot.exists() and json.loads(snapshot.read_text()) != executed:
+            raise ValueError('Closed muon run snapshot changed')
+        if not snapshot.exists():
+            save(snapshot, executed)
     save(args.work / "runs.json", executed)
 
 
@@ -131,7 +159,7 @@ def verify_runs(args):
     runs = json.loads((args.work / "runs.json").read_text())
     if [r["sample"] for r in runs] != samples:
         raise ValueError("Native population identity/order changed")
-    for index, row in enumerate(runs):
+    for row in runs:
         if any(row[key] != row["sample"][key] for key in ("geometry", "kind")):
             raise ValueError("Native geometry/population labels differ from the bound sample")
         directory = Path(row["directory"])
@@ -139,7 +167,7 @@ def verify_runs(args):
         if receipt != row["receipt"] or receipt["exit_code"]:
             raise ValueError("Native receipt changed")
         config = json.loads((directory/'config.json').read_text())
-        bind_configuration(receipt, config, expected_configuration(index,row['sample'],manifest),row['sample']['sha256'])
+        bind_configuration(receipt, config, expected_configuration(global_index(manifest,row['sample']),row['sample'],manifest),row['sample']['sha256'])
         if receipt['analysis_notes_sha256'] != sha(ANALYSIS_NOTES):
             raise ValueError('Pre-analysis clarification changed after execution')
         for name, key in (("config.json", "config_sha256"), ("native.log", "log_sha256"), ("producer.py", "producer_sha256")):
@@ -348,9 +376,35 @@ def pedestal(args):
                                               scope="Independent prior signed electronics-only fixture, not new hardware data"))
 
 
+def reuse_muons(args, runs, result):
+    cached = json.loads(args.muon_summary.read_text())
+    completion_path = Path(str(args.muon_summary) + '.completion.json')
+    completion = json.loads(completion_path.read_text())
+    if completion['output_sha256'] != sha(args.muon_summary):
+        raise ValueError('Closed muon analysis output changed')
+    previous = cached['provenance']
+    keys = ('analysis_sha256', 'protocol_sha256', 'analysis_notes_sha256',
+            'plugin_registration_audit_sha256', 'transport_manifest_sha256', 'muon_source_sha256')
+    if (cached['settings'] != result['settings'] or any(previous[k] != result['provenance'][k] for k in keys)
+            or previous['muon_bindings'] != muon_bindings(runs)
+            or previous['native_runs_sha256'] != sha(args.work / 'runs-muons.json')
+            or previous['samples_sha256'] != sha(completion['samples_path'])
+            or completion['provenance'] != previous):
+        raise ValueError('Closed muon analysis differs from the final verified inputs/source')
+    current_pedestal = json.loads(json.dumps(result['pedestal']).replace(str(ROOT), '${NODD_REPO}').replace(str(Path.home()), '${USER_HOME}'))
+    if cached['pedestal'] != current_pedestal:
+        raise ValueError('Closed muon pedestal changed')
+    result['provenance']['reused_muon_analysis'] = dict(output_sha256=sha(args.muon_summary),
+        completion_sha256=sha(completion_path), provenance=previous,
+        scope='Same six closed muon populations, global native seeds, source, settings and outputs; full population verification repeated')
+    return cached['muons']
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("stage", choices=["run", "showers", "geometry", "analyze"])
+    parser.add_argument("stage", choices=["run", "showers", "geometry", "muons", "analyze"])
+    parser.add_argument('--population', choices=['muons'])
+    parser.add_argument('--muon-summary', type=Path)
     parser.add_argument("--transport-manifest", type=Path, required=True)
     parser.add_argument("--samples", type=Path, required=True)
     parser.add_argument("--work", type=Path, required=True)
@@ -361,31 +415,50 @@ def main():
     parser.add_argument("--geometry", choices=["nodd", "odd-zero"])
     parser.add_argument("--output", type=Path)
     args = parser.parse_args()
+    if args.stage == 'muons' and args.population != 'muons':
+        parser.error('The independent muon stage requires --population muons')
+    if args.stage in ('showers', 'analyze') and args.population is not None:
+        parser.error('Shower/final analysis requires the complete frozen population')
+    if args.muon_summary and args.stage != 'analyze':
+        parser.error('--muon-summary is only valid for the full final analysis')
+    output = args.output or args.work / ('muon-summary.json' if args.stage == 'muons' else 'summary.json')
+    if args.stage == 'muons' and (output.exists() or Path(str(output)+'.completion.json').exists()):
+        raise ValueError('Choose a fresh muon summary path; closed evidence exists')
     if args.stage == "run":
         run(args)
         return
     if args.stage == "geometry":
+        ordered_samples(args)
         from nodd_muon_response import geometry
         geometry(args)
         return
     manifest, runs = verify_runs(args)
     result = dict(status="PROTOTYPE nODD/ODD baseline-stage response characterization",
+                  scope='Closed six-muon subset' if args.stage == 'muons' else 'Complete frozen 48-population study',
                   settings=dict(mip_energy_GeV=MIP, threshold_MIP=.6, dynamic_range_MIP=2500., modes=MODES),
-                  showers=shower_summary(runs, manifest, args),
                   provenance=dict(source_commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
                                   analysis_sha256=hashlib.sha256(LOADED_SOURCE).hexdigest(), protocol_sha256=sha(PROTOCOL),
                                   analysis_notes_sha256=sha(ANALYSIS_NOTES),
                                   plugin_registration_audit_sha256=sha(args.transport_manifest.parent/'plugin-registration-audit.json'),
                                   transport_manifest_sha256=sha(args.transport_manifest), samples_sha256=sha(args.samples),
                                   native_runs_sha256=sha(args.work / 'runs.json')))
-    if args.stage == "analyze":
-        checkpoint = json.loads(json.dumps(result, allow_nan=False).replace(str(ROOT), '${NODD_REPO}').replace(str(Path.home()), '${USER_HOME}'))
-        save(args.work / 'shower-summary-checkpoint.json', checkpoint)
+    result['provenance']['muon_source_sha256'] = sha(Path(__file__).with_name('nodd_muon_response.py'))
+    result['provenance']['muon_bindings'] = muon_bindings(runs)
+    if args.stage != 'muons':
+        result['showers'] = shower_summary(runs, manifest, args)
+    if args.stage in ('analyze', 'muons'):
+        if args.stage == 'analyze':
+            checkpoint = json.loads(json.dumps(result, allow_nan=False).replace(str(ROOT), '${NODD_REPO}').replace(str(Path.home()), '${USER_HOME}'))
+            save(args.work / 'shower-summary-checkpoint.json', checkpoint)
         from nodd_muon_response import muon_summary
         result["pedestal"] = pedestal(args)
-        result["muons"] = muon_summary(runs, args, result["pedestal"])
+        result["muons"] = (reuse_muons(args, runs, result) if args.muon_summary else
+                           muon_summary(runs, args, result["pedestal"]))
     result = json.loads(json.dumps(result).replace(str(ROOT), '${NODD_REPO}').replace(str(Path.home()), '${USER_HOME}'))
-    save(args.output or args.work / 'summary.json', result)
+    save(output, result)
+    if args.stage == 'muons':
+        save(Path(str(output)+'.completion.json'), dict(output_sha256=sha(output),
+             samples_path=str(args.samples.resolve()), provenance=result['provenance']))
 
 
 if __name__ == "__main__":

@@ -1,6 +1,7 @@
 """Scientific controls: descriptor identity and shared-reference covariance."""
 import tempfile
 import json
+import copy
 from pathlib import Path
 from types import SimpleNamespace
 import sys
@@ -9,10 +10,43 @@ from unittest.mock import patch
 
 import numpy as np
 
-from nodd_response import bind_configuration, decode, descriptors, longitudinal, ratio, shower_summary, verify_runs
+from nodd_response import (bind_configuration, decode, descriptors, longitudinal, ratio,
+                           shower_summary, verify_runs, global_index, expected_configuration,
+                           muon_bindings, reuse_muons, sha)
+from nodd_generate import rows
 
 
 class ResponseControls(unittest.TestCase):
+    def test_muon_subset_preserves_full_population_seeds(self):
+        manifest = dict(samples=rows(), geometries={g:dict(collections=[g]) for g in ('nodd','odd-zero')})
+        selected = [s for s in manifest['samples'] if s['kind']=='muons']
+        self.assertEqual(len(selected),6)
+        self.assertEqual([global_index(manifest,s) for s in selected],list(range(38,44)))
+        self.assertEqual([expected_configuration(global_index(manifest,s),s,manifest)['seed'] for s in selected],
+                         [129300,129400,129500,129600,129700,129800])
+
+    def test_closed_muon_reuse_rejects_changed_output_or_final_inputs(self):
+        runs=[dict(kind='muons',sample=dict(id='synthetic-A'),receipt=dict(identity='frozen'))]
+        with tempfile.TemporaryDirectory() as directory:
+            work=Path(directory); args=SimpleNamespace(work=work,muon_summary=work/'muon-summary.json')
+            samples=work/'synthetic-samples.json';samples.write_text('{}')
+            snapshot=work/'runs-muons.json';snapshot.write_text(json.dumps(runs))
+            provenance={k:'frozen' for k in ('analysis_sha256','protocol_sha256','analysis_notes_sha256',
+                'plugin_registration_audit_sha256','transport_manifest_sha256','muon_source_sha256')}
+            current=dict(settings=dict(threshold=.6),pedestal=dict(SD=.13),provenance=provenance)
+            cached=copy.deepcopy(current);cached['muons']=dict(scope='synthetic aggregate')
+            cached['provenance'].update(muon_bindings=muon_bindings(runs),native_runs_sha256=sha(snapshot),samples_sha256=sha(samples))
+            args.muon_summary.write_text(json.dumps(cached))
+            completion=Path(str(args.muon_summary)+'.completion.json')
+            completion.write_text(json.dumps(dict(output_sha256=sha(args.muon_summary),samples_path=str(samples),provenance=cached['provenance'])))
+            self.assertEqual(reuse_muons(args,runs,copy.deepcopy(current)),cached['muons'])
+            changed=copy.deepcopy(runs);changed[0]['sample']['id']='synthetic-B'
+            with self.assertRaisesRegex(ValueError,'final verified inputs/source'):
+                reuse_muons(args,changed,copy.deepcopy(current))
+            args.muon_summary.write_text(json.dumps(dict(cached,muons=dict(scope='altered'))))
+            with self.assertRaisesRegex(ValueError,'output changed'):
+                reuse_muons(args,runs,copy.deepcopy(current))
+
     def test_outer_population_labels_cannot_override_bound_sample(self):
         sample = dict(geometry='nodd', kind='showers')
         with tempfile.TemporaryDirectory() as directory:
