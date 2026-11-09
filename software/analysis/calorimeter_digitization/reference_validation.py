@@ -486,7 +486,11 @@ def summarize(a):
         det.append(dict(sample={k:v for k,v in sample.items() if k!='path'},**{k:v for k,v in result.items() if k not in ('configuration','limitations')},
                         strict_reference_tolerance=strict_bound(result),retained_audit=audit))
     stoch=[stochastic_summary(a,f,mode) for f in (0,1) for mode in (0,1)]
-    artifacts={str(p.relative_to(ROOT)):dict(sha256=sha(p),bytes=p.stat().st_size) for p in a.work.rglob('*') if p.is_file() and p.suffix in ('.root','.json','.jsonl','.xml','.py','.log','.md')}
+    # Controller stdout may still be open while this snapshot is made. Its own
+    # completion message would immediately invalidate a self-hash. Preserve it
+    # locally; canonical original/native/comparator logs are already closed and
+    # anchored by their execution receipts.
+    artifacts={str(p.relative_to(ROOT)):dict(sha256=sha(p),bytes=p.stat().st_size) for p in a.work.rglob('*') if p.is_file() and p.suffix in ('.root','.json','.jsonl','.xml','.py','.log','.md') and 'controller' not in p.name}
     receipts=[]
     for path in sorted(a.work.rglob('*.execution.json')):
         record=json.loads(path.read_text());log=Path(record['log'])
@@ -495,7 +499,7 @@ def summarize(a):
     control=a.work/'software-control';control_result=json.loads((control/'run/comparison-summary.json').read_text())
     control_config=json.loads((control/'frozen-control.json').read_text())
     failure_paths=list(a.work.parent.glob('*.log'))+list((a.work.parent/'pilot').rglob('*'))
-    failures={str(p.relative_to(ROOT)):dict(sha256=sha(p),bytes=p.stat().st_size) for p in failure_paths if p.is_file()}
+    failures={str(p.relative_to(ROOT)):dict(sha256=sha(p),bytes=p.stat().st_size) for p in failure_paths if p.is_file() and 'controller' not in p.name}
     save(a.output,public(dict(status='PROTOTYPE original-framework software comparison',deterministic=dict(passed=all(d['passed'] for d in det),samples=det),
         stochastic=dict(passed=all(s['passed'] for s in stoch),comparisons=stoch),sources=m['sources'],encodings=m['encodings'],runtime=m['runtime'],
         response=dict(m['response'],modes=dict(D=dict(pair_energy_eV=0,noise_MIP=0),P=dict(pair_energy_eV=3.6,noise_MIP=0),PN=dict(pair_energy_eV=3.6,noise_MIP=.13)),timing_window_ns=[-1e30,1e30],fixed_gain=True,dead_cells=False),
