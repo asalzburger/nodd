@@ -8,6 +8,12 @@ processor agreement, digitized muon MIP/SNR/threshold response and paired
 raw/digitized electron/photon characterization. The full nODD tiling investigation
 remains [separate geometry evidence](tiling-response.md).
 
+The [additional nODD request](https://github.com/asalzburger/nodd/pull/118#issuecomment-6744059438)
+is being addressed by a [matched zero-field LAYOUT-001/ODD study](nodd-digitization-results.md),
+under its own [frozen protocol](nodd-digitization-protocol.md). The integrated
+native geometry audit passes; nODD transport and response comparisons remain in
+progress. Its report must be read separately from the completed ODD-only results.
+
 The November 5 software-dependent deferral and November 6 missing-runtime
 [review follow-up](pr118-review-request.md) are historical. The preparation,
 original environment description and exploratory figures below retain their

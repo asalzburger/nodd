@@ -1,0 +1,145 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-11-09-pr118-nodd-validation",
+  "title": "Validate silicon digitization on nODD geometry after PR118 follow-up",
+  "recorded_at": "2026-11-09T15:35:37Z",
+  "started_at": null,
+  "ended_at": null,
+  "status": "open",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact current-task parent/subagent turn counters and stable client/model/thread identifiers are unavailable; usage remains empty.",
+    "Unsigned integrated tracker+SiW-ECAL stage, without solenoid/field/HCAL/FCAL/muon systems; no detector acceptance."
+  ],
+  "client": {
+    "name": "unspecified",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "29a8632eed6c8aeda554e3327e7242c470594881",
+    "branch": "codex/issue117-calorimeter-digitization",
+    "initial_changes": [],
+    "result_commits": [
+      "554b087c3c0088773199466a779a580a25841017",
+      "9249ea8bc40bcf3525b9c68494e42c41ce34354a",
+      "e75caf4bbbe16ac0acfaca9940d8dea1f9b17467",
+      "5afb019eac6e152608639d02223dda73098a197f",
+      "855ccf7886bfb78718d16887b2b39145af5c6293",
+      "c8af24e3525f559383a4081738034744261d1cc0",
+      "5d4262a905932ce73c40915f0516fcf1d17c1254"
+    ],
+    "changed_files": [
+      "docs/design/DES-044-calorimeter-digitization.md",
+      "docs/software-inventory.md",
+      "docs/validation/issue117/README.md",
+      "docs/validation/issue117/nodd-digitization-analysis-notes.md",
+      "docs/validation/issue117/nodd-digitization-protocol.md",
+      "docs/validation/issue117/nodd-digitization-results.md",
+      "docs/validation/issue117/previews/nodd-geometry-validation.json",
+      "interactions/pr-0118.json",
+      "logs/codex/SESSION-2026-11-09-pr118-nodd-validation.json",
+      "logs/codex/SESSION-2026-11-09-pr118-nodd-validation.md",
+      "project/tracking.json",
+      "software/analysis/calorimeter_digitization/nodd_generate.py",
+      "software/analysis/calorimeter_digitization/nodd_muon_response.py",
+      "software/analysis/calorimeter_digitization/nodd_reference_validation.py",
+      "software/analysis/calorimeter_digitization/nodd_response.py",
+      "software/analysis/calorimeter_digitization/nodd_transport.py",
+      "software/analysis/calorimeter_digitization/plot_nodd_digitization.py",
+      "software/analysis/calorimeter_digitization/test_nodd_generate.py",
+      "software/analysis/calorimeter_digitization/test_nodd_muon_response.py",
+      "software/analysis/calorimeter_digitization/test_nodd_reference_validation.py",
+      "software/analysis/calorimeter_digitization/test_nodd_response.py",
+      "software/inventory.json"
+    ]
+  },
+  "work": {
+    "milestone": "M4",
+    "components": [
+      "Integrated LAYOUT-001 silicon digitization",
+      "Matched zero-field ODD response comparison",
+      "Muon geometric opportunities and negative-endcap controls"
+    ],
+    "related_ids": [
+      "#117",
+      "#118",
+      "DES-030",
+      "DES-031",
+      "DES-044",
+      "ADR-003"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-11-09-pr118-nodd-validation.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "acts-spack preflight",
+      "status": "FAIL",
+      "exit_code": 2,
+      "result": "Changed setup/lock fingerprints warned before dependent work; no shared changes."
+    },
+    {
+      "command": "software/env/run.sh python3 software/env/doctor.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "DD4hep1.38, Geant411.4.3, DD4hep/DDG4 imports and12dataset paths verified."
+    },
+    {
+      "command": "Fresh LAYOUT-001 export and current tracker/calo factory builds",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Source-matched complete tracker+ECAL compacts/materials and6factorylibraries; sourcegeometryunchanged."
+    },
+    {
+      "command": "Thirteen nODD generation/reference controls",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All13tests pass. Initialfixturepathalias /var vs/private corrected in test expectation; dependency-tamper andfulltracker/side controls retained."
+    },
+    {
+      "command": "Three nODD response numerical controls",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "3tests pass. Actualdescriptor offsets/signedcoordinates; undefinedratio; common-referencecovariance retained whilegeometryratio stays unchanged."
+    },
+    {
+      "command": "35 focused nODD source/native controls",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All35passed in the verified Spack runtime, including actual DD4hep physical16 encoder, empty-population and read-time configuration/input-tamper controls."
+    },
+    {
+      "command": "Complete native LAYOUT-001 union overlap audit",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Ten system roots0\u20139;13506030physicalnodes,650387volumeUIDs;zerooverlaps/extrusions at1e-5mm. Normalcleanup/process0; compact proof retains raw report/log hashes."
+    },
+    {
+      "command": "Zero-field ODD control generation",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "4950events verified across two closed normal-exit groups:4200showers/reference+750muons. No nODD response comparison yet."
+    },
+    {
+      "command": "Technical native ODD physical-cell query",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "2304plane groups;39414queries/3381unique cells;maximum residual9.765625e-5mm<.002mm. Module16 normalized with actual encoder;zero collisions. Partial-manifest technical cache excluded from final combined analysis."
+    },
+    {
+      "command": "Software inventory refresh and check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "67components/101families/52reviewedinputs/12pins; source integration and usage reviewed."
+    },
+    {
+      "command": "Interaction, session, project and token validation",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "110PR interaction records,272paired sessions,101tasks/54documents/24review rounds; token validation444disjoint turns. Newtask usage empty because exact counters unavailable."
+    }
+  ]
+}

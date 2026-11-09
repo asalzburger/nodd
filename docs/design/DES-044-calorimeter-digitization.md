@@ -2,7 +2,7 @@
 
 - Status: DRAFT
 - Type: PROTOTYPE
-- Created / updated: 2026-11-05
+- Created: 2026-11-05; updated: 2026-11-09
 - Author: Codex-assisted CaloTech proposal; coordinator owns integration and execution
 - Human owner / technical reviewer / approver: unassigned; sign-off pending
 - Issue: [#117](https://github.com/asalzburger/nodd/issues/117)
@@ -19,6 +19,15 @@ integration or physics acceptance. Geometry, materials, segmentation and
 sensitive-detector response stay at the input baseline. Source inspection below
 establishes available operations, not a successful nODD benchmark or experimental
 validation of an arbitrary parameter set.
+
+The subsequent [PR118 request](https://github.com/asalzburger/nodd/pull/118#issuecomment-6744059438)
+adds validation on the maintained LAYOUT-001 tracker plus DES031 barrel and both
+DES030 tiled endcaps. This is a separate zero-field prototype comparison with
+ODD; detector geometry, materials and segmentation remain unchanged. Its
+[frozen protocol](../validation/issue117/nodd-digitization-protocol.md) and
+[execution report](../validation/issue117/nodd-digitization-results.md) retain the
+actual status and boundaries. This extension does not inherit an nODD pass from
+the earlier ODD digitizer study or isolated endcap tiling study.
 
 **FACT about scope:** DES031 is silicon/tungsten; DES032/033 are inclined/turbine
 LAr; DES036–038 use scintillator tiles with SiPMs; DES039 uses tungsten and
