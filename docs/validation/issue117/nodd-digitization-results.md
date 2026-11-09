@@ -51,9 +51,9 @@ no runtime, factory or geometry is modified to bypass them.
 
 Both actual cell-position audits and the closed six-muon analysis pass. A
 separate PhysVal agent reproduces its counts, spectra, uncertainty calculations
-and all central fits before author conclusions. Full shower statistics,
-original/native nODD agreement and the combined figures are still pending here;
-the earlier ODD-only pass is separate evidence.
+and all central fits before author conclusions. Full shower statistics and the first four response figures now close and pass
+separate scientific assessment. The original/native nODD framework comparison
+is still running; the earlier ODD-only pass remains separate evidence.
 
 ## Frozen samples and interpretation
 
@@ -84,6 +84,57 @@ transported crossings. Nominal opportunity yield and conditional identified
 crossing yield are separate; straight-ray active-mask predictions are explicitly
 approximate. The fixed Landau–Gaussian model/1000-event bootstrap can remain
 unavailable or flagged; the MIP scale and fit range are never retuned.
+
+## Electron/photon response and geometry comparison
+
+Across all 19 matched gun points, the nODD/ODD mean **raw silicon visible-energy
+ratio is 0.48801–0.62934**; after PN digitization it is 0.48593–0.62823.
+The substantial difference already exists in transport. These geometries differ
+in tracker, ECAL sampling construction, inactive material and overall scope;
+this study cannot isolate its cause or assign it to tiling alone. It provides
+no area-averaged tiling loss or detector acceptance. The earlier isolated
+[tiled/continuous-silicon control](tiling-response.md) addresses a narrower
+question and retains its own input geometry.
+
+Representative 20 GeV/c mean ratios are below (± whole-event bootstrap SE).
+The negative-η electron point is a bounded control, not a complete signed scan.
+
+| Particle, η | Raw nODD / ODD | PN nODD / ODD |
+| --- | --- | --- |
+| e-, +0 | 0.62219 ± 0.00244 | 0.62113 ± 0.00247 |
+| e-, +1 | 0.57006 ± 0.00247 | 0.56892 ± 0.00249 |
+| e-, +2 | 0.51654 ± 0.00299 | 0.51468 ± 0.00301 |
+| gamma, +0 | 0.61688 ± 0.00278 | 0.61580 ± 0.00281 |
+| gamma, +1 | 0.57191 ± 0.00239 | 0.57092 ± 0.00240 |
+| gamma, +2 | 0.53747 ± 0.00349 | 0.53574 ± 0.00351 |
+| e-, -2 | 0.51551 ± 0.00292 | 0.51380 ± 0.00292 |
+
+PN reduces mean silicon signal relative to raw by **0.664–1.214% in nODD** and
+**0.486–0.793% in ODD**, using paired events. These modest digitizer changes do
+not explain the much larger geometry response difference. Across this matrix,
+PN SD/mean spans 3.06–14.26% (nODD) and 1.90–7.20% (ODD). These are all-event
+visible-response spreads, not Gaussian-core fits or reconstructed resolutions.
+No shower population has a zero-energy event, histogram underflow or overflow.
+
+The independent ODD D-reference calibration factors at η=0/1/2/−2 are
+37.97949 ± 0.13751 / 37.22087 ± 0.13951 / 38.11792 ± 0.12742 /
+38.18039 ± 0.12908 (bootstrap SE). No nODD factor is fitted. All 3,800 nODD
+shower events satisfy the frozen low-response diagnostic `Cη·S_PN/Etrue < 0.8`,
+compared with 3/3,800 ODD events. The common ODD scale makes this geometry
+response difference visible; this tail is not a measured electronic inefficiency.
+
+The [compact response](previews/nodd-digitized-response.json) contains all 38
+population moments, paired changes, histograms/flow counts, observed
+region/side/layer means and errors, 19 geometry comparisons, and full shared
+114-axis response/width/tail covariance matrices from 5,000 replicates.
+The [descriptive quantile attachment](previews/nodd-response-quantiles.json)
+adds exact unbinned quantiles, including zero totals, to the unchanged closed
+response. The frozen producer omitted this protocol requirement; the separate
+source-identified attachment reproduces every closed mean/SD/zero count before
+export. Its probability grid and linear-interpolation convention were specified
+after execution as descriptive summaries; they introduce no acceptance gate.
+Per-layer sums are checked against event totals; late-layer signal is not a
+measurement of escaping-energy leakage.
 
 ## Muon response and geometric opportunities
 
@@ -121,6 +172,21 @@ null errors where appropriate; no failed or undefined replicas are discarded.
 The 200,000-draw signed pedestal is reused only after exact backend, request,
 output and receipt identity checks. It tests the configured Gaussian model;
 empty detector channels and real detector occupancy are outside this study.
+
+## Response figures
+
+The following figures use only the committed compact response, fixed component
+colors and the unchanged source-identified renderer. All four are visually
+checked by CaloTech and the coordinator; the MIP image reproduces the earlier
+closed-subset preview byte for byte.
+
+![Electron raw and digitized response](previews/nodd-digitized-electron.png)
+
+![Photon raw and digitized response](previews/nodd-digitized-photon.png)
+
+![Digitized muon spectra, model SNR and threshold yields](previews/nodd-digitized-mip.png)
+
+![Geometry response ratios and paired digitization changes](previews/nodd-digitized-comparison.png)
 
 ## Source and execution provenance
 

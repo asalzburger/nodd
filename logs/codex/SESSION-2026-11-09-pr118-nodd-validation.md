@@ -832,3 +832,37 @@ PhysVal independently identifies a protocol omission: stage moments lack descrip
 Observed primary full-response ranges, still under separate assessment: nODD/ODD raw means .488009–.629338 and PN means .485926–.628229; substantial baseline geometry differences are not assigned solely to tiling or digitization. PN/raw mean changes are −1.2143% to −0.6644% in nODD and −.7932% to −.4859% in ODD. No raw zero-energy shower events occur in either geometry. Full original-framework agreement is still running; no pass is inferred from this characterization.
 
 The new transport/native compact record is 268,914 bytes, SHA a66bd142cea60a0f95ec05bb77594594ac97280fc16f6f6fd3cd95072a8819fc: exact source/SDK/geometry/registration/48-population seed/input/output/receipt hashes, four initialized Geant4 audits and native query aggregate proofs. It contains no event/cell/trial payload or serialized RNG state.
+
+### I118-NODD-CaloTech-FinalFigures
+
+```json
+{
+  "id": "I118-NODD-CaloTech-FinalFigures",
+  "role": "CaloTech",
+  "input_revision": "45e17d0e797d4ab6c2a1dee835f50d73f966b638",
+  "inputs": [
+    "README.md",
+    "docs/validation/issue117/nodd-digitization-protocol.md",
+    "software/analysis/calorimeter_digitization/plot_nodd_digitization.py",
+    "docs/validation/issue117/previews/nodd-digitized-response.json",
+    "docs/validation/issue117/previews/nodd-transport-validation.json"
+  ],
+  "mode": "write",
+  "writable_paths": [
+    "build/issue117/nodd/figures-first"
+  ],
+  "task": "Render and visually inspect the actual complete nODD/ODD response figures using current committed plotter, no source edits. Public compact response docs/validation/issue117/previews/nodd-digitized-response.json SHA ae770b1113ee96df5f9667d8bd590e27ffde0c6f89582cc5a81ddca66ae53fd8, object-identical closed runtime summary adbdbe66. Renderer SHA e535056258d61073c8084ef6614db900fd3e6f6831f782ad8cd0bb4798a3b8e9 remains unchanged from e43. Use actual Matplotlib3.11.2 existing interpreter /Users/salzburg/Documents/work/installed/acts-nodd/pyvenv/bin/python with MPLCONFIGDIR=/private/tmp/nodd-issue117-matplotlib. Run CLI now WITHOUT --reference, fresh --output build/issue117/nodd/figures-first, rendering four real response figures. View all four and assess readability/axes/legend/full ranges/error/flows/prototype scope against compact data; do not alter numerical data/scales/selections. MIP PNG must byte-match private refined.png SHA fc5aa712969f1cbcf3d18c2540ab1d5b0fdf08871502ff3b11af8375b51561bf because same actual muon data/source/rcParams. Report any mismatch or consequential display issue before a source fix. Full original-reference comparison is still running; wait for explicit actual compact reference path/SHA handoff before rendering the fifth with reference_plot or CLI, preserve first four bytes and report equality if rerun. No invented reference input. Main will copy final actual five public artifacts and do independent image QA/replot checks; you only own ignored figure directory, no tracked source/docs/metadata, commits, installs, messages or delegation. Native/transport/analysis are frozen and must remain untouched.",
+  "deliverable": "Actual source-pinned four figures now, actual fifth after reference handoff, image-by-image visual QA and output/runtime hashes; no premature reference pass.",
+  "completion": "Return actual image paths/hashes and clarity assessment; original-reference fifth waits for closed data."
+}
+```
+
+## Separate full-data assessment and first response figures
+
+PhysVal exact-source assessment independently reconstructs all 42 non-muon ROOT populations / 8,000 events / 4,889,774 ECAL hits: all raw/native totals, accepted counts/energies and generator PDG/origin/direction/p/total-E denominators match; maximum Etruth discrepancy 7.11e-15 GeV. All38 longitudinal axes/means/SEM and energy sums match. Together with the earlier independently checked 1,500 muons this covers all9,500 transports. Its independent 38×5,000 joint event/reference resamples reproduce 133,362 scalar/count/bin/covariance checks, including all114 axes and three114×114 covariance matrices. Full-source/input/native/hash checks pass. No shower numerical blocker remains. All3,800 nODD PN showers fall below common-scale response0.8 versus3/3,800 ODD; this is reported as adverse baseline geometry evidence without tiling-only or electronic attribution.
+
+The separately executed quantile attachment at45e17d0e exits0, 139,724bytes SHA5e06a66c69d0638c6a09796db17715fbeccf36668b023368080e7cd2f90f74fe. PhysVal independently matches all3,078 quantiles plus38row identities/denominators, source/public-response/native-runs bindings and no-event-payload boundary. Public response object equality with original runtime output is independently confirmed. Protocol quantile omission is closed without editing the frozen main/helper/protocol or any original output.
+
+CaloTech renders four actual figures using committed45e17d0e and rendererSHAe535056258d61073c8084ef6614db900fd3e6f6831f782ad8cd0bb4798a3b8e9, Matplotlib3.11.2/NumPy2.5.4, normal0. Main copies them byte-identically from ignored figures-first to public previews. SHA256: electron ca3cca65084371833479b21011386b03f049a21d5d3501fc73c0cd3cf0c3c218; photon5c47912333c57553c14ef44e4db3332a8eac15148ca7711ae5fc6026804d8ae6; MIPfc5aa712969f1cbcf3d18c2540ab1d5b0fdf08871502ff3b11af8375b51561bf; comparison12d357ea4e367ecc64562886fa0e9675949ff8d0ca34ea3bf41be627d35c32c6. MIP exactly matches refined preview. CaloTech, main and separate PhysVal each view allfour actual original-resolution PNGs; axes/legends/captions/error bars/tables and scope are visible without cropping or overlap. PhysVal confirms plotted means/errors/denominators/MPV conventions/unknown crossings match its independent reconstruction. Independent rerender remains in progress. The fifth original-reference figure awaits actual data, without any fabricated reference input.
+
+One prepare invocation used unsupported --output and returned2 before dispatch; corrected by redirecting validated prepare stdout. Initial combined patch failed context matching and changed no files; corrected focused patches applied. No scientific/source/transport failure concealed.

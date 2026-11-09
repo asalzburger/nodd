@@ -10,9 +10,10 @@ remains [separate geometry evidence](tiling-response.md).
 
 The [additional nODD request](https://github.com/asalzburger/nodd/pull/118#issuecomment-6744059438)
 is being addressed by a [matched zero-field LAYOUT-001/ODD study](nodd-digitization-results.md),
-under its own [frozen protocol](nodd-digitization-protocol.md). The integrated
-native geometry audit, muon transport and actual cell-position queries pass;
-muon fits and the full shower/reference comparisons remain in progress. Its report must be read separately from the completed ODD-only results.
+under its own [frozen protocol](nodd-digitization-protocol.md). All 9,500 transport events, 48 native jobs, geometry/cell-position checks and
+muon/shower statistics close normally, with four response figures and a separate
+scientific assessment. The full original-framework nODD comparison is still
+running. Its report must be read separately from the completed ODD-only results.
 
 The November 5 software-dependent deferral and November 6 missing-runtime
 [review follow-up](pr118-review-request.md) are historical. The preparation,
