@@ -1,23 +1,19 @@
 # Issue #117 — existing-model Si–W digitization prototype
 
-The [PR #123 framework installation follow-up](pr123-framework-install.md)
-records the later user-authorized original Key4hep runtime build. Its synthetic
-installation check is separate from the ODD same-hit and physics gates below.
+Current update: **2026-11-09, PROTOTYPE**. The user resumed the reviewer-requested
+checks after [PR #123 installed the original Key4hep runtime](pr123-framework-install.md).
+The [frozen digitization protocol](digitization-protocol.md) and
+[executed comparison/response report](digitization-results.md) cover original
+processor agreement, digitized muon MIP/SNR/threshold response and paired
+raw/digitized electron/photon characterization. The full nODD tiling investigation
+remains [separate geometry evidence](tiling-response.md).
 
-Date: 2026-11-05. **PROTOTYPE**, governed by [DES-044](../../design/DES-044-calorimeter-digitization.md).
-The model survey and opt-in implementation are available. Native software tests
-pass. The Marlin study and original-framework comparison are **DEFERRED BY HUMAN
-DIRECTION** on 2026-11-05 until appropriate software is installed. Neither full
-reconstruction runtime is installed in the verified local environment. Existing
-prototype code and exploratory results remain isolated; no additional Marlin
-study is run after that direction. No design sign-off or physics acceptance is
-recorded.
-
-The [2026-11-06 review follow-up](pr118-review-request.md) records the requested
-noise-off/noise-on Key4hep comparisons, digitized MIP/threshold studies and paired
-e/gamma plots. Execution is blocked by the missing original-framework runtime
-in the rechecked local environment. The proposed endcap-geometry issue split
-remains a maintainer decision; prior evidence is retained.
+The November 5 software-dependent deferral and November 6 missing-runtime
+[review follow-up](pr118-review-request.md) are historical. The preparation,
+original environment description and exploratory figures below retain their
+original scope; the November 9 report supersedes their current execution status.
+No design sign-off, production integration or physics acceptance is recorded.
+The proposed endcap geometry issue split remains a maintainer decision.
 
 ## Implementation and reference identity
 
@@ -45,7 +41,7 @@ Compiling original methods proves source reuse. Analytic controls of those
 methods are **kernel tests**, and cannot establish agreement with the complete
 original event processor on the same `ddsim` hits.
 
-## Verified local environment
+## Historical preparation environment — 2026-11-05
 
 - Node: `acts-mac-studio-01.cern.ch`, Darwin arm64; AppleClang 21.0.0.21000334.
 - Existing pristine ACTS source/build: sibling
@@ -298,9 +294,10 @@ the default most-populated-layer choice; `--zoom-width-mm` and
 
 ## Prepared reproduction recipe — Marlin phase deferred
 
-The following recipe preserves the prepared workflow for future resumption.
-The user deferred the Marlin study; do not treat these commands as completed
-full-framework validation. First run the repository's Spack preflight and doctor. Build the native backend
+This historical recipe reconstructs the original raw-input preparation. For the
+resumed original-framework execution and new digitized plots, use the
+[November 9 report](digitization-results.md). The former deferral below describes
+the November 5 state, not the current disposition. First run the repository's Spack preflight and doctor. Build the native backend
 using the implementation guide and an existing matching ACTS source/build.
 The local execution used `/private/tmp/nodd-digitization117-build`; substitute
 your task-owned build below. Build ODD at
@@ -363,21 +360,20 @@ local or regenerated event files and verified runtime.
 | --- | --- |
 | Draft recommendation per technology | Available: DES-044, six pinned source implementations and explicit pp/μ=200 gaps |
 | Si–W implementation and unit tests | Available: opt-in prototype, six passing native suites |
-| Original-framework same-hit comparison | **DEFERRED BY USER** until appropriate software is installed; [prepared recipe and comparator](../../../software/analysis/calorimeter_digitization/reference.md) |
-| Muon expected MIP peak | Exploratory local binned characterization only; fitted/path-aware Marlin study deferred |
-| Shower plots / linearity / resolution | Existing electron/muon previews embedded on request; further digitized study deferred; no complete physics qualification |
+| Original-framework same-hit comparison | Executed: noise-off exact-cell and conditional P/PN distribution gates; [November 9 report](digitization-results.md) |
+| Muon expected MIP peak | New held-out detailed muons: digitized MIP/fit, SNR and threshold characterization; approximate paths and conditional fit/crossing limits remain explicit |
+| Shower plots / linearity / resolution | Paired raw/D/PN electron/photon characterization and independent calibration; no reconstructed-resolution or complete detector qualification |
 | Remaining technology follow-ups | Three bounded issue drafts listed in DES-044 for maintainer triage |
 
-The visible response is deposited silicon energy / generated energy.
-Deposit-equivalent digitized energy has no incident-shower calibration.
-Physical active-plus-passive sampling fraction, longitudinal leakage, a
-noise-free paired shower control and signed-η coverage are not established by
-these summaries. CALICE's 30-layer, graded-absorber geometry is distinct from
-ODD's 48 layers; its published performance supplies scale context, not an
-acceptance band for this geometry. Issue #117 stays open until its required
-reference and physics gates are satisfied.
+The November 9 study uses an independent fixed shower calibration per direction;
+the older deposit-equivalent previews do not. Physical active-plus-passive
+sampling fraction, scored leakage, signed-η/transition coverage, empty-detector
+noise, pulse/ADC, irradiated conditions and pileup qualification remain open.
+The CALICE comparison context in the original plan is a different detector,
+not a transferred acceptance band. Issue #117 remains open for remaining
+technology, review and physics requirements; no agent grants acceptance.
 
-## User-directed deferral and retained preparation
+## Historical user-directed deferral and retained preparation — 2026-11-05
 
 The user stated: “Hold on for the Marlin study, we will add that when we the appropriate software is installed”.
 The Docker inventory approval was interrupted; no inventory result or container
@@ -386,6 +382,6 @@ suites passed before this direction. A partial electron-only exploratory analysi
 and muon calibration were run before the deferral, not accepted as the completed
 Marlin/physics study. The code, source survey, comparison utility and future
 recipe are retained. The user subsequently asked to embed the existing
-pre-deferral plots; these previews are now included above. The full study
-remains deferred until the later software installation. Full Geant4 input-generation counts are recorded in the session
+pre-deferral plots; these previews are now included above. That software-dependent deferral was superseded by the November 9 continuation
+after the PR123 installation; see the current report above. Full Geant4 input-generation counts are recorded in the session
 journal; these are independent transport inputs, not a Marlin validation pass.

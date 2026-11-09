@@ -385,7 +385,7 @@ def muon_summary(rows,args,pedestal):
         signal_SE=spectra['on']['fit']['MPV_event_cluster_bootstrap_SE']
         noise=pedestal['SD'];noise_SE=noise/math.sqrt(2*(pedestal['n']-1))
         output.append(dict(eta=eta,events=len(frames),counters=counters,
-            path_mm=basic(raw_paths),cosine=basic(chord_cosines),straight_over_chord_path=basic(path_ratio),
+            path_mm=basic(raw_paths),cosine=basic(chord_cosines),chord_over_straight_path=basic(path_ratio),
             spectra=spectra,thresholds_MIP=thresholds.tolist(),efficiency=efficiencies,
             identified_crossing_categories=categories,
             efficiency_joint_covariance=np.cov(joint.reshape(1000,-1).T,ddof=1).tolist(),

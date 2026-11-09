@@ -154,9 +154,10 @@ owns benchmark details; these requirements set the claim boundaries.
 | D44-A1 — NODD DESIGN CHOICE | Plots, compact binwise outputs, exact source/config/input hashes, versions, seeds, generation/digitization/analysis commands | Keep full event payloads local/ignored per ADR003. Binwise edges/units/counts/normalization and sufficient statistics must support the stated uncertainty |
 
 Geometry construction/overlap gates are unchanged by this response-only proposal;
-existing geometry evidence cannot stand in for the response tests above. No
-claim of passing reference comparison, MIP validation, shower response or μ=200
-performance is made in this DRAFT. Missing runtime/data remain explicit.
+existing geometry evidence cannot stand in for the response tests above. Executed software comparison and bounded single-particle characterization are
+recorded separately in the [November 9 report](../validation/issue117/digitization-results.md).
+They do not grant detector acceptance or μ=200 performance qualification.
+Missing conditions, signed-η/transition coverage and full reconstruction remain explicit.
 
 ## Follow-up issue drafts
 
@@ -185,3 +186,13 @@ On 2026-11-06 the user also authorized the
 It characterizes the physical endcap layout without running digitization or the
 deferred original framework. Its response distributions do not advance the
 same-hit original-processor comparison or detector acceptance gates.
+
+On 2026-11-09 the user resumed the digitization review after PR123 installed the
+original Key4hep runtime. The [executed report](../validation/issue117/digitization-results.md)
+and [frozen protocol](../validation/issue117/digitization-protocol.md) supersede
+the software-dependent deferral. The original Gaudi processor is compared with
+the native ACTS adapter on unchanged ODD inputs; digitized MIP/SNR/threshold and
+paired electron/photon observables are bounded characterization. Source/runtime
+identity, independent RNG streams, approximate muon paths, conditional fit and
+unknown-crossing limitations remain explicit. DES044 remains DRAFT, and the
+physical nODD tiling report remains separate from digitizer validation.

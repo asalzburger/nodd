@@ -1,10 +1,13 @@
 # Issue #117 — original-framework deterministic comparison
 
-Status: capability prepared; **the full Key4hep/Marlin reference run has not
-been executed in this environment**. The synthetic comparator test is software
-utility validation, not independent digitizer validation. The runtime, its
-immutable build identity and the resulting original-processor ROOT output
-remain required inputs.
+Status update, 2026-11-09: the original EDM4hep-native Key4hep comparison has
+been executed after PR123 supplied the runtime. See the
+[executed report](../../../docs/validation/issue117/digitization-results.md),
+[frozen protocol](../../../docs/validation/issue117/digitization-protocol.md) and
+`reference_validation.py` for the actual steering, hashes, statistical gates
+and failed-pilot corrections. The recipe below originated during preparation;
+its deterministic energy/selection contract remains separate from physics
+acceptance and stochastic conditional replay tests.
 
 The native executable `nodd_silicon_reference` consumes the original ODD
 `ddsim` file and a separately produced full-framework reference output. It
@@ -57,20 +60,27 @@ does not establish that this recently added plugin is installed.
 `BaseDigitiser` gets its cell encoding from a **named DD4hep string constant**,
 not directly from the readout. The pinned ODD readouts have `layer` in their
 encoding but do not define `GlobalCalorimeterReadoutID`. Supply a task-local
-compact wrapper containing only two string constants and an include of the
-unchanged original compact. The following is a proposed adapter, unexecuted
-with GeoSvc here; it does not change volumes, materials or segmentation:
+copy of the unchanged original root compact, rebase its existing references to
+absolute source paths, and add the two named encoding constants. **An include-only
+wrapper is insufficient:** it initializes the world before the original Vacuum
+material is available. That failed pilot is retained; the executed runner checks
+that canonical root content differs only by the added constants/reference
+rebasing. No volume, material or segmentation is changed.
 
-```xml
-<lccdd>
-  <define>
-    <constant name="I117EcalBarrelID" type="string"
-      value="system:8,barrel:3,module:4,stave:1,layer:6,slice:5,x:32:-16,y:-16"/>
-    <constant name="I117EcalEndcapID" type="string"
-      value="system:8,barrel:3,module:4,stave:1,layer:6,slice:5,x:32:-16,z:-16"/>
-  </define>
-  <include ref="/absolute/path/to/pinned/ODD/xml/OpenDataDetector.xml"/>
-</lccdd>
+```python
+import xml.etree.ElementTree as ET
+from pathlib import Path
+source = Path("/absolute/path/to/pinned/ODD/xml/OpenDataDetector.xml")
+root = ET.parse(source).getroot()
+for node in root.iter():
+    if "ref" in node.attrib:
+        node.set("ref", str((source.parent / node.get("ref")).resolve()))
+for name, encoding in {
+    "I117EcalBarrelID": "system:8,barrel:3,module:4,stave:1,layer:6,slice:5,x:32:-16,y:-16",
+    "I117EcalEndcapID": "system:8,barrel:3,module:4,stave:1,layer:6,slice:5,x:32:-16,z:-16",
+}.items():
+    ET.SubElement(root.find("define"), "constant", name=name, type="string", value=encoding)
+ET.ElementTree(root).write("reference-wrapper.xml")
 ```
 
 These strings are copied from ODD
@@ -141,7 +151,8 @@ k4run /absolute/path/to/reference_digi.py
 ```
 
 Retain the exact steering/configuration/wrapper hashes and original command
-exit status locally. No success for this command is claimed here.
+exit status locally. Actual execution uses the command-scoped PR123 wrapper and
+explicit Python invocation recorded in the November 9 report.
 
 ## Comparison configuration and execution
 

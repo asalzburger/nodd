@@ -42,12 +42,14 @@ def hist(ax,h,denominator=None,*,label='',linestyle='-',filled=False):
               fill=filled,alpha=.3 if filled else 1.,linewidth=1.6)
 
 
-def finish(fig,path,title,caption,handles=None):
+def finish(fig,path,title,caption,handles=None,layout=None):
     fig.suptitle(title,fontsize=16,y=.992)
     fig.text(.5,.014,caption,ha='center',va='bottom',fontsize=9)
     if handles:
         fig.legend(*handles,loc='lower center',bbox_to_anchor=(.5,.052),ncol=3,frameon=False,fontsize=10)
     fig.tight_layout(rect=(.015,.11 if handles else .075,.99,.958),h_pad=2.,w_pad=2.)
+    if layout:
+        fig.subplots_adjust(**layout)
     fig.savefig(path,dpi=170,facecolor='white',metadata={'Software':'nODD compact-summary renderer'})
     plt.close(fig)
 
@@ -98,7 +100,7 @@ def mip_plot(data,path):
     x=np.linspace(-.65,.65,501)
     ax.plot(x,np.exp(-.5*(x/.13)**2)/(.13*np.sqrt(2*np.pi)),color='black',ls='--',lw=1.,label='Configured Gaussian σ=0.13 MIP')
     ax.set(title=f"E. Electronics-only model pedestal; N={pedestal['n']:,}",xlabel='Signed noise [MIP]',ylabel='Density [MIP⁻¹]')
-    ax.text(.98,.96,f"Mean = {pedestal['mean']:.5f} MIP\nRMS = {pedestal['SD']:.5f} MIP\nGaussian mean/RMS/2σ-tail controls: {'pass' if pedestal['gaussian_control']['passed'] else 'FAIL'}",transform=ax.transAxes,ha='right',va='top',fontsize=10)
+    ax.text(.98,.96,f"Mean = {pedestal['mean']:.5f} MIP\nRMS = {pedestal['SD']:.5f} MIP\nGaussian controls: {'pass' if pedestal['gaussian_control']['passed'] else 'FAIL'}",transform=ax.transAxes,ha='right',va='top',fontsize=10)
     ax.legend(fontsize=9,loc='upper left')
     ax=axs[2,1];ax.axis('off')
     text=['F. Frozen study definition','',f"MIP scale: {data['settings']['mip_energy_GeV']*1e6:.2f} keV (historical calibration)",
@@ -128,17 +130,16 @@ def shower_plot(data,species,path):
             ys=[s['stages'][stage] for s in samples]
             axs[0,col].errorbar(energy,[100*(s['calibrated_response']-1) for s in ys],yerr=[100*s['calibrated_response_SE'] for s in ys],label=LABELS[stage],**STYLES[stage],markersize=5,capsize=3)
             axs[1,col].errorbar(energy,[100*s['RMS_over_mean'] for s in ys],yerr=[100*s['RMS_over_mean_SE'] for s in ys],label=LABELS[stage],**STYLES[stage],markersize=5,capsize=3)
-        reference=data['showers']['calibrations'][str(eta)]
         axs[0,col].axhline(0,color='black',lw=.8)
         axs[0,col].set(title=f"η={eta:g}; N=200 per test point",ylabel='Calibrated response − 1 [%]',xlabel='Generated total energy [GeV]')
         axs[1,col].set(ylabel='All-event sample SD / mean [%]',xlabel='Generated total energy [GeV]')
-        axs[0,col].text(.97,.05,f"Independent e⁻ reference: N={reference['n']} at 20 GeV/c\nCη = {reference['factor']:.3f} ± {reference['factor_SE']:.3f}",transform=axs[0,col].transAxes,ha='right',va='bottom',fontsize=9)
         for ax in axs[:,col]:
             ax.set_xticks([5,20,50]);axes_style(ax)
     title='Electrons' if species=='e-' else 'Photons'
     handles=axs[0,0].get_legend_handles_labels()
     finish(fig,path,f'ODD silicon digitization — {title.lower()}: raw versus digitized response and spread',
-           'PROTOTYPE • Same events in all three stages; zeros retained. One independent 20 GeV/c electron factor per η is shared across species/energies/stages.\nErrors: 5,000 paired whole-event/reference bootstrap replicates; shared calibration covariance retained. SD/mean is a distribution spread, not a Gaussian core or reconstructed-energy resolution.',handles)
+           'PROTOTYPE • Same events in all three stages; zeros retained. One independent 20 GeV/c electron factor per η is shared across species/energies/stages.\nErrors: 5,000 paired whole-event/reference bootstrap replicates; shared calibration covariance retained. SD/mean is a distribution spread, not a Gaussian core or reconstructed-energy resolution.',handles,
+           layout=dict(left=.085,right=.985,bottom=.22,top=.88,wspace=.34,hspace=.38))
 
 
 def reference_plot(data,path):
