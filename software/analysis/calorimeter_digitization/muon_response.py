@@ -25,8 +25,10 @@ def geometry(args):
     detector=dd4hep.Detector.getInstance()
     detector.fromXML(str((args.odd_source/'xml/OpenDataDetector.xml').resolve()))
     manager=detector.manager()
+    volume_manager=detector.volumeManager()
     mm=float(dd4hep.mm)
     normals={}
+    reference_outside=0;maximum_reference_residual=0.;queries=0
     for sample in json.loads(args.muon_samples.read_text())['samples']:
         name='ECalBarrelCollection' if sample['eta']==0 else 'ECalEndcapCollection'
         frames=root_io.Reader(sample['path']).get('events')
@@ -35,21 +37,39 @@ def geometry(args):
                 cid=int(hit.getCellID())
                 key=f'{name}:{(cid>>11)&15}:{(cid>>8)&7}'
                 point=hit.getPosition()
-                node=manager.FindNode(point.x*mm,point.y*mm,point.z*mm)
-                if not node or str(node.GetVolume().GetMaterial().GetName())!='Silicon':
-                    raise ValueError('Stored sensitive cell centre is outside Silicon')
-                shape=node.GetVolume().GetShape()
-                if abs(float(shape.GetDZ())/mm-.25)>1e-7:
+                # A virtual boundary-cell reference can overhang its physical
+                # sensitive footprint. Resolve its actual volume by the ID,
+                # rather than assigning the normal of the containing point.
+                context=volume_manager.lookupContext(cid)
+                volume=context.volumePlacement().volume()
+                if str(volume.material().name())!='Silicon':
+                    raise ValueError('Sensitive volume ID does not resolve to Silicon')
+                shape=volume.solid().ptr()
+                endcap=name=='ECalEndcapCollection'
+                half_thickness=float(shape.GetDy1() if endcap else shape.GetDZ())/mm
+                if abs(half_thickness-.25)>1e-7 or (endcap and abs(float(shape.GetDy2())/mm-.25)>1e-7):
                     raise ValueError('Unexpected sensitive half thickness')
-                normal=array('d',[0.,0.,0.])
-                manager.GetCurrentMatrix().LocalToMasterVect(array('d',[0.,0.,1.]),normal)
+                p0=context.localToWorld(dd4hep.Position(0,0,0))
+                p1=context.localToWorld(dd4hep.Position(0,1,0) if endcap else dd4hep.Position(0,0,1))
+                normal=np.array([p1.x()-p0.x(),p1.y()-p0.y(),p1.z()-p0.z()])
+                normal/=np.linalg.norm(normal)
+                reference=context.localToWorld(detector.readout(name).segmentation().position(cid))
+                residual=max(abs(reference.x()/mm-point.x),abs(reference.y()/mm-point.y),abs(reference.z()/mm-point.z))
+                maximum_reference_residual=max(maximum_reference_residual,residual)
+                if residual>.002:
+                    raise ValueError('Stored reference disagrees with native segmentation/volume transform')
+                node=manager.FindNode(point.x*mm,point.y*mm,point.z*mm)
+                reference_outside+=int(not node or str(node.GetVolume().GetMaterial().GetName())!='Silicon')
+                queries+=1
                 if key in normals and np.linalg.norm(np.asarray(normals[key])-normal)>1e-9:
                     raise ValueError('Nonuniform module normal')
                 normals[key]=list(normal)
     result=dict(normals=normals,silicon_thickness_mm=.5,
+                cell_reference_queries=queries,virtual_references_outside_silicon=reference_outside,
+                maximum_cell_reference_residual_mm=maximum_reference_residual,position_tolerance_mm=.002,
                 odd_library_sha256=sha(args.odd_library),
                 odd_xml_sha256=sha(args.odd_source/'xml/detectors/CalorimeterECal.xml'),
-                query='TGeo FindNode at persisted SimHit cell centre; Silicon box DZ=0.25mm; current local-z normal transformed to master',
+                query='DD4hep VolumeManager sensitive-volume lookup by cellID; Silicon barrel box DZ=0.25mm, endcap trapezoid Dy1=Dy2=0.25mm; local-z/barrel or local-y/endcap normal transformed to world; all references checked against native segmentation',
                 limitations=['All persisted cell centres in these two detailed-muon samples were queried; this does not map unhit channels or transported zero-deposit crossings.'])
     write(args.work/'muon-geometry.json',result)
     dd4hep.Detector.destroyInstance()
