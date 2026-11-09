@@ -159,6 +159,27 @@ See [ADR-003](docs/decisions/ADR-003-validation-and-artifact-policy.md).
 
 ## Code and change discipline
 
+Maintain the [software inventory](docs/software-inventory.md) in the same PR
+whenever software is added, removed or its integration, dependencies or usage
+changes. Update `software/inventory.json` with usage keywords, integration
+(submodule, local installation or source added to nODD), installation/use recipe,
+recorded version or explicit unknown status, evidence and related PRs when known.
+Include optional tools and new externals used within an existing script.
+After reviewing dependency/build/source-pin changes, run
+`python3 -B tools/software_inventory/inventory.py refresh`, review both inventory
+and page diffs, then run `python3 -B tools/software_inventory/inventory.py check`.
+Do not treat refreshed fingerprints as evidence of installation or execution.
+
+Human instruction, 2026-11-06: **every repository task must end in a draft pull
+request**. Push the dedicated task branch and open a draft PR with the task/issue,
+actual validation and limitations before reporting completion. Investigations,
+no-code outcomes and blocked work still need a reviewable curated session record
+in their draft PR. Do not mark the PR ready or merge it without explicit human
+instruction. If publication fails, report the blocker and any existing PR URL;
+the task is not complete. For scheduled `agent_task` jobs, the host publisher owns
+the commit/push/PR steps and records the verified draft URL in task state/results;
+the sandboxed agent prepares the changes and structured PR title/body.
+
 - Inspect existing conventions before adding dependencies, directories, abstractions, or build options.
 - Make focused changes. Do not combine unrelated cleanup with scientific modifications.
 - Add or update tests with the implementation.
@@ -308,7 +329,14 @@ Whenever per-PR token accounting is performed, refresh and review that PR's
 public discussion and available visible-message evidence, update canonical
 session usage, then run `python3 -B tools/interactions/ledger.py sync --pr N`
 and `python3 -B tools/interactions/ledger.py validate`. Synchronize all affected
-PR records when a shared journal changes. Commit the affected interaction files
+PR records when a shared journal changes, using `sync --session SESSION-ID`
+to select both current and former links. Start independent PR tasks/accounting
+follow-ups in distinct paired sessions (`session_log.py new --pr N` when the PR
+exists) and distinct task branches. Keep new recovery inventories uniquely named
+and explain them in that session or a same-stem narrative; do not routinely
+append to shared usage/campaign journals. Preserve existing canonical turn
+owners and refresh all their references when correcting historical evidence.
+Commit the affected interaction files
 with the accounting update. The ledger references each exact token owner; it
 must not copy/split counters or invent per-message usage. Record unavailable
 history and active-turn exclusions. CI rejects missing current-PR records and

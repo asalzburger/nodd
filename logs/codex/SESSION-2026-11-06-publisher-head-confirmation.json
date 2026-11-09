@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-11-06-publisher-head-confirmation",
+  "title": "Confirm published PR heads after GitHub propagation delays",
+  "recorded_at": "2026-11-06T16:02:32Z",
+  "started_at": null,
+  "ended_at": "2026-11-06T16:04:20.084382Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact client per-turn counters and stable thread/turn IDs were unavailable; usage remains empty.",
+    "The original immediate verification did not retain its mismatched fields. A later API read matched the pushed SHA; short GitHub head propagation is a supported failure hypothesis, not a reconstructed response.",
+    "The tested publisher module was deployed as a local override pending review/merge of this fix. Permission config, scheduler and queue history were preserved.",
+    "2026-11-06 accounting audit: closed desktop turn 01a1b191-a05e-7d30-9b6d-9405fda69a79 is shared with PR125 publication recovery. Available token streams end before its persisted ordinals 895\u20131125; no exact observations can be recovered. Usage stays empty and unknown, not zero; no allocation or estimate was made."
+  ],
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": "01a1b036-cfd7-7d70-8bbb-db0b64b153da"
+  },
+  "git": {
+    "start_commit": "4497737721d35df1e8971d5d01e8a5727def14aa",
+    "branch": "codex/publisher-head-confirmation",
+    "initial_changes": [],
+    "result_commits": [
+      "a7ba6091b3ec370873d234de00ee2bfea7e38470"
+    ],
+    "changed_files": [
+      "tools/agent_tasks/publish.py",
+      "tools/agent_tasks/test_publish.py",
+      "tools/agent_tasks/README.md",
+      "logs/codex/SESSION-2026-11-06-publisher-head-confirmation.json",
+      "logs/codex/SESSION-2026-11-06-publisher-head-confirmation.md",
+      "interactions/pr-0126.json"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [
+      "repository infrastructure",
+      "draft PR publication"
+    ],
+    "related_ids": [
+      "ISSUE-124",
+      "ADR-004",
+      "PR126"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-11-06-publisher-head-confirmation.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 -B -m unittest discover -s tools/agent_tasks -p 'test_*.py' -q",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "27 tests pass. Added stale-final-head recovery and persistent wrong-head rejection without weakening exact SHA/draft/branch checks."
+    },
+    {
+      "command": "Original task124 publication immediate final-head verification",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Draft PR125 and interaction commit were pushed, but immediate verification returned a generic mismatch. Subsequent GitHub PR/ref reads both matched local c4b8107fae7d60d55ce28a5cdd51612934684323."
+    },
+    {
+      "command": "Recover task124 publication with tested head-confirmation module",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Existing draft PR125 reused, individual interaction record pushed, final exact draft/head verification passed, state/result now include the PR URL; no duplicate PR or model execution."
+    }
+  ]
+}

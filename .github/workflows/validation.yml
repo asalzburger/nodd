@@ -138,6 +138,16 @@ jobs:
         run: |
           python3 -B tools/agent_workflow/workflow.py validate
           python3 -B -m unittest discover -s tools/agent_workflow -p 'test_*.py' -v
+      - name: Test hourly reviewer task pickup and scheduler configuration
+        run: python3 -B -m unittest discover -s tools/agent_tasks -p 'test_*.py' -v
+      - name: Check software inventory coverage and reviewed dependency inputs
+        run: |
+          python3 -B tools/software_inventory/inventory.py check
+          python3 -B -m unittest discover -s tools/software_inventory -p 'test_*.py' -v
+      - name: Check immutable repository cleanup inventory
+        run: |
+          python3 -B -m unittest discover -s tools/repository_cleanup -p 'test_*.py' -v
+          python3 -B tools/repository_cleanup/audit.py --revision 2ce4e9c81006a3779e89a3cedc3a45a7f1bf72d7 --output docs/maintenance/issue-120-inventory.json --check
       - name: Test calorimeter source audit arithmetic and accounting
         run: python3 -B -m unittest discover -s tools/calorimeter_audit -p 'test_*.py' -v
       - name: Test public tracker prototype controls

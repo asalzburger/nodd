@@ -40,6 +40,7 @@ idres:
 	"$(ENV_RUN)" python3 "$(NODD_ROOT)/software/env/build_idres.py" --source "$(NODD_ROOT)/software/submodules/IdRes" --build "$(BUILD_DIR)/idres" --jobs $(JOBS)
 check:
 	python3 -B "$(NODD_ROOT)/software/env/check_layout.py"
+	cd "$(NODD_ROOT)" && python3 -B tools/software_inventory/inventory.py check
 	cd "$(NODD_ROOT)" && python3 -B tools/session_logging/session_log.py validate
 	cd "$(NODD_ROOT)" && python3 -B tools/project_records/validate.py
 	cd "$(NODD_ROOT)" && python3 -B tools/token_usage/build.py validate

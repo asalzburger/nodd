@@ -16,6 +16,7 @@ tracking; scientific/evidence work, documentation deliverables and new software 
 
 - [ ] Project PR: updated `project/tracking.json` or `project/reviews.json` with the work, review or evidence change; or infrastructure PR: confirmed no maintenance entries were added to progress tracking.
 - [ ] Ran relevant tests and `python3 tools/session_logging/session_log.py validate`; recorded actual results and limitations.
+- [ ] Software addition/removal or dependency/integration/usage change: updated the [software inventory](../docs/software-inventory.md), reviewed dependency/source-pin receipts and passed `python3 -B tools/software_inventory/inventory.py check`; or confirmed the inventory is unaffected.
 - [ ] Reference-run outputs: included plots and the reproduction recipe, plus compact binwise data only where needed; excluded large raw samples/dumps/caches/logs from both the PR file tree and newly pushed Git history. Recorded bin definitions, units, normalization, uncertainty information and any checks requiring the full local dataset. See the [artifact rule](../AGENTS.md#reference-run-artifacts-and-pr-contents).
 - [ ] Updated this PR's individual `interactions/pr-NNNN.json` with available inputs/responses, named parties, roles, tool provenance and canonical token-account references; refreshed it alongside token accounting and ran `python3 -B tools/interactions/ledger.py validate`.
 - [ ] Preserved human approval boundaries and linked exact review/evidence revisions where applicable.

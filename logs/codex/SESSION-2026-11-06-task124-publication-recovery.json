@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-11-06-task124-publication-recovery",
+  "title": "Recover task 124 draft publication and update deployed runner",
+  "recorded_at": "2026-11-06T15:59:31Z",
+  "started_at": null,
+  "ended_at": "2026-11-06T15:59:31.714177Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact client turn/thread identifiers and per-turn counters were unavailable; usage remains empty.",
+    "The original worker reported make check blocked by an unavailable historical project commit; that limitation is retained in the draft body. No native runtime or scientific acceptance is claimed.",
+    "2026-11-06 accounting audit: shared closed desktop turn 01a1b191-a05e-7d30-9b6d-9405fda69a79 has no recoverable usage observations inside persisted ordinals 895\u20131125. Usage remains empty; no part of that shared turn is estimated."
+  ],
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": "01a1b036-cfd7-7d70-8bbb-db0b64b153da"
+  },
+  "git": {
+    "start_commit": "4497737721d35df1e8971d5d01e8a5727def14aa",
+    "branch": "codex/agent-task-124-35358784063",
+    "initial_changes": [
+      ".github/pull_request_template.md",
+      ".github/workflows/validation.yml",
+      "AGENTS.md",
+      "README.md",
+      "docs/software-inventory.md",
+      "logs/codex/SESSION-2026-11-06-software-inventory.json",
+      "logs/codex/SESSION-2026-11-06-software-inventory.md",
+      "logs/codex/SESSION-2026-11-06-software-inventory/request.json",
+      "software/Makefile",
+      "software/README.md",
+      "software/inventory.json",
+      "tools/software_inventory/inventory.py",
+      "tools/software_inventory/test_inventory.py"
+    ],
+    "result_commits": [],
+    "changed_files": [
+      "logs/codex/SESSION-2026-11-06-task124-publication-recovery.json",
+      "logs/codex/SESSION-2026-11-06-task124-publication-recovery.md"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [
+      "repository infrastructure",
+      "worker deployment",
+      "draft publication"
+    ],
+    "related_ids": [
+      "ISSUE-124",
+      "ADR-004"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-11-06-task124-publication-recovery.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 -B -m unittest discover -s tools/agent_tasks -p 'test_*.py' -q",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "25 tests passed in the fast-forwarded live runner checkout."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/software_inventory -p 'test_*.py' -q",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "10 tests passed in the retained task 124 worktree."
+    },
+    {
+      "command": "python3 -B tools/software_inventory/inventory.py check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "56 components, 99 local families, 51 reviewed inputs and four pins verified."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate; python3 -B tools/interactions/ledger.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Original worker tree: 257 sessions and 106 interaction records validated before adding this recovery journal."
+    }
+  ]
+}

@@ -1,0 +1,191 @@
+{
+  "schema_version": 1,
+  "curated": {
+    "journal_links": [],
+    "agents": [],
+    "tools": [],
+    "events": []
+  },
+  "github": {
+    "captured_at": "2026-11-06T12:04:51.361Z",
+    "pull_request": {
+      "number": 122,
+      "url": "https://github.com/asalzburger/nodd/pull/122",
+      "title": "Infrastructure: require draft PR delivery for every agent task",
+      "head": "codex/agent-task-draft-pr",
+      "head_sha": "13e0a17651156f28b736015501c84496f1f292f8",
+      "state": "open",
+      "body": "## Executive summary\n\nAgent tasks previously ended with uncommitted local changes and could be marked complete after a zero Codex exit. Every repository task must now end in a draft PR. The scheduled runner commits/pushes the assigned task branch, creates its draft PR, adds the individual interaction record and verifies the final remote draft/head before reporting completion. The task state and human-readable result contain the PR link.\n\nThe tested runtime files are already deployed on `acts-mac-studio-01` under the existing queue lock, preserving the local permission list, state and original worktrees. Merge this draft to retain the rule in main and reconcile the deployed source overrides against it. Task #120 is published separately in [draft PR #121](https://github.com/asalzburger/nodd/pull/121).\n\n## Change\n\n- Add the human-directed standing draft-delivery rule to AGENTS.md, including investigation/blocked/no-code session records and explicit failure reporting when publication is blocked.\n- Keep Codex in `workspace-write` with no interactive approval. Its structured final response supplies a valid repository PR title and review body; the host owns publication using existing GitHub credentials.\n- Publish only the assigned branch; reuse its existing open draft on retries; refuse to update a ready/closed PR. For a PR task, target its captured source branch and reject a moved source head.\n- Validate curated records, staged paths and new Git objects, with an unattended 5 MiB blob limit and obvious credential-path rejection. Retain publication/size manifests locally. These checks do not replace task review or constitute a full secret scanner.\n- Capture and push the per-PR interaction record after number assignment. Require an open draft at the final pushed SHA before `completed`; retain known PR links and actionable failures if later publication steps fail.\n- Document results, credentials, deployment, timeouts and failure/retry semantics. No merges, ready transitions, comments, label/permission changes or human sign-off are automated.\n\n## Dashboard and validation\n\n- [x] Infrastructure only; scientific progress and detector/sign-off states unchanged. ADR-004 remains DRAFT.\n- [x] 25 queue/publisher tests pass. Real local bare Git remote plus fake GitHub CLI exercise commit/push/draft creation, interaction follow-up, lost-response idempotence, PR source branch/movement, ready-PR protection, failed state/link retention and large blobs committed then removed.\n- [x] Curated sessions/interactions validate; token site builds; staged files/new Git objects inspected.\n- [x] Live authenticated dry-run succeeds after deployment; no task/model job started manually. Existing task #120 result/state now links to its draft PR.\n- [x] Permission configuration and queue history preserved; original worker worktree retained; scheduler program path/schedule unchanged.\n\nSession: `SESSION-2026-11-06-agent-task-draft-pr`. Exact per-turn counters are unavailable; usage remains empty and no tokens were estimated. Review the next scheduled model task's actual draft output after it runs.\n",
+      "actor": "asalzburger",
+      "created_at": "2026-11-06T12:04:01Z"
+    },
+    "comments": [],
+    "issues": []
+  },
+  "derived": {
+    "parties": [
+      {
+        "id": "agent:SESSION-2026-11-06-agent-task-draft-pr",
+        "name": "Codex desktop",
+        "kind": "agent"
+      },
+      {
+        "id": "github:asalzburger",
+        "name": "asalzburger",
+        "kind": "account"
+      },
+      {
+        "id": "unknown:project-user",
+        "name": "Project user (name unrecorded)",
+        "kind": "human"
+      }
+    ],
+    "journals": [
+      {
+        "session_id": "SESSION-2026-11-06-agent-task-draft-pr",
+        "record": "logs/codex/SESSION-2026-11-06-agent-task-draft-pr.json",
+        "attribution": [
+          "recorded_branch",
+          "explicit_PR_reference"
+        ],
+        "snapshot": null,
+        "snapshot_sha256": null,
+        "record_sha256": "d79dbf8b37c87aeb2092ffdbfffd492709e3806f1b871ea078b500646a3298be",
+        "narrative_sha256": "69f31702e6399be3861dc1e014d2520cb1bb92e8ca1cef4dda95deb7b3deb72a"
+      }
+    ],
+    "token_accounts": [
+      {
+        "id": "SESSION-2026-11-06-agent-task-draft-pr",
+        "record": "logs/codex/SESSION-2026-11-06-agent-task-draft-pr.json",
+        "scope": "canonical_session; shared PR references are not allocations",
+        "status": "unobserved",
+        "usage_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "turns": []
+      }
+    ],
+    "visible_sources": [],
+    "agents": [
+      {
+        "id": "agent:SESSION-2026-11-06-agent-task-draft-pr",
+        "name": "Codex desktop",
+        "role": "session_agent",
+        "thread_id": null,
+        "models": [],
+        "source": "logs/codex/SESSION-2026-11-06-agent-task-draft-pr.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      }
+    ],
+    "tools": {
+      "native_codex": [],
+      "codex_installed": [],
+      "instructed_software": [],
+      "unresolved": [
+        {
+          "name": "functions.exec / exec_command / apply_patch / write_stdin",
+          "category": "unresolved",
+          "version": null,
+          "calls": null,
+          "source": "logs/codex/SESSION-2026-11-06-agent-task-draft-pr.json",
+          "evidence": "Native Codex execution and editing wrappers; GitHub connector reads and authenticated Git/GitHub CLI used for explicitly requested draft publication. Counts not measured.",
+          "token_account": "SESSION-2026-11-06-agent-task-draft-pr",
+          "provenance": "Operation recorded; installation provenance needs explicit evidence."
+        }
+      ]
+    },
+    "events": [
+      {
+        "id": "github:https://github.com/asalzburger/nodd/pull/122",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "github:asalzburger",
+        "recipients": [],
+        "text": "## Executive summary\n\nAgent tasks previously ended with uncommitted local changes and could be marked complete after a zero Codex exit. Every repository task must now end in a draft PR. The scheduled runner commits/pushes the assigned task branch, creates its draft PR, adds the individual interaction record and verifies the final remote draft/head before reporting completion. The task state and human-readable result contain the PR link.\n\nThe tested runtime files are already deployed on `acts-mac-studio-01` under the existing queue lock, preserving the local permission list, state and original worktrees. Merge this draft to retain the rule in main and reconcile the deployed source overrides against it. Task #120 is published separately in [draft PR #121](https://github.com/asalzburger/nodd/pull/121).\n\n## Change\n\n- Add the human-directed standing draft-delivery rule to AGENTS.md, including investigation/blocked/no-code session records and explicit failure reporting when publication is blocked.\n- Keep Codex in `workspace-write` with no interactive approval. Its structured final response supplies a valid repository PR title and review body; the host owns publication using existing GitHub credentials.\n- Publish only the assigned branch; reuse its existing open draft on retries; refuse to update a ready/closed PR. For a PR task, target its captured source branch and reject a moved source head.\n- Validate curated records, staged paths and new Git objects, with an unattended 5 MiB blob limit and obvious credential-path rejection. Retain publication/size manifests locally. These checks do not replace task review or constitute a full secret scanner.\n- Capture and push the per-PR interaction record after number assignment. Require an open draft at the final pushed SHA before `completed`; retain known PR links and actionable failures if later publication steps fail.\n- Document results, credentials, deployment, timeouts and failure/retry semantics. No merges, ready transitions, comments, label/permission changes or human sign-off are automated.\n\n## Dashboard and validation\n\n- [x] Infrastructure only; scientific progress and detector/sign-off states unchanged. ADR-004 remains DRAFT.\n- [x] 25 queue/publisher tests pass. Real local bare Git remote plus fake GitHub CLI exercise commit/push/draft creation, interaction follow-up, lost-response idempotence, PR source branch/movement, ready-PR protection, failed state/link retention and large blobs committed then removed.\n- [x] Curated sessions/interactions validate; token site builds; staged files/new Git objects inspected.\n- [x] Live authenticated dry-run succeeds after deployment; no task/model job started manually. Existing task #120 result/state now links to its draft PR.\n- [x] Permission configuration and queue history preserved; original worker worktree retained; scheduler program path/schedule unchanged.\n\nSession: `SESSION-2026-11-06-agent-task-draft-pr`. Exact per-turn counters are unavailable; usage remains empty and no tokens were estimated. Review the next scheduled model task's actual draft output after it runs.\n",
+        "source": "https://github.com/asalzburger/nodd/pull/122",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [],
+        "timestamp": "2026-11-06T12:04:01Z",
+        "remote_input": null
+      },
+      {
+        "id": "journal:SESSION-2026-11-06-agent-task-draft-pr:d8465868b59cc1a8",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "agent:SESSION-2026-11-06-agent-task-draft-pr"
+        ],
+        "text": "User, exact: \"Make it a rule that tasks always end in a draft PR 0 and make one now\"\n\n",
+        "source": "logs/codex/SESSION-2026-11-06-agent-task-draft-pr.md#selected-conversation",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-06-agent-task-draft-pr"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-11-06-agent-task-draft-pr:7be03fa7693f1304",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-11-06-agent-task-draft-pr",
+        "recipients": [],
+        "text": "Assistant, paraphrase: will make a draft PR mandatory for completion and publish\n#120 immediately, using separate focused infrastructure PRs. The user explicitly\nauthorizes task-result pushes and draft PR creation. Existing rules forbidding\npublication by the scheduled runner are superseded for that bounded purpose;\nthere is no authorization to mark PRs ready, merge, change labels/permissions or\ngrant design sign-off.",
+        "source": "logs/codex/SESSION-2026-11-06-agent-task-draft-pr.md#selected-conversation",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-06-agent-task-draft-pr"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-11-06-agent-task-draft-pr:4fcc78717135edea",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-11-06-agent-task-draft-pr",
+        "recipients": [],
+        "text": "AGENTS.md now requires a draft PR for every completed repository task, including\nreviewable investigation/blocked/no-code session records. The sandboxed agent\nreturns a structured PR title/body and local changes. The host publishes the\nassigned branch, creates a draft, captures its individual interaction record and\nchecks that the open draft points to the final remote SHA. A zero model exit alone\ncannot complete a task. Publication failures remain failed and retain any known\ndraft link. Existing drafts are reused on publication retries; a ready/closed PR\nis not modified by the publisher. PR tasks target the source PR head branch and\nstop when its captured head has changed.\n\nThe host validates title, branch/origin, curated records, staged paths and all\nnew Git blobs. New/staged files above 5 MiB and obvious credential paths require\nmanual review. Size manifests remain local; this is not a complete secret/content\nscanner. Process groups are terminated on command timeout/interruption. No model\nsandbox or approval setting was broadened. ADR-004 remains DRAFT; no scientific\ntracking entry, detector parameter or sign-off changes.",
+        "source": "logs/codex/SESSION-2026-11-06-agent-task-draft-pr.md#decisions-and-outcomes",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-06-agent-task-draft-pr"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-11-06-agent-task-draft-pr:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-11-06-agent-task-draft-pr",
+        "recipients": [],
+        "text": "Require a draft PR for every completed agent task — see the canonical narrative for outcomes and checks.",
+        "source": "logs/codex/SESSION-2026-11-06-agent-task-draft-pr.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-06-agent-task-draft-pr"
+        ],
+        "content_kind": "reference_summary"
+      }
+    ],
+    "coverage": {
+      "github_captured_at": "2026-11-06T12:04:51.361Z",
+      "prompts": "Available account-matched user-visible messages, public Codex inputs and curated journal excerpts. Historical full input coverage is unknown.",
+      "recovered_visible_turns": 0,
+      "unrecovered_account_turns": [],
+      "responses": "Public responses and recorded outcomes; no private model state or hidden reasoning.",
+      "token_accounting": "References only. Never sum accounts across PRs or assign a shared turn by text length.",
+      "unknowns": "Unrecorded names, models, tools, subagent identities and response links remain unknown; empty lists are not zero activity.",
+      "remote": "Snapshot, not live synchronization; deleted/edited history and emoji reactions are not recovered.",
+      "branch_only": "Pinned branch journal snapshots are references, not imported counters. Unretained or other-device inputs remain unknown."
+    }
+  }
+}

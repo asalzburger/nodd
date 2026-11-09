@@ -5,6 +5,11 @@ OpenDataDetector for DD4hep simulation and ACTS-compatible reconstruction.
 See the [project scope](PROJECT.md), [development plan](docs/DEVELOPMENT_PLAN.md)
 and [documentation index](docs/README.md).
 
+The [software inventory](docs/software-inventory.md) lists the pre-existing
+Spack dependencies, pinned source dependencies, local ActsExamples extensions,
+cross-validation tools and analysis environments, with usage keywords,
+installation evidence and related PRs. Update it in the same PR as software changes.
+
 The [PR interaction ledger](interactions/README.md) records available human
 inputs, agent responses, parties, roles, tools and canonical token-account
 references in separate files for each PR.
@@ -130,6 +135,10 @@ defines their full mandates and responsibility boundaries.
 These are responsibility roles, not a requirement for eight simultaneous agent
 processes. Only identified humans may grant design sign-off or acceptance.
 
+The [hourly task queue](tools/agent_tasks/README.md) lets reviewers request work
+with `agent_task` for pickup on `acts-mac-studio-01`. Completed tasks always
+produce a draft PR, with its link recorded in local state and the task result.
+
 The [agent workflow](docs/AGENT_WORKFLOW.md) connects these mandates to reusable
 Codex profiles and skills, bounded assignments and revision-specific handoffs.
 Start Codex in the nODD checkout (or its worktree) to discover project guidance.
@@ -164,3 +173,7 @@ isolated cobe/pint prototypes from versioned sensor and layer inputs, compares
 straight/curved-track coverage and silicon area, and audits intersections with
 ACTS. See [DES-009](docs/design/DES-009-module-populated-layouts.md) and the
 [coverage/support report](docs/validation/DES-009-module-populated-layouts.md).
+
+The [issue #120 cleanup plan](docs/maintenance/issue-120-repository-cleanup.md)
+records generated-output removal candidates, retention prerequisites and the
+workflow for reducing conflicts between independent PR accounting updates.
