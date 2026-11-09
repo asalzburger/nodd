@@ -9,7 +9,7 @@
 - Input baseline: `96dbf57d0da7f3027e59109c1846d992d68d4d44`
 - Governing artifact policy: [ADR-003](../decisions/ADR-003-validation-and-artifact-policy.md)
 - Parents: [DES-031](DES-031-siw-barrel-prototype.md), [DES-032](DES-032-allegro-lar-barrel.md), [DES-033](DES-033-allegro-lar-endcaps.md), [DES-036](DES-036-hcal-common-readout-module.md), [DES-039](DES-039-common-forward-calorimeter.md)
-- Implementation / validation: [draft PR #118](https://github.com/asalzburger/nodd/pull/118); [validation plan](../validation/issue117/validation-plan.md); execution results must identify their actual source revision
+- Implementation / validation: [PR #118](https://github.com/asalzburger/nodd/pull/118); [validation plan](../validation/issue117/validation-plan.md); execution results must identify their actual source revision
 
 ## Scope and operating boundary
 
