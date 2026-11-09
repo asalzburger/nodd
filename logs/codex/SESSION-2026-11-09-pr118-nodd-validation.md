@@ -694,3 +694,44 @@ Renderer caption-only refinement before first new figures explicitly defines
 D/PN and distinguishes the nODD tracker+ECAL stage from ODD's complete
 comparison geometry atzero field. No plotted statistic or selection changes.
 Matplotlib CLI smoke passes. RawROOT/JSONL/trials/bootstrapdraws remain ignored.
+
+### I118-NODD-CaloTech-MuonPreview
+
+```json
+{
+  "id": "I118-NODD-CaloTech-MuonPreview",
+  "role": "CaloTech",
+  "input_revision": "e6268f81964dcda6582e03c69cde298d473f9fbf",
+  "inputs": [
+    "software/analysis/calorimeter_digitization/plot_nodd_digitization.py",
+    "docs/validation/issue117/nodd-digitization-protocol.md",
+    "docs/validation/issue117/nodd-digitization-analysis-notes.md",
+    "README.md"
+  ],
+  "mode": "write",
+  "writable_paths": [
+    "build/issue117/nodd/muon-preview",
+    "software/analysis/calorimeter_digitization/plot_nodd_digitization.py"
+  ],
+  "task": "Render and visually assess the actual closed six-muon figure now, before full shower data. Primarydata build/issue117/nodd/response/muon-summary.json SHA59540ebdbacff877d01691516120e2687a112692092f48bc6ff4ed0b10f7c44b, produced by statisticalsourcec9f2fa79; independent PhysVal numericreview is active separately. Currentcommittedrenderer caption explicitly distinguishes nODDtracker+ECAL from full ODDzero-fieldgeometry anddefinesD/PN. Source-only/privatepreview assignment: call existing muon_plot(data,path) directly, not fake shower data or full-five CLI. Use existing Matplotlib3.11.2 interpreter /Users/salzburg/Documents/work/installed/acts-nodd/pyvenv/bin/python withMPLCONFIGDIR=/private/tmp/nodd-issue117-matplotlib; no installs/ROOT needed. Writeinitial committed-source image under build/issue117/nodd/muon-preview/initial.png and retain it. Inspectimageforlegible axes/legend/captions/tables and faithful all-qualified normalization, actualPNoutput, nominalversusidentified denominators, approximateinitialrays/missingunknowncounts, fittedunderlyingMPV versusconvolvedmode, explicitSNR convention (pathnormalizedLandauMPV/signedpedestalRMS), uncertainty availability andprototypeboundary. Preservefullhistogramranges/flowcounts, componentcolorsECAL#cccc00/lighterODD, allnumericaldata, scales/selection/fitsettings. If layout/label fixesneeded, editonlyownedrenderer andreturnsourcereadyfor maincommit beforefinalrerender; do not overwriteoriginalprivatepreview or publishanyfigure. No statisticalsource, report,tracking,library/geometry/transport changes, commits, externalmessages, installation ordelegation. MainwillviewactualPNG; fullfivefigurebatch followsfullshowers/reference separately.",
+  "deliverable": "Actual committed-source MIP preview, visualQA findings and any focused renderer-label/layout diff; no inventedscience or publication.",
+  "completion": "Returnimagepath/sourceSHA/runtimechecks andclarityfindings; maincommitsanyrendererchangesbeforefinalexport."
+}
+```
+
+## Actual muon figure preview and label closure
+
+CaloTech renders actual closed six-muon data with committed e6268f81 renderer,
+Matplotlib3.11.2 and no ROOT/fake shower input. InitialprivatePNG
+build/issue117/nodd/muon-preview/initial.png SHA
+e4a5c84aa3cb9365bf16e32706288f121334f1bad60270e1488a6ace9f16577b.
+Agent and main independently view this image; all six populations, axes, curves,
+flows, legends, tables and prototype scope are visible without cropping. Initial
+PNG remains unchanged. Focused source-only refinements explicitly label PN
+underlying Landau MPV/convolved mode, table±asSE, the SNR denominator/convention,
+fixed10GeV/c andphi.123rad, all plotted raw/PN/selected-output flow counts and
+actual selectedN. Missing deposits leave transported-crossing status unknown;
+initial rays are geometry diagnostics. No numeric/statistical/source-selection
+or scale changes. Source-readySHA
+e535056258d61073c8084ef6614db900fd3e6f6831f782ad8cd0bb4798a3b8e9;
+syntax/import/CLI/diff controls pass. Main commits before revised export.

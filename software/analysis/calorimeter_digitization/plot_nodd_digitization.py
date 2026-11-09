@@ -391,7 +391,14 @@ def muon_plot(data, path):
                 artist = draw_histogram(axes[0, col], selected, count, color=color,
                                         label=f"{label} PN actual output", linestyle="--", fill=True)
                 global_handles.setdefault(artist.get_label(), artist)
-            flow_lines.append(f"{label} qualified {count:,}; PN prethreshold " + flow_text(pn["histogram"]))
+            output_count = validate_histogram(selected)[2] if selected is not None else None
+            flow_lines.append(f"{label}: all qualified N={count:,}; actual output N={output_count:,}"
+                              if output_count is not None else f"{label}: all qualified N={count:,}; actual output unavailable")
+            shown_histograms = [("raw", sample["spectra"]["raw"]["histogram"]), ("PN", pn["histogram"])]
+            if selected is not None:
+                shown_histograms.append(("output", selected))
+            flow_lines.append("Under/over: " + "; ".join(
+                f"{name} {hist['underflow']:,}/{hist['overflow']:,}" for name, hist in shown_histograms))
             fit = pn.get("fit") or {}
             if fit.get("status") != "unavailable" and "curve_x_MIP" in fit and count:
                 x = np.asarray(fit["curve_x_MIP"], float)
@@ -412,10 +419,11 @@ def muon_plot(data, path):
             flags = fit.get("model_diagnostic_flags") or []
             details += [f"{label}: {sample['events']:,} held-out muons; {counters['nominal_layer_opportunities']:,} nominal trials",
                         f"Identified primary layers {counters['identified_primary_layers']:,}; qualified spectra {count:,}",
-                        f"Unknown/missing {counters['missing_primary_layer_unknown_crossing']:,}; split {counters['split_primary_layer']:,}; contaminated {counters['contaminated_single_cell_layer']:,}",
-                        f"Initial-ray active {ray['active_layers']}/{ray['nominal_layers']}; geometric diagnostic only",
-                        "PN Landau MPV: " + value_error(fit.get("underlying_Landau_MPV"), fit.get("MPV_event_cluster_bootstrap_SE")) + " MIP",
-                        "Convolved mode: " + value_error(fit.get("convolved_peak"), fit.get("convolved_peak_event_cluster_bootstrap_SE")) + " MIP",
+                        f"No primary deposit (crossing unknown): {counters['missing_primary_layer_unknown_crossing']:,}",
+                        f"Split layers {counters['split_primary_layer']:,}; contaminated single-cell layers {counters['contaminated_single_cell_layer']:,}",
+                        f"Initial IP ray: {ray['active_layers']}/{ray['nominal_layers']} active layers; geometry only",
+                        "PN underlying Landau MPV: " + value_error(fit.get("underlying_Landau_MPV"), fit.get("MPV_event_cluster_bootstrap_SE")) + " MIP",
+                        "PN convolved mode: " + value_error(fit.get("convolved_peak"), fit.get("convolved_peak_event_cluster_bootstrap_SE")) + " MIP",
                         "SNR: " + value_error(snr.get("ratio"), snr.get("ratio_SE")),
                         f"Fit {fit.get('status', 'unavailable')}; bootstrap failures {fit.get('bootstrap_failed_fits', 'unknown')}; flags: {', '.join(map(str, flags)) or 'none reported'}",
                         f"Rejected endpoint/chord/angle/sector: {counters['endpoint']}/{counters['chord_unavailable']}/{counters['incidence_rejected']}/{counters['sector_ambiguous']}", ""]
@@ -442,11 +450,12 @@ def muon_plot(data, path):
         axes[2, col].axis("off")
         axes[2, col].text(0, 1, "\n".join(details), va="top", fontsize=8, linespacing=1.18)
     pedestal = data["pedestal"]
-    caption = SCOPE + "\n" + SETTINGS + ". Signed model pedestal RMS = " + value_error(
+    caption = SCOPE + " Muons: 10 GeV/c; fixed φ = 0.123 rad.\n" + SETTINGS + ". Signed model pedestal RMS = " + value_error(
         pedestal.get("SD"), pedestal.get("SD") / math.sqrt(2 * (pedestal["n"] - 1))
         if finite(pedestal.get("SD")) and pedestal.get("n", 0) > 1 else None, 4) + " MIP.\n"
-    caption += "Selected-output densities use all qualified crossings, including rejected pulses. Bands: whole-event 95% bootstrap. "
-    caption += "Nominal depth opportunities, identified crossings and initial rays are distinct; no unseen crossing inventory is inferred."
+    caption += "SNR = path-normalized underlying Landau MPV / signed pedestal RMS. Table ± values: SE; bands: whole-event 95% bootstrap.\n"
+    caption += "Selected-output densities use all qualified crossings, including rejected pulses. "
+    caption += "Nominal opportunities, identified crossings and initial IP rays are distinct; missing deposits leave crossing status unknown."
     finish(fig, path, "nODD and zero-field ODD · digitized MIP, SNR and threshold response",
            caption, list(global_handles.values()), ncol=4, bottom=.18)
 
