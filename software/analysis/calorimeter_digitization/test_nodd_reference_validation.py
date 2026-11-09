@@ -18,10 +18,11 @@ class ReferenceContracts(unittest.TestCase):
     def geometry(self):
         material=self.work/'materials.xml';material.write_text('<lccdd><materials><material name="prefixed_Silicon"/></materials></lccdd>')
         child=self.work/'component.xml'
+        tracker=''.join(f'<detector name="tracker-fixture-{i}" id="{i}"/>' for i in range(8))
         child.write_text(f'''<lccdd><readouts>
           <readout name="BARRELHits"><id>{n.DESCRIPTOR}</id></readout>
           <readout name="EDGEHits"><id>{n.DESCRIPTOR}</id></readout>
-        </readouts><detectors>
+        </readouts><detectors>{tracker}
           <detector name="barrel" id="8" readout="BARRELHits"/>
           <detector name="endcaps" id="9" readout="EDGEHits"><replica side="1"/><replica side="2"/></detector>
         </detectors></lccdd>''')
@@ -33,6 +34,7 @@ class ReferenceContracts(unittest.TestCase):
         output=self.work/'wrapper.xml';proof,files=n.wrapper(root,output)
         self.assertEqual(proof['root_ids'],{'BARRELHits':8,'EDGEHits':9})
         self.assertEqual(proof['configured_endcap_sides'],[1,2]);self.assertEqual(len(files),3)
+        self.assertEqual(proof['all_constructed_root_ids'],list(range(10)))
         tree=ET.parse(output);constants=tree.findall('define/constant')
         self.assertEqual(len(constants),3)
         self.assertEqual({c.get('value') for c in constants if c.get('type')=='string'},{n.DESCRIPTOR})
@@ -42,9 +44,11 @@ class ReferenceContracts(unittest.TestCase):
 
     def test_standalone_root_or_missing_endcap_is_rejected(self):
         root,child,_=self.geometry();data=child.read_text();child.write_text(data.replace('id="9"','id="8"'))
-        with self.assertRaisesRegex(RuntimeError,'root IDs'):n.wrapper(root,self.work/'wrong.xml')
+        with self.assertRaisesRegex(RuntimeError,'root ID'):n.wrapper(root,self.work/'wrong.xml')
         child.write_text(data.replace('<replica side="2"/>',''))
         with self.assertRaisesRegex(RuntimeError,'Both configured'):n.wrapper(root,self.work/'missing.xml')
+        child.write_text(data.replace('<detector name="tracker-fixture-7" id="7"/>',''))
+        with self.assertRaisesRegex(RuntimeError,'Complete maintained'):n.wrapper(root,self.work/'missing-tracker.xml')
 
     def test_cell_id_namespace_high_bits_and_layers(self):
         cid=9|(2<<8)|(15<<10)|(47<<14)|(1023<<20)|(63<<30)|(63<<36)
@@ -99,6 +103,17 @@ class ReferenceContracts(unittest.TestCase):
         with self.assertRaisesRegex(RuntimeError,'loaded'):n.verify_case(self.work,dict(runner_sha256='different',helper_sha256='helper'))
         config.write_text('changed')
         with self.assertRaisesRegex(RuntimeError,'command input'):n.verify_case(self.work)
+
+    def test_closed_rng_and_steering_artifacts_are_anchored(self):
+        steering=self.work/'steering.py';steering.write_text('frozen steering')
+        audit=self.work/'block-rng.json';audit.write_text('synthetic seed audit')
+        state=Path(str(audit)+'.state');state.write_text('synthetic complete engine state')
+        receipt=self.work/'execution.json'
+        receipt.write_text(json.dumps(dict(steering_sha256=n.sha(steering),samples=[dict(
+            rng_audit_path=str(audit),rng_audit_sha256=n.sha(audit),rng_state_sha256=n.sha(state))])))
+        self.assertTrue({steering,audit,state}.issubset(n.receipt_dependencies([receipt])))
+        state.write_text('changed state')
+        with self.assertRaisesRegex(RuntimeError,'Changed declared'):n.receipt_dependencies([receipt])
 
 
 if __name__=='__main__':unittest.main()

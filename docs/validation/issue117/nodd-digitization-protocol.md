@@ -76,6 +76,11 @@ hashes and overlaps at the retained 1e-5 mm tolerance. Record construction and
 complete-overlap results separately; an old isolated-component pass is not a
 new union pass. Missing runtime, unresolved overlaps, failed containment or ID
 instability must remain blockers or explicit unexecuted gates, not success.
+The independent zero-field ODD control may execute while the full nODD overlap
+audit is pending. Its input/source configuration is frozen separately from the
+future audit result; every nODD transport and final index must bind an actual
+native PASS to the unchanged compact/material/library/root/tolerance identities.
+Pending metadata is never a nODD geometry pass or permission to run nODD events.
 
 The available worktree has source recipes and old isolated-endcap exports;
 no cached integrated `baseline.json` was found during this protocol inspection.
@@ -147,12 +152,21 @@ Keep the same physical species, momentum/direction, FTFP_BERT, generation origin
 transport/range/hit cuts and stored-energy convention across geometries. Use
 one primary at (0,0,0), fixed φ=0.123 rad and the main η=0/1/2 grid, plus
 the separately labelled η=−2 mirror controls below. Do not move a gun direction
-after seeing a gap or a low signal. The requested values denote momentum magnitude. The native Geant4 gun is given
-kinetic energy `sqrt(p*p+m*m)-m`, using the recorded ROOT PDG mass for that
-species; validate persisted momentum, direction and **total energy**. Normalize
+after seeing a gap or a low signal. The requested values denote momentum magnitude.
+The native Geant4 gun is given momentum directly with `/gun/momentumAmp p GeV`;
+validate persisted momentum, direction and **total energy**. Record the ROOT PDG
+mass and corresponding kinetic-energy calculation as metadata. Normalize
 by persisted primary total energy, not by the requested momentum or gun kinetic
 energy. This native-gun convention differs from the earlier DDSim Python-gun
 setting; its actual macro/configuration is part of the run identity.
+
+**Pre-output technical correction, 2026-11-09:** excluded two-block pilot04
+showed the kinetic-energy macro path rounded a 9.894899769296881-GeV setting
+to 9.8949 GeV, producing a 2.0e-7-GeV momentum/energy discrepancy caught by the
+unchanged 1e-7 truth guard. Use the native momentum-amplitude command to preserve
+the intended integer-GeV/c beam values; no truth tolerance or response criterion
+is relaxed. Origin and block identities in that pilot were correct. Pilots and
+their failed verification remain excluded from all response populations.
 
 The unchanged unsigned response comparator uses:
 

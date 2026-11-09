@@ -5,10 +5,46 @@ import tempfile
 import unittest
 import xml.etree.ElementTree as ET
 
-from nodd_generate import canonical, referenced_files, rows, sha, verify
+from nodd_generate import ROOT, bind_native, canonical, referenced_files, rows, sha, validate_native, verify
 
 
 class FrozenTransportControls(unittest.TestCase):
+    def native_fixture(self, base):
+        (base / 'detector.xml').write_text('<lccdd/>')
+        (base / 'materials.xml').write_text('<materials/>')
+        library = base / 'factory.dylib'; library.write_bytes(b'native-fixture')
+        systems = {f'root{i}':i for i in range(10)}
+        record = dict(layout='LAYOUT-001', compact_sha256=sha(base/'detector.xml'),
+                      materials_sha256=sha(base/'materials.xml'),
+                      components=[dict(system_mapping=[dict(name=k,integrated_system_id=v) for k,v in systems.items()])])
+        (base/'baseline.json').write_text(json.dumps(record))
+        native = dict(status='PASS', overlap_count=0, baseline_manifest_sha256=sha(base/'baseline.json'),
+                      compact_sha256=record['compact_sha256'], materials_sha256=record['materials_sha256'],
+                      native_systems=systems, overlap_tolerance_mm=1e-5,
+                      native_auditor_sha256=sha(ROOT/'tools/calorimeter_baselines/native.py'),
+                      libraries={library.name:sha(library)})
+        report = base/'native.json'; report.write_text(json.dumps(native))
+        return library, report
+
+    def test_stale_geometry_cannot_inherit_native_pass(self):
+        with tempfile.TemporaryDirectory() as directory:
+            base=Path(directory).resolve()
+            library, report=self.native_fixture(base)
+            validate_native(base,report,[library])
+            (base/'detector.xml').write_text('<lccdd><changed-volume/></lccdd>')
+            with self.assertRaisesRegex(ValueError,'geometry/material'):
+                validate_native(base,report,[library])
+
+    def test_pending_report_never_authorizes_nodd_transport(self):
+        with tempfile.TemporaryDirectory() as directory:
+            base=Path(directory).resolve()
+            library, report=self.native_fixture(base)
+            report.unlink()
+            manifest=dict(native_report_path=str(report),geometries={'nodd':dict(baseline_directory=str(base),libraries=[str(library)])})
+            with self.assertRaises(FileNotFoundError):
+                bind_native(base,manifest)
+            self.assertFalse((base/'native-pass-binding.json').exists())
+
     def test_complete_matrix_and_separate_reference_denominators(self):
         samples = rows()
         self.assertEqual(len(samples), 48)

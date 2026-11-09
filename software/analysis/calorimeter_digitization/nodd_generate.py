@@ -6,6 +6,7 @@ population in each fresh process, then index only normally completed groups.
 """
 import argparse
 import hashlib
+import importlib.util
 import json
 import math
 import os
@@ -87,22 +88,66 @@ def rows():
     return output
 
 
-def prepare(args):
-    work = args.work.resolve()
-    if (work / "manifest.json").exists():
-        raise ValueError("Choose a fresh work path; existing evidence is immutable")
-    if git("rev-parse", "HEAD", directory=args.odd_source) != ODD_PIN or git("status", "--porcelain", directory=args.odd_source):
-        raise ValueError("ODD source must match its clean pinned revision")
-    baseline = args.nodd_directory.resolve()
+def validate_native(baseline, report, libraries):
+    """Exact native PASS binding, required before every nODD run and final index."""
     record = json.loads((baseline / "baseline.json").read_text())
-    native = json.loads(args.native_report.read_text())
+    native = json.loads(report.read_text())
     if (record["layout"] != "LAYOUT-001" or native["status"] != "PASS"
             or native["overlap_count"] != 0
             or native["baseline_manifest_sha256"] != sha(baseline / "baseline.json")):
         raise ValueError("Native complete nODD union audit did not pass on this export")
-    libraries = [p.resolve() for p in args.library]
+    for name, key in (("detector.xml", "compact_sha256"), ("materials.xml", "materials_sha256")):
+        if sha(baseline / name) != record[key] or native[key] != record[key]:
+            raise ValueError("Current geometry/material differs from audited native export")
+    expected_systems = {m["name"]: m["integrated_system_id"]
+                        for component in record["components"] for m in component["system_mapping"]}
+    if (native["native_systems"] != expected_systems
+            or set(native["native_systems"].values()) != set(range(10))
+            or native["overlap_tolerance_mm"] != 1e-5
+            or native["native_auditor_sha256"] != sha(ROOT / "tools/calorimeter_baselines/native.py")):
+        raise ValueError("Native root/tolerance/auditor identity differs from protocol")
     if {p.name: sha(p) for p in libraries} != native["libraries"]:
         raise ValueError("Factory libraries differ from the native union audit")
+    return dict(report_path=str(report.resolve()), report_sha256=sha(report),
+                compact_sha256=record["compact_sha256"], materials_sha256=record["materials_sha256"],
+                baseline_sha256=sha(baseline / "baseline.json"), libraries=native["libraries"])
+
+
+def bind_native(work, manifest):
+    geom = manifest["geometries"]["nodd"]
+    proof = validate_native(Path(geom["baseline_directory"]), Path(manifest["native_report_path"]),
+                            [Path(p) for p in geom["libraries"]])
+    path = work / "native-pass-binding.json"
+    if path.exists() and json.loads(path.read_text()) != proof:
+        raise ValueError("Native audit binding changed after the first nODD run")
+    if not path.exists():
+        save(path, proof)
+    return proof
+
+
+def prepare(args):
+    work = args.work.resolve()
+    if (work / "manifest.json").exists():
+        raise ValueError("Choose a fresh work path; existing evidence is immutable")
+    for source in (Path(__file__).resolve(), Path(__file__).with_name('nodd_transport.py').resolve(), PROTOCOL):
+        committed = subprocess.check_output(['git','show','HEAD:'+str(source.relative_to(ROOT))],cwd=ROOT)
+        if hashlib.sha256(committed).hexdigest() != sha(source):
+            raise ValueError("Commit the exact protocol and transport producers before preparation")
+    if git("rev-parse", "HEAD", directory=args.odd_source) != ODD_PIN or git("status", "--porcelain", directory=args.odd_source):
+        raise ValueError("ODD source must match its clean pinned revision")
+    baseline = args.nodd_directory.resolve()
+    record = json.loads((baseline / "baseline.json").read_text())
+    if record["layout"] != "LAYOUT-001":
+        raise ValueError("Only the maintained SiW LAYOUT-001 is this study's nODD geometry")
+    libraries = [p.resolve() for p in args.library]
+    for name, key in (("detector.xml", "compact_sha256"), ("materials.xml", "materials_sha256")):
+        if sha(baseline / name) != record[key]:
+            raise ValueError("Current export differs from its construction manifest")
+    pending = not args.native_report.exists()
+    if pending and not args.allow_pending_native:
+        raise ValueError("Native report pending; only explicit independent ODD-control preparation is permitted")
+    if not pending:
+        validate_native(baseline, args.native_report, libraries)
     work.mkdir(parents=True, exist_ok=True)
     original = args.odd_source.resolve() / "xml/OpenDataDetector.xml"
     tree = ET.parse(original)
@@ -127,16 +172,38 @@ def prepare(args):
         mass = masses[row["particle"]]
         row.update(mass_GeV=mass, kinetic_energy_GeV=math.hypot(row["energy_GeV"], mass)-mass)
     paths = set(referenced_files(baseline / "detector.xml")) | referenced_files(wrapper)
-    paths |= {baseline / "baseline.json", args.native_report.resolve(), PROTOCOL,
+    paths |= set(baseline.rglob("*.json")) | set(baseline.rglob("*.xml"))
+    paths |= {baseline / "baseline.json", PROTOCOL,
               Path(__file__).resolve(), Path(__file__).with_name("nodd_transport.py"),
               args.odd_library.resolve(), *libraries}
+    for library in libraries + [args.odd_library.resolve()]:
+        registration = library.with_suffix('.components')
+        if registration.exists():
+            paths.add(registration)
+        for parent in (library.parent, library.parent.parent):
+            cache = parent / 'CMakeCache.txt'
+            if cache.exists():
+                paths.add(cache)
+    ddsim_package = Path(importlib.util.find_spec('DDSim').origin).parent
+    paths |= set(ddsim_package.rglob('*.py'))
+    for package in ('dd4hep', 'DDG4'):
+        paths.add(Path(importlib.util.find_spec(package).origin))
+    setup = Path('/Users/salzburg/cernbox/configs/acts/acts_setup.sh')
+    lock = Path('/Users/salzburg/Documents/work/externals/ci-dependencies/spack.lock')
+    paths |= {setup, lock}
     # Pin every maintained geometry/export input; analyses may evolve separately.
     for name in git("ls-files", "detector", "prototypes", "tools").splitlines():
         path = ROOT / name
         if path.suffix in (".py", ".json", ".xml", ".cpp", ".hpp", ".h") or path.name == "CMakeLists.txt":
             paths.add(path)
     manifest = dict(status="PROTOTYPE matched-field baseline-stage response",
+                    native_report_path=str(args.native_report.resolve()),
+                    native_gate_at_preparation="PENDING; nODD transport forbidden until bound native PASS" if pending else "PASS",
                     source_commit=git("rev-parse", "HEAD"), producer_sha256=sha(__file__),
+                    repository_dirty=bool(git('status','--porcelain')),
+                    producer_protocol_scoped_status=git('status','--porcelain','--',str(Path(__file__).relative_to(ROOT)),
+                                                         str(Path(__file__).with_name('nodd_transport.py').relative_to(ROOT)),
+                                                         str(PROTOCOL.relative_to(ROOT))),
                     protocol_sha256=sha(PROTOCOL), odd_revision=ODD_PIN,
                     geometries={"nodd": dict(label="LAYOUT-001", compact=str(baseline / "detector.xml"),
                                             libraries=[str(p) for p in libraries],
@@ -145,10 +212,13 @@ def prepare(args):
                                                 libraries=[str(args.odd_library.resolve())],
                                                 collections=["ECalBarrelCollection", "ECalEndcapCollection"])},
                     samples=samples, immutable={str(p.resolve()): sha(p) for p in sorted(paths)},
-                    runtime=dict(Python=platform.python_version(), ROOT=R.gROOT.GetVersion()),
+                    runtime=dict(Python=platform.python_version(), ROOT=R.gROOT.GetVersion(),
+                                 Geant4=subprocess.check_output(['geant4-config','--version'],text=True).strip(),
+                                 setup_sha256=sha(setup), spack_lock_sha256=sha(lock),
+                                 DDSim_package_sha256={str(p):sha(p) for p in sorted(ddsim_package.rglob('*.py'))}),
                     transport=dict(physics="FTFP_BERT", range_cut_mm=.7, magnetic_field="zero",
                                    ECAL_sensitive_maximum_step_mm=5.,
-                                   gun="native Geant4 gun; kinetic energy from requested momentum and ROOT PDG mass",
+                                   gun="native Geant4 gun; explicit momentumAmp command; persisted total-energy denominator",
                                    mass_GeV=masses, origin_mm=[0, 0, 0], event_seeder=False),
                     field_off_control=dict(original_root_sha256=sha(original), wrapper_sha256=sha(wrapper),
                                            canonical_except_fields_equal=True, removed_field_blocks=1))
@@ -224,6 +294,8 @@ def audit_input(path, row, collections):
 def run(args):
     work = args.work.resolve()
     manifest = verify(work)
+    if args.geometry == "nodd":
+        bind_native(work, manifest)
     from DDSim.Helper.Random import Random
     if Random().enableEventSeed is not False:
         raise ValueError("Unexpected EventSeeder default")
@@ -233,24 +305,29 @@ def run(args):
     if group.exists():
         raise ValueError("Transport group exists; retain it and choose a fresh work path")
     group.mkdir(parents=True)
+    (group / "rng").mkdir()
     macro = group / "commands.mac"
     lines = ["/gun/position 0 0 0 mm"]
     for index, row in enumerate(selected):
         row["path"] = str(group / (row["id"] + ".root"))
         row["actual_run_number"] = index
+        row["rng_audit_path"] = str(group / "rng" / (row["id"] + ".json"))
         theta = 2*math.atan(math.exp(-row["eta"]))
         direction = [math.sin(theta)*math.cos(row["phi_rad"]),
                      math.sin(theta)*math.sin(row["phi_rad"]), math.cos(theta)]
         lines.extend(["/ddg4/EDM4hepOutput/Output " + row["path"],
                       "/gun/particle " + row["particle"],
-                      f"/gun/energy {row['kinetic_energy_GeV']:.17g} GeV",
+                      f"/gun/momentumAmp {row['energy_GeV']:.17g} GeV",
                       "/gun/direction " + " ".join(format(v, ".17g") for v in direction),
                       "/random/setSeeds " + " ".join(map(str, row["seed_pair"])),
+                      "/i118/saveRandomState " + row["rng_audit_path"],
                       f"/run/beamOn {row['requested_events']}"])
     macro.write_text("\n".join(lines) + "\n")
     geom = manifest["geometries"][args.geometry]
+    steering = group / "steering.py"
+    shutil.copyfile(Path(__file__).with_name("nodd_transport.py"), steering)
     command = [sys.executable, shutil.which("ddsim"), "--compactFile", geom["compact"],
-               "--steeringFile", str(Path(__file__).with_name("nodd_transport.py").resolve()),
+               "--steeringFile", str(steering),
                "--runType", "run", "--enableG4Gun", "--macroFile", str(macro),
                "--numberOfThreads", "1", "--random.seed", "12099999", "--physics.list", "FTFP_BERT",
                "--physics.rangecut", "0.7", "--part.userParticleHandler", "",
@@ -269,11 +346,14 @@ def run(args):
         result = subprocess.run(command, env=environment, cwd=ROOT, stdout=stream, stderr=subprocess.STDOUT)
     receipt = dict(exit_code=result.returncode, command=command, elapsed_seconds=time.monotonic()-started,
                    producer_sha256=sha(group / "producer.py"), protocol_sha256=manifest["protocol_sha256"],
+                   steering_sha256=sha(steering),
                    manifest_sha256=sha(work / "manifest.json"), macro_sha256=sha(macro), log_sha256=sha(log),
                    detailed_showers=args.population == "muons", samples=[])
     save(group / "execution.json", receipt)
     if result.returncode:
         raise RuntimeError("Transport failed; retained " + str(log))
+    if any(message in log.read_text(errors="replace") for message in ("COMMAND NOT FOUND", "Batch is interrupted", "Command aborted")):
+        raise RuntimeError("Geant4 macro aborted despite a normal process exit")
     audit_path = group / "native-transport-audit.json"
     audit = json.loads(audit_path.read_text())
     if audit["maximum_abs_magnetic_field_tesla"] != 0 or audit["matched_ECAL_sensitive_step_mm"] != 5.:
@@ -282,6 +362,13 @@ def run(args):
     if "EventSeeder added" in log.read_text(errors="replace"):
         raise RuntimeError("Unexpected EventSeeder during transport")
     for row in selected:
+        rng_path = Path(row["rng_audit_path"])
+        rng = json.loads(rng_path.read_text())
+        if rng["effective_seed"] != row["seed"]:
+            raise RuntimeError("Actual native RNG seed differs from its frozen block seed")
+        row["rng_audit_sha256"] = sha(rng_path)
+        row["rng_state_sha256"] = sha(str(rng_path) + ".state")
+        row["actual_random_engine"] = rng["engine"]
         row.update(sha256=sha(row["path"]), exit_code=0,
                    bytes=Path(row["path"]).stat().st_size,
                    truth=audit_input(row["path"], row, geom["collections"]))
@@ -289,12 +376,15 @@ def run(args):
         save(group / "execution.json", receipt)
         print(args.geometry, row["id"], row["truth"]["events"], "verified events", flush=True)
     receipt["all_inputs_verified"] = True
+    if len({r["rng_state_sha256"] for r in selected}) != len(selected):
+        raise RuntimeError("Native macro blocks reused an initial RNG state")
     save(group / "execution.json", receipt)
 
 
 def index(args):
     work = args.work.resolve()
     manifest = verify(work)
+    bind_native(work, manifest)
     indexed = []
     receipts = []
     for geometry in ("nodd", "odd-zero"):
@@ -304,6 +394,7 @@ def index(args):
             if receipt["exit_code"] or not receipt.get("all_inputs_verified"):
                 raise ValueError("Transport group is failed/incomplete")
             for name, key in (("commands.mac", "macro_sha256"), ("transport.log", "log_sha256"), ("producer.py", "producer_sha256"),
+                              ("steering.py", "steering_sha256"),
                               ("native-transport-audit.json", "native_transport_audit_sha256")):
                 if sha(group / name) != receipt[key]:
                     raise ValueError("Transport execution artifact changed")
@@ -311,6 +402,9 @@ def index(args):
             for row in receipt["samples"]:
                 if sha(row["path"]) != row["sha256"]:
                     raise ValueError("Raw source changed")
+                if (sha(row['rng_audit_path']) != row['rng_audit_sha256']
+                        or sha(row['rng_audit_path']+'.state') != row['rng_state_sha256']):
+                    raise ValueError("Executed RNG audit/state changed")
                 indexed.append(row)
     expected = {(r["geometry"], r["id"]): r for r in manifest["samples"]}
     if len(indexed) != len(expected) or len({(r["geometry"], r["id"]) for r in indexed}) != len(indexed):
@@ -323,6 +417,8 @@ def index(args):
     save(work / "reference-input.json", dict(geometry_label="LAYOUT-001", compact=dict(path=geom["compact"], sha256=sha(geom["compact"])),
          libraries=[dict(path=p, sha256=sha(p)) for p in geom["libraries"]],
          artifacts=[dict(path=str(work / "manifest.json"), sha256=sha(work / "manifest.json")),
+                   dict(path=str(work / "native-pass-binding.json"), sha256=sha(work / "native-pass-binding.json")),
+                   dict(path=manifest["native_report_path"], sha256=sha(manifest["native_report_path"])),
                    dict(path=str(work / "samples.json"), sha256=sha(work / "samples.json")), *receipts],
          samples=[dict(id=r["id"], path=r["path"], sha256=r["sha256"], events=r["requested_events"],
                        particle=r["particle"], energy_GeV=r["energy_GeV"], eta=r["eta"], exit_code=r["exit_code"])
@@ -336,6 +432,8 @@ def main():
     parser.add_argument("--work", type=Path, required=True)
     parser.add_argument("--nodd-directory", type=Path)
     parser.add_argument("--native-report", type=Path)
+    parser.add_argument("--allow-pending-native", action="store_true",
+                        help="Freeze inputs and run only independent ODD controls while nODD audit is pending")
     parser.add_argument("--library", type=Path, action="append")
     parser.add_argument("--odd-source", type=Path)
     parser.add_argument("--odd-library", type=Path)

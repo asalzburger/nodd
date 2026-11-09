@@ -91,10 +91,15 @@ def receipt_dependencies(paths):
             if isinstance(item,dict) and 'path' in item and 'sha256' in item:
                 p=artifact(item)
                 if p not in result:result.add(p);pending.append(p)
-        for name,key in [('commands.mac','macro_sha256'),('transport.log','log_sha256'),('producer.py','producer_sha256'),('native-transport-audit.json','native_transport_audit_sha256')]:
+        for name,key in [('commands.mac','macro_sha256'),('transport.log','log_sha256'),('producer.py','producer_sha256'),('steering.py','steering_sha256'),('native-transport-audit.json','native_transport_audit_sha256')]:
             if key in value:
                 p=path.parent/name
-                if p.is_file() or 'native_transport_audit_sha256' in value:result.add(artifact(dict(path=p,sha256=value[key])))
+                if p.is_file() or key=='steering_sha256' or 'native_transport_audit_sha256' in value:result.add(artifact(dict(path=p,sha256=value[key])))
+        for row in value.get('samples',[]):
+            if 'rng_audit_path' in row:
+                p=Path(row['rng_audit_path'])
+                result.add(artifact(dict(path=p,sha256=row['rng_audit_sha256'])))
+                result.add(artifact(dict(path=str(p)+'.state',sha256=row['rng_state_sha256'])))
     return result
 
 
@@ -115,7 +120,7 @@ def xml_closure(compact):
 
 
 def wrapper(compact,destination):
-    trees=xml_closure(compact);codes={};roots={};sides=set()
+    trees=xml_closure(compact);codes={};roots={};all_roots=set();sides=set()
     for path,tree in trees.items():
         root=tree.getroot()
         for node in root.findall('.//readout'):
@@ -124,14 +129,18 @@ def wrapper(compact,destination):
                 if name in codes:raise RuntimeError('Duplicate target readout')
                 codes[name]=(text or '').strip()
         for node in root.findall('.//detectors/detector'):
+            root_id=int(node.get('id'))
+            if root_id in all_roots:raise RuntimeError('Duplicate constructed root ID')
+            all_roots.add(root_id)
             name=node.get('readout')
             if name in SYSTEMS:
                 if name in roots:raise RuntimeError('Duplicate target detector root')
-                roots[name]=int(node.get('id'))
+                roots[name]=root_id
         for node in root.findall('.//replica'):
             if node.get('side') in ('1','2'):sides.add(int(node.get('side')))
         if root.findall('.//fields/field'):raise RuntimeError('LAYOUT-001 reference requires the declared field-free scope')
     if codes!={n:DESCRIPTOR for n in SYSTEMS} or roots!=SYSTEMS:raise RuntimeError('Wrong integrated root IDs/readout namespace/encoding')
+    if all_roots!=set(range(10)):raise RuntimeError('Complete maintained tracker+pipe0-7 and ECAL8/9 required')
     if sides!={1,2}:raise RuntimeError('Both configured endcap sides are required')
     source=Path(compact).resolve();root=ET.parse(source).getroot();define=root.find('define')
     if define is None:define=ET.SubElement(root,'define')
@@ -148,7 +157,7 @@ def wrapper(compact,destination):
     if canonical(root)!=before:raise RuntimeError('Wrapper changed source geometry semantics')
     if Path(destination).exists():raise RuntimeError('Refusing wrapper overwrite')
     ET.indent(root);ET.ElementTree(root).write(destination,encoding='utf-8',xml_declaration=True)
-    return dict(encodings=codes,root_ids=roots,configured_endcap_sides=sorted(sides),only_added_string_constants=True),list(trees)
+    return dict(encodings=codes,root_ids=roots,all_constructed_root_ids=sorted(all_roots),configured_endcap_sides=sorted(sides),only_added_string_constants=True),list(trees)
 
 
 def source_identity(h):
@@ -190,6 +199,7 @@ def prepare(a,h):
     paths += [Path(s['path']) for s in data['samples']]
     import ROOT as R
     save_new(a.work/'manifest.json',dict(status='PROTOTYPE full nODD original/native reference',geometry_label='LAYOUT-001',geometry=proof,
+        repository_revision=h.git(ROOT,'rev-parse','HEAD'),producer_scoped_dirty_status=h.git(ROOT,'status','--porcelain','--',str(Path(__file__).relative_to(ROOT)),str(HELPER_PATH.relative_to(ROOT)),str(PROTOCOL.relative_to(ROOT))),
         compact=str(compact),libraries=[str(v) for v in libraries],sources=sources,prefix=str(prefix),samples=data['samples'],
         response=dict(mip_energy_GeV=MIP,threshold_MIP=.6,dynamic_range_MIP=2500),comparator=str(a.comparator),backend=str(a.backend),native_validation=str(a.native_validation),
         immutable={str(p.resolve()):sha(p) for p in paths},loaded_sources=source_identity(h),runtime=dict(Python=platform.python_version(),ROOT=R.gROOT.GetVersion()),
@@ -408,7 +418,7 @@ def summarize(a,h):
     stoch=[stochastic_summary(a,h,f,mode) for f in (0,1) for mode in (0,1)]
     receipts=[dict(role=str(p.relative_to(a.work)),**json.loads(p.read_text())) for p in sorted(a.work.rglob('*.execution.json'))]
     artifacts={str(p.relative_to(ROOT)):dict(sha256=sha(p),bytes=p.stat().st_size) for p in a.work.rglob('*') if p.is_file() and 'controller' not in p.name}
-    save_new(a.output,h.public(dict(status='PROTOTYPE full LAYOUT-001 original/native software comparison',geometry=m['geometry'],sources=m['sources'],runtime=m['runtime'],
+    save_new(a.output,h.public(dict(status='PROTOTYPE full LAYOUT-001 original/native software comparison',geometry=m['geometry'],sources=m['sources'],runtime=m['runtime'],repository_revision=m['repository_revision'],producer_scoped_dirty_status=m['producer_scoped_dirty_status'],
         deterministic=dict(passed=all(d['result']['passed'] for d in det),cases=len(det),events=sum(d['result']['events'] for d in det),samples=det,counts_by_collection_side=sides),
         stochastic=dict(passed=all(s['passed'] for s in stoch),comparisons=stoch),response=m['response'],loaded_sources=source_identity(h),
         execution_receipts=receipts,artifacts=artifacts,immutable_source_runtime_inputs=m['immutable'],

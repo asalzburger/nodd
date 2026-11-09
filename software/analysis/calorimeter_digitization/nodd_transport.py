@@ -15,7 +15,7 @@ def configure_audit(kernel):
 
     prefix = Path(subprocess.check_output(["geant4-config", "--prefix"], text=True).strip())
     ROOT.gInterpreter.AddIncludePath(str(prefix / "include/Geant4"))
-    ROOT.gInterpreter.Declare(r'''
+    declared = ROOT.gInterpreter.Declare(r'''
 #include <G4LogicalVolumeStore.hh>
 #include <G4VSensitiveDetector.hh>
 #include <G4UserLimits.hh>
@@ -32,12 +32,33 @@ def configure_audit(kernel):
 #include <G4ProcessManager.hh>
 #include <G4VProcess.hh>
 #include <G4SystemOfUnits.hh>
+#include <G4GenericMessenger.hh>
+#include <Randomize.hh>
 #include <nlohmann/json.hpp>
 #include <set>
 #include <string>
 #include <cmath>
 #include <stdexcept>
 #include <algorithm>
+#include <fstream>
+#include <filesystem>
+struct I118RandomAuditCommands {
+  G4GenericMessenger messenger;
+  I118RandomAuditCommands():messenger(this,"/i118/","Frozen pre-event RNG audit") {
+    messenger.DeclareMethod("saveRandomState",&I118RandomAuditCommands::save);
+  }
+  void save(const G4String& path) {
+    const std::string filename=path;
+    if(std::filesystem::exists(filename) || std::filesystem::exists(filename+".state"))
+      throw std::runtime_error("Refusing RNG audit overwrite");
+    auto* engine=G4Random::getTheEngine();
+    std::ofstream state(filename+".state"); engine->put(state); state.close();
+    std::ofstream output(filename);
+    output << nlohmann::json({{"engine",engine->name()},{"effective_seed",engine->getSeed()},
+                              {"scope","Actual RNG immediately after macro seed reset, before beamOn"}}).dump() << '\n';
+    if(!output || !state) throw std::runtime_error("Cannot write native RNG audit");
+  }
+};
 std::string I118NativeTransportAudit() {
   using nlohmann::json;
   json result;
@@ -72,7 +93,8 @@ std::string I118NativeTransportAudit() {
       throw std::runtime_error("ECAL sensitive volume is not declared silicon");
     auto* limits=volume->GetUserLimits();
     if(!limits) { limits=common; volume->SetUserLimits(limits); }
-    else limits->SetMaxAllowedStep(5.*CLHEP::mm);
+    // DDG4's existing limit proxy is immutable; retain its other policies.
+    // The original ODD proxy already supplies the frozen 5-mm step limit.
     if(limits->GetMaxAllowedStep(track)!=5.*CLHEP::mm)
       throw std::runtime_error("ECAL silicon step-policy mismatch");
     const double birks=material->GetIonisation()->GetBirksConstant()/(CLHEP::mm/CLHEP::MeV);
@@ -120,9 +142,12 @@ std::string I118NativeTransportAudit() {
     if(name!="gamma" && !limiter) throw std::runtime_error("Charged-particle StepLimiter is absent");
   }
   result["matched_ECAL_sensitive_step_mm"]=5.;
+  static I118RandomAuditCommands rng_commands;
   return result.dump();
 }
 ''')
+    if not declared:
+        raise RuntimeError("Cannot compile the native pre-event transport/RNG audit")
 
     def after_initialize():
         path = Path(os.environ["I118_TRANSPORT_AUDIT"])
