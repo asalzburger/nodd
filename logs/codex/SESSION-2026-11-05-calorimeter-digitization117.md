@@ -255,3 +255,7 @@ reference/physics gates remain open. No human design approval was supplied.
 At closeout, the independent Geant4 generator manifest records 18/18 successful shower points (3600 events), plus1000 completed muon events. The remaining job, if any, is transport input preparation rather than Marlin execution. No completion beyond that observed manifest is claimed.
 
 Final validation passed: session validate/summary, project-record validation, token-site build and whitespace checks. Task input/output totals remain unknown because no exact per-turn counters were exposed. All18 shower points (3600events) and1000muons finished as independent Geant4 inputs; no further Marlin analysis was run after deferral.
+
+## 2026-11-10 token recovery and work label
+
+Supersedes the earlier unavailable-counter note for the recovered closed turns only. Exact app-visible requests/results, verified parent/child role metadata and this journal's bounded assignments identify 7 previously unowned observations. Imported with session_log.py after a successful dry run; replay adds zero. Observed input 43,056,000 + output 149,149 = 43,205,149; cached input/reasoning are subsets, not additions. See [the scoped inventory](../usage/USAGE-2026-11-10-pr118-prototype.json) and [readiness/accounting record](SESSION-2026-11-10-pr118-merge-readiness.md). This existing session title labels the work in the cumulative usage view. Original task outcomes, gates and source versions remain unchanged; model/client version and excluded active/other-device usage stay unknown.

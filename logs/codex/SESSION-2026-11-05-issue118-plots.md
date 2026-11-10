@@ -52,3 +52,7 @@ Final checks passed:255 paired session records,104 interaction records, project
 records, token-site build and whitespace. Task input/output totals remain
 unknown because no exact client counters were exposed. The connected PR read-back
 contains exactly two image embeds and retains draft state.
+
+## 2026-11-10 token recovery and work label
+
+Supersedes the earlier unavailable-counter note for the recovered closed turns only. Exact app-visible requests/results, verified parent/child role metadata and this journal's bounded assignments identify 1 previously unowned observations. Imported with session_log.py after a successful dry run; replay adds zero. Observed input 3,930,685 + output 20,246 = 3,950,931; cached input/reasoning are subsets, not additions. See [the scoped inventory](../usage/USAGE-2026-11-10-pr118-prototype.json) and [readiness/accounting record](SESSION-2026-11-10-pr118-merge-readiness.md). This existing session title labels the work in the cumulative usage view. Original task outcomes, gates and source versions remain unchanged; model/client version and excluded active/other-device usage stay unknown.

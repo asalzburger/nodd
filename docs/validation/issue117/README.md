@@ -26,6 +26,16 @@ original scope; the November 9 report supersedes their current execution status.
 No design sign-off, production integration or physics acceptance is recorded.
 The proposed endcap geometry issue split remains a maintainer decision.
 
+## Prototype snapshot and next performance PR — 2026-11-10
+
+The user requests preparing PR118 for merging to capture the current calorimeter
+prototype, with baseline ECAL performance evaluation in a separate next PR.
+The existing plots, frozen protocols and failed pair-only muon width gate remain
+part of this snapshot. Merge preparation does not establish full stochastic
+qualification, hardware performance or design sign-off; DES-044 remains DRAFT.
+Token usage is assigned to the original work labels in the
+[scoped accounting record](../../../logs/codex/SESSION-2026-11-10-pr118-merge-readiness.md).
+
 ## Implementation and reference identity
 
 Starting nODD main: `96dbf57d0da7f3027e59109c1846d992d68d4d44`.

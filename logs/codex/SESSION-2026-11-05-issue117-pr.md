@@ -50,3 +50,7 @@ installation was performed. Git history inspection found no reference-run
 payloads; largest new blobs are existing textual tracking/source catalogues.
 
 Final local checks:254 paired journals,104 interaction records and project records validate; token-site build and whitespace checks pass. Exact task input/output token totals are unknown; usage remains empty. The PR is draft and the Marlin study remains deferred. No new native study or installation was run for this publication.
+
+## 2026-11-10 token recovery and work label
+
+Supersedes the earlier unavailable-counter note for the recovered closed turns only. Exact app-visible requests/results, verified parent/child role metadata and this journal's bounded assignments identify 1 previously unowned observations. Imported with session_log.py after a successful dry run; replay adds zero. Observed input 5,752,368 + output 13,654 = 5,766,022; cached input/reasoning are subsets, not additions. See [the scoped inventory](../usage/USAGE-2026-11-10-pr118-prototype.json) and [readiness/accounting record](SESSION-2026-11-10-pr118-merge-readiness.md). This existing session title labels the work in the cumulative usage view. Original task outcomes, gates and source versions remain unchanged; model/client version and excluded active/other-device usage stay unknown.

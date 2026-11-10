@@ -394,3 +394,7 @@ token-site build andGit whitespace/object checks; no raw event/build artifacts
 are published. The hosted checks for the finalmetadatahead are not asserted here.
 
 Final closeout checks passed: 258 session pairs; 101 tasks, 54 documents and 24 review rounds; PR 118 interaction synchronization/validation; token-site preview build; and `git diff --check`. Session summary completed. Exact token counters for this task remain unavailable.
+
+## 2026-11-10 token recovery and work label
+
+Supersedes the earlier unavailable-counter note for the recovered closed turns only. Exact app-visible requests/results, verified parent/child role metadata and this journal's bounded assignments identify 9 previously unowned observations. Imported with session_log.py after a successful dry run; replay adds zero. Observed input 112,069,564 + output 392,912 = 112,462,476; cached input/reasoning are subsets, not additions. See [the scoped inventory](../usage/USAGE-2026-11-10-pr118-prototype.json) and [readiness/accounting record](SESSION-2026-11-10-pr118-merge-readiness.md). This existing session title labels the work in the cumulative usage view. Original task outcomes, gates and source versions remain unchanged; model/client version and excluded active/other-device usage stay unknown.
