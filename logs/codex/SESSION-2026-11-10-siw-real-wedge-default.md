@@ -83,5 +83,26 @@ lookup checks and 65 material rays passed. The ECAL-only map build took
 23.018 seconds. The maintained tracker-plus-ECAL overlap and transport
 checks are recorded separately when they finish.
 
-See the [validation recipe](../../../docs/validation/siw-real-wedge-default/README.md).
+See the [validation recipe](../../docs/validation/siw-real-wedge-default/README.md).
 Exact counters for the active turn and specialist turns were unavailable.
+
+## Completed integration checks and draft
+
+The full tracker-plus-ECAL native scan at 10 nm reports all ten systems,
+13,506,078 physical nodes and zero overlaps or extrusions from
+1,866,412 candidates. The process exited normally. The three integrated
+Geant4 smoke events persisted and passed truth and hit-ID readback with
+the initialized field at zero. Each event's aimed region carried the
+dominant ECAL signal. The comparison includes actual native DD4hep
+context, pad-bit mask, position and orientation checks for all ECAL sensors.
+
+A negative native control perturbed one replica by 1 mm. The factory
+reported the inconsistent transform and DD4hep terminated construction.
+The software inventory and project records validate locally.
+
+Draft PR #129 carries the requested default and the scoped validation
+evidence. The initial hosted build failed on the session's relative link
+to its validation report. The path is corrected in the closing update.
+The science implementation is the reviewed and executed commit
+`2bd57912350e9e88b1918e0221b205153545346e`. Exact active-turn counters
+were unavailable.

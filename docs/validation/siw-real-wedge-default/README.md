@@ -29,6 +29,14 @@ All 65 material rays through the actual tracker-plus-ECAL compact agree
 with the stock reference within the recorded tolerances. The stock
 compact was constructed with the new factory through its legacy path.
 
+The maintained tracker-plus-ECAL union constructed all ten detector
+systems and passed the full ROOT scan with **zero overlaps or extrusions
+at 10 nm**. The scan evaluated 1,866,412 candidates. The full compact
+also transported and persisted three electrons at nominal pT 50 GeV.
+The targeted barrel, positive endcap and negative endcap signals contained
+925, 2,730 and 2,738 cells, respectively. The readback checked all ECAL
+hits against the audited sensor ID inventory.
+
 [Results](results.json) records the measured quantities and source hashes.
 Geant4 gains same-material boundaries, so geometry equivalence and
 transport smoke evidence leave shower-response equivalence for a
