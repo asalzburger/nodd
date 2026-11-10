@@ -145,7 +145,9 @@ def export(layout, output):
     for tag, script, filename, mapping in OPTIONS[layout]:
         directory = output / "components" / tag
         command = [sys.executable, "-B", str(ROOT / script), "--output", str(directory)]
-        if tag.startswith("lar-"):
+        if layout == "LAYOUT-001":
+            command.append("--real-wedges")
+        else:
             service = "barrel_services.py" if tag == "lar-barrel" else "endcap_services.py"
             command += ["--services", str(ROOT / "tools/lar_calorimeter" / service)]
         subprocess.run(command, check=True, cwd=ROOT)

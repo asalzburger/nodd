@@ -15,6 +15,8 @@ from edge_layout import rectangle
 from export import write
 from model import ROOT, I, materials, sha
 
+from wedge_envelope import add_wedge_envelope
+
 
 def hardware(report,base):
     cfg=json.loads((ROOT/'tools/calorimeter_hardware/cassettes.json').read_text());e=cfg['ecal'];c=report['config'];a=report['assembly_config'];mat=materials(cfg)
@@ -72,7 +74,7 @@ def hardware(report,base):
     return dict(board_parts=board,layers=layers,frame_parts=frames,material_totals=dict(totals),mass_g=sum(q['mass_g'] for q in totals.values()),materials=mat.recipes),mat
 
 
-def export(output):
+def export(output, *, real_wedges=False):
     output.mkdir(parents=True,exist_ok=True);report,base=build();hw,mat=hardware(report,base);write(output/'materials.xml',mat.root)
     doc=ET.Element('lccdd');ET.SubElement(doc,'info',name='SiWBarrel',title='DES031 isolated prototype',author='nODD',version='0.1',status='prototype');ET.SubElement(ET.SubElement(doc,'includes'),'gdmlFile',ref='materials.xml');define=ET.SubElement(doc,'define')
     for key,value in dict(world_x=5000,world_y=5000,world_z=6000).items():ET.SubElement(define,'constant',name=key,value=f'{value}*mm')
@@ -92,11 +94,13 @@ def export(output):
             layer=report['layers'][region['index']];m={**q,'frame':BARREL_FRAME if q['center_mm'][1]>=0 else [[0,-1,0],[0,0,-1],[1,0,0]],'center_mm':[layer['front_mm']+report['ecal']['absorber_mm'],*q['center_mm']]};n=ET.SubElement(node,'board_instance',template='square',module=str(q['index']));transform(n,m)
         for sector in range(report['assembly_config']['sectors']):
             p=dict(region=region['name'],side=0,sector=sector,layer=region['index'],center_mm=[0,0,0],frame=frame_rotation(sector*2*math.pi/16));replicas.append(p);n=ET.SubElement(det,'replica',region=p['region'],side='0',sector=str(sector),layer=str(p['layer']));transform(n,p)
+    if real_wedges:
+        add_wedge_envelope(det, 'barrel_frame', hw['frame_parts'], report['assembly_config']['sectors'])
     write(output/'calorimeter.xml',doc)
-    paths=[Path(__file__),ROOT/'tools/calorimeter_hardware/barrel_layout.py',ROOT/'tools/calorimeter_hardware/barrel.json',ROOT/'prototypes/calorimeter/BarrelCalorimeter.cpp',ROOT/'prototypes/calorimeter/EdgeCalorimeter.cpp',ROOT/'prototypes/calorimeter/CMakeLists.txt',ROOT/'tools/calorimeter_hardware/edge_export.py',ROOT/'tools/calorimeter_hardware/edge_layout.py',ROOT/'tools/calorimeter_hardware/assembly_export.py',ROOT/'tools/calorimeter_hardware/export.py',ROOT/'tools/pixel_barrel_dd4hep/materials.py',ROOT/'detector/config/elements.json']
+    paths=[Path(__file__),ROOT/'tools/calorimeter_hardware/barrel_layout.py',ROOT/'tools/calorimeter_hardware/barrel.json',ROOT/'prototypes/calorimeter/BarrelCalorimeter.cpp',ROOT/'prototypes/calorimeter/SiWWedgeEnvelope.h',ROOT/'tools/calorimeter_hardware/wedge_envelope.py',ROOT/'prototypes/calorimeter/EdgeCalorimeter.cpp',ROOT/'prototypes/calorimeter/CMakeLists.txt',ROOT/'tools/calorimeter_hardware/edge_export.py',ROOT/'tools/calorimeter_hardware/edge_layout.py',ROOT/'tools/calorimeter_hardware/assembly_export.py',ROOT/'tools/calorimeter_hardware/export.py',ROOT/'tools/pixel_barrel_dd4hep/materials.py',ROOT/'detector/config/elements.json']
     expected=dict(status='DRAFT / PROTOTYPE',layout_report=report,hardware=hw,regions=regions,replicas=replicas,coverage=coverage(report),execution=dict(commit=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),dirty=bool(subprocess.check_output(['git','status','--porcelain'],text=True))),source_sha256={**report['source_sha256'],**{str(p.relative_to(ROOT)):sha(p) for p in paths}})
     (output/'expected.json').write_text(json.dumps(expected,indent=2)+'\n');print(report['summary']['sensors'],'sensors',hw['mass_g']/1e6,'tonnes',report['summary']['continuous_heat_W']/1000,'kW');return expected
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--output',type=Path,required=True);a=p.parse_args();export(a.output)
+    p=argparse.ArgumentParser();p.add_argument('--output',type=Path,required=True);p.add_argument('--real-wedges', action='store_true');a=p.parse_args();export(a.output, real_wedges=a.real_wedges)

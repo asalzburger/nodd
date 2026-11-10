@@ -22,6 +22,23 @@ Those remaining systems are not silently represented by sensitive air envelopes.
 The two packages therefore have runnable tracker/ECAL geometry and a common
 design baseline; complete detector construction and response remain follow-ups.
 
+### Si–W Geant4 hierarchy
+
+**NODD DESIGN CHOICE (human-directed 2026-11-10):** default the maintained
+LAYOUT-001 export to reusable solid wedge mothers for DES-030 and DES-031.
+Use the enclosing volume's own material for each wedge. A 0.25 mm padding
+around the existing frame bounds separates the new boundaries from physical
+hardware while keeping the nominal inter-wedge gap. The added volumes serve
+navigation. Keep the physical solids, material definitions, placements,
+readouts and cell-ID encoding of the working baseline.
+
+The compact keeps its replica poses and gains an envelope description. The
+factory places one logical wedge per component and inherits side and sector
+from its placements, layer from the interior placements and module from the
+existing sensors or boards. The endcap reuse includes the existing proper
+negative-side rotation. Legacy standalone exports and compacts without an
+envelope retain their assembly hierarchy for historical reproduction.
+
 **FACT (source):** standalone Si–W barrel and endcap exports both use system8;
 standalone LAr barrel/endcaps use10/11, while the FCAL design proposes10.
 See DES030/031 exporters, DES032/033 geometry builders and

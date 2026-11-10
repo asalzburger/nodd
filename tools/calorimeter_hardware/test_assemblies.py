@@ -3,8 +3,9 @@ import copy,math,unittest,tempfile,xml.etree.ElementTree as ET
 from pathlib import Path
 from assembly_export import export
 from sector_fixture import fixture
-from assembly import inventory,frame_rotation
+from assembly import inventory,frame_rotation,wedge
 from model import I
+from wedge_envelope import add_wedge_envelope
 
 def corners(p,u):
     for x in (-u['width_mm']/2,u['width_mm']/2):
@@ -82,5 +83,26 @@ class AssemblyTests(unittest.TestCase):
         for key,value in (('sectors',33),('ecal_layers',65),('barrel_half_z_mm',3950),('interface_gap_mm',-1)):
             c=copy.deepcopy(self.report['config']);c[key]=value
             with self.assertRaises(ValueError,msg=key):inventory(c)
+
+    def test_navigation_envelope_keeps_clearance_and_replica_metadata(self):
+        sectors = 16
+        tangent = math.tan(math.pi / sectors)
+        frame = dict(shape_kind="xtru", frame=I, center_mm=[0, 0, 20],
+                     depth_mm=10, vertices_mm=wedge(100, 200, tangent, 1))
+        detector = ET.fromstring('<detector><replica region="frame" side="2" sector="3" layer="0"/></detector>')
+        replica = ET.tostring(detector.find("replica"))
+        add_wedge_envelope(detector, "frame", [frame], sectors)
+        envelope = detector.find("wedge_envelope")
+        self.assertEqual(envelope.get("frame_region"), "frame")
+        self.assertEqual(envelope.get("center_z"), "20*mm")
+        self.assertEqual(envelope.get("depth"), "10.5*mm")
+        self.assertEqual(ET.tostring(detector.find("replica")), replica)
+        vertices = [(float(v.get("x")[:-3]), float(v.get("y")[:-3])) for v in envelope]
+        self.assertEqual(sorted({x for x, _ in vertices}), [99.75, 200.25])
+        for x, y in vertices:
+            self.assertAlmostEqual(x * tangent - abs(y), 0.75)
+        frame["vertices_mm"] = wedge(100, 200, tangent, .1)
+        with self.assertRaisesRegex(ValueError, "sector boundary"):
+            add_wedge_envelope(detector, "frame", [frame], sectors)
 
 if __name__=='__main__':unittest.main()

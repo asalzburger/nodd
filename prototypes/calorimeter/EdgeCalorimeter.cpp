@@ -1,5 +1,6 @@
 // DES030 isolated prototype and mask-aware edge-electrode segmentation.
 #include <DD4hep/DetFactoryHelper.h>
+#include "SiWWedgeEnvelope.h"
 #include <DD4hep/detail/SegmentationsInterna.h>
 #include <DDSegmentation/CartesianGridXY.h>
 #include <cmath>
@@ -113,11 +114,9 @@ Ref_t createEdgeCalorimeter(Detector& d,Handle_t h,SensitiveDetector sd) {
     }
     if (!regions.emplace(tag,assembly).second) throw std::runtime_error("Duplicate edge region");
   }
-  for (xml::Collection_t replica(h,"replica");replica;++replica) {
-    auto p=detector.placeVolume(regions.at(replica.attr<std::string>("region")),pose(replica));
-    for (auto k:{"side","sector","layer"})p.addPhysVolID(k,replica.attr<int>(k));
-  }
-  auto p=d.pickMotherVolume(result).placeVolume(detector);p.addPhysVolID("system",h.attr<int>("id"));result.setPlacement(p);return result;
+  auto mother = d.pickMotherVolume(result);
+  nodd::siw::placeReplicas(h, detector, mother, regions, shape, pose);
+  auto p=mother.placeVolume(detector);p.addPhysVolID("system",h.attr<int>("id"));result.setPlacement(p);return result;
 }
 dd4hep::SegmentationObject* createEdgeGrid(const dd4hep::DDSegmentation::BitFieldCoder* decoder) {
   return new dd4hep::SegmentationWrapper<EdgeGrid>(decoder);
