@@ -139,3 +139,9 @@ Uniform eta4 acceptance and realistic calorimetric performance are not claimed.
 [directional samples](../validation/DES-030/directional-coverage.json) and
 [native/transport evidence](../validation/DES-030/results.md) record exact inputs,
 actual checks and the remaining engineering questions.
+
+The [2026-11-06 raw electron-response study](../validation/issue117/tiling-response.md)
+compares this tiled endcap with an idealized continuous-Si control. It records
+substantial local response variation at sensor gaps, with the geometry and
+engineering sign-off state retained. It is raw transport characterization,
+not reconstructed performance acceptance.

@@ -4,6 +4,7 @@ from pathlib import Path
 import subprocess
 import sys
 import tempfile
+import time
 import unittest
 from unittest.mock import patch
 
@@ -118,17 +119,21 @@ else: sys.exit(2)
         self.assertEqual(json.loads((self.root / "gh.json").read_text())["creates"], 1)
 
     def test_final_push_can_wait_for_a_stale_github_head(self):
-        with patch.dict(os.environ, {"FAKE_GH_DELAY_FINAL": "1"}), patch("publish.time.sleep") as pause:
+        real_sleep = time.sleep
+        # Patch this module's reference, not the shared time module: subprocess
+        # polling may sleep too, and must not count as publisher backoff.
+        with patch.dict(os.environ, {"FAKE_GH_DELAY_FINAL": "1"}), patch("publish.time", autospec=True) as clock:
+            self.assertIs(time.sleep, real_sleep)
             result = self.publish()
         self.assertEqual(result["draft_pr_number"], 7)
-        pause.assert_called_once_with(0.5)
+        clock.sleep.assert_called_once_with(0.5)
         self.assertTrue(json.loads((self.root / "gh.json").read_text())["stale_head_returned"])
 
     def test_persistent_wrong_head_still_fails_with_diagnostics(self):
-        with patch.dict(os.environ, {"FAKE_GH_ALWAYS_OLD": self.revision}), patch("publish.time.sleep") as pause:
+        with patch.dict(os.environ, {"FAKE_GH_ALWAYS_OLD": self.revision}), patch("publish.time", autospec=True) as clock:
             with self.assertRaisesRegex(ValueError, "has not confirmed published revision"):
                 self.publish()
-        self.assertEqual(pause.call_count, 4)
+        self.assertEqual(clock.sleep.call_count, 4)
         self.assertFalse((self.run_dir / "result.md").exists())
 
     def test_existing_ready_pr_cannot_count_as_completed_draft(self):

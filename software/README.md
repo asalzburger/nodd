@@ -65,3 +65,12 @@ uses an explicitly selected existing software runtime. The
 [measured findings](../docs/validation/material-recording-profile/README.md)
 separate recurring Geant4 association scans, first-run voxelization and transport,
 with an opt-in immutable-geometry association-reuse experiment.
+
+## Original digitization reference
+
+The optional [Key4hep reference runtime](source/Key4hepReference/README.md) builds
+pinned Gaudi, k4FWCore and the original RecCaloDigi processor against the existing
+Spack environment. Use `make key4hep-submodules`, `make key4hep`, and
+`make key4hep-test`. Its local installation and missing Boost/header components
+remain under ignored `software/build/key4hep`; the shared Spack environment is
+not modified. MarlinReco is pinned separately for the existing nODD helper.

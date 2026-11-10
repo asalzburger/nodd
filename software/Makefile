@@ -5,6 +5,7 @@ ENV_RUN := $(NODD_ROOT)/software/env/run.sh
 PYTHON ?= /Users/salzburg/Documents/work/installed/acts-nodd/pyvenv/bin/python
 PLOT_PYTHON ?= $(NODD_ROOT)/software/build/unrooted-venv/bin/python
 PROPAGATION_OUTPUT ?= $(BUILD_DIR)/tracker-propagation
+KEY4HEP_TEST_WORK ?= $(BUILD_DIR)/key4hep-smoke
 .DEFAULT_GOAL := help
 .PHONY: help doctor submodules submodule-status detector detector-test nodehammer idres check
 help:
@@ -15,6 +16,9 @@ help:
 	@echo 'detector-test      run DD4hep and exporter regression checks'
 	@echo 'nodehammer         build the optional native viewer'
 	@echo 'idres              build the optional IdRes tool'
+	@echo 'key4hep-submodules initialise pinned original digitizer sources'
+	@echo 'key4hep            build/install the original RecCaloDigi runtime locally'
+	@echo 'key4hep-test       execute the original processor on synthetic EDM4hep events'
 	@echo 'check              validate infrastructure and project records'
 	@echo 'tracker-propagation       build tracker, generate 3T map, propagate and plot'
 	@echo 'tracker-propagation-plot  regenerate unrooted plots from saved count tables'
@@ -52,3 +56,13 @@ tracker-propagation-plot:
 	"$(PLOT_PYTHON)" -I "$(NODD_ROOT)/tools/tracker_propagation/plot.py" --config "$(PROPAGATION_OUTPUT)/study.json" --directory "$(PROPAGATION_OUTPUT)" --output "$(PROPAGATION_OUTPUT)/plots"
 tracker-propagation-controls:
 	/bin/zsh "$(NODD_ROOT)/software/running/tracker_profiles.sh" --stage controls --build-dir "$(BUILD_DIR)/dd4hep" --output "$(PROPAGATION_OUTPUT)" --plot-python "$(PLOT_PYTHON)"
+
+# Original-framework reference remains optional and separate from detector builds.
+.PHONY: key4hep-submodules key4hep key4hep-test
+key4hep-submodules:
+	GIT_LFS_SKIP_SMUDGE=1 git -C "$(NODD_ROOT)" submodule update --init -- software/submodules/Gaudi software/submodules/k4FWCore software/submodules/k4RecCalorimeter software/submodules/k4SimGeant4 software/submodules/boost software/submodules/range-v3 software/submodules/GSL software/submodules/MarlinReco
+	git -C "$(NODD_ROOT)/software/submodules/boost" submodule update --init --jobs $(JOBS)
+key4hep:
+	"$(ENV_RUN)" python3 "$(NODD_ROOT)/software/env/build_key4hep.py" --jobs $(JOBS)
+key4hep-test:
+	"$(NODD_ROOT)/software/env/key4hep_run.sh" python3 "$(NODD_ROOT)/software/env/key4hep_smoke.py" --work "$(KEY4HEP_TEST_WORK)"

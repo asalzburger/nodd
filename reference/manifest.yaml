@@ -515,7 +515,7 @@
       "authors_or_collaboration": "ODD developers",
       "public_url": "https://gitlab.cern.ch/acts/OpenDataDetector",
       "publication_or_version_date": "2026-04-29",
-      "access_date": "2026-10-19",
+      "access_date": "2026-11-05",
       "local_file": null,
       "sha256": null,
       "license_or_redistribution": "MPL-2.0 verified upstream. DES-012 vendors only numerical natural-element definitions in detector/config/elements.json with source/hash/license; see detector/NOTICE.md.",
@@ -528,7 +528,8 @@
         "DES-007 F01-F03/I01: xml/detectors/TrackerShortStrips.xml segmentation, dimensions, three rings and IDs; factory/tracker/ODDModuleHelper.cpp half-dimension interpretation; factory/tracker/ODDStripEndcap_geo.cpp placements; config/odd-digi-geometric-config.json different 80 micrometre pitch. Four file hashes matched the existing pinned snapshot on 2026-09-25; no runtime validation.",
         "DES027: pinned c167363 calorimeter ECal/HCal XML repeated slices/readouts/gaps, Envelopes constants, Materials siPCBMix and absorber recipe, barrel/endcap factory create_detector/placeStaves conventions. Exact seven file hashes, source-normal depths and inferred polygon bounds in docs/validation/DES-027/odd-inventory.json. Static inspection only; no nODD hardware adoption.",
         "DES029 endcap comparison: current GitLab main c167363f3d4ad1540a577af99071283caf54f3a6 verified 2026-10-12; four live raw files match the clean pinned cache. Envelopes lines51-66 give inner apothems315/355mm and front3200/3600mm; ECal/HCal XML defines16-sector continuous sensitive sheets with logical5.1/30mm cells; endcap factory lines43-67,111-149 subtracts2.5mm from each transverse half-width. Source-derived sensitive face fractions98.59%/99.33% and front aperture near|eta|3 are geometry estimates, not native/performance validation. Locators, equations and hashes in docs/design/DES-029-odd-endcap-comparison.md and docs/validation/DES-029/odd-endcap-comparison.json.",
-        "ODD-idres documentation study: exact layer radii/endcap envelope annuli and continuous barrel sensitive z extrema extracted at c167363f3d4ad1540a577af99071283caf54f3a6. Eight XML/factory hashes and per-layer locators in docs/validation/ODD-idres/odd-source.json; geometric reduction and common response/material fixtures explicitly separated from source facts. No detailed ODD transport or material-scan claim."
+        "ODD-idres documentation study: exact layer radii/endcap envelope annuli and continuous barrel sensitive z extrema extracted at c167363f3d4ad1540a577af99071283caf54f3a6. Eight XML/factory hashes and per-layer locators in docs/validation/ODD-idres/odd-source.json; geometric reduction and common response/material fixtures explicitly separated from source facts. No detailed ODD transport or material-scan claim.",
+        "Issue117 endcap x-y view: pinned d70556f33b1c36abdf101a07ad8cf57eb56fbdf1 CalorimeterECal.xml readout/layer/slice definitions, OpenDataDetectorEnvelopes.xml dimensions and ODDPolyhedraEndcapCalorimeter_geo.cpp placeStaves/placements:16 wedge modules,48 sensitive layers and5.1mm CartesianGridXZ virtual cells. Stored global hit centres checked against source/ID-derived positions; no new transport/digitization or performance acceptance."
       ],
       "supported_infrastructure_or_metadata": [
         "Inspected clean study checkout at c167363f3d4ad1540a577af99071283caf54f3a6; README, factories/XML inventory, CMake, CI, config and assets. Not an approved baseline.",
@@ -541,7 +542,11 @@
       "version_notes": [
         "Independent inspections retained from 2026-09-16 and 2026-09-30; access_date records the later inspection, not a new retrieval during conflict resolution.",
         "Independent inspections retained from 2026-09-25 and 2026-09-30; access_date records the later inspection, not a new retrieval during conflict resolution."
-      ]
+      ],
+      "verified_identifiers": [
+        "d70556f33b1c36abdf101a07ad8cf57eb56fbdf1"
+      ],
+      "verification": " 2026-11-05 endcap hit-view inspection: source at d70556f33b1c36abdf101a07ad8cf57eb56fbdf1 was checked locally; exact CalorimeterECal.xml, envelopes and endcap-factory hashes are in docs/validation/issue117/previews/endcap-xy-binwise.json. Source/ID-derived centres agree with all309693 selected stored +z hit positions within float32 persistence bounds. This is representation checking, not detector acceptance."
     },
     {
       "id": "SRC-ODD-ZENODO-V2",
@@ -2845,6 +2850,302 @@
       "supported_design_facts": [
         "PDF p11-13: ASIC6-11mW, p12 CFEB14W example; different from120kW cooling scenario.",
         "PDF p38:20k-wire feedthrough R&D, small-sample leak/thermal cycling, no installed flange or routing qualification."
+      ]
+    },
+    {
+      "id": "SRC-MARLINRECO-DIGI-2026",
+      "supplied_label": "SRC-MARLINRECO-DIGI-2026",
+      "title": "MarlinReco realistic calorimeter digitization",
+      "title_status": "Descriptive source-catalogue title; exact repository/source version verified on 2026-11-05",
+      "authors_or_collaboration": "MarlinReco Authors / iLCSoft",
+      "verified_identifiers": [
+        "255967eb855ebbc8f75ebaac190b268b63332e8b"
+      ],
+      "public_url": "https://github.com/iLCSoft/MarlinReco/tree/255967eb855ebbc8f75ebaac190b268b63332e8b",
+      "publication_or_version_date": null,
+      "access_date": "2026-11-05",
+      "local_file": null,
+      "sha256": null,
+      "license_or_redistribution": "GPL-3.0-or-later; README.md and LICENCE inspected. Imported code must retain upstream identity.",
+      "verification": "Exact primary source files and tree metadata inspected through GitHub connector or official CERN GitLab raw/API. Code capability inspection only; no upstream runtime or nODD physics-validation claim. Publication date not established from commit identity.",
+      "supported_design_facts": [
+        "DES-044: CaloDigi/Realistic/src/RealisticCaloDigiSilicon.cc::digitiseDetectorEnergy: Poisson electron-hole pairs, upstream 3.6 eV default, explicit Fano overestimate caveat, MIP conversion.",
+        "DES-044: CaloDigi/Realistic/src/RealisticCaloDigi.cc::EnergyDigi and processEvent: electronics range before Gaussian noise, optional gain/dead cells, strict threshold and populated-hit loop; StandardIntegration/ROCIntegration define timing.",
+        "DES-044: CaloDigi/Realistic/src/RealisticCaloDigiScinPpd.cc::digitiseDetectorEnergy: finite-pixel saturation, binomial fluctuations and pixel spread.",
+        "DES-044: Complete tree and RealisticCaloDigi.h inspected: no DDCaloDigi file at pin; class header identifies ILDCaloDigi/DDCaloDigi ancestry."
+      ]
+    },
+    {
+      "id": "SRC-K4RECCALORIMETER-DIGI-2026",
+      "supplied_label": "SRC-K4RECCALORIMETER-DIGI-2026",
+      "title": "Key4hep calorimeter digitization and cell calibration/noise components",
+      "title_status": "Descriptive source-catalogue title; exact repository/source version verified on 2026-11-05",
+      "authors_or_collaboration": "Key4hep and FCC calorimeter software contributors",
+      "verified_identifiers": [
+        "03b3676cecbdf85818f6de159ecf90ffe2482cec"
+      ],
+      "public_url": "https://github.com/key4hep/k4RecCalorimeter/tree/03b3676cecbdf85818f6de159ecf90ffe2482cec",
+      "publication_or_version_date": null,
+      "access_date": "2026-11-05",
+      "local_file": null,
+      "sha256": null,
+      "license_or_redistribution": "No top-level LICENSE or LICENCE in inspected tree. Silicon/scintillator port has Marlin source ancestry; do not infer a permissive licence or redistribute without resolving provenance.",
+      "verification": "Exact primary source files and tree metadata inspected through GitHub connector or official CERN GitLab raw/API. Code capability inspection only; no upstream runtime or nODD physics-validation claim. Publication date not established from commit identity.",
+      "supported_design_facts": [
+        "DES-044: RecCaloDigi/src/DigitiserSiliconMip.cc::digitiseDetectorEnergy and BaseDigitiser.cc::operator(): EDM4hep/Gaudi port of silicon response, ROOT Poisson/Gaus, sparse-hit processing, unit/threshold checks and time integration.",
+        "DES-044: RecCaloDigi/src/DigitiserScinPpdNpe.cc::digitiseDetectorEnergy: finite-pixel scintillator response.",
+        "DES-044: RecCalorimeter/src/components/CreateCaloCells.cpp::initialize/execute: all-cell inventory, deposited-energy merge, optional calibration/noise/crosstalk and filtering; no hit-time processing.",
+        "DES-044: RecCalorimeter/src/components/CalibrateCaloHitsTool.cpp::calibrate: inverse sampling-fraction multiplication; NoiseCaloCellsFlatTool.cpp::addRandomCellNoiseT/filterCellNoiseT: Gaussian noise and one-sided threshold.",
+        "DES-044: doc/RecCalorimeter.md digitisation section explicitly identifies energy-only merge/time limitation."
+      ]
+    },
+    {
+      "id": "SRC-CMSSW-CALODIGI-2026",
+      "supplied_label": "SRC-CMSSW-CALODIGI-2026",
+      "title": "CMSSW calorimeter digitization and HF Cherenkov response",
+      "title_status": "Descriptive source-catalogue title; exact repository/source version verified on 2026-11-05",
+      "authors_or_collaboration": "CMS software contributors",
+      "verified_identifiers": [
+        "aae25e49c2a06291e6d00f85f45efb23f9ceef86"
+      ],
+      "public_url": "https://github.com/cms-sw/cmssw/tree/aae25e49c2a06291e6d00f85f45efb23f9ceef86",
+      "publication_or_version_date": null,
+      "access_date": "2026-11-05",
+      "local_file": null,
+      "sha256": null,
+      "license_or_redistribution": "Root LICENSE inspected: Apache-2.0; component/dependency notices must also be retained.",
+      "verification": "Exact primary source files and tree metadata inspected through GitHub connector or official CERN GitLab raw/API. Code capability inspection only; no upstream runtime or nODD physics-validation claim. Publication date not established from commit identity.",
+      "supported_design_facts": [
+        "DES-044: SimCalorimetry/HGCalSimProducers/plugins/HGCDigitizerBase.cc constructor/runSimple: dose/leakage/charge collection/noise maps, all valid cell IDs, ADC-pulse/gain/LSB/threshold metadata.",
+        "DES-044: SimCalorimetry/HGCalSimProducers/plugins/HGCHEbackDigitizer.cc::runRealisticDigitizer: tile signal and dark-current Poisson terms, dose scaling, saturation and front-end shaper; runCaliceLikeDigitizer is a distinct alternative.",
+        "DES-044: SimCalorimetry/HcalSimAlgos/src/HcalSiPM.cc::hitCells/cellCharge: microcell recovery, crosstalk and temperature dependence.",
+        "DES-044: SimG4CMS/Calo/src/HFShower.cc::getHits: charged G4-step/kinematic and fibre optical boundary; SimCalorimetry/HcalSimAlgos/src/HFSimParameters.cc::photoelectronsToAnalog/fCtoGeV: conditions-based analogue conversion."
+      ]
+    },
+    {
+      "id": "SRC-ATHENA-CALODIGI-2026",
+      "supplied_label": "SRC-ATHENA-CALODIGI-2026",
+      "title": "ATLAS Athena LAr and Tile digitization, OFCs and noise conditions",
+      "title_status": "Descriptive source-catalogue title; exact repository/source version verified on 2026-11-05",
+      "authors_or_collaboration": "ATLAS software contributors",
+      "verified_identifiers": [
+        "e33566adf2c8ad0e0d04878e1f8630b310376718"
+      ],
+      "public_url": "https://gitlab.cern.ch/atlas/athena/-/tree/e33566adf2c8ad0e0d04878e1f8630b310376718",
+      "publication_or_version_date": null,
+      "access_date": "2026-11-05",
+      "local_file": null,
+      "sha256": null,
+      "license_or_redistribution": "Root LICENSE states Apache-2.0 except separately licensed material; file/dependency notices also apply.",
+      "verification": "Exact primary source files and tree metadata inspected through GitHub connector or official CERN GitLab raw/API. Code capability inspection only; no upstream runtime or nODD physics-validation claim. Publication date not established from commit identity.",
+      "supported_design_facts": [
+        "DES-044: LArCalorimeter/LArDigitization/src/LArPileUpTool.cxx::processBunchXing/fillMapFromHit: timed subevents, bunchTime shifts and hit maps.",
+        "DES-044: LArCalorimeter/LArDigitization/src/LArHitEMapToDigitAlg.cxx::ConvertHits2Samples and digit production: shape/derivative sampling, gain selection, covariance noise, pedestal and clipped ADC values.",
+        "DES-044: LArCalorimeter/LArROD/src/LArRawChannelBuilderAlg.cxx::execute: conditions-based OFC amplitude/time and pulse quality.",
+        "DES-044: Calorimeter/CaloTools/src/CaloNoiseCondAlg.cxx::execute: electronic, pileup and total noise via conditions/luminosity; total variance uses a*a+b*b*lumi.",
+        "DES-044: TileCalorimeter/TileSimAlgs/src/TileDigitsMaker.cxx::fillDigitCollection and channel loops: pulse sampling, gain, noise/coherent covariance and ADC clipping; this is Tile PMT readout, not a direct SiPM model."
+      ]
+    },
+    {
+      "id": "SRC-EICRECON-CALODIGI-2026",
+      "supplied_label": "SRC-EICRECON-CALODIGI-2026",
+      "title": "EICrecon generic calorimeter-hit digitization",
+      "title_status": "Descriptive source-catalogue title; exact repository/source version verified on 2026-11-05",
+      "authors_or_collaboration": "EICrecon contributors; source lists Chao Peng, Wouter Deconinck, Sylvester Joosten, Barak Schmookler, David Lawrence and Akio Ogawa",
+      "verified_identifiers": [
+        "e6a7788e853f88b86183717f9c6bc694870b8ab2"
+      ],
+      "public_url": "https://github.com/eic/EICrecon/tree/e6a7788e853f88b86183717f9c6bc694870b8ab2",
+      "publication_or_version_date": null,
+      "access_date": "2026-11-05",
+      "local_file": null,
+      "sha256": null,
+      "license_or_redistribution": "CalorimeterHitDigi.cc and configuration header explicitly state LGPL-3.0-or-later.",
+      "verification": "Exact primary source files and tree metadata inspected through GitHub connector or official CERN GitLab raw/API. Code capability inspection only; no upstream runtime or nODD physics-validation claim. Publication date not established from commit identity.",
+      "supported_design_facts": [
+        "DES-044: src/algorithms/calorimetry/CalorimeterHitDigi.cc::init/process: generic resolution smearing, grouping, pedestal noise, ADC cap/time quantization; simple, Poisson-photon and finite SiPM readout modes.",
+        "DES-044: src/algorithms/calorimetry/CalorimeterHitDigiConfig.h: configured generic response parameters; not nODD detector calibration."
+      ]
+    },
+    {
+      "id": "SRC-FCC-DUALREADOUT-DIGI-2026",
+      "supplied_label": "SRC-FCC-DUALREADOUT-DIGI-2026",
+      "title": "HEP-FCC dual-readout SiPM waveform digitization",
+      "title_status": "Descriptive source-catalogue title; exact repository/source version verified on 2026-11-05",
+      "authors_or_collaboration": "HEP-FCC dual-readout software contributors",
+      "verified_identifiers": [
+        "a5ee3f319069a505e275747e37287adffade1cf2"
+      ],
+      "public_url": "https://github.com/HEP-FCC/dual-readout/tree/a5ee3f319069a505e275747e37287adffade1cf2",
+      "publication_or_version_date": null,
+      "access_date": "2026-11-05",
+      "local_file": null,
+      "sha256": null,
+      "license_or_redistribution": "Root LICENSE inspected: Apache-2.0. External sipm sensor-library licence/version needs separate verification before reuse.",
+      "verification": "Exact primary source files and tree metadata inspected through GitHub connector or official CERN GitLab raw/API. Code capability inspection only; no upstream runtime or nODD physics-validation claim. Publication date not established from commit identity.",
+      "supported_design_facts": [
+        "DES-044: DRdigi/src/DigiSiPM.cpp::initialize: SiPM dark count, crosstalk, recovery, afterpulse, rise/fall time, sampling and SNR properties.",
+        "DES-044: DRdigi/src/DigiSiPM.cpp::execute: photon times passed to sipm::SiPMSensor, analogue gated integral, ToA and waveform; ADC conversion explicitly described as experimental.",
+        "DES-044: GitHub repository metadata inspected 2026-11-05: archived=true; dependency maintenance/support must be resolved."
+      ]
+    },
+    {
+      "id": "SRC-CALICE-SIW-ELECTRONS-2008",
+      "title": "Response of the CALICE Si-W Electromagnetic Calorimeter Physics Prototype to Electrons",
+      "authors_or_collaboration": "C. Adloff et al. (CALICE Collaboration)",
+      "verified_identifiers": [
+        "arXiv:0811.2354v1"
+      ],
+      "public_url": "https://arxiv.org/abs/0811.2354v1",
+      "publication_or_version_date": "2008-11-14",
+      "access_date": "2026-11-05",
+      "local_file": null,
+      "sha256": null,
+      "license_or_redistribution": "Public arXiv PDF inspected; bounded facts paraphrased; no PDF redistributed.",
+      "verification": "PhysVal inspected primary preprint sections3-4/PDF pp4-6 and section6.2/Figs14-16/PDF pp16-18. This is the 2008 preprint; final-journal fit values are not substituted.",
+      "supported_design_facts": [
+        "Issue117 comparison context: 30-layer Si-W, 525 micrometre silicon; muon Landau convolved Gaussian calibration, 0.13MIP typical noise and 0.6MIP threshold. These are comparator settings, not nODD defaults.",
+        "Approximately1% linearity and16.6%/sqrt(E/GeV) quadrature1.1% resolution at6-45GeV are scale context. ODD48-layer geometry does not inherit the acceptance targets."
+      ]
+    },
+    {
+      "id": "SRC-K4FWCORE-IO-GUIDE-2026",
+      "title": "k4FWCore podio input and output guide",
+      "authors_or_collaboration": "Key4hep contributors",
+      "verified_identifiers": [],
+      "public_url": "https://key4hep.github.io/key4hep-doc/main/how-tos/k4fwcore/doc/PodioInputOutput.html",
+      "publication_or_version_date": null,
+      "access_date": "2026-11-05",
+      "local_file": null,
+      "sha256": null,
+      "license_or_redistribution": "Public official documentation, linked and paraphrased; no source redistribution.",
+      "verification": "SoftEng inspected official guide for IOSvc/k4run configuration; local full-framework execution remains unverified.",
+      "supported_design_facts": [
+        "Issue117 reference recipe: IOSvc input/output and keep-all collection policy needed for unchanged same-hit checks."
+      ]
+    },
+    {
+      "id": "SRC-DD4HEP-XML-MANUAL-2026",
+      "title": "DD4hep XML persistency manual, chapter2",
+      "authors_or_collaboration": "DD4hep authors",
+      "verified_identifiers": [],
+      "public_url": "https://dd4hep.web.cern.ch/dd4hep/usermanuals/DD4hepManual/DD4hepManualch2.html",
+      "publication_or_version_date": null,
+      "access_date": "2026-11-05",
+      "local_file": null,
+      "sha256": null,
+      "license_or_redistribution": "Public official documentation, linked and paraphrased; no source redistribution.",
+      "verification": "SoftEng inspected string-constant XML syntax for the task-local original-framework metadata adapter; GeoSvc recipe unexecuted locally.",
+      "supported_design_facts": [
+        "Issue117 reference recipe: DD4hep string constants for Key4hep readout-encoding metadata without modifying ODD volumes or segmentation."
+      ]
+    },
+    {
+      "id": "SRC-GAUDI-REFERENCE-2026",
+      "title": "Gaudi source for the original calorimeter digitization reference",
+      "authors_or_collaboration": "Gaudi contributors",
+      "verified_identifiers": [
+        "bdbe77445b2e1f4168de88a080945b491d133d5b"
+      ],
+      "public_url": "https://github.com/key4hep/Gaudi/tree/bdbe77445b2e1f4168de88a080945b491d133d5b",
+      "publication_or_version_date": null,
+      "access_date": "2026-11-06",
+      "local_file": null,
+      "sha256": null,
+      "license_or_redistribution": "Apache-2.0; LICENSE retained in submodule.",
+      "verification": "Pinned Git submodule source inspected; build and runtime outcomes are recorded separately in the PR123 installation report. No detector parameter change or scientific acceptance.",
+      "supported_design_facts": [
+        "DES-044/ADR-008 build support: Gaudi v41r0 provides the original event framework and component registration; CMake dependencies define the required Boost components."
+      ]
+    },
+    {
+      "id": "SRC-K4FWCORE-REFERENCE-2026",
+      "title": "k4FWCore source for the original calorimeter digitization reference",
+      "authors_or_collaboration": "Key4hep contributors",
+      "verified_identifiers": [
+        "f95187d5cd69d1e079e170e4e2e7f6d828e6a92d"
+      ],
+      "public_url": "https://github.com/key4hep/k4FWCore/tree/f95187d5cd69d1e079e170e4e2e7f6d828e6a92d",
+      "publication_or_version_date": null,
+      "access_date": "2026-11-06",
+      "local_file": null,
+      "sha256": null,
+      "license_or_redistribution": "Apache-2.0; LICENSE retained in submodule.",
+      "verification": "Pinned Git submodule source inspected; build and runtime outcomes are recorded separately in the PR123 installation report. No detector parameter change or scientific acceptance.",
+      "supported_design_facts": [
+        "DES-044/ADR-008 build support: k4FWCore/src components provide IOSvc, UniqueIDGenSvc and event data handling for the EDM4hep-native original-processor reference."
+      ]
+    },
+    {
+      "id": "SRC-K4SIMGEANT4-GEOSVC-2026",
+      "title": "k4SimGeant4 source for the original calorimeter digitization reference",
+      "authors_or_collaboration": "Key4hep contributors",
+      "verified_identifiers": [
+        "339b3842109f45a269929d9896c3d8279e69b83c"
+      ],
+      "public_url": "https://github.com/key4hep/k4SimGeant4/tree/339b3842109f45a269929d9896c3d8279e69b83c",
+      "publication_or_version_date": null,
+      "access_date": "2026-11-06",
+      "local_file": null,
+      "sha256": null,
+      "license_or_redistribution": "Original file copyright/licence notices retained; no standalone root license found at inspected pin. Review upstream notices before redistribution.",
+      "verification": "Pinned Git submodule source inspected; build and runtime outcomes are recorded separately in the PR123 installation report. No detector parameter change or scientific acceptance.",
+      "supported_design_facts": [
+        "DES-044/ADR-008 build support: Detector/DetComponents/src/GeoSvc.cpp and GeoConstruction.cpp supply the original DD4hep geometry service required by RecCaloDigi."
+      ]
+    },
+    {
+      "id": "SRC-BOOST-REFERENCE-2026",
+      "title": "boost source for the original calorimeter digitization reference",
+      "authors_or_collaboration": "Boost contributors",
+      "verified_identifiers": [
+        "1bed2b0712b2119f20d66c5053def9173c8462a5"
+      ],
+      "public_url": "https://github.com/boostorg/boost/tree/1bed2b0712b2119f20d66c5053def9173c8462a5",
+      "publication_or_version_date": null,
+      "access_date": "2026-11-06",
+      "local_file": null,
+      "sha256": null,
+      "license_or_redistribution": "Boost Software License 1.0; component notices retained in nested source pins.",
+      "verification": "Pinned Git submodule source inspected; build and runtime outcomes are recorded separately in the PR123 installation report. No detector parameter change or scientific acceptance.",
+      "supported_design_facts": [
+        "DES-044/ADR-008 build support: Boost1.90.0 supplies Gaudi-required fiber, thread, log and Python libraries absent from the configured Spack Boost build."
+      ]
+    },
+    {
+      "id": "SRC-RANGEV3-REFERENCE-2026",
+      "title": "range-v3 source for the original calorimeter digitization reference",
+      "authors_or_collaboration": "Range-v3 contributors",
+      "verified_identifiers": [
+        "5ba39112d2eafbb3c851a16a537f29b445022998"
+      ],
+      "public_url": "https://github.com/ericniebler/range-v3/tree/5ba39112d2eafbb3c851a16a537f29b445022998",
+      "publication_or_version_date": null,
+      "access_date": "2026-11-06",
+      "local_file": null,
+      "sha256": null,
+      "license_or_redistribution": "Boost Software License 1.0; LICENSE.txt retained in submodule.",
+      "verification": "Pinned Git submodule source inspected; build and runtime outcomes are recorded separately in the PR123 installation report. No detector parameter change or scientific acceptance.",
+      "supported_design_facts": [
+        "DES-044/ADR-008 build support: range/v3/all.hpp for Gaudi, including libc++16+ forward-declaration compatibility absent from release0.12.0."
+      ]
+    },
+    {
+      "id": "SRC-CPPGSL-REFERENCE-2026",
+      "title": "GSL source for the original calorimeter digitization reference",
+      "authors_or_collaboration": "Microsoft GSL contributors",
+      "verified_identifiers": [
+        "2828399820ef4928cc89b65605dca5dc68efca6e"
+      ],
+      "public_url": "https://github.com/microsoft/GSL/tree/2828399820ef4928cc89b65605dca5dc68efca6e",
+      "publication_or_version_date": null,
+      "access_date": "2026-11-06",
+      "local_file": null,
+      "sha256": null,
+      "license_or_redistribution": "MIT; LICENSE retained in submodule.",
+      "verification": "Pinned Git submodule source inspected; build and runtime outcomes are recorded separately in the PR123 installation report. No detector parameter change or scientific acceptance.",
+      "supported_design_facts": [
+        "DES-044/ADR-008 build support: Microsoft GSL4.2.0 supplies gsl/gsl for Gaudi; distinct from the GNU Scientific Library in Spack."
       ]
     }
   ]

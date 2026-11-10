@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-11-05-endcap-hit-xy",
+  "title": "ECAL endcap sensitive-hit x-y projection and segmentation view",
+  "recorded_at": "2026-11-05T21:28:13Z",
+  "started_at": null,
+  "ended_at": "2026-11-05T21:40:49.055073Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Fixed-phi raw-hit sample does not establish full-face efficiency or detector-performance acceptance. Marlin study remains deferred.",
+    "2026-11-10: closed parent/child usage recovered into this canonical owner from exact request counters; execution model and client version remain unavailable. The active readiness turn and other-device/automated-task history are excluded; observed usage is not a complete PR or billing total."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": "01a1ad68-2d1f-7201-ba21-40923d9e6ad4"
+  },
+  "git": {
+    "start_commit": "e4d478b34c6392130d4de21383d87eb55245b13c",
+    "branch": "codex/issue117-calorimeter-digitization",
+    "initial_changes": [],
+    "result_commits": [
+      "ce609eb6cedf459594134d12994db01882f219fe"
+    ],
+    "changed_files": [
+      "software/analysis/calorimeter_digitization/endcap_xy.py",
+      "docs/validation/issue117/previews/endcap-xy-binwise.json",
+      "docs/validation/issue117/previews/endcap-xy.png",
+      "docs/validation/issue117/README.md",
+      "reference/manifest.yaml",
+      "project/tracking.json",
+      "interactions/pr-0118.json",
+      "logs/codex/SESSION-2026-11-05-endcap-hit-xy.json",
+      "logs/codex/SESSION-2026-11-05-endcap-hit-xy.md"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "ECAL endcap",
+      "sensitive-hit projection",
+      "readout segmentation"
+    ],
+    "related_ids": [
+      "#117",
+      "#118",
+      "DES-044",
+      "ADR-003",
+      "PR118"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-11-05-endcap-hit-xy.md",
+  "activities": [],
+  "usage": [
+    {
+      "client_thread_id": "01a1ad68-2d1f-7201-ba21-40923d9e6ad4",
+      "turn_id": "01a1ad9c-5f16-7a61-b49f-93f6d0f109f9",
+      "model": null,
+      "source": "USAGE-2026-11-10-pr118-prototype.json; closed completed turn; 23 requests; usage SHA-256 8c22c6203550096e715a05bc1f4dcd3bc0782ba472bfaea02af0181ad5fe5c89",
+      "limitations": [
+        "Actual per-turn execution model and client version are not exposed.",
+        "Observed disjoint client request counters, not billing or a complete PR total."
+      ],
+      "input_tokens": 8796311,
+      "cached_input_tokens": 8615296,
+      "output_tokens": 44192,
+      "reasoning_output_tokens": 27865,
+      "total_tokens": 8840503
+    }
+  ],
+  "checks": [
+    {
+      "command": "acts-spack preflight.py",
+      "status": "FAIL",
+      "exit_code": 2,
+      "result": "Recorded setup/lockfile fingerprints changed; user warned before dependent work. Actual ROOT/podio imports and reads reverified separately."
+    },
+    {
+      "command": "Active ROOT/podio imports and saved EDM4hep file read",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "ROOT6.40.04 imports;200-event input read successfully. No transport/digitization or software installation."
+    },
+    {
+      "command": "endcap_xy.py extract and compact-data audit",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "309693+z entries across48layers; layer14 selected with12924 entries. All source/ID-derived positions within float32-persistence bound; input/script hashes and count denominators valid."
+    },
+    {
+      "command": "endcap_xy.py plot; visual QA",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Two-panel projection renders. Corrected initial clipping/spacing, then checked axes, module/cell outlines, units and hit-count normalization."
+    },
+    {
+      "command": "Public raw image URL hash and PR description read-back",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Public PNG SHA256 a0d17e52ac584514c74a6654cd2356b95a138c6804d820b8061bfe4276860040 matches local image. PR now contains3 image embeds and remains draft with Marlin deferral."
+    },
+    {
+      "command": "Final session summary/validation, interaction/project validation and token-site build",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "256 paired sessions, PR118 interaction record and project records validate; token site builds; task input/output counters unknown. Whitespace check passes."
+    }
+  ]
+}

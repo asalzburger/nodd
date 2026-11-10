@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated": "2026-11-04",
+  "updated": "2026-11-09",
   "note": "Curated register. Stage B architecture is active. PR #4\u2019s envelope baseline has explicit human approval and is merged; its documents still declare DRAFT and no formal sign-off record exists. Role ownership does not imply active agents. Chore PRs and infrastructure chores are excluded from project progress. Pixel-module design dossier opened by human direction in parallel with architecture; final component-method gates remain pending.",
   "stages": [
     {
@@ -4029,7 +4029,7 @@
     {
       "id": "TASK-CALO-DIGITIZATION",
       "title": "Specify and validate physical calorimeter digitization",
-      "scope": "Define calibrated energy/time, noise/thresholds, sensor/optical and electronics response, then validated clustering; source assumptions before implementing physics.",
+      "scope": "Issue117: survey existing response models across all calorimeter technologies; reuse an original silicon kernel in an explicit ODD Si-W prototype; retain unit and single-particle characterization, with original full-framework comparison and physical qualification separate.",
       "stage": "B",
       "milestones": [
         "M1"
@@ -4037,26 +4037,65 @@
       "workstream": "WS-CALO",
       "role": "Calorimeter technician",
       "owner": null,
-      "state": "planned",
+      "state": "active",
       "dependencies": [
         "TASK-CALO-EDM-IO"
       ],
       "deliverables": [
-        "docs/design/inputs/ECAL-baseline-integration-2026-11-04.md"
+        "docs/design/inputs/ECAL-baseline-integration-2026-11-04.md",
+        "docs/design/DES-044-calorimeter-digitization.md",
+        "docs/validation/issue117/validation-plan.md",
+        "software/source/ActsExamples/Calorimeter/README.md",
+        "docs/validation/issue117/README.md",
+        "software/analysis/calorimeter_digitization/reference.md",
+        "docs/validation/issue117/tiling-response-plan.md",
+        "docs/validation/issue117/tiling-response.md",
+        "docs/validation/issue117/pr118-review-request.md",
+        "software/source/Key4hepReference/README.md",
+        "docs/validation/issue117/pr123-framework-install.md",
+        "docs/validation/issue117/digitization-protocol.md",
+        "docs/validation/issue117/digitization-results.md",
+        "docs/validation/issue117/previews/digitization-reference.json",
+        "docs/validation/issue117/previews/digitized-response.json",
+        "docs/validation/issue117/nodd-digitization-protocol.md",
+        "docs/validation/issue117/nodd-digitization-analysis-notes.md",
+        "docs/validation/issue117/nodd-digitization-results.md",
+        "docs/validation/issue117/previews/nodd-transport-validation.json",
+        "docs/validation/issue117/previews/nodd-digitized-response.json",
+        "docs/validation/issue117/previews/nodd-response-quantiles.json",
+        "docs/validation/issue117/previews/nodd-digitization-reference.json",
+        "docs/validation/issue117/previews/nodd-digitization-reference.png"
       ],
       "evidence": [
-        "https://github.com/asalzburger/nodd/issues/114"
+        "https://github.com/asalzburger/nodd/issues/114",
+        "https://github.com/asalzburger/nodd/issues/117",
+        "docs/validation/issue117/README.md",
+        "https://github.com/asalzburger/nodd/pull/118",
+        "docs/validation/issue117/tiling-response.md",
+        "logs/codex/SESSION-2026-11-06-pr118-review-request.md",
+        "https://github.com/asalzburger/nodd/pull/118#issuecomment-6684090541",
+        "docs/validation/issue117/pr123-runtime.json",
+        "https://github.com/asalzburger/nodd/pull/123",
+        "logs/codex/SESSION-2026-11-06-pr123-framework-install.md",
+        "docs/validation/issue117/digitization-results.md",
+        "logs/codex/SESSION-2026-11-09-pr118-digitization-validation.md",
+        "https://github.com/asalzburger/nodd/pull/118#issuecomment-6686715251",
+        "https://github.com/asalzburger/nodd/pull/118#issuecomment-6744059438",
+        "logs/codex/SESSION-2026-11-09-pr118-nodd-validation.md",
+        "docs/validation/issue117/nodd-digitization-results.md",
+        "logs/codex/SESSION-2026-11-10-pr118-merge-readiness.md"
       ],
       "documents": [
         "DES-030",
         "DES-031",
         "DES-032",
-        "DES-033"
+        "DES-033",
+        "DES-044"
       ],
-      "updated": "2026-11-04",
-      "next_action": "Propose response contract and independent benchmark criteria; follow issue114 I/O restoration.",
+      "updated": "2026-11-10",
+      "next_action": "Review/merge the PR118 calorimeter prototype snapshot, then begin baseline ECAL performance evaluation in a separate PR. Retain the failed pair-only muon width gate and remaining technology/physical-qualification requirements.",
       "blocker": null,
-      "disposition": null,
+      "disposition": "Survey and isolated silicon prototype remain DRAFT/PROTOTYPE. The software-dependent deferral was superseded on2026-11-09 after PR123 supplied the original Key4hep runtime. Twenty real ODD files pass deterministic full-processor energy/selection comparison:4600events,2714303inputcells,2357083matched accepted cells,zero mismatches; four1000-event conditional P/PN replay distributions pass fixed event-level mean/CDF/width gates with verified effective ROOT and CLHEP seeds. New500detailed held-outmuons and300independent electron reference events complement3600paired raw/D/PNshower events for MIP/SNR/threshold and e/gamma characterization. The existing7600+100event physical nODD tiling/control scan remains separate geometry evidence; no geometry was retuned. Approximate paths, conditional crossing denominators and model-fit diagnostics are explicit. No production integration, hardware-noise qualification, timing/ADC/pileup acceptance or human sign-off is inferred. A later2026-11-09 review requests actualnODD geometry/comparison: freshLAYOUT-001 tracker+SiWbarrel+bothendcaps passes complete10nm native union scan/rootIDmapping withzerooverlaps. All9500matchedzero-field events and48nativejobs close normally. Six muon populations/18000bootstrapfits, nativecell-positionclosure and38showerpopulations/commonODDcalibration/114-axisjointcovariance are separately assessed; substantial nODD/ODD raw geometry response ratios .488\u2013.629 are retained, withouttiling-onlyattribution. A separate source-identified quantile attachment closes a recorded protocol omission. Five actual figures andcompleteoriginalKey4hep/nODDcomparison areavailable:22files/4550events/1712671matchedacceptedcells/zerodeterministicmismatches. Threeof4frozenstochasticcasespass; pair-onlymuonSD-ratio95CI[.901417,1.669784]failscontainmentinside[.85,1.15]. Allmean/CDFchecks pass, butfullstochasticqualification remainsincomplete. Failedresultandfixedseeds/gates arepreserved. No hardware/detectoracceptance orhumanreview/signoff isrecorded. On 2026-11-10 the user requests PR118 merge preparation to capture the current prototype state, with baseline ECAL performance evaluation in the next PR. This changes the merge scope, not the recorded validation verdicts, design approval or detector acceptance. PR118 is marked ready for review after the accounting commit; no merge or design/performance acceptance is recorded.",
       "subsystem": "calorimetry and forward interfaces"
     },
     {
@@ -4503,6 +4542,13 @@
       "id": "ADR-008",
       "path": "docs/decisions/ADR-008-software-source-layout.md",
       "validation_reports": []
+    },
+    {
+      "id": "DES-044",
+      "path": "docs/design/DES-044-calorimeter-digitization.md",
+      "validation_reports": [
+        "docs/validation/issue117/validation-plan.md"
+      ]
     }
   ],
   "evidence": [
