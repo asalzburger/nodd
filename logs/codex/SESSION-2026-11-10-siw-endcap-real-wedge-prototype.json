@@ -1,0 +1,116 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-11-10-siw-endcap-real-wedge-prototype",
+  "title": "Prototype reusable Si\u2013W endcap wedge volumes",
+  "recorded_at": "2026-11-10T19:11:16Z",
+  "started_at": "2026-11-10T19:06:27Z",
+  "ended_at": "2026-11-10T19:11:29Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "2026-11-11: exact closed-turn counters recovered; actual execution models/client version and other-device history remain unknown."
+  ],
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": "01a1c4f8-21c7-7ff0-9fb7-6eaacb9d06a4"
+  },
+  "git": {
+    "start_commit": "0bc37ca08fed0bd7b121d6eebd5794dd3b584877",
+    "branch": "codex/siw-ecal-compute-pilot",
+    "initial_changes": [
+      "docs/validation/siw-ecal-compute-pilot/README.md",
+      "docs/validation/siw-ecal-compute-pilot/audit_pilot.py",
+      "docs/validation/siw-ecal-compute-pilot/results.json",
+      "docs/validation/siw-ecal-compute-pilot/run_pilot.py",
+      "logs/codex/SESSION-2026-11-10-ddg4-startup-profile.json",
+      "logs/codex/SESSION-2026-11-10-ddg4-startup-profile.md",
+      "logs/codex/SESSION-2026-11-10-siw-barrel-real-wedge-prototype.json",
+      "logs/codex/SESSION-2026-11-10-siw-barrel-real-wedge-prototype.md",
+      "logs/codex/SESSION-2026-11-10-siw-ecal-compute-pilot.json",
+      "logs/codex/SESSION-2026-11-10-siw-ecal-compute-pilot.md",
+      "project/tracking.json"
+    ],
+    "result_commits": [],
+    "changed_files": [
+      "logs/codex/SESSION-2026-11-10-siw-endcap-real-wedge-prototype.json",
+      "logs/codex/SESSION-2026-11-10-siw-endcap-real-wedge-prototype.md"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "Si\u2013W ECAL endcaps",
+      "DDG4",
+      "prototype geometry"
+    ],
+    "related_ids": [
+      "DES-030",
+      "TASK-SIW-ECAL-COMPUTE-PILOT",
+      "PR129"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-11-10-siw-endcap-real-wedge-prototype.md",
+  "activities": [],
+  "usage": [
+    {
+      "client_thread_id": "01a1c4f8-21c7-7ff0-9fb7-6eaacb9d06a4",
+      "turn_id": "01a1c6da-c22a-7140-a8c3-e31e27d9a2da",
+      "model": null,
+      "source": "Codex desktop exact completed-turn token_count recovery; logs/usage/USAGE-2026-11-11-pr129-siw-wedges.json; cumulative request deltas reconcile with persisted turn boundaries.",
+      "limitations": [
+        "Actual execution model and client version are not exposed; no model inferred from configuration."
+      ],
+      "input_tokens": 6059362,
+      "cached_input_tokens": 5737984,
+      "output_tokens": 18019,
+      "reasoning_output_tokens": 5321,
+      "total_tokens": 6077381
+    }
+  ],
+  "checks": [
+    {
+      "command": "acts-spack preflight.py",
+      "exit_code": 2,
+      "status": "FAIL",
+      "result": "Changed setup and lock fingerprints required re-verification."
+    },
+    {
+      "command": "Spack imports, package versions and Geant4 datasets",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "Verified the existing runtime on the Mac Studio."
+    },
+    {
+      "command": "Release CMake build and DDSim stock:4 wedge:4 wedge:16",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "All three timings reached the zero-event macro and enumerated every touchable."
+    },
+    {
+      "command": "containment.py, material_rays.py and compare.py",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "Conservative containment, 144 ROOT rays, ID and transform checks passed."
+    },
+    {
+      "command": "smoke/audit-initial.py",
+      "exit_code": 1,
+      "status": "FAIL",
+      "result": "The initial aimed-side-only check rejected three opposite-side shower deposits."
+    },
+    {
+      "command": "Two mirrored Geant4 smoke shots and corrected smoke/audit.py",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "Both events persisted and every hit maps to the correct sensor side and plane."
+    },
+    {
+      "command": "run_combined.py and compare_combined.py",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "All 531,936 combined sensors match the isolated prototypes exactly."
+    }
+  ]
+}

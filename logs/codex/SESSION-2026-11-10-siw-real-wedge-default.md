@@ -106,3 +106,7 @@ to its validation report. The path is corrected in the closing update.
 The science implementation is the reviewed and executed commit
 `2bd57912350e9e88b1918e0221b205153545346e`. Exact active-turn counters
 were unavailable.
+
+## 2026-11-11 accounting correction and publication
+
+Exact closed-turn usage is now recorded from the [PR129 recovery inventory](../usage/USAGE-2026-11-11-pr129-siw-wedges.json), using matched app request/turn IDs and verified parent/child metadata. Earlier statements that counters were unavailable describe the active-turn observation at the time. No counters are estimated or shared between canonical owners. The active merge-readiness turn and other-device/reviewer-task history remain excluded.
