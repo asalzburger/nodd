@@ -6,6 +6,8 @@ its exact ECAL-only compact/materials and the DES-030/DES-031 factories.
 There is no tracker, beam pipe or magnetic field. The prospective
 [analysis protocol](protocol.md) was fixed before production.
 
+Review package: [draft PR134](https://github.com/asalzburger/nodd/pull/134).
+
 ## Sample and observable
 
 The requested sample is 10,000 single electrons at the origin, with independent

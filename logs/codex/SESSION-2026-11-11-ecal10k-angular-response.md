@@ -154,10 +154,16 @@ Session, interaction and token checks/build are repeated after final curation.
 
 ## Publication and accounting
 
-The repository requires a dedicated draft PR for this task. Its final link and
-numbered interaction record are added after creation. The proposed PR contains
-no full event samples or bulky runtime files; staged files and new Git objects
-are inspected before pushing. No ready-for-review transition or merge is authorized.
+The completed review package is [draft PR134](https://github.com/asalzburger/nodd/pull/134),
+stacked on the still-open PR133 branch. The new-object scan inspected 28 blobs,
+largest 284,709 bytes, and excluded all ROOT/HEPEvt/event-ledger/build/log paths.
+The initial default-sandbox SSH push failed DNS; the authorized network push
+succeeded. The connected GitHub integration returned403 when creating the PR;
+the existing authenticated gh CLI created the draft successfully. A connected
+read verified draft=true at published head a5c17c5f2e7b6c50e9dc7528f602305ae8baa207.
+The final metadata/interaction closeout is a normal fast-forward; the captured
+head is a dated snapshot, and Git history locates the subsequent closing commit.
+No ready-for-review transition, merge or full-sample upload was performed.
 
 Exact client-reported per-turn counters and stable turn IDs are unavailable for
 parent and specialist contexts. Usage remains empty, meaning unknown rather
