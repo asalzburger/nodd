@@ -111,6 +111,7 @@ def summarize(values,energy):
 
 def analyze(args):
     run=args.run.resolve();proof=json.loads((run/"readback.json").read_text());receipt=json.loads((run/"receipt.json").read_text())
+    if sha(run/"receipt.json")!=proof["receipt_sha256"]:raise ValueError("Changed transport receipt after readback")
     if sha(run/"event-summary.jsonl")!=proof["event_summary_sha256"]:raise ValueError("Changed event summary")
     rows=sorted([json.loads(l) for l in (run/"event-summary.jsonl").read_text().splitlines()],key=lambda r:r["event"])
     if len(rows)!=proof["events"]:raise ValueError("Event ledger count mismatch")
@@ -185,8 +186,8 @@ def plot(result,out):
     fig,axes=plt.subplots(1,2,figsize=(12.6,4.8),layout="constrained")
     for axis,(name,projection) in zip(axes,result["projections"].items()):
         factor=180/math.pi if name=="folded_phi" else 1;bins=projection["bins"]
-        x=[(b["low"]+b["high"])/2*factor for b in bins];y=[b["mean_response"]*100 for b in bins]
-        low=[b["mean_response_ci95"][0]*100 for b in bins];high=[b["mean_response_ci95"][1]*100 for b in bins]
+        x=[(b["low"]+b["high"])/2*factor for b in bins];y=[b["mean_response"]*100 if b["mean_response"] is not None else np.nan for b in bins]
+        low=[b["mean_response_ci95"][0]*100 if b["mean_response_ci95"] else np.nan for b in bins];high=[b["mean_response_ci95"][1]*100 if b["mean_response_ci95"] else np.nan for b in bins]
         axis.vlines(x,low,high,color="#343b22");axis.plot(x,y,"o-",color="#cccc00",markeredgecolor="#454500")
         axis.set_xlabel(r"$|\eta|$" if name=="abs_eta" else r"Signed sector-folded $\phi$ [deg]");axis.set_ylabel("Mean raw silicon response [%]")
         axis.grid(alpha=.2);axis.set_ylim(bottom=0)

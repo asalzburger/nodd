@@ -66,3 +66,18 @@ threads, and identify custom audit/output pitfalls; inspect existing libraries
 and APIs without installing dependencies or running long jobs. Deliver a
 concrete input/steering recommendation with source locators and limitations;
 complete when the main agent can implement and smoke-test it.
+
+Assignment ECAL10K-REVIEW-PHYSVAL: read-only PhysVal review of committed
+48d1b1b09ccbd10cf8862152054244bff543536e, inputs docs/validation/ecal10k/protocol.md,
+angular_analyze.py and test_angular_response.py. No owned writes. Question:
+assess the implemented estimator, uncertainty/covariance, fold/bin definitions,
+plot labels and event acceptance against the prospective contract. Deliver
+severity-ranked findings; complete when actual code checks/limits are returned.
+
+Assignment ECAL10K-REVIEW-SOFTENG: read-only SoftEng review of committed
+48d1b1b09ccbd10cf8862152054244bff543536e, inputs angular_sample.py,
+angular_transport.py, angular_analyze.py, docs/validation/ecal10k/Audit.cpp and
+CMakeLists.txt, plus local pilot12-v2 receipt/audits/readback. No owned writes.
+Question: assess MT setup, seed/identity and audit validity, disk guard and
+reproducibility before production. Deliver severity-ranked findings and exact
+actual checks; complete on bounded review, without running more simulations.
