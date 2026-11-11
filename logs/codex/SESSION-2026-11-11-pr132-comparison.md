@@ -345,3 +345,28 @@ unavailable and usage empty. These are observed project totals, not task
 estimates or evidence of complete coverage. New-object audit from PR base found
 largest blob283275bytes(project/tracking.json), no large run payload. Maintained
 factory/config/build/export paths match starting revision. Publication follows.
+
+## Publication and closeout
+
+Ordinary first fetch/push hit sandbox DNS failure(exit128). Network-enabled
+fetch succeeded; remote head remained an ancestor, and ordinary fast-forward
+push published004179e43db2c9899bb9c2bb87950e0964f0a4ff. No force push/history
+rewrite. Connected GitHub metadata update returned403 Resource not accessible
+by integration. Existing GitHubCLI2.100.0 successfully updated title/body via
+--body-file. Connected reads verified the new title/body/head and draft=true.
+This is a connector permission limitation, not an automatic-approval rejection.
+
+PR: https://github.com/asalzburger/nodd/pull/132 . Open draft; no merge, ready
+transition, design sign-off or maintained integration. Public PR/issue snapshot
+was refreshed through connected read tools, including the authorizing comment.
+The snapshot targets the published scientific/review head before this final
+accounting-only closeout commit; it is a dated snapshot, not live synchronization.
+At observed004179e4, Token usage Pages passed and Project validation was running.
+No claim of final remote CI completion is made in this record.
+
+All code, compact results, source/environment/seed/hash provenance, independent
+role handoffs and reproduction commands are reviewable in the draft PR. Full
+reference-run files remain local/ignored. No new external scientific source or
+source-catalogue change. Exact active-parent/child per-turn counters unavailable;
+usage remains empty. Outstanding scientific limits are recorded in the report;
+they are integration gates, not an unperformed requested production change.
