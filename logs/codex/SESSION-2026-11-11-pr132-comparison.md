@@ -196,3 +196,29 @@ identity mutations for timing aggregation. The existing22tracker tests passed
 in106.721s. A separate candidate DDSim/G4-sensor callback smoke run is being
 executed during correctness scans; it is excluded from matched timing. The
 sequential measured runner waits until all correctness scans finish.
+
+Fresh full maintained baseline validation completed PASS: zero illegal
+overlaps/extrusions at1e-5mm,46682unique IDs,180288probes. ROOT point filling
+1399.18s, candidate checking85.3209s. Exact compact, expected and all five
+factory hashes agree with the supplementary SNAPSHOT; the reports remain
+separate. The source baseline geometry was not changed. Candidate full scans
+continue. Curation will enforce this binding before producing compact results.
+
+Both candidate native reports completed PASS at source2c5f2ba6:617018original
+constituents each,0missing/extra/changed fingerprints,46682packed IDs and
+per-instance DetElements,180288shape probes,38material/crossing rays,zero
+illegal overlaps/extrusions at1e-5mm. Cache has0real mothers; B has8064.
+Both have499389unique native logical volumes versus636460baseline. ROOT used
+its default24candidate-check threads here versus the maintained baseline's
+explicit1; these concurrent correctness durations are not startup benchmarks.
+Point filling1397.57s(B)/1403.62s(A), candidate checks5.47532s/5.3614s.
+The original physical shapes/materials/local and global transforms/IDs match
+exactly, while sampled rays use the documented numerical tolerances.
+
+All correctness processes have exited before matched startup. The runner uses
+two observations each, in baseline/cache/mother then mother/cache/baseline
+order. Per-run receipts now retain actual host/platform/Python and reject
+runtime mismatch, in addition to common binaries/materials/instrumentation,
+macro content, normalized commands and stable variant compacts. No detector
+factory, compact exporter, readout or physical parameter in the maintained
+entry point changed. Full matched measurements and results review remain due.

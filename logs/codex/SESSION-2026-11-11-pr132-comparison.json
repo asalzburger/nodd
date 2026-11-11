@@ -132,6 +132,42 @@
       "exit_code": 0,
       "status": "PASS",
       "result": "Compiled against current installed headers; runtime traversal remains to be checked."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/tracker_dd4hep -p test_*.py -v",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "22 tracker tests pass in106.721s."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s docs/validation/tracker-placement-reuse -p test_*.py -v (expanded controls)",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "12 controls pass, including adverse timing-identity receipts."
+    },
+    {
+      "command": "Baseline supplemental check_equivalence.py --snapshot-only, corrected beampipe contract",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "SNAPSHOT only,0errors;617018solids,46682IDs/DEs,180288probes,38rays. No overlap verdict; separate full scan pending."
+    },
+    {
+      "command": "DDSim mother-smoke --sensor-snapshot during correctness scans",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "One geantino event;46682nativeG4sensor IDs/frames collected. Excluded from matched timing."
+    },
+    {
+      "command": "software/env/run.sh python3 -B tools/tracker_dd4hep/validate.py (fresh baseline)",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "46682unique IDs,180288finite probes,zero overlaps/extrusions at1e-5mm; report hashes match supplementary snapshot inputs."
+    },
+    {
+      "command": "check_equivalence.py full cache and mother native checks",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "Both:617018original solids/46682IDs and DEs/180288probes/38rays;zero fingerprint changes and zero overlaps at1e-5mm. No exact general-CSG total mass or response/ACTS assertion."
     }
   ]
 }

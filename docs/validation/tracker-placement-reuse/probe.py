@@ -4,6 +4,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import platform
 import re
 import resource
 import shutil
@@ -82,7 +83,8 @@ def main():
                "--random.seed", "130001", "--physics.list", "FTFP_BERT",
                "--physics.rangecut", "0.7", "--part.userParticleHandler", "",
                "--outputConfig.forceEDM4HEP", "--outputFile", str(output / "unused.root")]
-    provenance = dict(command=command, source_commit=subprocess.check_output(
+    provenance = dict(command=command, runtime=dict(host=platform.node(), platform=platform.platform(),
+                                                  python=platform.python_version()), source_commit=subprocess.check_output(
         ["git", "rev-parse", "HEAD"], text=True).strip(),
         sha256={str(p.relative_to(repo)) if p.is_relative_to(repo) else str(p): sha(p)
                 for p in [args.compact.resolve(), args.compact.resolve().parent / "materials.xml", macro,

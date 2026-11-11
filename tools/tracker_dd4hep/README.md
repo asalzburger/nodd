@@ -91,3 +91,7 @@ The [issue130 repeated-placement investigation](../../docs/validation/tracker-pl
 characterizes the unchanged maintained tracker and separates strict recipe reuse
 from the real-mother strategy used by the ECAL. Its isolated startup probe and
 proposed controls do not change this export or establish a tracker speedup.
+The authorized [PR132 comparison prototype](../../docs/validation/tracker-placement-reuse/comparison.md)
+implements strict short-strip barrel caching and a notched real module mother
+in a standalone factory. Its native identity checks and matched initialization
+observations remain separate from this maintained export and ACTS/response qualification.

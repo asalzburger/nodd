@@ -19,7 +19,7 @@ class TimingIdentityTests(unittest.TestCase):
                     (directory/name).write_text(json.dumps(value))
                 write('timing.json',dict(exit_code=0,sensitive_paths=46682,mapping_seconds=1.,
                       wall_including_inventory_seconds=2.,peak_child_rss_bytes=3))
-                write('provenance.json',dict(sha256={'tracker.xml':str(variant_index)*64,
+                write('provenance.json',dict(runtime=dict(host='test_host',platform='test_platform',python='test_python'),sha256={'tracker.xml':str(variant_index)*64,
                       'materials.xml':'a'*64,'libFactory.dylib':'b'*64},
                       command=['test_ddsim','--compactFile',variant,'--macroFile',str(directory/'macro'),
                                '--outputFile',str(directory/'output'),'--random.seed','130001']))
@@ -37,10 +37,11 @@ class TimingIdentityTests(unittest.TestCase):
     def test_rejects_binary_seed_or_compact_change(self):
         path=self.runs[-1][1]/'provenance.json'
         original=json.loads(path.read_text())
-        for mutation in ('binary','seed','compact'):
+        for mutation in ('binary','seed','compact','runtime'):
             value=json.loads(json.dumps(original))
             if mutation=='binary':value['sha256']['libFactory.dylib']='c'*64
             elif mutation=='seed':value['command'][-1]='130002'
+            elif mutation=='runtime':value['runtime']['host']='other_test_host'
             else:value['sha256']['tracker.xml']='d'*64
             path.write_text(json.dumps(value))
             with self.subTest(mutation=mutation),self.assertRaises(ValueError):

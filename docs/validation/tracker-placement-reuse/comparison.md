@@ -146,7 +146,7 @@ software/env/run.sh python3 -B tools/tracker_dd4hep/validate.py \
 software/env/run.sh python3 -B docs/validation/tracker-placement-reuse/check_equivalence.py \
   --compact build/pr132/baseline/tracker.xml --expected build/pr132/baseline/expected.json \
   --library-dir build/pr132/tracker/detector --snapshot build/pr132/native-baseline-snapshot.json \
-  --output build/pr132/native-baseline.json --overlap-evidence build/pr132/baseline-native.json
+  --output build/pr132/native-baseline-snapshot-report.json --snapshot-only
 for variant in cache mother; do
   software/env/run.sh python3 -B docs/validation/tracker-placement-reuse/check_equivalence.py \
     --compact "build/pr132/$variant/tracker.xml" --expected "build/pr132/$variant/expected.json" \
@@ -169,6 +169,8 @@ for variant in cache mother; do
     "build/pr132/matched-runs/$variant-1/geant4-sensors.json" \
     --output "build/pr132/geant4-$variant.json"
 done
+python3 -B docs/validation/tracker-placement-reuse/curate_comparison.py \
+  --work build/pr132 --output docs/validation/tracker-placement-reuse/comparison-results.json
 python3 -B -m unittest discover -s docs/validation/tracker-placement-reuse -p 'test_*.py' -v
 python3 -B -m unittest discover -s tools/tracker_dd4hep -p 'test_*.py' -v
 ```
@@ -176,9 +178,8 @@ python3 -B -m unittest discover -s tools/tracker_dd4hep -p 'test_*.py' -v
 The first generation/native checks may run concurrently when producing
 correctness evidence. Finish all such work before the sequential matched timing
 runner. Do not compare those concurrent check durations as timing observations.
-The baseline-only snapshot checkpoint can replace the supplementary baseline
-command during the scan; retain its `SNAPSHOT` status and the separate completed
-full report. The final evidence assembly must check their input identities.
+The baseline-only snapshot command may run during the full baseline scan;
+retain its `SNAPSHOT` status and the separate completed full report. The final evidence assembly must check their input identities.
 Native overlap sampling and large snapshots require the local runtime and
 regenerated geometry. Committed compact summaries permit review of reported
 counts, phases and provenance; they do not replace those native checks.

@@ -10,7 +10,7 @@ import statistics
 def summarize(runs):
     observations = []
     groups = defaultdict(list)
-    common_hashes = common_command = None
+    common_hashes = common_command = common_runtime = None
     compact_hashes = {}
     for label, directory in runs:
         timing = json.loads((directory / 'timing.json').read_text())
@@ -21,8 +21,8 @@ def summarize(runs):
         for flag in ['--compactFile','--macroFile','--outputFile']:
             command[command.index(flag)+1] = '<run-specific>'
         if common_hashes is None:
-            common_hashes,common_command = hashes,command
-        elif common_hashes != hashes or common_command != command:
+            common_hashes,common_command,common_runtime = hashes,command,provenance['runtime']
+        elif common_hashes != hashes or common_command != command or common_runtime != provenance['runtime']:
             raise ValueError('Unmatched runtime binaries, materials, instrumentation or simulation command')
         digest = next(h for p,h in provenance['sha256'].items() if Path(p).name == 'tracker.xml')
         if label in compact_hashes and compact_hashes[label] != digest:
@@ -62,7 +62,7 @@ def summarize(runs):
     if len(set(compact_hashes.values())) != 3:
         raise ValueError('Expected three distinct variant compacts')
     return dict(scope='Isolated short-strip barrel cache/real-mother PROTOTYPE, full tracker startup',
-                matched_identity=dict(common_sha256=common_hashes,common_command=common_command,
+                matched_identity=dict(common_sha256=common_hashes,common_command=common_command,runtime=common_runtime,
                                       variant_compact_sha256=compact_hashes),
                 observations=observations, summary=summary,
                 limitations=['Phase intervals can nest; do not add them.',
