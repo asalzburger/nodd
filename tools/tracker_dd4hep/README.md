@@ -86,3 +86,8 @@ The human-requested 2026-11-03 integration uses `short-strip-des043.json` by def
 The native validator checks IDs, cells, transforms, finite contact/window probes and full ROOT overlaps at 1e-5 mm. A supplementary `audit_payload.py` checks all physical solids, source/artifact coverage and flattened native material mixtures. Intersecting CSG is bounded rather than treated as an exact subtracted volume. The current [integration recipe/evidence](../../docs/validation/DES-043/integration/README.md) also covers Gen3 conversion and Geant4 transport smoke checks. Full material mapping and new-geometry physics comparisons remain separate tasks.
 
 To regenerate the original selected 2 mm readout with the old physical modules/services, use `export.py --historical-short-strips --output PATH`. The dated DES040 reports, original standalone producers and historical plotting snapshots remain unchanged. Current layout views have distinct DES043 filenames and source hashes. Engineering qualification remains open.
+
+The [issue130 repeated-placement investigation](../../docs/validation/tracker-placement-reuse/README.md)
+characterizes the unchanged maintained tracker and separates strict recipe reuse
+from the real-mother strategy used by the ECAL. Its isolated startup probe and
+proposed controls do not change this export or establish a tracker speedup.

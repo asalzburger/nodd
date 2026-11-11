@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated": "2026-11-09",
+  "updated": "2026-11-11",
   "source_revision": "4497737721d35df1e8971d5d01e8a5727def14aa",
   "components": [
     {
@@ -676,15 +676,19 @@
       "id": "CHECK-PROFILE",
       "name": "Material-recording profiler",
       "category": "cross-validation",
-      "usage": "ODD/nODD matched timing; association scan; voxelization; reuse control",
-      "integration": "Local Python/C++ source in nODD; no external submodule installation for this code.",
+      "usage": "ODD/nODD matched timing; association scan; voxelization; reuse control; current tracker DDG4 startup; strict local module recipe counts",
+      "integration": "Local Python/C++ source in nODD, plus the issue130 baseline/recipe scripts under docs/validation/tracker-placement-reuse; no external submodule installation for this code.",
       "version": "PROTOTYPE profiling; existing runtime explicitly selected.",
-      "installation": "Follow the profiler README with matching ACTS/DD4hep/Geant4 source/build; no shared-install modifications.",
+      "installation": "Follow the profiler README with matching ACTS/DD4hep/Geant4 source/build; no shared-install modifications. Issue130 baseline: docs/validation/tracker-placement-reuse/README.md; native interposition is macOS-specific and static couple reuse is disabled.",
       "paths": [
         "tools/material_recording_profile"
       ],
       "evidence": [
-        "tools/material_recording_profile/README.md"
+        "tools/material_recording_profile/README.md",
+        "docs/validation/tracker-placement-reuse/README.md",
+        "docs/validation/tracker-placement-reuse/probe.py",
+        "docs/validation/tracker-placement-reuse/steering.py",
+        "docs/validation/tracker-placement-reuse/recipe_counts.py"
       ],
       "prs": [
         "https://github.com/asalzburger/nodd/pull/91"
@@ -1409,6 +1413,21 @@
       "prs": [
         "https://github.com/asalzburger/nodd/pull/118"
       ]
+    },
+    {
+      "id": "EXT-NLOHMANN-JSON",
+      "name": "nlohmann/json",
+      "category": "spack",
+      "usage": "header-only JSON; native hierarchy inventory serialization",
+      "integration": "Existing local Spack view header, consumed by the native inventory JIT; no installation performed.",
+      "version": "3.12.0 macros observed in the installed detail/abi_macros.hpp; runtime execution recorded separately.",
+      "installation": "Activate the node-verified DD4hep runtime; steering.py JIT-compiles the existing inventory.hpp with the view include path.",
+      "paths": [],
+      "evidence": [
+        "tools/material_recording_profile/inventory.hpp",
+        "docs/validation/tracker-placement-reuse/README.md"
+      ],
+      "prs": []
     }
   ],
   "checked_inputs": {

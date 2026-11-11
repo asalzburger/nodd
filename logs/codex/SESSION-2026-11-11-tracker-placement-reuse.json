@@ -1,0 +1,234 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-11-11-tracker-placement-reuse",
+  "title": "Issue 130 tracker repeated-placement investigation",
+  "recorded_at": "2026-11-11T06:08:10Z",
+  "started_at": null,
+  "ended_at": "2026-11-11T06:29:57Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact client per-turn input/output/cached/reasoning/total counters and stable client thread/turn IDs are unavailable for parent and specialists; usage is unknown, not zero.",
+    "Client version and actual execution-model evidence are not exposed.",
+    "New PR number/URL and result commit belong to the host publisher; no publication is performed by this session.",
+    "Project-record validation is limited by a pre-existing historical commit absent from the isolated Git store."
+  ],
+  "client": {
+    "name": "Codex agent_task runner",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "3dab2346c4a08fd24898a7842906601884708a7d",
+    "branch": "codex/agent-task-130-35764571579",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      "docs/software-inventory.md",
+      "project/tracking.json",
+      "software/inventory.json",
+      "tools/tracker_dd4hep/README.md",
+      "docs/validation/tracker-placement-reuse/README.md",
+      "docs/validation/tracker-placement-reuse/probe.py",
+      "docs/validation/tracker-placement-reuse/recipe_counts.py",
+      "docs/validation/tracker-placement-reuse/results.json",
+      "docs/validation/tracker-placement-reuse/steering.py",
+      "docs/validation/tracker-placement-reuse/test_probe.py",
+      "logs/codex/SESSION-2026-11-11-tracker-placement-reuse.json",
+      "logs/codex/SESSION-2026-11-11-tracker-placement-reuse.md"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [
+      "tracker",
+      "DDG4 startup",
+      "repeated-placement investigation"
+    ],
+    "related_ids": [
+      "ISSUE-130",
+      "TASK-TRACKER-PLACEMENT-REUSE",
+      "DES-025",
+      "DES-043",
+      "ADR-003"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-11-11-tracker-placement-reuse.md",
+  "activities": [
+    {
+      "kind": "tool",
+      "name": "functions.exec / exec_command",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Native command orchestration used for read-only inspection, task-local build/export/probe and repository checks; curated commands/results in paired narrative."
+    },
+    {
+      "kind": "tool",
+      "name": "GitHub github_get_pr_info / github_fetch_pr_comments",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Read-only PR129 public metadata and review refresh through connected GitHub tools."
+    },
+    {
+      "kind": "tool",
+      "name": "collaboration.spawn_agent",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "I130-SE01 SoftEng source audit and separate I130-PV01/PV02 PhysVal method/results assessments; full source and immutable snapshot identities and bounded contracts in paired narrative."
+    },
+    {
+      "kind": "skill",
+      "name": "nodd-coordinate",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Read and applied the available nodd-coordinate SKILL.md; procedures and limits curated in paired narrative."
+    },
+    {
+      "kind": "skill",
+      "name": "nodd-design-evidence",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Read and applied the available nodd-design-evidence SKILL.md; procedures and limits curated in paired narrative."
+    },
+    {
+      "kind": "skill",
+      "name": "nodd-review-validation",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Read and applied the available nodd-review-validation SKILL.md; procedures and limits curated in paired narrative."
+    },
+    {
+      "kind": "skill",
+      "name": "acts-spack",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Read and applied the available acts-spack SKILL.md; procedures and limits curated in paired narrative."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 /Users/salzburg/.codex/skills/acts-spack/scripts/preflight.py",
+      "exit_code": 2,
+      "status": "FAIL",
+      "result": "Historical registry setup/lock fingerprints changed or unreadable; current availability reverified separately."
+    },
+    {
+      "command": "source acts_setup.sh; setup_spack; spack env status/find; source thisdd4hep.sh/geant4.sh; DD4hep/DDG4 imports; geant4-config --version --check-datasets",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "DD4hep1.38 /3yd4hz3, Geant411.4.3 /wfg55xi, imports and all12 dataset presence checks; sandbox sysctl/ps warnings retained."
+    },
+    {
+      "command": "software/env/run.sh cmake -S . -B build/issue130/tracker -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "Fresh task-local Release configuration."
+    },
+    {
+      "command": "software/env/run.sh cmake --build build/issue130/tracker --parallel 3 --target Components_nODDPixelBarrel Components_nODDBeamPipe Components_nODDShortStripBarrel Components_nODDShortStripEndcap Components_nODDLongStrip",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "All five factory/component targets built from unchanged input source."
+    },
+    {
+      "command": "python3 -B tools/tracker_dd4hep/export.py --output build/issue130/baseline",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "Fresh maintained DES043 tracker export; generated raw files stay ignored."
+    },
+    {
+      "command": "zsh tools/material_recording_profile/build_native.sh VIEW build/issue130/libNativeTiming.dylib",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "Existing macOS helper and energy-cut client built; exact view in report recipe; static reuse disabled."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/tracker_dd4hep -p 'test_*.py' -v",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "22 tests passed in651.047s, including maintained and historical exports."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s docs/validation/tracker-placement-reuse -p 'test_*.py' -v",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "3 mapping-evidence and strict recipe-key controls pass."
+    },
+    {
+      "command": "Issue130 initial probe-1 with native helper preloaded alone",
+      "exit_code": 1,
+      "status": "FAIL",
+      "result": "Child exit-6 before construction: unresolved Xerces symbol. DDG4-first ordering corrected, failed raw log retained locally."
+    },
+    {
+      "command": "software/env/run.sh python3 -B docs/validation/tracker-placement-reuse/probe.py build/issue130/baseline/tracker.xml build/issue130/tracker/detector build/issue130/probe-2 --native-timing build/issue130/libNativeTiming.dylib --ddg4-library VIEW/lib/libDDG4.dylib --expected-sensors 46682",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "One completed geantino event;46682 paths,24.9798s map;186.6867s closure,29.5030s initial cuts;553.0544s complete subprocess. One instrumented diagnostic, concurrent export tests during early startup."
+    },
+    {
+      "command": "python3 -B docs/validation/tracker-placement-reuse/recipe_counts.py build/issue130/baseline/tracker.xml",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "Short-strip barrel8064 instances /1 strict local recipe class with descendant IDs retained; pixel classes recorded."
+    },
+    {
+      "command": "python3 -B tools/software_inventory/inventory.py refresh; python3 -B tools/software_inventory/inventory.py check",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "68 components,101 code families,52 reviewed inputs,12 source pins. Initial invalid docs code-family path corrected to explicit evidence entries without changing validator."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py",
+      "exit_code": 1,
+      "status": "FAIL",
+      "result": "Pre-existing reference78bc60bb6da0c9d234baf00d37cadea9dd4964b4 absent from non-shallow isolated Git store; host must resolve/provide object/reference. No historical evidence or gate changed."
+    },
+    {
+      "command": "python3 -B tools/interactions/ledger.py validate",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "111 existing PR interaction records; new PR is assigned and recorded by host publisher."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py validate; python3 -B tools/token_usage/build.py build --output _site/issue130-token-preview",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "Historical disjoint usage validates and token preview builds; no task counters are exposed."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py validate",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "280 paired session records validated; final closeout recheck recorded below."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py summary --format json",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "511 historical observed turns;2788479704 input,12147127 output;93 sessions without usage, including this task. No task token estimate."
+    },
+    {
+      "command": "git diff --check; git diff --exit-code INPUT -- detector prototypes software/running; git diff --cached --stat; inspect untracked text file sizes/contents",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "No whitespace failures or production-source changes, no staged files. New artifacts are small text; raw payloads/build outputs ignored."
+    }
+  ]
+}
