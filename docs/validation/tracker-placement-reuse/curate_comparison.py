@@ -25,7 +25,10 @@ def curate(work):
         return json.loads(path.read_text())
     full=read('baseline-native.json')
     baseline=read('native-baseline-snapshot-report.json')
+    baseline_identity=read('native-baseline-snapshot.json')
     timings=read('comparison-timings.json')
+    if baseline_identity['provenance']!=baseline['provenance']:
+        raise ValueError('Baseline snapshot and report provenance differ')
     if full['status']!='PASS' or full['overlaps'] or full['errors']:
         raise ValueError('Fresh full baseline validation has not passed')
     if baseline['status']!='SNAPSHOT' or baseline['total_errors'] or baseline['overlaps'] is not None:
@@ -56,6 +59,12 @@ def curate(work):
             if snapshot_hashes.get(name)!=digest:
                 raise ValueError('Prepared candidate input differs from native control: '+name)
         report=read(f'native-{variant}.json')
+        raw=read(f'native-{variant}-snapshot.json')
+        if raw['provenance']!=report['provenance']:
+            raise ValueError('Candidate snapshot and report provenance differ: '+variant)
+        for field in ('constituents','sensitive_detelements'):
+            if raw[field]!=baseline_identity[field]:
+                raise ValueError('Independent raw snapshot identity differs: '+variant+'/'+field)
         if report['status']!='PASS' or report['total_errors'] or report['overlaps']:
             raise ValueError('Candidate full native checks have not passed: '+variant)
         identity=report['baseline_comparison']
@@ -72,7 +81,10 @@ def curate(work):
         fields=['status','constituent_placements','unique_native_logical_volumes','mother_instances',
                 'unique_packed_ids','shape_probes_checked','sensitive_detelements_checked','baseline_comparison']
         summaries[variant]={k:report[k] for k in fields}
-        summaries[variant].update(overlaps=0,material_rays_checked=len(report['rays']))
+        summaries[variant].update(overlaps=0,material_rays_checked=len(report['rays']),
+            independent_snapshot_identity_verified=True,
+            identity_snapshot_sha256=artifacts[f'native-{variant}-snapshot.json']['sha256'],
+            baseline_snapshot_sha256=artifacts['native-baseline-snapshot.json']['sha256'])
     if snapshot_hashes['tracker.xml']!=timings['matched_identity']['variant_compact_sha256']['baseline']:
         raise ValueError('Timing baseline differs from full native control')
     sensors=work/'matched-runs/baseline-1/geant4-sensors.json'

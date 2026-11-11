@@ -323,7 +323,7 @@ def main():
                 if not math.isclose(old["material_path_mm"].get(material,0.),new["material_path_mm"].get(material,0.),abs_tol=1e-7,rel_tol=1e-9):
                     errors.append(f"Native material ray differs: {i}/{material}")
     provenance = dict(source_revision=subprocess.check_output(["git","rev-parse","HEAD"],cwd=REPO,text=True).strip(),
-                      root_version=R.gROOT.GetVersion(),sha256={str(p):sha(p) for p in [args.compact,args.expected,args.compact.parent / "materials.xml",Path(__file__),*libraries]+([args.manifest] if args.manifest else [])})
+                      root_version=R.gROOT.GetVersion(),sha256={str(p):sha(p) for p in [args.compact,args.expected,args.compact.parent / "materials.xml",Path(__file__),*libraries]+([args.manifest] if args.manifest else [])+([args.baseline] if args.baseline else [])})
     args.snapshot.parent.mkdir(parents=True,exist_ok=True)
     args.snapshot.write_text(json.dumps(dict(constituents=native,sensitive_detelements=de_snapshot,rays=rays,provenance=provenance),separators=(",", ":"))+"\n")
     report = dict(status=("SNAPSHOT" if args.snapshot_only else "PASS") if not errors else "FAIL", errors=errors[:100], total_errors=len(errors),

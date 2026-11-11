@@ -250,3 +250,59 @@ due before any maintained integration.
 Updated scientific task disposition, software inventory and tracker tool README.
 Project-record validation and software inventory refresh/check passed after the
 results update. An exact-revision separate PhysVal result review remains due.
+
+## Final PhysVal assignment
+
+```json
+{
+  "id": "PR132-PV02",
+  "role": "PhysVal",
+  "input_revision": "8c5a6545203d9d035b626584031f959f99e6e1e0",
+  "inputs": [
+    "docs/validation/tracker-placement-reuse/comparison-results.json",
+    "docs/validation/tracker-placement-reuse/prepare_comparison.py",
+    "prototypes/tracker_placement_reuse/ShortStripBarrelReuse.cpp",
+    "docs/validation/tracker-placement-reuse/check_equivalence.py",
+    "docs/validation/tracker-placement-reuse/geant4_sensors.hpp",
+    "docs/validation/tracker-placement-reuse/compare_geant4.py",
+    "docs/validation/tracker-placement-reuse/probe.py",
+    "docs/validation/tracker-placement-reuse/run_comparison.py",
+    "docs/validation/tracker-placement-reuse/summarize_comparison.py",
+    "docs/validation/tracker-placement-reuse/curate_comparison.py",
+    "docs/validation/tracker-placement-reuse/comparison.md"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Independent final results assessment of the authorized isolated tracker reuse prototype. Inspect committed compact receipts and available local raw native reports/phase logs/Geant4 sensor snapshots under build/pr132 before author conclusions; verify hashes against compact receipts where useful. All3 full native scans passed, two sequential startup observations per variant completed, all6G4snapshot comparisons showed zero differences. Assess actual phase/total-wall/initial-cut variability claims and limits, not the expected outcome. Review new source guards and baseline-only SNAPSHOT bookkeeping at this exact revision. No heavy native jobs, writing or further delegation. Small parser/control checks allowed. Report defects that invalidate limited initialization observations; keep future ACTS/response/integration gates distinct from this bounded prototype, without human sign-off.",
+  "deliverable": "Return exact revision, findings with severity and source/evidence locators, actual checks, uncertainty/claim limits and any required correction to coordinator.",
+  "completion": "Verify or correct modest phase-gain / adverse-cache / unresolved-cut-variation statements, configuration identities, original-constituent and Geant4 identity claims, and prototype approval boundaries."
+}
+```
+
+## Final PhysVal results and provenance correction
+
+PR132-PV02, /root/pr132_physval, independently assessed
+8c5a6545203d9d035b626584031f959f99e6e1e0 read-only. It verified43referenced artifact
+hashes,15retained execution-input hashes, normalized commands/runtime across6runs,
+all3native full PASS reports and correctly labelled baseline SNAPSHOT. It read
+the96MB raw snapshots and confirmed617018original-constituent digests and46682
+sensitive-DE digests exactly equal in both candidates. Pinned curator reproduced
+the old compact result exactly;12controls passed. All reported median changes
+were recomputed correctly, including adverse A and B's cut/wall variation. No
+blocking scientific defect; no human sign-off.
+
+Before publication the reviewer requested explicit native snapshot hashes in
+the compact receipt, baseline-input provenance, and “original solid placements”
+wording. These are metadata corrections, with no detector, tolerance or measured
+data change. Curator now hashes all3large native snapshots, checks each snapshot
+provenance against its native report, and independently compares constituent/DE
+digests. Future checker receipts hash --baseline; historical raw reports retain
+their executed source bytes/hashes and are not rewritten. Corrected curator PASS
+retains baselineSHA bb2c910425e41880147b3fb96542036357b49bb53d3d00c858b1bcfbf8674b37,
+cache f38ca187e6afd9de58bddc1e94d1f79cf7761799963661b61f0a4289b1256ab3,
+mother84d10c075941ae830141bb986759fd39b6dedad3611d09af16d7f78dd4ac96dc.
+
+The report now explicitly separates the new matched control from the historical
+single553s observation: the cross-session difference is unquantified and is not
+credited to the prototype. Original raw/curated historical evidence is retained.
+The reviewer will receive a narrow verification of these receipt corrections.

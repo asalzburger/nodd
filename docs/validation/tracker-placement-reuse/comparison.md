@@ -14,7 +14,7 @@ ECAL timing ratios to the tracker.
 
 The [compact results](comparison-results.json) pass all bounded checks. Every
 original constituent has the same native solid/material/local and global
-transform/ID fingerprint: **617,018 solids, zero missing/extra/changed**. Each
+transform/ID fingerprint: **617,018 original solid placements, zero missing/extra/changed**. Each
 variant has **46,682 unique sensor IDs and per-instance DetElements**, 180,288
 finite window/contact probes, 38 sampled material/crossing rays, and zero ROOT
 overlaps/extrusions at 1e-5 mm. All six native Geant4 snapshots match the control
@@ -63,6 +63,19 @@ alone are not an initialization-speed improvement in this observation.
 ACTS conversion/navigation, repeated BeamOn(1), response/boundary studies and
 review of initial-cut behavior remain due before maintained integration.
 No production entry point or design approval changes.
+
+The new matched control retains the initial investigation's compact hash, but
+its timing differs from the historical single 553 s observation. That older
+record reported concurrent work; the cross-session timing difference is not
+quantified here. No part of it is credited to the prototype. All reported
+prototype timing comparisons use only the six new matched observations.
+
+The compact receipt retains hashes of all three large native identity snapshots.
+The curator independently compares their constituent and DetElement digests and
+binds each snapshot to its native report. Future checker receipts also hash the
+`--baseline` snapshot input; the historical raw native reports remain unchanged
+at their executed source hashes. No geometry rerun is implied by this metadata
+clarification.
 
 ## Experiment definition
 
