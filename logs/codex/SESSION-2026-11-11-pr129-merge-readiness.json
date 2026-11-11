@@ -4,14 +4,14 @@
   "title": "PR129 Si-W wedge merge readiness and token accounting",
   "recorded_at": "2026-11-11T05:11:15Z",
   "started_at": "2026-11-11T05:08:58Z",
-  "ended_at": null,
-  "status": "open",
+  "ended_at": "2026-11-11T05:24:11Z",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
-    "This active preparation turn is excluded until its boundary closes.",
+    "Current publication turn remains excluded until its boundary closes; the preceding preparation turn is now accounted.",
     "Actual execution models/client version and other-device or automated-review history remain unknown.",
-    "Automatic approval review rejected public PR-body accounting disclosure; prepared records remain local pending destination-specific publication approval."
+    "Initial disclosure hold was resolved by the user, exact: Push please. All publication is limited to the prepared project accounting/interaction records and PR129 summary."
   ],
   "client": {
     "name": "Codex desktop",
@@ -22,7 +22,9 @@
     "start_commit": "9f2e135ca4c31264248efe2250334d76d2b741cd",
     "branch": "codex/pr129-merge-accounting",
     "initial_changes": [],
-    "result_commits": [],
+    "result_commits": [
+      "bceca6707332064d6d827be007ae337d60776fd7"
+    ],
     "changed_files": [
       "interactions/pr-0129.json",
       "interactions/pr-0129/turns/01a1c4f8-21c7-7ff0-9fb7-6eaacb9d06a4--01a1c4f9-baaa-7de2-8fb5-85be20f85b15.json",
@@ -34,6 +36,7 @@
       "interactions/pr-0129/turns/01a1c4f8-21c7-7ff0-9fb7-6eaacb9d06a4--01a1c59b-110d-7982-a0ea-749956de2a59.json",
       "interactions/pr-0129/turns/01a1c4f8-21c7-7ff0-9fb7-6eaacb9d06a4--01a1c6da-c22a-7140-a8c3-e31e27d9a2da.json",
       "interactions/pr-0129/turns/01a1c4f8-21c7-7ff0-9fb7-6eaacb9d06a4--01a1c6fb-6110-7a50-8505-d3df093ca8dc.json",
+      "interactions/pr-0129/turns/01a1c4f8-21c7-7ff0-9fb7-6eaacb9d06a4--01a1c902-5e7e-7e43-a8bc-6f4dfb09efc2.json",
       "interactions/pr-0129/turns/01a1c6fc-7333-79a3-9d26-1a17747955da--01a1c6fc-7385-7bf2-942b-a5e64459bba8.json",
       "interactions/pr-0129/turns/01a1c6ff-5d1f-7262-aa01-81475fc790f0--01a1c6ff-5d6f-79f1-a282-f3976bcd5f65.json",
       "logs/codex/SESSION-2026-11-10-ddg4-startup-profile.json",
@@ -48,6 +51,7 @@
       "logs/codex/SESSION-2026-11-10-siw-real-wedge-default.md",
       "logs/codex/SESSION-2026-11-11-pr129-merge-readiness.json",
       "logs/codex/SESSION-2026-11-11-pr129-merge-readiness.md",
+      "logs/usage/USAGE-2026-11-11-pr129-merge-preparation-turn.json",
       "logs/usage/USAGE-2026-11-11-pr129-siw-wedges.json",
       "project/tracking.json"
     ]
@@ -68,7 +72,22 @@
   },
   "narrative": "logs/codex/SESSION-2026-11-11-pr129-merge-readiness.md",
   "activities": [],
-  "usage": [],
+  "usage": [
+    {
+      "client_thread_id": "01a1c4f8-21c7-7ff0-9fb7-6eaacb9d06a4",
+      "turn_id": "01a1c902-5e7e-7e43-a8bc-6f4dfb09efc2",
+      "model": null,
+      "source": "Codex desktop exact closed-turn token_count recovery; logs/usage/USAGE-2026-11-11-pr129-merge-preparation-turn.json; cumulative deltas reconcile with last requests and persisted turn boundary.",
+      "limitations": [
+        "Actual execution model and client version are unexposed."
+      ],
+      "input_tokens": 2892412,
+      "cached_input_tokens": 2360576,
+      "output_tokens": 24043,
+      "reasoning_output_tokens": 6298,
+      "total_tokens": 2916455
+    }
+  ],
   "checks": [
     {
       "command": "session_log.py import-usage: five previews/imports/identical replays",
@@ -135,6 +154,30 @@
       "status": "FAIL",
       "exit_code": null,
       "result": "Automatic approval review rejected public disclosure of private client token/accounting metadata without destination-specific approval. No mutation. Prepared records remain local; no push or merge attempted."
+    },
+    {
+      "command": "Completed preparation-turn usage preview/import/identical replay",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "One newly closed observation added to this canonical owner, replay adds zero: 2892412 input + 24043 output = 2916455 total. Current publication turn excluded."
+    },
+    {
+      "command": "git push origin HEAD:refs/heads/codex/siw-ecal-real-wedges",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "User-authorized publication of prepared commit bceca670; remote head verified exactly."
+    },
+    {
+      "command": "GitHub connector PR summary update followed by authenticated CLI fallback",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Connector write failed with integration 403. Authorized CLI update succeeded; exact body readback confirmed. No approval-review rejection after explicit user consent."
+    },
+    {
+      "command": "Final canonical validators, usage summary and dashboard build after approved publication",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "279 sessions; 111 PR ledgers; 102 tasks/54 documents/24 review rounds. Dashboard confirms six PR129 labels and 12 disjoint dated turns totaling 76274323. Global summary: 511 turns/2800626831 observed total, 92 sessions without usage. Scientific source remains unchanged."
     }
   ]
 }
