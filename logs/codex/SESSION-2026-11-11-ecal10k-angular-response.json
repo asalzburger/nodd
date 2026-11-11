@@ -9,10 +9,13 @@
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
-    "Actual conversation start time, client identity details and token usage have not been recorded."
+    "Exact client-reported per-turn input/output/cached/reasoning/total counters and stable client thread/turn IDs are unavailable, including for both specialist contexts; usage remains empty, not zero.",
+    "Source/analysis/benchmark records are PROTOTYPE characterization; no calibration, engineering sign-off or intrinsic reconstructed energy-resolution claim.",
+    "Raw 12.60 GB ROOT output, event/input ledgers, logs and builds stay local and ignored. Only binwise statistics, figures, recipes and curated records are published.",
+    "Host load was not isolated. Serial/MT equality was checked for 24 pilot events, not the complete 10k sample or every cell payload."
   ],
   "client": {
-    "name": "unspecified",
+    "name": "Codex desktop",
     "version": null,
     "thread_id": null
   },
@@ -20,18 +23,142 @@
     "start_commit": "7ba71eeedc00c497bd4dc4168a9272039b300d8b",
     "branch": "codex/ecal10k-angular-response",
     "initial_changes": [],
-    "result_commits": [],
-    "changed_files": []
+    "result_commits": [
+      "48d1b1b09ccbd10cf8862152054244bff543536e",
+      "a53895fa47d0452fd031f51e54c7a2288861838c",
+      "e097af85513247dfdd93207b00914ee0cab50156",
+      "d7cae98616dac99b9459055aeb54525082405c08"
+    ],
+    "changed_files": [
+      "docs/software-inventory.md",
+      "docs/validation/ecal10k/Audit.cpp",
+      "docs/validation/ecal10k/CMakeLists.txt",
+      "docs/validation/ecal10k/README.md",
+      "docs/validation/ecal10k/angular-resolution.pdf",
+      "docs/validation/ecal10k/angular-resolution.png",
+      "docs/validation/ecal10k/mean-response.pdf",
+      "docs/validation/ecal10k/mean-response.png",
+      "docs/validation/ecal10k/protocol.md",
+      "docs/validation/ecal10k/summary.json",
+      "interactions/pr-0133.json",
+      "logs/codex/SESSION-2026-11-11-ecal10k-angular-response.json",
+      "logs/codex/SESSION-2026-11-11-ecal10k-angular-response.md",
+      "project/tracking.json",
+      "software/analysis/calorimeter_digitization/angular_analyze.py",
+      "software/analysis/calorimeter_digitization/angular_sample.py",
+      "software/analysis/calorimeter_digitization/angular_transport.py",
+      "software/analysis/calorimeter_digitization/test_angular_response.py",
+      "software/inventory.json"
+    ]
   },
   "work": {
-    "milestone": "M0",
-    "components": [],
+    "milestone": "M1",
+    "components": [
+      "Si-W ECAL prototype",
+      "DDSim multithreading",
+      "angular response statistics"
+    ],
     "related_ids": [
-      "PR133"
+      "PR-133",
+      "ISSUE-131",
+      "DES-030",
+      "DES-031",
+      "TASK-ECAL10K-ANGULAR-RESPONSE"
     ]
   },
   "narrative": "logs/codex/SESSION-2026-11-11-ecal10k-angular-response.md",
   "activities": [],
   "usage": [],
-  "checks": []
+  "checks": [
+    {
+      "command": "python3 acts-spack/scripts/preflight.py",
+      "status": "FAIL",
+      "exit_code": 2,
+      "result": "Changed setup/lock fingerprints required re-verification. No shared dependency changes; actual doctor/runtime checks subsequently passed."
+    },
+    {
+      "command": "software/env/run.sh python3 -B software/env/doctor.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "DD4hep/DDG4 1.38, Geant4 11.4.3, actual Spack environment and all 12 installed datasets verified; sandbox sysctl/ps warnings retained."
+    },
+    {
+      "command": "Fresh Release geometry and native-audit CMake builds",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Built both plugins and component maps. Initial audit factory namespace error was corrected; the rebuilt geometry library is byte-identical to PR133. Existing upstream CMake/CLHEP warnings retained."
+    },
+    {
+      "command": "Initial pilot12 DDSim with --random.enableEventSeed true",
+      "status": "FAIL",
+      "exit_code": 2,
+      "result": "Parser rejected trailing true before event generation. Corrected bare enable flag; retained failed receipt/log, no evidence overwritten."
+    },
+    {
+      "command": "12-thread and serial 24-event pilots, then native ID-indexed readback",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Both completed and all 24 primaries matched input. All 12 MT workers used. Complete per-event summarized energies/responses/collection counts match exactly by ID; maximum signal difference 0."
+    },
+    {
+      "command": "12-thread production transport, 10000 events",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Completed all 10,000 in 585.693669 s wall and 6066.616829 child CPU s; peak RSS2,546,319,360 bytes; ROOT12,604,492,755 bytes. 30 GiB disk reserve maintained; no reduction."
+    },
+    {
+      "command": "angular_analyze.py audit on production12",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "10,000 unique IDs 0\u20139999 and all 12 completed workers verified. 6,289,322 valid ECAL cells; maximum primary energy error 4.3e-14 GeV. ROOT/ledger/receipt hashes retained."
+    },
+    {
+      "command": "angular_analyze.py analyze with 5000 joint whole-event bootstrap replicates",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Both ten-bin projections sum to 10,000; all 20 intervals/covariance finite. 42 valid zero responses retained, all in seam-adjacent phi bins. Plotting Python 3.14.5, NumPy 2.5.4, Matplotlib 3.11.2."
+    },
+    {
+      "command": "Spack-Python pilot plotting attempt",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Statistics completed but Matplotlib unavailable in native Python. Reused existing ACTS plotting Python; no installation. Same pilot summary plotted successfully, including undefined-bin cases."
+    },
+    {
+      "command": "Existing ACTS plotting Python: test_angular_response.py and replot control",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All five mathematical controls passed; compact-summary replot succeeded; figures visually inspected and caption pixels confirmed within image bounds."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "104 tasks, 54 documents, 24 review rounds validated after read-only access to existing local historical Git objects and normalization of PR129 collection timestamp to whole-second UTC. Original failed checks retained in narrative."
+    },
+    {
+      "command": "python3 -B tools/software_inventory/inventory.py refresh/check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "67 components, 101 code families, 52 reviewed inputs, 12 pins; usage/recipes/evidence updated without dependency changes."
+    },
+    {
+      "command": "python3 -B tools/interactions/ledger.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "112 existing PR ledgers validated after refreshed connected-GitHub PR133/issue131 public snapshot and derived-session synchronization."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py validate/build --output _site",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "511 disjoint historical turns validated/built after required ledger synchronization. No current-task counters were exposed or inferred."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors at inspected checkpoints."
+    }
+  ]
 }
