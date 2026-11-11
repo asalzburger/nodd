@@ -95,7 +95,7 @@ def audit(args):
        identity_order="verified by event ID; physical output order unrestricted",cells_by_collection=cells,
        maximum_input_errors=maximum_errors,compression=compression,root_sha256=sha(run/"events.root"),
        event_summary_sha256=sha(output),receipt_sha256=sha(run/"receipt.json"),
-       audit_sha256=sha(__file__),worker_events={str(w["thread_id"]):w["events"] for w in workers},
+       audit_sha256=sha(__file__),sample=manifest,worker_events={str(w["thread_id"]):w["events"] for w in workers},
        workers=workers)
     save(run/"readback.json",proof);print(json.dumps({k:v for k,v in proof.items() if k!="workers"},indent=2))
 
@@ -145,6 +145,7 @@ def analyze(args):
     result=dict(status="PROTOTYPE",observable="sample SD(R)/mean(R), R=sum(raw sensitive-silicon ECAL deposits)/primary total energy",
        interpretation="Spectrum-averaged raw visible-response width, including gaps/leakage/angular variation; not intrinsic reconstructed energy resolution",
        events=len(rows),source_revision=subprocess.check_output(["git","rev-parse","HEAD"],cwd=ROOT,text=True).strip(),
+       transport_source_revision=proof.get("sample",{}).get("source_revision"),input=proof.get("sample"),
        bootstrap=dict(replicates=args.bootstrap,seed=args.bootstrap_seed,resampling="whole-event joint resampling across both projections",interval="95% percentile"),
        projections=projections,controls=controls,
        width_covariance_order=[f"{name}:{i}" for name in projections for i in range(10)],
@@ -202,7 +203,13 @@ def main():
     a=s.add_parser("audit");a.add_argument("--run",type=Path,required=True);a.add_argument("--sample",type=Path,required=True)
     a=s.add_parser("analyze");a.add_argument("--run",type=Path,required=True);a.add_argument("--output",type=Path,required=True)
     a.add_argument("--bootstrap",type=int,default=5000);a.add_argument("--bootstrap-seed",type=int,default=1335000)
+    a=s.add_parser("replot");a.add_argument("--summary",type=Path,required=True);a.add_argument("--output",type=Path,required=True)
     args=p.parse_args();globals()[args.stage](args)
+
+
+def replot(args):
+    args.output.mkdir(parents=True,exist_ok=True)
+    plot(json.loads(args.summary.read_text()),args.output)
 
 
 if __name__=="__main__":main()
