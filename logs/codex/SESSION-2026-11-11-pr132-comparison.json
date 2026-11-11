@@ -9,9 +9,10 @@
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
-    "Exact per-turn client token counters and execution-model reports unavailable for parent and specialist turns; usage remains empty.",
-    "Actual conversation start and client version are unknown.",
-    "Native comparison and repeated timing are still in progress at this implementation checkpoint."
+    "Exact client-reported per-turn token counters and execution models unavailable for parent and specialist turns; usage remains empty, not zero.",
+    "Actual conversation start, client version and persistent client thread/turn IDs are unknown.",
+    "Only two timing observations per variant; other shared-host workload and initial-cut timing variation are unquantified.",
+    "Prototype only; ACTS/navigation/response/repeated BeamOn(1) and integration qualification remain open."
   ],
   "client": {
     "name": "Codex desktop",
@@ -22,8 +23,39 @@
     "start_commit": "d6d2c510cf63209228790a95fd57d155a7b9787a",
     "branch": "codex/agent-task-130-35764571579",
     "initial_changes": [],
-    "result_commits": [],
-    "changed_files": []
+    "result_commits": [
+      "00a67d2e3a48b19c10da9ca8395f47b345d40acf",
+      "2c5f2ba601b60f7a03e9641b917e0b40f9d76a56",
+      "d7fa80c072be5ebd6c813bf1d8d0e34d7515e9ca",
+      "8c5a6545203d9d035b626584031f959f99e6e1e0",
+      "6cd0798f5138005948944b3796a1d420bee14315"
+    ],
+    "changed_files": [
+      "docs/software-inventory.md",
+      "docs/validation/tracker-placement-reuse/README.md",
+      "docs/validation/tracker-placement-reuse/check_equivalence.py",
+      "docs/validation/tracker-placement-reuse/compare_geant4.py",
+      "docs/validation/tracker-placement-reuse/comparison-results.json",
+      "docs/validation/tracker-placement-reuse/comparison.md",
+      "docs/validation/tracker-placement-reuse/curate_comparison.py",
+      "docs/validation/tracker-placement-reuse/geant4_sensors.hpp",
+      "docs/validation/tracker-placement-reuse/prepare_comparison.py",
+      "docs/validation/tracker-placement-reuse/probe.py",
+      "docs/validation/tracker-placement-reuse/run_comparison.py",
+      "docs/validation/tracker-placement-reuse/steering.py",
+      "docs/validation/tracker-placement-reuse/summarize_comparison.py",
+      "docs/validation/tracker-placement-reuse/test_comparison.py",
+      "docs/validation/tracker-placement-reuse/test_geant4.py",
+      "docs/validation/tracker-placement-reuse/test_summary.py",
+      "interactions/pr-0132.json",
+      "logs/codex/SESSION-2026-11-11-pr132-comparison.json",
+      "logs/codex/SESSION-2026-11-11-pr132-comparison.md",
+      "project/tracking.json",
+      "prototypes/tracker_placement_reuse/CMakeLists.txt",
+      "prototypes/tracker_placement_reuse/ShortStripBarrelReuse.cpp",
+      "software/inventory.json",
+      "tools/tracker_dd4hep/README.md"
+    ]
   },
   "work": {
     "milestone": "M0",
@@ -180,6 +212,42 @@
       "exit_code": 0,
       "status": "PASS",
       "result": "All native bindings and all6G4sensor snapshots match exactly; compact62314byte summary. Source and binary timing receipts retained; sparse-ray/response/ACTS limits explicit."
+    },
+    {
+      "command": "Supplementary baseline snapshot initial attempts",
+      "exit_code": 1,
+      "status": "FAIL",
+      "result": "Separate beampipe inventory and full-circle TGeoTubeSeg were initially handled incorrectly; failed reports preserved locally, corrected final snapshot passes."
+    },
+    {
+      "command": "Ad-hoc beampipe PyROOT pointer diagnostic",
+      "exit_code": 129,
+      "status": "FAIL",
+      "result": "Unbounded pointer iteration crashed diagnostic; corrected explicit indexing succeeds. Detector code unchanged."
+    },
+    {
+      "command": "Initial token preview after journal change",
+      "exit_code": null,
+      "status": "FAIL",
+      "result": "Stale ledger fingerprint detected; synchronized ledger, later validated builds pass. Initial underlying script exit was not separately captured."
+    },
+    {
+      "command": "Corrected curator / independent PV03 verification",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "63290byte receipt reproduces exactly, three native snapshot hashes bound and original placement/DE digests verified. Scientific measurements unchanged."
+    },
+    {
+      "command": "Final project/inventory/session/interaction/token validation and preview",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "103tasks/54documents/24rounds;68components/102code families/53inputs/12pins;281sessions/112PRledgers; token preview builds."
+    },
+    {
+      "command": "New PR object and protected source audit",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "Largest introduced blob283275bytes (project tracking); no large run payloads. Maintained factory/config/build/export paths unchanged."
     }
   ]
 }

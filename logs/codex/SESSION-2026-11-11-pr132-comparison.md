@@ -306,3 +306,42 @@ The report now explicitly separates the new matched control from the historical
 single553s observation: the cross-session difference is unquantified and is not
 credited to the prototype. Original raw/curated historical evidence is retained.
 The reviewer will receive a narrow verification of these receipt corrections.
+
+## PhysVal correction verification
+
+```json
+{
+  "id": "PR132-PV03",
+  "role": "PhysVal",
+  "input_revision": "6cd0798f5138005948944b3796a1d420bee14315",
+  "inputs": [
+    "docs/validation/tracker-placement-reuse/curate_comparison.py",
+    "docs/validation/tracker-placement-reuse/check_equivalence.py",
+    "docs/validation/tracker-placement-reuse/comparison-results.json",
+    "docs/validation/tracker-placement-reuse/comparison.md"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Narrow verification of PV02 corrections only: three native snapshot SHA hashes now in compact artifacts and independently verified by curator; raw snapshot/report provenance binding and constituent/DE equality; future checker --baseline hash; placements wording and explicit distinction from historic553s control. Verify current curator reproduces new committed compact bytes and all measurements unchanged from reviewed8c5a6545. No native reruns or writing/delegation. Do not repeat broad review already completed.",
+  "deliverable": "Return whether the requested traceability corrections are satisfied at this exact revision, actual verification and any remaining blocker.",
+  "completion": "Confirm or correct new snapshot bindings and unchanged scientific results; no human approval implied."
+}
+```
+
+## PhysVal correction verification result
+
+PR132-PV03 verified6cd0798f5138005948944b3796a1d420bee14315 read-only. All3native
+snapshot hashes match PV02; pinned curator verifies snapshot/report provenance
+and constituent/DE equality, reproducing the63290byte receipt exactly. Previous
+scientific observations unchanged; future baseline-input hashing, placement
+wording and historical/matched distinction corrected. No remaining blocker,
+no native reruns/files changed, no human sign-off.
+
+Final local gates pass: project103tasks/54documents/24rounds; software inventory
+68components/102code families/53reviewed inputs/12pins;281sessions/112PR ledgers;
+token validation and preview build. Token summary exposes511disjoint project
+turns and2800626831observed tokens, while this task's exact counters remain
+unavailable and usage empty. These are observed project totals, not task
+estimates or evidence of complete coverage. New-object audit from PR base found
+largest blob283275bytes(project/tracking.json), no large run payload. Maintained
+factory/config/build/export paths match starting revision. Publication follows.
