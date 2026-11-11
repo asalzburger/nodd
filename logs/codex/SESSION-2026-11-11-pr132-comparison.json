@@ -1,0 +1,137 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-11-11-pr132-comparison",
+  "title": "PR132 tracker reuse comparison prototype",
+  "recorded_at": "2026-11-11T08:22:03Z",
+  "started_at": null,
+  "ended_at": null,
+  "status": "open",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact per-turn client token counters and execution-model reports unavailable for parent and specialist turns; usage remains empty.",
+    "Actual conversation start and client version are unknown.",
+    "Native comparison and repeated timing are still in progress at this implementation checkpoint."
+  ],
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "d6d2c510cf63209228790a95fd57d155a7b9787a",
+    "branch": "codex/agent-task-130-35764571579",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": []
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [
+      "tracker",
+      "DD4hep/Geant4",
+      "placement reuse prototype"
+    ],
+    "related_ids": [
+      "PR132",
+      "ISSUE-130",
+      "DES-025",
+      "DES-043",
+      "ADR-003",
+      "TASK-TRACKER-PLACEMENT-REUSE"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-11-11-pr132-comparison.md",
+  "activities": [
+    {
+      "kind": "skill",
+      "name": "acts-spack",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Node preflight and independent runtime checks."
+    },
+    {
+      "kind": "skill",
+      "name": "nodd-coordinate / nodd-review-validation",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Bounded roles explicitly assigned and technical assessments retained."
+    },
+    {
+      "kind": "tool",
+      "name": "functions.exec / exec_command",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Task-local builds, tests, simulation and repository checks."
+    },
+    {
+      "kind": "tool",
+      "name": "GitHub connector",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "PR132 metadata/comments/threads and issue130 read."
+    },
+    {
+      "kind": "tool",
+      "name": "collaboration.spawn_agent",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "PR132-SE01 SoftEng and PR132-SA01 SysArch assignments and returns in paired narrative."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "acts-spack preflight",
+      "exit_code": 2,
+      "status": "FAIL",
+      "result": "Registry fingerprints stale; runtime independently reverified."
+    },
+    {
+      "command": "software/env/run.sh imports, spack find, geant4-config version/datasets",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "DD4hep1.38, Geant411.4.3, ROOT6.40.04;12dataset presence checks."
+    },
+    {
+      "command": "Fresh maintained five-factory and isolated reuse Release builds",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "Compiled existing factories and new isolated target."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s docs/validation/tracker-placement-reuse -p test_*.py -v",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "Nine controls pass."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "103tasks,54documents,24review rounds; corrected pre-existing merged PR129 state."
+    },
+    {
+      "command": "python3 -B tools/software_inventory/inventory.py refresh/check",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "68components,102code families,53reviewed inputs,12pins."
+    },
+    {
+      "command": "Native expanded G4 sensor helper JIT compile",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "Compiled against current installed headers; runtime traversal remains to be checked."
+    }
+  ]
+}

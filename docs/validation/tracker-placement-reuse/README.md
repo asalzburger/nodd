@@ -1,5 +1,9 @@
 # Tracker repeated-placement investigation — issue #130
 
+Follow-up: the authorized [PR132 comparison prototype](comparison.md) tests the
+cache and real-mother controls below. This initial investigation and its
+`results.json` retain their original baseline-only identity.
+
 Date: 2026-11-11. Input revision:
 `3dab2346c4a08fd24898a7842906601884708a7d`.
 Scope: characterization of the maintained **DRAFT / PROTOTYPE** DES-025 tracker,
