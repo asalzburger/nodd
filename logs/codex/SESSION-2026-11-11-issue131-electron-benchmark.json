@@ -1,0 +1,220 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-11-11-issue131-electron-benchmark",
+  "title": "Rerun the 100-electron Si-W ECAL benchmark after PR129",
+  "recorded_at": "2026-11-11T07:08:25Z",
+  "started_at": null,
+  "ended_at": "2026-11-11T07:53:40.456085Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact client per-turn token counters, stable thread/turn IDs, execution model and client version are not exposed; usage remains empty and the active turn is excluded.",
+    "This curated record retains selected public task input and outcomes, not a complete client transcript.",
+    "Host publisher owns final commit/push/draft PR and numbered interaction synchronization; no PR number is known during preparation.",
+    "Full project-record validation is blocked by missing pre-existing historical Git evidence commit 78bc60bb6da0c9d234baf00d37cadea9dd4964b4."
+  ],
+  "client": {
+    "name": "Codex agent_task runner",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "3dab2346c4a08fd24898a7842906601884708a7d",
+    "branch": "codex/agent-task-131-35766022791",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      "docs/software-inventory.md",
+      "docs/validation/issue131/README.md",
+      "docs/validation/issue131/audit_pilot.py",
+      "docs/validation/issue131/results.json",
+      "docs/validation/issue131/run_pilot.py",
+      "docs/validation/issue131/test_prepare.py",
+      "logs/codex/SESSION-2026-11-11-issue131-electron-benchmark.json",
+      "logs/codex/SESSION-2026-11-11-issue131-electron-benchmark.md",
+      "project/tracking.json",
+      "software/inventory.json"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "Si-W ECAL",
+      "Geant4 transport",
+      "timing and output storage"
+    ],
+    "related_ids": [
+      "ISSUE-131",
+      "DES-030",
+      "DES-031",
+      "ADR-003",
+      "TASK-ISSUE131-ELECTRON-BENCHMARK"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-11-11-issue131-electron-benchmark.md",
+  "activities": [
+    {
+      "kind": "skill",
+      "name": "nodd-review-validation",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Read .agents/skills/nodd-review-validation/SKILL.md and applied revision-specific validation/limitation reporting."
+    },
+    {
+      "kind": "skill",
+      "name": "acts-spack",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Read installed/repository skill instructions and ran node preflight plus direct runtime re-verification."
+    },
+    {
+      "kind": "tool",
+      "name": "functions.exec / exec_command / apply_patch",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Native command and file-edit operations recorded in the paired narrative; aggregate invocation counts are not retained."
+    },
+    {
+      "kind": "tool",
+      "name": "mcp__codex_apps__github_fetch",
+      "version": null,
+      "calls": 1,
+      "failures": 0,
+      "duration_seconds": null,
+      "evidence": "Read-only GET /repos/asalzburger/nodd/pulls/129 supplied verified merge metadata; no comments or mutations."
+    },
+    {
+      "kind": "tool",
+      "name": "Spack / DD4hep / DDG4 / Geant4 / ROOT / EDM4hep / podio",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Existing instructed runtime; environment, Release build, timed transport and readback commands appear in docs/validation/issue131/README.md. No installation performed."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 skills/acts-spack/scripts/preflight.py",
+      "status": "FAIL",
+      "exit_code": 2,
+      "result": "Recorded setup and lock fingerprints changed. Direct readability and runtime checks below re-verify current availability; registry left unchanged."
+    },
+    {
+      "command": "software/env/run.sh python3 -B software/env/doctor.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Actual Spack environment, DD4hep/DDG4 imports, DD4hep 1.38/Geant4 11.4.3 and all 12 dataset presence checks verified despite sandbox sysctl/ps warnings."
+    },
+    {
+      "command": "python3 -B tools/calorimeter_baselines/export.py --layout LAYOUT-001 --output build/issue131/layout001",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Fresh maintained systems 0-9 export completed; benchmark strips systems 0-7."
+    },
+    {
+      "command": "software/env/run.sh cmake -S prototypes/calorimeter -B build/issue131/calo -G Ninja -DCMAKE_BUILD_TYPE=Release; software/env/run.sh cmake --build build/issue131/calo --target Components_nODDCalorimeterPrototype --parallel 3",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Configured and built the existing calorimeter factory. Existing CMake policy/CLHEP warnings retained."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/calorimeter_baselines -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "5 compact-composition tests passed."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s docs/validation/issue131 -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "3 benchmark-input controls passed; field, old hierarchy and hash mismatch are rejected; ECAL subtrees/materials preserved."
+    },
+    {
+      "command": "python3 -B tools/software_inventory/inventory.py refresh (initial)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Documentation recipe was incorrectly listed as a discovered code family; corrected to evidence/use in existing CHECK-CALO, with no discovery/gate changes."
+    },
+    {
+      "command": "python3 -B tools/software_inventory/inventory.py refresh; python3 -B tools/software_inventory/inventory.py check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "67 components, 101 code families, 52 reviewed inputs, 12 software pins; inventory and generated page diffs reviewed."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Cannot resolve pre-existing Git evidence commit 78bc60bb6da0c9d234baf00d37cadea9dd4964b4. No fetch or gate relaxation performed."
+    },
+    {
+      "command": "software/env/run.sh python3 -B docs/validation/issue131/run_pilot.py build/issue131/run build/issue131/layout001 build/issue131/calo/libnODDCalorimeterPrototype.dylib software/analysis/calorimeter_digitization/nodd_transport.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "100 events in four 25-event groups; eight markers; no detected macro errors. DDSim wall 1899.075838416 s."
+    },
+    {
+      "command": "software/env/run.sh python3 -B docs/validation/issue131/audit_pilot.py build/issue131/run",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All 100 saved events, truth/kinematics, hit IDs/energies, field/cut/step audit, per-file 25-entry TTrees and compression settings passed; compact summary copied only after success."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py (interim before copying audited summary)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Correctly rejected missing docs/validation/issue131/results.json while readback was still pending. After success/copy, full gate again reaches the pre-existing missing historical commit."
+    },
+    {
+      "command": "Supplemental project schema and summary arithmetic check (initial importlib invocation)",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Local check_update module was not on the import path; corrected the invocation to include tools/project_records, without validator changes."
+    },
+    {
+      "command": "Standard-library project schema/new-task check and retained-summary arithmetic/source/recipe-hash assertions",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Tracking JSON matches schema, task role matches WS-CALO, all deliverables exist; 100-event totals, bytes, event-loop arithmetic, source revision, both recipe hashes and zero-field summary match."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated 280 paired session records."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py summary --format json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "280 sessions; 511 existing disjoint usage turns; 93 sessions without usage include this task. No task input/output counters observed."
+    },
+    {
+      "command": "python3 -B tools/interactions/ledger.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "111 existing PR interaction records validate; canonical usage unchanged. New numbered draft ledger is host-publisher responsibility."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py validate; python3 -B tools/token_usage/build.py build --output _site/pages",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validation and token-site build succeeded: 511 disjoint dated turns; 2,800,626,831 existing observed project tokens. No new usage counters added."
+    },
+    {
+      "command": "git diff --check; proposed-file text/size inspection; git rev-list --count 3dab2346c4a08fd24898a7842906601884708a7d..HEAD; git check-ignore raw artifacts",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "10 proposed text files inspected; largest new evidence file 13,446 bytes. Raw ROOT/logs and generated site are ignored. Zero task commits/new commit history; host must inspect its eventual staged files/new Git objects before publication."
+    }
+  ]
+}
