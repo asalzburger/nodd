@@ -15,6 +15,8 @@ from export import write
 
 TUBE_X=[[0,0,-1],[0,1,0],[1,0,0]]
 
+from wedge_envelope import add_wedge_envelope
+
 
 def capacity(p):
     if p['shape_kind']=='xtru':return area(p['vertices_mm'])*p['depth_mm']
@@ -94,7 +96,7 @@ def encode_geometry(node,p):
     for q in p.get('cuts',[]):encode_geometry(ET.SubElement(node,'cut'),q)
 
 
-def export(output,name='edges',layers=48):
+def export(output,name='edges',layers=48, *, real_wedges=False):
     if layers!=48:raise ValueError('Complete DES030 export requires48 layers; use edge_fixture.py for sparse transport.')
     output.mkdir(parents=True,exist_ok=True);report,layouts,_=build();layout=layouts[name];hw,m=hardware(report,layout)
     write(output/'materials.xml',m.root);doc=ET.Element('lccdd');ET.SubElement(doc,'info',name='EdgeECAL',title='DES030 isolated prototype',author='nODD',version='0.1',status='prototype');ET.SubElement(ET.SubElement(doc,'includes'),'gdmlFile',ref='materials.xml');define=ET.SubElement(doc,'define')
@@ -120,10 +122,12 @@ def export(output,name='edges',layers=48):
                 for layer in ls:
                     z=report['front_mm']+(layer*report['layer_pitch_mm'] if region=='edge_layer' else 0);p=dict(region=region,side=side,sector=sector,layer=layer,center_mm=[0,0,z if side==1 else -z],frame=rot);replicas.append(p)
                     node=ET.SubElement(d,'replica',region=region,side=str(side),sector=str(sector),layer=str(layer));transform(node,p)
+    if real_wedges:
+        add_wedge_envelope(d, 'edge_frame', hw['frame_parts'], report['config']['carriers'])
     write(output/'calorimeter.xml',doc)
-    expected=dict(status='DRAFT / PROTOTYPE',layout_name=name,layout_report=report,modules=layout['modules'],hardware=hw,replicas=replicas,layers=layers,execution=dict(commit=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),dirty=bool(subprocess.check_output(['git','status','--porcelain'],text=True))),source_sha256={str(p.relative_to(ROOT)):sha(p) for p in (Path(__file__),ROOT/'prototypes/calorimeter/EdgeCalorimeter.cpp',ROOT/'tools/calorimeter_hardware/edge_layout.py',ROOT/'tools/calorimeter_hardware/edge_sensors.json',ROOT/'tools/pixel_barrel_dd4hep/materials.py',ROOT/'detector/config/elements.json')})
+    expected=dict(status='DRAFT / PROTOTYPE',layout_name=name,layout_report=report,modules=layout['modules'],hardware=hw,replicas=replicas,layers=layers,execution=dict(commit=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),dirty=bool(subprocess.check_output(['git','status','--porcelain'],text=True))),source_sha256={str(p.relative_to(ROOT)):sha(p) for p in (Path(__file__),ROOT/'prototypes/calorimeter/EdgeCalorimeter.cpp',ROOT/'prototypes/calorimeter/SiWWedgeEnvelope.h',ROOT/'tools/calorimeter_hardware/wedge_envelope.py',ROOT/'tools/calorimeter_hardware/edge_layout.py',ROOT/'tools/calorimeter_hardware/edge_sensors.json',ROOT/'tools/pixel_barrel_dd4hep/materials.py',ROOT/'detector/config/elements.json')})
     (output/'expected.json').write_text(json.dumps(expected,indent=2)+'\n');print(name,len(layout['modules']),'modules/wedge/layer',hw['mass_g']/1e6,'t both complete endcaps');return expected
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--output',type=Path,required=True);p.add_argument('--layout',choices=('squares','edges'),default='edges');p.add_argument('--layers',type=int,default=48);a=p.parse_args();export(a.output,a.layout,a.layers)
+    p=argparse.ArgumentParser();p.add_argument('--output',type=Path,required=True);p.add_argument('--layout',choices=('squares','edges'),default='edges');p.add_argument('--layers',type=int,default=48);p.add_argument('--real-wedges', action='store_true');a=p.parse_args();export(a.output,a.layout,a.layers, real_wedges=a.real_wedges)

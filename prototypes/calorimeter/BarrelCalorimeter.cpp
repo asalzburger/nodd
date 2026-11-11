@@ -1,5 +1,6 @@
 // DES031 isolated SiW barrel; logical board reuse with physical parent IDs.
 #include <DD4hep/DetFactoryHelper.h>
+#include "SiWWedgeEnvelope.h"
 #include <cmath>
 #include <map>
 #include <stdexcept>
@@ -31,8 +32,9 @@ Ref_t createBarrel(Detector& d,Handle_t h,SensitiveDetector sd) {
     for(xml::Collection_t b(r,"board_instance");b;++b){auto p=a.placeVolume(boards.at(b.attr<std::string>("template")),pose(b));p.addPhysVolID("module",b.attr<int>("module"));}
     if(!regions.emplace(n,a).second)throw std::runtime_error("Duplicate barrel region");
   }
-  for(xml::Collection_t r(h,"replica");r;++r){auto p=detector.placeVolume(regions.at(r.attr<std::string>("region")),pose(r));for(auto k:{"side","sector","layer"})p.addPhysVolID(k,r.attr<int>(k));}
-  auto p=d.pickMotherVolume(result).placeVolume(detector);p.addPhysVolID("system",h.attr<int>("id"));result.setPlacement(p);return result;
+  auto mother = d.pickMotherVolume(result);
+  nodd::siw::placeReplicas(h, detector, mother, regions, shape, pose);
+  auto p=mother.placeVolume(detector);p.addPhysVolID("system",h.attr<int>("id"));result.setPlacement(p);return result;
 }
 }
 DECLARE_DETELEMENT(nODDEcalBarrelPrototype,createBarrel)

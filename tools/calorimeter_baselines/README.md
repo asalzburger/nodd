@@ -17,6 +17,12 @@ services. `baseline.json` records source compact/material hashes, actual system
 mapping and the construction stage of the other systems. Generated XML, expected
 manifests and native output stay under ignored `build/`.
 
+LAYOUT-001 places the Si–W hardware inside reusable barrel and endcap wedges.
+The new mothers use the enclosing material and preserve the existing replica
+poses and cell IDs. Standalone Si–W exports keep the legacy assembly form by
+default for the component validation and fixture tools. Pass `--real-wedges`
+to either standalone Si–W exporter to select the baseline hierarchy.
+
 The standalone Si–W endcap system8 becomes9 only in the combined output. Beam-pipe0 and tracker
 systems1–7, Si–W barrel8 and LAr10/11 remain. FCAL12 and HCAL13/14 are reserved
 for later integration, preserving the original standalone proposals. Material
