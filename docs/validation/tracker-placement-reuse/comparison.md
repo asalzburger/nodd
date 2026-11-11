@@ -10,6 +10,60 @@ baseline-only identity. This follow-up tests the proposed short-strip barrel
 experiment, where 8,064 modules have one strict local recipe. It does not apply
 ECAL timing ratios to the tracker.
 
+## Observed results
+
+The [compact results](comparison-results.json) pass all bounded checks. Every
+original constituent has the same native solid/material/local and global
+transform/ID fingerprint: **617,018 solids, zero missing/extra/changed**. Each
+variant has **46,682 unique sensor IDs and per-instance DetElements**, 180,288
+finite window/contact probes, 38 sampled material/crossing rays, and zero ROOT
+overlaps/extrusions at 1e-5 mm. All six native Geant4 snapshots match the control
+by packed ID, with **zero numerical differences** in centers, signed axes,
+box dimensions and density; material and region match exactly. No total general-CSG mass or
+stochastic response equivalence is asserted.
+
+| Geant4 hierarchy observable | Control | A: cache | B: cache + mother |
+| --- | ---: | ---: | ---: |
+| Unique logical volumes | 617,019 | 488,011 | 488,012 |
+| Physical-volume store entries | 617,019 | 617,019 | 496,075 |
+| Direct world daughters | 604,000 | 604,000 | 483,040 |
+| Expanded physical nodes incl. world | 617,019 | 617,019 | 625,083 |
+
+B inserts 8,064 physical mothers in Geant4 while preserving every original
+leaf; this explains the increase in expanded nodes alongside fewer unique
+objects and direct world daughters. A retains flattened assembly imprints.
+
+Two fresh sequential observations per variant, on the same node/build, give
+the following **median (observed minimum–maximum)**. Times are seconds; peak
+child resident memory is GiB (2³⁰ bytes). These ranges are not confidence intervals.
+
+| Variant | DDG4 map [s] | G4 closure/voxelization [s] | Initial cuts [s] | Instrumented subprocess wall [s] | Peak RSS [GiB] |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Control | 3.543 (3.540–3.545) | 32.94 (32.91–32.96) | 7.30 (7.18–7.43) | 90.96 (90.62–91.30) | 7.76 (7.76–7.77) |
+| A: cache | 3.571 (3.537–3.605) | 32.53 (32.53–32.53) | 13.42 (12.62–14.21) | 95.19 (94.50–95.88) | 7.28 (7.22–7.33) |
+| B: cache + mother | 3.106 (3.080–3.133) | 29.27 (29.21–29.32) | 8.64 (5.45–11.84) | 86.49 (83.32–89.66) | 7.09 (7.06–7.13) |
+
+**FACT, these observations:** B lowers median closure time by 11.1% and DDG4
+map time by 12.3% versus control; B/A closure decreases by 10.0%. Its median
+instrumented subprocess wall is 4.9% lower and peak RSS 8.6% lower. This is a
+modest observed benefit, with only two runs. It does not establish an ECAL-like
+large initialization speedup or a universal total-startup improvement.
+
+The adverse A result is retained: median instrumented wall increases from
+90.96 s to 95.19 s, while initial cuts increase from 7.18–7.43 s to
+12.62–14.21 s. B's initial cuts span 5.45–11.84 s and account for much of its
+wall-time spread. The cause of that cut-table timing variation is unresolved;
+no physical material or region difference is observed, and no cut-couple
+optimization is enabled. Initial-cut profiling and additional controlled
+repetitions are appropriate before an integration performance claim.
+
+**INFERENCE:** the observed closure/map reduction makes a real-mother
+representation worth further software qualification, but cached assemblies
+alone are not an initialization-speed improvement in this observation.
+ACTS conversion/navigation, repeated BeamOn(1), response/boundary studies and
+review of initial-cut behavior remain due before maintained integration.
+No production entry point or design approval changes.
+
 ## Experiment definition
 
 Control: unchanged combined DES-025/DES-043 tracker exported at

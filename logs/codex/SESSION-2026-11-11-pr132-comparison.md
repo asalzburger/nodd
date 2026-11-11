@@ -222,3 +222,31 @@ runtime mismatch, in addition to common binaries/materials/instrumentation,
 macro content, normalized commands and stable variant compacts. No detector
 factory, compact exporter, readout or physical parameter in the maintained
 entry point changed. Full matched measurements and results review remain due.
+
+## Matched comparison outcome
+
+Sequential runner completed all6fresh DDSim jobs at d7fa80c0 with exit0 and
+46682sensitive paths each. Common binaries/materials/instrumentation/macro,
+normalized commands, actual host/platform/Python and variant compact identity
+guards passed. Both repetitions of all3variants were compared by native G4
+packed ID: zero differences in positions, signed axes, dimensions, density,
+material and region. Curator independently bound fresh baseline full/snapshot
+inputs, candidate native manifests/compacts and all timing snapshots, PASS.
+Compact comparison-results.json is62314bytes; all event/geometry dumps and
+large native reports/snapshots remain ignored under build/pr132/.
+
+Median seconds (two observations each): DDG4 map control3.542581/A3.571044/B3.106381;
+G4 closure32.935356/32.529232/29.265460; initial cuts7.304275/13.415903/8.644279;
+instrumented subprocess wall90.960707/95.188236/86.489881. B vs control median
+closure−11.1%, map−12.3%, instrumented wall−4.9%, peak RSS−8.6%. A is slower
+overall; B initial cuts vary5.449998…11.838559s, contributing much of its
+83.323205…89.656557s wall range. This unexplained timing variation is retained;
+no physical material/region change was observed and no cut-couple optimization
+was enabled. These are limited instrumented observations, not universal speedup,
+factory/export-only timing, response equivalence, ACTS qualification or design
+approval. Further controlled timing/cut profiling and ACTS/response gates are
+due before any maintained integration.
+
+Updated scientific task disposition, software inventory and tracker tool README.
+Project-record validation and software inventory refresh/check passed after the
+results update. An exact-revision separate PhysVal result review remains due.
