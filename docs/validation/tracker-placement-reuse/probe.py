@@ -63,6 +63,7 @@ def main():
     env = os.environ.copy()
     # Explicitly prohibit the existing profiler's optional couple-cache experiment.
     env.pop("MATERIAL_REUSE_STATIC_COUPLES", None)
+    env.pop("MATERIAL_ENERGY_CUT_CLIENT", None)
     env.pop("TRACKER_PROBE_SENSOR_SNAPSHOT", None)
     if args.sensor_snapshot:
         env["TRACKER_PROBE_SENSOR_SNAPSHOT"] = "1"
@@ -84,7 +85,7 @@ def main():
     provenance = dict(command=command, source_commit=subprocess.check_output(
         ["git", "rev-parse", "HEAD"], text=True).strip(),
         sha256={str(p.relative_to(repo)) if p.is_relative_to(repo) else str(p): sha(p)
-                for p in [args.compact.resolve(), args.compact.resolve().parent / "materials.xml",
+                for p in [args.compact.resolve(), args.compact.resolve().parent / "materials.xml", macro,
                           *libraries, args.ddg4_library.resolve(), args.native_timing.resolve(), Path(__file__).resolve(),
                           here / "steering.py", here / "geant4_sensors.hpp",
                           repo / "tools/material_recording_profile/inventory.hpp"]})
@@ -109,6 +110,9 @@ def main():
                 "g4_event_transport_and_recording"}
     if not required.issubset({phase["name"] for phase in phases}):
         raise RuntimeError("Native phase instrumentation is incomplete")
+    for name in ("g4_initialize", "g4_close_geometry_voxelization", "g4_event_transport_and_recording"):
+        if sum(phase["name"] == name for phase in phases) != 1:
+            raise RuntimeError("Expected exactly one native initialization/event interval: " + name)
     inventory = json.loads((output / "inventory.json").read_text())
     if inventory["geant4"]["expanded_nodes_including_world"] <= args.expected_sensors:
         raise RuntimeError("Native inventory is incomplete")

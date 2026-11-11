@@ -123,3 +123,76 @@ Finite screens:8064module envelopes vs same-stave pieces, only the owning pickup
 Separate agent /root/pr132_softeng, explicit full SoftEng role instructions. Five owned files: standalone prototype CMake/factory, prepare_comparison.py, test_comparison.py, check_equivalence.py. Build passed; two variants prepared with8064instances/16shared leaves and strict recipeSHA1f9c237c0979bd3bff29909edbd14455ad435d282761f4e7c0d329d93db17697. Nine controls passed at handoff (three new recipe/containment, three existing, three coordinator G4 comparator). Native checker unexecuted at handoff and requires coordinator runtime verification, especially PyROOT DetElement APIs. Actual runtime DD4hep is1.38; agent's mention of1.37 refers to minimum CMake requirement, not installed version. No native profile loading or human sign-off claimed.
 
 Coordinator added native G4 sensor snapshot/comparator, sequential benchmark runner and phase aggregator. JIT compilation of G4 helper passed. Full baseline native scan and22tracker tests remain in progress at the implementation checkpoint.
+
+## PhysVal methods assignment
+
+```json
+{
+  "id": "PR132-PV01",
+  "role": "PhysVal",
+  "input_revision": "00a67d2e3a48b19c10da9ca8395f47b345d40acf",
+  "inputs": [
+    "docs/validation/tracker-placement-reuse/comparison.md",
+    "docs/validation/tracker-placement-reuse/README.md",
+    "docs/validation/tracker-placement-reuse/prepare_comparison.py",
+    "docs/validation/tracker-placement-reuse/check_equivalence.py",
+    "docs/validation/tracker-placement-reuse/probe.py",
+    "docs/validation/tracker-placement-reuse/steering.py",
+    "docs/validation/tracker-placement-reuse/geant4_sensors.hpp",
+    "docs/validation/tracker-placement-reuse/compare_geant4.py",
+    "docs/validation/tracker-placement-reuse/run_comparison.py",
+    "docs/validation/tracker-placement-reuse/summarize_comparison.py",
+    "prototypes/tracker_placement_reuse/ShortStripBarrelReuse.cpp"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Independently assess the isolated PR132 tracker reuse comparison methodology and physical/scientific claims at the exact input commit. Review primary factory/preparation/check/timing code before narrative; identify defects or missing controls that could create false equivalence or speedup claims. SysArch finite sibling screen is curated in session record; full native baseline scan in progress. This first assignment is methods-only; later exact-result revision will follow when evidence completes. No heavy native simulation, writing or further delegation. Small stdlib tests allowed. Do not infer human sign-off or require production-grade response/ACTS validation for a clearly bounded, unsigned prototype; classify absent gates honestly.",
+  "deliverable": "Return severity-ranked findings with exact source locators, actual checks, and claim limits to coordinator; no files changed.",
+  "completion": "Report whether methodology supports limited startup comparison and which corrections are needed before results interpretation."
+}
+```
+
+## Runtime corrections and review limits
+
+The first supplementary baseline snapshot returned two errors: BeamPipe_bore
+and BeamPipe_wall were absent from the tracker `entities` list. They are
+specified in the existing separate `expected['beam']` contract. The checker was
+corrected to validate exactly those two known native volumes against that
+contract (tube dimensions, material/density, transform and IDs), requiring both
+and retaining all other unknown-volume errors. Geometry and evidence tolerances
+were unchanged. The failed report/log remain in ignored build/pr132/.
+
+PhysVal PR132-PV01 reviewed implementation00a67d2e3a48b19c10da9ca8395f47b345d40acf,
+read-only in /root/pr132_physval. Nine pinned-commit controls passed, no native
+simulation. No blocking physical representation defect found. Required limits:
+audit common provenance before timing interpretation; instrumented subprocess
+wall includes variable inventory/JIT/snapshot overhead; factory construction and
+export are not independently timed; sparse material paths/crossing sets do not
+establish response equivalence; ACTS, repeated BeamOn(1), stochastic response
+remain integration gates. Later exact-revision result assessment remains due.
+
+Coordinator strengthened aggregator common hash/normalized command identity,
+stable distinct compacts and repeated-observation checks. The optional energy
+cut client is explicitly cleared (inherited value observed unset). Baseline-only
+snapshot mode is labelled SNAPSHOT with null overlaps and no overlap verdict;
+separate fresh full maintained baseline validation remains required. Candidate
+scans cannot omit overlaps. These changes require final revision assessment.
+
+The separate beampipe check initially required TGeoTube, while DD4hep's full
+Tube actually constructs a full-circle TGeoTubeSeg. An isolated beampipe readout
+confirmed dimensions, density, IDs and identity transforms unchanged. The check
+now accepts either native full tube form and requires0…360degrees for the
+segmented class. The first ad-hoc diagnostic incorrectly iterated an unbounded
+PyROOT pointer and crashed (exit129); it was rerun successfully using explicit
+3/9-element indexing. This diagnostic error changed no repository detector code.
+Both failed supplementary reports remain local. Final baseline supplementary
+snapshot: zero errors,617018original solids,46682unique IDs/DetElements,
+180288finite probes,38rays; status SNAPSHOT with no overlap verdict. Both full
+candidate scans now run concurrently with the fresh full baseline scan. Their
+elapsed times will not be treated as performance comparisons.
+
+Twelve controls now pass, including adverse common-binary, seed and compact
+identity mutations for timing aggregation. The existing22tracker tests passed
+in106.721s. A separate candidate DDSim/G4-sensor callback smoke run is being
+executed during correctness scans; it is excluded from matched timing. The
+sequential measured runner waits until all correctness scans finish.

@@ -107,6 +107,8 @@ def main():
         parser.add_argument("--"+name, type=Path, required=True)
     for name in ("extra-library", "manifest", "baseline", "overlap-evidence"):
         parser.add_argument("--"+name, type=Path)
+    parser.add_argument("--snapshot-only", action="store_true",
+                        help="Baseline only: create supplementary identity snapshot; no overlap verdict")
     args = parser.parse_args()
     import ROOT as R
     import dd4hep
@@ -135,6 +137,12 @@ def main():
     lookup = {e["name"]:e for e in expected["entities"]}
     shape_cache = {}; native = {}; sensors = []; paths = {}; shapes = {}; errors = tracker.verify_sources(expected); counts = Counter()
     material_counts = Counter(); volume_addresses = set(); mother_instances = 0
+    beam = expected['beam']['config']
+    beam_specs = {
+        'BeamPipe_bore': ('Vacuum',0.,beam['inner_radius_mm'],beam['vacuum_density_g_cm3'],{}),
+        'BeamPipe_wall': ('Beryllium',beam['inner_radius_mm'],expected['beam']['outer_radius_mm'],
+                          beam['density_g_cm3'],{'system':beam['system_id']})}
+    beam_seen = set()
     readouts = {i:d.readout(name) for i,name in enumerate(("", "PixelBarrelHits", "PixelEndcapHits", "PixelEndcapHits",
                  "ShortStripBarrelHits", "ShortStripEndcapHits", "LongStripBarrelHits", "LongStripEndcapHits")) if i}
     packed_ids = set(); shape_types = Counter()
@@ -176,7 +184,25 @@ def main():
                 if identity in native:
                     errors.append("Duplicate expanded native identity: " + name)
                 native[identity] = digest(info)
-                if not entity:
+                if not entity and name in beam_specs:
+                    # BeamPipe uses the separate expected['beam'] contract,
+                    # rather than entries in the tracker entity inventory.
+                    substance_name,rmin,rmax,density,beam_ids = beam_specs[name]
+                    kind = str(shape.ClassName())
+                    full_tube = (kind == 'TGeoTube' or (kind == 'TGeoTubeSeg'
+                                 and math.isclose(float(shape.GetPhi1()),0.,abs_tol=1e-12)
+                                 and math.isclose(float(shape.GetPhi2()),360.,abs_tol=1e-12)))
+                    valid = (full_tube and material == substance_name
+                             and ids == beam_ids and name not in beam_seen
+                             and math.isclose(float(substance.GetDensity()),density,rel_tol=1e-9)
+                             and all(math.isclose(a,b,abs_tol=1e-9,rel_tol=1e-12) for a,b in (
+                                 (float(shape.GetRmin())/unit,rmin),(float(shape.GetRmax())/unit,rmax),
+                                 (float(shape.GetDz())/unit,beam['half_length_mm'])))
+                             and matrix_values(world) == [0.,0.,0.,1.,0.,0.,0.,1.,0.,0.,0.,1.])
+                    if not valid:
+                        errors.append('Native beampipe differs from its separate inventory: '+name)
+                    beam_seen.add(name)
+                elif not entity:
                     errors.append("Native constituent absent from unchanged inventory: " + name)
                 elif entity.get("material") != material:
                     errors.append("Native material differs from unchanged inventory: " + name)
@@ -202,6 +228,8 @@ def main():
         for i in range(volume.GetNdaughters()):
             visit(volume.GetNode(i), world, ids, path)
     visit(manager.GetTopNode(), R.TGeoHMatrix(), {}, "")
+    if beam_seen != set(beam_specs):
+        errors.append('Incomplete native beampipe inventory')
     comparison = audit.compare_sensors(sensors, [e for e in expected["entities"] if e["role"] == "sensitive"])
     errors.extend(comparison["errors"])
     expected_counts = Counter(e["role"] for e in expected["entities"])
@@ -250,7 +278,11 @@ def main():
     if baseline and de_snapshot != baseline["sensitive_detelements"]:
         errors.append("Sensitive DetElement names/local/world frames differ from control")
     overlap_evidence = None
-    if args.overlap_evidence:
+    if args.snapshot_only:
+        if manifest or baseline or args.overlap_evidence:
+            raise ValueError("Snapshot-only mode is restricted to the unchanged baseline")
+        overlaps = None
+    elif args.overlap_evidence:
         if manifest:
             raise ValueError("Retained overlap evidence is allowed only for unchanged baseline snapshots")
         evidence = json.loads(args.overlap_evidence.read_text())
@@ -294,12 +326,13 @@ def main():
                       root_version=R.gROOT.GetVersion(),sha256={str(p):sha(p) for p in [args.compact,args.expected,args.compact.parent / "materials.xml",Path(__file__),*libraries]+([args.manifest] if args.manifest else [])})
     args.snapshot.parent.mkdir(parents=True,exist_ok=True)
     args.snapshot.write_text(json.dumps(dict(constituents=native,sensitive_detelements=de_snapshot,rays=rays,provenance=provenance),separators=(",", ":"))+"\n")
-    report = dict(status="PASS" if not errors else "FAIL", errors=errors[:100], total_errors=len(errors),
+    report = dict(status=("SNAPSHOT" if args.snapshot_only else "PASS") if not errors else "FAIL", errors=errors[:100], total_errors=len(errors),
                   constituent_placements=len(native), unique_native_logical_volumes=len(volume_addresses),
                   mother_instances=mother_instances, sensitive_comparison=comparison, unique_packed_ids=len(packed_ids),
                   shape_types=dict(shape_types), material_placement_counts=dict(material_counts),
                   shape_probes_checked=len(expected.get("shape_probes",[])),sensitive_detelements_checked=len(de_sensors),
                   overlaps=overlaps,retained_baseline_overlap_evidence=overlap_evidence,
+                  overlap_test_performed=not args.snapshot_only and not bool(overlap_evidence),
                   baseline_comparison=dict(performed=bool(baseline),missing=len(missing),extra=len(extra),changed=len(changed)),
                   rays=rays, provenance=provenance,
                   limitations=["Native DD4hep/ROOT expanded IDs, signed transforms, exact constituent-solid fingerprints, per-instance finite probes and sparse material rays only.",
