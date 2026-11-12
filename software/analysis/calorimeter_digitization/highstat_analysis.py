@@ -20,8 +20,15 @@ def revision():
     return subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()
 
 
-def load_split(campaign, split):
-    manifest = json.loads((campaign/'campaign.json').read_text()); arrays=[]; receipts=[]
+def feature_signature(receipt):
+    keys=('feature_names','producer_sha256','feature_recipe_sha256','geometry_helper_sha256')
+    if any(k not in receipt for k in keys):raise ValueError('Incomplete feature semantics signature')
+    return {k:receipt[k] for k in keys}
+
+
+def load_split(campaign, split, expected_signature=None):
+    manifest = json.loads((campaign/'campaign.json').read_text()); arrays=[]; receipts=[]; pending=[]
+    signature=expected_signature
     for entry in manifest['batches']:
         if entry['split'] != split:continue
         base=campaign/entry['input']; folder=base.parent/'analysis/features'
@@ -33,6 +40,12 @@ def load_split(campaign, split):
             raise ValueError('Changed feature/readback/input binding')
         if receipt['compact_sha256']!=manifest['geometry_hashes']['detector.xml']:
             raise ValueError('Different campaign geometry')
+        observed=feature_signature(receipt)
+        if signature is None:signature=observed
+        if observed!=signature:raise ValueError('Changed feature semantics across campaign or frozen training/validation')
+        pending.append((entry,folder,receipt))
+    # Check every batch's semantics before opening any validation feature array.
+    for entry,folder,receipt in pending:
         with np.load(folder/'features.npz',allow_pickle=False) as source:
             d={k:source[k].copy() for k in source.files}
         expected=np.arange(entry['event_offset'],entry['event_offset']+entry['events'])
@@ -55,10 +68,11 @@ def train(args):
     result=dict(status='PROTOTYPE frozen before independent validation',source_revision=revision(),
         core_sha256=sha(Path(__file__).with_name('highstat_model.py')),producer_sha256=sha(__file__),
         campaign_sha256=sha(args.campaign/'campaign.json'),training_feature_receipts=receipts,
+        feature_semantics=feature_signature(receipts[0]),
         roles=dict(seed=13395200,fit=70000,tuning=15000,closure=15000,response_refit=85000,
                    assignment_sha256=hashlib.sha256(role.tobytes()).hexdigest()),
         models={k:m.record() for k,m in models.items()},
-        validation_inspected=False,definition='Training-only selection,85krefit and15k global closure including zeros; fresh20k unopened')
+        validation_performance_inspected=False,definition='Training-only selection,85krefit and15k global closure including zeros; fresh20k performance uninspected')
     args.output.mkdir(parents=True,exist_ok=False);save(args.output/'models.json',result)
     print(json.dumps({k:dict(closure=m.closure,choices=[s['choice'] for s in m.selection]) for k,m in models.items()},indent=2),flush=True)
 
@@ -95,10 +109,11 @@ def evaluate(args):
     record=json.loads(frozen)
     if record['core_sha256']!=sha(Path(__file__).with_name('highstat_model.py')):
         raise ValueError('Calibration inference/training source changed after freeze')
+    if record['producer_sha256']!=sha(__file__):raise ValueError('Analysis procedure changed after freeze')
     if record['campaign_sha256']!=sha(args.campaign/'campaign.json'):raise ValueError('Campaign changed after fit')
     train_data,train_receipts=load_split(args.campaign,'train')
     if train_receipts!=record['training_feature_receipts']:raise ValueError('Training features changed after freeze')
-    data,receipts=load_split(args.campaign,'validation')
+    data,receipts=load_split(args.campaign,'validation',record['feature_semantics'])
     models={k:restore(v) for k,v in record['models'].items()}
     old,old_clipped=historical(data,json.loads(args.reference.read_text()))
     values,tails,a,b=predictions(data,models,old)
