@@ -139,3 +139,13 @@ after deduplicating knots it has80/82 coefficients including intercepts, versus
 11/11 for the linear model. Global closure factors are1.0857735(linear) and
 1.0854609(spline), estimated on the separate15k including zeros. These are
 training results; independent performance remains pending.
+
+
+The separate pre-validation PhysVal assessment at
+`e65962c259cec1f8744252fccfa17211004f4d61` reproduced both complete model records
+bit-for-bit from the100k training data: bases, coefficients, candidate scores,
+choices, fallback scales and closure, with zero numerical difference. All ten
+feature receipts, role/source/helper/campaign hashes, closure mean, CV invariance,
+zero preservation and gain limits pass. An explicit loader guard permitted only
+training paths; no validation arrays were opened. This is a reproducibility and
+training-diagnostic assessment; independent performance remains pending.

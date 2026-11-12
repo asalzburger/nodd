@@ -223,3 +223,5 @@ Beforeanynewmodel fit/freshvalidation, the complete numerical dependency graph i
 ## Actual100k training freeze
 
 All10trainingbatches passedtransport/native/readback. Automaticdeclaredchain fitbothmodels andcommittedfrozen/models.json ate65962c259cec1f8744252fccfa17211004f4d61 on2026-11-12T13:41:48Z, beforefresh20kperformanceinspection. Source/core/helper/campaign/featuresemantic hashesverifiedagainstcurrentfiles. Linearregionalλ=.0001/.01; spline7knots/.0001both,80/82coefficients, C1.0854609; linearC1.0857735. No validationperformanceclaim yet.
+
+Frozenchain reviewerresult: e65962c259cec1f8744252fccfa17211004f4d61 completepointmodelrecords reproduce BIT-EXACTLY fromall10training batches(maxdifference0), includingcandidateMSEs/choices/quantiles/centres/coeffs/fallback/C. Explicitloaderguardallowedonlytrain paths; NOvalidationarraysopened. Verifiedrole/source/core/helper/campaign/featurehashes andglobalclosuremean1/CVinvariance/zeros/gainlimits. No materialfinding. Independent20kperformance stillpending.
