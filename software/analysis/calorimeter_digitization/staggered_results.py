@@ -110,6 +110,7 @@ def compare(args):
     mean_boot = np.full_like(width_boot, np.nan)
     tail_boot = np.full_like(width_boot, np.nan)
     energy_mean_boot = np.full((args.bootstrap, 4, 14), np.nan)
+    global_boot = np.full((args.bootstrap,4,3),np.nan)
     rng = np.random.default_rng(args.seed)
     start = time.monotonic()
     for replicate in range(args.bootstrap):
@@ -124,9 +125,13 @@ def compare(args):
                 mean_boot[replicate, series, sl], width_boot[replicate, series, sl] = moments(vv[series], categories[axis], counts, 10)
                 tail_boot[replicate, series, sl] = moments((tt[series] < .5).astype(float), categories[axis], counts, 10)[0]
             energy_mean_boot[replicate, series] = moments(vv[series], energy_category, counts, 14)[0]
+            gm,gw=moments(vv[series],np.zeros(10000,dtype=int),counts,1)
+            global_boot[replicate,series]=[gm[0],gw[0],float(counts@(tt[series]<.5)/10000)]
         if (replicate + 1) % 50 == 0:
             print(f"Refitted paired bootstrap {replicate+1}/{args.bootstrap}: {time.monotonic()-start:.1f}s", flush=True)
     projections = {}
+    histogram_edges={"raw_response_percent":np.linspace(0,max(.5,math.ceil(values[[0,2]].max()*200)/2),61),
+                     "calibrated_energy_ratio":np.linspace(0,max(.5,math.ceil(values[[1,3]].max()*2)/2),61)}
     for axis, (name, edges) in enumerate((("abs_eta", ETA_EDGES), ("folded_phi", PHI_EDGES))):
         bins = []
         for i in range(10):
@@ -135,6 +140,11 @@ def compare(args):
             for series, label in enumerate(SERIES):
                 geometry = series // 2
                 point = population(values[series], tails[series], selected, data[geometry], predictions[geometry] if series % 2 else None)
+                histogram_key="calibrated_energy_ratio" if series%2 else "raw_response_percent"
+                displayed=values[series,selected]*(1 if series%2 else 100)
+                histogram,_=np.histogram(displayed,bins=histogram_edges[histogram_key])
+                if histogram.sum()!=selected.sum():raise ValueError("Histogram dropped a generated event")
+                point["histogram_counts"]=histogram.tolist()
                 for key, samples in (("fractional_width",width_boot),("mean",mean_boot),("tail_fraction",tail_boot)):
                     point[key+"_uncertainty"] = interval(samples[:,series,axis*10+i])
                 entry["series"][label] = point
@@ -165,6 +175,12 @@ def compare(args):
     contrast_samples = np.concatenate([width_boot[:,a]-width_boot[:,b] for a,b,_ in CONTRASTS],axis=1)
     finite_widths=bool(np.isfinite(flat).all())
     finite_contrasts=bool(np.isfinite(contrast_samples).all())
+    global_stats={}
+    for k,label in enumerate(SERIES):
+        entry=population(values[k],tails[k],np.ones(10000,dtype=bool),data[k//2],predictions[k//2] if k%2 else None)
+        for j,key in enumerate(("mean","fractional_width","tail_fraction")):
+            entry[key+"_uncertainty"]=interval(global_boot[:,k,j])
+        global_stats[label]=entry
     result = dict(status="PROTOTYPE", events=10000,
         definition="Raw width=sample SD(S/Etrue)/mean; calibrated width=sample SD(Ecal/Etrue)/mean; all generated events retained",
         tail_definition="Pr(Ecal/Etrue<0.5); raw comparator uses training-only cross-fit scale S/R0; not unscaled silicon fraction",
@@ -178,7 +194,8 @@ def compare(args):
         feature_receipts={name:x[1] for name,x in zip(('baseline','staggered'),loaded)},
         models={name:p['records'] for name,p in zip(('baseline','staggered'),predictions)},
         secondary_models={name:p['records'] for name,p in zip(('baseline','staggered'),priors)},
-        projections=projections,energy_slices=energy,controls=controls,
+        projections=projections,energy_slices=energy,controls=controls,global_statistics=global_stats,
+        histogram_edges={k:v.tolist() for k,v in histogram_edges.items()},
         width_covariance_order=[f'{label}:{projection}:{i}' for label in SERIES for projection in projections for i in range(10)],
         width_covariance=np.cov(flat,rowvar=False).tolist() if finite_widths else None,
         contrast_covariance_order=[f'{label}:{projection}:{i}' for _,_,label in CONTRASTS for projection in projections for i in range(10)],
