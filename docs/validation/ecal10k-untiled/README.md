@@ -64,6 +64,17 @@ Twice its 10k projection plus a 30 GiB reserve requires 53.783 GiB, versus
 about 397 GiB available before the run. Retain all 10,000 events and keep the
 runtime free-space guard; do not delete the original sample.
 
+## Completed transport
+
+All **10,000 requested events completed with 12 workers**, exit code zero,
+without disk reduction or guard activation. Wall time was 1514.572 s
+(25.24 minutes), child CPU time 17413.550 s and peak child RSS
+2,471,362,560 bytes (2.302 GiB). The ROOT file is 13,145,892,754 bytes
+(13.146 GB). The retained free-space measurement is 413,696,000,000 bytes
+(385.284 GiB); `df` reports about 385 GiB. Host load was not isolated.
+All twelve native worker audits complete, with 812–868 events per worker.
+The original tiled run remains unchanged and retained locally.
+
 ## Observable and paired comparison
 
 Each geometry uses the identical retained primary-input file: 10,000 electrons,
@@ -91,6 +102,82 @@ and within-bin variation. Mean response, absolute SD, quantiles, zero counts and
 shared-bin response histograms accompany the overlay. Do not subtract widths or
 variances in quadrature to infer an independent tiling term. The residual width
 is not an intrinsic fixed-energy reconstructed resolution.
+
+## Result and underlying populations
+
+All **10,000 unique saved primaries pass readback**, with maximum input/energy
+error 4.3e-14 GeV and **10,006,736** valid silicon cell hits. The geometry pair
+has identical saved primary IDs, energy, eta and phi, identical primary/truth
+file hashes and unchanged native libraries/transport settings. All twenty
+original tiled-bin counts, zeros and unbinned moments match the published
+baseline. The continuous control retains **37 zero-response events**, compared
+with 42 originally; no response cut is applied.
+
+![Overlaid fractional response widths and paired differences](results/resolution-overlay.png)
+
+[PDF overlay](results/resolution-overlay.pdf) ·
+[All binwise statistics, histogram counts and covariance](results/comparison.json)
+
+The ten |eta| widths fall from **27.95–55.78%** to **9.41–16.46%**.
+In the eight folded-phi interior bins they fall from **22.59–25.32%** to
+**3.69–4.10%**. The two seam-adjacent bins fall from **110.31/110.09%**
+to **27.22/27.26%**. All twenty paired width-difference 95% intervals are
+strictly positive in this matched-input counterfactual. Joint 40-width and
+20-difference covariance matrices are finite, symmetric and positive definite.
+
+Mean silicon response also rises: |eta| bins move from about 0.96–1.36% to
+1.71–1.93% of true energy. Interior phi bins rise from 1.31–1.38% to
+1.77–1.79%; the two seam bins rise from 0.487/0.495% to 1.854/1.889%.
+Thus the normalized-width reduction includes a changed mean as well as a
+narrower population. Retained seams and non-Gaussian tails remain visible.
+The five-event reduction in exact zeros does not account for the overall
+population change seen in the distributions.
+
+![Mean-response control for both geometries](results/mean-response-overlay.png)
+
+[Mean-response PDF](results/mean-response-overlay.pdf) ·
+[Ten overlaid |eta| response histograms](results/response-distributions-abs_eta.png) ·
+[PDF](results/response-distributions-abs_eta.pdf) ·
+[Ten overlaid folded-phi response histograms](results/response-distributions-folded_phi.png) ·
+[PDF](results/response-distributions-folded_phi.pdf)
+
+Every histogram population retains all events and uses common response bins.
+Widths use unbinned moments, not histogram fits. [Render provenance](results/render.json)
+binds the unchanged statistics and final figures. The analysis records HEAD
+76f3c940 and the exact producer hash; those producer bytes were committed in
+cedf6ee4 (host command paths excluded from public metadata). Visual QA then
+corrected mean-plot scaling in 389b623b; only figures were rerendered, with
+initial previews retained locally. No statistical result was recomputed.
+
+### Ten |eta| bins
+
+| Bin | N | Tiled width [%] | Continuous width [%] | Tiled − continuous [pp] | Paired 95% interval [pp] | Continuous zeros |
+| --- | ---: | ---: | ---: | ---: | --- | ---: |
+| 0.00–0.30 | 973 | 55.78 | 12.30 | 43.48 | 40.59–46.53 | 2 |
+| 0.30–0.60 | 1002 | 53.56 | 12.44 | 41.11 | 37.99–44.33 | 2 |
+| 0.60–0.90 | 1009 | 53.16 | 11.52 | 41.65 | 38.74–44.77 | 3 |
+| 0.90–1.20 | 1015 | 49.97 | 14.15 | 35.82 | 33.17–38.56 | 1 |
+| 1.20–1.50 | 999 | 48.50 | 15.52 | 32.99 | 30.29–35.77 | 0 |
+| 1.50–1.80 | 1019 | 27.95 | 9.41 | 18.55 | 16.45–20.81 | 5 |
+| 1.80–2.10 | 1007 | 28.33 | 9.89 | 18.44 | 16.43–20.46 | 2 |
+| 2.10–2.40 | 997 | 28.58 | 9.85 | 18.73 | 16.86–20.62 | 2 |
+| 2.40–2.70 | 943 | 37.64 | 13.66 | 23.98 | 21.48–26.49 | 8 |
+| 2.70–3.00 | 1036 | 38.80 | 16.46 | 22.35 | 20.38–24.40 | 12 |
+
+### Ten signed folded-phi bins
+
+| Bin [deg] | N | Tiled width [%] | Continuous width [%] | Tiled − continuous [pp] | Paired 95% interval [pp] | Continuous zeros |
+| --- | ---: | ---: | ---: | ---: | --- | ---: |
+| -11.25–-9.00 | 1000 | 110.31 | 27.22 | 83.09 | 78.52–87.91 | 15 |
+| -9.00–-6.75 | 1005 | 22.85 | 4.03 | 18.82 | 17.65–19.94 | 0 |
+| -6.75–-4.50 | 944 | 24.34 | 3.74 | 20.60 | 19.37–21.77 | 0 |
+| -4.50–-2.25 | 987 | 23.74 | 3.95 | 19.79 | 18.55–20.95 | 0 |
+| -2.25–0.00 | 994 | 23.00 | 3.69 | 19.31 | 18.06–20.50 | 0 |
+| 0.00–2.25 | 967 | 23.98 | 4.09 | 19.89 | 18.58–21.09 | 0 |
+| 2.25–4.50 | 1038 | 22.59 | 3.91 | 18.67 | 17.53–19.80 | 0 |
+| 4.50–6.75 | 1028 | 25.32 | 3.90 | 21.42 | 20.25–22.59 | 0 |
+| 6.75–9.00 | 1036 | 23.05 | 4.10 | 18.94 | 17.82–20.09 | 0 |
+| 9.00–11.25 | 1001 | 110.09 | 27.26 | 82.83 | 78.09–87.83 | 22 |
 
 ## Reproduce
 
@@ -147,3 +234,11 @@ Raw ROOT files, exact primary/event ledgers, caches, builds and bulky logs remai
 local and ignored under `build/`. Only figures, recipes, provenance and compact
 binwise evidence belong in this review package. No production detector,
 engineering approval or design lifecycle state changes.
+
+The committed compact result can be replotted without ROOT or event files:
+
+```sh
+"$ECAL10K_PLOT_PYTHON" -B software/analysis/calorimeter_digitization/untiled_compare.py \
+  --replot docs/validation/ecal10k-untiled/results/comparison.json \
+  --output build/ecal10k-untiled/standalone-replot
+```
