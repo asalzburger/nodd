@@ -11,8 +11,9 @@ def fixture():
     x = rng.uniform(-1, 1, (n, 2))
     response = .015 * (1 + .3*x[:, 0] - .1*x[:, 1])
     valid = np.ones(n, dtype=bool); valid[0] = False; response[0] = 0
-    return dict(event=np.arange(n), features=x, response=response, valid_axis=valid,
-                region=np.arange(n) % 2, energy=np.linspace(10, 80, n))
+    energy=np.linspace(10,80,n)
+    return dict(event=np.arange(n), features=x, response=response, signal=response*energy,
+                valid_axis=valid, region=np.arange(n) % 2, energy=energy)
 
 
 class CalibrationControls(unittest.TestCase):
@@ -43,6 +44,14 @@ class CalibrationControls(unittest.TestCase):
         self.assertTrue(np.all(result['gain'] >= .5))
         self.assertTrue(np.all(result['gain'] <= 3.))
         self.assertEqual(len(result['records']), 10)
+
+    def test_full_inferred_energy_does_not_use_held_out_truth(self):
+        data=fixture();first=CrossFit(data);own=first.outer==2
+        changed=dict(data);changed['energy']=data['energy'].copy();changed['response']=data['response'].copy()
+        changed['energy'][own]*=2;changed['response'][own]/=2
+        for prior in ('uniform','inverse_energy'):
+            a=first.predict(prior=prior);b=CrossFit(changed).predict(prior=prior)
+            np.testing.assert_allclose(a['inferred_energy'][own],b['inferred_energy'][own],atol=0,rtol=0)
 
     def test_duplicate_multiplicities_keep_the_same_folds(self):
         data = fixture(); model = CrossFit(data)

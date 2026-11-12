@@ -31,6 +31,15 @@ class Model:
                     regularization=self.regularization, training_weight=self.training_weight,
                     feature_centre=self.centre.tolist(), feature_scale=self.scale.tolist())
 
+    def infer(self, features, signal):
+        """Actual energy inference API: measured signal/features only."""
+        design = np.column_stack([np.ones(len(features)), features])
+        prediction = design @ self.coefficient
+        bounded = np.clip(prediction, LOW_RESPONSE, HIGH_RESPONSE)
+        gain = 1 / bounded
+        return (np.asarray(signal) / self.response_scale * gain, gain,
+                (prediction < LOW_RESPONSE) | (prediction > HIGH_RESPONSE))
+
 
 def solve_model(gram, response_moment, regularization):
     """Fit with training-only weighted centring/scaling from sufficient moments."""
@@ -69,11 +78,14 @@ class CrossFit:
         self.valid = np.asarray(data["valid_axis"], dtype=bool)
         self.region = np.asarray(data["region"], dtype=np.int64)
         self.energy = np.asarray(data["energy"], dtype=float)
+        self.signal = np.asarray(data["signal"], dtype=float)
         self.events = np.asarray(data["event"], dtype=np.int64)
         if len(self.feature) != len(self.response) or self.feature.shape[1] > 10:
             raise ValueError("Invalid feature dimensions")
         if not np.isfinite(self.feature).all() or not np.isfinite(self.response).all() or np.any(self.response < 0):
             raise ValueError("Invalid input features or response")
+        if not np.isfinite(self.energy).all() or np.any(self.energy <= 0) or not np.isfinite(self.signal).all() or np.any(self.signal < 0):
+            raise ValueError("Invalid energy labels or measured signal")
         self.outer = folds(self.events, 5, OUTER_SEED)
         self.inner = folds(self.events, 3, INNER_SEED)
         self.design = np.column_stack([np.ones(len(self.feature)), self.feature])
@@ -109,6 +121,7 @@ class CrossFit:
         weight = counts * (1 / self.energy if prior == "inverse_energy" else 1.)
         gram, moment, square = self.aggregate(weight)
         corrected = np.zeros(n)
+        inferred_energy = np.zeros(n)
         scale_only = np.zeros(n)
         gain = np.ones(n)
         clipped = np.zeros(n, dtype=bool)
@@ -121,8 +134,9 @@ class CrossFit:
                 raise ValueError("Empty outer training fold")
             fallback = float(weight[train] @ self.response[train] / global_weight)
             test = self.outer == outer
-            scale_only[test] = self.response[test] / fallback
+            scale_only[test] = self.signal[test] / fallback / self.energy[test]
             corrected[test] = scale_only[test]
+            inferred_energy[test] = self.signal[test] / fallback
             assigned[test & ~self.valid] = True
             for region in range(2):
                 selected = np.arange(5) != outer
@@ -141,12 +155,9 @@ class CrossFit:
                 choice = min(range(len(LAMBDAS)), key=lambda i: (errors[i], -LAMBDAS[i]))
                 model = solve_model(g.sum(axis=0), h.sum(axis=0), LAMBDAS[choice])
                 indices = self.test_indices[(outer, region)]
-                prediction = self.design[indices] @ model.coefficient
-                bounded = np.clip(prediction, LOW_RESPONSE, HIGH_RESPONSE)
-                gain[indices] = 1 / bounded
-                clipped[indices] = (prediction < LOW_RESPONSE) | (prediction > HIGH_RESPONSE)
-                scale_only[indices] = self.response[indices] / model.response_scale
-                corrected[indices] = scale_only[indices] * gain[indices]
+                inferred_energy[indices], gain[indices], clipped[indices] = model.infer(self.feature[indices], self.signal[indices])
+                scale_only[indices] = self.signal[indices] / model.response_scale / self.energy[indices]
+                corrected[indices] = inferred_energy[indices] / self.energy[indices]
                 assigned[indices] = True
                 if record:
                     records.append(dict(outer_fold=outer, region=region, inner_errors=errors,
@@ -156,5 +167,5 @@ class CrossFit:
             raise ValueError("Incomplete/nonfinite cross-fit predictions")
         if np.any(corrected[self.response == 0] != 0):
             raise AssertionError("Calibration changed a physical zero")
-        return dict(response=corrected, scale_only=scale_only, gain=gain, clipped=clipped,
+        return dict(response=corrected, inferred_energy=inferred_energy, scale_only=scale_only, gain=gain, clipped=clipped,
                     fallback=~self.valid, records=records)
