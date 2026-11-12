@@ -225,3 +225,42 @@ Beforeanynewmodel fit/freshvalidation, the complete numerical dependency graph i
 All10trainingbatches passedtransport/native/readback. Automaticdeclaredchain fitbothmodels andcommittedfrozen/models.json ate65962c259cec1f8744252fccfa17211004f4d61 on2026-11-12T13:41:48Z, beforefresh20kperformanceinspection. Source/core/helper/campaign/featuresemantic hashesverifiedagainstcurrentfiles. Linearregionalλ=.0001/.01; spline7knots/.0001both,80/82coefficients, C1.0854609; linearC1.0857735. No validationperformanceclaim yet.
 
 Frozenchain reviewerresult: e65962c259cec1f8744252fccfa17211004f4d61 completepointmodelrecords reproduce BIT-EXACTLY fromall10training batches(maxdifference0), includingcandidateMSEs/choices/quantiles/centres/coeffs/fallback/C. Explicitloaderguardallowedonlytrain paths; NOvalidationarraysopened. Verifiedrole/source/core/helper/campaign/featurehashes andglobalclosuremean1/CVinvariance/zeros/gainlimits. No materialfinding. Independent20kperformance stillpending.
+
+
+## Final results assessment assignment
+
+```json
+{
+  "id": "ECAL-HIGHSTAT-PHYSVAL-FINAL",
+  "role": "PhysVal",
+  "input_revision": "83eb6a8828eea3cfd54da07650ca226a88f7c2e9",
+  "inputs": [
+    "docs/validation/ecal-highstat/results/summary.json",
+    "docs/validation/ecal-highstat/frozen/models.json",
+    "docs/validation/ecal-highstat/campaign-and-run.json",
+    "docs/validation/ecal-highstat/README.md",
+    "software/analysis/calorimeter_digitization/highstat_analysis.py",
+    "software/analysis/calorimeter_digitization/highstat_plots.py"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Final exact-revision independent scientific assessment of the completed 120k staggered-only campaign. Inspect primary compact results before author conclusions. Review fresh20k points/controls/histogram populations, residual mean/tail/seam/energy bias, conditional1000/full200 within-role bootstrap interpretation and correlated contrasts/covariance, source/freeze/hash bindings, and all nine rendered PNG families. Supplemental local campaign train/validation feature receipts/arrays and build/ecal-highstat/validation-predictions.npz may now be read; all MC complete. You may reproduce frozen inference and the declared unchanged bootstrap if useful, no alternative fits/configuration or retuning. Coordinator checked all120angularhist populations, global point metrics,84zeros,CVinvariance,120/60covariances PSD and A\u03a3A\u1d40, render hashes and vectorSVG. All22narrow tests pass; old10k native regression passes. Report material issues and truthful limits; no writing, new simulation, source/model changes, delegation or publication. Python-B, numerical threads1; no native imports required unless following acts-spack preflight.",
+  "deliverable": "Exact-revision final result/control/uncertainty/figure assessment with actual checks and actionable findings or explicit no-material-finding.",
+  "completion": "Return bounded final assessment and actual evidence; technical assessment only, no human sign-off."
+}
+```
+
+All120k transport/readback complete; immutable training freeze precedes validation. Fresh20k widths raw38.313%, historical31.338%, retunedlinear31.322%, spline30.209%; closed means1.00287/1.00300. Full200refits and1000conditional resamples complete. Coordinator numerical/count/zero/CV/covariance/hash/vectorSVG checks pass. Residual energy/local bias, seam tails and84zeros retained; no retuning. Final specialist assessment follows at exact results commit.
+
+
+## Completed independent evidence and verification
+
+The final numerical source is unchanged after the training freeze. Twelve 10k batches, each with12DDSimworkers, yield120000 audited primaries and76941173 silicon cell hits. ROOT occupies152.506GB; summed transport wall118.6min, elapsed118.8min,20.93CPUh, peak transport child2.672GiB; minimum recorded free232.7GiB. No input/output deletion or trimming. All source/config/library/worker hash checks pass.
+
+On the same fresh20k, raw/historicalensemble/retunedlinear/spline widths are38.313/31.338/31.322/30.209%. Global scale closure restoresmean1.00300for spline but does not changeCV and raises its RMS28.929→30.301%; closed linear RMS31.412%. All84zeros, clipping and219spline feature-extrapolated events remain. Spline energy-slice means0.96975..1.02622; local foldedphi means0.61376..1.10597; sector-edge widths73.23/75.06% versus11.01..12.65% interiors. Results do not establish an intrinsic resolution, a pure statistics-size effect or engineering acceptance. The validation cohort has now been inspected and is no longer untouched for future tuning.
+
+1000conditional whole-event and200complete within-role training/selection/refit/closure+validation resamples finish. Allglobalpoint statistics reproduce from localpredictions;120angular hist populations and all84zeros retained; closureCV identity passes.120×120width covariance has expectedrank80;60×60contrasts rank60; symmetry/PSD/AΣAᵀ pass. Bothuncertainty sets retaincentering/tie diagnostics; ranges are approximatepointwise, no posthoc recentering.
+
+All27render hashes and9SVG vector structures pass. Standaloneplotting using onlycompactstatistics reproduces all18PNG/SVG byte-for-byte;9PDFs regenerated with variablecreation metadata. All9families visually inspected, legible/no cropped content. NewGitobject inspection finds no ROOT/NPZ/HEPEvt/JSONL/buildpayload. Largestnewblob is2.993MB compactbinwise summary including required correlatedstatistics.
+
+Task token counters remain unavailable, including separate specialist turns; usage[] means unobserved, not zero. No estimates or historicalproject totals are attributed tothis task.

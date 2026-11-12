@@ -73,7 +73,7 @@ versus **11.01–12.65%** in the eight interior bins. The distributions expose t
 large low-response population. Recovering the mean cannot reconstruct energy
 that leaves little or no measured silicon signal.
 
-| Response distribution in each of ten bins | |eta| | Signed folded phi |
+| Response distribution in each of ten bins | Absolute eta | Signed folded phi |
 | --- | --- | --- |
 | Raw silicon response | [SVG](results/distributions-raw-abs_eta.svg) | [SVG](results/distributions-raw-folded_phi.svg) |
 | Closed linear and spline overlay | [SVG](results/distributions-calibrated-abs_eta.svg) | [SVG](results/distributions-calibrated-folded_phi.svg) |

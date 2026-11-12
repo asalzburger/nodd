@@ -22,7 +22,10 @@
     "start_commit": "e9aabc83d3c8aa4127d1bcd824db0a134e69e7b0",
     "branch": "codex/ecal-staggered-highstat-calibration",
     "initial_changes": [],
-    "result_commits": [],
+    "result_commits": [
+      "e65962c259cec1f8744252fccfa17211004f4d61",
+      "83eb6a8828eea3cfd54da07650ca226a88f7c2e9"
+    ],
     "changed_files": []
   },
   "work": {
@@ -76,6 +79,36 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "114.4s;6346815cells; primaryerrors/IDs/rootSHA/workers exact; allfeaturearrays agree1e-10rel/abs. Preliminarysource-changing passretainedlocal, onlyfinalfrozenpass used."
+    },
+    {
+      "command": "highstat_sample.py run-batch for12campaignbatches; highstat_readback.py onall12",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "120000events/76941173hits andall12workers pass; twelve10kbatches/12threads. Source/input/library/geometry and common physical worker policies verified.152505641698ROOTbytes,7113.876864s summedtransport wall,2868609024bytepeaktransportchildRSS; no trimming."
+    },
+    {
+      "command": "highstat_analysis.py train/evaluate --bootstrap1000 --training-bootstrap200",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Models frozen inGit e65962c259cec1f8744252fccfa17211004f4d61 beforefresh20k inspection. Allresamplescomplete. Fresh20k widths raw38.313,historical31.338,retunedlinear31.322,spline30.209%; closedmeans1.00287/1.00300. All84zeros retained; residualseam/energy/localmeanbias reported."
+    },
+    {
+      "command": "Independent numerical/count/covariance/vectorSVG checks; highstat_plots.py standalone replot",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Allglobal metrics match local6x20000predictions; campaignIDs100000..119999;120angularhistpopulations retainallevents; allpre/postCVs match;120widthcovrank80/60contrasts rank60, symmetricPSD andA\u03a3A\u1d40 verified.27renderhashes and9vectorSVG structures pass; all18PNG/SVG replot byteidentical,9PDF regenerated. All9figurefamilies visually inspected."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py; tools/software_inventory/inventory.py refresh/check; tools/session_logging/session_log.py validate; git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "107tasks/54documents/24reviewrounds,68components/101families/52inputs/12pins,287sessionrecords validate; whitespacepasses. Laterpublicationmetadata validatedagain atcloseout."
+    },
+    {
+      "command": "git rev-list --objects e9aabc83..HEAD; cat-file objecttype/size inspection",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "96newblobs,9253350bytes through83eb6a88; largest2992727bytecompactsummary storesrequired binstatistics and correlatedcovariance. NoROOT/NPZ/HEPEvt/JSONL/buildpayload innewhistory."
     }
   ]
 }
