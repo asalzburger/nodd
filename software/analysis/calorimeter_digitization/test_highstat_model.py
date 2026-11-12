@@ -1,4 +1,5 @@
 import unittest
+import json
 import numpy as np
 from highstat_model import fit, quantile, restore
 
@@ -39,11 +40,13 @@ class CalibrationControls(unittest.TestCase):
         self.assertAlmostEqual(second.closure / first.closure, 1.1, places=12)
 
     def test_observable_only_inference_and_serialized_roundtrip(self):
-        data, role = self.data(); model = fit(data, role, 'original')
-        result = model.infer(data['features'], data['signal'], data['region'], data['valid_axis'])
-        data['energy'] *= 4; data['response'] /= 4
-        repeat = restore(model.record()).infer(data['features'], data['signal'], data['region'], data['valid_axis'])
-        for key in result:np.testing.assert_array_equal(result[key], repeat[key])
+        for kind in ('original','spline'):
+            data, role = self.data(); model = fit(data, role, kind)
+            result = model.infer(data['features'], data['signal'], data['region'], data['valid_axis'])
+            data['energy'] *= 4; data['response'] /= 4
+            serialized=json.loads(json.dumps(model.record(),allow_nan=False))
+            repeat = restore(serialized).infer(data['features'], data['signal'], data['region'], data['valid_axis'])
+            for key in result:np.testing.assert_array_equal(result[key], repeat[key])
 
     def test_constant_features_produce_no_duplicate_knots(self):
         data, role = self.data(); data['features'][:, 2] = 0
