@@ -265,3 +265,12 @@ transform residual 1.6e-18, width covariance PSD, contrast rank 60 as expected.
 Both layouts have 42 zeros, 41 common IDs. Confirmed 20/20 raw and 16/20 calibrated
 positive pointwise layout intervals. No new fitting, ROOT reread, simulation,
 writes or publication by reviewer. No engineering/design acceptance.
+
+## Explicit publication authorization
+
+The user answered the concrete draft-publication question with
+“Approve draft PR publication”. This authorizes publication to asalzburger/nodd
+of the prepared source, compact results and PNG/PDF/SVG plots, with raw event
+files retained locally. The earlier automatic-review blocker is resolved by
+this explicit approval. Publication and final verification proceed under that
+authorization; the draft remains a prototype and grants no design sign-off.

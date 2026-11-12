@@ -200,5 +200,4 @@ All eight PNG families were visually inspected. Both geometries have 42 zeros,
 of which 41 are common primary IDs. It confirmed all twenty raw and sixteen
 calibrated positive pointwise layout intervals. This review did not rerun
 simulation, refit the calibrations or reread full ROOT files, and grants no human
-acceptance. Draft publication awaits explicit approval required by automatic
-approval review; the results and recipe are complete locally.
+acceptance. The user explicitly authorized draft PR publication on 2026-11-12.
