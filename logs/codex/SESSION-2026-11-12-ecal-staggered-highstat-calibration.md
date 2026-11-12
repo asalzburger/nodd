@@ -264,3 +264,16 @@ On the same fresh20k, raw/historicalensemble/retunedlinear/spline widths are38.3
 All27render hashes and9SVG vector structures pass. Standaloneplotting using onlycompactstatistics reproduces all18PNG/SVG byte-for-byte;9PDFs regenerated with variablecreation metadata. All9families visually inspected, legible/no cropped content. NewGitobject inspection finds no ROOT/NPZ/HEPEvt/JSONL/buildpayload. Largestnewblob is2.993MB compactbinwise summary including required correlatedstatistics.
 
 Task token counters remain unavailable, including separate specialist turns; usage[] means unobserved, not zero. No estimates or historicalproject totals are attributed tothis task.
+
+
+## Final separate PhysVal assessment
+
+Assignment ECAL-HIGHSTAT-PHYSVAL-FINAL examined83eb6a8828eea3cfd54da07650ca226a88f7c2e9 read-only. No material scientific or implementation finding. The reviewer reproduced all6frozen-inference series and438population summaries (120angular,84energy,228controls,6global), including all120inclusive histograms,84zeros, tails/RMS/clipping/extrapolation. Bothcovariance sets have expectedwidthrank80 and contrastAΣAᵀ discrepancy atmost5.8e-19. All1680metricinterval and120contrastdiagnostics are internallyconsistent; no metricpoint falls outside itspercentilerange. Largest angular-width bootstrapmean offset0.16SD; no conspicuous analogousLCcenteringissue, but200fullrefit ranges remain approximate. All27renderhashes/all12provenancechains covering120000events/76941173hits andall9PNGfamilies assessed. Source/bindings reviewed; neither ROOTreadback nor fullbootstrapgeneration was repeated. No retuning/writes/simulation/publication byreviewer andnohumanacceptance.
+
+## Draft publication
+
+Published dedicatedbranch and opened [draft PR137](https://github.com/asalzburger/nodd/pull/137), stacked on codex/ecal-calibration-staggering-tests (PR136). Connectorcreate_pull_request returnedHTTP403 Resource not accessible by integration; authenticatedgh pr create succeeded. This was a connectorcapability failure, not an automatic approval-policy rejection. User's earlier explicit source/compactresults/PNG/PDF/SVG publicationapproval and authorizedfollow-up remain the publicationbasis. No comments posted; no ready/merge/sign-off action. Connector metadata verifiesdraft=true andcorrectbase/head. BothPR136and137 publicdiscussion snapshots refreshed andsanitized. RawMC/eventpayload remainslocal/ignored.
+
+Final report, protocol, exactrecipe, coefficients, compactbinwise correlatedstatistics andall9figurefamilies retained. Requiredrepository validators and token-sitebuild run forcloseout; taskusage isunknown, neverzero or estimated.
+
+Final closeout checks PASS: project107tasks/54documents/24reviewrounds; inventory68components/101families/52inputs/12pins;287pairedsessionrecords;116PRinteractionrecords; tokenvalidator and sitebuild(_site). Summary generated locally, taskusage remains[]/unknown; repositoryhistorical totals are not attributed tothis task. Final session associations forPR136and137 synchronized, whitespace clean. Only curatedmetadata changes after the assessed scientific result; source/model/statistics/plotbytes unchanged.

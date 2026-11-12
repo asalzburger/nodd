@@ -1,0 +1,157 @@
+{
+  "schema_version": 1,
+  "curated": {
+    "journal_links": [],
+    "agents": [],
+    "tools": [],
+    "events": []
+  },
+  "github": {
+    "captured_at": "2026-11-12T14:14:10Z",
+    "pull_request": {
+      "number": 137,
+      "url": "https://github.com/asalzburger/nodd/pull/137",
+      "title": "Calorimeter: validate high-statistics staggered ECAL calibration",
+      "head": "codex/ecal-staggered-highstat-calibration",
+      "head_sha": "22e8f5ba65f6511784093b0fc6d2f66501fc57da",
+      "state": "open",
+      "body": "This follows #136 and studies only its unchanged physical staggered ECAL prototype under DES-030/DES-031. Generate **100,000 training + 20,000 fresh validation electrons**, independently uniform in E=10–80 GeV, eta −3..3 and full phi, with **12 DDSim workers**. Freeze both training-only calibrations in Git before independent validation; retain code, recipes, compact statistics/covariance and PNG/PDF/**SVG** figures.\n\nOn the **same fresh 20k**, inclusive sample SD(R)/mean(R) is **38.313% raw, 31.338% historical 10k ensemble, 31.322% retuned linear and 30.209% spline**. The spline gains 1.112 percentage points against the new linear comparator. More training with the linear recipe makes little difference here; this comparison also changes tuning/refitting and ensemble construction, so it does not isolate training size. The old 32.22% cross-fit result used a different cohort.\n\n![Independent angular comparison](https://raw.githubusercontent.com/asalzburger/nodd/83eb6a8828eea3cfd54da07650ca226a88f7c2e9/docs/validation/ecal-highstat/results/angular-comparison.png)\n\nThe global spline mean closes to **1.00300**, but local biases remain: energy-slice means 0.96975–1.02622 and folded-phi means 0.61376–1.10597. Sector-edge widths remain 73–75%, versus 11–13% in interior bins. All 84 zeros remain; spline gain clipping is 8.790%, feature extrapolation 1.095%, half-energy tail 9.380%. Global rescaling leaves SD/mean unchanged and raises spline RMS from 28.929% to 30.301%; closed linear RMS is 31.412%. These are spectrum-averaged non-Gaussian widths, not intrinsic fixed-energy resolution or detector acceptance.\n\nThe prospective chain uses 70k fit/15k tuning/15k closure, a common ridge search for both new recipes, response refit on 85k and a separate global closure factor. The spline adds predeclared bases/interactions to measured hit features; truth energy/direction are absent from inference. The original-method 1/2/4/8k learning curve is weak/nonmonotonic and explicitly exploratory, including a shifted bootstrap contrast range.\n\nValidation: all 120,000 primaries/76,941,173 hits/all 12 workers audited; 22 narrow tests; full old 10k native feature regression; complete frozen-model records independently reproduced bit-for-bit before unblinding; 1,000 shared validation bootstraps and 200 full training/selection/refit/closure bootstraps; correlated 120-width/60-contrast matrices verified; all 18 PNG/SVG exports byte-identical on standalone replot. Final exact-revision independent PhysVal assessment is retained in the session journal.\n\nTransport used 118.6 minutes summed wall, 20.93 CPU-hours, at most 2.672 GiB child RSS and 152.506 GB ROOT. At least 232.7 GiB remained free; no trimming/deletion. ROOT, exact event inputs/ledgers, full audits and event-level features/predictions stay local and ignored. Exact task token counters are unavailable.\n\n[Report](https://github.com/asalzburger/nodd/blob/codex/ecal-staggered-highstat-calibration/docs/validation/ecal-highstat/README.md) · [Vector SVG](https://github.com/asalzburger/nodd/blob/83eb6a8828eea3cfd54da07650ca226a88f7c2e9/docs/validation/ecal-highstat/results/angular-comparison.svg) · [Reproduction recipe](https://github.com/asalzburger/nodd/blob/codex/ecal-staggered-highstat-calibration/docs/validation/ecal-highstat/reproduce.md)\n\n**Draft only.** No geometry integration, human design sign-off or engineering acceptance.\n",
+      "actor": "asalzburger",
+      "created_at": "2026-11-12T14:13:44Z"
+    },
+    "comments": [],
+    "issues": []
+  },
+  "derived": {
+    "parties": [
+      {
+        "id": "agent:SESSION-2026-11-12-ecal-staggered-highstat-calibration",
+        "name": "unspecified",
+        "kind": "agent"
+      },
+      {
+        "id": "github:asalzburger",
+        "name": "asalzburger",
+        "kind": "account"
+      },
+      {
+        "id": "unknown:project-user",
+        "name": "Project user (name unrecorded)",
+        "kind": "human"
+      }
+    ],
+    "journals": [
+      {
+        "session_id": "SESSION-2026-11-12-ecal-staggered-highstat-calibration",
+        "record": "logs/codex/SESSION-2026-11-12-ecal-staggered-highstat-calibration.json",
+        "attribution": [
+          "recorded_branch",
+          "explicit_PR_reference"
+        ],
+        "snapshot": null,
+        "snapshot_sha256": null,
+        "record_sha256": "6760e59d6453b6ccec462b0f352648b037483691ce4b8eba1c994fbc95f445af",
+        "narrative_sha256": "0c767231be7addddaec14deddbfa96cb9a2163e1b36795eb23cc8acca0098a0a"
+      }
+    ],
+    "token_accounts": [
+      {
+        "id": "SESSION-2026-11-12-ecal-staggered-highstat-calibration",
+        "record": "logs/codex/SESSION-2026-11-12-ecal-staggered-highstat-calibration.json",
+        "scope": "canonical_session; shared PR references are not allocations",
+        "status": "unobserved",
+        "usage_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "turns": []
+      }
+    ],
+    "visible_sources": [],
+    "agents": [
+      {
+        "id": "agent:SESSION-2026-11-12-ecal-staggered-highstat-calibration",
+        "name": "unspecified",
+        "role": "session_agent",
+        "thread_id": null,
+        "models": [],
+        "source": "logs/codex/SESSION-2026-11-12-ecal-staggered-highstat-calibration.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      },
+      {
+        "id": "agent:SESSION-2026-11-12-ecal-staggered-highstat-calibration:PhysVal:00991261",
+        "name": "PhysVal",
+        "role": "reported_specialist_assignment",
+        "thread_id": null,
+        "models": [],
+        "source": "logs/codex/SESSION-2026-11-12-ecal-staggered-highstat-calibration.md#final-results-assessment-assignment",
+        "limitation": "Role contract is recorded; native profile loading and process identity are not inferred."
+      }
+    ],
+    "tools": {
+      "native_codex": [],
+      "codex_installed": [],
+      "instructed_software": [],
+      "unresolved": []
+    },
+    "events": [
+      {
+        "id": "github:https://github.com/asalzburger/nodd/pull/137",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "github:asalzburger",
+        "recipients": [],
+        "text": "This follows #136 and studies only its unchanged physical staggered ECAL prototype under DES-030/DES-031. Generate **100,000 training + 20,000 fresh validation electrons**, independently uniform in E=10–80 GeV, eta −3..3 and full phi, with **12 DDSim workers**. Freeze both training-only calibrations in Git before independent validation; retain code, recipes, compact statistics/covariance and PNG/PDF/**SVG** figures.\n\nOn the **same fresh 20k**, inclusive sample SD(R)/mean(R) is **38.313% raw, 31.338% historical 10k ensemble, 31.322% retuned linear and 30.209% spline**. The spline gains 1.112 percentage points against the new linear comparator. More training with the linear recipe makes little difference here; this comparison also changes tuning/refitting and ensemble construction, so it does not isolate training size. The old 32.22% cross-fit result used a different cohort.\n\n![Independent angular comparison](https://raw.githubusercontent.com/asalzburger/nodd/83eb6a8828eea3cfd54da07650ca226a88f7c2e9/docs/validation/ecal-highstat/results/angular-comparison.png)\n\nThe global spline mean closes to **1.00300**, but local biases remain: energy-slice means 0.96975–1.02622 and folded-phi means 0.61376–1.10597. Sector-edge widths remain 73–75%, versus 11–13% in interior bins. All 84 zeros remain; spline gain clipping is 8.790%, feature extrapolation 1.095%, half-energy tail 9.380%. Global rescaling leaves SD/mean unchanged and raises spline RMS from 28.929% to 30.301%; closed linear RMS is 31.412%. These are spectrum-averaged non-Gaussian widths, not intrinsic fixed-energy resolution or detector acceptance.\n\nThe prospective chain uses 70k fit/15k tuning/15k closure, a common ridge search for both new recipes, response refit on 85k and a separate global closure factor. The spline adds predeclared bases/interactions to measured hit features; truth energy/direction are absent from inference. The original-method 1/2/4/8k learning curve is weak/nonmonotonic and explicitly exploratory, including a shifted bootstrap contrast range.\n\nValidation: all 120,000 primaries/76,941,173 hits/all 12 workers audited; 22 narrow tests; full old 10k native feature regression; complete frozen-model records independently reproduced bit-for-bit before unblinding; 1,000 shared validation bootstraps and 200 full training/selection/refit/closure bootstraps; correlated 120-width/60-contrast matrices verified; all 18 PNG/SVG exports byte-identical on standalone replot. Final exact-revision independent PhysVal assessment is retained in the session journal.\n\nTransport used 118.6 minutes summed wall, 20.93 CPU-hours, at most 2.672 GiB child RSS and 152.506 GB ROOT. At least 232.7 GiB remained free; no trimming/deletion. ROOT, exact event inputs/ledgers, full audits and event-level features/predictions stay local and ignored. Exact task token counters are unavailable.\n\n[Report](https://github.com/asalzburger/nodd/blob/codex/ecal-staggered-highstat-calibration/docs/validation/ecal-highstat/README.md) · [Vector SVG](https://github.com/asalzburger/nodd/blob/83eb6a8828eea3cfd54da07650ca226a88f7c2e9/docs/validation/ecal-highstat/results/angular-comparison.svg) · [Reproduction recipe](https://github.com/asalzburger/nodd/blob/codex/ecal-staggered-highstat-calibration/docs/validation/ecal-highstat/reproduce.md)\n\n**Draft only.** No geometry integration, human design sign-off or engineering acceptance.\n",
+        "source": "https://github.com/asalzburger/nodd/pull/137",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [],
+        "timestamp": "2026-11-12T14:13:44Z",
+        "remote_input": null
+      },
+      {
+        "id": "journal:SESSION-2026-11-12-ecal-staggered-highstat-calibration:d98c061d1c4032be",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "agent:SESSION-2026-11-12-ecal-staggered-highstat-calibration",
+        "recipients": [],
+        "text": "```json\n{\n  \"id\": \"ECAL-HIGHSTAT-PHYSVAL-FINAL\",\n  \"role\": \"PhysVal\",\n  \"input_revision\": \"83eb6a8828eea3cfd54da07650ca226a88f7c2e9\",\n  \"inputs\": [\n    \"docs/validation/ecal-highstat/results/summary.json\",\n    \"docs/validation/ecal-highstat/frozen/models.json\",\n    \"docs/validation/ecal-highstat/campaign-and-run.json\",\n    \"docs/validation/ecal-highstat/README.md\",\n    \"software/analysis/calorimeter_digitization/highstat_analysis.py\",\n    \"software/analysis/calorimeter_digitization/highstat_plots.py\"\n  ],\n  \"mode\": \"read-only\",\n  \"writable_paths\": [],\n  \"task\": \"Final exact-revision independent scientific assessment of the completed 120k staggered-only campaign. Inspect primary compact results before author conclusions. Review fresh20k points/controls/histogram populations, residual mean/tail/seam/energy bias, conditional1000/full200 within-role bootstrap interpretation and correlated contrasts/covariance, source/freeze/hash bindings, and all nine rendered PNG families. Supplemental local campaign train/validation feature receipts/arrays and build/ecal-highstat/validation-predictions.npz may now be read; all MC complete. You may reproduce frozen inference and the declared unchanged bootstrap if useful, no alternative fits/configuration or retuning. Coordinator checked all120angularhist populations, global point metrics,84zeros,CVinvariance,120/60covariances PSD and A\\u03a3A\\u1d40, render hashes and vectorSVG. All22narrow tests pass; old10k native regression passes. Report material issues and truthful limits; no writing, new simulation, source/model changes, delegation or publication. Python-B, numerical threads1; no native imports required unless following acts-spack preflight.\",\n  \"deliverable\": \"Exact-revision final result/control/uncertainty/figure assessment with actual checks and actionable findings or explicit no-material-finding.\",\n  \"completion\": \"Return bounded final assessment and actual evidence; technical assessment only, no human sign-off.\"\n}\n```\n\nAll120k transport/readback complete; immutable training freeze precedes validation. Fresh20k widths raw38.313%, historical31.338%, retunedlinear31.322%, spline30.209%; closed means1.00287/1.00300. Full200refits and1000conditional resamples complete. Coordinator numerical/count/zero/CV/covariance/hash/vectorSVG checks pass. Residual energy/local bias, seam tails and84zeros retained; no retuning. Final specialist assessment follows at exact results commit.",
+        "source": "logs/codex/SESSION-2026-11-12-ecal-staggered-highstat-calibration.md#final-results-assessment-assignment",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [
+          "PhysVal"
+        ],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-staggered-highstat-calibration"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-11-12-ecal-staggered-highstat-calibration:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-11-12-ecal-staggered-highstat-calibration",
+        "recipients": [],
+        "text": "Staggered ECAL learning curve and independent high-statistics calibration — see the canonical narrative for outcomes and checks.",
+        "source": "logs/codex/SESSION-2026-11-12-ecal-staggered-highstat-calibration.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-staggered-highstat-calibration"
+        ],
+        "content_kind": "reference_summary"
+      }
+    ],
+    "coverage": {
+      "github_captured_at": "2026-11-12T14:14:10Z",
+      "prompts": "Available account-matched user-visible messages, public Codex inputs and curated journal excerpts. Historical full input coverage is unknown.",
+      "recovered_visible_turns": 0,
+      "unrecovered_account_turns": [],
+      "responses": "Public responses and recorded outcomes; no private model state or hidden reasoning.",
+      "token_accounting": "References only. Never sum accounts across PRs or assign a shared turn by text length.",
+      "unknowns": "Unrecorded names, models, tools, subagent identities and response links remain unknown; empty lists are not zero activity.",
+      "remote": "Snapshot, not live synchronization; deleted/edited history and emoji reactions are not recovered.",
+      "branch_only": "Pinned branch journal snapshots are references, not imported counters. Unretained or other-device inputs remain unknown."
+    }
+  }
+}

@@ -1,6 +1,6 @@
 # Staggered ECAL: independent high-statistics calibration
 
-**PROTOTYPE**, authorized on 2026-11-12, following
+**PROTOTYPE**, [draft PR137](https://github.com/asalzburger/nodd/pull/137), authorized on 2026-11-12, following
 [draft PR136](https://github.com/asalzburger/nodd/pull/136). Only its physical
 staggered geometry is studied. Geometry, materials, native factories, field and
 transport policy are unchanged. The prospective choices and pre-fit common-grid
@@ -180,7 +180,11 @@ tolerance (114.4 s). Final point/count/zero/CV/covariance/render-hash/vector-SVG
 checks pass. Separate PhysVal assessments covered the protocol, learning curve,
 source and guard remedy. Before unblinding, the complete saved linear and spline
 model records were independently reproduced bit-for-bit from training only at
-`e65962c259cec1f8744252fccfa17211004f4d61`. Final result review is recorded in the
+`e65962c259cec1f8744252fccfa17211004f4d61`. Final independent PhysVal review at `83eb6a8828eea3cfd54da07650ca226a88f7c2e9`
+reproduces all six frozen-inference series and 438 population summaries, checks
+all 1,680 metric/120 contrast interval diagnostics, provenance/covariance and
+all nine figure families without a material finding. It does not repeat ROOT
+readback or full-bootstrap generation. The assessment is recorded in the
 [curated session](../../../logs/codex/SESSION-2026-11-12-ecal-staggered-highstat-calibration.md).
 
 [Exact reproduction recipe](reproduce.md). Only source, compact aggregate/binwise
