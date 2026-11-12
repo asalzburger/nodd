@@ -61,7 +61,7 @@ OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 VECLIB_MAXIMUM_THREADS=1 \
 
 Review and commit the model JSON before inspecting fresh-validation predictions.
 Pass that exact Git revision below. The evaluator verifies the committed model,
-calibration/analysis source, campaign and training-feature hashes, and checks all
+calibration/analysis source and numerical helpers, campaign and training-feature hashes, and checks all
 validation feature semantic headers before opening any validation feature array.
 
 ```sh

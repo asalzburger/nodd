@@ -196,3 +196,5 @@ Prepared-primary input-only QC (no responseperformance): all1400E×|eta|×foldph
 ```
 
 Prospectivegridamendmentbeforeanynew100kfit/fresh20kperformance: accept PhysVal recommendation commonunion{.0001,.01,1,100} forbothnewmethods, removesprescribedsearch-rangeconfound. Old10khistoricalensemble/LC unchanged. Newlinear isretunedten-featurearchitecture, notidenticalhistoricalrecipe; bases/interactions/clipping stilldiffer, noisolatednonlinearityclaim. All10oldstaggeredfits selected priorendpoint.01. No changes tosampling,MC,roles,bounds,closureorresampling.
+
+Beforeanynewmodel fit/freshvalidation, the complete numerical dependency graph isalso frozen: angular_sample/angular_analyze/staggered_results helper hashes recordedinmodel snapshot andcheckedbeforevalidationload, alongsidecore/analysis hashes. Sourcehelpers remainbyte-unchanged; this addsprovenance enforcement only. ThreeanalysiscontrolsPASS.
