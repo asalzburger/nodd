@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
+  "turn_id": "01a1cb19-37c9-76c0-8439-4ffa7e6d02b3",
+  "status": "completed",
+  "started_at": 1794408789,
+  "completed_at": 1794408922,
+  "token_accounts": [
+    "SESSION-2026-11-11-ecal10k-angular-response"
+  ],
+  "source": "Codex app read_thread; exact recorded thread/turn match",
+  "messages": [
+    {
+      "id": "msg_04cb58931f2fd420016af481cf189487d2b9b0eca77bf3acfc",
+      "role": "assistant",
+      "phase": "final_answer",
+      "text": "ECAL10K-SOFTENG completed read-only at source revision `7ba71eeedc00c497bd4dc4168a9272039b300d8b`. No files changed or simulations run.\n\nUse one deterministic **uppercase `.HEPEvt`** input file. Each single-electron event is:\n\n```text\n1\n1 11 0 0 px py pz mass\n```\n\nMomentum and mass are in GeV. For sampled total energy \\(E\\), use \\(p=\\sqrt{E^2-m_e^2}\\), \\(p_x=p\\cos\\phi/\\cosh\\eta\\), \\(p_y=p\\sin\\phi/\\cosh\\eta\\), \\(p_z=p\\tanh\\eta\\). Uppercase `.HEPEvt` selects the short eight-field format; lowercase `.hepevt` selects the long format. The [reader implementation](https://github.com/AIDASoft/DD4hep/blob/v01-38/DDG4/plugins/Geant4EventReaderHepEvt.cpp) confirms origin vertices and stable PDG-11 status.\n\nDDSim\u2019s installed 1.38 Python creates file-input actions with `shared=True` when threads >1. The [shared-generator implementation](https://github.com/AIDASoft/DD4hep/blob/v01-38/DDG4/src/Geant4GeneratorAction.cpp#L70) locks input execution and swaps the worker context, supporting sequential file consumption across workers.\n\nRecommended execution:\n\n- `--runType batch --numberOfThreads 12`\n- `--inputFiles sample.HEPEvt --skipNEvents OFFSET --numberOfEvents COUNT`\n- Fixed seed plus **`--random.enableEventSeed true`**; default is false.\n- One fixed output filename per batch; remove native-gun and output-switching macros.\n\n[EventSeeder](https://github.com/AIDASoft/DD4hep/blob/v01-38/DDG4/plugins/Geant4EventSeed.cpp) explicitly reseeds after file input assigns EventID. [InputAction](https://github.com/AIDASoft/DD4hep/blob/v01-38/DDG4/src/Geant4InputAction.cpp) assigns `EventID=Sync+currentEvent`, preserving global IDs across offset batches. Audit primaries and hits by EventHeader ID, **not ROOT entry order**.\n\nThe existing `nodd_transport.py` audit is unsuitable unchanged: it runs on master initialization, reads thread-local sensitive-detector pointers, writes one fixed path, and examines only the master RNG. Apply the shared 5-mm limits before tracking and audit each worker in native begin-run callbacks, using unique thread-ID records. The existing serial ordered-event assertions must also change.\n\nPreflight with `--require-sources` exited 2 for changed setup/lock fingerprints and unavailable registered full source trees. Inspection used installed Python/headers and pinned public DD4hep v01-38 source. A 12-thread smoke with complete count/identity readback remains required; no MT execution claim is made.",
+      "redacted": "no"
+    }
+  ],
+  "native_tools": [
+    {
+      "name": "commandExecution",
+      "calls": 5,
+      "failures": 1
+    },
+    {
+      "name": "subAgentActivity",
+      "calls": 5,
+      "failures": 0
+    },
+    {
+      "name": "codex_apps.github.fetch_file",
+      "calls": 6,
+      "failures": 0
+    }
+  ],
+  "subagents": [],
+  "limitations": [
+    "Only userMessage and agentMessage text retained; reasoning, tool arguments/results and private state excluded.",
+    "Conservative path, credential, email and URL redaction is not a privacy guarantee; review retained text.",
+    "Exposed operation counts are per retained turn; journal counts can describe the same invocations and must not be added.",
+    "Only started subagent activities establish child relationships; send/wait/completion activities remain operation counts and do not imply parenthood."
+  ],
+  "parent_thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094"
+}

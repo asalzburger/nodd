@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+  "turn_id": "01a1cf4c-e582-7343-84e5-991725b20bb7",
+  "status": "completed",
+  "started_at": 1794479285,
+  "completed_at": 1794479449,
+  "token_accounts": [
+    "SESSION-2026-11-12-ecal-calibration-staggering-tests"
+  ],
+  "source": "Codex app read_thread; exact recorded thread/turn match",
+  "messages": [
+    {
+      "id": "msg_08bf63c436ea246b016af594b75d3887d2bc759d646c1e5212",
+      "role": "assistant",
+      "phase": "commentary",
+      "text": "I\u2019m checking the frozen calibration and feature code before fitting, with particular attention to fold leakage, geometry coordinates, and zero-response handling.",
+      "redacted": "no"
+    },
+    {
+      "id": "msg_08bf63c436ea246b016af59536a13887d2b0b11c9db3733e66",
+      "role": "assistant",
+      "phase": "commentary",
+      "text": "The reviewed source follows the planned fold exclusions, bounded gains, and zero handling. The negative-end mask transformation also matches the prepared geometry to numerical precision. Bootstrap fitting and the final statistics remain to be reviewed separately.",
+      "redacted": "no"
+    },
+    {
+      "id": "msg_08bf63c436ea246b016af59551594087d2bfac8adf467163e0",
+      "role": "assistant",
+      "phase": "final_answer",
+      "text": "Reviewed **3626953a90ed61b078265ab2cf064d65040ba7b6** for **ECAL-TESTS-PHYSVAL-SOURCE**. **No material defect identified before fitting.**\n\n- Nested fold exclusions precede regional/global normalization, feature scaling and inner tuning. Ridge normalization, unpenalized intercept and gain limits match the frozen protocol: `staggered_calibration.py:35\u201362,117\u2013149`.\n- Features use persisted hit moments/layers and physical masks; truth is stored separately for labels/evaluation. Negative-end tangential reflection is consistent with the prepared geometry: `staggered_features.py:83\u2013105,230\u2013253`.\n- Invalid-axis events retain the declared scale-only fallback; zero response remains zero.\n\nOne nonblocking distinction: `CrossFit.predict()` returns **evaluation ratios** \\(E_\\mathrm{cal}/E_\\mathrm{true}\\), using truth-normalized input response. The learned gain/scale is truth-independent, but this is not a standalone energy-inference API. A useful subsequent control should vary held-out truth while preserving measured signal/features and verify the **full inferred energy** \\(S\\times g/R_0\\), extending the existing relative-gain test.\n\nActual checks:\n- All six assigned source hashes matched; five Python AST parses passed.\n- Tested 1,536 negative-end coordinate inversions against actual production XML matrices: maximum discrepancy **1.4\u00d710\u207b\u00b9\u00b2 mm**.\n- Production compact **d78ecea5\u2026** matches its manifest and geometry audit, which binds the reviewed source/recipe.\n- Inspected the baseline feature receipt: reviewed producer hash, **9,958 valid axes and 42 zero signals**. Pilot readback records **PASS, 24 events**.\n\nNo fits, calibration-test execution, simulation reruns or writes. Bootstrap refitting, multiplicity-weighted evaluation, covariance, final plots and scientific conclusions still require the planned later review. Native audit/transport certification was not independently repeated. No design or engineering sign-off.",
+      "redacted": "no"
+    }
+  ],
+  "native_tools": [
+    {
+      "name": "commandExecution",
+      "calls": 16,
+      "failures": 1
+    },
+    {
+      "name": "subAgentActivity",
+      "calls": 2,
+      "failures": 0
+    }
+  ],
+  "subagents": [],
+  "limitations": [
+    "Only userMessage and agentMessage text retained; reasoning, tool arguments/results and private state excluded.",
+    "Conservative path, credential, email and URL redaction is not a privacy guarantee; review retained text.",
+    "Exposed operation counts are per retained turn; journal counts can describe the same invocations and must not be added.",
+    "Only started subagent activities establish child relationships; send/wait/completion activities remain operation counts and do not imply parenthood."
+  ],
+  "parent_thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094"
+}

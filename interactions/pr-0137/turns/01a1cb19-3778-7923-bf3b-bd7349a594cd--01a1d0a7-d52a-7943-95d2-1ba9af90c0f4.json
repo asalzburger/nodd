@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
+  "turn_id": "01a1d0a7-d52a-7943-95d2-1ba9af90c0f4",
+  "status": "completed",
+  "started_at": 1794502022,
+  "completed_at": 1794502261,
+  "token_accounts": [
+    "SESSION-2026-11-12-ecal-chain-readiness"
+  ],
+  "source": "Codex app read_thread; exact recorded thread/turn match",
+  "messages": [
+    {
+      "id": "msg_08bf63c436ea246b016af5ed88d7f087d2a90da7ce8a12deb5",
+      "role": "assistant",
+      "phase": "commentary",
+      "text": "I\u2019ll implement the bounded chain check using the existing records, with synthetic Git tests for broken ancestry and lost provenance.",
+      "redacted": "no"
+    },
+    {
+      "id": "msg_08bf63c436ea246b016af5ee5aff9887d2933cecee30868587",
+      "role": "assistant",
+      "phase": "commentary",
+      "text": "All 12 synthetic Git tests passed, including ordinary-merge closeout and rejection of lost freeze history, changed coefficients, unreachable heads and detached merge records. I\u2019ll now check the repository\u2019s current result and confirm the two-file handoff.",
+      "redacted": "no"
+    },
+    {
+      "id": "msg_08bf63c436ea246b016af5ee70ef0087d2b9d2931198bde962",
+      "role": "assistant",
+      "phase": "final_answer",
+      "text": "Implemented `ECAL-CHAIN-SOFTENG-GUARD` on input revision `b2b7041b045c0777c5e36176b4739336a41a97b5`.\n\nAdded only:\n\n- `tools/project_records/check_ecal_chain.py`\n- `tools/project_records/test_ecal_chain.py`\n\nThe guard checks all five records, ordered/retained heads, freeze/results ancestry, frozen coefficient/core bytes and recorded merge ancestry. It reports unique canonical owners and counter coverage without adding shared PR token totals.\n\nAll **12 synthetic Git tests passed**. The actual repository check correctly fails on the known missing PR133 tracking entry.\n\n```sh\npython3 -B tools/project_records/check_ecal_chain.py\n# After actual merges:\npython3 -B tools/project_records/check_ecal_chain.py --require-merged\n```\n\nDefault operation writes nothing; optional JSON output refuses overwrite. No registry, remote calls, workflow changes or publication added. Live GitHub state and full accounting validation remain separate.",
+      "redacted": "no"
+    }
+  ],
+  "native_tools": [
+    {
+      "name": "commandExecution",
+      "calls": 4,
+      "failures": 1
+    },
+    {
+      "name": "subAgentActivity",
+      "calls": 2,
+      "failures": 0
+    }
+  ],
+  "subagents": [],
+  "limitations": [
+    "Only userMessage and agentMessage text retained; reasoning, tool arguments/results and private state excluded.",
+    "Conservative path, credential, email and URL redaction is not a privacy guarantee; review retained text.",
+    "Exposed operation counts are per retained turn; journal counts can describe the same invocations and must not be added.",
+    "Only started subagent activities establish child relationships; send/wait/completion activities remain operation counts and do not imply parenthood."
+  ],
+  "parent_thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094"
+}

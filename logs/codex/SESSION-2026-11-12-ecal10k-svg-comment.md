@@ -49,3 +49,7 @@ The generatedSVG backend emits trailingwhitespace in pathdata; repository whites
 Pushed SVG/assets9ec0abf613f87c13492c900d0e7f573329d6f27a to existingdraftPR135. Discussion verifiedempty immediatelybeforepost. ConnectedGitHubcommenttool returned403 (Resource notaccessiblebyintegration), so authenticated gh pr comment posted the exact prepared body under explicituserauthorization. Verified there is exactlyone comment, itsbody matches, and itsURL is https://github.com/asalzburger/nodd/pull/135#issuecomment-6819931994 . It embeds the originalPNG, table, scope/uncertainty notes,4permalinkSVG links andreportrecipe. No rawrunfiles published.
 
 Project, inventory, journal, interaction/token checks and token-site build are required atcloseout. Usage remainsunknown, notzero. No designstate/physics result changed.
+
+## 2026-11-12 accounting reconciliation
+
+Exact closed-turn counters and selected app-visible task/assignment evidence were recovered into this original owner, using the chain inventory at `logs/usage/USAGE-2026-11-12-ecal-chain-readiness.json`. Earlier missing-counter statements describe the prior collection, not this correction. Cached input/reasoning are subsets; shared PR links are references, never allocations. No active coordinator usage or estimated counters are imported.

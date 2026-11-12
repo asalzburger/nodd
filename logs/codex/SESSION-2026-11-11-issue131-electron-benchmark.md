@@ -144,3 +144,7 @@ the rates. One process and one azimuth do not establish concurrency scaling or
 shower equivalence. Human design sign-off and detector acceptance remain outside
 this task. The host owns the final commit, object inspection, push, draft PR and
 numbered interaction synchronization.
+
+## 2026-11-12 accounting reconciliation
+
+Exact closed-turn counters and selected app-visible task/assignment evidence were recovered into this original owner, using the chain inventory at `logs/usage/USAGE-2026-11-12-ecal-chain-readiness.json`. Earlier missing-counter statements describe the prior collection, not this correction. Cached input/reasoning are subsets; shared PR links are references, never allocations. No active coordinator usage or estimated counters are imported.

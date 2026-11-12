@@ -34,3 +34,7 @@ published. No detector/engineering approval or new physics outcome is claimed.
 
 Exact parent per-turn counters are not exposed; usage remains empty. Historical
 journal totals are not attributed to this task, and no counts are estimated.
+
+## 2026-11-12 accounting reconciliation
+
+Exact closed-turn counters and selected app-visible task/assignment evidence were recovered into this original owner, using the chain inventory at `logs/usage/USAGE-2026-11-12-ecal-chain-readiness.json`. Earlier missing-counter statements describe the prior collection, not this correction. Cached input/reasoning are subsets; shared PR links are references, never allocations. No active coordinator usage or estimated counters are imported.

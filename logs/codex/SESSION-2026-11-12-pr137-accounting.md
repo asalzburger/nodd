@@ -44,3 +44,7 @@ User-requested token accounting and existing labels are prepared for publication
 Connector PR-body write returnedHTTP403 dueintegrationcapability; authenticatedgh pr edit published the prepared accounting summary. Connector readback verifies108043890observedtokens, readyforreview(draftfalse), unmergedstate and unchangedscientifichead before accountingpush. Labels enhancement/campaign:calorimeters were readback throughgh. There was no automatic-approval policy rejection inthisaccounting publication, and no ready-state bypass/merge.
 
 AffectedPR136/137 publicdiscussion snapshots are refreshed. Shared canonical high-statistics/reuse owners and this active-unmeasured accounting record are synchronized without copying counters into PRledgers. Final required validators/sitebuild/whitespace and source/payload inspections run atcloseout. The metadata-only accounting commit is pushed to the existing PR137 branch; its subsequent hosted checks are distinct from the already passed scientific-source CI. No new scientific milestone or design approval.
+
+## 2026-11-12 accounting reconciliation
+
+Exact closed-turn counters and selected app-visible task/assignment evidence were recovered into this original owner, using the chain inventory at `logs/usage/USAGE-2026-11-12-ecal-chain-readiness.json`. Earlier missing-counter statements describe the prior collection, not this correction. Cached input/reasoning are subsets; shared PR links are references, never allocations. No active coordinator usage or estimated counters are imported.

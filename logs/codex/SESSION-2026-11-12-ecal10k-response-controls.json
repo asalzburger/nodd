@@ -10,7 +10,8 @@
   "completeness": "partial",
   "limitations": [
     "Exact client-reported per-turn counters and stable thread/turn IDs are unavailable; usage is empty, not zero.",
-    "Visualization of the existing hash-bound event summary only; no Geant4 rerun, new calibration or Gaussian fit."
+    "Visualization of the existing hash-bound event summary only; no Geant4 rerun, new calibration or Gaussian fit.",
+    "2026-11-12 retrospective correction: exact closed-turn usage now recovered and linked in the chain inventory. Earlier dated statements of unavailable counters remain historical; active coordinating usage and an unobserved interrupted input remain unknown."
   ],
   "client": {
     "name": "Codex desktop",
@@ -50,7 +51,23 @@
   },
   "narrative": "logs/codex/SESSION-2026-11-12-ecal10k-response-controls.md",
   "activities": [],
-  "usage": [],
+  "usage": [
+    {
+      "client_thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+      "turn_id": "01a1ced4-4728-7011-a92e-a420809962b3",
+      "model": null,
+      "source": "Usage-only client counters strictly reconciled against last-request increments; logs/usage/USAGE-2026-11-12-ecal-chain-readiness.json; exact persisted/app thread and turn identity matched to the original task/assignment.",
+      "limitations": [
+        "Execution model/client version not exposed as per-turn usage evidence; not inferred from defaults.",
+        "Input includes cached context; cache and reasoning counters are subsets, not added usage or a billing estimate."
+      ],
+      "input_tokens": 4757928,
+      "cached_input_tokens": 4340224,
+      "output_tokens": 13852,
+      "reasoning_output_tokens": 7074,
+      "total_tokens": 4771780
+    }
+  ],
   "checks": [
     {
       "command": "angular_controls.py --events production12/event-summary.jsonl --summary published summary.json",

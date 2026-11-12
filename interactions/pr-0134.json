@@ -7,14 +7,14 @@
     "events": []
   },
   "github": {
-    "captured_at": "2026-11-12T09:18:35Z",
+    "captured_at": "2026-11-12T17:03:22Z",
     "pull_request": {
       "number": 134,
       "url": "https://github.com/asalzburger/nodd/pull/134",
       "title": "Calorimeter: measure 10k-electron angular response with 12 threads",
       "head": "codex/ecal10k-angular-response",
       "head_sha": "b9f5af38520ea83215587757b02cd090adc8fb8a",
-      "state": "open",
+      "state": "closed",
       "body": "Follow-up to #133 and #131: generate and validate 10,000 single electrons with uniform total energy 10–80 GeV, eta −3 to 3 and full phi, using 12 DDSim/Geant4 workers on the unchanged ECAL-only zero-field prototype.\n\nAdds reproducible HEPEvt generation, a native per-worker transport audit, ID-indexed readback, and ten-bin |eta| and signed sector-folded-phi plots. The observable is sample SD(R)/mean(R), R = raw silicon deposit / primary energy, with 5,000 joint whole-event bootstrap replicas and retained covariance. This is spectrum-averaged visible-response width, not calibrated intrinsic energy resolution. All 42 zero-response events remain included.\n\nAll 10,000 saved primaries and 6,289,322 cell hits pass readback. Serial and 12-thread controls agree exactly for 24 matched event summaries. Whole process: 585.694 s, 2.371 GiB peak RSS, 12.604 GB ROOT output. Disk checks retained all requested events and about 401 GiB free.\n\nValidation: five mathematical controls; per-worker audits; complete input/readback/hash checks; finite intervals and positive-definite 20×20 covariance; independent PhysVal and SoftEng reviews; project records, software inventory, session/interaction/token validation and token-site build; whitespace and new-object inspection. No detector design or approval state changed.\n\nRaw ROOT data, input/event ledgers, logs and builds remain local and ignored. The PR contains recipes, figures, compact binwise evidence and curated records. Exact task token counters are unavailable.\n",
       "actor": "asalzburger",
       "created_at": "2026-11-11T15:25:29Z"
@@ -30,6 +30,11 @@
         "kind": "agent"
       },
       {
+        "id": "agent:SESSION-2026-11-12-ecal-chain-readiness",
+        "name": "Codex",
+        "kind": "agent"
+      },
+      {
         "id": "agent:SESSION-2026-11-12-ecal10k-response-controls",
         "name": "Codex desktop",
         "kind": "agent"
@@ -37,6 +42,21 @@
       {
         "id": "agent:SESSION-2026-11-12-ecal10k-untiled-control",
         "name": "Codex desktop",
+        "kind": "agent"
+      },
+      {
+        "id": "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "name": "Codex parent thread 01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "kind": "agent"
+      },
+      {
+        "id": "codex-thread:01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "name": "Codex thread 01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "kind": "agent"
+      },
+      {
+        "id": "codex-thread:01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "name": "Codex thread 01a1cb19-3778-7923-bf3b-bd7349a594cd",
         "kind": "agent"
       },
       {
@@ -60,8 +80,19 @@
         ],
         "snapshot": null,
         "snapshot_sha256": null,
-        "record_sha256": "da70fdd11f9339bc0c19407060d17b1f4636c7e511eb0f1a1f3315aaa1f6a831",
-        "narrative_sha256": "981f4b1da0eac05e51c699498a6cb42747ba90d1d9cbb1594d743e565b8f6c62"
+        "record_sha256": "48a54bb75fbed2f33b8e122b1a01ca6e0081c0fd18af9fa641087c64a97427c2",
+        "narrative_sha256": "393ccd31b284e97c2a04d27d0efff6b46d41a30c287798f361a8f3af2597a2f1"
+      },
+      {
+        "session_id": "SESSION-2026-11-12-ecal-chain-readiness",
+        "record": "logs/codex/SESSION-2026-11-12-ecal-chain-readiness.json",
+        "attribution": [
+          "explicit_PR_reference"
+        ],
+        "snapshot": null,
+        "snapshot_sha256": null,
+        "record_sha256": "9a9409d1c9fe6681717c772dc67b101c019beba348b7bc730cfc88393c5ea019",
+        "narrative_sha256": "9876377f13f8151ce1033d54c6bcd0b52dd0bc9adee17d4200cb8b9e39bdde3c"
       },
       {
         "session_id": "SESSION-2026-11-12-ecal10k-response-controls",
@@ -72,8 +103,8 @@
         ],
         "snapshot": null,
         "snapshot_sha256": null,
-        "record_sha256": "140b74471b0c7e5fb3cfcfa7ef4c67ed38f7fa74d86df7ff4d0c25db234e4557",
-        "narrative_sha256": "e9e0d0a8931be51e64868c610bcec91e36649e34ebfd54d18ab8071dd4134b18"
+        "record_sha256": "1bae5d045af023573ca33960fbe4965b19067ed079732d384f0e15c19ca93e48",
+        "narrative_sha256": "14ec51616b27cbc0ff390f57a36552c8c0d05f3ac8218ee2c8f2a7c59f9b8004"
       },
       {
         "session_id": "SESSION-2026-11-12-ecal10k-untiled-control",
@@ -83,8 +114,8 @@
         ],
         "snapshot": null,
         "snapshot_sha256": null,
-        "record_sha256": "006d95471918772876aebaa2941d8d3094b0820799c810c82164ca1adb3f2394",
-        "narrative_sha256": "81dae39c5b0ad7d7f5c5228a19346243db0e1f1d99ea400a48c8df444a7434ec"
+        "record_sha256": "e2f69305e56f23a60be0a575485906b17d01fa6553c520d4582fc0a0ef3f9f6a",
+        "narrative_sha256": "8cb50a0584f6965baeeb20e1f13479dd9ca38c000adec90fb52383c4586771b9"
       }
     ],
     "token_accounts": [
@@ -92,28 +123,158 @@
         "id": "SESSION-2026-11-11-ecal10k-angular-response",
         "record": "logs/codex/SESSION-2026-11-11-ecal10k-angular-response.json",
         "scope": "canonical_session; shared PR references are not allocations",
-        "status": "unobserved",
-        "usage_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
-        "turns": []
+        "status": "observed",
+        "usage_sha256": "d3b84fd7a913c6baa2ef06a0e3f999dc47fdf11bf7cea7c91a5502f87f14eef3",
+        "turns": [
+          {
+            "client_thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+            "turn_id": "01a1cb17-a13a-7111-8b63-cdc62e030ba9",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+            "turn_id": "01a1cb19-1682-7623-98e0-ce79bf2a86ae",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+            "turn_id": "01a1cb22-7e47-77f3-9bfe-73c327de76f8",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+            "turn_id": "01a1cb31-dbe2-7271-b06e-329f9787b8f9",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
+            "turn_id": "01a1cb19-37c9-76c0-8439-4ffa7e6d02b3",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
+            "turn_id": "01a1cb22-98a1-74e1-beb6-65061399b475",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
+            "turn_id": "01a1cb31-fb6b-7e03-9214-4a636a8ed4c1",
+            "model": null
+          }
+        ]
+      },
+      {
+        "id": "SESSION-2026-11-12-ecal-chain-readiness",
+        "record": "logs/codex/SESSION-2026-11-12-ecal-chain-readiness.json",
+        "scope": "canonical_session; shared PR references are not allocations",
+        "status": "observed",
+        "usage_sha256": "e890d257e8d3ddb7757b9a1f4fe911265d2cfc3bdb5d69f595db92ea816271ee",
+        "turns": [
+          {
+            "client_thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
+            "turn_id": "01a1d0a0-0713-78d3-bbbf-c393e8aa5c24",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
+            "turn_id": "01a1d0a7-d52a-7943-95d2-1ba9af90c0f4",
+            "model": null
+          }
+        ]
       },
       {
         "id": "SESSION-2026-11-12-ecal10k-response-controls",
         "record": "logs/codex/SESSION-2026-11-12-ecal10k-response-controls.json",
         "scope": "canonical_session; shared PR references are not allocations",
-        "status": "unobserved",
-        "usage_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
-        "turns": []
+        "status": "observed",
+        "usage_sha256": "d4b90c5a4e7841e7d2dcdeed8d0a1bb96484d28a2c4a02ca4526f018c7d57fa5",
+        "turns": [
+          {
+            "client_thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+            "turn_id": "01a1ced4-4728-7011-a92e-a420809962b3",
+            "model": null
+          }
+        ]
       },
       {
         "id": "SESSION-2026-11-12-ecal10k-untiled-control",
         "record": "logs/codex/SESSION-2026-11-12-ecal10k-untiled-control.json",
         "scope": "canonical_session; shared PR references are not allocations",
-        "status": "unobserved",
-        "usage_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
-        "turns": []
+        "status": "observed",
+        "usage_sha256": "a2e4723da90270673845e1c48c41e49cbffde34943045e70185335e4aea96a5e",
+        "turns": [
+          {
+            "client_thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+            "turn_id": "01a1cedf-8c28-7ff3-b06e-8e04fac214f1",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+            "turn_id": "01a1cee2-cb86-7941-aff0-1f8e169f189c",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+            "turn_id": "01a1cee6-8347-71e1-81f3-a31cbe84f1c8",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+            "turn_id": "01a1ceeb-a63a-7d51-9f8f-2dc2a11d1e01",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+            "turn_id": "01a1cf08-9842-75a2-9149-9bfac1d800ca",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
+            "turn_id": "01a1cee2-b8c8-7d63-8b59-bbd1858c03a7",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a1cee2-e0bd-7283-9f62-647196b722c8",
+            "turn_id": "01a1cee2-e105-79f1-b928-6308b93ddb19",
+            "model": null
+          }
+        ]
       }
     ],
-    "visible_sources": [],
+    "visible_sources": [
+      {
+        "path": "interactions/pr-0134/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cb17-a13a-7111-8b63-cdc62e030ba9.json",
+        "sha256": "d206d0591c7c4dc29728694f160d1c9ebfc8b0d9c477a9cd9110a81063e8041c"
+      },
+      {
+        "path": "interactions/pr-0134/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1ced4-4728-7011-a92e-a420809962b3.json",
+        "sha256": "07c8178a4a54efa71cbdaf00b3181643faaceef685df21fefd474118a440d25a"
+      },
+      {
+        "path": "interactions/pr-0134/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cb19-1682-7623-98e0-ce79bf2a86ae.json",
+        "sha256": "de1570ff595a91839f3be5f8021a6f897c2c87183a12e193ec7c55f81259e112"
+      },
+      {
+        "path": "interactions/pr-0134/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cb22-7e47-77f3-9bfe-73c327de76f8.json",
+        "sha256": "385500b8eba3f0d2045bb62385037e3cd264590f3997570d261134bcc5a2471e"
+      },
+      {
+        "path": "interactions/pr-0134/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cb31-dbe2-7271-b06e-329f9787b8f9.json",
+        "sha256": "e69e665e43084134f930278aeec3d33fadd5f544cfc45e25339cbfa99791b66d"
+      },
+      {
+        "path": "interactions/pr-0134/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1cb19-37c9-76c0-8439-4ffa7e6d02b3.json",
+        "sha256": "8f25d88f7a02e84ab07a647acbd6e9bddc00c0dbc5c09bb95a86666a0b7736b4"
+      },
+      {
+        "path": "interactions/pr-0134/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1cb22-98a1-74e1-beb6-65061399b475.json",
+        "sha256": "9a161b74dcb02dcd7c40343b273d53ae8d6ecca2c1e37344d37d07567f1e050c"
+      },
+      {
+        "path": "interactions/pr-0134/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1cb31-fb6b-7e03-9214-4a636a8ed4c1.json",
+        "sha256": "09aec5b2b354e53ebd75136620b5d105f29e78a0f6950ff557eb3e51114d761b"
+      }
+    ],
     "agents": [
       {
         "id": "agent:SESSION-2026-11-11-ecal10k-angular-response",
@@ -143,6 +304,33 @@
         "limitation": "Role contract is recorded; native profile loading and process identity are not inferred."
       },
       {
+        "id": "agent:SESSION-2026-11-12-ecal-chain-readiness",
+        "name": "Codex",
+        "role": "session_agent",
+        "thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "models": [],
+        "source": "logs/codex/SESSION-2026-11-12-ecal-chain-readiness.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      },
+      {
+        "id": "agent:SESSION-2026-11-12-ecal-chain-readiness:SoftEng:a6b4d1c9",
+        "name": "SoftEng",
+        "role": "reported_specialist_assignment",
+        "thread_id": null,
+        "models": [],
+        "source": "logs/codex/SESSION-2026-11-12-ecal-chain-readiness.md#independent-audit-and-guard-assignment",
+        "limitation": "Role contract is recorded; native profile loading and process identity are not inferred."
+      },
+      {
+        "id": "agent:SESSION-2026-11-12-ecal-chain-readiness:SoftEng:2b3dbb2c",
+        "name": "SoftEng",
+        "role": "reported_specialist_assignment",
+        "thread_id": null,
+        "models": [],
+        "source": "logs/codex/SESSION-2026-11-12-ecal-chain-readiness.md#chain-guard-amendment-assignment",
+        "limitation": "Role contract is recorded; native profile loading and process identity are not inferred."
+      },
+      {
         "id": "agent:SESSION-2026-11-12-ecal10k-response-controls",
         "name": "Codex desktop",
         "role": "session_agent",
@@ -159,10 +347,391 @@
         "models": [],
         "source": "logs/codex/SESSION-2026-11-12-ecal10k-untiled-control.json",
         "limitation": "Usage may include children; model/role is not assigned to every response."
+      },
+      {
+        "id": "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "name": "Codex",
+        "role": "recorded_thread",
+        "thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "models": [],
+        "source": "interactions/pr-0134/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cb17-a13a-7111-8b63-cdc62e030ba9.json",
+        "limitation": "Execution model is retained only when reported by the canonical account."
+      },
+      {
+        "id": "codex-child:01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "name": "/root/ecal10k_physval",
+        "role": "subagent",
+        "thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "models": [],
+        "source": "interactions/pr-0134/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cb17-a13a-7111-8b63-cdc62e030ba9.json",
+        "limitation": "Parent thread 01a1ca20-9aaa-72d1-9283-5591a6e73094; activity started. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "name": "/root/ecal10k_softeng",
+        "role": "subagent",
+        "thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "models": [],
+        "source": "interactions/pr-0134/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cb17-a13a-7111-8b63-cdc62e030ba9.json",
+        "limitation": "Parent thread 01a1ca20-9aaa-72d1-9283-5591a6e73094; activity started. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "name": "Codex",
+        "role": "recorded_thread",
+        "thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "models": [],
+        "source": "interactions/pr-0134/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1ced4-4728-7011-a92e-a420809962b3.json",
+        "limitation": "Execution model is retained only when reported by the canonical account."
+      },
+      {
+        "id": "codex-thread:01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "name": "Codex",
+        "role": "recorded_thread",
+        "thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "models": [],
+        "source": "interactions/pr-0134/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cb19-1682-7623-98e0-ce79bf2a86ae.json",
+        "limitation": "Execution model is retained only when reported by the canonical account."
+      },
+      {
+        "id": "codex-thread:01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "name": "Codex",
+        "role": "recorded_thread",
+        "thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "models": [],
+        "source": "interactions/pr-0134/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cb22-7e47-77f3-9bfe-73c327de76f8.json",
+        "limitation": "Execution model is retained only when reported by the canonical account."
+      },
+      {
+        "id": "codex-thread:01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "name": "Codex",
+        "role": "recorded_thread",
+        "thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "models": [],
+        "source": "interactions/pr-0134/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cb31-dbe2-7271-b06e-329f9787b8f9.json",
+        "limitation": "Execution model is retained only when reported by the canonical account."
+      },
+      {
+        "id": "codex-thread:01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "name": "Codex",
+        "role": "recorded_thread",
+        "thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "models": [],
+        "source": "interactions/pr-0134/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1cb19-37c9-76c0-8439-4ffa7e6d02b3.json",
+        "limitation": "Execution model is retained only when reported by the canonical account."
+      },
+      {
+        "id": "codex-thread:01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "name": "Codex",
+        "role": "recorded_thread",
+        "thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "models": [],
+        "source": "interactions/pr-0134/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1cb22-98a1-74e1-beb6-65061399b475.json",
+        "limitation": "Execution model is retained only when reported by the canonical account."
+      },
+      {
+        "id": "codex-thread:01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "name": "Codex",
+        "role": "recorded_thread",
+        "thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "models": [],
+        "source": "interactions/pr-0134/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1cb31-fb6b-7e03-9214-4a636a8ed4c1.json",
+        "limitation": "Execution model is retained only when reported by the canonical account."
       }
     ],
     "tools": {
-      "native_codex": [],
+      "native_codex": [
+        {
+          "name": "commandExecution",
+          "category": "native_codex",
+          "version": null,
+          "calls": 74,
+          "source": "interactions/pr-0134/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cb17-a13a-7111-8b63-cdc62e030ba9.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 11 failures reported.",
+          "token_account": "SESSION-2026-11-11-ecal10k-angular-response",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "codex_apps.github.get_pr_info",
+          "category": "native_codex",
+          "version": null,
+          "calls": 4,
+          "source": "interactions/pr-0134/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cb17-a13a-7111-8b63-cdc62e030ba9.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-11-ecal10k-angular-response",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "subAgentActivity",
+          "category": "native_codex",
+          "version": null,
+          "calls": 15,
+          "source": "interactions/pr-0134/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cb17-a13a-7111-8b63-cdc62e030ba9.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-11-ecal10k-angular-response",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "fileChange",
+          "category": "native_codex",
+          "version": null,
+          "calls": 10,
+          "source": "interactions/pr-0134/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cb17-a13a-7111-8b63-cdc62e030ba9.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-11-ecal10k-angular-response",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "imageView",
+          "category": "native_codex",
+          "version": null,
+          "calls": 3,
+          "source": "interactions/pr-0134/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cb17-a13a-7111-8b63-cdc62e030ba9.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-11-ecal10k-angular-response",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "codex_apps.github.fetch_issue",
+          "category": "native_codex",
+          "version": null,
+          "calls": 1,
+          "source": "interactions/pr-0134/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cb17-a13a-7111-8b63-cdc62e030ba9.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-11-ecal10k-angular-response",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "codex_apps.github.fetch_issue_comments",
+          "category": "native_codex",
+          "version": null,
+          "calls": 1,
+          "source": "interactions/pr-0134/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cb17-a13a-7111-8b63-cdc62e030ba9.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-11-ecal10k-angular-response",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "codex_apps.github.fetch_pr_comments",
+          "category": "native_codex",
+          "version": null,
+          "calls": 2,
+          "source": "interactions/pr-0134/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cb17-a13a-7111-8b63-cdc62e030ba9.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-11-ecal10k-angular-response",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "codex_apps.github.create_pull_request",
+          "category": "native_codex",
+          "version": null,
+          "calls": 1,
+          "source": "interactions/pr-0134/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cb17-a13a-7111-8b63-cdc62e030ba9.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 1 failures reported.",
+          "token_account": "SESSION-2026-11-11-ecal10k-angular-response",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "commandExecution",
+          "category": "native_codex",
+          "version": null,
+          "calls": 10,
+          "source": "interactions/pr-0134/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1ced4-4728-7011-a92e-a420809962b3.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal10k-response-controls",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "codex_apps.github.get_pr_info",
+          "category": "native_codex",
+          "version": null,
+          "calls": 2,
+          "source": "interactions/pr-0134/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1ced4-4728-7011-a92e-a420809962b3.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal10k-response-controls",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "fileChange",
+          "category": "native_codex",
+          "version": null,
+          "calls": 2,
+          "source": "interactions/pr-0134/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1ced4-4728-7011-a92e-a420809962b3.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal10k-response-controls",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "imageView",
+          "category": "native_codex",
+          "version": null,
+          "calls": 2,
+          "source": "interactions/pr-0134/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1ced4-4728-7011-a92e-a420809962b3.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal10k-response-controls",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "codex_apps.github.fetch_pr_comments",
+          "category": "native_codex",
+          "version": null,
+          "calls": 1,
+          "source": "interactions/pr-0134/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1ced4-4728-7011-a92e-a420809962b3.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal10k-response-controls",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "codex_apps.github.fetch_issue_comments",
+          "category": "native_codex",
+          "version": null,
+          "calls": 1,
+          "source": "interactions/pr-0134/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1ced4-4728-7011-a92e-a420809962b3.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal10k-response-controls",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "codex_apps.github.fetch_issue",
+          "category": "native_codex",
+          "version": null,
+          "calls": 1,
+          "source": "interactions/pr-0134/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1ced4-4728-7011-a92e-a420809962b3.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal10k-response-controls",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "commandExecution",
+          "category": "native_codex",
+          "version": null,
+          "calls": 8,
+          "source": "interactions/pr-0134/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cb19-1682-7623-98e0-ce79bf2a86ae.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-11-ecal10k-angular-response",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "subAgentActivity",
+          "category": "native_codex",
+          "version": null,
+          "calls": 2,
+          "source": "interactions/pr-0134/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cb19-1682-7623-98e0-ce79bf2a86ae.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-11-ecal10k-angular-response",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "commandExecution",
+          "category": "native_codex",
+          "version": null,
+          "calls": 6,
+          "source": "interactions/pr-0134/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cb22-7e47-77f3-9bfe-73c327de76f8.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 1 failures reported.",
+          "token_account": "SESSION-2026-11-11-ecal10k-angular-response",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "subAgentActivity",
+          "category": "native_codex",
+          "version": null,
+          "calls": 1,
+          "source": "interactions/pr-0134/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cb22-7e47-77f3-9bfe-73c327de76f8.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-11-ecal10k-angular-response",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "commandExecution",
+          "category": "native_codex",
+          "version": null,
+          "calls": 6,
+          "source": "interactions/pr-0134/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cb31-dbe2-7271-b06e-329f9787b8f9.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 2 failures reported.",
+          "token_account": "SESSION-2026-11-11-ecal10k-angular-response",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "imageView",
+          "category": "native_codex",
+          "version": null,
+          "calls": 2,
+          "source": "interactions/pr-0134/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cb31-dbe2-7271-b06e-329f9787b8f9.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-11-ecal10k-angular-response",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "commandExecution",
+          "category": "native_codex",
+          "version": null,
+          "calls": 5,
+          "source": "interactions/pr-0134/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1cb19-37c9-76c0-8439-4ffa7e6d02b3.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 1 failures reported.",
+          "token_account": "SESSION-2026-11-11-ecal10k-angular-response",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "subAgentActivity",
+          "category": "native_codex",
+          "version": null,
+          "calls": 5,
+          "source": "interactions/pr-0134/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1cb19-37c9-76c0-8439-4ffa7e6d02b3.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-11-ecal10k-angular-response",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "codex_apps.github.fetch_file",
+          "category": "native_codex",
+          "version": null,
+          "calls": 6,
+          "source": "interactions/pr-0134/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1cb19-37c9-76c0-8439-4ffa7e6d02b3.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-11-ecal10k-angular-response",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "commandExecution",
+          "category": "native_codex",
+          "version": null,
+          "calls": 6,
+          "source": "interactions/pr-0134/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1cb22-98a1-74e1-beb6-65061399b475.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 1 failures reported.",
+          "token_account": "SESSION-2026-11-11-ecal10k-angular-response",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "subAgentActivity",
+          "category": "native_codex",
+          "version": null,
+          "calls": 2,
+          "source": "interactions/pr-0134/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1cb22-98a1-74e1-beb6-65061399b475.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-11-ecal10k-angular-response",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "commandExecution",
+          "category": "native_codex",
+          "version": null,
+          "calls": 3,
+          "source": "interactions/pr-0134/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1cb31-fb6b-7e03-9214-4a636a8ed4c1.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-11-ecal10k-angular-response",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "subAgentActivity",
+          "category": "native_codex",
+          "version": null,
+          "calls": 1,
+          "source": "interactions/pr-0134/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1cb31-fb6b-7e03-9214-4a636a8ed4c1.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-11-ecal10k-angular-response",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        }
+      ],
       "codex_installed": [],
       "instructed_software": [],
       "unresolved": []
@@ -237,6 +806,58 @@
         "content_kind": "reference_summary"
       },
       {
+        "id": "journal:SESSION-2026-11-12-ecal-chain-readiness:c1daa06e15563d0b",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "agent:SESSION-2026-11-12-ecal-chain-readiness",
+        "recipients": [],
+        "text": "Audit atb2b7041b: existing mainjobs validate/build/deploycommittedwork andderive dailyworklabels automatically, butdo not collectactualmerge metadata/GitHublabels/newusage. MissingPR133tracking row andunobservedolderwork needcorrection. No newregistry or futuremergetimestamps. Minimumguard verifiesall5recordcoverages andpreservedhead/freeze/results ancestry, plushead→merge→checkedHEADwhenactualmergedstateisrecorded. Projectvalidator107tasks/54docs/24reviews passes; pinnedcanonicalledgerderivationspassall5; currentuntrackedchainjournalnecessitatessyncaftercloseout. No sourcewrites by initialreviewer.\n\n```json\n{\n  \"id\": \"ECAL-CHAIN-SOFTENG-GUARD\",\n  \"role\": \"SoftEng\",\n  \"input_revision\": \"b2b7041b045c0777c5e36176b4739336a41a97b5\",\n  \"inputs\": [\n    \"tools/project_records/validate.py\",\n    \"tools/project_records/fetch_evidence.py\",\n    \"project/tracking.json\",\n    \"docs/validation/ecal-highstat/frozen/manifest.json\",\n    \".github/workflows/validation.yml\",\n    \".github/workflows/token-usage.yml\"\n  ],\n  \"mode\": \"write\",\n  \"writable_paths\": [\n    \"tools/project_records/check_ecal_chain.py\",\n    \"tools/project_records/test_ecal_chain.py\"\n  ],\n  \"task\": \"Implement minimum read-only ECAL133\\u2013137 integrity check per audit. Use existing tracking/interaction/model manifests, no new registry/state/automation or remote calls. CLI --repo defaultroot, optional --output compactJSONreport under callerpath. Require all5PRtracking entries and interaction ledgers; orderedhead ancestry andallheads ancestors ofcheckedHEAD; modelmanifest freeze_commit andvalidated_results_commit ancestors ofHEAD; currentfrozen coefficient bytes identicaltoGitfreeze andcore file matchesfrozen coreSHA (also frozen blob ifappropriate). For entries recorded merged require head\\u2192merge\\u2192checkedHEAD; optional --require-merged strictpostmerge mode is useful but defaultmustworkbeforemerge andnotinventfuturestate. Include compact unique canonical workowner/title/observed-counter coverage if straightforward from existingledger references, avoiding duplicateaddition acrossPRreferences; existing fullusage/ledger validators remainseparate, no reinventingthem. Checkscript shouldpass after main adds missingPR133 row; currentb2sourceknownfailsmissing133bydesign. Meaningfulstandardlibrary syntheticGitfixtures testgoodchain andmissing/reordered/unreachable entries, lostfreeze, changedcoeff/core, detachedrecordedmerge; no native/Numpy/dataregeneration. Main owns .githubworkflow wiring/inventory/docs/logs/accounting/project/merges; touchonly2ownedsourcefiles, do notcommit/publish/merge/delegate. No detectoracceptanceclaims or globalequalitygate forhistoricalmilestones.\",\n  \"deliverable\": \"Two sourcefiles with focusedread-only guard and meaningfultests; actualtestcommands/results andlimitations.\",\n  \"completion\": \"Return once targetedtests pass andonlyownedfiles changed; no publication.\"\n}\n```",
+        "source": "logs/codex/SESSION-2026-11-12-ecal-chain-readiness.md#independent-audit-and-guard-assignment",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [
+          "SoftEng"
+        ],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-chain-readiness"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-11-12-ecal-chain-readiness:b3ede2fa462b85ad",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "agent:SESSION-2026-11-12-ecal-chain-readiness",
+        "recipients": [],
+        "text": "ECAL-CHAIN-SOFTENG-ABSORBED; SoftEng; exact input ded14d2e4d726b566db3cd9e4939d73da799b6a3; read/write only tools/project_records/check_ecal_chain.py and test_ecal_chain.py; no further delegation or publication. Require forward ancestry OR explicit later-head→actual-later-merge→predecessor-head proof for a genuinely merged dependent; captured heads must belong to that merge.17 synthetic Git controls pass, including the absorption/corrective history and rejected missing/detached/incompatible merge evidence. Main integrates workflow, records and accounting separately.\n\nPre-review checks: project/session/ledger/token validators pass;37+19+20 accounting tests and both Node suites pass. Preview daily work labels reconcile exactly to12 contributing titles,51 turns and303597535observed tokens. Coefficients/core are byte-identical to their original frozen commits; no scientific data/code changes. Actual remaining-head CI will be observed after publication.",
+        "source": "logs/codex/SESSION-2026-11-12-ecal-chain-readiness.md#chain-guard-amendment-assignment",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [
+          "SoftEng"
+        ],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-chain-readiness"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-11-12-ecal-chain-readiness:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-11-12-ecal-chain-readiness",
+        "recipients": [],
+        "text": "PR133–137 chain readiness, complete accounting and merged-state validation — see the canonical narrative for outcomes and checks.",
+        "source": "logs/codex/SESSION-2026-11-12-ecal-chain-readiness.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-chain-readiness"
+        ],
+        "content_kind": "reference_summary"
+      },
+      {
         "id": "journal:SESSION-2026-11-12-ecal10k-response-controls:outcome",
         "type": "response",
         "direction": "reaction",
@@ -267,13 +888,302 @@
           "SESSION-2026-11-12-ecal10k-untiled-control"
         ],
         "content_kind": "reference_summary"
+      },
+      {
+        "id": "codex-message:01a1cb17-a2b1-78d1-afc8-717b774eac0c",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094"
+        ],
+        "text": "Although your initial estimate was 110 000 particles, I would like you to make 10k with E\\~10 to 80 GeV flat in phi from eta -3 to 3, and then show make a sigma(E)/E plot vs |eta| in 10 bins and in the folded phi in 10 bins.\\\nThe local CPU has 24 core, use multithreading with 12.\n\nCheck if we have enough disk space for this, if not trimm down to fit.",
+        "source": "interactions/pr-0134/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cb17-a13a-7111-8b63-cdc62e030ba9.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-11-ecal10k-angular-response"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0fffe127a3de53c8016af480f08e7887d2b77b4a27ea51c650",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "recipients": [
+          "unknown:project-user"
+        ],
+        "text": "I’ll prepare the 10,000-electron sample with 12 threads and check disk space before running it. I’ll use uniform energy from 10–80 GeV, uniform η from −3 to 3, and uniform φ. I’ll also check the ECAL symmetry and response definition so the folded-φ and σ(E)/E plots are well defined.",
+        "source": "interactions/pr-0134/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cb17-a13a-7111-8b63-cdc62e030ba9.json",
+        "in_reply_to": "codex-message:01a1cb17-a2b1-78d1-afc8-717b774eac0c",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-11-ecal10k-angular-response"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0fffe127a3de53c8016af4812442c887d28d6294d3b2f8bc0a",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "recipients": [
+          "unknown:project-user"
+        ],
+        "text": "There is about **408 GiB free**, so disk space should accommodate the full 10,000 events. I’ll retain a safety margin and check the projection after a pilot batch.\n\nI’m using the ACTS Spack and repository validation workflows. The Spack fingerprints have changed, so I’ll reverify the runtime. I’ll also get an independent physics review of the resolution estimator: with a 10–80 GeV spectrum, the raw energy spread would mostly measure the beam’s energy range.",
+        "source": "interactions/pr-0134/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cb17-a13a-7111-8b63-cdc62e030ba9.json",
+        "in_reply_to": "codex-message:01a1cb17-a2b1-78d1-afc8-717b774eac0c",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-11-ecal10k-angular-response"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0fffe127a3de53c8016af48991661887d2b192f09455d4d0cd",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "recipients": [
+          "unknown:project-user"
+        ],
+        "text": "Completed **all 10,000 electrons with 12 threads**, with no trimming: uniform E = 10–80 GeV, η = −3 to 3, and full φ.\n\n**9 min 46 s · 2.37 GiB peak RAM · 12.60 GB output · 401 GiB still free.** All events passed readback.\n\n![Angular response plots]([redacted]\n\nEach projection has **10 bins**, with 95% bootstrap intervals. These show **raw visible-response widths**, including geometric losses. Seam-adjacent φ bins reach about **110%**, versus **23–25%** inside.\n\n[PDF]([redacted] · [Results and recipe]([redacted] · [Draft PR #134](https://github.com/asalzburger/nodd/pull/134)",
+        "source": "interactions/pr-0134/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cb17-a13a-7111-8b63-cdc62e030ba9.json",
+        "in_reply_to": "codex-message:01a1cb17-a2b1-78d1-afc8-717b774eac0c",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-11-ecal10k-angular-response"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:01a1ced4-474b-7690-b9a0-998a109f73ba",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094"
+        ],
+        "text": "Do you have the control plot from which the sigma/RMS was drawn ?",
+        "source": "interactions/pr-0134/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1ced4-4728-7011-a92e-a420809962b3.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal10k-response-controls"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0fffe127a3de53c8016af575dcb41c87d2a4749fdebe5254fa",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "recipients": [
+          "unknown:project-user"
+        ],
+        "text": "I’ll check for the response distributions behind the width plots and show the available controls.",
+        "source": "interactions/pr-0134/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1ced4-4728-7011-a92e-a420809962b3.json",
+        "in_reply_to": "codex-message:01a1ced4-474b-7690-b9a0-998a109f73ba",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal10k-response-controls"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0fffe127a3de53c8016af575ff911087d28a57ee3af50211a1",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "recipients": [
+          "unknown:project-user"
+        ],
+        "text": "The widths were calculated from the unbinned event values. I retained those values, but hadn’t saved the corresponding histograms. I’ll draw the distributions for all ten |η| bins and ten folded-φ bins, with the mean, standard deviation, and zero-response count shown.",
+        "source": "interactions/pr-0134/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1ced4-4728-7011-a92e-a420809962b3.json",
+        "in_reply_to": "codex-message:01a1ced4-474b-7690-b9a0-998a109f73ba",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal10k-response-controls"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0fffe127a3de53c8016af5771af74087d2ade2932b854e10e2",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "recipients": [
+          "unknown:project-user"
+        ],
+        "text": "Here are the underlying \\(R=E_{\\rm Si}/E_{\\rm true}\\) distributions. Each panel shows the mean, sample standard deviation \\(s\\), and \\(s/\\langle R\\rangle\\). **All 20 reproduce the published widths; no Gaussian fit was used.**\n\n[|η| controls—PDF]([redacted] · [Folded-φ controls—PDF]([redacted]\n\nThe seam populations show a strong low-response component:\n\n![Folded-phi response distributions]([redacted]\n\nAdded to [draft PR #134](https://github.com/asalzburger/nodd/pull/134).",
+        "source": "interactions/pr-0134/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1ced4-4728-7011-a92e-a420809962b3.json",
+        "in_reply_to": "codex-message:01a1ced4-474b-7690-b9a0-998a109f73ba",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal10k-response-controls"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_07918656ab364799016af481b5b17c87d281f022f4e4051e69",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "recipients": [
+          "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094"
+        ],
+        "text": "Assignment **ECAL10K-PHYSVAL**, read-only review of **7ba71eeedc00c497bd4dc4168a9272039b300d8b**. No files changed, runtime imports, simulation, or nested delegation.\n\nUse this prospective analysis contract:\n\n1. Generate independent **total energy** \\(E\\sim U(10,80)\\) GeV, \\(\\eta\\sim U(-3,3)\\), \\(\\phi\\sim U(-\\pi,\\pi)\\), one electron at the origin per event. Verify these quantities from persisted primary truth. This differs from PR133’s fixed \\(p_T=50\\) GeV benchmark.\n2. Sum every recorded ECAL deposit in both `BARRELHits` and `EDGEHits`, including both endcaps and all sectors/layers:\n   \\[\n   S_i=\\sum_{\\mathrm{ECAL\\ hits}}E_{\\mathrm{dep}},\\qquad\n   R_i=S_i/E_{\\mathrm{primary},i}.\n   \\]\n3. In each angular bin, report\n   \\[\n   w_b=\\frac{s(R_i)}{\\overline R_b},\\quad\n   s^2(R)=\\frac{\\sum(R_i-\\overline R)^2}{n_b-1}.\n   \\]\n   Label the requested \\(\\sigma(E)/E\\) panels **“fractional raw visible-response width, \\(s(R)/\\langle R\\rangle\\), flat 10–80 GeV electrons.”** This is meaningful without inventing a calorimeter calibration, but it is not intrinsic reconstructed energy resolution. It includes shower fluctuations, unresolved angular response variation, gaps and leakage within each bin. An overall multiplicative calibration cancels.\n4. Retain accompanying mean response \\(\\overline R\\), counts, zero-response counts/fractions, and \\(q_{16},q_{50},q_{84}\\) per bin. Otherwise mean losses can be hidden by the normalized width.\n\n**Do not compute \\(s(S)/\\overline S\\) over the broad beam spectrum.** A constant 2% detector response across energies 10/20/40/80 GeV gives that incorrect estimator 82.55%, while the correct ratio-based width is zero.\n\n**Binning and folding**\n\n- Ten equal \\(|\\eta|\\) bins with edges \\(0,0.3,\\ldots,3.0\\).\n- Both barrel and endcaps have **16 identical azimuthal replicas**. Use \\(P=2\\pi/16=\\pi/8\\), and\n  \\[\n  \\phi_{\\mathrm{fold}}=((\\phi+P/2)\\bmod P)-P/2.\n  \\]\n- Ten equal bins across \\([-\\pi/16,+\\pi/16)\\), or **−11.25° to +11.25°**, width 2.25°.\n- **Sector centres lie at folded 0; seams lie at ±11.25°.** The same period/origin applies to barrel and endcaps.\n- Preserve signed folded phase; do not additionally take absolute value without establishing reflection symmetry. Negative-end templates use a proper rotation including \\(R_x(\\pi)\\), reversing their local tangential coordinate relative to world phase. The barrel also flips board orientation at negative z, and has alternating axial staggering. A signed world-coordinate fold is well defined, but signed-η/sector controls should be retained so averaging does not conceal asymmetry.\n- Exact upper endpoints need explicit inclusion in the final \\(|\\eta|\\) bin; modulo seams belong to the negative fold edge.\n\n**Uncertainties and checks**\n\n- Use **5,000 whole-event bootstrap replicas**, with a separately recorded analysis seed, for 95% percentile intervals on \\(w_b\\) and the mean. Never bootstrap individual cells as independent showers.\n- Include valid no-hit events as \\(S=R=0\\). A missing collection, missing primary, nonfinite energy or corrupted event is a verification failure, not a physical zero.\n- Undefined \\(n<2\\), zero-mean bins or bootstrap replicas remain null with counts; do not remove problematic replicas to produce a finite interval.\n- Verify all 10,000 unique event identities regardless of MT output order; one status-1 electron per event; truth bounds, origin, and actual energy/direction; empty collections; finite positive stored hit energies; total count consistency across each projection.\n- Retain counts/energy spectra by angular bin and signed η/sector. Around 1,000 events per 1D bin are expected, but actual counts must be shown. The spectrum-averaged width is conditional on this flat 10–80 GeV mixture; it cannot be extrapolated as a fixed-energy resolution curve.\n- Do not reject transition or low-response events after observing them. Summing barrel plus endcap is important near the transition, where one event can deposit in both.\n- For comparing the two projections quantitatively, their uncertainties are correlated because they reuse the same events. A joint whole-event bootstrap can retain the 20-bin covariance; separate per-bin intervals are adequate for descriptive plots if no independence claim is made.\n\n**Primary source locators**\n\n- DES030 lines 21–28, 84–89, 132–146: sixteen wedges, descriptor, negative-end proper transforms and nonuniform/zero-response caveats.\n- DES031 lines 12–23, 45–57, 82–99: sixteen sectors, axial staggering, transforms, sector-centre φ crack and service losses.\n- `tools/calorimeter_hardware/barrel_export.py:95–96`: replica angles `sector*2*pi/16`.\n- `tools/calorimeter_hardware/edge_export.py:118–124`: both sides use the same period, with `side==2` transform.\n- `tools/calorimeter_hardware/assembly.py:19–22`: exact frame rotation.\n- `tools/calorimeter_hardware/barrel_layout.py:79–88`: existing centre-preserving signed modulo fold.\n- `docs/validation/issue117/nodd-digitization-protocol.md`, “Common calibration and paired response statistics”: raw visible fraction, SD/mean, all events including zeros, no reconstructed-resolution claim, event bootstrap and undefined-replica treatment.\n- `software/analysis/calorimeter_digitization/digitized_response.py:53–81`: existing sample-SD/mean/bootstrap conventions.\n- `docs/validation/issue131/README.md`: ECAL-only, zero field, no digitization/reconstruction, exact retained transport boundary.\n\nActual independent checks: standard-library numerical controls passed for modulo periodicity, seam/centre placement, and removal of the trivial broad-beam energy spread. The input source was clean apart from the parent’s new paired task journal. This is a prospective technical assessment, not a review of new run outputs or human sign-off.",
+        "source": "interactions/pr-0134/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cb19-1682-7623-98e0-ce79bf2a86ae.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-11-ecal10k-angular-response"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_07918656ab364799016af484520f8087d2996b12b768254012",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "recipients": [
+          "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094"
+        ],
+        "text": "**ECAL10K-REVIEW-PHYSVAL complete.** Reviewed committed protocol/analysis/tests at **48d1b1b09ccbd10cf8862152054244bff543536e**, then verified the two remediations at **a53895fa47d0452fd031f51e54c7a2288861838c**. No remaining actionable scientific-code findings in this scope.\n\nThe implementation follows the prospective contract:\n\n- \\(R=\\sum E_{\\rm Si}/E_{\\rm true}\\), width \\(s(R)/\\langle R\\rangle\\), with sample SD and valid zero responses retained.\n- Ten \\(|\\eta|\\) bins from 0–3 and ten signed folded-φ bins over one 22.5° period, correct sector-centre/seam phase.\n- Joint whole-event resampling correctly preserves cross-projection correlations; undefined replicas remain explicit.\n- Plot labels distinguish raw spectrum-averaged visible-response width from calibrated reconstructed energy resolution.\n- Mean-response and signed-η/sector controls retain scale and acceptance information.\n\nTwo original **P2** findings are resolved in a53895fa:\n\n1. Empty/sparse bins previously crashed the mean-response plot; nullable means and intervals now become NaNs, matching width plotting.\n2. Analysis previously accepted a changed transport receipt and copied altered execution metadata into results; it now checks `receipt_sha256` before use.\n\nActual checks:\n\n- All **five committed unit tests passed**, both before and after remediation.\n- An in-memory full-analysis control with **2,000 synthetic events and 500 bootstrap replicas** verified both projected denominator totals, finite intervals, symmetric 20×20 covariance and nonzero cross-projection terms.\n- A pinned-48d1b1b adversarial test reproduced the missing receipt binding with a real SHA-256 mismatch; the new guard directly closes that path.\n- Inspected the exact remediation diff and confirmed the working analysis/tests match a53895fa.\n\nNo files written, simulation executed, or production results reviewed. The reported pilot/serial equality is the coordinator’s execution evidence, not an independently repeated result. I remain available for review of the completed 10k summaries and plots.",
+        "source": "interactions/pr-0134/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cb22-7e47-77f3-9bfe-73c327de76f8.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-11-ecal10k-angular-response"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_07918656ab364799016af48813ea7487d2a7e728a64a6d5599",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "recipients": [
+          "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094"
+        ],
+        "text": "**ECAL10K-FINAL-PHYSVAL complete:** reviewed **d7cae98616dac99b9459055aeb54525082405c08**. **No actionable findings** in the requested scope.\n\nIndependently verified:\n\n- Each ten-bin projection contains exactly **10,000 events** and **42 zero responses**; all folded-φ zeros are in the first/last bins.\n- Against the hash-bound local event ledger: all unique identities, \\(S/E_{\\rm true}\\), barrel/endcap sums, independent angular assignments, and all 20 means, sample SDs, fractional widths and quantiles agree with committed results.\n- All bootstrap intervals are finite, contain their point estimates, and report no undefined replicas. The **20×20 joint covariance is finite, symmetric and positive definite**.\n- Receipt and event-ledger SHA-256 bindings match. Audit and analysis producer hashes match commit **e097af85513247dfdd93207b00914ee0cab50156**; the distinct transport-input revision **a53895fa…** is correctly retained.\n- Inspected both committed PNGs after verifying their byte identity. Labels, units, 95% intervals, ten-bin counts, ECAL colour and applicability captions are clear and readable.\n\nThe seam-adjacent bins show an unambiguous **association with lower mean visible response and broader response distributions**: widths about 110%, versus 23–25% inside; mean raw response about 0.49%, versus 1.31–1.38% inside. The README accurately avoids attributing this to a specific mechanical cause. The 42 zero events alone must not be presented as the explanation for the full width increase.\n\nThe plots correctly describe **spectrum-averaged raw visible-response widths**, rather than intrinsic fixed-energy reconstructed calorimeter resolution. No angular calibration or low-response rejection hides the effects.\n\nLimits: I did not rerun Geant4, independently reread the complete 12.6-GB ROOT sample, or regenerate all 5,000 bootstrap replicas. I reviewed the native-readback record and independently recomputed point statistics from its hash-bound ledger. No files changed; no detector acceptance or human sign-off is implied.",
+        "source": "interactions/pr-0134/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cb31-dbe2-7271-b06e-329f9787b8f9.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-11-ecal10k-angular-response"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_04cb58931f2fd420016af481cf189487d2b9b0eca77bf3acfc",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "recipients": [
+          "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094"
+        ],
+        "text": "ECAL10K-SOFTENG completed read-only at source revision `7ba71eeedc00c497bd4dc4168a9272039b300d8b`. No files changed or simulations run.\n\nUse one deterministic **uppercase `.HEPEvt`** input file. Each single-electron event is:\n\n```text\n1\n1 11 0 0 px py pz mass\n```\n\nMomentum and mass are in GeV. For sampled total energy \\(E\\), use \\(p=\\sqrt{E^2-m_e^2}\\), \\(p_x=p\\cos\\phi/\\cosh\\eta\\), \\(p_y=p\\sin\\phi/\\cosh\\eta\\), \\(p_z=p\\tanh\\eta\\). Uppercase `.HEPEvt` selects the short eight-field format; lowercase `.hepevt` selects the long format. The [reader implementation](https://github.com/AIDASoft/DD4hep/blob/v01-38/DDG4/plugins/Geant4EventReaderHepEvt.cpp) confirms origin vertices and stable PDG-11 status.\n\nDDSim’s installed 1.38 Python creates file-input actions with `shared=True` when threads >1. The [shared-generator implementation](https://github.com/AIDASoft/DD4hep/blob/v01-38/DDG4/src/Geant4GeneratorAction.cpp#L70) locks input execution and swaps the worker context, supporting sequential file consumption across workers.\n\nRecommended execution:\n\n- `--runType batch --numberOfThreads 12`\n- `--inputFiles sample.HEPEvt --skipNEvents OFFSET --numberOfEvents COUNT`\n- Fixed seed plus **`--random.enableEventSeed true`**; default is false.\n- One fixed output filename per batch; remove native-gun and output-switching macros.\n\n[EventSeeder](https://github.com/AIDASoft/DD4hep/blob/v01-38/DDG4/plugins/Geant4EventSeed.cpp) explicitly reseeds after file input assigns EventID. [InputAction](https://github.com/AIDASoft/DD4hep/blob/v01-38/DDG4/src/Geant4InputAction.cpp) assigns `EventID=Sync+currentEvent`, preserving global IDs across offset batches. Audit primaries and hits by EventHeader ID, **not ROOT entry order**.\n\nThe existing `nodd_transport.py` audit is unsuitable unchanged: it runs on master initialization, reads thread-local sensitive-detector pointers, writes one fixed path, and examines only the master RNG. Apply the shared 5-mm limits before tracking and audit each worker in native begin-run callbacks, using unique thread-ID records. The existing serial ordered-event assertions must also change.\n\nPreflight with `--require-sources` exited 2 for changed setup/lock fingerprints and unavailable registered full source trees. Inspection used installed Python/headers and pinned public DD4hep v01-38 source. A 12-thread smoke with complete count/identity readback remains required; no MT execution claim is made.",
+        "source": "interactions/pr-0134/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1cb19-37c9-76c0-8439-4ffa7e6d02b3.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-11-ecal10k-angular-response"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_04cb58931f2fd420016af48435cff087d2883aea53367b7be6",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "recipients": [
+          "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094"
+        ],
+        "text": "ECAL10K-REVIEW-SOFTENG reviewed commit `48d1b1b09ccbd10cf8862152054244bff543536e`, including the five assigned source files and pilot evidence. No writes or simulations performed.\n\n**No MT, identity, worker-audit or disk blocker found for the full 10k run.** Two provenance improvements remain:\n\n- **P2 — Freeze production generation provenance.** `sample/sample.json` identifies source revision `7ba71eee…`, where `angular_sample.py` did not exist, and producer hash `f92e…`; the committed/executed runner is now `8bef…`. Prepare a fresh production sample directory from frozen commit `48d1…`, retaining the old pilot sample unchanged. With the same generator seed, input/truth bytes should match; verify their hashes.\n- **P2 — Bind analysis to the audited receipt.** `angular_analyze.py::analyze` checks the event-summary hash but does not verify `sha(receipt.json) == readback[\"receipt_sha256\"]` before copying execution metadata. Add that check. Current pilot bindings are correct.\n\nActual checks:\n\n- Recomputed pilot ROOT, event-summary and receipt SHA-256 bindings: all match readback.\n- Confirmed committed source bytes match working-tree bytes for all five assigned files.\n- All worker IDs `0…11` present, complete, and used; event counts sum to 24.\n- Each worker reports one barrel and 112 endcap sensitive logical volumes, 5-mm steps, zero field, expected cuts and `MixMaxRng` seed `133812341`.\n- Saved event order is shuffled; all unique IDs `0…23` are present.\n- Independently compared serial and 12-thread summary rows by ID: all 24 rows exactly equal, including deposited energy, response and per-collection cell counts. Maximum signal difference is zero.\n- No `ERROR`, `FATAL`, exception or abort markers found in inspected MT log.\n- Observed output is 1.198 MB/event: approximately **11.98 GB for 10k**, or **23.96 GB with the specified ×2 allowance**, against approximately 442 GB free. The 30-GiB reserve and runtime disk guard are ample.\n\nLimits: comparison establishes equality of audited event observables and counts, not byte-identical ROOT files or every individual cell energy. Offset-batch equivalence was not executed. My earlier CLI suggestion with a trailing `true` was wrong; the corrected bare `--random.enableEventSeed` flag is present in the reviewed runner.",
+        "source": "interactions/pr-0134/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1cb22-98a1-74e1-beb6-65061399b475.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-11-ecal10k-angular-response"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_04cb58931f2fd420016af48800d8c887d2bb3cfa40b07fb117",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "recipients": [
+          "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094"
+        ],
+        "text": "ECAL10K-FINAL-SOFTENG reviewed **`d7cae98616dac99b9459055aeb54525082405c08`** read-only. **No remaining actionable findings.** Both prior P2 provenance findings are resolved.\n\nChecks actually performed:\n\n- Verified production input, truth, compact/material, receipt, event-summary, readback and committed-summary hash bindings.\n- Verified frozen generator source `a53895fa…` and analysis source `e097af85…` against recorded hashes.\n- Checked all twelve complete worker audits: 812–868 events each, totaling **10,000**, with expected sensitive-volume counts, cuts, 5-mm step limits, zero field and RNG settings.\n- Parsed every event-summary record: exactly IDs **0–9999**, **6,289,322 hits**, **42 zero-response events**.\n- Independently recomputed all twenty bin counts, mean responses and fractional widths using standard-library statistics; all agree with committed results. Checked finite intervals and symmetric finite 20×20 covariance.\n- Confirmed resource values: **585.694 s**, **2.371 GiB peak RSS**, **12.604 GB output**, **400.543 GiB free**.\n- Examined newly introduced Git objects: 25 blobs, largest **284,709 bytes**; raw events, inputs and logs are excluded and ignored.\n\nLimits: did not rerun simulation, native ROOT readback or bootstrap, and did not repeat the 12.6-GB ROOT checksum. Those results remain bound through the recorded readback hash and validated metadata.",
+        "source": "interactions/pr-0134/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1cb31-fb6b-7e03-9214-4a636a8ed4c1.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-11-ecal10k-angular-response"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
       }
     ],
     "coverage": {
-      "github_captured_at": "2026-11-12T09:18:35Z",
+      "github_captured_at": "2026-11-12T17:03:22Z",
       "prompts": "Available account-matched user-visible messages, public Codex inputs and curated journal excerpts. Historical full input coverage is unknown.",
-      "recovered_visible_turns": 0,
-      "unrecovered_account_turns": [],
+      "recovered_visible_turns": 8,
+      "unrecovered_account_turns": [
+        {
+          "thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+          "turn_id": "01a1cedf-8c28-7ff3-b06e-8e04fac214f1"
+        },
+        {
+          "thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+          "turn_id": "01a1cee2-cb86-7941-aff0-1f8e169f189c"
+        },
+        {
+          "thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+          "turn_id": "01a1cee6-8347-71e1-81f3-a31cbe84f1c8"
+        },
+        {
+          "thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+          "turn_id": "01a1ceeb-a63a-7d51-9f8f-2dc2a11d1e01"
+        },
+        {
+          "thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+          "turn_id": "01a1cf08-9842-75a2-9149-9bfac1d800ca"
+        },
+        {
+          "thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
+          "turn_id": "01a1cee2-b8c8-7d63-8b59-bbd1858c03a7"
+        },
+        {
+          "thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
+          "turn_id": "01a1d0a0-0713-78d3-bbbf-c393e8aa5c24"
+        },
+        {
+          "thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
+          "turn_id": "01a1d0a7-d52a-7943-95d2-1ba9af90c0f4"
+        },
+        {
+          "thread_id": "01a1cee2-e0bd-7283-9f62-647196b722c8",
+          "turn_id": "01a1cee2-e105-79f1-b928-6308b93ddb19"
+        }
+      ],
       "responses": "Public responses and recorded outcomes; no private model state or hidden reasoning.",
       "token_accounting": "References only. Never sum accounts across PRs or assign a shared turn by text length.",
       "unknowns": "Unrecorded names, models, tools, subagent identities and response links remain unknown; empty lists are not zero activity.",

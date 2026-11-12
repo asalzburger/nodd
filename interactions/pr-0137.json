@@ -7,13 +7,13 @@
     "events": []
   },
   "github": {
-    "captured_at": "2026-11-12T16:22:09Z",
+    "captured_at": "2026-11-12T16:59:40Z",
     "pull_request": {
       "number": 137,
       "url": "https://github.com/asalzburger/nodd/pull/137",
       "title": "Calorimeter: validate high-statistics staggered ECAL calibration",
       "head": "codex/ecal-staggered-highstat-calibration",
-      "head_sha": "2dc4631f1ea2b2832eea54d4cb4e3fb2f9b7be07",
+      "head_sha": "ded14d2e4d726b566db3cd9e4939d73da799b6a3",
       "state": "open",
       "body": "This follows #136 and studies only its unchanged physical staggered ECAL prototype under DES-030/DES-031. Generated **100,000 training + 20,000 fresh validation electrons**, independently uniform in E=10–80 GeV, eta −3..3 and full phi, with **12 DDSim workers**. Froze both training-only calibrations in Git before independent validation; retained code, recipes, compact statistics/covariance and PNG/PDF/**SVG** figures.\n\nThe recorded default for later use is **`nodd-ecal-staggered-spline-v1`**; `nodd-ecal-staggered-linear-v1` is retained as the comparator. The [versioned manifest](https://github.com/asalzburger/nodd/blob/codex/ecal-staggered-highstat-calibration/docs/validation/ecal-highstat/frozen/manifest.json) records coefficient/geometry/feature hashes, units and applicability. The [reuse guide](https://github.com/asalzburger/nodd/blob/codex/ecal-staggered-highstat-calibration/docs/validation/ecal-highstat/reuse.md) supplies a truth-free NumPy API/CLI, with compatibility guards and no refitting. All four pre/post energy-ratio series reproduce the retained full 20k predictions bit-for-bit; ten-k chunks show only quantified last-bit matrix-product roundoff (maximum 4.89e-15). The coefficients, frozen numerical source and published statistics/plots are unchanged. A separate exact-revision SoftEng review passed all 16 NumPy controls and independently reproduced the full20k equality and chunked roundoff, with no material finding.\n\nOn the **same fresh 20k**, inclusive sample SD(R)/mean(R) is **38.313% raw, 31.338% historical 10k ensemble, 31.322% retuned linear and 30.209% spline**. The spline gains 1.112 percentage points against the new linear comparator. More training with the linear recipe makes little difference here; this comparison also changes tuning/refitting and ensemble construction, so it does not isolate training size. The old 32.22% cross-fit result used a different cohort.\n\n![Independent angular comparison](https://raw.githubusercontent.com/asalzburger/nodd/83eb6a8828eea3cfd54da07650ca226a88f7c2e9/docs/validation/ecal-highstat/results/angular-comparison.png)\n\nThe global spline mean closes to **1.00300**, but local biases remain: energy-slice means 0.96975–1.02622 and folded-phi means 0.61376–1.10597. Sector-edge widths remain 73–75%, versus 11–13% in interior bins. All 84 zeros remain; spline gain clipping is 8.790%, feature extrapolation 1.095%, half-energy tail 9.380%. Global rescaling leaves SD/mean unchanged and raises spline RMS from 28.929% to 30.301%; closed linear RMS is 31.412%. These are spectrum-averaged non-Gaussian widths, not intrinsic fixed-energy resolution or detector acceptance.\n\nThe prospective chain uses 70k fit/15k tuning/15k closure, a common ridge search for both new recipes, response refit on 85k and a separate global closure factor. The spline adds predeclared bases/interactions to measured hit features; truth energy/direction are absent from inference. The original-method 1/2/4/8k learning curve is weak/nonmonotonic and explicitly exploratory, including a shifted bootstrap contrast range.\n\nValidation: all 120,000 primaries/76,941,173 hits/all 12 workers audited; 22 original controls plus 7 reuse controls; full old 10k native feature regression; complete frozen-model records independently reproduced bit-for-bit before unblinding; 1,000 shared validation bootstraps and 200 full training/selection/refit/closure bootstraps; correlated 120-width/60-contrast matrices verified; all 18 PNG/SVG exports byte-identical on standalone replot. Final exact-revision independent PhysVal assessment is retained in the session journal.\n\nTransport used 118.6 minutes summed wall, 20.93 CPU-hours, at most 2.672 GiB child RSS and 152.506 GB ROOT. At least 232.7 GiB remained free; no trimming/deletion. ROOT, exact event inputs/ledgers, full audits and event-level features/predictions stay local and ignored. Closed calibration and reuse work is now accounted below; the active accounting turn remains excluded.\n\n[Report](https://github.com/asalzburger/nodd/blob/codex/ecal-staggered-highstat-calibration/docs/validation/ecal-highstat/README.md) · [Vector SVG](https://github.com/asalzburger/nodd/blob/83eb6a8828eea3cfd54da07650ca226a88f7c2e9/docs/validation/ecal-highstat/results/angular-comparison.svg) · [Reproduction recipe](https://github.com/asalzburger/nodd/blob/codex/ecal-staggered-highstat-calibration/docs/validation/ecal-highstat/reproduce.md)\n\nPrepared for maintainer merge review. **Dependency order: #133 → #134 → #135 → #136 → #137**. This PR still targets #136; merge dependencies and retarget successors to main, preserving source commits referenced by the frozen evidence (use merge commits for this stack). Recheck CI after retargeting. This preparation does not approve or merge any predecessor. No geometry integration, human design sign-off or engineering acceptance.\n\n\nToken accounting (2026-11-12): **108,043,890 observed input+output tokens across 15 closed turns and 431 requests**. The canonical work labels are **Staggered ECAL: 100k training and 20k independent validation** (84,245,571) and **Staggered ECAL model reuse and PR137 merge preparation** (23,798,319). Cached input 107,174,400 and reasoning output 224,181 are subsets, not additions. Explicit parent/child identities and fork boundaries are verified; earlier inherited usage, earlier PR work and the active accounting turn are excluded. These are client observations, not billing or complete-device estimates. [Accounting and attribution](https://github.com/asalzburger/nodd/blob/codex/ecal-staggered-highstat-calibration/logs/codex/SESSION-2026-11-12-pr137-accounting.md).\n",
       "actor": "asalzburger",
@@ -26,6 +26,11 @@
     "parties": [
       {
         "id": "agent:SESSION-2026-11-12-ecal-calibration-reuse",
+        "name": "Codex",
+        "kind": "agent"
+      },
+      {
+        "id": "agent:SESSION-2026-11-12-ecal-chain-readiness",
         "name": "Codex",
         "kind": "agent"
       },
@@ -79,6 +84,17 @@
         "narrative_sha256": "9bee09d0b0b4001141d16b25c144029b068ca8d6b815ada3773b9fee75a2a8eb"
       },
       {
+        "session_id": "SESSION-2026-11-12-ecal-chain-readiness",
+        "record": "logs/codex/SESSION-2026-11-12-ecal-chain-readiness.json",
+        "attribution": [
+          "explicit_PR_reference"
+        ],
+        "snapshot": null,
+        "snapshot_sha256": null,
+        "record_sha256": "9a9409d1c9fe6681717c772dc67b101c019beba348b7bc730cfc88393c5ea019",
+        "narrative_sha256": "9876377f13f8151ce1033d54c6bcd0b52dd0bc9adee17d4200cb8b9e39bdde3c"
+      },
+      {
         "session_id": "SESSION-2026-11-12-ecal-staggered-highstat-calibration",
         "record": "logs/codex/SESSION-2026-11-12-ecal-staggered-highstat-calibration.json",
         "attribution": [
@@ -98,8 +114,8 @@
         ],
         "snapshot": null,
         "snapshot_sha256": null,
-        "record_sha256": "15c002040d3fadcc51305d5856f6390d8c1a395eecd3497de9e2bd070b3f1b56",
-        "narrative_sha256": "699157e571c14d7ac0c980a9b25ecea45d7868d59fb7272ec6ff4e3e2a095401"
+        "record_sha256": "3ca8aec478d0ce990275a2bb9b519bcf4ea5cca8c7415831ee8f65a5ded78fd4",
+        "narrative_sha256": "88e1bf967fe64d8ddd921e1a0c8d3f4d38fa9cd69f5b7b6936f424cd6f3f8d8c"
       }
     ],
     "token_accounts": [
@@ -118,6 +134,25 @@
           {
             "client_thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
             "turn_id": "01a1d037-bb3b-7fb1-9504-b7d9f6e0d0f9",
+            "model": null
+          }
+        ]
+      },
+      {
+        "id": "SESSION-2026-11-12-ecal-chain-readiness",
+        "record": "logs/codex/SESSION-2026-11-12-ecal-chain-readiness.json",
+        "scope": "canonical_session; shared PR references are not allocations",
+        "status": "observed",
+        "usage_sha256": "e890d257e8d3ddb7757b9a1f4fe911265d2cfc3bdb5d69f595db92ea816271ee",
+        "turns": [
+          {
+            "client_thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
+            "turn_id": "01a1d0a0-0713-78d3-bbbf-c393e8aa5c24",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
+            "turn_id": "01a1d0a7-d52a-7943-95d2-1ba9af90c0f4",
             "model": null
           }
         ]
@@ -200,9 +235,15 @@
         "id": "SESSION-2026-11-12-pr137-accounting",
         "record": "logs/codex/SESSION-2026-11-12-pr137-accounting.json",
         "scope": "canonical_session; shared PR references are not allocations",
-        "status": "unobserved",
-        "usage_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
-        "turns": []
+        "status": "observed",
+        "usage_sha256": "a787919da9b8c65aa3d282508a7c9a86b087c9dc3014fbea9708d88219b99691",
+        "turns": [
+          {
+            "client_thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+            "turn_id": "01a1d081-e0b9-7092-bee1-4cba9666c779",
+            "model": null
+          }
+        ]
       }
     ],
     "visible_sources": [
@@ -221,6 +262,10 @@
       {
         "path": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1d030-81bc-7c32-a1a1-4724ea71b8df.json",
         "sha256": "289c094e9f81849ce7c9bdaac50e234adcd8ccdeaeea7741f67c283147404451"
+      },
+      {
+        "path": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1d081-e0b9-7092-bee1-4cba9666c779.json",
+        "sha256": "5821fa4f122fdcd6479dda0b059c708f286612917269593aaafb8459a14dd263"
       },
       {
         "path": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cf9b-e8b1-7ca1-a4fd-f39d1310d576.json",
@@ -265,6 +310,14 @@
       {
         "path": "interactions/pr-0137/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1d037-bb3b-7fb1-9504-b7d9f6e0d0f9.json",
         "sha256": "e0395aaf7139b941bac451bfc8bb4b621a477d7f821e0ea1591f93aa13e5bca8"
+      },
+      {
+        "path": "interactions/pr-0137/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1d0a0-0713-78d3-bbbf-c393e8aa5c24.json",
+        "sha256": "6870c31ac8b5b665a5b65830ae8990d8cb08004b2f1b554f54a4fdf572ced66b"
+      },
+      {
+        "path": "interactions/pr-0137/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1d0a7-d52a-7943-95d2-1ba9af90c0f4.json",
+        "sha256": "0c252cedd3f132d60ab37935fac46e8bb836fda85679cc78b7dfdc9a13cb1942"
       }
     ],
     "agents": [
@@ -284,6 +337,33 @@
         "thread_id": null,
         "models": [],
         "source": "logs/codex/SESSION-2026-11-12-ecal-calibration-reuse.md#separate-software-review-assignment",
+        "limitation": "Role contract is recorded; native profile loading and process identity are not inferred."
+      },
+      {
+        "id": "agent:SESSION-2026-11-12-ecal-chain-readiness",
+        "name": "Codex",
+        "role": "session_agent",
+        "thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "models": [],
+        "source": "logs/codex/SESSION-2026-11-12-ecal-chain-readiness.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      },
+      {
+        "id": "agent:SESSION-2026-11-12-ecal-chain-readiness:SoftEng:a6b4d1c9",
+        "name": "SoftEng",
+        "role": "reported_specialist_assignment",
+        "thread_id": null,
+        "models": [],
+        "source": "logs/codex/SESSION-2026-11-12-ecal-chain-readiness.md#independent-audit-and-guard-assignment",
+        "limitation": "Role contract is recorded; native profile loading and process identity are not inferred."
+      },
+      {
+        "id": "agent:SESSION-2026-11-12-ecal-chain-readiness:SoftEng:2b3dbb2c",
+        "name": "SoftEng",
+        "role": "reported_specialist_assignment",
+        "thread_id": null,
+        "models": [],
+        "source": "logs/codex/SESSION-2026-11-12-ecal-chain-readiness.md#chain-guard-amendment-assignment",
         "limitation": "Role contract is recorded; native profile loading and process identity are not inferred."
       },
       {
@@ -593,6 +673,15 @@
         "limitation": "Parent thread 01a1ca20-9aaa-72d1-9283-5591a6e73094; activity completed. Agent path is not proof of native role-profile loading."
       },
       {
+        "id": "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "name": "Codex",
+        "role": "recorded_thread",
+        "thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1d081-e0b9-7092-bee1-4cba9666c779.json",
+        "limitation": "Execution model is retained only when reported by the canonical account."
+      },
+      {
         "id": "codex-thread:01a1cb19-1628-7573-916f-ff4a9a5705f7",
         "name": "Codex",
         "role": "recorded_thread",
@@ -897,6 +986,24 @@
         "models": [],
         "source": "interactions/pr-0137/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1d037-bb3b-7fb1-9504-b7d9f6e0d0f9.json",
         "limitation": "Execution model is retained only when reported by the canonical account."
+      },
+      {
+        "id": "codex-thread:01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "name": "Codex",
+        "role": "recorded_thread",
+        "thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1d0a0-0713-78d3-bbbf-c393e8aa5c24.json",
+        "limitation": "Execution model is retained only when reported by the canonical account."
+      },
+      {
+        "id": "codex-thread:01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "name": "Codex",
+        "role": "recorded_thread",
+        "thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1d0a7-d52a-7943-95d2-1ba9af90c0f4.json",
+        "limitation": "Execution model is retained only when reported by the canonical account."
       }
     ],
     "tools": {
@@ -1165,6 +1272,106 @@
           "name": "commandExecution",
           "category": "native_codex",
           "version": null,
+          "calls": 53,
+          "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1d081-e0b9-7092-bee1-4cba9666c779.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 2 failures reported.",
+          "token_account": "SESSION-2026-11-12-pr137-accounting",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "codex_apps.github.fetch_pr_comments",
+          "category": "native_codex",
+          "version": null,
+          "calls": 4,
+          "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1d081-e0b9-7092-bee1-4cba9666c779.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-12-pr137-accounting",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "codex_apps.github.get_pr_info",
+          "category": "native_codex",
+          "version": null,
+          "calls": 5,
+          "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1d081-e0b9-7092-bee1-4cba9666c779.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-12-pr137-accounting",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "codex_app.list_threads",
+          "category": "native_codex",
+          "version": null,
+          "calls": 1,
+          "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1d081-e0b9-7092-bee1-4cba9666c779.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-12-pr137-accounting",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "codex_app.read_thread",
+          "category": "native_codex",
+          "version": null,
+          "calls": 5,
+          "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1d081-e0b9-7092-bee1-4cba9666c779.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 1 failures reported.",
+          "token_account": "SESSION-2026-11-12-pr137-accounting",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "fileChange",
+          "category": "native_codex",
+          "version": null,
+          "calls": 5,
+          "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1d081-e0b9-7092-bee1-4cba9666c779.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-12-pr137-accounting",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "codex_apps.github.add_issue_labels",
+          "category": "native_codex",
+          "version": null,
+          "calls": 1,
+          "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1d081-e0b9-7092-bee1-4cba9666c779.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 1 failures reported.",
+          "token_account": "SESSION-2026-11-12-pr137-accounting",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "codex_apps.github.update_pull_request",
+          "category": "native_codex",
+          "version": null,
+          "calls": 1,
+          "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1d081-e0b9-7092-bee1-4cba9666c779.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 1 failures reported.",
+          "token_account": "SESSION-2026-11-12-pr137-accounting",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "codex_apps.github.fetch_commit_workflow_runs",
+          "category": "native_codex",
+          "version": null,
+          "calls": 3,
+          "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1d081-e0b9-7092-bee1-4cba9666c779.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-12-pr137-accounting",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "sleep",
+          "category": "native_codex",
+          "version": null,
+          "calls": 1,
+          "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1d081-e0b9-7092-bee1-4cba9666c779.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-12-pr137-accounting",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "commandExecution",
+          "category": "native_codex",
+          "version": null,
           "calls": 4,
           "source": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cf9b-e8b1-7ca1-a4fd-f39d1310d576.json",
           "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
@@ -1380,6 +1587,46 @@
           "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
           "token_account": "SESSION-2026-11-12-ecal-calibration-reuse",
           "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "commandExecution",
+          "category": "native_codex",
+          "version": null,
+          "calls": 12,
+          "source": "interactions/pr-0137/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1d0a0-0713-78d3-bbbf-c393e8aa5c24.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 2 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal-chain-readiness",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "subAgentActivity",
+          "category": "native_codex",
+          "version": null,
+          "calls": 3,
+          "source": "interactions/pr-0137/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1d0a0-0713-78d3-bbbf-c393e8aa5c24.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal-chain-readiness",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "commandExecution",
+          "category": "native_codex",
+          "version": null,
+          "calls": 4,
+          "source": "interactions/pr-0137/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1d0a7-d52a-7943-95d2-1ba9af90c0f4.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 1 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal-chain-readiness",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "subAgentActivity",
+          "category": "native_codex",
+          "version": null,
+          "calls": 2,
+          "source": "interactions/pr-0137/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1d0a7-d52a-7943-95d2-1ba9af90c0f4.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal-chain-readiness",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
         }
       ],
       "codex_installed": [],
@@ -1433,6 +1680,58 @@
         "agent_roles": [],
         "token_accounts": [
           "SESSION-2026-11-12-ecal-calibration-reuse"
+        ],
+        "content_kind": "reference_summary"
+      },
+      {
+        "id": "journal:SESSION-2026-11-12-ecal-chain-readiness:c1daa06e15563d0b",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "agent:SESSION-2026-11-12-ecal-chain-readiness",
+        "recipients": [],
+        "text": "Audit atb2b7041b: existing mainjobs validate/build/deploycommittedwork andderive dailyworklabels automatically, butdo not collectactualmerge metadata/GitHublabels/newusage. MissingPR133tracking row andunobservedolderwork needcorrection. No newregistry or futuremergetimestamps. Minimumguard verifiesall5recordcoverages andpreservedhead/freeze/results ancestry, plushead→merge→checkedHEADwhenactualmergedstateisrecorded. Projectvalidator107tasks/54docs/24reviews passes; pinnedcanonicalledgerderivationspassall5; currentuntrackedchainjournalnecessitatessyncaftercloseout. No sourcewrites by initialreviewer.\n\n```json\n{\n  \"id\": \"ECAL-CHAIN-SOFTENG-GUARD\",\n  \"role\": \"SoftEng\",\n  \"input_revision\": \"b2b7041b045c0777c5e36176b4739336a41a97b5\",\n  \"inputs\": [\n    \"tools/project_records/validate.py\",\n    \"tools/project_records/fetch_evidence.py\",\n    \"project/tracking.json\",\n    \"docs/validation/ecal-highstat/frozen/manifest.json\",\n    \".github/workflows/validation.yml\",\n    \".github/workflows/token-usage.yml\"\n  ],\n  \"mode\": \"write\",\n  \"writable_paths\": [\n    \"tools/project_records/check_ecal_chain.py\",\n    \"tools/project_records/test_ecal_chain.py\"\n  ],\n  \"task\": \"Implement minimum read-only ECAL133\\u2013137 integrity check per audit. Use existing tracking/interaction/model manifests, no new registry/state/automation or remote calls. CLI --repo defaultroot, optional --output compactJSONreport under callerpath. Require all5PRtracking entries and interaction ledgers; orderedhead ancestry andallheads ancestors ofcheckedHEAD; modelmanifest freeze_commit andvalidated_results_commit ancestors ofHEAD; currentfrozen coefficient bytes identicaltoGitfreeze andcore file matchesfrozen coreSHA (also frozen blob ifappropriate). For entries recorded merged require head\\u2192merge\\u2192checkedHEAD; optional --require-merged strictpostmerge mode is useful but defaultmustworkbeforemerge andnotinventfuturestate. Include compact unique canonical workowner/title/observed-counter coverage if straightforward from existingledger references, avoiding duplicateaddition acrossPRreferences; existing fullusage/ledger validators remainseparate, no reinventingthem. Checkscript shouldpass after main adds missingPR133 row; currentb2sourceknownfailsmissing133bydesign. Meaningfulstandardlibrary syntheticGitfixtures testgoodchain andmissing/reordered/unreachable entries, lostfreeze, changedcoeff/core, detachedrecordedmerge; no native/Numpy/dataregeneration. Main owns .githubworkflow wiring/inventory/docs/logs/accounting/project/merges; touchonly2ownedsourcefiles, do notcommit/publish/merge/delegate. No detectoracceptanceclaims or globalequalitygate forhistoricalmilestones.\",\n  \"deliverable\": \"Two sourcefiles with focusedread-only guard and meaningfultests; actualtestcommands/results andlimitations.\",\n  \"completion\": \"Return once targetedtests pass andonlyownedfiles changed; no publication.\"\n}\n```",
+        "source": "logs/codex/SESSION-2026-11-12-ecal-chain-readiness.md#independent-audit-and-guard-assignment",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [
+          "SoftEng"
+        ],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-chain-readiness"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-11-12-ecal-chain-readiness:b3ede2fa462b85ad",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "agent:SESSION-2026-11-12-ecal-chain-readiness",
+        "recipients": [],
+        "text": "ECAL-CHAIN-SOFTENG-ABSORBED; SoftEng; exact input ded14d2e4d726b566db3cd9e4939d73da799b6a3; read/write only tools/project_records/check_ecal_chain.py and test_ecal_chain.py; no further delegation or publication. Require forward ancestry OR explicit later-head→actual-later-merge→predecessor-head proof for a genuinely merged dependent; captured heads must belong to that merge.17 synthetic Git controls pass, including the absorption/corrective history and rejected missing/detached/incompatible merge evidence. Main integrates workflow, records and accounting separately.\n\nPre-review checks: project/session/ledger/token validators pass;37+19+20 accounting tests and both Node suites pass. Preview daily work labels reconcile exactly to12 contributing titles,51 turns and303597535observed tokens. Coefficients/core are byte-identical to their original frozen commits; no scientific data/code changes. Actual remaining-head CI will be observed after publication.",
+        "source": "logs/codex/SESSION-2026-11-12-ecal-chain-readiness.md#chain-guard-amendment-assignment",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [
+          "SoftEng"
+        ],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-chain-readiness"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-11-12-ecal-chain-readiness:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-11-12-ecal-chain-readiness",
+        "recipients": [],
+        "text": "PR133–137 chain readiness, complete accounting and merged-state validation — see the canonical narrative for outcomes and checks.",
+        "source": "logs/codex/SESSION-2026-11-12-ecal-chain-readiness.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-chain-readiness"
         ],
         "content_kind": "reference_summary"
       },
@@ -1789,6 +2088,78 @@
         "agent_roles": [],
         "token_accounts": [
           "SESSION-2026-11-12-ecal-calibration-reuse"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:01a1d081-e0d9-7ec0-8086-6cd79e8d88a9",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "codex-thread:01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "recipients": [
+          "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094"
+        ],
+        "text": "token accounting, labelling and off you go",
+        "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1d081-e0b9-7092-bee1-4cba9666c779.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-pr137-accounting"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0fffe127a3de53c8016af5e3d4795c87d2b455e9d7cff6cafb",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "recipients": [
+          "codex-thread:01a1cb19-3778-7923-bf3b-bd7349a594cd"
+        ],
+        "text": "I’ll refresh PR #137’s token and interaction records, check the labels against the repository conventions, and finish the closeout.",
+        "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1d081-e0b9-7092-bee1-4cba9666c779.json",
+        "in_reply_to": "codex-message:01a1d081-e0d9-7ec0-8086-6cd79e8d88a9",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-pr137-accounting"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0fffe127a3de53c8016af5e4365e3087d2bc9bf02e363db6df",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "recipients": [
+          "codex-thread:01a1cb19-3778-7923-bf3b-bd7349a594cd"
+        ],
+        "text": "The local usage store has records that were unavailable during the study closeout. I’ll reconcile the completed calibration and reuse turns with their specialist reviews, and attach them to the dashboard’s work labels. The current accounting turn will stay excluded until it closes.",
+        "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1d081-e0b9-7092-bee1-4cba9666c779.json",
+        "in_reply_to": "codex-message:01a1d081-e0d9-7ec0-8086-6cd79e8d88a9",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-pr137-accounting"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0fffe127a3de53c8016af5e8b3148487d280e01eb8ff675873",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "recipients": [
+          "codex-thread:01a1cb19-3778-7923-bf3b-bd7349a594cd"
+        ],
+        "text": "Done and pushed to [PR #137](https://github.com/asalzburger/nodd/pull/137).\n\n- Recorded **108,043,890 observed tokens** across **15 closed turns**, with two work labels. Current accounting turn excluded.\n- Applied `enhancement` and `campaign:calorimeters`.\n- Refreshed interaction records; accounting tests and CI pass.\n\nPR remains **ready for review, unmerged**. Broader CI is still running.",
+        "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1d081-e0b9-7092-bee1-4cba9666c779.json",
+        "in_reply_to": "codex-message:01a1d081-e0d9-7ec0-8086-6cd79e8d88a9",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-pr137-accounting"
         ],
         "content_kind": "visible_message; conservative redactions recorded in source"
       },
@@ -2223,12 +2594,120 @@
           "SESSION-2026-11-12-ecal-calibration-reuse"
         ],
         "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_08bf63c436ea246b016af5eb8986c487d28d4bc869ffc0e14c",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "recipients": [
+          "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094"
+        ],
+        "text": "I’ll audit the PR chain and post-merge records at the assigned revision, then identify any gaps and the smallest useful validation guard.",
+        "source": "interactions/pr-0137/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1d0a0-0713-78d3-bbbf-c393e8aa5c24.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-chain-readiness"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_08bf63c436ea246b016af5ebfe114087d288c5b5a939053f37",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "recipients": [
+          "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094"
+        ],
+        "text": "The chain preserves the frozen model history. The remaining gap is capture: the main-branch workflows publish committed observations, but do not collect merge state, labels or newly closed usage. Existing tracking and interaction records can hold that closeout; daily work labels and curated merge milestones need separate evidence.",
+        "source": "interactions/pr-0137/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1d0a0-0713-78d3-bbbf-c393e8aa5c24.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-chain-readiness"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_08bf63c436ea246b016af5ec54885087d2934c8c5aba0623cd",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "recipients": [
+          "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094"
+        ],
+        "text": "`ECAL-CHAIN-SOFTENG-MERGE-AUDIT`, reviewed `b2b7041b045c0777c5e36176b4739336a41a97b5`.\n\nTwo capture gaps remain:\n\n- Main-branch workflows validate and publish committed records; they **do not collect** new merge metadata, GitHub labels or closed-turn usage. After actual merges, refresh existing tracking, interaction and accounting records. No second registry is needed.\n- At this revision, tracking lacks PR133; PR134–137 remain open snapshots with older heads. PR133–135 accounting remains unobserved. Daily work labels update from canonical usage; curated merge milestones require separate, actual merge evidence.\n\nMinimum useful guard: a small read-only chain check covering all five tracking/interaction records, ordered head ancestry, frozen-commit reachability and unchanged model/core blobs. For merged entries, require `head → merge_commit → checked HEAD`; the current validator checks only `head → merge_commit`.\n\nActual checks passed:\n\n- Main→133→134→135→136→137 ancestry.\n- Freeze/results commits remain ancestors; frozen coefficients/core retain identical blobs.\n- Project validation:107 tasks,54 documents,24 reviews.\n- All five interaction ledgers recompute correctly against pinned canonical records.\n\nThe current generic ledger check reports stale derivations because the new untracked chain session already links these PRs; sync after closeout.\n\nHistorical milestone/tracking discrepancies also exist for PR14/55/58, so avoid introducing a global equality gate without reconciling them.\n\nNo writes or private usage access. Live GitHub readiness and deployed Pages were not rechecked; no future merge metadata or acceptance is inferred.",
+        "source": "interactions/pr-0137/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1d0a0-0713-78d3-bbbf-c393e8aa5c24.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-chain-readiness"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_08bf63c436ea246b016af5ed88d7f087d2a90da7ce8a12deb5",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "recipients": [
+          "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094"
+        ],
+        "text": "I’ll implement the bounded chain check using the existing records, with synthetic Git tests for broken ancestry and lost provenance.",
+        "source": "interactions/pr-0137/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1d0a7-d52a-7943-95d2-1ba9af90c0f4.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-chain-readiness"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_08bf63c436ea246b016af5ee5aff9887d2933cecee30868587",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "recipients": [
+          "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094"
+        ],
+        "text": "All 12 synthetic Git tests passed, including ordinary-merge closeout and rejection of lost freeze history, changed coefficients, unreachable heads and detached merge records. I’ll now check the repository’s current result and confirm the two-file handoff.",
+        "source": "interactions/pr-0137/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1d0a7-d52a-7943-95d2-1ba9af90c0f4.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-chain-readiness"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_08bf63c436ea246b016af5ee70ef0087d2b9d2931198bde962",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "recipients": [
+          "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094"
+        ],
+        "text": "Implemented `ECAL-CHAIN-SOFTENG-GUARD` on input revision `b2b7041b045c0777c5e36176b4739336a41a97b5`.\n\nAdded only:\n\n- `tools/project_records/check_ecal_chain.py`\n- `tools/project_records/test_ecal_chain.py`\n\nThe guard checks all five records, ordered/retained heads, freeze/results ancestry, frozen coefficient/core bytes and recorded merge ancestry. It reports unique canonical owners and counter coverage without adding shared PR token totals.\n\nAll **12 synthetic Git tests passed**. The actual repository check correctly fails on the known missing PR133 tracking entry.\n\n```sh\npython3 -B tools/project_records/check_ecal_chain.py\n# After actual merges:\npython3 -B tools/project_records/check_ecal_chain.py --require-merged\n```\n\nDefault operation writes nothing; optional JSON output refuses overwrite. No registry, remote calls, workflow changes or publication added. Live GitHub state and full accounting validation remain separate.",
+        "source": "interactions/pr-0137/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1d0a7-d52a-7943-95d2-1ba9af90c0f4.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-chain-readiness"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
       }
     ],
     "coverage": {
-      "github_captured_at": "2026-11-12T16:22:09Z",
+      "github_captured_at": "2026-11-12T16:59:40Z",
       "prompts": "Available account-matched user-visible messages, public Codex inputs and curated journal excerpts. Historical full input coverage is unknown.",
-      "recovered_visible_turns": 15,
+      "recovered_visible_turns": 18,
       "unrecovered_account_turns": [],
       "responses": "Public responses and recorded outcomes; no private model state or hidden reasoning.",
       "token_accounting": "References only. Never sum accounts across PRs or assign a shared turn by text length.",
