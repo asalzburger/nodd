@@ -15,7 +15,7 @@ import time
 import numpy as np
 
 from angular_sample import ROOT, save, sha
-from highstat_sample import FROZEN_HASHES, GEOMETRY_LIBRARY_SHA256, AUDIT_LIBRARY_SHA256, RUNNER_SHA256
+from highstat_sample import FROZEN_HASHES, GEOMETRY_LIBRARY_SHA256, AUDIT_LIBRARY_SHA256, RUNNER_SHA256, STEERING_SHA256
 from staggered_features import FEATURE_NAMES, NATIVE as MASK_NATIVE, masks_from_xml
 
 NATIVE = r'''
@@ -72,6 +72,10 @@ def validate_workers(run, receipt):
     if len(workers) != receipt["threads"] or sum(w["events"] for w in workers) != receipt["events"]:
         raise ValueError("Worker event totals differ")
     for w in workers:
+        if w.get("begin_run_rng_seed") != receipt["seed"]:
+            raise ValueError("Worker initial RNG seed differs from transport receipt")
+        if "rng_engine" in w and w["rng_engine"] != "MixMaxRng":
+            raise ValueError("Worker RNG engine differs from MixMaxRng")
         if w["status"] != "complete" or w["maximum_abs_magnetic_field_tesla"] != 0 or set(w["sensitive_si"]) != {"BARREL", "EDGE"}:
             raise ValueError("Incomplete worker native audit")
         if not any(r["mm"] == [.7] * 4 for r in w["region_cuts"]):
@@ -90,6 +94,8 @@ def validate_inputs(run, sample):
         raise ValueError("Transport used different native libraries")
     if receipt["runner_sha256"] != RUNNER_SHA256:
         raise ValueError("Transport used a different runner")
+    if receipt.get("steering_sha256") != STEERING_SHA256:
+        raise ValueError("Transport used different steering")
     for name, digest in FROZEN_HASHES.items():
         if manifest["hashes"].get(name) != digest or sha(sample / name) != digest:
             raise ValueError("Changed frozen geometry input")

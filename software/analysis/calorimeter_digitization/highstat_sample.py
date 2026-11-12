@@ -23,6 +23,7 @@ FROZEN_HASHES = {
 GEOMETRY_LIBRARY_SHA256 = "c0098ae4b5e7a453f46d8d118a82ac6a9c6a57a219f2af641e1c4e653b1e1dab"
 AUDIT_LIBRARY_SHA256 = "4185d1bab353fc1c6a46920b63aeb9c3daa1f1bd0548887e7b02bdc295bb56e4"
 RUNNER_SHA256 = "8befa2030bbf538d727a3e33588fb40539b2ee3c03ecc6d9430a7cedc4a30f81"
+STEERING_SHA256 = "67b8ccfd7822dc75052047d44013de3fbe3013824ba0e2874b72284fb31d2562"
 SOURCE_MANIFEST_SHA256 = "45ea2e25b53d15fdccafd29f6a07a21902c3896659c1896718e9620d1ea5798e"
 DEFAULT_BYTES_PER_EVENT = 1270000.0  # Rounded above the retained12.613GB/10k measurement.
 
@@ -117,6 +118,7 @@ def prepare(args):
         producer_sha256=sha(__file__), geometry_manifest_sha256=SOURCE_MANIFEST_SHA256,
         geometry_hashes=FROZEN_HASHES, geometry_library_sha256=GEOMETRY_LIBRARY_SHA256,
         audit_library_sha256=AUDIT_LIBRARY_SHA256, angular_runner_sha256=RUNNER_SHA256,
+        angular_steering_sha256=STEERING_SHA256,
         training_events=args.training_events, validation_events=args.validation_events,
         events=total, batch_events=args.batch_events, threads=12, batches=entries,
         primary_seed_base=args.primary_seed, transport_seed_base=args.transport_seed,
@@ -149,7 +151,8 @@ def run_batch(args):
     campaign_dir = args.campaign.resolve()
     campaign, entry, sample = load_batch(campaign_dir, args.batch)
     for path, digest in ((args.geometry_library, GEOMETRY_LIBRARY_SHA256), (args.audit_library, AUDIT_LIBRARY_SHA256),
-                         (Path(original.__file__), RUNNER_SHA256)):
+                         (Path(original.__file__), RUNNER_SHA256),
+                         (Path(original.__file__).with_name("angular_transport.py"), STEERING_SHA256)):
         if sha(path) != digest:
             raise ValueError(f"Changed frozen transport artifact: {path}")
     free = shutil.disk_usage(sample).free

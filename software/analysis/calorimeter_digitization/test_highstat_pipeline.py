@@ -91,15 +91,46 @@ class PipelineControls(unittest.TestCase):
 
     def test_worker_checks_preserve_response_and_completeness(self):
         base=dict(status='complete',thread_id=0,events=12,maximum_abs_magnetic_field_tesla=0,
+            begin_run_rng_seed=12345,rng_engine='MixMaxRng',
             region_cuts=[dict(mm=[.7]*4)],sensitive_si={name:dict(max_step_mm=5,Birks_mm_per_MeV=0) for name in ('BARREL','EDGE')})
         with tempfile.TemporaryDirectory() as tmp:
             p=Path(tmp); (p/'audit').mkdir(); path=p/'audit/worker-0.json'; save(path,base)
-            self.assertEqual(len(readback.validate_workers(p,dict(threads=1,events=12))),1)
-            for key,value in [('status','incomplete'),('events',11),('maximum_abs_magnetic_field_tesla',.1),('region_cuts',[])]:
+            self.assertEqual(len(readback.validate_workers(p,dict(threads=1,events=12,seed=12345))),1)
+            for key,value in [('status','incomplete'),('events',11),('maximum_abs_magnetic_field_tesla',.1),('region_cuts',[]),('begin_run_rng_seed',999),('rng_engine','Ranlux64Engine')]:
                 bad=copy.deepcopy(base);bad[key]=value;save(path,bad)
-                with self.assertRaises(ValueError):readback.validate_workers(p,dict(threads=1,events=12))
+                with self.assertRaises(ValueError):readback.validate_workers(p,dict(threads=1,events=12,seed=12345))
+            without_engine=copy.deepcopy(base);del without_engine['rng_engine'];save(path,without_engine)
+            self.assertEqual(len(readback.validate_workers(p,dict(threads=1,events=12,seed=12345))),1)
+            without_seed=copy.deepcopy(base);del without_seed['begin_run_rng_seed'];save(path,without_seed)
+            with self.assertRaisesRegex(ValueError,'seed differs'):readback.validate_workers(p,dict(threads=1,events=12,seed=12345))
             bad=copy.deepcopy(base);bad['sensitive_si']['BARREL']['Birks_mm_per_MeV']=1;save(path,bad)
-            with self.assertRaises(ValueError):readback.validate_workers(p,dict(threads=1,events=12))
+            with self.assertRaises(ValueError):readback.validate_workers(p,dict(threads=1,events=12,seed=12345))
+
+    def test_run_batch_checks_actual_steering_before_transport(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            p=Path(tmp)
+            def artifact_hash(path):
+                path=Path(path)
+                if path.name=='angular_transport.py':return 'changed-steering'
+                if path.name=='geometry.so':return sample.GEOMETRY_LIBRARY_SHA256
+                if path.name=='audit.so':return sample.AUDIT_LIBRARY_SHA256
+                return sample.RUNNER_SHA256
+            args=argparse.Namespace(campaign=p,batch='train-000',geometry_library=p/'geometry.so',audit_library=p/'audit.so')
+            with mock.patch.object(sample,'load_batch',return_value=({}, {}, p/'input')), mock.patch.object(sample,'sha',side_effect=artifact_hash), mock.patch.object(sample.original,'run') as transport:
+                with self.assertRaisesRegex(ValueError,'angular_transport.py'):sample.run_batch(args)
+                transport.assert_not_called()
+
+    def test_readback_checks_steering_receipt(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            p=Path(tmp);run=p/'run';folder=p/'input';run.mkdir();folder.mkdir()
+            save(folder/'sample.json',{})
+            receipt=dict(exit_code=0,disk_abort=False,sample_sha256=sha(folder/'sample.json'),
+                geometry_library_sha256=sample.GEOMETRY_LIBRARY_SHA256,audit_library_sha256=sample.AUDIT_LIBRARY_SHA256,
+                runner_sha256=sample.RUNNER_SHA256,steering_sha256='changed-steering')
+            save(run/'receipt.json',receipt)
+            with self.assertRaisesRegex(ValueError,'different steering'):readback.validate_inputs(run,folder)
+            del receipt['steering_sha256'];save(run/'receipt.json',receipt)
+            with self.assertRaisesRegex(ValueError,'different steering'):readback.validate_inputs(run,folder)
 
     def test_primary_reference_mismatch_rejected(self):
         ref=next(sample.primary_records(1,14410000,0))
