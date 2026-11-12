@@ -100,3 +100,30 @@ UNTILED-PHYSVAL-SOURCE reviewed 20ba853eb8c7f0243dd6188b21987a9df4d4b900. Estima
 Environment preflight flagged changed recorded setup/lock fingerprints; this was reported before dependent work. The installed-runtime doctor then passed DD4hep1.38/Geant4 11.4.3 and all dataset/import checks. No shared dependencies changed. Initial disk free was397GiB. Native construction on the prepared compact passed2304 sensitive sheets,2304 unique parent IDs,3136 wide-cell roundtrips and zero ROOT overlaps at1e-5mm. The native report pins actual script/library/XML hashes even though script additions were not yet committed.
 
 The first24 matched primaries completed with12 workers in24.118s,30,643,802byte ROOT output and2,146,811,904byte peak RSS. All24 IDs/input truth/hits and all12 worker audits passed. Pilot projection at twice1,276,825.083bytes/event plus30GiB reserve requires53.783GiB, safely below currentfree. Native/input-dev compact SHA256852a6206fda380a40a1e1432aa9823021156bb129e314716bd64f3a18d475825. Pilot inputs remain retained separately.
+
+## Frozen geometry and estimator review
+
+```json
+{
+  "id": "UNTILED-PHYSVAL-FROZEN",
+  "role": "PhysVal",
+  "input_revision": "528db706de8a07c3cb39c2d12be758d8223fdd39",
+  "inputs": [
+    "docs/validation/ecal10k-untiled/protocol.md",
+    "software/analysis/calorimeter_digitization/untiled_compare.py",
+    "software/analysis/calorimeter_digitization/untiled_native.py",
+    "software/analysis/calorimeter_digitization/untiled_geometry.py",
+    "software/analysis/calorimeter_digitization/test_untiled_geometry.py",
+    "software/analysis/calorimeter_digitization/test_untiled_compare.py"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Review frozen geometry preparation and paired comparison. Verify previous P2 nullable fix. Inspect retained prepared XML/native-dev.json/pilot12 readback as separately hash-bound runtime evidence (not committed inputs). Confirm full-sector scope, correct axes/identifiers, material changes and scientific limits. No writes. Full run is executing after successful native/pilot gates; report defects promptly.",
+  "deliverable": "Return bounded contribution with source locators, actual checks and limits to coordinator.",
+  "completion": "Resolve requested contribution or identify concrete unresolved inputs. Do not delegate or publish."
+}
+```
+
+UNTILED-SOFTENG delivered the two owned Python files, ten passing geometry controls and a hash-identical native compact after a provenance-only preparer correction. The coordinator committed frozen implementation528db706de8a07c3cb39c2d12be758d8223fdd39 and prepared fresh production-input; its compact equals the native/pilot artifact. Full10k execution starts with the measured pilot disk budget and unchanged native libraries.
+
+UNTILED-PHYSVAL-FROZEN independently reviewed528db706de8a07c3cb39c2d12be758d8223fdd39, verified the P2 fix and thirteen narrow controls, independently reproduced full silicon volumes/material changes, and checked native/pilot/production input hash bindings. No actionable material source finding. Native script bytes match the frozen source although its runtime report names precommitHEAD20ba853e, which remains explicit. This is a separate agent assessment, not human expertise/sign-off. Result review remains pending.
