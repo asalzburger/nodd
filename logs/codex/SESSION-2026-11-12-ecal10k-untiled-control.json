@@ -1,0 +1,135 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-11-12-ecal10k-untiled-control",
+  "title": "Continuous silicon ECAL control with identical 10k primaries",
+  "recorded_at": "2026-11-12T08:36:02Z",
+  "started_at": null,
+  "ended_at": "2026-11-12T09:18:37Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact parent/child client token counters and stable turn IDs are unavailable; usage remains empty, not zero.",
+    "Isolated fictional PROTOTYPE coverage/material counterfactual: physicalSi added and intersectingAl removed; no pureelectronics/tilingvariance or intrinsic calibratedresolution claim.",
+    "Inherited sectorseams, originalabsorber and barrel/endcap transitions remain. No engineering sign-off or design lifecycle approval.",
+    "Full ROOT, primary/event ledgers and bulkylogs remain local/ignored. Native/analysis/render records separately identify execution HEAD and exact source bytes where source commits followed execution."
+  ],
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "b9f5af38520ea83215587757b02cd090adc8fb8a",
+    "branch": "codex/ecal10k-untiled-control",
+    "initial_changes": [],
+    "result_commits": [
+      "20ba853eb8c7f0243dd6188b21987a9df4d4b900",
+      "528db706de8a07c3cb39c2d12be758d8223fdd39",
+      "b1a1d3711aca13c83d19ad808566e9eac4a1c61d",
+      "76f3c940d06beab1f4fbb9e8af7ad245c4224f40",
+      "cedf6ee4c2e4ae90f7df9defc56c39fed0aef88a",
+      "389b623b2ebc17450e6030e073539a9275211774",
+      "66a444a4d38d972d658bb4daeb93d11c7274b286"
+    ],
+    "changed_files": [
+      "docs/software-inventory.md",
+      "docs/validation/ecal10k-untiled/README.md",
+      "docs/validation/ecal10k-untiled/geometry-summary.json",
+      "docs/validation/ecal10k-untiled/protocol.md",
+      "docs/validation/ecal10k-untiled/results/comparison.json",
+      "docs/validation/ecal10k-untiled/results/mean-response-overlay.pdf",
+      "docs/validation/ecal10k-untiled/results/mean-response-overlay.png",
+      "docs/validation/ecal10k-untiled/results/render.json",
+      "docs/validation/ecal10k-untiled/results/resolution-overlay.pdf",
+      "docs/validation/ecal10k-untiled/results/resolution-overlay.png",
+      "docs/validation/ecal10k-untiled/results/response-distributions-abs_eta.pdf",
+      "docs/validation/ecal10k-untiled/results/response-distributions-abs_eta.png",
+      "docs/validation/ecal10k-untiled/results/response-distributions-folded_phi.pdf",
+      "docs/validation/ecal10k-untiled/results/response-distributions-folded_phi.png",
+      "interactions/pr-0134.json",
+      "interactions/pr-0135.json",
+      "logs/codex/SESSION-2026-11-12-ecal10k-untiled-control.json",
+      "logs/codex/SESSION-2026-11-12-ecal10k-untiled-control.md",
+      "project/tracking.json",
+      "software/analysis/calorimeter_digitization/test_untiled_compare.py",
+      "software/analysis/calorimeter_digitization/test_untiled_geometry.py",
+      "software/analysis/calorimeter_digitization/untiled_compare.py",
+      "software/analysis/calorimeter_digitization/untiled_geometry.py",
+      "software/analysis/calorimeter_digitization/untiled_native.py",
+      "software/inventory.json"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "ECAL continuous silicon control"
+    ],
+    "related_ids": [
+      "PR-134",
+      "DES-030",
+      "DES-031",
+      "PR-135",
+      "TASK-ECAL10K-UNTILED-CONTROL"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-11-12-ecal10k-untiled-control.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "acts-spack preflight",
+      "status": "FAIL",
+      "exit_code": 2,
+      "result": "Registry setup/lock fingerprints changed; reported before dependent work. Runtime reverified; no shared dependency modification."
+    },
+    {
+      "command": "software/env/run.sh python3 -B software/env/doctor.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "DD4hep1.38/Geant4 11.4.3 native imports and all datasets available; fingerprints retained."
+    },
+    {
+      "command": "untiled_geometry.py and test_untiled_geometry.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "10 tests; exact supported source/hash checks; same primary/material bytes; sheet/material/cut ledgers and inherited transforms."
+    },
+    {
+      "command": "untiled_native.py --sample input-dev",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Native2304sheet counts and uniqueIDs,3136widecellroundtrips, zerooverlaps/extrusions at1e-5mm. XML/validatorhashes match frozen production source."
+    },
+    {
+      "command": "angular_sample.py run --events24 --threads12; angular_analyze.py audit",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All24 saved events and12 nativeworker audits; pilotdiskbudget53.783GiB includingreserve fits."
+    },
+    {
+      "command": "angular_sample.py run --events10000 --threads12; angular_analyze.py audit",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "10000unique saved primaries, all12complete workers,10,006,736validhits. Wall1514.572s, RSS2.302GiB, ROOT13.146GB, no diskreduction."
+    },
+    {
+      "command": "test_untiled_compare.py and test_angular_response.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "3 paired controls plus5 unchanged angular controls pass; undefinedzero-signal handling retained."
+    },
+    {
+      "command": "untiled_compare.py --bootstrap5000; --replot comparison.json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Same10000primaryIDs/truth/hashes, unchanged20publishedbaseline moments/counts/zeros; bothpaired covariances finite,symmetric,positive definite; allhistogramtotals retainpopulation; all20differenceintervals positive. Finalfigures visuallyinspected after meanaxisfix; statistics unchanged."
+    },
+    {
+      "command": "project/inventory/session/interaction/token validators; token-site build; git diff/object inspection",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Required validators and _site build pass; no rawdataset objects published. Usage remains unknown; historical observed totals not assigned to task."
+    }
+  ]
+}

@@ -7,30 +7,20 @@
     "events": []
   },
   "github": {
-    "captured_at": "2026-11-12T08:20:57Z",
+    "captured_at": "2026-11-12T09:18:35Z",
     "pull_request": {
       "number": 134,
       "url": "https://github.com/asalzburger/nodd/pull/134",
       "title": "Calorimeter: measure 10k-electron angular response with 12 threads",
       "head": "codex/ecal10k-angular-response",
-      "head_sha": "e0819163d93a936a63fb73b720bf3052899a92f5",
+      "head_sha": "b9f5af38520ea83215587757b02cd090adc8fb8a",
       "state": "open",
       "body": "Follow-up to #133 and #131: generate and validate 10,000 single electrons with uniform total energy 10–80 GeV, eta −3 to 3 and full phi, using 12 DDSim/Geant4 workers on the unchanged ECAL-only zero-field prototype.\n\nAdds reproducible HEPEvt generation, a native per-worker transport audit, ID-indexed readback, and ten-bin |eta| and signed sector-folded-phi plots. The observable is sample SD(R)/mean(R), R = raw silicon deposit / primary energy, with 5,000 joint whole-event bootstrap replicas and retained covariance. This is spectrum-averaged visible-response width, not calibrated intrinsic energy resolution. All 42 zero-response events remain included.\n\nAll 10,000 saved primaries and 6,289,322 cell hits pass readback. Serial and 12-thread controls agree exactly for 24 matched event summaries. Whole process: 585.694 s, 2.371 GiB peak RSS, 12.604 GB ROOT output. Disk checks retained all requested events and about 401 GiB free.\n\nValidation: five mathematical controls; per-worker audits; complete input/readback/hash checks; finite intervals and positive-definite 20×20 covariance; independent PhysVal and SoftEng reviews; project records, software inventory, session/interaction/token validation and token-site build; whitespace and new-object inspection. No detector design or approval state changed.\n\nRaw ROOT data, input/event ledgers, logs and builds remain local and ignored. The PR contains recipes, figures, compact binwise evidence and curated records. Exact task token counters are unavailable.\n",
       "actor": "asalzburger",
       "created_at": "2026-11-11T15:25:29Z"
     },
     "comments": [],
-    "issues": [
-      {
-        "number": 131,
-        "url": "https://github.com/asalzburger/nodd/issues/131",
-        "title": "Calorimter: new test 100 event electron sample",
-        "body": "Afrer #129 has merged, please run a gain a 100 event electron sample (without tracker, without magnetic field) and record:\n- initialization time \n- run time per electron\n- type size of the output per event",
-        "actor": "asalzburger-review",
-        "created_at": "2026-11-11T05:55:27Z",
-        "comments": []
-      }
-    ]
+    "issues": []
   },
   "derived": {
     "parties": [
@@ -45,14 +35,14 @@
         "kind": "agent"
       },
       {
+        "id": "agent:SESSION-2026-11-12-ecal10k-untiled-control",
+        "name": "Codex desktop",
+        "kind": "agent"
+      },
+      {
         "id": "github:asalzburger",
         "name": "asalzburger",
         "kind": "account"
-      },
-      {
-        "id": "github:asalzburger-review",
-        "name": "asalzburger-review",
-        "kind": "human"
       },
       {
         "id": "unknown:project-user",
@@ -84,6 +74,17 @@
         "snapshot_sha256": null,
         "record_sha256": "140b74471b0c7e5fb3cfcfa7ef4c67ed38f7fa74d86df7ff4d0c25db234e4557",
         "narrative_sha256": "e9e0d0a8931be51e64868c610bcec91e36649e34ebfd54d18ab8071dd4134b18"
+      },
+      {
+        "session_id": "SESSION-2026-11-12-ecal10k-untiled-control",
+        "record": "logs/codex/SESSION-2026-11-12-ecal10k-untiled-control.json",
+        "attribution": [
+          "explicit_PR_reference"
+        ],
+        "snapshot": null,
+        "snapshot_sha256": null,
+        "record_sha256": "006d95471918772876aebaa2941d8d3094b0820799c810c82164ca1adb3f2394",
+        "narrative_sha256": "81dae39c5b0ad7d7f5c5228a19346243db0e1f1d99ea400a48c8df444a7434ec"
       }
     ],
     "token_accounts": [
@@ -98,6 +99,14 @@
       {
         "id": "SESSION-2026-11-12-ecal10k-response-controls",
         "record": "logs/codex/SESSION-2026-11-12-ecal10k-response-controls.json",
+        "scope": "canonical_session; shared PR references are not allocations",
+        "status": "unobserved",
+        "usage_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "turns": []
+      },
+      {
+        "id": "SESSION-2026-11-12-ecal10k-untiled-control",
+        "record": "logs/codex/SESSION-2026-11-12-ecal10k-untiled-control.json",
         "scope": "canonical_session; shared PR references are not allocations",
         "status": "unobserved",
         "usage_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
@@ -141,6 +150,15 @@
         "models": [],
         "source": "logs/codex/SESSION-2026-11-12-ecal10k-response-controls.json",
         "limitation": "Usage may include children; model/role is not assigned to every response."
+      },
+      {
+        "id": "agent:SESSION-2026-11-12-ecal10k-untiled-control",
+        "name": "Codex desktop",
+        "role": "session_agent",
+        "thread_id": null,
+        "models": [],
+        "source": "logs/codex/SESSION-2026-11-12-ecal10k-untiled-control.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
       }
     ],
     "tools": {
@@ -163,21 +181,6 @@
         "agent_roles": [],
         "token_accounts": [],
         "timestamp": "2026-11-11T15:25:29Z",
-        "remote_input": null
-      },
-      {
-        "id": "github:https://github.com/asalzburger/nodd/issues/131",
-        "type": "issue",
-        "direction": "action",
-        "actor": "github:asalzburger-review",
-        "recipients": [],
-        "text": "Afrer #129 has merged, please run a gain a 100 event electron sample (without tracker, without magnetic field) and record:\n- initialization time \n- run time per electron\n- type size of the output per event",
-        "source": "https://github.com/asalzburger/nodd/issues/131",
-        "in_reply_to": null,
-        "model": null,
-        "agent_roles": [],
-        "token_accounts": [],
-        "timestamp": "2026-11-11T05:55:27Z",
         "remote_input": null
       },
       {
@@ -248,10 +251,26 @@
           "SESSION-2026-11-12-ecal10k-response-controls"
         ],
         "content_kind": "reference_summary"
+      },
+      {
+        "id": "journal:SESSION-2026-11-12-ecal10k-untiled-control:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-11-12-ecal10k-untiled-control",
+        "recipients": [],
+        "text": "Continuous silicon ECAL control with identical 10k primaries — see the canonical narrative for outcomes and checks.",
+        "source": "logs/codex/SESSION-2026-11-12-ecal10k-untiled-control.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal10k-untiled-control"
+        ],
+        "content_kind": "reference_summary"
       }
     ],
     "coverage": {
-      "github_captured_at": "2026-11-12T08:20:57Z",
+      "github_captured_at": "2026-11-12T09:18:35Z",
       "prompts": "Available account-matched user-visible messages, public Codex inputs and curated journal excerpts. Historical full input coverage is unknown.",
       "recovered_visible_turns": 0,
       "unrecovered_account_turns": [],
