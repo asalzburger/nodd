@@ -30,7 +30,11 @@ At 8k, all three predictions are bit-identical to each other and to the original
 retained model. All 42 zero signals remain. Two hundred joint whole-event
 bootstrap refits supply approximate global pointwise intervals; angular values
 in the compact data are points. The old sample already informed model design,
-so this is an exploratory development diagnostic.
+so this is an exploratory development diagnostic. The paired 1k-minus-8k
+point difference is 0.1317 percentage points, while its full-procedure bootstrap
+percentile range is shifted to 0.1570–0.5869 points. Retain both; this is not a
+well-calibrated significance claim. Finite-training reweighting, clipping and
+discrete tuning are possible contributors, rather than established causes.
 
 ## Independent campaign and revised method
 
@@ -71,7 +75,9 @@ intervals. Separately, two hundred full refits resample independently within
 70k/15k/15k roles, repeat knots/preprocessing/model selection/85k refit/15k closure,
 and use common validation multiplicities across models. These include training
 and model-selection uncertainty. Their percentile tails are approximate and
-coarse. Width covariance is structurally singular because pre/post global
+coarse. Both interval sets retain bootstrap mean/median minus the observed point
+and the fraction of replicas below it; model-choice and closure-factor variation
+are retained. No post-hoc interval recentering or model retuning is applied. Width covariance is structurally singular because pre/post global
 closure widths are identical; this is expected. No quadrature decomposition or
 intrinsic fixed-energy resolution claim follows.
 
@@ -93,7 +99,8 @@ arrays agree at 1e-10 relative/absolute tolerance. It takes 114.4 s. Six model
 controls verify weighted quantiles, training/closure separation, zero preservation,
 truth-free inference, serialization and full weighted-refit equivalence to
 explicit duplicate populations. Two boundary controls reject changed
-feature semantics before arrays open.
+feature semantics before arrays open, and a third verifies that shifted bootstrap
+ranges are reported without recentering.
 
 Separate PhysVal reviews cover the prospective model, learning curve and
 analysis orchestration. Their sole material source finding was the missing

@@ -16,6 +16,16 @@ CONTRASTS = ((0,5,'raw_minus_spline'),(1,5,'historical_minus_spline'),(3,5,'orig
 ENERGY_EDGES = np.linspace(10,80,15)
 
 
+def interval_diagnostics(samples, point):
+    result=interval(samples)
+    if np.isfinite(samples).all() and point is not None and np.isfinite(point):
+        result.update(bootstrap_mean=float(np.mean(samples)),bootstrap_median=float(np.median(samples)),
+            bootstrap_mean_minus_point=float(np.mean(samples)-point),
+            bootstrap_median_minus_point=float(np.median(samples)-point),
+            bootstrap_fraction_below_point=float(np.mean(samples<point)))
+    return result
+
+
 def revision():
     return subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()
 
@@ -157,8 +167,8 @@ def evaluate(args):
             if k>=2:entry['feature_extrapolated_events']=int(point_predictions[k]['feature_extrapolated'][selected].sum())
             if index is not None:
                 for j,key in enumerate(('mean','fractional_width','tail_fraction','fractional_error_RMS')):
-                    entry[key+'_conditional']=interval(conditional[:,k,j,index])
-                    entry[key+'_full']=interval(full[:,k,j,index])
+                    entry[key+'_conditional']=interval_diagnostics(conditional[:,k,j,index],entry[key])
+                    entry[key+'_full']=interval_diagnostics(full[:,k,j,index],entry[key])
             result[label]=entry
         return result
     projections={};hist_edges={'raw':np.linspace(0,max(.5,np.ceil(values[0].max()*200)/2),61),
@@ -173,9 +183,10 @@ def evaluate(args):
                 ss[label]['histogram_counts']=counts.tolist()
             contrasts={}
             for left,right,label in CONTRASTS:
-                contrasts[label]=dict(value=ss[SERIES[left]]['fractional_width']-ss[SERIES[right]]['fractional_width'],
-                    conditional=interval(conditional[:,left,1,index]-conditional[:,right,1,index]),
-                    full=interval(full[:,left,1,index]-full[:,right,1,index]))
+                point=ss[SERIES[left]]['fractional_width']-ss[SERIES[right]]['fractional_width']
+                contrasts[label]=dict(value=point,
+                    conditional=interval_diagnostics(conditional[:,left,1,index]-conditional[:,right,1,index],point),
+                    full=interval_diagnostics(full[:,left,1,index]-full[:,right,1,index],point))
             bins.append(dict(low=float(edges[j]),high=float(edges[j+1]),series=ss,contrasts=contrasts))
         projections[name]=dict(edges=edges.tolist(),unit='dimensionless' if axis==0 else 'rad',bins=bins)
     energy=[dict(low=float(ENERGY_EDGES[j]),high=float(ENERGY_EDGES[j+1]),series=stats(categories[3]==j,21+j)) for j in range(14)]

@@ -76,7 +76,10 @@ Use1000paired validation whole-event bootstrap replicas for conditional-on-froze
 calibration intervals. Separately use200common resamples of the100k training
 population independently within each fixed70k/15k/15kstage, repeating model selection,85krefit and
 15kclosure, together with paired validation resampling, to include training
-uncertainty. Keep the two uncertainty definitions explicit. Fixed stage/ID
+uncertainty. Keep the two uncertainty definitions explicit. Before validation inspection,
+retain bootstrap mean/median offsets from the point and fraction below it for
+both interval sets, together with model-choice and closure-factor variation.
+Report percentile shifts rather than recentering them after viewing outcomes. Fixed stage/ID
 assignments retain bootstrap duplicates. Freeze parameters before validation
 unblinding; retain adverse results, energy-dependent bias and unresolved seams.
 

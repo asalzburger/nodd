@@ -4,10 +4,18 @@ import tempfile
 import unittest
 from unittest.mock import patch
 from angular_sample import sha
-from highstat_analysis import feature_signature, load_split
+import numpy as np
+from highstat_analysis import feature_signature, load_split, interval_diagnostics
 
 
 class FreezeBoundary(unittest.TestCase):
+    def test_shifted_bootstrap_is_reported_without_recentering(self):
+        result=interval_diagnostics(np.array([2.,3.,4.,5.]),1.)
+        self.assertEqual(result['ci95'],[2.075,4.925])
+        self.assertEqual(result['bootstrap_mean_minus_point'],2.5)
+        self.assertEqual(result['bootstrap_median_minus_point'],2.5)
+        self.assertEqual(result['bootstrap_fraction_below_point'],0)
+
     def test_missing_semantics_rejected(self):
         with self.assertRaisesRegex(ValueError,'feature semantics'):
             feature_signature({'feature_names':['a']})

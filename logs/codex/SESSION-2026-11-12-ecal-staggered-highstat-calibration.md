@@ -148,3 +148,24 @@ Originalfrozen-method learning curve widths32.3518/32.1980/32.1912/32.2201% at1/
 Transport campaign and harvest run serial10kbatches with12DDSimworkers and one nativeaudit pass; training-only fitting is queued afterall10trainingreceipts, followed by committedmodel freeze beforevalidationprediction. No20kperformance inspected. Allsource/model/featuresemantic hashes bindthechain. Originaldata retained; no new dependency or geometryintegration.
 
 Learningcurve rerun withunchangedseeds/sourceprocedure toretain pairedsizecontrasts and joint4global/80angularwidth covariance. Existingpointmetrics,intervals,predictions bitidentical; priorversion retained inGit. Sixthmodelcontrol comparesfull weightedbootstrapfit againstexplicitduplicatepopulations forbotharchitectures;PASS. Fullsynthetic100k70/15/15software smoke forbothmodels passesmeanclosure andzeroinvariants; thisis softwareverification, notdetector performance.
+
+## Learning-contrast assessment
+
+```json
+{
+  "id": "ECAL-HIGHSTAT-PHYSVAL-LC-CONTRAST",
+  "role": "PhysVal",
+  "input_revision": "99eb9ed0587180873ca75e52a03e2dccf5440185",
+  "inputs": [
+    "software/analysis/calorimeter_digitization/highstat_learning.py",
+    "docs/validation/ecal-highstat/learning/learning-curve.json"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Nonfitting assessment of addedLCpaired-size contrasts/jointcovariance. Rerununchanged200bootstrapseeds/method; alloldpointmetrics/intervals/predictions bitidentical. Addedglobal8x8 andangular80x80covariance, widthNminus8k percentile ranges. At1k pointdifference0.001317, fullprocedurebootstrap95%range[.001570,.005869] excludespoint, suggesting finite-training/bootstrapshift; existingLC isexploratory200replica, notcertification. Advise truthfulinterpretation (retainrange, donotposthocadjust/drop); checkwhethermaterialstatisticalissue requirescodechange beforecampaign eval. Primarynew100kfit/20kvalidationnotinspected. No fits/newbootstrap/runs/writes/publication/delegation.",
+  "deliverable": "Bounded interpretation/covariance review and actualchecks.",
+  "completion": "Return materialissue or explicitcautionwithlimits."
+}
+```
+
+LCcontrast review: pairedformulas/ordercorrect;1kpoint.001317 versus shiftedpercentilerange[.001570,.005869] retainedandexplicitlyexploratory,nosignificanceclaim. Beforeanyfreshvalidation, primaryintervalreports nowretain bootstrapmean/median−point,fractionbelowpoint, withunchanged draws/intervalmethod; tuning/closure variation alreadyretained. Thirdanalysiscontrol verifies noCIrecentering;PASS. No calibrationmethod/model-gridchange.
