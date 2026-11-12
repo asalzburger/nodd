@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+  "turn_id": "01a1cfb2-ffdd-72d1-a07e-f406bec34fb2",
+  "status": "completed",
+  "started_at": 1794485977,
+  "completed_at": 1794486123,
+  "token_accounts": [
+    "SESSION-2026-11-12-ecal-staggered-highstat-calibration"
+  ],
+  "source": "Codex app read_thread; exact recorded thread/turn match",
+  "messages": [
+    {
+      "id": "msg_08bf63c436ea246b016af5aeddfa3487d2b30b4ca560988b39",
+      "role": "assistant",
+      "phase": "commentary",
+      "text": "I\u2019m checking whether the shifted learning-curve interval reflects an implementation error or a limitation of the finite-training bootstrap, and what that means for the higher-statistics uncertainty estimates.",
+      "redacted": "no"
+    },
+    {
+      "id": "msg_08bf63c436ea246b016af5af65691487d29dccb599a232282b",
+      "role": "assistant",
+      "phase": "final_answer",
+      "text": "Reviewed **99eb9ed0587180873ca75e52a03e2dccf5440185**. **No implementation defect found; the bootstrap shift requires an interpretation caution.**\n\nThe 1k\u22128k width difference is **0.1317 percentage points**, while its bootstrap percentile range is **0.1570\u20130.5869 pp** and bootstrap SD **0.1135 pp**. Percentile endpoints are replicate quantiles; they need not bracket the observed estimate. Their exclusion of this estimate warns against treating the range as calibrated 95% significance evidence.\n\nRetain the point and range unchanged. Finite-training reweighting, clipping and discrete model selection are plausible explanations, but this review does not establish the mechanism. Bootstrap interval accuracy can depend on bias treatment; see [Efron (1987)]([external URL redacted; see source journal]).\n\nNo estimator or bootstrap-method change is indicated before campaign evaluation. Before the final freeze, add centering diagnostics for full-bootstrap metrics and contrasts: bootstrap mean/median, mean-minus-point, fraction below the point and whether the point lies inside the central range. Keep conditional-validation intervals separate; report analogous full-bootstrap shifts explicitly.\n\nActual checks passed:\n\n- All previous LC point metrics, intervals and metadata remain unchanged.\n- Global **8\u00d78** and angular **80\u00d780** covariance ordering, symmetry and positive definiteness checked.\n- Paired contrast point definitions agree exactly.\n\nNo new fits, bootstrap generation, validation inspection or writes. The LC remains exploratory; neither its small nonmonotonic changes nor these ranges establish an asymptotic training-data limit.",
+      "redacted": "yes"
+    }
+  ],
+  "native_tools": [
+    {
+      "name": "commandExecution",
+      "calls": 4,
+      "failures": 0
+    },
+    {
+      "name": "subAgentActivity",
+      "calls": 2,
+      "failures": 0
+    },
+    {
+      "name": "webSearch",
+      "calls": 2,
+      "failures": 0
+    }
+  ],
+  "subagents": [
+    {
+      "thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+      "name": "/root",
+      "activity": "interacted"
+    },
+    {
+      "thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+      "name": "/root",
+      "activity": "interacted"
+    }
+  ],
+  "limitations": [
+    "Only userMessage and agentMessage text retained; reasoning, tool arguments/results and private state excluded.",
+    "Conservative path, credential, email and URL redaction is not a privacy guarantee; review retained text.",
+    "Exposed operation counts are per retained turn; journal counts can describe the same invocations and must not be added.",
+    "Selected first two, final and approval/rejection assistant messages; all exposed user messages retained. Operation metadata covers the complete selected turn. Other routine commentary omitted."
+  ],
+  "parent_thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094"
+}

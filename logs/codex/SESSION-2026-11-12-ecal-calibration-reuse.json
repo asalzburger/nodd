@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "session_id": "SESSION-2026-11-12-ecal-calibration-reuse",
-  "title": "Prepare PR137 and persist the staggered calibration inference contract",
+  "title": "Staggered ECAL model reuse and PR137 merge preparation",
   "recorded_at": "2026-11-12T15:08:47Z",
   "started_at": null,
   "ended_at": "2026-11-12T15:08:47Z",
@@ -10,7 +10,8 @@
   "completeness": "partial",
   "limitations": [
     "Selected user-visible work record; actual start time/client model/version/thread IDs and exact per-turn token counters unavailable. Usage[] is unobserved, not zero. No shared historical totals attributed to this task.",
-    "Initial ready transition was rejected and not bypassed. Later explicit user approval after successful CI permitted retry; connector lacked writeaccess, authenticatedCLI succeeded and readystate verified. No merges or design acceptance."
+    "Initial ready transition was rejected and not bypassed. Later explicit user approval after successful CI permitted retry; connector lacked writeaccess, authenticatedCLI succeeded and readystate verified. No merges or design acceptance.",
+    "2026-11-12 accounting correction: exact usage recovered for this work from the explicitly selected app chat/specialists; historical unavailable-counter statements describe the earlier capture. Actual execution models/client version and wider completeness remain unknown."
   ],
   "client": {
     "name": "Codex",
@@ -56,7 +57,38 @@
   },
   "narrative": "logs/codex/SESSION-2026-11-12-ecal-calibration-reuse.md",
   "activities": [],
-  "usage": [],
+  "usage": [
+    {
+      "client_thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+      "turn_id": "01a1d030-81bc-7c32-a1a1-4724ea71b8df",
+      "model": null,
+      "source": "Usage-only client counters, verified against last-request increments; logs/usage/USAGE-2026-11-12-pr137-calibration-accounting.json; exact thread/turn match with app-visible task and journal assignments.",
+      "limitations": [
+        "Actual execution model and client version were not exposed as per-turn usage evidence; not inferred from configured model settings.",
+        "Observed input includes cached context; cached input and reasoning are subsets, not additional tokens or a billing estimate."
+      ],
+      "input_tokens": 22530259,
+      "cached_input_tokens": 22469504,
+      "output_tokens": 64597,
+      "reasoning_output_tokens": 34230,
+      "total_tokens": 22594856
+    },
+    {
+      "client_thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
+      "turn_id": "01a1d037-bb3b-7fb1-9504-b7d9f6e0d0f9",
+      "model": null,
+      "source": "Usage-only client counters, verified against last-request increments; logs/usage/USAGE-2026-11-12-pr137-calibration-accounting.json; exact thread/turn match with app-visible task and journal assignments.",
+      "limitations": [
+        "Actual execution model and client version were not exposed as per-turn usage evidence; not inferred from configured model settings.",
+        "Observed input includes cached context; cached input and reasoning are subsets, not additional tokens or a billing estimate."
+      ],
+      "input_tokens": 1197925,
+      "cached_input_tokens": 1170816,
+      "output_tokens": 5538,
+      "reasoning_output_tokens": 2985,
+      "total_tokens": 1203463
+    }
+  ],
   "checks": [
     {
       "command": "test_highstat_inference.py",

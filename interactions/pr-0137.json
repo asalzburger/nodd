@@ -7,15 +7,15 @@
     "events": []
   },
   "github": {
-    "captured_at": "2026-11-12T15:08:47Z",
+    "captured_at": "2026-11-12T16:22:09Z",
     "pull_request": {
       "number": 137,
       "url": "https://github.com/asalzburger/nodd/pull/137",
       "title": "Calorimeter: validate high-statistics staggered ECAL calibration",
       "head": "codex/ecal-staggered-highstat-calibration",
-      "head_sha": "2c635fbfe365890e328de9066f16447ccd76c305",
+      "head_sha": "2dc4631f1ea2b2832eea54d4cb4e3fb2f9b7be07",
       "state": "open",
-      "body": "This follows #136 and studies only its unchanged physical staggered ECAL prototype under DES-030/DES-031. Generated **100,000 training + 20,000 fresh validation electrons**, independently uniform in E=10–80 GeV, eta −3..3 and full phi, with **12 DDSim workers**. Froze both training-only calibrations in Git before independent validation; retained code, recipes, compact statistics/covariance and PNG/PDF/**SVG** figures.\n\nThe recorded default for later use is **`nodd-ecal-staggered-spline-v1`**; `nodd-ecal-staggered-linear-v1` is retained as the comparator. The [versioned manifest](https://github.com/asalzburger/nodd/blob/codex/ecal-staggered-highstat-calibration/docs/validation/ecal-highstat/frozen/manifest.json) records coefficient/geometry/feature hashes, units and applicability. The [reuse guide](https://github.com/asalzburger/nodd/blob/codex/ecal-staggered-highstat-calibration/docs/validation/ecal-highstat/reuse.md) supplies a truth-free NumPy API/CLI, with compatibility guards and no refitting. All four pre/post energy-ratio series reproduce the retained full 20k predictions bit-for-bit; ten-k chunks show only quantified last-bit matrix-product roundoff (maximum 4.89e-15). The coefficients, frozen numerical source and published statistics/plots are unchanged. A separate exact-revision SoftEng review passed all 16 NumPy controls and independently reproduced the full20k equality and chunked roundoff, with no material finding.\n\nOn the **same fresh 20k**, inclusive sample SD(R)/mean(R) is **38.313% raw, 31.338% historical 10k ensemble, 31.322% retuned linear and 30.209% spline**. The spline gains 1.112 percentage points against the new linear comparator. More training with the linear recipe makes little difference here; this comparison also changes tuning/refitting and ensemble construction, so it does not isolate training size. The old 32.22% cross-fit result used a different cohort.\n\n![Independent angular comparison](https://raw.githubusercontent.com/asalzburger/nodd/83eb6a8828eea3cfd54da07650ca226a88f7c2e9/docs/validation/ecal-highstat/results/angular-comparison.png)\n\nThe global spline mean closes to **1.00300**, but local biases remain: energy-slice means 0.96975–1.02622 and folded-phi means 0.61376–1.10597. Sector-edge widths remain 73–75%, versus 11–13% in interior bins. All 84 zeros remain; spline gain clipping is 8.790%, feature extrapolation 1.095%, half-energy tail 9.380%. Global rescaling leaves SD/mean unchanged and raises spline RMS from 28.929% to 30.301%; closed linear RMS is 31.412%. These are spectrum-averaged non-Gaussian widths, not intrinsic fixed-energy resolution or detector acceptance.\n\nThe prospective chain uses 70k fit/15k tuning/15k closure, a common ridge search for both new recipes, response refit on 85k and a separate global closure factor. The spline adds predeclared bases/interactions to measured hit features; truth energy/direction are absent from inference. The original-method 1/2/4/8k learning curve is weak/nonmonotonic and explicitly exploratory, including a shifted bootstrap contrast range.\n\nValidation: all 120,000 primaries/76,941,173 hits/all 12 workers audited; 22 original controls plus 7 reuse controls; full old 10k native feature regression; complete frozen-model records independently reproduced bit-for-bit before unblinding; 1,000 shared validation bootstraps and 200 full training/selection/refit/closure bootstraps; correlated 120-width/60-contrast matrices verified; all 18 PNG/SVG exports byte-identical on standalone replot. Final exact-revision independent PhysVal assessment is retained in the session journal.\n\nTransport used 118.6 minutes summed wall, 20.93 CPU-hours, at most 2.672 GiB child RSS and 152.506 GB ROOT. At least 232.7 GiB remained free; no trimming/deletion. ROOT, exact event inputs/ledgers, full audits and event-level features/predictions stay local and ignored. Exact task token counters are unavailable.\n\n[Report](https://github.com/asalzburger/nodd/blob/codex/ecal-staggered-highstat-calibration/docs/validation/ecal-highstat/README.md) · [Vector SVG](https://github.com/asalzburger/nodd/blob/83eb6a8828eea3cfd54da07650ca226a88f7c2e9/docs/validation/ecal-highstat/results/angular-comparison.svg) · [Reproduction recipe](https://github.com/asalzburger/nodd/blob/codex/ecal-staggered-highstat-calibration/docs/validation/ecal-highstat/reproduce.md)\n\nPrepared for maintainer merge review. **Dependency order: #133 → #134 → #135 → #136 → #137**. This PR still targets #136; merge dependencies and retarget successors to main, preserving source commits referenced by the frozen evidence (use merge commits for this stack). Recheck CI after retargeting. This preparation does not approve or merge any predecessor. No geometry integration, human design sign-off or engineering acceptance.\n",
+      "body": "This follows #136 and studies only its unchanged physical staggered ECAL prototype under DES-030/DES-031. Generated **100,000 training + 20,000 fresh validation electrons**, independently uniform in E=10–80 GeV, eta −3..3 and full phi, with **12 DDSim workers**. Froze both training-only calibrations in Git before independent validation; retained code, recipes, compact statistics/covariance and PNG/PDF/**SVG** figures.\n\nThe recorded default for later use is **`nodd-ecal-staggered-spline-v1`**; `nodd-ecal-staggered-linear-v1` is retained as the comparator. The [versioned manifest](https://github.com/asalzburger/nodd/blob/codex/ecal-staggered-highstat-calibration/docs/validation/ecal-highstat/frozen/manifest.json) records coefficient/geometry/feature hashes, units and applicability. The [reuse guide](https://github.com/asalzburger/nodd/blob/codex/ecal-staggered-highstat-calibration/docs/validation/ecal-highstat/reuse.md) supplies a truth-free NumPy API/CLI, with compatibility guards and no refitting. All four pre/post energy-ratio series reproduce the retained full 20k predictions bit-for-bit; ten-k chunks show only quantified last-bit matrix-product roundoff (maximum 4.89e-15). The coefficients, frozen numerical source and published statistics/plots are unchanged. A separate exact-revision SoftEng review passed all 16 NumPy controls and independently reproduced the full20k equality and chunked roundoff, with no material finding.\n\nOn the **same fresh 20k**, inclusive sample SD(R)/mean(R) is **38.313% raw, 31.338% historical 10k ensemble, 31.322% retuned linear and 30.209% spline**. The spline gains 1.112 percentage points against the new linear comparator. More training with the linear recipe makes little difference here; this comparison also changes tuning/refitting and ensemble construction, so it does not isolate training size. The old 32.22% cross-fit result used a different cohort.\n\n![Independent angular comparison](https://raw.githubusercontent.com/asalzburger/nodd/83eb6a8828eea3cfd54da07650ca226a88f7c2e9/docs/validation/ecal-highstat/results/angular-comparison.png)\n\nThe global spline mean closes to **1.00300**, but local biases remain: energy-slice means 0.96975–1.02622 and folded-phi means 0.61376–1.10597. Sector-edge widths remain 73–75%, versus 11–13% in interior bins. All 84 zeros remain; spline gain clipping is 8.790%, feature extrapolation 1.095%, half-energy tail 9.380%. Global rescaling leaves SD/mean unchanged and raises spline RMS from 28.929% to 30.301%; closed linear RMS is 31.412%. These are spectrum-averaged non-Gaussian widths, not intrinsic fixed-energy resolution or detector acceptance.\n\nThe prospective chain uses 70k fit/15k tuning/15k closure, a common ridge search for both new recipes, response refit on 85k and a separate global closure factor. The spline adds predeclared bases/interactions to measured hit features; truth energy/direction are absent from inference. The original-method 1/2/4/8k learning curve is weak/nonmonotonic and explicitly exploratory, including a shifted bootstrap contrast range.\n\nValidation: all 120,000 primaries/76,941,173 hits/all 12 workers audited; 22 original controls plus 7 reuse controls; full old 10k native feature regression; complete frozen-model records independently reproduced bit-for-bit before unblinding; 1,000 shared validation bootstraps and 200 full training/selection/refit/closure bootstraps; correlated 120-width/60-contrast matrices verified; all 18 PNG/SVG exports byte-identical on standalone replot. Final exact-revision independent PhysVal assessment is retained in the session journal.\n\nTransport used 118.6 minutes summed wall, 20.93 CPU-hours, at most 2.672 GiB child RSS and 152.506 GB ROOT. At least 232.7 GiB remained free; no trimming/deletion. ROOT, exact event inputs/ledgers, full audits and event-level features/predictions stay local and ignored. Closed calibration and reuse work is now accounted below; the active accounting turn remains excluded.\n\n[Report](https://github.com/asalzburger/nodd/blob/codex/ecal-staggered-highstat-calibration/docs/validation/ecal-highstat/README.md) · [Vector SVG](https://github.com/asalzburger/nodd/blob/83eb6a8828eea3cfd54da07650ca226a88f7c2e9/docs/validation/ecal-highstat/results/angular-comparison.svg) · [Reproduction recipe](https://github.com/asalzburger/nodd/blob/codex/ecal-staggered-highstat-calibration/docs/validation/ecal-highstat/reproduce.md)\n\nPrepared for maintainer merge review. **Dependency order: #133 → #134 → #135 → #136 → #137**. This PR still targets #136; merge dependencies and retarget successors to main, preserving source commits referenced by the frozen evidence (use merge commits for this stack). Recheck CI after retargeting. This preparation does not approve or merge any predecessor. No geometry integration, human design sign-off or engineering acceptance.\n\n\nToken accounting (2026-11-12): **108,043,890 observed input+output tokens across 15 closed turns and 431 requests**. The canonical work labels are **Staggered ECAL: 100k training and 20k independent validation** (84,245,571) and **Staggered ECAL model reuse and PR137 merge preparation** (23,798,319). Cached input 107,174,400 and reasoning output 224,181 are subsets, not additions. Explicit parent/child identities and fork boundaries are verified; earlier inherited usage, earlier PR work and the active accounting turn are excluded. These are client observations, not billing or complete-device estimates. [Accounting and attribution](https://github.com/asalzburger/nodd/blob/codex/ecal-staggered-highstat-calibration/logs/codex/SESSION-2026-11-12-pr137-accounting.md).\n",
       "actor": "asalzburger",
       "created_at": "2026-11-12T14:13:44Z"
     },
@@ -32,6 +32,26 @@
       {
         "id": "agent:SESSION-2026-11-12-ecal-staggered-highstat-calibration",
         "name": "unspecified",
+        "kind": "agent"
+      },
+      {
+        "id": "agent:SESSION-2026-11-12-pr137-accounting",
+        "name": "Codex",
+        "kind": "agent"
+      },
+      {
+        "id": "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "name": "Codex parent thread 01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "kind": "agent"
+      },
+      {
+        "id": "codex-thread:01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "name": "Codex thread 01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "kind": "agent"
+      },
+      {
+        "id": "codex-thread:01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "name": "Codex thread 01a1cb19-3778-7923-bf3b-bd7349a594cd",
         "kind": "agent"
       },
       {
@@ -55,8 +75,8 @@
         ],
         "snapshot": null,
         "snapshot_sha256": null,
-        "record_sha256": "176fd094d1644578d1c96a602740edf24e86426845b21bbc1ec140ce1d34a52b",
-        "narrative_sha256": "47b466c121effe99329a71d355e47e154ee049f50fb114eb12c42feab50845d6"
+        "record_sha256": "bcca5ebf1dd6e255d6957eb3a9092c1061f58fe5d364364bc426bcd92e30652f",
+        "narrative_sha256": "9bee09d0b0b4001141d16b25c144029b068ca8d6b815ada3773b9fee75a2a8eb"
       },
       {
         "session_id": "SESSION-2026-11-12-ecal-staggered-highstat-calibration",
@@ -67,8 +87,19 @@
         ],
         "snapshot": null,
         "snapshot_sha256": null,
-        "record_sha256": "6760e59d6453b6ccec462b0f352648b037483691ce4b8eba1c994fbc95f445af",
-        "narrative_sha256": "0c767231be7addddaec14deddbfa96cb9a2163e1b36795eb23cc8acca0098a0a"
+        "record_sha256": "3faf2b1fe1d8ca7c4e14c9c28731c8b80e1f3ce575566efd923cf52508468c15",
+        "narrative_sha256": "acec66ce524e39b366fd080d11e375f783273b1f1275bbb9889009ba64cbcce6"
+      },
+      {
+        "session_id": "SESSION-2026-11-12-pr137-accounting",
+        "record": "logs/codex/SESSION-2026-11-12-pr137-accounting.json",
+        "attribution": [
+          "explicit_PR_reference"
+        ],
+        "snapshot": null,
+        "snapshot_sha256": null,
+        "record_sha256": "15c002040d3fadcc51305d5856f6390d8c1a395eecd3497de9e2bd070b3f1b56",
+        "narrative_sha256": "699157e571c14d7ac0c980a9b25ecea45d7868d59fb7272ec6ff4e3e2a095401"
       }
     ],
     "token_accounts": [
@@ -76,20 +107,166 @@
         "id": "SESSION-2026-11-12-ecal-calibration-reuse",
         "record": "logs/codex/SESSION-2026-11-12-ecal-calibration-reuse.json",
         "scope": "canonical_session; shared PR references are not allocations",
-        "status": "unobserved",
-        "usage_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
-        "turns": []
+        "status": "observed",
+        "usage_sha256": "141ba960035e7f8ea75b476d9bd50393011f3a4a719e8be3cf1c95358a1e0621",
+        "turns": [
+          {
+            "client_thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+            "turn_id": "01a1d030-81bc-7c32-a1a1-4724ea71b8df",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
+            "turn_id": "01a1d037-bb3b-7fb1-9504-b7d9f6e0d0f9",
+            "model": null
+          }
+        ]
       },
       {
         "id": "SESSION-2026-11-12-ecal-staggered-highstat-calibration",
         "record": "logs/codex/SESSION-2026-11-12-ecal-staggered-highstat-calibration.json",
+        "scope": "canonical_session; shared PR references are not allocations",
+        "status": "observed",
+        "usage_sha256": "476879463341806e75751f341c0f2f4ec10736b517dbef52e8149251ed111f38",
+        "turns": [
+          {
+            "client_thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+            "turn_id": "01a1cf97-8471-7f62-af2b-0e53f74397f3",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+            "turn_id": "01a1cf99-09d3-7f62-b2f8-8a072ffa0807",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+            "turn_id": "01a1cf99-9b12-7df3-9596-71424cdbf92f",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+            "turn_id": "01a1cf9b-e8b1-7ca1-a4fd-f39d1310d576",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+            "turn_id": "01a1cfa2-2a3c-7242-9f61-8df321a95a2a",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+            "turn_id": "01a1cfa7-8af6-78b1-a3a6-036e8d814c7a",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+            "turn_id": "01a1cfaa-f348-73f3-b333-a47e006a6ef7",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+            "turn_id": "01a1cfb2-ffdd-72d1-a07e-f406bec34fb2",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+            "turn_id": "01a1cfdd-658c-7fe0-99ec-509edec65cf2",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+            "turn_id": "01a1d000-3568-7552-9eea-83590351afc2",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+            "turn_id": "01a1d018-5276-74b0-a95f-27919c5818aa",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
+            "turn_id": "01a1cf9c-046c-79e0-be19-3922787dace1",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
+            "turn_id": "01a1cfa3-b97b-7440-8f99-ea7587faa62c",
+            "model": null
+          }
+        ]
+      },
+      {
+        "id": "SESSION-2026-11-12-pr137-accounting",
+        "record": "logs/codex/SESSION-2026-11-12-pr137-accounting.json",
         "scope": "canonical_session; shared PR references are not allocations",
         "status": "unobserved",
         "usage_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
         "turns": []
       }
     ],
-    "visible_sources": [],
+    "visible_sources": [
+      {
+        "path": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cf97-8471-7f62-af2b-0e53f74397f3.json",
+        "sha256": "d2aa5c38a843a3cc9dd36d9a76fe32fa9a70c54e898819f6129c2f04023f4386"
+      },
+      {
+        "path": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cf99-09d3-7f62-b2f8-8a072ffa0807.json",
+        "sha256": "a42cae1e5724ed99407b7456289ee90ce30d5bae5d076505ef7def47132de1dd"
+      },
+      {
+        "path": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cf99-9b12-7df3-9596-71424cdbf92f.json",
+        "sha256": "b8dc5cd65c365eb9d9aaca3d49fa8a90a7f63de390ae931b366f626346657bca"
+      },
+      {
+        "path": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1d030-81bc-7c32-a1a1-4724ea71b8df.json",
+        "sha256": "289c094e9f81849ce7c9bdaac50e234adcd8ccdeaeea7741f67c283147404451"
+      },
+      {
+        "path": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cf9b-e8b1-7ca1-a4fd-f39d1310d576.json",
+        "sha256": "7caf4511a923c79cbd7e31241cce157c6578f872eeef39ac7b1dcb63858a05be"
+      },
+      {
+        "path": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cfa2-2a3c-7242-9f61-8df321a95a2a.json",
+        "sha256": "2cf9e768489c9db6a83d4d5adcc72e918ee36fed10cbd038698216b9275fce22"
+      },
+      {
+        "path": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cfa7-8af6-78b1-a3a6-036e8d814c7a.json",
+        "sha256": "2662645f546bf16447640e3ce0811be9957527dbcf788c8b5f032b545ac942f4"
+      },
+      {
+        "path": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cfaa-f348-73f3-b333-a47e006a6ef7.json",
+        "sha256": "d2bf4c834f39c6bf3fe6c3d91b70c6f5fce662096fe8bc0f47af50b19c2532fa"
+      },
+      {
+        "path": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cfb2-ffdd-72d1-a07e-f406bec34fb2.json",
+        "sha256": "d9d031e20117b5aba80422bbc39da39821008fb86c96ee46003617c859e5c595"
+      },
+      {
+        "path": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cfdd-658c-7fe0-99ec-509edec65cf2.json",
+        "sha256": "81eee8f6217460305fa9ce8eaa83586583a76fb0724848302fcbfc4b9d4fa0f8"
+      },
+      {
+        "path": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1d000-3568-7552-9eea-83590351afc2.json",
+        "sha256": "3cbc6f2451a8c9e8dbd227f1d06a3261aeec5395b2cc5f8a268acc9021d1fc5a"
+      },
+      {
+        "path": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1d018-5276-74b0-a95f-27919c5818aa.json",
+        "sha256": "ec68ee49ae83db76146852baab98e6a900f2ed85c85cb788a105869408311838"
+      },
+      {
+        "path": "interactions/pr-0137/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1cf9c-046c-79e0-be19-3922787dace1.json",
+        "sha256": "5556cf6bcf4e9dbcc49834a14c9124f09c0aac70b0cbee4aa8d56a7dc4658fc4"
+      },
+      {
+        "path": "interactions/pr-0137/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1cfa3-b97b-7440-8f99-ea7587faa62c.json",
+        "sha256": "ae0b9b41a22f497fc3ed8fc1b98b0fa93b44dd07daead91b211e7eb77aaa0281"
+      },
+      {
+        "path": "interactions/pr-0137/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1d037-bb3b-7fb1-9504-b7d9f6e0d0f9.json",
+        "sha256": "e0395aaf7139b941bac451bfc8bb4b621a477d7f821e0ea1591f93aa13e5bca8"
+      }
+    ],
     "agents": [
       {
         "id": "agent:SESSION-2026-11-12-ecal-calibration-reuse",
@@ -126,10 +303,1085 @@
         "models": [],
         "source": "logs/codex/SESSION-2026-11-12-ecal-staggered-highstat-calibration.md#final-results-assessment-assignment",
         "limitation": "Role contract is recorded; native profile loading and process identity are not inferred."
+      },
+      {
+        "id": "agent:SESSION-2026-11-12-pr137-accounting",
+        "name": "Codex",
+        "role": "session_agent",
+        "thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "models": [],
+        "source": "logs/codex/SESSION-2026-11-12-pr137-accounting.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      },
+      {
+        "id": "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "name": "Codex",
+        "role": "recorded_thread",
+        "thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cf97-8471-7f62-af2b-0e53f74397f3.json",
+        "limitation": "Execution model is retained only when reported by the canonical account."
+      },
+      {
+        "id": "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "name": "Codex",
+        "role": "recorded_thread",
+        "thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cf99-09d3-7f62-b2f8-8a072ffa0807.json",
+        "limitation": "Execution model is retained only when reported by the canonical account."
+      },
+      {
+        "id": "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "name": "Codex",
+        "role": "recorded_thread",
+        "thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cf99-9b12-7df3-9596-71424cdbf92f.json",
+        "limitation": "Execution model is retained only when reported by the canonical account."
+      },
+      {
+        "id": "codex-child:01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "name": "/root/ecal10k_physval",
+        "role": "subagent",
+        "thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cf99-9b12-7df3-9596-71424cdbf92f.json",
+        "limitation": "Parent thread 01a1ca20-9aaa-72d1-9283-5591a6e73094; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "name": "/root/ecal10k_softeng",
+        "role": "subagent",
+        "thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cf99-9b12-7df3-9596-71424cdbf92f.json",
+        "limitation": "Parent thread 01a1ca20-9aaa-72d1-9283-5591a6e73094; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "name": "/root/ecal10k_physval",
+        "role": "subagent",
+        "thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cf99-9b12-7df3-9596-71424cdbf92f.json",
+        "limitation": "Parent thread 01a1ca20-9aaa-72d1-9283-5591a6e73094; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "name": "/root/ecal10k_physval",
+        "role": "subagent",
+        "thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cf99-9b12-7df3-9596-71424cdbf92f.json",
+        "limitation": "Parent thread 01a1ca20-9aaa-72d1-9283-5591a6e73094; activity completed. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "name": "/root/ecal10k_physval",
+        "role": "subagent",
+        "thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cf99-9b12-7df3-9596-71424cdbf92f.json",
+        "limitation": "Parent thread 01a1ca20-9aaa-72d1-9283-5591a6e73094; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "name": "/root/ecal10k_softeng",
+        "role": "subagent",
+        "thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cf99-9b12-7df3-9596-71424cdbf92f.json",
+        "limitation": "Parent thread 01a1ca20-9aaa-72d1-9283-5591a6e73094; activity completed. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "name": "/root/ecal10k_physval",
+        "role": "subagent",
+        "thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cf99-9b12-7df3-9596-71424cdbf92f.json",
+        "limitation": "Parent thread 01a1ca20-9aaa-72d1-9283-5591a6e73094; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "name": "/root/ecal10k_softeng",
+        "role": "subagent",
+        "thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cf99-9b12-7df3-9596-71424cdbf92f.json",
+        "limitation": "Parent thread 01a1ca20-9aaa-72d1-9283-5591a6e73094; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "name": "/root/ecal10k_physval",
+        "role": "subagent",
+        "thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cf99-9b12-7df3-9596-71424cdbf92f.json",
+        "limitation": "Parent thread 01a1ca20-9aaa-72d1-9283-5591a6e73094; activity completed. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "name": "/root/ecal10k_softeng",
+        "role": "subagent",
+        "thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cf99-9b12-7df3-9596-71424cdbf92f.json",
+        "limitation": "Parent thread 01a1ca20-9aaa-72d1-9283-5591a6e73094; activity completed. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "name": "/root/ecal10k_physval",
+        "role": "subagent",
+        "thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cf99-9b12-7df3-9596-71424cdbf92f.json",
+        "limitation": "Parent thread 01a1ca20-9aaa-72d1-9283-5591a6e73094; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "name": "/root/ecal10k_physval",
+        "role": "subagent",
+        "thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cf99-9b12-7df3-9596-71424cdbf92f.json",
+        "limitation": "Parent thread 01a1ca20-9aaa-72d1-9283-5591a6e73094; activity completed. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "name": "/root/ecal10k_physval",
+        "role": "subagent",
+        "thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cf99-9b12-7df3-9596-71424cdbf92f.json",
+        "limitation": "Parent thread 01a1ca20-9aaa-72d1-9283-5591a6e73094; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "name": "/root/ecal10k_physval",
+        "role": "subagent",
+        "thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cf99-9b12-7df3-9596-71424cdbf92f.json",
+        "limitation": "Parent thread 01a1ca20-9aaa-72d1-9283-5591a6e73094; activity completed. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "name": "/root/ecal10k_physval",
+        "role": "subagent",
+        "thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cf99-9b12-7df3-9596-71424cdbf92f.json",
+        "limitation": "Parent thread 01a1ca20-9aaa-72d1-9283-5591a6e73094; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "name": "/root/ecal10k_physval",
+        "role": "subagent",
+        "thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cf99-9b12-7df3-9596-71424cdbf92f.json",
+        "limitation": "Parent thread 01a1ca20-9aaa-72d1-9283-5591a6e73094; activity completed. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "name": "/root/ecal10k_physval",
+        "role": "subagent",
+        "thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cf99-9b12-7df3-9596-71424cdbf92f.json",
+        "limitation": "Parent thread 01a1ca20-9aaa-72d1-9283-5591a6e73094; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "name": "/root/ecal10k_physval",
+        "role": "subagent",
+        "thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cf99-9b12-7df3-9596-71424cdbf92f.json",
+        "limitation": "Parent thread 01a1ca20-9aaa-72d1-9283-5591a6e73094; activity completed. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "name": "/root/ecal10k_physval",
+        "role": "subagent",
+        "thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cf99-9b12-7df3-9596-71424cdbf92f.json",
+        "limitation": "Parent thread 01a1ca20-9aaa-72d1-9283-5591a6e73094; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "name": "/root/ecal10k_physval",
+        "role": "subagent",
+        "thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cf99-9b12-7df3-9596-71424cdbf92f.json",
+        "limitation": "Parent thread 01a1ca20-9aaa-72d1-9283-5591a6e73094; activity completed. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "name": "/root/ecal10k_physval",
+        "role": "subagent",
+        "thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cf99-9b12-7df3-9596-71424cdbf92f.json",
+        "limitation": "Parent thread 01a1ca20-9aaa-72d1-9283-5591a6e73094; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "name": "/root/ecal10k_physval",
+        "role": "subagent",
+        "thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cf99-9b12-7df3-9596-71424cdbf92f.json",
+        "limitation": "Parent thread 01a1ca20-9aaa-72d1-9283-5591a6e73094; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "name": "/root/ecal10k_physval",
+        "role": "subagent",
+        "thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cf99-9b12-7df3-9596-71424cdbf92f.json",
+        "limitation": "Parent thread 01a1ca20-9aaa-72d1-9283-5591a6e73094; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "name": "/root/ecal10k_physval",
+        "role": "subagent",
+        "thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cf99-9b12-7df3-9596-71424cdbf92f.json",
+        "limitation": "Parent thread 01a1ca20-9aaa-72d1-9283-5591a6e73094; activity completed. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "name": "Codex",
+        "role": "recorded_thread",
+        "thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1d030-81bc-7c32-a1a1-4724ea71b8df.json",
+        "limitation": "Execution model is retained only when reported by the canonical account."
+      },
+      {
+        "id": "codex-child:01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "name": "/root/ecal10k_softeng",
+        "role": "subagent",
+        "thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1d030-81bc-7c32-a1a1-4724ea71b8df.json",
+        "limitation": "Parent thread 01a1ca20-9aaa-72d1-9283-5591a6e73094; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "name": "/root/ecal10k_softeng",
+        "role": "subagent",
+        "thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1d030-81bc-7c32-a1a1-4724ea71b8df.json",
+        "limitation": "Parent thread 01a1ca20-9aaa-72d1-9283-5591a6e73094; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "name": "/root/ecal10k_softeng",
+        "role": "subagent",
+        "thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1d030-81bc-7c32-a1a1-4724ea71b8df.json",
+        "limitation": "Parent thread 01a1ca20-9aaa-72d1-9283-5591a6e73094; activity completed. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-thread:01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "name": "Codex",
+        "role": "recorded_thread",
+        "thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cf9b-e8b1-7ca1-a4fd-f39d1310d576.json",
+        "limitation": "Execution model is retained only when reported by the canonical account."
+      },
+      {
+        "id": "codex-child:01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "name": "/root",
+        "role": "subagent",
+        "thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cf9b-e8b1-7ca1-a4fd-f39d1310d576.json",
+        "limitation": "Parent thread 01a1cb19-1628-7573-916f-ff4a9a5705f7; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "name": "/root",
+        "role": "subagent",
+        "thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cf9b-e8b1-7ca1-a4fd-f39d1310d576.json",
+        "limitation": "Parent thread 01a1cb19-1628-7573-916f-ff4a9a5705f7; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "name": "/root",
+        "role": "subagent",
+        "thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cf9b-e8b1-7ca1-a4fd-f39d1310d576.json",
+        "limitation": "Parent thread 01a1cb19-1628-7573-916f-ff4a9a5705f7; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "name": "/root",
+        "role": "subagent",
+        "thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cf9b-e8b1-7ca1-a4fd-f39d1310d576.json",
+        "limitation": "Parent thread 01a1cb19-1628-7573-916f-ff4a9a5705f7; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-thread:01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "name": "Codex",
+        "role": "recorded_thread",
+        "thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cfa2-2a3c-7242-9f61-8df321a95a2a.json",
+        "limitation": "Execution model is retained only when reported by the canonical account."
+      },
+      {
+        "id": "codex-child:01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "name": "/root",
+        "role": "subagent",
+        "thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cfa2-2a3c-7242-9f61-8df321a95a2a.json",
+        "limitation": "Parent thread 01a1cb19-1628-7573-916f-ff4a9a5705f7; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "name": "/root",
+        "role": "subagent",
+        "thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cfa2-2a3c-7242-9f61-8df321a95a2a.json",
+        "limitation": "Parent thread 01a1cb19-1628-7573-916f-ff4a9a5705f7; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-thread:01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "name": "Codex",
+        "role": "recorded_thread",
+        "thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cfa7-8af6-78b1-a3a6-036e8d814c7a.json",
+        "limitation": "Execution model is retained only when reported by the canonical account."
+      },
+      {
+        "id": "codex-child:01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "name": "/root",
+        "role": "subagent",
+        "thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cfa7-8af6-78b1-a3a6-036e8d814c7a.json",
+        "limitation": "Parent thread 01a1cb19-1628-7573-916f-ff4a9a5705f7; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "name": "/root",
+        "role": "subagent",
+        "thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cfa7-8af6-78b1-a3a6-036e8d814c7a.json",
+        "limitation": "Parent thread 01a1cb19-1628-7573-916f-ff4a9a5705f7; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-thread:01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "name": "Codex",
+        "role": "recorded_thread",
+        "thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cfaa-f348-73f3-b333-a47e006a6ef7.json",
+        "limitation": "Execution model is retained only when reported by the canonical account."
+      },
+      {
+        "id": "codex-child:01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "name": "/root",
+        "role": "subagent",
+        "thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cfaa-f348-73f3-b333-a47e006a6ef7.json",
+        "limitation": "Parent thread 01a1cb19-1628-7573-916f-ff4a9a5705f7; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-thread:01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "name": "Codex",
+        "role": "recorded_thread",
+        "thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cfb2-ffdd-72d1-a07e-f406bec34fb2.json",
+        "limitation": "Execution model is retained only when reported by the canonical account."
+      },
+      {
+        "id": "codex-child:01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "name": "/root",
+        "role": "subagent",
+        "thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cfb2-ffdd-72d1-a07e-f406bec34fb2.json",
+        "limitation": "Parent thread 01a1cb19-1628-7573-916f-ff4a9a5705f7; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "name": "/root",
+        "role": "subagent",
+        "thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cfb2-ffdd-72d1-a07e-f406bec34fb2.json",
+        "limitation": "Parent thread 01a1cb19-1628-7573-916f-ff4a9a5705f7; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-thread:01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "name": "Codex",
+        "role": "recorded_thread",
+        "thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cfdd-658c-7fe0-99ec-509edec65cf2.json",
+        "limitation": "Execution model is retained only when reported by the canonical account."
+      },
+      {
+        "id": "codex-child:01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "name": "/root",
+        "role": "subagent",
+        "thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cfdd-658c-7fe0-99ec-509edec65cf2.json",
+        "limitation": "Parent thread 01a1cb19-1628-7573-916f-ff4a9a5705f7; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-thread:01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "name": "Codex",
+        "role": "recorded_thread",
+        "thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1d000-3568-7552-9eea-83590351afc2.json",
+        "limitation": "Execution model is retained only when reported by the canonical account."
+      },
+      {
+        "id": "codex-child:01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "name": "/root",
+        "role": "subagent",
+        "thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1d000-3568-7552-9eea-83590351afc2.json",
+        "limitation": "Parent thread 01a1cb19-1628-7573-916f-ff4a9a5705f7; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-thread:01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "name": "Codex",
+        "role": "recorded_thread",
+        "thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1d018-5276-74b0-a95f-27919c5818aa.json",
+        "limitation": "Execution model is retained only when reported by the canonical account."
+      },
+      {
+        "id": "codex-child:01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "name": "/root",
+        "role": "subagent",
+        "thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1d018-5276-74b0-a95f-27919c5818aa.json",
+        "limitation": "Parent thread 01a1cb19-1628-7573-916f-ff4a9a5705f7; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "name": "/root",
+        "role": "subagent",
+        "thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1d018-5276-74b0-a95f-27919c5818aa.json",
+        "limitation": "Parent thread 01a1cb19-1628-7573-916f-ff4a9a5705f7; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "name": "/root",
+        "role": "subagent",
+        "thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1d018-5276-74b0-a95f-27919c5818aa.json",
+        "limitation": "Parent thread 01a1cb19-1628-7573-916f-ff4a9a5705f7; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-thread:01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "name": "Codex",
+        "role": "recorded_thread",
+        "thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1cf9c-046c-79e0-be19-3922787dace1.json",
+        "limitation": "Execution model is retained only when reported by the canonical account."
+      },
+      {
+        "id": "codex-child:01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "name": "/root",
+        "role": "subagent",
+        "thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1cf9c-046c-79e0-be19-3922787dace1.json",
+        "limitation": "Parent thread 01a1cb19-3778-7923-bf3b-bd7349a594cd; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "name": "/root",
+        "role": "subagent",
+        "thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1cf9c-046c-79e0-be19-3922787dace1.json",
+        "limitation": "Parent thread 01a1cb19-3778-7923-bf3b-bd7349a594cd; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "name": "/root",
+        "role": "subagent",
+        "thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1cf9c-046c-79e0-be19-3922787dace1.json",
+        "limitation": "Parent thread 01a1cb19-3778-7923-bf3b-bd7349a594cd; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "name": "/root",
+        "role": "subagent",
+        "thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1cf9c-046c-79e0-be19-3922787dace1.json",
+        "limitation": "Parent thread 01a1cb19-3778-7923-bf3b-bd7349a594cd; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "name": "/root",
+        "role": "subagent",
+        "thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1cf9c-046c-79e0-be19-3922787dace1.json",
+        "limitation": "Parent thread 01a1cb19-3778-7923-bf3b-bd7349a594cd; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "name": "/root",
+        "role": "subagent",
+        "thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1cf9c-046c-79e0-be19-3922787dace1.json",
+        "limitation": "Parent thread 01a1cb19-3778-7923-bf3b-bd7349a594cd; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-child:01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "name": "/root",
+        "role": "subagent",
+        "thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1cf9c-046c-79e0-be19-3922787dace1.json",
+        "limitation": "Parent thread 01a1cb19-3778-7923-bf3b-bd7349a594cd; activity interacted. Agent path is not proof of native role-profile loading."
+      },
+      {
+        "id": "codex-thread:01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "name": "Codex",
+        "role": "recorded_thread",
+        "thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1cfa3-b97b-7440-8f99-ea7587faa62c.json",
+        "limitation": "Execution model is retained only when reported by the canonical account."
+      },
+      {
+        "id": "codex-thread:01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "name": "Codex",
+        "role": "recorded_thread",
+        "thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1d037-bb3b-7fb1-9504-b7d9f6e0d0f9.json",
+        "limitation": "Execution model is retained only when reported by the canonical account."
       }
     ],
     "tools": {
-      "native_codex": [],
+      "native_codex": [
+        {
+          "name": "commandExecution",
+          "category": "native_codex",
+          "version": null,
+          "calls": 2,
+          "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cf97-8471-7f62-af2b-0e53f74397f3.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal-staggered-highstat-calibration",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "webSearch",
+          "category": "native_codex",
+          "version": null,
+          "calls": 2,
+          "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cf97-8471-7f62-af2b-0e53f74397f3.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal-staggered-highstat-calibration",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "commandExecution",
+          "category": "native_codex",
+          "version": null,
+          "calls": 2,
+          "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cf99-09d3-7f62-b2f8-8a072ffa0807.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal-staggered-highstat-calibration",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "commandExecution",
+          "category": "native_codex",
+          "version": null,
+          "calls": 182,
+          "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cf99-9b12-7df3-9596-71424cdbf92f.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 2 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal-staggered-highstat-calibration",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "subAgentActivity",
+          "category": "native_codex",
+          "version": null,
+          "calls": 24,
+          "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cf99-9b12-7df3-9596-71424cdbf92f.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal-staggered-highstat-calibration",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "fileChange",
+          "category": "native_codex",
+          "version": null,
+          "calls": 23,
+          "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cf99-9b12-7df3-9596-71424cdbf92f.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal-staggered-highstat-calibration",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "imageView",
+          "category": "native_codex",
+          "version": null,
+          "calls": 12,
+          "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cf99-9b12-7df3-9596-71424cdbf92f.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal-staggered-highstat-calibration",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "sleep",
+          "category": "native_codex",
+          "version": null,
+          "calls": 45,
+          "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cf99-9b12-7df3-9596-71424cdbf92f.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal-staggered-highstat-calibration",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "codex_apps.github.get_pr_info",
+          "category": "native_codex",
+          "version": null,
+          "calls": 3,
+          "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cf99-9b12-7df3-9596-71424cdbf92f.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal-staggered-highstat-calibration",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "codex_apps.github.fetch_pr_comments",
+          "category": "native_codex",
+          "version": null,
+          "calls": 2,
+          "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cf99-9b12-7df3-9596-71424cdbf92f.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal-staggered-highstat-calibration",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "codex_apps.github.create_pull_request",
+          "category": "native_codex",
+          "version": null,
+          "calls": 1,
+          "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cf99-9b12-7df3-9596-71424cdbf92f.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 1 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal-staggered-highstat-calibration",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "commandExecution",
+          "category": "native_codex",
+          "version": null,
+          "calls": 70,
+          "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1d030-81bc-7c32-a1a1-4724ea71b8df.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 1 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal-calibration-reuse",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "codex_apps.github.get_pr_info",
+          "category": "native_codex",
+          "version": null,
+          "calls": 11,
+          "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1d030-81bc-7c32-a1a1-4724ea71b8df.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 1 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal-calibration-reuse",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "codex_apps.github.list_pull_request_review_threads",
+          "category": "native_codex",
+          "version": null,
+          "calls": 1,
+          "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1d030-81bc-7c32-a1a1-4724ea71b8df.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal-calibration-reuse",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "codex_apps.github.fetch_pr_comments",
+          "category": "native_codex",
+          "version": null,
+          "calls": 3,
+          "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1d030-81bc-7c32-a1a1-4724ea71b8df.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal-calibration-reuse",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "codex_apps.github.get_commit_combined_status",
+          "category": "native_codex",
+          "version": null,
+          "calls": 1,
+          "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1d030-81bc-7c32-a1a1-4724ea71b8df.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal-calibration-reuse",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "codex_apps.github.list_pull_request_reviews",
+          "category": "native_codex",
+          "version": null,
+          "calls": 1,
+          "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1d030-81bc-7c32-a1a1-4724ea71b8df.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal-calibration-reuse",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "codex_apps.github.fetch_commit_workflow_runs",
+          "category": "native_codex",
+          "version": null,
+          "calls": 17,
+          "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1d030-81bc-7c32-a1a1-4724ea71b8df.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal-calibration-reuse",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "fileChange",
+          "category": "native_codex",
+          "version": null,
+          "calls": 7,
+          "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1d030-81bc-7c32-a1a1-4724ea71b8df.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal-calibration-reuse",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "subAgentActivity",
+          "category": "native_codex",
+          "version": null,
+          "calls": 3,
+          "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1d030-81bc-7c32-a1a1-4724ea71b8df.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal-calibration-reuse",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "collabAgentToolCall",
+          "category": "native_codex",
+          "version": null,
+          "calls": 1,
+          "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1d030-81bc-7c32-a1a1-4724ea71b8df.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal-calibration-reuse",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "codex_apps.github.update_pull_request",
+          "category": "native_codex",
+          "version": null,
+          "calls": 1,
+          "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1d030-81bc-7c32-a1a1-4724ea71b8df.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 1 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal-calibration-reuse",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "codex_apps.github.fetch_workflow_run_jobs",
+          "category": "native_codex",
+          "version": null,
+          "calls": 21,
+          "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1d030-81bc-7c32-a1a1-4724ea71b8df.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal-calibration-reuse",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "codex_apps.github.mark_pull_request_ready_for_review",
+          "category": "native_codex",
+          "version": null,
+          "calls": 2,
+          "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1d030-81bc-7c32-a1a1-4724ea71b8df.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 2 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal-calibration-reuse",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "sleep",
+          "category": "native_codex",
+          "version": null,
+          "calls": 25,
+          "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1d030-81bc-7c32-a1a1-4724ea71b8df.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal-calibration-reuse",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "codex_apps.github.fetch_workflow_job_steps",
+          "category": "native_codex",
+          "version": null,
+          "calls": 1,
+          "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1d030-81bc-7c32-a1a1-4724ea71b8df.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal-calibration-reuse",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "commandExecution",
+          "category": "native_codex",
+          "version": null,
+          "calls": 4,
+          "source": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cf9b-e8b1-7ca1-a4fd-f39d1310d576.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal-staggered-highstat-calibration",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "subAgentActivity",
+          "category": "native_codex",
+          "version": null,
+          "calls": 4,
+          "source": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cf9b-e8b1-7ca1-a4fd-f39d1310d576.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal-staggered-highstat-calibration",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "commandExecution",
+          "category": "native_codex",
+          "version": null,
+          "calls": 12,
+          "source": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cfa2-2a3c-7242-9f61-8df321a95a2a.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal-staggered-highstat-calibration",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "subAgentActivity",
+          "category": "native_codex",
+          "version": null,
+          "calls": 2,
+          "source": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cfa2-2a3c-7242-9f61-8df321a95a2a.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal-staggered-highstat-calibration",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "commandExecution",
+          "category": "native_codex",
+          "version": null,
+          "calls": 7,
+          "source": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cfa7-8af6-78b1-a3a6-036e8d814c7a.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal-staggered-highstat-calibration",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "subAgentActivity",
+          "category": "native_codex",
+          "version": null,
+          "calls": 2,
+          "source": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cfa7-8af6-78b1-a3a6-036e8d814c7a.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal-staggered-highstat-calibration",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "commandExecution",
+          "category": "native_codex",
+          "version": null,
+          "calls": 4,
+          "source": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cfaa-f348-73f3-b333-a47e006a6ef7.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal-staggered-highstat-calibration",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "subAgentActivity",
+          "category": "native_codex",
+          "version": null,
+          "calls": 1,
+          "source": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cfaa-f348-73f3-b333-a47e006a6ef7.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal-staggered-highstat-calibration",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "commandExecution",
+          "category": "native_codex",
+          "version": null,
+          "calls": 4,
+          "source": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cfb2-ffdd-72d1-a07e-f406bec34fb2.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal-staggered-highstat-calibration",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "subAgentActivity",
+          "category": "native_codex",
+          "version": null,
+          "calls": 2,
+          "source": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cfb2-ffdd-72d1-a07e-f406bec34fb2.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal-staggered-highstat-calibration",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "webSearch",
+          "category": "native_codex",
+          "version": null,
+          "calls": 2,
+          "source": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cfb2-ffdd-72d1-a07e-f406bec34fb2.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal-staggered-highstat-calibration",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "commandExecution",
+          "category": "native_codex",
+          "version": null,
+          "calls": 2,
+          "source": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cfdd-658c-7fe0-99ec-509edec65cf2.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal-staggered-highstat-calibration",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "subAgentActivity",
+          "category": "native_codex",
+          "version": null,
+          "calls": 1,
+          "source": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cfdd-658c-7fe0-99ec-509edec65cf2.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal-staggered-highstat-calibration",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "commandExecution",
+          "category": "native_codex",
+          "version": null,
+          "calls": 5,
+          "source": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1d000-3568-7552-9eea-83590351afc2.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal-staggered-highstat-calibration",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "subAgentActivity",
+          "category": "native_codex",
+          "version": null,
+          "calls": 1,
+          "source": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1d000-3568-7552-9eea-83590351afc2.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal-staggered-highstat-calibration",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "commandExecution",
+          "category": "native_codex",
+          "version": null,
+          "calls": 9,
+          "source": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1d018-5276-74b0-a95f-27919c5818aa.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal-staggered-highstat-calibration",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "imageView",
+          "category": "native_codex",
+          "version": null,
+          "calls": 9,
+          "source": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1d018-5276-74b0-a95f-27919c5818aa.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal-staggered-highstat-calibration",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "subAgentActivity",
+          "category": "native_codex",
+          "version": null,
+          "calls": 3,
+          "source": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1d018-5276-74b0-a95f-27919c5818aa.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal-staggered-highstat-calibration",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "commandExecution",
+          "category": "native_codex",
+          "version": null,
+          "calls": 22,
+          "source": "interactions/pr-0137/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1cf9c-046c-79e0-be19-3922787dace1.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 2 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal-staggered-highstat-calibration",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "subAgentActivity",
+          "category": "native_codex",
+          "version": null,
+          "calls": 7,
+          "source": "interactions/pr-0137/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1cf9c-046c-79e0-be19-3922787dace1.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal-staggered-highstat-calibration",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "commandExecution",
+          "category": "native_codex",
+          "version": null,
+          "calls": 5,
+          "source": "interactions/pr-0137/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1cfa3-b97b-7440-8f99-ea7587faa62c.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal-staggered-highstat-calibration",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "commandExecution",
+          "category": "native_codex",
+          "version": null,
+          "calls": 10,
+          "source": "interactions/pr-0137/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1d037-bb3b-7fb1-9504-b7d9f6e0d0f9.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal-calibration-reuse",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        }
+      ],
       "codex_installed": [],
       "instructed_software": [],
       "unresolved": []
@@ -141,7 +1393,7 @@
         "direction": "reaction",
         "actor": "github:asalzburger",
         "recipients": [],
-        "text": "This follows #136 and studies only its unchanged physical staggered ECAL prototype under DES-030/DES-031. Generated **100,000 training + 20,000 fresh validation electrons**, independently uniform in E=10–80 GeV, eta −3..3 and full phi, with **12 DDSim workers**. Froze both training-only calibrations in Git before independent validation; retained code, recipes, compact statistics/covariance and PNG/PDF/**SVG** figures.\n\nThe recorded default for later use is **`nodd-ecal-staggered-spline-v1`**; `nodd-ecal-staggered-linear-v1` is retained as the comparator. The [versioned manifest](https://github.com/asalzburger/nodd/blob/codex/ecal-staggered-highstat-calibration/docs/validation/ecal-highstat/frozen/manifest.json) records coefficient/geometry/feature hashes, units and applicability. The [reuse guide](https://github.com/asalzburger/nodd/blob/codex/ecal-staggered-highstat-calibration/docs/validation/ecal-highstat/reuse.md) supplies a truth-free NumPy API/CLI, with compatibility guards and no refitting. All four pre/post energy-ratio series reproduce the retained full 20k predictions bit-for-bit; ten-k chunks show only quantified last-bit matrix-product roundoff (maximum 4.89e-15). The coefficients, frozen numerical source and published statistics/plots are unchanged. A separate exact-revision SoftEng review passed all 16 NumPy controls and independently reproduced the full20k equality and chunked roundoff, with no material finding.\n\nOn the **same fresh 20k**, inclusive sample SD(R)/mean(R) is **38.313% raw, 31.338% historical 10k ensemble, 31.322% retuned linear and 30.209% spline**. The spline gains 1.112 percentage points against the new linear comparator. More training with the linear recipe makes little difference here; this comparison also changes tuning/refitting and ensemble construction, so it does not isolate training size. The old 32.22% cross-fit result used a different cohort.\n\n![Independent angular comparison](https://raw.githubusercontent.com/asalzburger/nodd/83eb6a8828eea3cfd54da07650ca226a88f7c2e9/docs/validation/ecal-highstat/results/angular-comparison.png)\n\nThe global spline mean closes to **1.00300**, but local biases remain: energy-slice means 0.96975–1.02622 and folded-phi means 0.61376–1.10597. Sector-edge widths remain 73–75%, versus 11–13% in interior bins. All 84 zeros remain; spline gain clipping is 8.790%, feature extrapolation 1.095%, half-energy tail 9.380%. Global rescaling leaves SD/mean unchanged and raises spline RMS from 28.929% to 30.301%; closed linear RMS is 31.412%. These are spectrum-averaged non-Gaussian widths, not intrinsic fixed-energy resolution or detector acceptance.\n\nThe prospective chain uses 70k fit/15k tuning/15k closure, a common ridge search for both new recipes, response refit on 85k and a separate global closure factor. The spline adds predeclared bases/interactions to measured hit features; truth energy/direction are absent from inference. The original-method 1/2/4/8k learning curve is weak/nonmonotonic and explicitly exploratory, including a shifted bootstrap contrast range.\n\nValidation: all 120,000 primaries/76,941,173 hits/all 12 workers audited; 22 original controls plus 7 reuse controls; full old 10k native feature regression; complete frozen-model records independently reproduced bit-for-bit before unblinding; 1,000 shared validation bootstraps and 200 full training/selection/refit/closure bootstraps; correlated 120-width/60-contrast matrices verified; all 18 PNG/SVG exports byte-identical on standalone replot. Final exact-revision independent PhysVal assessment is retained in the session journal.\n\nTransport used 118.6 minutes summed wall, 20.93 CPU-hours, at most 2.672 GiB child RSS and 152.506 GB ROOT. At least 232.7 GiB remained free; no trimming/deletion. ROOT, exact event inputs/ledgers, full audits and event-level features/predictions stay local and ignored. Exact task token counters are unavailable.\n\n[Report](https://github.com/asalzburger/nodd/blob/codex/ecal-staggered-highstat-calibration/docs/validation/ecal-highstat/README.md) · [Vector SVG](https://github.com/asalzburger/nodd/blob/83eb6a8828eea3cfd54da07650ca226a88f7c2e9/docs/validation/ecal-highstat/results/angular-comparison.svg) · [Reproduction recipe](https://github.com/asalzburger/nodd/blob/codex/ecal-staggered-highstat-calibration/docs/validation/ecal-highstat/reproduce.md)\n\nPrepared for maintainer merge review. **Dependency order: #133 → #134 → #135 → #136 → #137**. This PR still targets #136; merge dependencies and retarget successors to main, preserving source commits referenced by the frozen evidence (use merge commits for this stack). Recheck CI after retargeting. This preparation does not approve or merge any predecessor. No geometry integration, human design sign-off or engineering acceptance.\n",
+        "text": "This follows #136 and studies only its unchanged physical staggered ECAL prototype under DES-030/DES-031. Generated **100,000 training + 20,000 fresh validation electrons**, independently uniform in E=10–80 GeV, eta −3..3 and full phi, with **12 DDSim workers**. Froze both training-only calibrations in Git before independent validation; retained code, recipes, compact statistics/covariance and PNG/PDF/**SVG** figures.\n\nThe recorded default for later use is **`nodd-ecal-staggered-spline-v1`**; `nodd-ecal-staggered-linear-v1` is retained as the comparator. The [versioned manifest](https://github.com/asalzburger/nodd/blob/codex/ecal-staggered-highstat-calibration/docs/validation/ecal-highstat/frozen/manifest.json) records coefficient/geometry/feature hashes, units and applicability. The [reuse guide](https://github.com/asalzburger/nodd/blob/codex/ecal-staggered-highstat-calibration/docs/validation/ecal-highstat/reuse.md) supplies a truth-free NumPy API/CLI, with compatibility guards and no refitting. All four pre/post energy-ratio series reproduce the retained full 20k predictions bit-for-bit; ten-k chunks show only quantified last-bit matrix-product roundoff (maximum 4.89e-15). The coefficients, frozen numerical source and published statistics/plots are unchanged. A separate exact-revision SoftEng review passed all 16 NumPy controls and independently reproduced the full20k equality and chunked roundoff, with no material finding.\n\nOn the **same fresh 20k**, inclusive sample SD(R)/mean(R) is **38.313% raw, 31.338% historical 10k ensemble, 31.322% retuned linear and 30.209% spline**. The spline gains 1.112 percentage points against the new linear comparator. More training with the linear recipe makes little difference here; this comparison also changes tuning/refitting and ensemble construction, so it does not isolate training size. The old 32.22% cross-fit result used a different cohort.\n\n![Independent angular comparison](https://raw.githubusercontent.com/asalzburger/nodd/83eb6a8828eea3cfd54da07650ca226a88f7c2e9/docs/validation/ecal-highstat/results/angular-comparison.png)\n\nThe global spline mean closes to **1.00300**, but local biases remain: energy-slice means 0.96975–1.02622 and folded-phi means 0.61376–1.10597. Sector-edge widths remain 73–75%, versus 11–13% in interior bins. All 84 zeros remain; spline gain clipping is 8.790%, feature extrapolation 1.095%, half-energy tail 9.380%. Global rescaling leaves SD/mean unchanged and raises spline RMS from 28.929% to 30.301%; closed linear RMS is 31.412%. These are spectrum-averaged non-Gaussian widths, not intrinsic fixed-energy resolution or detector acceptance.\n\nThe prospective chain uses 70k fit/15k tuning/15k closure, a common ridge search for both new recipes, response refit on 85k and a separate global closure factor. The spline adds predeclared bases/interactions to measured hit features; truth energy/direction are absent from inference. The original-method 1/2/4/8k learning curve is weak/nonmonotonic and explicitly exploratory, including a shifted bootstrap contrast range.\n\nValidation: all 120,000 primaries/76,941,173 hits/all 12 workers audited; 22 original controls plus 7 reuse controls; full old 10k native feature regression; complete frozen-model records independently reproduced bit-for-bit before unblinding; 1,000 shared validation bootstraps and 200 full training/selection/refit/closure bootstraps; correlated 120-width/60-contrast matrices verified; all 18 PNG/SVG exports byte-identical on standalone replot. Final exact-revision independent PhysVal assessment is retained in the session journal.\n\nTransport used 118.6 minutes summed wall, 20.93 CPU-hours, at most 2.672 GiB child RSS and 152.506 GB ROOT. At least 232.7 GiB remained free; no trimming/deletion. ROOT, exact event inputs/ledgers, full audits and event-level features/predictions stay local and ignored. Closed calibration and reuse work is now accounted below; the active accounting turn remains excluded.\n\n[Report](https://github.com/asalzburger/nodd/blob/codex/ecal-staggered-highstat-calibration/docs/validation/ecal-highstat/README.md) · [Vector SVG](https://github.com/asalzburger/nodd/blob/83eb6a8828eea3cfd54da07650ca226a88f7c2e9/docs/validation/ecal-highstat/results/angular-comparison.svg) · [Reproduction recipe](https://github.com/asalzburger/nodd/blob/codex/ecal-staggered-highstat-calibration/docs/validation/ecal-highstat/reproduce.md)\n\nPrepared for maintainer merge review. **Dependency order: #133 → #134 → #135 → #136 → #137**. This PR still targets #136; merge dependencies and retarget successors to main, preserving source commits referenced by the frozen evidence (use merge commits for this stack). Recheck CI after retargeting. This preparation does not approve or merge any predecessor. No geometry integration, human design sign-off or engineering acceptance.\n\n\nToken accounting (2026-11-12): **108,043,890 observed input+output tokens across 15 closed turns and 431 requests**. The canonical work labels are **Staggered ECAL: 100k training and 20k independent validation** (84,245,571) and **Staggered ECAL model reuse and PR137 merge preparation** (23,798,319). Cached input 107,174,400 and reasoning output 224,181 are subsets, not additions. Explicit parent/child identities and fork boundaries are verified; earlier inherited usage, earlier PR work and the active accounting turn are excluded. These are client observations, not billing or complete-device estimates. [Accounting and attribution](https://github.com/asalzburger/nodd/blob/codex/ecal-staggered-highstat-calibration/logs/codex/SESSION-2026-11-12-pr137-accounting.md).\n",
         "source": "https://github.com/asalzburger/nodd/pull/137",
         "in_reply_to": null,
         "model": null,
@@ -174,7 +1426,7 @@
         "direction": "reaction",
         "actor": "agent:SESSION-2026-11-12-ecal-calibration-reuse",
         "recipients": [],
-        "text": "Prepare PR137 and persist the staggered calibration inference contract — see the canonical narrative for outcomes and checks.",
+        "text": "Staggered ECAL model reuse and PR137 merge preparation — see the canonical narrative for outcomes and checks.",
         "source": "logs/codex/SESSION-2026-11-12-ecal-calibration-reuse.md",
         "in_reply_to": null,
         "model": null,
@@ -208,7 +1460,7 @@
         "direction": "reaction",
         "actor": "agent:SESSION-2026-11-12-ecal-staggered-highstat-calibration",
         "recipients": [],
-        "text": "Staggered ECAL learning curve and independent high-statistics calibration — see the canonical narrative for outcomes and checks.",
+        "text": "Staggered ECAL: 100k training and 20k independent validation — see the canonical narrative for outcomes and checks.",
         "source": "logs/codex/SESSION-2026-11-12-ecal-staggered-highstat-calibration.md",
         "in_reply_to": null,
         "model": null,
@@ -217,12 +1469,766 @@
           "SESSION-2026-11-12-ecal-staggered-highstat-calibration"
         ],
         "content_kind": "reference_summary"
+      },
+      {
+        "id": "journal:SESSION-2026-11-12-pr137-accounting:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-11-12-pr137-accounting",
+        "recipients": [],
+        "text": "PR137 token accounting, work labels and closeout — see the canonical narrative for outcomes and checks.",
+        "source": "logs/codex/SESSION-2026-11-12-pr137-accounting.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-pr137-accounting"
+        ],
+        "content_kind": "reference_summary"
+      },
+      {
+        "id": "codex-message:01a1cf97-848b-7a43-8619-ecd8c9ebaca1",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "codex-thread:01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "recipients": [
+          "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094"
+        ],
+        "text": "Would higher statistics help to do a better calibration ?",
+        "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cf97-8471-7f62-af2b-0e53f74397f3.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-staggered-highstat-calibration"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0fffe127a3de53c8016af5a7d37b2c87d28ab461db7101e4cb",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "recipients": [
+          "codex-thread:01a1cb19-3778-7923-bf3b-bd7349a594cd"
+        ],
+        "text": "I’ll check the training and held-out controls to see how much of the limitation looks statistical and how much comes from the calibration model or geometry.",
+        "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cf97-8471-7f62-af2b-0e53f74397f3.json",
+        "in_reply_to": "codex-message:01a1cf97-848b-7a43-8619-ecd8c9ebaca1",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-staggered-highstat-calibration"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0fffe127a3de53c8016af5a80c8d6c87d28356f03ecd1a5677",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "recipients": [
+          "codex-thread:01a1cb19-3778-7923-bf3b-bd7349a594cd"
+        ],
+        "text": "**Yes—higher statistics would help with finer position-dependent corrections. The calibration model also needs improvement.**\n\nWith 10k events, dividing into 10 eta × 10 phi × 14 energy bins would give only **7 events per bin on average**, before training/validation splits. At 100k, that becomes about 70, allowing a more detailed correction map.\n\nHowever, the current **8–9% energy bias is much larger than its estimated statistical uncertainty**. For the staggered geometry, the calibrated mean is 0.919, with a 95% interval of 0.914–0.924. Around 8.5% of events also reach the gain limits. These suggest limitations beyond sample size. [Current controls]([redacted]\n\nI would:\n\n1. Measure a **learning curve** using subsets of the existing sample and consistent held-out evaluation.\n2. Improve local response modeling and derive energy-scale closure using training data only.\n3. Then use roughly **100k training electrons plus 20k independent validation electrons per geometry**, with extra sampling around gaps.\n\nA global scale correction can restore the mean while leaving SD/mean unchanged. Narrower widths require better event-dependent corrections; more statistics can help learn those, while the physical seam losses remain.",
+        "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cf97-8471-7f62-af2b-0e53f74397f3.json",
+        "in_reply_to": "codex-message:01a1cf97-848b-7a43-8619-ecd8c9ebaca1",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-staggered-highstat-calibration"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:01a1cf99-09eb-7962-9496-bc4996158031",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "codex-thread:01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "recipients": [
+          "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094"
+        ],
+        "text": "ok, let's do this",
+        "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cf99-09d3-7f62-b2f8-8a072ffa0807.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-staggered-highstat-calibration"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0fffe127a3de53c8016af5a835778887d291f085aa0f3eaaf5",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "recipients": [
+          "codex-thread:01a1cb19-3778-7923-bf3b-bd7349a594cd"
+        ],
+        "text": "I’ll measure the learning curve on the existing sample, then test a revised calibration with training-only scale closure. I’ll also check disk space and prepare the larger 100k training plus 20k independent validation samples for both geometries, using 12 DDSim threads.",
+        "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cf99-09d3-7f62-b2f8-8a072ffa0807.json",
+        "in_reply_to": "codex-message:01a1cf99-09eb-7962-9496-bc4996158031",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-staggered-highstat-calibration"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:01a1cf99-9b28-73c2-a3e4-53c5f6c3a4e5",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "codex-thread:01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "recipients": [
+          "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094"
+        ],
+        "text": "Let's focus on the staggered geometry, as it gives some improvement already",
+        "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cf99-9b12-7df3-9596-71424cdbf92f.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-staggered-highstat-calibration"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0fffe127a3de53c8016af5a86830a087d2b6dc8920c49502f0",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "recipients": [
+          "codex-thread:01a1cb19-3778-7923-bf3b-bd7349a594cd"
+        ],
+        "text": "I’ll focus the larger sample and revised calibration on the staggered geometry. I’ll use the existing 10k events for development, reserve 20k fresh events for independent validation, and keep the original geometry results as the reference.",
+        "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cf99-9b12-7df3-9596-71424cdbf92f.json",
+        "in_reply_to": "codex-message:01a1cf99-9b28-73c2-a3e4-53c5f6c3a4e5",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-staggered-highstat-calibration"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0fffe127a3de53c8016af5a897edc487d2a0fa01a654a83f44",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "recipients": [
+          "codex-thread:01a1cb19-3778-7923-bf3b-bd7349a594cd"
+        ],
+        "text": "I’m using the project’s coordination and validation workflows again. The Spack preflight reports changed setup and lockfile fingerprints, so I’ll reverify the runtime before launching jobs. There is about 375 GiB free; the measured output size leaves enough room for the 120k-event staggered campaign and a disk reserve.",
+        "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cf99-9b12-7df3-9596-71424cdbf92f.json",
+        "in_reply_to": "codex-message:01a1cf99-9b28-73c2-a3e4-53c5f6c3a4e5",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-staggered-highstat-calibration"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0fffe127a3de53c8016af5ca3ca64087d2a4f00de1be1ed88b",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "recipients": [
+          "codex-thread:01a1cb19-3778-7923-bf3b-bd7349a594cd"
+        ],
+        "text": "Completed the **staggered-only study: 100k training + 20k independent validation electrons**, using 12 DDSim threads.\n\nOn the same validation sample:\n\n| Calibration | σ(R)/⟨R⟩ |\n|---|---:|\n| Historical 10k model | 31.34% |\n| Retrained linear model | 31.32% |\n| Revised spline model | **30.21%** |\n\nThe revised calibration gives a modest improvement. Its global mean response is **1.003**, but energy-dependent bias and substantial sector-seam losses remain.\n\nPeak transport memory was **2.67 GiB**; ROOT output used **152.5 GB**, with no trimming needed. All 22 tests passed; independent review found no material issue.\n\n[Draft PR #137](https://github.com/asalzburger/nodd/pull/137) · [Report](https://github.com/asalzburger/nodd/blob/codex/ecal-staggered-highstat-calibration/docs/validation/ecal-highstat/README.md) · [Vector SVG](https://github.com/asalzburger/nodd/blob/codex/ecal-staggered-highstat-calibration/docs/validation/ecal-highstat/results/angular-comparison.svg)\n\n![Staggered ECAL calibration comparison]([redacted]",
+        "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1cf99-9b12-7df3-9596-71424cdbf92f.json",
+        "in_reply_to": "codex-message:01a1cf99-9b28-73c2-a3e4-53c5f6c3a4e5",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-staggered-highstat-calibration"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:01a1d030-81d4-7e52-90f3-8938706b6948",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "codex-thread:01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "recipients": [
+          "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094"
+        ],
+        "text": "Can you prepare the PR for merging, recording the calibration model for later usage ?",
+        "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1d030-81bc-7c32-a1a1-4724ea71b8df.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-calibration-reuse"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0fffe127a3de53c8016af5cefc4ce487d2a2bcb9afec26fada",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "recipients": [
+          "codex-thread:01a1cb19-3778-7923-bf3b-bd7349a594cd"
+        ],
+        "text": "I’ll check PR #137, make sure the frozen calibration can be loaded and used later, and address anything needed for merge review. I’ll leave the merge itself to you.",
+        "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1d030-81bc-7c32-a1a1-4724ea71b8df.json",
+        "in_reply_to": "codex-message:01a1d030-81d4-7e52-90f3-8938706b6948",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-calibration-reuse"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0fffe127a3de53c8016af5cf12da9487d2b435fd3a4de9e86c",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "recipients": [
+          "codex-thread:01a1cb19-3778-7923-bf3b-bd7349a594cd"
+        ],
+        "text": "I’m using the repository’s coordination and validation procedures for this follow-up. The coefficients are already frozen; I’m checking the loading interface, model provenance, CI status and stacked PR dependencies so the calibration is practical to reuse.",
+        "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1d030-81bc-7c32-a1a1-4724ea71b8df.json",
+        "in_reply_to": "codex-message:01a1d030-81d4-7e52-90f3-8938706b6948",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-calibration-reuse"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0fffe127a3de53c8016af5d1bcc4c887d2b864af39d9e9f9e2",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "recipients": [
+          "codex-thread:01a1cb19-3778-7923-bf3b-bd7349a594cd"
+        ],
+        "text": "The new calibration tests have passed in GitHub CI. I’m finishing the merge notes and checking the remaining repository jobs.\n\nAutomatic approval review rejected marking #137 ready for review because [AGENTS.md]([redacted] requires explicit authorization for that state change; it did not treat “prepare for merging” as sufficient. The PR remains a draft.",
+        "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1d030-81bc-7c32-a1a1-4724ea71b8df.json",
+        "in_reply_to": "codex-message:01a1d030-81d4-7e52-90f3-8938706b6948",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-calibration-reuse"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:call_91b2efad18b74e02944a5a7e3f9e7c9f",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "recipients": [
+          "codex-thread:01a1cb19-3778-7923-bf3b-bd7349a594cd"
+        ],
+        "text": "May I mark PR #137 ready for review once its final CI run passes? The calibration model and reuse interface are pushed and independently reviewed; merging will remain for you.\n- Approve ready for review after CI passes\n- Keep PR #137 as draft",
+        "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1d030-81bc-7c32-a1a1-4724ea71b8df.json",
+        "in_reply_to": "codex-message:01a1d030-81d4-7e52-90f3-8938706b6948",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-calibration-reuse"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0fffe127a3de53c8016af5d247a02087d29af177c5fc1b4166",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "recipients": [
+          "codex-thread:01a1cb19-3778-7923-bf3b-bd7349a594cd"
+        ],
+        "text": "Automatic approval review rejected the earlier ready-for-review action because the repository requires explicit permission for that publication-state change. The model, reuse interface and merge notes are prepared; I’m checking the final CI run while this approval question is pending.",
+        "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1d030-81bc-7c32-a1a1-4724ea71b8df.json",
+        "in_reply_to": "codex-message:01a1d030-81d4-7e52-90f3-8938706b6948",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-calibration-reuse"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:01a1d045-3b2e-7d70-8a76-76ca1a2de633",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "codex-thread:01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "recipients": [
+          "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094"
+        ],
+        "text": "<send_user_message_question_reply>\n[{\"questionItemId\":\"[\\\"request_user_input_async\\\",\\\"call_91b2efad18b74e02944a5a7e3f9e7c9f\\\",0]\",\"question\":\"May I mark PR #137 ready for review once its final CI run passes? The calibration model and reuse interface are pushed and independently reviewed; merging will remain for you.\",\"answer\":\"Approve ready for review after CI passes\"}]\n</send_user_message_question_reply>",
+        "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1d030-81bc-7c32-a1a1-4724ea71b8df.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-calibration-reuse"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0fffe127a3de53c8016af5d976e71887d2a4187f22a0039d7b",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "recipients": [
+          "codex-thread:01a1cb19-3778-7923-bf3b-bd7349a594cd"
+        ],
+        "text": "[PR #137](https://github.com/asalzburger/nodd/pull/137) is **ready for review**, with all latest CI checks green. It has not been merged.\n\nRecorded **`nodd-ecal-staggered-spline-v1`** and the linear comparator, including frozen coefficients, checksums, compatibility constraints and a truth-free Python API/CLI. See the [reuse guide](https://github.com/asalzburger/nodd/blob/codex/ecal-staggered-highstat-calibration/docs/validation/ecal-highstat/reuse.md).\n\nAll 16 tests passed; independent review reproduced the full 20k predictions exactly. Coefficients remain unchanged.\n\nThe documented merge order remains **#133 → #134 → #135 → #136 → #137**, preserving commits and retargeting successors after dependency merges.",
+        "source": "interactions/pr-0137/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1d030-81bc-7c32-a1a1-4724ea71b8df.json",
+        "in_reply_to": "codex-message:01a1d045-3b2e-7d70-8a76-76ca1a2de633",
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-calibration-reuse"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_08bf63c436ea246b016af5a8f5a85887d2be2b08e0a7c7110a",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "recipients": [
+          "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094"
+        ],
+        "text": "I’m reviewing the higher-statistics calibration protocol, focusing on train-only closure and keeping the fresh validation sample independent of model choices.",
+        "source": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cf9b-e8b1-7ca1-a4fd-f39d1310d576.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-staggered-highstat-calibration"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_08bf63c436ea246b016af5a9a442d887d2b4536181ad0f89b0",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "recipients": [
+          "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094"
+        ],
+        "text": "**ECAL-HIGHSTAT-PHYSVAL-PROTOCOL**, reviewed **e9aabc83d3c8aa4127d1bcd824db0a134e69e7b0**. The proposed protocol is scientifically reasonable with the following frozen boundaries.\n\n- **Primary model:** use linear-response ridge with piecewise-linear spline features and a small, predeclared set of physical interactions. It targets mean \\(S/E_\\mathrm{true}\\); log-response fitting requires separate retransformation treatment and special handling of zeros. Keep log-response/log-signal variants secondary. Deduplicate training-quantile knots and record the resulting basis, bounds and extrapolation/clipping rates.\n- **Samples:** staggered geometry only; independently uniform energy, η and φ as specified. Keep primary streams and event identities disjoint. Split the new 100k into **70k fit / 15k tuning / 15k closure**. Select settings on tuning, refit the chosen response model on 85k, then determine closure using the untouched 15k.\n- **Closure:** a single global \\(C=1/\\overline{E_\\mathrm{pre}/E_\\mathrm{true}}\\), including zeros, is a suitable primary. Freeze it before fresh-validation inspection. It changes means and thresholds, while leaving CV exactly unchanged. Preserve pre/post-closure results and test energy-, angle- and region-dependent bias separately.\n- **Learning curve:** the unchanged original model can use **1k/2k/5k/8k** training budgets within each existing outer fold, with three fixed nested subset orders. These curves are exploratory because the old10k already informed development. Bootstrap seeds jointly; they share the same validation events. At 8k, all three subset orders should produce identical results.\n- **Final comparators:** staggered raw, original ten-feature architecture retrained on the declared new budget, improved pre-closure, improved post-closure. Distinguish these from the old10k-trained coefficients. Report inclusive means, CV, fractional-error RMS, quantile widths, tails, zeros and clipping; retain ten η/ten folded-φ bins and fourteen energy slices.\n- **Uncertainty:** 200 full LC replicates are practical but yield coarse percentile tails. For fresh20k, distinguish 1,000 validation-only resamples from 200 training/closure/test refits. The latter remain conditional on selected hyperparameters unless tuning is repeated. Recompute fitted preprocessing/knots, or explicitly condition on the frozen basis. Resample within fixed sample roles and share validation multiplicities across comparators.\n- **Fresh validation:** freeze the complete chain before inspection. Any subsequent tuning needs another independent validation sample.\n\nActual checks: all four assigned input hashes match previously reviewed source/results; governing instructions are unchanged. The existing staggered result retains mean **0.9191**, **8.54%** clipping and energy-slice means **0.886–0.939**, supporting explicit closure checks rather than assuming more statistics will remove bias.\n\nNo fits, simulation, writes or delegation. Later review should assess exact implementation and independent-validation results; this recommendation grants no acceptance or sign-off.",
+        "source": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cf9b-e8b1-7ca1-a4fd-f39d1310d576.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-staggered-highstat-calibration"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_08bf63c436ea246b016af5aa8c8a4887d2b27dfa0607e4de6c",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "recipients": [
+          "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094"
+        ],
+        "text": "I’m reviewing the frozen spline, closure, and learning-curve code before validation results are inspected, focusing on data separation and bootstrap uncertainty.",
+        "source": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cfa2-2a3c-7242-9f61-8df321a95a2a.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-staggered-highstat-calibration"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_08bf63c436ea246b016af5ab2063e487d29fed029dc84647ba",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "recipients": [
+          "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094"
+        ],
+        "text": "**ECAL-HIGHSTAT-PHYSVAL-SOURCE**, reviewed **e8c6dc1c1e46495aa46e1f630ec250120355cf77** and the performance-only addendum **d3b20a23ef9f5cf20fcc447be57e8fbaa63c82f7**. **No actionable material defect identified.**\n\nSource assessment:\n\n- Ranges, knots, normalization and scaling use response-fit data only. Tuning excludes closure; the 85k refit also excludes closure.\n- Global closure includes zeros. Observable-only inference preserves zero signal; closure changes scale without changing CV.\n- Original/spline comparators use the declared common budgets and tuning procedure.\n- Learning-curve folds and subsets exclude each evaluated event. Seeds share bootstrap multiplicities and are averaged as correlated metrics.\n- The addendum shares identical basis/design moments across penalties without changing the statistical procedure.\n\nActual non-fitting checks passed:\n\n- Fifty weighted-quantile controls exactly matched explicit duplicated populations.\n- Stage assignment gives **70k/15k/15k**.\n- All LC seed means/CVs/clipping and **80 angular mean/CV summaries** match saved predictions.\n- At 8k, predictions are **bit-identical across all three seeds and to the retained original model**. All 42 zeros remain.\n- Assigned hashes, LC source/core/feature bindings and three Python AST parses checked.\n\nLC widths are **32.3518, 32.1980, 32.1912, 32.2201%** at 1/2/4/8k. This supports weak, nonmonotonic dependence over that range for the frozen architecture; it does not establish an asymptotic limit for the revised model.\n\nLimitations: LC angular summaries contain points; stored intervals are global only. Final within-role bootstrap/repeated-selection orchestration still needs its source review. No fresh-validation performance was inspected, and no fits, simulation or writes were performed.",
+        "source": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cfa2-2a3c-7242-9f61-8df321a95a2a.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-staggered-highstat-calibration"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_08bf63c436ea246b016af5abec6df487d290a544454dd1e4d4",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "recipients": [
+          "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094"
+        ],
+        "text": "I’m checking the analysis pipeline’s model-freeze boundary and whether the full bootstrap repeats tuning, refitting, and closure within the fixed sample roles.",
+        "source": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cfa7-8af6-78b1-a3a6-036e8d814c7a.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-staggered-highstat-calibration"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_08bf63c436ea246b016af5ac88125487d2bef6c83a475a0641",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "recipients": [
+          "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094"
+        ],
+        "text": "**ECAL-HIGHSTAT-PHYSVAL-ANALYSIS**, reviewed **ab753ec5cea60627e4b09133689b0f27441abf84**.\n\n**[P2] Freeze and enforce feature semantics before loading validation arrays.** [highstat_analysis.py]([redacted] validates artifact hashes but does not compare feature names or extractor/recipe/helper hashes across batches or against frozen training receipts. A validation batch regenerated with a different feature definition can therefore pass these guards. Record a training feature-semantics signature and require it for every validation receipt before opening its NPZ.\n\nOtherwise, the reviewed implementation is consistent with the protocol:\n\n- Model/core/campaign/training-artifact checks precede validation loading.\n- Full bootstrap resamples independently within 70k/15k/15k roles and repeats preprocessing, knot construction, tuning, 85k refitting and closure.\n- Validation multiplicities are shared across all six series. Historical-model uncertainty is explicitly conditioned on.\n- Raw tails/RMS use the declared training-only scale comparator.\n\nActual non-fitting checks passed:\n\n- All **840 grouped mean/CV/tail/RMS fields** matched explicit duplicated populations.\n- Global/η/φ/energy indexing correctly spans **35 columns**.\n- **120-width/60-contrast** ordering reproduces \\(A\\Sigma A^\\mathsf{T}\\).\n- Within-role bootstrap counts remain exactly **70k/15k/15k**.\n- Assigned hashes and Python syntax checked.\n\nThe 120-width covariance is structurally singular—rank at most **80**—because global closure leaves pre/post CVs identical. Report this as an expected property.\n\nNo fits, simulation, ROOT reads, validation-performance inspection or writes. Final numerical results and realized provenance still require review after the feature-semantics guard is addressed.",
+        "source": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cfa7-8af6-78b1-a3a6-036e8d814c7a.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-staggered-highstat-calibration"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_08bf63c436ea246b016af5accbecdc87d295d25b6ab99039a4",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "recipients": [
+          "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094"
+        ],
+        "text": "I’m checking that the guard rejects mismatched feature definitions before opening any validation arrays.",
+        "source": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cfaa-f348-73f3-b333-a47e006a6ef7.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-staggered-highstat-calibration"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_08bf63c436ea246b016af5acfc888087d2915bc19d7e6d04eb",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "recipients": [
+          "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094"
+        ],
+        "text": "**P2 finding fixed** at **62261934588a38437b5e115475c82c99727478ba**.\n\nThe two-pass loader checks every batch’s feature signature against frozen training semantics before loading validation arrays. Evaluation also enforces the frozen analysis-procedure hash.\n\nIndependent in-memory checks passed:\n\n- Later-batch mismatch rejected before any array load.\n- Frozen-training signature mismatch rejected before any array load.\n- Matching headers reached the loader.\n\nBoth source hashes and syntax checks passed. No scientific-method changes, fits, writes or validation-data inspection. Final campaign results remain unreviewed.",
+        "source": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cfaa-f348-73f3-b333-a47e006a6ef7.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-staggered-highstat-calibration"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_08bf63c436ea246b016af5aeddfa3487d2b30b4ca560988b39",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "recipients": [
+          "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094"
+        ],
+        "text": "I’m checking whether the shifted learning-curve interval reflects an implementation error or a limitation of the finite-training bootstrap, and what that means for the higher-statistics uncertainty estimates.",
+        "source": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cfb2-ffdd-72d1-a07e-f406bec34fb2.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-staggered-highstat-calibration"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_08bf63c436ea246b016af5af65691487d29dccb599a232282b",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "recipients": [
+          "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094"
+        ],
+        "text": "Reviewed **99eb9ed0587180873ca75e52a03e2dccf5440185**. **No implementation defect found; the bootstrap shift requires an interpretation caution.**\n\nThe 1k−8k width difference is **0.1317 percentage points**, while its bootstrap percentile range is **0.1570–0.5869 pp** and bootstrap SD **0.1135 pp**. Percentile endpoints are replicate quantiles; they need not bracket the observed estimate. Their exclusion of this estimate warns against treating the range as calibrated 95% significance evidence.\n\nRetain the point and range unchanged. Finite-training reweighting, clipping and discrete model selection are plausible explanations, but this review does not establish the mechanism. Bootstrap interval accuracy can depend on bias treatment; see [Efron (1987)]([external URL redacted; see source journal]).\n\nNo estimator or bootstrap-method change is indicated before campaign evaluation. Before the final freeze, add centering diagnostics for full-bootstrap metrics and contrasts: bootstrap mean/median, mean-minus-point, fraction below the point and whether the point lies inside the central range. Keep conditional-validation intervals separate; report analogous full-bootstrap shifts explicitly.\n\nActual checks passed:\n\n- All previous LC point metrics, intervals and metadata remain unchanged.\n- Global **8×8** and angular **80×80** covariance ordering, symmetry and positive definiteness checked.\n- Paired contrast point definitions agree exactly.\n\nNo new fits, bootstrap generation, validation inspection or writes. The LC remains exploratory; neither its small nonmonotonic changes nor these ranges establish an asymptotic training-data limit.",
+        "source": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cfb2-ffdd-72d1-a07e-f406bec34fb2.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-staggered-highstat-calibration"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_08bf63c436ea246b016af5b9c402b087d2ab4758af29683999",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "recipients": [
+          "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094"
+        ],
+        "text": "I’m checking the common regularization grid as a prospective comparison choice, before any new model fitting or validation-performance inspection.",
+        "source": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cfdd-658c-7fe0-99ec-509edec65cf2.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-staggered-highstat-calibration"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_08bf63c436ea246b016af5b9e0882087d29bed5c4c1cbc94b8",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "recipients": [
+          "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094"
+        ],
+        "text": "Reviewed **ca38408d765fdce2cbc14d3d597d6b9b7a89bfa9**. **Recommend adopting the common grid now: `{0.0001, 0.01, 1, 100}` for both new models.**\n\nThis removes an avoidable search-range difference. All ten historical staggered regional/fold models selected **0.01**, their lowest available penalty; the spline currently has access to a weaker penalty that the new linear comparator lacks.\n\nRecord the amendment before fitting. Keep identical sample roles, tuning-only response-MSE selection, refitting, closure, bounds and bootstrap procedures. Preserve the old learning curve and ensemble unchanged.\n\nLabel the comparator **“original ten-feature architecture, retrained with the common expanded regularization search.”** It is no longer the identical historical recipe.\n\nCommon penalties strengthen the comparison but do not equalize model capacity: spline dimensions, interactions and feature clipping still differ. Results therefore compare complete calibration recipes, rather than isolating spline nonlinearity alone. Do not expand the grid after inspecting fresh20k performance.\n\nActual checks: verified all four pinned input hashes, inspected the declared grids and confirmed the ten historical endpoint selections. No new fits, datasets, writes or simulation.",
+        "source": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1cfdd-658c-7fe0-99ec-509edec65cf2.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-staggered-highstat-calibration"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_08bf63c436ea246b016af5c2a3dee887d284b82692970e8576",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "recipients": [
+          "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094"
+        ],
+        "text": "I’m verifying the frozen models against the 100k training data and declared split. I’ll keep validation features and performance unopened.",
+        "source": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1d000-3568-7552-9eea-83590351afc2.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-staggered-highstat-calibration"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_08bf63c436ea246b016af5c31ac4a487d2b4a8ba62830823cf",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "recipients": [
+          "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094"
+        ],
+        "text": "**ECAL-HIGHSTAT-PHYSVAL-FROZEN-MODELS**, reviewed **e65962c259cec1f8744252fccfa17211004f4d61**. **No material finding.**\n\nBoth declared training procedures reproduced the **entire frozen model records bit-for-bit**, including bases, coefficients, candidate scores, selections, fallback scales and closure factors. Maximum numerical difference: **zero**.\n\n- Original architecture: λ **0.0001 / 0.01**, dimensions **11/11**, closure **1.0857735225335063**.\n- Spline: **7 knots, λ=0.0001** in both regions, dimensions **80/82**, closure **1.0854609054699023**.\n\nVerified all ten training feature batches and receipts, feature semantics, campaign/source/helper hashes, common grid, and the exact **70k/15k/15k** role assignment. Closure-sample means equal one, CV is unchanged by closure, and zeros and gain bounds are preserved. These closure checks are training diagnostics, not independent performance evidence.\n\nUsed Python `-B` with `OPENBLAS_NUM_THREADS=1`. An explicit loader guard permitted training paths only. **No validation arrays were opened**, and no alternative configurations, simulation or file writes were performed. Native/ROOT audits were not repeated. Final20k performance remains unreviewed.",
+        "source": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1d000-3568-7552-9eea-83590351afc2.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-staggered-highstat-calibration"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_08bf63c436ea246b016af5c8cf3c3087d2933b44d04be9dbc6",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "recipients": [
+          "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094"
+        ],
+        "text": "I’m checking the fresh 20k results against the local arrays and frozen models, then reviewing all nine figures and the uncertainty interpretation.",
+        "source": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1d018-5276-74b0-a95f-27919c5818aa.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-staggered-highstat-calibration"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_08bf63c436ea246b016af5c9ab616087d2a8da7ab85d606342",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1cb19-1628-7573-916f-ff4a9a5705f7",
+        "recipients": [
+          "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094"
+        ],
+        "text": "**ECAL-HIGHSTAT-PHYSVAL-FINAL**, reviewed **83eb6a8828eea3cfd54da07650ca226a88f7c2e9**. **No material scientific or implementation finding.**\n\nActual checks passed:\n\n- Reproduced all six frozen-inference series and **438 population summaries**, including all **120 inclusive angular histograms**, energy/control tables, tails, RMS, clipping and extrapolation.\n- Confirmed **84 zeros** remain throughout.\n- Both covariance sets have the expected width rank **80** and correct contrast transformation; maximum \\(A\\Sigma A^\\mathsf{T}\\) discrepancy **5.8×10⁻¹⁹**.\n- Checked **1,680 interval diagnostics**, 120 contrast diagnostics, all 27 render hashes and all twelve batch provenance chains covering **120,000 events / 76,941,173 hits**.\n- Visually inspected all nine PNG families.\n\nThe interpretation is appropriately limited. Spline width improves **31.322→30.209%** against the retrained linear comparator, while global mean **1.00300** coexists with substantial local bias, seam widths **73–75%**, a **9.38%** half-energy tail and **8.79%** gain clipping. The stated **17/20** positive angular contrast ranges are pointwise.\n\nBootstrap centering diagnostics show no analogous large shift to the exploratory learning-curve case; the largest angular-width mean offset is **0.16 bootstrap SD**. Coverage nevertheless remains approximate, especially with 200 full refits.\n\nNo retuning, writes, simulation or publication. Full bootstrap generation and ROOT readback were not repeated; their source and realized bindings were reviewed. This assessment grants no detector acceptance or sign-off.",
+        "source": "interactions/pr-0137/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1d018-5276-74b0-a95f-27919c5818aa.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-staggered-highstat-calibration"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_08bf63c436ea246b016af5a8fa66d087d2ad0102742f3634fd",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "recipients": [
+          "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094"
+        ],
+        "text": "I’ll read the new pipeline contract, get the reproducible high-statistics generator ready first, then add the combined audit and feature readback.",
+        "source": "interactions/pr-0137/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1cf9c-046c-79e0-be19-3922787dace1.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-staggered-highstat-calibration"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_08bf63c436ea246b016af5a98feaa487d2b0c9bbcf306c95b7",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "recipients": [
+          "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094"
+        ],
+        "text": "The generator is ready: it creates 10 training batches and two independent validation batches of 10,000 events, with distinct seeds and explicit campaign IDs. The readback will audit hits and accumulate features in one compiled pass, preserving the primary, identity, worker and input checks.",
+        "source": "interactions/pr-0137/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1cf9c-046c-79e0-be19-3922787dace1.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-staggered-highstat-calibration"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_08bf63c436ea246b016af5aac1c72087d290ed20fc09e2e370",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "recipients": [
+          "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094"
+        ],
+        "text": "Completed `ECAL-HIGHSTAT-SOFTENG-PIPELINE` against `e9aabc83d3c8aa4127d1bcd824db0a134e69e7b0`.\n\n- Generator prepares100k training +20k fresh validation as12 independent10k batches, with distinct seeds, campaign IDs, frozen geometry/library hashes and disk guards.\n- Readback combines native primary/hit validation and feature accumulation in one ROOT pass. It preserves original audit checks and NPZ keys; reconstructed features use no truth inputs.\n- Only the three assigned Python files changed.\n\nAll11 tests passed under ROOT6.40.04/EDM4hep. The retained24-event pilot passed in2.2s with13,118 cells; identities, counts, workers, primary errors and ROOT hash matched the old audit. Signals/features agreed within the tested roundoff tolerances. Updated lightweight guard tests also passed after rejecting equal seed pairs and nonfinite reserves.\n\nReady-to-run readback:\n\n```sh\npython3 -B software/analysis/calorimeter_digitization/highstat_readback.py \\\n  --run BATCH/run --sample BATCH/input --output BATCH/analysis\n```\n\nNo transport launched or publication performed. Full10k readback throughput remains unmeasured. Final source hashes were sent separately for freezing.",
+        "source": "interactions/pr-0137/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1cf9c-046c-79e0-be19-3922787dace1.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-staggered-highstat-calibration"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_08bf63c436ea246b016af5aaf3878487d2addf0d5bda2e1ad5",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "recipients": [
+          "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094"
+        ],
+        "text": "I’ll add the steering hash check and bind each worker’s seed and RNG to the transport receipt, then run focused rejection tests.",
+        "source": "interactions/pr-0137/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1cfa3-b97b-7440-8f99-ea7587faa62c.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-staggered-highstat-calibration"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_08bf63c436ea246b016af5ab38d1e487d2a9aa5613dfd17463",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "recipients": [
+          "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094"
+        ],
+        "text": "Guard completion ready against `8cc16f6ab0daebb2c59a9ed6803892c24ff8c8e2`.\n\n- Pinned steering SHA256 `67b8ccfd…d2562`; run-batch checks the actual file, readback checks the receipt.\n- Each worker must report the receipt’s seed; reported RNG engines must be `MixMaxRng`.\n- Negative controls cover changed/missing steering, wrong/missing worker seed and wrong RNG.\n- All **13 tests passed**, including the24-event native pilot equivalence control; `git diff --check` passed.\n\nOnly the three owned files changed. No input-generation values, simulation parameters or geometry changed.\n\nFinal SHA256:\n```text\nhighstat_sample.py   472a8067b0407f8731d64a9de80203fe7c6a7ec3bd8704b437d41e3a863fcfa1\nhighstat_readback.py 9a967fa817ae54537f902876a4c8d1b07392ba6ac325c7af7d948bd864827517\ntest_highstat_pipeline.py 8385108c9e6b5362fc539b12109a6c7e55ac21e40cd8c5aa747088b26a8dbcd2\n```",
+        "source": "interactions/pr-0137/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1cfa3-b97b-7440-8f99-ea7587faa62c.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-staggered-highstat-calibration"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_08bf63c436ea246b016af5d0d75aec87d2b1f4b5699bb23b79",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "recipients": [
+          "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094"
+        ],
+        "text": "I’ll review the versioned calibration artifact and reuse interface at the assigned revision, focusing on truth-free inference, compatibility checks and test coverage.",
+        "source": "interactions/pr-0137/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1d037-bb3b-7fb1-9504-b7d9f6e0d0f9.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-calibration-reuse"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_08bf63c436ea246b016af5d114784087d285e1fe001c128986",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "recipients": [
+          "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094"
+        ],
+        "text": "The interface takes measured features, silicon signal, region and axis-validity flags, with explicit compatibility metadata. I’ll check those guards and rerun the NumPy controls. The documented distinction between full-population bit equality and chunk-size roundoff is appropriate.",
+        "source": "interactions/pr-0137/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1d037-bb3b-7fb1-9504-b7d9f6e0d0f9.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-calibration-reuse"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_08bf63c436ea246b016af5d152d8ac87d2a96debb8e28c4088",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "recipients": [
+          "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094"
+        ],
+        "text": "`ECAL-CALIBRATION-REUSE-SOFTENG`: **No material software findings** at `6547c1016ca90f99f82445c1012ee1055f2a08a8`.\n\nVerified coefficient/core hash bindings, geometry and feature-semantic guards, array shapes and flag dtypes, measured-only inference without refitting, zero/fallback/clipping behavior, output provenance and overwrite rejection. CI includes all three relevant test suites.\n\nActual checks:\n\n- All **16 NumPy tests passed** using Python3.14.5, NumPy2.5.4 and `OPENBLAS_NUM_THREADS=1`.\n- `models.json` and `highstat_model.py` have identical Git blobs to freeze `e65962c…`.\n- Independently reproduced **bit-exact full20k equality** for both models’ pre/post-closure ratios.\n- Reproduced the documented10k chunk roundoff: maximum `4.884981308350689e-15`, with zero measured mean difference.\n\nThe roundoff distinction is accurately documented; it provides no evidence of coefficient or reference changes.\n\nLimits: CI configuration was inspected, not executed remotely. GeV units and simulation context beyond the checked compact/feature signatures remain caller responsibilities, as documented. No source changes, native runtime, scientific refit or transport performed.",
+        "source": "interactions/pr-0137/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1d037-bb3b-7fb1-9504-b7d9f6e0d0f9.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-calibration-reuse"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
       }
     ],
     "coverage": {
-      "github_captured_at": "2026-11-12T15:08:47Z",
+      "github_captured_at": "2026-11-12T16:22:09Z",
       "prompts": "Available account-matched user-visible messages, public Codex inputs and curated journal excerpts. Historical full input coverage is unknown.",
-      "recovered_visible_turns": 0,
+      "recovered_visible_turns": 15,
       "unrecovered_account_turns": [],
       "responses": "Public responses and recorded outcomes; no private model state or hidden reasoning.",
       "token_accounting": "References only. Never sum accounts across PRs or assign a shared turn by text length.",
