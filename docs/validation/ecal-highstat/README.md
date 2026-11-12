@@ -7,6 +7,11 @@ transport policy are unchanged. The prospective choices and pre-fit common-grid
 amendment are retained in the [protocol](protocol.md). This is a calibration
 study, with no detector engineering acceptance or intrinsic-resolution claim.
 
+The recorded model is **`nodd-ecal-staggered-spline-v1`**. See the
+[reuse contract and inference commands](reuse.md) and
+[versioned model manifest](frozen/manifest.json). Coefficients and numerical
+source remain unchanged; reuse requires no training or truth inputs.
+
 ## Independent result
 
 All **100,000 training + 20,000 fresh validation electrons** completed transport
