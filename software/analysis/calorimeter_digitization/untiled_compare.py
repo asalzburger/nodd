@@ -184,7 +184,8 @@ def plot(result, output):
                 ci = np.asarray([bounds(b[geometry][key + "_uncertainty"]) for b in bins]) * 100
                 ax.vlines(x, ci[:, 0], ci[:, 1], color="#404030", lw=1)
                 ax.plot(x, y, lw=2, ms=5, label=labels[geometry], **styles[geometry])
-                ax.set_ylim(bottom=0)
+        for ax in (axes[0, column], meanaxes[column]):
+            ax.set_ylim(bottom=0)
         delta = [percent(b["width_difference"]["value"]) for b in bins]
         ci = np.asarray([bounds(b["width_difference"]) for b in bins]) * 100
         axes[1, column].axhline(0, color="#777777", ls=":", lw=1)
