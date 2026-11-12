@@ -621,7 +621,7 @@
       "id": "CHECK-CALO",
       "name": "Calorimeter hardware, layouts and audit controls",
       "category": "cross-validation",
-      "usage": "source audit; readout; absorber; LAr; Si-W wedge navigation; HCAL; FCAL; overlaps; 100-electron ECAL startup/transport timing; compressed EDM4hep output size",
+      "usage": "source audit; readout; absorber; LAr; Si-W wedge navigation; HCAL; FCAL; overlaps; 100-electron ECAL startup/transport timing; compressed EDM4hep output size; optional default-preserving endcap radial/tangential module packing phases for isolated staggered ECAL tests",
       "integration": "Local Python/C++ source in nODD; no external submodule installation for this code.",
       "version": "DRAFT / PROTOTYPE; standalone factories and campaign evidence remain separate from production acceptance.",
       "installation": "Model/export controls use standard library where documented; native CMake projects use existing DD4hep/ROOT. Figures may need Matplotlib. Issue131 uses software/env/run.sh with existing DDG4/EDM4hep/podio/ROOT; run and readback recipes are recorded with the benchmark.",
@@ -642,7 +642,8 @@
         "tools/calorimeter_baselines/README.md",
         "tools/calorimeter_hardware/README.md",
         "tools/hcal_readout/README.md",
-        "docs/validation/issue131/README.md"
+        "docs/validation/issue131/README.md",
+        "docs/validation/ecal-staggering/protocol.md"
       ],
       "prs": [
         "https://github.com/asalzburger/nodd/pull/81",
@@ -1184,10 +1185,10 @@
       "id": "ANA-CALO-DIGITIZATION",
       "name": "Silicon digitization analysis and original-framework validation",
       "category": "analysis",
-      "usage": "DDSim inputs; Key4hep/ACTS comparison; MIP fit; SNR; thresholds; paired electron/photon response; physical tiling diagnostic; integrated LAYOUT-001 tracker/ECAL; matched zero-field ODD; native physical-ID crosswalk; event/reference bootstrap covariance; closed six-muon analysis with global seeds; strict full-inventory and raw-receipt binding; completed-result reuse; exact unbinned quantile attachment to unchanged closed response; ECAL10K uniform-energy/eta/phi HEPEvt input; 12-thread DDSim worker audits; ID-indexed readback; ten-bin angular raw visible-response widths and joint event-bootstrap covariance; twenty underlying angular response histograms checked against unbinned published moments; fictional continuous-sector silicon control; unchanged native factories; explicit support intersections; matched-primary paired event bootstrap and width-difference covariance; deterministic vector SVG companions for all four ECAL control figures",
+      "usage": "DDSim inputs; Key4hep/ACTS comparison; MIP fit; SNR; thresholds; paired electron/photon response; physical tiling diagnostic; integrated LAYOUT-001 tracker/ECAL; matched zero-field ODD; native physical-ID crosswalk; event/reference bootstrap covariance; closed six-muon analysis with global seeds; strict full-inventory and raw-receipt binding; completed-result reuse; exact unbinned quantile attachment to unchanged closed response; ECAL10K uniform-energy/eta/phi HEPEvt input; 12-thread DDSim worker audits; ID-indexed readback; ten-bin angular raw visible-response widths and joint event-bootstrap covariance; twenty underlying angular response histograms checked against unbinned published moments; fictional continuous-sector silicon control; unchanged native factories; explicit support intersections; matched-primary paired event bootstrap and width-difference covariance; deterministic vector SVG companions for all four ECAL control figures; physical four-phase ECAL module packing; native mask/electrode/ID and dense crossing checks; reconstructed-only hit-axis features; nested held-out bounded ridge calibration; paired whole-event bootstrap with complete calibration refits; energy-scale, tails, clipping and prior-sensitivity controls; PNG/PDF/SVG four-way evidence",
       "integration": "Local nODD Python analysis, isolated PROTOTYPE; uses actual original Gaudi and native ACTS executables plus ROOT/NumPy/Matplotlib. Separate source-pinned studies cover the ODD digitizer, isolated endcap tiling, and maintained LAYOUT-001 versus zero-field ODD; each retains its own scope. ECAL10K adds a task-local DDG4 audit plugin built from docs/validation/ecal10k; no detector factory or shared dependency changes.",
-      "version": "Executed 2026-11-09 source-pinned ODD and nODD studies; NumPy 2.5.4, ROOT 6.40.04, Matplotlib 3.11.2. nODD transport/protocol 5afb019eac6e152608639d02223dda73098a197f; statistical source c9f2fa7992391987a46c81f038623a2d14e79990. Deterministic nODD comparison passes; one of four stochastic gates fails and remains retained. No detector acceptance. ECAL10K executed2026-11-11: 10000event DDSim12thread run, allreadback passed; source transport a53895fa, analysis e097af85. Raw visible response only. Continuous-silicon control2026-11-12:10000event/12workers, frozen geometry528db706; fullreadback10,006,736hits; paired5000replicas with retained covariance. Raw response/coverage counterfactual only.",
-      "installation": "Use software/env/run.sh and the PR123 command-scoped key4hep wrapper; exact generation/reference/analysis/replot commands in the results report. Existing ACTS/Spack runtime; no shared dependency change. ECAL10K reproduction uses angular_sample.py, angular_transport.py and angular_analyze.py with the existing Spack runtime. Continuous-silicon control recipe: docs/validation/ecal10k-untiled/protocol.md; new untiled_* tools use the same installed runtime.",
+      "version": "Executed 2026-11-09 source-pinned ODD and nODD studies; NumPy 2.5.4, ROOT 6.40.04, Matplotlib 3.11.2. nODD transport/protocol 5afb019eac6e152608639d02223dda73098a197f; statistical source c9f2fa7992391987a46c81f038623a2d14e79990. Deterministic nODD comparison passes; one of four stochastic gates fails and remains retained. No detector acceptance. ECAL10K executed2026-11-11: 10000event DDSim12thread run, allreadback passed; source transport a53895fa, analysis e097af85. Raw visible response only. Continuous-silicon control2026-11-12:10000event/12workers, frozen geometry528db706; fullreadback10,006,736hits; paired5000replicas with retained covariance. Raw response/coverage counterfactual only. Physical staggering and calibration prototype executed 2026-11-12; source and output hashes in the new report; calibration closure limitations retained.",
+      "installation": "Use software/env/run.sh and the PR123 command-scoped key4hep wrapper; exact generation/reference/analysis/replot commands in the results report. Existing ACTS/Spack runtime; no shared dependency change. ECAL10K reproduction uses angular_sample.py, angular_transport.py and angular_analyze.py with the existing Spack runtime. Continuous-silicon control recipe: docs/validation/ecal10k-untiled/protocol.md; new untiled_* tools use the same installed runtime. Staggering/calibration reproduction: docs/validation/ecal-staggering/README.md; staggered_* tools use existing ROOT/NumPy/Matplotlib, with no new external dependency.",
       "paths": [
         "software/analysis/calorimeter_digitization"
       ],
@@ -1208,7 +1209,11 @@
         "docs/validation/ecal10k-untiled/README.md",
         "docs/validation/ecal10k-untiled/geometry-summary.json",
         "docs/validation/ecal10k-untiled/results/comparison.json",
-        "docs/validation/ecal10k-untiled/results/svg-render.json"
+        "docs/validation/ecal10k-untiled/results/svg-render.json",
+        "docs/validation/ecal-staggering/protocol.md",
+        "docs/validation/ecal-staggering/README.md",
+        "docs/validation/ecal-staggering/geometry-and-run.json",
+        "docs/validation/ecal-staggering/results/summary.json"
       ],
       "prs": [
         "https://github.com/asalzburger/nodd/pull/118",

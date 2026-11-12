@@ -1,42 +1,84 @@
-# SESSION-2026-11-12-ecal-calibration-staggering-tests — Held-out ECAL calibration and physical board staggering tests
+# SESSION-2026-11-12-ecal-calibration-staggering-tests
 
-## Scope and evidence
+## Scope and selected request
 
-State collection method, available context, limitations, related IDs and starting
-revision. Identify uncommitted user changes present before work.
+The user said: “Please go ahead with these tests.” This follows the proposed
+local-position calibration and independent module-phase tests in PR135. The
+bounded implementation uses identical retained 10,000 electron inputs and
+12 DDSim workers, with disk planning and a live guard. Starting revision:
+`3af5538faf884d0abce98b0956c0e6d4f45d4527`; clean dedicated branch
+`codex/ecal-calibration-staggering-tests`. Earlier samples remain unchanged.
+The repository is the canonical record. This is an isolated PROTOTYPE under
+DES-030/DES-031; no human sign-off or production integration is inferred.
 
-## Selected conversation
-
-Attribute requests to the user and outcomes to the assistant. Mark exact quotes
-and paraphrases explicitly. Include corrections and changes in direction.
-Exclude private model state, confidential content, and irrelevant system context.
+The coordinator applied `nodd-coordinate`, `nodd-design-evidence`,
+`nodd-review-validation` and the local ACTS Spack skill. Changed setup/lock
+fingerprints were disclosed before dependent work; the native runtime doctor
+passed. Existing dependencies were reused without modifying shared installs.
 
 ## Decisions and outcomes
 
-State rationale, alternatives, consequences and what remains unresolved. Never
-convert implementation authorization into human design sign-off.
+The physical four-phase board layout was frozen before response inspection.
+Barrel narrow edge boards preserve envelopes/ASIC capacity; short slabs use a
+24 mm quarter-phase to preserve rows/clearance. All area/material changes are
+explicit. Native construction/IDs/electrodes/zero-overlap checks, 24-event pilot,
+full 10k transport and all saved-primary/hit/12-worker audits pass. The original
+sector seams remain. Dense mask screening is geometry only.
+
+The calibration protocol freezes observable-only features, five outer/three
+inner ID folds, training-only preprocessing, ridge candidates and gain bounds.
+Separate `Model.infer(features, signal)` returns energy without truth inputs;
+held-out truth changes leave inferred energy unchanged. No held-out retuning.
+The first baseline fit improves global CV from 43.09% to 34.43%, while retaining
+mean Ecal/Etrue=0.9136 and 8.99% clipping. This scale bias is a reported limitation,
+not removed by an evaluation-derived correction. Final paired analysis follows.
 
 ## Commands and validation
 
-Record relevant commands, actual exits/results, failed attempts and remedies.
-Distinguish structural checks from detector acceptance.
+Exact reproduction commands are in `docs/validation/ecal-staggering/reproduce.md`.
+The runtime doctor, native geometry audit, pilot and full saved-event audits
+returned exit 0. The 10k run took 591.953 s with peak RSS 2.469 GiB and a
+12.613 GB ROOT file. No disk trimming or disk-guard abort. Nine new geometry,
+eight existing edge-packing, five calibration and two statistics tests passed.
+An initial edge-test discovery used a nonexistent pattern and ran zero tests
+(exit 5); corrected `test_edges.py` runs all eight. An initial public evidence
+assembly used the wrong disk-budget path and failed; the curator now uses the
+correct root record and rejects unexpectedly large aggregates. Full module/pad
+polygons remain local, not in public evidence.
 
-## Changes and revision links
+The identical-input report integration control with five full-refit bootstrap
+replicas gives exactly zero point/interval layout contrasts. It is a software
+control, never presented as new geometry data. Figure export smoke-check passed.
 
-List changed files or refer to the paired JSON inventory. Result commits are
-recorded only once they exist; Git history locates this record's enclosing commit.
+Separate PhysVal source review at `3626953a90ed61b078265ab2cf064d65040ba7b6`
+found no material defect. It checked source hashes, 1,536 negative-end inverse
+transforms (max residual 1.4e-12 mm), frozen XML and feature/pilot bindings.
+A nonblocking energy-return API observation was addressed by Model.infer and
+held-out full-energy invariance tests before the primary fit.
 
-## Token accounting
+Statistical review at `f9e9779512747ad6fce0b8ec1bfb5e442b5cddc7`, plus explicitly
+identified histogram/global additions (hash 5278f162…), found no material defect.
+Actual non-fitting checks matched weighted moments to duplicated populations and
+verified 80-width/80-contrast ordering and A·cov·Aᵀ within 3.6e-15. Reviewer
+cautions retained: report primary scale bias and clipping; eta-sign pools both
+barrel and endcap; secondary-prior diagnostics have no separate intervals; central
+quantile width is (q84−q16)/(2q50). Final results review remains pending.
 
-Record the client-provided per-turn usage source and import command, or state why
-exact counters are unavailable. Report observed input/output sums and missing
-coverage from `session_log.py summary`; empty usage means unknown, not zero.
-Never copy raw client archives or private model state. Do not duplicate turns
-across tasks or add cached/reasoning subsets to the input/output totals.
+## Changes and accounting
 
-## Follow-up
+Physical layout preparation, native checks, reconstructed features, calibration,
+paired refitting results, PNG/PDF/SVG plotting and aggregate evidence tools are
+under `software/analysis/calorimeter_digitization/staggered_*`. The default
+endcap packer gains optional phase controls with unchanged default behavior.
+Curated report/protocol/evidence, software inventory and scientific tracking are
+updated in this branch. Raw ROOT, event-level features/predictions, exact primary
+and event ledgers, bulky geometry/pad/ray audits and logs remain local/ignored.
 
-List remaining work, missing measurements and any human review needed.
+Exact client parent/child token counters are unavailable. The paired JSON keeps
+`usage: []`; this means unknown, not zero. No private rollouts or reasoning are
+recorded. Final validators, publication and the bounded final assessment follow.
+
+## Specialist contracts
 
 User authorizes implementation and execution of the proposed calibration/layout tests. Scope: isolated PROTOTYPE real board staggering and reconstructed-position calibration; identicalretained10k primaries,12DDSimworkers, diskguard, held-outcomparison. No production integration/sign-off or full-depthsector-interface redesign. Main owns feature extraction/calibration/protocol/run/audits/plots andrecords. Originaldata remainlocalunchanged.
 
@@ -104,6 +146,51 @@ Explicit generic-agent roleinstructions are prepared below, not nativeprofileloa
   "mode": "read-only",
   "writable_paths": [],
   "task": "Freeze a practical prospective calibration/analysis protocol. Need baseline/raw vsbaseline/calibrated andnewphysicalstagger/raw/calibrated onexact10k inputs with12threads. Main implements reconstructedhit-barycentre/axis features (no truth inference), lowdimensional smoothresponsemap, eventIDoutercrossfitting and training-onlyhyperparameterchoice. TrueEtraininglabels/evalonly. Propose robust boundedpredictor, feature choices (localgap/maskexposure, reconstructedeta/phi, longitudinalfractions) and validation including narrowtrueE slices, signedeta/sectors, tails/zeros andtrainingprior bias. Prefer NumPy-onlysmallridge/smoothmap withphysicalgeometryexposure; no newdependenciesneeded. Need practical pairedbootstrap withcalibrationtraininguncertainty (outerbootstrap/refit), immutablefolds, no posthocselection/cuts. Provide early protocol decisions before fitting, then independent exactsource/results reviewlater. Continuous sample remainsdiagnostic. No writes/fits/runs/delegation/publication.",
+  "deliverable": "Return scoped implementation/input, exact source evidence, actualchecks and limitations to coordinator.",
+  "completion": "Deliver requested contribution or concrete missinginputs; do not delegate, publish or grant acceptance."
+}
+```
+
+## Frozen source assessment
+
+```json
+{
+  "id": "ECAL-TESTS-PHYSVAL-SOURCE",
+  "role": "PhysVal",
+  "input_revision": "3626953a90ed61b078265ab2cf064d65040ba7b6",
+  "inputs": [
+    "docs/validation/ecal-staggering/protocol.md",
+    "software/analysis/calorimeter_digitization/staggered_calibration.py",
+    "software/analysis/calorimeter_digitization/staggered_features.py",
+    "software/analysis/calorimeter_digitization/staggered_native.py",
+    "software/analysis/calorimeter_digitization/staggered_geometry.py",
+    "software/analysis/calorimeter_digitization/test_staggered_calibration.py"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Review exact frozen calibration/features/protocol source before any fit. Check observable-only inference, geometry transforms, nestedfolds/scaling, ridge normalization/gainlimits and bootstrap-refittability. Main will implementstatisticalreport/bootstrap next. Nativeaudit has551520unique sensors,252484referencechecks,zerooverlaps;24event12workerpilotPASS; full10krunstarting on same hash-boundcompact. Independent sourceassessment needed promptly. No writes/fits/reruns; report material defects.",
+  "deliverable": "Return scoped implementation/input, exact source evidence, actualchecks and limitations to coordinator.",
+  "completion": "Deliver requested contribution or concrete missinginputs; do not delegate, publish or grant acceptance."
+}
+```
+
+## Statistical implementation review
+
+```json
+{
+  "id": "ECAL-TESTS-PHYSVAL-STATISTICS",
+  "role": "PhysVal",
+  "input_revision": "f9e9779512747ad6fce0b8ec1bfb5e442b5cddc7",
+  "inputs": [
+    "docs/validation/ecal-staggering/protocol.md",
+    "software/analysis/calorimeter_digitization/staggered_results.py",
+    "software/analysis/calorimeter_digitization/staggered_calibration.py",
+    "software/analysis/calorimeter_digitization/test_staggered_calibration.py",
+    "software/analysis/calorimeter_digitization/test_staggered_results.py"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Review nested refitting statistical implementation and separate Model.infer(signal,features) API at exactsource. Verify full inferred-energyheldouttruth invariance test, bootstrapduplicateID folds/refits, weightedmoments, covarianceordering and tail comparators. Current source f9 includescoreAPI andinitialreport; workingtree additions sincecommit are onlyhistogram/globalstats andnullable handling, explicitlyinspect dirtydiff too if useful but distinguish. Fullsimulation~7000/10000 completed; baseline firstfit frozenmodel globalwidth43\u219234%, calibratedmean0.9136, clipping8.99%, retained asdiagnosticbias with no posthocretuning. Finalresult source reviewwillfollow. No writes or newfits.",
   "deliverable": "Return scoped implementation/input, exact source evidence, actualchecks and limitations to coordinator.",
   "completion": "Deliver requested contribution or concrete missinginputs; do not delegate, publish or grant acceptance."
 }
