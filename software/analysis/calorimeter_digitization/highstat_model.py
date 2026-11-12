@@ -110,14 +110,23 @@ class RegionModel:
                     knot_count=self.knot_count)
 
 
-def fit_region(feature, response, weight, kind, knot_count, regularization):
+def problem(feature, response, weight, kind, knot_count):
     basis = make_basis(feature, weight, kind, knot_count)
     design = basis.design(feature); scale = weighted_mean(response, weight)
     gram = design.T @ (design * weight[:, None]) / weight.sum()
     rhs = design.T @ (response * weight) / weight.sum() / scale
-    penalty = np.eye(design.shape[1]) * regularization; penalty[0, 0] = 0
+    return basis, gram, rhs, scale
+
+
+def solve(prepared, knot_count, regularization):
+    basis, gram, rhs, scale = prepared
+    penalty = np.eye(len(rhs)) * regularization; penalty[0, 0] = 0
     coefficient = np.linalg.solve(gram + penalty, rhs)
     return RegionModel(basis, coefficient, scale, regularization, knot_count)
+
+
+def fit_region(feature, response, weight, kind, knot_count, regularization):
+    return solve(problem(feature, response, weight, kind, knot_count), knot_count, regularization)
 
 
 @dataclass
@@ -162,9 +171,11 @@ def fit(data, role, kind, multiplicity=None):
         trials = []
         for knots in ((0,) if kind == 'original' else (3, 7)):
             # Basis/design moments are shared by the three penalties.
+            prepared = problem(data['features'][train], data['response'][train], count[train], kind, knots)
+            tuning_design = prepared[0].design(data['features'][tune])
             for lam in (ORIGINAL_LAMBDAS if kind == 'original' else SPLINE_LAMBDAS):
-                model = fit_region(data['features'][train], data['response'][train], count[train], kind, knots, lam)
-                error = model.normalized_response(data['features'][tune]) - data['response'][tune] / model.response_scale
+                model = solve(prepared, knots, lam)
+                error = tuning_design @ model.coefficient - data['response'][tune] / model.response_scale
                 mse = weighted_mean(error ** 2, count[tune])
                 trials.append(dict(knots=knots, regularization=lam, mse=mse))
         best = min(trials, key=lambda t: (t['mse'], t['knots'], -t['regularization']))
