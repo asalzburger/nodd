@@ -4,6 +4,9 @@
 [continuous-silicon comparison](../ecal10k-untiled/README.md).
 The [prospective protocol](protocol.md) fixes physical phases, feature probes,
 training folds, regularization, gain bounds and paired refitting uncertainty.
+Review package: [draft PR136](https://github.com/asalzburger/nodd/pull/136),
+stacked on the continuous-silicon control in PR135.
+
 The geometry is isolated; the maintained detector and its acceptance state are
 unchanged. This test retains the inherited full-depth sector seams.
 

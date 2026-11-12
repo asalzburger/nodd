@@ -274,3 +274,19 @@ of the prepared source, compact results and PNG/PDF/SVG plots, with raw event
 files retained locally. The earlier automatic-review blocker is resolved by
 this explicit approval. Publication and final verification proceed under that
 authorization; the draft remains a prototype and grants no design sign-off.
+
+## Completed publication
+
+After the user's explicit publication approval, the connected GitHub create call
+passed automatic review but returned HTTP403 (integration permission). The
+authenticated GitHub CLI created draft PR136 successfully:
+https://github.com/asalzburger/nodd/pull/136 . Connected readback verifies draft
+status, base `codex/ecal10k-untiled-control` and the approved source branch.
+Absolute report/recipe/SVG links complete the prepared PR description. No external
+comments were posted. Only curated artifacts and records are published; full
+event data remain local. The earlier publication blocker is resolved.
+
+All required project, inventory, session, interaction and token validators and
+the token-site build pass. The task has no exact token observations; historical
+repository totals remain distinct. Final publication metadata and accounting
+closeout are recorded in this branch without changing scientific results.
