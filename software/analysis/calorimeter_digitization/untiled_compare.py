@@ -157,7 +157,8 @@ def plot(result, output):
     import matplotlib.pyplot as plt
     import matplotlib.patheffects as pe
     plt.rcParams.update({"font.size":11, "axes.spines.top":False,
-                         "axes.spines.right":False, "savefig.dpi":180})
+                         "axes.spines.right":False, "savefig.dpi":180,
+                         "svg.hashsalt":"nodd-ecal10k-untiled"})
     styles = dict(tiled=dict(color="#cccc00", marker="o", ls="-", markeredgecolor="#545400"),
                   continuous=dict(color="#e6e680", marker="s", ls="--", markeredgecolor="#545400"))
     labels = dict(tiled="Tiled ECAL", continuous="Continuous sector silicon")
@@ -206,9 +207,10 @@ def plot(result, output):
     fig.supxlabel("R = silicon energy / true energy · All events retained · 95% paired whole-event bootstrap intervals\nRaw response width; full-sector control fills module, guard and service-margin losses together", fontsize=9)
     meanfig.suptitle("Mean-response control · same primaries and transport settings", fontsize=15)
     meanfig.supxlabel("All valid events, including zeros · 95% paired whole-event bootstrap intervals", fontsize=9)
-    for extension in ("png", "pdf"):
-        fig.savefig(output / f"resolution-overlay.{extension}")
-        meanfig.savefig(output / f"mean-response-overlay.{extension}")
+    for extension in ("png", "pdf", "svg"):
+        metadata = {"Date":None} if extension == "svg" else None
+        fig.savefig(output / f"resolution-overlay.{extension}", metadata=metadata)
+        meanfig.savefig(output / f"mean-response-overlay.{extension}", metadata=metadata)
     plt.close(fig)
     plt.close(meanfig)
     for name, projection in result["projections"].items():
@@ -236,8 +238,9 @@ def plot(result, output):
             ax.set_xlabel("Raw silicon response R [%]")
         fig.suptitle("Tiled and continuous silicon · " + ("ten |η| populations" if name == "abs_eta" else "ten folded φ populations"), fontsize=15)
         fig.supxlabel("Common histogram bins retain every event · Widths use unbinned sample SD / mean · No fits or cuts", fontsize=9)
-        for extension in ("png", "pdf"):
-            fig.savefig(output / f"response-distributions-{name}.{extension}")
+        for extension in ("png", "pdf", "svg"):
+            metadata = {"Date":None} if extension == "svg" else None
+            fig.savefig(output / f"response-distributions-{name}.{extension}", metadata=metadata)
         plt.close(fig)
 
 
