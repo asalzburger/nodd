@@ -89,3 +89,7 @@ ECAL-OPTIONS-CALOTECH at951d7b286c47882dc8068056e59d39abac1f31a4 read pinned DES
 ECAL-OPTIONS-PHYSVAL at951d7b286c47882dc8068056e59d39abac1f31a4 inspectedpinnedresults/layout sources, checkedprojectioncounts/42vs37zeros andgainCVinvariance, andverifiedCALICEprimarysection5.2. It recommends smoothreconstructedposition/gapfeatures, low-dimensionalout-of-fold calibration, trueElabels only, independentenergyclosure andtraininguncertaintypropagation; zeros/missingfluctuations cannotberecoveredbyfinitegain. No fits,simulation,writes oracceptance.
 
 Maincurated these as a PROTOTYPE optionsnote, retainingexistingsoftware/geometry/results. ExistingSRC-CALICE-SIW-ELECTRONS-2008 isextendedwithsection5.2locators; no newPDFredistribution. No newpubliccomment is posted; thehuman'spreviousfirstcommentrequest coveredtheearlierresultsummary. The noteisaddedtoexistingdraftPR135 as a continuation of controlinterpretation.
+
+## Outcome
+
+Prepared calibration-layout-options.md atcf410024a663ec30ccc1f4a2b367ce38a6b368a4 and linked it from the existingresults report. The note proposes held-out geometry-aware calibration, independent0/48boardphasecycles, separateedge/service/sectorinterface work, and a baseline/staggered × raw/calibrated validationcomparison. No proposedimprovement orbuildabilityisclaimed. DES030/031 remainunsigned/unmodified. Testsnotrunforanunimplementedproposal; existingrecord/schema/link/whitespacevalidators apply. Exactusagecounters unavailable.
