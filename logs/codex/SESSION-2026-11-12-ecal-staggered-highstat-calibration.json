@@ -9,7 +9,9 @@
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
-    "Actual conversation start time, client identity details and token usage have not been recorded."
+    "Exact client parent/child token counters unavailable; usage remains empty,notzero.",
+    "Isolated PROTOTYPE; geometry unchanged and no engineering/design acceptance.",
+    "120kcampaign inprogress; final independent validation outcomes not yet claimed."
   ],
   "client": {
     "name": "unspecified",
@@ -25,11 +27,55 @@
   },
   "work": {
     "milestone": "M1",
-    "components": [],
-    "related_ids": []
+    "components": [
+      "Staggered ECAL calibration statistics",
+      "Independent high-statistics electron validation"
+    ],
+    "related_ids": [
+      "PR-136",
+      "DES-030",
+      "DES-031"
+    ]
   },
   "narrative": "logs/codex/SESSION-2026-11-12-ecal-staggered-highstat-calibration.md",
   "activities": [],
   "usage": [],
-  "checks": []
+  "checks": [
+    {
+      "command": "acts-spack preflight; software/env/run.sh python3 -B software/env/doctor.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Preflight changedsetup/lock warningdisclosed; currentnative runtime doctorpasses without modifying shareddeps."
+    },
+    {
+      "command": "highstat_learning.py --bootstrap200; 8kfull-budget equality check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "200joint complete nestedrefits; widths32.3518/32.1980/32.1912/32.2201%; same10kheldoutIDs/42zeros. All3seed8kpredictions bitidentical toretainedmodel."
+    },
+    {
+      "command": "test_highstat_pipeline.py under activated native runtime",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "13 source/input/disk/seed/steering/worker/native negative/equivalencecontrols executed by SoftEng; allPASS."
+    },
+    {
+      "command": "test_highstat_model.py; test_highstat_analysis.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "5meaningful model controls and2feature-semantics boundary controls pass."
+    },
+    {
+      "command": "24event12worker newpilot; angular_analyze.py audit",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Newprimary pilot savedtruth/hits andall12worker gates pass; nogeometry/library changes."
+    },
+    {
+      "command": "highstat_readback.py onfullretained10k aftersourcefreeze; old/new array/proof comparison",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "114.4s;6346815cells; primaryerrors/IDs/rootSHA/workers exact; allfeaturearrays agree1e-10rel/abs. Preliminarysource-changing passretainedlocal, onlyfinalfrozenpass used."
+    }
+  ]
 }
