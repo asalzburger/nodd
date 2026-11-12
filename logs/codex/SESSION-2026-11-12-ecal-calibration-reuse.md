@@ -11,3 +11,26 @@ Initial public state: PR137 draft, mergeable into its existing PR136 base, two s
 Recorded spline-v1(default) and linear-v1 IDs, domain, units, hashes, exact feature semantics and inference/fallback equations in frozen/manifest.json and reuse.md, keeping coefficients at SHA8595d8fd74d17edf2561d889e52910b3badbd358b446b951ca5083938c7ccdf1 and frozen source unchanged. Added highstat_inference API/CLI with hash/geometry/semantics guards, measured-only columns, output provenance/flags and no overwrites. Added7 meaningful reuse controls and CI coverage using the already pinned NumPy environment.
 
 All16 NumPy controls pass (7new+6model+3analysis). Exact20k population replay reproduces all4linear/spline pre/post energy-ratio series bit-for-bit, all84zeros. An initial10k-vs20k bit check failed at batch-size floating-point matrix-product rounding; kept this failure, no model/reference/test tolerance changed. Ten-k chunked diagnostics measure maximum4.885e-15 ratio difference, no mean difference; full20k exact check passes. Compact reuse-verification JSON records this distinction; arrays remainlocalignored.
+
+## Separate software review assignment
+
+```json
+{
+  "id": "ECAL-CALIBRATION-REUSE-SOFTENG",
+  "role": "SoftEng",
+  "input_revision": "6547c1016ca90f99f82445c1012ee1055f2a08a8",
+  "inputs": [
+    "software/analysis/calorimeter_digitization/highstat_inference.py",
+    "software/analysis/calorimeter_digitization/test_highstat_inference.py",
+    "docs/validation/ecal-highstat/frozen/manifest.json",
+    "docs/validation/ecal-highstat/frozen/reuse-validation.json",
+    "docs/validation/ecal-highstat/reuse.md",
+    ".github/workflows/validation.yml"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Review the new frozen-calibration reuse interface for PR137 merge preparation. Check versioned model identity/hash bindings, geometry/feature guard, input units/shapes/dtypes, measured-only/no-fit API and CLI, zero/fallback/clipping behavior, output provenance/no overwrite and meaningful tests/CI. Verify original frozen/models.json and numerical highstat_model.py unchanged from e65962c259cec1f8744252fccfa17211004f4d61. Coefficients/statistics/plots unchanged; no scientific retuning. Main tests7new+6model+3analysisPASS. Full20k API matches all4saved pre/post ratio series BIT-EXACT; initial10kchunk-vs20k bitcheckfailed due matrixbatch roundoff, no tolerance/source/reference changed; measuredchunks max4.885e-15 ratio, zeromeandiff. Assess this provenance/interpretation. May run the16 pureNumPy tests and exact20k inference using local validation arrays/predictions if useful. Existing Python /Users/salzburg/Documents/work/installed/acts-nodd/pyvenv/bin/python, -B, OPENBLAS_NUM_THREADS1. No native runtime, fits/transport, source writes, new configs, delegation, publication or human approval. Read primarysource before author conclusions. Openstack133\u2192134\u2192135\u2192136\u2192137 is documented; only137 will be made ready per currentuser request, not merged.",
+  "deliverable": "Exact-revision software/interface assessment with actionable findings or explicit no-material-finding, commands actually run and limitations.",
+  "completion": "Return the bounded final assessment promptly; no human signoff."
+}
+```
