@@ -37,7 +37,9 @@ all final model settings, coefficients and closure factors are frozen in Git.
 Primary response model: region-specific linear-response ridge regression of
 (S/Etrue)/R0, with measured-feature additive piecewise-linear splines and fixed
 physical interactions. R0, knots, clipping ranges, centring and scales derive
-from response-fit data only. Use10existing reconstructed features; no truth
+from response-fit data only. Spline input ranges use training0.1%/99.9%
+quantiles; deduplicate interior knots and record extrapolation. Original linear
+comparator uses untrimmed original features. Use10existing reconstructed features; no truth
 position, energy or absolute-signal proxy enters primary inference. Select3or7
 interior quantile knots andlambda{0.0001,0.01,1} on15ktuning response-MSE only.
 Predeclared interactions: |eta|×exposure22,exposure5.5×exposure22,
@@ -51,7 +53,9 @@ After selection refit on85kfit+tuning, then estimate one global closure constant
 C=1/mean(Epre/Etrue) from the untouched15kclosure events, including zeros.
 Inference Ecal=C×Epre uses measured observables only. Global closure changes scale
 and leaves SD/mean exactly unchanged; report pre/post closure separately.
-Invalid axes use training-global scale fallback; physical zeros stay zero.
+The closure factor must lie within predeclared sanity bounds0.5–2; otherwise
+report failure without unblinding. Invalid axes use training-global scale
+fallback; physical zeros stay zero.
 Do not refit response coefficients on the closure subset afterward.
 
 Comparator: retrain the original10-feature architecture on the same70/15/refit85k
@@ -70,7 +74,7 @@ These are broad-spectrum response widths, not fixed-energy resolution.
 
 Use1000paired validation whole-event bootstrap replicas for conditional-on-frozen-
 calibration intervals. Separately use200common resamples of the100k training
-population with fixedstage memberships, repeating model selection,85krefit and
+population independently within each fixed70k/15k/15kstage, repeating model selection,85krefit and
 15kclosure, together with paired validation resampling, to include training
 uncertainty. Keep the two uncertainty definitions explicit. Fixed stage/ID
 assignments retain bootstrap duplicates. Freeze parameters before validation
