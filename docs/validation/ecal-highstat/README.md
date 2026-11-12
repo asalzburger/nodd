@@ -125,3 +125,17 @@ separate exact-revision review after campaign completion.
 Only source, compact aggregate/binwise evidence, plots and curated records enter
 Git. ROOT, exact input/event ledgers, features and predictions stay local/ignored.
 All scientific figures are retained as PNG, PDF and vector SVG.
+
+## Frozen training chain
+
+All100k training events have completed transport and native/readback checks.
+The complete calibrations were frozen before fresh-validation performance in
+Git revision `e65962c259cec1f8744252fccfa17211004f4d61`. [Frozen coefficients, feature semantics and source/data hashes](frozen/models.json)
+retain the70k/15k/15k assignment and common expanded search.
+
+The retuned linear model selected λ=0.0001 in the barrel and0.01 in the endcap.
+The spline selected the seven-knot configuration andλ=0.0001 in both regions;
+after deduplicating knots it has80/82 coefficients including intercepts, versus
+11/11 for the linear model. Global closure factors are1.0857735(linear) and
+1.0854609(spline), estimated on the separate15k including zeros. These are
+training results; independent performance remains pending.

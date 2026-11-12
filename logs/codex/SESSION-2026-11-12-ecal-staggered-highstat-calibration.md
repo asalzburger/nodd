@@ -198,3 +198,28 @@ Prepared-primary input-only QC (no responseperformance): all1400E×|eta|×foldph
 Prospectivegridamendmentbeforeanynew100kfit/fresh20kperformance: accept PhysVal recommendation commonunion{.0001,.01,1,100} forbothnewmethods, removesprescribedsearch-rangeconfound. Old10khistoricalensemble/LC unchanged. Newlinear isretunedten-featurearchitecture, notidenticalhistoricalrecipe; bases/interactions/clipping stilldiffer, noisolatednonlinearityclaim. All10oldstaggeredfits selected priorendpoint.01. No changes tosampling,MC,roles,bounds,closureorresampling.
 
 Beforeanynewmodel fit/freshvalidation, the complete numerical dependency graph isalso frozen: angular_sample/angular_analyze/staggered_results helper hashes recordedinmodel snapshot andcheckedbeforevalidationload, alongsidecore/analysis hashes. Sourcehelpers remainbyte-unchanged; this addsprovenance enforcement only. ThreeanalysiscontrolsPASS.
+
+## Frozen training chain review
+
+```json
+{
+  "id": "ECAL-HIGHSTAT-PHYSVAL-FROZEN-MODELS",
+  "role": "PhysVal",
+  "input_revision": "e65962c259cec1f8744252fccfa17211004f4d61",
+  "inputs": [
+    "docs/validation/ecal-highstat/frozen/models.json",
+    "docs/validation/ecal-highstat/protocol.md",
+    "software/analysis/calorimeter_digitization/highstat_model.py",
+    "software/analysis/calorimeter_digitization/highstat_analysis.py"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Pre-validation review of actual100k-trained frozen chain. Commit e65962... created2026-11-12T13:41:48Z; nofresh20kperformance inspected, MCvalidation000 stillrunning. Verify declaredcommonlambda{.0001,.01,1,100},70/15/15roles,85krefit/Cclosure,bounds andfrozenfeature/helper/core/source/campaign bindings. Supplemental localbuild/ecal-highstat/campaign TRAINfeature receipts only; you MAYreproduce both frozen fits on these100k training rows withdeclaredprocedure, no alternativeconfigs, compare savedcoefficients/basis/closure exactly orwithjustifiedroundoff. DO NOTopen validation feature arrays,inspect anyvalidationresponseperformance,modifyfiles,runsimulation,retune,delegate orpublish. Usepython-B/OPENBLAS_NUM_THREADS1. Reportactualchecks and anymaterialfinding promptly; final20kresultsreview later.",
+  "deliverable": "Exact-revision frozenmodel/data/source reproduction assessment before unblinding.",
+  "completion": "Return findings/noactionablefinding withactualchecks, nohumanacceptance."
+}
+```
+
+## Actual100k training freeze
+
+All10trainingbatches passedtransport/native/readback. Automaticdeclaredchain fitbothmodels andcommittedfrozen/models.json ate65962c259cec1f8744252fccfa17211004f4d61 on2026-11-12T13:41:48Z, beforefresh20kperformanceinspection. Source/core/helper/campaign/featuresemantic hashesverifiedagainstcurrentfiles. Linearregionalλ=.0001/.01; spline7knots/.0001both,80/82coefficients, C1.0854609; linearC1.0857735. No validationperformanceclaim yet.
