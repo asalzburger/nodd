@@ -270,3 +270,11 @@ checks find vector paths with no embedded raster, script or external references.
 All four SVG previews were rendered with the existing optional
 `rsvg-convert 2.62.3` and visually inspected; that tool is not needed to export
 the SVG from Matplotlib. No Geant4 or bootstrap rerun was performed.
+
+## Possible next studies
+
+[Calibration and staggered-layout options](calibration-layout-options.md) proposes
+a held-out local-position response correction and independent layer-dependent
+board phases, while distinguishing existing slab staggering and full-depth
+carrier seams. These are unimplemented proposals with no performance or
+engineering-acceptance claim.
