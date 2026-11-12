@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
+  "turn_id": "01a1d037-bb3b-7fb1-9504-b7d9f6e0d0f9",
+  "status": "completed",
+  "started_at": 1794494675,
+  "completed_at": 1794494807,
+  "token_accounts": [
+    "SESSION-2026-11-12-ecal-calibration-reuse"
+  ],
+  "source": "Codex app read_thread; exact recorded thread/turn match",
+  "messages": [
+    {
+      "id": "msg_08bf63c436ea246b016af5d0d75aec87d2b1f4b5699bb23b79",
+      "role": "assistant",
+      "phase": "commentary",
+      "text": "I\u2019ll review the versioned calibration artifact and reuse interface at the assigned revision, focusing on truth-free inference, compatibility checks and test coverage.",
+      "redacted": "no"
+    },
+    {
+      "id": "msg_08bf63c436ea246b016af5d114784087d285e1fe001c128986",
+      "role": "assistant",
+      "phase": "commentary",
+      "text": "The interface takes measured features, silicon signal, region and axis-validity flags, with explicit compatibility metadata. I\u2019ll check those guards and rerun the NumPy controls. The documented distinction between full-population bit equality and chunk-size roundoff is appropriate.",
+      "redacted": "no"
+    },
+    {
+      "id": "msg_08bf63c436ea246b016af5d152d8ac87d2a96debb8e28c4088",
+      "role": "assistant",
+      "phase": "final_answer",
+      "text": "`ECAL-CALIBRATION-REUSE-SOFTENG`: **No material software findings** at `6547c1016ca90f99f82445c1012ee1055f2a08a8`.\n\nVerified coefficient/core hash bindings, geometry and feature-semantic guards, array shapes and flag dtypes, measured-only inference without refitting, zero/fallback/clipping behavior, output provenance and overwrite rejection. CI includes all three relevant test suites.\n\nActual checks:\n\n- All **16 NumPy tests passed** using Python3.14.5, NumPy2.5.4 and `OPENBLAS_NUM_THREADS=1`.\n- `models.json` and `highstat_model.py` have identical Git blobs to freeze `e65962c\u2026`.\n- Independently reproduced **bit-exact full20k equality** for both models\u2019 pre/post-closure ratios.\n- Reproduced the documented10k chunk roundoff: maximum `4.884981308350689e-15`, with zero measured mean difference.\n\nThe roundoff distinction is accurately documented; it provides no evidence of coefficient or reference changes.\n\nLimits: CI configuration was inspected, not executed remotely. GeV units and simulation context beyond the checked compact/feature signatures remain caller responsibilities, as documented. No source changes, native runtime, scientific refit or transport performed.",
+      "redacted": "no"
+    }
+  ],
+  "native_tools": [
+    {
+      "name": "commandExecution",
+      "calls": 10,
+      "failures": 0
+    }
+  ],
+  "subagents": [],
+  "limitations": [
+    "Only userMessage and agentMessage text retained; reasoning, tool arguments/results and private state excluded.",
+    "Conservative path, credential, email and URL redaction is not a privacy guarantee; review retained text.",
+    "Exposed operation counts are per retained turn; journal counts can describe the same invocations and must not be added.",
+    "Selected first two, final and approval/rejection assistant messages; all exposed user messages retained. Operation metadata covers the complete selected turn. Other routine commentary omitted."
+  ],
+  "parent_thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094"
+}

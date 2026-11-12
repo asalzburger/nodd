@@ -93,3 +93,7 @@ Maincurated these as a PROTOTYPE optionsnote, retainingexistingsoftware/geometry
 ## Outcome
 
 Prepared calibration-layout-options.md atcf410024a663ec30ccc1f4a2b367ce38a6b368a4 and linked it from the existingresults report. The note proposes held-out geometry-aware calibration, independent0/48boardphasecycles, separateedge/service/sectorinterface work, and a baseline/staggered × raw/calibrated validationcomparison. No proposedimprovement orbuildabilityisclaimed. DES030/031 remainunsigned/unmodified. Testsnotrunforanunimplementedproposal; existingrecord/schema/link/whitespacevalidators apply. Exactusagecounters unavailable.
+
+## 2026-11-12 accounting reconciliation
+
+Exact closed-turn counters and selected app-visible task/assignment evidence were recovered into this original owner, using the chain inventory at `logs/usage/USAGE-2026-11-12-ecal-chain-readiness.json`. Earlier missing-counter statements describe the prior collection, not this correction. Cached input/reasoning are subsets; shared PR links are references, never allocations. No active coordinator usage or estimated counters are imported.

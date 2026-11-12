@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
+  "turn_id": "01a1d0a0-0713-78d3-bbbf-c393e8aa5c24",
+  "status": "completed",
+  "started_at": 1794501510,
+  "completed_at": 1794501722,
+  "token_accounts": [
+    "SESSION-2026-11-12-ecal-chain-readiness"
+  ],
+  "source": "Codex app read_thread; exact recorded thread/turn match",
+  "messages": [
+    {
+      "id": "msg_08bf63c436ea246b016af5eb8986c487d28d4bc869ffc0e14c",
+      "role": "assistant",
+      "phase": "commentary",
+      "text": "I\u2019ll audit the PR chain and post-merge records at the assigned revision, then identify any gaps and the smallest useful validation guard.",
+      "redacted": "no"
+    },
+    {
+      "id": "msg_08bf63c436ea246b016af5ebfe114087d288c5b5a939053f37",
+      "role": "assistant",
+      "phase": "commentary",
+      "text": "The chain preserves the frozen model history. The remaining gap is capture: the main-branch workflows publish committed observations, but do not collect merge state, labels or newly closed usage. Existing tracking and interaction records can hold that closeout; daily work labels and curated merge milestones need separate evidence.",
+      "redacted": "no"
+    },
+    {
+      "id": "msg_08bf63c436ea246b016af5ec54885087d2934c8c5aba0623cd",
+      "role": "assistant",
+      "phase": "final_answer",
+      "text": "`ECAL-CHAIN-SOFTENG-MERGE-AUDIT`, reviewed `b2b7041b045c0777c5e36176b4739336a41a97b5`.\n\nTwo capture gaps remain:\n\n- Main-branch workflows validate and publish committed records; they **do not collect** new merge metadata, GitHub labels or closed-turn usage. After actual merges, refresh existing tracking, interaction and accounting records. No second registry is needed.\n- At this revision, tracking lacks PR133; PR134\u2013137 remain open snapshots with older heads. PR133\u2013135 accounting remains unobserved. Daily work labels update from canonical usage; curated merge milestones require separate, actual merge evidence.\n\nMinimum useful guard: a small read-only chain check covering all five tracking/interaction records, ordered head ancestry, frozen-commit reachability and unchanged model/core blobs. For merged entries, require `head \u2192 merge_commit \u2192 checked HEAD`; the current validator checks only `head \u2192 merge_commit`.\n\nActual checks passed:\n\n- Main\u2192133\u2192134\u2192135\u2192136\u2192137 ancestry.\n- Freeze/results commits remain ancestors; frozen coefficients/core retain identical blobs.\n- Project validation:107 tasks,54 documents,24 reviews.\n- All five interaction ledgers recompute correctly against pinned canonical records.\n\nThe current generic ledger check reports stale derivations because the new untracked chain session already links these PRs; sync after closeout.\n\nHistorical milestone/tracking discrepancies also exist for PR14/55/58, so avoid introducing a global equality gate without reconciling them.\n\nNo writes or private usage access. Live GitHub readiness and deployed Pages were not rechecked; no future merge metadata or acceptance is inferred.",
+      "redacted": "no"
+    }
+  ],
+  "native_tools": [
+    {
+      "name": "commandExecution",
+      "calls": 12,
+      "failures": 2
+    },
+    {
+      "name": "subAgentActivity",
+      "calls": 3,
+      "failures": 0
+    }
+  ],
+  "subagents": [],
+  "limitations": [
+    "Only userMessage and agentMessage text retained; reasoning, tool arguments/results and private state excluded.",
+    "Conservative path, credential, email and URL redaction is not a privacy guarantee; review retained text.",
+    "Exposed operation counts are per retained turn; journal counts can describe the same invocations and must not be added.",
+    "Only started subagent activities establish child relationships; send/wait/completion activities remain operation counts and do not imply parenthood."
+  ],
+  "parent_thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094"
+}

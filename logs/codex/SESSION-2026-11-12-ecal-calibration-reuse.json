@@ -1,0 +1,160 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-11-12-ecal-calibration-reuse",
+  "title": "Staggered ECAL model reuse and PR137 merge preparation",
+  "recorded_at": "2026-11-12T15:08:47Z",
+  "started_at": null,
+  "ended_at": "2026-11-12T15:08:47Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Selected user-visible work record; actual start time/client model/version/thread IDs and exact per-turn token counters unavailable. Usage[] is unobserved, not zero. No shared historical totals attributed to this task.",
+    "Initial ready transition was rejected and not bypassed. Later explicit user approval after successful CI permitted retry; connector lacked writeaccess, authenticatedCLI succeeded and readystate verified. No merges or design acceptance.",
+    "2026-11-12 accounting correction: exact usage recovered for this work from the explicitly selected app chat/specialists; historical unavailable-counter statements describe the earlier capture. Actual execution models/client version and wider completeness remain unknown."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "d862d943600307a67a10a08c5644e7e4cf224007",
+    "branch": "codex/ecal-staggered-highstat-calibration",
+    "initial_changes": [],
+    "result_commits": [
+      "6547c1016ca90f99f82445c1012ee1055f2a08a8",
+      "f57b91a8f62727a8303b19fd9429249ffaf6d9db",
+      "2c635fbfe365890e328de9066f16447ccd76c305"
+    ],
+    "changed_files": [
+      ".github/workflows/validation.yml",
+      "docs/software-inventory.md",
+      "docs/validation/ecal-highstat/README.md",
+      "docs/validation/ecal-highstat/frozen/manifest.json",
+      "docs/validation/ecal-highstat/frozen/reuse-validation.json",
+      "docs/validation/ecal-highstat/reuse.md",
+      "interactions/pr-0137.json",
+      "logs/codex/SESSION-2026-11-12-ecal-calibration-reuse.json",
+      "logs/codex/SESSION-2026-11-12-ecal-calibration-reuse.md",
+      "project/tracking.json",
+      "software/analysis/calorimeter_digitization/highstat_inference.py",
+      "software/analysis/calorimeter_digitization/test_highstat_inference.py",
+      "software/inventory.json"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "Staggered ECAL calibration reuse",
+      "PR137 merge preparation"
+    ],
+    "related_ids": [
+      "PR-137",
+      "DES-030",
+      "DES-031"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-11-12-ecal-calibration-reuse.md",
+  "activities": [],
+  "usage": [
+    {
+      "client_thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+      "turn_id": "01a1d030-81bc-7c32-a1a1-4724ea71b8df",
+      "model": null,
+      "source": "Usage-only client counters, verified against last-request increments; logs/usage/USAGE-2026-11-12-pr137-calibration-accounting.json; exact thread/turn match with app-visible task and journal assignments.",
+      "limitations": [
+        "Actual execution model and client version were not exposed as per-turn usage evidence; not inferred from configured model settings.",
+        "Observed input includes cached context; cached input and reasoning are subsets, not additional tokens or a billing estimate."
+      ],
+      "input_tokens": 22530259,
+      "cached_input_tokens": 22469504,
+      "output_tokens": 64597,
+      "reasoning_output_tokens": 34230,
+      "total_tokens": 22594856
+    },
+    {
+      "client_thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
+      "turn_id": "01a1d037-bb3b-7fb1-9504-b7d9f6e0d0f9",
+      "model": null,
+      "source": "Usage-only client counters, verified against last-request increments; logs/usage/USAGE-2026-11-12-pr137-calibration-accounting.json; exact thread/turn match with app-visible task and journal assignments.",
+      "limitations": [
+        "Actual execution model and client version were not exposed as per-turn usage evidence; not inferred from configured model settings.",
+        "Observed input includes cached context; cached input and reasoning are subsets, not additional tokens or a billing estimate."
+      ],
+      "input_tokens": 1197925,
+      "cached_input_tokens": 1170816,
+      "output_tokens": 5538,
+      "reasoning_output_tokens": 2985,
+      "total_tokens": 1203463
+    }
+  ],
+  "checks": [
+    {
+      "command": "test_highstat_inference.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "7controls: truth-free application, zero/fallback/units/bounds, compatibility before arrays, changed coefficient/core/feature bytes, shape/numeric/dtype checks, IDs and no overwrite."
+    },
+    {
+      "command": "test_highstat_model.py; test_highstat_analysis.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "6model+3analysis controls pass, unchanged frozen source."
+    },
+    {
+      "command": "Initial per10k CLI-output comparison against full20k saved prediction bits",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Strict bit-equality differs at matrix-product batch-size roundoff, observed max2.22e-15 initially; no model/reference/tolerance changed. Full equal-population check and measured chunked diagnostics follow."
+    },
+    {
+      "command": "Full20k calibrate API pre/post energy-ratio exact comparison; apply_file bothmodels/bothvalidationbatches",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All4series bit-exact for identical20k population; all84zeros retained. Ten-k chunks measured max4.885e-15 absolute ratio roundoff, meansidentical. No refit or native transport; truthonly used outside inference for regressiondenominators."
+    },
+    {
+      "command": "highstat_inference.py --features validation-000/.../features --output build/ecal-highstat/reuse-v1/cli-smoke",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Actual CLI applies spline-v1 to10000events, outputhash exactlymatches API fileapplication;44zeros/fallbacks,896clipped,115featureextrapolated; no truth inputs or refitting."
+    },
+    {
+      "command": "Byte comparison against original frozen model/core/analysis/results commits",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All4source/artifact files unchanged, including coefficientSHA8595d8fd... andcoreSHA5eef6c17... ."
+    },
+    {
+      "command": "project_records validate; software_inventory refresh/check; session_log validate/summary; interactions capture/sync/validate; token_usage validate/build; git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "107tasks/54documents/24rounds;68components/101families;288sessions;116PRledgers validate; token-sitebuild and whitespace pass. Taskusageunknown, no estimated/cumulative attribution."
+    },
+    {
+      "command": "Inspect newly introduced reuse-task Git objects",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "14newblobs/539622bytes throughf57b91a8; noROOT/NPZ/HEPEvt/JSONL/buildpayload."
+    },
+    {
+      "command": "GitHub Project validation job131259739037, calibration-reuse step6 atf57b91a8",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "New16-test NumPy CI step completes successfully. Entireworkflow stillrunning atthisobservation; do not claim allremoteCI complete."
+    },
+    {
+      "command": "GitHub Project validation43241403982 and Token usage Pages43241403984 at2c635fbfe365890e328de9066f16447ccd76c305",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "AllremoteCI workflows and bothbuild/unrootedjobs succeed, including16calibration controls. Explicituserapprovalconditionmet before readytransition."
+    },
+    {
+      "command": "gh pr ready137 --repo asalzburger/nodd; GitHubconnectorget_pr_info",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Following explicitconditionaluserapproval andcompleteCI success, integrationreadywrite lackedpermission; authenticatedCLI transition succeeds. Connector verifiesdraftfalse, correctstackedbase, unchangedhead andmergeabletrue. No earlierpolicyrejection bypass andno merges."
+    }
+  ]
+}

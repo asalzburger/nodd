@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "status": "PROTOTYPE; frozen coefficients, independent validation complete; no production acceptance",
+  "default_model": "spline",
+  "models": {
+    "original": {
+      "id": "nodd-ecal-staggered-linear-v1",
+      "closure": 1.0857735225335063,
+      "regions": {
+        "0": "barrel-dominant measured signal",
+        "1": "endcap-dominant measured signal"
+      }
+    },
+    "spline": {
+      "id": "nodd-ecal-staggered-spline-v1",
+      "closure": 1.0854609054699023,
+      "regions": {
+        "0": "barrel-dominant measured signal",
+        "1": "endcap-dominant measured signal"
+      }
+    }
+  },
+  "coefficients_file": "models.json",
+  "coefficients_sha256": "8595d8fd74d17edf2561d889e52910b3badbd358b446b951ca5083938c7ccdf1",
+  "freeze_commit": "e65962c259cec1f8744252fccfa17211004f4d61",
+  "validated_results_commit": "83eb6a8828eea3cfd54da07650ca226a88f7c2e9",
+  "feature_semantics": {
+    "feature_names": [
+      "abs_reconstructed_eta",
+      "exposure_5p5mm",
+      "exposure_11mm",
+      "exposure_22mm",
+      "missing_layer_streak_fraction",
+      "near_sector_seam",
+      "early_energy_fraction",
+      "late_energy_fraction",
+      "other_section_fraction",
+      "lateral_width_over_22mm"
+    ],
+    "producer_sha256": "9a967fa817ae54537f902876a4c8d1b07392ba6ac325c7af7d948bd864827517",
+    "feature_recipe_sha256": "4a9bfefad9e89db1029c04845473cfbff496e56355bf37245e1b0c527a3adc2f",
+    "geometry_helper_sha256": "644e77fb6e2cd99be81b42cf53fa194faaf3e0911478ce6ef55d6cb6bc751c0f"
+  },
+  "geometry": {
+    "detector_xml_sha256": "d78ecea5c5aa5173af54a4ce392994491eede936a7f4edb87d55bc72e69a0c2b",
+    "materials_xml_sha256": "5091f0cbc2444b6ef481c2293ec99375e5eada82a84ab03be7a50f3b8375cee1",
+    "geometry_library_sha256": "c0098ae4b5e7a453f46d8d118a82ac6a9c6a57a219f2af641e1c4e653b1e1dab"
+  },
+  "inference": {
+    "signal_unit": "GeV",
+    "energy_unit": "GeV",
+    "feature_shape": "N x 10 in exactly the recorded order",
+    "valid_axis_type": "boolean",
+    "region_type": "integer 0=barrel signal fraction >=0.5; 1=barrel signal fraction <0.5",
+    "gain_bounds_before_closure": [
+      0.5,
+      3.0
+    ],
+    "zero_signal": "retained at exactly zero",
+    "invalid_axis": "training-only global fallback response, followed by global closure",
+    "truth_inputs_used": false,
+    "refitting": false
+  },
+  "validated_domain": {
+    "particle": "origin electrons",
+    "total_energy_GeV": [
+      10,
+      80
+    ],
+    "eta": [
+      -3,
+      3
+    ],
+    "phi": "uniform full 2pi",
+    "field_tesla": 0,
+    "training_events": 100000,
+    "independent_validation_events": 20000,
+    "physics": "FTFP_BERT",
+    "range_cut_mm": 0.7,
+    "sensitive_charged_step_limit_mm": 5.0
+  },
+  "limitations": [
+    "Only the recorded staggered ECAL geometry and measured feature semantics were validated.",
+    "Inclusive mean closure does not imply local closure; sector-seam losses and energy-dependent bias remain.",
+    "The independent validation cohort has been inspected; future tuning requires new independent validation.",
+    "No electronics/noise model or intrinsic fixed-energy resolution or detector acceptance."
+  ]
+}

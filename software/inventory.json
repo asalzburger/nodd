@@ -1043,10 +1043,10 @@
       "id": "INF-RECORDS",
       "name": "Project, session and interaction validators; resource site",
       "category": "infrastructure",
-      "usage": "JSON validation; evidence references; usage ownership; offline site build",
+      "usage": "JSON validation; evidence references; usage ownership; offline site build; ECAL PR133\u2013137 chain ancestry and frozen calibration provenance guard",
       "integration": "Local standard-library Python source; browser site uses local JavaScript, no external chart library.",
       "version": "Python requirements documented by family; Node needed only for JavaScript tests. Node installation not established here.",
-      "installation": "Run documented validators/unittest; node tools/token_usage/test_app.js and test_interactions.js test the site; build output stays ignored.",
+      "installation": "Run documented validators/unittest; node tools/token_usage/test_app.js and test_interactions.js test the site; build output stays ignored. Run python3 -B tools/project_records/check_ecal_chain.py before merge; use --require-merged after fresh merged-state capture. Tests use standard-library unittest and synthetic Git repositories.",
       "paths": [
         "tools/project_records",
         "tools/session_logging",
@@ -1057,14 +1057,16 @@
         "tools/project_records/README.md",
         "logs/README.md",
         "interactions/README.md",
-        "tools/token_usage/README.md"
+        "tools/token_usage/README.md",
+        "docs/validation/ecal-chain/README.md"
       ],
       "prs": [
         "https://github.com/asalzburger/nodd/pull/1",
         "https://github.com/asalzburger/nodd/pull/63",
         "https://github.com/asalzburger/nodd/pull/98",
         "https://github.com/asalzburger/nodd/pull/108",
-        "https://github.com/asalzburger/nodd/pull/121"
+        "https://github.com/asalzburger/nodd/pull/121",
+        "https://github.com/asalzburger/nodd/pull/137"
       ]
     },
     {
@@ -1186,10 +1188,10 @@
       "id": "ANA-CALO-DIGITIZATION",
       "name": "Silicon digitization analysis and original-framework validation",
       "category": "analysis",
-      "usage": "DDSim inputs; Key4hep/ACTS comparison; MIP fit; SNR; thresholds; paired electron/photon response; physical tiling diagnostic; integrated LAYOUT-001 tracker/ECAL; matched zero-field ODD; native physical-ID crosswalk; event/reference bootstrap covariance; closed six-muon analysis with global seeds; strict full-inventory and raw-receipt binding; completed-result reuse; exact unbinned quantile attachment to unchanged closed response; ECAL10K uniform-energy/eta/phi HEPEvt input; 12-thread DDSim worker audits; ID-indexed readback; ten-bin angular raw visible-response widths and joint event-bootstrap covariance; twenty underlying angular response histograms checked against unbinned published moments; fictional continuous-sector silicon control; unchanged native factories; explicit support intersections; matched-primary paired event bootstrap and width-difference covariance; deterministic vector SVG companions for all four ECAL control figures; physical four-phase ECAL module packing; native mask/electrode/ID and dense crossing checks; reconstructed-only hit-axis features; nested held-out bounded ridge calibration; paired whole-event bootstrap with complete calibration refits; energy-scale, tails, clipping and prior-sensitivity controls; PNG/PDF/SVG four-way evidence",
+      "usage": "DDSim inputs; Key4hep/ACTS comparison; MIP fit; SNR; thresholds; paired electron/photon response; physical tiling diagnostic; integrated LAYOUT-001 tracker/ECAL; matched zero-field ODD; native physical-ID crosswalk; event/reference bootstrap covariance; closed six-muon analysis with global seeds; strict full-inventory and raw-receipt binding; completed-result reuse; exact unbinned quantile attachment to unchanged closed response; ECAL10K uniform-energy/eta/phi HEPEvt input; 12-thread DDSim worker audits; ID-indexed readback; ten-bin angular raw visible-response widths and joint event-bootstrap covariance; twenty underlying angular response histograms checked against unbinned published moments; fictional continuous-sector silicon control; unchanged native factories; explicit support intersections; matched-primary paired event bootstrap and width-difference covariance; deterministic vector SVG companions for all four ECAL control figures; physical four-phase ECAL module packing; native mask/electrode/ID and dense crossing checks; reconstructed-only hit-axis features; nested held-out bounded ridge calibration; paired whole-event bootstrap with complete calibration refits; energy-scale, tails, clipping and prior-sensitivity controls; PNG/PDF/SVG four-way evidence; staggered-only high-statistics campaign with disjoint100k training and20k validation; fast native combined hit audit/features; original-method learning curves; training-only spline/ridge maps and independent scale closure; frozen feature semantics; separate conditional and full selection/refit bootstrap; versioned staggered calibration artifact; hash/geometry/feature-guarded truth-free inference API and CLI; later reuse without refitting",
       "integration": "Local nODD Python analysis, isolated PROTOTYPE; uses actual original Gaudi and native ACTS executables plus ROOT/NumPy/Matplotlib. Separate source-pinned studies cover the ODD digitizer, isolated endcap tiling, and maintained LAYOUT-001 versus zero-field ODD; each retains its own scope. ECAL10K adds a task-local DDG4 audit plugin built from docs/validation/ecal10k; no detector factory or shared dependency changes.",
-      "version": "Executed 2026-11-09 source-pinned ODD and nODD studies; NumPy 2.5.4, ROOT 6.40.04, Matplotlib 3.11.2. nODD transport/protocol 5afb019eac6e152608639d02223dda73098a197f; statistical source c9f2fa7992391987a46c81f038623a2d14e79990. Deterministic nODD comparison passes; one of four stochastic gates fails and remains retained. No detector acceptance. ECAL10K executed2026-11-11: 10000event DDSim12thread run, allreadback passed; source transport a53895fa, analysis e097af85. Raw visible response only. Continuous-silicon control2026-11-12:10000event/12workers, frozen geometry528db706; fullreadback10,006,736hits; paired5000replicas with retained covariance. Raw response/coverage counterfactual only. Physical staggering and calibration prototype executed 2026-11-12; source and output hashes in the new report; calibration closure limitations retained.",
-      "installation": "Use software/env/run.sh and the PR123 command-scoped key4hep wrapper; exact generation/reference/analysis/replot commands in the results report. Existing ACTS/Spack runtime; no shared dependency change. ECAL10K reproduction uses angular_sample.py, angular_transport.py and angular_analyze.py with the existing Spack runtime. Continuous-silicon control recipe: docs/validation/ecal10k-untiled/protocol.md; new untiled_* tools use the same installed runtime. Staggering/calibration reproduction: docs/validation/ecal-staggering/README.md; staggered_* tools use existing ROOT/NumPy/Matplotlib, with no new external dependency.",
+      "version": "Executed 2026-11-09 source-pinned ODD and nODD studies; NumPy 2.5.4, ROOT 6.40.04, Matplotlib 3.11.2. nODD transport/protocol 5afb019eac6e152608639d02223dda73098a197f; statistical source c9f2fa7992391987a46c81f038623a2d14e79990. Deterministic nODD comparison passes; one of four stochastic gates fails and remains retained. No detector acceptance. ECAL10K executed2026-11-11: 10000event DDSim12thread run, allreadback passed; source transport a53895fa, analysis e097af85. Raw visible response only. Continuous-silicon control2026-11-12:10000event/12workers, frozen geometry528db706; fullreadback10,006,736hits; paired5000replicas with retained covariance. Raw response/coverage counterfactual only. Physical staggering and calibration prototype executed 2026-11-12; source and output hashes in the new report; calibration closure limitations retained. Higher-statistics staggered study executed2026-11-12:100k training+20k independent validation,12DDSimworkers, all76,941,173hits audited; frozen calibration e65962c259cec1f8744252fccfa17211004f4d61, actual results83eb6a8828eea3cfd54da07650ca226a88f7c2e9. All22narrow controls and full10k reader regression pass; no geometry/shared dependency change.",
+      "installation": "Use software/env/run.sh and the PR123 command-scoped key4hep wrapper; exact generation/reference/analysis/replot commands in the results report. Existing ACTS/Spack runtime; no shared dependency change. ECAL10K reproduction uses angular_sample.py, angular_transport.py and angular_analyze.py with the existing Spack runtime. Continuous-silicon control recipe: docs/validation/ecal10k-untiled/protocol.md; new untiled_* tools use the same installed runtime. Staggering/calibration reproduction: docs/validation/ecal-staggering/README.md; staggered_* tools use existing ROOT/NumPy/Matplotlib, with no new external dependency. Higher-statistics staggered recipe: docs/validation/ecal-highstat/reproduce.md; highstat_* tools reuse NumPy/Matplotlib/ROOT, with no added external dependency. Reuse the frozen spline-v1/linear-v1 via highstat_inference.py with NumPy only; docs/validation/ecal-highstat/reuse.md defines measured feature inputs, units and compatibility checks.",
       "paths": [
         "software/analysis/calorimeter_digitization"
       ],
@@ -1214,14 +1216,26 @@
         "docs/validation/ecal-staggering/protocol.md",
         "docs/validation/ecal-staggering/README.md",
         "docs/validation/ecal-staggering/geometry-and-run.json",
-        "docs/validation/ecal-staggering/results/summary.json"
+        "docs/validation/ecal-staggering/results/summary.json",
+        "docs/validation/ecal-highstat/protocol.md",
+        "docs/validation/ecal-highstat/README.md",
+        "docs/validation/ecal-highstat/reproduce.md",
+        "docs/validation/ecal-highstat/learning/learning-curve.json",
+        "docs/validation/ecal-highstat/frozen/models.json",
+        "docs/validation/ecal-highstat/campaign-and-run.json",
+        "docs/validation/ecal-highstat/results/summary.json",
+        "docs/validation/ecal-highstat/results/render.json",
+        "docs/validation/ecal-highstat/frozen/manifest.json",
+        "docs/validation/ecal-highstat/frozen/reuse-validation.json",
+        "docs/validation/ecal-highstat/reuse.md"
       ],
       "prs": [
         "https://github.com/asalzburger/nodd/pull/118",
         "https://github.com/asalzburger/nodd/pull/123",
         "https://github.com/asalzburger/nodd/pull/134",
         "https://github.com/asalzburger/nodd/pull/135",
-        "https://github.com/asalzburger/nodd/pull/136"
+        "https://github.com/asalzburger/nodd/pull/136",
+        "https://github.com/asalzburger/nodd/pull/137"
       ]
     },
     {
@@ -1455,8 +1469,8 @@
   "checked_inputs": {
     ".github/workflows/balanced-tdr.yml": "ee83bb70017806c93d8b295ec412b2ff5a09920277fcef0317c0642f368aa0d2",
     ".github/workflows/tdr.yml": "27d3f227c91821f7151917644fbe567863043a30ff36e5937843008ec5e38ce4",
-    ".github/workflows/token-usage.yml": "02480c1c40fb9e12566d2acedfa58a74bf40b7a0404ac70e76d5aeea0ff52ce8",
-    ".github/workflows/validation.yml": "9e02f8d27f460b530764c8733a9e79fdb6b54399a59ca5d9538278cfa6434c58",
+    ".github/workflows/token-usage.yml": "c5247400c4841832fd159c662e6c38d735bd54ebfe577a12540bad81eaf74220",
+    ".github/workflows/validation.yml": "4d92732282d18c3256f9a003766084bc4c12bcc6f6080fe2a1d657f6336692fc",
     ".gitmodules": "5f85441b511a41ed8bc20fcd6392378072fbdb8c8baf7bc4e629e30031062165",
     "CMakeLists.txt": "48072b61a7a639418b153c16e60dddcba65190dbef686fbcacadf7ed2cc5165e",
     "Makefile": "17c4d9f1ad84ffcd247d45d202e54fee08aeccf04f5350b2fabfe56ea092b84b",

@@ -10,7 +10,8 @@
   "completeness": "partial",
   "limitations": [
     "Exact client per-turn token counters unavailable; usage is empty, not zero.",
-    "Export/publication of existing accepted comparison only; no new transport or statistical recomputation."
+    "Export/publication of existing accepted comparison only; no new transport or statistical recomputation.",
+    "2026-11-12 retrospective correction: exact closed-turn usage now recovered and linked in the chain inventory. Earlier dated statements of unavailable counters remain historical; active coordinating usage and an unobserved interrupted input remain unknown."
   ],
   "client": {
     "name": "Codex desktop",
@@ -55,7 +56,23 @@
   },
   "narrative": "logs/codex/SESSION-2026-11-12-ecal10k-svg-comment.md",
   "activities": [],
-  "usage": [],
+  "usage": [
+    {
+      "client_thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+      "turn_id": "01a1cf14-b156-7df2-866f-801286ecddea",
+      "model": null,
+      "source": "Usage-only client counters strictly reconciled against last-request increments; logs/usage/USAGE-2026-11-12-ecal-chain-readiness.json; exact persisted/app thread and turn identity matched to the original task/assignment.",
+      "limitations": [
+        "Execution model/client version not exposed as per-turn usage evidence; not inferred from defaults.",
+        "Input includes cached context; cache and reasoning counters are subsets, not added usage or a billing estimate."
+      ],
+      "input_tokens": 5237008,
+      "cached_input_tokens": 5203584,
+      "output_tokens": 14904,
+      "reasoning_output_tokens": 6064,
+      "total_tokens": 5251912
+    }
+  ],
   "checks": [
     {
       "command": "untiled_compare.py --replot comparison.json; SVG XML/hash checks; rsvg-convert2.62.3",

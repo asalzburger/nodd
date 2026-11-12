@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
+  "turn_id": "01a1cfa3-b97b-7440-8f99-ea7587faa62c",
+  "status": "completed",
+  "started_at": 1794484976,
+  "completed_at": 1794485054,
+  "token_accounts": [
+    "SESSION-2026-11-12-ecal-staggered-highstat-calibration"
+  ],
+  "source": "Codex app read_thread; exact recorded thread/turn match",
+  "messages": [
+    {
+      "id": "msg_08bf63c436ea246b016af5aaf3878487d2addf0d5bda2e1ad5",
+      "role": "assistant",
+      "phase": "commentary",
+      "text": "I\u2019ll add the steering hash check and bind each worker\u2019s seed and RNG to the transport receipt, then run focused rejection tests.",
+      "redacted": "no"
+    },
+    {
+      "id": "msg_08bf63c436ea246b016af5ab38d1e487d2a9aa5613dfd17463",
+      "role": "assistant",
+      "phase": "final_answer",
+      "text": "Guard completion ready against `8cc16f6ab0daebb2c59a9ed6803892c24ff8c8e2`.\n\n- Pinned steering SHA256 `67b8ccfd\u2026d2562`; run-batch checks the actual file, readback checks the receipt.\n- Each worker must report the receipt\u2019s seed; reported RNG engines must be `MixMaxRng`.\n- Negative controls cover changed/missing steering, wrong/missing worker seed and wrong RNG.\n- All **13 tests passed**, including the24-event native pilot equivalence control; `git diff --check` passed.\n\nOnly the three owned files changed. No input-generation values, simulation parameters or geometry changed.\n\nFinal SHA256:\n```text\nhighstat_sample.py   472a8067b0407f8731d64a9de80203fe7c6a7ec3bd8704b437d41e3a863fcfa1\nhighstat_readback.py 9a967fa817ae54537f902876a4c8d1b07392ba6ac325c7af7d948bd864827517\ntest_highstat_pipeline.py 8385108c9e6b5362fc539b12109a6c7e55ac21e40cd8c5aa747088b26a8dbcd2\n```",
+      "redacted": "no"
+    }
+  ],
+  "native_tools": [
+    {
+      "name": "commandExecution",
+      "calls": 5,
+      "failures": 0
+    }
+  ],
+  "subagents": [],
+  "limitations": [
+    "Only userMessage and agentMessage text retained; reasoning, tool arguments/results and private state excluded.",
+    "Conservative path, credential, email and URL redaction is not a privacy guarantee; review retained text.",
+    "Exposed operation counts are per retained turn; journal counts can describe the same invocations and must not be added.",
+    "Selected first two, final and approval/rejection assistant messages; all exposed user messages retained. Operation metadata covers the complete selected turn. Other routine commentary omitted."
+  ],
+  "parent_thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094"
+}

@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+  "turn_id": "01a1cfdd-658c-7fe0-99ec-509edec65cf2",
+  "status": "completed",
+  "started_at": 1794488755,
+  "completed_at": 1794488804,
+  "token_accounts": [
+    "SESSION-2026-11-12-ecal-staggered-highstat-calibration"
+  ],
+  "source": "Codex app read_thread; exact recorded thread/turn match",
+  "messages": [
+    {
+      "id": "msg_08bf63c436ea246b016af5b9c402b087d2ab4758af29683999",
+      "role": "assistant",
+      "phase": "commentary",
+      "text": "I\u2019m checking the common regularization grid as a prospective comparison choice, before any new model fitting or validation-performance inspection.",
+      "redacted": "no"
+    },
+    {
+      "id": "msg_08bf63c436ea246b016af5b9e0882087d29bed5c4c1cbc94b8",
+      "role": "assistant",
+      "phase": "final_answer",
+      "text": "Reviewed **ca38408d765fdce2cbc14d3d597d6b9b7a89bfa9**. **Recommend adopting the common grid now: `{0.0001, 0.01, 1, 100}` for both new models.**\n\nThis removes an avoidable search-range difference. All ten historical staggered regional/fold models selected **0.01**, their lowest available penalty; the spline currently has access to a weaker penalty that the new linear comparator lacks.\n\nRecord the amendment before fitting. Keep identical sample roles, tuning-only response-MSE selection, refitting, closure, bounds and bootstrap procedures. Preserve the old learning curve and ensemble unchanged.\n\nLabel the comparator **\u201coriginal ten-feature architecture, retrained with the common expanded regularization search.\u201d** It is no longer the identical historical recipe.\n\nCommon penalties strengthen the comparison but do not equalize model capacity: spline dimensions, interactions and feature clipping still differ. Results therefore compare complete calibration recipes, rather than isolating spline nonlinearity alone. Do not expand the grid after inspecting fresh20k performance.\n\nActual checks: verified all four pinned input hashes, inspected the declared grids and confirmed the ten historical endpoint selections. No new fits, datasets, writes or simulation.",
+      "redacted": "no"
+    }
+  ],
+  "native_tools": [
+    {
+      "name": "commandExecution",
+      "calls": 2,
+      "failures": 0
+    },
+    {
+      "name": "subAgentActivity",
+      "calls": 1,
+      "failures": 0
+    }
+  ],
+  "subagents": [
+    {
+      "thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+      "name": "/root",
+      "activity": "interacted"
+    }
+  ],
+  "limitations": [
+    "Only userMessage and agentMessage text retained; reasoning, tool arguments/results and private state excluded.",
+    "Conservative path, credential, email and URL redaction is not a privacy guarantee; review retained text.",
+    "Exposed operation counts are per retained turn; journal counts can describe the same invocations and must not be added.",
+    "Selected first two, final and approval/rejection assistant messages; all exposed user messages retained. Operation metadata covers the complete selected turn. Other routine commentary omitted."
+  ],
+  "parent_thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094"
+}

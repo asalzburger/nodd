@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+  "turn_id": "01a1cfa7-8af6-78b1-a3a6-036e8d814c7a",
+  "status": "completed",
+  "started_at": 1794485226,
+  "completed_at": 1794485392,
+  "token_accounts": [
+    "SESSION-2026-11-12-ecal-staggered-highstat-calibration"
+  ],
+  "source": "Codex app read_thread; exact recorded thread/turn match",
+  "messages": [
+    {
+      "id": "msg_08bf63c436ea246b016af5abec6df487d290a544454dd1e4d4",
+      "role": "assistant",
+      "phase": "commentary",
+      "text": "I\u2019m checking the analysis pipeline\u2019s model-freeze boundary and whether the full bootstrap repeats tuning, refitting, and closure within the fixed sample roles.",
+      "redacted": "no"
+    },
+    {
+      "id": "msg_08bf63c436ea246b016af5ac88125487d2bef6c83a475a0641",
+      "role": "assistant",
+      "phase": "final_answer",
+      "text": "**ECAL-HIGHSTAT-PHYSVAL-ANALYSIS**, reviewed **ab753ec5cea60627e4b09133689b0f27441abf84**.\n\n**[P2] Freeze and enforce feature semantics before loading validation arrays.** [highstat_analysis.py]([redacted] validates artifact hashes but does not compare feature names or extractor/recipe/helper hashes across batches or against frozen training receipts. A validation batch regenerated with a different feature definition can therefore pass these guards. Record a training feature-semantics signature and require it for every validation receipt before opening its NPZ.\n\nOtherwise, the reviewed implementation is consistent with the protocol:\n\n- Model/core/campaign/training-artifact checks precede validation loading.\n- Full bootstrap resamples independently within 70k/15k/15k roles and repeats preprocessing, knot construction, tuning, 85k refitting and closure.\n- Validation multiplicities are shared across all six series. Historical-model uncertainty is explicitly conditioned on.\n- Raw tails/RMS use the declared training-only scale comparator.\n\nActual non-fitting checks passed:\n\n- All **840 grouped mean/CV/tail/RMS fields** matched explicit duplicated populations.\n- Global/\u03b7/\u03c6/energy indexing correctly spans **35 columns**.\n- **120-width/60-contrast** ordering reproduces \\(A\\Sigma A^\\mathsf{T}\\).\n- Within-role bootstrap counts remain exactly **70k/15k/15k**.\n- Assigned hashes and Python syntax checked.\n\nThe 120-width covariance is structurally singular\u2014rank at most **80**\u2014because global closure leaves pre/post CVs identical. Report this as an expected property.\n\nNo fits, simulation, ROOT reads, validation-performance inspection or writes. Final numerical results and realized provenance still require review after the feature-semantics guard is addressed.",
+      "redacted": "yes"
+    }
+  ],
+  "native_tools": [
+    {
+      "name": "commandExecution",
+      "calls": 7,
+      "failures": 0
+    },
+    {
+      "name": "subAgentActivity",
+      "calls": 2,
+      "failures": 0
+    }
+  ],
+  "subagents": [
+    {
+      "thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+      "name": "/root",
+      "activity": "interacted"
+    },
+    {
+      "thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+      "name": "/root",
+      "activity": "interacted"
+    }
+  ],
+  "limitations": [
+    "Only userMessage and agentMessage text retained; reasoning, tool arguments/results and private state excluded.",
+    "Conservative path, credential, email and URL redaction is not a privacy guarantee; review retained text.",
+    "Exposed operation counts are per retained turn; journal counts can describe the same invocations and must not be added.",
+    "Selected first two, final and approval/rejection assistant messages; all exposed user messages retained. Operation metadata covers the complete selected turn. Other routine commentary omitted."
+  ],
+  "parent_thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094"
+}

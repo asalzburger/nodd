@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
+  "turn_id": "01a1cb22-98a1-74e1-beb6-65061399b475",
+  "status": "completed",
+  "started_at": 1794409404,
+  "completed_at": 1794409533,
+  "token_accounts": [
+    "SESSION-2026-11-11-ecal10k-angular-response"
+  ],
+  "source": "Codex app read_thread; exact recorded thread/turn match",
+  "messages": [
+    {
+      "id": "msg_04cb58931f2fd420016af48435cff087d2883aea53367b7be6",
+      "role": "assistant",
+      "phase": "final_answer",
+      "text": "ECAL10K-REVIEW-SOFTENG reviewed commit `48d1b1b09ccbd10cf8862152054244bff543536e`, including the five assigned source files and pilot evidence. No writes or simulations performed.\n\n**No MT, identity, worker-audit or disk blocker found for the full 10k run.** Two provenance improvements remain:\n\n- **P2 \u2014 Freeze production generation provenance.** `sample/sample.json` identifies source revision `7ba71eee\u2026`, where `angular_sample.py` did not exist, and producer hash `f92e\u2026`; the committed/executed runner is now `8bef\u2026`. Prepare a fresh production sample directory from frozen commit `48d1\u2026`, retaining the old pilot sample unchanged. With the same generator seed, input/truth bytes should match; verify their hashes.\n- **P2 \u2014 Bind analysis to the audited receipt.** `angular_analyze.py::analyze` checks the event-summary hash but does not verify `sha(receipt.json) == readback[\"receipt_sha256\"]` before copying execution metadata. Add that check. Current pilot bindings are correct.\n\nActual checks:\n\n- Recomputed pilot ROOT, event-summary and receipt SHA-256 bindings: all match readback.\n- Confirmed committed source bytes match working-tree bytes for all five assigned files.\n- All worker IDs `0\u202611` present, complete, and used; event counts sum to 24.\n- Each worker reports one barrel and 112 endcap sensitive logical volumes, 5-mm steps, zero field, expected cuts and `MixMaxRng` seed `133812341`.\n- Saved event order is shuffled; all unique IDs `0\u202623` are present.\n- Independently compared serial and 12-thread summary rows by ID: all 24 rows exactly equal, including deposited energy, response and per-collection cell counts. Maximum signal difference is zero.\n- No `ERROR`, `FATAL`, exception or abort markers found in inspected MT log.\n- Observed output is 1.198 MB/event: approximately **11.98 GB for 10k**, or **23.96 GB with the specified \u00d72 allowance**, against approximately 442 GB free. The 30-GiB reserve and runtime disk guard are ample.\n\nLimits: comparison establishes equality of audited event observables and counts, not byte-identical ROOT files or every individual cell energy. Offset-batch equivalence was not executed. My earlier CLI suggestion with a trailing `true` was wrong; the corrected bare `--random.enableEventSeed` flag is present in the reviewed runner.",
+      "redacted": "no"
+    }
+  ],
+  "native_tools": [
+    {
+      "name": "commandExecution",
+      "calls": 6,
+      "failures": 1
+    },
+    {
+      "name": "subAgentActivity",
+      "calls": 2,
+      "failures": 0
+    }
+  ],
+  "subagents": [],
+  "limitations": [
+    "Only userMessage and agentMessage text retained; reasoning, tool arguments/results and private state excluded.",
+    "Conservative path, credential, email and URL redaction is not a privacy guarantee; review retained text.",
+    "Exposed operation counts are per retained turn; journal counts can describe the same invocations and must not be added.",
+    "Only started subagent activities establish child relationships; send/wait/completion activities remain operation counts and do not imply parenthood."
+  ],
+  "parent_thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094"
+}

@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+  "turn_id": "01a1d000-3568-7552-9eea-83590351afc2",
+  "status": "completed",
+  "started_at": 1794491037,
+  "completed_at": 1794491167,
+  "token_accounts": [
+    "SESSION-2026-11-12-ecal-staggered-highstat-calibration"
+  ],
+  "source": "Codex app read_thread; exact recorded thread/turn match",
+  "messages": [
+    {
+      "id": "msg_08bf63c436ea246b016af5c2a3dee887d284b82692970e8576",
+      "role": "assistant",
+      "phase": "commentary",
+      "text": "I\u2019m verifying the frozen models against the 100k training data and declared split. I\u2019ll keep validation features and performance unopened.",
+      "redacted": "no"
+    },
+    {
+      "id": "msg_08bf63c436ea246b016af5c31ac4a487d2b4a8ba62830823cf",
+      "role": "assistant",
+      "phase": "final_answer",
+      "text": "**ECAL-HIGHSTAT-PHYSVAL-FROZEN-MODELS**, reviewed **e65962c259cec1f8744252fccfa17211004f4d61**. **No material finding.**\n\nBoth declared training procedures reproduced the **entire frozen model records bit-for-bit**, including bases, coefficients, candidate scores, selections, fallback scales and closure factors. Maximum numerical difference: **zero**.\n\n- Original architecture: \u03bb **0.0001 / 0.01**, dimensions **11/11**, closure **1.0857735225335063**.\n- Spline: **7 knots, \u03bb=0.0001** in both regions, dimensions **80/82**, closure **1.0854609054699023**.\n\nVerified all ten training feature batches and receipts, feature semantics, campaign/source/helper hashes, common grid, and the exact **70k/15k/15k** role assignment. Closure-sample means equal one, CV is unchanged by closure, and zeros and gain bounds are preserved. These closure checks are training diagnostics, not independent performance evidence.\n\nUsed Python `-B` with `OPENBLAS_NUM_THREADS=1`. An explicit loader guard permitted training paths only. **No validation arrays were opened**, and no alternative configurations, simulation or file writes were performed. Native/ROOT audits were not repeated. Final20k performance remains unreviewed.",
+      "redacted": "no"
+    }
+  ],
+  "native_tools": [
+    {
+      "name": "commandExecution",
+      "calls": 5,
+      "failures": 0
+    },
+    {
+      "name": "subAgentActivity",
+      "calls": 1,
+      "failures": 0
+    }
+  ],
+  "subagents": [
+    {
+      "thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+      "name": "/root",
+      "activity": "interacted"
+    }
+  ],
+  "limitations": [
+    "Only userMessage and agentMessage text retained; reasoning, tool arguments/results and private state excluded.",
+    "Conservative path, credential, email and URL redaction is not a privacy guarantee; review retained text.",
+    "Exposed operation counts are per retained turn; journal counts can describe the same invocations and must not be added.",
+    "Selected first two, final and approval/rejection assistant messages; all exposed user messages retained. Operation metadata covers the complete selected turn. Other routine commentary omitted."
+  ],
+  "parent_thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094"
+}
