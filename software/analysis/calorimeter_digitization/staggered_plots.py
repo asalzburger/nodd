@@ -26,7 +26,8 @@ def plot(summary,output,continuous):
     def savefig(fig,name):
         for extension in ('png','pdf','svg'):
             path=output/f'{name}.{extension}'
-            fig.savefig(path,metadata={'Date':None} if extension=='svg' else None)
+            fig.savefig(path,bbox_inches='tight',pad_inches=.12,
+                        metadata={'Date':None} if extension=='svg' else None)
             if extension=='svg':path.write_text('\n'.join(line.rstrip() for line in path.read_text().splitlines())+'\n')
         plt.close(fig)
     def value(x):return np.nan if x is None else x
@@ -65,6 +66,8 @@ def plot(summary,output,continuous):
         for ax in (*axes[:,column],*meanaxes[:,column]):
             ax.set_xlabel(xlabel);ax.set_xlim(projection['edges'][0]*factor,projection['edges'][-1]*factor);ax.grid(alpha=.18);ax.set_axisbelow(True)
         axes[0,column].set_ylim(bottom=0);meanaxes[0,column].set_ylim(bottom=0)
+        if name=='folded_phi':
+            for ax in (*axes[:,column],*meanaxes[:,column]):ax.set_xticks([-10,-5,0,5,10])
     axes[0,0].legend(frameon=False,fontsize=8,loc='upper right')
     axes[1,0].legend(frameon=False,fontsize=8)
     meanaxes[0,0].legend(frameon=False,fontsize=8);meanaxes[1,0].legend(frameon=False,fontsize=8)
