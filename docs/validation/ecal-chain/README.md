@@ -1,14 +1,14 @@
 # ECAL PR133–137 merge and accounting record
 
-This isolated **PROTOTYPE** study progresses from the100-electron benchmark
-(PR133), through10k angular response and controls (134), continuous-silicon
+This isolated **PROTOTYPE** study progresses from the 100-electron benchmark
+(PR133), through 10k angular response and controls (134), continuous-silicon
 control (135), module staggering/held-out calibration (136), to the frozen
 100k-training/20k-validation staggered calibration and reuse interface (137).
 DES-030/DES-031 approval states are unchanged. Merging grants no design sign-off.
 
-The original stack was133 →134 →135 →136 →137. GitHub automatically marked
-PR134 merged into the PR133 branch at2026-11-12T16:54:27Z after a publishing
-race made its head reachable there; this was not a merge to main. The full10k
+The original stack was 133 →134 →135 →136 →137. GitHub automatically marked
+PR134 merged into the PR133 branch at 2026-11-12T16:54:27Z after a publishing
+race made its head reachable there; this was not a merge to main. The full 10k
 study is retained in PR133 with ordinary corrective history. PR134 is the
 historical merged discussion/source record. Merge the remaining open PRs in
 order **133 →135 →136 →137**, using ordinary merge commits and
@@ -27,19 +27,19 @@ last observed ancestor; recording a later metadata commit does not alter science
 
 The retrospective inventory
 [`USAGE-2026-11-12-ecal-chain-readiness.json`](../../../logs/usage/USAGE-2026-11-12-ecal-chain-readiness.json)
-corroborates **51 closed turns /1299 requests /303,597,535 observed tokens**:
-302,560,432 input +1,037,103 output. Cached input298,760,832 and reasoning
-output540,004 are subsets. These are observed context/response counters, not
-billing estimates. The earlier15 observations retain their original owners;
-36 newly recovered observations were imported once into the corresponding task
+corroborates **53 closed turns / 1311 requests / 306,136,254 observed tokens**:
+305,086,725 input + 1,049,529 output. Cached input 301,267,840 and reasoning
+output 546,893 are subsets. These are observed context/response counters, not
+billing estimates. The earlier 15 observations retain their original owners;
+38 newly recovered observations were imported once into the corresponding task
 owners. Selected app-visible prompts/responses, named specialist assignments and
-operation metadata accompany all51 measured turns. The runner's injected
+operation metadata accompany all 53 measured turns. The runner's injected
 benchmark prompt does not establish another human identity.
 
 One interrupted input has no increasing token-count snapshot and remains
 unknown, not zero. The coordinating preparation turn was active at collection
 and is excluded. It must be recovered in a later task after it closes; it must
-never be estimated or split among PRs. The two completed SoftEng assignments
+never be estimated or split among PRs. The four completed SoftEng assignments
 are counted separately in the preparation owner. Their parent is excluded.
 
 Unique canonical thread/turn owners determine the total. A journal shared by

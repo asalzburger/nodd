@@ -7,7 +7,7 @@
     "events": []
   },
   "github": {
-    "captured_at": "2026-11-12T16:59:40Z",
+    "captured_at": "2026-11-12T17:10:20Z",
     "pull_request": {
       "number": 137,
       "url": "https://github.com/asalzburger/nodd/pull/137",
@@ -15,7 +15,7 @@
       "head": "codex/ecal-staggered-highstat-calibration",
       "head_sha": "ded14d2e4d726b566db3cd9e4939d73da799b6a3",
       "state": "open",
-      "body": "This follows #136 and studies only its unchanged physical staggered ECAL prototype under DES-030/DES-031. Generated **100,000 training + 20,000 fresh validation electrons**, independently uniform in E=10–80 GeV, eta −3..3 and full phi, with **12 DDSim workers**. Froze both training-only calibrations in Git before independent validation; retained code, recipes, compact statistics/covariance and PNG/PDF/**SVG** figures.\n\nThe recorded default for later use is **`nodd-ecal-staggered-spline-v1`**; `nodd-ecal-staggered-linear-v1` is retained as the comparator. The [versioned manifest](https://github.com/asalzburger/nodd/blob/codex/ecal-staggered-highstat-calibration/docs/validation/ecal-highstat/frozen/manifest.json) records coefficient/geometry/feature hashes, units and applicability. The [reuse guide](https://github.com/asalzburger/nodd/blob/codex/ecal-staggered-highstat-calibration/docs/validation/ecal-highstat/reuse.md) supplies a truth-free NumPy API/CLI, with compatibility guards and no refitting. All four pre/post energy-ratio series reproduce the retained full 20k predictions bit-for-bit; ten-k chunks show only quantified last-bit matrix-product roundoff (maximum 4.89e-15). The coefficients, frozen numerical source and published statistics/plots are unchanged. A separate exact-revision SoftEng review passed all 16 NumPy controls and independently reproduced the full20k equality and chunked roundoff, with no material finding.\n\nOn the **same fresh 20k**, inclusive sample SD(R)/mean(R) is **38.313% raw, 31.338% historical 10k ensemble, 31.322% retuned linear and 30.209% spline**. The spline gains 1.112 percentage points against the new linear comparator. More training with the linear recipe makes little difference here; this comparison also changes tuning/refitting and ensemble construction, so it does not isolate training size. The old 32.22% cross-fit result used a different cohort.\n\n![Independent angular comparison](https://raw.githubusercontent.com/asalzburger/nodd/83eb6a8828eea3cfd54da07650ca226a88f7c2e9/docs/validation/ecal-highstat/results/angular-comparison.png)\n\nThe global spline mean closes to **1.00300**, but local biases remain: energy-slice means 0.96975–1.02622 and folded-phi means 0.61376–1.10597. Sector-edge widths remain 73–75%, versus 11–13% in interior bins. All 84 zeros remain; spline gain clipping is 8.790%, feature extrapolation 1.095%, half-energy tail 9.380%. Global rescaling leaves SD/mean unchanged and raises spline RMS from 28.929% to 30.301%; closed linear RMS is 31.412%. These are spectrum-averaged non-Gaussian widths, not intrinsic fixed-energy resolution or detector acceptance.\n\nThe prospective chain uses 70k fit/15k tuning/15k closure, a common ridge search for both new recipes, response refit on 85k and a separate global closure factor. The spline adds predeclared bases/interactions to measured hit features; truth energy/direction are absent from inference. The original-method 1/2/4/8k learning curve is weak/nonmonotonic and explicitly exploratory, including a shifted bootstrap contrast range.\n\nValidation: all 120,000 primaries/76,941,173 hits/all 12 workers audited; 22 original controls plus 7 reuse controls; full old 10k native feature regression; complete frozen-model records independently reproduced bit-for-bit before unblinding; 1,000 shared validation bootstraps and 200 full training/selection/refit/closure bootstraps; correlated 120-width/60-contrast matrices verified; all 18 PNG/SVG exports byte-identical on standalone replot. Final exact-revision independent PhysVal assessment is retained in the session journal.\n\nTransport used 118.6 minutes summed wall, 20.93 CPU-hours, at most 2.672 GiB child RSS and 152.506 GB ROOT. At least 232.7 GiB remained free; no trimming/deletion. ROOT, exact event inputs/ledgers, full audits and event-level features/predictions stay local and ignored. Closed calibration and reuse work is now accounted below; the active accounting turn remains excluded.\n\n[Report](https://github.com/asalzburger/nodd/blob/codex/ecal-staggered-highstat-calibration/docs/validation/ecal-highstat/README.md) · [Vector SVG](https://github.com/asalzburger/nodd/blob/83eb6a8828eea3cfd54da07650ca226a88f7c2e9/docs/validation/ecal-highstat/results/angular-comparison.svg) · [Reproduction recipe](https://github.com/asalzburger/nodd/blob/codex/ecal-staggered-highstat-calibration/docs/validation/ecal-highstat/reproduce.md)\n\nPrepared for maintainer merge review. **Dependency order: #133 → #134 → #135 → #136 → #137**. This PR still targets #136; merge dependencies and retarget successors to main, preserving source commits referenced by the frozen evidence (use merge commits for this stack). Recheck CI after retargeting. This preparation does not approve or merge any predecessor. No geometry integration, human design sign-off or engineering acceptance.\n\n\nToken accounting (2026-11-12): **108,043,890 observed input+output tokens across 15 closed turns and 431 requests**. The canonical work labels are **Staggered ECAL: 100k training and 20k independent validation** (84,245,571) and **Staggered ECAL model reuse and PR137 merge preparation** (23,798,319). Cached input 107,174,400 and reasoning output 224,181 are subsets, not additions. Explicit parent/child identities and fork boundaries are verified; earlier inherited usage, earlier PR work and the active accounting turn are excluded. These are client observations, not billing or complete-device estimates. [Accounting and attribution](https://github.com/asalzburger/nodd/blob/codex/ecal-staggered-highstat-calibration/logs/codex/SESSION-2026-11-12-pr137-accounting.md).\n",
+      "body": "This follows #136 and studies only its unchanged physical staggered ECAL prototype under DES-030/DES-031. Generated **100,000 training + 20,000 fresh validation electrons**, independently uniform in E=10–80 GeV, eta −3..3 and full phi, with **12 DDSim workers**. Froze both training-only calibrations in Git before independent validation; retained code, recipes, compact statistics/covariance and PNG/PDF/**SVG** figures.\n\nThe recorded default for later use is **`nodd-ecal-staggered-spline-v1`**; `nodd-ecal-staggered-linear-v1` is retained as the comparator. The [versioned manifest](https://github.com/asalzburger/nodd/blob/codex/ecal-staggered-highstat-calibration/docs/validation/ecal-highstat/frozen/manifest.json) records coefficient/geometry/feature hashes, units and applicability. The [reuse guide](https://github.com/asalzburger/nodd/blob/codex/ecal-staggered-highstat-calibration/docs/validation/ecal-highstat/reuse.md) supplies a truth-free NumPy API/CLI, with compatibility guards and no refitting. All four pre/post energy-ratio series reproduce the retained full 20k predictions bit-for-bit; ten-k chunks show only quantified last-bit matrix-product roundoff (maximum 4.89e-15). The coefficients, frozen numerical source and published statistics/plots are unchanged. A separate exact-revision SoftEng review passed all 16 NumPy controls and independently reproduced the full20k equality and chunked roundoff, with no material finding.\n\nOn the **same fresh 20k**, inclusive sample SD(R)/mean(R) is **38.313% raw, 31.338% historical 10k ensemble, 31.322% retuned linear and 30.209% spline**. The spline gains 1.112 percentage points against the new linear comparator. More training with the linear recipe makes little difference here; this comparison also changes tuning/refitting and ensemble construction, so it does not isolate training size. The old 32.22% cross-fit result used a different cohort.\n\n![Independent angular comparison](https://raw.githubusercontent.com/asalzburger/nodd/83eb6a8828eea3cfd54da07650ca226a88f7c2e9/docs/validation/ecal-highstat/results/angular-comparison.png)\n\nThe global spline mean closes to **1.00300**, but local biases remain: energy-slice means 0.96975–1.02622 and folded-phi means 0.61376–1.10597. Sector-edge widths remain 73–75%, versus 11–13% in interior bins. All 84 zeros remain; spline gain clipping is 8.790%, feature extrapolation 1.095%, half-energy tail 9.380%. Global rescaling leaves SD/mean unchanged and raises spline RMS from 28.929% to 30.301%; closed linear RMS is 31.412%. These are spectrum-averaged non-Gaussian widths, not intrinsic fixed-energy resolution or detector acceptance.\n\nThe prospective chain uses 70k fit/15k tuning/15k closure, a common ridge search for both new recipes, response refit on 85k and a separate global closure factor. The spline adds predeclared bases/interactions to measured hit features; truth energy/direction are absent from inference. The original-method 1/2/4/8k learning curve is weak/nonmonotonic and explicitly exploratory, including a shifted bootstrap contrast range.\n\nValidation: all 120,000 primaries/76,941,173 hits/all 12 workers audited; 22 original controls plus 7 reuse controls; full old 10k native feature regression; complete frozen-model records independently reproduced bit-for-bit before unblinding; 1,000 shared validation bootstraps and 200 full training/selection/refit/closure bootstraps; correlated 120-width/60-contrast matrices verified; all 18 PNG/SVG exports byte-identical on standalone replot. Final exact-revision independent PhysVal assessment is retained in the session journal.\n\nTransport used 118.6 minutes summed wall, 20.93 CPU-hours, at most 2.672 GiB child RSS and 152.506 GB ROOT. At least 232.7 GiB remained free; no trimming/deletion. ROOT, exact event inputs/ledgers, full audits and event-level features/predictions stay local and ignored. Closed calibration and reuse work is now accounted below; the active accounting turn remains excluded.\n\n[Report](https://github.com/asalzburger/nodd/blob/codex/ecal-staggered-highstat-calibration/docs/validation/ecal-highstat/README.md) · [Vector SVG](https://github.com/asalzburger/nodd/blob/83eb6a8828eea3cfd54da07650ca226a88f7c2e9/docs/validation/ecal-highstat/results/angular-comparison.svg) · [Reproduction recipe](https://github.com/asalzburger/nodd/blob/codex/ecal-staggered-highstat-calibration/docs/validation/ecal-highstat/reproduce.md)\n\nPrepared for maintainer merge review. **Dependency order: #133 → #134 → #135 → #136 → #137**. This PR still targets #136; merge dependencies and retarget successors to main, preserving source commits referenced by the frozen evidence (use merge commits for this stack). Recheck CI after retargeting. This preparation does not approve or merge any predecessor. No geometry integration, human design sign-off or engineering acceptance.\n\n\nToken accounting (2026-11-12): **108,043,890 observed input+output tokens across 15 closed turns and 431 requests**. The canonical work labels are **Staggered ECAL: 100k training and 20k independent validation** (84,245,571) and **Staggered ECAL model reuse and PR137 merge preparation** (23,798,319). Cached input 107,174,400 and reasoning output 224,181 are subsets, not additions. Explicit parent/child identities and fork boundaries are verified; earlier inherited usage, earlier PR work and the active accounting turn are excluded. These are client observations, not billing or complete-device estimates. [Accounting and attribution](https://github.com/asalzburger/nodd/blob/codex/ecal-staggered-highstat-calibration/logs/codex/SESSION-2026-11-12-pr137-accounting.md).\n\n\n## Complete PR133–137 merge/accounting closeout\n\nThe complete closed-turn study record now covers **53 turns /1,311 requests /306,136,254 observed tokens** across12 canonical task owners. This includes benchmark generation and local display/review, all10k controls, staggering, high-statistics calibration/reuse and four closed software assignments. The earlier15 accounts/counters are preserved;38 additional turns were imported once. Shared PR references are not additive; cached input/reasoning are subsets. One unobserved interrupted input and the active coordinating turn remain unknown/excluded.\n\nAll five PRs are labelled `enhancement` and `campaign:calorimeters`. Main-push validation and Pages build retain all canonical observations and derive daily work labels automatically. The new chain guard checks all five records, recorded source ancestry and byte-identical frozen coefficients/core.17 synthetic Git controls plus76 accounting tests and both Node suites pass; separate integration/accounting assessment found no actionable issue at346bd704. Final closed review counters were then added without science changes.\n\nGitHub automatically marked PR134 merged into the PR133 branch during a publishing race; no merge to main occurred. Its full10k study is retained in PR133 with ordinary corrective history. Remaining merge order: **133→135→136→137**, using merge commits and retargeting each dependent PR to main after its predecessor. PR135 now targets PR133 directly. No squash/rebase of the frozen source history.\n\nSee `docs/validation/ecal-chain/README.md` for exact coverage and post-merge reconciliation. Actual future merge SHAs/timestamps and a selected final feature milestone must be captured from GitHub after the human merges; they are not invented now. Scientific artifacts and calibration remain unchanged.\n",
       "actor": "asalzburger",
       "created_at": "2026-11-12T14:13:44Z"
     },
@@ -91,8 +91,8 @@
         ],
         "snapshot": null,
         "snapshot_sha256": null,
-        "record_sha256": "9a9409d1c9fe6681717c772dc67b101c019beba348b7bc730cfc88393c5ea019",
-        "narrative_sha256": "9876377f13f8151ce1033d54c6bcd0b52dd0bc9adee17d4200cb8b9e39bdde3c"
+        "record_sha256": "21e6e18c905aa8255e6ed5fde05a623bbdc7e77d970bf61149e605b2f9721f6f",
+        "narrative_sha256": "46c4bb4115036017b90e1833c66bbe01609432870c726cbc6996e5414b0b3df0"
       },
       {
         "session_id": "SESSION-2026-11-12-ecal-staggered-highstat-calibration",
@@ -143,7 +143,7 @@
         "record": "logs/codex/SESSION-2026-11-12-ecal-chain-readiness.json",
         "scope": "canonical_session; shared PR references are not allocations",
         "status": "observed",
-        "usage_sha256": "e890d257e8d3ddb7757b9a1f4fe911265d2cfc3bdb5d69f595db92ea816271ee",
+        "usage_sha256": "51bb13066e9d2602a4c85abcda6b465f1841b1299ad1629259f29dcfd24c7305",
         "turns": [
           {
             "client_thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
@@ -153,6 +153,16 @@
           {
             "client_thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
             "turn_id": "01a1d0a7-d52a-7943-95d2-1ba9af90c0f4",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
+            "turn_id": "01a1d0b5-9d58-7580-b188-e6cd1cf27627",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
+            "turn_id": "01a1d0b8-ec91-73e3-a3ae-a5fd0c38fceb",
             "model": null
           }
         ]
@@ -318,6 +328,14 @@
       {
         "path": "interactions/pr-0137/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1d0a7-d52a-7943-95d2-1ba9af90c0f4.json",
         "sha256": "0c252cedd3f132d60ab37935fac46e8bb836fda85679cc78b7dfdc9a13cb1942"
+      },
+      {
+        "path": "interactions/pr-0137/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1d0b5-9d58-7580-b188-e6cd1cf27627.json",
+        "sha256": "1772fef49d3784ef4e4fcf9abab421100981a5b5d278e97a34ca94a32a4cd4e0"
+      },
+      {
+        "path": "interactions/pr-0137/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1d0b8-ec91-73e3-a3ae-a5fd0c38fceb.json",
+        "sha256": "2be07bcbe7fa44ffafcdbd596e7a34b1c25788909bf2ca9352e5ae1ed145e293"
       }
     ],
     "agents": [
@@ -1004,6 +1022,24 @@
         "models": [],
         "source": "interactions/pr-0137/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1d0a7-d52a-7943-95d2-1ba9af90c0f4.json",
         "limitation": "Execution model is retained only when reported by the canonical account."
+      },
+      {
+        "id": "codex-thread:01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "name": "Codex",
+        "role": "recorded_thread",
+        "thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1d0b5-9d58-7580-b188-e6cd1cf27627.json",
+        "limitation": "Execution model is retained only when reported by the canonical account."
+      },
+      {
+        "id": "codex-thread:01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "name": "Codex",
+        "role": "recorded_thread",
+        "thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "models": [],
+        "source": "interactions/pr-0137/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1d0b8-ec91-73e3-a3ae-a5fd0c38fceb.json",
+        "limitation": "Execution model is retained only when reported by the canonical account."
       }
     ],
     "tools": {
@@ -1627,6 +1663,36 @@
           "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
           "token_account": "SESSION-2026-11-12-ecal-chain-readiness",
           "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "commandExecution",
+          "category": "native_codex",
+          "version": null,
+          "calls": 3,
+          "source": "interactions/pr-0137/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1d0b5-9d58-7580-b188-e6cd1cf27627.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 1 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal-chain-readiness",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "subAgentActivity",
+          "category": "native_codex",
+          "version": null,
+          "calls": 1,
+          "source": "interactions/pr-0137/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1d0b5-9d58-7580-b188-e6cd1cf27627.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal-chain-readiness",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "commandExecution",
+          "category": "native_codex",
+          "version": null,
+          "calls": 8,
+          "source": "interactions/pr-0137/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1d0b8-ec91-73e3-a3ae-a5fd0c38fceb.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-12-ecal-chain-readiness",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
         }
       ],
       "codex_installed": [],
@@ -1640,7 +1706,7 @@
         "direction": "reaction",
         "actor": "github:asalzburger",
         "recipients": [],
-        "text": "This follows #136 and studies only its unchanged physical staggered ECAL prototype under DES-030/DES-031. Generated **100,000 training + 20,000 fresh validation electrons**, independently uniform in E=10–80 GeV, eta −3..3 and full phi, with **12 DDSim workers**. Froze both training-only calibrations in Git before independent validation; retained code, recipes, compact statistics/covariance and PNG/PDF/**SVG** figures.\n\nThe recorded default for later use is **`nodd-ecal-staggered-spline-v1`**; `nodd-ecal-staggered-linear-v1` is retained as the comparator. The [versioned manifest](https://github.com/asalzburger/nodd/blob/codex/ecal-staggered-highstat-calibration/docs/validation/ecal-highstat/frozen/manifest.json) records coefficient/geometry/feature hashes, units and applicability. The [reuse guide](https://github.com/asalzburger/nodd/blob/codex/ecal-staggered-highstat-calibration/docs/validation/ecal-highstat/reuse.md) supplies a truth-free NumPy API/CLI, with compatibility guards and no refitting. All four pre/post energy-ratio series reproduce the retained full 20k predictions bit-for-bit; ten-k chunks show only quantified last-bit matrix-product roundoff (maximum 4.89e-15). The coefficients, frozen numerical source and published statistics/plots are unchanged. A separate exact-revision SoftEng review passed all 16 NumPy controls and independently reproduced the full20k equality and chunked roundoff, with no material finding.\n\nOn the **same fresh 20k**, inclusive sample SD(R)/mean(R) is **38.313% raw, 31.338% historical 10k ensemble, 31.322% retuned linear and 30.209% spline**. The spline gains 1.112 percentage points against the new linear comparator. More training with the linear recipe makes little difference here; this comparison also changes tuning/refitting and ensemble construction, so it does not isolate training size. The old 32.22% cross-fit result used a different cohort.\n\n![Independent angular comparison](https://raw.githubusercontent.com/asalzburger/nodd/83eb6a8828eea3cfd54da07650ca226a88f7c2e9/docs/validation/ecal-highstat/results/angular-comparison.png)\n\nThe global spline mean closes to **1.00300**, but local biases remain: energy-slice means 0.96975–1.02622 and folded-phi means 0.61376–1.10597. Sector-edge widths remain 73–75%, versus 11–13% in interior bins. All 84 zeros remain; spline gain clipping is 8.790%, feature extrapolation 1.095%, half-energy tail 9.380%. Global rescaling leaves SD/mean unchanged and raises spline RMS from 28.929% to 30.301%; closed linear RMS is 31.412%. These are spectrum-averaged non-Gaussian widths, not intrinsic fixed-energy resolution or detector acceptance.\n\nThe prospective chain uses 70k fit/15k tuning/15k closure, a common ridge search for both new recipes, response refit on 85k and a separate global closure factor. The spline adds predeclared bases/interactions to measured hit features; truth energy/direction are absent from inference. The original-method 1/2/4/8k learning curve is weak/nonmonotonic and explicitly exploratory, including a shifted bootstrap contrast range.\n\nValidation: all 120,000 primaries/76,941,173 hits/all 12 workers audited; 22 original controls plus 7 reuse controls; full old 10k native feature regression; complete frozen-model records independently reproduced bit-for-bit before unblinding; 1,000 shared validation bootstraps and 200 full training/selection/refit/closure bootstraps; correlated 120-width/60-contrast matrices verified; all 18 PNG/SVG exports byte-identical on standalone replot. Final exact-revision independent PhysVal assessment is retained in the session journal.\n\nTransport used 118.6 minutes summed wall, 20.93 CPU-hours, at most 2.672 GiB child RSS and 152.506 GB ROOT. At least 232.7 GiB remained free; no trimming/deletion. ROOT, exact event inputs/ledgers, full audits and event-level features/predictions stay local and ignored. Closed calibration and reuse work is now accounted below; the active accounting turn remains excluded.\n\n[Report](https://github.com/asalzburger/nodd/blob/codex/ecal-staggered-highstat-calibration/docs/validation/ecal-highstat/README.md) · [Vector SVG](https://github.com/asalzburger/nodd/blob/83eb6a8828eea3cfd54da07650ca226a88f7c2e9/docs/validation/ecal-highstat/results/angular-comparison.svg) · [Reproduction recipe](https://github.com/asalzburger/nodd/blob/codex/ecal-staggered-highstat-calibration/docs/validation/ecal-highstat/reproduce.md)\n\nPrepared for maintainer merge review. **Dependency order: #133 → #134 → #135 → #136 → #137**. This PR still targets #136; merge dependencies and retarget successors to main, preserving source commits referenced by the frozen evidence (use merge commits for this stack). Recheck CI after retargeting. This preparation does not approve or merge any predecessor. No geometry integration, human design sign-off or engineering acceptance.\n\n\nToken accounting (2026-11-12): **108,043,890 observed input+output tokens across 15 closed turns and 431 requests**. The canonical work labels are **Staggered ECAL: 100k training and 20k independent validation** (84,245,571) and **Staggered ECAL model reuse and PR137 merge preparation** (23,798,319). Cached input 107,174,400 and reasoning output 224,181 are subsets, not additions. Explicit parent/child identities and fork boundaries are verified; earlier inherited usage, earlier PR work and the active accounting turn are excluded. These are client observations, not billing or complete-device estimates. [Accounting and attribution](https://github.com/asalzburger/nodd/blob/codex/ecal-staggered-highstat-calibration/logs/codex/SESSION-2026-11-12-pr137-accounting.md).\n",
+        "text": "This follows #136 and studies only its unchanged physical staggered ECAL prototype under DES-030/DES-031. Generated **100,000 training + 20,000 fresh validation electrons**, independently uniform in E=10–80 GeV, eta −3..3 and full phi, with **12 DDSim workers**. Froze both training-only calibrations in Git before independent validation; retained code, recipes, compact statistics/covariance and PNG/PDF/**SVG** figures.\n\nThe recorded default for later use is **`nodd-ecal-staggered-spline-v1`**; `nodd-ecal-staggered-linear-v1` is retained as the comparator. The [versioned manifest](https://github.com/asalzburger/nodd/blob/codex/ecal-staggered-highstat-calibration/docs/validation/ecal-highstat/frozen/manifest.json) records coefficient/geometry/feature hashes, units and applicability. The [reuse guide](https://github.com/asalzburger/nodd/blob/codex/ecal-staggered-highstat-calibration/docs/validation/ecal-highstat/reuse.md) supplies a truth-free NumPy API/CLI, with compatibility guards and no refitting. All four pre/post energy-ratio series reproduce the retained full 20k predictions bit-for-bit; ten-k chunks show only quantified last-bit matrix-product roundoff (maximum 4.89e-15). The coefficients, frozen numerical source and published statistics/plots are unchanged. A separate exact-revision SoftEng review passed all 16 NumPy controls and independently reproduced the full20k equality and chunked roundoff, with no material finding.\n\nOn the **same fresh 20k**, inclusive sample SD(R)/mean(R) is **38.313% raw, 31.338% historical 10k ensemble, 31.322% retuned linear and 30.209% spline**. The spline gains 1.112 percentage points against the new linear comparator. More training with the linear recipe makes little difference here; this comparison also changes tuning/refitting and ensemble construction, so it does not isolate training size. The old 32.22% cross-fit result used a different cohort.\n\n![Independent angular comparison](https://raw.githubusercontent.com/asalzburger/nodd/83eb6a8828eea3cfd54da07650ca226a88f7c2e9/docs/validation/ecal-highstat/results/angular-comparison.png)\n\nThe global spline mean closes to **1.00300**, but local biases remain: energy-slice means 0.96975–1.02622 and folded-phi means 0.61376–1.10597. Sector-edge widths remain 73–75%, versus 11–13% in interior bins. All 84 zeros remain; spline gain clipping is 8.790%, feature extrapolation 1.095%, half-energy tail 9.380%. Global rescaling leaves SD/mean unchanged and raises spline RMS from 28.929% to 30.301%; closed linear RMS is 31.412%. These are spectrum-averaged non-Gaussian widths, not intrinsic fixed-energy resolution or detector acceptance.\n\nThe prospective chain uses 70k fit/15k tuning/15k closure, a common ridge search for both new recipes, response refit on 85k and a separate global closure factor. The spline adds predeclared bases/interactions to measured hit features; truth energy/direction are absent from inference. The original-method 1/2/4/8k learning curve is weak/nonmonotonic and explicitly exploratory, including a shifted bootstrap contrast range.\n\nValidation: all 120,000 primaries/76,941,173 hits/all 12 workers audited; 22 original controls plus 7 reuse controls; full old 10k native feature regression; complete frozen-model records independently reproduced bit-for-bit before unblinding; 1,000 shared validation bootstraps and 200 full training/selection/refit/closure bootstraps; correlated 120-width/60-contrast matrices verified; all 18 PNG/SVG exports byte-identical on standalone replot. Final exact-revision independent PhysVal assessment is retained in the session journal.\n\nTransport used 118.6 minutes summed wall, 20.93 CPU-hours, at most 2.672 GiB child RSS and 152.506 GB ROOT. At least 232.7 GiB remained free; no trimming/deletion. ROOT, exact event inputs/ledgers, full audits and event-level features/predictions stay local and ignored. Closed calibration and reuse work is now accounted below; the active accounting turn remains excluded.\n\n[Report](https://github.com/asalzburger/nodd/blob/codex/ecal-staggered-highstat-calibration/docs/validation/ecal-highstat/README.md) · [Vector SVG](https://github.com/asalzburger/nodd/blob/83eb6a8828eea3cfd54da07650ca226a88f7c2e9/docs/validation/ecal-highstat/results/angular-comparison.svg) · [Reproduction recipe](https://github.com/asalzburger/nodd/blob/codex/ecal-staggered-highstat-calibration/docs/validation/ecal-highstat/reproduce.md)\n\nPrepared for maintainer merge review. **Dependency order: #133 → #134 → #135 → #136 → #137**. This PR still targets #136; merge dependencies and retarget successors to main, preserving source commits referenced by the frozen evidence (use merge commits for this stack). Recheck CI after retargeting. This preparation does not approve or merge any predecessor. No geometry integration, human design sign-off or engineering acceptance.\n\n\nToken accounting (2026-11-12): **108,043,890 observed input+output tokens across 15 closed turns and 431 requests**. The canonical work labels are **Staggered ECAL: 100k training and 20k independent validation** (84,245,571) and **Staggered ECAL model reuse and PR137 merge preparation** (23,798,319). Cached input 107,174,400 and reasoning output 224,181 are subsets, not additions. Explicit parent/child identities and fork boundaries are verified; earlier inherited usage, earlier PR work and the active accounting turn are excluded. These are client observations, not billing or complete-device estimates. [Accounting and attribution](https://github.com/asalzburger/nodd/blob/codex/ecal-staggered-highstat-calibration/logs/codex/SESSION-2026-11-12-pr137-accounting.md).\n\n\n## Complete PR133–137 merge/accounting closeout\n\nThe complete closed-turn study record now covers **53 turns /1,311 requests /306,136,254 observed tokens** across12 canonical task owners. This includes benchmark generation and local display/review, all10k controls, staggering, high-statistics calibration/reuse and four closed software assignments. The earlier15 accounts/counters are preserved;38 additional turns were imported once. Shared PR references are not additive; cached input/reasoning are subsets. One unobserved interrupted input and the active coordinating turn remain unknown/excluded.\n\nAll five PRs are labelled `enhancement` and `campaign:calorimeters`. Main-push validation and Pages build retain all canonical observations and derive daily work labels automatically. The new chain guard checks all five records, recorded source ancestry and byte-identical frozen coefficients/core.17 synthetic Git controls plus76 accounting tests and both Node suites pass; separate integration/accounting assessment found no actionable issue at346bd704. Final closed review counters were then added without science changes.\n\nGitHub automatically marked PR134 merged into the PR133 branch during a publishing race; no merge to main occurred. Its full10k study is retained in PR133 with ordinary corrective history. Remaining merge order: **133→135→136→137**, using merge commits and retargeting each dependent PR to main after its predecessor. PR135 now targets PR133 directly. No squash/rebase of the frozen source history.\n\nSee `docs/validation/ecal-chain/README.md` for exact coverage and post-merge reconciliation. Actual future merge SHAs/timestamps and a selected final feature milestone must be captured from GitHub after the human merges; they are not invented now. Scientific artifacts and calibration remain unchanged.\n",
         "source": "https://github.com/asalzburger/nodd/pull/137",
         "in_reply_to": null,
         "model": null,
@@ -2702,12 +2768,102 @@
           "SESSION-2026-11-12-ecal-chain-readiness"
         ],
         "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_08bf63c436ea246b016af5f111ac2087d29a2bf49f2976a183",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "recipients": [
+          "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094"
+        ],
+        "text": "I’ll update the guard to recognize a dependent PR that was merged into its predecessor’s branch, using recorded merge ancestry as proof. Unordered heads without that proof will still fail.",
+        "source": "interactions/pr-0137/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1d0b5-9d58-7580-b188-e6cd1cf27627.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-chain-readiness"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_08bf63c436ea246b016af5f1849fd887d285b80874c91849ac",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "recipients": [
+          "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094"
+        ],
+        "text": "Completed `ECAL-CHAIN-SOFTENG-ABSORBED` against `ded14d2e4d726b566db3cd9e4939d73da799b6a3`.\n\nThe guard accepts reversed heads only with recorded merged-state proof: `dependent head → actual merge → predecessor head`. Captured interaction heads must also belong to that actual merge. Frozen-model and accounting checks remain intact.\n\nOnly `check_ecal_chain.py` and `test_ecal_chain.py` changed. All **17 synthetic Git tests passed** in15.135s, including absorption with corrective commits and rejection of missing, detached or incompatible merge evidence. Whitespace checks passed.\n\nSHA256:\n\n```text\ncheck_ecal_chain.py 20a68ac0d339981754d13c8d1aaf71c83fc84d55d325553659fc430345531ade\ntest_ecal_chain.py  d0cde37c4bc4e224072a46ce50d5bcb666fe7e4891bd871cd76fc3d6a1c2c35c\n```\n\nNo commits, publication or native jobs performed. Ready for review after main integrates the records.",
+        "source": "interactions/pr-0137/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1d0b5-9d58-7580-b188-e6cd1cf27627.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-chain-readiness"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_08bf63c436ea246b016af5f1e9ddb487d2adc102504c3a52f5",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "recipients": [
+          "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094"
+        ],
+        "text": "I’ll review the integrated closeout records at the exact candidate, checking accounting totals, science-file preservation, workflow coverage and the recorded PR134 absorption. I’ll distinguish this integration review from review of the guard I authored.",
+        "source": "interactions/pr-0137/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1d0b8-ec91-73e3-a3ae-a5fd0c38fceb.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-chain-readiness"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_08bf63c436ea246b016af5f240021087d2baad76ef8e00f314",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "recipients": [
+          "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094"
+        ],
+        "text": "The guard passes on the candidate and recognizes PR134 as merged into PR133’s branch. Strict post-merge mode correctly fails while PR133 remains open. The science-directory trees are byte-identical to `b2b7041`; I’m checking the retained 51-turn accounting and derived work labels next.",
+        "source": "interactions/pr-0137/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1d0b8-ec91-73e3-a3ae-a5fd0c38fceb.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-chain-readiness"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_08bf63c436ea246b016af5f2794b6c87d2bc8f6fce1effc414",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1cb19-3778-7923-bf3b-bd7349a594cd",
+        "recipients": [
+          "codex-thread:01a1ca20-9aaa-72d1-9283-5591a6e73094"
+        ],
+        "text": "No actionable findings for `ECAL-CHAIN-SOFTENG-CLOSEOUT` at `346bd704ba4f73a4044898a42b85693143e8a66d`.\n\nVerified:\n\n- **51 unique closed turns, 1,299 requests and303,597,535 observed tokens** match canonical ownership exactly.\n- All15 earlier entries retain their complete counters and owners;36 recovered entries appear once.\n- All12 measured owners appear in dated work labels. The interrupted request remains unknown.\n- Science-directory Git trees are byte-identical to `b2b7041`.\n- PR134’s absorbed state and remaining order **133→135→136→137** match retained ancestry.\n- Guard, project, session, interaction, token-site and inventory validation pass. Strict merged mode correctly rejects the still-open PR133.\n- Both workflows invoke the guard and retain main-push coverage.\n\nThis assesses main’s integration/accounting; I authored the guard and do not claim independent review of that code. No source changes, native jobs or broad test reruns performed. Live GitHub labels, CI completion and Pages deployment were not rechecked. Later closed-turn imports are outside this exact candidate’s51-turn snapshot.",
+        "source": "interactions/pr-0137/turns/01a1cb19-3778-7923-bf3b-bd7349a594cd--01a1d0b8-ec91-73e3-a3ae-a5fd0c38fceb.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-chain-readiness"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
       }
     ],
     "coverage": {
-      "github_captured_at": "2026-11-12T16:59:40Z",
+      "github_captured_at": "2026-11-12T17:10:20Z",
       "prompts": "Available account-matched user-visible messages, public Codex inputs and curated journal excerpts. Historical full input coverage is unknown.",
-      "recovered_visible_turns": 18,
+      "recovered_visible_turns": 20,
       "unrecovered_account_turns": [],
       "responses": "Public responses and recorded outcomes; no private model state or hidden reasoning.",
       "token_accounting": "References only. Never sum accounts across PRs or assign a shared turn by text length.",
