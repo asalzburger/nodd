@@ -69,6 +69,10 @@ def interval(values):
                 bootstrap_undefined=invalid)
 
 
+def nullable_difference(left, right):
+    return left - right if left is not None and right is not None else None
+
+
 def compare(args):
     loaded = [load_run(args.tiled), load_run(args.continuous)]
     reference = json.loads(args.reference.read_text())
@@ -117,7 +121,7 @@ def compare(args):
                 if not math.isclose(entry["tiled"][key], original[key], rel_tol=1e-12, abs_tol=1e-15):
                     raise ValueError(f"Changed published baseline moment: {name}:{i}:{key}")
             entry["width_difference"] = dict(
-                value=entry["tiled"]["fractional_width"] - entry["continuous"]["fractional_width"],
+                value=nullable_difference(entry["tiled"]["fractional_width"], entry["continuous"]["fractional_width"]),
                 **interval(differences[:, 10 * axis + i]))
             bins.append(entry)
         projections[name] = dict(edges=edges.tolist(), unit="rad" if axis else "dimensionless", bins=bins)
@@ -151,11 +155,21 @@ def plot(result, output):
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
+    import matplotlib.patheffects as pe
     plt.rcParams.update({"font.size":11, "axes.spines.top":False,
                          "axes.spines.right":False, "savefig.dpi":180})
     styles = dict(tiled=dict(color="#cccc00", marker="o", ls="-", markeredgecolor="#545400"),
                   continuous=dict(color="#e6e680", marker="s", ls="--", markeredgecolor="#545400"))
     labels = dict(tiled="Tiled ECAL", continuous="Continuous sector silicon")
+    def percent(value):
+        return value * 100 if value is not None else np.nan
+
+    def bounds(uncertainty):
+        return uncertainty["ci95"] if uncertainty["ci95"] is not None else [np.nan, np.nan]
+
+    def width_label(value):
+        return f"{value * 100:.1f}%" if value is not None else "undefined"
+
     fig, axes = plt.subplots(2, 2, figsize=(13, 8), layout="constrained",
                              gridspec_kw=dict(height_ratios=[2.2, 1]))
     meanfig, meanaxes = plt.subplots(1, 2, figsize=(13, 4.8), layout="constrained")
@@ -166,13 +180,13 @@ def plot(result, output):
         xlabel = r"$|\eta|$" if name == "abs_eta" else r"Signed sector-folded $\phi$ [deg]"
         for geometry in styles:
             for ax, key in ((axes[0, column], "fractional_width"), (meanaxes[column], "mean_response")):
-                y = [b[geometry][key] * 100 for b in bins]
-                ci = np.asarray([b[geometry][key + "_uncertainty"]["ci95"] for b in bins]) * 100
+                y = [percent(b[geometry][key]) for b in bins]
+                ci = np.asarray([bounds(b[geometry][key + "_uncertainty"]) for b in bins]) * 100
                 ax.vlines(x, ci[:, 0], ci[:, 1], color="#404030", lw=1)
                 ax.plot(x, y, lw=2, ms=5, label=labels[geometry], **styles[geometry])
                 ax.set_ylim(bottom=0)
-        delta = [b["width_difference"]["value"] * 100 for b in bins]
-        ci = np.asarray([b["width_difference"]["ci95"] for b in bins]) * 100
+        delta = [percent(b["width_difference"]["value"]) for b in bins]
+        ci = np.asarray([bounds(b["width_difference"]) for b in bins]) * 100
         axes[1, column].axhline(0, color="#777777", ls=":", lw=1)
         axes[1, column].vlines(x, ci[:, 0], ci[:, 1], color="#404030")
         axes[1, column].plot(x, delta, "o-", color="#cccc00", markeredgecolor="#545400", ms=4)
@@ -199,16 +213,17 @@ def plot(result, output):
     for name, projection in result["projections"].items():
         fig, axes = plt.subplots(5, 2, figsize=(12, 14), sharex=True, layout="constrained")
         for ax, entry in zip(axes.flat, projection["bins"]):
-            for geometry, color, ls in (("tiled", "#999900", "-"), ("continuous", "#5e5e36", "--")):
+            for geometry, color, ls in (("tiled", "#cccc00", "-"), ("continuous", "#e6e680", "--")):
                 moment = entry[geometry]
-                ax.stairs(moment["histogram_counts"], result["histogram_edges_response_percent"],
-                          color=color, ls=ls, lw=1.6, label=labels[geometry])
+                line = ax.stairs(moment["histogram_counts"], result["histogram_edges_response_percent"],
+                                 color=color, ls=ls, lw=1.6, label=labels[geometry])
+                line.set_path_effects([pe.Stroke(linewidth=2.1, foreground="#777744"), pe.Normal()])
             factor = 180 / math.pi if name == "folded_phi" else 1
             ax.set_title(f"{entry['low'] * factor:.2f} to {entry['high'] * factor:.2f}"
                          + (" deg" if name == "folded_phi" else " |η|"), loc="left", fontsize=10)
             ax.text(.98, .95,
                     f"N = {entry['events']}\n"
-                    f"width: {entry['tiled']['fractional_width'] * 100:.1f}% → {entry['continuous']['fractional_width'] * 100:.1f}%\n"
+                    f"width: {width_label(entry['tiled']['fractional_width'])} → {width_label(entry['continuous']['fractional_width'])}\n"
                     f"zeros: {entry['tiled']['zero_events']} → {entry['continuous']['zero_events']}",
                     transform=ax.transAxes, ha="right", va="top", fontsize=8,
                     bbox=dict(facecolor="white", alpha=.85, edgecolor="none"))

@@ -3,7 +3,7 @@ import unittest
 
 import numpy as np
 
-from untiled_compare import binned_moments, paired_bootstrap
+from untiled_compare import binned_moments, interval, nullable_difference, paired_bootstrap
 
 
 class PairedComparisonTest(unittest.TestCase):
@@ -20,6 +20,15 @@ class PairedComparisonTest(unittest.TestCase):
         means, widths = binned_moments(response, categories)
         np.testing.assert_allclose(means, np.mean([0., 1., 2., 4.]))
         np.testing.assert_allclose(widths, np.std([0., 1., 2., 4.], ddof=1) / means)
+
+    def test_zero_signal_bins_keep_undefined_widths(self):
+        categories = np.repeat(np.arange(10), 4)
+        means, widths = binned_moments(np.zeros(40), categories)
+        np.testing.assert_array_equal(means, np.zeros(10))
+        self.assertTrue(np.all(np.isnan(widths)))
+        self.assertEqual(interval(widths), dict(ci95=None, bootstrap_undefined=10))
+        self.assertIsNone(nullable_difference(.5, None))
+        self.assertIsNone(nullable_difference(None, .5))
 
 
 if __name__ == "__main__":

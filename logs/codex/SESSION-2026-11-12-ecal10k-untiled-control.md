@@ -67,3 +67,36 @@ The coordinator owns comparison/analysis, protocol, execution, metadata and publ
 }
 ```
 
+
+## Frozen statistical source review
+
+```json
+{
+  "id": "UNTILED-PHYSVAL-SOURCE",
+  "role": "PhysVal",
+  "input_revision": "20ba853eb8c7f0243dd6188b21987a9df4d4b900",
+  "inputs": [
+    "docs/validation/ecal10k-untiled/protocol.md",
+    "software/analysis/calorimeter_digitization/untiled_compare.py",
+    "software/analysis/calorimeter_digitization/untiled_native.py",
+    "software/analysis/calorimeter_digitization/test_untiled_compare.py"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Independently review prospective control protocol and paired estimator/uncertainty implementation at exact source revision. Review code and run narrow tests if useful. No edits. Identify material scientific or validation defects before production; geometry preparation is still separate/in progress.",
+  "deliverable": "Return bounded contribution with source locators, actual checks and limits to coordinator.",
+  "completion": "Resolve requested contribution or identify concrete unresolved inputs. Do not delegate or publish."
+}
+```
+
+## Prospective contributions and gates
+
+UNTILED-CALOTECH at b9f5af38520ea83215587757b02cd090adc8fb8a derived the inherited full carrier bounds and independent sensitive silicon volume targets. This control preserves the 1 mm half-seam and beam aperture. It replaces active/guard wafers, fills service/module areas and removes only intersecting aluminium at the silicon planes. This is a material/coverage counterfactual, not an electronics threshold or pure virtual segmentation measurement. No cross-system envelope is extended.
+
+UNTILED-PHYSVAL at the same baseline required paired primary identities and whole-event bootstrap indices, separate means/SDs/zeros, wide readout addressing, explicit support subtraction and native geometry gates. Same seeds do not imply identical transported shower histories.
+
+UNTILED-PHYSVAL-SOURCE reviewed 20ba853eb8c7f0243dd6188b21987a9df4d4b900. Estimator and 40-width/20-difference covariance ordering were sound. A P2 null-width/CI plotting/subtraction issue was reproduced; the coordinator corrected it and added an all-zero-bin control. All three comparison tests pass. These technical assessments do not grant design acceptance.
+
+Environment preflight flagged changed recorded setup/lock fingerprints; this was reported before dependent work. The installed-runtime doctor then passed DD4hep1.38/Geant4 11.4.3 and all dataset/import checks. No shared dependencies changed. Initial disk free was397GiB. Native construction on the prepared compact passed2304 sensitive sheets,2304 unique parent IDs,3136 wide-cell roundtrips and zero ROOT overlaps at1e-5mm. The native report pins actual script/library/XML hashes even though script additions were not yet committed.
+
+The first24 matched primaries completed with12 workers in24.118s,30,643,802byte ROOT output and2,146,811,904byte peak RSS. All24 IDs/input truth/hits and all12 worker audits passed. Pilot projection at twice1,276,825.083bytes/event plus30GiB reserve requires53.783GiB, safely below currentfree. Native/input-dev compact SHA256852a6206fda380a40a1e1432aa9823021156bb129e314716bd64f3a18d475825. Pilot inputs remain retained separately.

@@ -22,10 +22,20 @@ def audit(args):
     try:
         detector.fromXML(str((args.sample / "detector.xml").resolve()))
         manager = detector.manager()
+        sensitive_descendants = {}
+
+        def has_sensitive(volume):
+            key = int(R.addressof(volume))
+            if key not in sensitive_descendants:
+                sensitive_descendants[key] = bool(dd4hep.Volume(volume).isSensitive()) or any(
+                    has_sensitive(volume.GetNode(i).GetVolume()) for i in range(volume.GetNdaughters()))
+            return sensitive_descendants[key]
 
         def visit(node, parent_ids):
             nonlocal cells
             volume = node.GetVolume()
+            if not has_sensitive(volume):
+                return
             ids = dict(parent_ids)
             for field in dd4hep.PlacedVolume(node).volIDs():
                 ids[str(field.first)] = int(field.second)
