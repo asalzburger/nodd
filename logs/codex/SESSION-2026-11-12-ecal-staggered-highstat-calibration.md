@@ -169,3 +169,7 @@ Learningcurve rerun withunchangedseeds/sourceprocedure toretain pairedsizecontra
 ```
 
 LCcontrast review: pairedformulas/ordercorrect;1kpoint.001317 versus shiftedpercentilerange[.001570,.005869] retainedandexplicitlyexploratory,nosignificanceclaim. Beforeanyfreshvalidation, primaryintervalreports nowretain bootstrapmean/median−point,fractionbelowpoint, withunchanged draws/intervalmethod; tuning/closure variation alreadyretained. Thirdanalysiscontrol verifies noCIrecentering;PASS. No calibrationmethod/model-gridchange.
+
+Coordinator pipeline smoke without NODD_HIGHSTAT_NATIVE flag ran9lightweight controlsand skipped4native controls, asdesigned. Recipecorrected toexplicitlysetflag; fullnative coordinator rerun follows. PriorSoftEng13/nativePASS and full10k native regression alreadyobserved.
+
+Prepared-primary input-only QC (no responseperformance): all1400E×|eta|×foldphi cells occupied; training46–96inputs/cell,avg71.43;validation4–29,avg14.29. MeansE45.0008/45.0408GeV. Fullnative coordinator flag-enabled suite13/13PASS in6.280s, withno skips. All22distinct narrowcases nowpass(13pipeline+6model+3analysis); repeat executions notcounted as additional cases.

@@ -23,6 +23,13 @@ momentum tuples are disjoint from the old10k and all new batches. Generation use
 source d56c1093; later fail-closed seed/reserve/steering guards leave all default
 primary bytes and seed values unchanged. Campaign manifests retain exact hashes.
 
+Aggregate prepared-input coverage, without inspecting response performance:
+
+```sh
+"$ECAL10K_PLOT_PYTHON" -B software/analysis/calorimeter_digitization/highstat_input_qc.py \
+  --campaign build/ecal-highstat/repeat --output build/ecal-highstat/repeat-input-distributions.json
+```
+
 Run each batch serially (names train-000…train-009,validation-000…validation-001):
 
 ```sh
@@ -95,7 +102,7 @@ provenance/resources after all120k audits pass. It never copies event payloads.
 Actual narrow tests are:
 
 ```sh
-software/env/run.sh python3 -B -m unittest discover -s software/analysis/calorimeter_digitization -p 'test_highstat_pipeline.py' -v
+NODD_HIGHSTAT_NATIVE=1 software/env/run.sh python3 -B -m unittest discover -s software/analysis/calorimeter_digitization -p 'test_highstat_pipeline.py' -v
 "$ECAL10K_PLOT_PYTHON" -B -m unittest discover -s software/analysis/calorimeter_digitization -p 'test_highstat_model.py' -v
 "$ECAL10K_PLOT_PYTHON" -B -m unittest discover -s software/analysis/calorimeter_digitization -p 'test_highstat_analysis.py' -v
 ```

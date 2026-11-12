@@ -42,6 +42,11 @@ The new sample contains 100k training and 20k fresh validation electrons,
 independently uniform in total energy 10–80 GeV, eta −3…3 and full phi, from the
 origin. Twelve serial 10k DDSim batches each use 12 workers, independent primary
 and transport seeds and explicit global campaign IDs. No old primary is reused.
+[Prepared-input distribution checks](input-distributions.json) verify all planned
+primary ranges and retain binned populations without inspecting responses. The
+14 energy × 10 |eta| × 10 folded-phi cells contain 46–96 training inputs each
+(mean 71.43); validation cells contain 4–29 each (mean 14.29), with no empty cells.
+These are input counts, not a claim that transport has finished.
 A 24-event pilot passes saved-primary/hit and all twelve native-worker audits.
 The full campaign is currently in progress; final outcomes are not yet claimed.
 
