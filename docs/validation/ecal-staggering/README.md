@@ -186,3 +186,19 @@ Ten signed folded-phi bins, degrees
 | 4.50–6.75 | 1028 | 25.32 | 17.31 | 19.07 | 13.93 |
 | 6.75–9.00 | 1036 | 23.05 | 16.71 | 18.86 | 14.70 |
 | 9.00–11.25 | 1001 | 110.09 | 81.83 | 105.79 | 79.68 |
+
+## Separate final assessment
+
+PhysVal reviewed source/results revision
+`4bbd9a9bdfd8813804dc8adeaffda07b03a01b0d` and found no actionable material
+finding. It independently matched all 80 angular populations to local arrays
+(moments, means, zeros, tails, clipping and inclusive histograms), checked frozen
+primary/secondary model inference and training means/scales without fitting,
+energy/control tables, baseline invariance, covariance transforms (residual
+1.6e-18; contrast rank 60), all 24 render hashes and source/run/feature bindings.
+All eight PNG families were visually inspected. Both geometries have 42 zeros,
+of which 41 are common primary IDs. It confirmed all twenty raw and sixteen
+calibrated positive pointwise layout intervals. This review did not rerun
+simulation, refit the calibrations or reread full ROOT files, and grants no human
+acceptance. Draft publication awaits explicit approval required by automatic
+approval review; the results and recipe are complete locally.

@@ -222,3 +222,46 @@ Explicit generic-agent roleinstructions are prepared below, not nativeprofileloa
   "completion": "Return findings or no actionable finding with limitations and exact revision."
 }
 ```
+
+## Publication state
+
+Curated branch `codex/ecal-calibration-staggering-tests` was pushed successfully
+to configured `git@github.com:asalzburger/nodd.git` at
+`c6e2cdf91664d7a3272a0e4bb59453628f3aee1c`; a subsequent authenticated read
+verified that exact remote head. Only the inspected compact result/plots/source
+and curated records are reachable; no raw ROOT/NPZ/HEPEvt/event-ledger objects.
+The prepared draft targets `codex/ecal10k-untiled-control` (PR135), title
+“Calorimeter: test physical module staggering and held-out calibration”.
+
+The connected GitHub draft-PR creation was rejected by automatic approval review:
+only test execution was deemed explicitly authorized. The coordinator checked
+the pre-existing human publication instruction at the starting AGENTS.md revision,
+the configured destination, PR135's draft/base branch and the exact published
+branch, then retried the same connected operation. It was rejected again because
+repository instructions were not accepted as user authorization for external
+publication. No CLI workaround or further publication was attempted. Explicit
+user approval is now required; the prepared concrete PR body and final local
+closeout changes remain local pending that approval. No PR number is invented.
+
+Standalone replotting without event files reproduces all sixteen PNG/SVG files
+byte for byte. Eight SVG exports pass vector-only XML/security checks and all
+24 render hashes match. Covariances are finite/symmetric/PSD; the dependent
+contrast covariance agrees with A·cov·Aᵀ. All inclusive histogram totals match.
+Initial token-site build ran before ledger synchronization and reported stale
+accounting evidence; after refreshed PR135 capture/sync it builds successfully.
+Historical observed token totals are repository-wide and are not current-task
+usage; current task counters remain unavailable.
+
+## Final-results assessment outcome
+
+PhysVal independently reviewed `4bbd9a9bdfd8813804dc8adeaffda07b03a01b0d`:
+no actionable material finding. All 80 angular populations match local arrays
+exactly for moments, means, zeros, tails, clipping and inclusive histograms;
+original twenty baseline populations retained. Frozen primary/secondary model
+inference and training means/scales match records without refitting. Energy and
+direction/sector tables, native/run/readback/feature/source bindings and all
+24 render hashes agree. All eight PNG families visually inspected. Covariance
+transform residual 1.6e-18, width covariance PSD, contrast rank 60 as expected.
+Both layouts have 42 zeros, 41 common IDs. Confirmed 20/20 raw and 16/20 calibrated
+positive pointwise layout intervals. No new fitting, ROOT reread, simulation,
+writes or publication by reviewer. No engineering/design acceptance.
