@@ -41,7 +41,7 @@ from response-fit data only. Spline input ranges use training0.1%/99.9%
 quantiles; deduplicate interior knots and record extrapolation. Original linear
 comparator uses untrimmed original features. Use10existing reconstructed features; no truth
 position, energy or absolute-signal proxy enters primary inference. Select3or7
-interior quantile knots andlambda{0.0001,0.01,1} on15ktuning response-MSE only.
+interior quantile knots andlambda{0.0001,0.01,1,100} on15ktuning response-MSE only.
 Predeclared interactions: |eta|×exposure22,exposure5.5×exposure22,
 exposure22×missingstreak,exposure22×seam,exposure22×early,
 exposure22×late,exposure22×lateralwidth,|eta|×othersectionfraction.
@@ -59,7 +59,7 @@ fallback; physical zeros stay zero.
 Do not refit response coefficients on the closure subset afterward.
 
 Comparator: retrain the original10-feature architecture on the same70/15/refit85k
-budgets, selectinglambda{0.01,1,100} with tuning-only response-MSE; same closure
+budgets, selectingthe samecommonlambda{0.0001,0.01,1,100} with tuning-only response-MSE; same closure
 subset and bounds. Distinguish this from the historical10k-trained coefficients.
 The historical five-fold models may be ensembled as a separately labelled frozen
 reference. No secondary model is promoted after seeing fresh20k outcomes.
@@ -87,3 +87,17 @@ All scientific figures export PNG/PDF/vectorSVG; compact bin/model/covariance
 records and reproducible recipes are public. ROOT,exact primary/event ledgers,
 features,predictions and bulky audits remain local and ignored. Separate PhysVal
 source/results assessment precedes closeout and a draft review PR.
+
+
+## Prospective regularization-grid amendment
+
+Before any new100k response-model fit or fresh20k performance inspection,
+PhysVal review at ca38408d765fdce2cbc14d3d597d6b9b7a89bfa9 recommends the common
+union grid {0.0001,0.01,1,100} for both new models. All ten old staggered models
+selected their old lower endpoint0.01. The common expansion avoids denying the
+new linear comparator a weaker penalty available to spline. The historical10k
+ensemble and original-method learning curve remain unchanged. The new comparator
+is the original ten-feature architecture retrained with a common expanded search,
+not the identical historical recipe. Shared penalties do not equalize capacity,
+preprocessing or feature clipping; comparisons assess complete recipes, without
+attributing a gain solely to spline nonlinearity. No expansion after validation.

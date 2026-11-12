@@ -42,7 +42,7 @@ def main():
     result=json.loads(a.summary.read_text())
     styles={'raw':dict(color='#cccc00',marker='o',ls='-',label='Raw staggered ECAL'),
             'historical_10k':dict(color='#dddd44',marker='^',ls=':',label='Historical 10k model ensemble'),
-            'original_closed':dict(color='#e0e066',marker='s',ls='--',label='Original architecture · 85k fit + 15k closure'),
+            'original_closed':dict(color='#e0e066',marker='s',ls='--',label='Retuned ten-feature · 85k fit + 15k closure'),
             'spline_closed':dict(color='#eeee99',marker='D',ls='-',label='Spline correction · 85k fit + 15k closure')}
     def curve(ax,x,entries,key,style,factor=1,errors=True):
         if errors:

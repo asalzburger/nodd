@@ -53,8 +53,13 @@ The full campaign is currently in progress; final outcomes are not yet claimed.
 Training roles are prospectively fixed: 70k fit, 15k tuning, 15k closure. Compare
 the original ten-feature response architecture retrained on this budget with a
 piecewise-linear spline response model using the same measured features and
-predeclared interactions. Both choose settings on tuning data, then refit on
-85k. The last 15k determine a single global scale factor, including zeros. No
+predeclared interactions. Both use the same prospective ridge grid {0.0001,0.01,1,100}, choose settings on
+tuning data, then refit on
+85k. The last 15k determine a single global scale factor, including zeros.
+The new ten-feature comparator uses a common expanded search, rather than the
+identical historical tuning recipe. This amendment precedes every new-model fit
+and fresh-validation performance inspection. Bases, interactions and feature
+clipping still differ, so this compares complete calibration recipes. No
 response coefficients are refitted on that closure set. A global factor changes
 means/tails while leaving SD/mean exactly unchanged.
 

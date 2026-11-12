@@ -2,8 +2,9 @@
 from dataclasses import dataclass
 import numpy as np
 
-SPLINE_LAMBDAS = (.0001, .01, 1.)
-ORIGINAL_LAMBDAS = (.01, 1., 100.)
+COMMON_LAMBDAS = (.0001, .01, 1., 100.)
+SPLINE_LAMBDAS = COMMON_LAMBDAS
+ORIGINAL_LAMBDAS = COMMON_LAMBDAS
 PAIRS = ((0, 3), (1, 3), (3, 4), (3, 5), (3, 6), (3, 7), (3, 9), (0, 8))
 
 

@@ -9,7 +9,7 @@ import numpy as np
 from angular_sample import ROOT, save, sha
 from angular_analyze import ETA_EDGES, PHI_EDGES, bin_index, folded_phi
 from staggered_results import moments, interval, population
-from highstat_model import stages, fit, restore
+from highstat_model import stages, fit, restore, COMMON_LAMBDAS
 
 SERIES = ('raw', 'historical_10k', 'original_pre', 'original_closed', 'spline_pre', 'spline_closed')
 CONTRASTS = ((0,5,'raw_minus_spline'),(1,5,'historical_minus_spline'),(3,5,'original_minus_spline'))
@@ -81,6 +81,7 @@ def train(args):
         core_sha256=sha(Path(__file__).with_name('highstat_model.py')),producer_sha256=sha(__file__),
         campaign_sha256=sha(args.campaign/'campaign.json'),training_feature_receipts=receipts,
         feature_semantics=feature_signature(receipts[0]),
+        common_regularization_grid=list(COMMON_LAMBDAS),
         roles=dict(seed=13395200,fit=70000,tuning=15000,closure=15000,response_refit=85000,
                    assignment_sha256=hashlib.sha256(role.tobytes()).hexdigest()),
         models={k:m.record() for k,m in models.items()},

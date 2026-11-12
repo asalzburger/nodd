@@ -173,3 +173,26 @@ LCcontrast review: pairedformulas/ordercorrect;1kpoint.001317 versus shiftedperc
 Coordinator pipeline smoke without NODD_HIGHSTAT_NATIVE flag ran9lightweight controlsand skipped4native controls, asdesigned. Recipecorrected toexplicitlysetflag; fullnative coordinator rerun follows. PriorSoftEng13/nativePASS and full10k native regression alreadyobserved.
 
 Prepared-primary input-only QC (no responseperformance): all1400E×|eta|×foldphi cells occupied; training46–96inputs/cell,avg71.43;validation4–29,avg14.29. MeansE45.0008/45.0408GeV. Fullnative coordinator flag-enabled suite13/13PASS in6.280s, withno skips. All22distinct narrowcases nowpass(13pipeline+6model+3analysis); repeat executions notcounted as additional cases.
+
+## Prospective grid fairness assessment
+
+```json
+{
+  "id": "ECAL-HIGHSTAT-PHYSVAL-GRID-FAIRNESS",
+  "role": "PhysVal",
+  "input_revision": "ca38408d765fdce2cbc14d3d597d6b9b7a89bfa9",
+  "inputs": [
+    "docs/validation/ecal-highstat/protocol.md",
+    "software/analysis/calorimeter_digitization/highstat_model.py",
+    "docs/validation/ecal-highstat/learning/learning-curve.json",
+    "docs/validation/ecal-staggering/results/summary.json"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Prospective comparator fairness check beforeanynew100kresponsemodel fit or20kvalidationperformance. Currentneworiginal-architecture grid(.01,1,100), newspline(.0001,.01,1). Old10kmodels allselectedlowest.01. Complete-recipecomparison isvalidiflabelled, but strongerbaselinecouldusecommonunion(.0001,.01,1,100) forbothnewlinear/spline withsame70/15/15/refit85/C chain, preservinghistoricalold10kensemble andoriginalLC unchanged. Advise whether amendgridprospectivelynow toavoidregularizationsearch confound/weakbaseline orkeeporiginaldeclaredrecipewithexplicitattributionlimit. No freshtrainingperformanceapartfromnativeQAcountshasbeeninspected; MC~60k/120k ongoing. No sourcewrites/fits/newbootstrap/simulation/publication/delegation.",
+  "deliverable": "Bounded scientific recommendation about fair prospectivehypergrid and requiredlabelling.",
+  "completion": "Return decisionrationale/limits promptly; nohumanacceptance."
+}
+```
+
+Prospectivegridamendmentbeforeanynew100kfit/fresh20kperformance: accept PhysVal recommendation commonunion{.0001,.01,1,100} forbothnewmethods, removesprescribedsearch-rangeconfound. Old10khistoricalensemble/LC unchanged. Newlinear isretunedten-featurearchitecture, notidenticalhistoricalrecipe; bases/interactions/clipping stilldiffer, noisolatednonlinearityclaim. All10oldstaggeredfits selected priorendpoint.01. No changes tosampling,MC,roles,bounds,closureorresampling.
