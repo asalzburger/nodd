@@ -171,6 +171,12 @@ def plot(result, output):
     def width_label(value):
         return f"{value * 100:.1f}%" if value is not None else "undefined"
 
+    def save_figure(figure, name, extension):
+        path = output / f"{name}.{extension}"
+        figure.savefig(path, metadata={"Date":None} if extension == "svg" else None)
+        if extension == "svg":
+            path.write_text("\n".join(line.rstrip() for line in path.read_text().splitlines()) + "\n")
+
     fig, axes = plt.subplots(2, 2, figsize=(13, 8), layout="constrained",
                              gridspec_kw=dict(height_ratios=[2.2, 1]))
     meanfig, meanaxes = plt.subplots(1, 2, figsize=(13, 4.8), layout="constrained")
@@ -208,9 +214,8 @@ def plot(result, output):
     meanfig.suptitle("Mean-response control · same primaries and transport settings", fontsize=15)
     meanfig.supxlabel("All valid events, including zeros · 95% paired whole-event bootstrap intervals", fontsize=9)
     for extension in ("png", "pdf", "svg"):
-        metadata = {"Date":None} if extension == "svg" else None
-        fig.savefig(output / f"resolution-overlay.{extension}", metadata=metadata)
-        meanfig.savefig(output / f"mean-response-overlay.{extension}", metadata=metadata)
+        save_figure(fig, "resolution-overlay", extension)
+        save_figure(meanfig, "mean-response-overlay", extension)
     plt.close(fig)
     plt.close(meanfig)
     for name, projection in result["projections"].items():
@@ -239,8 +244,7 @@ def plot(result, output):
         fig.suptitle("Tiled and continuous silicon · " + ("ten |η| populations" if name == "abs_eta" else "ten folded φ populations"), fontsize=15)
         fig.supxlabel("Common histogram bins retain every event · Widths use unbinned sample SD / mean · No fits or cuts", fontsize=9)
         for extension in ("png", "pdf", "svg"):
-            metadata = {"Date":None} if extension == "svg" else None
-            fig.savefig(output / f"response-distributions-{name}.{extension}", metadata=metadata)
+            save_figure(fig, f"response-distributions-{name}", extension)
         plt.close(fig)
 
 
