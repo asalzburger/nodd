@@ -25,9 +25,13 @@ def curate(root, output):
     result = {k: v for k, v in geometry.items() if k not in ('barrel', 'endcap')}
     result['barrel'] = {k: v for k, v in geometry['barrel'].items() if k != 'layers'}
     result['barrel']['layers'] = [
-        {k: v for k, v in layer.items() if k not in ('panels', 'modules')}
+        {k: v for k, v in layer.items() if k != 'modules'}
         for layer in geometry['barrel']['layers']]
-    result['endcap'] = geometry['endcap']
+    result['endcap'] = {k: v for k, v in geometry['endcap'].items() if k != 'families'}
+    result['endcap']['families'] = [
+        dict({k: v for k, v in family.items() if k != 'modules'},
+             module_count=len(family['modules']))
+        for family in geometry['endcap']['families']]
     result['native_validation'] = native
     result['run_receipt'] = {k: v for k, v in run.items() if k != 'command'}
     result['sample'] = read(root / 'production-input/sample.json')
@@ -38,6 +42,8 @@ def curate(root, output):
     result['curator_sha256'] = sha(__file__)
     result['scope'] = ('Isolated PROTOTYPE; physical modules and inherited sector seams. '
                        'Material changes explicit; no engineering or production acceptance.')
+    if len(json.dumps(result)) > 500_000:
+        raise ValueError('Unexpectedly large aggregate: inspect before publication')
     output.mkdir(parents=True, exist_ok=True)
     save(output / 'geometry-and-run.json', result)
     save(output / 'coverage-screen.json', read(root / 'screen-dev/screen.json'))
