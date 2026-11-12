@@ -62,7 +62,7 @@ def prepare(args):
     if args.training_events % args.batch_events or args.validation_events % args.batch_events:
         raise ValueError("Train and validation sizes must be multiples of batch size")
     total = args.training_events + args.validation_events
-    if not math.isfinite(args.bytes_per_event) or args.bytes_per_event <= 0 or args.reserve_gib < 0:
+    if not math.isfinite(args.bytes_per_event) or args.bytes_per_event <= 0 or not math.isfinite(args.reserve_gib) or args.reserve_gib < 0:
         raise ValueError("Invalid disk guard")
     free = shutil.disk_usage(out.parent if out.parent.exists() else source).free
     required = 2 * total * args.bytes_per_event + args.reserve_gib * 1024 ** 3
@@ -74,7 +74,7 @@ def prepare(args):
     n_batches = total // args.batch_events
     for index in range(n_batches):
         a, b = seed_pair(index, args.primary_seed, args.transport_seed)
-        if a in seeds or b in seeds or a <= 0 or b <= 0 or max(a, b) >= 2 ** 31 or a == prior["input_seed"] or b == 133812341:
+        if a == b or a in seeds or b in seeds or a <= 0 or b <= 0 or max(a, b) >= 2 ** 31 or a == prior["input_seed"] or b == 133812341:
             raise ValueError("Primary/transport seeds must be fresh, positive, distinct and signed31bit")
         seeds.update((a, b))
     out.mkdir(parents=True, exist_ok=False)
