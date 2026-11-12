@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-11-12-ecal10k-response-controls",
+  "title": "Underlying response distributions for PR134 widths",
+  "recorded_at": "2026-11-12T08:18:28Z",
+  "started_at": null,
+  "ended_at": "2026-11-12T08:20:12Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact client-reported per-turn counters and stable thread/turn IDs are unavailable; usage is empty, not zero.",
+    "Visualization of the existing hash-bound event summary only; no Geant4 rerun, new calibration or Gaussian fit."
+  ],
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "e0819163d93a936a63fb73b720bf3052899a92f5",
+    "branch": "codex/ecal10k-angular-response",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      "software/analysis/calorimeter_digitization/angular_controls.py",
+      "docs/validation/ecal10k/README.md",
+      "docs/validation/ecal10k/controls/response-distributions-abs_eta.png",
+      "docs/validation/ecal10k/controls/response-distributions-abs_eta.pdf",
+      "docs/validation/ecal10k/controls/response-distributions-folded_phi.png",
+      "docs/validation/ecal10k/controls/response-distributions-folded_phi.pdf",
+      "docs/validation/ecal10k/controls/response-histograms.json",
+      "project/tracking.json",
+      "software/inventory.json",
+      "docs/software-inventory.md",
+      "interactions/pr-0134.json",
+      "logs/codex/SESSION-2026-11-12-ecal10k-response-controls.json",
+      "logs/codex/SESSION-2026-11-12-ecal10k-response-controls.md"
+    ]
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "ECAL response controls"
+    ],
+    "related_ids": [
+      "PR-134",
+      "TASK-ECAL10K-ANGULAR-RESPONSE"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-11-12-ecal10k-response-controls.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "angular_controls.py --events production12/event-summary.jsonl --summary published summary.json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Verified source ledger SHA-256, all 10000 unique IDs, response/energy consistency, all 20 published unbinned means/SDs/ratios and event/zero counts. Histogram totals include every original event; both PNG/PDF sheets rendered and visually inspected."
+    }
+  ]
+}

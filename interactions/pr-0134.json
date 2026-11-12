@@ -7,13 +7,13 @@
     "events": []
   },
   "github": {
-    "captured_at": "2026-11-11T15:26:57Z",
+    "captured_at": "2026-11-12T08:20:57Z",
     "pull_request": {
       "number": 134,
       "url": "https://github.com/asalzburger/nodd/pull/134",
       "title": "Calorimeter: measure 10k-electron angular response with 12 threads",
       "head": "codex/ecal10k-angular-response",
-      "head_sha": "a5c17c5f2e7b6c50e9dc7528f602305ae8baa207",
+      "head_sha": "e0819163d93a936a63fb73b720bf3052899a92f5",
       "state": "open",
       "body": "Follow-up to #133 and #131: generate and validate 10,000 single electrons with uniform total energy 10–80 GeV, eta −3 to 3 and full phi, using 12 DDSim/Geant4 workers on the unchanged ECAL-only zero-field prototype.\n\nAdds reproducible HEPEvt generation, a native per-worker transport audit, ID-indexed readback, and ten-bin |eta| and signed sector-folded-phi plots. The observable is sample SD(R)/mean(R), R = raw silicon deposit / primary energy, with 5,000 joint whole-event bootstrap replicas and retained covariance. This is spectrum-averaged visible-response width, not calibrated intrinsic energy resolution. All 42 zero-response events remain included.\n\nAll 10,000 saved primaries and 6,289,322 cell hits pass readback. Serial and 12-thread controls agree exactly for 24 matched event summaries. Whole process: 585.694 s, 2.371 GiB peak RSS, 12.604 GB ROOT output. Disk checks retained all requested events and about 401 GiB free.\n\nValidation: five mathematical controls; per-worker audits; complete input/readback/hash checks; finite intervals and positive-definite 20×20 covariance; independent PhysVal and SoftEng reviews; project records, software inventory, session/interaction/token validation and token-site build; whitespace and new-object inspection. No detector design or approval state changed.\n\nRaw ROOT data, input/event ledgers, logs and builds remain local and ignored. The PR contains recipes, figures, compact binwise evidence and curated records. Exact task token counters are unavailable.\n",
       "actor": "asalzburger",
@@ -36,6 +36,11 @@
     "parties": [
       {
         "id": "agent:SESSION-2026-11-11-ecal10k-angular-response",
+        "name": "Codex desktop",
+        "kind": "agent"
+      },
+      {
+        "id": "agent:SESSION-2026-11-12-ecal10k-response-controls",
         "name": "Codex desktop",
         "kind": "agent"
       },
@@ -67,12 +72,32 @@
         "snapshot_sha256": null,
         "record_sha256": "da70fdd11f9339bc0c19407060d17b1f4636c7e511eb0f1a1f3315aaa1f6a831",
         "narrative_sha256": "981f4b1da0eac05e51c699498a6cb42747ba90d1d9cbb1594d743e565b8f6c62"
+      },
+      {
+        "session_id": "SESSION-2026-11-12-ecal10k-response-controls",
+        "record": "logs/codex/SESSION-2026-11-12-ecal10k-response-controls.json",
+        "attribution": [
+          "recorded_branch",
+          "explicit_PR_reference"
+        ],
+        "snapshot": null,
+        "snapshot_sha256": null,
+        "record_sha256": "140b74471b0c7e5fb3cfcfa7ef4c67ed38f7fa74d86df7ff4d0c25db234e4557",
+        "narrative_sha256": "e9e0d0a8931be51e64868c610bcec91e36649e34ebfd54d18ab8071dd4134b18"
       }
     ],
     "token_accounts": [
       {
         "id": "SESSION-2026-11-11-ecal10k-angular-response",
         "record": "logs/codex/SESSION-2026-11-11-ecal10k-angular-response.json",
+        "scope": "canonical_session; shared PR references are not allocations",
+        "status": "unobserved",
+        "usage_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "turns": []
+      },
+      {
+        "id": "SESSION-2026-11-12-ecal10k-response-controls",
+        "record": "logs/codex/SESSION-2026-11-12-ecal10k-response-controls.json",
         "scope": "canonical_session; shared PR references are not allocations",
         "status": "unobserved",
         "usage_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
@@ -107,6 +132,15 @@
         "models": [],
         "source": "logs/codex/SESSION-2026-11-11-ecal10k-angular-response.md#bounded-specialist-assignments-and-handoffs",
         "limitation": "Role contract is recorded; native profile loading and process identity are not inferred."
+      },
+      {
+        "id": "agent:SESSION-2026-11-12-ecal10k-response-controls",
+        "name": "Codex desktop",
+        "role": "session_agent",
+        "thread_id": null,
+        "models": [],
+        "source": "logs/codex/SESSION-2026-11-12-ecal10k-response-controls.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
       }
     ],
     "tools": {
@@ -198,10 +232,26 @@
           "SESSION-2026-11-11-ecal10k-angular-response"
         ],
         "content_kind": "reference_summary"
+      },
+      {
+        "id": "journal:SESSION-2026-11-12-ecal10k-response-controls:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-11-12-ecal10k-response-controls",
+        "recipients": [],
+        "text": "Underlying response distributions for PR134 widths — see the canonical narrative for outcomes and checks.",
+        "source": "logs/codex/SESSION-2026-11-12-ecal10k-response-controls.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal10k-response-controls"
+        ],
+        "content_kind": "reference_summary"
       }
     ],
     "coverage": {
-      "github_captured_at": "2026-11-11T15:26:57Z",
+      "github_captured_at": "2026-11-12T08:20:57Z",
       "prompts": "Available account-matched user-visible messages, public Codex inputs and curated journal excerpts. Historical full input coverage is unknown.",
       "recovered_visible_turns": 0,
       "unrecovered_account_turns": [],

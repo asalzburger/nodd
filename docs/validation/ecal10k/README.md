@@ -164,3 +164,29 @@ Raw ROOT files, primary/event ledgers, full logs, builds and caches remain local
 and ignored under `build/ecal10k/`. They are required to repeat transport hash
 and event-level validation. Public evidence contains only recipes, figures,
 provenance and binwise statistics, including the joint bootstrap covariance.
+
+## Distributions underlying each width point
+
+The published widths were computed directly from unbinned event responses,
+using sample standard deviation (ddof=1) divided by mean response. They are not
+Gaussian-fit widths, and histogram binning does not enter the estimator.
+
+- [All ten |eta| response distributions, PNG](controls/response-distributions-abs_eta.png) · [PDF](controls/response-distributions-abs_eta.pdf)
+- [All ten signed folded-phi response distributions, PNG](controls/response-distributions-folded_phi.png) · [PDF](controls/response-distributions-folded_phi.pdf)
+- [Compact histogram counts, common response-bin edges and checked unbinned moments](controls/response-histograms.json)
+
+Every panel shows the original event count, exact zero-response count, mean,
+sample standard deviation and their ratio. The common horizontal range includes
+every event, with 40 display bins; each panel's bin counts reproduce its original
+population total. All twenty unbinned means/standard deviations/ratios were checked
+against the published summary before rendering. No cuts, fits or calibration
+changes were made. The seam-adjacent populations show a strong low-response
+component; the distributions should not be treated as Gaussian.
+
+Reproduce from the retained local event ledger using the existing plotting Python:
+
+```sh
+"$ECAL10K_PLOT_PYTHON" -B software/analysis/calorimeter_digitization/angular_controls.py \
+  --events build/ecal10k/production12/event-summary.jsonl \
+  --summary docs/validation/ecal10k/summary.json --output build/ecal10k/repeat-controls
+```
