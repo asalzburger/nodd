@@ -7,13 +7,13 @@
     "events": []
   },
   "github": {
-    "captured_at": "2026-11-12T09:42:58Z",
+    "captured_at": "2026-11-12T10:50:20Z",
     "pull_request": {
       "number": 135,
       "url": "https://github.com/asalzburger/nodd/pull/135",
       "title": "Calorimeter: compare tiled ECAL with continuous sector silicon",
       "head": "codex/ecal10k-untiled-control",
-      "head_sha": "951d7b286c47882dc8068056e59d39abac1f31a4",
+      "head_sha": "3af5538faf884d0abce98b0956c0e6d4f45d4527",
       "state": "open",
       "body": "The original tiled ECAL sample has broad angular raw-response distributions. This adds a deliberately unbuildable control with continuous 0.5 mm sensitive silicon across each existing sector carrier face and reruns the exact same 10,000 electron primary records with 12 DDSim workers, seeds and physics settings. Follow-up to #134; no production detector or design-approval change.\n\nThe paired overlays show |eta| widths falling from 27.95–55.78% to 9.41–16.46%; folded-phi interior bins from 22.59–25.32% to 3.69–4.10%; and seam-adjacent bins from 110.31/110.09% to 27.22/27.26%. All twenty direct tiled-minus-continuous 95% paired-bootstrap intervals are positive. Mean response and all underlying angular populations accompany the widths; zero responses remain included (42 tiled, 37 continuous). The observable is sample SD(R)/mean(R), R = raw silicon deposit / true energy, rather than intrinsic fixed-energy reconstructed resolution.\n\nThe XML-only control reuses unchanged native factories and audit libraries, retains inherited sector seams, layer planes, absorber and other passive material, and explicitly subtracts support intersections at silicon planes. It adds 2,475.64 kg of silicon and removes 447.43 kg of aluminium. Thus the result measures this coverage/material counterfactual, including guards, module gaps and service margins together; it does not define a separable electronics or tiling variance term.\n\nValidation: 18 geometry/statistical controls; 2,304 native sheets and unique volume IDs; 3,136 wide-address checks; zero native overlaps/extrusions at 1e-5 mm; 24-event/12-worker pilot; full 10,000-primary and 10,006,736-hit readback; exact primary pairing and unchanged original twenty moments; 5,000 paired whole-event bootstrap replicas with finite symmetric positive-definite 40-width and 20-difference covariance; visual plot inspection; separate PhysVal source/result assessments; project, inventory, session/interaction/token validators and token-site build. Full transport took 1514.572 s, used 2.302 GiB peak RSS and wrote 13.146 GB. About 385 GiB remains free; no sample reduction was needed.\n\nOnly recipes, figures, compact binwise evidence and curated records are published. Raw ROOT, exact primary/event ledgers, full per-part geometry ledger and bulky logs remain local and ignored. No engineering acceptance or intrinsic-resolution claim. Exact task token counters are unavailable.\n",
       "actor": "asalzburger",
@@ -39,6 +39,11 @@
     "parties": [
       {
         "id": "agent:SESSION-2026-11-12-ecal-calibration-layout-options",
+        "name": "Codex desktop",
+        "kind": "agent"
+      },
+      {
+        "id": "agent:SESSION-2026-11-12-ecal-calibration-staggering-tests",
         "name": "Codex desktop",
         "kind": "agent"
       },
@@ -77,6 +82,17 @@
         "narrative_sha256": "0c6241148f80f779a1b8a8e35301b9c0fbef8a0b5ae8e66702faf70af5cff54f"
       },
       {
+        "session_id": "SESSION-2026-11-12-ecal-calibration-staggering-tests",
+        "record": "logs/codex/SESSION-2026-11-12-ecal-calibration-staggering-tests.json",
+        "attribution": [
+          "explicit_PR_reference"
+        ],
+        "snapshot": null,
+        "snapshot_sha256": null,
+        "record_sha256": "4bc64d7cc6e8ac28f68f837082ca9806718d9db1f532b008f9bbdfea01928507",
+        "narrative_sha256": "0e3a0abe606e188a97493708ae35c29232ca34aed1ff188e6e0a415062fedb74"
+      },
+      {
         "session_id": "SESSION-2026-11-12-ecal10k-svg-comment",
         "record": "logs/codex/SESSION-2026-11-12-ecal10k-svg-comment.json",
         "attribution": [
@@ -111,6 +127,14 @@
         "turns": []
       },
       {
+        "id": "SESSION-2026-11-12-ecal-calibration-staggering-tests",
+        "record": "logs/codex/SESSION-2026-11-12-ecal-calibration-staggering-tests.json",
+        "scope": "canonical_session; shared PR references are not allocations",
+        "status": "unobserved",
+        "usage_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "turns": []
+      },
+      {
         "id": "SESSION-2026-11-12-ecal10k-svg-comment",
         "record": "logs/codex/SESSION-2026-11-12-ecal10k-svg-comment.json",
         "scope": "canonical_session; shared PR references are not allocations",
@@ -136,6 +160,15 @@
         "thread_id": null,
         "models": [],
         "source": "logs/codex/SESSION-2026-11-12-ecal-calibration-layout-options.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      },
+      {
+        "id": "agent:SESSION-2026-11-12-ecal-calibration-staggering-tests",
+        "name": "Codex desktop",
+        "role": "session_agent",
+        "thread_id": null,
+        "models": [],
+        "source": "logs/codex/SESSION-2026-11-12-ecal-calibration-staggering-tests.json",
         "limitation": "Usage may include children; model/role is not assigned to every response."
       },
       {
@@ -245,6 +278,56 @@
         "content_kind": "reference_summary"
       },
       {
+        "id": "journal:SESSION-2026-11-12-ecal-calibration-staggering-tests:9184229c1cb90dac",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "agent:SESSION-2026-11-12-ecal-calibration-staggering-tests"
+        ],
+        "text": "The user said: “Please go ahead with these tests.” This follows the proposed\nlocal-position calibration and independent module-phase tests in PR135. The\nbounded implementation uses identical retained 10,000 electron inputs and\n12 DDSim workers, with disk planning and a live guard. Starting revision:\n`3af5538faf884d0abce98b0956c0e6d4f45d4527`; clean dedicated branch\n`codex/ecal-calibration-staggering-tests`. Earlier samples remain unchanged.\nThe repository is the canonical record. This is an isolated PROTOTYPE under\nDES-030/DES-031; no human sign-off or production integration is inferred.\n\nThe coordinator applied `nodd-coordinate`, `nodd-design-evidence`,\n`nodd-review-validation` and the local ACTS Spack skill. Changed setup/lock\nfingerprints were disclosed before dependent work; the native runtime doctor\npassed. Existing dependencies were reused without modifying shared installs.",
+        "source": "logs/codex/SESSION-2026-11-12-ecal-calibration-staggering-tests.md#scope-and-selected-request",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-calibration-staggering-tests"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-11-12-ecal-calibration-staggering-tests:568393efed620fe1",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-11-12-ecal-calibration-staggering-tests",
+        "recipients": [],
+        "text": "The physical four-phase board layout was frozen before response inspection.\nBarrel narrow edge boards preserve envelopes/ASIC capacity; short slabs use a\n24 mm quarter-phase to preserve rows/clearance. All area/material changes are\nexplicit. Native construction/IDs/electrodes/zero-overlap checks, 24-event pilot,\nfull 10k transport and all saved-primary/hit/12-worker audits pass. The original\nsector seams remain. Dense mask screening is geometry only.\n\nThe calibration protocol freezes observable-only features, five outer/three\ninner ID folds, training-only preprocessing, ridge candidates and gain bounds.\nSeparate `Model.infer(features, signal)` returns energy without truth inputs;\nheld-out truth changes leave inferred energy unchanged. No held-out retuning.\nThe first baseline fit improves global CV from 43.09% to 34.43%, while retaining\nmean Ecal/Etrue=0.9136 and 8.99% clipping. This scale bias is a reported limitation,\nnot removed by an evaluation-derived correction. Final paired analysis follows.",
+        "source": "logs/codex/SESSION-2026-11-12-ecal-calibration-staggering-tests.md#decisions-and-outcomes",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-calibration-staggering-tests"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-11-12-ecal-calibration-staggering-tests:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-11-12-ecal-calibration-staggering-tests",
+        "recipients": [],
+        "text": "Held-out ECAL calibration and physical board staggering tests — see the canonical narrative for outcomes and checks.",
+        "source": "logs/codex/SESSION-2026-11-12-ecal-calibration-staggering-tests.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-calibration-staggering-tests"
+        ],
+        "content_kind": "reference_summary"
+      },
+      {
         "id": "journal:SESSION-2026-11-12-ecal10k-svg-comment:3b394727e03bedbc",
         "type": "prompt",
         "direction": "action",
@@ -312,7 +395,7 @@
       }
     ],
     "coverage": {
-      "github_captured_at": "2026-11-12T09:42:58Z",
+      "github_captured_at": "2026-11-12T10:50:20Z",
       "prompts": "Available account-matched user-visible messages, public Codex inputs and curated journal excerpts. Historical full input coverage is unknown.",
       "recovered_visible_turns": 0,
       "unrecovered_account_turns": [],

@@ -195,3 +195,30 @@ Explicit generic-agent roleinstructions are prepared below, not nativeprofileloa
   "completion": "Deliver requested contribution or concrete missinginputs; do not delegate, publish or grant acceptance."
 }
 ```
+
+## Final-results review contract
+
+```json
+{
+  "id": "ECAL-TESTS-PHYSVAL-FINAL",
+  "role": "PhysVal",
+  "input_revision": "4bbd9a9bdfd8813804dc8adeaffda07b03a01b0d",
+  "inputs": [
+    "docs/validation/ecal-staggering/README.md",
+    "docs/validation/ecal-staggering/protocol.md",
+    "docs/validation/ecal-staggering/results/summary.json",
+    "docs/validation/ecal-staggering/results/render.json",
+    "docs/validation/ecal-staggering/geometry-and-run.json",
+    "software/analysis/calorimeter_digitization/staggered_results.py",
+    "software/analysis/calorimeter_digitization/staggered_plots.py",
+    "build/ecal-staggering/production-predictions.npz",
+    "build/ecal-staggering/baseline-features",
+    "build/ecal-staggering/staggered-features"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Independently review exact final 10k results and interpretation. Check local predictions/features against all80angular moments, means/zeros/clipping/tails/histograms; original baseline invariant; input/transport/feature/hash binding, covariance transform/order and inclusive counts. Review all8PNG figure families and labels, calibration bias clearly retained, secondary prior point-only, all20raw vs16/20cal interval claims. No new simulation/fits or full ROOT reread needed; report exact actual checks and material findings. No writes/delegation/publication/signoff.",
+  "deliverable": "Bounded independent assessment of final source/results and actual numerical/visual checks.",
+  "completion": "Return findings or no actionable finding with limitations and exact revision."
+}
+```
