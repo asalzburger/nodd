@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated": "2026-11-10",
+  "updated": "2026-11-12",
   "note": "Curated register. Stage B architecture is active. PR #4\u2019s envelope baseline has explicit human approval and is merged; its documents still declare DRAFT and no formal sign-off record exists. Role ownership does not imply active agents. Chore PRs and infrastructure chores are excluded from project progress. Pixel-module design dossier opened by human direction in parallel with architecture; final component-method gates remain pending.",
   "stages": [
     {
@@ -4161,9 +4161,86 @@
         "DES-031"
       ],
       "updated": "2026-11-11",
-      "next_action": "PR129 is ready for merging after final accounting-head checks. The user approved publication; the shower-response study remains separate.",
+      "next_action": "Merged in PR129 at 3dab2346c4a08fd24898a7842906601884708a7d; issue131 records the post-merge timing/storage benchmark. Shower-response equivalence and human engineering review remain separate.",
       "blocker": null,
       "disposition": "Maintained default, exact sensor and material comparisons, complete native overlap scan and three Geant4 smoke events passed. ECAL-only DDG4 map build 23.0 s.",
+      "subsystem": "calorimetry and forward interfaces"
+    },
+    {
+      "id": "TASK-ISSUE131-ELECTRON-BENCHMARK",
+      "title": "Measure the 100-electron ECAL benchmark after PR129",
+      "scope": "Repeat the retained zero-field, no-tracker/no-beam-pipe Si-W ECAL pilot with 25 electrons in each of four fixed directions; report initialization, per-electron run time and compressed output type/size.",
+      "stage": "B",
+      "milestones": [
+        "M1"
+      ],
+      "workstream": "WS-CALO",
+      "role": "Calorimeter technician",
+      "owner": null,
+      "state": "completed",
+      "dependencies": [
+        "TASK-SIW-ECAL-REAL-WEDGES"
+      ],
+      "deliverables": [
+        "docs/validation/issue131/README.md",
+        "docs/validation/issue131/results.json",
+        "docs/validation/issue131/run_pilot.py",
+        "docs/validation/issue131/audit_pilot.py"
+      ],
+      "evidence": [
+        "https://github.com/asalzburger/nodd/issues/131",
+        "logs/codex/SESSION-2026-11-11-issue131-electron-benchmark.md"
+      ],
+      "documents": [
+        "DES-030",
+        "DES-031"
+      ],
+      "updated": "2026-11-11",
+      "next_action": "Host publishes the prepared draft PR and numbered interaction record; reviewer assesses benchmark conditions. Restore missing historical Git evidence to rerun the full project-record gate; design/engineering acceptance remains separate.",
+      "blocker": null,
+      "disposition": "100/100 persisted electrons passed audit at PR129 merge 3dab2346. Launch-to-first-event 205.629 s; event loop 16.64774 s/electron; compressed ROOT/EDM4hep 6.25810 MB/event for the equal four-direction mix. No geometry or acceptance change.",
+      "subsystem": "calorimetry and forward interfaces"
+    },
+    {
+      "id": "TASK-ECAL10K-ANGULAR-RESPONSE",
+      "title": "Measure 10k-electron angular ECAL visible-response widths",
+      "scope": "Uniform total energy 10\u201380 GeV, eta -3 to 3 and full phi, 12 DDSim threads on the retained PR133 ECAL-only zero-field prototype; ten bins each in |eta| and signed sector-folded phi.",
+      "stage": "B",
+      "milestones": [
+        "M1"
+      ],
+      "workstream": "WS-CALO",
+      "role": "Calorimeter technician",
+      "owner": null,
+      "state": "completed",
+      "dependencies": [
+        "TASK-ISSUE131-ELECTRON-BENCHMARK"
+      ],
+      "deliverables": [
+        "docs/validation/ecal10k/README.md",
+        "docs/validation/ecal10k/protocol.md",
+        "docs/validation/ecal10k/summary.json",
+        "docs/validation/ecal10k/angular-resolution.png",
+        "docs/validation/ecal10k/mean-response.png",
+        "software/analysis/calorimeter_digitization/angular_sample.py",
+        "software/analysis/calorimeter_digitization/angular_analyze.py",
+        "docs/validation/ecal10k/controls/response-distributions-abs_eta.png",
+        "docs/validation/ecal10k/controls/response-distributions-folded_phi.png",
+        "docs/validation/ecal10k/controls/response-histograms.json"
+      ],
+      "evidence": [
+        "logs/codex/SESSION-2026-11-11-ecal10k-angular-response.md",
+        "https://github.com/asalzburger/nodd/pull/134",
+        "logs/codex/SESSION-2026-11-12-ecal10k-response-controls.md"
+      ],
+      "documents": [
+        "DES-030",
+        "DES-031"
+      ],
+      "updated": "2026-11-12",
+      "next_action": "Review spectrum-averaged raw visible-response widths, mean response and retained seam losses in the draft PR; detector/engineering approval and intrinsic reconstructed resolution remain separate.",
+      "blocker": null,
+      "disposition": "10000/10000 persisted electrons passed ID-indexed readback with all12workers; serial/MT24event controls agree exactly in summarized observables. 10 angular bins per projection, 5000 joint event-bootstrap replicas. Whole process585.694s, peak2.371GiB, compressed ROOT12.604GB; no disk reduction. No calibration or detector acceptance. Added all twenty underlying response histograms, with exact unbinned moment/count checks; original widths unchanged.",
       "subsystem": "calorimetry and forward interfaces"
     }
   ],
@@ -5961,18 +6038,54 @@
       "number": 129,
       "title": "Calorimeter: default Si-W ECAL to reusable wedge mothers",
       "url": "https://github.com/asalzburger/nodd/pull/129",
-      "state": "open",
-      "head_revision": "bceca6707332064d6d827be007ae337d60776fd7",
-      "merge_commit": null,
-      "merged_at": null,
-      "collected_at": "2026-11-11T05:24:11Z",
+      "state": "merged",
+      "head_revision": "1fb0630ef4ef4dbc5d0f9dac5032ecedca258252",
+      "merge_commit": "3dab2346c4a08fd24898a7842906601884708a7d",
+      "merged_at": "2026-11-11T05:53:28Z",
+      "collected_at": "2026-11-11T07:24:35Z",
       "task": "TASK-SIW-ECAL-REAL-WEDGES",
       "documents": [
         "DES-030",
         "DES-031"
       ],
       "category": "project",
-      "scope": "Ready for review; human approval and geometry validation retained at 9f2e135c. Accounting publication explicitly authorized and pushed; final accounting head receives fresh hosted checks. Shower equivalence remains separate."
+      "scope": "PR129 merged with reusable Si-W wedge mothers and scoped geometry/transport validation; issue131 measures the post-merge 100-electron timing/storage sample. Merge grants no engineering sign-off or shower-response acceptance."
+    },
+    {
+      "id": "PR-134",
+      "number": 134,
+      "title": "Calorimeter: measure 10k-electron angular response with 12 threads",
+      "url": "https://github.com/asalzburger/nodd/pull/134",
+      "state": "open",
+      "head_revision": "a5c17c5f2e7b6c50e9dc7528f602305ae8baa207",
+      "merge_commit": null,
+      "merged_at": null,
+      "collected_at": "2026-11-11T15:26:57Z",
+      "task": "TASK-ECAL10K-ANGULAR-RESPONSE",
+      "documents": [
+        "DES-030",
+        "DES-031"
+      ],
+      "scope": "Completed 10000-electron 12-thread angular raw visible-response study; ten bins per projection and joint event-bootstrap evidence. PROTOTYPE, no calibration or design acceptance.",
+      "category": "project"
+    },
+    {
+      "id": "PR-133",
+      "number": 133,
+      "title": "Calorimeter: record the post-PR129 100-electron benchmark",
+      "url": "https://github.com/asalzburger/nodd/pull/133",
+      "state": "open",
+      "head_revision": "7ba71eeedc00c497bd4dc4168a9272039b300d8b",
+      "merge_commit": null,
+      "merged_at": null,
+      "collected_at": "2026-11-12T16:49:52Z",
+      "task": "TASK-ISSUE131-ELECTRON-BENCHMARK",
+      "documents": [
+        "DES-030",
+        "DES-031"
+      ],
+      "category": "project",
+      "scope": "Completed100origin-electron ECAL-only zero-field timing/storage benchmark afterPR129. Eightinput/composition controls and fullsaved-event readback; runtime/geometry unchanged. PROTOTYPE benchmark, no detector acceptance. Timestamp-only projectvalidation correction prepares the133\u2013137 mergechain."
     }
   ]
 }
