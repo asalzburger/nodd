@@ -56,7 +56,7 @@ def plot(summary,output,continuous):
             st=dict(style);st['label']='Raw' if key.startswith('raw') else 'Calibrated'
             curve(axes[1,column],x,entries,'reduction',st,100)
         axes[0,column].set_ylabel(r'$s(R)/\langle R\rangle$ [%]')
-        axes[0,column].set_title('Pseudorapidity' if column==0 else 'Azimuth in one22.5°sector')
+        axes[0,column].set_title('Pseudorapidity' if column==0 else 'Azimuth in one 22.5° sector')
         axes[1,column].set_ylabel('Baseline − staggered\n[percentage points]')
         axes[1,column].axhline(0,color='#777777',ls=':',lw=1)
         meanaxes[0,column].set_ylabel('Mean raw silicon response [%]')
@@ -68,11 +68,11 @@ def plot(summary,output,continuous):
     axes[0,0].legend(frameon=False,fontsize=8,loc='upper right')
     axes[1,0].legend(frameon=False,fontsize=8)
     meanaxes[0,0].legend(frameon=False,fontsize=8);meanaxes[1,0].legend(frameon=False,fontsize=8)
-    fig.suptitle('nODD ECAL · physical board staggering and held-out calibration\n10,000 identical electron inputs · flat10–80GeV ·12DDSim workers',fontsize=15)
-    fig.supxlabel('Raw R=S/Etrue; calibrated R=Ecal/Etrue · All events retained · Approximate95% paired bootstrap\nCalibration preprocessing, tuning and outer-fold models refitted in every replica; continuous Si is a separate diagnostic',fontsize=8)
+    fig.suptitle('nODD ECAL · physical board staggering and held-out calibration\n10,000 identical electron inputs · flat 10–80 GeV · 12 DDSim workers',fontsize=15)
+    fig.supxlabel('Raw R=S/Etrue; calibrated R=Ecal/Etrue · All events retained · Approximate 95% paired bootstrap\nCalibration preprocessing, tuning and outer-fold models refitted in every replica; continuous Si is a separate diagnostic',fontsize=8)
     savefig(fig,'angular-comparison')
     meanfig.suptitle('Response-scale controls · inclusive held-out predictions',fontsize=15)
-    meanfig.supxlabel('Calibration scale bias is retained · Relative gains bounded0.5–3 · No truth position/energy supplied to inference',fontsize=8)
+    meanfig.supxlabel('Calibration scale bias is retained · Relative gains bounded 0.5–3 · No truth position/energy supplied to inference',fontsize=8)
     savefig(meanfig,'mean-response-controls')
     fig,axes=plt.subplots(1,2,figsize=(13.5,5),layout='constrained')
     energy=summary['energy_slices'];x=np.array([(e['low']+e['high'])/2 for e in energy])
@@ -80,7 +80,7 @@ def plot(summary,output,continuous):
         entries=[e['series'][SERIES[k]] for e in energy]
         curve(axes[0],x,entries,'mean',styles[k])
         secondary=[e['prior_sensitivity'][name] for e in energy]
-        style=dict(styles[k]);style.update(ls=':',label=name.capitalize()+' ·1/E training prior')
+        style=dict(styles[k]);style.update(ls=':',label=name.capitalize()+' · 1/E training prior')
         curve(axes[0],x,secondary,'mean',style,errors=False)
     for k,label in enumerate(SERIES):
         curve(axes[1],x,[e['series'][label] for e in energy],'tail_fraction',styles[k],100,errors=False)
@@ -90,7 +90,7 @@ def plot(summary,output,continuous):
         ax.set_xlabel('True-energy slice centre [GeV]');ax.grid(alpha=.18);ax.legend(frameon=False,fontsize=8);ax.set_xlim(10,80)
     axes[1].set_ylim(bottom=0)
     fig.suptitle('Energy closure, training-prior sensitivity and inclusive low-side tails',fontsize=14)
-    fig.supxlabel('14fixed5GeV slices; finite-energy-slice checks, not fixed-energy certification\nRaw tail comparator uses cross-fit training-only scale S/R0; prior variants are secondary sensitivity only',fontsize=8)
+    fig.supxlabel('14 fixed 5 GeV slices; finite-energy-slice checks, not fixed-energy certification\nRaw tail comparator uses cross-fit training-only scale S/R0; prior variants are secondary sensitivity only',fontsize=8)
     savefig(fig,'energy-closure-and-tails')
     fig,axes=plt.subplots(1,2,figsize=(13.5,5),layout='constrained')
     for ax,control,xlabel in ((axes[0],'signed_eta',r'Signed $\eta$ bin'),(axes[1],'sector','Sector index')):
@@ -115,15 +115,15 @@ def plot(summary,output,continuous):
                     curve_hist=ax.stairs(p['histogram_counts'],edges,color=st['color'],ls='-' if k<2 else '--',lw=1.5,label=st['label'])
                     curve_hist.set_path_effects([pe.Stroke(linewidth=2.1,foreground='#777744'),pe.Normal()])
                 baseline,staggered=[entry['series'][SERIES[k]] for k in pair]
-                ax.set_title(f"{entry['low']*factor:.2f} to {entry['high']*factor:.2f}"+('deg' if factor!=1 else ' |η|'),loc='left',fontsize=9)
-                ax.text(.98,.95,f"N={baseline['events']}\nwidth:{baseline['fractional_width']*100:.1f}% → {staggered['fractional_width']*100:.1f}%\nzeros:{baseline['zero_events']} → {staggered['zero_events']}",
+                ax.set_title(f"{entry['low']*factor:.2f} to {entry['high']*factor:.2f}"+(' deg' if factor!=1 else ' |η|'),loc='left',fontsize=9)
+                ax.text(.98,.95,f"N={baseline['events']}\nwidth: {baseline['fractional_width']*100:.1f}% → {staggered['fractional_width']*100:.1f}%\nzeros: {baseline['zero_events']} → {staggered['zero_events']}",
                     transform=ax.transAxes,ha='right',va='top',fontsize=8,bbox=dict(facecolor='white',alpha=.9,edgecolor='none'))
                 maximum=max(max(entry['series'][SERIES[k]]['histogram_counts']) for k in pair)
                 ax.set_ylim(0,max(1,maximum*1.3));ax.grid(alpha=.15);ax.set_ylabel('Electrons/bin')
             axes[0,0].legend(frameon=False,fontsize=8,loc='upper left')
             for ax in axes[-1]:ax.set_xlabel(r'$E_{cal}/E_{true}$' if calibrated else 'Raw silicon response [%]')
             label='calibrated' if calibrated else 'raw'
-            fig.suptitle(f'Baseline versus physical staggering · {label} · '+('ten |η| populations' if name=='abs_eta' else 'ten foldedφpopulations'),fontsize=14)
+            fig.suptitle(f'Baseline versus physical staggering · {label} · '+('ten |η| populations' if name=='abs_eta' else 'ten folded φ populations'),fontsize=14)
             fig.supxlabel('All generated events retained · Shared histogram bins · Widths from unbinned sample SD/mean · No Gaussian fits',fontsize=8)
             savefig(fig,f'distributions-{label}-{name}')
 
