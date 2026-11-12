@@ -52,5 +52,19 @@ class CalibrationControls(unittest.TestCase):
             self.assertEqual(m.basis.knots[2], [])
             for knots in m.basis.knots:self.assertEqual(len(knots), len(set(knots)))
 
+    def test_bootstrap_refit_matches_explicit_duplicate_populations(self):
+        data,role=self.data();count=np.random.default_rng(182).integers(0,4,len(role))
+        repeated={k:np.repeat(v,count,axis=0) for k,v in data.items()}
+        repeated_role=np.repeat(role,count)
+        for kind in ('original','spline'):
+            weighted=fit(data,role,kind,count);explicit=fit(repeated,repeated_role,kind)
+            self.assertAlmostEqual(weighted.closure,explicit.closure,places=10)
+            for a,b in zip(weighted.models,explicit.models):
+                self.assertEqual((a.regularization,a.knot_count),(b.regularization,b.knot_count))
+                np.testing.assert_allclose(a.coefficient,b.coefficient,rtol=1e-8,atol=1e-9)
+            a=weighted.infer(data['features'],data['signal'],data['region'],data['valid_axis'])
+            b=explicit.infer(data['features'],data['signal'],data['region'],data['valid_axis'])
+            np.testing.assert_allclose(a['energy'],b['energy'],rtol=1e-9,atol=1e-9)
+
 
 if __name__ == '__main__':unittest.main()

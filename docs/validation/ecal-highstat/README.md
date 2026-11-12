@@ -89,9 +89,10 @@ A combined C++ ROOT pass checks saved primaries, every hit, all workers and
 extracts reconstructed features. Thirteen pipeline/native controls pass. The
 full retained 10k regression checks all 6,346,815 cells and matches original
 identity, worker allocation, primary errors and ROOT hash exactly; feature
-arrays agree at 1e-10 relative/absolute tolerance. It takes 114.4 s. Five model
+arrays agree at 1e-10 relative/absolute tolerance. It takes 114.4 s. Six model
 controls verify weighted quantiles, training/closure separation, zero preservation,
-truth-free inference and serialization. Two boundary controls reject changed
+truth-free inference, serialization and full weighted-refit equivalence to
+explicit duplicate populations. Two boundary controls reject changed
 feature semantics before arrays open.
 
 Separate PhysVal reviews cover the prospective model, learning curve and

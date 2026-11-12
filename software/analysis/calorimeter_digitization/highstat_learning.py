@@ -71,7 +71,9 @@ def main():
             mean=float(central[:, j, 0, 0].mean()), fractional_width=float(central[:, j, 1, 0].mean()),
             mean_uncertainty=interval(boot[:, j, 0, 0]), width_uncertainty=interval(boot[:, j, 1, 0]),
             angular_mean=central[:, j, 0, 1:].mean(axis=0).tolist(),
-            angular_width=central[:, j, 1, 1:].mean(axis=0).tolist()))
+            angular_width=central[:, j, 1, 1:].mean(axis=0).tolist(),
+            width_minus_8000=dict(value=float(central[:,j,1,0].mean()-central[:,-1,1,0].mean()),
+                **interval(boot[:,j,1,0]-boot[:,-1,1,0]))))
     a.output.mkdir(parents=True, exist_ok=False)
     save(a.output / 'learning-curve.json', dict(status='PROTOTYPE exploratory',
         interpretation='Frozen original architecture; old10k already informed design. Nested subsets, same5outer held-out IDfolds,3subset permutations; inclusive mean of3seed metrics.',
@@ -79,6 +81,10 @@ def main():
         bootstrap_replicates=a.bootstrap, bootstrap_seed=13395100, subset_seed_base=13395000,
         feature_receipt=receipt, producer_sha256=sha(__file__), core_sha256=sha(Path(__file__).with_name('staggered_calibration.py')),
         zero_events=int(np.count_nonzero(data['signal'] == 0)), rows=rows,
+        global_covariance_order=[f'{metric}:{n}' for metric in ('mean','fractional_width') for n in SIZES],
+        global_covariance=np.cov(boot[:,:,:,0].transpose(0,2,1).reshape(a.bootstrap,8),rowvar=False).tolist(),
+        angular_width_covariance_order=[f'{n}:{axis}:{i}' for n in SIZES for axis in ('abs_eta','folded_phi') for i in range(10)],
+        angular_width_covariance=np.cov(boot[:,:,1,1:].reshape(a.bootstrap,80),rowvar=False).tolist(),
         angular_order=[f'{axis}:{i}' for axis in ('abs_eta','folded_phi') for i in range(10)]))
     np.savez_compressed(a.predictions_output, response=point, clipped=clipped)
     print(json.dumps(rows, indent=2), flush=True)
