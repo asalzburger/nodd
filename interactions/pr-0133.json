@@ -7,19 +7,32 @@
     "events": []
   },
   "github": {
-    "captured_at": "2026-11-11T07:55:12.740122Z",
+    "captured_at": "2026-11-12T16:53:32Z",
     "pull_request": {
       "number": 133,
       "url": "https://github.com/asalzburger/nodd/pull/133",
       "title": "Calorimeter: record the post-PR129 100-electron benchmark",
       "head": "codex/agent-task-131-35766022791",
-      "head_sha": "7b92f3f0fdd2f373087e8d54e313f5c0fc4d924d",
+      "head_sha": "7ba71eeedc00c497bd4dc4168a9272039b300d8b",
       "state": "open",
       "body": "Task request: https://github.com/asalzburger/nodd/issues/131\nLabel request: `131-35766022791`\n\nAddresses #131 at `3dab2346c4a08fd24898a7842906601884708a7d`. Ran 100 electrons without tracker, beam pipe or magnetic field, retaining the earlier pilot’s four directions and nominal pT = 50 GeV.\n\n- Initialization to first event: **205.629 s**, including native audit and first-run physics setup.\n- Event-loop average: **16.648 s/electron**.\n- Total process wall: **31.65 min**.\n- Output: **625.810 MB total; 6.258 MB/event**, compressed EDM4hep ROOT TTree files including truth, hits and file overhead.\n\n| η | Events | s/electron | MB/event |\n| ---: | ---: | ---: | ---: |\n| 0.50 | 25 | 4.741 | 1.692 |\n| 1.45 | 25 | 7.664 | 3.271 |\n| 2.00 | 25 | 15.801 | 5.680 |\n| 3.00 | 25 | 38.385 | 14.389 |\n\nAdds the report, compact results, reproduction scripts and input controls under `docs/validation/issue131/`, plus paired session records. Updates software inventories and project tracking, including verified PR129 merge metadata. DES-030/DES-031 approval states remain unchanged.\n\nValidation passed: Release build, fresh export, DDSim execution, all 100 persisted-event audits, eight input/composition tests, tracking schema and summary arithmetic, software inventory, session records, 111 existing interaction ledgers, token validation/build and whitespace checks. Changed Spack fingerprints were reverified through actual runtime checks.\n\nFull project-record validation remains blocked by missing historical Git commit `78bc60bb6da0c9d234baf00d37cadea9dd4964b4`; restore that history and rerun the gate. Timings describe one sandboxed run without load isolation.\n\nRaw events and logs remain local and ignored. Ten proposed text files were inspected; the largest new file is 13,446 bytes. Exact task token counters are unavailable. Commit, push, draft-PR creation and its numbered interaction record remain with the host publisher.\n",
       "actor": "asalzburger",
       "created_at": "2026-11-11T07:55:00Z"
     },
-    "comments": [],
+    "comments": [
+      {
+        "id": 6793261345,
+        "url": "https://github.com/asalzburger/nodd/pull/133#issuecomment-6793261345",
+        "body": "Is there a way to bring the output size down, e.g. by merging hits that would fall into the same readout cell ?\r\n",
+        "actor": "asalzburger-review",
+        "created_at": "2026-11-11T10:21:31Z",
+        "updated_at": "2026-11-11T10:21:31Z",
+        "review": null,
+        "in_reply_to_id": null,
+        "path": null,
+        "line": null
+      }
+    ],
     "issues": [
       {
         "number": 131,
@@ -37,6 +50,11 @@
       {
         "id": "agent:SESSION-2026-11-11-issue131-electron-benchmark",
         "name": "Codex agent_task runner",
+        "kind": "agent"
+      },
+      {
+        "id": "agent:SESSION-2026-11-12-pr133-validation-timestamp",
+        "name": "Codex",
         "kind": "agent"
       },
       {
@@ -66,12 +84,31 @@
         "snapshot_sha256": null,
         "record_sha256": "6a0c7489a285eff6020118a56377f41ba6b50ccbfb95dd614b7556ad239d3daa",
         "narrative_sha256": "dc56c4fba34a93e141a197a88b21d43182f1ae3c33098d6822b087f68a4fd037"
+      },
+      {
+        "session_id": "SESSION-2026-11-12-pr133-validation-timestamp",
+        "record": "logs/codex/SESSION-2026-11-12-pr133-validation-timestamp.json",
+        "attribution": [
+          "explicit_PR_reference"
+        ],
+        "snapshot": null,
+        "snapshot_sha256": null,
+        "record_sha256": "57942eff6e3e184c40231a46d89cb7631ef629f6bd71e69347c3abc42c607aa5",
+        "narrative_sha256": "8a2e3c3b2dd971882a823395b1d7ad3f41d171ea70ce555494ef28cb21bf95e0"
       }
     ],
     "token_accounts": [
       {
         "id": "SESSION-2026-11-11-issue131-electron-benchmark",
         "record": "logs/codex/SESSION-2026-11-11-issue131-electron-benchmark.json",
+        "scope": "canonical_session; shared PR references are not allocations",
+        "status": "unobserved",
+        "usage_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "turns": []
+      },
+      {
+        "id": "SESSION-2026-11-12-pr133-validation-timestamp",
+        "record": "logs/codex/SESSION-2026-11-12-pr133-validation-timestamp.json",
         "scope": "canonical_session; shared PR references are not allocations",
         "status": "unobserved",
         "usage_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
@@ -87,6 +124,15 @@
         "thread_id": null,
         "models": [],
         "source": "logs/codex/SESSION-2026-11-11-issue131-electron-benchmark.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      },
+      {
+        "id": "agent:SESSION-2026-11-12-pr133-validation-timestamp",
+        "name": "Codex",
+        "role": "session_agent",
+        "thread_id": null,
+        "models": [],
+        "source": "logs/codex/SESSION-2026-11-12-pr133-validation-timestamp.json",
         "limitation": "Usage may include children; model/role is not assigned to every response."
       }
     ],
@@ -144,6 +190,21 @@
         "remote_input": null
       },
       {
+        "id": "github:https://github.com/asalzburger/nodd/pull/133#issuecomment-6793261345",
+        "type": "comment",
+        "direction": "action",
+        "actor": "github:asalzburger-review",
+        "recipients": [],
+        "text": "Is there a way to bring the output size down, e.g. by merging hits that would fall into the same readout cell ?\r\n",
+        "source": "https://github.com/asalzburger/nodd/pull/133#issuecomment-6793261345",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [],
+        "timestamp": "2026-11-11T10:21:31Z",
+        "remote_input": null
+      },
+      {
         "id": "github:https://github.com/asalzburger/nodd/issues/131",
         "type": "issue",
         "direction": "action",
@@ -173,10 +234,26 @@
           "SESSION-2026-11-11-issue131-electron-benchmark"
         ],
         "content_kind": "reference_summary"
+      },
+      {
+        "id": "journal:SESSION-2026-11-12-pr133-validation-timestamp:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-11-12-pr133-validation-timestamp",
+        "recipients": [],
+        "text": "Correct PR133 project-validation timestamp for chain merging — see the canonical narrative for outcomes and checks.",
+        "source": "logs/codex/SESSION-2026-11-12-pr133-validation-timestamp.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-pr133-validation-timestamp"
+        ],
+        "content_kind": "reference_summary"
       }
     ],
     "coverage": {
-      "github_captured_at": "2026-11-11T07:55:12.740122Z",
+      "github_captured_at": "2026-11-12T16:53:32Z",
       "prompts": "Available account-matched user-visible messages, public Codex inputs and curated journal excerpts. Historical full input coverage is unknown.",
       "recovered_visible_turns": 0,
       "unrecovered_account_turns": [],
