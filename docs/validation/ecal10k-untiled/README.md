@@ -6,6 +6,9 @@ with continuous sensitive silicon across the existing DES-030/DES-031 sector
 carrier faces. The [prospective protocol](protocol.md) fixes the intervention,
 observable, paired uncertainty treatment and scope before production.
 
+Review package: [draft PR135](https://github.com/asalzburger/nodd/pull/135),
+stacked on the original study in draft PR134.
+
 ## Geometry intervention
 
 Replace the original active and guard wafers with one 0.5 mm sensitive silicon

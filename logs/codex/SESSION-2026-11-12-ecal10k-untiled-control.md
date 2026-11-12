@@ -127,3 +127,9 @@ The first24 matched primaries completed with12 workers in24.118s,30,643,802byte 
 UNTILED-SOFTENG delivered the two owned Python files, ten passing geometry controls and a hash-identical native compact after a provenance-only preparer correction. The coordinator committed frozen implementation528db706de8a07c3cb39c2d12be758d8223fdd39 and prepared fresh production-input; its compact equals the native/pilot artifact. Full10k execution starts with the measured pilot disk budget and unchanged native libraries.
 
 UNTILED-PHYSVAL-FROZEN independently reviewed528db706de8a07c3cb39c2d12be758d8223fdd39, verified the P2 fix and thirteen narrow controls, independently reproduced full silicon volumes/material changes, and checked native/pilot/production input hash bindings. No actionable material source finding. Native script bytes match the frozen source although its runtime report names precommitHEAD20ba853e, which remains explicit. This is a separate agent assessment, not human expertise/sign-off. Result review remains pending.
+
+## Draft publication during execution
+
+Published dedicated draftPR135 at https://github.com/asalzburger/nodd/pull/135, stacked on PR134. The interim body explicitly states fullproduction inprogress; results are pending readback. Only compact source/geometry evidence is published. Authenticated native Git/gh writes are used because connected GitHub write access was unavailable earlier in this session; connected tools read and refresh both PR discussions. PR134 and PR135 have no public comments at this capture. New Git object inspection finds no raw runs/ROOT/input/event ledgers; largestnewblob is the existing project register at~288kB.
+
+Exact parent and child token counters are not exposed. Usage remains empty, not zero; historical journal totals are never attributed to this control.
