@@ -2,7 +2,7 @@
 
 User request (2026-11-12): “Can you prepare the PR for merging, recording the calibration model for later usage ?”
 
-Bounded follow-up on PR137, start d862d943600307a67a10a08c5644e7e4cf224007. Preserve existing coefficients, frozen numerical source, all plots/statistics and primary inputs. No new training, transport, geometry or sign-off. The request authorizes ready-for-review preparation of this PR, not merging it or its predecessors.
+Bounded follow-up on PR137, start d862d943600307a67a10a08c5644e7e4cf224007. Preserve existing coefficients, frozen numerical source, all plots/statistics and primary inputs. No new training, transport, geometry or sign-off. The request authorizes code/model/merge preparation, not merging this PR or its predecessors. The coordinator initially interpreted it to include ready-for-review state; the explicit automatic-review rejection below supersedes that interpretation.
 
 Used nodd-coordinate and nodd-review-validation. No native runtime use or shared dependency changes; existing NumPy Python only.
 
@@ -34,3 +34,19 @@ All16 NumPy controls pass (7new+6model+3analysis). Exact20k population replay re
   "completion": "Return the bounded final assessment promptly; no human signoff."
 }
 ```
+
+
+## Separate software assessment
+
+ECAL-CALIBRATION-REUSE-SOFTENG at6547c1016ca90f99f82445c1012ee1055f2a08a8: no material software findings. Verified hash/model/geometry/feature compatibility guards, measured-only API/CLI, units/shapes/dtypes, zero/fallback/clipping, provenance/no-overwrite and CI configuration. Independently passed all16NumPy tests(Python3.14.5/NumPy2.5.4), confirmed identical model/coreGitblobs to e65962c, reproduced exactfull20k pre/post ratios and10k chunk roundingmax4.884981308350689e-15 withzeromeandifference. No source writes/native runtime/fits/transport; remoteCI not independentlyexecuted. Caller remainsresponsiblefor units/simulationcontext beyondcheckedhashes. Technicalassessment only.
+
+Main byte-compared frozenmodels/core/analysis/resultsummary tooriginalcommits: allunchanged. Local project/inventory/session/interaction/token validation and token-sitebuild pass; only curated source,metadata andcompactproof innewGitobjects, noeventpayload. ActualCLI10k smoke passes andmatches APIoutputSHA. Separate reviewer model counters unavailable; usage[] remainsunknown.
+
+
+## Publication-state approval rejection
+
+PR137 description updated with model IDs, manifest/reuse links, exactcheck distinction, software assessment and merge-commit dependency order. Connector update_pull_request lackedwriteaccess(HTTP403); authenticatedgh pr edit succeeded. No comments posted.
+
+A separate connector mark_pull_request_ready_for_review action was rejected by automatic approval review: “Marking PR #137 ready for review changes its publication state and conflicts with the repository rule that this task must end as a draft PR; preparing it for merge does not explicitly authorize this transition.” This is distinct from the connector's HTTP403 capability failures. No CLI/indirect ready transition was attempted. PR137 remainsdraft; explicit human approval is required before retrying that state change. Continue all unaffected preparation and CI first. No merges/sign-off/predecessor-state changes.
+
+At f57b91a8f62727a8303b19fd9429249ffaf6d9db the new GitHub CI step “Check frozen staggered ECAL calibration and truth-free reuse” passed; the full Project validation workflow was still running at observation. Token usage Pages succeeded. Final complete workflow status is checked separately.

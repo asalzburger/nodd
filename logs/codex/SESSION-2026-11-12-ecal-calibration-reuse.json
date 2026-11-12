@@ -9,7 +9,8 @@
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
-    "Selected user-visible work record; actual start time/client model/version/thread IDs and exact per-turn token counters unavailable. Usage[] is unobserved, not zero. No shared historical totals attributed to this task."
+    "Selected user-visible work record; actual start time/client model/version/thread IDs and exact per-turn token counters unavailable. Usage[] is unobserved, not zero. No shared historical totals attributed to this task.",
+    "Automatic approval review rejected marking PR137 ready: prepare-for-merge wording was not treated as explicit authorization against AGENTS.md draft policy. No bypass; explicit human approval pending. Full CI status recorded when complete."
   ],
   "client": {
     "name": "Codex",
@@ -20,8 +21,25 @@
     "start_commit": "d862d943600307a67a10a08c5644e7e4cf224007",
     "branch": "codex/ecal-staggered-highstat-calibration",
     "initial_changes": [],
-    "result_commits": [],
-    "changed_files": []
+    "result_commits": [
+      "6547c1016ca90f99f82445c1012ee1055f2a08a8",
+      "f57b91a8f62727a8303b19fd9429249ffaf6d9db"
+    ],
+    "changed_files": [
+      ".github/workflows/validation.yml",
+      "docs/software-inventory.md",
+      "docs/validation/ecal-highstat/README.md",
+      "docs/validation/ecal-highstat/frozen/manifest.json",
+      "docs/validation/ecal-highstat/frozen/reuse-validation.json",
+      "docs/validation/ecal-highstat/reuse.md",
+      "interactions/pr-0137.json",
+      "logs/codex/SESSION-2026-11-12-ecal-calibration-reuse.json",
+      "logs/codex/SESSION-2026-11-12-ecal-calibration-reuse.md",
+      "project/tracking.json",
+      "software/analysis/calorimeter_digitization/highstat_inference.py",
+      "software/analysis/calorimeter_digitization/test_highstat_inference.py",
+      "software/inventory.json"
+    ]
   },
   "work": {
     "milestone": "M1",
@@ -68,6 +86,30 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "Actual CLI applies spline-v1 to10000events, outputhash exactlymatches API fileapplication;44zeros/fallbacks,896clipped,115featureextrapolated; no truth inputs or refitting."
+    },
+    {
+      "command": "Byte comparison against original frozen model/core/analysis/results commits",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All4source/artifact files unchanged, including coefficientSHA8595d8fd... andcoreSHA5eef6c17... ."
+    },
+    {
+      "command": "project_records validate; software_inventory refresh/check; session_log validate/summary; interactions capture/sync/validate; token_usage validate/build; git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "107tasks/54documents/24rounds;68components/101families;288sessions;116PRledgers validate; token-sitebuild and whitespace pass. Taskusageunknown, no estimated/cumulative attribution."
+    },
+    {
+      "command": "Inspect newly introduced reuse-task Git objects",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "14newblobs/539622bytes throughf57b91a8; noROOT/NPZ/HEPEvt/JSONL/buildpayload."
+    },
+    {
+      "command": "GitHub Project validation job131259739037, calibration-reuse step6 atf57b91a8",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "New16-test NumPy CI step completes successfully. Entireworkflow stillrunning atthisobservation; do not claim allremoteCI complete."
     }
   ]
 }

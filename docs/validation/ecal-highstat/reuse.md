@@ -110,7 +110,8 @@ records this distinction. Raw inputs and outputs stay local.
 [PR136](https://github.com/asalzburger/nodd/pull/136). The open dependency order
 is **PR133 → PR134 → PR135 → PR136 → PR137**, starting from main. A maintainer
 must merge dependencies and retarget each successor to main, preserving the
-commits needed by coefficient/validation provenance. Squashing or deleting
+commits needed by coefficient/validation provenance: use merge commits for
+this stack. Squashing or deleting
 unmerged dependency branches can require explicit restacking; do not assume
 GitHub moved a successor's target. Recheck CI and mergeability after retargeting.
 Preparing PR137 does not approve or merge predecessors or grant detector sign-off.
