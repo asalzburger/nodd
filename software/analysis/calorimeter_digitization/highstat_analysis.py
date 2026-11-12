@@ -22,7 +22,9 @@ def interval_diagnostics(samples, point):
         result.update(bootstrap_mean=float(np.mean(samples)),bootstrap_median=float(np.median(samples)),
             bootstrap_mean_minus_point=float(np.mean(samples)-point),
             bootstrap_median_minus_point=float(np.median(samples)-point),
-            bootstrap_fraction_below_point=float(np.mean(samples<point)))
+            bootstrap_fraction_below_point=float(np.mean(samples<point)),
+            bootstrap_fraction_at_or_below_point=float(np.mean(samples<=point)),
+            point_in_percentile_range=bool(result['ci95'][0]<=point<=result['ci95'][1]))
     return result
 
 

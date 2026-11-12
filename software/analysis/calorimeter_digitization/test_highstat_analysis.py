@@ -15,6 +15,11 @@ class FreezeBoundary(unittest.TestCase):
         self.assertEqual(result['bootstrap_mean_minus_point'],2.5)
         self.assertEqual(result['bootstrap_median_minus_point'],2.5)
         self.assertEqual(result['bootstrap_fraction_below_point'],0)
+        self.assertFalse(result['point_in_percentile_range'])
+        tied=interval_diagnostics(np.ones(4),1.)
+        self.assertEqual(tied['bootstrap_fraction_below_point'],0)
+        self.assertEqual(tied['bootstrap_fraction_at_or_below_point'],1)
+        self.assertTrue(tied['point_in_percentile_range'])
 
     def test_missing_semantics_rejected(self):
         with self.assertRaisesRegex(ValueError,'feature semantics'):
