@@ -251,3 +251,22 @@ identities, all twenty difference intervals and render/source hashes; and viewed
 all four PNG families. It did not rerun Geant4, reread the full ROOT files or
 independently regenerate all 5,000 replicas. Technical assessment is not human
 acceptance. See the [curated session](../../../logs/codex/SESSION-2026-11-12-ecal10k-untiled-control.md).
+
+## Vector SVG exports
+
+All four plot families are also stored as vector SVG:
+
+- [Width overlay and paired differences](results/resolution-overlay.svg)
+- [Mean-response overlay](results/mean-response-overlay.svg)
+- [Ten |eta| distributions](results/response-distributions-abs_eta.svg)
+- [Ten folded-phi distributions](results/response-distributions-folded_phi.svg)
+
+The existing replot command now emits PNG, PDF and SVG. The new SVG companions
+were rendered from the unchanged compact comparison; the accepted statistics
+and original eight PNG/PDF files remain byte-identical.
+[SVG render provenance](results/svg-render.json) records the plotter and file
+hashes. SVG IDs use a fixed hash salt and omit creation-date metadata. XML
+checks find vector paths with no embedded raster, script or external references.
+All four SVG previews were rendered with the existing optional
+`rsvg-convert 2.62.3` and visually inspected; that tool is not needed to export
+the SVG from Matplotlib. No Geant4 or bootstrap rerun was performed.
