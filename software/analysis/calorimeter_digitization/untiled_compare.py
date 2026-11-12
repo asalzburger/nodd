@@ -140,7 +140,7 @@ def compare(args):
         width_covariance=np.cov(widths.reshape(args.bootstrap, 40), rowvar=False).tolist() if finite else None,
         difference_covariance=np.cov(differences, rowvar=False).tolist() if finite else None,
         provenance={label: dict(readback={k: v for k, v in run[2].items() if k != "workers"},
-                               execution=run[3])
+                               execution={key: value for key, value in run[3].items() if key != "command"})
                     for label, run in zip(("tiled", "continuous"), loaded)})
     args.output.mkdir(parents=True, exist_ok=True)
     output = args.output / "comparison.json"
