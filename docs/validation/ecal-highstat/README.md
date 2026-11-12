@@ -1,6 +1,6 @@
 # Staggered ECAL: independent high-statistics calibration
 
-**PROTOTYPE**, [draft PR137](https://github.com/asalzburger/nodd/pull/137), authorized on 2026-11-12, following
+**PROTOTYPE**, [PR137](https://github.com/asalzburger/nodd/pull/137), authorized on 2026-11-12, following
 [draft PR136](https://github.com/asalzburger/nodd/pull/136). Only its physical
 staggered geometry is studied. Geometry, materials, native factories, field and
 transport policy are unchanged. The prospective choices and pre-fit common-grid

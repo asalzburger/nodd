@@ -2,15 +2,15 @@
   "schema_version": 1,
   "session_id": "SESSION-2026-11-12-ecal-calibration-reuse",
   "title": "Prepare PR137 and persist the staggered calibration inference contract",
-  "recorded_at": "2026-11-12T14:37:30Z",
+  "recorded_at": "2026-11-12T15:08:47Z",
   "started_at": null,
-  "ended_at": null,
-  "status": "open",
+  "ended_at": "2026-11-12T15:08:47Z",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
     "Selected user-visible work record; actual start time/client model/version/thread IDs and exact per-turn token counters unavailable. Usage[] is unobserved, not zero. No shared historical totals attributed to this task.",
-    "Automatic approval review rejected marking PR137 ready: prepare-for-merge wording was not treated as explicit authorization against AGENTS.md draft policy. No bypass; explicit human approval pending. Full CI status recorded when complete."
+    "Initial ready transition was rejected and not bypassed. Later explicit user approval after successful CI permitted retry; connector lacked writeaccess, authenticatedCLI succeeded and readystate verified. No merges or design acceptance."
   ],
   "client": {
     "name": "Codex",
@@ -23,7 +23,8 @@
     "initial_changes": [],
     "result_commits": [
       "6547c1016ca90f99f82445c1012ee1055f2a08a8",
-      "f57b91a8f62727a8303b19fd9429249ffaf6d9db"
+      "f57b91a8f62727a8303b19fd9429249ffaf6d9db",
+      "2c635fbfe365890e328de9066f16447ccd76c305"
     ],
     "changed_files": [
       ".github/workflows/validation.yml",
@@ -110,6 +111,18 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "New16-test NumPy CI step completes successfully. Entireworkflow stillrunning atthisobservation; do not claim allremoteCI complete."
+    },
+    {
+      "command": "GitHub Project validation43241403982 and Token usage Pages43241403984 at2c635fbfe365890e328de9066f16447ccd76c305",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "AllremoteCI workflows and bothbuild/unrootedjobs succeed, including16calibration controls. Explicituserapprovalconditionmet before readytransition."
+    },
+    {
+      "command": "gh pr ready137 --repo asalzburger/nodd; GitHubconnectorget_pr_info",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Following explicitconditionaluserapproval andcompleteCI success, integrationreadywrite lackedpermission; authenticatedCLI transition succeeds. Connector verifiesdraftfalse, correctstackedbase, unchangedhead andmergeabletrue. No earlierpolicyrejection bypass andno merges."
     }
   ]
 }

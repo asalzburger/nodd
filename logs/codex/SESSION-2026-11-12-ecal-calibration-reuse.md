@@ -50,3 +50,17 @@ PR137 description updated with model IDs, manifest/reuse links, exactcheck disti
 A separate connector mark_pull_request_ready_for_review action was rejected by automatic approval review: “Marking PR #137 ready for review changes its publication state and conflicts with the repository rule that this task must end as a draft PR; preparing it for merge does not explicitly authorize this transition.” This is distinct from the connector's HTTP403 capability failures. No CLI/indirect ready transition was attempted. PR137 remainsdraft; explicit human approval is required before retrying that state change. Continue all unaffected preparation and CI first. No merges/sign-off/predecessor-state changes.
 
 At f57b91a8f62727a8303b19fd9429249ffaf6d9db the new GitHub CI step “Check frozen staggered ECAL calibration and truth-free reuse” passed; the full Project validation workflow was still running at observation. Token usage Pages succeeded. Final complete workflow status is checked separately.
+
+
+## Explicit conditional ready-state approval
+
+After the automatic-review rejection and all code/model/review preparation, the user answered the explicit question “May I mark PR #137 ready for review once its final CI run passes? The calibration model and reuse interface are pushed and independently reviewed; merging will remain for you.” with **“Approve ready for review after CI passes”**. This authorizes retrying only PR137's ready-for-review transition after its final CI succeeds. It does not authorize merging, predecessor transitions or detector acceptance. The earlier rejection was respected; no ready-state workaround was attempted before this new explicit authorization.
+
+
+## Ready-for-review completion
+
+Both complete workflows on2c635fbfe365890e328de9066f16447ccd76c305 passed before retrying the conditionally authorized transition: [Project validation43241403982](https://github.com/asalzburger/nodd/actions/runs/43241403982), [Token usage Pages43241403984](https://github.com/asalzburger/nodd/actions/runs/43241403984). This includes both build and unrooted jobs and the16-test calibration CI step.
+
+With the new explicit user approval and CI condition satisfied, connector ready transition was permitted by automatic review but the integration lackedwriteaccess(FORBIDDEN). Authenticated `gh pr ready137 --repo asalzburger/nodd` succeeded. Connector get_pr_info verifieddraft=false, head2c635fbfe365890e328de9066f16447ccd76c305, existingbasecodex/ecal-calibration-staggering-tests, mergeable=true. Earlier policy rejection was not bypassed: the new explicit approval preceded the permitted retry; CLI only addressed the subsequent connector capability failure. No merge, predecessor state change, forcepush, detector approval or human sign-off.
+
+Final metadata closes this bounded preparation record. Scientific source, coefficients, model metadata, predictions and plots are unchanged by closeout. Subsequent final metadata CI is checked without repeatedly changing the source record. Model and reuse instructions remain versioned in PR137; raw arrays/output remainignoredlocal. Tokenusage for this task and reviewer isunavailable; no estimates and no attribution of historical repository totals.
