@@ -160,18 +160,22 @@ def asic_slots(board,count,c,e):
     return None
 
 
-def pack(c,e,outer,phase,edges,detail=True):
+def pack(c,e,outer,phase,edges,detail=True,*,tangent_phase_mm=0.,inner_partial_row=False):
     size=e['sensor_outer_mm'];board_size=size+2*c['board_margin_mm'];step=board_size+c['board_gap_mm']
     tangent=math.tan(math.pi/c['carriers']);A=max(p[0] for p in outer)
+    if not math.isfinite(tangent_phase_mm) or not 0<=tangent_phase_mm<step:
+        raise ValueError('tangential lattice phase must lie within one pitch')
+    if not isinstance(inner_partial_row,bool):raise ValueError('inner partial row flag')
     inner=c['inner_apothem_mm']+c['inner_support_mm'];start=inner+phase
     face=wedge(inner,A-c['outer_support_mm']-c['outer_service_band_mm'],tangent,c['seam_half_gap_mm']+c['carrier_side_reserve_mm'])
     modules=[];rejected=Counter();grid={};row_phases={};ny=math.ceil(A*tangent/step);stride=2*ny+1
-    for ix in range(math.ceil((A-start)/step)):
+    first_row=-1 if inner_partial_row else 0
+    for ix in range(first_row,math.ceil((A-start)/step)):
         x=start+ix*step;span=2*(x*tangent-c['seam_half_gap_mm']-c['carrier_side_reserve_mm'])
         full_columns=max(0,math.floor((span+c['board_gap_mm'])/step))
         # Panel B centres each row; even rows use a half-pitch shift. The same
         # centres/IDs remain when shaped side and inner sensors are added.
-        row_phase=step/2 if full_columns and full_columns%2==0 else 0.
+        row_phase=((step/2 if full_columns and full_columns%2==0 else 0.)+tangent_phase_mm)%step
         row_phases[ix]=row_phase
         for iy in range(-ny,ny+1):
             y=iy*step+row_phase-board_size/2;blank=rectangle(x,y,board_size,board_size);board=intersect(blank,face)
@@ -186,7 +190,7 @@ def pack(c,e,outer,phase,edges,detail=True):
             origin=[x+board_size/2,y+board_size/2]
             local=lambda p:[[a-origin[0],b-origin[1]] for a,b in p]
             # The grid address preserves existing square IDs when edge units are added.
-            m=dict(index=ix*stride+iy+ny,grid=[ix,iy],center_mm=origin,board=local(board),sensor=local(sensor),active=local(active),full=full,sensitive_area_mm2=area(active),family='square' if full else {3:'triangle',4:'trapezoid',5:'chamfered',6:'double_chamfer'}.get(len(sensor),'polygon'))
+            m=dict(index=(ix-first_row)*stride+iy+ny,grid=[ix,iy],center_mm=origin,board=local(board),sensor=local(sensor),active=local(active),full=full,sensitive_area_mm2=area(active),family='square' if full else {3:'triangle',4:'trapezoid',5:'chamfered',6:'double_chamfer'}.get(len(sensor),'polygon'))
             if detail:
                 m['pads']=pad_mask(m['active'],e['pitch_mm'],c['minimum_pad_fraction']*e['pitch_mm']**2)
                 m['asics']=asic_slots(m['board'],math.ceil(len(m['pads'])/e['asic_channels']),c,e)
