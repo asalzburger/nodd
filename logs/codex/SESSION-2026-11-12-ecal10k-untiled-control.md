@@ -141,3 +141,29 @@ Full production completed all10000 events with12workers, wall1514.572132s, child
 Paired comparison checks exacttruth/input/library identities and alltwenty originalpublished moments/counts/zeros unchanged.5000common-ID bootstrap replicas retain40-width and20-difference covariance; both finite, symmetric andpositive definite. Alltwenty difference intervals arepositive. Continuous eta widths9.41–16.46% versus27.95–55.78%; phiinterior3.69–4.10% versus22.59–25.32%; seams27.22/27.26% versus110.31/110.09%. Continuouszeroresponses37 versus42. Meanresponse andfulldistributions accompany these normalizedwidths. No quadrature attribution or intrinsic reconstructed-resolution claim.
 
 Analysis readHEAD76f3c940 while exactproducer bytes were committed incedf6ee4; itsproducerhash binds thatdifference. Publicexecution excludes localhost commandpaths; exactrawreceipts staylocal andhashbound. VisualQA found meanplotupperlimitfixedafterfirstgeometry; corrected plotter389b623b scalesafterbothcurves. Rerendered figures fromunchangedcompactstatistics; initialmeanpreviews retainedlocally. render.json binds producer/replot revisions, hashes andoutputs. AllfourfinalPNG figures visuallyinspected. No rawdatasets arepublished.
+
+## Independent result review
+
+```json
+{
+  "id": "UNTILED-PHYSVAL-RESULT",
+  "role": "PhysVal",
+  "input_revision": "66a444a4d38d972d658bb4daeb93d11c7274b286",
+  "inputs": [
+    "docs/validation/ecal10k-untiled/README.md",
+    "docs/validation/ecal10k-untiled/geometry-summary.json",
+    "docs/validation/ecal10k-untiled/results/comparison.json",
+    "docs/validation/ecal10k-untiled/results/render.json",
+    "software/analysis/calorimeter_digitization/untiled_compare.py"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Independent final result assessment at exact commit. Check compact results against local hash-bound baseline and continuous production12 ledgers/readbacks/receipts; recompute all20 widths/means/zero counts and compare pairing/covariance/intervals if useful. Inspect figures and finalclaims incl residualseams, meanresponsechange,37zeros, no pure tiling/intrinsic claim. Note analysisrecordedHEAD76f vsproducercedf, rendering389b; source hashes bind these. No writes or full simulation rerun. Return concrete material findings promptly; this is technical review not acceptance.",
+  "deliverable": "Return bounded contribution with source locators, actual checks and limits to coordinator.",
+  "completion": "Resolve requested contribution or identify concrete unresolved inputs. Do not delegate or publish."
+}
+```
+
+UNTILED-PHYSVAL-RESULT reviewed exact66a444a4d38d972d658bb4daeb93d11c7274b286 and reported no actionable findings. Independently verified both10k ledgers/hashbindings/primarypairing; recomputed40geometry/binmeans,SDs,widths,quantiles,zeros andsharedhistogramcounts; checked all20positivedifferenceintervals and covarianceidentityCtt+Ccc-Ctc-Cct; verified both producers plus8renderhashes andinspected4PNGfamilies. All18tests passed. Limits: noGeant4rerun, fullROOT reread or independent5000bootstrapregeneration. This separatecontext istechnical assessment, not humanexpertise orsign-off.
+
+Required project/inventory/session/interaction/tokenvalidators andtoken-sitebuild pass. Whitespace/newobjects inspected: largestnewobjects are the~317kB/306kB population PNG figures andexistingprojectregister; noROOT/HEPEvt/JSONL/rawdataset blobs in branchhistory. Rawdatasets andoriginaltiledbaseline remainlocal andunchanged. Finalpublication updates theexistingdraftPR135 withoutready/merge actions. Usage isunknown; historicalobserved511turn/2,800,626,831tokentotals are nottaskusage.

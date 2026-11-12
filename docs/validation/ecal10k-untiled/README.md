@@ -242,3 +242,12 @@ The committed compact result can be replotted without ROOT or event files:
   --replot docs/validation/ecal10k-untiled/results/comparison.json \
   --output build/ecal10k-untiled/standalone-replot
 ```
+
+Separate PhysVal result assessment at
+`66a444a4d38d972d658bb4daeb93d11c7274b286` found no actionable findings.
+It independently matched both local ledgers and recomputed all forty geometry/bin
+moments, quantiles, zeros and histogram populations; checked covariance block
+identities, all twenty difference intervals and render/source hashes; and viewed
+all four PNG families. It did not rerun Geant4, reread the full ROOT files or
+independently regenerate all 5,000 replicas. Technical assessment is not human
+acceptance. See the [curated session](../../../logs/codex/SESSION-2026-11-12-ecal10k-untiled-control.md).
