@@ -168,3 +168,14 @@ Build CI then rejected the draft title Design: because AGENTS requires the
 Calorimeter: area. Corrected the remote title and tracking snapshot; no scientific
 files changed. Read-only job-log fetch initially required gh's escape-output flag;
 retrieved to ignored build/ and stripped ANSI before inspecting the error.
+
+## Closed coordinator recovery during routing follow-up
+
+On the requested routing continuation, usage-only metadata now exposes completed
+original coordinator turn01a1d571-5cdb-7b41-afe0-c8943fa0b681. Imported8,542,399
+tokens into this original canonical owner, rather than the new routing session.
+This assessment now has3closed turns:13,644,272input+55,892output=13,700,164total;
+12,999,296cached input and21,183reasoning output are included subsets.
+The new routing-followup coordinator remains active and excluded from its own
+separate session. This supersedes the initial parent-coverage limitation without
+changing prior child observations or claiming unreported models.

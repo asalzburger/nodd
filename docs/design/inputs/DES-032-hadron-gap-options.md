@@ -97,6 +97,8 @@ this route fails its own assumed clearance; it is not a viable exported variant.
 ## Options to mitigate the handover
 
 All entries below are **INFERENCE / proposed studies**, with approval open.
+The [side-neck and rear-exit proposal](DES-032-side-rear-routing.md) develops
+the first option into a conditional topology with dimensional/interface gates.
 
 | Option | Benefit to investigate | Physical interface and limitation |
 | --- | --- | --- |
