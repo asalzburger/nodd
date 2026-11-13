@@ -6,10 +6,10 @@ events in this matched sample. This compares the represented detector candidates
 including their different geometry, material and envelopes; it does not isolate
 the active medium or select a technology.
 
-Each model uses the exact same 10,000 origin electrons: total E10–80GeV,
-eta−3…3 and full phi, ECAL-only B=0, FTFP_BERT,0.7mm cuts and5mm charged-step
+Each model uses the exact same 10,000 origin electrons: total E = 10–80 GeV,
+eta = −3…3 and full phi, ECAL-only B=0, FTFP_BERT, 0.7 mm cuts and 5 mm charged-step
 cap. The LAr hierarchy is the maintained reusable-period default after PR139.
-Original and staggered Si–W are the retained matched10k raw samples, distinct
+Original and staggered Si–W are the retained matched 10k raw samples, distinct
 from PR137's larger calibration study. No calibration, noise, charge collection
 or digitization is fitted here.
 
@@ -26,8 +26,8 @@ Different mean sampling fractions are expected and do not rank performance.
 | LAr | 15.932% | 17.84% [17.31, 18.40] | 0 | 183 (1.83%) |
 
 Staggered Si–W minus LAr raw width is **21.43 percentage
-points**, with paired pointwise95% interval **[20.42, 22.48]**.
-Intervals use1,000 shared whole-primary-event bootstrap replicates, seed13001000.
+points**, with paired pointwise 95% interval **[20.42, 22.48]**.
+Intervals use 1,000 shared whole-primary-event bootstrap replicates, seed 13001000.
 They condition on these saved transports/configurations; they exclude detector,
 physics-list, material and electronics systematics. Shown intervals cover means,
 widths and response uniformity; tail counts and quantiles are descriptive.
@@ -52,7 +52,7 @@ approximations remain unqualified.
 ![Directional means](figures/angular-means.png)
 ![Low-response tails](figures/angular-tails.png)
 
-The folded coordinate is the Si–W22.5degree sector phase applied to both models,
+The folded coordinate is the Si–W 22.5 degree sector phase applied to both models,
 not the LAr electrode pitch. Signed-eta and full-phi controls accompany it.
 Tail-panel thresholds use each angular bin's own mean; the inclusive table uses
 each detector's inclusive mean. Histograms use R/inclusive mean(R) solely as
@@ -65,24 +65,24 @@ display normalization, with all bin edges/counts and overflows retained.
 
 ## Execution and integrity
 
-The complete LAr production transported and persisted10,000 unique primaries,
-IDs0–9999, with all12workers audited. Full readback passed8,354,800 positive
-finite canonical hits:3,054,943barrel and5,299,857endcap;2,561,316distinct cells.
+The complete LAr production transported and persisted 10,000 unique primaries,
+IDs 0–9999, with all 12 workers audited. Full readback passed 8,354,800 positive
+finite canonical hits: 3,054,943 barrel and 5,299,857 endcap; 2,561,316 distinct cells.
 It verifies primary four-vectors, complete unique event IDs, canonical readout
 membership, material/cut/step/field/RNG policies, source/library stability and
 raw ROOT/worker-audit hashes. The comparison also pins the distinct Si–W compact
 and material hashes and the common primary files, rejecting mislabeled inputs.
 
-LAr transport took820.11s wall,8448.03CPU-s, peak3.185GiB RSS and20.961GB ROOT
-(compression algorithm1,level1). These are descriptive observations from this
+LAr transport took 820.11 s wall, 8448.03 CPU-s, peak 3.185 GiB RSS and 20.961 GB ROOT
+(compression algorithm 1, level 1). These are descriptive observations from this
 run, not a dedicated throughput benchmark. Production source is
 `327dd042b6b3d1be1a4325af3d444c38dd70f720`; analysis source and artifact hashes
 are recorded separately in the compact summary.
 
-The serial24/MT24 control reproduces all19,027saved hit IDs, energies and
-positions bit-for-bit by event ID. Both100-event native-limit/5mm pilots passed;
+The serial 24/MT 24 control reproduces all 19,027 saved hit IDs, energies and
+positions bit-for-bit by event ID. Both 100-event native-limit/5 mm pilots passed;
 their differing showers are a gross sensitivity diagnostic, not convergence.
-The predeclared5mm policy was retained. Native volume managers and all43,648raw
+The predeclared 5 mm policy was retained. Native volume managers and all 43,648 raw
 contexts are initialized serially before workers, addressing the earlier pilot's
 first-hit initialization race. The failed legacy pilot remains separate and is
 excluded from all response/timing comparisons. No source geometry or physical
@@ -90,9 +90,13 @@ response parameter was tuned to these results.
 
 [Prospective protocol](protocol.md) · [Compact controls/environment](controls.json) ·
 [Complete statistics and principal width covariance](summary.json) ·
-[Reproduction recipe](reproduce.md). The summary retains the global,10|eta|,
-10sector-phase,14energy,16full-phi,12signed-eta and3broad-region bins, underlying
-histograms and63-variable cross-model/angular width covariance with explicit order.
+[Reproduction recipe](reproduce.md). The summary retains the global, 10 |eta|,
+10 sector-phase, 14 energy, 16 full-phi, 12 signed-eta and 3 broad-region bins, underlying
+histograms and 63-variable cross-model/angular width covariance with explicit order.
 Full ROOT, event ledgers, XML and logs remain local and ignored. Committed data
 support replotting; independently repeating event-level/bootstrap inference needs
 the retained/regenerated event samples. No engineering or design acceptance.
+
+Bins include the lower edge and exclude the upper edge, with the final upper
+edge included. Covariance entries use squared fractional-width units; their
+variable order is stored beside the matrix.
