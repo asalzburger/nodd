@@ -225,3 +225,7 @@ complete-barrel transport and realistic response remain open. Plotting uses the
 already available Matplotlib runtime. Headers, ports, power/data routes and
 thermal/structural qualification are absent; material-filled reservations must
 not be read as empty service corridors.
+
+## Tested staggered Si-W drawing
+
+The [four-panel drawing and source recipe](../../docs/validation/staggered-siw-drawing/README.md) illustrate the historical PR136/137 prototype. The standard-library generator requires an explicit clean worktree at its recorded source revision; optional PNG export uses librsvg. It does not change the maintained detector.
