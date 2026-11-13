@@ -39,6 +39,24 @@ existing sensors or boards. The endcap reuse includes the existing proper
 negative-side rotation. Legacy standalone exports and compacts without an
 envelope retain their assembly hierarchy for historical reproduction.
 
+### LAr Geant4 hierarchy
+
+**NODD DESIGN CHOICE (human-directed 2026-11-13):** use reusable solid
+inclined-period mothers in the maintained LAYOUT-002 export. One barrel
+template is placed 1536 times; three turbine templates are placed
+384/720/1360 times on each end. Their boundaries follow adjacent absorber
+steel faces and the original annular/axial clipping. Each mother uses the
+actual enclosing material. Existing daughter shapes, materials, transforms,
+replica IDs and virtual readouts retain their definitions. Standalone
+component exporters keep the legacy assembly control; `--real-periods`
+selects the maintained hierarchy there.
+
+The [placement investigation](../../validation/lar-placement/README.md)
+records native equivalence, material scans and one matched serial timing
+pair. The [default-export validation](../../validation/lar-placement-default/README.md)
+checks the maintained route. This changes the simulation hierarchy of the
+DRAFT / PROTOTYPE candidate; it grants no engineering or response acceptance.
+
 **FACT (source):** standalone Si–W barrel and endcap exports both use system8;
 standalone LAr barrel/endcaps use10/11, while the FCAL design proposes10.
 See DES030/031 exporters, DES032/033 geometry builders and

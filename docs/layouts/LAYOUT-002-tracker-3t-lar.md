@@ -1,6 +1,6 @@
 # LAYOUT-002 — Tracker + inner 3 T solenoid + LAr ECAL + FCAL
 
-**Alternative DRAFT / PROTOTYPE · updated 2026-11-04.** The tracker and conditional inner magnet are shared with 01. The LAr component envelopes remain pinned to their independent proposal; DES039 adds a common forward body and a short EM collar.
+**Alternative DRAFT / PROTOTYPE · updated 2026-11-13.** The tracker and conditional inner magnet are shared with 01. The LAr component envelopes remain pinned to their independent proposal; DES039 adds a common forward body and a short EM collar.
 
 ![LAYOUT-002 with common forward body and short EM collar](figures/LAYOUT-002-DES043-rz.png)
 
@@ -8,7 +8,7 @@
 | --- | --- | --- |
 | Tracker | Gen3 mixed pixels and strips, 46,682 sensitive planes (DES043) | [DES025](../design/DES-025-tracker-dd4hep-gen3.md); [PR104 — selected baseline](https://github.com/asalzburger/nodd/pull/104) |
 | Inner solenoid | 3 T central target; unchanged inner allocation | [PR64](https://github.com/asalzburger/nodd/pull/64); conditional |
-| LAr ECAL | ALLEGRO-style inclined barrel and three-wheel turbine endcaps; package R301–2949 mm, abs(z)=4900–5860 mm | [Pinned DES032](https://github.com/asalzburger/nodd/blob/72d37ee9a56182e4ba974791a848a738c19cf092/docs/design/DES-032-allegro-lar-barrel.md), [pinned DES033](https://github.com/asalzburger/nodd/blob/72d37ee9a56182e4ba974791a848a738c19cf092/docs/design/DES-033-allegro-lar-endcaps.md); open PR73/74 |
+| LAr ECAL | ALLEGRO-style inclined barrel and three-wheel turbine endcaps; reusable solid period mothers in the maintained DD4hep export; package R301–2949 mm, abs(z)=4900–5860 mm | [DES032](../design/DES-032-allegro-lar-barrel.md), [DES033](../design/DES-033-allegro-lar-endcaps.md); [placement investigation PR138](https://github.com/asalzburger/nodd/pull/138), [default-export checks](../validation/lar-placement-default/README.md) |
 | HCAL | Steel/scintillator context; endcap abs(z)=6360–7855.9 mm, minimum bore300 mm | Pinned DES033 envelope; detailed neighbouring HCAL not imported |
 | Common FCAL | Tungsten/quartz fibres, R50–290 mm, abs(z)=4850–6650 mm; 1200 mm sampling | [DES039](../design/DES-039-common-forward-calorimeter.md); isolated prototype |
 | EM collar | Same technology, R50–450 mm, abs(z)=4400–4840 mm; 100 mm sampling | [ADR010](../decisions/ADR-010-common-forward-calorimeter.md); bridges geometric EM handover |
@@ -31,3 +31,11 @@ The current tracker overlay is extracted from the maintained DES043 combined DD4
 ## Restored working baseline
 
 The [baseline selector](../../tools/calorimeter_baselines/README.md) exports the maintained tracker with this option’s ECAL barrel and endcaps. [Integration and remaining review gates](../design/inputs/ECAL-baseline-integration-2026-11-04.md) distinguish runnable geometry, the shared HCAL/FCAL design stages and initial EDM4hep I/O.
+
+The LAr DD4hep hierarchy uses one reusable barrel period and three turbine
+period templates, with the existing physical leaves, material definitions and
+readout IDs. The drawing and its pinned inputs retain the same physical bounds;
+the hierarchy change requires no R–Z geometry update. The
+[serial placement benchmark](../validation/lar-placement/README.md) and the
+[maintained-export validation](../validation/lar-placement-default/README.md)
+have separate scopes from the planned 10k response comparison.

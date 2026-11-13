@@ -32,6 +32,16 @@ wheel counts and positive gaps are required; a silently omitted wheel is failure
 
 ## Cryostat, electronics space and HCAL interfaces
 
+The maintained LAYOUT-002 DD4hep hierarchy reuses one solid inclined-period
+logical volume per wheel, placed 384/720/1360 times on each end with the
+existing proper negative-side rotation. Boundaries follow the adjacent steel
+faces and original annular/axial clipping; mother material is the actual
+enclosing material. All blade/gap solids, poses, inherited side/wheel/period
+IDs and virtual radial/axial readout bins retain their definitions. This
+**NODD DESIGN CHOICE**, authorized on 2026-11-13, adopts the measured
+[placement investigation](../validation/lar-placement/README.md) through the
+[maintained export](../validation/lar-placement-default/README.md).
+
 **NODD DESIGN CHOICE:** reserve800mm between the barrel warm end4100mm and
 endcap warm front4900mm for cryogenic bends, connector/tool access and cables.
 Sampling starts5010mm and ends5460mm. A250mm rear bath contains existing rear

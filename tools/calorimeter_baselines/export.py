@@ -50,6 +50,7 @@ def compose(components, output, layout):
     system_ids = set()
     world = {}
     records = []
+    ecal_placement = {}
     for tag, compact, mapping in components:
         compact = Path(compact)
         source = ET.parse(compact).getroot()
@@ -80,6 +81,16 @@ def compose(components, output, layout):
                 material_seen[key] = sig
                 material_doc.append(node)
         transformed = source
+        if tag != "tracker":
+            periods = transformed.findall("detectors/detector/period/period_envelope") + transformed.findall("detectors/detector/wheel/period_envelope")
+            wedges = transformed.findall("detectors/detector/wedge_envelope")
+            if periods and not wedges and {node.get("policy") for node in periods} == {"real-periods-v1"}:
+                policy, envelopes = "real-periods-v1", len(periods)
+            elif wedges and not periods:
+                policy, envelopes = "real-wedges", len(wedges)
+            else:
+                policy, envelopes = "legacy-or-unrecognized", len(periods) + len(wedges)
+            ecal_placement[tag] = dict(policy=policy, reusable_envelopes=envelopes)
         for node in transformed.iter():
             for attr, value in list(node.attrib.items()):
                 if (attr == "material" or attr.endswith("_material")) and value in names:
@@ -129,6 +140,7 @@ def compose(components, output, layout):
                   digitization="Issue114 EDM4hep I/O and explicit-failure algorithm skeletons; no physical response",
                   reserved_future_system_ids={"FCAL": 12, "HCAL_barrel": 13, "HCAL_endcaps": 14},
                   components=records, system_ids=sorted(system_ids), exporter_sha256=sha(__file__),
+                  ecal_placement=ecal_placement,
                   compact_sha256=sha(output / "detector.xml"), materials_sha256=sha(output / "materials.xml"))
     (output / "baseline.json").write_text(json.dumps(report, indent=2) + "\n")
     return report
@@ -149,10 +161,15 @@ def export(layout, output):
             command.append("--real-wedges")
         else:
             service = "barrel_services.py" if tag == "lar-barrel" else "endcap_services.py"
-            command += ["--services", str(ROOT / "tools/lar_calorimeter" / service)]
+            command += ["--services", str(ROOT / "tools/lar_calorimeter" / service), "--real-periods"]
         subprocess.run(command, check=True, cwd=ROOT)
         components.append((tag, directory / filename, mapping))
     report = compose(components, output, layout)
+    policy, expected_counts = (("real-wedges", {"siw-barrel": 1, "siw-endcaps": 1}) if layout == "LAYOUT-001"
+                               else ("real-periods-v1", {"lar-barrel": 1, "lar-endcaps": 3}))
+    expected_placement = {tag: dict(policy=policy, reusable_envelopes=count) for tag, count in expected_counts.items()}
+    if report["ecal_placement"] != expected_placement:
+        raise ValueError("Maintained ECAL export did not produce the selected reusable placement hierarchy")
     config = json.loads((ROOT / "detector/config/tracker.json").read_text())
     report["tracker_generation"] = dict(
         status="Fresh maintained DES043 export in this invocation; reuse is unsupported",
