@@ -38,4 +38,12 @@ readout IDs. The drawing and its pinned inputs retain the same physical bounds;
 the hierarchy change requires no R–Z geometry update. The
 [serial placement benchmark](../validation/lar-placement/README.md) and the
 [maintained-export validation](../validation/lar-placement-default/README.md)
-have separate scopes from the planned 10k response comparison.
+have separate scopes from the first matched 10k response comparison.
+
+The [first matched 10k electron study](../validation/lar10k/README.md), proposed
+in [PR140](https://github.com/asalzburger/nodd/pull/140), retains all events and
+compares raw active deposits with original and staggered Si–W. The LAr
+candidate has a narrower inclusive raw distribution in that sample, with a
+remaining broad barrel/endcap transition. This is prototype characterization;
+charge collection, noise, digitization, calibrated resolution and engineering
+qualification remain open.

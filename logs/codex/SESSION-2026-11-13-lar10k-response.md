@@ -1,42 +1,28 @@
-# SESSION-2026-11-13-lar10k-response — First matched 10k LAr versus Si-W raw response comparison
-
-## Scope and evidence
-
-State collection method, available context, limitations, related IDs and starting
-revision. Identify uncommitted user changes present before work.
+# SESSION-2026-11-13-lar10k-response — deferred first response phase
 
 ## Selected conversation
 
-Attribute requests to the user and outcomes to the assistant. Mark exact quotes
-and paraphrases explicitly. Include corrections and changes in direction.
-Exclude private model state, confidential content, and irrelevant system context.
+User, exact: “Let’s do a first 10k response comparison”. The later user request
+prioritized a separate LAr placement/initialization investigation before the
+response campaign; this is a paraphrase of that steering.
 
-## Decisions and outcomes
+## Deferred-phase outcomes
 
-State rationale, alternatives, consequences and what remains unresolved. Never
-convert implementation authorization into human design sign-off.
+Started at8e99bdb90ca710e07067150a9e34bea3516e9127. Prospective protocol221ae331
+and transport/statistical helpers76ed5ce9 were committed before production.
+The legacy-hierarchy100event12worker pilot failed with exit139 after515.607s;
+its ROOT/log/receipt remain ignored underbuild/lar10k/pilot5. No production10k
+sample or comparison was completed during this phase. Source/inventory/tracking
+work was preserved when placement became the priority. The separate resumed
+session records successful transport after mergedPR139. No physical parameter
+or approval state was changed in this deferred phase.
 
-## Commands and validation
+## Token accounting outcomes
 
-Record relevant commands, actual exits/results, failed attempts and remedies.
-Distinguish structural checks from detector acceptance.
-
-## Changes and revision links
-
-List changed files or refer to the paired JSON inventory. Result commits are
-recorded only once they exist; Git history locates this record's enclosing commit.
-
-## Token accounting
-
-Record the client-provided per-turn usage source and import command, or state why
-exact counters are unavailable. Report observed input/output sums and missing
-coverage from `session_log.py summary`; empty usage means unknown, not zero.
-Never copy raw client archives or private model state. Do not duplicate turns
-across tasks or add cached/reasoning subsets to the input/output totals.
-
-## Follow-up
-
-List remaining work, missing measurements and any human review needed.
+Four closed observations now belong to this owner:16612088input,51493output,
+16663581total. Model/provider remain unknown. Counters were recovered through
+the authorized usage-only tool, not estimated; the dated addendum below records
+the later evidence. No raw conversation archive is retained.
 
 ## Bounded assignments recorded before dispatch
 
@@ -54,7 +40,7 @@ preserved. No production10k run was launched. The full pilot failed with
 exit139 after515.607s, retaining its log/receipt. The new bounded placement
 task will use a separate worktree and session, leaving this work intact.
 
-## Accounting addendum during PR140, 2026-11-13
+## Accounting outcomes addendum during PR140, 2026-11-13
 
 Authorized usage-only local recovery now supplies closed counters previously
 unavailable/provisional. Canonical usage belongs to this existing session; it
