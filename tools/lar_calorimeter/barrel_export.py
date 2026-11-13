@@ -89,7 +89,7 @@ def totals(report):
     report['physical_material_parts'] = len(report['pieces'])*len(report['replicas'])+len(report['passive'])
 
 
-def compact(report, output):
+def compact(report, output, *, real_periods=False):
     doc = ET.Element('lccdd')
     ET.SubElement(doc, 'info', name='LAYOUT002LArBarrelPrototype', title='DES032 isolated inclined LAr barrel', author='nODD', version='0.1', status='prototype')
     ET.SubElement(ET.SubElement(doc, 'includes'), 'gdmlFile', ref='materials.xml')
@@ -105,6 +105,11 @@ def compact(report, output):
     detector = ET.SubElement(ET.SubElement(doc, 'detectors'), 'detector', name='LArBarrel', id=str(ro['system_id']), type='nODDLArBarrelPrototype', readout=ro['name'])
     ET.SubElement(detector, 'sensitive', type='calorimeter')
     period = ET.SubElement(detector, 'period', name='LArInclinedPeriod')
+    if real_periods:
+        from placement import POLICY, barrel_envelope
+        envelope, report['placement'] = barrel_envelope(report)
+        element = ET.SubElement(period, 'period_envelope', policy=POLICY)
+        shape(element, envelope)
     for piece in report['pieces']:
         append_piece(period, piece)
     for replica in report['replicas']:
@@ -115,7 +120,7 @@ def compact(report, output):
     write(output/'barrel.xml', doc)
 
 
-def export(output, services=None):
+def export(output, services=None, *, real_periods=False):
     output.mkdir(parents=True, exist_ok=True)
     report, m = build()
     if services:
@@ -129,8 +134,8 @@ def export(output, services=None):
     report['materials'] = m.recipes
     totals(report)
     write(output/'materials.xml', m.root)
-    compact(report, output)
-    report['source_sha256'].update({str(p.relative_to(ROOT)):sha(p) for p in (Path(__file__), ROOT/'prototypes/calorimeter/LArBarrel.cpp')})
+    compact(report, output, real_periods=real_periods)
+    report['source_sha256'].update({str(p.relative_to(ROOT)):sha(p) for p in (Path(__file__), ROOT/'prototypes/calorimeter/LArBarrel.cpp', ROOT/'tools/lar_calorimeter/placement.py')})
     report['execution'] = dict(commit=subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip(), dirty=bool(subprocess.check_output(['git', 'status', '--porcelain'], cwd=ROOT, text=True)))
     report['artifact_sha256'] = {p.name:sha(p) for p in (output/'barrel.xml', output/'materials.xml')}
     (output/'expected.json').write_text(json.dumps(report, indent=2)+'\n')
@@ -142,5 +147,6 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--services', type=Path, help='Optional project-owned module with augment(report,materials)')
+    parser.add_argument('--real-periods', action='store_true', help='Opt-in PROTOTYPE reusable solid period mothers; physical leaves unchanged')
     args = parser.parse_args()
-    export(args.output, args.services)
+    export(args.output, args.services, real_periods=args.real_periods)

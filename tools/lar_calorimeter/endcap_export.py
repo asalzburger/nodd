@@ -5,6 +5,7 @@ import importlib.util
 import json
 from pathlib import Path
 import subprocess
+from types import SimpleNamespace
 import xml.etree.ElementTree as ET
 from barrel_export import pose, write, totals as passive_totals
 from endcap_geometry import ROOT, build, sha
@@ -46,7 +47,7 @@ def totals(report):
     report['material_totals']=dict(values);report['mass_g']=sum(v['mass_g'] for v in values.values());report['physical_material_parts']=count
 
 
-def compact(report,out):
+def compact(report,out, *, real_periods=False):
     doc=ET.Element('lccdd');ET.SubElement(doc,'info',name='LAYOUT002LArEndcapPrototype',title='DES033 isolated turbine LAr endcaps',author='nODD',version='0.1',status='prototype')
     ET.SubElement(ET.SubElement(doc,'includes'),'gdmlFile',ref='materials.xml')
     define=ET.SubElement(doc,'define')
@@ -57,8 +58,15 @@ def compact(report,out):
     ET.SubElement(readout,'segmentation',type='nODDLArEndcapGrid',sampling_depth_mm=format(ro['sampling_depth_mm'],'.17g'),axial_bins=str(ro['axial_bins']),wheel_table_mm=' '.join(format(v,'.17g') for v in wheel_table),reference_table_mm=' '.join(format(v,'.17g') for v in table))
     ET.SubElement(readout,'id').text=ro['descriptor']
     d=ET.SubElement(ET.SubElement(doc,'detectors'),'detector',name='LArEndcaps',id=str(ro['system_id']),type='nODDLArEndcapPrototype',readout=ro['name']);ET.SubElement(d,'sensitive',type='calorimeter')
+    if real_periods:
+        from placement import POLICY, endcap_envelope
+        report['placement']=dict(policy=POLICY,wheels=[])
     for wheel in report['wheels']:
         e=ET.SubElement(d,'wheel',index=str(wheel['wheel']),name='TurbineWheel'+str(wheel['wheel']))
+        if real_periods:
+            envelope, proof = endcap_envelope(wheel, SimpleNamespace(recipes=report['materials']))
+            shape(ET.SubElement(e,'period_envelope',policy=POLICY),envelope)
+            report['placement']['wheels'].append(proof)
         for p in wheel['pieces']:piece(e,p)
     for r in report['replicas']:
         e=ET.SubElement(d,'replica',**{k:str(r[k]) for k in ('side','wheel','plane')});pose(e,r)
@@ -66,15 +74,15 @@ def compact(report,out):
     write(out/'endcaps.xml',doc)
 
 
-def export(out,services=None):
+def export(out,services=None, *, real_periods=False):
     out.mkdir(parents=True,exist_ok=True);report,m=build()
     if services:
         specification=importlib.util.spec_from_file_location('endcap_services',services);module=importlib.util.module_from_spec(specification);specification.loader.exec_module(module)
         result=module.augment(report,m)
         if result is not None:report=result
         report['source_sha256'][str(services.resolve().relative_to(ROOT))]=sha(services)
-    report['materials']=m.recipes;totals(report);write(out/'materials.xml',m.root);compact(report,out)
-    for p in (Path(__file__),ROOT/'tools/lar_calorimeter/barrel_export.py',ROOT/'prototypes/calorimeter/LArEndcap.cpp'):report['source_sha256'][str(p.relative_to(ROOT))]=sha(p)
+    report['materials']=m.recipes;totals(report);write(out/'materials.xml',m.root);compact(report,out,real_periods=real_periods)
+    for p in (Path(__file__),ROOT/'tools/lar_calorimeter/barrel_export.py',ROOT/'prototypes/calorimeter/LArEndcap.cpp',ROOT/'tools/lar_calorimeter/placement.py'):report['source_sha256'][str(p.relative_to(ROOT))]=sha(p)
     report['execution']=dict(commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),dirty=bool(subprocess.check_output(['git','status','--porcelain'],cwd=ROOT,text=True)))
     report['artifact_sha256']={p.name:sha(p) for p in (out/'endcaps.xml',out/'materials.xml')}
     (out/'expected.json').write_text(json.dumps(report,indent=2)+'\n')
@@ -84,4 +92,5 @@ def export(out,services=None):
 
 if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--output',type=Path,required=True);p.add_argument('--services',type=Path)
-    a=p.parse_args();export(a.output,a.services)
+    p.add_argument('--real-periods',action='store_true',help='Opt-in PROTOTYPE reusable solid period mothers; physical leaves unchanged')
+    a=p.parse_args();export(a.output,a.services,real_periods=a.real_periods)

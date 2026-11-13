@@ -114,9 +114,17 @@ Solid shape(Handle_t h) {
 Ref_t createLArBarrel(Detector& detector, Handle_t h, SensitiveDetector sd) {
   auto name = h.attr<std::string>("name");
   DetElement result(name,h.attr<int>("id"));
-  Assembly assembly(name), period("LArInclinedPeriod");
+  Assembly assembly(name);
+  Volume period;
+  const auto holder = h.child(xml::Strng_t("period"));
+  const auto envelope = holder.child(xml::Strng_t("period_envelope"), false);
+  if (envelope) {
+    if (envelope.attr<std::string>("policy") != "real-periods-v1")
+      throw std::runtime_error("Unsupported LAr barrel placement policy");
+    period = Volume("LArInclinedPeriod",shape(envelope),detector.pickMotherVolume(result).material());
+  } else period = Assembly("LArInclinedPeriod");
   sd.setType("calorimeter");
-  auto add = [&](Assembly& mother, Handle_t piece) {
+  auto add = [&](Volume& mother, Handle_t piece) {
     Volume volume(piece.attr<std::string>("name"),shape(piece),detector.material(piece.attr<std::string>("material")));
     bool sensitive = piece.attr<std::string>("role") == "sensitive";
     if (sensitive) volume.setSensitiveDetector(sd);

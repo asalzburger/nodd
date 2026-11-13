@@ -93,9 +93,14 @@ Solid shape(Handle_t h) {
 }
 Ref_t createTurbine(Detector& detector,Handle_t h,SensitiveDetector sd) {
   auto name=h.attr<std::string>("name");DetElement result(name,h.attr<int>("id"));Assembly assembly(name);sd.setType("calorimeter");
-  std::map<int,Assembly>wheels;
+  std::map<int,Volume>wheels;
   for (xml::Collection_t wheel(h,"wheel");wheel;++wheel) {
-    Assembly period(wheel.attr<std::string>("name"));
+    Volume period;
+    const auto envelope=wheel.child(xml::Strng_t("period_envelope"),false);
+    if (envelope) {
+      if (envelope.attr<std::string>("policy")!="real-periods-v1")throw std::runtime_error("Unsupported LAr turbine placement policy");
+      period=Volume(wheel.attr<std::string>("name"),shape(envelope),detector.pickMotherVolume(result).material());
+    } else period=Assembly(wheel.attr<std::string>("name"));
     for (xml::Collection_t p(wheel,"piece");p;++p) {
       Volume v(p.attr<std::string>("name"),shape(p),detector.material(p.attr<std::string>("material")));
       bool sensitive=p.attr<std::string>("role")=="sensitive";if (sensitive)v.setSensitiveDetector(sd);

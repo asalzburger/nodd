@@ -1,5 +1,15 @@
 # LAYOUT-002 isolated ALLEGRO-style LAr prototypes
 
+The [reusable-period placement investigation](../../docs/validation/lar-placement/README.md)
+adds opt-in `--real-periods` to the barrel/endcap exporters. It follows the
+inclined period boundaries while retaining existing leaves and readouts. The
+standalone exporters keep the legacy assembly hierarchy by default for
+component controls. The [maintained LAYOUT-002 exporter](../calorimeter_baselines/README.md)
+selects `--real-periods` for both components, including their local services.
+Use the flag explicitly with the standalone commands below to reproduce that
+hierarchy. Measured startup and geometry evidence are separate from
+shower-response or engineering acceptance.
+
 DES032 is DRAFT / PROTOTYPE. Production geometry and SiW LAYOUT-001 are
 untouched. Python standard library exports and tests the own geometry; native
 checks use the verified existing DD4hep/Geant4 runtime. Public k4geo sources

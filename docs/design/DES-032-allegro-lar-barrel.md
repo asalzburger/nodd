@@ -75,6 +75,17 @@ its envelopes. No new magnetic field solution is implied by changing HCAL.
 
 ## Readout and implementation contract
 
+The maintained LAYOUT-002 DD4hep export uses one solid inclined-period logical
+volume placed 1536 times. Its envelope follows adjacent absorber steel faces,
+clipped to the existing annular sampling limits and axial extent. Daughters
+retain their original solids, materials and local poses; placements retain
+period IDs. The enclosing material fills only the numerically measured
+exclusive residue. This **NODD DESIGN CHOICE**, authorized on 2026-11-13,
+shortens time to the first event in the measured ECAL-only serial probe;
+it introduces no new readout model. See the
+[integration contract](inputs/ECAL-baseline-integration-2026-11-04.md#lar-geant4-hierarchy)
+and [default-export evidence](../validation/lar-placement-default/README.md).
+
 **NODD DESIGN CHOICE:** independently generated polygon/extrusion primitives
 represent complete inclined absorber/electrode periods and two active LAr gaps
 per electrode per longitudinal segment. Material definition, segmentation,
