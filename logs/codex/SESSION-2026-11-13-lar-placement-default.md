@@ -92,7 +92,7 @@ authenticated gh CLI the publication fallback.
 Exact parent/child per-turn counters are unavailable. Usage stays empty, not
 zero; no historical observations are copied. The site build sums existing
 canonical observations only. Large XML/ROOT/dumps/logs stay local and ignored.
-The PR must remain draft under repository policy. Review and merge of PR138 and
+The PR was initially published as draft under repository policy. The later user request explicitly asks merge preparation; after validation and current-head CI, the coordinator will make it ready for review, leaving the merge to the maintainer. Review and merge of PR138 and
 this adoption change are distinct from engineering qualification. Twelve-worker
 initialization and the10k response comparison remain later work.
 
@@ -219,3 +219,73 @@ unrelated advisory/10k turns. Additional completed review turns will be recovere
 when available. Models/providers remain unknown. Earlier missing-usage statements
 are historical; this addendum and canonical usage arrays supersede them.
 The curated usage-only inventory is `logs/usage/RECOVERY-2026-11-13-pr138-139.json`.
+
+## Long-running native scan observation
+
+The full native scan entered ROOT point generation after2079548overlap candidates.
+At19min54s elapsed, a targeted read-only process check observed19min52.60s CPU,
+99.4percent CPU and7442080KiB RSS. The job was computing, not waiting for input.
+Default sandbox process lookup was unavailable; scoped elevated read-only lookup
+succeeded. No geometry tolerance or validation criterion was changed.
+
+## Complete native union result
+
+The fresh full tracker+ECAL native scan completed PASS: all ten expected root
+systems0–7/10/11, zero overlaps/extrusions at10nm;2079548candidates, ROOT point
+generation1374.14s and candidate checking6.20576s. It launched at implementation
+14db490a with dirty task metadata. Compact/material, baseline manifest, native
+auditor and all seven libraries were rehashed after the run; source bytes for
+the audited native/export/factory/tracker scope remained unchanged through the
+metadata commits. Full native JSON and log hashes are retained in the compact
+results. No fresh timing ratio or general response claim is derived.
+
+## Final native evidence review assignment
+
+Recorded before dispatch.
+
+```json
+{
+  "id": "LAR-DEFAULT-PhysVal-final-native",
+  "role": "PhysVal",
+  "input_revision": "9daf93ada79dbb5dab70312bfb39f08f817066af",
+  "inputs": [
+    "docs/validation/lar-placement-default/results.json",
+    "docs/validation/lar-placement-default/README.md",
+    "tools/calorimeter_baselines/native.py",
+    "tools/calorimeter_baselines/export.py"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Close the prior native-union evidence gap. Review committed full native result and local build/lar-default/native.json/native.log; verify hashes, all ten actual system IDs,10nm tolerance,zero overlap/extrusion output and actual library bindings. Prior XML/smoke review remains valid at a630; do not rerun full geometry/simulation or XML comparator. Confirm new report scope and source/dirty launch identities are accurate. No writes/delegation.",
+  "deliverable": "Return bounded final evidence findings and actual lightweight hash/source checks to coordinator for curation.",
+  "completion": "State whether the full native-union gap is resolved for this prototype default update, or identify concrete P2+ issues, with no human design acceptance."
+}
+```
+
+## Final assessment and accounting closeout
+
+PhysVal assignment LAR-DEFAULT-PhysVal-final-native reviewed
+`9daf93ada79dbb5dab70312bfb39f08f817066af` read-only. All committed/local native
+report,log,manifest,XML,material,auditor and seven-library hashes match. Ten
+actual system IDs0–7/10/11, seed114 and zero10nm illegal overlaps/extrusions
+verified. No P2+ finding; the previous native-union gap is resolved. Coordinator
+observed execution-tool process exit0 after cleanup, separately from the PASS
+log line. No native job was rerun by the reviewer.
+
+The final review adds one closed PhysVal turn. PR139 now owns four completed
+child turns: 12287858input (12149632cached subset),
+19327output (9671reasoning subset),
+12307185total. The active parent turn remains excluded entirely.
+PR138 retains eight closed turns and its existing exact totals. Recovery data
+use the supported completed_turns shape, so all newly owned observations have
+verified completion dates in the token timeline. No inferred model/provider.
+
+## Final local record checks
+
+Session, interaction, scientific-record and software-inventory checks pass after
+all twelve closed turns are owned once. Token-site build includes523disjoint,
+dated observations; current parent remains excluded. PR138's eight-turn total
+is55338308; PR139's four-child-turn total is12307185. Models/providers remain
+unknown. All final source changes remain bounded to DD4hep hierarchy selection,
+description, validation and accounting. No generated XML/ROOT/event/dump blobs
+are published. Current-head CI is awaited after the final push.
