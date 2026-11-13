@@ -69,6 +69,53 @@ def index(values, edges):
     return np.clip(np.searchsorted(edges, values, side="right") - 1, 0, len(edges) - 2)
 
 
+def validate_contract(run, name):
+    """Reject mislabeled samples and incompatible executed transport policies."""
+    run = Path(run)
+    receipt = json.loads((run / "receipt.json").read_text())
+    proof = json.loads((run / "readback.json").read_text())
+    lar = name == "lar"
+    collections = {"LArBarrelHits", "LArEndcapHits"} if lar else {"BARRELHits", "EDGEHits"}
+    if set(proof.get("cells_by_collection", {})) != collections:
+        raise ValueError("Wrong detector collections: " + name)
+    for key, value in dict(events=10000, skip=0, threads=12, seed=133812341).items():
+        if receipt.get(key) != value:
+            raise ValueError("Incompatible production policy: " + key)
+    command = receipt["command"]
+    for flag, value in (("--physics.list", "FTFP_BERT"), ("--physics.rangecut", "0.7")):
+        if flag not in command or command[command.index(flag)+1] != value:
+            raise ValueError("Incompatible physics command: " + flag)
+    if "--random.enableEventSeed" not in command or (lar and receipt.get("max_step_mm") != 5):
+        raise ValueError("Missing event seeding or LAr step policy")
+    workers = proof["workers"]
+    if len(workers) != 12 or {w["thread_id"] for w in workers} != set(range(12)) or sum(w["events"] for w in workers) != 10000:
+        raise ValueError("Incomplete worker population")
+    hashes = {}
+    for worker in workers:
+        path = run / "audit" / f'worker-{worker["thread_id"]}.json'
+        if json.loads(path.read_text()) != worker:
+            raise ValueError("Changed worker audit")
+        hashes[path.name] = sha(path)
+        if (worker["status"] != "complete" or worker["events"] <= 0 or
+                worker["maximum_abs_magnetic_field_tesla"] != 0 or
+                worker["rng_engine"] != "MixMaxRng" or worker["begin_run_rng_seed"] != 133812341):
+            raise ValueError("Incompatible worker field/RNG/status")
+        if not worker["region_cuts"] or any(r["mm"] != [.7]*4 for r in worker["region_cuts"]):
+            raise ValueError("Incompatible native cuts")
+        if any("StepLimiter" not in worker["processes"][p] for p in ("e-", "e+")):
+            raise ValueError("Missing native StepLimiter")
+        sensitive = worker["sensitive_lar" if lar else "sensitive_si"]
+        if set(sensitive) != ({"LArBarrel", "LArEndcaps"} if lar else {"BARREL", "EDGE"}):
+            raise ValueError("Wrong native sensitive detectors")
+        for item in sensitive.values():
+            volumes = item["volumes"] if lar else [item]
+            if not volumes or any(v["max_step_mm"] is None or not 0 < v["max_step_mm"] <= 5 or v["Birks_mm_per_MeV"] != 0 for v in volumes):
+                raise ValueError("Incompatible active step/Birks policy")
+    if sha(run / "events.root") != proof["root_sha256"]:
+        raise ValueError("Changed raw ROOT artifact")
+    return dict(status="PASS", worker_audit_sha256=hashes, root_rehashed=True)
+
+
 def moments(values):
     if len(values) < 2 or np.mean(values) <= 0:
         raise ValueError("Undefined sample width")
@@ -100,6 +147,7 @@ def interval(values):
 def analyze(args):
     paths = {"siw_original": args.siw_original, "siw_staggered": args.siw_staggered, "lar": args.lar}
     loaded = {name: load_run(path) for name, path in paths.items()}
+    contracts = {name: validate_contract(path, name) for name, path in paths.items()}
     base = loaded["lar"][1]
     n = len(base)
     if n != 10000:
@@ -126,7 +174,7 @@ def analyze(args):
                 boot[name][axis][b, :, 1] = width
     models = {}
     for name, response in responses.items():
-        entry = {"label": LABELS[name], "evidence": loaded[name][2], "global": moments(response), "projections": {}}
+        entry = {"label": LABELS[name], "evidence": loaded[name][2], "comparison_contract": contracts[name], "global": moments(response), "projections": {}}
         for axis, cat in categories.items():
             rows = [moments(response[cat == i]) for i in range(counts[axis])]
             for i, row in enumerate(rows):

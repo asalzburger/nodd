@@ -5,10 +5,35 @@ import unittest
 
 import numpy as np
 
-from compare import binned_moments, index, load_run, moments, sha
+from compare import binned_moments, index, load_run, moments, sha, validate_contract
 
 
 class ComparisonControls(unittest.TestCase):
+    def test_production_contract_rejects_detector_policy_and_raw_tampering(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp); (root / 'audit').mkdir()
+            receipt = dict(events=10000, skip=0, threads=12, seed=133812341,
+                           command=['--physics.list', 'FTFP_BERT', '--physics.rangecut', '0.7', '--random.enableEventSeed'])
+            workers = [dict(thread_id=i, events=834 if i<4 else 833, status='complete',
+                maximum_abs_magnetic_field_tesla=0, rng_engine='MixMaxRng', begin_run_rng_seed=133812341,
+                region_cuts=[dict(mm=[.7]*4)], processes={p:['StepLimiter'] for p in ['e-','e+']},
+                sensitive_si={s:dict(max_step_mm=5, Birks_mm_per_MeV=0) for s in ['BARREL','EDGE']}) for i in range(12)]
+            (root/'events.root').write_bytes(b'ROOT test fixture')
+            proof = dict(cells_by_collection={'BARRELHits':1,'EDGEHits':1}, workers=workers, root_sha256=sha(root/'events.root'))
+            def save():
+                (root/'receipt.json').write_text(json.dumps(receipt))
+                (root/'readback.json').write_text(json.dumps(proof))
+                for w in workers:(root/'audit'/f'worker-{w["thread_id"]}.json').write_text(json.dumps(w))
+            save(); self.assertEqual(validate_contract(root,'siw_original')['status'],'PASS')
+            with self.assertRaisesRegex(ValueError,'detector'):validate_contract(root,'lar')
+            receipt['threads']=1;save()
+            with self.assertRaisesRegex(ValueError,'production'):validate_contract(root,'siw_original')
+            receipt['threads']=12;workers[0]['region_cuts'][0]['mm'][0]=1;save()
+            with self.assertRaisesRegex(ValueError,'cuts'):validate_contract(root,'siw_original')
+            workers[0]['region_cuts'][0]['mm'][0]=.7;save()
+            (root/'events.root').write_bytes(b'tampered')
+            with self.assertRaisesRegex(ValueError,'ROOT'):validate_contract(root,'siw_original')
+
     def test_bootstrap_multiplicity_matches_explicit_repeated_sample(self):
         values = np.array([0., .01, .3, 2., .6])
         categories = np.array([0, 0, 0, 1, 1])

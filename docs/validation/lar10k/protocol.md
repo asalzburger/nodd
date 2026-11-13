@@ -5,6 +5,14 @@ results were inspected. Governing geometry: DES032/DES033; unchanged LAYOUT002
 ECAL, including cryostat and local-service material. This study supplies no
 engineering acceptance, digitized-response qualification or technology selection.
 
+Resumed after merged PR139 (`f68cef1f949d941fc7f67c74357ab99059be0345`).
+The maintained LAr export now uses reusable solid period mothers, preserving
+physical leaves, materials and readout. The comparison therefore measures this
+updated simulation hierarchy; numerical navigation boundaries can affect shower
+histories. The failed legacy-hierarchy pilot is retained as diagnostic evidence,
+not included in the response sample. Serial preinitialization and serial/MT
+controls must pass before the twelve-worker production run.
+
 ## Prospective scope
 
 **NODD DESIGN CHOICE:** reuse exactly the 10,000 original Si–W primary records:
