@@ -189,3 +189,26 @@ controls, fullnativechecks and measuredpair remain the actual validation basis.
 Final local session, interaction, project-record and software-inventory validation
 and the token-site build passed. The current interaction snapshot was refreshed
 after the PR-body checklist update; canonical usage remains unchanged.
+
+## Accounting and work-label closeout, 2026-11-13
+
+The user requested token logging and work labels for PR138/139. Authorized
+usage-only local recovery now supplies the completed PR138 parent turn and seven
+separate SoftEng/PhysVal turns, with exact persisted boundaries. The parent is
+identified by its visible placement-investigation request/final PR138 response;
+child IDs and assignments are linked by visible activity, spawn metadata and
+recorded contracts. This supersedes earlier “usage unavailable” statements for
+these eight closed turns. No active-turn allocation, estimates or model inference.
+
+Canonical import:55189863input (54916224cached subset),148445output
+(80806reasoning subset),55338308total. Input counts include repeated/cached
+context; these are observed processed tokens, not unique text or a cost estimate.
+See [curated recovery](../usage/RECOVERY-2026-11-13-pr138-139.json). Models/providers
+remain unknown. The broader project recovery first failed on an unrelated
+thread with no observations; selecting only the identified task threads succeeded.
+
+PR138 was merged by the maintainer at2026-11-13T08:39:03Z as
+`fd0e52fe0b17f446d13884ff0b3befc19a30837c`. This post-merge metadata correction
+is carried in PR139; it does not rewrite the merged branch. Applied existing
+GitHub work labels `campaign:calorimeters` and `scope:baseline-design` to both.
+These labels identify the working prototype campaign, not engineering sign-off.

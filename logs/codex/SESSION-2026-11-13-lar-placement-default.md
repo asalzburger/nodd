@@ -185,3 +185,37 @@ PR138 branch `codex/lar-geant4-placement`. Its initial body and evidence explici
 mark the complete native union overlap scan pending. No PR was merged or marked
 ready by this task. Largest new committed blob290738bytes at initial publication;
 no generated XML/ROOT/event dumps were committed.
+
+## Completed XML/smoke evidence review
+
+PhysVal `/root/larplace_physval`, assignment LAR-DEFAULT-PhysVal-evidence,
+reviewed exact `a630e9385821f5359f587c203b34ce4e72ed3d72`. No P2-or-higher
+finding in the bounded completed evidence. It verified all six XML/material
+hashes, comparator/helper source hashes, timing/readback bindings, all seven
+ROOT hashes, unchanged launch identity, LAr libraries, sensitive/terminal-leaf
+inventories and primary cases against the measured candidate. Synthetic controls
+reject changed envelope vertices/policy, leaf material/pose and daughter order.
+A full comparator replay into memory reproduced the retained proof exactly.
+Both prior wording corrections were resolved. The complete native-union result
+remained an explicit required gap, not an inferred pass. No writes, runtime
+activation or native simulation by this reviewer.
+
+## User steering: accounting, labels and merge preparation
+
+Exact user request: “Make sure PR #138 and #139 capture the token logging + work
+labelling and prepare it for merging.” PR138 had already merged by the next
+status check: mergefd0e52fe0b17f446d13884ff0b3befc19a30837c at08:39:03Z. PR139
+was retargeted to main and both received existing labels `campaign:calorimeters`
+and `scope:baseline-design`. Neither label is design sign-off. This closeout
+reconciles PR138's canonical journal/interaction in the still-open PR139.
+
+Usage-only local recovery succeeded for the explicitly identified parent and
+two placement-agent threads. Visible user/final messages, child activities and
+recorded assignment contracts establish task attribution, beyond timestamps.
+PR138 imports eight closed turns; PR139 imports its three completed child turns:
+9721417input (9591808cached subset),16182output (8365reasoning subset),
+9737599total. The currently active parent turn is excluded entirely, as are
+unrelated advisory/10k turns. Additional completed review turns will be recovered
+when available. Models/providers remain unknown. Earlier missing-usage statements
+are historical; this addendum and canonical usage arrays supersede them.
+The curated usage-only inventory is `logs/usage/RECOVERY-2026-11-13-pr138-139.json`.
