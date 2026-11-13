@@ -2,6 +2,7 @@
 import argparse
 import hashlib
 import json
+import math
 from pathlib import Path
 import re
 
@@ -11,6 +12,13 @@ def sha(path):
 
 
 def load(path): return json.loads(Path(path).read_text())
+
+
+def bind_component(report, directory, filename, library_hash):
+    execution=report["execution"]
+    for name,key in ((filename,"compact_sha256"),("expected.json","expected_sha256")):
+        if sha(directory/name)!=execution[key]: raise ValueError("Stale native compact/expected binding")
+    if execution["library_sha256"]!=library_hash: raise ValueError("Native factory differs from probe")
 
 
 def first_event_time(log):
@@ -52,8 +60,11 @@ def collect(args):
     if [r["case"] for r in stock["smoke"]["results"]]!=[r["case"] for r in candidate["smoke"]["results"]]:
         raise ValueError("Unmatched smoke primary cases")
     native={}
+    libraries=stock["timing"]["library_sha256"]
+    records={}
     for folder in ("barrel-final","endcaps-final","combined-final"):
         p=args.work/folder/"native.json";r=load(p)
+        records[folder]=r
         if r["status"]!="PASS" or r["overlaps"] or r["overlap_tolerance_mm"]!=1e-5:
             raise ValueError("Native geometry gate failed")
         root_file=p.with_suffix(".root")
@@ -63,23 +74,61 @@ def collect(args):
               "ghost_boundary_rejections","overlap_seed","overlap_tolerance_mm","overlaps","ray_count","root_sha256","native_detector_roots")
         native[folder]={k:r[k] for k in keys if k in r}
         native[folder]["report_sha256"]=sha(p)
-    rays=load(args.work/"ray-comparison.json")
+    for folder,filename,library in (("barrel-final","barrel.xml","libnODDLArBarrelPrototype.dylib"),("endcaps-final","endcaps.xml","libnODDLArEndcapPrototype.dylib")):
+        # Probe receipts retain the actual platform's suffix.
+        library_hash=next(v for k,v in libraries.items() if k.split('.')[0]==library.split('.')[0])
+        bind_component(records[folder],args.work/folder,filename,library_hash)
+    combined=records["combined-final"];manifest_path=args.work/"combined-final/combined.json"
+    if sha(manifest_path)!=combined["execution"]["combined_record_sha256"]:
+        raise ValueError("Stale combined native manifest")
+    manifest=load(manifest_path)
+    for component in manifest["components"]:
+        folder,filename=("barrel-final","barrel.xml") if component["component"]=="barrel" else ("endcaps-final","endcaps.xml")
+        for name,key in ((filename,"compact_sha256"),("expected.json","expected_sha256"),("materials.xml","materials_sha256")):
+            if sha(args.work/folder/name)!=component[key]: raise ValueError("Combined component binding differs")
+    for filename,key in (("combined.xml","combined_sha256"),("materials.xml","materials_sha256")):
+        if sha(args.work/"combined-final"/filename)!=combined[key]: raise ValueError("Combined artifact binding differs")
+    for prefix in ("barrel","endcap"):
+        value=next(v for k,v in libraries.items() if ("LArBarrel" if prefix=="barrel" else "LArEndcap") in k)
+        if combined["execution"][prefix+"_library_sha256"]!=value: raise ValueError("Combined factory differs from probe")
+    ray_data=[];ray_receipts=[]
+    for label,probe in (("stock",stock),("candidate",candidate)):
+        path=args.work/(label+"-rays-bound.json");receipt=load(path.with_suffix('.receipt.json'))
+        if receipt["status"]!="PASS" or not receipt["launch_identity_unchanged"] or receipt["rays_sha256"]!=sha(path):
+            raise ValueError("Unbound material rays")
+        if receipt["compact_sha256"]!=probe["timing"]["compact_sha256"] or receipt["materials_sha256"]!=probe["timing"]["materials_sha256"] or receipt["library_sha256"]!=libraries:
+            raise ValueError("Material rays use a different model/library")
+        ray_data.append(load(path));ray_receipts.append(receipt)
+    if len(ray_data[0])!=65 or len(ray_data[1])!=65: raise ValueError("Incomplete material rays")
+    if any(ray_receipts[0][key]!=ray_receipts[1][key] for key in ('tracer_sha256','wrapper_sha256')):
+        raise ValueError('Different material-ray algorithms')
+    rays=dict(rays=65,maximum_material_path_delta_mm=0.,maximum_radiation_length_delta=0.,maximum_interaction_length_delta=0.)
+    for a,b in zip(*ray_data):
+        if (a['eta'],a['phi'])!=(b['eta'],b['phi']): raise ValueError("Unmatched material-ray direction")
+        if any(not math.isfinite(v) or v<0 for row in (a,b) for v in [row['x0'],row['nuclear'],*row['materials'].values()]):
+            raise ValueError('Invalid material ray value')
+        rays['maximum_radiation_length_delta']=max(rays['maximum_radiation_length_delta'],abs(a['x0']-b['x0']))
+        rays['maximum_interaction_length_delta']=max(rays['maximum_interaction_length_delta'],abs(a['nuclear']-b['nuclear']))
+        for material in a['materials'].keys()|b['materials'].keys():
+            rays['maximum_material_path_delta_mm']=max(rays['maximum_material_path_delta_mm'],abs(a['materials'].get(material,0.)-b['materials'].get(material,0.)))
     if rays["rays"]!=65 or rays["maximum_material_path_delta_mm"]>=1e-5 or rays["maximum_radiation_length_delta"]>=1e-6 or rays["maximum_interaction_length_delta"]>=1e-6:
         raise ValueError("Material path comparison failed")
     variant=load(args.work/"candidate-v2/variant.json")
+    for folder,filename,key in (("barrel-final","barrel.xml","barrel_template_sha256"),("endcaps-final","endcaps.xml","endcap_template_sha256")):
+        if sha(args.work/folder/filename)!=variant[key]: raise ValueError("Unbound variant template")
     if not variant["unchanged_after_stripping_only_envelopes"] or variant["added_envelopes"]!=4:
         raise ValueError("Physical XML preservation failed")
     if stock["timing"]["source_compact_sha256"]!=variant["source_sha256"] or candidate["timing"]["source_compact_sha256"]!=variant["candidate_sha256"]:
         raise ValueError("Unbound stock/candidate compacts")
     partitions={name:load(args.work/name/"expected.json")["placement"] for name in ("barrel-final","endcaps-final")}
     result={"status":"PROTOTYPE","scope":"Opt-in real period mothers, complete ECAL-only B=0 serial probes; unchanged physical geometry/readout",
-        "implementation_revision":"8d74a4c1221a19d314881c4deccb2b5986ff425d","probe_revision":stock["timing"]["source_revision"],
+        "implementation_revisions":sorted({r['execution']['commit'] for r in records.values()}),"probe_revision":stock["timing"]["source_revision"],
         "metric":"Child launch to first ParticleHandler event-begin message, including fixed mapping/audit overhead; not isolated voxelization or throughput",
         "run_count":"One fresh-process matched actual-event pair; no timing confidence interval or stable-speedup claim",
         "stock":stock,"candidate":candidate,"first_event_speedup_observed":stock["first_event_begin_seconds"]/candidate["first_event_begin_seconds"],
         "ddg4_map_speedup_observed":stock["timing"]["g4_mapping_seconds"]/candidate["timing"]["g4_mapping_seconds"],
         "smoke_counts_and_summed_energy_exactly_equal":all(a["counts"]==b["counts"] and a["deposited_energy_GeV"]==b["deposited_energy_GeV"] for a,b in zip(stock["smoke"]["results"],candidate["smoke"]["results"])),
-        "native_validation":native,"material_ray_comparison":rays,"xml_preservation":variant,"partition_proofs":partitions,
+        "native_validation":native,"material_ray_comparison":rays,"material_ray_receipts":ray_receipts,"xml_preservation":variant,"partition_proofs":partitions,
         "reporter_sha256":sha(__file__),"limitations":["Legacy assembly export remains the default; this is an opt-in placement investigation.",
             "Added navigation boundaries can change shower histories; no response-equivalence or digitization claim.",
             "Seven persisted electrons are startup/ID smoke evidence only.","Twelve-worker initialization and the previously failed MT pilot are separate configurations.",

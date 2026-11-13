@@ -4,10 +4,50 @@ import hashlib
 import json
 import math
 from pathlib import Path
+import xml.etree.ElementTree as ET
 
 
 def sha(path):
     with Path(path).open("rb") as stream: return hashlib.file_digest(stream,"sha256").hexdigest()
+
+
+def inventory(compact):
+    result={}
+    for ro in ET.parse(compact).findall('readouts/readout'):
+        name=ro.get('name');seg=ro.find('segmentation');descriptor=ro.findtext('id')
+        if name not in ('LArBarrelHits','LArEndcapHits'): raise ValueError('Unexpected smoke readout')
+        values=list(map(float,seg.get('reference_table_mm').split()));stride=5 if name=='LArBarrelHits' else 6
+        if len(values)%stride: raise ValueError('Incomplete reference table')
+        size=2 if stride==5 else 3
+        keys={tuple(int(values[i+j]) for j in range(size)) for i in range(0,len(values),stride)}
+        if len(keys)!=len(values)//stride: raise ValueError('Duplicate canonical reference')
+        result[name]=dict(descriptor=descriptor,keys=keys)
+        if name=='LArBarrelHits':
+            result[name].update(planes=int(seg.get('planes')),phi_merge=int(seg.get('phi_merge')))
+        else:
+            wheels=list(map(float,seg.get('wheel_table_mm').split()))
+            if len(wheels)%4: raise ValueError('Incomplete wheel table')
+            result[name]['wheel_planes']=[int(wheels[i+2]) for i in range(0,len(wheels),4)]
+    if set(result)!={'LArBarrelHits','LArEndcapHits'}: raise ValueError('Missing smoke readout')
+    return result
+
+
+def canonical_cell(cell, collection, item):
+    if not isinstance(cell,int) or cell<0: raise ValueError('Invalid cell ID')
+    fields={};offset=0
+    for field in item['descriptor'].split(','):
+        name,bits=field.split(':');bits=int(bits);size=abs(bits);value=(cell>>offset)&((1<<size)-1)
+        if bits<0 and value>=(1<<(size-1)): value-=1<<size
+        fields[name]=value;offset+=size
+    if cell>>offset or fields['gap']!=0: raise ValueError('Unused bits/noncanonical gap')
+    if collection=='LArBarrelHits':
+        if fields['system']!=10 or not 0<=fields['plane']<item['planes'] or fields['plane']%item['phi_merge'] or (fields['layer'],fields['theta']) not in item['keys']:
+            raise ValueError('Noncanonical barrel virtual cell')
+    else:
+        wheel=fields['wheel']
+        if fields['system']!=11 or fields['side'] not in (1,2) or not 0<=wheel<len(item['wheel_planes']) or not 0<=fields['plane']<item['wheel_planes'][wheel] or (wheel,fields['rho'],fields['z']) not in item['keys']:
+            raise ValueError('Noncanonical turbine virtual cell')
+    return fields
 
 
 def audit(directory):
@@ -19,6 +59,8 @@ def audit(directory):
     raw_ids={int(line.split("\t",1)[0]) for line in (directory/"sensitive.tsv").read_text().splitlines()}
     if len(raw_ids)!=43648 or sha(directory/"sensitive.tsv")!=timing["sensitive_dump_sha256"]:
         raise ValueError("Changed native raw-ID inventory")
+    if sha(directory/'detector.xml')!=timing['compact_sha256']: raise ValueError('Changed executed readout')
+    cells=inventory(directory/'detector.xml')
     results=[]
     for case in cases:
         path=directory/(case["label"]+".root")
@@ -36,6 +78,7 @@ def audit(directory):
             seen=set();deposits=[]
             for hit in frame.get(collection):
                 cell=int(hit.getCellID());energy=float(hit.getEnergy());pos=hit.getPosition()
+                canonical_cell(cell,collection,cells[collection])
                 if (cell&255)!=system or cell in seen or cell&((1<<24)-1) not in raw_ids or (cell>>23)&1 or not math.isfinite(energy) or energy<=0 or not all(math.isfinite(x) for x in (pos.x,pos.y,pos.z)):
                     raise ValueError("Invalid canonical persisted LAr hit")
                 if system==10 and ((cell>>8)&2047)%2: raise ValueError("Noncanonical barrel electrode group")

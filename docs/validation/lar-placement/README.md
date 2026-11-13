@@ -67,7 +67,7 @@ that observation does not establish general shower-response equivalence.
 
 The new pure-Python controls check envelope partition, face adjacency, XML
 preservation and invalid/missing geometry inputs. The existing LAr controls are
-also retained: all **37** standard-library controls pass. Mother-minus-daughter volume residuals are numerical, with the
+also retained: all **39** standard-library controls pass. Mother-minus-daughter volume residuals are numerical, with the
 largest relative residual about7e-14; they are not an added material allowance.
 
 ## Timing interpretation
@@ -124,9 +124,8 @@ software/env/run.sh python3 -B tools/lar_calorimeter/barrel_native.py --compact 
 software/env/run.sh python3 -B tools/lar_calorimeter/endcap_native.py --compact "$work/endcaps-final/endcaps.xml" --expected "$work/endcaps-final/expected.json" --library "$work/factories/libnODDLArEndcapPrototype.dylib" --output "$work/endcaps-final/native.json"
 python3 -B tools/lar_calorimeter/combined_native.py build --barrel-compact "$work/barrel-final/barrel.xml" --barrel-expected "$work/barrel-final/expected.json" --endcap-compact "$work/endcaps-final/endcaps.xml" --endcap-expected "$work/endcaps-final/expected.json" --directory "$work/combined-final"
 software/env/run.sh python3 -B tools/lar_calorimeter/combined_native.py audit --directory "$work/combined-final" --barrel-library "$work/factories/libnODDLArBarrelPrototype.dylib" --endcap-library "$work/factories/libnODDLArEndcapPrototype.dylib" --output "$work/combined-final/native.json"
-software/env/run.sh python3 -B docs/validation/siw-real-wedge-default/material_rays.py trace "$work/stock-smoke1/detector.xml" "$work/stock-rays.json" "$work/factories/libnODDLArBarrelPrototype.dylib" "$work/factories/libnODDLArEndcapPrototype.dylib"
-software/env/run.sh python3 -B docs/validation/siw-real-wedge-default/material_rays.py trace "$work/candidate-v2/detector.xml" "$work/candidate-rays.json" "$work/factories/libnODDLArBarrelPrototype.dylib" "$work/factories/libnODDLArEndcapPrototype.dylib"
-python3 -B docs/validation/siw-real-wedge-default/material_rays.py compare "$work/stock-rays.json" "$work/candidate-rays.json" "$work/ray-comparison.json"
+software/env/run.sh python3 -B tools/lar_calorimeter/placement_rays.py --compact "$work/stock-smoke1/detector.xml" "${libs[@]}" --output "$work/stock-rays-bound.json"
+software/env/run.sh python3 -B tools/lar_calorimeter/placement_rays.py --compact "$work/candidate-v2/detector.xml" "${libs[@]}" --output "$work/candidate-rays-bound.json"
 ```
 
 Then collect:
@@ -135,7 +134,9 @@ Then collect:
 python3 -B tools/lar_calorimeter/placement_report.py --work "$work" --output "$work/results.json"
 ```
 
-The collector rehashes logs, inventories and all smoke ROOT files, requires
+The ray wrapper binds the unchanged tracer to the compact, materials and libraries.
+The collector recomputes ray differences from those bound inputs. It rehashes
+native compact/expected/template bindings, logs, inventories and all smoke ROOT files, and requires
 matching primary cases/configuration/library identities, checks native/ray
 gates, and binds the exact compact variant. Full compacts, ROOT, per-leaf dumps
 and full logs stay ignored locally; compact receipts, counts and hashes support
