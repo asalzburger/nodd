@@ -153,7 +153,8 @@ def analyze(args):
     expected_siw = {"siw_original":"411dc035120b663fb19d3000ee8a5984bfc9f7a6c31423b01539b47dc4384159",
                     "siw_staggered":"d78ecea5c5aa5173af54a4ce392994491eede936a7f4edb87d55bc72e69a0c2b"}
     for name, digest in expected_siw.items():
-        if loaded[name][2]["input"].get("hashes", {}).get("detector.xml") != digest:
+        if (loaded[name][2]["input"].get("hashes", {}).get("detector.xml") != digest or
+                loaded[name][2]["input"].get("hashes", {}).get("materials.xml") != "5091f0cbc2444b6ef481c2293ec99375e5eada82a84ab03be7a50f3b8375cee1"):
             raise ValueError("Wrong frozen Si-W geometry label: " + name)
     contracts = {name: validate_contract(path, name) for name, path in paths.items()}
     base = loaded["lar"][1]
