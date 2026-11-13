@@ -4,8 +4,8 @@
   "title": "LAr barrel\u2013endcap gap and hadron-collider granularity options",
   "recorded_at": "2026-11-13T15:09:23Z",
   "started_at": null,
-  "ended_at": null,
-  "status": "open",
+  "ended_at": "2026-11-13T15:19:43Z",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
@@ -22,8 +22,26 @@
     "start_commit": "ce9c261a94aa2b025180f2f5c96d5e166fa01a53",
     "branch": "codex/lar-gap-hadron-options",
     "initial_changes": [],
-    "result_commits": [],
-    "changed_files": []
+    "result_commits": [
+      "76cb3a50ca0fd0dfa4a160951af05f997725b647",
+      "0a16abb46a5869b496711e8da839a8fc24d822c6"
+    ],
+    "changed_files": [
+      "docs/design/DES-032-allegro-lar-barrel.md",
+      "docs/design/DES-033-allegro-lar-endcaps.md",
+      "docs/design/inputs/DES-032-hadron-gap-options.md",
+      "docs/design/inputs/lar-gap-options/envelope-screen.png",
+      "docs/design/inputs/lar-gap-options/screen.json",
+      "docs/software-inventory.md",
+      "logs/design/SESSION-2026-11-13-lar-gap-hadron-options.json",
+      "logs/design/SESSION-2026-11-13-lar-gap-hadron-options.md",
+      "logs/usage/RECOVERY-2026-11-13-lar-gap-options.json",
+      "project/tracking.json",
+      "reference/manifest.yaml",
+      "software/inventory.json",
+      "tools/lar_calorimeter/gap_screen.py",
+      "interactions/pr-0142.json"
+    ]
   },
   "work": {
     "milestone": "M1",
@@ -35,7 +53,8 @@
     "related_ids": [
       "DES-032",
       "DES-033",
-      "TASK-LAR-HADRON-GAP-OPTIONS"
+      "TASK-LAR-HADRON-GAP-OPTIONS",
+      "PR-142"
     ]
   },
   "narrative": "logs/design/SESSION-2026-11-13-lar-gap-hadron-options.md",
@@ -175,6 +194,18 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "3 existing service controls pass."
+    },
+    {
+      "command": "project_records/validate.py; software_inventory/inventory.py check; session_log.py validate; token_usage/build.py validate and build --output _site/lar-gap-options",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "108tasks/54docs/24reviews, inventory68components/102families,291paired sessions and536dated/disjoint turns validate; usage site builds."
+    },
+    {
+      "command": "git diff --cached --check; introduced Git-object inspection; git push; gh pr create --draft",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace issues or raw/source-PDF payloads; after destination verification branch pushed and draftPR142 created with campaign/scope labels."
     }
   ]
 }

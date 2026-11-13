@@ -2,41 +2,18 @@
 
 ## Scope and evidence
 
-State collection method, available context, limitations, related IDs and starting
-revision. Identify uncommitted user changes present before work.
+Contemporaneous bounded advisory study at clean main source
+ce9c261a94aa2b025180f2f5c96d5e166fa01a53, isolated branch
+codex/lar-gap-hadron-options. The paired JSON lists changed files and actual
+checks. Selected requests below are paraphrased; the PR interaction ledger
+retains the latest user wording explicitly. No private model state was collected.
 
-## Selected conversation
-
-Attribute requests to the user and outcomes to the assistant. Mark exact quotes
-and paraphrases explicitly. Include corrections and changes in direction.
-Exclude private model state, confidential content, and irrelevant system context.
-
-## Decisions and outcomes
-
-State rationale, alternatives, consequences and what remains unresolved. Never
-convert implementation authorization into human design sign-off.
-
-## Commands and validation
-
-Record relevant commands, actual exits/results, failed attempts and remedies.
-Distinguish structural checks from detector acceptance.
-
-## Changes and revision links
-
-List changed files or refer to the paired JSON inventory. Result commits are
-recorded only once they exist; Git history locates this record's enclosing commit.
-
-## Token accounting
-
-Record the client-provided per-turn usage source and import command, or state why
-exact counters are unavailable. Report observed input/output sums and missing
-coverage from `session_log.py summary`; empty usage means unknown, not zero.
-Never copy raw client archives or private model state. Do not duplicate turns
-across tasks or add cached/reasoning subsets to the input/output totals.
-
-## Follow-up
-
-List remaining work, missing measurements and any human review needed.
+The assistant recommends a service-complete side/rear routing study and
+selective layer/region granularity evaluation. It does not change detector
+parameters or approve a design. Collider requirements, connected routes,
+thermal/hydraulic acceptance, calibrated reconstruction and hadron/pileup
+performance remain open. Readout-grouping and gap geometry need distinct
+observables; the present all-cell energy sum cannot optimize cell size.
 
 ## Specialist assignments recorded before dispatch
 
@@ -174,3 +151,11 @@ in this conversation. No new remote recipient is selected. Introduced objects
 were inspected:13blobs, largest298326bytes; no raw events/source PDF/private
 model state. A retry is based on these new destination/authorization checks,
 not an alternative publication channel.
+
+## Publication outcome
+
+After destination verification the same-channel retry was approved. Branch pushed
+and draft[PR142](https://github.com/asalzburger/nodd/pull/142) opened with
+campaign:calorimeters and scope:baseline-design; attached to the client chat.
+No merge/readiness action. Paired session closed at2026-11-13T15:19:43Z; current parent usage
+remains unavailable until this turn closes and is not silently assigned zero.
