@@ -159,3 +159,12 @@ and draft[PR142](https://github.com/asalzburger/nodd/pull/142) opened with
 campaign:calorimeters and scope:baseline-design; attached to the client chat.
 No merge/readiness action. Paired session closed at2026-11-13T15:19:43Z; current parent usage
 remains unavailable until this turn closes and is not silently assigned zero.
+
+## PR checks and correction
+
+Initial PR CI could not find its interaction record before the PR number existed;
+that was resolved by the PR142 closeout commit and token-site then passed47s.
+Build CI then rejected the draft title Design: because AGENTS requires the
+Calorimeter: area. Corrected the remote title and tracking snapshot; no scientific
+files changed. Read-only job-log fetch initially required gh's escape-output flag;
+retrieved to ignored build/ and stripped ANSI before inspecting the error.
