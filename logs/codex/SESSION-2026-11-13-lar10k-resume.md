@@ -174,3 +174,13 @@ entirely. PR139's previously active parent was recovered into its existing
 canonical owner (5closed turns,35591900total), not this comparison's allocation.
 Models/providers remain unknown. No estimates or raw conversation archives.
 Curated usage-only evidence is RECOVERY-2026-11-13-pr140-resume.json.
+
+## Closed parent accounting correction, 2026-11-13
+
+The comparison parent turn01a1d451-848e-7ac2-801f-bc62685af6f1 is now completed.
+Its verified32,186,526total tokens are imported into this existing canonical
+owner; earlier active-parent exclusions remain historical snapshots. No child
+observation is copied or reassigned. Source attribution uses visible task/final
+messages and persisted closed turn boundaries. The current merge-record task
+is separate and excluded. Client kind is verified Codex; exact execution model
+and provider remain unknown.
