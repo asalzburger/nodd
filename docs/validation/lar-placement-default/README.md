@@ -24,6 +24,21 @@ Full generated XML, logs, ROOT files and leaf inventories remain under ignored
 `build/lar-default/`. Source revisions, installed library artifacts and executed
 configuration hashes are recorded separately.
 
+A fresh maintained export restores the complete legacy tracker/ECAL XML after
+removing only the four new envelope declarations. Material definitions are
+byte-identical. Both ECAL detector subtrees also match the measured candidate:
+the comparison normalizes only the envelope declaration's sibling position
+(the variant helper appends it; the standalone exporter emits it first) and
+indentation. All other XML attributes, ordering and text values are compared.
+The [comparison helper](check_export.py) records its inputs and source hashes.
+
+The fresh ECAL-only probe retains all 43,648 sensitive IDs and 274,689 terminal
+material leaves, with inventories byte-identical to the investigation candidate.
+The native DD4hep and Geant4 sensitive transforms agree within the retained
+1e-7 mm centre and 1e-10 axis tolerances. All seven saved events pass primary,
+finite-hit, canonical-ID and aimed barrel/wheel/side checks. No timing ratio is
+derived from this follow-up run, which overlapped the native scan.
+
 ## Reproduce
 
 Use the reverified existing Spack runtime through `software/env/run.sh`.
@@ -36,6 +51,18 @@ are unavailable.
 python3 -B tools/calorimeter_baselines/export.py --layout LAYOUT-002 --output build/lar-default/layout002
 python3 -B -m unittest discover -s tools/calorimeter_baselines -p 'test_*.py' -v
 python3 -B -m unittest discover -s tools/lar_calorimeter -p 'test*.py' -v
+```
+
+To repeat the XML comparison, set `legacy_compact` to the full maintained export
+at the investigation revision (legacy default) and `candidate_compact` to its
+measured ECAL-only candidate. The prior report records their generation recipes;
+the exact retained input hashes are in this report's results.
+
+```sh
+python3 -B docs/validation/lar-placement-default/check_export.py \
+  --baseline build/lar-default/layout002/detector.xml \
+  --legacy "$legacy_compact" --candidate "$candidate_compact" \
+  --output build/lar-default/xml-comparison.json
 ```
 
 Run `tools/calorimeter_baselines/native.py` on that directory with all five

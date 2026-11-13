@@ -3,7 +3,10 @@
 **DRAFT / PROTOTYPE**, requested on 2026-11-13 before continuing the 10k response
 comparison. Governing inputs are DES032/DES033 and the
 [placement investigation](../../design/inputs/DES-032-lar-placement-initialization.md).
-The legacy assembly hierarchy remains the default.
+At this investigation's measured revision the legacy assembly hierarchy was
+the default. Standalone component exports retain that control; the subsequent
+[maintained-default adoption](../lar-placement-default/README.md) selects solid
+periods for LAYOUT-002. The results below retain their original configurations.
 
 The optional `--real-periods` export replaces the repeated assembly with a real
 logical mother for each inclined barrel or turbine period. The envelope follows

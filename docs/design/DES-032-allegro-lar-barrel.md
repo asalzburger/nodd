@@ -81,7 +81,8 @@ clipped to the existing annular sampling limits and axial extent. Daughters
 retain their original solids, materials and local poses; placements retain
 period IDs. The enclosing material fills only the numerically measured
 exclusive residue. This **NODD DESIGN CHOICE**, authorized on 2026-11-13,
-shortens Geant4 initialization; it introduces no new readout model. See the
+shortens time to the first event in the measured ECAL-only serial probe;
+it introduces no new readout model. See the
 [integration contract](inputs/ECAL-baseline-integration-2026-11-04.md#lar-geant4-hierarchy)
 and [default-export evidence](../validation/lar-placement-default/README.md).
 
