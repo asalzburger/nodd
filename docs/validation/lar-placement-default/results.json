@@ -1,5 +1,5 @@
 {
-  "status": "DRAFT / PROTOTYPE; complete native union scan pending",
+  "status": "DRAFT / PROTOTYPE; maintained export/native/saved-hit checks PASS",
   "implementation_revision": "14db490a29d1b8835788e56a0dae99a514a8b7bd",
   "scope": "Maintained LAYOUT-002 real-period default, complete tracker/ECAL export; ECAL-only serial smoke. No new timing ratio, response or engineering acceptance.",
   "runtime": {
@@ -384,17 +384,55 @@
       }
     ]
   },
-  "native_union": null,
+  "native_union": {
+    "status": "PASS",
+    "layout": "LAYOUT-002",
+    "source_commit": "14db490a29d1b8835788e56a0dae99a514a8b7bd",
+    "source_dirty": true,
+    "native_auditor_sha256": "17163c1f0a8d300c0b6ea76a7c4878f3d1247e1aeab1230621a3599605102abe",
+    "libraries": {
+      "libnODDPixelBarrel.dylib": "c870fcc27b47b0dd67ed97ed542efbc7e1185d331136f5806fda6001b1ca1fee",
+      "libnODDBeamPipe.dylib": "4b357ca04ea7871db22c2f53183153e6a3a6c4dd80ce3ec3cc6c51f2ee04057f",
+      "libnODDShortStripBarrel.dylib": "4c05e6fb3bf1526a608ca6953ad96e18c7eda9edb55b7a04192d1711b1ed8c00",
+      "libnODDShortStripEndcap.dylib": "9fc2f69161a4b9af84004066da415a9800c6cc315eff18fa97249420b267ea91",
+      "libnODDLongStrip.dylib": "9d08df2f4fedcd09c442470f0b65b172e83f3a8c1d68379fb3912262f7c5b9ef",
+      "libnODDLArBarrelPrototype.dylib": "de693d3bd949e748d867a8f768c628afa1d4259c681214c377cd79fdf5243b33",
+      "libnODDLArEndcapPrototype.dylib": "ad3434c0adee1dc6706896386b531831c3d9b977190dd24f3f02c77fa01220da"
+    },
+    "ROOT": "6.40.04",
+    "baseline_manifest_sha256": "ec525ca333bf10b80318aa934b7755126e17705ee4c0043b3cc408e6bd0ce2c3",
+    "compact_sha256": "70625939efa859e55b35cc2b055c300ca70fba7b2661c8af1b02b80922fa2b67",
+    "materials_sha256": "1e3828ce911d4d91cc50f097cece2139e37e2a008b201a7cb8e6cf410e6a487d",
+    "native_systems": {
+      "BeamPipe": 0,
+      "PixelBarrel": 1,
+      "PixelEndcapN": 2,
+      "PixelEndcapP": 3,
+      "ShortStripBarrel": 4,
+      "ShortStripEndcap": 5,
+      "LongStripBarrel": 6,
+      "LongStripEndcap": 7,
+      "LArBarrel": 10,
+      "LArEndcaps": 11
+    },
+    "overlap_tolerance_mm": 1e-05,
+    "overlap_seed": 114,
+    "overlap_count": 0,
+    "overlaps": [],
+    "scope": "Actual maintained tracker plus selected complete ECAL barrel/endcaps and local services; no HCAL/FCAL/solenoid/field or response qualification"
+  },
   "prior_material_and_shape_evidence": {
     "report": "docs/validation/lar-placement/results.json",
     "sha256": "93fad4ecf75511712362f542df4568068edcf88fdd5f12f31b2850772e3dc3a4",
     "basis": "Same executed ECAL XML after only envelope sibling-position normalization, same materials and LAr library artifacts; fresh sensitive/terminal-leaf inventories match. Prior component/ECAL-union shape, partition and material-ray evidence retained unchanged."
   },
   "limitations": [
-    "Native union scan is pending in this interim record.",
     "Probe launched at implementation revision with dirty task metadata; recorded probe/audit/steering/exporter and library bytes remained unchanged. XML comparator is identified by its separate source hash.",
     "Fresh smoke ran concurrently with native overlaps and is not a comparative timing benchmark.",
     "Reused unchanged PR138 LAr library artifacts; five tracker factories rebuilt locally.",
-    "No 12-worker initialization qualification or 10k response comparison; no human design/engineering sign-off."
-  ]
+    "No 12-worker initialization qualification or 10k response comparison; no human design/engineering sign-off.",
+    "Native scan launched at implementation revision with dirty task metadata; audited source/compact/material/library bytes verified unchanged after completion. No post-merge metadata commit is represented as a new runtime run."
+  ],
+  "native_union_sha256": "abe805737f88d81ff06a04a1dd695202cd67d05e04deac08c6c09477e8bf6214",
+  "native_union_log_sha256": "efb4d8b1e63a2551e215283e77f4f02bd76a7d27517db2240dbfec35d0af9cbe"
 }

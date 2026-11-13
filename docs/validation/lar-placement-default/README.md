@@ -39,6 +39,12 @@ The native DD4hep and Geant4 sensitive transforms agree within the retained
 finite-hit, canonical-ID and aimed barrel/wheel/side checks. No timing ratio is
 derived from this follow-up run, which overlapped the native scan.
 
+The complete maintained tracker-plus-ECAL native union constructs all ten
+systems and reports **zero overlaps or extrusions at 10 nm**, after checking
+2,079,548 candidates. The result binds the fresh compact/materials, baseline
+manifest, auditor and all seven loaded library artifacts. Launch and post-run
+source/artifact identity are distinguished from later metadata commits.
+
 ## Reproduce
 
 Use the reverified existing Spack runtime through `software/env/run.sh`.
