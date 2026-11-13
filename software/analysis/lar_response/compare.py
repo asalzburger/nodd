@@ -125,6 +125,7 @@ def moments(values):
     sd = float(np.std(values, ddof=1))
     return {"events": len(values), "mean_response": mean, "sample_sd": sd,
             "fractional_width": sd / mean, "zero_events": int(np.count_nonzero(values == 0)),
+            "below_half_mean_events": int(np.count_nonzero(values < .5 * mean)),
             "below_half_mean_fraction": float(np.mean(values < .5 * mean)),
             "central_quantile_width": float((np.quantile(values, .84)-np.quantile(values, .16))/(2*np.median(values))) if np.median(values)>0 else None,
             "quantiles": dict(zip(("q01", "q16", "q50", "q84", "q99"), map(float, np.quantile(values, [.01, .16, .5, .84, .99]))))}
@@ -282,6 +283,18 @@ def plot(args):
     for ax, axis in zip(axs, ("abs_eta", "siw_folded_phi")): projection(ax, axis, "mean_response", normalized=True)
     axs[0].legend(); fig.suptitle("Directional response uniformity · each detector normalized by its own inclusive mean")
     export(fig, "angular-means")
+    fig, axs = plt.subplots(1, 2, figsize=(12, 4.5))
+    for ax, axis in zip(axs, ("abs_eta", "siw_folded_phi")):
+        for name, model in result["models"].items():
+            proj = model["projections"][axis]; edges = np.array(proj["edges"])
+            ax.plot((edges[:-1]+edges[1:])/2,
+                    [100*r["below_half_mean_fraction"] for r in proj["bins"]],
+                    label=model["label"], **styles[name])
+        ax.set_xlabel("|η|" if axis == "abs_eta" else "φ folded with Si–W sector period [rad]")
+        ax.set_ylabel("Events below half the bin's own mean R [%]")
+        ax.grid(alpha=.22)
+    axs[0].legend(); fig.suptitle("Low-response tails · descriptive fractions; bin-dependent thresholds")
+    export(fig, "angular-tails")
     fig, axs = plt.subplots(1, 2, figsize=(12, 4.5))
     projection(axs[0], "energy", "fractional_width"); projection(axs[1], "energy", "mean_response", normalized=True)
     axs[0].legend(); fig.suptitle("Energy-slice controls · spectrum and directions remain mixed within each slice")
