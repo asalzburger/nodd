@@ -158,3 +158,19 @@ validate; inventory68components/102families/53inputs/12pins passes. Usage site
 validates with selected closed-turn timestamps. Initial build output under build/
 was rejected by the tool output-location rule; rebuilt under ignored_site/lar-gap-options.
 These checks establish record consistency, not detector acceptance.
+
+## Publication review and destination verification
+
+The first combined push/create request was rejected before command execution by
+automatic approval review: curated session/token/design metadata would be sent
+to an unverified external destination. No push occurred. Read-only checks then
+verified origin=git@github.com:asalzburger/nodd.git and GitHub connector metadata:
+repository1361703051, asalzburger/nodd, public, main, authenticated admin/push
+permissions. This is the same user-requested PR138/139/140 destination.
+AGENTS.md records the user's2026-11-06 policy requiring a draft PR including
+curated sessions for investigations, and ongoing selected request/token logging.
+The user also explicitly requested results/tokens/identification for PR merging
+in this conversation. No new remote recipient is selected. Introduced objects
+were inspected:13blobs, largest298326bytes; no raw events/source PDF/private
+model state. A retry is based on these new destination/authorization checks,
+not an alternative publication channel.
