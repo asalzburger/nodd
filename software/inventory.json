@@ -621,10 +621,10 @@
       "id": "CHECK-CALO",
       "name": "Calorimeter hardware, layouts and audit controls",
       "category": "cross-validation",
-      "usage": "source audit; readout; absorber; LAr; Si-W wedge navigation; HCAL; FCAL; overlaps; 100-electron ECAL startup/transport timing; compressed EDM4hep output size; opt-in reusable LAr period mothers; DDG4 map/first-event initialization timing; native touchable and leaf correspondence; matched material rays; maintained LAYOUT-002 reusable inclined-period default; vector drawing of tested staggered Si-W module and sampling geometry",
+      "usage": "source audit; readout; absorber; LAr; Si-W wedge navigation; HCAL; FCAL; overlaps; 100-electron ECAL startup/transport timing; compressed EDM4hep output size; opt-in reusable LAr period mothers; DDG4 map/first-event initialization timing; native touchable and leaf correspondence; matched material rays; maintained LAYOUT-002 reusable inclined-period default; vector drawing of tested staggered Si-W module and sampling geometry; LAr gap envelope and channel-service screening",
       "integration": "Local Python/C++ source in nODD; no external submodule installation for this code.",
       "version": "DRAFT / PROTOTYPE; standalone factories and campaign evidence remain separate from production acceptance.",
-      "installation": "Model/export controls use standard library where documented; native CMake projects use existing DD4hep/ROOT. Figures may need Matplotlib. Issue131 uses software/env/run.sh with existing DDG4/EDM4hep/podio/ROOT; run and readback recipes are recorded with the benchmark. LAr placement investigation: standalone exporters --real-periods; placement_probe.py and placement_smoke.py through software/env/run.sh, placement_report.py for bound evidence. Maintained LAr hierarchy: tools/calorimeter_baselines/export.py --layout LAYOUT-002 selects real periods with local services; standalone exports remain legacy controls. Drawing: python3 -B tools/calorimeter_hardware/draw_staggered_siw.py --repo HISTORICAL_SOURCE_WORKTREE --output build/staggered-siw-drawing; see pinned-source recipe. Optional PNG renderer: pre-existing librsvg rsvg-convert 2.62.3, not installed by this task.",
+      "installation": "Model/export controls use standard library where documented; native CMake projects use existing DD4hep/ROOT. Figures may need Matplotlib. Issue131 uses software/env/run.sh with existing DDG4/EDM4hep/podio/ROOT; run and readback recipes are recorded with the benchmark. LAr placement investigation: standalone exporters --real-periods; placement_probe.py and placement_smoke.py through software/env/run.sh, placement_report.py for bound evidence. Maintained LAr hierarchy: tools/calorimeter_baselines/export.py --layout LAYOUT-002 selects real periods with local services; standalone exports remain legacy controls. Drawing: python3 -B tools/calorimeter_hardware/draw_staggered_siw.py --repo HISTORICAL_SOURCE_WORKTREE --output build/staggered-siw-drawing; see pinned-source recipe. Optional PNG renderer: pre-existing librsvg rsvg-convert 2.62.3, not installed by this task. Gap screen: python3 -B tools/lar_calorimeter/gap_screen.py --output build/lar-gap-options/screen.json; optional --figure requires existing Matplotlib. No native dependency activation.",
       "paths": [
         "tools/calorimeter_audit",
         "tools/calorimeter_hardware",
@@ -645,7 +645,8 @@
         "docs/validation/issue131/README.md",
         "docs/validation/lar-placement/README.md",
         "docs/validation/lar-placement-default/README.md",
-        "docs/validation/staggered-siw-drawing/README.md"
+        "docs/validation/staggered-siw-drawing/README.md",
+        "docs/design/inputs/DES-032-hadron-gap-options.md"
       ],
       "prs": [
         "https://github.com/asalzburger/nodd/pull/81",

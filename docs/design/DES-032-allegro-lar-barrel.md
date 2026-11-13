@@ -176,6 +176,10 @@ rear turn. Thus reserve800mm before the endcap and500mm behind it, rather
 than the SiW's small installation gaps. External lanes are empty reservations;
 wall penetrations and cryogenic connections are not modelled as valid routes.
 
+The [hadron-collider gap/options note](inputs/DES-032-hadron-gap-options.md)
+screens channel-service scaling and alternate egress/coverage studies without
+changing these prototype envelopes or claiming an engineered minimum gap.
+
 **NODD DESIGN CHOICES:** move HCAL barrel front apothem to3130mm, retain
 1495.9mm sampling/cover depth, extend barrel half-length to5860mm. Its outer
 apothem is4625.9mm (16-gon corners reach farther). Endcap front is6360mm,
