@@ -1,6 +1,8 @@
 // LAr PROTOTYPE worker audit. Explicit NODD_LAR_MAX_STEP_MM controls any cap.
 // Raw deposited energy only; no charge, drift, shaping or electronics response.
 #include <DDG4/Factories.h>
+#include <DDG4/Geant4Mapping.h>
+#include <DD4hep/VolumeManager.h>
 #include <DDG4/Geant4RunAction.h>
 #include <G4LogicalVolumeStore.hh>
 #include <G4VSensitiveDetector.hh>
@@ -26,6 +28,8 @@
 #include <algorithm>
 #include <cmath>
 #include <cstdlib>
+#include <chrono>
+#include <iostream>
 #include <filesystem>
 #include <fstream>
 #include <mutex>
@@ -33,6 +37,45 @@
 #include <map>
 #include <limits>
 #include <stdexcept>
+
+namespace {
+bool larMapsInitializedSerially = false;
+}
+
+// Invoked by the main-kernel initialization callback before worker creation.
+// Lazy native lookup creation in a first worker hit otherwise races in DDG4.
+void initializeLArResponseMaps(const std::string& directory) {
+  const auto start=std::chrono::steady_clock::now();
+  const int thread=G4Threading::G4GetThreadId();
+  if(thread>=0 || larMapsInitializedSerially)
+    throw std::runtime_error("LAr maps must initialize once on the main thread");
+  const std::string path=directory+"/maps-initialized.json";
+  if(std::filesystem::exists(path))throw std::runtime_error("Refusing map-audit overwrite");
+  const auto& mapping=dd4hep::sim::Geant4Mapping::instance();
+  std::cout << "LAR_RESPONSE_G4_MAP_BEGIN" << std::endl;
+  const auto g4=mapping.volumeManager();
+  std::cout << "LAR_RESPONSE_NATIVE_MAP_BEGIN" << std::endl;
+  const auto native=dd4hep::VolumeManager::getVolumeManager(mapping.detectorDescription());
+  if(!g4.isValid()||!native.isValid())throw std::runtime_error("Invalid LAr volume manager");
+  std::set<dd4hep::VolumeID> ids;
+  for(const auto& entry:mapping.data().g4Paths) {
+    const auto id=entry.second.volumeID;
+    if(((id&255)!=10&&(id&255)!=11)||!ids.insert(id).second)
+      throw std::runtime_error("Unexpected/duplicate serial LAr raw volume ID");
+    const auto* context=native.lookupContext(id);
+    if(!context||!context->volumePlacement().volume().isSensitive())
+      throw std::runtime_error("Missing serial LAr native context");
+  }
+  if(ids.size()!=43648)throw std::runtime_error("Incomplete serial LAr volume maps");
+  nlohmann::json record={{"status","PASS"},{"thread_id",thread},
+    {"raw_sensitive_ids",ids.size()},{"native_contexts_checked",ids.size()},
+    {"scope","both volume managers and all raw contexts initialized serially before workers"},
+    {"seconds",std::chrono::duration<double>(std::chrono::steady_clock::now()-start).count()}};
+  std::ofstream stream(path);stream<<record.dump(2)<<'\n';stream.close();
+  if(!stream)throw std::runtime_error("Cannot write serial map audit");
+  larMapsInitializedSerially=true;
+  std::cout << "LAR_RESPONSE_MAPS_READY" << std::endl;
+}
 
 namespace dd4hep::sim {
 class nODDLArResponseAudit : public Geant4RunAction {
@@ -51,12 +94,13 @@ public:
   void begin(const G4Run* run) override {
     using nlohmann::json;
     const int worker=G4Threading::G4GetThreadId();
+    if(!larMapsInitializedSerially)throw std::runtime_error("Serial LAr map initialization missing");
     const char* directory=std::getenv("NODD_LAR_AUDIT");
     if(!directory) throw std::runtime_error("NODD_LAR_AUDIT unset");
     m_file=std::string(directory)+"/worker-"+std::to_string(worker)+".json";
     if(std::filesystem::exists(m_file)) throw std::runtime_error("Refusing worker audit overwrite");
     m_record={{"thread_id",worker},{"run_id",run->GetRunID()},
-              {"status","initialized"},{"scope","native worker begin/end-run audit"}};
+              {"status","initialized"},{"scope","native worker begin/end-run audit"},{"maps_initialized_serially",true}};
     // User limits are shared geometry data. Serialize first installation and
     // all inspections before any audited worker begins tracking.
     static std::mutex limitsMutex;

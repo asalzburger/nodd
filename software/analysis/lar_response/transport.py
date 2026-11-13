@@ -221,9 +221,15 @@ def run(args):
     out = args.output.resolve(); out.mkdir(parents=True, exist_ok=False); (out / "audit").mkdir()
     env = os.environ.copy(); env["NODD_LAR_AUDIT"] = str(out / "audit")
     env["NODD_LAR_MAX_STEP_MM"] = format(args.max_step_mm, ".17g")
+    env["NODD_LAR_AUDIT_LIBRARY"] = str(auditlib)
     for name in ("DD4HEP_LIBRARY_PATH", "DYLD_LIBRARY_PATH", "LD_LIBRARY_PATH"):
         env[name] = os.pathsep.join([*(str(p.parent) for p in [*libs, auditlib]), env.get(name, "")])
     steering = Path(__file__).with_name("steering.py")
+    source_revision = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
+    source_state = subprocess.check_output(["git", "status", "--porcelain"], cwd=ROOT, text=True).splitlines()
+    producer_paths = [Path(__file__).with_name(name) for name in
+                      ("transport.py", "Audit.cpp", "steering.py", "CMakeLists.txt")]
+    producer_hashes = {str(p.relative_to(ROOT)): sha(p) for p in producer_paths}
     command = [sys.executable, "-u", executable, "--compactFile", str(sample / "detector.xml"),
         "--steeringFile", str(steering), "--runType", "batch", "--inputFiles", str(sample / "particles.HEPEvt"),
         "--numberOfEvents", str(args.events), "--skipNEvents", str(args.skip), "--numberOfThreads", str(args.threads),
@@ -234,7 +240,8 @@ def run(args):
     started = datetime.now(timezone.utc).isoformat(); free = shutil.disk_usage(out).free
     save(out / "started.json", dict(command=command, started_at=started, events=args.events,
         skip=args.skip, seed=args.seed, threads=args.threads, max_step_mm=args.max_step_mm,
-        reserve_bytes=reserve, free_bytes=free, library_sha256=library_hashes))
+        reserve_bytes=reserve, free_bytes=free, library_sha256=library_hashes,
+        source_revision=source_revision, source_state=source_state, producer_sha256=producer_hashes))
     disk_abort = False; last_status = start
     with (out / "transport.log").open("w") as log:
         with subprocess.Popen(command, env=env, cwd=out, stdout=log, stderr=subprocess.STDOUT) as child:
@@ -256,10 +263,14 @@ def run(args):
         output_bytes=(out / "events.root").stat().st_size if (out / "events.root").exists() else 0,
         free_bytes_after=shutil.disk_usage(out).free, sample_sha256=sha(sample / "sample.json"),
         steering_sha256=sha(steering), runner_sha256=sha(__file__), library_sha256=library_hashes,
-        ddsim_sha256=sha(executable), log_sha256=sha(out / "transport.log"))
+        ddsim_sha256=sha(executable), log_sha256=sha(out / "transport.log"),
+        source_revision=source_revision, source_state=source_state, producer_sha256=producer_hashes,
+        producers_unchanged=all(sha(ROOT/p)==digest for p,digest in producer_hashes.items()),
+        libraries_unchanged=all(sha(p)==digest for p,digest in library_hashes.items()),
+        maps_audit_sha256=sha(out / "audit/maps-initialized.json") if (out / "audit/maps-initialized.json").exists() else None)
     save(out / "receipt.json", receipt)
     print(json.dumps(receipt, indent=2), flush=True)
-    if code or disk_abort:
+    if code or disk_abort or not receipt["producers_unchanged"] or not receipt["libraries_unchanged"]:
         raise RuntimeError("LAr transport failed; all diagnostics retained")
 
 
@@ -274,7 +285,7 @@ def check_workers(workers, receipt):
     if sum(w["events"] for w in workers) != receipt["events"]:
         raise ValueError("Worker event totals differ")
     for w in workers:
-        if (w["status"] != "complete" or w["maximum_abs_magnetic_field_tesla"] != 0 or
+        if (w["status"] != "complete" or not w.get("maps_initialized_serially") or w["maximum_abs_magnetic_field_tesla"] != 0 or
                 set(w["sensitive_lar"]) != DETECTORS or
                 w["requested_max_step_mm"] != receipt["max_step_mm"]):
             raise ValueError("Worker physical audit differs")
@@ -310,6 +321,14 @@ def audit(args):
     log = (run_dir / "transport.log").read_text()
     if not re.search(r"\bFTFP_BERT\b", log) or not re.search(r"with seed\s+" + str(receipt["seed"]) + r"\b", log):
         raise ValueError("Observed physics/seed missing")
+    maps_path = run_dir / "audit/maps-initialized.json"
+    maps = load(maps_path)
+    if (maps["status"] != "PASS" or maps["thread_id"] >= 0 or
+            maps["raw_sensitive_ids"] != 43648 or maps["native_contexts_checked"] != 43648 or
+            receipt.get("maps_audit_sha256") != sha(maps_path)):
+        raise ValueError("Incomplete or changed serial map initialization")
+    if not receipt.get("producers_unchanged") or not receipt.get("libraries_unchanged"):
+        raise ValueError("Run producer/library bytes changed during transport")
     workers = [load(p) for p in sorted((run_dir / "audit").glob("worker-*.json"))]
     worker_events = check_workers(workers, receipt)
     expected = [json.loads(line) for line in (sample / "truth-input.jsonl").read_text().splitlines()]
@@ -375,6 +394,7 @@ def audit(args):
         compression=compression, root_sha256=sha(run_dir / "events.root"),
         event_summary_sha256=sha(output), receipt_sha256=sha(run_dir / "receipt.json"),
         audit_sha256=sha(__file__), sample=manifest, worker_events=worker_events, workers=workers,
+        maps_audit=maps, maps_audit_sha256=sha(maps_path),
         worker_audit_sha256={p.name: sha(p) for p in sorted((run_dir / "audit").glob("worker-*.json"))})
     save(run_dir / "readback.json", proof)
     print(json.dumps({k: v for k, v in proof.items() if k not in ("workers", "sample")}, indent=2))

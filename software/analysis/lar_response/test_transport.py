@@ -46,7 +46,7 @@ def worker(thread=0, cap=5.):
     volume = dict(name="gap", density_g_cm3=1.396, Birks_mm_per_MeV=0.,
                   max_step_mm=5. if cap else None, native_max_step_mm=None,
                   numeric_cap_applied=bool(cap))
-    return dict(thread_id=thread, events=3, status="complete", maximum_abs_magnetic_field_tesla=0,
+    return dict(thread_id=thread, events=3, status="complete", maps_initialized_serially=True, maximum_abs_magnetic_field_tesla=0,
                 requested_max_step_mm=cap, region_cuts=[dict(mm=[.7]*4)],
                 sensitive_lar={role:dict(logical_volumes=1, volumes=[deepcopy(volume)]) for role in t.DETECTORS})
 
@@ -115,7 +115,8 @@ class TransportTests(unittest.TestCase):
 
     def test_worker_field_cuts_material_and_step_are_required(self):
         receipt=dict(threads=1,events=3,max_step_mm=5.)
-        for mutate in [lambda w:w.update(maximum_abs_magnetic_field_tesla=.1),
+        for mutate in [lambda w:w.update(maps_initialized_serially=False),
+                       lambda w:w.update(maximum_abs_magnetic_field_tesla=.1),
                        lambda w:w.update(region_cuts=[dict(mm=[1.]*4)]),
                        lambda w:w['sensitive_lar']['LArBarrel']['volumes'][0].update(density_g_cm3=1.4),
                        lambda w:w['sensitive_lar']['LArBarrel']['volumes'][0].update(max_step_mm=None),
