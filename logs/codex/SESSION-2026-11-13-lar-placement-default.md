@@ -152,3 +152,36 @@ Recorded before dispatch; explicit generic PhysVal profile, read-only.
   "completion": "Assess the description and validation plan with findings or bounded no-findings conclusion; distinguish existing evidence, prospective checks, and human-only design/response acceptance."
 }
 ```
+
+## Follow-up evidence review assignment
+
+Recorded before dispatch.
+
+```json
+{
+  "id": "LAR-DEFAULT-PhysVal-evidence",
+  "role": "PhysVal",
+  "input_revision": "a630e9385821f5359f587c203b34ce4e72ed3d72",
+  "inputs": [
+    "docs/validation/lar-placement-default/check_export.py",
+    "docs/validation/lar-placement-default/README.md",
+    "docs/validation/lar-placement-default/results.json",
+    "docs/validation/lar-placement/results.json",
+    "docs/design/DES-032-allegro-lar-barrel.md",
+    "docs/validation/lar-placement/README.md"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Assess bound fresh maintained-export XML and smoke evidence and the two prior wording corrections. Input records explicitly leave the full native union scan pending; do not treat it as passed. Inspect local ignored build/lar-default/xml-comparison.json, smoke/timing.json and smoke/smoke-readback.json and raw hashes as needed, with source records distinguishing those from pinned input. Check comparator envelope sibling normalization preserves all physics-relevant bytes. No writes, runtime activation or further delegation. Coordinator will provide full native result separately on completion.",
+  "deliverable": "Return revision-specific findings, actual checks and remaining evidence gap to coordinator for session curation.",
+  "completion": "Assess XML/material/sensitive/terminal-leaf/saved-hit bindings and scope; identify P2+ gaps or a bounded no-findings result, explicitly retaining pending native-union requirement."
+}
+```
+
+## Draft publication
+
+Created [draft PR139](https://github.com/asalzburger/nodd/pull/139) stacked on
+PR138 branch `codex/lar-geant4-placement`. Its initial body and evidence explicitly
+mark the complete native union overlap scan pending. No PR was merged or marked
+ready by this task. Largest new committed blob290738bytes at initial publication;
+no generated XML/ROOT/event dumps were committed.
