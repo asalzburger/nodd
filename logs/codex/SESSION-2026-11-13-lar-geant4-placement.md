@@ -148,3 +148,21 @@ virtual/high-bit IDs; the full LAr/helper suite now has39controls. A misplaced
 fixture assertion initially failed after the test extension and was restored
 to its original test before the passing run. No transport output, geometry,
 seed, numerical tolerance or measured timing was changed by these corrections.
+
+- Guard follow-up assignment before dispatch: {"id": "LARPLACE-SoftEng-guards", "role": "SoftEng", "input_revision": "242518707422e11c4919d1058e9d71067ca35a8c", "inputs": ["tools/lar_calorimeter/placement_report.py", "tools/lar_calorimeter/placement_smoke.py", "tools/lar_calorimeter/placement_rays.py", "tools/lar_calorimeter/test_placement_probe.py", "docs/validation/lar-placement/README.md", "docs/validation/lar-placement/results.json"], "mode": "read-only", "writable_paths": [], "task": "Verify remediation of your twoP2guard findings at this exactrevision. Native component/combined/template/library bindings added; source-bound raywrapper reran65raysbothmodels; collector recomputesdifferences. Canonicalsmoke nowparsesexecutedreference tables/highbits and both7eventfilesets re-audited. Re-run temporary-copy staleexpected0.25 control and ghostcell/highbit controls; reproducecollectoroutput without editingretainedsources. No newheavy simulation or acceptance. Check reproductionrecipe and reportfieldconsistency. Stop once findingsresolved or concrete remainingP2+ identified.", "deliverable": "Exact-revision guard-remediation assessment and targeted actualchecks to parent.", "completion": "Report whether each priorguardfindingisaddressed; clearly note anyunresolvedmaterialissue."}
+
+## Guard-review closeout
+
+SoftEng rechecked242518707422e11c4919d1058e9d71067ca35a8c read-only. The exact
+0.25stale-expected negative control now fails with the nativebinding error.
+All39controls pass, and collector replay is byte-identical to the committed
+result SHA25693fad4ecf75511712362f542df4568068edcf88fdd5f12f31b2850772e3dc3a4.
+No remaining P2-or-higher issue was found in this bounded remediation review.
+This independently assesses coordinator tooling, not SoftEng's own geometry
+implementation; the separate PhysVal assessment covers scientific claims and
+geometry/evidence consistency. Source/metrics and all approval limits remain
+explicit. Five baseline-composition controls also passed.
+
+The session summary reports284sessions,187with usage observations and511recorded
+turns; this task has no exposed usage counters and no historical totals are
+attributed to it. Publishing/PR metadata follows only after it exists.

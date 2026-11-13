@@ -24,9 +24,36 @@
     "initial_changes": [],
     "result_commits": [
       "8d74a4c1221a19d314881c4deccb2b5986ff425d",
-      "f91578eb3b39e1e2ba52d76af38368bd38501128"
+      "f91578eb3b39e1e2ba52d76af38368bd38501128",
+      "b1d325f339888876c45be68417f66c23f1ab0dc3",
+      "242518707422e11c4919d1058e9d71067ca35a8c"
     ],
-    "changed_files": []
+    "changed_files": [
+      "docs/design/inputs/DES-032-lar-placement-initialization.md",
+      "docs/software-inventory.md",
+      "docs/validation/lar-placement/README.md",
+      "docs/validation/lar-placement/environment.json",
+      "docs/validation/lar-placement/results.json",
+      "logs/codex/SESSION-2026-11-13-lar-geant4-placement.json",
+      "logs/codex/SESSION-2026-11-13-lar-geant4-placement.md",
+      "project/tracking.json",
+      "prototypes/calorimeter/LArBarrel.cpp",
+      "prototypes/calorimeter/LArEndcap.cpp",
+      "software/inventory.json",
+      "tools/lar_calorimeter/README.md",
+      "tools/lar_calorimeter/barrel_export.py",
+      "tools/lar_calorimeter/endcap_export.py",
+      "tools/lar_calorimeter/placement.py",
+      "tools/lar_calorimeter/placement_audit.hpp",
+      "tools/lar_calorimeter/placement_probe.py",
+      "tools/lar_calorimeter/placement_rays.py",
+      "tools/lar_calorimeter/placement_report.py",
+      "tools/lar_calorimeter/placement_smoke.py",
+      "tools/lar_calorimeter/placement_steering.py",
+      "tools/lar_calorimeter/placement_variant.py",
+      "tools/lar_calorimeter/test_placement.py",
+      "tools/lar_calorimeter/test_placement_probe.py"
+    ]
   },
   "work": {
     "milestone": "M1",
@@ -76,7 +103,7 @@
       "command": "python3 -B -m unittest discover -s tools/lar_calorimeter -p 'test*.py' -v",
       "status": "PASS",
       "exit_code": 0,
-      "result": "37existing/newcontrols passed before final result collection."
+      "result": "All39LAr/placement/helpercontrols passed after final evidence-guard remediation."
     },
     {
       "command": "barrel_native.py / endcap_native.py / combined_native.py audit on opt-in real-period compacts",
@@ -101,6 +128,42 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "Both7event probes/readbacks pass. Firstevent522.258406s vs67.382542s; captured launch identities unchanged. Full raw artifacts rehashed."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/calorimeter_baselines -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All5baseline-compositioncontrols pass; legacy default preserved."
+    },
+    {
+      "command": "placement_rays.py on bothmodels and strengthened placement_smoke.py on bothseven-eventdatasets",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Source-bound65raytraces and completecanonical-ID/highbit/virtual-indexreadback pass; rawsimulationdata unchanged."
+    },
+    {
+      "command": "SoftEng read-only guard review at242518707422e11c4919d1058e9d71067ca35a8c",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Priorstaleexpectednegativecontrol rejected;39controls pass;collectorbyte-identical;noP2+higherremaining in boundedreview."
+    },
+    {
+      "command": "python3 -B tools/software_inventory/inventory.py check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "67components,101codefamilies,52reviewedinputs,12pins."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "105tasks,54documents,24reviewrounds."
+    },
+    {
+      "command": "python3 tools/session_logging/session_log.py summary --format json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "284sessions;187withobservations;511recordedturns. Currenttaskusage unknown."
     }
   ]
 }
