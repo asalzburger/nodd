@@ -150,6 +150,9 @@ def analyze(args):
     contracts = {name: validate_contract(path, name) for name, path in paths.items()}
     base = loaded["lar"][1]
     n = len(base)
+    for key, wanted in {"input_sha256":"44bf93acf342ccfd9f461423ea12992ab1cab9046f84841ff8853ed763aad389", "truth_sha256":"b53199a644e659eb6efdd4684b824c6b85f66e0968686b0af3482e93b56c30b1"}.items():
+        if loaded["lar"][2]["input"].get(key) != wanted:
+            raise ValueError("Input differs from prospective primary protocol: " + key)
     if n != 10000:
         raise ValueError("This protocol requires exactly 10,000 primaries")
     for name, (_, array, _) in loaded.items():
