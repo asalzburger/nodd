@@ -53,3 +53,14 @@ commits, local pilot failure and uncommitted tracking/inventory/log work
 preserved. No production10k run was launched. The full pilot failed with
 exit139 after515.607s, retaining its log/receipt. The new bounded placement
 task will use a separate worktree and session, leaving this work intact.
+
+## Accounting addendum during PR140, 2026-11-13
+
+Authorized usage-only local recovery now supplies closed counters previously
+unavailable/provisional. Canonical usage belongs to this existing session; it
+is not allocated to the active resumed parent. Visible task/assignment summaries
+and spawn metadata establish attribution; models/providers remain unknown.
+See `logs/usage/RECOVERY-2026-11-13-pr140-resume.json`. PR139's formerly active
+parent is now closed and included in its own owner (35591900total across5turns).
+The deferred10k session owns4closed turns (16663581total); resumption has its
+separate session. Old absence statements remain historical, not zero usage.

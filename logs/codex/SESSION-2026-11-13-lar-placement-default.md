@@ -289,3 +289,14 @@ is55338308; PR139's four-child-turn total is12307185. Models/providers remain
 unknown. All final source changes remain bounded to DD4hep hierarchy selection,
 description, validation and accounting. No generated XML/ROOT/event/dump blobs
 are published. Current-head CI is awaited after the final push.
+
+## Accounting addendum during PR140, 2026-11-13
+
+Authorized usage-only local recovery now supplies closed counters previously
+unavailable/provisional. Canonical usage belongs to this existing session; it
+is not allocated to the active resumed parent. Visible task/assignment summaries
+and spawn metadata establish attribution; models/providers remain unknown.
+See `logs/usage/RECOVERY-2026-11-13-pr140-resume.json`. PR139's formerly active
+parent is now closed and included in its own owner (35591900total across5turns).
+The deferred10k session owns4closed turns (16663581total); resumption has its
+separate session. Old absence statements remain historical, not zero usage.

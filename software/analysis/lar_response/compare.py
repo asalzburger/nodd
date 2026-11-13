@@ -259,7 +259,7 @@ def plot(args):
         fig.text(.02, .01, "PROTOTYPE · same 10,000 origin electrons · E=10–80 GeV, η=−3…3 · B=0 · raw deposits; no digitization", fontsize=8)
         fig.tight_layout(rect=(0, .04, 1, .94))
         for ext in ("png", "pdf", "svg"):
-            fig.savefig(args.output / f"{name}.{ext}", dpi=160, metadata={"Date": None} if ext in ("pdf", "svg") else {})
+            fig.savefig(args.output / f"{name}.{ext}", dpi=160, metadata={"CreationDate": None, "ModDate": None} if ext == "pdf" else {"Date": None} if ext == "svg" else {})
         plt.close(fig)
     def projection(ax, axis, quantity, normalized=False):
         for name, model in result["models"].items():
