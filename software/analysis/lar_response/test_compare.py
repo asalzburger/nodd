@@ -33,6 +33,18 @@ class ComparisonControls(unittest.TestCase):
             workers[0]['region_cuts'][0]['mm'][0]=.7;save()
             (root/'events.root').write_bytes(b'tampered')
             with self.assertRaisesRegex(ValueError,'ROOT'):validate_contract(root,'siw_original')
+            (root/'events.root').write_bytes(b'ROOT test fixture')
+            receipt['max_step_mm']=5
+            proof['cells_by_collection']={'LArBarrelHits':1,'LArEndcapHits':1}
+            for w in workers:
+                del w['sensitive_si']
+                w['sensitive_lar']={s:dict(volumes=[dict(max_step_mm=5,Birks_mm_per_MeV=0,density_g_cm3=1.396)]) for s in ['LArBarrel','LArEndcaps']}
+            save();self.assertEqual(validate_contract(root,'lar')['status'],'PASS')
+            receipt['max_step_mm']=0;save()
+            with self.assertRaisesRegex(ValueError,'step policy'):validate_contract(root,'lar')
+            receipt['max_step_mm']=5
+            workers[0]['sensitive_lar']['LArBarrel']['volumes'][0]['density_g_cm3']=1.4;save()
+            with self.assertRaisesRegex(ValueError,'density'):validate_contract(root,'lar')
 
     def test_bootstrap_multiplicity_matches_explicit_repeated_sample(self):
         values = np.array([0., .01, .3, 2., .6])

@@ -91,3 +91,9 @@ The known LAr electrode-material approximation and conservative support/cryostat
 proxies remain. Barrel/endcap transition, wheel supports and differing outer
 envelopes contribute to the measured candidate comparison. Results do not isolate
 the active-medium technology or establish pp pileup/radiation suitability.
+
+Frozen Si–W compact hashes (original / staggered) are
+`411dc035120b663fb19d3000ee8a5984bfc9f7a6c31423b01539b47dc4384159` /
+`d78ecea5c5aa5173af54a4ce392994491eede936a7f4edb87d55bc72e69a0c2b`.
+Their distinct labels are checked before analysis; the common material file is
+`5091f0cbc2444b6ef481c2293ec99375e5eada82a84ab03be7a50f3b8375cee1`.

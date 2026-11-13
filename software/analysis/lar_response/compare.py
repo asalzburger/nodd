@@ -111,6 +111,8 @@ def validate_contract(run, name):
             volumes = item["volumes"] if lar else [item]
             if not volumes or any(v["max_step_mm"] is None or not 0 < v["max_step_mm"] <= 5 or v["Birks_mm_per_MeV"] != 0 for v in volumes):
                 raise ValueError("Incompatible active step/Birks policy")
+            if lar and any(abs(v["density_g_cm3"] - 1.396) > 1e-8 for v in volumes):
+                raise ValueError("Incompatible LAr density proxy")
     if sha(run / "events.root") != proof["root_sha256"]:
         raise ValueError("Changed raw ROOT artifact")
     return dict(status="PASS", worker_audit_sha256=hashes, root_rehashed=True)
@@ -147,6 +149,11 @@ def interval(values):
 def analyze(args):
     paths = {"siw_original": args.siw_original, "siw_staggered": args.siw_staggered, "lar": args.lar}
     loaded = {name: load_run(path) for name, path in paths.items()}
+    expected_siw = {"siw_original":"411dc035120b663fb19d3000ee8a5984bfc9f7a6c31423b01539b47dc4384159",
+                    "siw_staggered":"d78ecea5c5aa5173af54a4ce392994491eede936a7f4edb87d55bc72e69a0c2b"}
+    for name, digest in expected_siw.items():
+        if loaded[name][2]["input"].get("hashes", {}).get("detector.xml") != digest:
+            raise ValueError("Wrong frozen Si-W geometry label: " + name)
     contracts = {name: validate_contract(path, name) for name, path in paths.items()}
     base = loaded["lar"][1]
     n = len(base)

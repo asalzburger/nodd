@@ -72,3 +72,23 @@ Full payloads remain ignored locally.
   "completion": "Prospective assumptions/analysis implementation assessed independently, concrete corrections reported with exact lines; no acceptance granted."
 }
 ```
+
+## Comparison contract review before dispatch
+
+```json
+{
+  "id": "LAR10K-PhysVal-contract-review",
+  "role": "PhysVal",
+  "input_revision": "5adb79c2212d72e7841326dba85a1c4f5ae2f5e2",
+  "inputs": [
+    "software/analysis/lar_response/compare.py",
+    "software/analysis/lar_response/test_compare.py",
+    "docs/validation/lar10k/protocol.md"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Review coordinator comparison-contract remediation against prior finding. Check wrong detector/native-limit pilot/worker/cut/seed/field/step/material and raw ROOT tampering fail-closed; primary hashes pinned to prospective sample. Run focused tests and optionally validate_contract on actual retained SiW originals/staggered (read-only; hashes require reading ROOT). No simulations/writes/delegation. Return remaining material gaps or bounded no-findings. Final LAr result review later.",
+  "deliverable": "Revision-specific guard assessment and actual commands returned for session.",
+  "completion": "Assess prior gap resolution without claiming response acceptance."
+}
+```
