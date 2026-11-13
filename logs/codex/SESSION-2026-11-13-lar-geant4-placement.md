@@ -166,3 +166,26 @@ explicit. Five baseline-composition controls also passed.
 The session summary reports284sessions,187with usage observations and511recorded
 turns; this task has no exposed usage counters and no historical totals are
 attributed to it. Publishing/PR metadata follows only after it exists.
+
+## Draft publication
+
+Created https://github.com/asalzburger/nodd/pull/138 as a draft. The connected
+GitHub integration returned403 Resource not accessible by integration for PR
+creation; the existing authenticated ghCLI successfully created it. This was
+a connector permission limitation, not an automatic approval-review rejection.
+The CLI interaction capture initially hit sandbox networking restrictions and
+was retried with the required escalation. No design approval, ready state or
+merge was requested or supplied. The initial public head is3075938e; subsequent
+metadata/accounting commits remain ordinary history. All new objects were
+inspected; the largest is the288165byte tracking register, with no raw ROOT,
+event, compact, inventory dump or bulky log payload.
+
+The bounded investigation is closed with draftPR138 open for review. The local
+record-close timestamp is observed; it is not a client turn-completion/token
+measurement. Final canonical session/interaction synchronization and validation
+are performed before the publication closeout push. The39LAr and5composition
+controls, fullnativechecks and measuredpair remain the actual validation basis.
+
+Final local session, interaction, project-record and software-inventory validation
+and the token-site build passed. The current interaction snapshot was refreshed
+after the PR-body checklist update; canonical usage remains unchanged.
