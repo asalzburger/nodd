@@ -94,3 +94,11 @@ Explicit generic SysArch fallback; role/profile instructions included in prepare
   "completion": "Name exact input revision and locators, actual checks, limitations and no file changes. Do not infer engineering acceptance or a validated reduced gap."
 }
 ```
+
+## Publication and closeout
+
+Published proposal revision4429b782463540c6757ce82c3ff2da96b7a872fe to existing draftPR142, updated title/body around
+the requested concrete topology, refreshed public metadata and attached the PR
+to the chat. Server confirms draft and mergeable. Session closed at2026-11-13T22:00:21Z;
+new-head CI remains separate from prior green-head checks. No readiness/merge
+action or detector change. Current parent counters remain unavailable/excluded.
