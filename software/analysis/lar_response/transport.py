@@ -277,9 +277,10 @@ def run(args):
 def check_workers(workers, receipt):
     tids = {w["thread_id"] for w in workers}
     required = set(range(receipt["threads"])) if receipt["threads"] > 1 else {0}
-    # Geant4 serial mode commonly uses -2; accept it only for a one-thread run.
-    if receipt["threads"] == 1 and tids == {-2}:
-        required = {-2}
+    # DDSim uses the main Geant4 thread (-1 here, -2 in serial builds)
+    # when one thread is requested. Never accept those IDs for an MT run.
+    if receipt["threads"] == 1 and tids in ({-1}, {-2}):
+        required = tids
     if tids != required or len(workers) != receipt["threads"]:
         raise ValueError("Incomplete worker audit set")
     if sum(w["events"] for w in workers) != receipt["events"]:

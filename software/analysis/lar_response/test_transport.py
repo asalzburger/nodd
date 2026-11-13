@@ -113,6 +113,13 @@ class TransportTests(unittest.TestCase):
         for rows in [[worker(0)],[worker(0),worker(0)],[worker(0),dict(worker(1),events=4)]]:
             with self.assertRaises(ValueError):t.check_workers(rows,receipt)
 
+    def test_serial_main_thread_id_is_explicit_and_mt_rejects_it(self):
+        for thread in (-1, -2, 0):
+            receipt=dict(threads=1,events=3,max_step_mm=5.)
+            self.assertEqual(t.check_workers([worker(thread)],receipt),{str(thread):3})
+        with self.assertRaisesRegex(ValueError,'worker audit set'):
+            t.check_workers([worker(-1),worker(0)],dict(threads=2,events=6,max_step_mm=5.))
+
     def test_worker_field_cuts_material_and_step_are_required(self):
         receipt=dict(threads=1,events=3,max_step_mm=5.)
         for mutate in [lambda w:w.update(maps_initialized_serially=False),
