@@ -1,0 +1,438 @@
+{
+  "status": "DRAFT / PROTOTYPE; maintained export/native/saved-hit checks PASS",
+  "implementation_revision": "14db490a29d1b8835788e56a0dae99a514a8b7bd",
+  "scope": "Maintained LAYOUT-002 real-period default, complete tracker/ECAL export; ECAL-only serial smoke. No new timing ratio, response or engineering acceptance.",
+  "runtime": {
+    "runtime_verification": "Existing node runtime verified after registry fingerprint drift; no shared installation changed",
+    "ROOT": "6.40.04",
+    "Geant4": "11.4.3",
+    "packages": [
+      "dd4hep@1.38 /3yd4hz3",
+      "edm4hep@1.1.1 /bsgcccc",
+      "geant4@11.4.3 /wfg55xi",
+      "podio@1.8 /hg64alv",
+      "root@6.40.04 /szgev3e"
+    ],
+    "setup_script_sha256": "53ed8ad1854b592a01f6b9f9d3b8b49dbbb8a06bddb6677805d4099af2432a97",
+    "spack_lock_sha256": "d51753ae83a710850d06413f3dc0a6bf6ad18554d3911108774c48671dda2cde"
+  },
+  "baseline_manifest_sha256": "ec525ca333bf10b80318aa934b7755126e17705ee4c0043b3cc408e6bd0ce2c3",
+  "baseline": {
+    "layout": "LAYOUT-002",
+    "status": "DRAFT / PROTOTYPE; native integration audit pending",
+    "constructed": [
+      "supplied tracker component",
+      "ECAL barrel",
+      "ECAL endcaps"
+    ],
+    "design_only": {
+      "solenoid": "DES026 allocation; no field installed",
+      "HCAL": "DES035-038 design options; LAr regional adaptation pending",
+      "FCAL": "Merged DES039 ROOT geometry; DD4hep/readout integration pending"
+    },
+    "digitization": "Issue114 EDM4hep I/O and explicit-failure algorithm skeletons; no physical response",
+    "reserved_future_system_ids": {
+      "FCAL": 12,
+      "HCAL_barrel": 13,
+      "HCAL_endcaps": 14
+    },
+    "components": [
+      {
+        "component": "tracker",
+        "compact": "$WORKSPACE/nodd-lar-placement-default/build/lar-default/layout002/components/tracker/tracker.xml",
+        "compact_sha256": "0d340945e042011a21c2c4ad89cb2b7b5c36b0efce9c5c22b6063e17ba625b40",
+        "materials_sha256": "9e6fb29a5ab4345ddd2df37205ffa9de82f9ee38257fb6e5d31273d4c9589e8d",
+        "system_mapping": [
+          {
+            "name": "BeamPipe",
+            "source_system_id": 0,
+            "integrated_system_id": 0
+          },
+          {
+            "name": "PixelBarrel",
+            "source_system_id": 1,
+            "integrated_system_id": 1
+          },
+          {
+            "name": "PixelEndcapN",
+            "source_system_id": 2,
+            "integrated_system_id": 2
+          },
+          {
+            "name": "PixelEndcapP",
+            "source_system_id": 3,
+            "integrated_system_id": 3
+          },
+          {
+            "name": "ShortStripBarrel",
+            "source_system_id": 4,
+            "integrated_system_id": 4
+          },
+          {
+            "name": "ShortStripEndcap",
+            "source_system_id": 5,
+            "integrated_system_id": 5
+          },
+          {
+            "name": "LongStripBarrel",
+            "source_system_id": 6,
+            "integrated_system_id": 6
+          },
+          {
+            "name": "LongStripEndcap",
+            "source_system_id": 7,
+            "integrated_system_id": 7
+          }
+        ]
+      },
+      {
+        "component": "lar-barrel",
+        "compact": "$WORKSPACE/nodd-lar-placement-default/build/lar-default/layout002/components/lar-barrel/barrel.xml",
+        "compact_sha256": "8a5ec173f07da31bd95d6cbf48c776572cbc52dfd6326dff10851a1defe4416e",
+        "materials_sha256": "a074b67a8d0b96b6ebb80742088474a4d46ae639b77693fc240650268efc7353",
+        "system_mapping": [
+          {
+            "name": "LArBarrel",
+            "source_system_id": 10,
+            "integrated_system_id": 10
+          }
+        ]
+      },
+      {
+        "component": "lar-endcaps",
+        "compact": "$WORKSPACE/nodd-lar-placement-default/build/lar-default/layout002/components/lar-endcaps/endcaps.xml",
+        "compact_sha256": "e91a52cce9733da3dacc93ac12c036dd9e8f94f61440769fa9c6633c009b0342",
+        "materials_sha256": "e6c8941740cac7f1adb58cb1a0c974ac145bb5554c8197f2cda9ffe9d002a63f",
+        "system_mapping": [
+          {
+            "name": "LArEndcaps",
+            "source_system_id": 11,
+            "integrated_system_id": 11
+          }
+        ]
+      }
+    ],
+    "system_ids": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      10,
+      11
+    ],
+    "exporter_sha256": "0153c7f3f998411df8c154b2e98e3325227c992a3b24fac6c9cd299001e1985a",
+    "ecal_placement": {
+      "lar-barrel": {
+        "policy": "real-periods-v1",
+        "reusable_envelopes": 1
+      },
+      "lar-endcaps": {
+        "policy": "real-periods-v1",
+        "reusable_envelopes": 3
+      }
+    },
+    "compact_sha256": "70625939efa859e55b35cc2b055c300ca70fba7b2661c8af1b02b80922fa2b67",
+    "materials_sha256": "1e3828ce911d4d91cc50f097cece2139e37e2a008b201a7cb8e6cf410e6a487d",
+    "tracker_generation": {
+      "status": "Fresh maintained DES043 export in this invocation; reuse is unsupported",
+      "producer_sha256": "ce691609035d1eaad9d4603a94006ed9ab7a72d69453b693c59c2899665bdac5",
+      "config_sha256": {
+        "detector/config/tracker.json": "82a93a5d1f4c7f2006195d960321bc4db78c1c8fd9aa5775341417b9665f1c61",
+        "detector/config/pixel-detector-balanced.json": "347632163beb3f517ebf25b33eaa24957ef0803353f2f26a532324c85b67f815",
+        "detector/config/short-strip-des043.json": "986f99c76ed5f14346e804be5e411ee838744a4f17cbbcfc22be1511a7ef5543",
+        "docs/design/inputs/DES-042-strixel-selection.json": "52f1d7599792677673fe44175d9b41ab4c76c1289ec56d28dbe085ddf4efff90"
+      },
+      "expected_sha256": "33ae206cf71c93f87d3f512dc10c68bd10e7ae3114867863edf91183a6401bc2",
+      "compact_sha256": "0d340945e042011a21c2c4ad89cb2b7b5c36b0efce9c5c22b6063e17ba625b40",
+      "materials_sha256": "9e6fb29a5ab4345ddd2df37205ffa9de82f9ee38257fb6e5d31273d4c9589e8d"
+    }
+  },
+  "xml_comparison": {
+    "status": "PASS",
+    "input_sha256": {
+      "$WORKSPACE/nodd-lar-placement-default/build/lar-default/layout002/detector.xml": "70625939efa859e55b35cc2b055c300ca70fba7b2661c8af1b02b80922fa2b67",
+      "$WORKSPACE/nodd-lar-placement-default/build/lar-default/layout002/materials.xml": "1e3828ce911d4d91cc50f097cece2139e37e2a008b201a7cb8e6cf410e6a487d",
+      "$WORKSPACE/nodd-lar-10k-response/build/lar10k/layout002/detector.xml": "719e6c5c40ed900f05c80d075774d86e154c3e42c63f6b97533b10d6c5b1f5c7",
+      "$WORKSPACE/nodd-lar-10k-response/build/lar10k/layout002/materials.xml": "1e3828ce911d4d91cc50f097cece2139e37e2a008b201a7cb8e6cf410e6a487d",
+      "$WORKSPACE/nodd-lar-geant4-placement/build/lar-placement/candidate-v2/detector.xml": "350c54eb0fe5efcf04dc95e6fe61faa1e75337092d743f561d1eae509adb4f26",
+      "$WORKSPACE/nodd-lar-geant4-placement/build/lar-placement/candidate-v2/materials.xml": "1e3828ce911d4d91cc50f097cece2139e37e2a008b201a7cb8e6cf410e6a487d"
+    },
+    "producer_sha256": "81a5dfa1b347c39cc3b3f0fe5195ef5e89ecfad437c48e1c0a6689621e129d70",
+    "canonical_helper_sha256": "19b4b74cc3bf280757dcf87fca092a426a531429b5cb084386b512e03d08782b",
+    "ecal_systems": {
+      "10": {
+        "reusable_templates": 1,
+        "canonical_xml_sha256": "68667466b03dc1468bd32dc25fac5866ff29f58a884a70c7e58527778505d70d"
+      },
+      "11": {
+        "reusable_templates": 3,
+        "canonical_xml_sha256": "10a70a942597f6f4050cef34fc126edce5a99e0291d869a9dd495f7229abcd1b"
+      }
+    },
+    "removed_envelopes": 4,
+    "full_model_restored_to_legacy": true,
+    "materials_byte_identical": true,
+    "comparison": "Full legacy restoration preserves all attributes, child order and text; measured-candidate comparison additionally normalizes only period_envelope sibling position. Indentation whitespace ignored."
+  },
+  "legacy_exporter_matches_investigation_revision": true,
+  "smoke_probe": {
+    "exit_code": 0,
+    "source_revision": "14db490a29d1b8835788e56a0dae99a514a8b7bd",
+    "source_dirty": true,
+    "compact_sha256": "11143ea1f9aa03383b184ab7fb66b2f25a41525f124d4658f588376ada4d4040",
+    "materials_sha256": "1e3828ce911d4d91cc50f097cece2139e37e2a008b201a7cb8e6cf410e6a487d",
+    "source_compact_sha256": "70625939efa859e55b35cc2b055c300ca70fba7b2661c8af1b02b80922fa2b67",
+    "library_sha256": {
+      "libnODDLArBarrelPrototype.dylib": "de693d3bd949e748d867a8f768c628afa1d4259c681214c377cd79fdf5243b33",
+      "libnODDLArEndcapPrototype.dylib": "ad3434c0adee1dc6706896386b531831c3d9b977190dd24f3f02c77fa01220da"
+    },
+    "probe_sha256": "62d0dd29c1a090ead71635eea6cd0b5812fce74e07b462ad6e5aad7846e6e4cd",
+    "audit_sha256": "f0ab9aed18bfed37cc7e84faa11d28222e551580b3211855db7d7f5de9ff3351",
+    "steering_sha256": "5bdb156235cfcd91989c54309fd71dbdb915f27def41c1cf8f4526c9bdcee9e8",
+    "launch_identity_unchanged": true,
+    "started_at": "2026-11-13T08:31:30.289667+00:00",
+    "ended_at": "2026-11-13T08:32:44.509370+00:00",
+    "smoke_events": 7,
+    "wall_seconds": 74.2197749580082,
+    "cpu_seconds": 73.104052,
+    "peak_rss_bytes": 2572288000,
+    "stages": {
+      "DDG4_MAP_BUILD_BEGIN": 8.821390833007172,
+      "DDG4_MAP_BUILD_END": 9.025979917001678,
+      "LAR_PLACE_G4_MAP_BEGIN": 9.283035708009265,
+      "LAR_PLACE_G4_MAP_END": 9.283086708019255,
+      "LAR_PLACE_NATIVE_MAP_BEGIN": 9.283102333021816,
+      "LAR_PLACE_NATIVE_MAP_END": 9.339621208026074,
+      "LAR_PLACE_AUDIT_DONE": 10.471761125023477,
+      "LAR_PLACE_RUN_INITIALIZE_BEGIN": 10.4785912920197,
+      "LAR_PLACE_RUN_INITIALIZE_END": 10.478671542019583,
+      "LAR_PLACE_STARTUP_DONE": 73.4891317920119
+    },
+    "log_sha256": "58f45f4ab3c2933defbc420eb12d70be44a269442ac67a6fd363737726ccaf7c",
+    "sensitive_paths": 43648,
+    "material_leaves": 274689,
+    "geant4_physical_volume_objects": 115735,
+    "assembly_imprints": 6516,
+    "maximum_native_g4_center_delta_mm": 0.0,
+    "maximum_native_g4_axis_delta": 2.482534153247273e-16,
+    "g4_mapping_seconds": 0.20458908399450593,
+    "cached_map_access_seconds": 5.1000009989365935e-05,
+    "run_initialization_seconds": 8.024999988265336e-05,
+    "native_mapping_seconds": 0.05651887500425801,
+    "startup_to_audit_seconds": 9.283035708009265,
+    "sensitive_dump_sha256": "9904ecfec1ad05b81920e3c63ba61e3f86449c1892cb3671ba9e20cc13dd502c",
+    "leaf_dump_sha256": "d12ff16bb2382a03cd1f6c614f1f0ed177a09f411898e4ade3140ecad3e0db33"
+  },
+  "saved_hit_readback": {
+    "status": "PASS",
+    "events": 7,
+    "scope": "Saved-hit/primary/ID smoke only; no shower-response equivalence or digitization claim",
+    "timing_sha256": "c8e3a2e1758f8614626f7438f29fd5ca67913c47f428281ae62865de185c45dd",
+    "cases_sha256": "81a361939b58b2c1d0b0a31f37b187cb5a55081cbbb1a928145652f4051b2b0b",
+    "auditor_sha256": "596b0bea0440beefde645a27f67236259ae8f59e8d21b2282d317e0fb1fac85a",
+    "results": [
+      {
+        "case": {
+          "label": "barrel",
+          "eta": 0.5,
+          "phi": 0.123,
+          "wheel": null,
+          "side": 0,
+          "momentum_GeV": 20.0,
+          "run": 0
+        },
+        "counts": {
+          "LArBarrelHits": 493,
+          "LArEndcapHits": 0
+        },
+        "deposited_energy_GeV": {
+          "LArBarrelHits": 2.943702631962342,
+          "LArEndcapHits": 0.0
+        },
+        "target_hits": 493,
+        "root_sha256": "cc4273603d8b2e15c5f4a2298ddd7105a0e72d8a7a1cf47fa4bda54c28a87524"
+      },
+      {
+        "case": {
+          "label": "positive-w0",
+          "eta": 3.0,
+          "phi": 0.123,
+          "wheel": 0,
+          "side": 1,
+          "momentum_GeV": 20.0,
+          "run": 1
+        },
+        "counts": {
+          "LArBarrelHits": 8,
+          "LArEndcapHits": 638
+        },
+        "deposited_energy_GeV": {
+          "LArBarrelHits": 0.003120413135434319,
+          "LArEndcapHits": 3.3629593518496677
+        },
+        "target_hits": 633,
+        "root_sha256": "223c264bd59e524836dd7d3197e8fd95191b4be8f325a4f3388882070c43b8e6"
+      },
+      {
+        "case": {
+          "label": "positive-w1",
+          "eta": 2.2,
+          "phi": 0.123,
+          "wheel": 1,
+          "side": 1,
+          "momentum_GeV": 20.0,
+          "run": 2
+        },
+        "counts": {
+          "LArBarrelHits": 3,
+          "LArEndcapHits": 626
+        },
+        "deposited_energy_GeV": {
+          "LArBarrelHits": 0.00032405794037915214,
+          "LArEndcapHits": 3.6693801800448202
+        },
+        "target_hits": 622,
+        "root_sha256": "fd1316ee9286b7cc7465bc1c9110ada0dbf4d58579b9db39e74f879cc70e7823"
+      },
+      {
+        "case": {
+          "label": "positive-w2",
+          "eta": 1.6,
+          "phi": 0.123,
+          "wheel": 2,
+          "side": 1,
+          "momentum_GeV": 20.0,
+          "run": 3
+        },
+        "counts": {
+          "LArBarrelHits": 1,
+          "LArEndcapHits": 666
+        },
+        "deposited_energy_GeV": {
+          "LArBarrelHits": 0.0003803076397161931,
+          "LArEndcapHits": 3.8701819633675143
+        },
+        "target_hits": 664,
+        "root_sha256": "cd560aae254a7e5c9db998277283e826d117b41effe4bfd5e598d22ff5f882b0"
+      },
+      {
+        "case": {
+          "label": "negative-w0",
+          "eta": -3.0,
+          "phi": 0.123,
+          "wheel": 0,
+          "side": 2,
+          "momentum_GeV": 20.0,
+          "run": 4
+        },
+        "counts": {
+          "LArBarrelHits": 3,
+          "LArEndcapHits": 618
+        },
+        "deposited_energy_GeV": {
+          "LArBarrelHits": 0.00027482680343382526,
+          "LArEndcapHits": 3.303540614532949
+        },
+        "target_hits": 615,
+        "root_sha256": "735af2c8f0b0a19261d73ca66942dc411a1d87cdc99c66b845a18f78bcc25cda"
+      },
+      {
+        "case": {
+          "label": "negative-w1",
+          "eta": -2.2,
+          "phi": 0.123,
+          "wheel": 1,
+          "side": 2,
+          "momentum_GeV": 20.0,
+          "run": 5
+        },
+        "counts": {
+          "LArBarrelHits": 3,
+          "LArEndcapHits": 561
+        },
+        "deposited_energy_GeV": {
+          "LArBarrelHits": 0.0005373791755118873,
+          "LArEndcapHits": 3.7536078997295586
+        },
+        "target_hits": 560,
+        "root_sha256": "5f70a5cf279a50c2249a8fcf553e4092a370fa6b8f51e24b286cacf2844d222d"
+      },
+      {
+        "case": {
+          "label": "negative-w2",
+          "eta": -1.6,
+          "phi": 0.123,
+          "wheel": 2,
+          "side": 2,
+          "momentum_GeV": 20.0,
+          "run": 6
+        },
+        "counts": {
+          "LArBarrelHits": 5,
+          "LArEndcapHits": 660
+        },
+        "deposited_energy_GeV": {
+          "LArBarrelHits": 0.0008220565807732783,
+          "LArEndcapHits": 3.7889913791940444
+        },
+        "target_hits": 660,
+        "root_sha256": "f9fccd51585904e37b2cc3f93dae4800a8d9ad8e9d0c680e982e6baa21beda8d"
+      }
+    ]
+  },
+  "native_union": {
+    "status": "PASS",
+    "layout": "LAYOUT-002",
+    "source_commit": "14db490a29d1b8835788e56a0dae99a514a8b7bd",
+    "source_dirty": true,
+    "native_auditor_sha256": "17163c1f0a8d300c0b6ea76a7c4878f3d1247e1aeab1230621a3599605102abe",
+    "libraries": {
+      "libnODDPixelBarrel.dylib": "c870fcc27b47b0dd67ed97ed542efbc7e1185d331136f5806fda6001b1ca1fee",
+      "libnODDBeamPipe.dylib": "4b357ca04ea7871db22c2f53183153e6a3a6c4dd80ce3ec3cc6c51f2ee04057f",
+      "libnODDShortStripBarrel.dylib": "4c05e6fb3bf1526a608ca6953ad96e18c7eda9edb55b7a04192d1711b1ed8c00",
+      "libnODDShortStripEndcap.dylib": "9fc2f69161a4b9af84004066da415a9800c6cc315eff18fa97249420b267ea91",
+      "libnODDLongStrip.dylib": "9d08df2f4fedcd09c442470f0b65b172e83f3a8c1d68379fb3912262f7c5b9ef",
+      "libnODDLArBarrelPrototype.dylib": "de693d3bd949e748d867a8f768c628afa1d4259c681214c377cd79fdf5243b33",
+      "libnODDLArEndcapPrototype.dylib": "ad3434c0adee1dc6706896386b531831c3d9b977190dd24f3f02c77fa01220da"
+    },
+    "ROOT": "6.40.04",
+    "baseline_manifest_sha256": "ec525ca333bf10b80318aa934b7755126e17705ee4c0043b3cc408e6bd0ce2c3",
+    "compact_sha256": "70625939efa859e55b35cc2b055c300ca70fba7b2661c8af1b02b80922fa2b67",
+    "materials_sha256": "1e3828ce911d4d91cc50f097cece2139e37e2a008b201a7cb8e6cf410e6a487d",
+    "native_systems": {
+      "BeamPipe": 0,
+      "PixelBarrel": 1,
+      "PixelEndcapN": 2,
+      "PixelEndcapP": 3,
+      "ShortStripBarrel": 4,
+      "ShortStripEndcap": 5,
+      "LongStripBarrel": 6,
+      "LongStripEndcap": 7,
+      "LArBarrel": 10,
+      "LArEndcaps": 11
+    },
+    "overlap_tolerance_mm": 1e-05,
+    "overlap_seed": 114,
+    "overlap_count": 0,
+    "overlaps": [],
+    "scope": "Actual maintained tracker plus selected complete ECAL barrel/endcaps and local services; no HCAL/FCAL/solenoid/field or response qualification"
+  },
+  "prior_material_and_shape_evidence": {
+    "report": "docs/validation/lar-placement/results.json",
+    "sha256": "93fad4ecf75511712362f542df4568068edcf88fdd5f12f31b2850772e3dc3a4",
+    "basis": "Same executed ECAL XML after only envelope sibling-position normalization, same materials and LAr library artifacts; fresh sensitive/terminal-leaf inventories match. Prior component/ECAL-union shape, partition and material-ray evidence retained unchanged."
+  },
+  "limitations": [
+    "Probe launched at implementation revision with dirty task metadata; recorded probe/audit/steering/exporter and library bytes remained unchanged. XML comparator is identified by its separate source hash.",
+    "Fresh smoke ran concurrently with native overlaps and is not a comparative timing benchmark.",
+    "Reused unchanged PR138 LAr library artifacts; five tracker factories rebuilt locally.",
+    "No 12-worker initialization qualification or 10k response comparison; no human design/engineering sign-off.",
+    "Native scan launched at implementation revision with dirty task metadata; audited source/compact/material/library bytes verified unchanged after completion. No post-merge metadata commit is represented as a new runtime run."
+  ],
+  "native_union_sha256": "abe805737f88d81ff06a04a1dd695202cd67d05e04deac08c6c09477e8bf6214",
+  "native_union_log_sha256": "efb4d8b1e63a2551e215283e77f4f02bd76a7d27517db2240dbfec35d0af9cbe"
+}

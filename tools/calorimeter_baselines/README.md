@@ -23,6 +23,19 @@ poses and cell IDs. Standalone Si–W exports keep the legacy assembly form by
 default for the component validation and fixture tools. Pass `--real-wedges`
 to either standalone Si–W exporter to select the baseline hierarchy.
 
+LAYOUT-002 selects reusable solid mothers for both inclined LAr barrel periods
+and all three turbine-wheel period templates. The maintained exporter passes
+`--real-periods` together with each component's local services. The mothers use
+the actual enclosing material and retain the existing material pieces,
+transforms and readouts. `baseline.json` records the observed ECAL placement
+policy and envelope count; export rejects a missing or unexpected hierarchy.
+Standalone LAr exporters retain the legacy assembly default for component
+controls. Pass `--real-periods` explicitly when exporting those components to
+match the maintained baseline. See the [placement investigation](../../docs/validation/lar-placement/README.md)
+for measured initialization results and their scope. This default selects the
+maintained DD4hep prototype representation; it grants no engineering or
+shower-response acceptance.
+
 The standalone Si–W endcap system8 becomes9 only in the combined output. Beam-pipe0 and tracker
 systems1–7, Si–W barrel8 and LAr10/11 remain. FCAL12 and HCAL13/14 are reserved
 for later integration, preserving the original standalone proposals. Material

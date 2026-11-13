@@ -38,3 +38,14 @@ before the audit. This avoids mistaking a first-hit multithreading lookup race
 for hierarchy timing. The previously failed LAr pilot remains separate evidence.
 Timing is descriptive, with run count and order reported; no speedup or geometry
 equivalence is asserted until measured. Full artifacts stay local and ignored.
+
+## Maintained export adoption, 2026-11-13
+
+The [executed investigation](../../validation/lar-placement/README.md) retains
+the opt-in comparison and its measured scope. The user's subsequent instruction,
+"Great, go ahead - and update the DD4hep description of the ALLIGRO calorimeter",
+authorizes using this hierarchy in the maintained LAYOUT-002 prototype export.
+The [integration contract](ECAL-baseline-integration-2026-11-04.md#lar-geant4-hierarchy)
+records that software choice; the [default-export report](../../validation/lar-placement-default/README.md)
+records its checks. Standalone component defaults remain the legacy controls.
+DES032/DES033 remain DRAFT / PROTOTYPE, with no human design sign-off inferred.

@@ -41,3 +41,9 @@ The earlier balanced [tracker overlay](tracker-baseline-balanced.json), [FCAL in
 [Historical ECAL reviewer overview](review/ecal-layout-review.md) and its frozen source catalogue retain the original PR75 comparison. Current baseline status is maintained above.
 
 The two [selectable working baseline packages](../../tools/calorimeter_baselines/README.md) restore the Si–W and LAr ECAL source histories on current main. Their [integration contract](../design/inputs/ECAL-baseline-integration-2026-11-04.md) retains issue114 and the unresolved PR75 review. Common HCAL and FCAL design options remain separate construction/qualification stages.
+
+Both maintained ECAL exports use reusable solid mothers: Si–W wedges in
+LAYOUT-001 and inclined LAr periods in LAYOUT-002. The
+[LAr default-export report](../validation/lar-placement-default/README.md)
+links the placement evidence and current DD4hep description. Physical layout
+bounds and the named R–Z drawing inputs are unchanged by this hierarchy choice.

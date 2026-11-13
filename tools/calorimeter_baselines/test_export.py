@@ -5,9 +5,10 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
+from unittest.mock import patch
 import xml.etree.ElementTree as ET
 
-from export import compose, write
+from export import compose, export as export_baseline, write
 
 
 class CompositionTests(unittest.TestCase):
@@ -86,6 +87,74 @@ class CompositionTests(unittest.TestCase):
             write(a, doc)
             with self.subTest(tag=tag), self.assertRaises(ValueError):
                 compose([("a", a, {10: 10})], self.root / "out", "LAYOUT-002")
+
+    def baseline_fixture_backend(self, calls, *, omit_envelopes=False):
+        """Replace expensive source generation, exercising real orchestration/composition.
+
+        Fixture solids are intentionally not a native detector model. The
+        regression checks option propagation, selected XML hierarchy and the
+        manifest guard; component/native geometry controls remain separate.
+        """
+        def run(command, *, check, cwd):
+            self.assertTrue(check)
+            calls.append(command)
+            script = Path(command[2])
+            directory = Path(command[command.index("--output") + 1])
+            directory.mkdir(parents=True, exist_ok=True)
+            tracker = script.parent.name == "tracker_dd4hep"
+            lar = script.parent.name == "lar_calorimeter"
+            barrel = script.name == "barrel_export.py"
+            ident = 0 if tracker else (10 if barrel else 11) if lar else 8
+            fixture = self.component("fixture" + str(len(calls)), ident)
+            tree = ET.parse(fixture)
+            detector = tree.find("detectors/detector")
+            if not omit_envelopes and "--real-periods" in command:
+                for i in range(1 if barrel else 3):
+                    parent = ET.SubElement(detector, "period" if barrel else "wheel", index=str(i))
+                    ET.SubElement(parent, "period_envelope", policy="real-periods-v1")
+            if not omit_envelopes and "--real-wedges" in command:
+                ET.SubElement(detector, "wedge_envelope")
+            filename = "tracker.xml" if tracker else ("barrel.xml" if barrel else "endcaps.xml") if lar else "calorimeter.xml"
+            write(directory / filename, tree.getroot())
+            (directory / "materials.xml").write_bytes((fixture.parent / "materials.xml").read_bytes())
+            (directory / "expected.json").write_text('{"scope":"orchestration test fixture"}\n')
+        return run
+
+    def test_maintained_lar_export_selects_real_periods_with_services(self):
+        calls = []
+        with patch("export.subprocess.run", side_effect=self.baseline_fixture_backend(calls)):
+            report = export_baseline("LAYOUT-002", self.root / "baseline")
+        self.assertEqual(len(calls), 3)
+        for command, service in zip(calls[1:], ("barrel_services.py", "endcap_services.py")):
+            self.assertIn("--real-periods", command)
+            self.assertNotIn("--real-wedges", command)
+            self.assertEqual(Path(command[command.index("--services") + 1]).name, service)
+        self.assertEqual(report["ecal_placement"], {
+            "lar-barrel": {"policy": "real-periods-v1", "reusable_envelopes": 1},
+            "lar-endcaps": {"policy": "real-periods-v1", "reusable_envelopes": 3}})
+        doc = ET.parse(self.root / "baseline/detector.xml")
+        self.assertEqual(len(doc.findall("detectors/detector/period/period_envelope")), 1)
+        self.assertEqual(len(doc.findall("detectors/detector/wheel/period_envelope")), 3)
+        self.assertEqual(report["system_ids"], [0, 10, 11])
+
+    def test_maintained_siw_export_keeps_real_wedges(self):
+        calls = []
+        with patch("export.subprocess.run", side_effect=self.baseline_fixture_backend(calls)):
+            report = export_baseline("LAYOUT-001", self.root / "baseline")
+        for command in calls[1:]:
+            self.assertIn("--real-wedges", command)
+            self.assertNotIn("--real-periods", command)
+            self.assertNotIn("--services", command)
+        self.assertEqual(report["ecal_placement"], {
+            "siw-barrel": {"policy": "real-wedges", "reusable_envelopes": 1},
+            "siw-endcaps": {"policy": "real-wedges", "reusable_envelopes": 1}})
+        self.assertEqual(report["system_ids"], [0, 8, 9])
+
+    def test_maintained_export_rejects_missing_selected_hierarchy(self):
+        calls = []
+        with patch("export.subprocess.run", side_effect=self.baseline_fixture_backend(calls, omit_envelopes=True)):
+            with self.assertRaisesRegex(ValueError, "selected reusable placement"):
+                export_baseline("LAYOUT-002", self.root / "baseline")
 
 
 if __name__ == "__main__":

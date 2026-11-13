@@ -2,20 +2,131 @@
   "schema_version": 1,
   "curated": {
     "journal_links": [],
-    "agents": [],
-    "tools": [],
-    "events": []
+    "agents": [
+      {
+        "id": "agent:pr138-coordinator",
+        "name": "Codex coordinator",
+        "role": "coordinator",
+        "thread_id": "01a1d197-9480-7751-af8c-0c21b576f5ac",
+        "models": [],
+        "source": "Visible parent/child activity plus recorded explicit role contracts; logs/usage/RECOVERY-2026-11-13-pr138-139.json",
+        "limitation": "Native profile loading not claimed. Model/provider unreported; no inferred execution model."
+      },
+      {
+        "id": "agent:pr138-softeng",
+        "name": "/root/larplace_softeng",
+        "role": "SoftEng",
+        "thread_id": "01a1d3d3-24dd-7443-b93a-d5cd2b65dec1",
+        "models": [],
+        "source": "Visible parent/child activity plus recorded explicit role contracts; logs/usage/RECOVERY-2026-11-13-pr138-139.json",
+        "limitation": "Native profile loading not claimed. Model/provider unreported; no inferred execution model."
+      },
+      {
+        "id": "agent:pr138-physval",
+        "name": "/root/larplace_physval",
+        "role": "PhysVal",
+        "thread_id": "01a1d3d3-37d1-7271-a9fb-9642616f74a4",
+        "models": [],
+        "source": "Visible parent/child activity plus recorded explicit role contracts; logs/usage/RECOVERY-2026-11-13-pr138-139.json",
+        "limitation": "Native profile loading not claimed. Model/provider unreported; no inferred execution model."
+      }
+    ],
+    "tools": [
+      {
+        "name": "functions.exec / exec_command / apply_patch",
+        "category": "native_codex",
+        "version": null,
+        "calls": null,
+        "source": "logs/codex/SESSION-2026-11-13-lar-geant4-placement.md",
+        "evidence": "Local commands, targeted edits and Git operations.",
+        "token_account": "SESSION-2026-11-13-lar-geant4-placement",
+        "provenance": "Client-exposed tool calls or reproducible commands in task journal; count/duration not exposed."
+      },
+      {
+        "name": "collaboration tools",
+        "category": "native_codex",
+        "version": null,
+        "calls": null,
+        "source": "logs/codex/SESSION-2026-11-13-lar-geant4-placement.md",
+        "evidence": "Explicit SoftEng/PhysVal assignments and read-only assessments.",
+        "token_account": "SESSION-2026-11-13-lar-geant4-placement",
+        "provenance": "Client-exposed tool calls or reproducible commands in task journal; count/duration not exposed."
+      },
+      {
+        "name": "GitHub connector",
+        "category": "codex_installed",
+        "version": null,
+        "calls": null,
+        "source": "logs/codex/SESSION-2026-11-13-lar-geant4-placement.md",
+        "evidence": "Available GitHub plugin; initial PR creation unavailable with integration403, authenticated gh CLI fallback.",
+        "token_account": "SESSION-2026-11-13-lar-geant4-placement",
+        "provenance": "Client-exposed tool calls or reproducible commands in task journal; count/duration not exposed."
+      },
+      {
+        "name": "gh / Git CLI",
+        "category": "instructed_software",
+        "version": null,
+        "calls": null,
+        "source": "logs/codex/SESSION-2026-11-13-lar-geant4-placement.md",
+        "evidence": "PR publication/metadata, work labels and merge preparation.",
+        "token_account": "SESSION-2026-11-13-lar-geant4-placement",
+        "provenance": "Client-exposed tool calls or reproducible commands in task journal; count/duration not exposed."
+      },
+      {
+        "name": "DD4hep / Geant4 / ROOT / EDM4hep / podio",
+        "category": "instructed_software",
+        "version": null,
+        "calls": null,
+        "source": "logs/codex/SESSION-2026-11-13-lar-geant4-placement.md",
+        "evidence": "Existing verified Spack runtime; native construction, transport and saved-hit validation.",
+        "token_account": "SESSION-2026-11-13-lar-geant4-placement",
+        "provenance": "Client-exposed tool calls or reproducible commands in task journal; count/duration not exposed."
+      },
+      {
+        "name": "nODD session/interaction/usage tools",
+        "category": "instructed_software",
+        "version": null,
+        "calls": null,
+        "source": "logs/codex/SESSION-2026-11-13-lar-geant4-placement.md",
+        "evidence": "Usage-only exact recovery, canonical imports, interaction synchronization and token-site checks.",
+        "token_account": "SESSION-2026-11-13-lar-geant4-placement",
+        "provenance": "Client-exposed tool calls or reproducible commands in task journal; count/duration not exposed."
+      }
+    ],
+    "events": [
+      {
+        "id": "curated:pr138-accounting-work-labels",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:pr138-coordinator",
+        "recipients": [
+          "unknown:project-user"
+        ],
+        "text": "Applied existing GitHub work labels campaign:calorimeters and scope:baseline-design. Recovered exact closed task turns to canonical session usage; active PR139 parent is excluded. PR138 merged; accounting reconciliation carried in PR139. No engineering sign-off inferred.",
+        "source": "logs/codex/SESSION-2026-11-13-lar-geant4-placement.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [
+          "coordinator",
+          "SoftEng",
+          "PhysVal"
+        ],
+        "token_accounts": [
+          "SESSION-2026-11-13-lar-geant4-placement"
+        ]
+      }
+    ]
   },
   "github": {
-    "captured_at": "2026-11-13T08:16:21.235076Z",
+    "captured_at": "2026-11-13T08:59:23.743906Z",
     "pull_request": {
       "number": 138,
       "url": "https://github.com/asalzburger/nodd/pull/138",
       "title": "Calorimeter: investigate reusable LAr placements for faster Geant4 startup",
       "head": "codex/lar-geant4-placement",
-      "head_sha": "3075938e3ceeb8ef222063a4a306c66d582bc163",
-      "state": "open",
-      "body": "## Executive summary\n\nInvestigates the Si–W placement approach for the ALLEGRO-style LAr ECAL. Opt-in reusable solid period mothers preserve the existing inclined barrel/turbine geometry and readout. In one matched serial ECAL-only pair, time to first actual event falls from **522.258 s to 67.383 s (7.75×)**; DDG4 map construction falls from **3.858 s to 0.195 s (19.79×)**. Peak child RSS falls from 5.538 GiB to 2.417 GiB.\n\nThe legacy assembly export remains the default. This is a draft prototype for review before the deferred 10k response comparison.\n\n## Change\n\nDES032/DES033 period envelopes follow the existing outer absorber faces and annular/axial clipping. Standalone exporters add `--real-periods`; all physical leaves, materials, replica poses and readout definitions are retained. The new mothers reuse the actual enclosing material, with no intended added material layer.\n\n[Report, compact evidence and complete reproduction recipe](https://github.com/asalzburger/nodd/blob/codex/lar-geant4-placement/docs/validation/lar-placement/README.md).\n\n## Dashboard and validation\n\n- [x] Updated scientific tracking and software inventory; inventory checks pass.\n- [x] 39 LAr/placement controls and five baseline-composition controls pass.\n- [x] Native barrel, endcap and combined ECAL checks report zero overlaps/extrusions at 10 nm; 405 union rays retained. All 65 matched material-ray differences are zero.\n- [x] All 43,648 sensitive IDs and 274,689 terminal material-leaf records have identical inventory hashes. Canonical-cell checks retain 3,488,768 logical cells.\n- [x] Both seven-event smoke samples pass primary and complete canonical-ID checks, covering the barrel and all turbine wheels on both ends. Counts and summed energies agree in these smoke cases.\n- [x] Session validation and token-site build pass; unavailable usage remains unknown.\n- [x] New Git objects inspected: no raw ROOT/events/compacts, dumps or large logs committed.\n- [x] Added this PR's individual interaction record and linked canonical session; unavailable token observations remain unknown.\n- [x] Separate PhysVal assessment and software guard-remediation review retained at exact revisions; no human approval inferred.\n- [x] Layout drawings are unaffected: optional hierarchy only, with existing physical coordinates, dimensions and default selection retained.\n\nThe primary timing includes common inventory/native-map audit overhead. It is one observed serial pair, not isolated voxelization, stable throughput, twelve-worker qualification or general shower-response equivalence. The earlier failed MT pilot is not used as the baseline. No detector/design acceptance or merge authorization is implied.\n",
+      "head_sha": "e91a1cb7099f830bf42e5fc63455344d2aa810fb",
+      "state": "closed",
+      "body": "## Executive summary\n\nInvestigates the Si–W placement approach for the ALLEGRO-style LAr ECAL. Opt-in reusable solid period mothers preserve the existing inclined barrel/turbine geometry and readout. In one matched serial ECAL-only pair, time to first actual event falls from **522.258 s to 67.383 s (7.75×)**; DDG4 map construction falls from **3.858 s to 0.195 s (19.79×)**. Peak child RSS falls from 5.538 GiB to 2.417 GiB.\n\nAt this measured revision the legacy assembly export remains the default. This PROTOTYPE investigation merged on 2026-11-13; #139 adopts the maintained LAYOUT-002 hierarchy. The 10k response comparison remains deferred.\n\n## Change\n\nDES032/DES033 period envelopes follow the existing outer absorber faces and annular/axial clipping. Standalone exporters add `--real-periods`; all physical leaves, materials, replica poses and readout definitions are retained. The new mothers reuse the actual enclosing material, with no intended added material layer.\n\n[Report, compact evidence and complete reproduction recipe](https://github.com/asalzburger/nodd/blob/codex/lar-geant4-placement/docs/validation/lar-placement/README.md).\n\n## Dashboard and validation\n\n- [x] Updated scientific tracking and software inventory; inventory checks pass.\n- [x] 39 LAr/placement controls and five baseline-composition controls pass.\n- [x] Native barrel, endcap and combined ECAL checks report zero overlaps/extrusions at 10 nm; 405 union rays retained. All 65 matched material-ray differences are zero.\n- [x] All 43,648 sensitive IDs and 274,689 terminal material-leaf records have identical inventory hashes. Canonical-cell checks retain 3,488,768 logical cells.\n- [x] Both seven-event smoke samples pass primary and complete canonical-ID checks, covering the barrel and all turbine wheels on both ends. Counts and summed energies agree in these smoke cases.\n- [x] Session validation and token-site build pass; unavailable usage remains unknown.\n- [x] New Git objects inspected: no raw ROOT/events/compacts, dumps or large logs committed.\n- [x] Added this PR's individual interaction record and linked canonical session; unavailable token observations remain unknown.\n- [x] Separate PhysVal assessment and software guard-remediation review retained at exact revisions; no human approval inferred.\n- [x] Layout drawings are unaffected: optional hierarchy only, with existing physical coordinates, dimensions and default selection retained.\n\nThe primary timing includes common inventory/native-map audit overhead. It is one observed serial pair, not isolated voxelization, stable throughput, twelve-worker qualification or general shower-response equivalence. The earlier failed MT pilot is not used as the baseline. No detector/design acceptance or merge authorization is implied.\n\n\n## Accounting and work labels\n\nPost-merge closeout is carried in #139: the canonical paired session and interaction record now capture eight verified closed turns (parent plus separate SoftEng/PhysVal work): **55,189,863 input, 148,445 output, 55,338,308 total tokens**. Input includes 54,916,224 cached tokens; reasoning is an output subset. These are observed processed-token counters, not a cost estimate. Models/providers remain unknown. No current active-turn counters are allocated here.\n\nWork labels: `campaign:calorimeters`, `scope:baseline-design`. Curated agent roles/tool provenance, exact recovery boundaries and exclusions are recorded in `interactions/pr-0138.json` and `logs/usage/RECOVERY-2026-11-13-pr138-139.json` through #139. The merge grants no detector-design sign-off.\n\nCanonical post-merge closeout: [PR138 interaction](https://github.com/asalzburger/nodd/blob/codex/lar-placement-default/interactions/pr-0138.json), [paired session](https://github.com/asalzburger/nodd/blob/codex/lar-placement-default/logs/codex/SESSION-2026-11-13-lar-geant4-placement.json), [curated recovery](https://github.com/asalzburger/nodd/blob/codex/lar-placement-default/logs/usage/RECOVERY-2026-11-13-pr138-139.json).\n",
       "actor": "asalzburger",
       "created_at": "2026-11-13T08:12:50Z"
     },
@@ -27,6 +138,21 @@
       {
         "id": "agent:SESSION-2026-11-13-lar-geant4-placement",
         "name": "unspecified",
+        "kind": "agent"
+      },
+      {
+        "id": "agent:pr138-coordinator",
+        "name": "Codex coordinator",
+        "kind": "agent"
+      },
+      {
+        "id": "agent:pr138-physval",
+        "name": "/root/larplace_physval",
+        "kind": "agent"
+      },
+      {
+        "id": "agent:pr138-softeng",
+        "name": "/root/larplace_softeng",
         "kind": "agent"
       },
       {
@@ -50,8 +176,8 @@
         ],
         "snapshot": null,
         "snapshot_sha256": null,
-        "record_sha256": "47e1c7f8064cf717e015ec175143d7a607fec8926395ea6a01f2d82dbbc3a02d",
-        "narrative_sha256": "d06bc644e9c0da73f0db0618300e878eb565c24f1cdd2bb713166444912a2acf"
+        "record_sha256": "b48440bbf08f8eb2c22a9d86755afd7c038f0ddb10ad48e1933b350a05551b93",
+        "narrative_sha256": "e8d0def2990f97bc998b72b6a3f6d6ad05989f596cbb1717b3fab986ba6725f2"
       }
     ],
     "token_accounts": [
@@ -59,9 +185,50 @@
         "id": "SESSION-2026-11-13-lar-geant4-placement",
         "record": "logs/codex/SESSION-2026-11-13-lar-geant4-placement.json",
         "scope": "canonical_session; shared PR references are not allocations",
-        "status": "unobserved",
-        "usage_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
-        "turns": []
+        "status": "observed",
+        "usage_sha256": "1f68d9ccc363f691963601646608fb53592048f3a127b21f2263f6048ebf980f",
+        "turns": [
+          {
+            "client_thread_id": "01a1d197-9480-7751-af8c-0c21b576f5ac",
+            "turn_id": "01a1d3d0-d19a-76d0-a830-d1af29a91a7c",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a1d3d3-24dd-7443-b93a-d5cd2b65dec1",
+            "turn_id": "01a1d3d3-252e-76e2-b4e8-00918d863957",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a1d3d3-24dd-7443-b93a-d5cd2b65dec1",
+            "turn_id": "01a1d3ee-6980-7f61-873a-19935ba86fc0",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a1d3d3-24dd-7443-b93a-d5cd2b65dec1",
+            "turn_id": "01a1d3f4-f87a-7420-a576-0d52c903cd57",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a1d3d3-37d1-7271-a9fb-9642616f74a4",
+            "turn_id": "01a1d3d3-381f-7cd1-b3bc-d86f5b7055dc",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a1d3d3-37d1-7271-a9fb-9642616f74a4",
+            "turn_id": "01a1d3db-34b0-7a02-bb64-55ea0a72852d",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a1d3d3-37d1-7271-a9fb-9642616f74a4",
+            "turn_id": "01a1d3e0-c924-7572-8968-9e4964f2b575",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a1d3d3-37d1-7271-a9fb-9642616f74a4",
+            "turn_id": "01a1d3ee-55fb-7f90-8145-29444fd31841",
+            "model": null
+          }
+        ]
       }
     ],
     "visible_sources": [],
@@ -70,7 +237,7 @@
         "id": "agent:SESSION-2026-11-13-lar-geant4-placement",
         "name": "unspecified",
         "role": "session_agent",
-        "thread_id": null,
+        "thread_id": "01a1d197-9480-7751-af8c-0c21b576f5ac",
         "models": [],
         "source": "logs/codex/SESSION-2026-11-13-lar-geant4-placement.json",
         "limitation": "Usage may include children; model/role is not assigned to every response."
@@ -92,6 +259,33 @@
         "models": [],
         "source": "logs/codex/SESSION-2026-11-13-lar-geant4-placement.md#assignments-recorded-before-dispatch",
         "limitation": "Role contract is recorded; native profile loading and process identity are not inferred."
+      },
+      {
+        "id": "agent:pr138-coordinator",
+        "name": "Codex coordinator",
+        "role": "coordinator",
+        "thread_id": "01a1d197-9480-7751-af8c-0c21b576f5ac",
+        "models": [],
+        "source": "Visible parent/child activity plus recorded explicit role contracts; logs/usage/RECOVERY-2026-11-13-pr138-139.json",
+        "limitation": "Native profile loading not claimed. Model/provider unreported; no inferred execution model."
+      },
+      {
+        "id": "agent:pr138-softeng",
+        "name": "/root/larplace_softeng",
+        "role": "SoftEng",
+        "thread_id": "01a1d3d3-24dd-7443-b93a-d5cd2b65dec1",
+        "models": [],
+        "source": "Visible parent/child activity plus recorded explicit role contracts; logs/usage/RECOVERY-2026-11-13-pr138-139.json",
+        "limitation": "Native profile loading not claimed. Model/provider unreported; no inferred execution model."
+      },
+      {
+        "id": "agent:pr138-physval",
+        "name": "/root/larplace_physval",
+        "role": "PhysVal",
+        "thread_id": "01a1d3d3-37d1-7271-a9fb-9642616f74a4",
+        "models": [],
+        "source": "Visible parent/child activity plus recorded explicit role contracts; logs/usage/RECOVERY-2026-11-13-pr138-139.json",
+        "limitation": "Native profile loading not claimed. Model/provider unreported; no inferred execution model."
       }
     ],
     "tools": {
@@ -115,10 +309,72 @@
           "evidence": "Explicit generic role assignments to /root/larplace_softeng and /root/larplace_physval; prepared contracts and exact review targets retained.",
           "token_account": "SESSION-2026-11-13-lar-geant4-placement",
           "provenance": "Native API name"
+        },
+        {
+          "name": "functions.exec / exec_command / apply_patch",
+          "category": "native_codex",
+          "version": null,
+          "calls": null,
+          "source": "logs/codex/SESSION-2026-11-13-lar-geant4-placement.md",
+          "evidence": "Local commands, targeted edits and Git operations.",
+          "token_account": "SESSION-2026-11-13-lar-geant4-placement",
+          "provenance": "Client-exposed tool calls or reproducible commands in task journal; count/duration not exposed."
+        },
+        {
+          "name": "collaboration tools",
+          "category": "native_codex",
+          "version": null,
+          "calls": null,
+          "source": "logs/codex/SESSION-2026-11-13-lar-geant4-placement.md",
+          "evidence": "Explicit SoftEng/PhysVal assignments and read-only assessments.",
+          "token_account": "SESSION-2026-11-13-lar-geant4-placement",
+          "provenance": "Client-exposed tool calls or reproducible commands in task journal; count/duration not exposed."
         }
       ],
-      "codex_installed": [],
-      "instructed_software": [],
+      "codex_installed": [
+        {
+          "name": "GitHub connector",
+          "category": "codex_installed",
+          "version": null,
+          "calls": null,
+          "source": "logs/codex/SESSION-2026-11-13-lar-geant4-placement.md",
+          "evidence": "Available GitHub plugin; initial PR creation unavailable with integration403, authenticated gh CLI fallback.",
+          "token_account": "SESSION-2026-11-13-lar-geant4-placement",
+          "provenance": "Client-exposed tool calls or reproducible commands in task journal; count/duration not exposed."
+        }
+      ],
+      "instructed_software": [
+        {
+          "name": "gh / Git CLI",
+          "category": "instructed_software",
+          "version": null,
+          "calls": null,
+          "source": "logs/codex/SESSION-2026-11-13-lar-geant4-placement.md",
+          "evidence": "PR publication/metadata, work labels and merge preparation.",
+          "token_account": "SESSION-2026-11-13-lar-geant4-placement",
+          "provenance": "Client-exposed tool calls or reproducible commands in task journal; count/duration not exposed."
+        },
+        {
+          "name": "DD4hep / Geant4 / ROOT / EDM4hep / podio",
+          "category": "instructed_software",
+          "version": null,
+          "calls": null,
+          "source": "logs/codex/SESSION-2026-11-13-lar-geant4-placement.md",
+          "evidence": "Existing verified Spack runtime; native construction, transport and saved-hit validation.",
+          "token_account": "SESSION-2026-11-13-lar-geant4-placement",
+          "provenance": "Client-exposed tool calls or reproducible commands in task journal; count/duration not exposed."
+        },
+        {
+          "name": "nODD session/interaction/usage tools",
+          "category": "instructed_software",
+          "version": null,
+          "calls": null,
+          "source": "logs/codex/SESSION-2026-11-13-lar-geant4-placement.md",
+          "evidence": "Usage-only exact recovery, canonical imports, interaction synchronization and token-site checks.",
+          "token_account": "SESSION-2026-11-13-lar-geant4-placement",
+          "provenance": "Client-exposed tool calls or reproducible commands in task journal; count/duration not exposed."
+        }
+      ],
       "unresolved": [
         {
           "name": "GitHub connector and gh CLI",
@@ -139,7 +395,7 @@
         "direction": "reaction",
         "actor": "github:asalzburger",
         "recipients": [],
-        "text": "## Executive summary\n\nInvestigates the Si–W placement approach for the ALLEGRO-style LAr ECAL. Opt-in reusable solid period mothers preserve the existing inclined barrel/turbine geometry and readout. In one matched serial ECAL-only pair, time to first actual event falls from **522.258 s to 67.383 s (7.75×)**; DDG4 map construction falls from **3.858 s to 0.195 s (19.79×)**. Peak child RSS falls from 5.538 GiB to 2.417 GiB.\n\nThe legacy assembly export remains the default. This is a draft prototype for review before the deferred 10k response comparison.\n\n## Change\n\nDES032/DES033 period envelopes follow the existing outer absorber faces and annular/axial clipping. Standalone exporters add `--real-periods`; all physical leaves, materials, replica poses and readout definitions are retained. The new mothers reuse the actual enclosing material, with no intended added material layer.\n\n[Report, compact evidence and complete reproduction recipe](https://github.com/asalzburger/nodd/blob/codex/lar-geant4-placement/docs/validation/lar-placement/README.md).\n\n## Dashboard and validation\n\n- [x] Updated scientific tracking and software inventory; inventory checks pass.\n- [x] 39 LAr/placement controls and five baseline-composition controls pass.\n- [x] Native barrel, endcap and combined ECAL checks report zero overlaps/extrusions at 10 nm; 405 union rays retained. All 65 matched material-ray differences are zero.\n- [x] All 43,648 sensitive IDs and 274,689 terminal material-leaf records have identical inventory hashes. Canonical-cell checks retain 3,488,768 logical cells.\n- [x] Both seven-event smoke samples pass primary and complete canonical-ID checks, covering the barrel and all turbine wheels on both ends. Counts and summed energies agree in these smoke cases.\n- [x] Session validation and token-site build pass; unavailable usage remains unknown.\n- [x] New Git objects inspected: no raw ROOT/events/compacts, dumps or large logs committed.\n- [x] Added this PR's individual interaction record and linked canonical session; unavailable token observations remain unknown.\n- [x] Separate PhysVal assessment and software guard-remediation review retained at exact revisions; no human approval inferred.\n- [x] Layout drawings are unaffected: optional hierarchy only, with existing physical coordinates, dimensions and default selection retained.\n\nThe primary timing includes common inventory/native-map audit overhead. It is one observed serial pair, not isolated voxelization, stable throughput, twelve-worker qualification or general shower-response equivalence. The earlier failed MT pilot is not used as the baseline. No detector/design acceptance or merge authorization is implied.\n",
+        "text": "## Executive summary\n\nInvestigates the Si–W placement approach for the ALLEGRO-style LAr ECAL. Opt-in reusable solid period mothers preserve the existing inclined barrel/turbine geometry and readout. In one matched serial ECAL-only pair, time to first actual event falls from **522.258 s to 67.383 s (7.75×)**; DDG4 map construction falls from **3.858 s to 0.195 s (19.79×)**. Peak child RSS falls from 5.538 GiB to 2.417 GiB.\n\nAt this measured revision the legacy assembly export remains the default. This PROTOTYPE investigation merged on 2026-11-13; #139 adopts the maintained LAYOUT-002 hierarchy. The 10k response comparison remains deferred.\n\n## Change\n\nDES032/DES033 period envelopes follow the existing outer absorber faces and annular/axial clipping. Standalone exporters add `--real-periods`; all physical leaves, materials, replica poses and readout definitions are retained. The new mothers reuse the actual enclosing material, with no intended added material layer.\n\n[Report, compact evidence and complete reproduction recipe](https://github.com/asalzburger/nodd/blob/codex/lar-geant4-placement/docs/validation/lar-placement/README.md).\n\n## Dashboard and validation\n\n- [x] Updated scientific tracking and software inventory; inventory checks pass.\n- [x] 39 LAr/placement controls and five baseline-composition controls pass.\n- [x] Native barrel, endcap and combined ECAL checks report zero overlaps/extrusions at 10 nm; 405 union rays retained. All 65 matched material-ray differences are zero.\n- [x] All 43,648 sensitive IDs and 274,689 terminal material-leaf records have identical inventory hashes. Canonical-cell checks retain 3,488,768 logical cells.\n- [x] Both seven-event smoke samples pass primary and complete canonical-ID checks, covering the barrel and all turbine wheels on both ends. Counts and summed energies agree in these smoke cases.\n- [x] Session validation and token-site build pass; unavailable usage remains unknown.\n- [x] New Git objects inspected: no raw ROOT/events/compacts, dumps or large logs committed.\n- [x] Added this PR's individual interaction record and linked canonical session; unavailable token observations remain unknown.\n- [x] Separate PhysVal assessment and software guard-remediation review retained at exact revisions; no human approval inferred.\n- [x] Layout drawings are unaffected: optional hierarchy only, with existing physical coordinates, dimensions and default selection retained.\n\nThe primary timing includes common inventory/native-map audit overhead. It is one observed serial pair, not isolated voxelization, stable throughput, twelve-worker qualification or general shower-response equivalence. The earlier failed MT pilot is not used as the baseline. No detector/design acceptance or merge authorization is implied.\n\n\n## Accounting and work labels\n\nPost-merge closeout is carried in #139: the canonical paired session and interaction record now capture eight verified closed turns (parent plus separate SoftEng/PhysVal work): **55,189,863 input, 148,445 output, 55,338,308 total tokens**. Input includes 54,916,224 cached tokens; reasoning is an output subset. These are observed processed-token counters, not a cost estimate. Models/providers remain unknown. No current active-turn counters are allocated here.\n\nWork labels: `campaign:calorimeters`, `scope:baseline-design`. Curated agent roles/tool provenance, exact recovery boundaries and exclusions are recorded in `interactions/pr-0138.json` and `logs/usage/RECOVERY-2026-11-13-pr138-139.json` through #139. The merge grants no detector-design sign-off.\n\nCanonical post-merge closeout: [PR138 interaction](https://github.com/asalzburger/nodd/blob/codex/lar-placement-default/interactions/pr-0138.json), [paired session](https://github.com/asalzburger/nodd/blob/codex/lar-placement-default/logs/codex/SESSION-2026-11-13-lar-geant4-placement.json), [curated recovery](https://github.com/asalzburger/nodd/blob/codex/lar-placement-default/logs/usage/RECOVERY-2026-11-13-pr138-139.json).\n",
         "source": "https://github.com/asalzburger/nodd/pull/138",
         "in_reply_to": null,
         "model": null,
@@ -200,13 +456,67 @@
           "SESSION-2026-11-13-lar-geant4-placement"
         ],
         "content_kind": "reference_summary"
+      },
+      {
+        "id": "curated:pr138-accounting-work-labels",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:pr138-coordinator",
+        "recipients": [
+          "unknown:project-user"
+        ],
+        "text": "Applied existing GitHub work labels campaign:calorimeters and scope:baseline-design. Recovered exact closed task turns to canonical session usage; active PR139 parent is excluded. PR138 merged; accounting reconciliation carried in PR139. No engineering sign-off inferred.",
+        "source": "logs/codex/SESSION-2026-11-13-lar-geant4-placement.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [
+          "coordinator",
+          "SoftEng",
+          "PhysVal"
+        ],
+        "token_accounts": [
+          "SESSION-2026-11-13-lar-geant4-placement"
+        ]
       }
     ],
     "coverage": {
-      "github_captured_at": "2026-11-13T08:16:21.235076Z",
+      "github_captured_at": "2026-11-13T08:59:23.743906Z",
       "prompts": "Available account-matched user-visible messages, public Codex inputs and curated journal excerpts. Historical full input coverage is unknown.",
       "recovered_visible_turns": 0,
-      "unrecovered_account_turns": [],
+      "unrecovered_account_turns": [
+        {
+          "thread_id": "01a1d197-9480-7751-af8c-0c21b576f5ac",
+          "turn_id": "01a1d3d0-d19a-76d0-a830-d1af29a91a7c"
+        },
+        {
+          "thread_id": "01a1d3d3-24dd-7443-b93a-d5cd2b65dec1",
+          "turn_id": "01a1d3d3-252e-76e2-b4e8-00918d863957"
+        },
+        {
+          "thread_id": "01a1d3d3-24dd-7443-b93a-d5cd2b65dec1",
+          "turn_id": "01a1d3ee-6980-7f61-873a-19935ba86fc0"
+        },
+        {
+          "thread_id": "01a1d3d3-24dd-7443-b93a-d5cd2b65dec1",
+          "turn_id": "01a1d3f4-f87a-7420-a576-0d52c903cd57"
+        },
+        {
+          "thread_id": "01a1d3d3-37d1-7271-a9fb-9642616f74a4",
+          "turn_id": "01a1d3d3-381f-7cd1-b3bc-d86f5b7055dc"
+        },
+        {
+          "thread_id": "01a1d3d3-37d1-7271-a9fb-9642616f74a4",
+          "turn_id": "01a1d3db-34b0-7a02-bb64-55ea0a72852d"
+        },
+        {
+          "thread_id": "01a1d3d3-37d1-7271-a9fb-9642616f74a4",
+          "turn_id": "01a1d3e0-c924-7572-8968-9e4964f2b575"
+        },
+        {
+          "thread_id": "01a1d3d3-37d1-7271-a9fb-9642616f74a4",
+          "turn_id": "01a1d3ee-55fb-7f90-8145-29444fd31841"
+        }
+      ],
       "responses": "Public responses and recorded outcomes; no private model state or hidden reasoning.",
       "token_accounting": "References only. Never sum accounts across PRs or assign a shared turn by text length.",
       "unknowns": "Unrecorded names, models, tools, subagent identities and response links remain unknown; empty lists are not zero activity.",
