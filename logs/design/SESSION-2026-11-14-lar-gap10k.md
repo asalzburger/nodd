@@ -625,3 +625,27 @@ ExplicitgenericSoftEng, threeNEWfilesonly; allruntimeproducers/protocolfrozen.
   "completion": "Noeditsanyoldfileorartifact. Nativealiascatalogactualnodeidentitycorrect; no tolerance/gateweakening or fakeoldproof. Rootcommit beforecorrecteddataassessment, noauthorMC. Independentreviewwillcheckexactnewrevision."
 }
 ```
+
+## Corrected postprocessing frozen and nonauthor contract
+
+Author froze only three new files at d3f49420d6bd776b6b6891071801bf8dd6cd1216. Root independently ran all47 pure tests PASS. All old runtime source bytes stay frozen. Both full10k transports reached readback; original literal-name mismatch remains preserved. Explicit generic SoftEng independent review contract recorded before dispatch:
+
+```json
+{
+  "id": "LAR-GAP10K-SoftEng-reaudit-review",
+  "role": "SoftEng",
+  "input_revision": "d3f49420d6bd776b6b6891071801bf8dd6cd1216",
+  "inputs": [
+    "software/analysis/lar_gap/observed_reaudit.py",
+    "software/analysis/lar_gap/observed_recompare.py",
+    "software/analysis/lar_gap/test_reaudit.py",
+    "docs/validation/lar-gap10k/readback-addendum.md",
+    "docs/validation/lar-gap10k/observer-protocol.md"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Review ONLY separate three-file postprocessing correction against frozen previous producer. Logical failure volume w1_gap1/w2_gap0 versus physical SD-log w1_gap1_7/w2_gap0_6 must resolve via hash-bound native sensitive placement catalog, with exact raw ID and same printed local point/count gates. Verify original six runtime files/protocol unchanged, no source hash forgery or monkeypatching, all original raw/library/worker/map/precision/ROOT/primary checks maintained, own fresh derived proof and explicit new auditor/helper identity enforced by evidence. New analyzer uses frozen summarize/statistics with original bins/cut/1000 bootstrap/84 covariance. Root ran47 tests PASS. No native/MC/edits/delegation. Reuse live full transports at2860f262 valid because postprocessing only; old literal-name audit failure preserved. Return exact-target findings or closure and actual narrow checks.",
+  "deliverable": "Independent exact d3f49420 three-new-file review, severity/line for issues, source/precision/identity gate assessment and limits; do not claim physical acceptance.",
+  "completion": "Bounded read-only assessment, no broader redesign or rerunning old native jobs. Coordinator owns runtime/data/records."
+}
+```
