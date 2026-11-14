@@ -102,3 +102,11 @@ the requested concrete topology, refreshed public metadata and attached the PR
 to the chat. Server confirms draft and mergeable. Session closed at2026-11-13T22:00:21Z;
 new-head CI remains separate from prior green-head checks. No readiness/merge
 action or detector change. Current parent counters remain unavailable/excluded.
+
+## Closed coordinator recovery on drawing continuation
+
+Usage-only metadata now exposes the completed routing coordinator turn
+01a1d6e2-fd07-7580-a894-11620f89f1b7:4,196,160tokens imported into this original
+owner, not the new drawing session. Combined with the original901,555specialist
+tokens this session now observes5,097,715total across2closed turns. Models remain
+unknown; the new drawing parent is active and excluded from its separate owner.
