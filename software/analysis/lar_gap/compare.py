@@ -171,6 +171,19 @@ def analyze(args):
     print(json.dumps({n:m['global'] for n,m in result['models'].items()},indent=2))
 
 
+def draw_percentile(ax,x,estimate,ci,label=None,**style):
+    """Draw stored percentile endpoints independently of the point estimate."""
+    x=np.asarray(x);estimate=np.asarray(estimate);ci=np.asarray(ci)
+    if ci.shape!=(len(x),2) or len(estimate)!=len(x) or not np.all(np.isfinite(ci)) or np.any(ci[:,0]>ci[:,1]):
+        raise ValueError('Invalid percentile interval for drawing')
+    color=style.get('color','#cccc00')
+    segments=ax.vlines(x,ci[:,0],ci[:,1],color=color,linewidth=1)
+    ax.plot(x,ci[:,0],ls='None',marker='_',color=color,markersize=5)
+    ax.plot(x,ci[:,1],ls='None',marker='_',color=color,markersize=5)
+    points=ax.plot(x,estimate,label=label,**style)
+    return segments,points
+
+
 def plot(args):
     import matplotlib
     matplotlib.use('Agg')
@@ -191,7 +204,7 @@ def plot(args):
             p=model['projections'][axis];edges=np.array(p['edges']);x=(edges[:-1]+edges[1:])/2
             y=np.array([r[field] for r in p['bins']]);ci=np.array([r[field+'_bootstrap']['ci95'] for r in p['bins']])
             factor=100 if field in ('fractional_width','common_tail_fraction') else 1
-            ax.errorbar(x,y*factor,yerr=np.maximum([y-ci[:,0],ci[:,1]-y],0)*factor,label=model['label'],capsize=2,markersize=4,**styles[name])
+            draw_percentile(ax,x,y*factor,ci*factor,label=model['label'],markersize=4,**styles[name])
         ax.set_xlabel(labels[axis]);ax.set_ylabel({'fractional_width':'SD(R) / mean(R) [%]','mean_response':'Mean deposited fraction R','common_tail_fraction':'Below fixed standard global threshold [%]'}[field]);ax.grid(alpha=.22)
     for field,name in (('fractional_width','angular-widths'),('mean_response','angular-means'),('common_tail_fraction','angular-common-tails')):
         fig,axs=plt.subplots(1,2,figsize=(12,4.6))
@@ -206,7 +219,7 @@ def plot(args):
         edges=np.array(AXES['fine_transition']);x=(edges[:-1]+edges[1:])/2
         rows=[r[field] for r in result['candidate_minus_standard']['fine_transition']]
         y=np.array([r['difference'] for r in rows]);ci=np.array([r['ci95'] for r in rows]);factor=100 if field!='mean_response' else 1
-        ax.errorbar(x,y*factor,yerr=np.maximum([y-ci[:,0],ci[:,1]-y],0)*factor,color='#cccc00',marker='o',markeredgecolor='#333333',capsize=2)
+        draw_percentile(ax,x,y*factor,ci*factor,color='#cccc00',marker='o',markeredgecolor='#333333')
         ax.axhline(0,color='#555555',lw=.7);ax.set(xlabel='|η|',ylabel=field.replace('_',' ')+(' [percentage points]' if factor==100 else ''));ax.grid(alpha=.22)
     fig.suptitle('Conditional minus standard · paired transition differences');export(fig,'transition-differences')
     fig,ax=plt.subplots(figsize=(9,5))

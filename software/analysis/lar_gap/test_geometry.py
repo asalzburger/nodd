@@ -4,7 +4,7 @@ import unittest
 import xml.etree.ElementTree as ET
 
 from geometry import transform,verify_transform,dimension,endcap
-from native import compare_rows
+from native import compare_rows,solid_signature,solid_digest,matrix_signature,retained_accounting
 
 
 def fixture():
@@ -68,7 +68,7 @@ class NativeLedgerControls(unittest.TestCase):
     def row(self,root='LArEndcaps',depth=3,z=-5200):
         return dict(path='/world/root/period/leaf',root=root,depth=depth,root_relative=depth==2,
                     centre_mm=[1.,2.,float(z)],local_centre_mm=[0.,0.,17.],rotation=[1.,0.,0.,0.,-1.,0.,0.,0.,-1.],
-                    local_rotation=[1.]*9,material='test',capacity_mm3=7.,sensitive=True)
+                    local_rotation=[1.]*9,material='test',solid_sha256='test-solid',sensitive=True)
 
     def test_all_descendants_have_signed_global_shift_and_fixed_local_pose(self):
         a=self.row();b=deepcopy(a);b['centre_mm'][2]+=400
@@ -83,9 +83,71 @@ class NativeLedgerControls(unittest.TestCase):
 
     def test_native_missing_shift_rotation_or_material_change_rejected(self):
         a=self.row()
-        for key,value in (('centre_mm',[1.,2.,-5200.]),('local_centre_mm',[0.,0.,18.]),('material','other'),('rotation',[0.]*9)):
+        for key,value in (('centre_mm',[1.,2.,-5200.]),('local_centre_mm',[0.,0.,18.]),('material','other'),('rotation',[0.]*9),('solid_sha256','other-solid')):
             b=deepcopy(a);b['centre_mm'][2]+=400;b[key]=value
             with self.subTest(key=key),self.assertRaises(ValueError):compare_rows(a,b)
+
+
+class NativeDouble:
+    """Native API fixture whose stochastic-capacity API is explicitly forbidden."""
+    def __init__(self,kind,**methods):self.kind=kind;self.methods=methods
+    def ClassName(self):return self.kind
+    def __getattr__(self,name):
+        if name=='Capacity':raise AssertionError('Stochastic Boolean Capacity must never be invoked')
+        try:return object.__getattribute__(self,'methods')[name]
+        except KeyError:raise AttributeError(name)
+
+
+class NativeSolidControls(unittest.TestCase):
+    def box(self,half=1.):
+        return NativeDouble('TGeoBBox',GetDX=lambda:half,GetDY=lambda:2.,GetDZ=lambda:3.,GetOrigin=lambda:[0.,0.,0.])
+
+    def matrix(self,x=0.,scale=1.):
+        return NativeDouble('TGeoHMatrix',GetTranslation=lambda:[x,0.,0.],GetRotationMatrix=lambda:[0.,-1.,0.,1.,0.,0.,0.,0.,1.],GetScale=lambda:[scale,1.,1.])
+
+    def composite(self,operation='TGeoSubtraction',left=None,right=None,matrix=None):
+        boolean=NativeDouble(operation,GetLeftShape=lambda:left or self.box(4.),GetRightShape=lambda:right or self.box(),
+                             GetLeftMatrix=lambda:None,GetRightMatrix=lambda:matrix)
+        return NativeDouble('TGeoCompositeShape',GetBoolNode=lambda:boolean)
+
+    def test_boolean_capacity_is_forbidden_and_native_parameters_are_deterministic(self):
+        shape=self.composite(left=self.composite('TGeoIntersection'),matrix=self.matrix(2.))
+        a=solid_signature(shape,10.);b=solid_signature(deepcopy(shape),10.)
+        self.assertEqual(solid_digest(a),solid_digest(b))
+        self.assertEqual(a['right_matrix']['translation_mm'],[.2,0.,0.])
+        self.assertEqual(a['right_matrix']['rotation'],[0.,-1.,0.,1.,0.,0.,0.,0.,1.])
+        self.assertEqual(a['left']['operation'],'TGeoIntersection')
+
+    def test_primitive_boolean_operator_and_operand_pose_changes_have_distinct_signatures(self):
+        baseline=solid_digest(solid_signature(self.composite(matrix=self.matrix()),1.))
+        for shape in (self.composite(right=self.box(1.01),matrix=self.matrix()),
+                      self.composite(matrix=self.matrix(.01)),self.composite('TGeoUnion',matrix=self.matrix())):
+            self.assertNotEqual(solid_digest(solid_signature(shape,1.)),baseline)
+
+    def test_all_factory_primitive_parameters_including_sections_are_retained(self):
+        tube=NativeDouble('TGeoTubeSeg',GetRmin=lambda:1.,GetRmax=lambda:2.,GetDz=lambda:3.,GetPhi1=lambda:5.,GetPhi2=lambda:95.)
+        arb=NativeDouble('TGeoArb8',GetDz=lambda:3.,GetVertices=lambda:list(range(16)))
+        xtru=NativeDouble('TGeoXtru',GetNvert=lambda:3,GetNz=lambda:2,GetX=lambda i:i,GetY=lambda i:i+1,
+            GetZ=lambda i:2*i-1,GetXOffset=lambda i:i,GetYOffset=lambda i:0.,GetScale=lambda i:1.+i)
+        self.assertEqual(solid_signature(tube,1.)['phi_degrees'],[5.,95.])
+        self.assertEqual(solid_signature(arb,1.)['vertices_mm'][-1],[14.,15.])
+        self.assertEqual(solid_signature(xtru,1.)['sections'][1],dict(z_mm=1.,offset_mm=[1.,0.],scale=2.))
+        self.assertEqual(matrix_signature(None,1.),dict(translation_mm=[0.,0.,0.],rotation=[1.,0.,0.,0.,1.,0.,0.,0.,1.],scale=[1.,1.,1.]))
+
+    def test_non_unit_operand_and_placement_matrix_scales_fail_closed(self):
+        with self.assertRaisesRegex(ValueError,'non-unit'):matrix_signature(self.matrix(scale=1.001),1.)
+        with self.assertRaisesRegex(ValueError,'non-unit'):solid_signature(self.composite(matrix=self.matrix(scale=1.001)),1.)
+
+    def test_nonfinite_or_unknown_shapes_and_operators_fail_closed(self):
+        for shape in (self.box(float('nan')),NativeDouble('UnknownSolid'),self.composite('UnknownOperator')):
+            with self.subTest(kind=shape.ClassName()),self.assertRaises(ValueError):solid_signature(shape,1.)
+
+    def test_retained_mass_accounting_is_bound_and_not_labeled_native_measurement(self):
+        binding=dict(components={'barrel':dict(expected_sha256='bound-fixture',material_totals={'test':dict(volume_mm3=2.,mass_g=3.)})})
+        accounting=retained_accounting(binding)['barrel']
+        self.assertEqual(accounting['expected_sha256'],'bound-fixture')
+        self.assertEqual(accounting['material_totals'],binding['components']['barrel']['material_totals'])
+        self.assertIn('Not a new whole-native',accounting['interpretation'])
 
 
 if __name__=='__main__':unittest.main()

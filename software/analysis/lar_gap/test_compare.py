@@ -62,4 +62,16 @@ class StatisticsControls(unittest.TestCase):
             with self.assertRaises(ValueError):summarize(p,dict(standard=r,candidate=bad),replicates=2)
 
 
+class PercentileDrawingControls(unittest.TestCase):
+    def test_estimate_outside_percentile_interval_does_not_move_either_endpoint(self):
+        from compare import draw_percentile
+        class Axes:
+            def __init__(self):self.segments=[];self.points=[]
+            def vlines(self,x,low,high,**kwargs):self.segments.append((np.asarray(x),np.asarray(low),np.asarray(high)))
+            def plot(self,x,y,**kwargs):self.points.append((np.asarray(x),np.asarray(y),kwargs))
+        ax=Axes();draw_percentile(ax,[1.,2.],[3.,-3.],[[0.,1.],[-1.,0.]],color='#cccc00',marker='o')
+        np.testing.assert_array_equal(ax.segments[0][1],[0.,-1.]);np.testing.assert_array_equal(ax.segments[0][2],[1.,0.])
+        np.testing.assert_array_equal(ax.points[-1][1],[3.,-3.])
+
+
 if __name__=='__main__':unittest.main()

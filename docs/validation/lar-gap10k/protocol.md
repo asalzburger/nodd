@@ -38,6 +38,14 @@ Reject missing/ambiguous roots, unexpected pose changes, stale artifacts and
 overlaps. Moving an endcap is a declared sensitivity parameter, not a material
 or response tuning exercise.
 
+For relative material conservation, compare complete deterministic native solid
+definitions (including recursive Boolean operands and their matrices), recipes,
+topology and all placement transforms. This bijection preserves the material
+regions under rigid translation. Retain the bound component analytic/converged
+inventories with their original limitations; do not label them as a new absolute
+native exclusive-mass measurement. ROOT Boolean `Capacity()` estimates are
+unsuitable for subtracting filled mothers and daughters at exact tolerances.
+
 ## Frozen input and transport
 
 Reuse the exact standard 10,000 origin-electron primary records: independent

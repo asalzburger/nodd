@@ -222,3 +222,82 @@ Explicit generic SoftEng fallback; reviewer is not implementation author.
   "completion": "Assess source at exact revision independently from author conclusions. Concrete blockers immediately; no style-only scope expansion or acceptance. Read-only; no changes to ongoing artifacts."
 }
 ```
+
+## Adverse native audit and bounded correction
+
+At clean execution0d11cf9c, first baseline native snapshot constructed290217nodes but stopped before showers on negative capacity-minus-daughter volume at the first period mother. Independent nonauthor SoftEng source review separately flagged ROOT stochastic BooleanCapacity as unsuitable for exact exclusive-volume subtraction; existing native auditors explicitly avoid it. Raw failed outputs stay ignored under build/lar-gap10k/final/. No geometry, overlap or shower pass is inferred from failure.
+
+Coordinator initially sent supplemental author/PhysVal research followups before durably recording these detailed contracts; this timing omission is retained, and full prepared contracts were supplied before correction acceptance or further native execution. Existing role fallback still applied. No tolerance relaxation is authorized.
+
+```json
+[
+  {
+    "input_revision": "c7de169d3df360e3e3c55fc14e232002532366f1",
+    "inputs": [
+      "docs/validation/lar-gap10k/protocol.md",
+      "software/analysis/lar_gap/native.py",
+      "software/analysis/lar_gap/geometry.py",
+      "software/analysis/lar_gap/test_geometry.py",
+      "tools/lar_calorimeter/barrel_native.py",
+      "tools/lar_calorimeter/endcap_native.py"
+    ],
+    "deliverable": "Return exact revision, actual method/checks/findings and limitations; root curates adverse evidence and makes fresh source-bound runs. No nested delegation, commit or publication.",
+    "completion": "Do not weaken or clamp tolerance failures. Distinguish invalid stochastic-volume accounting from geometry/overlap proof; no new showers until correction validated. No shared changes.",
+    "id": "LAR-GAP10K-SoftEng-volume-correction",
+    "role": "SoftEng",
+    "mode": "write",
+    "writable_paths": [
+      "software/analysis/lar_gap/native.py",
+      "software/analysis/lar_gap/test_geometry.py"
+    ],
+    "task": "Investigate confirmed first baseline native gate failure: negative material-exclusive volume from Boolean Capacity subtraction; independent source reviewer flagged same. Propose scientifically sound shape/material conservation proof using existing analytical/native methods, rigid transforms and bound constituent inventory rather than stochastic Boolean Capacity. Research method first, then implement bounded correction once reconciled. Other files frozen. No native/DDSim by author; root retains build/lar-gap10k/final failed artifacts and will rerun fresh after commit."
+  },
+  {
+    "input_revision": "c7de169d3df360e3e3c55fc14e232002532366f1",
+    "inputs": [
+      "docs/validation/lar-gap10k/protocol.md",
+      "software/analysis/lar_gap/native.py",
+      "software/analysis/lar_gap/geometry.py",
+      "software/analysis/lar_gap/test_geometry.py",
+      "tools/lar_calorimeter/barrel_native.py",
+      "tools/lar_calorimeter/endcap_native.py"
+    ],
+    "deliverable": "Return exact revision, actual method/checks/findings and limitations; root curates adverse evidence and makes fresh source-bound runs. No nested delegation, commit or publication.",
+    "completion": "Do not weaken or clamp tolerance failures. Distinguish invalid stochastic-volume accounting from geometry/overlap proof; no new showers until correction validated. No shared changes.",
+    "id": "LAR-GAP10K-PhysVal-volume-method",
+    "role": "PhysVal",
+    "mode": "read-only",
+    "writable_paths": [],
+    "task": "Independently assess a valid material-inventory conservation proof after native BooleanCapacity subtraction failure, with unchanged shapes/materials/local placements and exhaustive signed native transforms. Are analytic component inventories plus exact XML/native shape dimensions/topology/recipes sufficient for rigid-translation conservation, without claiming a noisy exclusiveCapacity as exact? Identify required native checks. Read-only, no native job or artifact writes."
+  }
+]
+```
+
+PhysVal and nonauthor SoftEng independently recommend deterministic recursive native solid signatures with all primitive/Boolean parameters and operand matrices. Exact shape/material/topology/pose bijection under translations proves relative inventory preservation; inherited analytical component inventory must be labelled separately from absolute native mass. Software review also identified clamped CI plotting endpoints; corrected source must draw exact percentile intervals even when the estimate lies outside them. Amended bounded ownership contract recorded before the plotting correction dispatch:
+
+```json
+{
+  "input_revision": "c7de169d3df360e3e3c55fc14e232002532366f1",
+  "inputs": [
+    "docs/validation/lar-gap10k/protocol.md",
+    "software/analysis/lar_gap/native.py",
+    "software/analysis/lar_gap/geometry.py",
+    "software/analysis/lar_gap/test_geometry.py",
+    "tools/lar_calorimeter/barrel_native.py",
+    "tools/lar_calorimeter/endcap_native.py"
+  ],
+  "deliverable": "Return exact revision, actual method/checks/findings and limitations; root curates adverse evidence and makes fresh source-bound runs. No nested delegation, commit or publication.",
+  "completion": "Do not weaken or clamp tolerance failures. Distinguish invalid stochastic-volume accounting from geometry/overlap proof; no new showers until correction validated. No shared changes.",
+  "id": "LAR-GAP10K-SoftEng-volume-and-CI-correction",
+  "role": "SoftEng",
+  "mode": "write",
+  "writable_paths": [
+    "software/analysis/lar_gap/native.py",
+    "software/analysis/lar_gap/test_geometry.py",
+    "software/analysis/lar_gap/compare.py"
+  ],
+  "task": "Investigate confirmed first baseline native gate failure: negative material-exclusive volume from Boolean Capacity subtraction; independent source reviewer flagged same. Propose scientifically sound shape/material conservation proof using existing analytical/native methods, rigid transforms and bound constituent inventory rather than stochastic Boolean Capacity. Research method first, then implement bounded correction once reconciled. Other files frozen. No native/DDSim by author; root retains build/lar-gap10k/final failed artifacts and will rerun fresh after commit. Independent software review also found percentile-CI drawing clamps negative error lengths to zero when observed point lies outside interval, silently altering endpoint rendering. In compare.py plot only, draw exact percentile CI segments plus estimate markers; no interval/data/statistics or protocol change. Add meaningful adverse CI rendering check if needed without broad tests. Complete this before sample re-prepare because all helper source hashes are frozen."
+}
+```
+
+Correction re-frozen: native.py plus test_geometry.py implement deterministic solid definitions; compare.py plotting and test_compare.py retain exact percentile-CI endpoints (statistics unchanged). Complete primitive/Boolean operands and matrices are recorded; non-unit scale rejected. All25 pure controls pass, including Capacity-forbidden Boolean/CSG mutation and outside-CI fixtures. Native report names1e-7mm transform tolerance and10nm overlap tolerance. No native or showers by author. No source writes during subsequent execution; fresh ignored corrected/ outputs will replace no prior evidence.
