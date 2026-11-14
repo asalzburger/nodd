@@ -9,6 +9,11 @@ and pushes the task branch, creates the draft PR, records its interactions and
 verifies the remote draft/head before marking the task complete. It does not
 merge changes or grant scientific approval.
 
+For issue #127, see the [reactive-intake proposal](reactive-intake-proposal.md)
+for faster collection, trusted follow-up comments and visible queue status.
+It is a proposal for review; the hourly, label-event-only behavior below remains
+the implemented workflow.
+
 ## Reviewer workflow
 
 1. Describe the bounded task in the issue body or PR review/discussion, including
