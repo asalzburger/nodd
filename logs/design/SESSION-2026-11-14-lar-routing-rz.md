@@ -24,7 +24,7 @@ NumPy Python only; no native runtime or dependency installation.
 First visual inspection found the comparison legend overlapping its footer;
 separated margins/legend/footer and corrected the rear leader to avoid the500mm
 dimension label. Initial inventory refresh ran before README existed and failed;
-added README and reran successfully. Final images are being checked before review.
+added README and reran successfully. Final images were inspected and reviewed; outcomes below.
 
 Matplotlib SVG path lines also emitted trailing whitespace. The first diff check
 reported this; normalized whitespace during SVG export, parsed XML, rehashed and
@@ -116,3 +116,16 @@ available prior routing parent stays in its original session. Current drawing
 parent counters are not finalized and excluded; missing model/provider/version
 remain unknown. Exact observations are imported from the selected usage-only
 recovery, with no raw private state or duplicated cumulative counters.
+
+## Publication and closeout
+
+Published9946728006fb61ae081144dcc67e3ca3ea96b797 to existing draftPR142, refreshed body/public snapshot and
+attached the PR to the chat. No detector change or readiness/merge action.
+Closed at2026-11-14T11:10:09Z. Two completed review turns observe1,719,543input+6,191output
+=1,725,734total tokens;1,671,808cached input and2,191reasoning output are subsets.
+Current coordinator remains active/excluded; prior routing parent stays with its
+original owner. Models/provider/version remain unknown.
+
+Record and token-site checks pass. Final-head CI is separate from these local
+checks and is not claimed complete. Manual review outcomes are retained as
+narrative/tool evidence; no reviewer process exit code is invented.
