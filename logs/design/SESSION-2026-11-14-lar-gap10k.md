@@ -382,3 +382,30 @@ Explicit generic role fallback; full contracts recorded before dispatch:
   }
 ]
 ```
+
+## Boundary diagnosis and independent accounting extension
+
+Separate SoftEng and PhysVal source assessments confirm configured
+Geant4ScintillatorCalorimeterAction plus positive edep0. Exact upstreamv01-38
+commit142cbb7eb29ec4feafb1af9317fac38775872085 catches cellID exceptions and returns
+before accumulation/track marking, with no fallback. Installed header/Filter.py
+blobs match upstream; installed plugin.cpp sources absent. Public primary
+locators are retained in observer-protocol.md; no full source installation.
+
+Full-precision endpoints give reference midpoint radius deficits1.4512e-6,
+0.001065619 and1.3589e-6mm, and first two candidate cases4.03445e-8/8.05645e-6mm.
+This is the annular midpoint-representative problem, not solely rounding.
+All4928 replica frames preserve radius. Whole positive step contributions are
+omitted; magnitude and primary identity are missing from old ROOT/logs, so no
+negligibility or width-bias bound is inferred. Prior readback integrity does not
+prove complete deposited energy. The completed/ongoing initial production and
+standard reference remain diagnostic with respect to inclusive deposit energy.
+
+The user was told the readout-integrity issue and next independent observer
+replay. New diagnostic protocol is frozen before observer data. It preserves
+all physical/readout/guard/physics/RNG settings and measures per-event all-step,
+successful-hit and failed-unassigned energy with precision-derived closure.
+Both geometries will use the same10,000 primaries; original common tailcut
+0.07966135709622409 is retained. No tolerance relaxation or invented cell IDs.
+Machine reports24 logical CPUs; independent12-worker replay jobs may run in
+separate directories once pilots pass, with actual resource/runtime recorded.
