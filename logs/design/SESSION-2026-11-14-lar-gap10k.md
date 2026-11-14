@@ -566,3 +566,7 @@ Explicitgeneric nonauthorSoftEng.
   "completion": "No broaderexpansion/retestingoldnativewithoutconcretecause; reviewactualsourceandloadercontract. No acceptance."
 }
 ```
+
+Allsix observed-v2 short runs (serial24/MT24/pilot100 inbothgeometries) completedwithcell-levelobserverclosureandmatchedserialMTcontrols atd3c3cfc6/5d233175 sources. NonauthorreviewP1loaderclosed37exacttests; P2missinglate serial-maprevalidation remains. CoordinatornowownsONLYobserved_transport.py/test_observed.py forread-onlyartifactguardandadversetests; authorhasnomorewrites. CPP/binary/steering/runfunction/physics/mathwillstaybyteidentical. Reviewerexplicitlyaccepts reusingcompletedshortMC withoriginalreceiptsplusaseparatehash-boundnewguardverificationrecord; no producerhashes/auditorclaimsrewritten orcheck_sourcesweakened. Productionwillusecorrectedguardcheckpoint.
+
+CoordinatorP2fix addsverify_serial_maps tobothfreshauditandcached evidencepaths, requiringdualreceipt/readback hashes, exactparsedrecordequality, PASS/mainthread/raw43648/context43648. Fifteenobserverprecision/loader/mapadversetestsPASS, includingmissing/mutated/stale/parsedmismatch/nonserial/incompletecases. No C++/steering/run/mathchanges, no tolerancerelaxation. Separate actualsix-run correctionverification willbindnewverifier tooldcontrol/pilotartifactswithoutrewritingthem.

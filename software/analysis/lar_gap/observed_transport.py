@@ -209,6 +209,24 @@ def saved_events(path):
         yield event,collections,digest
 
 
+def verify_serial_maps(run,receipt,saved):
+    """Revalidate the immutable serial-map artifact after cached readback."""
+    path=Path(run)/'audit/maps-initialized.json'
+    try:
+        payload=path.read_bytes()
+    except OSError as error:
+        raise ValueError('Serial-map artifact is unavailable') from error
+    digest=hashlib.sha256(payload).hexdigest()
+    if digest!=receipt.get('maps_audit_sha256') or digest!=saved.get('maps_audit_sha256'):
+        raise ValueError('Changed serial-map artifact or receipt/readback binding')
+    maps=json.loads(payload)
+    if (maps!=saved.get('maps_audit') or maps.get('status')!='PASS' or
+            not isinstance(maps.get('thread_id'),int) or maps['thread_id']>=0 or
+            maps.get('raw_sensitive_ids')!=43648 or maps.get('native_contexts_checked')!=43648):
+        raise ValueError('Incomplete or nonserial map-initialization proof')
+    return dict(sha256=digest,record=maps)
+
+
 def audit(args):
     sample=args.sample.resolve();run=args.run.resolve();receipt=load(run/'receipt.json')
     m,_,_=bound_sample(sample,Path(receipt['native_report']))
@@ -226,6 +244,7 @@ def audit(args):
     proof=load(run/'readback.json')
     if proof['receipt_sha256']!=sha(run/'receipt.json') or proof['root_sha256']!=sha(run/'events.root') or proof['event_summary_sha256']!=sha(run/'event-summary.jsonl'):
         raise ValueError('Unbound saved-data readback')
+    verify_serial_maps(run,receipt,proof)
     log=(run/'transport.log').read_text()
     for role in ('LArBarrel','LArEndcaps'):
         if not re.search('Setting up SD for '+role+' with Geant4ScintillatorCalorimeterAction',log) or not re.search("Adding default filter 'edep0' to sensitive detector for '"+role+"'",log):
@@ -289,6 +308,7 @@ def audit(args):
 
 def evidence(run,production=False):
     run=Path(run);receipt=load(run/'receipt.json');proof=load(run/'observer-readback.json');saved=load(run/'readback.json')
+    verify_serial_maps(run,receipt,saved)
     if (proof['status']!='PASS' or receipt['exit_code'] or receipt['disk_abort'] or receipt['source_state'] or
             proof['receipt_sha256']!=sha(run/'receipt.json') or proof['readback_sha256']!=sha(run/'readback.json') or
             proof['ledger_sha256']!=sha(run/'observed-events.jsonl') or proof['auditor_sha256']!=sha(__file__)):

@@ -1,15 +1,17 @@
 """Adverse precision, accounting, identity, threshold and shared-bootstrap controls."""
 from copy import deepcopy
+import json
 import math
 import os
 from pathlib import Path
 import sys
 import types
+import tempfile
 import unittest
 from unittest.mock import patch
 import numpy as np
 
-from observed_transport import collection_closure,f32,float32_cell_bounds,match_failures,event_identity,steering_environment,ROOT
+from observed_transport import collection_closure,f32,float32_cell_bounds,match_failures,event_identity,steering_environment,ROOT,verify_serial_maps,sha
 from observed_compare import summarize,variance_identity,TAIL_THRESHOLD
 
 
@@ -98,6 +100,42 @@ class SteeringLoaderControls(unittest.TestCase):
         self.assertEqual(kernel,['original-map-initializer']);self.assertEqual(loaded,['observer-test-fixture'])
         self.assertEqual(sim.action.run,'nODDLArResponseAudit/LArResponseAudit');self.assertTrue(sim.random.enableEventSeed)
         self.assertEqual(sim.action.step,'nODDLArObservedStep/ObservedSteps');self.assertEqual(sim.action.event,'nODDLArObservedEvent/ObservedEvents')
+
+
+class SerialMapArtifactControls(unittest.TestCase):
+    def fixture(self,folder,**changed):
+        path=Path(folder)/'audit/maps-initialized.json';path.parent.mkdir(exist_ok=True)
+        maps=dict(status='PASS',thread_id=-1,raw_sensitive_ids=43648,native_contexts_checked=43648,**changed)
+        path.write_text(json.dumps(maps)+'\n');digest=sha(path)
+        return path,dict(maps_audit_sha256=digest),dict(maps_audit_sha256=digest,maps_audit=deepcopy(maps))
+
+    def test_intact_dual_hash_and_parsed_map_proof_pass(self):
+        with tempfile.TemporaryDirectory() as folder:
+            path,receipt,saved=self.fixture(folder)
+            result=verify_serial_maps(folder,receipt,saved)
+            self.assertEqual(result['sha256'],sha(path));self.assertEqual(result['record'],saved['maps_audit'])
+
+    def test_missing_mutated_stale_and_mismatched_map_evidence_fail(self):
+        with tempfile.TemporaryDirectory() as folder:
+            for change in ('missing','mutation','receipt_hash','readback_hash','parsed_proof'):
+                path,receipt,saved=self.fixture(folder)
+                if change=='missing':path.unlink()
+                elif change=='mutation':path.write_text('{}\n')
+                elif change=='receipt_hash':receipt['maps_audit_sha256']='0'*64
+                elif change=='readback_hash':saved['maps_audit_sha256']='0'*64
+                else:saved['maps_audit']['scope']='changed after readback'
+                with self.subTest(change=change),self.assertRaises(ValueError):
+                    verify_serial_maps(folder,receipt,saved)
+
+    def test_bound_but_failed_nonserial_or_incomplete_maps_fail(self):
+        with tempfile.TemporaryDirectory() as folder:
+            for key,value in (('status','FAIL'),('thread_id',0),('thread_id',-1.),
+                              ('raw_sensitive_ids',43647),('native_contexts_checked',43647)):
+                path,receipt,saved=self.fixture(folder)
+                maps=dict(saved['maps_audit'],**{key:value});path.write_text(json.dumps(maps)+'\n')
+                receipt['maps_audit_sha256']=saved['maps_audit_sha256']=sha(path);saved['maps_audit']=maps
+                with self.subTest(key=key,value=value),self.assertRaises(ValueError):
+                    verify_serial_maps(folder,receipt,saved)
 
 
 class ObservedStatistics(unittest.TestCase):
