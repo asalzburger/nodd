@@ -77,3 +77,26 @@ ports, board/support repacking and full service circuits need further design.
 The context contains ECAL only: tracker, magnet, HCAL, forward collar and fields
 are absent. No400mm endcap shift, response improvement or engineering acceptance
 is claimed.
+
+## Executed clean-candidate results
+
+Native source checkpoint `8210fbcca843d385103dcc14367d0587f9d85ba3` was clean during
+exports and the unchanged-ECAL diagnostic. Both old/new variants have2752native
+material pieces, zero10nm overlaps,5376joint material points and2688boundary
+crossings; maximum joint-distance error is about1.1e-12mm. The2.5degree refined
+new model has5184pieces and zero overlaps with10240joint points.
+
+Both serial Geant4 smokes pass:3observed native geantino events each,2752converted
+CutTubs,5376converted joint probes and5shared-miter transitions. Recorded actual
+primary position/momentum/energy and aimed wall/core joins pass strict checks.
+The transverse path is2.0000786295mmsteel plus18.0007076658mmN2 in each variant.
+
+Per32-route model, steel mass is74.401406957kg and N2mass0.809145269kg.
+Old/new native mass differences are0gsteel and2.4e-12gN2 (floating precision).
+This establishes the stated component inventory, not a complete circuit.
+
+The independent unchanged-ECAL diagnostic samples54016points pervariant, with
+positive existing-pipe and closed-wall witnesses. It returns `fit_accepted=false`;
+no combined geometry was placed or transported. Its physical-pipe and empty
+100mm/20mm reservation samples remain distinct. Full input bindings and bounded
+witnesses are retained in the compact results.

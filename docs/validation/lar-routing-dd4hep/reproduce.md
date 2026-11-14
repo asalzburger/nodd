@@ -1,6 +1,7 @@
 # Reproduce the isolated DD4hep routing prototype
 
-Use the source revision recorded in `results.json`, with existing node-specific
+Use this PR's reporting tools and the native source checkpoint/hash bindings
+recorded in `results.json`, with existing node-specific
 DD4hep/DDG4, Geant4 and nlohmann_json packages. Follow the repository acts-spack
 preflight first; a registry fingerprint warning requires direct verification,
 not an installation or silent substitute. [Recorded environment](environment.json).
@@ -87,3 +88,17 @@ found. Its `fit_accepted` is false and status is diagnostic. Interpret the
 physical-pipe and unmaterialised-envelope counters separately. Preserve
 component/source/library and compact hashes; the source guards reject stale
 artifacts or inputs changed during the check.
+
+Curate the compact report after the native/transport/context runs, including
+a `refined-new`2.5degree native export/audit under the same run directory:
+
+```sh
+python3 -B tools/lar_calorimeter/routing_report.py \
+  --directory "$routing_work" --output "$routing_work/results.json"
+```
+
+The reporter rechecks source/artifact hashes, one clean native source checkpoint,
+old/new material bytes, factory identity and the saved native step evidence.
+It omits raw event/geometry payloads from the curated output. Later bookkeeping
+or reporter-only commits do not change the recorded native execution revision;
+the exact file hashes bind those results to the retained implementation.
