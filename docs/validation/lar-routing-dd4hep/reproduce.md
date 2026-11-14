@@ -10,6 +10,8 @@ Commands below are for the verified macOS node; the built library suffix is
 
 Choose a fresh ignored output directory. The exporter/transport runner refuse
 to overwrite existing evidence. No raw file is added to Git.
+Start from a clean committed source checkout; keep tracked files unchanged
+through the matched runs so their source/dirty-state checks remain comparable.
 
 ```sh
 routing_work=build/lar-routing-replay
@@ -41,9 +43,20 @@ inventory. Inspect the material and empty-envelope fields before interpretation.
 Native JSON/ROOT and smoke JSONL/ROOT/logs remain ignored. Existing retained smoke
 data can be re-audited with `routing_transport.py audit --directory DIRECTORY`.
 
-For a finer construction, export into a new directory with `--arc-step-deg 2.5`
-and run the same native auditor. Preserve the analytic inventory target and
-report the new sagitta; no per-ray convergence is inferred merely from mass.
+For the retained finer construction:
+
+```sh
+python3 -B tools/lar_calorimeter/routing.py --variant new --arc-step-deg 2.5 \
+  --output "$routing_work/refined-new"
+software/env/run.sh python3 -B tools/lar_calorimeter/routing_native.py \
+  --compact "$routing_work/refined-new/routing.xml" \
+  --expected "$routing_work/refined-new/expected.json" \
+  --library "$routing_work/factory/libnODDLArRoutingPrototype.dylib" \
+  --output "$routing_work/refined-new/native.json"
+```
+
+Preserve the analytic inventory target and report the new sagitta; no per-ray
+convergence is inferred merely from mass. Refined Geant4 transport was not run.
 
 ## Separate unchanged-ECAL occupancy diagnostic
 
