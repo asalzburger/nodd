@@ -326,3 +326,59 @@ Explicit generic nonauthor SoftEng review.
   "completion": "Report concrete correctness blockers promptly; assess only material correction without broad restyling. No acceptance or fresh absolute mass claim."
 }
 ```
+
+## Boundary-log anomaly and diagnosis contracts before dispatch
+
+During candidate production, a selected ERROR-marker scan found rare turbine
+cellID radial-bound errors. Rechecking the full original reference log found
+three cases (18 ERROR lines) previously not rejected by saved-data auditing.
+Current example localr774.260466729mm lies1.84e-7mm below wheel1 inner boundary
+774.260466913224mm, beyond the existing1e-8mm guard. Deposited-energy impact
+is unknown; no smallness, zero-deposit or successful-recovery assumption is
+made. Ongoing production is retained as diagnostic until resolved.
+
+This reporting-only narrative edit/commit occurs during an already-started
+run at clean b24f9db2; all geometry, protocol, transport/analysis producer and
+library bytes remain frozen. Native/source hash evidence is unchanged; do not
+claim the reporting worktree stayed globally clean after this point.
+
+Explicit generic role fallback; full contracts recorded before dispatch:
+
+```json
+[
+  {
+    "input_revision": "b24f9db24b52f79c7586a52d0ca9b35e792606b9",
+    "inputs": [
+      "prototypes/calorimeter/LArEndcap.cpp",
+      "software/analysis/lar_response/Audit.cpp",
+      "software/analysis/lar_response/transport.py",
+      "docs/validation/lar-gap10k/protocol.md",
+      "software/analysis/lar_gap/geometry.py"
+    ],
+    "mode": "read-only",
+    "writable_paths": [],
+    "deliverable": "Return exact sources/versions examined, actual findings/evidence and bounded correction or integrity interpretation. Root records results. No file edits, native/DDSim jobs, nested delegation, commit or publication.",
+    "completion": "Do not relax tolerances or invent missing deposited energy. Distinguish actual dropped-energy/fallback behavior from logger errors; propose concrete next evidence. Existing production continues as diagnostic, no validated response claim yet.",
+    "id": "LAR-GAP10K-SoftEng-boundary-diagnosis",
+    "role": "SoftEng",
+    "task": "Investigate rare LArEndcapsHandler ERROR Hit outside turbine wheel/depth in retained original reference and current400mm production. Baseline log ../nodd-lar-10k-response/build/lar10k-resume/production12/transport.log has18selectedERRORlines=3cases; current corrected/production12 transport.log has at least1case. Example G4local(771.933708,59.980170,63.978882)mm =>r774.260466729mm vswheel1inner774.260466913224mm, deviation-1.84e-7mm; guard1e-8mm. Examine exact installedDD4hep1.38 CalorimeterAction cellID exception/fallback path and whether deposit/contribution is dropped or assigned0/surrogate. Installed headers first; public upstream exact tag primary source fallback if source notinstalled. Determine if only zero-deposit steps can emit this and what rawROOT can prove. Do not implement tolerance changes or launches. Full sources unavailable unless actually found; declare source/version gaps."
+  },
+  {
+    "input_revision": "b24f9db24b52f79c7586a52d0ca9b35e792606b9",
+    "inputs": [
+      "prototypes/calorimeter/LArEndcap.cpp",
+      "software/analysis/lar_response/Audit.cpp",
+      "software/analysis/lar_response/transport.py",
+      "docs/validation/lar-gap10k/protocol.md",
+      "software/analysis/lar_gap/geometry.py"
+    ],
+    "mode": "read-only",
+    "writable_paths": [],
+    "deliverable": "Return exact sources/versions examined, actual findings/evidence and bounded correction or integrity interpretation. Root records results. No file edits, native/DDSim jobs, nested delegation, commit or publication.",
+    "completion": "Do not relax tolerances or invent missing deposited energy. Distinguish actual dropped-energy/fallback behavior from logger errors; propose concrete next evidence. Existing production continues as diagnostic, no validated response claim yet.",
+    "id": "LAR-GAP10K-PhysVal-boundary-diagnosis",
+    "role": "PhysVal",
+    "task": "Independently assess scientific integrity of rare endcap radial-boundary cellID errors in both original10k reference(3cases) and current400mm production(atleast1case). Example localr min deviation~-1.84e-7mm against1e-8mm guard. Do logs imply lost/corrupted deposited energy or may be zero steps/safelyrecovered? What evidence/bound is required to use comparison, considering worker/root audits currently ignoreerrorlogstrings? Existingnative/serialMT/pilot passed. Source-informed assessment and concrete minimaldiagnostic; no unapproved tolerance relaxation or unsupported smallness claim. Read-only/no native/DDSim."
+  }
+]
+```
