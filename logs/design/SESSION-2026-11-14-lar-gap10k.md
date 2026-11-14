@@ -191,3 +191,34 @@ original sample generation is made, and no frozen artifact is changed. Current
 native reconstruction provides an independent bound geometry check before
 new showers. This correction strengthens provenance rather than substituting
 an assumed HEAD for observed source bytes.
+
+## Independent source review contract before dispatch
+
+Explicit generic SoftEng fallback; reviewer is not implementation author.
+
+```json
+{
+  "id": "LAR-GAP10K-SoftEng-review",
+  "role": "SoftEng",
+  "input_revision": "c7de169d3df360e3e3c55fc14e232002532366f1",
+  "inputs": [
+    "docs/validation/lar-gap10k/protocol.md",
+    "docs/validation/lar-gap10k/environment.json",
+    "software/analysis/lar_gap/compare.py",
+    "software/analysis/lar_gap/controls.py",
+    "software/analysis/lar_gap/geometry.py",
+    "software/analysis/lar_gap/native.py",
+    "software/analysis/lar_gap/test_compare.py",
+    "software/analysis/lar_gap/test_controls.py",
+    "software/analysis/lar_gap/test_geometry.py",
+    "software/analysis/lar_response/transport.py",
+    "software/analysis/lar_response/compare.py",
+    "prototypes/calorimeter/LArEndcap.cpp"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Independent nonauthor software review of committed conditional gap exporter/native comparator/statistics/serial-MT helper and adverse tests. Assess exact signed root-only translations preserving local daughters/world/readout/materials, exhaustive native-leaf proof (assembly materials handled), immutable frozen-reference/producers/library/source binding, stale/failure guards, sample/receipt/readback transport compatibility, paired fixed-global tails and bootstrap semantics. Existing raw artifacts may become available under build/lar-gap10k/final as root runs gates; do not touch or infer their readiness. Review source/pure controls now, return concrete prioritized correctness findings promptly. No native/DDSim runs needed, no file edits/nested delegation or commits/publication. This is a conditional response experiment, not engineering fit.",
+  "deliverable": "Return assignment ID, exact revision, findings or no actionable findings, actual checks, any missing evidence and limitations. Coordinator curates result in session.",
+  "completion": "Assess source at exact revision independently from author conclusions. Concrete blockers immediately; no style-only scope expansion or acceptance. Read-only; no changes to ongoing artifacts."
+}
+```
