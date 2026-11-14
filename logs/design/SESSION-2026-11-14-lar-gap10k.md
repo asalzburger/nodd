@@ -595,3 +595,33 @@ Sixrealcompletedobservercontrol/pilotchains reverifiedwithnewguard; codeASToflau
 ## Logical/physical name-schema observation during full replays
 
 Actualcompletedobserverfailuresrecordlogicalw1_gap1/w2_gap0, whileoriginalSDlogsphysicalw1_gap1_7/w2_gap0_6. Currentliteralname matcher rejects these unlikeidentities; rootreproducedValueError onbothpartiallycompletedstreams. RawIDs/localpoints/positiveenergy areavailableandunchanged. No MCfileoroldruntimeproducerwillbeedited. Separatepostprocessingauditor/readbackaddendum resolvesnamesfromhash-boundnativephysicalplacementcatalog, preservingexactrawID/point/count/closure andsourceguards. Itwillwritenewderivedoutputs/proofswithownauditorrevision, retainingalloriginalraw/failedreadbacks. Thisavoidsrerunningunchangedphysicsforreader-schemaerror anddoesnotweakenidentification.
+
+## Separate corrected readback contract before dispatch
+
+ExplicitgenericSoftEng, threeNEWfilesonly; allruntimeproducers/protocolfrozen.
+
+```json
+{
+  "id": "LAR-GAP10K-SoftEng-separate-reaudit",
+  "role": "SoftEng",
+  "input_revision": "a9b34ed3208624ff37ce04bac6826c1af3b8bc95",
+  "inputs": [
+    "docs/validation/lar-gap10k/readback-addendum.md",
+    "docs/validation/lar-gap10k/observer-protocol.md",
+    "software/analysis/lar_gap/observed_transport.py",
+    "software/analysis/lar_gap/observed_compare.py",
+    "software/analysis/lar_gap/StepAudit.cpp",
+    "software/analysis/lar_gap/native.py",
+    "software/analysis/lar_gap/geometry.py"
+  ],
+  "mode": "write",
+  "writable_paths": [
+    "software/analysis/lar_gap/observed_reaudit.py",
+    "software/analysis/lar_gap/observed_recompare.py",
+    "software/analysis/lar_gap/test_reaudit.py"
+  ],
+  "task": "Implement ONLY3newpostprocessingfiles perreadback-addendum; everyoldruntimeproducer/protocol MUSTremainunchanged (full20kMCongoing source2860f262). ActualCPPfailurevolume islogical(w1_gap1,w2_gap0), SDlogphysical(w1_gap1_7,w2_gap0_6); oldliteralcomparisonwrong. Buildexactaliascatalogfromboundnative snapshotplacements.jsonl sensitiverecords volume=>pathlastnode, verifyledgerhash viaexistingnativeproof; matchrawIDexact, physicalnameincatalogforactuallogicalname, sameprintprecisionpoint/count. No regex-onlyforgiveness, no guard/tolerancechanges. NewreauditorrepeatsALL per-event/per-cellq/nativeA=S+U/savedrounding/weight/ID/worker/maps/source/library/log/primary/rawartifactchecks, reusingunchangedpurehelperswherepossible. OriginalMCsourceguardcheck_sources(receipt.producer_sha256) remainsvalidbecauseold6filestayexact; doNOTmutate/monkeypatcholdmodulesor__file__, doNOTalterproducerhashes. Ownfreshoutputdirectory forderivedevents/proof, explicitnewauditorpath/sourceSHA/revision/helperbindings. Preserveoldreadback/observed-events partialledger. Canreuseoldcommonreadbackonlyafterallhashchecksincludingnewserialmaps, orcreateifabsent. Fullretained10k replayasold. New.evidence mustvalidateNEWproofandledgerwithitsownauditor identity ratherthanforgeoldauditSHA. Recompareloadsnew.evidence andcallsUNCHANGEDobserved_compare.summarize/statistics/plot(data-onlywrapper) preservingalloriginalbins/tailcut/bootstrap84cov. Newanalyzerhash/sourceexplicit; compactoutputs<1MiB. Addrealisticlogical/physicalalias positivefixture andnegativewrongraw,wrongname/copy,missingnativealias,point/count/tamperchecks. rootrunsnewauditorafterMCreceipts; noCpp/native/DDSim/authordelegation/commits. Needboundedreadyfilesquickly, notrearchitecture/generalhistorysupport.",
+  "deliverable": "Return3newfrozenfiles, meaningfultests, exactCLI audit--sample--run--output--retained-run optional/native-report fromreceipt, andnewanalyze/plotrecipe; sourcebindings/limits. Rootownsrecords/runtime/publication.",
+  "completion": "Noeditsanyoldfileorartifact. Nativealiascatalogactualnodeidentitycorrect; no tolerance/gateweakening or fakeoldproof. Rootcommit beforecorrecteddataassessment, noauthorMC. Independentreviewwillcheckexactnewrevision."
+}
+```
