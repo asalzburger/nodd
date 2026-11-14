@@ -1435,10 +1435,10 @@
       "id": "ANA-LAR-RESPONSE",
       "name": "Matched LAr and Si-W raw response comparison",
       "category": "analysis",
-      "usage": "Exact matched10k electrons; complete LAr ECAL-only DDSim transport; per-worker material/cuts/step/field audits; canonical cell readback; original/staggered Si-W comparisons; joint event bootstrap and directional response distributions; serial map preinitialization; exact serial/MT cell controls; frozen input/policy guards; principal covariance; reproducible PNG/PDF/SVG; conditional800-to400mm warm-gap matched10k sensitivity; rigid signed root-branch translation and exhaustive native placement equivalence; fixed global common-tail threshold; fine transition bins and paired mean/width/tail bootstrap",
+      "usage": "Exact matched10k electrons; complete LAr ECAL-only DDSim transport; per-worker material/cuts/step/field audits; canonical cell readback; original/staggered Si-W comparisons; joint event bootstrap and directional response distributions; serial map preinitialization; exact serial/MT cell controls; frozen input/policy guards; principal covariance; reproducible PNG/PDF/SVG; conditional800-to400mm warm-gap matched10k sensitivity; rigid signed root-branch translation and exhaustive native placement equivalence; fixed global common-tail threshold; fine transition bins and paired mean/width/tail bootstrap; independent sensitive-step all/successful/unassigned deposit accounting; per-cell binary32 output closure and full-population replay checks; joint84-variable saved/active width covariance",
       "integration": "Local nODD Python/C++ PROTOTYPE source. Reuses existing baseline exports and verified DD4hep/Geant4/EDM4hep/podio runtime; no new external dependency or LAr charge/electronics model.",
       "version": "PROTOTYPE; executed transport327dd042, analysisab5325f3; runtime DD4hep1.38/Geant411.4.3/ROOT6.40.04. Full10000event raw comparison and independent review recorded separately from acceptance.",
-      "installation": "Use software/env/run.sh; CMake source software/analysis/lar_response builds nODDLArResponseAudit. CLI transport.py prepare/run/audit and compare.py analyze/plot; recipe and scope in docs/validation/lar10k/protocol.md. Gap-only prototype helpers under software/analysis/lar_gap prepare/verify the frozen reference transformation, snapshot/audit native geometry and compare audited runs; prospective protocol docs/validation/lar-gap10k/protocol.md. Existing factories/audit libraries reused only after exact source/library hash checks.",
+      "installation": "Use software/env/run.sh; CMake source software/analysis/lar_response builds nODDLArResponseAudit. CLI transport.py prepare/run/audit and compare.py analyze/plot; recipe and scope in docs/validation/lar10k/protocol.md. Gap-only prototype helpers under software/analysis/lar_gap prepare/verify the frozen reference transformation, snapshot/audit native geometry and compare audited runs; prospective protocol docs/validation/lar-gap10k/protocol.md. Existing factories/audit libraries reused only after exact source/library hash checks. Observer extension: standalone CMake source software/analysis/lar_gap uses existing DD4hep/Geant4 and explicit preinstalled nlohmann_json3.12.0; StepAudit.cpp plus separate steering/driver leave original factories/segmentation/guards/transport source unchanged. Exact semantics and precision gates in docs/validation/lar-gap10k/observer-protocol.md.",
       "paths": [
         "software/analysis/lar_response",
         "software/analysis/lar_gap"
@@ -1448,7 +1448,8 @@
         "docs/validation/lar10k/README.md",
         "docs/validation/lar10k/reproduce.md",
         "docs/validation/lar-gap10k/protocol.md",
-        "docs/validation/lar-gap10k/environment.json"
+        "docs/validation/lar-gap10k/environment.json",
+        "docs/validation/lar-gap10k/observer-protocol.md"
       ],
       "prs": [
         "https://github.com/asalzburger/nodd/pull/140"
@@ -1490,6 +1491,7 @@
     "skills/acts-spack/references/nodes.json": "ed25d7d91a1329b1aa3947b53d5466e08001bf522357f060d196c2eba77c7a92",
     "skills/acts-spack/scripts/smoke/CMakeLists.txt": "38e1e00161ae6ee94358fc992c78352e0b5c91b2c5534a56c4ce9e2f9412c2f5",
     "software/Makefile": "d0c2d3ad1b13c83a5cc6f840e3be0b77c75c5a4fb4b297735ec605ab6ead1876",
+    "software/analysis/lar_gap/CMakeLists.txt": "a650058d4282e21e01068fe79074ebb01d5e54baa5a81e9f62ede2ca2d44e574",
     "software/analysis/lar_response/CMakeLists.txt": "0c619f0ed052abfb5377d1164831561ab556954bb8baa2fcb125b8216cac10ea",
     "software/analysis/requirements-unrooted.in": "03a857d682f7489c3b70236679d4c170a3830f3be56b87c13b5b2571e816616e",
     "software/analysis/requirements-unrooted.txt": "c894a106f48600616ba6392acc625cc1658452675b7113bee3d2a9b434d79af5",

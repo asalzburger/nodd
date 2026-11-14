@@ -42,6 +42,9 @@ filter and `Hit::extractContribution(step,true)` semantics. Tally every accepted
 native sensitive-step contribution, identifying the actual run/event/track/step,
 collection and raw volume. Classify success/failure using the same midpoint,
 pre-touchable transforms, native volume manager and unchanged segmentation.
+The contribution is unweighted; audit track weights as one and reject unexpected
+biasing. Reject unmodelled optical/fast-simulation paths rather than applying
+ordinary-step semantics to them. Audit round-to-nearest output conversion.
 
 Record every failed-ID contribution explicitly as **unassigned**, including
 PDG, raw ID, native volume, pre/post/midpoint local coordinates, relevant guard
@@ -60,12 +63,17 @@ and compacts are unchanged; bind those exact artifacts to the observed runs.
 Then replay all ten thousand primary records in **each** geometry. Establish
 per primary and collection:
 
-`A = H + U`,
+`A = S + U`, with `H = round32(S_cell)` summed over saved cells,
 
-where A is all accepted native-step deposit, H is the successfully assigned hit
-deposit and U is failed-ID deposit. Check successful cells individually. Account
+where A is all accepted native-step deposit, S is successfully classified native
+deposit, H is saved hit deposit and U is failed-ID deposit. Check successful
+cells individually. Account
 for actual EDM energy field precision and round-to-nearest conversion; derive
 closure bounds from per-cell output precision, not an arbitrary relaxed error.
+The installed energy field is binary32: prefer exact saved-cell equality to
+float32(native successful cell sum/GeV). If accumulation differs, use asymmetric
+neighbour-midpoint rounding intervals with binary64 summation/division bounds
+(gamma_n=n*u/(1-n*u), u=2^-53) and explicit subnormal handling.
 Match failed observer counts/coordinates to the original action error records.
 Reject duplicate/missing events or steps, unexpected collections, nonfinite or
 negative energies, unbound artifacts, filter mismatches and failed closure.
@@ -88,11 +96,19 @@ the original fixed common tail threshold
 `R < 0.07966135709622409`, derived from the retained standard-global saved-hit
 mean, for the primary sensitivity comparison. Label any recalculated threshold
 as a separate diagnostic; do not silently replace the frozen threshold.
+Share every bootstrap multiplicity across both geometries and all accounting
+streams. Retain one explicitly ordered joint principal-width covariance for
+the four H/A series (84 variables), preserving correction/gap correlations.
+Name both aggregate missing fractions (sum U/sum A) and mean(U/E), with primary
+eta/phi/energy projections; failure-side/wheel metadata does not define cells.
 
 Recompute means, SD/mean, tails, paired differences and principal covariance
-from the full per-primary vectors. For delta=U/E, the mean shift is mean(delta)
-and the sample variance shift is var(delta)+2cov(H/E,delta); verify this identity
-as a control. Error counts alone are insufficient to bound widths or tails.
+from the full per-primary vectors. For delta=U/E, the shift from native S/E to
+A/E is mean(delta), and the sample variance shift is
+var(delta)+2cov(S/E,delta); verify this identity within the derived binary64
+arithmetic bound. H/E differs additionally by the explicitly measured output
+rounding residual. Do not force A=H+U exactly or redefine A from rounded H.
+Error counts alone are insufficient to bound widths or tails.
 No calibration, electronics model, technology selection, engineered routing
 fit or intrinsic-resolution acceptance follows. The independent observer
 measures complete raw deposits while retaining the unresolved readout issue.
