@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated": "2026-11-13",
+  "updated": "2026-11-14",
   "source_revision": "4497737721d35df1e8971d5d01e8a5727def14aa",
   "components": [
     {
@@ -621,10 +621,10 @@
       "id": "CHECK-CALO",
       "name": "Calorimeter hardware, layouts and audit controls",
       "category": "cross-validation",
-      "usage": "source audit; readout; absorber; LAr; Si-W wedge navigation; HCAL; FCAL; overlaps; 100-electron ECAL startup/transport timing; compressed EDM4hep output size; opt-in reusable LAr period mothers; DDG4 map/first-event initialization timing; native touchable and leaf correspondence; matched material rays; maintained LAYOUT-002 reusable inclined-period default; vector drawing of tested staggered Si-W module and sampling geometry; LAr gap envelope and channel-service screening; pinned-source LAr old/new service-routing RZ drawings",
+      "usage": "source audit; readout; absorber; LAr; Si-W wedge navigation; HCAL; FCAL; overlaps; 100-electron ECAL startup/transport timing; compressed EDM4hep output size; opt-in reusable LAr period mothers; DDG4 map/first-event initialization timing; native touchable and leaf correspondence; matched material rays; maintained LAYOUT-002 reusable inclined-period default; vector drawing of tested staggered Si-W module and sampling geometry; LAr gap envelope and channel-service screening; pinned-source LAr old/new service-routing RZ drawings; material-preserving mitered CutTube steel/N2 routing; passive Geant4 step audit; unchanged ECAL occupancy diagnostics",
       "integration": "Local Python/C++ source in nODD; no external submodule installation for this code.",
       "version": "DRAFT / PROTOTYPE; standalone factories and campaign evidence remain separate from production acceptance.",
-      "installation": "Model/export controls use standard library where documented; native CMake projects use existing DD4hep/ROOT. Figures may need Matplotlib. Issue131 uses software/env/run.sh with existing DDG4/EDM4hep/podio/ROOT; run and readback recipes are recorded with the benchmark. LAr placement investigation: standalone exporters --real-periods; placement_probe.py and placement_smoke.py through software/env/run.sh, placement_report.py for bound evidence. Maintained LAr hierarchy: tools/calorimeter_baselines/export.py --layout LAYOUT-002 selects real periods with local services; standalone exports remain legacy controls. Drawing: python3 -B tools/calorimeter_hardware/draw_staggered_siw.py --repo HISTORICAL_SOURCE_WORKTREE --output build/staggered-siw-drawing; see pinned-source recipe. Optional PNG renderer: pre-existing librsvg rsvg-convert 2.62.3, not installed by this task. Gap screen: python3 -B tools/lar_calorimeter/gap_screen.py --output build/lar-gap-options/screen.json; optional --figure requires existing Matplotlib. No native dependency activation. Routing RZ: existing Matplotlib/NumPy Python runs tools/lar_calorimeter/draw_routing_rz.py --source-revision 21d2f01f99156034f7a80257fa642f1c2a4d9548 --output build/lar-routing-rz; reads committed Git blobs, no native runtime.",
+      "installation": "Model/export controls use standard library where documented; native CMake projects use existing DD4hep/ROOT. Figures may need Matplotlib. Issue131 uses software/env/run.sh with existing DDG4/EDM4hep/podio/ROOT; run and readback recipes are recorded with the benchmark. LAr placement investigation: standalone exporters --real-periods; placement_probe.py and placement_smoke.py through software/env/run.sh, placement_report.py for bound evidence. Maintained LAr hierarchy: tools/calorimeter_baselines/export.py --layout LAYOUT-002 selects real periods with local services; standalone exports remain legacy controls. Drawing: python3 -B tools/calorimeter_hardware/draw_staggered_siw.py --repo HISTORICAL_SOURCE_WORKTREE --output build/staggered-siw-drawing; see pinned-source recipe. Optional PNG renderer: pre-existing librsvg rsvg-convert 2.62.3, not installed by this task. Gap screen: python3 -B tools/lar_calorimeter/gap_screen.py --output build/lar-gap-options/screen.json; optional --figure requires existing Matplotlib. No native dependency activation. Routing RZ: existing Matplotlib/NumPy Python runs tools/lar_calorimeter/draw_routing_rz.py --source-revision 21d2f01f99156034f7a80257fa642f1c2a4d9548 --output build/lar-routing-rz; reads committed Git blobs, no native runtime. Isolated routing: CMake source prototypes/lar_routing, target Components_nODDLArRoutingPrototype, existing DDG4/Geant4 and explicitly found preinstalled nlohmann_json3.12.0. Export routing.py --variant old|new; native/readback/context tools under tools/lar_calorimeter; no production CMake/default change.",
       "paths": [
         "tools/calorimeter_audit",
         "tools/calorimeter_hardware",
@@ -636,7 +636,8 @@
         "tools/lar_calorimeter",
         "tools/siw_services",
         "prototypes/calorimeter",
-        "prototypes/hcal_readout"
+        "prototypes/hcal_readout",
+        "prototypes/lar_routing"
       ],
       "evidence": [
         "tools/calorimeter_baselines/README.md",
@@ -647,7 +648,8 @@
         "docs/validation/lar-placement-default/README.md",
         "docs/validation/staggered-siw-drawing/README.md",
         "docs/design/inputs/DES-032-hadron-gap-options.md",
-        "docs/design/inputs/lar-gap-options/routing-rz/README.md"
+        "docs/design/inputs/lar-gap-options/routing-rz/README.md",
+        "docs/validation/lar-routing-dd4hep/README.md"
       ],
       "prs": [
         "https://github.com/asalzburger/nodd/pull/81",
@@ -1448,6 +1450,21 @@
       "prs": [
         "https://github.com/asalzburger/nodd/pull/140"
       ]
+    },
+    {
+      "id": "EXT-NLOHMANN-JSON",
+      "name": "nlohmann JSON headers",
+      "category": "spack",
+      "usage": "Native passive Geant4 step and conversion-audit JSON records for isolated LAr routing",
+      "integration": "Pre-existing Spack ci-dependencies package; explicitly find_package(nlohmann_json) and link nlohmann_json::nlohmann_json in isolated target. No package installed or modified.",
+      "version": "Verified3.12.0 /uecyhyoptyokqdjlzb6fu3nvvamqbxm2 on2026-11-14",
+      "installation": "Use existing node environment through software/env/run.sh after acts-spack preflight/runtime verification. Header/config provider path and Spack lock metadata verified locally.",
+      "paths": [],
+      "evidence": [
+        "prototypes/lar_routing/CMakeLists.txt",
+        "docs/validation/lar-routing-dd4hep/environment.json"
+      ],
+      "prs": []
     }
   ],
   "checked_inputs": {
@@ -1461,6 +1478,7 @@
     "detector/CMakeLists.txt": "8fe27c7def450856615c259ee6d12f4c31727f6a32a3566fb6c75f0e81c31825",
     "prototypes/calorimeter/CMakeLists.txt": "4d1898dd64b3a2346af1ac93924639d6348cbf439cabb1161f5b429f1b689099",
     "prototypes/hcal_readout/CMakeLists.txt": "68f4251b4ae9abf86fb2b1e412e5619a0858af6dd6e60277743a681861bc96a5",
+    "prototypes/lar_routing/CMakeLists.txt": "82fca8d7fbe02533af1dd3871c1585d9652bf8aff659fbbabc966d068e80b481",
     "prototypes/long_strip_barrel/CMakeLists.txt": "40d5cb05f7876e193ded6c52111184fe6d826574e0ac660db5dd7a137adfdc91",
     "prototypes/long_strip_endcap/CMakeLists.txt": "b05aec3118e37588133fb88fe12ab1f0c3cfabd69e449f07d91b2294cff63764",
     "prototypes/short_strip_barrel/CMakeLists.txt": "479f3c07069c82a4627e4ebfe2e9f90cacb7f03d6bda7017f1e572d62cb4ce2b",
