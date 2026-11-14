@@ -301,3 +301,28 @@ PhysVal and nonauthor SoftEng independently recommend deterministic recursive na
 ```
 
 Correction re-frozen: native.py plus test_geometry.py implement deterministic solid definitions; compare.py plotting and test_compare.py retain exact percentile-CI endpoints (statistics unchanged). Complete primitive/Boolean operands and matrices are recorded; non-unit scale rejected. All25 pure controls pass, including Capacity-forbidden Boolean/CSG mutation and outside-CI fixtures. Native report names1e-7mm transform tolerance and10nm overlap tolerance. No native or showers by author. No source writes during subsequent execution; fresh ignored corrected/ outputs will replace no prior evidence.
+
+## Exact correction-review contract before dispatch
+
+Explicit generic nonauthor SoftEng review.
+
+```json
+{
+  "id": "LAR-GAP10K-SoftEng-correction-review",
+  "role": "SoftEng",
+  "input_revision": "19d9bc03a6beffd3c6d6dd845b2251ec22c64060",
+  "inputs": [
+    "docs/validation/lar-gap10k/protocol.md",
+    "software/analysis/lar_gap/native.py",
+    "software/analysis/lar_gap/compare.py",
+    "software/analysis/lar_gap/test_geometry.py",
+    "software/analysis/lar_gap/test_compare.py",
+    "software/analysis/lar_gap/geometry.py"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Reassess exact correction to your P1 stochasticCapacity and P2 clamped-CI findings from c7de169d. Check deterministic native primitive/Boolean parameters and both operand matrices, unsupported/scaled shape rejection, all-native placement/recipe/topology bijection, inherited analytic inventory/period-mother residual scope, same10nm overlaps and source guards. Verify CI plot draws exact stored percentile endpoints with separate estimate. Statistics/geometry transform remain unchanged. Review adversarial tests. Root will run fresh native/controls at clean checkpoint; read-only ongoing build/lar-gap10k/corrected artifacts if complete. No native/DDSim or writes/nested delegation.",
+  "deliverable": "Return exact revision, findings or closure of both prior issues, actual checks and remaining limits. Root retains assessment in session.",
+  "completion": "Report concrete correctness blockers promptly; assess only material correction without broad restyling. No acceptance or fresh absolute mass claim."
+}
+```
