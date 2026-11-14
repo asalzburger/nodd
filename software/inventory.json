@@ -1435,17 +1435,20 @@
       "id": "ANA-LAR-RESPONSE",
       "name": "Matched LAr and Si-W raw response comparison",
       "category": "analysis",
-      "usage": "Exact matched10k electrons; complete LAr ECAL-only DDSim transport; per-worker material/cuts/step/field audits; canonical cell readback; original/staggered Si-W comparisons; joint event bootstrap and directional response distributions; serial map preinitialization; exact serial/MT cell controls; frozen input/policy guards; principal covariance; reproducible PNG/PDF/SVG",
+      "usage": "Exact matched10k electrons; complete LAr ECAL-only DDSim transport; per-worker material/cuts/step/field audits; canonical cell readback; original/staggered Si-W comparisons; joint event bootstrap and directional response distributions; serial map preinitialization; exact serial/MT cell controls; frozen input/policy guards; principal covariance; reproducible PNG/PDF/SVG; conditional800-to400mm warm-gap matched10k sensitivity; rigid signed root-branch translation and exhaustive native placement equivalence; fixed global common-tail threshold; fine transition bins and paired mean/width/tail bootstrap",
       "integration": "Local nODD Python/C++ PROTOTYPE source. Reuses existing baseline exports and verified DD4hep/Geant4/EDM4hep/podio runtime; no new external dependency or LAr charge/electronics model.",
       "version": "PROTOTYPE; executed transport327dd042, analysisab5325f3; runtime DD4hep1.38/Geant411.4.3/ROOT6.40.04. Full10000event raw comparison and independent review recorded separately from acceptance.",
-      "installation": "Use software/env/run.sh; CMake source software/analysis/lar_response builds nODDLArResponseAudit. CLI transport.py prepare/run/audit and compare.py analyze/plot; recipe and scope in docs/validation/lar10k/protocol.md.",
+      "installation": "Use software/env/run.sh; CMake source software/analysis/lar_response builds nODDLArResponseAudit. CLI transport.py prepare/run/audit and compare.py analyze/plot; recipe and scope in docs/validation/lar10k/protocol.md. Gap-only prototype helpers under software/analysis/lar_gap prepare/verify the frozen reference transformation, snapshot/audit native geometry and compare audited runs; prospective protocol docs/validation/lar-gap10k/protocol.md. Existing factories/audit libraries reused only after exact source/library hash checks.",
       "paths": [
-        "software/analysis/lar_response"
+        "software/analysis/lar_response",
+        "software/analysis/lar_gap"
       ],
       "evidence": [
         "docs/validation/lar10k/protocol.md",
         "docs/validation/lar10k/README.md",
-        "docs/validation/lar10k/reproduce.md"
+        "docs/validation/lar10k/reproduce.md",
+        "docs/validation/lar-gap10k/protocol.md",
+        "docs/validation/lar-gap10k/environment.json"
       ],
       "prs": [
         "https://github.com/asalzburger/nodd/pull/140"

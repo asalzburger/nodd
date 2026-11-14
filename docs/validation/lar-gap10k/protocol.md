@@ -84,9 +84,13 @@ alongside the older diagnostic R < 0.5 * each model's own global mean. Name the
 denominator and threshold explicitly. Use 1,000 shared whole-primary-event
 bootstrap replicates, analysis seed 13001000, for pointwise 95% percentile
 intervals and paired differences in means, widths and common-threshold tail
-fractions. Preserve covariance across principal global, standard |eta| and fine
+fractions. Evaluate the common standard-global threshold once and hold it fixed
+across bootstrap replicates; these tail intervals condition on that frozen
+threshold. Preserve covariance across principal global, standard |eta| and fine
 transition width observables, with explicit variable order. Matching primaries
 does not make the different-geometry showers the same stochastic history.
+Zero observed tails, including a degenerate empirical-bootstrap interval, do not
+establish exclusion of a nonzero population tail rate.
 
 Widths mix the primary-energy spectrum, angular response, dead material,
 leakage and non-Gaussian tails; they are not fixed-energy intrinsic resolution.
