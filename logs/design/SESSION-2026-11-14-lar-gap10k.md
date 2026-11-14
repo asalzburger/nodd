@@ -651,3 +651,9 @@ Author froze only three new files at d3f49420d6bd776b6b6891071801bf8dd6cd1216. R
 ```
 
 Nonauthor SoftEng closed the d3f49420 identity correction with no actionable findings:47 exact-source tests, all frozen runtime/protocol bytes unchanged from2860f262, both actual43648-sensitive native catalogs hash-verified, and actual3standard/2candidate failure correspondence PASS with exact raw IDs/catalog aliases/printed points/counts. This does not substitute for full corrected per-cell/energy/replay audits. Full transports both exited0 with10000 events/12workers, clean source-state and unchanged producer/library guards.
+
+## Completed transports, short controls and current usage recovery
+
+Both observed full transports at2860f2620ef84e12c21e3d6108876dd7e0609f5e exited0:10000events/12workers each, clean source_state[], unchanged producer/library bytes. Wall times1013.970544s standard /1056.324751s candidate reflect simultaneous24-worker observation load, not an initialization/performance benchmark. Complete common saved-primary/canonical-hit readback reached10000events each. Separate corrected full auditors are running into fresh build/lar-gap10k/reaudit/{standard,candidate}; original literal-name audit outputs remain preserved.
+
+Curated exact usage-only recovery selected17 completed current-task child turns by recorded assignment/followup sequence and exact turn IDs;61,185,035 total observed tokens =60,963,099 input +221,936 output, cached/reasoning subsets not additive. Active root and all old tasks/cumulative thread totals excluded. Models/providers/client version unavailable. Sole canonical owner is this paired session. Final PhysVal turn will be added after completion. Current records validate:110tasks/54documents/24rounds,295session records,119PR interaction records; token site564disjoint dated turns. All introduced history blobs examined so far are below1MiB with no raw ROOT/XML/HEPEvt/event payloads.
