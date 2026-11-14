@@ -409,3 +409,63 @@ Both geometries will use the same10,000 primaries; original common tailcut
 0.07966135709622409 is retained. No tolerance relaxation or invented cell IDs.
 Machine reports24 logical CPUs; independent12-worker replay jobs may run in
 separate directories once pilots pass, with actual resource/runtime recorded.
+
+## Observer implementation/protocol contracts before dispatch
+
+Explicit generic roles; only six new observer files owned by author. All existing frozen simulation/geometry/readout sources retained.
+
+```json
+[
+  {
+    "input_revision": "81674f8630ab29c8462d5b88226000e07a2d0641",
+    "inputs": [
+      "docs/validation/lar-gap10k/observer-protocol.md",
+      "docs/validation/lar-gap10k/protocol.md",
+      "software/analysis/lar_response/transport.py",
+      "software/analysis/lar_response/Audit.cpp",
+      "software/analysis/lar_response/steering.py",
+      "software/analysis/lar_gap/geometry.py",
+      "software/analysis/lar_gap/native.py",
+      "software/analysis/lar_gap/compare.py",
+      "prototypes/calorimeter/LArEndcap.cpp",
+      "prototypes/lar_routing/LArRouting.cpp"
+    ],
+    "deliverable": "Return exact source revision, changed files, tests/methods, CLI recipe and limits. Root owns publication, records, compiled/native production and final evidence. No nested delegation, Git commits/pushes or shared installs.",
+    "completion": "Match source-proven actual filters/contribution/midpoint behavior. Do not alter geometry/readout/guard/cuts/RNG or invent IDs. Root freezes code before native controls/replays; no source writes during runs. Preserve prior runs; no gate weakening.",
+    "id": "LAR-GAP10K-SoftEng-step-observer",
+    "role": "SoftEng",
+    "mode": "write",
+    "writable_paths": [
+      "software/analysis/lar_gap/CMakeLists.txt",
+      "software/analysis/lar_gap/StepAudit.cpp",
+      "software/analysis/lar_gap/observed_steering.py",
+      "software/analysis/lar_gap/observed_transport.py",
+      "software/analysis/lar_gap/observed_compare.py",
+      "software/analysis/lar_gap/test_observed.py"
+    ],
+    "task": "Implement independent all-positive-sensitive-step observer/replay/closure and comparison per new prospective protocol. Existing factories, old lar_response source and old gap geometry/native/compare helpers/protocol MUST remain unchanged (frozen artifact guards); new6files only. New CPP library stepping+event actors record per-event per-collection total accepted contribution A, classified successful per-canonical-cell S, unassigned failures U, plus failure details event/track/step/PDG/rawvolume/prepostmidpointlocal/guard deltas. Exact DD4hep v01-38 scintillator extractContribution(step,true), edep0 and preTouchable midpoint semantics; Birks0/no RNG. Reuse old native mapping preinit+worker-audit library unchanged; standalone steering wrapper can import configure and append step/event actions. Newdriver may reuse old readback helpers but must use own run steering/extra observerlib and explicit new producer/library hashes, never monkeypatch __file__ or mutateoldboundcode. Original sample reference ../nodd-lar-10k-response/build/lar10k-resume/sample; candidate build/lar-gap10k/corrected/sample400 (verified). Retained originals production12 in samebase and corrected/production12 (ongoingdiagnostic). Bind fresh observer runs to native-comparison proof andsame3oldlibs +newobserverlib. Derive actual EDM4hep per-cell rounding/accumulation closure bounds from source/fieldprecision, verify A=H+U per-event/collection and successfulcells. Failurecountslocalpoints must matchoriginalSDlogerrors without duplicate original logging. Record replay saved-cell and event-vector equality with retained runs, else freshmatchedvectors only. Analysis two explicit savedH/E vs totalA/E; keeporiginal commonthreshold0.07966135709622409 frozen acrossbins/bootstrap, same1000seed13001000 andfixedaxes; missingdelta moments/variance identity andeffect statistics. Existing mathhelpers may beimported, no frozenfileedits. Expose cleanCLI prepare/run/audit/analyze/plot orreuseplots withclearlylabelleddata. Add meaningfulnegative integrity/rounding/event/threshold tests. Puretests onlybyyou; rootbuilds/runs afterfreeze. Need exactprimaryupstreamsourcefacts recorded, no fullsourceinstall or SDKchange. Return boundedreadyfiles promptly, no futurefeatures."
+  },
+  {
+    "input_revision": "81674f8630ab29c8462d5b88226000e07a2d0641",
+    "inputs": [
+      "docs/validation/lar-gap10k/observer-protocol.md",
+      "docs/validation/lar-gap10k/protocol.md",
+      "software/analysis/lar_response/transport.py",
+      "software/analysis/lar_response/Audit.cpp",
+      "software/analysis/lar_response/steering.py",
+      "software/analysis/lar_gap/geometry.py",
+      "software/analysis/lar_gap/native.py",
+      "software/analysis/lar_gap/compare.py",
+      "prototypes/calorimeter/LArEndcap.cpp",
+      "prototypes/lar_routing/LArRouting.cpp"
+    ],
+    "deliverable": "Return exact source revision, changed files, tests/methods, CLI recipe and limits. Root owns publication, records, compiled/native production and final evidence. No nested delegation, Git commits/pushes or shared installs.",
+    "completion": "Match source-proven actual filters/contribution/midpoint behavior. Do not alter geometry/readout/guard/cuts/RNG or invent IDs. Root freezes code before native controls/replays; no source writes during runs. Preserve prior runs; no gate weakening.",
+    "id": "LAR-GAP10K-PhysVal-observer-protocol",
+    "role": "PhysVal",
+    "mode": "read-only",
+    "writable_paths": [],
+    "task": "Assess frozen observer-protocol before data: exactpositiveedep/Birks0 contribution andfilter/weight semantics, per-event/all-success-failure closure, preciseEDMoutputrounding allowance, replayequivalence, frozenoriginaltailthreshold, rawRvsunassignedreadout claim boundary. Examine exactsource142cbb7 andinstalledmetadata asneeded; codeauthorimplementing in parallel. Identify concrete prerequisites orerrors promptly; no native/DDSim or files. Return usableprecision/formula/source guidance andscientific assessment, not engineeringacceptance."
+  }
+]
+```
