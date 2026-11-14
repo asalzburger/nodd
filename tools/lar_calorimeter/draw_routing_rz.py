@@ -20,8 +20,8 @@ FILES = ['tools/lar_calorimeter/'+x for x in
 FILES += ['docs/design/inputs/DES-032-side-rear-routing.md',
           'docs/design/DES-032-allegro-lar-barrel.md',
           'docs/design/DES-033-allegro-lar-endcaps.md']
-C = dict(warm='#cce2ec', active='#3d8798', hcal='#d5d7d9', edge='#52616a',
-         old='#bc5c21', new='#7846a0', support='#aa8660', clear='#70777d')
+C = dict(warm='#f0f0b3', active='#cccc00', hcal='#cc6600', edge='#52616a',
+         old='#2369a0', new='#7846a0', support='#dddd55', clear='#70777d')
 
 
 def pipe(start, reference, bus, radius, rear_start, handoff):
@@ -88,8 +88,8 @@ def panel(ax,b,e,s,new=False,shift=0):
     box(ax,h_front,6.75,s['hcal_endcap_inner_radius_mm']/1000,
         s['hcal_endcap_outer_apothem_mm']/1000,facecolor=C['hcal'],edgecolor=C['edge'],lw=.8)
     ax.plot([2.70,h_end],[h_corner,h_corner],ls=':',color=C['edge'],lw=.9)
-    ax.text(4.55,4.25,'HCAL barrel',ha='center',fontsize=12,color=C['edge'])
-    ax.text(6.56,3.65,'HCAL\nendcap',ha='center',fontsize=10,color=C['edge'])
+    ax.text(4.55,4.25,'HCAL barrel',ha='center',fontsize=12,color='#302717')
+    ax.text(6.56,3.65,'HCAL\nendcap',ha='center',fontsize=10,color='#302717')
     # Warm package envelopes and sampling envelopes (no fine plate structure).
     box(ax,2.70,b_end,b['warm_inner_radius_mm']/1000,outer,
         facecolor=C['warm'],edgecolor=C['edge'],lw=.9)
@@ -99,7 +99,7 @@ def panel(ax,b,e,s,new=False,shift=0):
         box(ax,e['warm_front_z_mm']/1000,e['warm_back_z_mm']/1000,
             e['warm_inner_radius_mm']/1000,e['warm_outer_radius_mm']/1000,
             facecolor='none',edgecolor=C['edge'],ls='--',lw=1.1,zorder=4)
-        box(ax,back,h_end,2.05,h_inner,facecolor='#f7e7b7',edgecolor='none',alpha=.55,zorder=1)
+        box(ax,back,h_end,2.05,h_inner,facecolor='#e6edf3',edgecolor='none',alpha=.55,zorder=1)
     box(ax,f,back,e['warm_inner_radius_mm']/1000,e['warm_outer_radius_mm']/1000,
         facecolor=C['warm'],edgecolor=C['edge'],lw=.9,zorder=2)
     box(ax,e['sampling_front_z_mm']/1000-shift,
@@ -111,8 +111,8 @@ def panel(ax,b,e,s,new=False,shift=0):
     for z in (3.0,3.5):
         box(ax,z-.175,z+.175,2.5933,2.6733,facecolor='none',edgecolor=C['support'],
             hatch='////',lw=.5,zorder=4)
-    ax.text(3.32,2.35,'LAr barrel\nsampling envelope',ha='center',va='center',fontsize=10,color='white')
-    ax.text((f+back)/2,2.40,'LAr EC\nsampling',ha='center',va='center',fontsize=10,color='white',zorder=5)
+    ax.text(3.32,2.35,'LAr barrel\nsampling envelope',ha='center',va='center',fontsize=10,color='#33351a')
+    ax.text((f+back)/2,2.40,'LAr EC\nsampling',ha='center',va='center',fontsize=10,color='#33351a',zorder=5)
     # Drawing-only centreline placement seeds, explicitly recorded in the receipt.
     start=3.300 if new else 4.170
     route=pipe(start,2.7353,3.029,.400,5.880,4.800)
@@ -178,8 +178,8 @@ def main():
     panels=[]
     for ax,new,title in zip(axes,(False,True),('A  Old routing hypothesis','B  Proposed side-neck routing')):
         panels.append(panel(ax,b,e,s,new=new));ax.set_title(title,loc='left',fontsize=14,pad=13)
-    handles=[Patch(facecolor=C['active'],label='Sampling envelope'),Patch(facecolor=C['warm'],label='Warm package'),
-             Patch(facecolor=C['hcal'],label='HCAL at face centre'),Patch(facecolor=C['support'],label='Support / board-row projections'),
+    handles=[Patch(facecolor=C['active'],label='ECAL sampling envelope'),Patch(facecolor=C['warm'],label='ECAL warm package (light shade)'),
+             Patch(facecolor=C['hcal'],label='HCAL at face centre'),Patch(facecolor=C['support'],label='ECAL supports / board rows (light shade)'),
              Line2D([],[],color=C['old'],lw=5,label='Old 100 mm jacket'),Line2D([],[],color=C['new'],lw=5,label='Proposed 100 mm jacket')]
     fig.legend(handles=handles,loc='lower center',bbox_to_anchor=(.5,.075),ncol=3,frameon=False,fontsize=10)
     fig.suptitle('LAr service routing: isolate the route change at fixed detector positions',fontsize=17,y=.97)
@@ -197,6 +197,7 @@ def main():
         source_revision=revision,source_sha256={k:hashlib.sha256(v).hexdigest() for k,v in contents.items()},
         drawing_script_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
         matplotlib_version=matplotlib.__version__,numpy_version=np.__version__,
+        palette=dict(ECAL='#cccc00',HCAL='#cc6600',source='README.md detector component colors; lighter ECAL substructure shades'),
         drawing_choices=dict(old_s_bend_start_mm=4170,new_s_bend_start_mm=3300,
             rear_elbow_start_mm=5880,pipe_jacket_od_mm=100,clearance_mm=20,bend_radius_mm=400,
             external_handoff_radius_mm=4800,conditional_endcap_inward_shift_mm=400,

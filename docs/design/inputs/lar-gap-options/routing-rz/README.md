@@ -13,7 +13,7 @@ neck, completed before the barrel end, then a straight bus and rear radial exit.
 Both panels retain the800mm front gap and all ECAL/HCAL positions; this isolates
 the routing change. The coloured band is one100mm jacket, drawn to physical
 width with analytical normal offsets; dashed edges add20mm clearance. It is not
-the complete service bundle. Brown shapes project the support rings and board
+the complete service bundle. Light-yellow shapes project the support rings and board
 rows; the neck is occupied space requiring vessel/board/support redesign.
 
 ## Separate conditional endcap shift
@@ -59,6 +59,10 @@ MPLCONFIGDIR=build/lar-routing-rz/mpl XDG_CACHE_HOME=build/lar-routing-rz/cache 
 The retained PNG/SVG files can be regenerated without DD4hep/Geant4, native
 factories or the raw10k sample. No native overlap/material/transport validation
 was performed. The paired drawing session records actual checks and review.
+
+The fixed project palette is retained: ECAL yellow `#cccc00`, HCAL orange
+`#cc6600`; warm-package and support/board projections use labelled lighter ECAL
+shades. Blue and purple distinguish the two routing hypotheses.
 
 Vector exports: [comparison SVG](routing-rz-comparison.svg),
 [conditional target SVG](routing-rz-gap-target.svg).
