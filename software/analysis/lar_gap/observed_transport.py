@@ -143,6 +143,13 @@ def event_identity(row,seen,required):
     if row.get('rounding_mode')!='FE_TONEAREST':raise ValueError('Unaudited observer rounding mode')
 
 
+def steering_environment(environ):
+    env=dict(environ)
+    env['NODD_LAR_REPOSITORY']=str(ROOT)
+    env['PYTHONPATH']=os.pathsep.join([str(ROOT),env['PYTHONPATH']]) if env.get('PYTHONPATH') else str(ROOT)
+    return env
+
+
 def run(args):
     sample=args.sample.resolve();m,binding,label=bound_sample(sample,args.native_report)
     oldlibs=[p.resolve() for p in [*args.geometry_library,args.audit_library]];observer=args.observer_library.resolve()
@@ -155,7 +162,7 @@ def run(args):
     if not math.isfinite(reserve) or reserve<0 or shutil.disk_usage(sample).free<reserve:raise ValueError('Invalid/insufficient disk reserve')
     out=args.output.resolve();out.mkdir(parents=True,exist_ok=False);(out/'audit').mkdir();(out/'observer').mkdir()
     save(out/'observer/config.json',config(sample));source=producers();libraries={str(p):sha(p) for p in [*oldlibs,observer]}
-    env=os.environ.copy();env.update(NODD_LAR_AUDIT=str(out/'audit'),NODD_LAR_MAX_STEP_MM='5',NODD_LAR_AUDIT_LIBRARY=str(args.audit_library.resolve()),
+    env=steering_environment(os.environ);env.update(NODD_LAR_AUDIT=str(out/'audit'),NODD_LAR_MAX_STEP_MM='5',NODD_LAR_AUDIT_LIBRARY=str(args.audit_library.resolve()),
         NODD_LAR_OBSERVER=str(out/'observer'),NODD_LAR_OBSERVER_LIBRARY=str(observer))
     for key in ('DD4HEP_LIBRARY_PATH','DYLD_LIBRARY_PATH','LD_LIBRARY_PATH'):env[key]=os.pathsep.join([*(str(p.parent) for p in [*oldlibs,observer]),env.get(key,'')])
     executable=shutil.which('ddsim')
@@ -166,7 +173,7 @@ def run(args):
         '--outputConfig.forceEDM4HEP','--outputFile',str(out/'events.root')]
     common=dict(command=command,events=args.events,skip=0,threads=args.threads,seed=133812341,max_step_mm=5.,source_state=state,
         source_revision=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),producer_sha256=source,library_sha256=libraries,
-        sample=str(sample),sample_sha256=sha(sample/'sample.json'),native_report=str(args.native_report.resolve()),native_report_sha256=sha(args.native_report),
+        sample=str(sample),sample_sha256=sha(sample/'sample.json'),native_report=str(args.native_report.resolve()),native_report_sha256=sha(args.native_report),steering_repository_root=str(ROOT),
         observer_config_sha256=sha(out/'observer/config.json'),variant=label,source_facts=UPSTREAM)
     save(out/'started.json',common);start=time.monotonic();before=resource.getrusage(resource.RUSAGE_CHILDREN);aborted=False;last=start
     with (out/'transport.log').open('w') as stream:

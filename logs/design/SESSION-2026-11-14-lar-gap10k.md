@@ -541,3 +541,5 @@ Freshcompiledobserver atclean d31cb719 builtPASS. Bothobservedserial24 jobs exit
   "completion": "Resolveinterfacebugwithouttouchingfrozenphysical/observerCpp policy, no broaderfeatures or gateweakening. No authornativeevents."
 }
 ```
+
+Loaderfix frozen: explicitboundrepositoryenv/PYTHONPATH replaces__file__; installedDDSim alsoexecuteswithseparateglobals/locals, so wrappercallbackimportsdependenciesinternally. Newpuretestexecutesactualwrapperwithsplitnamespaces/no__file__, invokesstoredcallback andprovesonemapinitializer/libraryloadplusoriginalsettings.37integratedpuretestsPASS; CPPsource/binary3a99... unchangedfromcleanbuildd31. Freshobserver-v2 outputs willretainallfirstfailedlaunches.

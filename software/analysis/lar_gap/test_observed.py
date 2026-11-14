@@ -1,10 +1,15 @@
 """Adverse precision, accounting, identity, threshold and shared-bootstrap controls."""
 from copy import deepcopy
 import math
+import os
+from pathlib import Path
+import sys
+import types
 import unittest
+from unittest.mock import patch
 import numpy as np
 
-from observed_transport import collection_closure,f32,float32_cell_bounds,match_failures,event_identity
+from observed_transport import collection_closure,f32,float32_cell_bounds,match_failures,event_identity,steering_environment,ROOT
 from observed_compare import summarize,variance_identity,TAIL_THRESHOLD
 
 
@@ -59,6 +64,40 @@ class PrecisionAndCoverage(unittest.TestCase):
         row=dict(run=0,event=0,rounding_mode='FE_TONEAREST');event_identity(row,set(),{0})
         for changed,seen in ((row,{0}),({**row,'event':1},set()),({**row,'run':1},set()),({**row,'rounding_mode':'FE_DOWNWARD'},set())):
             with self.assertRaises(ValueError):event_identity(changed,seen,{0})
+
+
+class SteeringLoaderControls(unittest.TestCase):
+    def test_driver_binds_repository_without_mutating_parent_environment(self):
+        parent={'PYTHONPATH':'existing-path','NODD_LAR_REPOSITORY':'wrong-path'}
+        env=steering_environment(parent)
+        self.assertEqual(parent['NODD_LAR_REPOSITORY'],'wrong-path')
+        self.assertEqual(env['NODD_LAR_REPOSITORY'],str(ROOT))
+        self.assertEqual(env['PYTHONPATH'],str(ROOT)+os.pathsep+'existing-path')
+
+    def test_ddsim_exec_without_file_registers_one_original_initializer(self):
+        class Physics:
+            def __init__(self):self.callbacks=[]
+            def setupUserPhysics(self,callback):self.callbacks.append(callback)
+        class Simulation:
+            def __init__(self):self.physics=Physics();self.action=types.SimpleNamespace();self.random=types.SimpleNamespace()
+        module=types.ModuleType('DDSim.DD4hepSimulation');module.DD4hepSimulation=Simulation
+        old=types.ModuleType('software.analysis.lar_response.steering')
+        def original(kernel):kernel.append('original-map-initializer')
+        old.configure=original;loaded=[]
+        root=types.ModuleType('ROOT');root.gSystem=types.SimpleNamespace(Load=lambda name:loaded.append(name) or 0)
+        source=Path(__file__).with_name('observed_steering.py').read_text();scope={};globs={}
+        modules={'DDSim':types.ModuleType('DDSim'),'DDSim.DD4hepSimulation':module,'software.analysis.lar_response.steering':old,'ROOT':root}
+        env=steering_environment({'NODD_LAR_OBSERVER_LIBRARY':'observer-test-fixture'})
+        with patch.dict(sys.modules,modules),patch.dict(os.environ,env),patch.object(sys,'path',list(sys.path)):
+            # Match installed DDSim.readSteeringFile: separate empty globals
+            # and locals, with neither providing a steering __file__.
+            exec(compile(source,'DDSim-steering-exec-fixture','exec'),globs,scope)
+            self.assertNotIn('__file__',scope);self.assertNotIn('__file__',globs)
+            sim=scope['SIM'];self.assertEqual(len(sim.physics.callbacks),1)
+            kernel=[];sim.physics.callbacks[0](kernel)
+        self.assertEqual(kernel,['original-map-initializer']);self.assertEqual(loaded,['observer-test-fixture'])
+        self.assertEqual(sim.action.run,'nODDLArResponseAudit/LArResponseAudit');self.assertTrue(sim.random.enableEventSeed)
+        self.assertEqual(sim.action.step,'nODDLArObservedStep/ObservedSteps');self.assertEqual(sim.action.event,'nODDLArObservedEvent/ObservedEvents')
 
 
 class ObservedStatistics(unittest.TestCase):
