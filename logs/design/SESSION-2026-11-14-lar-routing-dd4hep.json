@@ -4,8 +4,8 @@
   "title": "Material-preserving DD4hep LAr service-route prototype",
   "recorded_at": "2026-11-14T13:00:17Z",
   "started_at": null,
-  "ended_at": null,
-  "status": "open",
+  "ended_at": "2026-11-14T13:47:28.647955Z",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
@@ -24,7 +24,8 @@
     "result_commits": [
       "8210fbcca843d385103dcc14367d0587f9d85ba3",
       "992c49443d4a8f6ccfa3153a3a03c0a70e6cf16e",
-      "f4c15efeb3e0c62bbe5611b53df56b57fb7bc199"
+      "f4c15efeb3e0c62bbe5611b53df56b57fb7bc199",
+      "5d92e869ff163ee49897fa1bff24f5a5b1314cf2"
     ],
     "changed_files": [
       "docs/design/inputs/DES-032-routing-dd4hep.md",
@@ -33,6 +34,7 @@
       "docs/validation/lar-routing-dd4hep/environment.json",
       "docs/validation/lar-routing-dd4hep/reproduce.md",
       "docs/validation/lar-routing-dd4hep/results.json",
+      "interactions/pr-0143.json",
       "logs/design/SESSION-2026-11-14-lar-routing-dd4hep.json",
       "logs/design/SESSION-2026-11-14-lar-routing-dd4hep.md",
       "logs/usage/RECOVERY-2026-11-14-lar-routing-dd4hep.json",
@@ -58,7 +60,8 @@
     "related_ids": [
       "DES-032",
       "DES-033",
-      "TASK-LAR-ROUTING-DD4HEP"
+      "TASK-LAR-ROUTING-DD4HEP",
+      "PR-143"
     ]
   },
   "narrative": "logs/design/SESSION-2026-11-14-lar-routing-dd4hep.md",
@@ -342,6 +345,36 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "Whitespace check passed. Introduced history objects inspected:25 blobs, largest301839 bytes; no raw payload extensions. New usage inventory also reviewed before staging."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated109 tasks,54 documents and24 review rounds after normalizing PR collection timestamp to required whole-second UTC."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated294 paired records, including closed current task."
+    },
+    {
+      "command": "python3 -B tools/interactions/ledger.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated119 records, including PR143 canonical usage and curated provenance."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py build --output _site/lar-routing-dd4hep",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Built preview with547 uniquely owned dated turns; six current-task child observations and work label included; active coordinator excluded."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py summary --format json > build/lar-routing/session-summary-final.json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Observed coverage summary regenerated successfully; task scope has30,678,748 input +88,742 output tokens for six child turns only."
     }
   ]
 }

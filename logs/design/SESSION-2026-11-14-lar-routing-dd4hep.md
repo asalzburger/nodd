@@ -293,3 +293,37 @@ was removed from executable checks and retained in the assessment narrative.
 Review outcomes do not invent process exit codes. Subsequent validation recorded
 below. Introduced Git objects were inspected relative to the proposal base;
 no raw payload extensions and all blobs below1 MiB. Whitespace check passed.
+
+## Selected literal user inputs
+
+> Can you make a DD4hep version out of it? The bent cable can be approximated but the material kept the same.
+
+Material clarification response:
+
+> Reuse existing pipe materials; retain cable envelopes
+
+## Draft publication and closure
+
+Created and attached [draft PR143](https://github.com/asalzburger/nodd/pull/143),
+`Calorimeter: add material-preserving DD4hep service routing`, stacked on
+`codex/lar-gap-hadron-options` (proposal PR142). Initial published head was
+5d92e869ff163ee49897fa1bff24f5a5b1314cf2. Captured public PR metadata and
+curated its own interaction record; no public messages sent beyond the authorized
+PR. The final bookkeeping commit updates only this task's records/tracking.
+
+Task deliverables are complete for the bounded standalone prototype. Remaining
+integration contacts and acceptance are future engineering work, not a passing
+fit claim. Reviewers found no actionable issue at the stated reviewed revision.
+Repository-wide remote CI may still be pending; local native and governance
+checks are the executed evidence, not a claim of remote green status. The paired
+session closes with incomplete coordinator-token coverage explicitly retained.
+
+Final local closeout:294 paired sessions and119 PR ledgers validated; token
+preview built successfully with547 uniquely owned dated turns. The preview
+includes this task's six closed observations and work label, without counting
+active coordinator usage. Project validation rejected fractional seconds in the
+new PR collection timestamp; normalized that field to its required whole-second
+UTC format, preserving the precise original public capture time in the PR ledger.
+Project validation then passed109 tasks,54 documents and24 review rounds.
+No scientific input or result changed during closeout. Remote CI status is
+reported separately from these local passes.
