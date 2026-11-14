@@ -570,3 +570,24 @@ Explicitgeneric nonauthorSoftEng.
 Allsix observed-v2 short runs (serial24/MT24/pilot100 inbothgeometries) completedwithcell-levelobserverclosureandmatchedserialMTcontrols atd3c3cfc6/5d233175 sources. NonauthorreviewP1loaderclosed37exacttests; P2missinglate serial-maprevalidation remains. CoordinatornowownsONLYobserved_transport.py/test_observed.py forread-onlyartifactguardandadversetests; authorhasnomorewrites. CPP/binary/steering/runfunction/physics/mathwillstaybyteidentical. Reviewerexplicitlyaccepts reusingcompletedshortMC withoriginalreceiptsplusaseparatehash-boundnewguardverificationrecord; no producerhashes/auditorclaimsrewritten orcheck_sourcesweakened. Productionwillusecorrectedguardcheckpoint.
 
 CoordinatorP2fix addsverify_serial_maps tobothfreshauditandcached evidencepaths, requiringdualreceipt/readback hashes, exactparsedrecordequality, PASS/mainthread/raw43648/context43648. Fifteenobserverprecision/loader/mapadversetestsPASS, includingmissing/mutated/stale/parsedmismatch/nonserial/incompletecases. No C++/steering/run/mathchanges, no tolerancerelaxation. Separate actualsix-run correctionverification willbindnewverifier tooldcontrol/pilotartifactswithoutrewritingthem.
+
+Sixrealcompletedobservercontrol/pilotchains reverifiedwithnewguard; codeASToflaunch/accounting methods andCPP/build/steering/statistics byte-identicalto5d233175. Compactnewguardverificationrecordretainsoldsourceclaims/fullartifacthashes; no producer/readbackrewrite. ExactP2closurecontractbeforedispatch:
+
+```json
+{
+  "id": "LAR-GAP10K-SoftEng-map-guard-review",
+  "role": "SoftEng",
+  "input_revision": "9f8aac37c5e5949d3104ec447a3fa89f7a1d5252",
+  "inputs": [
+    "software/analysis/lar_gap/observed_transport.py",
+    "software/analysis/lar_gap/test_observed.py",
+    "docs/validation/lar-gap10k/controls-map-verification.json",
+    "docs/validation/lar-gap10k/observer-protocol.md"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "CloseP2exactguard: dual receipt/readbackmapsSHA, parsedrecordequality, PASS/mainthread/43648raw&contexts, freshauditandcached.evidence paths. Fifteenobserverpuretests passcoordinator, inclmissing/mutation/stale/equality/nonserial/incomplete. Verifyseparatecontrols-map-verification record source0034eb0f oldsixshortMCretainedunchanged d3c3cfc6; sourceASTandCpp/build/steering/statistics unchanged from5d233175. ConfirmnoMCrerunneededforonlypostprocessingguardchangeaspreviousassessment, no sourceguardsrelaxed oroldreceiptsrewritten. Read-only/noMC/native/files/nesteddelegation. Productionwillfreshcorrectedcheckpointafterclosure.",
+  "deliverable": "Return exactrevision,P2closureorfinding, actualchecks/artifactbindings, limits. Coordinatorcurates.",
+  "completion": "Assessboundedfixonlyandall sixrealretainedmaps ifuseful; no broadretuning. No acceptance."
+}
+```
