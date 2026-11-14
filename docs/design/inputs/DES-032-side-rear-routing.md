@@ -7,6 +7,9 @@ Requested clarification of option1 in the
 Input revision: `e5e1ecd68bbdcd8c3f9e6402e2089db1c8eab751`.
 No detector parameters or exported geometry change in this proposal.
 
+The [RZ illustrations](lar-gap-options/routing-rz/README.md) compare old/new
+routing at fixed geometry and show the conditional400mm-gap target separately.
+
 ## Preferred topology
 
 **NODD DESIGN CHOICE — proposed:** put the outward pipe offsets in service
