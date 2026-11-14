@@ -477,3 +477,40 @@ Independent observer-protocol review found scope defensible, with exact implemen
 Initial candidate10k transport/readback/pairedsaved-H analysis completed atcleanstartb24f9db2,816.009759s transport,12workers,10000IDs, twoactionerrors. Preliminarysaved-H globalCV17.8428→13.5559%, fixedtransition44.1838→20.9984%,183→0commoncut tails, explicitlydiagnostic untilcomplete-deposit accounting. No geometry/statisticalpolicyretuned fromthesevalues. Newobserverdiagnostic CMakeconfigurePASS; firstcompilefailed nlohmann-json/dd4hep::json namespacealiascollision, authorusedunique StepJson alias, secondcompilePASS. Noevents/native bythatdiagnosticbinary. Existingnloh3.12.0/uecyhyo header/config directlyverified, noinstall. Finalcleanbuild/control/replay stillpending.
 
 Observer six-file handoff frozen:35 integratedpuretestsPASS; diagnosticC++v3PASS. Rootreview caughtduplicate physicsinitializer registration (installedsetupUserPhysics appends), corrected byfreshSIM +singlewrapper; CPPaliasnamespacecollisioncorrected; strictRNEaudit,narrowruntime-errorcatch, unitweight/Birks0/nonopticalpolicy andboundedper-cellstepstorage included. Alloldsimulation/geometry/readout/helperfilesunchanged. Native Aindependent,Ssuccessful,Uunassigned,Hsavedfloat distinction explicit. Exactqfloatcellclosure, precisionderivedeventbounds, originalerrorcorrespondence, optionalfullreplay, frozenoldcutandjoint84covariance areimplemented. Finalcleanbuild andobservercontrols/replayremainrequired, noauthornativejobs.
+
+## Exact observer source review before dispatch
+
+Explicitgeneric nonauthorSoftEng role.
+
+```json
+{
+  "id": "LAR-GAP10K-SoftEng-observer-review",
+  "role": "SoftEng",
+  "input_revision": "37d45a6466c3a9a7384583b0140a1bdc5c61f712",
+  "inputs": [
+    "docs/validation/lar-gap10k/observer-protocol.md",
+    "docs/validation/lar-gap10k/protocol.md",
+    "software/analysis/lar_gap/CMakeLists.txt",
+    "software/analysis/lar_gap/StepAudit.cpp",
+    "software/analysis/lar_gap/compare.py",
+    "software/analysis/lar_gap/controls.py",
+    "software/analysis/lar_gap/geometry.py",
+    "software/analysis/lar_gap/native.py",
+    "software/analysis/lar_gap/observed_compare.py",
+    "software/analysis/lar_gap/observed_steering.py",
+    "software/analysis/lar_gap/observed_transport.py",
+    "software/analysis/lar_gap/test_compare.py",
+    "software/analysis/lar_gap/test_controls.py",
+    "software/analysis/lar_gap/test_geometry.py",
+    "software/analysis/lar_gap/test_observed.py",
+    "software/analysis/lar_response/steering.py",
+    "software/analysis/lar_response/transport.py",
+    "software/analysis/lar_response/Audit.cpp"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Independent nonauthor exact-revision review of sixnewobserverfiles. Assess direct scintillator positive-step/filter/midpoint/ID semantics, geometry/readout unchanged, non-RNGobserver callbackorder/state, unitweights/Birks/optical/fastsim policy, once-only steeringinitializer, per-cell nativeS plus independentA/U closure, exact binary32 savedcell comparison andderivedIEEE64 event bounds, all-event/cell replay/provenance, errorlogfailurematching, frozenoriginaltailthreshold andsharedH/A/U bootstrap/covariance84. Check meaningfulnegative tests andnew isolatedCMake dependencies. Existingcode/native/physicsheldfixed; raw observed controls may beunderway atbuild/lar-gap10k/observed, read-only onlywhencomplete. No native/DDSim/events orfilewrites/nesteddelegation. Returnconcrete blockers promptly beforeproduction; no style-onlyexpansion.",
+  "deliverable": "Return exact revision, prioritized findings orno actionablefindings, actualpure checks andsource/artifact bindingsverified, remaininglimits. Coordinatorrecordsassessment; no acceptance.",
+  "completion": "Do not infer relative/absoluteenergyintegrity fromtests alone; auditmatchingdefinition/source carefully. Assess onlyboundedobserverandanalysis, no gateweakening ornewphysics. Rootfreezesallsource andrunscontrols/replays separately."
+}
+```
