@@ -1,6 +1,6 @@
 # Conditional LAr gap: matched 10k electron response
 
-**DRAFT / PROTOTYPE · 2026-11-14 · DES-032 / DES-033 · TASK-LAR-GAP10K.**
+**DRAFT / PROTOTYPE · 2026-11-14 · DES-032 / DES-033 · TASK-LAR-GAP10K · [draft PR144](https://github.com/asalzburger/nodd/pull/144).**
 Reducing the warm barrel/endcap gap from 800 to 400 mm substantially improves
 the raw response of the represented LAr ECAL in this sample. The fixed
 999-primary transition region narrows from 44.18% to
@@ -127,8 +127,13 @@ correspondence using the actual native placement catalog; all runtime producers
 stay byte-identical. Original failed/partial audits are retained locally.
 
 All 47 focused pure tests pass and a nonauthor SoftEng exact-source review clears
-the correction. The separate final PhysVal assessment is recorded in the session
-journal once complete. [Frozen physical protocol](protocol.md),
+the correction. Separate final PhysVal assessment at
+`777452601a742aa267f63c2cfd37d71aba830893` found no actionable findings and
+independently reproduced all projection points, U metrics, principal/broad/fine
+bootstrap intervals and the full84-variable covariance. Maximum interval/covariance
+discrepancies were9.72e−14 /8.64e−17. The reviewer verified full-cell replay
+proof/source bindings without separately reparsing all ROOT cell payloads or
+repeating visual QA; those checks were performed by the coordinator. [Frozen physical protocol](protocol.md),
 [observer protocol](observer-protocol.md), [readback addendum](readback-addendum.md),
 [verified environment](environment.json), [exact reproduction](reproduce.md) and
 [work/usage journal](../../../logs/design/SESSION-2026-11-14-lar-gap10k.md) distinguish
