@@ -514,3 +514,30 @@ Explicitgeneric nonauthorSoftEng role.
   "completion": "Do not infer relative/absoluteenergyintegrity fromtests alone; auditmatchingdefinition/source carefully. Assess onlyboundedobserverandanalysis, no gateweakening ornewphysics. Rootfreezesallsource andrunscontrols/replays separately."
 }
 ```
+
+## Observer loader interface failure and correction contract
+
+Freshcompiledobserver atclean d31cb719 builtPASS. Bothobservedserial24 jobs exited1 beforegeometry/events becauseDDSim executessteering without__file__, whileourwrapperusedPath(__file__). Failedoutputsremainignored observed/standard andcandidate. Thisissteeringinterfaceonly; no observer physicsdata or source/tolerancechange. SameCPPbinaryhashcanbe reusedsinceonlydriver/steering/testfixneeded. Contractrecordedbeforedispatch:
+
+```json
+{
+  "id": "LAR-GAP10K-SoftEng-observer-loader-fix",
+  "role": "SoftEng",
+  "input_revision": "37d45a6466c3a9a7384583b0140a1bdc5c61f712",
+  "inputs": [
+    "software/analysis/lar_gap/observed_steering.py",
+    "software/analysis/lar_gap/observed_transport.py",
+    "software/analysis/lar_gap/test_observed.py",
+    "docs/validation/lar-gap10k/observer-protocol.md"
+  ],
+  "mode": "write",
+  "writable_paths": [
+    "software/analysis/lar_gap/observed_steering.py",
+    "software/analysis/lar_gap/observed_transport.py",
+    "software/analysis/lar_gap/test_observed.py"
+  ],
+  "task": "Fix concrete observer-gate loader failure before any geometry/events: DDSimexec steering namespace doesnotdefine __file__; observed_steering line6 Path(__file__) raisesNameError in both serial24 runs. Preserve failed dirs build/lar-gap10k/observed/{standard,candidate}/serial24 and logs. Use explicit bound ROOT path from driver environment orPYTHONPATH; avoidinferringsteeringpathfrom__file__, do not modify oldsteering/transport orCpp/cuts/geometry. Add meaningful native-loader-contract purecontrol executing steering source with __file__ absent and fakeDDSim/oldconfigure deps, checking singleinitializerregistration/originalrunsettings. Rootwillfreshdirs/replay using sameunchanged compiledobserverbinaryCppsourcehash. No native/DDSim/filesoutsideowned, no nesteddelegation, commits/publication.",
+  "deliverable": "Return exactfixfiles/sourcehashes, actualmeaningfultests, freezeandCLIunchangedorchanges. Rootcurates.",
+  "completion": "Resolveinterfacebugwithouttouchingfrozenphysical/observerCpp policy, no broaderfeatures or gateweakening. No authornativeevents."
+}
+```
