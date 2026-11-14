@@ -591,3 +591,7 @@ Sixrealcompletedobservercontrol/pilotchains reverifiedwithnewguard; codeASToflau
   "completion": "Assessboundedfixonlyandall sixrealretainedmaps ifuseful; no broadretuning. No acceptance."
 }
 ```
+
+## Logical/physical name-schema observation during full replays
+
+Actualcompletedobserverfailuresrecordlogicalw1_gap1/w2_gap0, whileoriginalSDlogsphysicalw1_gap1_7/w2_gap0_6. Currentliteralname matcher rejects these unlikeidentities; rootreproducedValueError onbothpartiallycompletedstreams. RawIDs/localpoints/positiveenergy areavailableandunchanged. No MCfileoroldruntimeproducerwillbeedited. Separatepostprocessingauditor/readbackaddendum resolvesnamesfromhash-boundnativephysicalplacementcatalog, preservingexactrawID/point/count/closure andsourceguards. Itwillwritenewderivedoutputs/proofswithownauditorrevision, retainingalloriginalraw/failedreadbacks. Thisavoidsrerunningunchangedphysicsforreader-schemaerror anddoesnotweakenidentification.
