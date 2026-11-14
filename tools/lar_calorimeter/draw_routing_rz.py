@@ -149,7 +149,11 @@ def panel(ax,b,e,s,new=False,shift=0):
 def save(fig,out,name):
     for ext in ('png','svg'):
         metadata={'Software':'nODD conceptual routing diagram'} if ext=='png' else {'Date':None,'Creator':'nODD conceptual routing diagram'}
-        fig.savefig(out/(name+'.'+ext),dpi=190,metadata=metadata)
+        path=out/(name+'.'+ext)
+        fig.savefig(path,dpi=190,metadata=metadata)
+        if ext=='svg':
+            # Matplotlib path lines carry trailing spaces; preserve XML/path meaning.
+            path.write_text('\n'.join(line.rstrip() for line in path.read_text().splitlines())+'\n')
     plt.close(fig)
 
 
