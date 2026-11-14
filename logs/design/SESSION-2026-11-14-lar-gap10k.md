@@ -667,3 +667,34 @@ Both separate corrected audits exited0/PASS at e8450d753b4378520d1f5daa98433a7fc
 Corrected analysis and plots at unchanged e8450d75 exit0 with frozen1000 shared whole-primary bootstrap/seed13001000. Complete-A global SD/mean17.8427835%→13.5559382%, fixed999transition44.1838377%→20.9983524%. Paired candidate-standard width−4.2868453pp (95%[−4.8021389,−3.7776309]) global and−23.1854853pp ([−25.9333327,−20.6036906]) transition; fixed threshold183→0 tails, zeros0both. Eight direct NumPy global/transition A/H moment/population/tail checks independently match summary. All84 covariance variables retained/hash-bound. Full scalar precision/identity/failed-step information stays in ignored raw ledgers; only477202byte compact summary,215586byte covariance,33604byte execution bindings and selected scientific figures curated.
 
 Root visually inspected complete-A angular widths/means/common tails and signed/full-phi/energy controls: labels/intervals readable, ECAL palette and variant styles retained. Fontconfig unwritable shared-cache warning did not prevent successful Matplotlib local-cache rendering. Native/readout physical source bytes remain frozen. Interpretation stays conditional gap sensitivity, not intrinsic resolution, engineered400mm fit or LAr/SiW technology selection. Nonauthor SoftEng review did not author the new three-file correction, but had authored older unchanged common transport helpers; separate final PhysVal assessment follows.
+
+## Separate final PhysVal contract before dispatch
+
+Explicit generic PhysVal, exact completed result evidence; no human sign-off.
+
+```json
+{
+  "id": "LAR-GAP10K-PhysVal-final",
+  "role": "PhysVal",
+  "input_revision": "777452601a742aa267f63c2cfd37d71aba830893",
+  "inputs": [
+    "docs/validation/lar-gap10k/README.md",
+    "docs/validation/lar-gap10k/summary.json",
+    "docs/validation/lar-gap10k/width-covariance.json",
+    "docs/validation/lar-gap10k/execution.json",
+    "docs/validation/lar-gap10k/native-validation.json",
+    "docs/validation/lar-gap10k/protocol.md",
+    "docs/validation/lar-gap10k/observer-protocol.md",
+    "docs/validation/lar-gap10k/readback-addendum.md",
+    "docs/validation/lar-gap10k/reproduce.md",
+    "software/analysis/lar_gap/observed_reaudit.py",
+    "software/analysis/lar_gap/observed_recompare.py",
+    "software/analysis/lar_gap/observed_compare.py"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Independent final scientific assessment ONLY of the exact curated completed conditional10k gap result. Both corrected full audits PASS,10000 events each; all native A=S+U/exact cell float32 gates and full retained every-event/cell/energy/position replay exact0differences. Original3/2 positive-step errors remain explicitly U=1.188391019896783/0.14899656686392543MeV, no guard/cell change. Assess source/proof/native/input/library bindings, primary denominators including fixed999 transition and fixed originalcut; independently rederive A/H global/broad/fine point moments/counts and U metrics from actual bound ignored build/lar-gap10k/reaudit/{standard,candidate}/derived-events.jsonl. Root8 NumPy direct moment checks pass. Inspect frozen1000 seed13001000 shared-primary bootstrap intervals/contrasts and separate84covariance/hash/order; bounded re-inference if useful, no newMC/native or broad old-code audit. Judge if improvement is robust to missing deposits/float32, and claims/plots/reproduction correctly scoped ECAL-only conditional800->400 warmgap, unchangedmaterials/localservices/readout; no engineeredfit/intrinsicresolution/technologyacceptance. Root visual QA four principal charts complete. All47 pure tests and nonauthor SoftEng newreader source/identity review closed. Nonauthor SoftEng authored older unchanged shared transport helpers; you provide separate scientific assessment. Read exact pinned revision then actual raw ledgers via curated hashes. No writes, no native/MC, no delegation, no approvals/signoff.",
+  "deliverable": "Exact target revision, actual independent data/statistical/identity checks and findings/severity or no actionable finding; summarize key estimates/CI/U totals, scoped conclusion and remaining physical/readout limitations. Coordinator curates return.",
+  "completion": "Bounded final result assessment, not general redesign: enough to finalize draft PR and honest user result. Existing native/precision source reviews need not be repeated absent concrete concern. No human approval or acceptance."
+}
+```
