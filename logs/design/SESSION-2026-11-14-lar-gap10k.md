@@ -543,3 +543,26 @@ Freshcompiledobserver atclean d31cb719 builtPASS. Bothobservedserial24 jobs exit
 ```
 
 Loaderfix frozen: explicitboundrepositoryenv/PYTHONPATH replaces__file__; installedDDSim alsoexecuteswithseparateglobals/locals, so wrappercallbackimportsdependenciesinternally. Newpuretestexecutesactualwrapperwithsplitnamespaces/no__file__, invokesstoredcallback andprovesonemapinitializer/libraryloadplusoriginalsettings.37integratedpuretestsPASS; CPPsource/binary3a99... unchangedfromcleanbuildd31. Freshobserver-v2 outputs willretainallfirstfailedlaunches.
+
+## Exact loader-fix review contract before dispatch
+
+Explicitgeneric nonauthorSoftEng.
+
+```json
+{
+  "id": "LAR-GAP10K-SoftEng-observer-loader-review",
+  "role": "SoftEng",
+  "input_revision": "5d23317538bde89c3caf2e16c574679bed332b47",
+  "inputs": [
+    "software/analysis/lar_gap/observed_steering.py",
+    "software/analysis/lar_gap/observed_transport.py",
+    "software/analysis/lar_gap/test_observed.py",
+    "docs/validation/lar-gap10k/observer-protocol.md"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Close priorP1 loaderbug on exactcorrectedrevision: explicitROOTenv/PYTHONPATH, no __file__ dependency, callbacksownimportsunderDDSimsplitglobal/localexec, oneoriginalmapinitializer/restoredrunseed; newmeaningfulexec regression. Compareto37d45a..., allCPP/geometry/physics/statsunchanged. Read-only, no native/DDSim/files/nesteddelegation. Rootfreshcontrolsarestartingunderobserved-v2.",
+  "deliverable": "Return exacttarget/fixclosure orconcreteissues, actualtestsandlimitations, incorporatewithongoingfullobserverreview.",
+  "completion": "No broaderexpansion/retestingoldnativewithoutconcretecause; reviewactualsourceandloadercontract. No acceptance."
+}
+```
