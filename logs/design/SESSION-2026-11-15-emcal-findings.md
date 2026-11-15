@@ -50,3 +50,7 @@ Explicit generic role fallback, not native profile loading. All read-only.
   }
 ]
 ```
+
+## User steering before report authoring
+
+Literal: "Handle the routing prototype with reduced gap as merged." Report will treat routing plus400mm warmgap as the merged/adopted working configuration by explicit user direction, while separating this editorial baseline from formal engineering/signoff/physics qualification. No GitHub merge/readiness mutation requested or performed. Earlier live public draft-state snapshot stays historical audit evidence, not adoption-pending prose in the PDF. Both specialists informed before final memos. Source-era800mm remains the comparison reference; underlying measurements and unresolved integrated-service/forward/readout qualification remain accurate.
