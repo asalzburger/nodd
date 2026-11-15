@@ -17,7 +17,7 @@ builder identity, source checkpoint and delivered PDF hash.
 
 ## Reproduce and inspect
 
-The executed environment is the preinstalled Codex bundled Python3.12 runtime,
+The executed environment is the preinstalled Codex bundled Python3.12.14 runtime,
 ReportLab4.4.9 and pypdf6.21.4; Poppler26.05.0 renders the review. No package was
 installed. A local Python with the same packages can reproduce the PDF:
 
