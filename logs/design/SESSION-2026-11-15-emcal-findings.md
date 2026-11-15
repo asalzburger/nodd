@@ -101,3 +101,11 @@ Explicit generic PubDoc/PhysVal, report root-authored; no native role loading.
   }
 ]
 ```
+
+## Final independent findings and visual closeout
+
+PubDoc and PhysVal exact38bc3b6b36dc4bad30a2a368ae92f5c5e73e8c3f reviews found no actionable findings in eight-page PDF4bde7062.... Both extracted allpages and verified20inputhashes/builder/provenance. PubDoc checked10pinnedlinks/cohort/status/claimcorrespondence; PhysVal checked numerical tables, H/A/U and tail definitions, independent20k calibration, native vector-chart coordinates/CI endpoints/radian-degree folding and relevant underlying primary inputs. PhysVal also visually checked pages4-6; no native/ROOT/bootstrap/refits or source edits. Root inspected all8latestPNG pages/montages, then shortened only page7 priority labels to eliminate mid-word wraps.
+
+Cosmetic source6804f5e30e0218a9ff61904b4d29bca900cf1c8b changes labels only:4Comparable reconstruction→4Response;5Hadron-collider relevance→5Collider. Delivered PDF SHA0d53bb50b7b8be68f84612a385e0ac12d791f8b92d0c472c05473e21cd108d6b,72041bytes; exact other7pagecontentstreams byte-identical to reviewed version. review-delta.json records scoped review identity; root visually rechecked finalpage7 and no scientific claims/data/charts changed.
+
+Automatic final artifact checks:8pages<=10, expected footer numbers,10immutable reference links, character page bounds/glyphs and delivered/curated PDF hash equality; no layout overflow. Project validator initially rejected the newtask role/workstream mismatch; corrected this documentation task to existing WS-PUB /Publication-documentation office rather than weakening validation. No engineering/design signoff advance.
