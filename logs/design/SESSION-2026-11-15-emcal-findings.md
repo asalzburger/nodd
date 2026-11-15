@@ -54,3 +54,9 @@ Explicit generic role fallback, not native profile loading. All read-only.
 ## User steering before report authoring
 
 Literal: "Handle the routing prototype with reduced gap as merged." Report will treat routing plus400mm warmgap as the merged/adopted working configuration by explicit user direction, while separating this editorial baseline from formal engineering/signoff/physics qualification. No GitHub merge/readiness mutation requested or performed. Earlier live public draft-state snapshot stays historical audit evidence, not adoption-pending prose in the PDF. Both specialists informed before final memos. Source-era800mm remains the comparison reference; underlying measurements and unresolved integrated-service/forward/readout qualification remain accurate.
+
+## Authored review and preliminary QA
+
+Source ac399749 builds exactly8pages; current PDF SHA256 4bde70621975ad5cad70b7779fd04732655bfcfda0ec6cd26b3856cd7fcae77b,72042bytes. ReportLab4.4.9/pypdf6.21.4 in existing bundled Python3.12 and Poppler26.05.0, no installation. PDF skill operation marker succeeded exactly once before authoring. First routing-schematic layout put lower axis labels into caption; root corrected Flowable extent and panel separation, then rendered again. Both statistical figures were redrawn as readable vectors directly from retained bin values/CI endpoints; no fits/bootstrap or simulations rerun. Eight-page overflow/footer checks PASS. Final visual/claim assessment still follows.
+
+Initial inventory refresh rejected docs/publication/emcal-findings as an unknown automatic code family. Kept external INF-REPORTLAB paths empty (as its historical convention), recorded document builder/dependencies/version via evidence/recipe instead. No discovery gate bypass or fingerprint-only execution claim. The failed refresh was not reported as passing; subsequent corrected refresh is required.
