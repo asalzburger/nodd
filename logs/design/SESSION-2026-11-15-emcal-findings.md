@@ -109,3 +109,20 @@ PubDoc and PhysVal exact38bc3b6b36dc4bad30a2a368ae92f5c5e73e8c3f reviews found n
 Cosmetic source6804f5e30e0218a9ff61904b4d29bca900cf1c8b changes labels only:4Comparable reconstruction→4Response;5Hadron-collider relevance→5Collider. Delivered PDF SHA0d53bb50b7b8be68f84612a385e0ac12d791f8b92d0c472c05473e21cd108d6b,72041bytes; exact other7pagecontentstreams byte-identical to reviewed version. review-delta.json records scoped review identity; root visually rechecked finalpage7 and no scientific claims/data/charts changed.
 
 Automatic final artifact checks:8pages<=10, expected footer numbers,10immutable reference links, character page bounds/glyphs and delivered/curated PDF hash equality; no layout overflow. Project validator initially rejected the newtask role/workstream mismatch; corrected this documentation task to existing WS-PUB /Publication-documentation office rather than weakening validation. No engineering/design signoff advance.
+
+## Selected literal requests
+
+> A documentation work now:
+> - summarize the EM calorimeter findings, starting from ODD ECAL, then the nODD realistic Si-W version, the shortcomings of it, the eventual benefit of ALLIGRO, its updated service routing & performance comparison of all three - write a concise document (pdf) of max 10 pages including results and recommendations
+
+> Handle the routing prototype with reduced gap as merged.
+
+## Publication and exact observed coverage
+
+DraftPR145 created/attached https://github.com/asalzburger/nodd/pull/145, Calorimeter prefix and campaign:calorimeters/scope:baseline-design. Samepublic repository1361703051/push permission/currentorigin verified. Stacked on79a967aa sourcePR144, whose live hosting state is open; the user-directed report adoption convention is explicit and no source PR was merged by this task. Authenticated gh fallback used because connector writes unavailable; no approval rejection.
+
+Only four completed current-task childturns recovered by exact assignment identities:13,320,004 input +29,032 output =13,349,036 total observed tokens. Cached13,111,936 input and reasoning12,986 output are subsets. Sole canonical owner currentpairedsession; active coordinator unfinalized/model-provider-clientversion unknown and older tasks excluded. No token estimates or raw private conversation recovery.
+
+## Closeout
+
+Final artifact reproduced byte-identically from committed source;8pages/72041bytes, complete source links and provenance. All required project/session/softwareinventory/interaction/token validations PASS:111tasks/54docs/24rounds,296sessions,69components/104families/55inputs/12pins,121PRledgers,569disjoint dated token turns. Previewbuild and session summary successful. Introduced history examined for large/rawpayloads; no rawsimulation/source-reference uploads, QA renders ignored. DraftPR145 attached; finalrecordpush and head/draft/hostedCI verification follow operationally. Active coordinator remains unfinalized and excluded. No engineering/signoff/ready/merge action inferred from documentadoption direction.
