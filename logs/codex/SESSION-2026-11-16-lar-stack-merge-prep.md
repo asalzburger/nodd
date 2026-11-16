@@ -14,7 +14,7 @@ Recoveredusage-only metadata plus exact app-visibleturn requests/outcomes identi
 
 Refreshed all34 account-matched root/childvisible turns via app allowlist. Read_thread includes reasoning summaries internally; these/context/rawoutputs/arguments were discarded in memory before any curated files were saved. Each source retains only user/assistanttext, uploadoccurrence ifany, operationnames/counts and verifiedparent metadata, with conservative path/email/token/URL redaction. Parent/sibling interactions initially appeared as children through the generic curator; ledger rejected conflictingparentmetadata. Corrected only curated subagent lists to include verifiedchildrelationships, preserving operationcounts/parentids; no sourceguard/ledgercriteria change. New perPR separate owner records preserve old counters. Sourceindex capture at5000chars may truncate long messages; coverageisnotclaimedcomplete.
 
-See docs/validation/lar-stack-merge/ for ordered instructions, exact receipts and token totals. Current active coordinator counters remain unavailable; separate independent process assessment follows.
+See docs/maintenance/lar-stack-merge/ for ordered instructions, exact receipts and token totals. Current active coordinator counters remain unavailable; separate independent process assessment follows.
 
 ## Independent review contract before dispatch
 
@@ -60,3 +60,7 @@ Created and attached draft Infrastructure PR146 on codex/lar-gap-10k-response. I
 ## Final local verification
 
 Closed/partial preparation record retains only the independent review counters; active coordinator remains unknown. Project, session, inventory and all 121 interaction records pass. Token preview builds under ignored _site/lar-stack-prep with 569 disjoint dated turns and 3,217,902,475 cumulative observed tokens. An initial build/ output destination was rejected by the existing guard and corrected; no guard changed. git diff --check passes. Resynchronize all four linked ledgers after this closure metadata update and revalidate; original source heads and scientific tracking remain unchanged.
+
+## Hosted policy correction
+
+The final-head token-site job passed, but Project validation run 43885360586 rejected the Infrastructure PR because the merge packet was filed under docs/validation/, reserved by check_update.py for scientific evidence. Moved only the packet to docs/maintenance/lar-stack-merge/ and corrected current publication links. No title exception, tracking milestone, validator change or scientific acceptance added. The independent review contract above retains its exact original input paths at pinned 0f893f85. Its bounded accounting findings remain unchanged; this later filing correction is coordinator-owned. Rechecked actual title/path policy locally before pushing the correction.
