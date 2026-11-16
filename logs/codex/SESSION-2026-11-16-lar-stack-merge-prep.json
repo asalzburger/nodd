@@ -2,9 +2,9 @@
   "schema_version": 1,
   "session_id": "SESSION-2026-11-16-lar-stack-merge-prep",
   "title": "Prepare PR142-144 stacked merge and canonical token accounting",
-  "recorded_at": "2026-11-16T14:26:10.002927Z",
+  "recorded_at": "2026-11-16T14:45:39.761885Z",
   "started_at": null,
-  "ended_at": "2026-11-16T14:26:10.002927Z",
+  "ended_at": "2026-11-16T14:45:39.761885Z",
   "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
@@ -26,7 +26,10 @@
       "0f893f85e17303a6a35d57e2768540e8ac946b85",
       "18d7dbaa545b9113d29d14498d395c19516fa4a3",
       "eab5a103729b5985007699acab531c74c06545f2",
-      "9b5fab6b0bfa6de6236cf59eb966b08d51125d6d"
+      "9b5fab6b0bfa6de6236cf59eb966b08d51125d6d",
+      "73698c66128629e4fcce3463461992ce1e8923a0",
+      "a193a3daeacd6c5566ee42184390e26ef83c95cb",
+      "c198787d8e1eb2455d28318790739b06e37a76f1"
     ],
     "changed_files": [
       "docs/maintenance/lar-stack-merge/README.md",
@@ -70,6 +73,7 @@
       "interactions/pr-0144/turns/01a1d3d3-37d1-7271-a9fb-9642616f74a4--01a1dac8-45dc-7e83-bd2d-f5dd3a02231d.json",
       "interactions/pr-0146.json",
       "interactions/pr-0146/turns/01a1d371-673b-7bd1-8bf1-82dcb8f4261b--01a1e4b4-a580-7310-b9a4-4deb6da82053.json",
+      "interactions/pr-0146/turns/01a1d371-673b-7bd1-8bf1-82dcb8f4261b--01a1e4cf-c6e2-7ea2-a42d-d08f00b7469d.json",
       "logs/codex/SESSION-2026-11-16-lar-stack-merge-prep.json",
       "logs/codex/SESSION-2026-11-16-lar-stack-merge-prep.md",
       "logs/codex/SESSION-2026-11-16-pr142-token-closeout.json",
@@ -79,9 +83,11 @@
       "logs/codex/SESSION-2026-11-16-pr144-token-closeout.json",
       "logs/codex/SESSION-2026-11-16-pr144-token-closeout.md",
       "logs/usage/RECOVERY-2026-11-16-lar-stack-prep-review.json",
+      "logs/usage/RECOVERY-2026-11-16-lar-stack-roundoff-review.json",
       "logs/usage/RECOVERY-2026-11-16-pr142-root.json",
       "logs/usage/RECOVERY-2026-11-16-pr143-root.json",
-      "logs/usage/RECOVERY-2026-11-16-pr144-root.json"
+      "logs/usage/RECOVERY-2026-11-16-pr144-root.json",
+      "software/analysis/lar_gap/test_observed.py"
     ]
   },
   "work": {
@@ -134,6 +140,21 @@
       "output_tokens": 11176,
       "reasoning_output_tokens": 4344,
       "total_tokens": 4113186
+    },
+    {
+      "client_thread_id": "01a1d371-673b-7bd1-8bf1-82dcb8f4261b",
+      "turn_id": "01a1e4cf-c6e2-7ea2-a42d-d08f00b7469d",
+      "model": null,
+      "source": "logs/usage/RECOVERY-2026-11-16-lar-stack-roundoff-review.json; exact completed review turn; usage_sha256=d9e7c50f3485ee38e09f950d08972e348a40e27ff1b27aa17049ddddaa7775cd",
+      "limitations": [
+        "Own-thread completed request increments only; no cumulative/child/active coordinator count included.",
+        "Model/provider/client version unknown; shared preparation overhead excluded from original-work PR totals."
+      ],
+      "input_tokens": 985086,
+      "cached_input_tokens": 979328,
+      "output_tokens": 2164,
+      "reasoning_output_tokens": 912,
+      "total_tokens": 987250
     }
   ],
   "checks": [
@@ -178,6 +199,36 @@
       "status": "FAIL",
       "exit_code": 1,
       "result": "Infrastructure PR packet initially under docs/validation, a reserved scientific path. Corrected by moving the packet to docs/maintenance with the existing rule unchanged; final head checked locally and hosted CI rerun."
+    },
+    {
+      "command": "Hosted Project validation 43885790377, original attempt and one targeted unrooted retry",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Full project-build job and token workflow pass. Unchanged covariance exact-equality test fails identically twice, max absolute difference1.08420217e-19. No further blind retry; fixed the synthetic assertion only."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s software/analysis/lar_gap -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "47 tests pass after test-only float64 covariance-roundoff correction; unchanged exact paired differences/percentiles, thresholds and rejection controls. Independent production analyzer and all published results unchanged."
+    },
+    {
+      "command": "Covariance budget/perturbation diagnostic; inventory.py check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Fixture variance scale0.0016216533931796239 gives absolute budget5.761270192222497e-17; covers hosted error1.08420217e-19 and rejects a1e-12 covariance perturbation. Inventory69/104/55/12 remains valid."
+    },
+    {
+      "command": "LAR-STACK-SoftEng-roundoff-review at a193a3daeacd6c5566ee42184390e26ef83c95cb",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No findings. Independent changed-test execution and roundoff/perturbation checks pass. Exact paired checks and production evidence stay unchanged; hosted backend assessed from failure logs only."
+    },
+    {
+      "command": "Final project/session/interaction validation, title/path policy, privacy scan and token preview",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "110/54/24 project records;299 sessions;121 interaction ledgers;Infrastructure maintenance classification. Token preview570 disjoint dated turns and3,218,889,725 cumulative observed tokens. Two closed preparation review turns total5,100,436; original34-work rows unchanged."
     }
   ]
 }

@@ -94,3 +94,11 @@ Explicit generic SoftEng, already used for the initial bounded review; root auth
   "completion": "Stop once this one test assertion and retained exact checks are assessed; no wider task or re-audit."
 }
 ```
+
+## Test-only correction assessment closed
+
+SoftEng LAR-STACK-SoftEng-roundoff-review closed at exact a193a3daeacd6c5566ee42184390e26ef83c95cb with no findings. It independently ran the changed test, accepted the hosted-size error and rejected a1e-12 perturbation; confirmed exact paired differences/intervals/thresholds, unchanged production calculation/results/protocol and immutable historical pins. Local NumPy2.5.1 gave exact block agreement; hosted backend behavior was assessed from the reported logs, not reproduced locally. No edits/native/MC/full-check repetition.
+
+Exact completed review turn01a1e4cf-c6e2-7ea2-a42d-d08f00b7469d adds987,250 observed tokens to this preparation owner only. Together the two closed review turns total5,100,436; original PR work rows and all old owners stay unchanged. Active root counters remain unknown. Selected allowlisted review messages/operations retain the verified parent and exclude reasoning, raw arguments/results and private state. Final publication follows the updated local validations and title/path check. Hosted final-head status is reported externally after completion, without changing scientific evidence.
+
+Final local closure: project/session/interaction validation and Infrastructure title/path policy PASS; retained evidence privacy patterns PASS. Token preview now contains570 disjoint dated turns and3,218,889,725 cumulative observed tokens after the second review import. Shared preparation usage is5,100,436; the three original-work rows remain unchanged.

@@ -21,7 +21,7 @@ Keep dependency branches until the stack lands. Squash and rebase merges discard
 
 These 34 original-work turn keys are pairwise disjoint. Three newly finalized coordinator turns add **114,598,575** observed tokens; dedicated follow-up sessions own them and prior owners/counters remain unchanged. Canonical accounts are listed in the [JSON receipt](preparation-2026-11-16.json). Cached input and reasoning output are subsets, not additional totals. Counts describe observed request tokens, not monetary costs or complete history; model/provider and interrupted/unobserved coverage remain explicit.
 
-Shared preparation overhead has its own owner, `SESSION-2026-11-16-lar-stack-merge-prep`. It currently holds one completed independent review turn: **4,113,186** observed tokens. Active coordinator counters remain unavailable. This partial overhead is excluded from the three rows above; PR references to shared accounts must never be summed as distinct usage.
+Shared preparation overhead has its own owner, `SESSION-2026-11-16-lar-stack-merge-prep`. It holds two completed independent review turns: **5,100,436** observed tokens. Active coordinator counters remain unavailable. This partial overhead is excluded from the three rows above; PR references to shared accounts must never be summed as distinct usage.
 
 ## Evidence and limitations
 
@@ -34,3 +34,7 @@ Thirty-four exact account-matched app-visible original-work turns are refreshed.
 The three dedicated `SESSION-2026-11-16-prNNN-token-closeout` records own only the newly finalized historical coordinator turns. Older records remain unchanged. No simulation, geometry, physics or runtime source changed. The standalone routing prototype still requires integrated fit and canonical-cell boundary follow-up; merge readiness does not establish production or engineering acceptance.
 
 The JSON receipt and paired preparation session retain exact hashes, workflow IDs, review identity and checks. The unrelated PDF/report task is outside this accounting scope.
+
+## CI portability correction
+
+The closeout also corrects one synthetic test assertion in `software/analysis/lar_gap/test_observed.py`. On the hosted runner, duplicate covariance blocks differed by at most 1.08420217e-19; a targeted retry reproduced it. Bitwise equality is replaced by zero relative tolerance and an absolute float64 roundoff budget proportional to the 20-term reduction length and variance scale. Exact paired differences and percentile intervals remain zero. All 47 gap tests pass locally and a 1e-12 covariance perturbation is rejected. Production calculations, data and historical receipt pins stay unchanged. This correction follows the initial records-only assessment. Its separate bounded SoftEng review at `a193a3daeacd6c5566ee42184390e26ef83c95cb` closed with no findings.
