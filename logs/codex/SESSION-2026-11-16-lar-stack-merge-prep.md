@@ -64,3 +64,11 @@ Closed/partial preparation record retains only the independent review counters; 
 ## Hosted policy correction
 
 The final-head token-site job passed, but Project validation run 43885360586 rejected the Infrastructure PR because the merge packet was filed under docs/validation/, reserved by check_update.py for scientific evidence. Moved only the packet to docs/maintenance/lar-stack-merge/ and corrected current publication links. No title exception, tracking milestone, validator change or scientific acceptance added. The independent review contract above retains its exact original input paths at pinned 0f893f85. Its bounded accounting findings remain unchanged; this later filing correction is coordinator-owned. Rechecked actual title/path policy locally before pushing the correction.
+
+## Reproducible hosted numerical test failure
+
+At head 73698c66128629e4fcce3463461992ce1e8923a0 the token workflow and full project-build job passed. The unrooted job failed the unchanged synthetic covariance-block exact-equality assertion, twice including one targeted retry. Both failures show maximum absolute difference 1.08420217e-19 among duplicate covariance blocks; local original observer tests passed with NumPy 2.5.1. No repeated retries were used to select a green result.
+
+Changed only test_observed.py's block comparison to rtol=0 and an absolute roundoff budget of 8 times the bootstrap reduction length times float64 epsilon times the largest covariance diagonal. This accounts for centering, dot-product reductions and comparing two BLAS blocks; exact zero paired differences and percentile intervals remain unchanged. All 47 LAr-gap tests pass locally, inventory remains valid, the budget exceeds the observed hosted roundoff and an explicit 1e-12 covariance perturbation is rejected. Geometry, production analysis, saved results, frozen thresholds, receipt hashes and original PR142–144 source heads stay unchanged. Existing test hashes in historical execution receipts remain pinned to their actual original source, not rewritten.
+
+A separate bounded SoftEng review of this test-only correction follows before final publication. This later correction is outside the original exact-0f records-only review.
