@@ -42,3 +42,9 @@ Explicit genericSoftEng; notnativeprofileloading. Rootauthorsallnewrecords.
   "completion": "Stop when boundedrecords/sourceidentity/ownership assessment sufficient. No general refactor or wider historicalcollection; infrastructureonly no designapproval."
 }
 ```
+
+## Readiness transition and checks
+
+Userpreparation request authorizesreversible ready-for-review transitions afterconcretechecks. GitHubconnector markready failed FORBIDDEN Resource notaccessiblebyintegration; authenticatedgh fallback marked142,143,144 readyforreview successfully. This is connectorcapabilityfailure, notauto-reviewrejection. Re-read confirms draftfalse atunchanged3fca/8dfa/79a sourceheads; no merge/approval/automerge requested/performed. No metadataedit rerunsneeded onoriginalsourcechecks.
+
+Local project110/54/24,299sessions,69inventory/104families,120ledgers andtoken568turns validations pass. Afterrecordingtheauditcontract, ledgerfingerprintsbecamestaleasexpected; synchronizedallthreevia --session currentprepjournal, thenledgerandtokenpreviewPASS. Whole-stack maince9..prep introducedhistory270blobs max477202bytes, no rawsource/reference/eventpayloads. IndependentSoftEng audit continues exact0f source.
