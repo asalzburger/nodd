@@ -157,8 +157,12 @@ class ObservedStatistics(unittest.TestCase):
         p,v,b,f=self.data();r=summarize(p,v,b,f,replicates=20,seed=7)
         self.assertEqual(len(r['width_covariance_order']),84)
         covariance=np.array(r['width_covariance']);np.testing.assert_allclose(covariance,covariance.T)
-        # Same two geometries have identically resampled principal widths.
-        np.testing.assert_array_equal(covariance[:42,:42],covariance[42:,42:])
+        # Identical bootstrap inputs can use different floating-point reduction
+        # paths in np.cov's BLAS blocks. Budget roundoff at the variance scale,
+        # including centering and both 20-term reductions; paired differences
+        # below must still be exactly zero.
+        roundoff=8*r['bootstrap']['replicates']*np.finfo(float).eps*np.max(np.diag(covariance))
+        np.testing.assert_allclose(covariance[:42,:42],covariance[42:,42:],rtol=0,atol=roundoff)
         for view in r['views'].values():
             self.assertEqual(view['common_tail']['threshold_R'],TAIL_THRESHOLD)
             for rows in view['candidate_minus_standard'].values():
