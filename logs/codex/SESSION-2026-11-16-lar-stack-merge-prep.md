@@ -72,3 +72,25 @@ At head 73698c66128629e4fcce3463461992ce1e8923a0 the token workflow and full pro
 Changed only test_observed.py's block comparison to rtol=0 and an absolute roundoff budget of 8 times the bootstrap reduction length times float64 epsilon times the largest covariance diagonal. This accounts for centering, dot-product reductions and comparing two BLAS blocks; exact zero paired differences and percentile intervals remain unchanged. All 47 LAr-gap tests pass locally, inventory remains valid, the budget exceeds the observed hosted roundoff and an explicit 1e-12 covariance perturbation is rejected. Geometry, production analysis, saved results, frozen thresholds, receipt hashes and original PR142–144 source heads stay unchanged. Existing test hashes in historical execution receipts remain pinned to their actual original source, not rewritten.
 
 A separate bounded SoftEng review of this test-only correction follows before final publication. This later correction is outside the original exact-0f records-only review.
+
+## Test-only correction review contract before dispatch
+
+Explicit generic SoftEng, already used for the initial bounded review; root authored this correction.
+
+```json
+{
+  "id": "LAR-STACK-SoftEng-roundoff-review",
+  "role": "SoftEng",
+  "input_revision": "a193a3daeacd6c5566ee42184390e26ef83c95cb",
+  "inputs": [
+    "software/analysis/lar_gap/test_observed.py",
+    "software/analysis/lar_gap/observed_compare.py",
+    "logs/codex/SESSION-2026-11-16-lar-stack-merge-prep.md"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Review only the synthetic covariance block comparison correction after two reproduced hosted failures at 73698c66: max absolute block difference 1.08420217e-19. Check absolute float64 roundoff budget 8*20*epsilon*max(diagonal), rtol=0, unchanged exact paired differences/CI95, threshold/negative controls and production calculation/source/results unchanged. 47 local gap tests pass; separate perturbation1e-12 rejected. Validate the test correction and scope, not the full already-closed accounting audit. Historical source hashes remain immutable. No native/MC, no edits/delegation or full repo test repetition. Return actionable issues or closure with exact revision and actual checks/limitations.",
+  "deliverable": "Short independent test-correction review, exact revision and bounded outcome; coordinator owns accounting/publication.",
+  "completion": "Stop once this one test assertion and retained exact checks are assessed; no wider task or re-audit."
+}
+```
