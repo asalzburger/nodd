@@ -1,15 +1,15 @@
-# PR142-144 stacked merge preparation
+# PR142–144 stacked merge preparation
 
-2026-11-16. Infrastructure/accounting closeout; original scientific heads preserved.
+2026-11-16. Infrastructure and accounting closeout; original scientific heads preserved.
 
-## Order and merge policy
+## Merge order
 
-1. Merge PR142 into main with a merge commit at3fca74b7.
-2. Retarget PR143 to main after142 merges (or verify automatic retargeting), let its checks settle, then merge with a merge commit at8dfa8573.
-3. Retarget/check PR144 after143 merges, then merge with a merge commit at79a967aa.
-4. Merge this separate accounting closeout after144; it carries newly finalized root usage and refreshed visible/public records without changing the three validated source heads.
+1. Merge [#142](https://github.com/asalzburger/nodd/pull/142) into main with a merge commit at `3fca74b7`.
+2. After #142 lands, retarget [#143](https://github.com/asalzburger/nodd/pull/143) to main (or verify automatic retargeting), recheck its current head and checks, then merge with a merge commit at `8dfa8573`.
+3. After #143 lands, retarget and check [#144](https://github.com/asalzburger/nodd/pull/144), then merge with a merge commit at `79a967aa`.
+4. Retarget and merge the separate accounting draft [#146](https://github.com/asalzburger/nodd/pull/146) after #144. It carries newly finalized root usage and refreshed interaction evidence without rewriting the validated scientific heads.
 
-Keep dependency branches until the stack lands. Avoid squash/rebase merges, which discard the ancestry on which the small incremental PR diffs depend. No merge is executed by this preparation task; source-head equality must be rechecked at execution.
+Keep dependency branches until the stack lands. Squash and rebase merges discard the ancestry supporting the incremental PR diffs. This task marked #142–144 ready for review; it executed no merges. Recheck remote state at execution.
 
 ## Observed token accounting
 
@@ -19,16 +19,18 @@ Keep dependency branches until the stack lands. Avoid squash/rebase merges, whic
 | 143 | 7 | 61,115,742 | 200,140 | 61,315,882 |
 | 144 | 19 | 140,231,445 | 519,112 | 140,750,557 |
 
-Per-PR rows use the canonical accounts listed in the JSON receipt; the34 original-work turn keys are pairwise disjoint. The three newly finalized coordinator turns add114,598,575 observed tokens, and previously owned counters remain untouched. Cached input and reasoning output are subsets, not additional totals. Shared preparation overhead has its own owner and is not allocated to a PR row. Missing/model/provider/active-turn coverage remains explicit. These are request-token observations, not monetary costs.
+These 34 original-work turn keys are pairwise disjoint. Three newly finalized coordinator turns add **114,598,575** observed tokens; dedicated follow-up sessions own them and prior owners/counters remain unchanged. Canonical accounts are listed in the [JSON receipt](preparation-2026-11-16.json). Cached input and reasoning output are subsets, not additional totals. Counts describe observed request tokens, not monetary costs or complete history; model/provider and interrupted/unobserved coverage remain explicit.
 
-## Evidence
+Shared preparation overhead has its own owner, `SESSION-2026-11-16-lar-stack-merge-prep`. It currently holds one completed independent review turn: **4,113,186** observed tokens. Active coordinator counters remain unavailable. This partial overhead is excluded from the three rows above; PR references to shared accounts must never be summed as distinct usage.
 
-All six original hosted workflows pass at the exact listed source heads. No inline review threads or submitted reviews were present in the refreshed public snapshots. This is technical preparation, not a fabricated human review/approval.
+## Evidence and limitations
 
-All three merge-tree rehearsals exit0 and reproduce the exact target-head trees. Main is an ancestor of142,142 of143,143 of144. Repository allows merge commits; branch deletion after merge is disabled; classic main protection is absent and active branch rules return an empty list. Recheck remote state immediately before actual merges.
+All six original hosted workflows pass at the exact listed source heads. No review threads or submitted reviews were present in the refreshed public snapshots. All three merge-tree rehearsals exit successfully and reproduce the exact target-head trees; main is an ancestor of #142, #142 of #143, and #143 of #144. Repository settings allow merge commits and retain branches after merging. Classic main protection is absent and active branch rules returned an empty list.
 
-Thirty-four exact account-matched app-visible turns are refreshed. Allowlist curation excludes reasoning/context, arbitrary tool arguments/results, private paths and raw uploads. Interaction targets that are parents/siblings are not represented as child spawns; actual parent IDs and operation counts remain. The corresponding validation rejection was corrected in curated data, without weakening a ledger check.
+Independent SoftEng assessment at `0f893f85e17303a6a35d57e2768540e8ac946b85` closed with no actionable findings. It verified accounting ownership/totals, exact-target ledger validation, source privacy and parent metadata, live heads/CI and merge-tree identities. This is technical preparation, with no human approval or new scientific validation implied.
 
-Canonical current historical roots are in three dedicated SESSION-2026-11-16-prNNN-token-closeout records; older owner records stay unchanged. Refreshes of142/143/144 ledgers reference these owners. No native simulation, geometry/physics change, engineering signoff or production adoption is implied.
+Thirty-four exact account-matched app-visible original-work turns are refreshed. Allowlist curation excludes reasoning/context, arbitrary tool arguments/results, private paths and raw uploads. Parent/sibling interaction targets are not represented as child spawns; actual parent IDs and operation counts remain. An initial validation rejection was corrected in curated data without changing a validator or guard. A separate allowlisted snapshot records the new review turn for #146.
 
-[Machine-readable receipt](preparation-2026-11-16.json) and the paired SESSION-2026-11-16-lar-stack-merge-prep record retain exact hashes, workflow IDs and checks.
+The three dedicated `SESSION-2026-11-16-prNNN-token-closeout` records own only the newly finalized historical coordinator turns. Older records remain unchanged. No simulation, geometry, physics or runtime source changed. The standalone routing prototype still requires integrated fit and canonical-cell boundary follow-up; merge readiness does not establish production or engineering acceptance.
+
+The JSON receipt and paired preparation session retain exact hashes, workflow IDs, review identity and checks. The unrelated PDF/report task is outside this accounting scope.

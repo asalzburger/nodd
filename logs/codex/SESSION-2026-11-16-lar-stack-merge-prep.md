@@ -48,3 +48,15 @@ Explicit genericSoftEng; notnativeprofileloading. Rootauthorsallnewrecords.
 Userpreparation request authorizesreversible ready-for-review transitions afterconcretechecks. GitHubconnector markready failed FORBIDDEN Resource notaccessiblebyintegration; authenticatedgh fallback marked142,143,144 readyforreview successfully. This is connectorcapabilityfailure, notauto-reviewrejection. Re-read confirms draftfalse atunchanged3fca/8dfa/79a sourceheads; no merge/approval/automerge requested/performed. No metadataedit rerunsneeded onoriginalsourcechecks.
 
 Local project110/54/24,299sessions,69inventory/104families,120ledgers andtoken568turns validations pass. Afterrecordingtheauditcontract, ledgerfingerprintsbecamestaleasexpected; synchronizedallthreevia --session currentprepjournal, thenledgerandtokenpreviewPASS. Whole-stack maince9..prep introducedhistory270blobs max477202bytes, no rawsource/reference/eventpayloads. IndependentSoftEng audit continues exact0f source.
+
+## Independent assessment and publication outcome
+
+SoftEng task LAR-STACK-SoftEng-accounting-review closed at exact commit 0f893f85e17303a6a35d57e2768540e8ac946b85 with no actionable findings. Independently recomputed the 34 unique original-work turns and all three totals; prior owners/counters are unchanged and exactly three newly finalized root turns add 114,598,575. Exact-target ledger/source-fingerprint validation, visible-record privacy/parent metadata, unchanged live source heads, six successful Actions runs and ancestry/merge-tree identities passed. Read-only review authored no new records and confers no human approval or scientific revalidation. Later changes only add ready-status and publication/closure metadata.
+
+The exact completed review turn 01a1e4b4-a580-7310-b9a4-4deb6da82053 contributes 4,113,186 observed tokens to this separate preparation owner. All older reviewer turns remain with their original owners. Active coordinator usage is unknown, excluded, and not estimated. This partial shared overhead is not allocated into the original PR rows. Its allowlisted visible source is retained for PR146; parent-target interactions remain operation counts, not child spawns.
+
+Created and attached draft Infrastructure PR146 on codex/lar-gap-10k-response. It should land after PR144, preserving the three reviewed source heads. PR142, PR143 and PR144 remain open and ready for review. No merge, auto-merge, branch deletion or repository-setting change performed.
+
+## Final local verification
+
+Closed/partial preparation record retains only the independent review counters; active coordinator remains unknown. Project, session, inventory and all 121 interaction records pass. Token preview builds under ignored _site/lar-stack-prep with 569 disjoint dated turns and 3,217,902,475 cumulative observed tokens. An initial build/ output destination was rejected by the existing guard and corrected; no guard changed. git diff --check passes. Resynchronize all four linked ledgers after this closure metadata update and revalidate; original source heads and scientific tracking remain unchanged.
