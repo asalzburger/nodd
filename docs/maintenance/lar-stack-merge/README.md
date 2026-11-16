@@ -1,13 +1,13 @@
 # PR142–144 stacked merge preparation
 
-2026-11-16. Infrastructure and accounting closeout; original scientific heads preserved.
+2026-11-16. Infrastructure and accounting closeout; original geometry, production analysis and results preserved.
 
 ## Merge order
 
 1. Merge [#142](https://github.com/asalzburger/nodd/pull/142) into main with a merge commit at `3fca74b7`.
 2. After #142 lands, retarget [#143](https://github.com/asalzburger/nodd/pull/143) to main (or verify automatic retargeting), recheck its current head and checks, then merge with a merge commit at `8dfa8573`.
-3. After #143 lands, retarget and check [#144](https://github.com/asalzburger/nodd/pull/144), then merge with a merge commit at `79a967aa`.
-4. Retarget and merge the separate accounting draft [#146](https://github.com/asalzburger/nodd/pull/146) after #144. It carries newly finalized root usage and refreshed interaction evidence without rewriting the validated scientific heads.
+3. After #143 lands, retarget and check [#144](https://github.com/asalzburger/nodd/pull/144), then merge with a merge commit at `764da98c` (only a reviewed synthetic-test correction beyond scientific head `79a967aa`).
+4. Retarget and merge the separate accounting draft [#146](https://github.com/asalzburger/nodd/pull/146) after #144. It carries newly finalized root usage and refreshed interaction evidence after the reviewed test-only update on #144.
 
 Keep dependency branches until the stack lands. Squash and rebase merges discard the ancestry supporting the incremental PR diffs. This task marked #142–144 ready for review; it executed no merges. Recheck remote state at execution.
 
@@ -25,7 +25,7 @@ Shared preparation overhead has its own owner, `SESSION-2026-11-16-lar-stack-mer
 
 ## Evidence and limitations
 
-All six original hosted workflows pass at the exact listed source heads. No review threads or submitted reviews were present in the refreshed public snapshots. All three merge-tree rehearsals exit successfully and reproduce the exact target-head trees; main is an ancestor of #142, #142 of #143, and #143 of #144. Repository settings allow merge commits and retain branches after merging. Classic main protection is absent and active branch rules returned an empty list.
+All six original hosted workflows passed at the original heads (`3fca74b7`, `8dfa8573`, `79a967aa`). Fresh CI is required at #144’s test-only follow-up `764da98c` and the closeout head; final hosted outcomes are reported separately. No review threads or submitted reviews were present in the refreshed public snapshots. All three merge-tree rehearsals exit successfully and reproduce the exact target-head trees; main is an ancestor of #142, #142 of #143, and #143 of #144. Repository settings allow merge commits and retain branches after merging. Classic main protection is absent and active branch rules returned an empty list.
 
 Independent SoftEng assessment at `0f893f85e17303a6a35d57e2768540e8ac946b85` closed with no actionable findings. It verified accounting ownership/totals, exact-target ledger validation, source privacy and parent metadata, live heads/CI and merge-tree identities. This is technical preparation, with no human approval or new scientific validation implied.
 
@@ -37,4 +37,4 @@ The JSON receipt and paired preparation session retain exact hashes, workflow ID
 
 ## CI portability correction
 
-The closeout also corrects one synthetic test assertion in `software/analysis/lar_gap/test_observed.py`. On the hosted runner, duplicate covariance blocks differed by at most 1.08420217e-19; a targeted retry reproduced it. Bitwise equality is replaced by zero relative tolerance and an absolute float64 roundoff budget proportional to the 20-term reduction length and variance scale. Exact paired differences and percentile intervals remain zero. All 47 gap tests pass locally and a 1e-12 covariance perturbation is rejected. Production calculations, data and historical receipt pins stay unchanged. This correction follows the initial records-only assessment. Its separate bounded SoftEng review at `a193a3daeacd6c5566ee42184390e26ef83c95cb` closed with no findings.
+The preparation adds one synthetic-test assertion correction on #144 in `software/analysis/lar_gap/test_observed.py`. On the hosted runner, duplicate covariance blocks differed by at most 1.08420217e-19; a targeted retry reproduced it. Bitwise equality is replaced by zero relative tolerance and an absolute float64 roundoff budget proportional to the 20-term reduction length and variance scale. Exact paired differences and percentile intervals remain zero. All 47 gap tests pass locally and a 1e-12 covariance perturbation is rejected. Production calculations, data and historical receipt pins stay unchanged. This correction follows the initial records-only assessment. The identical reviewed test blob is present on #144. Its separate bounded SoftEng review at `a193a3daeacd6c5566ee42184390e26ef83c95cb` closed with no findings.
