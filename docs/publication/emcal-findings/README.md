@@ -87,3 +87,7 @@ Rendering from the committed compact JSON does not require the raw inputs or Num
 The updated PDF remains eight pages, including references. Earlier source/run
 receipts remain immutable; the new evidence manifest adds the comment and figure
 hashes instead of relabelling old validation as a new integrated-detector proof.
+
+[Review-update QA receipt](review-update-2026-11-17.json) records this revision.
+`review-delta.json` remains the historical 2026-11-15 cosmetic-only assessment;
+it does not describe the substantive 2026-11-17 review response.
