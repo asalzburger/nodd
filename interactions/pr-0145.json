@@ -3,7 +3,8 @@
   "curated": {
     "journal_links": [
       "SESSION-2026-11-15-emcal-findings",
-      "SESSION-2026-11-17-pr145-review"
+      "SESSION-2026-11-17-pr145-review",
+      "SESSION-2026-11-17-nodd-reference-svgs"
     ],
     "agents": [
       {
@@ -59,6 +60,24 @@
         "models": [],
         "source": "logs/design/SESSION-2026-11-17-pr145-review.md",
         "limitation": "Explicit generic role in this bounded review task, no native profile/model/provider inference. Root authors source; read-only specialists assess exact revisions. Active root unavailable; four completed child turns only."
+      },
+      {
+        "id": "agent:pr145-reference-coordinator",
+        "name": "Codex coordinator",
+        "role": "coordinator",
+        "thread_id": "01a1d197-9480-7751-af8c-0c21b576f5ac",
+        "models": [],
+        "source": "logs/design/SESSION-2026-11-17-nodd-reference-svgs.md",
+        "limitation": "Explicit role scope for this standalone-figure task. Root authors source; specialist read-only at91f5e1b3. Models/providers unknown; currentroot counters excluded."
+      },
+      {
+        "id": "agent:pr145-reference-physval",
+        "name": "/root/lar10k_physval",
+        "role": "PhysVal",
+        "thread_id": "01a1d371-79d8-7f02-a1b1-083b030c657c",
+        "models": [],
+        "source": "logs/design/SESSION-2026-11-17-nodd-reference-svgs.md",
+        "limitation": "Explicit role scope for this standalone-figure task. Root authors source; specialist read-only at91f5e1b3. Models/providers unknown; currentroot counters excluded."
       }
     ],
     "tools": [
@@ -131,6 +150,16 @@
         "evidence": "Source-bound fine-bin derivation, shared resampling and vector/PDF rendering, visual/text/bounds/hash checks. Existing packages, no installation.",
         "token_account": "SESSION-2026-11-17-pr145-review",
         "provenance": "Observed use of existing software; no installer or configured-version inference; counters referenced once."
+      },
+      {
+        "name": "NumPy / ReportLab / Poppler",
+        "category": "instructed_software",
+        "version": "2.5.1 /4.4.9 /Poppler not remeasured",
+        "calls": null,
+        "source": "logs/design/SESSION-2026-11-17-nodd-reference-svgs.md",
+        "evidence": "Source-bound histograms/unbinned statistics, frozen oldcurves/report, two SVGs/QA and reproducibility, all existing software.",
+        "token_account": "SESSION-2026-11-17-nodd-reference-svgs",
+        "provenance": "No installation/model/provider inference; native operation counters in selectedvisibleturn reference same usage owner once."
       }
     ],
     "events": [
@@ -209,19 +238,57 @@
         "token_accounts": [
           "SESSION-2026-11-17-pr145-review"
         ]
+      },
+      {
+        "id": "curated:pr145-reference-request",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "agent:pr145-reference-coordinator"
+        ],
+        "text": "Looks good - leave the report as is, but make two separate SVGs: SD(R)/mean(R) as is, but remove the ODD, only keep nODD versions; Underneath: reference plots in [0,1][1,2][2,3] over the same width, showing where the SD(R)/mean(R) was drawn from.",
+        "source": "logs/design/SESSION-2026-11-17-nodd-reference-svgs.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [
+          "coordinator"
+        ],
+        "token_accounts": [
+          "SESSION-2026-11-17-nodd-reference-svgs"
+        ]
+      },
+      {
+        "id": "curated:pr145-reference-outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:pr145-reference-coordinator",
+        "recipients": [
+          "unknown:project-user"
+        ],
+        "text": "Created two same-width standalone SVGs: the unchanged three nODD fine-width curves without ODD, plus three broad-eta response-distribution panels with raw moments and unitmean display scaling. Existing report and all10oldfiles are byte-identical. Independent source/statistics/preservation check closes withoutfindings; oldcanonicalusageowners preserved. No simulation/bootstrap/calibration or report change.",
+        "source": "logs/design/SESSION-2026-11-17-nodd-reference-svgs.md",
+        "in_reply_to": "curated:pr145-reference-request",
+        "model": null,
+        "agent_roles": [
+          "coordinator"
+        ],
+        "token_accounts": [
+          "SESSION-2026-11-17-nodd-reference-svgs"
+        ]
       }
     ]
   },
   "github": {
-    "captured_at": "2026-11-17T15:12:15.385268Z",
+    "captured_at": "2026-11-17T16:42:02.316831Z",
     "pull_request": {
       "number": 145,
       "url": "https://github.com/asalzburger/nodd/pull/145",
       "title": "Calorimeter: summarize EM findings in an eight-page review",
       "head": "codex/emcal-findings-report",
-      "head_sha": "2872b9cf8f7e7e7887e959bf5acd728ad3ed0abc",
+      "head_sha": "d04614575e8fc3aed41ed79798def3fc461e3dc6",
       "state": "open",
-      "body": "Addresses [review comment6951330371](https://github.com/asalzburger/nodd/pull/145#issuecomment-6951330371): records the human selection of ALLEGRO-style LAr with a 400 mm warm gap as the nODD ECAL working baseline and adds the requested single SVG comparison.\n\nThe [SVG](https://github.com/asalzburger/nodd/blob/codex/emcal-findings-report/docs/publication/emcal-findings/response-comparison.svg) and updated eight-page [PDF](https://github.com/asalzburger/nodd/blob/codex/emcal-findings-report/docs/publication/emcal-findings/review.pdf) show ODD, nODD Si-W, physically staggered Si-W, and LAr400. The three matched 10k saved-hit samples are rebinned to uniform 0.05-wide |eta| bins with all zeros and 1000 shared whole-primary bootstrap replicates, seed13001000. ODD is explicitly limited to its retained 20 GeV/c, fixed-phi, 200-event eta0/1/2 reference markers and source intervals; no matched broad-spectrum ODD curve is invented. The observable is SD(H/Etrue)/mean(H/Etrue), a raw-response sigma(E)/E proxy, not intrinsic fixed-energy resolution.\n\nThe baseline-selection record and layout pages distinguish the selected LAr400 design from the maintained 800 mm combined-export/drawing integration control. Connected services, collar/FCAL fit, readout boundary correction and engineering qualification remain open. No geometry, material, readout, transport or calibration is changed, and no old native proof is relabelled.\n\nRetargets the report to main and ordinarily incorporates the already approved/merged dependency branches: main currently contains #142, while #143/#144/#146 merged into their parent branches. This preserves their code, exact scientific receipts, reviewed numerical-test correction, canonical token owners and interaction evidence. No GitHub PR merge is performed by this response.\n\nValidation: all three input hashes and 10,000 exact primary identities; all60bins/model retain 136-189 primaries; existing ten fine LAr H bins/intervals reproduce; swapped-geometry ledger rejected. Independent PhysVal review reproduces all180bin statistics and every interval by direct-index resampling. Report is eight pages, all pages visually checked, PDF text/bounds/footers/11links and artifact hashes pass. Existing18 response controls, project/session/inventory checks pass. The PubDoc closeout at `aceda471` verifies the fixed ECAL palette and preserved original ODD source-access date; both findings are closed. Final current-head hosted checks are verified after publication.\n\nEditable sources, compact bin data, provenance and the attributed baseline decision are under `docs/publication/emcal-findings/` and `docs/design/inputs/ECAL-baseline-selection-2026-11-17.md`. Ongoing work/role/tool and exact available usage records are retained; active coordinator usage remains unavailable rather than estimated. No formal design lifecycle or human sign-off is fabricated.\n\nThis review response records four disjoint completed specialist turns: 15,484,025 input + 25,843 output = 15,509,868 observed tokens. Earlier canonical owners remain unchanged; active coordinator coverage is unavailable.\n",
+      "body": "Addresses [review comment6951330371](https://github.com/asalzburger/nodd/pull/145#issuecomment-6951330371): records the human selection of ALLEGRO-style LAr with a 400 mm warm gap as the nODD ECAL working baseline and adds the requested single SVG comparison.\n\nThe [SVG](https://github.com/asalzburger/nodd/blob/codex/emcal-findings-report/docs/publication/emcal-findings/response-comparison.svg) and updated eight-page [PDF](https://github.com/asalzburger/nodd/blob/codex/emcal-findings-report/docs/publication/emcal-findings/review.pdf) show ODD, nODD Si-W, physically staggered Si-W, and LAr400. The three matched 10k saved-hit samples are rebinned to uniform 0.05-wide |eta| bins with all zeros and 1000 shared whole-primary bootstrap replicates, seed13001000. ODD is explicitly limited to its retained 20 GeV/c, fixed-phi, 200-event eta0/1/2 reference markers and source intervals; no matched broad-spectrum ODD curve is invented. The observable is SD(H/Etrue)/mean(H/Etrue), a raw-response sigma(E)/E proxy, not intrinsic fixed-energy resolution.\n\nThe baseline-selection record and layout pages distinguish the selected LAr400 design from the maintained 800 mm combined-export/drawing integration control. Connected services, collar/FCAL fit, readout boundary correction and engineering qualification remain open. No geometry, material, readout, transport or calibration is changed, and no old native proof is relabelled.\n\nRetargets the report to main and ordinarily incorporates the already approved/merged dependency branches: main currently contains #142, while #143/#144/#146 merged into their parent branches. This preserves their code, exact scientific receipts, reviewed numerical-test correction, canonical token owners and interaction evidence. No GitHub PR merge is performed by this response.\n\nValidation: all three input hashes and 10,000 exact primary identities; all60bins/model retain 136-189 primaries; existing ten fine LAr H bins/intervals reproduce; swapped-geometry ledger rejected. Independent PhysVal review reproduces all180bin statistics and every interval by direct-index resampling. Report is eight pages, all pages visually checked, PDF text/bounds/footers/11links and artifact hashes pass. Existing18 response controls, project/session/inventory checks pass. The PubDoc closeout at `aceda471` verifies the fixed ECAL palette and preserved original ODD source-access date; both findings are closed. Final current-head hosted checks are verified after publication.\n\nEditable sources, compact bin data, provenance and the attributed baseline decision are under `docs/publication/emcal-findings/` and `docs/design/inputs/ECAL-baseline-selection-2026-11-17.md`. Ongoing work/role/tool and exact available usage records are retained; active coordinator usage remains unavailable rather than estimated. No formal design lifecycle or human sign-off is fabricated.\n\nThis review response records four disjoint completed specialist turns: 15,484,025 input + 25,843 output = 15,509,868 observed tokens. Earlier canonical owners remain unchanged; active coordinator coverage is unavailable.\n\n\nStandalone SVG follow-up\n\nThe report, PDF and all ten existing report files are unchanged. Two additional SVGs (both width1000) can be stacked:\n\n- [nODD-only width plot](https://github.com/asalzburger/nodd/blob/codex/emcal-findings-report/docs/publication/emcal-findings/standalone/nodd-width.svg): the same three fine curves and 180 intervals, with only the ODD reference elements removed.\n- [Reference distributions](https://github.com/asalzburger/nodd/blob/codex/emcal-findings-report/docs/publication/emcal-findings/standalone/nodd-response-distributions.svg): adjacent |eta| bands [0,1), [1,2), [2,3], showing R/mean(R) with raw unbinned means, SDs, CVs, zeros and flows. Percentages use all3331/3353/3316 band events. Broad pooled reference widths are labelled separately from the0.05-bin curve points.\n\nIndependent PhysVal review at `91f5e1b3` reproduces all nine histograms/moments/normalizations and confirms unchanged report bytes and three curve geometries. No new MC, calibration or bootstrap; one exact completed review turn records1,656,814 observed tokens, with active coordinator usage unavailable. Source/data/render receipts are in `docs/publication/emcal-findings/standalone/`.\n",
       "actor": "asalzburger",
       "created_at": "2026-11-15T10:15:03Z"
     },
@@ -249,6 +316,11 @@
         "kind": "agent"
       },
       {
+        "id": "agent:SESSION-2026-11-17-nodd-reference-svgs",
+        "name": "Codex",
+        "kind": "agent"
+      },
+      {
         "id": "agent:SESSION-2026-11-17-pr145-review",
         "name": "unspecified",
         "kind": "agent"
@@ -266,6 +338,16 @@
       {
         "id": "agent:pr145-pubdoc",
         "name": "/root/larplace_softeng",
+        "kind": "agent"
+      },
+      {
+        "id": "agent:pr145-reference-coordinator",
+        "name": "Codex coordinator",
+        "kind": "agent"
+      },
+      {
+        "id": "agent:pr145-reference-physval",
+        "name": "/root/lar10k_physval",
         "kind": "agent"
       },
       {
@@ -329,6 +411,18 @@
         "narrative_sha256": "526a3046d9028d9bb408e8729a0a6fdff4b88c7ea4f0f0892e463124cfcb97bf"
       },
       {
+        "session_id": "SESSION-2026-11-17-nodd-reference-svgs",
+        "record": "logs/design/SESSION-2026-11-17-nodd-reference-svgs.json",
+        "attribution": [
+          "curated_session_link",
+          "explicit_PR_reference"
+        ],
+        "snapshot": null,
+        "snapshot_sha256": null,
+        "record_sha256": "444a399901105473d9267add1af0d5a62d235d23137774aca5bf8008f2763b05",
+        "narrative_sha256": "2502daaf2a7512966ce86a1f9aa830f88e7f2103631eeae0e001bf88024fea50"
+      },
+      {
         "session_id": "SESSION-2026-11-17-pr145-review",
         "record": "logs/design/SESSION-2026-11-17-pr145-review.json",
         "attribution": [
@@ -367,6 +461,20 @@
           {
             "client_thread_id": "01a1d3d3-24dd-7443-b93a-d5cd2b65dec1",
             "turn_id": "01a1deae-b988-7b32-ba4c-acf83dea124c",
+            "model": null
+          }
+        ]
+      },
+      {
+        "id": "SESSION-2026-11-17-nodd-reference-svgs",
+        "record": "logs/design/SESSION-2026-11-17-nodd-reference-svgs.json",
+        "scope": "canonical_session; shared PR references are not allocations",
+        "status": "observed",
+        "usage_sha256": "018830fde1d6caac1e950ac4ce125e13b2acd37312d8c34a026b7be6a1bd9f65",
+        "turns": [
+          {
+            "client_thread_id": "01a1d371-79d8-7f02-a1b1-083b030c657c",
+            "turn_id": "01a1ea5d-23a8-70d0-8552-71ef3a4c2267",
             "model": null
           }
         ]
@@ -411,6 +519,10 @@
         "sha256": "fb673fbbf78ffe3275805cafbc13e0bfa0f2e295b67773fcf836de969c2e93f5"
       },
       {
+        "path": "interactions/pr-0145/turns/01a1d371-79d8-7f02-a1b1-083b030c657c--01a1ea5d-23a8-70d0-8552-71ef3a4c2267.json",
+        "sha256": "fed99d6ce652ae1cee2ebd1b70ae313fc22f4ce992ce41518d797b5af7be6c8e"
+      },
+      {
         "path": "interactions/pr-0145/turns/01a1d3d3-37d1-7271-a9fb-9642616f74a4--01a1ea06-720f-77d2-8524-2f10c784a8b5.json",
         "sha256": "ed96424a07f644f0ecfd48cf29ee3dd839f8b81839eb992e8d922646bf0a0a78"
       },
@@ -427,6 +539,15 @@
         "thread_id": "01a1d197-9480-7751-af8c-0c21b576f5ac",
         "models": [],
         "source": "logs/design/SESSION-2026-11-15-emcal-findings.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      },
+      {
+        "id": "agent:SESSION-2026-11-17-nodd-reference-svgs",
+        "name": "Codex",
+        "role": "session_agent",
+        "thread_id": "01a1d197-9480-7751-af8c-0c21b576f5ac",
+        "models": [],
+        "source": "logs/design/SESSION-2026-11-17-nodd-reference-svgs.json",
         "limitation": "Usage may include children; model/role is not assigned to every response."
       },
       {
@@ -502,6 +623,24 @@
         "limitation": "Explicit generic role in this bounded review task, no native profile/model/provider inference. Root authors source; read-only specialists assess exact revisions. Active root unavailable; four completed child turns only."
       },
       {
+        "id": "agent:pr145-reference-coordinator",
+        "name": "Codex coordinator",
+        "role": "coordinator",
+        "thread_id": "01a1d197-9480-7751-af8c-0c21b576f5ac",
+        "models": [],
+        "source": "logs/design/SESSION-2026-11-17-nodd-reference-svgs.md",
+        "limitation": "Explicit role scope for this standalone-figure task. Root authors source; specialist read-only at91f5e1b3. Models/providers unknown; currentroot counters excluded."
+      },
+      {
+        "id": "agent:pr145-reference-physval",
+        "name": "/root/lar10k_physval",
+        "role": "PhysVal",
+        "thread_id": "01a1d371-79d8-7f02-a1b1-083b030c657c",
+        "models": [],
+        "source": "logs/design/SESSION-2026-11-17-nodd-reference-svgs.md",
+        "limitation": "Explicit role scope for this standalone-figure task. Root authors source; specialist read-only at91f5e1b3. Models/providers unknown; currentroot counters excluded."
+      },
+      {
         "id": "codex-thread:01a1d371-79d8-7f02-a1b1-083b030c657c",
         "name": "Codex",
         "role": "recorded_thread",
@@ -517,6 +656,15 @@
         "thread_id": "01a1d371-79d8-7f02-a1b1-083b030c657c",
         "models": [],
         "source": "interactions/pr-0145/turns/01a1d371-79d8-7f02-a1b1-083b030c657c--01a1ea06-514d-7b22-bb13-98c1efe0f3bf.json",
+        "limitation": "Execution model is retained only when reported by the canonical account."
+      },
+      {
+        "id": "codex-thread:01a1d371-79d8-7f02-a1b1-083b030c657c",
+        "name": "Codex",
+        "role": "recorded_thread",
+        "thread_id": "01a1d371-79d8-7f02-a1b1-083b030c657c",
+        "models": [],
+        "source": "interactions/pr-0145/turns/01a1d371-79d8-7f02-a1b1-083b030c657c--01a1ea5d-23a8-70d0-8552-71ef3a4c2267.json",
         "limitation": "Execution model is retained only when reported by the canonical account."
       },
       {
@@ -618,6 +766,26 @@
           "source": "interactions/pr-0145/turns/01a1d371-79d8-7f02-a1b1-083b030c657c--01a1ea06-514d-7b22-bb13-98c1efe0f3bf.json",
           "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
           "token_account": "SESSION-2026-11-17-pr145-review",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "commandExecution",
+          "category": "native_codex",
+          "version": null,
+          "calls": 11,
+          "source": "interactions/pr-0145/turns/01a1d371-79d8-7f02-a1b1-083b030c657c--01a1ea5d-23a8-70d0-8552-71ef3a4c2267.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 1 failures reported.",
+          "token_account": "SESSION-2026-11-17-nodd-reference-svgs",
+          "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
+        },
+        {
+          "name": "imageView",
+          "category": "native_codex",
+          "version": null,
+          "calls": 2,
+          "source": "interactions/pr-0145/turns/01a1d371-79d8-7f02-a1b1-083b030c657c--01a1ea5d-23a8-70d0-8552-71ef3a4c2267.json",
+          "evidence": "Exposed operation metadata for exact recorded turn; 0 failures reported.",
+          "token_account": "SESSION-2026-11-17-nodd-reference-svgs",
           "provenance": "Codex-exposed operation or integration API. Executed software is classified separately."
         },
         {
@@ -742,6 +910,16 @@
           "evidence": "Source-bound fine-bin derivation, shared resampling and vector/PDF rendering, visual/text/bounds/hash checks. Existing packages, no installation.",
           "token_account": "SESSION-2026-11-17-pr145-review",
           "provenance": "Observed use of existing software; no installer or configured-version inference; counters referenced once."
+        },
+        {
+          "name": "NumPy / ReportLab / Poppler",
+          "category": "instructed_software",
+          "version": "2.5.1 /4.4.9 /Poppler not remeasured",
+          "calls": null,
+          "source": "logs/design/SESSION-2026-11-17-nodd-reference-svgs.md",
+          "evidence": "Source-bound histograms/unbinned statistics, frozen oldcurves/report, two SVGs/QA and reproducibility, all existing software.",
+          "token_account": "SESSION-2026-11-17-nodd-reference-svgs",
+          "provenance": "No installation/model/provider inference; native operation counters in selectedvisibleturn reference same usage owner once."
         }
       ],
       "unresolved": [
@@ -796,6 +974,26 @@
           "provenance": "Operation recorded; installation provenance needs explicit evidence."
         },
         {
+          "name": "NumPy",
+          "category": "unresolved",
+          "version": "2.5.1",
+          "calls": null,
+          "source": "logs/design/SESSION-2026-11-17-nodd-reference-svgs.json",
+          "evidence": "Hash-bound raw H/E loading, broad-band histograms/unbinnedmoments, all-event/zero/flow checks, CVinvariance and180fine-stat cross-checks; no bootstrap rerun.",
+          "token_account": "SESSION-2026-11-17-nodd-reference-svgs",
+          "provenance": "Operation recorded; installation provenance needs explicit evidence."
+        },
+        {
+          "name": "ReportLab / Poppler / Git / GitHub / Codex app / session tooling",
+          "category": "unresolved",
+          "version": "ReportLab4.4.9; other versions not remeasured",
+          "calls": null,
+          "source": "logs/design/SESSION-2026-11-17-nodd-reference-svgs.json",
+          "evidence": "Existing software used for two SVGs, ignored QA renders, exact report/curvepreservation, bounded review, currentPR metadata and uniqueusage curation; no installation.",
+          "token_account": "SESSION-2026-11-17-nodd-reference-svgs",
+          "provenance": "Operation recorded; installation provenance needs explicit evidence."
+        },
+        {
           "name": "Git/GitHub connector/gh/Codex app and usage-only recovery",
           "category": "unresolved",
           "version": null,
@@ -834,7 +1032,7 @@
         "direction": "reaction",
         "actor": "github:asalzburger",
         "recipients": [],
-        "text": "Addresses [review comment6951330371](https://github.com/asalzburger/nodd/pull/145#issuecomment-6951330371): records the human selection of ALLEGRO-style LAr with a 400 mm warm gap as the nODD ECAL working baseline and adds the requested single SVG comparison.\n\nThe [SVG](https://github.com/asalzburger/nodd/blob/codex/emcal-findings-report/docs/publication/emcal-findings/response-comparison.svg) and updated eight-page [PDF](https://github.com/asalzburger/nodd/blob/codex/emcal-findings-report/docs/publication/emcal-findings/review.pdf) show ODD, nODD Si-W, physically staggered Si-W, and LAr400. The three matched 10k saved-hit samples are rebinned to uniform 0.05-wide |eta| bins with all zeros and 1000 shared whole-primary bootstrap replicates, seed13001000. ODD is explicitly limited to its retained 20 GeV/c, fixed-phi, 200-event eta0/1/2 reference markers and source intervals; no matched broad-spectrum ODD curve is invented. The observable is SD(H/Etrue)/mean(H/Etrue), a raw-response sigma(E)/E proxy, not intrinsic fixed-energy resolution.\n\nThe baseline-selection record and layout pages distinguish the selected LAr400 design from the maintained 800 mm combined-export/drawing integration control. Connected services, collar/FCAL fit, readout boundary correction and engineering qualification remain open. No geometry, material, readout, transport or calibration is changed, and no old native proof is relabelled.\n\nRetargets the report to main and ordinarily incorporates the already approved/merged dependency branches: main currently contains #142, while #143/#144/#146 merged into their parent branches. This preserves their code, exact scientific receipts, reviewed numerical-test correction, canonical token owners and interaction evidence. No GitHub PR merge is performed by this response.\n\nValidation: all three input hashes and 10,000 exact primary identities; all60bins/model retain 136-189 primaries; existing ten fine LAr H bins/intervals reproduce; swapped-geometry ledger rejected. Independent PhysVal review reproduces all180bin statistics and every interval by direct-index resampling. Report is eight pages, all pages visually checked, PDF text/bounds/footers/11links and artifact hashes pass. Existing18 response controls, project/session/inventory checks pass. The PubDoc closeout at `aceda471` verifies the fixed ECAL palette and preserved original ODD source-access date; both findings are closed. Final current-head hosted checks are verified after publication.\n\nEditable sources, compact bin data, provenance and the attributed baseline decision are under `docs/publication/emcal-findings/` and `docs/design/inputs/ECAL-baseline-selection-2026-11-17.md`. Ongoing work/role/tool and exact available usage records are retained; active coordinator usage remains unavailable rather than estimated. No formal design lifecycle or human sign-off is fabricated.\n\nThis review response records four disjoint completed specialist turns: 15,484,025 input + 25,843 output = 15,509,868 observed tokens. Earlier canonical owners remain unchanged; active coordinator coverage is unavailable.\n",
+        "text": "Addresses [review comment6951330371](https://github.com/asalzburger/nodd/pull/145#issuecomment-6951330371): records the human selection of ALLEGRO-style LAr with a 400 mm warm gap as the nODD ECAL working baseline and adds the requested single SVG comparison.\n\nThe [SVG](https://github.com/asalzburger/nodd/blob/codex/emcal-findings-report/docs/publication/emcal-findings/response-comparison.svg) and updated eight-page [PDF](https://github.com/asalzburger/nodd/blob/codex/emcal-findings-report/docs/publication/emcal-findings/review.pdf) show ODD, nODD Si-W, physically staggered Si-W, and LAr400. The three matched 10k saved-hit samples are rebinned to uniform 0.05-wide |eta| bins with all zeros and 1000 shared whole-primary bootstrap replicates, seed13001000. ODD is explicitly limited to its retained 20 GeV/c, fixed-phi, 200-event eta0/1/2 reference markers and source intervals; no matched broad-spectrum ODD curve is invented. The observable is SD(H/Etrue)/mean(H/Etrue), a raw-response sigma(E)/E proxy, not intrinsic fixed-energy resolution.\n\nThe baseline-selection record and layout pages distinguish the selected LAr400 design from the maintained 800 mm combined-export/drawing integration control. Connected services, collar/FCAL fit, readout boundary correction and engineering qualification remain open. No geometry, material, readout, transport or calibration is changed, and no old native proof is relabelled.\n\nRetargets the report to main and ordinarily incorporates the already approved/merged dependency branches: main currently contains #142, while #143/#144/#146 merged into their parent branches. This preserves their code, exact scientific receipts, reviewed numerical-test correction, canonical token owners and interaction evidence. No GitHub PR merge is performed by this response.\n\nValidation: all three input hashes and 10,000 exact primary identities; all60bins/model retain 136-189 primaries; existing ten fine LAr H bins/intervals reproduce; swapped-geometry ledger rejected. Independent PhysVal review reproduces all180bin statistics and every interval by direct-index resampling. Report is eight pages, all pages visually checked, PDF text/bounds/footers/11links and artifact hashes pass. Existing18 response controls, project/session/inventory checks pass. The PubDoc closeout at `aceda471` verifies the fixed ECAL palette and preserved original ODD source-access date; both findings are closed. Final current-head hosted checks are verified after publication.\n\nEditable sources, compact bin data, provenance and the attributed baseline decision are under `docs/publication/emcal-findings/` and `docs/design/inputs/ECAL-baseline-selection-2026-11-17.md`. Ongoing work/role/tool and exact available usage records are retained; active coordinator usage remains unavailable rather than estimated. No formal design lifecycle or human sign-off is fabricated.\n\nThis review response records four disjoint completed specialist turns: 15,484,025 input + 25,843 output = 15,509,868 observed tokens. Earlier canonical owners remain unchanged; active coordinator coverage is unavailable.\n\n\nStandalone SVG follow-up\n\nThe report, PDF and all ten existing report files are unchanged. Two additional SVGs (both width1000) can be stacked:\n\n- [nODD-only width plot](https://github.com/asalzburger/nodd/blob/codex/emcal-findings-report/docs/publication/emcal-findings/standalone/nodd-width.svg): the same three fine curves and 180 intervals, with only the ODD reference elements removed.\n- [Reference distributions](https://github.com/asalzburger/nodd/blob/codex/emcal-findings-report/docs/publication/emcal-findings/standalone/nodd-response-distributions.svg): adjacent |eta| bands [0,1), [1,2), [2,3], showing R/mean(R) with raw unbinned means, SDs, CVs, zeros and flows. Percentages use all3331/3353/3316 band events. Broad pooled reference widths are labelled separately from the0.05-bin curve points.\n\nIndependent PhysVal review at `91f5e1b3` reproduces all nine histograms/moments/normalizations and confirms unchanged report bytes and three curve geometries. No new MC, calibration or bootstrap; one exact completed review turn records1,656,814 observed tokens, with active coordinator usage unavailable. Source/data/render receipts are in `docs/publication/emcal-findings/standalone/`.\n",
         "source": "https://github.com/asalzburger/nodd/pull/145",
         "in_reply_to": "github:https://github.com/asalzburger/nodd/pull/145#issuecomment-6951330371",
         "model": null,
@@ -889,6 +1087,22 @@
         "agent_roles": [],
         "token_accounts": [
           "SESSION-2026-11-15-emcal-findings"
+        ],
+        "content_kind": "reference_summary"
+      },
+      {
+        "id": "journal:SESSION-2026-11-17-nodd-reference-svgs:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-11-17-nodd-reference-svgs",
+        "recipients": [],
+        "text": "Separate nODD width and response-distribution SVGs without changing the report — see the canonical narrative for outcomes and checks.",
+        "source": "logs/design/SESSION-2026-11-17-nodd-reference-svgs.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-17-nodd-reference-svgs"
         ],
         "content_kind": "reference_summary"
       },
@@ -1003,6 +1217,44 @@
         ]
       },
       {
+        "id": "curated:pr145-reference-request",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "agent:pr145-reference-coordinator"
+        ],
+        "text": "Looks good - leave the report as is, but make two separate SVGs: SD(R)/mean(R) as is, but remove the ODD, only keep nODD versions; Underneath: reference plots in [0,1][1,2][2,3] over the same width, showing where the SD(R)/mean(R) was drawn from.",
+        "source": "logs/design/SESSION-2026-11-17-nodd-reference-svgs.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [
+          "coordinator"
+        ],
+        "token_accounts": [
+          "SESSION-2026-11-17-nodd-reference-svgs"
+        ]
+      },
+      {
+        "id": "curated:pr145-reference-outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:pr145-reference-coordinator",
+        "recipients": [
+          "unknown:project-user"
+        ],
+        "text": "Created two same-width standalone SVGs: the unchanged three nODD fine-width curves without ODD, plus three broad-eta response-distribution panels with raw moments and unitmean display scaling. Existing report and all10oldfiles are byte-identical. Independent source/statistics/preservation check closes withoutfindings; oldcanonicalusageowners preserved. No simulation/bootstrap/calibration or report change.",
+        "source": "logs/design/SESSION-2026-11-17-nodd-reference-svgs.md",
+        "in_reply_to": "curated:pr145-reference-request",
+        "model": null,
+        "agent_roles": [
+          "coordinator"
+        ],
+        "token_accounts": [
+          "SESSION-2026-11-17-nodd-reference-svgs"
+        ]
+      },
+      {
         "id": "codex-message:msg_0449ccd4fe672c1b016afc6916161c87d297b5f1781f994ebc",
         "type": "response",
         "direction": "reaction",
@@ -1111,6 +1363,60 @@
         "content_kind": "visible_message; conservative redactions recorded in source"
       },
       {
+        "id": "codex-message:msg_0449ccd4fe672c1b016afc825b640887d2be064ce12545c335",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1d371-79d8-7f02-a1b1-083b030c657c",
+        "recipients": [
+          "codex-thread:01a1d197-9480-7751-af8c-0c21b576f5ac"
+        ],
+        "text": "I’ll check the two standalone figures against the retained ledgers, focusing on curve preservation, histogram populations, normalization and flows.",
+        "source": "interactions/pr-0145/turns/01a1d371-79d8-7f02-a1b1-083b030c657c--01a1ea5d-23a8-70d0-8552-71ef3a4c2267.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-17-nodd-reference-svgs"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0449ccd4fe672c1b016afc82f8f87c87d29f6fba95a81da428",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1d371-79d8-7f02-a1b1-083b030c657c",
+        "recipients": [
+          "codex-thread:01a1d197-9480-7751-af8c-0c21b576f5ac"
+        ],
+        "text": "The histogram definitions match the requested comparison. I’m finishing numerical checks against all three event ledgers and checking that the original report and fine-width curves are unchanged.",
+        "source": "interactions/pr-0145/turns/01a1d371-79d8-7f02-a1b1-083b030c657c--01a1ea5d-23a8-70d0-8552-71ef3a4c2267.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-17-nodd-reference-svgs"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
+        "id": "codex-message:msg_0449ccd4fe672c1b016afc835223e087d28eb0cb2a9015aa78",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "codex-thread:01a1d371-79d8-7f02-a1b1-083b030c657c",
+        "recipients": [
+          "codex-thread:01a1d197-9480-7751-af8c-0c21b576f5ac"
+        ],
+        "text": "No actionable findings at exact revision `91f5e1b34df65580ad0549880c7a69268ed8f3db`.\n\nIndependent checks confirmed:\n\n- All **10 original report files, including the PDF**, are byte-identical to `d04614575e8fc3aed41ed79798def3fc461e3dc6`.\n- The width SVG preserves all **3 curve polylines and 180 interval paths exactly**; ODD markers, intervals and legend text are removed. Both new SVGs have width1000.\n- All three retained ledgers match their pinned hashes and identical10000 primary coordinates.\n- Independently recomputed all nine histogram arrays, unbinned means, sampleSDs, CVs, zeros and flows. Bands contain **3331/3353/3316** events; total zeros are **42/42/0**. All nine underflows/overflows are zero.\n- Unit-mean scaling preserves CV; percentages use each full band population. Empty bins are omitted on the logarithmic axis without pseudocounts.\n- Both previews are readable. Labels correctly distinguish broad pooled distributions from the0.05-wide curve bins, with ECAL yellow and configuration-specific styles.\n\nEvidence: [implementation]([redacted] [derived data]([redacted] and [render receipt]([redacted]\n\nBounded review complete. No files changed, simulations run, or bootstrap intervals regenerated; prior scientific assumptions were not re-audited.",
+        "source": "interactions/pr-0145/turns/01a1d371-79d8-7f02-a1b1-083b030c657c--01a1ea5d-23a8-70d0-8552-71ef3a4c2267.json",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-17-nodd-reference-svgs"
+        ],
+        "content_kind": "visible_message; conservative redactions recorded in source"
+      },
+      {
         "id": "codex-message:msg_0599b0aa2847b792016afc6d14fab487d2bc41e9678902aadc",
         "type": "response",
         "direction": "reaction",
@@ -1148,9 +1454,9 @@
       }
     ],
     "coverage": {
-      "github_captured_at": "2026-11-17T15:12:15.385268Z",
+      "github_captured_at": "2026-11-17T16:42:02.316831Z",
       "prompts": "Available account-matched user-visible messages, public Codex inputs and curated journal excerpts. Historical full input coverage is unknown.",
-      "recovered_visible_turns": 4,
+      "recovered_visible_turns": 5,
       "unrecovered_account_turns": [
         {
           "thread_id": "01a1d371-79d8-7f02-a1b1-083b030c657c",

@@ -37,3 +37,13 @@ Explicit genericPhysVal, not verifiednativeprofile loading; rootauthors newsourc
   "completion": "Stop once newbanddata/labels/curve/reportpreservation are assessed; no human design approval."
 }
 ```
+
+## Independent result and accounting
+
+PhysVal closes exact91f5e1b34df65580ad0549880c7a69268ed8f3db with no actionable findings. It independently verifies all10oldreportfiles/PDF unchanged; all3widthpolylines and180intervalpaths exact; ODD elements removed; bothSVGwidth1000. Exact3ledgerhashes and10000identicalprimarycoordinates; all9histograms/unbinnedmoments/CVs/zeros/flows reproduce,3331/3353/3316events,42/42/0zeros, zero under/overflows. UnitmeanCVinvariance, all-event percentages/logemptybins, broadvsfine labels andreadability pass. No source edits/native/MC/newbootstrap or broadoldassumption audit.
+
+Rootreplay produces byte-identicalSVGs, everyoldreporthash/PDF8e5e5b40... unchanged. Swapped-source negativecontrol rejects before output. One exactcompleted currentreviewturn01a1ea5d-23a8-70d0-8552-71ef3a4c2267 is recovered and matched to visibleassignment/result, not timestamps alone:1,649,199input+7,615output=1,656,814total; cached1,614,080/reasoning1,277subsets. Oldowners/turns excluded and unchanged; activecoordinatorunknown, models/providers/clientversionunknown. Selectedvisibletext/operationcounts are allowlisted/redacted; no reasoning/context/rawarguments/results. Parent interactions are not childspawns.
+
+PR145 remains the explicitly authorized existing report/merge-preparation task; newbody links the two standaloneSVGs while retaining the report. Metadata uses authenticatedgh because the integration's write capability was already unavailable. No separate external messages, GitHubmerge, auto-merge orhumanapproval performed. Newtaskbranch/session isolates this follow-up; oldcanonicaljournals are not rewritten.
+
+Final local closure: project111/54/24, session302, inventory69/104/55/12, interactions122 with retention against mainf3ece1d6, tokenpreview579disjointdatedturns/3,249,405,443cumulative observed tokens PASS. Existing reportfiles remain untouched; no old canonical token owner changed. Currentreview1,656,814 observed total, activecoordinatorunavailable. Final hosted current-head status is checked after publication without changing any report artifact.
