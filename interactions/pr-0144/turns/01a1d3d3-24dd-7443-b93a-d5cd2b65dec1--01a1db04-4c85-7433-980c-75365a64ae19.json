@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "thread_id": "01a1d3d3-24dd-7443-b93a-d5cd2b65dec1",
+  "turn_id": "01a1db04-4c85-7433-980c-75365a64ae19",
+  "status": "completed",
+  "started_at": 1794675854,
+  "completed_at": 1794675987,
+  "token_accounts": [
+    "SESSION-2026-11-14-lar-gap10k"
+  ],
+  "source": "Codex app read_thread; exact recorded thread/turn match",
+  "messages": [
+    {
+      "id": "msg_0c4d1eaa09f07284016af89491c10887d2ae7025629c460c9e",
+      "role": "assistant",
+      "phase": "commentary",
+      "text": "I\u2019ll replace the steering wrapper\u2019s `__file__` assumption with an explicit repository path supplied by the driver, then test the wrapper under DDSim-style execution.",
+      "redacted": "no"
+    },
+    {
+      "id": "msg_0c4d1eaa09f07284016af895111c6c87d2a091ffcb17b0db8d",
+      "role": "assistant",
+      "phase": "final_answer",
+      "text": "Loader fix frozen against `37d45a6466c3a9a7384583b0140a1bdc5c61f712`.\n\nChanged only `observed_steering.py`, `observed_transport.py` and `test_observed.py`. The driver supplies a bound repository path/PYTHONPATH; the wrapper handles DDSim\u2019s separate execution namespaces without `__file__`.\n\n**37 pure tests pass**, including loader execution and single-initializer checks. `git diff --check` passes.\n\nC++ source and binary are unchanged. CLI remains unchanged; rerun in fresh directories. No native/DDSim jobs ran here.",
+      "redacted": "no"
+    }
+  ],
+  "native_tools": [
+    {
+      "name": "commandExecution",
+      "calls": 5,
+      "failures": 0
+    },
+    {
+      "name": "fileChange",
+      "calls": 2,
+      "failures": 0
+    },
+    {
+      "name": "subAgentActivity",
+      "calls": 2,
+      "failures": 0
+    }
+  ],
+  "subagents": [],
+  "limitations": [
+    "Only userMessage and agentMessage text retained; reasoning, tool arguments/results and private state excluded.",
+    "Conservative path, credential, email and URL redaction is not a privacy guarantee; review retained text.",
+    "Exposed operation counts are per retained turn; journal counts can describe the same invocations and must not be added.",
+    "App preview maxOutputCharsPerItem=5000; long visible messages may be truncated. Raw reasoning/context/tool arguments/results were discarded in memory before this allowlist stage.",
+    "Interacted-with parent/sibling targets are not child-spawn evidence and are omitted from subagents. Native operation counts remain; actual parent_thread_id is retained from verified original thread metadata."
+  ],
+  "parent_thread_id": "01a1d197-9480-7751-af8c-0c21b576f5ac"
+}

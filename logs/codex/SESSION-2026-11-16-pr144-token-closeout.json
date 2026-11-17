@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-11-16-pr144-token-closeout",
+  "title": "PR144 newly finalized 10k coordinator usage",
+  "recorded_at": "2026-11-16T14:12:44.099567Z",
+  "started_at": null,
+  "ended_at": "2026-11-16T14:12:44.099567Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Original task closed with coordinator usage unavailable; this dated follow-up owns only the newly finalized root turn, not original/child counters.",
+    "Model/provider/version unknown. Active stack-preparation turn, unrelated doc work and unobserved interrupted turns excluded."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": "01a1d197-9480-7751-af8c-0c21b576f5ac"
+  },
+  "git": {
+    "start_commit": "79a967aa3fe78a525f15ede780c26be0cd73aeae",
+    "branch": "codex/lar-stack-merge-prep",
+    "initial_changes": [
+      "logs/codex/SESSION-2026-11-16-lar-stack-merge-prep.json",
+      "logs/codex/SESSION-2026-11-16-lar-stack-merge-prep.md",
+      "logs/codex/SESSION-2026-11-16-pr142-token-closeout.json",
+      "logs/codex/SESSION-2026-11-16-pr142-token-closeout.md",
+      "logs/codex/SESSION-2026-11-16-pr143-token-closeout.json",
+      "logs/codex/SESSION-2026-11-16-pr143-token-closeout.md"
+    ],
+    "result_commits": [],
+    "changed_files": []
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "token accounting",
+      "calorimetry historical coordinator closeout"
+    ],
+    "related_ids": [
+      "PR144",
+      "SESSION-2026-11-14-lar-gap10k"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-11-16-pr144-token-closeout.md",
+  "activities": [],
+  "usage": [
+    {
+      "client_thread_id": "01a1d197-9480-7751-af8c-0c21b576f5ac",
+      "turn_id": "01a1dac4-e10a-75b0-853b-b7fceee8ec4c",
+      "model": null,
+      "source": "logs/usage/RECOVERY-2026-11-16-pr144-root.json; exact closed own-thread turn bound to selected request and PR outcome; usage_sha256=2db054e49dda6a2eb5667ada419f7c50f5fe8e7d135ffce07bb9d68afa50a3ce",
+      "limitations": [
+        "Execution model/provider/client version unavailable; no configured-model inference.",
+        "Native own-thread request increments verified, separately observed child counters remain in their prior owners. No thread cumulative/active/interrupted/doc-task total included."
+      ],
+      "input_tokens": 76125429,
+      "cached_input_tokens": 75759872,
+      "output_tokens": 288832,
+      "reasoning_output_tokens": 182207,
+      "total_tokens": 76414261
+    }
+  ],
+  "checks": [
+    {
+      "command": "recover_usage.py / app read_thread exact-match attribution",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Final own-thread request increments and closed boundary verified. Exact request, outcome PR URL and original task journal match; old owned counters/children unchanged."
+    },
+    {
+      "command": "session_log.py import-usage / visible.py allowlist",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "One previously unowned rootturn imported once; messages privacy-reviewed, reasoning/arguments/results excluded. Model/provider unknown, coverage partial."
+    }
+  ]
+}
