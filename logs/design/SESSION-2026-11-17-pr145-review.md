@@ -28,3 +28,13 @@ Explicit generic PhysVal role, not native profile loading.
   "completion": "Stop when enough primary data is inspected to implement a scientifically honest four-curve SVG; no broad historical audit."
 }
 ```
+
+## Primary-source contribution and implementation
+
+PhysVal comparison-contract contribution at bc1c42be closed with a defensible four-series contract. It independently verified all three ledger hashes and exact10000(event,E,eta,phi) identities; all60uniform0.05bins have136-189primaries. ODD is only odd-zero/e-/20GeV/c eta0/1/2,200events/point, with source5000-bootstrap intervals. Use saved H_GeV for LAr rather than A_GeV; keep all zeros and source cohorts distinct. No agent plots/edits/bootstrap/native work.
+
+Root implemented source-bound rebinning from the three exact retained local ledgers, shared1000 whole-event bootstrap seed13001000, compact bin data and one ReportLab SVG. All prior fine LAr H bins/intervals reproduce. A swapped geometry ledger is rejected by a negative control before computation. No raw event payload committed and no new MC/calibration/fit. NumPy2.5.1 does derivation; preinstalled bundled ReportLab4.4.9/pypdf6.21.4 produce the SVG and PDF. No package installation.
+
+Root records human LAr400 working-baseline selection with actual account/comment/date and reported discussion, not an invented second signature or lifecycle promotion. Selected target and old800mm combined-integration control stay distinct; no geometry/exporter/default dimensions changed. Layout pages identify the selection and retained drawing context. Main currently contains only142; ordinary report-branch merges preserve the approved side-branch143/144/146 stack. PR145 will target main, no GitHub merge performed.
+
+Rendering exposed a clipped SVG y-axis label and one PDF page4 overflow; fixed the label transform and moved the existing startup paragraph to the Si-W page. Eight-page guard passes. Project validator caught fractional seconds in newly collected PR timestamps; corrected to its required UTC whole-second format without changing the validator. Old scientific receipts and design DRAFT states retained.

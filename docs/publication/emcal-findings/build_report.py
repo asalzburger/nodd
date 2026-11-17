@@ -19,11 +19,12 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfgen import canvas
 from reportlab.platypus import Flowable, Frame, Image, Paragraph, Spacer, Table, TableStyle
 from pypdf import PdfReader
+from response_comparison import drawing as comparison_drawing
 
 ROOT=Path(__file__).resolve().parents[3]
 BASE='79a967aa3fe78a525f15ede780c26be0cd73aeae'
 HIST='3ebafd340b0e084c5e42e57123de115e3f489244'
-DATE='2026-11-15'
+DATE='2026-11-17'
 SOURCES={
  'odd_assessment':(BASE,'docs/validation/ODD-realism-assessment.md'),
  'fixed_report':(BASE,'docs/validation/issue117/nodd-digitization-results.md'),
@@ -173,8 +174,8 @@ def build(output):
  pages.append([
   p('Electromagnetic<br/>calorimeter findings','hero'),
   p('From ODD to realistic Si-W and ALLEGRO-style LAr','lead'),
-  p('Decision review | 15 November 2026 | PUB-EMCAL-2026-11-15','small'),
-  box('<b>Recommendation.</b> Use the reduced-gap LAr configuration as the lead EM working design for integration. Retain realistic Si-W as a reference and alternative. Prioritize hermeticity, connected services and validated readout before a final detector-wide technology decision.'),
+  p('Decision review | updated 17 November 2026 | PUB-EMCAL-2026-11-15','small'),
+  box('<b>Selected nODD ECAL baseline.</b> ALLEGRO-style LAr with the 400 mm warm gap, following the human review direction of 17 November 2026. Retain realistic Si-W as a reference and alternative. Prioritize connected services, hermeticity and validated readout during integration.'),
   Spacer(1,12),
   p('The sequence of studies changes the picture: ODD provides a useful idealized sampling reference; explicit nODD Si-W hardware exposes inactive regions and passive-material effects; LAr gives a substantially smoother raw electron response in the matched broad-spectrum sample. The LAr barrel-endcap transition was its weakest region and improves strongly when the warm gap is reduced. [1-9]'),
   table(['Finding','Evidence and implication'],[
@@ -182,8 +183,8 @@ def build(output):
    ['Staggering helps, cracks persist','Matched 10k raw SD/mean improves 43.09% to 39.27%. The independent 20k calibrated spline result is 30.21%, with strong residual seam losses.'],
    ['LAr is the stronger working option','Matched 10k raw SD/mean is 17.84% with the source-era gap and 13.56% with the reduced gap. In the fixed transition region it improves 44.18% to 21.00%.']],[117,CW-117]),
   Spacer(1,12),
-  p('<b>Working-configuration status.</b> This review treats updated routing and the 400 mm warm gap as the merged/adopted working configuration, following project direction on 2026-11-15. This status does not supply engineering qualification: the response study is ECAL-only and excludes the unresolved external pipe overlay. Component material/navigation validation and complete installed-service fit remain distinct.'),
-  p('<b>Reading the numbers.</b> SD/mean describes all-event response distributions, including zeros and tails. Broad-spectrum widths are not fixed-energy intrinsic resolution. Different sensitive sampling fractions do not rank calorimeter performance. No matched 10k ODD run exists; its fixed-direction evidence is kept separate.','small')
+  p('<b>Working-configuration status.</b> The PR145 reviewer records selection of LAr400 after discussion with Michael Duehrssen. This is a human working-baseline choice, without new engineering sign-off. The response study is ECAL-only; connected services and collar interfaces still need qualification. The existing combined exporter and full-layout drawings remain the validated 800 mm integration control.'),
+  p('<b>Reading the numbers.</b> SD/mean includes zeros and tails. Broad-spectrum widths are not fixed-energy intrinsic resolution. Figure 1 labels ODD as an unmatched fixed-energy reference; the three 10k curves share their primaries. Sensitive sampling fractions alone do not rank performance.','small')
  ])
  pages.append([
   p('1  What changed from ODD','h1'),
@@ -213,18 +214,18 @@ def build(output):
    ['Mean reconstructed / true energy','1.00287','1.00300'],['All-event SD/mean','31.322%','30.209%'],['Fractional-error RMS','31.412%','30.301%'],['Estimated energy below half truth','9.790%','9.380%']],[CW-182,91,91]),
   Spacer(1,8),
   p('PR137 used 100k training electrons and 20k fresh validation electrons, with models frozen before validation inspection. The spline gain is 1.112 percentage points against the linear comparator on that same 20k. Its full-refit approximate 95% width range is 29.596-30.817%. [5]'),
-  p('Inclusive closure conceals local losses: spline sector-edge widths remain 73.23/75.06%, versus 11.01-12.65% inside sectors; all 84 zeros remain. The earlier 10k cross-fit gave 32.22% but mean energy was 8.09% low. That figure is not paired with the later 30.21% result. Neither calibrated sample is the raw LAr comparison. [4,5]','small')
+  p('Inclusive closure conceals local losses: spline sector-edge widths remain 73.23/75.06%, versus 11.01-12.65% inside sectors; all 84 zeros remain. The earlier 10k cross-fit gave 32.22% but mean energy was 8.09% low. That figure is not paired with the later 30.21% result. Neither calibrated sample is the raw LAr comparison. [4,5]','small'),
+  p('Reusable solid mothers make these detailed models practical: Si-W volume-map build fell from 3953.8 s to 23.0 s; a separate LAr serial probe reached its first event in 67.4 s versus 522.3 s. These are different metrics and one-pair descriptive benchmarks, not a cross-technology speed ranking. [10]','small')
  ])
  pages.append([
-  p('3  LAr and the matched 10k result','h1'),
+  p('3  Selected LAr baseline','h1'),
   p('The ALLEGRO-style alternative replaces sensor-board sampling with inclined lead/steel absorbers, electrodes and liquid-argon gaps, while explicitly representing cryostats and local services.','lead'),
   p('The barrel uses 1536 inclined periods and eleven longitudinal electrode segments; each turbine endcap has three wheels with 384/720/1360 periods and a 450 mm sampling depth. Geometric readout totals 3,488,768 canonical cells across barrel and endcaps. These are virtual addresses, not a qualified electronics bill or charge-collection model. [6]'),
-  table(['Matched origin electrons','Mean H/E [%]','Raw width [%], 95% CI','Zeros','Low tails'],rows,[150,68,149,45,CW-412]),
-  p('H is summed saved sensitive-hit energy. All rows use identical 10k primaries: uniform total E=10-80 GeV, eta=-3...3 and full phi; ECAL-only, B=0, FTFP_BERT, 0.7 mm cuts, 5 mm active charged-step cap and twelve workers. Low tails use H/E below half each model\'s own global mean. ODD has no entry in this matched cohort; see page 2. [7,9]','small'),
-  AngularPlot([('Si-W original',matched['models']['siw_original']),('Si-W staggered',matched['models']['siw_staggered']),('LAr 800 mm',matched['models']['lar'])],('abs_eta','siw_folded_phi')),
-  p('Figure 1. Source-era raw angular comparison: original Si-W, physical staggering and LAr with the 800 mm gap; bars are pointwise 95% intervals. All events, including zeros, are retained. The original LAr weakness is concentrated in the barrel-endcap transition. The phi projection uses the Si-W 22.5 degree sector fold for every candidate; it is not the LAr electrode pitch. The reduced-gap update is on page 6. [7]','small'),
-  p('The global staggered-Si-W minus LAr800 width difference is 21.43 percentage points [20.42, 22.48]. In the fixed 999-event transition it is only 3.03 points [-0.75, 7.05]; that interval does not establish a transition advantage for the old LAr gap. [7]'),
-  p('Reusable solid mothers make these detailed models practical: Si-W volume-map build fell from 3953.8 s to 23.0 s; a separate LAr serial probe reached its first event in 67.4 s versus 522.3 s. These are different metrics and one-pair descriptive benchmarks, not a cross-technology speed ranking. [10]','small')
+  table(['Matched origin electrons','Mean [%]','Raw width [%], 95% CI','Zeros','Low tails'],rows,[150,68,149,45,CW-412]),
+  p('H is summed saved sensitive-hit energy. The table uses identical 10k primaries: uniform total E=10-80 GeV, eta=-3...3, full phi; ECAL-only, B=0, FTFP_BERT, 0.7 mm cuts and 5 mm active charged-step cap. Low tails use H/E below half each model\'s own global mean. [7,9]','small'),
+  comparison_drawing(json.loads((Path(__file__).parent/'response-comparison.json').read_text()),CW),
+  p('Figure 1. Requested sigma(E)/E raw-response proxy: SD(H/Etrue)/mean(H/Etrue) versus |eta|. Three matched curves use 0.05-wide bins (136-189 events each), all zeros, and 1000 shared whole-primary bootstrap resamples. Bars are pointwise 95% intervals. ODD retains its original detector scope: separate 20 GeV/c, phi=0.123, 200-event eta0/1/2 points with source 5000-resample intervals, not a fourth matched curve. No calibration or new transport. Standalone vector: response-comparison.svg. [2,7,9]','small'),
+  p('The global staggered-Si-W minus LAr800 width difference is 21.43 percentage points [20.42, 22.48]. In the fixed 999-event transition it is only 3.03 points [-0.75, 7.05]; that interval does not establish a transition advantage for the old LAr gap. [7]')
  ])
  pages.append([
   p('4  Updated routing and its boundary','h1'),
@@ -254,7 +255,7 @@ def build(output):
  ])
  pages.append([
   p('6  Recommendations and next gates','h1'),
-  p('Proceed with the reduced-gap LAr working configuration, using the results to prioritize integration work rather than declaring detector-wide superiority.','lead'),
+  p('Develop the human-selected reduced-gap LAr baseline, using the results to prioritize integration while qualifying detector-wide performance separately.','lead'),
   table(['Priority','Recommended action','Evidence needed to close the gate'],[
    ['1  Connected service fit','Implement complete port/neck/bus/rear-exit ownership and displaced material in the combined model.','Full circuits and cable recipes; 3D swept clearances, board/support capacity, thermal/hydraulic/load margins, access and disconnection.'],
    ['2  Hermetic transition','Retain the 400 mm working gap, and resolve its forward/tracker/magnet/HCAL interfaces.','Signed eta/phi material and shower scans including external services, realistic upstream material, collar/FCAL and installation tolerances.'],
@@ -283,7 +284,7 @@ def build(output):
  last=[p('Sources and comparison contract','h1'),p('References link to immutable project evidence, not moving branch tips. Current evidence is pinned to 79a967aa; earlier calibration/control studies are pinned to 3ebafd34. The PDF and its source manifest preserve full hashes.','small')]
  for title,key,description in refs:
   last.append(p('<b>'+title+'</b> '+escape(description)+'<br/><link href="'+link(key)+'" color="#2369a0">Open source report</link> <font color="#506373">('+SOURCES[key][0][:8]+')</font>','ref'))
- last += [h('Statistical and status conventions'),p('Matched 10k intervals use 1000 shared whole-primary bootstrap replicates (seed 13001000); the earlier 10k calibration uses refits and a different seed. The independent 20k calibration has its own training/closure roles and 200 full-refit uncertainty. These cohorts and tail thresholds are not pooled. All populations retain zeros. No quadrature subtraction assigns a separate gap term.','small'),p('Updated routing and the 400 mm gap are treated as merged/adopted by project direction on 2026-11-15. Working-design adoption and engineering qualification are separate. Recommendations in this review are technical assessments; they do not grant formal engineering acceptance.','small')]
+ last += [h('Statistical and status conventions'),p('Matched 10k intervals use 1000 shared whole-primary bootstrap replicates (seed 13001000); Figure 1 rebins the retained saved-hit ledgers to uniform 0.05-wide |eta| bins. ODD reference points keep their separate fixed-energy cohort and source intervals. The independent 20k calibration has distinct training/closure roles and 200 full-refit uncertainty. Cohorts and tail thresholds are not pooled; zeros are retained.','small'),p('The <link href="https://github.com/asalzburger/nodd/pull/145#issuecomment-6951330371" color="#2369a0">human review direction of 17 November 2026</link> explicitly selects LAr with the 400 mm warm gap as the nODD ECAL working baseline, following the earlier adoption convention. This does not qualify the connected services/collar or a new combined detector union, and grants no formal engineering acceptance.','small')]
  pages.append(last)
  assert len(pages)==8
  c=canvas.Canvas(str(output),pagesize=A4,pageCompression=1,invariant=1)
@@ -304,7 +305,7 @@ def build(output):
  text='\n'.join(page.extract_text() for page in reader.pages)
  assert '\ufffd' not in text and '32.220' not in text
  assert all(f'{i} / 8' in reader.pages[i-1].extract_text() for i in range(1,9))
- provenance=dict(document_id='PUB-EMCAL-2026-11-15',date=DATE,pages=8,classification='Evidence synthesis; reduced-gap routing treated as merged/adopted by explicit project direction; engineering qualification separate',source_revision=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),builder_sha256=digest(Path(__file__).read_bytes()),reportlab=reportlab.Version,pdf_sha256=digest(output.read_bytes()),sources={k:dict(revision=rev,path=path,sha256=digest(blob(k)),url=link(k)) for k,(rev,path) in SOURCES.items()},primary_odd=dict(revision='d70556f33b1c36abdf101a07ad8cf57eb56fbdf1',path='xml/detectors/CalorimeterECal.xml',github_blob='8ee81694badaf05d18000e6a818eb6b350c88a2c',access_date=DATE),no_new_simulation=True)
+ provenance=dict(document_id='PUB-EMCAL-2026-11-15',date=DATE,pages=8,classification='Human-selected LAr400 ECAL working baseline; engineering qualification separate',source_revision=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),builder_sha256=digest(Path(__file__).read_bytes()),reportlab=reportlab.Version,pdf_sha256=digest(output.read_bytes()),sources={k:dict(revision=rev,path=path,sha256=digest(blob(k)),url=link(k)) for k,(rev,path) in SOURCES.items()},primary_odd=dict(revision='d70556f33b1c36abdf101a07ad8cf57eb56fbdf1',path='xml/detectors/CalorimeterECal.xml',github_blob='8ee81694badaf05d18000e6a818eb6b350c88a2c',access_date=DATE),no_new_simulation=True,review_update=dict(comment='https://github.com/asalzburger/nodd/pull/145#issuecomment-6951330371',comparison_data_sha256=digest((Path(__file__).parent/'response-comparison.json').read_bytes()),comparison_svg_sha256=digest((Path(__file__).parent/'response-comparison.svg').read_bytes()),comparison_producer_sha256=digest((Path(__file__).parent/'response_comparison.py').read_bytes()),new_transport=False,retained_ledgers_rebinned=True))
  output.with_suffix('.json').write_text(json.dumps(provenance,indent=2)+'\n')
  print(json.dumps(dict(pdf=str(output),pages=8,bytes=output.stat().st_size,sha256=provenance['pdf_sha256'])))
 

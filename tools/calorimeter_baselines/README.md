@@ -1,4 +1,6 @@
-# Two ECAL working baselines
+# Selectable ECAL packages and the selected working design
+
+The [2026-11-17 human decision](../../docs/design/inputs/ECAL-baseline-selection-2026-11-17.md) selects ALLEGRO-style LAr with a 400 mm warm gap as the nODD ECAL working baseline. The runnable combined LAYOUT-002 export below remains the validated 800 mm integration control; the new connected-service/collar union is still pending. LAYOUT-001 remains a retained Si-W reference. No old native proof is relabelled as a 400 mm union validation.
 
 Select the ECAL while keeping the maintained DES043 tracker:
 

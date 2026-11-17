@@ -1,6 +1,7 @@
 # LAYOUT-002 — Tracker + inner 3 T solenoid + LAr ECAL + FCAL
 
-**Alternative DRAFT / PROTOTYPE · updated 2026-11-13.** The tracker and conditional inner magnet are shared with 01. The LAr component envelopes remain pinned to their independent proposal; DES039 adds a common forward body and a short EM collar.
+**Selected ECAL working baseline · DRAFT / PROTOTYPE · updated 2026-11-17.**
+[Human review direction and selection record](../design/inputs/ECAL-baseline-selection-2026-11-17.md) choose ALLEGRO-style LAr with a 400 mm warm gap. Its warm endcaps occupy abs(z)=4500-5460 mm. The full-layout figure and component table below retain the independently validated 800 mm integration control (4900-5860 mm), including the old collar proposal; they do not establish a fit for the new selected design. The tracker and conditional inner magnet are shared with 01. The LAr component envelopes remain pinned to their independent proposal; DES039 adds a common forward body and a short EM collar.
 
 ![LAYOUT-002 with common forward body and short EM collar](figures/LAYOUT-002-DES043-rz.png)
 
@@ -51,6 +52,4 @@ qualification remain open.
 The separate [conditional gap response study](../validation/lar-gap10k/README.md)
 tests a rigid 400 mm inward endcap translation against the maintained 800 mm
 warm gap with the same 10,000 primaries, material and local readout. This is an
-isolated ECAL sensitivity study. The maintained layout and drawing coordinates
-stay at the existing baseline; external services, forward interfaces and an
-engineered smaller-gap fit remain unresolved.
+isolated ECAL sensitivity study. The selected ECAL working baseline now uses the 400 mm target by the explicit human decision above. The maintained combined exporter and this full-layout drawing retain the source-era 800 mm integration control until external services and forward/collar interfaces are reconciled and the new union is audited.

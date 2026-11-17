@@ -7,6 +7,10 @@
   This authorizes the bounded integration; engineering sign-off remains open.
 - Governing designs: DES025, DES030–034, DES039 and DES043; ADR008–011.
 
+## Later baseline selection
+
+[Human review direction on 2026-11-17](ECAL-baseline-selection-2026-11-17.md) selects ALLEGRO-style LAr with a 400 mm warm gap as the nODD ECAL working baseline. The two executable packages below retain their validated source dimensions as integration controls. Selecting the reduced gap does not supply connected-service/collar fit or a new combined-detector native proof.
+
 ## Baseline contract
 
 **NODD DESIGN CHOICE:** retain LAYOUT-001 (Si–W) and LAYOUT-002 (LAr) as
