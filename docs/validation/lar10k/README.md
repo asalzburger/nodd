@@ -13,6 +13,17 @@ Original and staggered Si–W are the retained matched 10k raw samples, distinct
 from PR137's larger calibration study. No calibration, noise, charge collection
 or digitization is fitted here.
 
+## Later sensitive-deposit accounting
+
+The [2026-11-14 gap study](../lar-gap10k/README.md) identified three
+positive-deposit cell-assignment failures in this retained LAr transport.
+The original tables and artifacts below are preserved as **saved-hit H/E**
+results. They do not by themselves establish complete sensitive-step energy.
+The later study replays the unchanged standard geometry with an independent
+observer, verifies exact saved-hit replay, and reports complete accepted A/E
+and unassigned U separately. It leaves the original midpoint policy and cell-ID
+guard unchanged and does not assign artificial cells to those deposits.
+
 ## Inclusive raw response
 
 `R = active ECAL deposited energy / primary total energy`; width is sample

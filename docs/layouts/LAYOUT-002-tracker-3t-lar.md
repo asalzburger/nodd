@@ -47,3 +47,10 @@ candidate has a narrower inclusive raw distribution in that sample, with a
 remaining broad barrel/endcap transition. This is prototype characterization;
 charge collection, noise, digitization, calibrated resolution and engineering
 qualification remain open.
+
+The separate [conditional gap response study](../validation/lar-gap10k/README.md)
+tests a rigid 400 mm inward endcap translation against the maintained 800 mm
+warm gap with the same 10,000 primaries, material and local readout. This is an
+isolated ECAL sensitivity study. The maintained layout and drawing coordinates
+stay at the existing baseline; external services, forward interfaces and an
+engineered smaller-gap fit remain unresolved.

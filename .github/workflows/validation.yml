@@ -32,6 +32,8 @@ jobs:
         run: python -I software/analysis/unrooted_smoke.py
       - name: Check matched LAr and Si-W response controls
         run: python -B -m unittest discover -s software/analysis/lar_response -p 'test_*.py' -v
+      - name: Check conditional LAr gap and complete-deposit readback controls
+        run: python -B -m unittest discover -s software/analysis/lar_gap -p 'test_*.py' -v
       - name: Replot the retained Geant4 tracker material profiles
         run: >-
           python -B software/analysis/material_profiles/plot_profiles.py
