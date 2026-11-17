@@ -92,3 +92,9 @@ Explicit generic role assignments, not verified native loading. Root authors the
   "completion": "Stop when update satisfies concise report/source/cohort/baseline boundaries; no design lifecycle approval."
 }
 ```
+
+## Exact38449 review outcomes and publication corrections
+
+PhysVal final review independently reproduces all180 fine-bin counts/zeros/means/sample SD/CVs and every CI via1000 direct-index shared resamples (max endpoint discrepancy5.15e-14); exact ODD points/CIs/counts, saved-H semantics, source/artifact hashes and the three matched polylines/no ODD connecting curve pass. No actionable scientific finding at38449fe8.
+
+PubDoc finds two bounded publication issues at38449: the four-series palette violates the explicit fixed ECAL colour rule (all ECAL curves/markers/legend must use#cccc00, distinguish configurations by styles), and ODD source access_date incorrectly inherited the report-update DATE. Root corrects only rendering styles and preserves actual2026-11-15 upstream inspection date. No statistical code/data/threshold/MC change. New targeted publication review will assess exact corrected source; the original scientific assessment stays bound to its actual revision.

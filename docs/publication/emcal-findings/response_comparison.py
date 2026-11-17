@@ -132,7 +132,7 @@ def derive(args):
 
 def drawing(data, width=1000):
     """ReportLab vector drawing, shared by the standalone SVG and report PDF."""
-    from reportlab.graphics.shapes import Drawing, Line, PolyLine, Circle, String, Group
+    from reportlab.graphics.shapes import Drawing, Line, PolyLine, Circle, String, Group, Rect, Polygon
     from reportlab.lib.colors import HexColor
     from reportlab.pdfbase import pdfmetrics
     from reportlab.pdfbase.ttfonts import TTFont
@@ -146,16 +146,24 @@ def drawing(data, width=1000):
         d.add(String(x, y, value, fontName='CaloPlot', fontSize=size, fillColor=ink, **kwargs))
     text(76, 428, 'EM calorimeter response comparison', 23)
     text(76, 407, 'Human-selected nODD ECAL baseline: ALLEGRO-style LAr, 400 mm warm gap', 14)
-    palette = {'siw_original': '#566779', 'siw_staggered': '#8b4d96', 'lar400': '#9c8500', 'odd': '#2369a0'}
+    # All series are ECAL: retain the human-specified component colour and
+    # distinguish configurations by line/marker shape, including the legend.
+    color = HexColor('#cccc00')
+    dashes = {'siw_original': [7, 4], 'siw_staggered': [1.5, 3], 'lar400': [], 'odd': []}
+    def marker(key, x, y):
+        style = dict(fillColor=color, strokeColor=ink, strokeWidth=.7)
+        if key == 'siw_original': d.add(Rect(x - 2.8, y - 2.8, 5.6, 5.6, **style))
+        elif key == 'siw_staggered': d.add(Polygon([x, y + 3.8, x - 3.5, y - 2.8, x + 3.5, y - 2.8], **style))
+        elif key == 'lar400': d.add(Polygon([x, y + 3.1, x - 3.1, y, x, y - 3.1, x + 3.1, y], **style))
+        else: d.add(Circle(x, y, 4.2, **style))
     legend = [('odd', 'ODD: 20 GeV/c, 200 events/direction (unmatched)'),
               ('siw_original', 'nODD Si-W: matched 10k'),
               ('siw_staggered', 'nODD Si-W (staggered): matched 10k'),
               ('lar400', 'nODD LAr: 400 mm, matched 10k')]
     for i, (key, label) in enumerate(legend):
         x = 76 + (i % 2) * 475; y = 380 - (i // 2) * 23
-        color = HexColor(palette[key])
-        if key != 'odd': d.add(Line(x, y + 4, x + 24, y + 4, strokeColor=color, strokeWidth=2))
-        d.add(Circle(x + 12, y + 4, 3, fillColor=color, strokeColor=color))
+        if key != 'odd': d.add(Line(x, y + 4, x + 24, y + 4, strokeColor=color, strokeWidth=2, strokeDashArray=dashes[key]))
+        marker(key, x + 12, y + 4)
         text(x + 32, y, label, 13)
     high = max(100 * b['ci95'][1] for m in data['models'].values() for b in m['bins'])
     ymax = math.ceil(high / 20) * 20
@@ -176,19 +184,19 @@ def drawing(data, width=1000):
     ylabel.translate(20, bottom + h / 2); ylabel.rotate(90); d.add(ylabel)
     centers = [(a + b) / 2 for a, b in zip(data['edges'], data['edges'][1:])]
     for key, model in data['models'].items():
-        color = HexColor(palette[key]); points = []
+        points = []
         for x, b in zip(centers, model['bins']):
             y = 100 * b['fractional_width']; lo, hi = [100 * z for z in b['ci95']]
             if not all(math.isfinite(z) for z in (y, lo, hi)) or not 0 <= lo <= hi <= ymax or not 0 <= y <= ymax:
                 raise ValueError('Nonfinite/out-of-axis comparison point')
             xx = X(x); points.extend([xx, Y(y)])
             d.add(Line(xx, Y(lo), xx, Y(hi), strokeColor=color, strokeWidth=.65, strokeOpacity=.55))
-        d.add(PolyLine(points, strokeColor=color, strokeWidth=1.6, fillColor=None))
-    color = HexColor(palette['odd'])
+        d.add(PolyLine(points, strokeColor=color, strokeWidth=1.9, fillColor=None, strokeDashArray=dashes[key]))
+        for i in range(0, len(centers), 3): marker(key, X(centers[i]), Y(100 * model['bins'][i]['fractional_width']))
     for b in data['odd_reference']['points']:
         xx = X(b['eta']); lo, hi = [100 * z for z in b['ci95']]
         d.add(Line(xx, Y(lo), xx, Y(hi), strokeColor=color, strokeWidth=1.8))
-        d.add(Circle(xx, Y(100 * b['fractional_width']), 4.2, fillColor=color, strokeColor=color))
+        marker('odd', xx, Y(100 * b['fractional_width']))
     text(76, 28, 'sigma(E)/E response-width proxy: R = summed saved active-hit energy / primary total energy.', 12)
     text(76, 10, 'Matched curves: 0.05-wide |eta| bins, all events/zeros, 95% intervals. ODD: fixed energy and original detector scope; unmatched.', 11)
     d.scale(width / 1000, width / 1000); d.width = width; d.height = 450 * width / 1000
