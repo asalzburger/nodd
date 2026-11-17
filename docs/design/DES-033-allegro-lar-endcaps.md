@@ -150,6 +150,11 @@ partial-depth directions despite an almost touching envelope intersection
 range. It needs a later response/material design; the800mm routing gap
 does not establish seamless calorimeter depth.
 
+The [hadron-collider options screen](inputs/DES-032-hadron-gap-options.md)
+compares prospective inward shifts and service/granularity mitigations. These
+remain unengineered alternatives; the present endcap and forward reservations
+are retained.
+
 **INFERENCE:** HCAL sampling/cover envelope volume grows from224.78 to432.76m³
 for the barrel (×1.925), and from66.49 to101.01m³ per endcap (×1.519) versus
 LAYOUT-001. The total outline grows×1.774. These16-gon calculations retain
