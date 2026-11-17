@@ -44,3 +44,51 @@ Rendering exposed a clipped SVG y-axis label and one PDF page4 overflow; fixed t
 Committed editable sources at ebdc0b3c81759a0e9523ebdbaa1f63ecdc5eaf71 before generating the delivered PDF. Eight-page report SHA8e0d58e4f8e51f21931233803483eebbb104341e1e13c6d90114aaee032fc89e,72917bytes; public and local copies/evidence hashes match. All8 latest1200px page renders visually reviewed; no clipping/overlap or out-of-page characters; footers/replacement-glyph checks pass and11public links retained. Separate SVG preview checked. Historical review-delta.json preserved unchanged; new review-update receipt identifies the substantive update.
 
 Project111tasks/54documents/24rounds and software inventory69/104/55/12 pass. Newly recorded PR143 merge SHA was initially absent from the local object database; fetched that exact public commit4f763957 before successful project revalidation. No criterion changes. Session validator301records passes. Sourcebound exact input hashes, identities, counts/zeros, finite CI and retained LAr fine-bin cross-check pass; swapped geometry negative control rejects before output.
+
+## Exact-source final review contracts before dispatch
+
+Explicit generic role assignments, not verified native loading. Root authors the changes.
+
+```json
+{
+  "input_revision": "38449fe8bdb7549e3f83fd8f2b0e5b3a308d5965",
+  "mode": "read-only",
+  "writable_paths": [],
+  "id": "PR145-PhysVal-final-comparison",
+  "role": "PhysVal",
+  "inputs": [
+    "docs/publication/emcal-findings/response_comparison.py",
+    "docs/publication/emcal-findings/response-comparison.json",
+    "docs/publication/emcal-findings/response-comparison.svg",
+    "docs/publication/emcal-findings/build_report.py",
+    "docs/publication/emcal-findings/review.pdf",
+    "docs/design/inputs/ECAL-baseline-selection-2026-11-17.md"
+  ],
+  "task": "Review the implemented scientific contract at exact revision. Verify retained input ledger hashes/identities and H/E semantics,0.05bins/all10000events/zeros, shared1000 whole-event bootstrap seed13001000, means/sampleSD/CIs and retained LAr H fine-bin replay. Independently check representative/full binned statistics or direct-index bootstrap where useful; do not just reread author conclusions. ODD is exact odd-zero/e-/20GeV/c eta0/1/2 n200, retained source5000-bootstrap intervals and no continuous/matched curve. Assess SVG/PDF formula/cohort labels and human baseline selection versus unqualified connected400mm union. No source/data/criterion edits, native/MC or delegation; no broad old audit. Return actionable findings or exact-target closure, actual checks and limits.",
+  "deliverable": "Bounded independent scientific/derivation review of one four-series SVG and report update.",
+  "completion": "Stop when source/math/cohort/interpretation sufficiency is assessed; not formal human signoff."
+}
+```
+```json
+{
+  "input_revision": "38449fe8bdb7549e3f83fd8f2b0e5b3a308d5965",
+  "mode": "read-only",
+  "writable_paths": [],
+  "id": "PR145-PubDoc-final-report",
+  "role": "PubDoc",
+  "inputs": [
+    "docs/publication/emcal-findings/review.pdf",
+    "docs/publication/emcal-findings/evidence.json",
+    "docs/publication/emcal-findings/review-update-2026-11-17.json",
+    "docs/publication/emcal-findings/README.md",
+    "docs/design/inputs/ECAL-baseline-selection-2026-11-17.md",
+    "docs/layouts/README.md",
+    "docs/layouts/LAYOUT-001-tracker-3t-siw.md",
+    "docs/layouts/LAYOUT-002-tracker-3t-lar.md",
+    "project/tracking.json"
+  ],
+  "task": "Review exact-source report/figure/source/decision consistency for PR145 human comment6951330371. Eightpages max10, four-series SVG embeddedpage4, explicit unmatched ODD and raw-width proxy; human account/date/reported discussion attributed without fabricated Michael signoff. LAr400 selectedworkingbaseline; combined800export/drawings remain clearly dated integrationcontrol, collar/service fit open. Check immutable report/builder/data/SVG hashes and sourcecheckpoint linkage, old receipts/cosmetic delta preserved ashistorical. Check layout/currentstatus/tracking consistency and actual main-versus-side-branch merge records. Inspect PDF text/all relevant pages or existing latest renders as useful. Root visually checkedall8 and bounds/11links. No edits/native/MC/delegation or broadfullCI. Return actionable issues or exact-target closure, actual checks and limitations.",
+  "deliverable": "Bounded independent publication/claim/source audit of the review-response report and baseline records.",
+  "completion": "Stop when update satisfies concise report/source/cohort/baseline boundaries; no design lifecycle approval."
+}
+```
