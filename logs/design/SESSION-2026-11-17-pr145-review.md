@@ -98,3 +98,28 @@ Explicit generic role assignments, not verified native loading. Root authors the
 PhysVal final review independently reproduces all180 fine-bin counts/zeros/means/sample SD/CVs and every CI via1000 direct-index shared resamples (max endpoint discrepancy5.15e-14); exact ODD points/CIs/counts, saved-H semantics, source/artifact hashes and the three matched polylines/no ODD connecting curve pass. No actionable scientific finding at38449fe8.
 
 PubDoc finds two bounded publication issues at38449: the four-series palette violates the explicit fixed ECAL colour rule (all ECAL curves/markers/legend must use#cccc00, distinguish configurations by styles), and ODD source access_date incorrectly inherited the report-update DATE. Root corrects only rendering styles and preserves actual2026-11-15 upstream inspection date. No statistical code/data/threshold/MC change. New targeted publication review will assess exact corrected source; the original scientific assessment stays bound to its actual revision.
+
+## Publication remediation verification contract before dispatch
+
+All ECAL series now use#cccc00 with dash/symbol distinctions; originalODDaccess_date2026-11-15 preserved. Source checkpoint39f93243 precedes corrected PDF8e5e5b40...73910bytes. Statistical compact data identical to38449 except producer hash; seven other pagecontentstreams byte-identical. Root inspected latest SVG andpage4; original all8page inspection remains applicable to unchanged pages.
+
+```json
+{
+  "id": "PR145-PubDoc-palette-provenance-closeout",
+  "role": "PubDoc",
+  "input_revision": "aceda47106ffaffd7bceb00ea4767b737c04a126",
+  "inputs": [
+    "docs/publication/emcal-findings/response_comparison.py",
+    "docs/publication/emcal-findings/response-comparison.json",
+    "docs/publication/emcal-findings/response-comparison.svg",
+    "docs/publication/emcal-findings/review.pdf",
+    "docs/publication/emcal-findings/evidence.json",
+    "docs/publication/emcal-findings/review-update-2026-11-17.json"
+  ],
+  "mode": "read-only",
+  "writable_paths": [],
+  "task": "Close only the two findings from38449. All ECAL series/legend/markers now#cccc00, styles/symbols distinguish configs, neutral marker outlines retained. primary_odd.access_date is actual2026-11-15, independent of report date17. Sources committed39f93243 before new PDF generation, provenance points to it. Root proves complete statistical JSON equality to38449 except producer_sha and seven PDF content streams1/2/3/5/6/7/8 byte-identical, latestpage4/SVG visuallychecked. Verify exact new hashes/palette/date and bounded artifact delta, inspect latestpage4 asneeded. No rereview of all statistics/baseline/task history, no edits/native/MC/delegation/fullCI. Return actionable findings or closed/noissues with actual checks/limits.",
+  "deliverable": "Short exact-revision closure of palette/provenance findings and bounded rendering delta.",
+  "completion": "Stop when those two findings and artifact traceability are assessed; no human signoff."
+}
+```
