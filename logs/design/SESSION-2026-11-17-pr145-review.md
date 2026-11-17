@@ -123,3 +123,19 @@ All ECAL series now use#cccc00 with dash/symbol distinctions; originalODDaccess_
   "completion": "Stop when those two findings and artifact traceability are assessed; no human signoff."
 }
 ```
+
+## Independent closure and publication preparation
+
+PubDoc closes both findings at aceda47106ffaffd7bceb00ea4767b737c04a126 with no remaining issues in the bounded delta: all ECAL series/legend/markers#cccc00, style/symbol distinctions and neutral outlines; actual upstream access date15Nov separate from report date17Nov. Six assignment hashes, script/data/SVG/PDF/checkpoint bindings pass. Statistical JSON unchanged except producer hash; all PDF text and seven other page streams identical; page4 independently rendered and inspected; eightpages/11links retained. No edits/native/MC/expandedscience audit or engineering signoff.
+
+Recovered exactly four completed current-review child turns, matched to the prepared assignments and visible app responses: PhysVal contract/contribution and implementation review, PubDoc initial assessment and corrected-artifact closeout. They own15,484,025input+25,843output=15,509,868observed total tokens once. Cached14,741,888 and reasoning13,375 are subsets; model/provider/clientversion unknown. Prior task owners remain unchanged, old turns and active root excluded. Four selected visible-message/operation snapshots are allowlisted and path/credential/email/URL redacted; no reasoning/context/rawarguments/results saved. Parent-target interactions are operation counts, not child spawns.
+
+User explicitly requests preparation of existing PR145, so this continuing review task updates that PR on its dedicated task branch and does not create an unrelated draft. Reversible retarget/readiness metadata is within that direction; no GitHub PR merge/auto-merge or design approval performed. Current-head hosted outcomes will be checked and reported after final publication.
+
+The session schema requires observed zero exit codes for PASS command checks. Non-command review outcomes were removed from that CLI-check array and remain fully retained above with exact targets/findings; no synthetic process exit code is assigned to an assessment. Schema/source guard unchanged.
+
+## Public PR metadata and final local closure
+
+Updated PR145 description and retargeted to main f3ece1d6a6816c8172dfa841d63e5424730e8228. The connector metadata write returned403Resource notaccessiblebyintegration; authenticated gh succeeded. This is connector capability failure, not automatic approval rejection. Current draftfalse/open status retained under explicit merge-preparation request; no merge/auto-merge/review approval sent. Public input/body snapshot refreshed after metadata edit.
+
+Final local validation:301sessions and122interactionrecords pass with historical retention against mainf3ece1d6. Token preview578disjointdatedturns,3,247,748,629cumulative observed tokens. Four current-review turns uniquely owned15,509,868; older owners untouched, active root unknown. Scientific/publication source assessments remain exactly bound to38449/aceda, with rootproven unchanged numericdelta. Final hosted current-head status is checked externally after push; no expected CI outcome is logged as observed.
