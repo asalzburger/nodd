@@ -66,3 +66,33 @@ No usage is estimated. Separately closed review-turn observations may be added
 only with verified exact IDs and unique ownership. Historical task records and
 existing usage owners remain untouched. The current task gets its own session,
 PR interaction record, project evidence and token preview validation.
+
+### RESTORED-SECTOR-PhysVal assignment
+
+Role: PhysVal, explicit full-profile generic fallback, prepared with
+`tools/agent_workflow/workflow.py prepare`. Source:
+`bd01e692e513215a301a2493a37736da9acee876`. Inputs: new native provenance,
+PNG/SVG, validation note, extractor, restored renderer and portable guards.
+Read-only; no owned write paths, native rerun, transport, private-state access,
+publication or further delegation. Question: independently assess exact model
+identity, sensitivity/path interpretation, preserved Si-W, matched coordinates,
+dimensions/angle conventions and visual clarity. Return findings, actual checks
+and limits; completion requires reporting any material blocker to presenting
+this geometry illustration. Coordinator retains findings here.
+
+### Publication and record checks
+
+Published [draft PR149](https://github.com/asalzburger/nodd/pull/149), stacked on
+PR147's drawing branch; PR148 supplies separately pinned geometry objects.
+Labels: documentation, campaign:calorimeters. Attached PR to this task. Reviewed
+all introduced Git blobs: largest is the1.13MB PNG; no raw models/events,
+libraries or private payloads. Copied four matching figure/provenance artifacts
+to the task visualization output directory.
+
+Project, software inventory, session, interaction historical-retention and token
+validators passed locally, as did the token preview build. Initial session
+validation rejected lowercase status values; corrected to schema `PASS` and
+revalidated. A README trailing blank line was removed in a normal follow-up.
+Initial remote token-site failed because PR149's newly assigned interaction
+record was not yet on the first published candidate. The new per-PR record is
+included in this follow-up; scientific fixtures passed. No gate was weakened.
