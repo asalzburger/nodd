@@ -271,3 +271,10 @@ millisecond project snapshot timestamp rejected by UTC-second schema and
 normalized without changing observed time. Final introduced-file/blob audit:
 no raw events/libraries/private home paths, no new blob above2MB. Current
 whole-project observed usage3,044,611,049 is not this task's subtotal.
+
+
+Follow-up accounting audit: parent turn01a1eda5-201c-7f31-a3dd-cc2430648a40
+closed at1794994288. Strict token-count-only recovery rejected a cumulative/
+last-request mismatch. No counters imported or guard weakened; parent remains
+unknown.14specialist-turn subtotal above is unchanged. New diagnosis turn owns
+its own separate session; no drawing/history overlap.

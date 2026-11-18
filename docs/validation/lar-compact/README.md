@@ -142,3 +142,10 @@ documented ECAL-only, B=0 scope; this is not an electronics calibration.
 The25X0 screen is an unsigned LHC-informed choice. Neither it nor10–80GeV
 controls certifies multi-TeV containment, pileup/radiation or hadron/jet response.
 No detector acceptance or human design sign-off is created.
+
+
+[Barrel sampling diagnosis and region-by-region raw distributions](diagnosis.md)
+explain the physical tradeoff and localize the broad-endcap penalty. In the
+post-hoc1.8–3bulk split, held-out widths are3.31→2.87%; the large new tail lies
+in1.5–1.8. This refines the interpretation of the fixed broad region without
+changing its result or providing independent validation.
