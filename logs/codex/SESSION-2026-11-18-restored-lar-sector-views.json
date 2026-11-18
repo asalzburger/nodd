@@ -1,0 +1,108 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-11-18-restored-lar-sector-views",
+  "title": "Updated Si-W and restored-LAr native sector views",
+  "recorded_at": "2026-11-18T12:08:09Z",
+  "started_at": null,
+  "ended_at": null,
+  "status": "open",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Active parent turn has no finalized per-turn counters; excluded rather than estimated. Client version and execution model are unverified.",
+    "Single z=0 geometric illustration; no transport, energy-response test, engineering qualification or human sign-off."
+  ],
+  "client": {
+    "name": "Codex desktop app",
+    "version": null,
+    "thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094"
+  },
+  "git": {
+    "start_commit": "cf4403cecf187c61f0f2835a6ecc31559e6639f3",
+    "branch": "codex/restored-lar-sector-views",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": []
+  },
+  "work": {
+    "milestone": "M1",
+    "components": [
+      "electromagnetic calorimeter",
+      "LAYOUT-001",
+      "LAYOUT-002",
+      "documentation"
+    ],
+    "related_ids": [
+      "TASK-PUB-ECAL-LAYOUT-REVIEW",
+      "DES-030",
+      "DES-031",
+      "DES-032"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-11-18-restored-lar-sector-views.md",
+  "activities": [
+    {
+      "kind": "skill",
+      "name": "nodd-coordinate",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Bounded native illustration and exact-candidate PhysVal assessment."
+    },
+    {
+      "kind": "skill",
+      "name": "nodd-design-evidence",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Distinguish source-pinned geometry, declared dimensions and geometric-ray interpretation."
+    },
+    {
+      "kind": "skill",
+      "name": "nodd-review-validation",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Native fixture and provenance guards; separate PhysVal review contract."
+    },
+    {
+      "kind": "skill",
+      "name": "acts-spack",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Warned changed setup/lock fingerprints, then reverified ROOT/DD4hep/DDG4/Geant4 runtime."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "software/env/run.sh python3 -B tools/calorimeter_hardware/sector_slice_native.py [Si-W and restored LAr pinned inputs]",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "Both native models loaded; geometry source bytes matched 8f7a7c8bd86f4d9c67c11b37d91aea76790feee4; exact validated library hashes passed. Si-W pixels match previous figure; LAr boundary ray has110 sensitive path segments."
+    },
+    {
+      "command": "python3 -B tools/calorimeter_hardware/test_restored_sector_comparison.py",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "4 portable provenance guards passed."
+    },
+    {
+      "command": "software/env/run.sh python3 -B tools/calorimeter_hardware/test_sector_slice.py",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "1 analytic native thin-film pixel/chord test passed."
+    },
+    {
+      "command": "python3 -B tools/calorimeter_hardware/draw_restored_sector_comparison.py; rsvg-convert SVG to PNG/PDF",
+      "exit_code": 0,
+      "status": "PASS",
+      "result": "Same physical axes and zooms; final PNG visually inspected."
+    }
+  ]
+}
