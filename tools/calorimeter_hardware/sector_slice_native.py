@@ -62,8 +62,12 @@ def png(path, nx, ny, data):
 def main():
     p=argparse.ArgumentParser();p.add_argument('--compact',type=Path,required=True);p.add_argument('--library',type=Path,required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--name',required=True);p.add_argument('--z',type=float,default=0.);a=p.parse_args()
     expected_file=a.compact.parent/'expected.json';expected=json.loads(expected_file.read_text());repo=Path(__file__).resolve().parents[2]
+    revision=expected['execution']['commit']
+    resolved=subprocess.check_output(['git','rev-parse','--verify',revision+'^{commit}'],cwd=repo,text=True).strip()
+    if revision!=resolved:raise ValueError('Model source must identify a full commit SHA')
     for name,want in expected['source_sha256'].items():
-        if hashlib.sha256((repo/name).read_bytes()).hexdigest()!=want:raise ValueError('Changed model input: '+name)
+        source=subprocess.check_output(['git','show',revision+':'+name],cwd=repo)
+        if hashlib.sha256(source).hexdigest()!=want:raise ValueError('Model input differs from declared source commit: '+name)
     for name,want in expected.get('artifact_sha256',{}).items():
         if hashlib.sha256((a.compact.parent/name).read_bytes()).hexdigest()!=want:raise ValueError('Changed exported artifact: '+name)
     import ROOT as R,dd4hep

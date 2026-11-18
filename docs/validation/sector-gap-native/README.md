@@ -67,24 +67,34 @@ published ALLEGRO performance or engineering qualification is transferred.
 
 ## Reproduction
 
-Run from a checkout containing the drawing scripts. Use the model source commit
-above for an exact source comparison. Read the ACTS Spack skill and verify the
-existing runtime before native use; do not install or modify shared dependencies.
+Run from this PR's checkout, which contains the drawing scripts. The model source
+predates those scripts: use a separate detached checkout at the pinned model
+commit, as below. The renderer verifies model-source hashes against that commit's
+Git blobs, so later changes to the renderer checkout cannot silently replace the
+pinned geometry inputs. Read the ACTS Spack skill and verify the existing runtime
+before native use; do not install or modify shared dependencies.
 
 ```sh
-python3 -B tools/calorimeter_hardware/barrel_export.py --output build/sector-gap/siw --real-wedges
-python3 -B tools/lar_calorimeter/barrel_export.py --output build/sector-gap/lar \
-  --services tools/lar_calorimeter/barrel_services.py --real-periods
-software/env/run.sh cmake -S prototypes/calorimeter -B build/sector-gap/factories -G Ninja
-software/env/run.sh cmake --build build/sector-gap/factories \
+render_repo="$PWD"
+model_repo="$render_repo/build/sector-gap/model-source"
+git worktree add --detach "$model_repo" f3ece1d6a6816c8172dfa841d63e5424730e8228
+(
+  cd "$model_repo"
+  python3 -B tools/calorimeter_hardware/barrel_export.py --output build/sector-gap/siw --real-wedges
+  python3 -B tools/lar_calorimeter/barrel_export.py --output build/sector-gap/lar \
+    --services tools/lar_calorimeter/barrel_services.py --real-periods
+)
+software/env/run.sh cmake -S "$model_repo/prototypes/calorimeter" \
+  -B "$model_repo/build/sector-gap/factories" -G Ninja
+software/env/run.sh cmake --build "$model_repo/build/sector-gap/factories" \
   --target nODDCalorimeterPrototype nODDLArBarrelPrototype --parallel 4
 software/env/run.sh python3 -B tools/calorimeter_hardware/sector_slice_native.py \
-  --compact build/sector-gap/siw/calorimeter.xml \
-  --library build/sector-gap/factories/libnODDCalorimeterPrototype.dylib \
+  --compact "$model_repo/build/sector-gap/siw/calorimeter.xml" \
+  --library "$model_repo/build/sector-gap/factories/libnODDCalorimeterPrototype.dylib" \
   --output build/sector-gap/slices --name siw
 software/env/run.sh python3 -B tools/calorimeter_hardware/sector_slice_native.py \
-  --compact build/sector-gap/lar/barrel.xml \
-  --library build/sector-gap/factories/libnODDLArBarrelPrototype.dylib \
+  --compact "$model_repo/build/sector-gap/lar/barrel.xml" \
+  --library "$model_repo/build/sector-gap/factories/libnODDLArBarrelPrototype.dylib" \
   --output build/sector-gap/slices --name lar
 python3 -B tools/calorimeter_hardware/draw_sector_comparison.py \
   --slices build/sector-gap/slices --output build/sector-gap/figure
