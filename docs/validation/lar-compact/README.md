@@ -42,7 +42,7 @@ The final sampling screen excludes upstream/downstream dead material from X0.
 
 [Material partition](figures/material-partition.png) ·
 [Compact material values and raw-report hashes](material-summary.json) ·
-[Execution controls](controls.json).
+[Execution controls](controls.json) · [Reproduction](reproduce.md).
 
 ## Electron comparison
 
@@ -53,11 +53,60 @@ ECAL-onlyB=0. The original full audited LAr10k sample is the reference.
 all events, zeros/tails and original angular bins, plus core-region energy
 controls and envelope transition migration. No calibration is refitted.
 
-**The full production is running; precision results are pending.** The final
-650 mm serial/MT24 control reproduces all15,584 saved canonical hits exactly.
-Both100-event step-policy pilots and full primary/cell readbacks passed.
-The raw mixed-spectrum width is not intrinsic digitized energy resolution;
-transition improvement must not hide worse barrel sampling precision.
+The complete10k transport and full primary/cell readback passed, with all12
+workers and6,754,284 positive canonical hits. Raw response uniformity is **not
+preserved**: the transition improves strongly, while core-barrel/endcap widths
+broaden and the relative barrel/endcap gains change substantially.
+
+| Region | Events | Original raw width | Compact raw width | Paired difference [95% interval], percentage points |
+| --- | ---: | ---: | ---: | ---: |
+| Inclusive |10000 |17.84% |52.57% |+34.73 [34.10,35.40] |
+|0≤abs(η)<1.2 |3999 |3.52% |6.56% |+3.05 [2.89,3.18] |
+|1.2≤abs(η)<1.5 |999 |44.18% |4.09% |−40.10 [−42.83,−37.42] |
+|1.5≤abs(η)≤3 |5002 |7.66% |10.42% |+2.76 [2.23,3.34] |
+
+R=active deposited energy/primary total energy; width=sampleSD(R)/mean(R), with
+all events/zeros. Intervals are paired, pointwise95% bootstrap bounds, conditional
+on the represented transports; no noninferiority margin is adopted. These
+energy/angular mixtures are not intrinsic reconstructed energy resolution.
+
+![Matched raw angular widths](figures/angular-comparison.png)
+![Energy-conditioned raw widths](figures/energy-by-region.png)
+
+The mean barrel response changes from14.19% to5.79%, while the broad endcap mean
+changes17.77%→17.56%. Exact between-region sums of squares account for95.34% of
+the candidate's inclusive raw variance (42.11% in the reference). The large global
+width therefore combines different gains with fluctuations. Even within original
+broad regions/energy slices, however, the raw core controls are broader; the
+result cannot be described as preserved precision. Calibration might remove mean
+shifts; it cannot be assumed to recover lost sampling information.
+
+[Mean response](figures/angular-means.png) ·
+[Underlying distributions](figures/response-distributions.png) ·
+[Ten |η| distributions](figures/distributions-abs_eta.png) ·
+[Ten legacy folded-φ distributions](figures/distributions-siw_folded_phi.png) ·
+[Paired contrasts](figures/paired-width-difference.png) ·
+[Full statistics and principal covariance](summary.json).
+
+Zero events remain0/10000 in both models. Below half each model's own inclusive
+mean, counts are183/10000 and3029/10000; these inclusive-gain diagnostics are not
+calibrated efficiencies or common energy thresholds. Fullφ/signedη, mean, tail,
+transition migration and energy controls remain in the figure set. PNG/PDF/SVG
+exports are retained. All per-bin statistics/intervals/histograms are committed;
+principal global/|η|/legacy-fold covariances are exact submatrices of the retained
+full local covariance, with the original summary hash and selection recorded.
+
+The final650mm serial/MT24 control reproduces all15,584 canonical hits exactly.
+Both100-event step-policy pilots passed. Production took811.96s wall/8115.73CPU-s,
+peak3.383GiB RSS and20.213GB ROOT. Full events, XML and logs stay local. These are
+observations, not a dedicated benchmark. Physics sourceafc79974; paired analysis
+sourceaf94172, which separately pins the two primary metadata origins while
+requiring identical physical primary bytes/IDs/policies.
+
+A separate [exploratory η-only calibration diagnostic](calibration-protocol.md)
+is being implemented to distinguish position-gain shifts from residual response
+spread. It retains the raw primary result, five held-out folds, forward gains,
+no truth-energy application, absolute closure and shared refit bootstrap.
 
 The25X0 screen is an unsigned LHC-informed choice. Neither it nor10–80GeV
 controls certifies multi-TeV containment, pileup/radiation or hadron/jet response.

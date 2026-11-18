@@ -90,3 +90,10 @@ Committed compact response/material summaries permit replotting without ROOT.
 Regenerating paired inference and source/readback checks requires the retained
 or regenerated event data. Plot source/runtime changes can alter rendering;
 geometry, material, primary, analysis and artifact hashes remain explicit.
+
+Publish compact binwise evidence with `compact_public.py --summary PRIVATE_SUMMARY
+--output PUBLIC_SUMMARY`. It preserves every per-bin statistic/interval/histogram,
+normalizes local runtime paths and selects exact principal angular covariance
+submatrices. The full private summary hash and covariance selection remain in
+publication metadata. Replotting from the public summary preserves those curves;
+full covariance regeneration requires the event-level analysis above.
