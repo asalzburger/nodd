@@ -85,3 +85,37 @@ ID/energy/position,100native-limit and5mm pilots/fullreadbacks. Keeppredeclared
 5mm/0.7mmcuts; no convergence assertion. About127GiBfree with30GiBreserve;
 full10000retained. Allphysical/statistical code frozen beforeproduction/inference;
 producer/library/source hashes in receipts. Modelsource53797385/native9913d958.
+
+
+## Completed matched10k transport, readback and inference
+
+Production sourceec8815821a6530bbb6c6133332a5369d795b59f3 starts with clean tree,
+full10000events/12workers. Exit0,845.961212s wall,21,408,289,928ROOTbytes,
+3,804,020,736bytes peakRSS (3.543GiB),115,097,600,000freebytes after;30GiBreserve,
+no trimming/abort. Producers/libraries unchanged. FullreadbackPASS all10000 IDs,
+8,544,489positive canonicalhits (3,797,829barrel,4,746,660endcap),all12workers.
+
+Both exact paired comparisons (original/restored,dense/restored) pass all frozen
+physical/metadata/map/worker gates. Raw1000sharedbootstrap and secondary1000shared
+refit bootstraps finish,5000foldrefits/model,zero invalid gainreplicas. Three-way
+aggregate joins pass strict repeated-model/primary/source/stat/axis guards.
+Raw restoredCV:global11.37256%,barrel4.74163%,transition5.86567%,endcap8.72828%.
+Held-out restoredCV:global3.74070%,barrel3.03964%,transition3.7362%,endcap4.2196%.
+Barrel restored−dense−1.26022pp [−1.43667,−1.10399]; restored−original+0.60883pp
+[+0.48239,+0.72704],pointwise95%. Thus substantial partial recovery, with positive
+residual barrel penalty. No claim of preserved precision or isolated Pb causality.
+Post-hoc shoulder1.5–1.8 new7.29916%,bulk1.8–3 new2.95618%;fixed45–50GeV barrel
+new2.50918% versusoriginal1.97231%. Raw/OOF/distributions/energyclosure remainall-event.
+
+37figure groups (111PNG/PDF/SVG assets) include3-model contrasts/distributions,
+full original/restored raw/OOF direction/energy/tail/transition and ten-bin controls,
+and native material/envelope figures. Representative actual angular, energyregion
+and barrel-distribution PNGs inspected. Both calibration artifacts retain evaluated
+fold models and separately marked full-fit reuse tables bound to newgeometry.
+
+Public/private pointstatistics/histograms/intervals are exact; principal covariance
+submatrices and undefined-replica metadata aligned. Model/render/source hashes and
+36diagnostic histogram population/flow invariants pass. Fullprivate covariance and
+3,759,372-byte duplicate overlayJSON staylocal; no event data published. Pre-result
+payload audit finds no newblob>2MB/private-home path/raw event/library payload.
+Frozen sourceCI build/unrooted/token-site pass; final result metadata CI follows.

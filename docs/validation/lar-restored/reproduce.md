@@ -72,3 +72,49 @@ are separate, geometry/material-bound artifacts. Use compact_public.py to retain
 all bin statistics/histograms and exact principal covariance submatrices without
 publishing full event payloads. Source/render commands and hashes for final
 three-model plots will accompany their results.
+
+
+Production and statistical source was frozen at
+`ec8815821a6530bbb6c6133332a5369d795b59f3` before any new outcomes. After each
+paired analysis, curate with compact_public.py; published filenames are
+original-summary.json/dense-summary.json and
+original-calibrated-summary.json/dense-calibrated-summary.json. Keep original
+and dense calibration-models.json artifacts separately. compact_diagnose.py
+analyze/plot takes the original/restored saved runs, the original contract and
+its raw/calibrated summaries/model artifact, as in the prior diagnosis recipe.
+No refit is performed by diagnosis or overlay.
+
+The final three-way overlay reads only committed aggregates:
+
+```sh
+MPLCONFIGDIR=build/lar-restored/mpl-cache XDG_CACHE_HOME=build/lar-restored/cache \
+  "$plot_python" -B software/analysis/lar_response/restored_overlay.py \
+  --original-dense-raw docs/validation/lar-compact/summary.json \
+  --original-dense-calibrated docs/validation/lar-compact/calibrated-summary.json \
+  --original-restored-raw docs/validation/lar-restored/original-summary.json \
+  --original-restored-calibrated docs/validation/lar-restored/original-calibrated-summary.json \
+  --dense-restored-raw docs/validation/lar-restored/dense-summary.json \
+  --dense-restored-calibrated docs/validation/lar-restored/dense-calibrated-summary.json \
+  --original-dense-diagnosis docs/validation/lar-compact/diagnosis-summary.json \
+  --original-restored-diagnosis docs/validation/lar-restored/diagnosis-summary.json \
+  --output build/lar-restored/overlay-repeat
+```
+
+Only resulting scientific figures and render/source hashes are published from
+that output; the large duplicate overlayJSON remains local. Every underlying
+statistic is already in the paired compact summaries. Use compact_compare.py
+plot for original-summary.json into a fresh raw-figures directory, and
+compact_calibrate.py plot for original-calibrated-summary.json into a separate
+fresh calibrated-figures directory. These preserve signedeta/fullphi/tails,
+transition and ten-bin underlying distribution controls.
+
+The reusable restored table is
+`calibration-models.json:models.candidate.full_fit_reuse_only`; evaluated fold
+models are separate. Its compactSHA256 is
+`2cfd36df7483b5382276ae1c77bb30d485a28ff8fd07865a929483ef517eda0c`,
+materialsSHA256
+`a074b67a8d0b96b6ebb80742088474a4d46ae639b77693fc240650268efc7353`.
+Application accepts signal_GeV/eta/matching geometry, no true-energy input;
+fresh validation is required before reuse outside the recorded ECAL-onlyB0
+10–80GeV scope. SVG/PDF/PNG rendering may vary with plotting runtime; data/source
+hashes and exported artifacts are retained.
