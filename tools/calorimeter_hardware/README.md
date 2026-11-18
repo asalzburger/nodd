@@ -233,3 +233,12 @@ The [four-panel drawing and source recipe](../../docs/validation/staggered-siw-d
 ## Current native XY sector-gap comparison
 
 The [Si-W / ALLEGRO-style comparison](../../docs/validation/sector-gap-native/README.md) renders actual current DD4hep placed volumes, materials and sensitivity at z=0, with matched axes and enlarged boundary details. Run the native extractor in the verified environment; annotated SVG geometry is embedded native raster data, not an idealized redraw. No detector geometry is changed.
+
+## Updated sector comparison
+
+`draw_restored_sector_comparison.py` compares the preserved Si–W model with the
+restored 1.8 mm Pb LAr prototype using native slices at identical XY coordinates.
+Use `sector_slice_native.py --zoom-bounds 300 460 1834 1946` for both, with a
+full `--geometry-revision` and optionally `--library-sha256` for exact artifact
+reuse. The renderer checks model identity, image hashes and matched physical
+bounds. See the [source-pinned recipe and limitations](../../docs/validation/sector-gap-restored/README.md).
