@@ -51,7 +51,8 @@ The frozen10,000 matching primaries use totalE10–80 GeV, flatη−3…3/fullφ
 ECAL-onlyB=0. The original full audited LAr10k sample is the reference.
 [Prospective protocol](protocol.md) and [exact hashes](contract.json) retain
 all events, zeros/tails and original angular bins, plus core-region energy
-controls and envelope transition migration. No calibration is refitted.
+controls and envelope transition migration. This primary raw comparison fits no
+calibration; a separate exploratory diagnostic is reported below.
 
 The complete10k transport and full primary/cell readback passed, with all12
 workers and6,754,284 positive canonical hits. Raw response uniformity is **not

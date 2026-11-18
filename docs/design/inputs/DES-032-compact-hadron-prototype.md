@@ -99,3 +99,39 @@ cannot prove equality or realistic digitized resolution. Low-energy controls
 and material depth alone do not certify multi-TeV containment or hadron/jet,
 pileup and radiation performance. Additional high-energy/leakage qualification
 remains explicit in the results.
+
+
+## Measured limitation and conditional thicker-annulus alternative
+
+The completed matched10k controls do not establish preserved precision. Even
+exploratory held-out eta-gain calibration gives core-barrel CV 2.43→4.30% and
+broad-endcap CV 3.09→7.36%; see the full validation report. The strict ratio
+candidate remains an adverse control, not a selected replacement baseline.
+
+**INFERENCE / conditional design screen:** CaloTech assessed source
+5a8814fc1947b16446aa0c9e3c73714ad06837b7 read-only. If relative sampling radii
+means normalized compartment fractions rather than fixed global Rout/Rin,
+a thicker option could keep Rin=1772.8mm, inclination50.18°, restore Pb1.8mm /
+steel0.2mm / glue0.1mm / PCB1.2mm and use1248 periods with Rout=2350mm.
+The original normalized radial compartment fractions are preserved through
+Rnew=1772.8+(2350−1772.8)f_old, then converted to electrode path increments.
+This changes Rout/Rin from1.186626 to1.325587. It is not implemented or selected.
+
+The analytic exact-chord screen uses approximate radiation lengths in mm:
+Pb5.612, LAr140, steel17.5, glue180, PCB180. At eta0,128 phases give
+26.804–27.318 sampling X0; inner single gaps1.207/1.209mm, outer3.169/3.174mm.
+A finite20-direction handover screen over abs(eta)1.2–1.6 with64 period-phase
+probes/direction, retained650mm endcaps and correctly truncated barrel chords
+has minimum31.381X0. These are approximate-material, finite probes; actual
+native material lengths, complete angular/dead-material scans and transport
+must precede any performance claim. An earlier rough transition-shortfall
+warning omitted cosh(eta); its15–17X0 estimate was incorrect and is superseded.
+
+Retaining210mm rear bath and wall/vacuum thicknesses gives warm outer2641.7mm,
+still188.3mm inside the original2830mm. Board fronts2365/2410/2455mm and N2
+centre2547mm retain the screened bath clearance; the1000mm front reservation
+exceeds an854.08mm two-arc100mm-jacket screen with400mm bends. Actual ports,
+supports and routing remain unqualified. Logical barrel channels1,979,328;
+phi-cell angle changes to2pi/624 while inner physical pitch stays about17.85mm.
+Larger outer gaps and changed granularity require fresh calibration and a new
+matched10k control. The endcap precision issue remains a separate design problem.

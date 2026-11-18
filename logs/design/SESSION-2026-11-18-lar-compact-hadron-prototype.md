@@ -216,3 +216,18 @@ Eight additional PNG/PDF/SVG groups, compact statistics/covariance and separatel
 marked full-fit/fold calibration tables retained. Public numeric identity and
 covariance metadata alignment verified; representative angular and energy-closure
 plots visually inspected. Raw primary evidence unchanged.
+
+
+LAR-COMPACT-PHYSVAL-OOF-RESULT; PhysVal; exact
+5e8b13aa1a8b8ae7941a78e75e5e7da2dcf414b1; read-only/owned files none;
+separate final calibrated model/source/closure/covariance review, no native
+execution, full refits, writes, private accounting, publication or delegation.
+
+CaloTech conditional thicker screen completed at5a8814fc:1248 periods,
+Rin1772.8/Rout2350, oldPb1.8/PCB1.2, inner gaps~1.207mm, warmouter2641.7mm.
+128 central phase probes give approximate26.804X0 minimum;20 handover eta points
+with64 phase probes each give31.381X0 minimum. Approximate radiation lengths,
+no native execution or transport. Earlier rough transition15–17X0 warning
+omitted cosh(eta), was incorrect and explicitly superseded. User-visible update
+corrected promptly. No implemented global-radius-ratio change without clarification;
+strict current model preserved. Conditional proposal recorded for review.
