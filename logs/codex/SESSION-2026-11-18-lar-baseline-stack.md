@@ -34,3 +34,15 @@ parent excluded. Historical owners and absent counters remain explicit.
 Checks, actual source revisions, baseline implementation, physical-interface
 assessment, independent scientific review and final draft links are appended
 as they complete. No design lifecycle status is advanced by the agent.
+
+### Stack merge execution
+
+Merged PR147 into PR148 as5cf64bacde7de38d35cd23549c96b712db8566d8,
+then PR148 into PR149 asd0c8afb0da080a44ce2ae9422dea6e96f857df2d.
+Project and session/interaction validators passed after stable-ID reconciliation.
+The second inventory merger rejected reordered additive evidence lists; the
+command wrapper incorrectly continued and committed unresolved inventory markers.
+This was detected before publication and corrected in an ordinary subsequent
+commit, retaining both branches' evidence/PR/recipe contributions and rebuilding
+the generated inventory page. Inventory check and conflict-marker audit now pass.
+No geometry or accepted scientific evidence was altered by the correction.
