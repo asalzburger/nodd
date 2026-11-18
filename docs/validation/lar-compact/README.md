@@ -104,9 +104,39 @@ sourceaf94172, which separately pins the two primary metadata origins while
 requiring identical physical primary bytes/IDs/policies.
 
 A separate [exploratory η-only calibration diagnostic](calibration-protocol.md)
-is being implemented to distinguish position-gain shifts from residual response
-spread. It retains the raw primary result, five held-out folds, forward gains,
-no truth-energy application, absolute closure and shared refit bootstrap.
+is complete. Five held-out folds use training-only forward gains in 60 fixed
+|η| bins. The family was chosen after inspecting the raw sample: this is
+exploratory cross-validation, not independent validation. Application takes
+signal and direction, with no true-energy input. Truth η supplies ideal direction;
+no held-out recentering, clipping or tail rejection is applied.
+
+| Fixed population | Events | Original calibrated CV | Compact calibrated CV | Paired change, percentage points (pointwise 95% CI) |
+|---|---:|---:|---:|---:|
+| Inclusive | 10000 | 13.12% | 6.00% | −7.11 [−8.67, −5.81] |
+| Core barrel, 0 ≤ abs(η) < 1.2 | 3999 | 2.43% | 4.30% | +1.87 [+1.72, +2.04] |
+| Transition, 1.2 ≤ abs(η) < 1.5 | 999 | 40.62% | 3.92% | −36.70 [−41.16, −32.98] |
+| Endcap region, 1.5 ≤ abs(η) < 3 | 5002 | 3.09% | 7.36% | +4.27 [+3.39, +5.14] |
+
+![Exploratory held-out angular widths](figures/calibrated-angular-widths.png)
+![Absolute energy closure by region](figures/calibrated-closure-by-region.png)
+
+The improved inclusive width combines transition recovery and gain correction.
+Core-barrel and broad-endcap widths remain worse. Core-barrel mean energy closure
+also changes from 0.976→1.013 across the lowest/highest energy bins in the
+reference, versus 0.956→1.024 in the compact model. The requested preservation of
+precision is therefore **not established**. A thicker sampling annulus is a
+conditional next design option; changing the global radius ratio requires
+clarifying the intended meaning of relative sampling radii.
+
+All 1000 shared event-bootstrap replicas refit the five training folds for each
+geometry (5000 refits/model); none has an invalid gain. The original raw result
+remains primary. [Calibrated bin statistics and covariance](calibrated-summary.json),
+[evaluated fold models and separate full-fit reuse table](calibration-models.json),
+[underlying response distributions](figures/calibrated-response-distributions.png)
+and [energy-conditioned widths](figures/calibrated-energy-by-region.png) are retained.
+The full-fit table was not independently evaluated and needs fresh validation
+before deployment. Model reuse requires matching compact/material hashes and the
+documented ECAL-only, B=0 scope; this is not an electronics calibration.
 
 The25X0 screen is an unsigned LHC-informed choice. Neither it nor10–80GeV
 controls certifies multi-TeV containment, pileup/radiation or hadron/jet response.

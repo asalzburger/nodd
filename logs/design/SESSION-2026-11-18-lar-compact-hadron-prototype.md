@@ -139,3 +139,80 @@ Observed seven-turn usage:122requests,23,381,088input+82,018output=23,463,106tok
 Cached input23,022,080 and reasoning39,997 are subsets. Current
 parent remains active/unaccounted. Full paired validation/source hashes are the
 canonical evidence; no main merge or human sign-off.
+
+## Complete transport/readback and primary-origin correction
+
+Production completed10000events/12workers in811.961353s wall,8115.733513CPU-s,
+peakRSS3,632,578,560bytes and20,213,264,256ROOTbytes; no disk abort. Fullreadback
+passed all10000primaryevents and6,754,284positivecanonicalhits (2,078,093barrel,
+4,676,191endcap), with all12worker records and40832nativecontexts. Physics,
+source/library hashes and exact primary illumination remained fixed.
+
+Pairedanalysis stopped at input validation before any response statistic: an
+assumption of identical parentmanifest bytes was false. The two physical primary
+files are byte-identical and every saved primary tuple/ID passes, but the retained
+parentmetadata was generated at3626953a... versusa53895fa.... SoftEng receives a
+bounded correction to require separately pinned exact reference/candidate parent
+manifest hashes/revisions, with positive known-origin and adverse unknown-origin
+tests. PhysVal independently checks equivalence from metadata before stats. No
+model, physics, sample, event count, bin, bootstrap or precision threshold changes.
+
+SoftEng primary-origin follow-up, exact0d5fc3dc21a9234a7ef2703ca0b8dbf5c48f95a0,
+retains ownership ofcompact_compare.py/test_compact_compare.py only. Requires
+both exact parenthashes/revisions plus shared nonmissing seed/distributions/mass;
+10tests pass including distinct known origins and unexpected identity rejection.
+PhysVal independently checks actual inputbytes/IDs/policy at that source and
+supports the proposed correction without inspecting outcomes; implementation
+review follows at fixedresultsource. No physical/statistical gate removed.
+
+Secondaryexploratorycalibrationprotocol declared AFTERrawresults BEFOREcalibratedpredictions: 95.3386%candidatevariancebetweenbroadregionalmeans; fixed60eta gainbins/5sharedfolds/refitbootstrap, full10kOOF. No geometry/newtransport or replacementofraw primary. LAR-COMPACT-SOFTENG-OOF-CALIBRATION; SoftEng; exact af94172e54888159ee4c588da0b0d487f28055b5 plus explicitlynew workingcalibration-protocol; owncompact_calibrate.py/test_compact_calibrate.py only; noactualresponseinspectionuntilfreeze, nofurtherdelegation/publication.
+
+LAR-COMPACT-PHYSVAL-OOF-PROTOCOL; PhysVal; exact af94172e54888159ee4c588da0b0d487f28055b5 plus explicitlynewworkingcalibration-protocol; readonly/ownedfilesnone; assesssecondaryeta-onlyOOF/refitbootstrap/leakage/scope beforefit, rawprimaryunchanged; nofurtherdelegation/native/privateusage/writes/publication.
+
+## Primary raw10k outcome
+
+After exact primary-origin remedy was frozen ataf94172, the primary analysis
+passes full source/worker/readback matching. RawCV old→new: inclusive17.8428→52.5725%,
+corebarrel3.5180→6.5634%, fixedtransition44.1838→4.0876%, endcapregion7.6574→10.4177%.
+Paired confidence intervals retained; no claim of preserved precision. Candidate
+between-broad-region mean differences explain95.3386%rawvariance. Meanbarrel
+signal fraction14.1925→5.7901%, endcap17.7707→17.5597%. Allzeros retained(0/0);
+inclusivebelowhalf-ownmean183→3029 is a gain-mixturediagnostic, not efficiency.
+All11rawfiguregroups PNG/PDF/SVG generated; angularwidth/mean/energyregion plots
+visually inspected. Publicsummary retains allbins/intervals/histograms and exact
+principal covariance submatrices; fullprivate2.8MBsummary andevents remainlocal,
+hashed. Runtimeuserhomepaths normalized, numericstatistics verified unchanged.
+
+LAR-COMPACT-PHYSVAL-RAW-RESULT; PhysVal;exact 4e641c0df1e1302e5ab4a52039f4a887753951fd; readonly/ownedfilesnone; publicrawstats/contract/controls/3plots/analysis+publisher, actualignoredreceipts/readbackasneeded; assessprimaryadverseoutcome/CIunits/pairing/covsubset/metadatafix, no runtime/refit/writes/privateusage/publication/delegation.
+
+PhysVal rawreview found a public covariance metadata misalignment: matrices/orders
+were principal subsets, but undefined-replicate vectors retained all220/110slots.
+Allcounts0; pointstatistics/covariance values unchanged. Main subsets that vector
+with the same indices and adds a nonzero-count/orderalignment test. Publicnumeric
+statistics/intervals/histograms and matrixsubsets remain exact private matches.
+
+SecondaryOOFprotocol PhysValassessment accepts forward training-only gains with
+truthηideal-direction qualification, noheldoutrecentring and absoluteYclosure
+includingenergy×broadregions. FixedIDfolds/sharedrefitboot valid; undefinedreplicas
+mustremain, noindependent-validation orprimaryreversal claim afterfamilyselection
+onrawdata. SoftEng completesonly2newfiles,7synthetictests and8figuregroup synthetic
+smoke/visualQA; no actualresponsesfitbefore sourcefreeze.
+
+LAR-COMPACT-CALOTECH-THICKER-SCREEN;CaloTech;exact 5a8814fc1947b16446aa0c9e3c73714ad06837b7;readonly/ownedfilesnone; hypothesisifuserclarifiesrelativeradiiascompartmentfractionsnotannulusratio: keepmaterialplate/gap scalesandallowthickerannulus. Standardlibphase-depthfeasibilityonly; noimplementation/native/transport/privateusage/publication/delegation. Userpreferencequestionpending; no globalratiochangewithoutreply.
+
+
+## Secondary held-out calibration outcome
+
+Algorithm frozen at 5a8814fc1947b16446aa0c9e3c73714ad06837b7 before actual fitting.
+Five shared folds, 60 fixed abs-eta gain bins and 1000 shared whole-event
+bootstrap replicates refit 5000 fold models per geometry; no invalid replicas.
+All 10000 held-out predictions and tails remain. Inclusive CV old/new is
+13.1168/6.0039%, but core barrel is 2.4308/4.2999% (paired +1.869pp,
+pointwise95% CI +1.719 to+2.044); broad endcap 3.0887/7.3632%. Transition improves
+40.6179/3.9224%. Absolute energy-by-region closure retains energy dependence.
+Thus calibration does not establish preserved precision. Family selection after
+raw inspection makes this exploratory cross-validation, not independent evidence.
+Eight additional PNG/PDF/SVG groups, compact statistics/covariance and separately
+marked full-fit/fold calibration tables retained. Public numeric identity and
+covariance metadata alignment verified; representative angular and energy-closure
+plots visually inspected. Raw primary evidence unchanged.

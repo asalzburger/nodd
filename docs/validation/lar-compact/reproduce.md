@@ -97,3 +97,29 @@ normalizes local runtime paths and selects exact principal angular covariance
 submatrices. The full private summary hash and covariance selection remain in
 publication metadata. Replotting from the public summary preserves those curves;
 full covariance regeneration requires the event-level analysis above.
+
+
+The secondary calibration algorithm was frozen at
+`5a8814fc1947b16446aa0c9e3c73714ad06837b7` before fitting. It reuses the same
+transport and exact contract gates; see the separate exploratory protocol.
+It performs 1000 bootstrap refits with fixed seeds recorded in the summary.
+
+```sh
+OPENBLAS_NUM_THREADS=1 "$plot_python" -B software/analysis/lar_response/compact_calibrate.py analyze \
+  --reference-run ../nodd-lar-10k-response/build/lar10k-resume/production12 \
+  --candidate-run "$run_root/production12" --contract docs/validation/lar-compact/contract.json \
+  --output "$run_root/calibration"
+MPLCONFIGDIR="$run_root/mpl-cache" XDG_CACHE_HOME="$run_root/cache" \
+  "$plot_python" -B software/analysis/lar_response/compact_calibrate.py plot \
+  --summary "$run_root/calibration/summary.json" --output "$run_root/calibrated-figures"
+python3 -B software/analysis/lar_response/compact_public.py \
+  --summary "$run_root/calibration/summary.json" --output "$run_root/calibrated-summary.json"
+```
+
+`calibration-models.json` separates the five evaluated fold models from the
+full-sample reuse fit. The Python interface
+`apply_calibration(model, signal_GeV, eta, geometry)` validates algorithm/binning
+and compact/material identities; it accepts no true energy. Select the named
+geometry's full-fit table only for a fresh validation sample under matching
+ECAL-only, zero-field scope. Do not assess that fit on its own training events.
+Committed summary/figure hashes support replotting without event-level data.
