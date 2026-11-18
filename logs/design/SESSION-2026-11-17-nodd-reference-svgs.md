@@ -47,3 +47,11 @@ Rootreplay produces byte-identicalSVGs, everyoldreporthash/PDF8e5e5b40... unchan
 PR145 remains the explicitly authorized existing report/merge-preparation task; newbody links the two standaloneSVGs while retaining the report. Metadata uses authenticatedgh because the integration's write capability was already unavailable. No separate external messages, GitHubmerge, auto-merge orhumanapproval performed. Newtaskbranch/session isolates this follow-up; oldcanonicaljournals are not rewritten.
 
 Final local closure: project111/54/24, session302, inventory69/104/55/12, interactions122 with retention against mainf3ece1d6, tokenpreview579disjointdatedturns/3,249,405,443cumulative observed tokens PASS. Existing reportfiles remain untouched; no old canonical token owner changed. Currentreview1,656,814 observed total, activecoordinatorunavailable. Final hosted current-head status is checked after publication without changing any report artifact.
+
+## Finalized coordinator accounting - 2026-11-18
+
+The original closeout correctly excluded its then-active coordinator. Those selected turns are now finalized. Exact app-visible requests, continuations, outcomes and turn boundaries match the usage-only metadata. The unmodified recovery tool verifies every cumulative increment against last-request counters; no usage falls outside recorded turns. Only this task's turns are imported, after a global duplicate-owner check and dry run. Existing specialist counters and earlier receipts remain unchanged.
+
+01a1ea53-cf87-7b93-af9b-c4dd7be3568e, 01a1eaee-b881-7602-b961-6ea1fd733cb7 now belong only to SESSION-2026-11-17-nodd-reference-svgs. The task has 3 disjoint observed turns: 10,359,262 input + 65,597 output = 10,424,859 total. Cached input and reasoning output remain subsets. Execution models/provider/client version remain unknown. The active merge/accounting task is separate and unmeasured.
+
+Source: logs/usage/USAGE-2026-11-18-pr145-parent-closure.json. Selected user-visible text is allowlisted/redacted under interactions/pr-0145/turns/. No raw conversation archive, private state or new scientific result is stored. The PNG-only follow-up, where applicable, remains a local preview and adds no public event payload.

@@ -229,3 +229,7 @@ not be read as empty service corridors.
 ## Tested staggered Si-W drawing
 
 The [four-panel drawing and source recipe](../../docs/validation/staggered-siw-drawing/README.md) illustrate the historical PR136/137 prototype. The standard-library generator requires an explicit clean worktree at its recorded source revision; optional PNG export uses librsvg. It does not change the maintained detector.
+
+## Current native XY sector-gap comparison
+
+The [Si-W / ALLEGRO-style comparison](../../docs/validation/sector-gap-native/README.md) renders actual current DD4hep placed volumes, materials and sensitivity at z=0, with matched axes and enlarged boundary details. Run the native extractor in the verified environment; annotated SVG geometry is embedded native raster data, not an idealized redraw. No detector geometry is changed.

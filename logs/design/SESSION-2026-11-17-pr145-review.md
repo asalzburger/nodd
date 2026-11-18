@@ -139,3 +139,11 @@ The session schema requires observed zero exit codes for PASS command checks. No
 Updated PR145 description and retargeted to main f3ece1d6a6816c8172dfa841d63e5424730e8228. The connector metadata write returned403Resource notaccessiblebyintegration; authenticated gh succeeded. This is connector capability failure, not automatic approval rejection. Current draftfalse/open status retained under explicit merge-preparation request; no merge/auto-merge/review approval sent. Public input/body snapshot refreshed after metadata edit.
 
 Final local validation:301sessions and122interactionrecords pass with historical retention against mainf3ece1d6. Token preview578disjointdatedturns,3,247,748,629cumulative observed tokens. Four current-review turns uniquely owned15,509,868; older owners untouched, active root unknown. Scientific/publication source assessments remain exactly bound to38449/aceda, with rootproven unchanged numericdelta. Final hosted current-head status is checked externally after push; no expected CI outcome is logged as observed.
+
+## Finalized coordinator accounting - 2026-11-18
+
+The original closeout correctly excluded its then-active coordinator. Those selected turns are now finalized. Exact app-visible requests, continuations, outcomes and turn boundaries match the usage-only metadata. The unmodified recovery tool verifies every cumulative increment against last-request counters; no usage falls outside recorded turns. Only this task's turns are imported, after a global duplicate-owner check and dry run. Existing specialist counters and earlier receipts remain unchanged.
+
+01a1e9f7-746f-7b90-a890-17046bbd8fae now belong only to SESSION-2026-11-17-pr145-review. The task has 5 disjoint observed turns: 43,513,181 input + 120,976 output = 43,634,157 total. Cached input and reasoning output remain subsets. Execution models/provider/client version remain unknown. The active merge/accounting task is separate and unmeasured.
+
+Source: logs/usage/USAGE-2026-11-18-pr145-parent-closure.json. Selected user-visible text is allowlisted/redacted under interactions/pr-0145/turns/. No raw conversation archive, private state or new scientific result is stored. The PNG-only follow-up, where applicable, remains a local preview and adds no public event payload.

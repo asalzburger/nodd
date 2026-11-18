@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated": "2026-11-15",
+  "updated": "2026-11-18",
   "source_revision": "4497737721d35df1e8971d5d01e8a5727def14aa",
   "components": [
     {
@@ -621,10 +621,10 @@
       "id": "CHECK-CALO",
       "name": "Calorimeter hardware, layouts and audit controls",
       "category": "cross-validation",
-      "usage": "source audit; readout; absorber; LAr; Si-W wedge navigation; HCAL; FCAL; overlaps; 100-electron ECAL startup/transport timing; compressed EDM4hep output size; opt-in reusable LAr period mothers; DDG4 map/first-event initialization timing; native touchable and leaf correspondence; matched material rays; maintained LAYOUT-002 reusable inclined-period default; vector drawing of tested staggered Si-W module and sampling geometry; LAr gap envelope and channel-service screening; pinned-source LAr old/new service-routing RZ drawings; material-preserving mitered CutTube steel/N2 routing; passive Geant4 step audit; unchanged ECAL occupancy diagnostics",
+      "usage": "source audit; readout; absorber; LAr; Si-W wedge navigation; HCAL; FCAL; overlaps; 100-electron ECAL startup/transport timing; compressed EDM4hep output size; opt-in reusable LAr period mothers; DDG4 map/first-event initialization timing; native touchable and leaf correspondence; matched material rays; maintained LAYOUT-002 reusable inclined-period default; vector drawing of tested staggered Si-W module and sampling geometry; LAr gap envelope and channel-service screening; pinned-source LAr old/new service-routing RZ drawings; material-preserving mitered CutTube steel/N2 routing; passive Geant4 step audit; unchanged ECAL occupancy diagnostics; native DD4hep/ROOT XY sector-gap and sensitive-path comparison",
       "integration": "Local Python/C++ source in nODD; no external submodule installation for this code.",
       "version": "DRAFT / PROTOTYPE; standalone factories and campaign evidence remain separate from production acceptance.",
-      "installation": "Model/export controls use standard library where documented; native CMake projects use existing DD4hep/ROOT. Figures may need Matplotlib. Issue131 uses software/env/run.sh with existing DDG4/EDM4hep/podio/ROOT; run and readback recipes are recorded with the benchmark. LAr placement investigation: standalone exporters --real-periods; placement_probe.py and placement_smoke.py through software/env/run.sh, placement_report.py for bound evidence. Maintained LAr hierarchy: tools/calorimeter_baselines/export.py --layout LAYOUT-002 selects real periods with local services; standalone exports remain legacy controls. Drawing: python3 -B tools/calorimeter_hardware/draw_staggered_siw.py --repo HISTORICAL_SOURCE_WORKTREE --output build/staggered-siw-drawing; see pinned-source recipe. Optional PNG renderer: pre-existing librsvg rsvg-convert 2.62.3, not installed by this task. Gap screen: python3 -B tools/lar_calorimeter/gap_screen.py --output build/lar-gap-options/screen.json; optional --figure requires existing Matplotlib. No native dependency activation. Routing RZ: existing Matplotlib/NumPy Python runs tools/lar_calorimeter/draw_routing_rz.py --source-revision 21d2f01f99156034f7a80257fa642f1c2a4d9548 --output build/lar-routing-rz; reads committed Git blobs, no native runtime. Isolated routing: CMake source prototypes/lar_routing, target Components_nODDLArRoutingPrototype, existing DDG4/Geant4 and explicitly found preinstalled nlohmann_json3.12.0. Export routing.py --variant old|new; native/readback/context tools under tools/lar_calorimeter; no production CMake/default change.",
+      "installation": "Model/export controls use standard library where documented; native CMake projects use existing DD4hep/ROOT. Figures may need Matplotlib. Issue131 uses software/env/run.sh with existing DDG4/EDM4hep/podio/ROOT; run and readback recipes are recorded with the benchmark. LAr placement investigation: standalone exporters --real-periods; placement_probe.py and placement_smoke.py through software/env/run.sh, placement_report.py for bound evidence. Maintained LAr hierarchy: tools/calorimeter_baselines/export.py --layout LAYOUT-002 selects real periods with local services; standalone exports remain legacy controls. Drawing: python3 -B tools/calorimeter_hardware/draw_staggered_siw.py --repo HISTORICAL_SOURCE_WORKTREE --output build/staggered-siw-drawing; see pinned-source recipe. Optional PNG renderer: pre-existing librsvg rsvg-convert 2.62.3, not installed by this task. Gap screen: python3 -B tools/lar_calorimeter/gap_screen.py --output build/lar-gap-options/screen.json; optional --figure requires existing Matplotlib. No native dependency activation. Routing RZ: existing Matplotlib/NumPy Python runs tools/lar_calorimeter/draw_routing_rz.py --source-revision 21d2f01f99156034f7a80257fa642f1c2a4d9548 --output build/lar-routing-rz; reads committed Git blobs, no native runtime. Isolated routing: CMake source prototypes/lar_routing, target Components_nODDLArRoutingPrototype, existing DDG4/Geant4 and explicitly found preinstalled nlohmann_json3.12.0. Export routing.py --variant old|new; native/readback/context tools under tools/lar_calorimeter; no production CMake/default change. Native sector slices: maintained barrel exports with real-wedges/real-periods and services, build current prototype factories, run sector_slice_native.py through software/env/run.sh; draw_sector_comparison.py adds vector annotations to native rasters. Inline C++ is compiled by existing ROOT Cling; PNG writing uses standard-library zlib. No new dependency installation.",
       "paths": [
         "tools/calorimeter_audit",
         "tools/calorimeter_hardware",
@@ -649,7 +649,8 @@
         "docs/validation/staggered-siw-drawing/README.md",
         "docs/design/inputs/DES-032-hadron-gap-options.md",
         "docs/design/inputs/lar-gap-options/routing-rz/README.md",
-        "docs/validation/lar-routing-dd4hep/README.md"
+        "docs/validation/lar-routing-dd4hep/README.md",
+        "docs/validation/sector-gap-native/README.md"
       ],
       "prs": [
         "https://github.com/asalzburger/nodd/pull/81",
@@ -659,7 +660,8 @@
         "https://github.com/asalzburger/nodd/pull/116",
         "https://github.com/asalzburger/nodd/pull/138",
         "https://github.com/asalzburger/nodd/pull/139",
-        "https://github.com/asalzburger/nodd/pull/141"
+        "https://github.com/asalzburger/nodd/pull/141",
+        "https://github.com/asalzburger/nodd/pull/147"
       ]
     },
     {

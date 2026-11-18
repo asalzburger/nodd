@@ -126,3 +126,11 @@ Only four completed current-task childturns recovered by exact assignment identi
 ## Closeout
 
 Final artifact reproduced byte-identically from committed source;8pages/72041bytes, complete source links and provenance. All required project/session/softwareinventory/interaction/token validations PASS:111tasks/54docs/24rounds,296sessions,69components/104families/55inputs/12pins,121PRledgers,569disjoint dated token turns. Previewbuild and session summary successful. Introduced history examined for large/rawpayloads; no rawsimulation/source-reference uploads, QA renders ignored. DraftPR145 attached; finalrecordpush and head/draft/hostedCI verification follow operationally. Active coordinator remains unfinalized and excluded. No engineering/signoff/ready/merge action inferred from documentadoption direction.
+
+## Finalized coordinator accounting - 2026-11-18
+
+The original closeout correctly excluded its then-active coordinator. Those selected turns are now finalized. Exact app-visible requests, continuations, outcomes and turn boundaries match the usage-only metadata. The unmodified recovery tool verifies every cumulative increment against last-request counters; no usage falls outside recorded turns. Only this task's turns are imported, after a global duplicate-owner check and dry run. Existing specialist counters and earlier receipts remain unchanged.
+
+01a1de9f-11e6-7ca3-baf8-72ee3526ed75, 01a1dea4-7499-7583-9408-6e0ab0de90de now belong only to SESSION-2026-11-15-emcal-findings. The task has 6 disjoint observed turns: 33,061,938 input + 92,055 output = 33,153,993 total. Cached input and reasoning output remain subsets. Execution models/provider/client version remain unknown. The active merge/accounting task is separate and unmeasured.
+
+Source: logs/usage/USAGE-2026-11-18-pr145-parent-closure.json. Selected user-visible text is allowlisted/redacted under interactions/pr-0145/turns/. No raw conversation archive, private state or new scientific result is stored. The PNG-only follow-up, where applicable, remains a local preview and adds no public event payload.
