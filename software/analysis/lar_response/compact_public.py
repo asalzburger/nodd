@@ -18,6 +18,10 @@ def publish(source,output):
         if not cov or not isinstance(cov,dict) or 'order' not in cov:continue
         indices=[i for i,key in enumerate(cov['order']) if key.split(':')[-2] in ('global','abs_eta','siw_folded_phi')]
         selected[field]=dict(original_variables=len(cov['order']),published_variables=len(indices),axes=['global','abs_eta','siw_folded_phi'])
+        if 'undefined_replicates' in cov:
+            if len(cov['undefined_replicates'])!=len(cov['order']):
+                raise ValueError('Covariance undefined-count ordering mismatch')
+            cov['undefined_replicates']=[cov['undefined_replicates'][i] for i in indices]
         cov['order']=[cov['order'][i] for i in indices]
         cov['matrix']=[[cov['matrix'][i][j] for j in indices] for i in indices]
     def portable(value):
