@@ -44,7 +44,10 @@ def plot(a):
     d=json.loads(a.summary.read_text());a.output.mkdir(parents=True,exist_ok=True)
     def export(fig,name):
         fig.tight_layout(rect=(0,.035,1,.94));fig.text(.02,.01,'PROTOTYPE · deterministic native material scan; no shower/engineering acceptance',fontsize=9)
-        for ext in ('png','pdf','svg'):fig.savefig(a.output/(name+'.'+ext),dpi=160)
+        for ext in ('png','pdf','svg'):
+            target=a.output/(name+'.'+ext)
+            fig.savefig(target,dpi=160,metadata={'CreationDate':None,'ModDate':None} if ext=='pdf' else {'Date':None} if ext=='svg' else {})
+            if ext=='svg':target.write_text('\n'.join(line.rstrip() for line in target.read_text().splitlines())+'\n')
         plt.close(fig)
     styles={'reference':dict(color='#dada66',ls='--',label='Original LAr'),'candidate':dict(color='#cccc00',ls='-',label='Compact / deepened LAr')}
     fig,axs=plt.subplots(1,2,figsize=(12,4.5))

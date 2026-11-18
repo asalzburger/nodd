@@ -273,6 +273,8 @@ def plot(args):
         for ext in ('png', 'pdf', 'svg'):
             p = args.output / f'{name}.{ext}'
             fig.savefig(p, dpi=160, metadata={'CreationDate': None, 'ModDate': None} if ext == 'pdf' else {'Date': None} if ext == 'svg' else {})
+            if ext == 'svg':
+                p.write_text('\n'.join(line.rstrip() for line in p.read_text().splitlines())+'\n')
             exports.append(p)
         plt.close(fig)
     def draw(ax, axis, field, region=None):
