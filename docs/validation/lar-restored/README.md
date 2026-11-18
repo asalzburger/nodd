@@ -9,8 +9,9 @@ budgets retained. Endcaps unchanged from the650mm compact candidate.
 [Design choice](../../design/inputs/DES-032-compact-hadron-prototype.md) ·
 [Prospective protocol](protocol.md). Native component/combined shape, mass, readout and overlap checks pass. The
 9088-ray native sampling-only minimum is26.800197X0. Strict-default and endcap
-physical XML/material files remain byte-identical. Matched10k/12-worker
-transport/results are pending. No precision recovery or engineering acceptance
+physical XML/material files remain byte-identical. The24-event serial/12-thread runs have19065exactly equal saved hits; both100-event
+step-policy pilots and complete readbacks pass. Matched10k/12-worker production
+is starting; response results are pending. No precision recovery or engineering acceptance
 is claimed. The maintained baseline and strict2.6mm prototype remain distinct.
 
 

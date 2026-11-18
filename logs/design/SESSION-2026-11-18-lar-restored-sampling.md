@@ -43,3 +43,45 @@ byte-identical to prior production. Physical contracts pin newcompact2cfd36df...
 with unchangeda074b67a...materials, exact primary hashes/origins and common bins.
 SysArch initial assessment finds no material arithmetic/interface issue; actual
 ports/thermal/pressure/routing remain unqualified. Controls start next.
+
+
+LAR-RESTORED-PHYSVAL-PREFLIGHT; PhysVal; exact9913d9583e1d60c6d74f5367c59bcc138735d23d;
+read-only/no ownedfiles. Inputs newconfig/exporter/protocol/two pairedcontracts/
+compact native/material evidence and two figures, with retained actual native
+reports as needed. Verify native/source/phase/primary boundaries and prospective
+statistical rules before production; controls may run independently. No new
+response analysis/fits/native/privateusage/writes/publication/delegation.
+
+
+SysArch final read-only review at53797385 finds no material arithmetic/interface
+issue. Verified60mm tracker/solenoid interface, all wall/vacuum/bath closures,
+15.471mm board-to-N2 and3mm pipe-to-bath gaps,834.082/854.082mm front bends within
+1000 and460/470mm rear turns within500. HCAL corridor488.3mm; largest outer bus
+jacket leaves51mm. Endcaps byte-identical;27sourcehashes and normalized radial
+fractions verified. Thermal fullslot151.388kW versus120reference remains open,
+as do ports/supports/pressure/routing. No engineering acceptance or native rerun.
+
+
+PhysVal preflight at9913d958 finds no material blocker after planned controls.
+Verified1.8Pb/N1248/Rin1772.8/Rout2350 and all27modelsource hashes,37312IDs,
+both frozen contracts/exact10k inputbytes,1098materialsummaryvalues,9088rays/
+26.8001969minimum and0overlaps, default/endcapbyteequality and2figureQA. No
+new response inspected, native rerun or fits. Changed plane count/gaps/depth/
+compartments are a bundle, not isolated Pb causality; no engineering acceptance.
+
+
+SoftEng completes only restored_overlay.py/test_restored_overlay.py at53797385
+plus the named new files: six paired summary inputs, optional bothdiagnostics,
+checks physical identities/labels/repeatedstats/axes/units/denominators/source
+bindings; copies appropriate paired intervals without new inference. Five
+synthetic tests and synthetic10figuregroup PNG/PDF/SVG smoke/representativeQA
+pass. No actual restored data read or new fit. Main45analysis tests pass with
+these files;3compactgeometry tests pass separately. Freeze beforeactualresponse
+use; parent inspects source and keeps bulky duplicate overlayJSON local.
+
+
+Controls completePASS:24serial/12-worker19065canonical hits exactly equal by
+ID/energy/position,100native-limit and5mm pilots/fullreadbacks. Keeppredeclared
+5mm/0.7mmcuts; no convergence assertion. About127GiBfree with30GiBreserve;
+full10000retained. Allphysical/statistical code frozen beforeproduction/inference;
+producer/library/source hashes in receipts. Modelsource53797385/native9913d958.
