@@ -278,3 +278,17 @@ closed at1794994288. Strict token-count-only recovery rejected a cumulative/
 last-request mismatch. No counters imported or guard weakened; parent remains
 unknown.14specialist-turn subtotal above is unchanged. New diagnosis turn owns
 its own separate session; no drawing/history overlap.
+
+## 2026-11-18 parent-turn closure
+
+The previously active task-parent turn(s) are now closed. Exact app-visible
+IDs and start/end times match persisted metadata through the already recorded
+528-ordinal projection. Starting from the exact preceding observed counters,
+every subsequent cumulative increase equals its reported last-request counters;
+no inherited prefix, active turn or historical child is charged. Full-thread
+recovery rejected an inherited-prefix mismatch; this bounded verification
+retains the same delta/availability/decrease guards from the observed origin.
+Selected inventory: `logs/usage/USAGE-2026-11-18-pr148-parent-closure.json`. Visible user/assistant messages and operation
+metadata are allowlisted; raw arguments/results, reasoning and private state
+are excluded. Execution model/client version remain unknown. Current baseline/
+reduced-gap work has its own task journal and is excluded here.
