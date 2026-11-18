@@ -1,5 +1,10 @@
 # DES-033 — ALLEGRO-style turbine LAr endcaps for LAYOUT-002
 
+The [2026-11-18 human selection](inputs/ECAL-baseline-selection-2026-11-18.md)
+makes the restored variant, including 650 mm endcap sampling and warm package
+abs(z)=5100–6260 mm, the EM working baseline. Earlier dimensions below remain
+historical controls; formal engineering approval is unchanged.
+
 - Status: **DRAFT**
 - Type: **PROTOTYPE**
 - Date: 2026-10-13

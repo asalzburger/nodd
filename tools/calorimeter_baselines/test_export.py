@@ -101,6 +101,18 @@ class CompositionTests(unittest.TestCase):
             script = Path(command[2])
             directory = Path(command[command.index("--output") + 1])
             directory.mkdir(parents=True, exist_ok=True)
+            if script.name == "compact_prototype.py":
+                for name, ident, count, filename in (("barrel",10,1,"barrel.xml"),("endcaps",11,3,"endcaps.xml")):
+                    folder=directory/name;folder.mkdir()
+                    fixture=self.component("fixture"+str(len(calls))+name,ident)
+                    tree=ET.parse(fixture);detector=tree.find("detectors/detector")
+                    if not omit_envelopes:
+                        for i in range(count):
+                            parent=ET.SubElement(detector,"period" if name=="barrel" else "wheel",index=str(i))
+                            ET.SubElement(parent,"period_envelope",policy="real-periods-v1")
+                    write(folder/filename,tree.getroot())
+                    (folder/"materials.xml").write_bytes((fixture.parent/"materials.xml").read_bytes())
+                return
             tracker = script.parent.name == "tracker_dd4hep"
             lar = script.parent.name == "lar_calorimeter"
             barrel = script.name == "barrel_export.py"
@@ -120,15 +132,16 @@ class CompositionTests(unittest.TestCase):
             (directory / "expected.json").write_text('{"scope":"orchestration test fixture"}\n')
         return run
 
-    def test_maintained_lar_export_selects_real_periods_with_services(self):
+    def test_default_selects_restored_lar_with_real_periods(self):
         calls = []
         with patch("export.subprocess.run", side_effect=self.baseline_fixture_backend(calls)):
-            report = export_baseline("LAYOUT-002", self.root / "baseline")
-        self.assertEqual(len(calls), 3)
-        for command, service in zip(calls[1:], ("barrel_services.py", "endcap_services.py")):
-            self.assertIn("--real-periods", command)
-            self.assertNotIn("--real-wedges", command)
-            self.assertEqual(Path(command[command.index("--services") + 1]).name, service)
+            report = export_baseline(None, self.root / "baseline")
+        self.assertEqual(len(calls), 2)
+        command=calls[1]
+        self.assertEqual(Path(command[2]).name,"compact_prototype.py")
+        self.assertEqual(Path(command[command.index("--spec")+1]).name,"restored-sampling.json")
+        self.assertTrue(report['ecal_selection']['selected_working_baseline'])
+        self.assertEqual(report['ecal_selection']['variant'],'LAR-RESTORED-SAMPLING-2026-11-18')
         self.assertEqual(report["ecal_placement"], {
             "lar-barrel": {"policy": "real-periods-v1", "reusable_envelopes": 1},
             "lar-endcaps": {"policy": "real-periods-v1", "reusable_envelopes": 3}})

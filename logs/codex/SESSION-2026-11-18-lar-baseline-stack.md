@@ -55,3 +55,36 @@ input/feature page and compact design input. Question: requirements for physical
 tracker/solenoid, HCAL/services and legacy FCAL context when selecting restored
 LAr as working baseline. Return bounded source-pinned findings/risks; no files,
 native execution, private-state access, publication or further delegation.
+
+### Baseline implementation and gap clarification
+
+User asked whether the latest model retained400mm; answered that warm barrel
+ends4100mm and warm endcap starts5100mm, so validated gap is1000mm. Existing
+S-bend envelopes are896.8/916.8mm. User then requested stacking current PRs
+first, followed by a separate reduced-gap PR. Keep the1m restored baseline here;
+the400mm proposal follows on a separate branch and record.
+
+Default maintained export now reads detector/config/ecal-baseline.json and
+explicitly builds restored-sampling.json; Si-W remains an explicit comparison.
+Fresh barrel/endcap XML and material files exactly match validated control
+hashes; components preserve37312raw contexts and3182528logical channels.
+Eight portable composition tests pass. Current tracker factories/catalogs built
+after Spack warning and successful ROOT/DD4hep/DDG4/Geant4 re-verification.
+A full native ten-system union audit constructed the expected roots/IDs and
+entered the1e-5mm overlap scan; its completion is still pending at this entry.
+
+LAR-BASELINE-SysArch returned source-pinned interface requirements at9720c03a:
+explicit restored builder and identities;1700mm bore after1640+60reservation;
+barrel2641.7→HCAL3130 interval488.3; endcap5100–6260; HCAL6760–8255.9context;
+old FCAL handoff cannot be transferred. No writes/native/transport or approval.
+Implemented a fresh named RZ input/render while retaining old FCAL drawings as
+historical context, and kept ECAL-only calibration identity guards.
+
+Whole-parent usage recovery rejected an inherited-prefix mismatch. Nine exact
+closed turns were then verified from their own prior observed origins, using
+the already retained metadata-provider528ordinal projection. Every delta equals
+reported last-request counters, with decreases/availability/boundaries guarded.
+Imported once into original147/148/149 task owners, with selected visible
+messages/operation metadata and separate per-PR inventories. Historical child
+usage remains untouched. All three local token-preview builds pass; current
+active baseline/reduced-gap turn remains excluded.

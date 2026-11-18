@@ -1,6 +1,42 @@
-# Detector layout candidates
+# Detector layouts and selected EM baseline
 
-The two candidate views now include the [DES039 forward-calorimeter proposal](../design/DES-039-common-forward-calorimeter.md). They remain DRAFT / PROTOTYPE. Native FCAL geometry and envelope guards are checked; combined detector response and engineering qualification remain pending.
+The user selected the **restored LAr design as the EM working baseline on
+2026-11-18**. [Selection, dimensions and limits](../design/inputs/ECAL-baseline-selection-2026-11-18.md).
+Si–W remains available as a comparison; engineering sign-off is unchanged.
+
+| Option | EM selection | Current integration scope |
+| --- | --- | --- |
+| [LAYOUT-002 — selected baseline](LAYOUT-002-tracker-3t-lar.md) | Restored1.8mmPb/1248period barrel and650mm turbine endcaps | Maintained tracker+ECAL export; conditional magnet/HCAL context |
+| [LAYOUT-001 — comparison](LAYOUT-001-tracker-3t-siw.md) | Retained Si–W | Explicit comparison export; historical FCAL context |
+
+[![Selected restored LAr EM baseline](figures/LAYOUT-002-restored-rz.png)](LAYOUT-002-tracker-3t-lar.md)
+
+[Current restored named inputs](LAYOUT-002-restored.json) ·
+[SVG](figures/LAYOUT-002-restored-rz.svg) ·
+[Native sector comparison](../validation/sector-gap-restored/README.md) ·
+[Restored response controls](../validation/lar-restored/README.md)
+
+The updated endcap/HCAL envelopes invalidate transfer of the older FCAL routing
+checks. FCAL/collar integration is pending and omitted from the current view.
+Current named inputs use the same project palette and retained DES043 tracker
+source hashes. Generate and redraw with:
+
+```sh
+python3 -B tools/calorimeter_baselines/export.py --output build/baselines/selected
+python3 -B tools/calorimeter_baselines/layout.py --baseline build/baselines/selected \
+  --input docs/layouts/LAYOUT-002-restored.json --output docs/layouts/figures/LAYOUT-002-restored-rz.svg
+rsvg-convert docs/layouts/figures/LAYOUT-002-restored-rz.svg \
+  -o docs/layouts/figures/LAYOUT-002-restored-rz.png
+```
+
+## Historical original candidates and FCAL controls
+
+The following snapshots keep the original candidate dimensions and their frozen
+FCAL validation context. They do not establish integration for the restored
+baseline. Old file names and source pins remain unchanged for reproduction.
+
+
+The two historical candidate views include the [DES039 forward-calorimeter proposal](../design/DES-039-common-forward-calorimeter.md). They remain DRAFT / PROTOTYPE. Native FCAL geometry and envelope guards are checked; combined detector response and engineering qualification remain pending.
 
 | Candidate | EM technology | Forward calorimeter proposal |
 | --- | --- | --- |
@@ -13,7 +49,7 @@ The two candidate views now include the [DES039 forward-calorimeter proposal](..
 
 Click either drawing for dimensions, interfaces, source revisions and limitations. The shared R50 mm aperture and added service routes are explicit unsigned amendments. The downstream machine pipe, shower/optical performance, irradiation, full cooling/load design and muon interfaces remain open.
 
-Both current views use the [README component palette](../../README.md#detector-component-colors).
+Both historical views use the [README component palette](../../README.md#detector-component-colors).
 The legend identifies each shown subsystem; FCAL subcomponents share its light
 blue and use hatching for detail. Muon stations are not part of these views.
 
@@ -21,7 +57,7 @@ blue and use hatching for detail. Muon stations are not part of these views.
 
 The current tracker overlay uses the human-requested [DES043 working baseline](../design/DES-043-short-strip-service-redesign.md): 75 µm × 2 mm strixels, 703 mm sampled short-strip coverage, 46,682 sensitive planes and 54 signed logical groups. Its finite outer sensor corner reaches 704.909 mm. The shared short-strip service trunk occupies 717–781.5 mm; passive services are omitted from these sensitive-bound illustrations. Module, cable, cooling and thermal qualification remain open.
 
-[Extracted tracker bounds](tracker-baseline-des043.json) retain the executed producer/source hashes. Current named inputs are [LAYOUT-001-DES043.json](LAYOUT-001-DES043.json) and [LAYOUT-002-DES043.json](LAYOUT-002-DES043.json). The independently pinned calorimeter/magnet context and frozen FCAL validation geometry are retained.
+[Extracted tracker bounds](tracker-baseline-des043.json) retain the executed producer/source hashes. Historical named inputs are [LAYOUT-001-DES043.json](LAYOUT-001-DES043.json) and [LAYOUT-002-DES043.json](LAYOUT-002-DES043.json). The independently pinned calorimeter/magnet context and frozen FCAL validation geometry are retained.
 
 Reproduce after the combined DD4hep export:
 
@@ -38,12 +74,12 @@ The earlier balanced [tracker overlay](tracker-baseline-balanced.json), [FCAL in
 
 [PR110 — short-strip integration, open for merge preparation](https://github.com/asalzburger/nodd/pull/110) retains fixed implementation source `d6c4d0d`, full native/payload/ACTS checks and the published TDR receipt. Human review/merge and engineering qualification are distinct.
 
-[Historical ECAL reviewer overview](review/ecal-layout-review.md) and its frozen source catalogue retain the original PR75 comparison. Current baseline status is maintained above.
+[Historical ECAL reviewer overview](review/ecal-layout-review.md) and its frozen source catalogue retain the original PR75 comparison. Current baseline status is maintained at the top of this page.
 
 The two [selectable working baseline packages](../../tools/calorimeter_baselines/README.md) restore the Si–W and LAr ECAL source histories on current main. Their [integration contract](../design/inputs/ECAL-baseline-integration-2026-11-04.md) retains issue114 and the unresolved PR75 review. Common HCAL and FCAL design options remain separate construction/qualification stages.
 
 Both maintained ECAL exports use reusable solid mothers: Si–W wedges in
 LAYOUT-001 and inclined LAr periods in LAYOUT-002. The
 [LAr default-export report](../validation/lar-placement-default/README.md)
-links the placement evidence and current DD4hep description. Physical layout
-bounds and the named R–Z drawing inputs are unchanged by this hierarchy choice.
+links the placement evidence and current DD4hep description. That historical hierarchy choice did not change physical bounds; the new restored
+baseline has its own current named input and drawing above.

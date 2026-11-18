@@ -1,5 +1,11 @@
 # DES-032 — ALLEGRO-style LAr ECAL barrel for LAYOUT-002
 
+The [2026-11-18 human selection](inputs/ECAL-baseline-selection-2026-11-18.md)
+makes the restored 1.8 mm Pb / 1248-period variant the EM working baseline.
+Its 1772.8–2350 mm sampling annulus and 1700 mm warm bore supersede the original
+larger-radius candidate below for maintained baseline export. Historical source
+facts and controls remain preserved; engineering sign-off is still pending.
+
 - Status: **DRAFT**
 - Type: **PROTOTYPE**
 - Date: 2026-10-13
