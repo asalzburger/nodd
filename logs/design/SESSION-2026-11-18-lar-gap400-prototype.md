@@ -118,3 +118,15 @@ validated component XML/material files byte-for-byte. Thus default baseline
 physical artifacts remain unchanged. Raw simulation/native files remain local.
 Final project/inventory/session/interaction/token checks and preview are recorded
 before final push. PRs remain drafts; no main merge/ready action was performed.
+
+### Final stack metadata
+
+Verified publicPR147→148→149→150→151 bases, all draft and mergeable at
+observation. Lower147/148/149 CI runs succeeded; later final heads trigger their
+own checks. Updated lower PR descriptions with current closed-parent accounting
+scope and bottom-up merge/retarget order, then refreshed all five public
+discussion snapshots (no comments/reviews at capture). Local project, inventory,
+session, interaction-retention and token checks plus preview build passed.
+No raw/private artifacts are introduced; original histories and unique owners
+are retained. Current active coordination usage is the explicit remaining
+accounting exclusion, never estimated.
