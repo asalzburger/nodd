@@ -88,3 +88,12 @@ Imported once into original147/148/149 task owners, with selected visible
 messages/operation metadata and separate per-PR inventories. Historical child
 usage remains untouched. All three local token-preview builds pass; current
 active baseline/reduced-gap turn remains excluded.
+
+### LAR-BASELINE-SysArch-final assignment
+
+Read-only exact7a9da4490f3bbe89f9d55fbfcadc795a3889139b: selection, exporter,
+layout renderer/input/PNG, decision and validation/identity receipts. Verify
+implemented interfaces, artifact/calibration scope and current/historical
+context. Native overlap scan still running and not claimed complete. No writes,
+native execution, private-state access, publication or delegation. Return
+material blockers/actual checks/limits for baseline draft publication.
