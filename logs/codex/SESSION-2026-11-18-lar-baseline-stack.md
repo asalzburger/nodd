@@ -97,3 +97,25 @@ implemented interfaces, artifact/calibration scope and current/historical
 context. Native overlap scan still running and not claimed complete. No writes,
 native execution, private-state access, publication or delegation. Return
 material blockers/actual checks/limits for baseline draft publication.
+
+### Final baseline review and publication
+
+Published draft PR150 above149 (147→148→149→150), attached to this task.
+SysArch reviewed7a9da4490f3bbe89f9d55fbfcadc795a3889139b: no material interface/
+provenance blocker. Verified exact component identities/counts,85tracker overlay
+source hashes, default/comparison behavior, current/historical FCAL distinctions,
+calibration scope and byte-identical SVG, with PNG visual inspection. No separate
+native execution or acceptance. Both closed SysArch turns are imported once
+from USAGE-2026-11-18-lar-baseline-sysarch.json:5,268,729input +13,713output =
+5,282,442observed tokens. Current parent is active and excluded.
+
+Correction: initial gap discussion/assignment reused dense-control bend bounds
+896.8/916.8mm. CaloTech recomputed restored-model bounds834.082/854.082mm; the
+correction was stated to the user. The measured warm-envelope gap remains1m.
+A project validator also caught a fractional PR149collection timestamp inherited
+from its prior final record. Normalized that field and revalidated; the correction
+is an ordinary PR149 commit, preserved in the baseline branch ancestry.
+
+Native overlap audit is active on one CPU, roughly13.8GB RSS at21min observation;
+construction/IDs succeeded, overlap completion remains pending. No0overlap claim
+is made before the receipt exists. No main merge or ready action is authorized.
