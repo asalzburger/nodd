@@ -119,3 +119,50 @@ submatrices and undefined-replica metadata aligned. Model/render/source hashes a
 3,759,372-byte duplicate overlayJSON staylocal; no event data published. Pre-result
 payload audit finds no newblob>2MB/private-home path/raw event/library payload.
 Frozen sourceCI build/unrooted/token-site pass; final result metadata CI follows.
+
+
+LAR-RESTORED-PHYSVAL-RESULTS; PhysVal; exactcd705d51ee62188cb57e07b51e74a6a9de841181;
+read-only/no ownedfiles. Inputs report/protocol/controls/four pairedsummary/model/
+diagnosis/overlayhelper/render and3PNGs; actualignoredreceipts/fullsummary/models
+as needed. Check partial recovery/residual pairedCI claims, all-event/source/
+fold/model/physical identity and publiccov/plot joins/reuse caveats. Prior native
+preflight remains valid; no fullbootstrap/native/refits/writes/privateusage,
+publication or furtherdelegation. Completion: findings/actualchecks/limits,
+without engineering or precision acceptance.
+
+
+## Independent final review and bounded close
+
+PhysVal assessedcd705d51ee62188cb57e07b51e74a6a9de841181 with no material findings.
+Representative saved-ledger/model applications reproduce70moments/counts and
+3barrelhistograms;10kidenticalprimaries,12worker/8544489hit readback bindings,
+5foldID/scope checks,4public/private covariance/numeric projections, repeated
+restoredrecords/refitaudit and unchangedreference/dense statistics agree.
+All440paired contrasts and exact3modelintervaljoins check; covariance contrast
+residual<=3.6e-19.36overlayasset hashes and3assignedPNGs passQA. No new native,
+fullbootstrap/refit, writes or acceptance. Partial recovery and residual barrel
+penalty, posthoc/conditional/calibrationreuse limits are explicit.
+
+This bounded user-directed restoration is implemented and characterized. Generic
+project task remainsactive for review/adoption and residual-response qualification;
+no productionbaseline or human approval advanced. DraftPR148body/title/labels
+updated with actualresults/models/SVGs; no external comment/message, ready
+promotion or merge. Public snapshot observescd705head; finalmetadata commit is
+not self-referenced. User artifact folder retains plots/SVGs/models independently
+of worktree lifecycle. FullRAWoutput stayslocal.
+
+Exact observed usage:4closed specialistturns/40requests;
+12,844,557input+52,318output=12,896,875tokens. Cached12,744,576 and reasoning28,296
+are subsets. Activeparent unknown/excluded, no estimates or historicalcounter
+ownership overlap. Canonical journal/PR ledger/source inventories feed existing
+postmerge token-site labels and validation automatically. Current coveragepartial.
+
+
+Final checks pass:109project tasks/54documents/24reviewrounds;296pairedjournals;
+68softwarecomponents/102families/53reviewedinputs/12pins;119PRinteractionrecords
+with historicalbaseretention; tokenvalidate/build560disjoint datedturns. Payload/
+introduced-object audit passes150changedpaths, no newblob>2MB/raw event/library/
+privatehomepath. Fullsource/datahashes and37SVG/PDF/PNGgroups remain traceable.
+Wholeproject3,060,771,384observed tokens is not this tasksubtotal. Currentparent
+coverage remainsunknown. Finalmetadata publication will trigger normalCI;
+frozen implementationec881582 already passed build/unrooted/token-site checks.
