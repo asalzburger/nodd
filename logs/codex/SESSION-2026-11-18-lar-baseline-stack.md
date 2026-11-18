@@ -46,3 +46,87 @@ This was detected before publication and corrected in an ordinary subsequent
 commit, retaining both branches' evidence/PR/recipe contributions and rebuilding
 the generated inventory page. Inventory check and conflict-marker audit now pass.
 No geometry or accepted scientific evidence was altered by the correction.
+
+### LAR-BASELINE-SysArch assignment
+
+Prepared explicit full-profile fallback at9720c03a72f37e96c26338aad6c05f4428eab698.
+Read-only; inputs restored spec/exporter/native controls and report, LAYOUT002
+input/feature page and compact design input. Question: requirements for physical
+tracker/solenoid, HCAL/services and legacy FCAL context when selecting restored
+LAr as working baseline. Return bounded source-pinned findings/risks; no files,
+native execution, private-state access, publication or further delegation.
+
+### Baseline implementation and gap clarification
+
+User asked whether the latest model retained400mm; answered that warm barrel
+ends4100mm and warm endcap starts5100mm, so validated gap is1000mm. Existing
+S-bend envelopes are896.8/916.8mm. User then requested stacking current PRs
+first, followed by a separate reduced-gap PR. Keep the1m restored baseline here;
+the400mm proposal follows on a separate branch and record.
+
+Default maintained export now reads detector/config/ecal-baseline.json and
+explicitly builds restored-sampling.json; Si-W remains an explicit comparison.
+Fresh barrel/endcap XML and material files exactly match validated control
+hashes; components preserve37312raw contexts and3182528logical channels.
+Eight portable composition tests pass. Current tracker factories/catalogs built
+after Spack warning and successful ROOT/DD4hep/DDG4/Geant4 re-verification.
+A full native ten-system union audit constructed the expected roots/IDs and
+entered the1e-5mm overlap scan; its completion is still pending at this entry.
+
+LAR-BASELINE-SysArch returned source-pinned interface requirements at9720c03a:
+explicit restored builder and identities;1700mm bore after1640+60reservation;
+barrel2641.7→HCAL3130 interval488.3; endcap5100–6260; HCAL6760–8255.9context;
+old FCAL handoff cannot be transferred. No writes/native/transport or approval.
+Implemented a fresh named RZ input/render while retaining old FCAL drawings as
+historical context, and kept ECAL-only calibration identity guards.
+
+Whole-parent usage recovery rejected an inherited-prefix mismatch. Nine exact
+closed turns were then verified from their own prior observed origins, using
+the already retained metadata-provider528ordinal projection. Every delta equals
+reported last-request counters, with decreases/availability/boundaries guarded.
+Imported once into original147/148/149 task owners, with selected visible
+messages/operation metadata and separate per-PR inventories. Historical child
+usage remains untouched. All three local token-preview builds pass; current
+active baseline/reduced-gap turn remains excluded.
+
+### LAR-BASELINE-SysArch-final assignment
+
+Read-only exact7a9da4490f3bbe89f9d55fbfcadc795a3889139b: selection, exporter,
+layout renderer/input/PNG, decision and validation/identity receipts. Verify
+implemented interfaces, artifact/calibration scope and current/historical
+context. Native overlap scan still running and not claimed complete. No writes,
+native execution, private-state access, publication or delegation. Return
+material blockers/actual checks/limits for baseline draft publication.
+
+### Final baseline review and publication
+
+Published draft PR150 above149 (147→148→149→150), attached to this task.
+SysArch reviewed7a9da4490f3bbe89f9d55fbfcadc795a3889139b: no material interface/
+provenance blocker. Verified exact component identities/counts,85tracker overlay
+source hashes, default/comparison behavior, current/historical FCAL distinctions,
+calibration scope and byte-identical SVG, with PNG visual inspection. No separate
+native execution or acceptance. Both closed SysArch turns are imported once
+from USAGE-2026-11-18-lar-baseline-sysarch.json:5,268,729input +13,713output =
+5,282,442observed tokens. Current parent is active and excluded.
+
+Correction: initial gap discussion/assignment reused dense-control bend bounds
+896.8/916.8mm. CaloTech recomputed restored-model bounds834.082/854.082mm; the
+correction was stated to the user. The measured warm-envelope gap remains1m.
+A project validator also caught a fractional PR149collection timestamp inherited
+from its prior final record. Normalized that field and revalidated; the correction
+is an ordinary PR149 commit, preserved in the baseline branch ancestry.
+
+Native overlap audit is active on one CPU, roughly13.8GB RSS at21min observation;
+construction/IDs succeeded, overlap completion remains pending. No0overlap claim
+is made before the receipt exists. No main merge or ready action is authorized.
+
+### Native union completion
+
+The existing full native audit completed successfully (exit0): ten systems,
+zero overlaps at1e-5mm with seed114. Native point generation took1399.53s;
+candidate checking used ROOT default24threads and took6.69s. No transport was
+run in this baseline task. Kept compact native.json receipt with actual source/
+artifact/library hashes; no large log or exported ROOT geometry is committed.
+The initially dirty9720c03a execution has explicit source hashes; final7a9da449
+contains the same geometry-producing bytes. Earlier pending entries are retained
+as dated progress, superseded by this completed receipt.

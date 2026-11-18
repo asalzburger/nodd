@@ -1,8 +1,9 @@
-# Two ECAL working baselines
+# Selected LAr EM baseline and Si–W comparison
 
-Select the ECAL while keeping the maintained DES043 tracker:
+The [2026-11-18 human selection](../../docs/design/inputs/ECAL-baseline-selection-2026-11-18.md) makes restored LAr the EM working baseline while retaining the maintained DES043 tracker. The default and explicit LAYOUT-002 commands select the same restored variant; LAYOUT-001 remains a comparison:
 
 ```sh
+python3 -B tools/calorimeter_baselines/export.py --output build/baselines/selected
 python3 -B tools/calorimeter_baselines/export.py --layout LAYOUT-001 --output build/baselines/01
 python3 -B tools/calorimeter_baselines/export.py --layout LAYOUT-002 --output build/baselines/02
 cmake -S prototypes/calorimeter -B build/baselines/factories -G Ninja
@@ -14,7 +15,7 @@ Run CMake/native jobs in the reverified project Spack environment. The tracker
 factory is built separately using its existing recipe. `detector.xml` contains
 the tracker and the selected complete ECAL components, including their local
 services. `baseline.json` records source compact/material hashes, actual system
-mapping and the construction stage of the other systems. Generated XML, expected
+mapping, selected variant/specification hashes and the construction stage of the other systems. Generated XML, expected
 manifests and native output stay under ignored `build/`.
 
 LAYOUT-001 places the Si–W hardware inside reusable barrel and endcap wedges.
@@ -24,14 +25,16 @@ default for the component validation and fixture tools. Pass `--real-wedges`
 to either standalone Si–W exporter to select the baseline hierarchy.
 
 LAYOUT-002 selects reusable solid mothers for both inclined LAr barrel periods
-and all three turbine-wheel period templates. The maintained exporter passes
-`--real-periods` together with each component's local services. The mothers use
+and all three turbine-wheel period templates. The maintained exporter explicitly
+invokes `compact_prototype.py --spec tools/lar_calorimeter/restored-sampling.json`,
+which constructs those periods and their restored local services. The mothers use
 the actual enclosing material and retain the existing material pieces,
 transforms and readouts. `baseline.json` records the observed ECAL placement
 policy and envelope count; export rejects a missing or unexpected hierarchy.
 Standalone LAr exporters retain the legacy assembly default for component
-controls. Pass `--real-periods` explicitly when exporting those components to
-match the maintained baseline. See the [placement investigation](../../docs/validation/lar-placement/README.md)
+controls. Passing `--real-periods` changes their hierarchy, not their historical
+dimensions; use the explicit restored builder/specification to match the selected
+baseline. See the [placement investigation](../../docs/validation/lar-placement/README.md)
 for measured initialization results and their scope. This default selects the
 maintained DD4hep prototype representation; it grants no engineering or
 shower-response acceptance.

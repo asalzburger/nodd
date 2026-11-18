@@ -1,6 +1,7 @@
 # LAYOUT-001 — Tracker + inner 3 T solenoid + Si–W ECAL
 
-**Current human-selected candidate · DRAFT / PROTOTYPE · updated 2026-11-03.**
+**Retained Si–W comparison · DRAFT / PROTOTYPE · status updated 2026-11-18.**
+The [restored LAr design](../design/inputs/ECAL-baseline-selection-2026-11-18.md) is now the selected EM working baseline.
 The tracker combines the balanced pixel/long-strip geometry with the human-requested DES043 short-strip redesign. Open component proposals are included in this
 candidate for review; combined detector construction and engineering sign-off
 remain pending.

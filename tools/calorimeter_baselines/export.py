@@ -11,6 +11,7 @@ import sys
 import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[2]
+SELECTION = ROOT / "detector/config/ecal-baseline.json"
 OPTIONS = {
     "LAYOUT-001": (("siw-barrel", "tools/calorimeter_hardware/barrel_export.py", "calorimeter.xml", {8: 8}),
                    ("siw-endcaps", "tools/calorimeter_hardware/edge_export.py", "calorimeter.xml", {8: 9})),
@@ -147,6 +148,12 @@ def compose(components, output, layout):
 
 
 def export(layout, output):
+    selection = json.loads(SELECTION.read_text())
+    if selection["layout"] != "LAYOUT-002":
+        raise ValueError("Unsupported selected ECAL layout")
+    layout = layout or selection["layout"]
+    if layout not in OPTIONS:
+        raise ValueError("Unknown baseline: " + layout)
     output = Path(output).resolve()
     output.mkdir(parents=True, exist_ok=True)
     tracker = output / "components/tracker"
@@ -154,22 +161,33 @@ def export(layout, output):
                     "--output", str(tracker)], check=True, cwd=ROOT)
     tracker_compact = tracker / "tracker.xml"
     components = [("tracker", tracker_compact, {i: i for i in range(0, 8)})]
-    for tag, script, filename, mapping in OPTIONS[layout]:
-        directory = output / "components" / tag
-        command = [sys.executable, "-B", str(ROOT / script), "--output", str(directory)]
-        if layout == "LAYOUT-001":
-            command.append("--real-wedges")
-        else:
-            service = "barrel_services.py" if tag == "lar-barrel" else "endcap_services.py"
-            command += ["--services", str(ROOT / "tools/lar_calorimeter" / service), "--real-periods"]
-        subprocess.run(command, check=True, cwd=ROOT)
-        components.append((tag, directory / filename, mapping))
+    if layout == selection["layout"]:
+        spec = ROOT / selection["variant_spec"]
+        if json.loads(spec.read_text())["id"] != selection["variant"]:
+            raise ValueError("Selected ECAL variant differs from its specification")
+        directory = output / "components/restored-lar"
+        subprocess.run([sys.executable, "-B", str(ROOT / "tools/lar_calorimeter/compact_prototype.py"),
+                        "--spec", str(spec), "--output", str(directory)], check=True, cwd=ROOT)
+        components += [("lar-barrel", directory / "barrel/barrel.xml", {10: 10}),
+                       ("lar-endcaps", directory / "endcaps/endcaps.xml", {11: 11})]
+    else:
+        for tag, script, filename, mapping in OPTIONS[layout]:
+            directory = output / "components" / tag
+            subprocess.run([sys.executable, "-B", str(ROOT / script), "--output", str(directory),
+                            "--real-wedges"], check=True, cwd=ROOT)
+            components.append((tag, directory / filename, mapping))
     report = compose(components, output, layout)
     policy, expected_counts = (("real-wedges", {"siw-barrel": 1, "siw-endcaps": 1}) if layout == "LAYOUT-001"
                                else ("real-periods-v1", {"lar-barrel": 1, "lar-endcaps": 3}))
     expected_placement = {tag: dict(policy=policy, reusable_envelopes=count) for tag, count in expected_counts.items()}
     if report["ecal_placement"] != expected_placement:
         raise ValueError("Maintained ECAL export did not produce the selected reusable placement hierarchy")
+    report["ecal_selection"] = dict(
+        selected_working_baseline=layout == selection["layout"],
+        selection_sha256=sha(SELECTION),
+        variant=selection["variant"] if layout == selection["layout"] else "Si-W comparison",
+        variant_spec_sha256=sha(ROOT / selection["variant_spec"]) if layout == selection["layout"] else None,
+        reference_model_revision=selection["reference_model_revision"] if layout == selection["layout"] else None)
     config = json.loads((ROOT / "detector/config/tracker.json").read_text())
     report["tracker_generation"] = dict(
         status="Fresh maintained DES043 export in this invocation; reuse is unsupported",
@@ -184,7 +202,7 @@ def export(layout, output):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--layout", choices=OPTIONS, required=True)
+    parser.add_argument("--layout", choices=OPTIONS, help="Default: the human-selected EM baseline in detector/config/ecal-baseline.json")
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     export(args.layout, args.output)

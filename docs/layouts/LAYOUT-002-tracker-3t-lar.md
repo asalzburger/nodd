@@ -1,4 +1,39 @@
-# LAYOUT-002 — Tracker + inner 3 T solenoid + LAr ECAL + FCAL
+# LAYOUT-002 — Selected restored LAr EM working baseline
+
+**Human-selected 2026-11-18; engineering and full-detector qualification open.**
+The [selection record](../design/inputs/ECAL-baseline-selection-2026-11-18.md)
+identifies the restored PR148 model. Its updated barrel fits the retained
+tracker/solenoid reservation and keeps 1.8 mm Pb and ALLEGRO-style inclination.
+
+![Current restored LAr baseline](figures/LAYOUT-002-restored-rz.png)
+
+| Component | Current working selection | Scope |
+| --- | --- | --- |
+| Tracker | Maintained DES043, 46,682 sensitive planes | Included in maintained tracker+ECAL export |
+| LAr barrel | 1248 periods, 50.18°, sampling R1772.8–2350 mm; warm R1700–2641.7 mm, half-length4100 mm | Actual restored geometry and local services |
+| LAr endcaps | 650 mm sampling, three turbine wheels, warm R301–2949 mm, abs(z)=5100–6260 mm | Actual restored geometry and local services |
+| Solenoid | Conditional3T, 1640 mm outer assembly reservation +60 mm interface | Envelope context; not built in tracker+ECAL compact |
+| HCAL | Barrel front3130 mm/half-length6260 mm; endcap abs(z)=6760–8255.9 mm | Context only; physical regional adaptation pending |
+| FCAL/collar | Historical DES039 proposal | Updated routing/clearance validation required; omitted from current view |
+
+[Current named input](LAYOUT-002-restored.json) · [SVG](figures/LAYOUT-002-restored-rz.svg) ·
+[Baseline export and validation recipe](../../tools/calorimeter_baselines/README.md) ·
+[Restored 10k controls/calibration](../validation/lar-restored/README.md) ·
+[Updated native sector comparison](../validation/sector-gap-restored/README.md)
+
+The current drawing uses physical ECAL envelopes and retained tracker sensitive
+bounds, with equal axial/radial scales. Tracker passives are omitted visually.
+The compact contains tracker+ECAL; magnet/HCAL context is not constructed.
+No field or combined-detector response is inferred. Calibration models retain
+ECAL-only identity guards; they are not automatically transferred to this union.
+
+## Historical original LAr / FCAL context
+
+The following dated candidate and figures retain the original larger-radius
+LAr geometry and previous FCAL interfaces. They are historical controls, not
+the current baseline dimensions. In particular, their rear FCAL handoff precedes
+the new HCAL back and needs redesign/validation before integration.
+
 
 **Alternative DRAFT / PROTOTYPE · updated 2026-11-13.** The tracker and conditional inner magnet are shared with 01. The LAr component envelopes remain pinned to their independent proposal; DES039 adds a common forward body and a short EM collar.
 

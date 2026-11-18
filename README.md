@@ -53,12 +53,12 @@ including the HCAL update and permission to use lighter shades for substructure.
 
 [ECAL reviewer overview](docs/layouts/review/ecal-layout-review.md) retains the historical comparison and bounded transition review; current candidate pages carry later tracker and FCAL changes.
 
-The [DES039 common tungsten/quartz forward calorimeter](docs/design/DES-039-common-forward-calorimeter.md) is shown in both candidates, with an additional EM collar in the LAr alternative. It remains a DRAFT / PROTOTYPE with explicit aperture and service amendments.
+The [restored LAr design is the human-selected EM working baseline](docs/design/inputs/ECAL-baseline-selection-2026-11-18.md): 1.8 mm Pb, 1248 inclined barrel periods and 650 mm endcap sampling. Si–W remains a comparison option. The historical DES039 FCAL/collar proposal requires renewed interface validation for the updated endcap/HCAL bounds.
 
-**[Open the layout main page](docs/layouts/README.md)** for both current candidates,
+**[Open the layout main page](docs/layouts/README.md)** for the selected LAr baseline and the Si–W comparison,
 its R–Z view and concise links to component decisions and pull requests.
 
-[![LAYOUT-001: tracker, inner 3 T solenoid, Si–W ECAL and common FCAL proposal](docs/layouts/figures/LAYOUT-001-DES043-rz.png)](docs/layouts/LAYOUT-001-tracker-3t-siw.md)
+[![Selected restored LAr EM baseline with tracker and conditional magnet/HCAL context](docs/layouts/figures/LAYOUT-002-restored-rz.png)](docs/layouts/LAYOUT-002-tracker-3t-lar.md)
 
 The selected candidate combines the maintained tracker with proposed solenoid
 and ECAL components. Open prototypes and remaining systems are identified on the
