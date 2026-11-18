@@ -1,5 +1,6 @@
 """Small independent checks of paired raw-width inference and input contracts."""
 import copy
+import hashlib
 import json
 from pathlib import Path
 import tempfile
@@ -12,6 +13,7 @@ import compact_compare as c
 class PairedControls(unittest.TestCase):
     def contract(self):
         return dict(reference_compact_sha256='a'*64, candidate_compact_sha256='b'*64,
+                    reference_materials_sha256='1'*64, candidate_materials_sha256='2'*64,
                     input_sha256='c'*64, truth_sha256='d'*64, transition_union_abs_eta=[1.2, 1.6])
 
     def loaded(self):
@@ -23,6 +25,7 @@ class PairedControls(unittest.TestCase):
             sample = dict(input_sha256=contract['input_sha256'], truth_sha256=contract['truth_sha256'],
                           source_primary_manifest_sha256='e'*64,
                           hashes={'detector.xml':contract[name+'_compact_sha256'],
+                                  'materials.xml':contract[name+'_materials_sha256'],
                                   'particles.HEPEvt':contract['input_sha256'], 'truth-input.jsonl':contract['truth_sha256']})
             result[name] = ([{'event':n} for n in range(4)], values.copy(), {'input':sample})
         return result
@@ -62,6 +65,26 @@ class PairedControls(unittest.TestCase):
         self.assertEqual(sum(r['events'] for r in result['models']['candidate']['projections']['abs_eta']['bins']), 4)
         self.assertEqual(result['models']['candidate']['projections']['transition_union']['bins'][1]['events'], 2)
         json.dumps(result, allow_nan=False)
+
+    def test_wrong_or_missing_material_binding_is_rejected(self):
+        loaded, contract = self.loaded(), self.contract()
+        changed_bytes = hashlib.sha256(b'<materials><material name="changed-fixture"/></materials>').hexdigest()
+        for name in c.MODELS:
+            with self.subTest(model=name, mismatch='changed bytes'):
+                wrong = copy.deepcopy(loaded)
+                wrong[name][2]['input']['hashes']['materials.xml'] = changed_bytes
+                with self.assertRaisesRegex(ValueError, 'materials: ' + name):
+                    c.validate_pair(wrong, contract, expected_events=4)
+            with self.subTest(model=name, mismatch='wrong model label'):
+                wrong = copy.deepcopy(loaded)
+                other = 'reference' if name == 'candidate' else 'candidate'
+                wrong[name][2]['input']['hashes']['materials.xml'] = contract[other+'_materials_sha256']
+                with self.assertRaisesRegex(ValueError, 'materials: ' + name):
+                    c.validate_pair(wrong, contract, expected_events=4)
+            with self.subTest(model=name, mismatch='missing frozen hash'):
+                missing = dict(contract); del missing[name+'_materials_sha256']
+                with self.assertRaisesRegex(ValueError, 'frozen hash: ' + name+'_materials_sha256'):
+                    c.validate_pair(loaded, missing, expected_events=4)
 
     def test_zero_bins_keep_undefined_bootstrap_and_null_covariance(self):
         loaded = self.loaded()

@@ -44,8 +44,10 @@ def moments(values):
 
 
 def validate_pair(loaded, contract, expected_events=10000):
-    """Bind labels to frozen compacts and require identical primary illumination."""
-    for key in ('reference_compact_sha256', 'candidate_compact_sha256', 'input_sha256', 'truth_sha256'):
+    """Bind labels to frozen compacts/materials and identical primary illumination."""
+    for key in ('reference_compact_sha256', 'candidate_compact_sha256',
+                'reference_materials_sha256', 'candidate_materials_sha256',
+                'input_sha256', 'truth_sha256'):
         if not re.fullmatch('[0-9a-f]{64}', contract.get(key, '')):
             raise ValueError('Missing or invalid frozen hash: ' + key)
     if contract['reference_compact_sha256'] == contract['candidate_compact_sha256']:
@@ -65,6 +67,8 @@ def validate_pair(loaded, contract, expected_events=10000):
                 raise ValueError('Primary bytes differ from frozen protocol: ' + key)
         if sample.get('hashes', {}).get('detector.xml') != contract[name + '_compact_sha256']:
             raise ValueError('Mislabeled or changed geometry: ' + name)
+        if sample.get('hashes', {}).get('materials.xml') != contract[name + '_materials_sha256']:
+            raise ValueError('Mislabeled or changed materials: ' + name)
         if sample.get('hashes', {}).get('particles.HEPEvt') != contract['input_sha256'] or sample.get('hashes', {}).get('truth-input.jsonl') != contract['truth_sha256']:
             raise ValueError('Primary manifest hashes disagree: ' + name)
     a, b = (loaded[name][2]['input'] for name in MODELS)

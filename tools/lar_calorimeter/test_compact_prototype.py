@@ -13,8 +13,8 @@ class CompactTests(unittest.TestCase):
         self.assertAlmostEqual(barrel['sampling_inner_radius_mm'], 1772.8)
         self.assertAlmostEqual(barrel['sampling_outer_radius_mm']/barrel['sampling_inner_radius_mm'],2578.3/2172.8)
         self.assertEqual(barrel['inclination_deg'],50.18)
-        self.assertEqual(endcap['sampling_depth_mm'],600)
-        self.assertEqual(endcap['cold_back_z_mm']-(endcap['sampling_front_z_mm']+600),250)
+        self.assertEqual(endcap['sampling_depth_mm'],650)
+        self.assertEqual(endcap['cold_back_z_mm']-(endcap['sampling_front_z_mm']+endcap['sampling_depth_mm']),250)
         self.assertEqual(endcap['warm_front_z_mm']-barrel['warm_half_z_mm'],1000)
         # Independent worst flat-board corner and pipe annulus clearance.
         back=barrel['sampling_outer_radius_mm']

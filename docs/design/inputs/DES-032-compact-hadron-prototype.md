@@ -45,11 +45,13 @@ not fabrication/space-charge qualification of this nODD model. Relative to the
 old barrel, fewer periods and thicker Pb may degrade sampling precision; that
 is a measured question, not an assumption used to declare success.
 
-**NODD DESIGN CHOICE:** increase endcap sampling depth 450→600 mm while keeping
+**NODD DESIGN CHOICE:** increase endcap sampling depth 450→650 mm while keeping
 Pb1.1 mm at the wheel reference, PCB1.3 mm, period counts, radii and 49° angle.
-Retain the full rear service bath by extending the cold/warm back by150 mm.
-Independent chord screens predict roughly28–30 sampling X0 over η1.5–3, with
-positive gaps. The Cartesian-versus-cylindrical Pb taper approximation remains;
+Retain the full rear service bath by extending the cold/warm back by200 mm.
+The initial600 mm candidate had roughly28–30 X0 in selected core directions,
+but the finer native angular scan found24.3896 X0 at a wheel-support direction
+nearη2.7. Increase to650 mm before any shower-response analysis to address this
+material-depth shortfall; revalidate the native phase/support scan and gaps. The Cartesian-versus-cylindrical Pb taper approximation remains;
 its maximum difference grows and must be retained in native audit evidence.
 
 ## Vessel, bath, services and interfaces
@@ -68,8 +70,8 @@ The external bus remains3029 mm because unchanged endcap radii govern it.
 respecting the ≥4OD rule. The corresponding envelopes896.8/916.8 mm require a
 1000 mm front reservation. Translate the complete endcap +200 mm, then extend
 its rear for the added sampling depth. Warm front/back5100/6210 mm; sampling
-front/back5210/5810 mm. Retain500 mm rear service break: HCAL endcap front6710 mm
-and wrapping barrel half-length6210 mm are design-only consequences. Existing
+front/back5210/5860 mm. Retain500 mm rear service break: HCAL endcap front6760 mm
+and wrapping barrel half-length6260 mm are design-only consequences. Existing
 HCAL radial front3130 mm and sampling depth1495.9 mm are retained. No HCAL solid
 or baseline magnetic solution is changed in this isolated ECAL study.
 
