@@ -129,3 +129,11 @@ coverage, not the final task total.
 Human review of the draft drawing is pending. Other z slices and actual response
 or gap-performance comparison need separate evidence. This task does not change
 geometry, design status or prior calibration results.
+
+Draft published as [PR147](https://github.com/asalzburger/nodd/pull/147), labelled
+`documentation` and `campaign:calorimeters`. Connector writes returned integration
+403; authenticated CLI fallback succeeded. This was not an automatic approval
+rejection. Required token preview initially used a disallowed repository output
+path; the existing guard rejected it. Re-run under `_site/sector-gap-preview`
+succeeded. Final project/inventory/journal/token and 119-record interaction
+validation passed, including historical-record retention. No main merge.

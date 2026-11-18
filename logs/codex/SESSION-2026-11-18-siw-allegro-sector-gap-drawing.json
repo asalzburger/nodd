@@ -4,8 +4,8 @@
   "title": "Compare Si-W and ALLEGRO transverse sector-boundary geometry",
   "recorded_at": "2026-11-18T05:26:05Z",
   "started_at": "2026-11-18T05:22:47Z",
-  "ended_at": null,
-  "status": "open",
+  "ended_at": "2026-11-18T05:58:49Z",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
@@ -22,7 +22,8 @@
     "branch": "codex/siw-allegro-sector-gap-drawing",
     "initial_changes": [],
     "result_commits": [
-      "d6a713fba544865ebfdac3ff76aac337142417b5"
+      "d6a713fba544865ebfdac3ff76aac337142417b5",
+      "5f99e2600d2fe9d02d3080d64ab8697c79c21cab"
     ],
     "changed_files": [
       "docs/design/figures/sector-gap-native/native-slice-provenance.json",
@@ -30,6 +31,10 @@
       "docs/design/figures/sector-gap-native/siw-allegro-sector-gap.svg",
       "docs/software-inventory.md",
       "docs/validation/sector-gap-native/README.md",
+      "interactions/pr-0147.json",
+      "interactions/pr-0147/turns/01a1ca20-9aaa-72d1-9283-5591a6e73094--01a1ed1b-8b15-7fb1-aa60-ee73108496f0.json",
+      "interactions/pr-0147/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1ed1f-4e5f-7401-b0b5-9960b2eaefa3.json",
+      "interactions/pr-0147/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1ed31-0cfd-7021-ae60-58037cf891e8.json",
       "logs/codex/SESSION-2026-11-18-siw-allegro-sector-gap-drawing.json",
       "logs/codex/SESSION-2026-11-18-siw-allegro-sector-gap-drawing.md",
       "logs/usage/USAGE-2026-11-18-sector-gap-drawing.json",
@@ -53,7 +58,8 @@
       "TASK-PUB-ECAL-LAYOUT-REVIEW",
       "DES-030",
       "DES-031",
-      "DES-032"
+      "DES-032",
+      "PR-147"
     ]
   },
   "narrative": "logs/codex/SESSION-2026-11-18-siw-allegro-sector-gap-drawing.md",
@@ -178,6 +184,60 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "Three closed turns imported once; replay adds zero, retains three unchanged."
+    },
+    {
+      "command": "python3 -B tools/software_inventory/inventory.py refresh; check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "68 components, 102 code families, 53 reviewed inputs, 12 pins; refreshed and checked."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "108 tasks, 54 documents, 24 review rounds validated."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate; summary",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "294 records valid; summary retained locally; current task observed input 10,346,604 + output 23,574 = 10,370,178, active turn excluded."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "544 disjoint dated turns; 3,014,457,106 observed tokens globally, not this task total."
+    },
+    {
+      "command": "Draft publication and labels: connector, then authenticated gh fallback",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Connector writes returned 403 integration permission failure. Authenticated gh fallback created draft PR147 and applied documentation/campaign:calorimeters labels; no automatic approval rejection."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors before initial publication."
+    },
+    {
+      "command": "python3 -B tools/interactions/ledger.py validate --base-ref f3ece1d6a6816c8172dfa841d63e5424730e8228",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "119 PR records validated, historical records retained; new PR has sole task owner and three selected visible snapshots."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py build --output build/sector-gap/token-preview",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Output-location guard rejected repository output outside _site; no preview written there."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py build --output _site/sector-gap-preview",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Required observed-token/interaction preview generated under allowed ignored _site path."
     }
   ]
 }
