@@ -64,6 +64,22 @@ def configs(spec_path=SPEC):
         actual_bend_radii_mm=spec['actual_bend_radii_mm'], front_service_gap_mm=spec['front_service_gap_mm'],
         hcal_barrel_half_z_mm=endcap['warm_back_z_mm'],
         hcal_endcap_front_z_mm=endcap['warm_back_z_mm']+services['rear_service_gap_mm'])
+    if 'external_routing' in spec:
+        route=spec['external_routing']
+        if route['policy']!='pre_end_side_neck_reservation':
+            raise ValueError('Unsupported prototype external routing policy')
+        services.update(front_routing_policy=route['policy'],
+            side_neck_band_abs_z_mm=route['side_neck_band_abs_z_mm'],
+            external_route_radius_mm=route['external_route_radius_mm'],
+            station_sectors_per_end=route['station_sectors_per_end'],
+            barrel_utility_sector=route['barrel_utility_sector'],endcap_utility_sector=route['endcap_utility_sector'],
+            ordinary_lane_mm=[services['ordinary_lane_mm'][0],route['lane_radial_height_mm']],
+            utility_lane_mm=[services['utility_lane_mm'][0],route['lane_radial_height_mm']],
+            hcal_barrel_half_z_mm=route['hcal_barrel_half_z_mm'],
+            hcal_endcap_front_z_mm=route['hcal_endcap_front_z_mm'],
+            barrel_warm_half_z_mm=barrel['warm_half_z_mm'],
+            endcap_warm_front_z_mm=endcap['warm_front_z_mm'],endcap_warm_back_z_mm=endcap['warm_back_z_mm'],
+            endcap_warm_outer_radius_mm=endcap['warm_outer_radius_mm'])
     return spec, barrel, endcap, services
 
 
