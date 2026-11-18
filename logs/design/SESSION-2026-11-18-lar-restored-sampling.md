@@ -22,3 +22,24 @@ transport and paired-statistic evidence will follow; no claimed recovery yet.
 Current parent active, usage unknown. Record only exact closed-turn counters,
 without history overlap or parent estimates. No raw event files/logs/libraries
 will enterGit; retain scientific SVG/PDF/PNG, compact binwise evidence and recipe.
+
+
+Assignments prepared at53797385c374118838b2ade1ec3362328683cf75 before dispatch:
+LAR-RESTORED-SYSARCH, SysArch, read-only/no ownedfiles, sourceconfigs/services/
+design/protocol, assess physical interface arithmetic and unresolved gates; no
+native/private usage/writes/publication/delegation. LAR-RESTORED-SOFTENG-OVERLAY,
+SoftEng, own restored_overlay.py/test_restored_overlay.py only; sourcepaired/
+calibration/diagnosis helpers and protocol/old compact bins; implement verified
+aggregate three-way plots from upcoming paired summaries, synthetic-only until
+source freeze, no native/new inference/private usage/publication/delegation.
+
+
+Initial native candidate at53797385 passes component/combined mass/shape/transform/
+readout/ID and0overlap audits.27456barrel+9856endcap=37312raw contexts;
+1979328barrel+1203200endcap=3182528logical cells. All9088native material probes
+minimum26.800196887X0 ateta0,including actual1248/384/720/1360period phases.
+No depth remedy needed. Default strict6XML/material files and2endcapfiles remain
+byte-identical to prior production. Physical contracts pin newcompact2cfd36df...
+with unchangeda074b67a...materials, exact primary hashes/origins and common bins.
+SysArch initial assessment finds no material arithmetic/interface issue; actual
+ports/thermal/pressure/routing remain unqualified. Controls start next.
