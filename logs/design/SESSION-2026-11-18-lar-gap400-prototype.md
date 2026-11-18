@@ -90,3 +90,31 @@ current prototype ECAL combined/component hashes and tracker/magnet context
 sources. Regenerated the named input; physical SVG/PNG and native/transport
 artifacts are unchanged. No geometry or statistical rerun is needed for this
 metadata-only correction. Final reviewers receive the exact follow-up revision.
+
+### Final independent assessments and publication
+
+Published draftPR151 above150 and attached it to this task. SysArch and PhysVal
+reviewed9ec2558a8cf30d2e7e7ad5b2d07520ccd0138b95 plus metadata correction
+fcbc6a912038feb2cfe32a2b206bd582b6983d7b: no material blocker to publishing the
+conditional prototype. SysArch verified all4928sampling replicas/36global
+passive anchors,38210local passive children, unchanged materials/masses/counts,
+route/HCAL bounds, seven negative cases and byte-identical prototype/baseline
+SVGs. PhysVal verified27source hashes, translations, native records/405ray
+grid,24event receipt/input/worker bindings and exact19568hit comparison; four
+portable guards passed. Both inspected PNG and retained the physical-port/
+board/ring/bundle/collar and performance limitations. Neither reran native or
+transport, wrote files or granted engineering acceptance.
+
+Four closed CaloTech/SysArch/PhysVal turns are recorded once in this task:
+10,804,203input +33,257output =10,837,460observed tokens. Cached/reasoning
+subsets are not added. Inventories:USAGE-2026-11-18-lar-gap400-calotech.json and
+USAGE-2026-11-18-lar-gap400-final-reviews.json. Selected visible messages/
+operation metadata retain exact thread/turn/parent identities without raw tool
+arguments/results, hidden reasoning, images or private paths. Existing studies'
+owners remain unchanged; active shared parent is excluded.
+
+A fresh restored1m export under the extended code also reproduced all four
+validated component XML/material files byte-for-byte. Thus default baseline
+physical artifacts remain unchanged. Raw simulation/native files remain local.
+Final project/inventory/session/interaction/token checks and preview are recorded
+before final push. PRs remain drafts; no main merge/ready action was performed.
