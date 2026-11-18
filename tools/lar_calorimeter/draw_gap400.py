@@ -12,6 +12,10 @@ def sha(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
 
 def capture(model):
     d=copy.deepcopy(json.loads((ROOT/'docs/layouts/LAYOUT-002-restored.json').read_text()))
+    source=d['source']
+    source['baseline_context']={key:source.pop(key) for key in ('exporter_sha256','compact_sha256','materials_sha256','selection')}
+    source['baseline_context']['named_input_sha256']=sha(ROOT/'docs/layouts/LAYOUT-002-restored.json')
+    source['baseline_context']['tracker_visual_component_sha256']=source['component_sha256'].pop('tracker')
     for path,want in d['tracker']['matched_source_sha256'].items():
         if sha(ROOT/path)!=want:raise ValueError('Changed tracker context: '+path)
     b=json.loads((model/'barrel/expected.json').read_text());e=json.loads((model/'endcaps/expected.json').read_text());s=b['services']['config']

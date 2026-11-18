@@ -68,3 +68,25 @@ Seed133812341,5mm cap,.7mm production cuts,B=0. Full events/JSONL/ROOT geometry
 and runtime logs stay ignored. No new10k resolution or calibration-transfer
 claim. Current named input/SVG/PNG shows actual ECAL envelopes and conditional
 reservations; visual QA passed, baseline SVG remains byte-identical.
+
+### Exact-candidate final assignments
+
+LAR-GAP400-SysArch-final and LAR-GAP400-PhysVal-final target
+9ec2558a8cf30d2e7e7ad5b2d07520ccd0138b95. Prepared explicit full-profile
+fallback; read-only inputs: prototype spec/builder/service policy, design note,
+geometry/native/transport receipts and report, named input/PNG. SysArch assesses
+physical envelopes/reservations/guards/forward conflict and unchanged baseline;
+PhysVal assesses source identity, transforms/counts, finite native/24-event
+controls and interpretation. No writes/native activation/private-state access,
+publication or delegation. Deliver exact revision/material findings/actual checks/
+limits, stating blockers to publishing a conditional prototype draft.
+
+### Named-input provenance correction during review
+
+SysArch identified inherited1m tracker+ECAL compact/material/exporter fields in
+otherwise current ECAL-only prototype metadata. Moved those and the tracker
+visual-component hash into an explicitly named baseline_context, preserving
+current prototype ECAL combined/component hashes and tracker/magnet context
+sources. Regenerated the named input; physical SVG/PNG and native/transport
+artifacts are unchanged. No geometry or statistical rerun is needed for this
+metadata-only correction. Final reviewers receive the exact follow-up revision.
