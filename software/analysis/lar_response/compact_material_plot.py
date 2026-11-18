@@ -8,16 +8,17 @@ import numpy as np
 
 ROOT=Path(__file__).resolve().parents[3]
 sys.path.insert(0,str(ROOT/'tools/lar_calorimeter'))
-from compact_prototype import configs
+from compact_prototype import configs, SPEC
 
 
 def sha(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
 
 
 def aggregate(a):
-    _,bc,ec,sc=configs()
+    spec,bc,ec,sc=configs(a.spec)
     result=dict(scope='Native deterministic ray-grid material profiles, not shower efficiency or confidence intervals.',
-                candidate_envelopes=dict(barrel=bc,endcap=ec),models={})
+                candidate_envelopes=dict(barrel=bc,endcap=ec),models={},
+                candidate_label=a.candidate_label,candidate_spec_sha256=sha(a.spec),candidate_variant=spec['id'])
     for label,path in [('reference',a.reference),('candidate',a.candidate)]:
         raw=json.loads(path.read_text());model=dict(raw_native_report_sha256=sha(path),compact_sha256=raw['compact_sha256'],materials_sha256=raw['materials_sha256'],profiles=[],phase=[],summary=raw['summary'])
         for eta in sorted({r['eta'] for r in raw['rays'] if r['grid']=='angular'}):
@@ -50,6 +51,7 @@ def plot(a):
             if ext=='svg':target.write_text('\n'.join(line.rstrip() for line in target.read_text().splitlines())+'\n')
         plt.close(fig)
     styles={'reference':dict(color='#dada66',ls='--',label='Original LAr'),'candidate':dict(color='#cccc00',ls='-',label='Compact / deepened LAr')}
+    styles['candidate']['label']=d.get('candidate_label',styles['candidate']['label'])
     fig,axs=plt.subplots(1,2,figsize=(12,4.5))
     for key,m in d['models'].items():
         x=[r['abs_eta'] for r in m['profiles']];y=[r['sampling']['mean'] for r in m['profiles']]
@@ -78,11 +80,12 @@ def plot(a):
         rect(ef,eb,301,2949,facecolor='none',edgecolor='#cccc00')
         rect(5210 if new else 5010,es,410,2790,color='#cccc00',alpha=.65)
         ax.set(xlim=(0,6.5),ylim=(0,3.2),xlabel='|z| [m]',ylabel='r [m]',title='Compact candidate' if new else 'Original model');ax.grid(alpha=.15)
-    axs[0].legend(fontsize=8,loc='lower right');fig.suptitle('Model envelopes · radial proportions retained; services and wall budgets preserved');export(fig,'compact-envelopes')
+    axs[0].legend(fontsize=8,loc='lower right');fig.suptitle('Model envelopes · explicit vessel, bath and service budgets');export(fig,'compact-envelopes')
 
 
 if __name__=='__main__':
     p=argparse.ArgumentParser();sub=p.add_subparsers(dest='stage',required=True)
     q=sub.add_parser('aggregate');q.add_argument('--reference',type=Path,required=True);q.add_argument('--candidate',type=Path,required=True);q.add_argument('--output',type=Path,required=True)
+    q.add_argument('--spec',type=Path,default=SPEC);q.add_argument('--candidate-label',default='Compact / deepened LAr')
     q=sub.add_parser('plot');q.add_argument('--summary',type=Path,required=True);q.add_argument('--output',type=Path,required=True)
     a=p.parse_args();globals()[a.stage](a)

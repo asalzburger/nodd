@@ -1,6 +1,7 @@
 """Opt-in isolated compact LAr ECAL; maintained layout defaults remain unchanged."""
 import argparse
 import json
+import math
 from pathlib import Path
 import subprocess
 import shutil
@@ -13,10 +14,25 @@ import endcap_export
 import endcap_services
 
 SPEC = Path(__file__).with_name('compact-prototype.json')
+RESTORED_SPEC = Path(__file__).with_name('restored-sampling.json')
 
 
-def configs():
-    spec = json.loads(SPEC.read_text())
+def radial_compartment_lengths(original, inner, outer):
+    """Preserve normalized radial boundaries, then solve inclined path lengths."""
+    r0, r1 = original['sampling_inner_radius_mm'], original['sampling_outer_radius_mm']
+    ca, sa = math.cos(math.radians(original['inclination_deg'])), math.sin(math.radians(original['inclination_deg']))
+    radii, t = [r0], 0.
+    for length in original['segments_mm']:
+        t += length
+        radii.append(math.hypot(r0+t*ca, t*sa))
+    radii[-1] = r1  # Original table is rounded; the annulus fixes its endpoint.
+    mapped = [inner+(outer-inner)*(r-r0)/(r1-r0) for r in radii]
+    paths = [-inner*ca+math.sqrt(r*r-inner*inner*sa*sa) for r in mapped]
+    return [b-a for a, b in zip(paths, paths[1:])]
+
+
+def configs(spec_path=SPEC):
+    spec = json.loads(Path(spec_path).read_text())
     barrel = json.loads((ROOT/'tools/lar_calorimeter/barrel.json').read_text())
     endcap = json.loads((ROOT/'tools/lar_calorimeter/endcaps.json').read_text())
     services = json.loads((ROOT/'tools/lar_calorimeter/services.json').read_text())
@@ -24,8 +40,16 @@ def configs():
         ('front_warm_mm', 'front_vacuum_mm', 'front_cold_mm', 'front_bath_mm'))
     scale = front/barrel['sampling_inner_radius_mm']
     back = barrel['sampling_outer_radius_mm']*scale
+    lengths = [v*scale for v in barrel['segments_mm']]
+    if 'barrel_sampling_outer_radius_mm' in spec:
+        if spec.get('compartment_radius_policy') != 'normalized_radial_fractions':
+            raise ValueError('Explicit outer radius requires normalized radial compartment policy')
+        back = spec['barrel_sampling_outer_radius_mm']
+        if not math.isfinite(back) or back <= front:
+            raise ValueError('Sampling outer radius must exceed its inner radius')
+        lengths = radial_compartment_lengths(barrel, front, back)
     barrel.update(warm_inner_radius_mm=spec['warm_bore_mm'], sampling_inner_radius_mm=front,
-        sampling_outer_radius_mm=back, segments_mm=[v*scale for v in barrel['segments_mm']],
+        sampling_outer_radius_mm=back, segments_mm=lengths,
         planes=spec['barrel_planes'], lead_mm=spec['barrel_lead_mm'], rear_bath_mm=spec['barrel_rear_bath_mm'])
     shift = spec['front_service_gap_mm']-services['front_service_gap_mm']
     extra = spec['endcap_sampling_depth_mm']-endcap['sampling_depth_mm']
@@ -43,9 +67,10 @@ def configs():
     return spec, barrel, endcap, services
 
 
-def export(out):
+def export(out, spec_path=SPEC):
     out.mkdir(parents=True, exist_ok=False)
-    spec, barrel, endcap, services = configs()
+    spec_path = Path(spec_path).resolve()
+    spec, barrel, endcap, services = configs(spec_path)
     revision = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()
     dirty = bool(subprocess.check_output(['git', 'status', '--porcelain'], cwd=ROOT, text=True))
     reports = {}
@@ -57,7 +82,7 @@ def export(out):
         report['materials']=materials.recipes;exporter.totals(report)
         exporter.write(folder/'materials.xml', materials.root)
         exporter.compact(report, folder, real_periods=True)
-        source_files=[Path(__file__),SPEC,Path(exporter.__file__),Path(service.__file__),
+        source_files=[Path(__file__),spec_path,Path(exporter.__file__),Path(service.__file__),
             ROOT/'tools/lar_calorimeter/placement.py',ROOT/'tools/lar_calorimeter/services.py',
             ROOT/'tools/lar_calorimeter/services.json',ROOT/'prototypes/calorimeter/LArBarrel.cpp',
             ROOT/'prototypes/calorimeter/LArEndcap.cpp']
@@ -78,7 +103,7 @@ def export(out):
     value=dict(layout='LAYOUT-002',status='isolated PROTOTYPE, not maintained layout',
         compact_sha256=sha(combined/'detector.xml'),materials_sha256=sha(combined/'materials.xml'),
         variant=spec['id'],constructed=['isolated compact LAr barrel','isolated deepened LAr endcaps'],
-        variant_spec_sha256=sha(SPEC),source_revision=revision,
+        variant_spec_sha256=sha(spec_path),source_revision=revision,
         components=record['components'],raw_sensitive_ids=sum(r['physical_sensitive_elements'] for r in reports.values()))
     metadata.write_text(json.dumps(value,indent=2)+'\n')
     print(json.dumps(dict(variant=spec['id'],raw_sensitive_ids=value['raw_sensitive_ids'],
@@ -88,4 +113,5 @@ def export(out):
 
 if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--output',type=Path,required=True)
-    export(p.parse_args().output)
+    p.add_argument('--spec',type=Path,default=SPEC,help='Explicit opt-in prototype specification; strict ratio remains the default')
+    a=p.parse_args();export(a.output,a.spec)

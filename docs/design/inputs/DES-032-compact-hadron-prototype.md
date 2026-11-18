@@ -135,3 +135,39 @@ supports and routing remain unqualified. Logical barrel channels1,979,328;
 phi-cell angle changes to2pi/624 while inner physical pitch stays about17.85mm.
 Larger outer gaps and changed granularity require fresh calibration and a new
 matched10k control. The endcap precision issue remains a separate design problem.
+
+
+## User-directed restored sampling variant,2026-11-18
+
+**NODD DESIGN CHOICE / isolated PROTOTYPE:** the user directs “Let’s restore
+1.8 mm Pb thickness even at the price of a larger outer radii”. This authorizes
+exploring the larger annulus; it is not engineering sign-off. Preserve the
+strict-ratio2.6mm model and its adverse controls as a separate frozen variant.
+The opt-in specification is `tools/lar_calorimeter/restored-sampling.json`;
+maintained geometry and the existing default compact specification stay unchanged.
+
+Select the previously screened1248-period,Rin1772.8/Rout2350mm case BEFORE any
+new response outcome. Retain50.18° inclination, original1.8mmPb/0.2mmsteel/
+0.1mmglue/1.2mmPCB, normalized RADIAL compartment fractions, warm bore1700mm,
+front walls/vacuum/bath,210mm rear bath, three board banks and1000mm front service
+reservation. These selections restore approximately the original front gap and
+provide the earlier analytic phase-depth margin. They are not tuned on the new
+sample. The changed global ratio is1.325587, with577.2mm radial sampling depth.
+The barrel lead thickness is restored; unchanged endcap Pb remains1.1mm.
+
+Map each original radial fraction to the new annulus and solve the inclined
+path increments exactly, as specified above. Radial bank fronts2365/2410/2455mm,
+N2centre2547mm, warmouter2641.7mm and488.3mm corridor to the retained HCAL3130mm
+front follow arithmetically. Preserve thermal/pressure/port/support caveats and
+verify native containment and actual period phases before transport. Endcap
+geometry stays at the already studied650mm sampling depth; its source XML must
+remain byte-identical. Changed barrel segmentation and shoulder response remain
+explicit controls. Predicted barrel channels1,979,328 need actual export audit.
+
+Repeat exact saved10000electrons with12workers and the original fixed transport
+policy. Compare original, densecompact and restored sampling with zeros/tails,
+raw distributions, ten|eta|/legacyfold bins and energy-by-region controls. Reuse
+fixed five-fold60-bin eta-forward calibration/refit-bootstrap algorithm without
+feature/bin searches or calibration transfer across geometry identities. The
+same0.7mm cuts preserve comparability; convergence remains a separate unresolved
+qualification. No precision recovery or multi-TeV containment is assumed.
