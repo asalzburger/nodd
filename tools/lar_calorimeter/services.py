@@ -46,7 +46,10 @@ def budget(config=None):
     shift = c['external_route_radius_mm']-c['nitrogen_pipe_radius_mm']
     bends = {}
     for od in (c['nitrogen_external_jacket_od_mm'], c['lar_utility_external_od_mm']):
-        radius = c['minimum_bend_radius_od']*od
+        minimum_radius = c['minimum_bend_radius_od']*od
+        radius = c.get('actual_bend_radii_mm', {}).get(str(od), minimum_radius)
+        if radius < minimum_radius:
+            raise ValueError('Chosen bend radius below minimum OD rule')
         if not 0 < shift <= 2*radius:
             raise ValueError('Radial S bend outside chosen bend construction')
         angle = math.acos(1-shift/(2*radius))

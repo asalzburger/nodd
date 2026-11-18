@@ -5,8 +5,8 @@ from pathlib import Path
 from barrel_geometry import I, rotation, ROOT, sha
 from services import budget
 
-def augment(report,m):
-    b=budget();c=b['config'];ps=report['passive']
+def augment(report,m,config=None):
+    b=budget(config);c=b['config'];ps=report['passive']
     for key,value in dict(board_face_mm=[350,75],board_radial_depth_mm=35,
         board_grid_pitch_mm=[500,80],board_gap_mm=10,nitrogen_pipe_id_mm=18,
         nitrogen_pipe_od_mm=20,endcap_stations_each=16).items():

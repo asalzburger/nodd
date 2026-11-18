@@ -113,6 +113,16 @@ def cell_inventory(root):
     return result
 
 
+def raw_sensitive_count(inventory):
+    """Independent expected raw count from frozen compact segmentation tables."""
+    barrel = inventory['LArBarrelHits']
+    layers = {int(k[0]) for k in barrel['keys']}
+    endcap = inventory['LArEndcapHits']
+    if not layers or layers != set(range(len(layers))):
+        raise ValueError('Incomplete barrel layer inventory')
+    return 2 * barrel['planes'] * len(layers) + 4 * sum(endcap['wheel_planes'])
+
+
 def decode(cell, descriptor):
     if not isinstance(cell, int) or cell < 0:
         raise ValueError("Invalid cell ID")
@@ -222,6 +232,7 @@ def run(args):
     env = os.environ.copy(); env["NODD_LAR_AUDIT"] = str(out / "audit")
     env["NODD_LAR_MAX_STEP_MM"] = format(args.max_step_mm, ".17g")
     env["NODD_LAR_AUDIT_LIBRARY"] = str(auditlib)
+    env["NODD_LAR_EXPECTED_RAW_IDS"] = str(raw_sensitive_count(manifest['inventory']))
     for name in ("DD4HEP_LIBRARY_PATH", "DYLD_LIBRARY_PATH", "LD_LIBRARY_PATH"):
         env[name] = os.pathsep.join([*(str(p.parent) for p in [*libs, auditlib]), env.get(name, "")])
     steering = Path(__file__).with_name("steering.py")
@@ -324,8 +335,9 @@ def audit(args):
         raise ValueError("Observed physics/seed missing")
     maps_path = run_dir / "audit/maps-initialized.json"
     maps = load(maps_path)
+    expected_raw_ids = raw_sensitive_count(manifest['inventory'])
     if (maps["status"] != "PASS" or maps["thread_id"] >= 0 or
-            maps["raw_sensitive_ids"] != 43648 or maps["native_contexts_checked"] != 43648 or
+            maps["raw_sensitive_ids"] != expected_raw_ids or maps["native_contexts_checked"] != expected_raw_ids or
             receipt.get("maps_audit_sha256") != sha(maps_path)):
         raise ValueError("Incomplete or changed serial map initialization")
     if not receipt.get("producers_unchanged") or not receipt.get("libraries_unchanged"):
