@@ -231,3 +231,43 @@ no native execution or transport. Earlier rough transition15–17X0 warning
 omitted cosh(eta), was incorrect and explicitly superseded. User-visible update
 corrected promptly. No implemented global-radius-ratio change without clarification;
 strict current model preserved. Conditional proposal recorded for review.
+
+
+## Independent final review and bounded-study close
+
+PhysVal reviewed5e8b13aa1a8b8ae7941a78e75e5e7da2dcf414b1 independently, with no
+material findings. Recreated five2000-event fold assignments/exclusion hashes,
+600training-bin counts and30sampled gains; applied saved OOF gains to all20000
+records.2860point checks and46absolute histograms agree, as do110contrasts,
+source/model/public-private bindings, covariance PSD and A-Sigma-A-transpose
+(residual3.8e-19),24figure hashes and both assigned PNGs. Full1000bootstrap and
+native transport not independently rerun. Core/endcap penalty and energy
+nonclosure remain explicit; no precision or detector acceptance.
+
+Bounded strict-ratio study closes with physical fit/depth verified and requested
+precision preservation unachieved. Project task remains active for clarification
+and a next design iteration. Draft PR148 retains all adverse/secondary evidence,
+calibration interface, source models, SVG/PDF/PNG and exact reproduction. Labels
+campaign:calorimeters,scope:baseline-design,enhancement retained; not marked ready
+or merged. CLI PR-body write succeeded; transient gh-api capture errors were
+remedied with read-only GitHub connector metadata/comment snapshots. No external
+comment/message sent. Snapshot records the observed published cd5211ab head;
+final metadata commit is deliberately not self-referenced.
+
+Exact closed-turn accounting:14turns/186requests;
+40,368,719input +155,402output =40,524,121observedtokens. Cached39,616,768 and
+reasoning79,220 are subsets. Active parent unknown/excluded. Source inventories,
+canonical session ownership and visible interaction records feed the existing
+Pages build after merge without additive PR reallocation. No estimates, private
+reasoning or raw client payloads retained. This study's boundary is explicit so
+future iterations can receive a separate session owner.
+
+
+Final checks pass:38analysis tests,2compact-budget tests; software inventory
+68components/102families/53reviewedinputs/12pins; project109tasks/54documents/
+24reviewrounds;294paired sessionrecords;119PR interactionrecords with historical
+base retention; token-site validation/build555disjoint dated turns. Initial
+millisecond project snapshot timestamp rejected by UTC-second schema and
+normalized without changing observed time. Final introduced-file/blob audit:
+no raw events/libraries/private home paths, no new blob above2MB. Current
+whole-project observed usage3,044,611,049 is not this task's subtotal.
