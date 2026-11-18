@@ -7,6 +7,51 @@ from barrel_geometry import ROOT, sha
 CONFIG = Path(__file__).with_name('services.json')
 
 
+def side_egress_reservation(c, stations, bends):
+    """Conditional empty lanes; these checks do not construct connected ports."""
+    clear=c['installation_clearance_mm'];lo,hi=c['side_neck_band_abs_z_mm']
+    if not all(math.isfinite(x) for x in [clear,lo,hi,c['external_route_radius_mm'],*c['ordinary_lane_mm'],*c['utility_lane_mm']]) or clear<=0 or min(*c['ordinary_lane_mm'],*c['utility_lane_mm'])<=0:
+        raise ValueError('Need finite positive reservation dimensions')
+    if not 0<=lo<hi<=c['barrel_warm_half_z_mm']:
+        raise ValueError('Side-neck band must precede the barrel warm end')
+    if not math.isclose(c['endcap_warm_front_z_mm']-c['barrel_warm_half_z_mm'],c['front_service_gap_mm']):
+        raise ValueError('Front envelope gap differs from the routing specification')
+    window=c['hcal_endcap_front_z_mm']-c['hcal_barrel_half_z_mm']
+    if c['endcap_warm_back_z_mm']>c['hcal_barrel_half_z_mm'] or not math.isclose(window,c['rear_service_gap_mm']):
+        raise ValueError('HCAL context does not retain the radial exit window')
+    n=c['station_sectors_per_end'];u=c['barrel_utility_sector'];v=c['endcap_utility_sector']
+    if n!=16 or c['barrel_stations']!=2*n or c['endcap_stations_each']!=n or not all(isinstance(i,int) and 0<=i<n for i in (u,v)) or u==v:
+        raise ValueError('Need distinct barrel/endcap utility sectors in the retained station grid')
+    lanes={};radius=c['external_route_radius_mm']
+    for kind in ('ordinary','utility'):
+        width,height=c[kind+'_lane_mm'];inner,outer=radius-height/2,radius+height/2
+        angle=width/radius;edge=inner*math.sin((2*math.pi/n-angle)/2)
+        if inner-c['endcap_warm_outer_radius_mm']<clear or c['hcal_barrel_front_apothem_mm']-outer<clear or angle>=2*math.pi/n or edge<clear:
+            raise ValueError('Annular lane fails radial/angular face clearance')
+        lanes[kind]=dict(inner_radius_mm=inner,outer_radius_mm=outer,angular_width_rad=angle,
+            area_mm2=width*height,angular_face_clearance_mm=edge)
+    ordinary=sum(stations[k]['ordinary_occupied_area_mm2'] for k in ('barrel','endcap'))
+    mixed={k:stations[k]['utility_occupied_area_mm2']+stations['endcap' if k=='barrel' else 'barrel']['ordinary_occupied_area_mm2'] for k in ('barrel','endcap')}
+    if ordinary>lanes['ordinary']['area_mm2'] or max(mixed.values())>lanes['utility']['area_mm2']:
+        raise ValueError('Shared barrel/endcap station bundles exceed their lane')
+    for bend in bends.values():
+        required=bend['axial_s_bend_envelope_mm']+clear
+        rear=bend['rear_quarter_turn_mm']+clear
+        if required>hi-lo or rear>window:
+            raise ValueError('Pre-end S bend or rear exit fails two-face clearance')
+        bend['side_neck_required_axial_mm']=required;bend['rear_two_face_bound_mm']=rear
+    max_od=max(c['nitrogen_external_jacket_od_mm'],c['lar_utility_external_od_mm'])
+    return dict(status='CONDITIONAL RESERVATION ONLY',external_route_constructed=False,
+        side_neck_band_abs_z_mm=[lo,hi],radial_single_jacket_bounds_mm=[c['nitrogen_pipe_radius_mm']-max_od/2-clear,radius+max_od/2+clear],
+        radial_exit_window_abs_z_mm=[c['hcal_barrel_half_z_mm'],c['hcal_endcap_front_z_mm']],
+        endcap_to_hcal_axial_interval_mm=c['hcal_endcap_front_z_mm']-c['endcap_warm_back_z_mm'],
+        lanes=lanes,ordinary_combined_area_mm2=ordinary,mixed_utility_station_area_mm2=mixed,
+        utility_sector_assignment=dict(barrel=u,endcap=v),
+        limitations=['No native external pipe/cable/port material is constructed.',
+            'Neck band intersects populated boards/H-rings; no swept clearance, connected headers or pressure/vacuum port design.',
+            'Annular area and single-jacket bounds do not establish individual bundle packing or engineering fit.'])
+
+
 def budget(config=None):
     c = config or json.loads(CONFIG.read_text())
     if not 0 < c['packing_fill'] < 1:
@@ -44,6 +89,9 @@ def budget(config=None):
         if throat > math.prod(c['ordinary_lane_mm']) or utility > math.prod(c['utility_lane_mm']):
             raise ValueError('Service lane has insufficient packed area')
     shift = c['external_route_radius_mm']-c['nitrogen_pipe_radius_mm']
+    policy=c.get('front_routing_policy','front_s_bend')
+    if policy not in ('front_s_bend','pre_end_side_neck_reservation'):
+        raise ValueError('Unknown front routing policy')
     bends = {}
     for od in (c['nitrogen_external_jacket_od_mm'], c['lar_utility_external_od_mm']):
         minimum_radius = c['minimum_bend_radius_od']*od
@@ -57,8 +105,10 @@ def budget(config=None):
         rear = radius+od/2+c['installation_clearance_mm']
         bends[str(od)] = dict(radial_shift_mm=shift, bend_radius_mm=radius,
             axial_centreline_with_clearance_mm=axial, axial_s_bend_envelope_mm=axial+od, rear_quarter_turn_mm=rear)
-        if axial+od > c['front_service_gap_mm'] or rear > c['rear_service_gap_mm']:
+        if (policy=='front_s_bend' and axial+od > c['front_service_gap_mm']) or rear > c['rear_service_gap_mm']:
             raise ValueError('Axial service gap fails minimum bend allocation')
+    if policy=='pre_end_side_neck_reservation':
+        result['external_route_reservation']=side_egress_reservation(c,result['stations'],bends)
     result['bends'] = bends
     q = c['barrel_cooling_reference_kW']+2*c['endcap_cooling_planning_kW_each']
     result['heat'] = dict(source_barrel_scenario_kW=c['barrel_cooling_reference_kW'],

@@ -29,6 +29,17 @@ rsvg-convert docs/layouts/figures/LAYOUT-002-restored-rz.svg \
   -o docs/layouts/figures/LAYOUT-002-restored-rz.png
 ```
 
+## Separate 400 mm-gap prototype
+
+The [opt-in reduced-gap study](../validation/lar-gap400/README.md) moves the
+complete endcaps600mm toward the IP with unchanged sampling depth. It retains
+HCAL context and explicitly unconstructed side-egress reservations. The selected
+1m-gap baseline above is preserved. Physical ports/support clearances and the
+prospective forward collar conflict remain open.
+
+[Prototype R–Z](figures/LAYOUT-002-gap400-rz.png) · [SVG](figures/LAYOUT-002-gap400-rz.svg) ·
+[Named input](LAYOUT-002-gap400.json)
+
 ## Historical original candidates and FCAL controls
 
 The following snapshots keep the original candidate dimensions and their frozen
