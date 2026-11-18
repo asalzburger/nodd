@@ -49,7 +49,7 @@ These are reservation and area checks, not individual bundle packing or mechanic
 ## Forward interface and validation boundary
 
 Preserve the prospective FCAL/collar source and flag its conflict explicitly:
-the moved warm endcap intersects the historical collar envelope over R301–450
+the moved warm endcap intersects the [historical prospective collar reservation](../../layouts/LAYOUT-002.json) over R301–450
 mm and abs(z)=4500–4850 mm. The forward system is absent from this native ECAL
 stage; its prior clearance result does not transfer. No reservation is silently
 deleted or claimed integrated.
