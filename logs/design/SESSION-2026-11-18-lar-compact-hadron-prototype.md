@@ -122,3 +122,20 @@ Closed specialist usage recovery selects six exactly matched turns only:
 subsets. Activeparent/650review-atcapture and future result turns excluded.
 Strict cumulative/request deltas and parent-childmetadata checked; no private
 reasoning, raw app responses or historical counter duplication retained.
+
+## Draft publication and synchronized records
+
+Draft PR148 opened with the reviewed source, native plots and explicit pending
+10k result. Connector writes return integration403; authenticated gh fallback
+succeeded. This is not an automatic approval rejection. Existing labels
+campaign:calorimeters,scope:baseline-design,enhancement applied; nonexistent
+prototype label was not created. Current task tracking, inventory links and
+seven exact closed specialist turns are synchronized to PR148. Visible-source
+curation retains only actual started child relationships, not completed/interacted
+notifications that initially triggered the conflicting-parent guard. No counters
+or validation rules changed to remedy that curation error.
+
+Observed seven-turn usage:122requests,23,381,088input+82,018output=23,463,106tokens;
+Cached input23,022,080 and reasoning39,997 are subsets. Current
+parent remains active/unaccounted. Full paired validation/source hashes are the
+canonical evidence; no main merge or human sign-off.
