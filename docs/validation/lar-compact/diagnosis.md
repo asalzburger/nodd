@@ -45,6 +45,14 @@ widths. Several geometry parameters changed together; no one-parameter ablation
 has established their individual causal contributions or excluded leakage and
 other geometry effects.
 
+Numerical sensitivity is also unquantified: both runs use0.7mm range production
+cuts, which is not a convergence demonstration for the compact~0.484mm initial
+gaps. This does **not** mean Geant4 fails to resolve those gaps. Production
+thresholds govern secondary creation; tracking respects volume boundaries and
+is not stopped at that range. See **SRC-GEANT4-CUTS-FAQ-11-4**,
+[official physics/cuts FAQ](https://geant4.web.cern.ch/documentation/dev/faq_html/FAQ/physicsAndCuts.html).
+A matched finer-cut control should precede a precise attribution of the loss.
+
 ## Raw distributions behind the widths
 
 ![Underlying raw response distributions](figures/regional-raw-distributions.png)
