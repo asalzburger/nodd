@@ -55,9 +55,10 @@ def augment(report, m, config=None):
     for sector in range(16):
         phi=sector*2*math.pi/16
         for bank,inner in enumerate(c['board_bank_inner_radii_mm']):
-            for col in range(12):
+            columns = c.get('barrel_board_columns', 12)
+            for col in range(columns):
                 for row in range(15):
-                    board(f'CFEB_{sector}_{bank}_{col}_{row}',inner,-440+80*col,-3500+500*row,phi)
+                    board(f'CFEB_{sector}_{bank}_{col}_{row}',inner,80*(col-(columns-1)/2),-3500+500*row,phi)
             for side in (-1,1):
                 for col,tangent in enumerate((-190,190)):
                     board(f'CFEBend_{sector}_{bank}_{side}_{col}',inner,tangent,0,phi,True,f'end_bath_{side}')

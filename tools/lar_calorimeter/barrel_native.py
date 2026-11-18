@@ -270,7 +270,7 @@ def run(args):
                 if int(segmentation.volumeID(canonical)) != raw_ids[(0,li,0)]: errors.append('canonical raw-volume inverse')
                 reference_checks += 1
                 radius = math.hypot(*xy[:2])
-                for plane in (0,1,1534,1535):
+                for plane in (0,1,expected['config']['planes']-2,expected['config']['planes']-1):
                     for gap in (0,1):
                         piece = next(p for p in expected['pieces'] if p.get('gap') == gap and p['layer'] == li)
                         point = point_on_gap(piece,radius)+[xy[2]]
@@ -297,7 +297,7 @@ def run(args):
         audit = importlib.util.module_from_spec(specification); specification.loader.exec_module(audit)
         rays = []
         for eta in (-2,-1.4,-1,-.5,0,.5,1,1.4,2):
-            for phi in (0.,.001,math.pi/1536,.37,1.11):
+            for phi in (0.,.001,math.pi/expected['config']['planes'],.37,1.11):
                 direction = [math.cos(phi)/math.cosh(eta),math.sin(phi)/math.cosh(eta),math.tanh(eta)]
                 ray = audit.trace_ray(manager,dd4hep,[0,0,0],direction,sensor_paths,max_length_mm=7000)
                 ray.update(eta=eta,phi_rad=phi)
