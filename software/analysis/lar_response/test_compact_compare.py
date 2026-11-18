@@ -14,6 +14,8 @@ class PairedControls(unittest.TestCase):
     def contract(self):
         return dict(reference_compact_sha256='a'*64, candidate_compact_sha256='b'*64,
                     reference_materials_sha256='1'*64, candidate_materials_sha256='2'*64,
+                    reference_primary_manifest_sha256='4'*64, candidate_primary_manifest_sha256='5'*64,
+                    reference_primary_revision='6'*40, candidate_primary_revision='7'*40,
                     input_sha256='c'*64, truth_sha256='d'*64, transition_union_abs_eta=[1.2, 1.6])
 
     def loaded(self):
@@ -23,7 +25,11 @@ class PairedControls(unittest.TestCase):
         for i, name in enumerate(c.MODELS):
             contract = self.contract()
             sample = dict(input_sha256=contract['input_sha256'], truth_sha256=contract['truth_sha256'],
-                          source_primary_manifest_sha256='e'*64,
+                          source_primary_manifest_sha256=contract[name+'_primary_manifest_sha256'],
+                          source_primary_revision=contract[name+'_primary_revision'],
+                          input_seed=13310000, electron_mass_GeV=.00051099895,
+                          distributions=dict(total_energy_GeV=[10, 80], eta=[-3, 3],
+                                             phi_rad=[-float(np.pi), float(np.pi)], independent_uniform=True),
                           hashes={'detector.xml':contract[name+'_compact_sha256'],
                                   'materials.xml':contract[name+'_materials_sha256'],
                                   'particles.HEPEvt':contract['input_sha256'], 'truth-input.jsonl':contract['truth_sha256']})
@@ -65,6 +71,37 @@ class PairedControls(unittest.TestCase):
         self.assertEqual(sum(r['events'] for r in result['models']['candidate']['projections']['abs_eta']['bins']), 4)
         self.assertEqual(result['models']['candidate']['projections']['transition_union']['bins'][1]['events'], 2)
         json.dumps(result, allow_nan=False)
+
+    def test_distinct_frozen_metadata_preserves_identical_physical_primaries(self):
+        loaded, contract = self.loaded(), self.contract()
+        a, b = (loaded[name][2]['input'] for name in c.MODELS)
+        self.assertNotEqual(a['source_primary_manifest_sha256'], b['source_primary_manifest_sha256'])
+        self.assertNotEqual(a['source_primary_revision'], b['source_primary_revision'])
+        self.assertEqual(a['input_sha256'], b['input_sha256'])
+        self.assertEqual(a['truth_sha256'], b['truth_sha256'])
+        np.testing.assert_array_equal(loaded['reference'][1][:, :3], loaded['candidate'][1][:, :3])
+        c.validate_pair(loaded, contract, expected_events=4)
+
+    def test_unexpected_primary_metadata_is_rejected(self):
+        loaded, contract = self.loaded(), self.contract()
+        for name in c.MODELS:
+            for field, changed in [('source_primary_manifest_sha256', '8'*64),
+                                   ('source_primary_revision', '9'*40)]:
+                with self.subTest(model=name, field=field):
+                    wrong = copy.deepcopy(loaded); wrong[name][2]['input'][field] = changed
+                    with self.assertRaisesRegex(ValueError, 'Unexpected source primary'):
+                        c.validate_pair(wrong, contract, expected_events=4)
+            for suffix in ('primary_manifest_sha256', 'primary_revision'):
+                with self.subTest(model=name, missing=suffix):
+                    missing = dict(contract); del missing[name+'_'+suffix]
+                    with self.assertRaisesRegex(ValueError, 'Missing or invalid frozen'):
+                        c.validate_pair(loaded, missing, expected_events=4)
+        for field, changed in [('input_seed', 123), ('distributions', {'independent_uniform':False}),
+                               ('electron_mass_GeV', .001)]:
+            with self.subTest(generation_policy=field):
+                wrong = copy.deepcopy(loaded); wrong['candidate'][2]['input'][field] = changed
+                with self.assertRaisesRegex(ValueError, 'primary generation metadata: ' + field):
+                    c.validate_pair(wrong, contract, expected_events=4)
 
     def test_wrong_or_missing_material_binding_is_rejected(self):
         loaded, contract = self.loaded(), self.contract()

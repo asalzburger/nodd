@@ -47,9 +47,14 @@ def validate_pair(loaded, contract, expected_events=10000):
     """Bind labels to frozen compacts/materials and identical primary illumination."""
     for key in ('reference_compact_sha256', 'candidate_compact_sha256',
                 'reference_materials_sha256', 'candidate_materials_sha256',
+                'reference_primary_manifest_sha256', 'candidate_primary_manifest_sha256',
                 'input_sha256', 'truth_sha256'):
         if not re.fullmatch('[0-9a-f]{64}', contract.get(key, '')):
             raise ValueError('Missing or invalid frozen hash: ' + key)
+    for name in MODELS:
+        key = name + '_primary_revision'
+        if not re.fullmatch('[0-9a-f]{40}', contract.get(key, '')):
+            raise ValueError('Missing or invalid frozen primary revision: ' + key)
     if contract['reference_compact_sha256'] == contract['candidate_compact_sha256']:
         raise ValueError('Reference and candidate compacts must be distinct')
     base = loaded['reference'][1]
@@ -62,6 +67,13 @@ def validate_pair(loaded, contract, expected_events=10000):
         if [r['event'] for r in rows] != list(range(expected_events)):
             raise ValueError('Noncontiguous, missing or duplicate event IDs: ' + name)
         sample = evidence['input']
+        # Manifest metadata may be regenerated at another source revision while
+        # preserving the exact physical primary bytes. Freeze both identities
+        # separately rather than requiring the two metadata files to be equal.
+        if sample.get('source_primary_manifest_sha256') != contract[name + '_primary_manifest_sha256']:
+            raise ValueError('Unexpected source primary manifest: ' + name)
+        if sample.get('source_primary_revision') != contract[name + '_primary_revision']:
+            raise ValueError('Unexpected source primary revision: ' + name)
         for key in ('input_sha256', 'truth_sha256'):
             if sample.get(key) != contract[key]:
                 raise ValueError('Primary bytes differ from frozen protocol: ' + key)
@@ -72,8 +84,9 @@ def validate_pair(loaded, contract, expected_events=10000):
         if sample.get('hashes', {}).get('particles.HEPEvt') != contract['input_sha256'] or sample.get('hashes', {}).get('truth-input.jsonl') != contract['truth_sha256']:
             raise ValueError('Primary manifest hashes disagree: ' + name)
     a, b = (loaded[name][2]['input'] for name in MODELS)
-    if not a.get('source_primary_manifest_sha256') or a['source_primary_manifest_sha256'] != b.get('source_primary_manifest_sha256'):
-        raise ValueError('Different source primary manifests')
+    for key in ('input_seed', 'distributions', 'electron_mass_GeV'):
+        if a.get(key) is None or a[key] != b.get(key):
+            raise ValueError('Different or missing primary generation metadata: ' + key)
     bounds = contract.get('transition_union_abs_eta')
     if not isinstance(bounds, list) or len(bounds) != 2 or not 0 <= bounds[0] < bounds[1] <= 3:
         raise ValueError('Need prospective common transition-union bounds inside [0,3]')

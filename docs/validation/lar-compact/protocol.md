@@ -36,3 +36,15 @@ multi-TeV lepton/photon tails, hadron/jet, radiation or pileup performance.
 
 No old calibration is applied or silently refitted. Any later calibration must
 bind to this geometry and use separate training and held-out validation.
+
+## Primary-origin metadata correction before response inference
+
+The original reference recorded its primary-source metadata at3626953a..., while
+the retained current primary manifest was regenerated ata53895fa.... Exact HEPEvt
+and truth-ledger bytes,10,000saved primary vectors/IDs, seed, electron mass and
+illumination agree. Requiring the metadata files themselves to be identical is
+unnecessary. Before first response statistics, pin both parent-manifest hashes
+and full source revisions separately in contract.json and reject missing/changed
+identities. All physical-primary, compact/material, worker and readback gates
+remain; generation-policy equality is explicitly checked. This changes no event,
+physics, geometry, bin, estimator, bootstrap or acceptance threshold.
