@@ -46,3 +46,12 @@ This was detected before publication and corrected in an ordinary subsequent
 commit, retaining both branches' evidence/PR/recipe contributions and rebuilding
 the generated inventory page. Inventory check and conflict-marker audit now pass.
 No geometry or accepted scientific evidence was altered by the correction.
+
+### LAR-BASELINE-SysArch assignment
+
+Prepared explicit full-profile fallback at9720c03a72f37e96c26338aad6c05f4428eab698.
+Read-only; inputs restored spec/exporter/native controls and report, LAYOUT002
+input/feature page and compact design input. Question: requirements for physical
+tracker/solenoid, HCAL/services and legacy FCAL context when selecting restored
+LAr as working baseline. Return bounded source-pinned findings/risks; no files,
+native execution, private-state access, publication or further delegation.
