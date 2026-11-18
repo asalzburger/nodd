@@ -69,7 +69,7 @@ The external bus remains3029 mm because unchanged endcap radii govern it.
 **NODD DESIGN CHOICE:** use actual400 mm bend radii for80/100 mm jackets,
 respecting the ≥4OD rule. The corresponding envelopes896.8/916.8 mm require a
 1000 mm front reservation. Translate the complete endcap +200 mm, then extend
-its rear for the added sampling depth. Warm front/back5100/6210 mm; sampling
+its rear for the added sampling depth. Warm front/back5100/6260 mm; sampling
 front/back5210/5860 mm. Retain500 mm rear service break: HCAL endcap front6760 mm
 and wrapping barrel half-length6260 mm are design-only consequences. Existing
 HCAL radial front3130 mm and sampling depth1495.9 mm are retained. No HCAL solid
