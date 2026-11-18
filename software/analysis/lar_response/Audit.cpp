@@ -44,7 +44,7 @@ bool larMapsInitializedSerially = false;
 
 // Invoked by the main-kernel initialization callback before worker creation.
 // Lazy native lookup creation in a first worker hit otherwise races in DDG4.
-void initializeLArResponseMaps(const std::string& directory) {
+void initializeLArResponseMaps(const std::string& directory, unsigned long expectedRawIDs) {
   const auto start=std::chrono::steady_clock::now();
   const int thread=G4Threading::G4GetThreadId();
   if(thread>=0 || larMapsInitializedSerially)
@@ -66,9 +66,11 @@ void initializeLArResponseMaps(const std::string& directory) {
     if(!context||!context->volumePlacement().volume().isSensitive())
       throw std::runtime_error("Missing serial LAr native context");
   }
-  if(ids.size()!=43648)throw std::runtime_error("Incomplete serial LAr volume maps");
+  if(expectedRawIDs==0 || ids.size()!=expectedRawIDs)
+    throw std::runtime_error("Incomplete serial LAr volume maps");
   nlohmann::json record={{"status","PASS"},{"thread_id",thread},
     {"raw_sensitive_ids",ids.size()},{"native_contexts_checked",ids.size()},
+    {"expected_raw_sensitive_ids",expectedRawIDs},
     {"scope","both volume managers and all raw contexts initialized serially before workers"},
     {"seconds",std::chrono::duration<double>(std::chrono::steady_clock::now()-start).count()}};
   std::ofstream stream(path);stream<<record.dump(2)<<'\n';stream.close();
