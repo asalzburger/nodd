@@ -96,3 +96,28 @@ revalidated. A README trailing blank line was removed in a normal follow-up.
 Initial remote token-site failed because PR149's newly assigned interaction
 record was not yet on the first published candidate. The new per-PR record is
 included in this follow-up; scientific fixtures passed. No gate was weakened.
+
+### Independent review and accounting closeout
+
+RESTORED-SECTOR-PhysVal, separate `/root/ecal10k_physval` context, reviewed
+`bd01e692e513215a301a2493a37736da9acee876`: no material scientific or visual
+blocker. Checked restored variant/source identity, all declared geometry hashes,
+preserved Si-W raster/input identities, actual0/110 sensitive segments, same
+physical overview/zoom scale, embedded image/source hashes and final PNG. Four
+portable guards passed independently. No native or transport rerun, files changed
+or human acceptance granted. Review source/result retained in PR149's selected
+visible-turn record; final figure bytes are unchanged from reviewed candidate.
+
+Strict token-only recovery and exact app-visible review boundaries matched
+child turn01a1ee98-4c30-7b10-9fa0-806d70cc013d. Imported only this completed
+review into the new session:8requests,3,088,802input +7,909output =3,096,711
+observed tokens (cached/reasoning subsets not added). Historical turns retain
+their owners; active parent excluded. Inventory:
+`logs/usage/USAGE-2026-11-18-restored-sector-review.json`. Native operation counts
+from the selected visible review describe the same operations as the journal,
+not additional activity. Execution model/client version remain unknown.
+
+The follow-up remote token-site gate passed after the PR-specific interaction
+record was published. Other remote checks were still running at observation;
+this remains a draft. All requested figure products and reproducibility records
+are delivered. Human review/merge and engineering approval remain separate.

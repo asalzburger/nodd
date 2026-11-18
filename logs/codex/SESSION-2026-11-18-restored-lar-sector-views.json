@@ -4,8 +4,8 @@
   "title": "Updated Si-W and restored-LAr native sector views",
   "recorded_at": "2026-11-18T12:08:09Z",
   "started_at": null,
-  "ended_at": null,
-  "status": "open",
+  "ended_at": "2026-11-18T12:25:08Z",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
@@ -22,9 +22,28 @@
     "branch": "codex/restored-lar-sector-views",
     "initial_changes": [],
     "result_commits": [
-      "bd01e692e513215a301a2493a37736da9acee876"
+      "bd01e692e513215a301a2493a37736da9acee876",
+      "f14e90ef7461f5c41a0fdae3c5c82607cac7b4e4"
     ],
-    "changed_files": []
+    "changed_files": [
+      "docs/design/figures/sector-gap-restored/native-slice-provenance.json",
+      "docs/design/figures/sector-gap-restored/siw-restored-lar-sector-gap.pdf",
+      "docs/design/figures/sector-gap-restored/siw-restored-lar-sector-gap.png",
+      "docs/design/figures/sector-gap-restored/siw-restored-lar-sector-gap.svg",
+      "docs/software-inventory.md",
+      "docs/validation/sector-gap-restored/README.md",
+      "interactions/pr-0149.json",
+      "interactions/pr-0149/turns/01a1cb19-1628-7573-916f-ff4a9a5705f7--01a1ee98-4c30-7b10-9fa0-806d70cc013d.json",
+      "logs/codex/SESSION-2026-11-18-restored-lar-sector-views.json",
+      "logs/codex/SESSION-2026-11-18-restored-lar-sector-views.md",
+      "logs/usage/USAGE-2026-11-18-restored-sector-review.json",
+      "project/tracking.json",
+      "software/inventory.json",
+      "tools/calorimeter_hardware/README.md",
+      "tools/calorimeter_hardware/draw_restored_sector_comparison.py",
+      "tools/calorimeter_hardware/sector_slice_native.py",
+      "tools/calorimeter_hardware/test_restored_sector_comparison.py"
+    ]
   },
   "work": {
     "milestone": "M1",
@@ -81,7 +100,23 @@
       "evidence": "Warned changed setup/lock fingerprints, then reverified ROOT/DD4hep/DDG4/Geant4 runtime."
     }
   ],
-  "usage": [],
+  "usage": [
+    {
+      "client_thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+      "turn_id": "01a1ee98-4c30-7b10-9fa0-806d70cc013d",
+      "model": null,
+      "source": "Selected token-count-only recovery in logs/usage/USAGE-2026-11-18-restored-sector-review.json; 8 requests, usage_sha256 87afcf7f69fbf0109e0b4ced40efcb46d71d836d93854d40c5b2dbfbf91f648d; exact app-visible completed review and assignment boundaries match.",
+      "limitations": [
+        "Execution model and client version not exposed.",
+        "Only separate completed review turn observed; active parent excluded and missing counters not estimated."
+      ],
+      "input_tokens": 3088802,
+      "cached_input_tokens": 3068672,
+      "output_tokens": 7909,
+      "reasoning_output_tokens": 5425,
+      "total_tokens": 3096711
+    }
+  ],
   "checks": [
     {
       "command": "software/env/run.sh python3 -B tools/calorimeter_hardware/sector_slice_native.py [Si-W and restored LAr pinned inputs]",
@@ -106,6 +141,18 @@
       "exit_code": 0,
       "status": "PASS",
       "result": "Same physical axes and zooms; final PNG visually inspected."
+    },
+    {
+      "command": "Independent RESTORED-SECTOR-PhysVal assessment",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No material scientific or visual blocker at bd01e692e513215a301a2493a37736da9acee876; four portable guards passed; no native/transport rerun."
+    },
+    {
+      "command": "Project, software inventory, session, interaction-retention and token validation; token preview build",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Local checks passed. Latest record/usage updates revalidated before final publication."
     }
   ]
 }
