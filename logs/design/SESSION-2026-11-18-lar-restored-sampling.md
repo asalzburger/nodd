@@ -166,3 +166,17 @@ privatehomepath. Fullsource/datahashes and37SVG/PDF/PNGgroups remain traceable.
 Wholeproject3,060,771,384observed tokens is not this tasksubtotal. Currentparent
 coverage remainsunknown. Finalmetadata publication will trigger normalCI;
 frozen implementationec881582 already passed build/unrooted/token-site checks.
+
+## 2026-11-18 parent-turn closure
+
+The previously active task-parent turn(s) are now closed. Exact app-visible
+IDs and start/end times match persisted metadata through the already recorded
+528-ordinal projection. Starting from the exact preceding observed counters,
+every subsequent cumulative increase equals its reported last-request counters;
+no inherited prefix, active turn or historical child is charged. Full-thread
+recovery rejected an inherited-prefix mismatch; this bounded verification
+retains the same delta/availability/decrease guards from the observed origin.
+Selected inventory: `logs/usage/USAGE-2026-11-18-pr148-parent-closure.json`. Visible user/assistant messages and operation
+metadata are allowlisted; raw arguments/results, reasoning and private state
+are excluded. Execution model/client version remain unknown. Current baseline/
+reduced-gap work has its own task journal and is excluded here.
