@@ -24,8 +24,11 @@ Native imports were reverified after the Spack setup/lock fingerprint warning:
 ROOT6.40.04, DD4hep/DDG4 and Geant411.4.3. Current tracker factories and their
 catalogs built successfully. The exact restored LAr factory libraries were reused.
 The full native union audit constructs ten system roots and checks their IDs,
-then scans overlaps at1e-5mm with seed114. Its result is recorded separately;
-construction alone does not establish a completed overlap scan.
+then scans overlaps at1e-5mm with seed114. [Native receipt](native.json): **PASS, ten systems, zero overlaps at1e-5mm**.
+The export/run recorded an uncommitted working tree at9720c03a; exact exporter,
+compact/material and factory hashes bind the executed source bytes. Those
+geometry-producing bytes match the committed baseline implementation. This is
+geometry integration evidence, not shower or engineering qualification.
 
 ## Reproduction
 

@@ -119,3 +119,14 @@ is an ordinary PR149 commit, preserved in the baseline branch ancestry.
 Native overlap audit is active on one CPU, roughly13.8GB RSS at21min observation;
 construction/IDs succeeded, overlap completion remains pending. No0overlap claim
 is made before the receipt exists. No main merge or ready action is authorized.
+
+### Native union completion
+
+The existing full native audit completed successfully (exit0): ten systems,
+zero overlaps at1e-5mm with seed114. Native point generation took1399.53s;
+candidate checking used ROOT default24threads and took6.69s. No transport was
+run in this baseline task. Kept compact native.json receipt with actual source/
+artifact/library hashes; no large log or exported ROOT geometry is committed.
+The initially dirty9720c03a execution has explicit source hashes; final7a9da449
+contains the same geometry-producing bytes. Earlier pending entries are retained
+as dated progress, superseded by this completed receipt.
