@@ -131,6 +131,16 @@ class CentralResponse(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, 'study protocol'):
                     load_population(root, 'lar', 'calibration', 'other-study')
 
+    def test_cli_bootstrap_cannot_disagree_with_frozen_protocol(self):
+        from central_analyze import analyze
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            protocol = root / 'protocol.json'
+            protocol.write_text(json.dumps({'statistics': {'bootstrap_replicates': 1000, 'bootstrap_seed': 5019001}}))
+            for replicas, seed in ((1001, 5019001), (1000, 5019002)):
+                with self.assertRaisesRegex(ValueError, 'Bootstrap settings'):
+                    analyze(root, root / 'output', replicas, seed, protocol)
+
 
 if __name__ == '__main__':
     unittest.main()

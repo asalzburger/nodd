@@ -243,6 +243,9 @@ def summarize(calibration, evaluation, evidence, replicates=1000, seed=5019001):
 def analyze(runs, output, replicates=1000, seed=5019001, protocol=None):
     protocol = protocol or ROOT / 'docs/validation/ecal50gev-central/protocol.json'
     protocol_digest = common.sha(protocol)
+    statistics = json.loads(protocol.read_text())['statistics']
+    if replicates != statistics['bootstrap_replicates'] or seed != statistics['bootstrap_seed']:
+        raise ValueError('Bootstrap settings differ from the frozen study protocol')
     calibration, evaluation, evidence = {}, {}, {}
     for name in MODELS:
         evidence[name] = {}
