@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "thread_id": "01a1d3d3-24dd-7443-b93a-d5cd2b65dec1",
+  "turn_id": "01a1db1a-de68-7b91-87f7-20ee95b530d2",
+  "status": "completed",
+  "started_at": 1794677333,
+  "completed_at": 1794677790,
+  "token_accounts": [
+    "SESSION-2026-11-14-lar-gap10k"
+  ],
+  "source": "Codex app read_thread; exact recorded thread/turn match",
+  "messages": [
+    {
+      "id": "msg_0c4d1eaa09f07284016af89a59c29087d2b95ab751bd5f76c1",
+      "role": "assistant",
+      "phase": "commentary",
+      "text": "I\u2019ll add a separate re-audit that resolves logical and physical volume names through the bound native catalog. The running jobs and existing sources will remain untouched.",
+      "redacted": "no"
+    },
+    {
+      "id": "msg_0c4d1eaa09f07284016af89b55c54c87d2bfd9cb05f6d8a523",
+      "role": "assistant",
+      "phase": "commentary",
+      "text": "The new reader now requires an exact alias from the hash-bound native placement ledger. It keeps the existing raw-ID, coordinate-precision, count and energy checks, and writes its ledger and proof in a fresh directory. The comparison entry point will use those new proofs and the frozen statistics.",
+      "redacted": "no"
+    },
+    {
+      "id": "msg_0c4d1eaa09f07284016af89c176ce487d2b8880bf54423ab94",
+      "role": "assistant",
+      "phase": "final_answer",
+      "text": "Separate re-audit frozen against `a9b34ed3208624ff37ce04bac6826c1af3b8bc95`.\n\nAdded only `observed_reaudit.py`, `observed_recompare.py` and `test_reaudit.py`. Native-catalog aliases replace the incorrect literal name comparison; energy, identity, precision, source, library, map and worker checks remain strict.\n\n**47 pure tests pass**, including seven new alias/integrity controls. Existing runtime files and artifacts are unchanged. No native jobs ran here.\n\nAfter both productions finish and the new code is committed:\n\n```sh\nref=../nodd-lar-10k-response/build/lar10k-resume\nout=build/lar-gap10k/reaudit\n\nsoftware/env/run.sh python3 -B software/analysis/lar_gap/observed_reaudit.py audit \\\n  --sample \"$ref/sample\" \\\n  --run build/lar-gap10k/observed-production/standard/production12 \\\n  --retained-run \"$ref/production12\" --output \"$out/standard\"\n\nsoftware/env/run.sh python3 -B software/analysis/lar_gap/observed_reaudit.py audit \\\n  --sample build/lar-gap10k/corrected/sample400 \\\n  --run build/lar-gap10k/observed-production/candidate/production12 \\\n  --retained-run build/lar-gap10k/corrected/production12 \\\n  --output \"$out/candidate\"\n\nplot_python=[redacted]\n\n\"$plot_python\" -B software/analysis/lar_gap/observed_recompare.py analyze \\\n  --standard \"$out/standard\" --candidate \"$out/candidate\" \\\n  --bootstrap 1000 --seed 13001000 --output \"$out/comparison\"\n\nMPLCONFIGDIR=\"$out/mpl-cache\" \"$plot_python\" -B \\\n  software/analysis/lar_gap/observed_recompare.py plot \\\n  --summary \"$out/comparison/summary.json\" --output \"$out/figures\"\n```\n\nOutputs must be fresh. Proofs identify the new auditor explicitly; frozen statistics and plots are reused without modifying their source identities.",
+      "redacted": "yes"
+    }
+  ],
+  "native_tools": [
+    {
+      "name": "commandExecution",
+      "calls": 7,
+      "failures": 0
+    },
+    {
+      "name": "subAgentActivity",
+      "calls": 2,
+      "failures": 0
+    },
+    {
+      "name": "fileChange",
+      "calls": 4,
+      "failures": 0
+    }
+  ],
+  "subagents": [],
+  "limitations": [
+    "Only userMessage and agentMessage text retained; reasoning, tool arguments/results and private state excluded.",
+    "Conservative path, credential, email and URL redaction is not a privacy guarantee; review retained text.",
+    "Exposed operation counts are per retained turn; journal counts can describe the same invocations and must not be added.",
+    "App preview maxOutputCharsPerItem=5000; long visible messages may be truncated. Raw reasoning/context/tool arguments/results were discarded in memory before this allowlist stage.",
+    "Interacted-with parent/sibling targets are not child-spawn evidence and are omitted from subagents. Native operation counts remain; actual parent_thread_id is retained from verified original thread metadata."
+  ],
+  "parent_thread_id": "01a1d197-9480-7751-af8c-0c21b576f5ac"
+}

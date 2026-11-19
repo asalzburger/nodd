@@ -1,4 +1,6 @@
-# Detector layout candidates
+# Detector layouts and selected ECAL baseline
+
+**Selected ECAL working baseline (2026-11-17): ALLEGRO-style LAr with a 400 mm warm gap**, following [the human review decision](https://github.com/asalzburger/nodd/pull/145#issuecomment-6951330371). [Selection and implementation boundary](../design/inputs/ECAL-baseline-selection-2026-11-17.md). Si-W remains a comparison alternative. The full-layout drawings below retain the 800 mm LAr integration control; the selected 400 mm ECAL design still requires connected-service/collar and combined-detector qualification.
 
 The two candidate views now include the [DES039 forward-calorimeter proposal](../design/DES-039-common-forward-calorimeter.md). They remain DRAFT / PROTOTYPE. Native FCAL geometry and envelope guards are checked; combined detector response and engineering qualification remain pending.
 

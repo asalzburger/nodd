@@ -621,10 +621,10 @@
       "id": "CHECK-CALO",
       "name": "Calorimeter hardware, layouts and audit controls",
       "category": "cross-validation",
-      "usage": "source audit; readout; absorber; LAr; Si-W wedge navigation; HCAL; FCAL; overlaps; 100-electron ECAL startup/transport timing; compressed EDM4hep output size; opt-in reusable LAr period mothers; DDG4 map/first-event initialization timing; native touchable and leaf correspondence; matched material rays; maintained LAYOUT-002 reusable inclined-period default; vector drawing of tested staggered Si-W module and sampling geometry; LAr gap envelope and channel-service screening; pinned-source LAr old/new service-routing RZ drawings; native DD4hep/ROOT XY sector-gap and sensitive-path comparison",
+      "usage": "source audit; readout; absorber; LAr; Si-W wedge navigation; HCAL; FCAL; overlaps; 100-electron ECAL startup/transport timing; compressed EDM4hep output size; opt-in reusable LAr period mothers; DDG4 map/first-event initialization timing; native touchable and leaf correspondence; matched material rays; maintained LAYOUT-002 reusable inclined-period default; vector drawing of tested staggered Si-W module and sampling geometry; LAr gap envelope and channel-service screening; pinned-source LAr old/new service-routing RZ drawings; material-preserving mitered CutTube steel/N2 routing; passive Geant4 step audit; unchanged ECAL occupancy diagnostics; native DD4hep/ROOT XY sector-gap and sensitive-path comparison",
       "integration": "Local Python/C++ source in nODD; no external submodule installation for this code.",
       "version": "DRAFT / PROTOTYPE; standalone factories and campaign evidence remain separate from production acceptance.",
-      "installation": "Model/export controls use standard library where documented; native CMake projects use existing DD4hep/ROOT. Figures may need Matplotlib. Issue131 uses software/env/run.sh with existing DDG4/EDM4hep/podio/ROOT; run and readback recipes are recorded with the benchmark. LAr placement investigation: standalone exporters --real-periods; placement_probe.py and placement_smoke.py through software/env/run.sh, placement_report.py for bound evidence. Maintained LAr hierarchy: tools/calorimeter_baselines/export.py --layout LAYOUT-002 selects real periods with local services; standalone exports remain legacy controls. Drawing: python3 -B tools/calorimeter_hardware/draw_staggered_siw.py --repo HISTORICAL_SOURCE_WORKTREE --output build/staggered-siw-drawing; see pinned-source recipe. Optional PNG renderer: pre-existing librsvg rsvg-convert 2.62.3, not installed by this task. Gap screen: python3 -B tools/lar_calorimeter/gap_screen.py --output build/lar-gap-options/screen.json; optional --figure requires existing Matplotlib. No native dependency activation. Routing RZ: existing Matplotlib/NumPy Python runs tools/lar_calorimeter/draw_routing_rz.py --source-revision 21d2f01f99156034f7a80257fa642f1c2a4d9548 --output build/lar-routing-rz; reads committed Git blobs, no native runtime. Native sector slices: maintained barrel exports with real-wedges/real-periods and services, build current prototype factories, run sector_slice_native.py through software/env/run.sh; draw_sector_comparison.py adds vector annotations to native rasters. Inline C++ is compiled by existing ROOT Cling; PNG writing uses standard-library zlib. No new dependency installation.",
+      "installation": "Model/export controls use standard library where documented; native CMake projects use existing DD4hep/ROOT. Figures may need Matplotlib. Issue131 uses software/env/run.sh with existing DDG4/EDM4hep/podio/ROOT; run and readback recipes are recorded with the benchmark. LAr placement investigation: standalone exporters --real-periods; placement_probe.py and placement_smoke.py through software/env/run.sh, placement_report.py for bound evidence. Maintained LAr hierarchy: tools/calorimeter_baselines/export.py --layout LAYOUT-002 selects real periods with local services; standalone exports remain legacy controls. Drawing: python3 -B tools/calorimeter_hardware/draw_staggered_siw.py --repo HISTORICAL_SOURCE_WORKTREE --output build/staggered-siw-drawing; see pinned-source recipe. Optional PNG renderer: pre-existing librsvg rsvg-convert 2.62.3, not installed by this task. Gap screen: python3 -B tools/lar_calorimeter/gap_screen.py --output build/lar-gap-options/screen.json; optional --figure requires existing Matplotlib. No native dependency activation. Routing RZ: existing Matplotlib/NumPy Python runs tools/lar_calorimeter/draw_routing_rz.py --source-revision 21d2f01f99156034f7a80257fa642f1c2a4d9548 --output build/lar-routing-rz; reads committed Git blobs, no native runtime. Isolated routing: CMake source prototypes/lar_routing, target Components_nODDLArRoutingPrototype, existing DDG4/Geant4 and explicitly found preinstalled nlohmann_json3.12.0. Export routing.py --variant old|new; native/readback/context tools under tools/lar_calorimeter; no production CMake/default change. Native sector slices: maintained barrel exports with real-wedges/real-periods and services, build current prototype factories, run sector_slice_native.py through software/env/run.sh; draw_sector_comparison.py adds vector annotations to native rasters. Inline C++ is compiled by existing ROOT Cling; PNG writing uses standard-library zlib. No new dependency installation.",
       "paths": [
         "tools/calorimeter_audit",
         "tools/calorimeter_hardware",
@@ -636,7 +636,8 @@
         "tools/lar_calorimeter",
         "tools/siw_services",
         "prototypes/calorimeter",
-        "prototypes/hcal_readout"
+        "prototypes/hcal_readout",
+        "prototypes/lar_routing"
       ],
       "evidence": [
         "tools/calorimeter_baselines/README.md",
@@ -648,6 +649,7 @@
         "docs/validation/staggered-siw-drawing/README.md",
         "docs/design/inputs/DES-032-hadron-gap-options.md",
         "docs/design/inputs/lar-gap-options/routing-rz/README.md",
+        "docs/validation/lar-routing-dd4hep/README.md",
         "docs/validation/sector-gap-native/README.md"
       ],
       "prs": [
@@ -1121,15 +1123,20 @@
       "id": "INF-REPORTLAB",
       "name": "ReportLab",
       "category": "infrastructure",
-      "usage": "programmatic PDF brief generation",
-      "integration": "External local Python package used by the drawing/brief script; installer and environment not established in this inventory.",
-      "version": "Version unknown; no installation or live availability claimed.",
-      "installation": "See the importing script. Record an isolated environment and exact version before adopting a new installation recipe.",
+      "usage": "programmatic PDF briefs; source-pinned eight-page EM calorimeter evidence synthesis, vector statistical figures and schematic routing",
+      "integration": "Existing historical local ReportLab use plus preinstalled Codex bundled runtime for EM review; no shared install. New document builder is local source.",
+      "version": "EM review executed ReportLab4.4.9 in bundled Python3.12; prior historical uses remain version-unknown.",
+      "installation": "Use existing Python with ReportLab4.4.9 and pypdf6.21.4; Poppler26.05.0 renders QA. Executed preinstalled bundled runtime; recipe docs/publication/emcal-findings/README.md. No install required/performed.",
       "paths": [],
       "evidence": [
-        "tools/issue38_mechanics/drawings.py"
+        "tools/issue38_mechanics/drawings.py",
+        "docs/publication/emcal-findings/README.md",
+        "docs/publication/emcal-findings/evidence.json",
+        "docs/publication/emcal-findings/build_report.py"
       ],
-      "prs": []
+      "prs": [
+        "https://github.com/asalzburger/nodd/pull/145"
+      ]
     },
     {
       "id": "INF-TDR",
@@ -1435,34 +1442,60 @@
       "id": "ANA-LAR-RESPONSE",
       "name": "Matched LAr and Si-W raw response comparison",
       "category": "analysis",
-      "usage": "Exact matched10k electrons; complete LAr ECAL-only DDSim transport; per-worker material/cuts/step/field audits; canonical cell readback; original/staggered Si-W comparisons; joint event bootstrap and directional response distributions; serial map preinitialization; exact serial/MT cell controls; frozen input/policy guards; principal covariance; reproducible PNG/PDF/SVG",
+      "usage": "Exact matched10k electrons; complete LAr ECAL-only DDSim transport; per-worker material/cuts/step/field audits; canonical cell readback; original/staggered Si-W comparisons; joint event bootstrap and directional response distributions; serial map preinitialization; exact serial/MT cell controls; frozen input/policy guards; principal covariance; reproducible PNG/PDF/SVG; conditional800-to400mm warm-gap matched10k sensitivity; rigid signed root-branch translation and exhaustive native placement equivalence; fixed global common-tail threshold; fine transition bins and paired mean/width/tail bootstrap; independent sensitive-step all/successful/unassigned deposit accounting; per-cell binary32 output closure and full-population replay checks; joint84-variable saved/active width covariance; separately versioned native-catalog logical/physical alias readback with own fresh auditor/helper proof and unchanged runtime producers",
       "integration": "Local nODD Python/C++ PROTOTYPE source. Reuses existing baseline exports and verified DD4hep/Geant4/EDM4hep/podio runtime; no new external dependency or LAr charge/electronics model.",
-      "version": "PROTOTYPE; executed transport327dd042, analysisab5325f3; runtime DD4hep1.38/Geant411.4.3/ROOT6.40.04. Full10000event raw comparison and independent review recorded separately from acceptance.",
-      "installation": "Use software/env/run.sh; CMake source software/analysis/lar_response builds nODDLArResponseAudit. CLI transport.py prepare/run/audit and compare.py analyze/plot; recipe and scope in docs/validation/lar10k/protocol.md.",
+      "version": "PROTOTYPE; retained transport327dd042 and conditional observed10k execution2860f262; corrected audit/analyzer unchanged at e8450d75; DD4hep1.38/Geant411.4.3/ROOT6.40.04. Exact full-population replay/precision accounting separate from readout/engineering acceptance.",
+      "installation": "Use software/env/run.sh; CMake source software/analysis/lar_response builds nODDLArResponseAudit. CLI transport.py prepare/run/audit and compare.py analyze/plot; recipe and scope in docs/validation/lar10k/protocol.md. Gap-only prototype helpers under software/analysis/lar_gap prepare/verify the frozen reference transformation, snapshot/audit native geometry and compare audited runs; prospective protocol docs/validation/lar-gap10k/protocol.md. Existing factories/audit libraries reused only after exact source/library hash checks. Observer extension: standalone CMake source software/analysis/lar_gap uses existing DD4hep/Geant4 and explicit preinstalled nlohmann_json3.12.0; StepAudit.cpp plus separate steering/driver leave original factories/segmentation/guards/transport source unchanged. Exact semantics and precision gates in docs/validation/lar-gap10k/observer-protocol.md. Full observed productions use observed_reaudit.py for separate corrected proof and observed_recompare.py for frozen statistics/plotting; exact recipe docs/validation/lar-gap10k/reproduce.md. No original receipts or producer identities are rewritten.",
       "paths": [
-        "software/analysis/lar_response"
+        "software/analysis/lar_response",
+        "software/analysis/lar_gap"
       ],
       "evidence": [
         "docs/validation/lar10k/protocol.md",
         "docs/validation/lar10k/README.md",
-        "docs/validation/lar10k/reproduce.md"
+        "docs/validation/lar10k/reproduce.md",
+        "docs/validation/lar-gap10k/protocol.md",
+        "docs/validation/lar-gap10k/environment.json",
+        "docs/validation/lar-gap10k/observer-protocol.md",
+        "docs/validation/lar-gap10k/readback-addendum.md",
+        "docs/validation/lar-gap10k/reproduce.md",
+        "docs/validation/lar-gap10k/README.md",
+        "docs/validation/lar-gap10k/summary.json",
+        "docs/validation/lar-gap10k/execution.json"
       ],
       "prs": [
-        "https://github.com/asalzburger/nodd/pull/140"
+        "https://github.com/asalzburger/nodd/pull/140",
+        "https://github.com/asalzburger/nodd/pull/144"
       ]
+    },
+    {
+      "id": "EXT-NLOHMANN-JSON",
+      "name": "nlohmann JSON headers",
+      "category": "spack",
+      "usage": "Native passive Geant4 step and conversion-audit JSON records for isolated LAr routing",
+      "integration": "Pre-existing Spack ci-dependencies package; explicitly find_package(nlohmann_json) and link nlohmann_json::nlohmann_json in isolated target. No package installed or modified.",
+      "version": "Verified3.12.0 /uecyhyoptyokqdjlzb6fu3nvvamqbxm2 on2026-11-14",
+      "installation": "Use existing node environment through software/env/run.sh after acts-spack preflight/runtime verification. Header/config provider path and Spack lock metadata verified locally.",
+      "paths": [],
+      "evidence": [
+        "prototypes/lar_routing/CMakeLists.txt",
+        "docs/validation/lar-routing-dd4hep/environment.json"
+      ],
+      "prs": []
     }
   ],
   "checked_inputs": {
     ".github/workflows/balanced-tdr.yml": "ee83bb70017806c93d8b295ec412b2ff5a09920277fcef0317c0642f368aa0d2",
     ".github/workflows/tdr.yml": "27d3f227c91821f7151917644fbe567863043a30ff36e5937843008ec5e38ce4",
     ".github/workflows/token-usage.yml": "02480c1c40fb9e12566d2acedfa58a74bf40b7a0404ac70e76d5aeea0ff52ce8",
-    ".github/workflows/validation.yml": "62710255605eb996aedb848af5ec40559d103f11957448db8963a7d8eb27d462",
+    ".github/workflows/validation.yml": "65ec786939563f0c9fcec3c2dc8bf52ad9aeded877e6ebd8cda4d38deaa31595",
     ".gitmodules": "5f85441b511a41ed8bc20fcd6392378072fbdb8c8baf7bc4e629e30031062165",
     "CMakeLists.txt": "48072b61a7a639418b153c16e60dddcba65190dbef686fbcacadf7ed2cc5165e",
     "Makefile": "17c4d9f1ad84ffcd247d45d202e54fee08aeccf04f5350b2fabfe56ea092b84b",
     "detector/CMakeLists.txt": "8fe27c7def450856615c259ee6d12f4c31727f6a32a3566fb6c75f0e81c31825",
     "prototypes/calorimeter/CMakeLists.txt": "4d1898dd64b3a2346af1ac93924639d6348cbf439cabb1161f5b429f1b689099",
     "prototypes/hcal_readout/CMakeLists.txt": "68f4251b4ae9abf86fb2b1e412e5619a0858af6dd6e60277743a681861bc96a5",
+    "prototypes/lar_routing/CMakeLists.txt": "82fca8d7fbe02533af1dd3871c1585d9652bf8aff659fbbabc966d068e80b481",
     "prototypes/long_strip_barrel/CMakeLists.txt": "40d5cb05f7876e193ded6c52111184fe6d826574e0ac660db5dd7a137adfdc91",
     "prototypes/long_strip_endcap/CMakeLists.txt": "b05aec3118e37588133fb88fe12ab1f0c3cfabd69e449f07d91b2294cff63764",
     "prototypes/short_strip_barrel/CMakeLists.txt": "479f3c07069c82a4627e4ebfe2e9f90cacb7f03d6bda7017f1e572d62cb4ce2b",
@@ -1471,6 +1504,7 @@
     "skills/acts-spack/references/nodes.json": "ed25d7d91a1329b1aa3947b53d5466e08001bf522357f060d196c2eba77c7a92",
     "skills/acts-spack/scripts/smoke/CMakeLists.txt": "38e1e00161ae6ee94358fc992c78352e0b5c91b2c5534a56c4ce9e2f9412c2f5",
     "software/Makefile": "d0c2d3ad1b13c83a5cc6f840e3be0b77c75c5a4fb4b297735ec605ab6ead1876",
+    "software/analysis/lar_gap/CMakeLists.txt": "a650058d4282e21e01068fe79074ebb01d5e54baa5a81e9f62ede2ca2d44e574",
     "software/analysis/lar_response/CMakeLists.txt": "0c619f0ed052abfb5377d1164831561ab556954bb8baa2fcb125b8216cac10ea",
     "software/analysis/requirements-unrooted.in": "03a857d682f7489c3b70236679d4c170a3830f3be56b87c13b5b2571e816616e",
     "software/analysis/requirements-unrooted.txt": "c894a106f48600616ba6392acc625cc1658452675b7113bee3d2a9b434d79af5",

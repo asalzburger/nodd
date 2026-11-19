@@ -1,6 +1,7 @@
 # LAYOUT-001 — Tracker + inner 3 T solenoid + Si–W ECAL
 
-**Current human-selected candidate · DRAFT / PROTOTYPE · updated 2026-11-03.**
+**Retained Si-W reference alternative · DRAFT / PROTOTYPE · updated 2026-11-17.**
+The [2026-11-17 human selection](../design/inputs/ECAL-baseline-selection-2026-11-17.md) makes reduced-gap LAr the nODD ECAL working baseline. This Si-W geometry and its evidence remain comparison controls.
 The tracker combines the balanced pixel/long-strip geometry with the human-requested DES043 short-strip redesign. Open component proposals are included in this
 candidate for review; combined detector construction and engineering sign-off
 remain pending.
