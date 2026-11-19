@@ -119,3 +119,15 @@ Usageisempty andtaskobservedinput/outputtotals areunknown, notzero. Historical
 canonicalowners areunchanged. No estimates, rawclientarchives orprivate modelstate
 arecollected. The separate session summary isvalidatedand doesnotallocatehistorical
 projecttotals tothis task.
+
+## Draft publication closeout
+
+[Draft PR154](https://github.com/asalzburger/nodd/pull/154) created on the dedicated
+branch, stacked on still-open draftPR152. The earlier verified GitHub connector
+write limitation uses the established authenticated ghfallback; standing human
+publication instruction retained inAGENTS.md. Connector readback confirms draft
+state and the exact publishedhead; captured discussion has no comments. No merge
+or ready-for-review action. Source/newobject inspection confirms only code,
+compactaggregates,curatedmetadata and figures; largestnewpayloads are ordinary
+trackingmetadata/PNG files below0.32MB.304sessionrecords validate. Exacttaskinput/output
+totalsremainunknown; unrelatedhistorical usage and raw simulationfiles unchanged.
