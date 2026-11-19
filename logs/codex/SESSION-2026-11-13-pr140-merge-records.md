@@ -75,3 +75,7 @@ Evidence digest snapshot:
 Session, interaction, token-site, scientific-record and inventory validators pass.
 533disjoint observed turns have exact completion dates. The current merge-record
 turn has no closed counters and remains excluded. Results/plots remain unchanged.
+
+## 2026-11-19 accounting correction
+
+The now-closed original parent turn was recovered with the authorized usage-only tool, reconciled against cumulative/last-request counters, and matched to its connected user-visible input and exact turn ID. Its observation is imported once in this original owner. Earlier statements that this turn was active/unmeasured describe the earlier snapshot. See [the range audit](../usage/AUDIT-2026-11-19-pr133-151.md) and its machine-readable supplemental_closed_turns for counters, request count and digest. No simulation, detector or publication content changed.

@@ -1,0 +1,602 @@
+{
+  "schema_version": 1,
+  "curated": {
+    "journal_links": [],
+    "agents": [],
+    "tools": [],
+    "events": []
+  },
+  "github": {
+    "captured_at": "2026-11-19T13:36:53.260760Z",
+    "pull_request": {
+      "number": 137,
+      "url": "https://github.com/asalzburger/nodd/pull/137",
+      "title": "Calorimeter: validate high-statistics staggered ECAL calibration",
+      "head": "codex/ecal-staggered-highstat-calibration",
+      "head_sha": "3ebafd340b0e084c5e42e57123de115e3f489244",
+      "state": "closed",
+      "body": "This follows #136 and studies only its unchanged physical staggered ECAL prototype under DES-030/DES-031. Generated **100,000 training + 20,000 fresh validation electrons**, independently uniform in E=10–80 GeV, eta −3..3 and full phi, with **12 DDSim workers**. Froze both training-only calibrations in Git before independent validation; retained code, recipes, compact statistics/covariance and PNG/PDF/**SVG** figures.\n\nThe recorded default for later use is **`nodd-ecal-staggered-spline-v1`**; `nodd-ecal-staggered-linear-v1` is retained as the comparator. The [versioned manifest](https://github.com/asalzburger/nodd/blob/codex/ecal-staggered-highstat-calibration/docs/validation/ecal-highstat/frozen/manifest.json) records coefficient/geometry/feature hashes, units and applicability. The [reuse guide](https://github.com/asalzburger/nodd/blob/codex/ecal-staggered-highstat-calibration/docs/validation/ecal-highstat/reuse.md) supplies a truth-free NumPy API/CLI, with compatibility guards and no refitting. All four pre/post energy-ratio series reproduce the retained full 20k predictions bit-for-bit; ten-k chunks show only quantified last-bit matrix-product roundoff (maximum 4.89e-15). The coefficients, frozen numerical source and published statistics/plots are unchanged. A separate exact-revision SoftEng review passed all 16 NumPy controls and independently reproduced the full20k equality and chunked roundoff, with no material finding.\n\nOn the **same fresh 20k**, inclusive sample SD(R)/mean(R) is **38.313% raw, 31.338% historical 10k ensemble, 31.322% retuned linear and 30.209% spline**. The spline gains 1.112 percentage points against the new linear comparator. More training with the linear recipe makes little difference here; this comparison also changes tuning/refitting and ensemble construction, so it does not isolate training size. The old 32.22% cross-fit result used a different cohort.\n\n![Independent angular comparison](https://raw.githubusercontent.com/asalzburger/nodd/83eb6a8828eea3cfd54da07650ca226a88f7c2e9/docs/validation/ecal-highstat/results/angular-comparison.png)\n\nThe global spline mean closes to **1.00300**, but local biases remain: energy-slice means 0.96975–1.02622 and folded-phi means 0.61376–1.10597. Sector-edge widths remain 73–75%, versus 11–13% in interior bins. All 84 zeros remain; spline gain clipping is 8.790%, feature extrapolation 1.095%, half-energy tail 9.380%. Global rescaling leaves SD/mean unchanged and raises spline RMS from 28.929% to 30.301%; closed linear RMS is 31.412%. These are spectrum-averaged non-Gaussian widths, not intrinsic fixed-energy resolution or detector acceptance.\n\nThe prospective chain uses 70k fit/15k tuning/15k closure, a common ridge search for both new recipes, response refit on 85k and a separate global closure factor. The spline adds predeclared bases/interactions to measured hit features; truth energy/direction are absent from inference. The original-method 1/2/4/8k learning curve is weak/nonmonotonic and explicitly exploratory, including a shifted bootstrap contrast range.\n\nValidation: all 120,000 primaries/76,941,173 hits/all 12 workers audited; 22 original controls plus 7 reuse controls; full old 10k native feature regression; complete frozen-model records independently reproduced bit-for-bit before unblinding; 1,000 shared validation bootstraps and 200 full training/selection/refit/closure bootstraps; correlated 120-width/60-contrast matrices verified; all 18 PNG/SVG exports byte-identical on standalone replot. Final exact-revision independent PhysVal assessment is retained in the session journal.\n\nTransport used 118.6 minutes summed wall, 20.93 CPU-hours, at most 2.672 GiB child RSS and 152.506 GB ROOT. At least 232.7 GiB remained free; no trimming/deletion. ROOT, exact event inputs/ledgers, full audits and event-level features/predictions stay local and ignored. Closed calibration and reuse work is now accounted below; the active accounting turn remains excluded.\n\n[Report](https://github.com/asalzburger/nodd/blob/codex/ecal-staggered-highstat-calibration/docs/validation/ecal-highstat/README.md) · [Vector SVG](https://github.com/asalzburger/nodd/blob/83eb6a8828eea3cfd54da07650ca226a88f7c2e9/docs/validation/ecal-highstat/results/angular-comparison.svg) · [Reproduction recipe](https://github.com/asalzburger/nodd/blob/codex/ecal-staggered-highstat-calibration/docs/validation/ecal-highstat/reproduce.md)\n\nPrepared for maintainer merge review. **Dependency order: #133 → #134 → #135 → #136 → #137**. This PR still targets #136; merge dependencies and retarget successors to main, preserving source commits referenced by the frozen evidence (use merge commits for this stack). Recheck CI after retargeting. This preparation does not approve or merge any predecessor. No geometry integration, human design sign-off or engineering acceptance.\n\n\nToken accounting (2026-11-12): **108,043,890 observed input+output tokens across 15 closed turns and 431 requests**. The canonical work labels are **Staggered ECAL: 100k training and 20k independent validation** (84,245,571) and **Staggered ECAL model reuse and PR137 merge preparation** (23,798,319). Cached input 107,174,400 and reasoning output 224,181 are subsets, not additions. Explicit parent/child identities and fork boundaries are verified; earlier inherited usage, earlier PR work and the active accounting turn are excluded. These are client observations, not billing or complete-device estimates. [Accounting and attribution](https://github.com/asalzburger/nodd/blob/codex/ecal-staggered-highstat-calibration/logs/codex/SESSION-2026-11-12-pr137-accounting.md).\n\n\n## Complete PR133–137 merge/accounting closeout\n\nThe complete closed-turn study record now covers **53 turns /1,311 requests /306,136,254 observed tokens** across12 canonical task owners. This includes benchmark generation and local display/review, all10k controls, staggering, high-statistics calibration/reuse and four closed software assignments. The earlier15 accounts/counters are preserved;38 additional turns were imported once. Shared PR references are not additive; cached input/reasoning are subsets. One unobserved interrupted input and the active coordinating turn remain unknown/excluded.\n\nAll five PRs are labelled `enhancement` and `campaign:calorimeters`. Main-push validation and Pages build retain all canonical observations and derive daily work labels automatically. The new chain guard checks all five records, recorded source ancestry and byte-identical frozen coefficients/core.17 synthetic Git controls plus76 accounting tests and both Node suites pass; separate integration/accounting assessment found no actionable issue at346bd704. Final closed review counters were then added without science changes.\n\nGitHub automatically marked PR134 merged into the PR133 branch during a publishing race; no merge to main occurred. Its full10k study is retained in PR133 with ordinary corrective history. Remaining merge order: **133→135→136→137**, using merge commits and retargeting each dependent PR to main after its predecessor. PR135 now targets PR133 directly. No squash/rebase of the frozen source history.\n\nSee `docs/validation/ecal-chain/README.md` for exact coverage and post-merge reconciliation. Actual future merge SHAs/timestamps and a selected final feature milestone must be captured from GitHub after the human merges; they are not invented now. Scientific artifacts and calibration remain unchanged.\n",
+      "created_at": "2026-11-12T14:13:44Z",
+      "actor": "asalzburger"
+    },
+    "comments": [
+      {
+        "id": 5881933737,
+        "url": "https://github.com/asalzburger/nodd/pull/137#pullrequestreview-5881933737",
+        "body": "",
+        "actor": "asalzburger-review",
+        "created_at": "2026-11-12T21:00:23Z",
+        "updated_at": null,
+        "review": "APPROVED",
+        "in_reply_to_id": null,
+        "path": null,
+        "line": null
+      }
+    ],
+    "issues": []
+  },
+  "derived": {
+    "parties": [
+      {
+        "id": "agent:SESSION-2026-11-12-ecal-calibration-reuse",
+        "name": "Codex",
+        "kind": "agent"
+      },
+      {
+        "id": "agent:SESSION-2026-11-12-ecal-chain-readiness",
+        "name": "Codex",
+        "kind": "agent"
+      },
+      {
+        "id": "agent:SESSION-2026-11-12-ecal-staggered-highstat-calibration",
+        "name": "unspecified",
+        "kind": "agent"
+      },
+      {
+        "id": "agent:SESSION-2026-11-12-pr137-accounting",
+        "name": "Codex",
+        "kind": "agent"
+      },
+      {
+        "id": "github:asalzburger",
+        "name": "asalzburger",
+        "kind": "account"
+      },
+      {
+        "id": "github:asalzburger-review",
+        "name": "asalzburger-review",
+        "kind": "human"
+      },
+      {
+        "id": "unknown:project-user",
+        "name": "Project user (name unrecorded)",
+        "kind": "human"
+      }
+    ],
+    "journals": [
+      {
+        "session_id": "SESSION-2026-11-12-ecal-calibration-reuse",
+        "record": "https://github.com/asalzburger/nodd/blob/3ebafd340b0e084c5e42e57123de115e3f489244/logs/codex/SESSION-2026-11-12-ecal-calibration-reuse.json",
+        "attribution": [
+          "pinned_branch_journal_snapshot"
+        ],
+        "snapshot": "interactions/pr-0137/journals/SESSION-2026-11-12-ecal-calibration-reuse.json",
+        "snapshot_sha256": "ac72c2841ea88c66d0a43b3d4a7ce5661c963b24b7158a9243485fc1ec09c2bc",
+        "record_sha256": "bcca5ebf1dd6e255d6957eb3a9092c1061f58fe5d364364bc426bcd92e30652f",
+        "narrative_sha256": "9bee09d0b0b4001141d16b25c144029b068ca8d6b815ada3773b9fee75a2a8eb"
+      },
+      {
+        "session_id": "SESSION-2026-11-12-ecal-chain-readiness",
+        "record": "https://github.com/asalzburger/nodd/blob/3ebafd340b0e084c5e42e57123de115e3f489244/logs/codex/SESSION-2026-11-12-ecal-chain-readiness.json",
+        "attribution": [
+          "pinned_branch_journal_snapshot"
+        ],
+        "snapshot": "interactions/pr-0137/journals/SESSION-2026-11-12-ecal-chain-readiness.json",
+        "snapshot_sha256": "ad8d7d0311f060bbbb5c9865083a973c35ca738aad86ad624d122f27da0b5337",
+        "record_sha256": "21e6e18c905aa8255e6ed5fde05a623bbdc7e77d970bf61149e605b2f9721f6f",
+        "narrative_sha256": "46c4bb4115036017b90e1833c66bbe01609432870c726cbc6996e5414b0b3df0"
+      },
+      {
+        "session_id": "SESSION-2026-11-12-ecal-staggered-highstat-calibration",
+        "record": "https://github.com/asalzburger/nodd/blob/3ebafd340b0e084c5e42e57123de115e3f489244/logs/codex/SESSION-2026-11-12-ecal-staggered-highstat-calibration.json",
+        "attribution": [
+          "pinned_branch_journal_snapshot"
+        ],
+        "snapshot": "interactions/pr-0137/journals/SESSION-2026-11-12-ecal-staggered-highstat-calibration.json",
+        "snapshot_sha256": "9decf7e23bfd225da46964af80b1665a71bed3e0e92d670f7f58c3e0dc26fbe6",
+        "record_sha256": "3faf2b1fe1d8ca7c4e14c9c28731c8b80e1f3ce575566efd923cf52508468c15",
+        "narrative_sha256": "acec66ce524e39b366fd080d11e375f783273b1f1275bbb9889009ba64cbcce6"
+      },
+      {
+        "session_id": "SESSION-2026-11-12-pr137-accounting",
+        "record": "https://github.com/asalzburger/nodd/blob/3ebafd340b0e084c5e42e57123de115e3f489244/logs/codex/SESSION-2026-11-12-pr137-accounting.json",
+        "attribution": [
+          "pinned_branch_journal_snapshot"
+        ],
+        "snapshot": "interactions/pr-0137/journals/SESSION-2026-11-12-pr137-accounting.json",
+        "snapshot_sha256": "3beef7d16ccd41150906d47ba6832228a0812c759737e64f83dad000279bec16",
+        "record_sha256": "3ca8aec478d0ce990275a2bb9b519bcf4ea5cca8c7415831ee8f65a5ded78fd4",
+        "narrative_sha256": "88e1bf967fe64d8ddd921e1a0c8d3f4d38fa9cd69f5b7b6936f424cd6f3f8d8c"
+      }
+    ],
+    "token_accounts": [
+      {
+        "id": "SESSION-2026-11-12-ecal-calibration-reuse",
+        "record": "https://github.com/asalzburger/nodd/blob/3ebafd340b0e084c5e42e57123de115e3f489244/logs/codex/SESSION-2026-11-12-ecal-calibration-reuse.json",
+        "scope": "pinned_branch_reference; not imported into main accounting",
+        "status": "observed",
+        "usage_sha256": "141ba960035e7f8ea75b476d9bd50393011f3a4a719e8be3cf1c95358a1e0621",
+        "turns": [
+          {
+            "client_thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+            "turn_id": "01a1d030-81bc-7c32-a1a1-4724ea71b8df",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
+            "turn_id": "01a1d037-bb3b-7fb1-9504-b7d9f6e0d0f9",
+            "model": null
+          }
+        ]
+      },
+      {
+        "id": "SESSION-2026-11-12-ecal-chain-readiness",
+        "record": "https://github.com/asalzburger/nodd/blob/3ebafd340b0e084c5e42e57123de115e3f489244/logs/codex/SESSION-2026-11-12-ecal-chain-readiness.json",
+        "scope": "pinned_branch_reference; not imported into main accounting",
+        "status": "observed",
+        "usage_sha256": "51bb13066e9d2602a4c85abcda6b465f1841b1299ad1629259f29dcfd24c7305",
+        "turns": [
+          {
+            "client_thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
+            "turn_id": "01a1d0a0-0713-78d3-bbbf-c393e8aa5c24",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
+            "turn_id": "01a1d0a7-d52a-7943-95d2-1ba9af90c0f4",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
+            "turn_id": "01a1d0b5-9d58-7580-b188-e6cd1cf27627",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
+            "turn_id": "01a1d0b8-ec91-73e3-a3ae-a5fd0c38fceb",
+            "model": null
+          }
+        ]
+      },
+      {
+        "id": "SESSION-2026-11-12-ecal-staggered-highstat-calibration",
+        "record": "https://github.com/asalzburger/nodd/blob/3ebafd340b0e084c5e42e57123de115e3f489244/logs/codex/SESSION-2026-11-12-ecal-staggered-highstat-calibration.json",
+        "scope": "pinned_branch_reference; not imported into main accounting",
+        "status": "observed",
+        "usage_sha256": "476879463341806e75751f341c0f2f4ec10736b517dbef52e8149251ed111f38",
+        "turns": [
+          {
+            "client_thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+            "turn_id": "01a1cf97-8471-7f62-af2b-0e53f74397f3",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+            "turn_id": "01a1cf99-09d3-7f62-b2f8-8a072ffa0807",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+            "turn_id": "01a1cf99-9b12-7df3-9596-71424cdbf92f",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+            "turn_id": "01a1cf9b-e8b1-7ca1-a4fd-f39d1310d576",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+            "turn_id": "01a1cfa2-2a3c-7242-9f61-8df321a95a2a",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+            "turn_id": "01a1cfa7-8af6-78b1-a3a6-036e8d814c7a",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+            "turn_id": "01a1cfaa-f348-73f3-b333-a47e006a6ef7",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+            "turn_id": "01a1cfb2-ffdd-72d1-a07e-f406bec34fb2",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+            "turn_id": "01a1cfdd-658c-7fe0-99ec-509edec65cf2",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+            "turn_id": "01a1d000-3568-7552-9eea-83590351afc2",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+            "turn_id": "01a1d018-5276-74b0-a95f-27919c5818aa",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
+            "turn_id": "01a1cf9c-046c-79e0-be19-3922787dace1",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
+            "turn_id": "01a1cfa3-b97b-7440-8f99-ea7587faa62c",
+            "model": null
+          }
+        ]
+      },
+      {
+        "id": "SESSION-2026-11-12-pr137-accounting",
+        "record": "https://github.com/asalzburger/nodd/blob/3ebafd340b0e084c5e42e57123de115e3f489244/logs/codex/SESSION-2026-11-12-pr137-accounting.json",
+        "scope": "pinned_branch_reference; not imported into main accounting",
+        "status": "observed",
+        "usage_sha256": "a787919da9b8c65aa3d282508a7c9a86b087c9dc3014fbea9708d88219b99691",
+        "turns": [
+          {
+            "client_thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+            "turn_id": "01a1d081-e0b9-7092-bee1-4cba9666c779",
+            "model": null
+          }
+        ]
+      }
+    ],
+    "visible_sources": [],
+    "agents": [
+      {
+        "id": "agent:SESSION-2026-11-12-ecal-calibration-reuse",
+        "name": "Codex",
+        "role": "session_agent",
+        "thread_id": null,
+        "models": [],
+        "source": "https://github.com/asalzburger/nodd/blob/3ebafd340b0e084c5e42e57123de115e3f489244/logs/codex/SESSION-2026-11-12-ecal-calibration-reuse.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      },
+      {
+        "id": "agent:SESSION-2026-11-12-ecal-calibration-reuse:SoftEng:2b4cca76",
+        "name": "SoftEng",
+        "role": "reported_specialist_assignment",
+        "thread_id": null,
+        "models": [],
+        "source": "https://github.com/asalzburger/nodd/blob/3ebafd340b0e084c5e42e57123de115e3f489244/logs/codex/SESSION-2026-11-12-ecal-calibration-reuse.md#separate-software-review-assignment",
+        "limitation": "Role contract is recorded; native profile loading and process identity are not inferred."
+      },
+      {
+        "id": "agent:SESSION-2026-11-12-ecal-chain-readiness",
+        "name": "Codex",
+        "role": "session_agent",
+        "thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "models": [],
+        "source": "https://github.com/asalzburger/nodd/blob/3ebafd340b0e084c5e42e57123de115e3f489244/logs/codex/SESSION-2026-11-12-ecal-chain-readiness.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      },
+      {
+        "id": "agent:SESSION-2026-11-12-ecal-chain-readiness:SoftEng:a6b4d1c9",
+        "name": "SoftEng",
+        "role": "reported_specialist_assignment",
+        "thread_id": null,
+        "models": [],
+        "source": "https://github.com/asalzburger/nodd/blob/3ebafd340b0e084c5e42e57123de115e3f489244/logs/codex/SESSION-2026-11-12-ecal-chain-readiness.md#independent-audit-and-guard-assignment",
+        "limitation": "Role contract is recorded; native profile loading and process identity are not inferred."
+      },
+      {
+        "id": "agent:SESSION-2026-11-12-ecal-chain-readiness:SoftEng:2b3dbb2c",
+        "name": "SoftEng",
+        "role": "reported_specialist_assignment",
+        "thread_id": null,
+        "models": [],
+        "source": "https://github.com/asalzburger/nodd/blob/3ebafd340b0e084c5e42e57123de115e3f489244/logs/codex/SESSION-2026-11-12-ecal-chain-readiness.md#chain-guard-amendment-assignment",
+        "limitation": "Role contract is recorded; native profile loading and process identity are not inferred."
+      },
+      {
+        "id": "agent:SESSION-2026-11-12-ecal-staggered-highstat-calibration",
+        "name": "unspecified",
+        "role": "session_agent",
+        "thread_id": null,
+        "models": [],
+        "source": "https://github.com/asalzburger/nodd/blob/3ebafd340b0e084c5e42e57123de115e3f489244/logs/codex/SESSION-2026-11-12-ecal-staggered-highstat-calibration.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      },
+      {
+        "id": "agent:SESSION-2026-11-12-ecal-staggered-highstat-calibration:PhysVal:00991261",
+        "name": "PhysVal",
+        "role": "reported_specialist_assignment",
+        "thread_id": null,
+        "models": [],
+        "source": "https://github.com/asalzburger/nodd/blob/3ebafd340b0e084c5e42e57123de115e3f489244/logs/codex/SESSION-2026-11-12-ecal-staggered-highstat-calibration.md#final-results-assessment-assignment",
+        "limitation": "Role contract is recorded; native profile loading and process identity are not inferred."
+      },
+      {
+        "id": "agent:SESSION-2026-11-12-pr137-accounting",
+        "name": "Codex",
+        "role": "session_agent",
+        "thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+        "models": [],
+        "source": "https://github.com/asalzburger/nodd/blob/3ebafd340b0e084c5e42e57123de115e3f489244/logs/codex/SESSION-2026-11-12-pr137-accounting.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      }
+    ],
+    "tools": {
+      "native_codex": [],
+      "codex_installed": [],
+      "instructed_software": [],
+      "unresolved": []
+    },
+    "events": [
+      {
+        "id": "github:https://github.com/asalzburger/nodd/pull/137",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "github:asalzburger",
+        "recipients": [],
+        "text": "This follows #136 and studies only its unchanged physical staggered ECAL prototype under DES-030/DES-031. Generated **100,000 training + 20,000 fresh validation electrons**, independently uniform in E=10–80 GeV, eta −3..3 and full phi, with **12 DDSim workers**. Froze both training-only calibrations in Git before independent validation; retained code, recipes, compact statistics/covariance and PNG/PDF/**SVG** figures.\n\nThe recorded default for later use is **`nodd-ecal-staggered-spline-v1`**; `nodd-ecal-staggered-linear-v1` is retained as the comparator. The [versioned manifest](https://github.com/asalzburger/nodd/blob/codex/ecal-staggered-highstat-calibration/docs/validation/ecal-highstat/frozen/manifest.json) records coefficient/geometry/feature hashes, units and applicability. The [reuse guide](https://github.com/asalzburger/nodd/blob/codex/ecal-staggered-highstat-calibration/docs/validation/ecal-highstat/reuse.md) supplies a truth-free NumPy API/CLI, with compatibility guards and no refitting. All four pre/post energy-ratio series reproduce the retained full 20k predictions bit-for-bit; ten-k chunks show only quantified last-bit matrix-product roundoff (maximum 4.89e-15). The coefficients, frozen numerical source and published statistics/plots are unchanged. A separate exact-revision SoftEng review passed all 16 NumPy controls and independently reproduced the full20k equality and chunked roundoff, with no material finding.\n\nOn the **same fresh 20k**, inclusive sample SD(R)/mean(R) is **38.313% raw, 31.338% historical 10k ensemble, 31.322% retuned linear and 30.209% spline**. The spline gains 1.112 percentage points against the new linear comparator. More training with the linear recipe makes little difference here; this comparison also changes tuning/refitting and ensemble construction, so it does not isolate training size. The old 32.22% cross-fit result used a different cohort.\n\n![Independent angular comparison](https://raw.githubusercontent.com/asalzburger/nodd/83eb6a8828eea3cfd54da07650ca226a88f7c2e9/docs/validation/ecal-highstat/results/angular-comparison.png)\n\nThe global spline mean closes to **1.00300**, but local biases remain: energy-slice means 0.96975–1.02622 and folded-phi means 0.61376–1.10597. Sector-edge widths remain 73–75%, versus 11–13% in interior bins. All 84 zeros remain; spline gain clipping is 8.790%, feature extrapolation 1.095%, half-energy tail 9.380%. Global rescaling leaves SD/mean unchanged and raises spline RMS from 28.929% to 30.301%; closed linear RMS is 31.412%. These are spectrum-averaged non-Gaussian widths, not intrinsic fixed-energy resolution or detector acceptance.\n\nThe prospective chain uses 70k fit/15k tuning/15k closure, a common ridge search for both new recipes, response refit on 85k and a separate global closure factor. The spline adds predeclared bases/interactions to measured hit features; truth energy/direction are absent from inference. The original-method 1/2/4/8k learning curve is weak/nonmonotonic and explicitly exploratory, including a shifted bootstrap contrast range.\n\nValidation: all 120,000 primaries/76,941,173 hits/all 12 workers audited; 22 original controls plus 7 reuse controls; full old 10k native feature regression; complete frozen-model records independently reproduced bit-for-bit before unblinding; 1,000 shared validation bootstraps and 200 full training/selection/refit/closure bootstraps; correlated 120-width/60-contrast matrices verified; all 18 PNG/SVG exports byte-identical on standalone replot. Final exact-revision independent PhysVal assessment is retained in the session journal.\n\nTransport used 118.6 minutes summed wall, 20.93 CPU-hours, at most 2.672 GiB child RSS and 152.506 GB ROOT. At least 232.7 GiB remained free; no trimming/deletion. ROOT, exact event inputs/ledgers, full audits and event-level features/predictions stay local and ignored. Closed calibration and reuse work is now accounted below; the active accounting turn remains excluded.\n\n[Report](https://github.com/asalzburger/nodd/blob/codex/ecal-staggered-highstat-calibration/docs/validation/ecal-highstat/README.md) · [Vector SVG](https://github.com/asalzburger/nodd/blob/83eb6a8828eea3cfd54da07650ca226a88f7c2e9/docs/validation/ecal-highstat/results/angular-comparison.svg) · [Reproduction recipe](https://github.com/asalzburger/nodd/blob/codex/ecal-staggered-highstat-calibration/docs/validation/ecal-highstat/reproduce.md)\n\nPrepared for maintainer merge review. **Dependency order: #133 → #134 → #135 → #136 → #137**. This PR still targets #136; merge dependencies and retarget successors to main, preserving source commits referenced by the frozen evidence (use merge commits for this stack). Recheck CI after retargeting. This preparation does not approve or merge any predecessor. No geometry integration, human design sign-off or engineering acceptance.\n\n\nToken accounting (2026-11-12): **108,043,890 observed input+output tokens across 15 closed turns and 431 requests**. The canonical work labels are **Staggered ECAL: 100k training and 20k independent validation** (84,245,571) and **Staggered ECAL model reuse and PR137 merge preparation** (23,798,319). Cached input 107,174,400 and reasoning output 224,181 are subsets, not additions. Explicit parent/child identities and fork boundaries are verified; earlier inherited usage, earlier PR work and the active accounting turn are excluded. These are client observations, not billing or complete-device estimates. [Accounting and attribution](https://github.com/asalzburger/nodd/blob/codex/ecal-staggered-highstat-calibration/logs/codex/SESSION-2026-11-12-pr137-accounting.md).\n\n\n## Complete PR133–137 merge/accounting closeout\n\nThe complete closed-turn study record now covers **53 turns /1,311 requests /306,136,254 observed tokens** across12 canonical task owners. This includes benchmark generation and local display/review, all10k controls, staggering, high-statistics calibration/reuse and four closed software assignments. The earlier15 accounts/counters are preserved;38 additional turns were imported once. Shared PR references are not additive; cached input/reasoning are subsets. One unobserved interrupted input and the active coordinating turn remain unknown/excluded.\n\nAll five PRs are labelled `enhancement` and `campaign:calorimeters`. Main-push validation and Pages build retain all canonical observations and derive daily work labels automatically. The new chain guard checks all five records, recorded source ancestry and byte-identical frozen coefficients/core.17 synthetic Git controls plus76 accounting tests and both Node suites pass; separate integration/accounting assessment found no actionable issue at346bd704. Final closed review counters were then added without science changes.\n\nGitHub automatically marked PR134 merged into the PR133 branch during a publishing race; no merge to main occurred. Its full10k study is retained in PR133 with ordinary corrective history. Remaining merge order: **133→135→136→137**, using merge commits and retargeting each dependent PR to main after its predecessor. PR135 now targets PR133 directly. No squash/rebase of the frozen source history.\n\nSee `docs/validation/ecal-chain/README.md` for exact coverage and post-merge reconciliation. Actual future merge SHAs/timestamps and a selected final feature milestone must be captured from GitHub after the human merges; they are not invented now. Scientific artifacts and calibration remain unchanged.\n",
+        "source": "https://github.com/asalzburger/nodd/pull/137",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [],
+        "timestamp": "2026-11-12T14:13:44Z",
+        "remote_input": null
+      },
+      {
+        "id": "github:https://github.com/asalzburger/nodd/pull/137#pullrequestreview-5881933737",
+        "type": "review",
+        "direction": "reaction",
+        "actor": "github:asalzburger-review",
+        "recipients": [],
+        "text": "APPROVED",
+        "source": "https://github.com/asalzburger/nodd/pull/137#pullrequestreview-5881933737",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [],
+        "timestamp": "2026-11-12T21:00:23Z",
+        "remote_input": null
+      },
+      {
+        "id": "journal:SESSION-2026-11-12-ecal-calibration-reuse:7502831e07163120",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "agent:SESSION-2026-11-12-ecal-calibration-reuse",
+        "recipients": [],
+        "text": "```json\n{\n  \"id\": \"ECAL-CALIBRATION-REUSE-SOFTENG\",\n  \"role\": \"SoftEng\",\n  \"input_revision\": \"6547c1016ca90f99f82445c1012ee1055f2a08a8\",\n  \"inputs\": [\n    \"software/analysis/calorimeter_digitization/highstat_inference.py\",\n    \"software/analysis/calorimeter_digitization/test_highstat_inference.py\",\n    \"docs/validation/ecal-highstat/frozen/manifest.json\",\n    \"docs/validation/ecal-highstat/frozen/reuse-validation.json\",\n    \"docs/validation/ecal-highstat/reuse.md\",\n    \".github/workflows/validation.yml\"\n  ],\n  \"mode\": \"read-only\",\n  \"writable_paths\": [],\n  \"task\": \"Review the new frozen-calibration reuse interface for PR137 merge preparation. Check versioned model identity/hash bindings, geometry/feature guard, input units/shapes/dtypes, measured-only/no-fit API and CLI, zero/fallback/clipping behavior, output provenance/no overwrite and meaningful tests/CI. Verify original frozen/models.json and numerical highstat_model.py unchanged from e65962c259cec1f8744252fccfa17211004f4d61. Coefficients/statistics/plots unchanged; no scientific retuning. Main tests7new+6model+3analysisPASS. Full20k API matches all4saved pre/post ratio series BIT-EXACT; initial10kchunk-vs20k bitcheckfailed due matrixbatch roundoff, no tolerance/source/reference changed; measuredchunks max4.885e-15 ratio, zeromeandiff. Assess this provenance/interpretation. May run the16 pureNumPy tests and exact20k inference using local validation arrays/predictions if useful. Existing Python /Users/salzburg/Documents/work/installed/acts-nodd/pyvenv/bin/python, -B, OPENBLAS_NUM_THREADS1. No native runtime, fits/transport, source writes, new configs, delegation, publication or human approval. Read primarysource before author conclusions. Openstack133\\u2192134\\u2192135\\u2192136\\u2192137 is documented; only137 will be made ready per currentuser request, not merged.\",\n  \"deliverable\": \"Exact-revision software/interface assessment with actionable findings or explicit no-material-finding, commands actually run and limitations.\",\n  \"completion\": \"Return the bounded final assessment promptly; no human signoff.\"\n}\n```",
+        "source": "https://github.com/asalzburger/nodd/blob/3ebafd340b0e084c5e42e57123de115e3f489244/logs/codex/SESSION-2026-11-12-ecal-calibration-reuse.md#separate-software-review-assignment",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [
+          "SoftEng"
+        ],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-calibration-reuse"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-11-12-ecal-calibration-reuse:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-11-12-ecal-calibration-reuse",
+        "recipients": [],
+        "text": "Staggered ECAL model reuse and PR137 merge preparation — see the canonical narrative for outcomes and checks.",
+        "source": "https://github.com/asalzburger/nodd/blob/3ebafd340b0e084c5e42e57123de115e3f489244/logs/codex/SESSION-2026-11-12-ecal-calibration-reuse.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-calibration-reuse"
+        ],
+        "content_kind": "reference_summary"
+      },
+      {
+        "id": "journal:SESSION-2026-11-12-ecal-chain-readiness:c1daa06e15563d0b",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "agent:SESSION-2026-11-12-ecal-chain-readiness",
+        "recipients": [],
+        "text": "Audit atb2b7041b: existing mainjobs validate/build/deploycommittedwork andderive dailyworklabels automatically, butdo not collectactualmerge metadata/GitHublabels/newusage. MissingPR133tracking row andunobservedolderwork needcorrection. No newregistry or futuremergetimestamps. Minimumguard verifiesall5recordcoverages andpreservedhead/freeze/results ancestry, plushead→merge→checkedHEADwhenactualmergedstateisrecorded. Projectvalidator107tasks/54docs/24reviews passes; pinnedcanonicalledgerderivationspassall5; currentuntrackedchainjournalnecessitatessyncaftercloseout. No sourcewrites by initialreviewer.\n\n```json\n{\n  \"id\": \"ECAL-CHAIN-SOFTENG-GUARD\",\n  \"role\": \"SoftEng\",\n  \"input_revision\": \"b2b7041b045c0777c5e36176b4739336a41a97b5\",\n  \"inputs\": [\n    \"tools/project_records/validate.py\",\n    \"tools/project_records/fetch_evidence.py\",\n    \"project/tracking.json\",\n    \"docs/validation/ecal-highstat/frozen/manifest.json\",\n    \".github/workflows/validation.yml\",\n    \".github/workflows/token-usage.yml\"\n  ],\n  \"mode\": \"write\",\n  \"writable_paths\": [\n    \"tools/project_records/check_ecal_chain.py\",\n    \"tools/project_records/test_ecal_chain.py\"\n  ],\n  \"task\": \"Implement minimum read-only ECAL133\\u2013137 integrity check per audit. Use existing tracking/interaction/model manifests, no new registry/state/automation or remote calls. CLI --repo defaultroot, optional --output compactJSONreport under callerpath. Require all5PRtracking entries and interaction ledgers; orderedhead ancestry andallheads ancestors ofcheckedHEAD; modelmanifest freeze_commit andvalidated_results_commit ancestors ofHEAD; currentfrozen coefficient bytes identicaltoGitfreeze andcore file matchesfrozen coreSHA (also frozen blob ifappropriate). For entries recorded merged require head\\u2192merge\\u2192checkedHEAD; optional --require-merged strictpostmerge mode is useful but defaultmustworkbeforemerge andnotinventfuturestate. Include compact unique canonical workowner/title/observed-counter coverage if straightforward from existingledger references, avoiding duplicateaddition acrossPRreferences; existing fullusage/ledger validators remainseparate, no reinventingthem. Checkscript shouldpass after main adds missingPR133 row; currentb2sourceknownfailsmissing133bydesign. Meaningfulstandardlibrary syntheticGitfixtures testgoodchain andmissing/reordered/unreachable entries, lostfreeze, changedcoeff/core, detachedrecordedmerge; no native/Numpy/dataregeneration. Main owns .githubworkflow wiring/inventory/docs/logs/accounting/project/merges; touchonly2ownedsourcefiles, do notcommit/publish/merge/delegate. No detectoracceptanceclaims or globalequalitygate forhistoricalmilestones.\",\n  \"deliverable\": \"Two sourcefiles with focusedread-only guard and meaningfultests; actualtestcommands/results andlimitations.\",\n  \"completion\": \"Return once targetedtests pass andonlyownedfiles changed; no publication.\"\n}\n```",
+        "source": "https://github.com/asalzburger/nodd/blob/3ebafd340b0e084c5e42e57123de115e3f489244/logs/codex/SESSION-2026-11-12-ecal-chain-readiness.md#independent-audit-and-guard-assignment",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [
+          "SoftEng"
+        ],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-chain-readiness"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-11-12-ecal-chain-readiness:b3ede2fa462b85ad",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "agent:SESSION-2026-11-12-ecal-chain-readiness",
+        "recipients": [],
+        "text": "ECAL-CHAIN-SOFTENG-ABSORBED; SoftEng; exact input ded14d2e4d726b566db3cd9e4939d73da799b6a3; read/write only tools/project_records/check_ecal_chain.py and test_ecal_chain.py; no further delegation or publication. Require forward ancestry OR explicit later-head→actual-later-merge→predecessor-head proof for a genuinely merged dependent; captured heads must belong to that merge.17 synthetic Git controls pass, including the absorption/corrective history and rejected missing/detached/incompatible merge evidence. Main integrates workflow, records and accounting separately.\n\nPre-review checks: project/session/ledger/token validators pass;37+19+20 accounting tests and both Node suites pass. Preview daily work labels reconcile exactly to12 contributing titles,51 turns and303597535observed tokens. Coefficients/core are byte-identical to their original frozen commits; no scientific data/code changes. Actual remaining-head CI will be observed after publication.",
+        "source": "https://github.com/asalzburger/nodd/blob/3ebafd340b0e084c5e42e57123de115e3f489244/logs/codex/SESSION-2026-11-12-ecal-chain-readiness.md#chain-guard-amendment-assignment",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [
+          "SoftEng"
+        ],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-chain-readiness"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-11-12-ecal-chain-readiness:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-11-12-ecal-chain-readiness",
+        "recipients": [],
+        "text": "PR133–137 chain readiness, complete accounting and merged-state validation — see the canonical narrative for outcomes and checks.",
+        "source": "https://github.com/asalzburger/nodd/blob/3ebafd340b0e084c5e42e57123de115e3f489244/logs/codex/SESSION-2026-11-12-ecal-chain-readiness.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-chain-readiness"
+        ],
+        "content_kind": "reference_summary"
+      },
+      {
+        "id": "journal:SESSION-2026-11-12-ecal-staggered-highstat-calibration:d98c061d1c4032be",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "agent:SESSION-2026-11-12-ecal-staggered-highstat-calibration",
+        "recipients": [],
+        "text": "```json\n{\n  \"id\": \"ECAL-HIGHSTAT-PHYSVAL-FINAL\",\n  \"role\": \"PhysVal\",\n  \"input_revision\": \"83eb6a8828eea3cfd54da07650ca226a88f7c2e9\",\n  \"inputs\": [\n    \"docs/validation/ecal-highstat/results/summary.json\",\n    \"docs/validation/ecal-highstat/frozen/models.json\",\n    \"docs/validation/ecal-highstat/campaign-and-run.json\",\n    \"docs/validation/ecal-highstat/README.md\",\n    \"software/analysis/calorimeter_digitization/highstat_analysis.py\",\n    \"software/analysis/calorimeter_digitization/highstat_plots.py\"\n  ],\n  \"mode\": \"read-only\",\n  \"writable_paths\": [],\n  \"task\": \"Final exact-revision independent scientific assessment of the completed 120k staggered-only campaign. Inspect primary compact results before author conclusions. Review fresh20k points/controls/histogram populations, residual mean/tail/seam/energy bias, conditional1000/full200 within-role bootstrap interpretation and correlated contrasts/covariance, source/freeze/hash bindings, and all nine rendered PNG families. Supplemental local campaign train/validation feature receipts/arrays and build/ecal-highstat/validation-predictions.npz may now be read; all MC complete. You may reproduce frozen inference and the declared unchanged bootstrap if useful, no alternative fits/configuration or retuning. Coordinator checked all120angularhist populations, global point metrics,84zeros,CVinvariance,120/60covariances PSD and A\\u03a3A\\u1d40, render hashes and vectorSVG. All22narrow tests pass; old10k native regression passes. Report material issues and truthful limits; no writing, new simulation, source/model changes, delegation or publication. Python-B, numerical threads1; no native imports required unless following acts-spack preflight.\",\n  \"deliverable\": \"Exact-revision final result/control/uncertainty/figure assessment with actual checks and actionable findings or explicit no-material-finding.\",\n  \"completion\": \"Return bounded final assessment and actual evidence; technical assessment only, no human sign-off.\"\n}\n```\n\nAll120k transport/readback complete; immutable training freeze precedes validation. Fresh20k widths raw38.313%, historical31.338%, retunedlinear31.322%, spline30.209%; closed means1.00287/1.00300. Full200refits and1000conditional resamples complete. Coordinator numerical/count/zero/CV/covariance/hash/vectorSVG checks pass. Residual energy/local bias, seam tails and84zeros retained; no retuning. Final specialist assessment follows at exact results commit.",
+        "source": "https://github.com/asalzburger/nodd/blob/3ebafd340b0e084c5e42e57123de115e3f489244/logs/codex/SESSION-2026-11-12-ecal-staggered-highstat-calibration.md#final-results-assessment-assignment",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [
+          "PhysVal"
+        ],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-staggered-highstat-calibration"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-11-12-ecal-staggered-highstat-calibration:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-11-12-ecal-staggered-highstat-calibration",
+        "recipients": [],
+        "text": "Staggered ECAL: 100k training and 20k independent validation — see the canonical narrative for outcomes and checks.",
+        "source": "https://github.com/asalzburger/nodd/blob/3ebafd340b0e084c5e42e57123de115e3f489244/logs/codex/SESSION-2026-11-12-ecal-staggered-highstat-calibration.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-ecal-staggered-highstat-calibration"
+        ],
+        "content_kind": "reference_summary"
+      },
+      {
+        "id": "journal:SESSION-2026-11-12-pr137-accounting:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-11-12-pr137-accounting",
+        "recipients": [],
+        "text": "PR137 token accounting, work labels and closeout — see the canonical narrative for outcomes and checks.",
+        "source": "https://github.com/asalzburger/nodd/blob/3ebafd340b0e084c5e42e57123de115e3f489244/logs/codex/SESSION-2026-11-12-pr137-accounting.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-12-pr137-accounting"
+        ],
+        "content_kind": "reference_summary"
+      }
+    ],
+    "coverage": {
+      "github_captured_at": "2026-11-19T13:36:53.260760Z",
+      "prompts": "Available account-matched user-visible messages, public Codex inputs and curated journal excerpts. Historical full input coverage is unknown.",
+      "recovered_visible_turns": 0,
+      "unrecovered_account_turns": [
+        {
+          "thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+          "turn_id": "01a1cf97-8471-7f62-af2b-0e53f74397f3"
+        },
+        {
+          "thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+          "turn_id": "01a1cf99-09d3-7f62-b2f8-8a072ffa0807"
+        },
+        {
+          "thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+          "turn_id": "01a1cf99-9b12-7df3-9596-71424cdbf92f"
+        },
+        {
+          "thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+          "turn_id": "01a1d030-81bc-7c32-a1a1-4724ea71b8df"
+        },
+        {
+          "thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094",
+          "turn_id": "01a1d081-e0b9-7092-bee1-4cba9666c779"
+        },
+        {
+          "thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+          "turn_id": "01a1cf9b-e8b1-7ca1-a4fd-f39d1310d576"
+        },
+        {
+          "thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+          "turn_id": "01a1cfa2-2a3c-7242-9f61-8df321a95a2a"
+        },
+        {
+          "thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+          "turn_id": "01a1cfa7-8af6-78b1-a3a6-036e8d814c7a"
+        },
+        {
+          "thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+          "turn_id": "01a1cfaa-f348-73f3-b333-a47e006a6ef7"
+        },
+        {
+          "thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+          "turn_id": "01a1cfb2-ffdd-72d1-a07e-f406bec34fb2"
+        },
+        {
+          "thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+          "turn_id": "01a1cfdd-658c-7fe0-99ec-509edec65cf2"
+        },
+        {
+          "thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+          "turn_id": "01a1d000-3568-7552-9eea-83590351afc2"
+        },
+        {
+          "thread_id": "01a1cb19-1628-7573-916f-ff4a9a5705f7",
+          "turn_id": "01a1d018-5276-74b0-a95f-27919c5818aa"
+        },
+        {
+          "thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
+          "turn_id": "01a1cf9c-046c-79e0-be19-3922787dace1"
+        },
+        {
+          "thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
+          "turn_id": "01a1cfa3-b97b-7440-8f99-ea7587faa62c"
+        },
+        {
+          "thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
+          "turn_id": "01a1d037-bb3b-7fb1-9504-b7d9f6e0d0f9"
+        },
+        {
+          "thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
+          "turn_id": "01a1d0a0-0713-78d3-bbbf-c393e8aa5c24"
+        },
+        {
+          "thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
+          "turn_id": "01a1d0a7-d52a-7943-95d2-1ba9af90c0f4"
+        },
+        {
+          "thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
+          "turn_id": "01a1d0b5-9d58-7580-b188-e6cd1cf27627"
+        },
+        {
+          "thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
+          "turn_id": "01a1d0b8-ec91-73e3-a3ae-a5fd0c38fceb"
+        }
+      ],
+      "responses": "Public responses and recorded outcomes; no private model state or hidden reasoning.",
+      "token_accounting": "References only. Never sum accounts across PRs or assign a shared turn by text length.",
+      "unknowns": "Unrecorded names, models, tools, subagent identities and response links remain unknown; empty lists are not zero activity.",
+      "remote": "Snapshot, not live synchronization; deleted/edited history and emoji reactions are not recovered.",
+      "branch_only": "Pinned branch journal snapshots are references, not imported counters. Unretained or other-device inputs remain unknown."
+    }
+  }
+}

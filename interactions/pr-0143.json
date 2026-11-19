@@ -157,19 +157,32 @@
     ]
   },
   "github": {
-    "captured_at": "2026-11-16T14:09:20.829Z",
+    "captured_at": "2026-11-19T13:36:58.650148Z",
     "pull_request": {
       "number": 143,
       "url": "https://github.com/asalzburger/nodd/pull/143",
       "title": "Calorimeter: add material-preserving DD4hep service routing",
       "head": "codex/lar-routing-dd4hep",
       "head_sha": "8dfa8573f4a3e278db4a882d99a25a0df8109dc5",
-      "state": "open",
+      "state": "closed",
       "body": "Adds an isolated DD4hep version of the old/new LAr service routing proposed in #142. The user selected the existing 20 mm OD / 18 mm ID steel/N₂ pipe materials. Undefined cables and 100 mm jackets remain explicitly unmaterialised envelopes.\n\nBoth routes share endpoints and the same analytic 4968.343720697463 mm path. Circular CutTube chords with shared miter planes approximate bends; a small common radius correction preserves both constituent volumes at fixed recipes and densities. The default 32 routes are representative, not a complete cooling circuit. Governing prototype input: `docs/design/inputs/DES-032-routing-dd4hep.md` (DES-032/DES-033; TASK-LAR-ROUTING-DD4HEP). Production geometry is unchanged.\n\nValidation at clean native source `8210fbcca843d385103dcc14367d0587f9d85ba3`:\n\n- Old/new: 2752 material pieces, zero overlaps at 10 nm, 5376 joint material points and 2688 boundary crossings each. Native recipes, volumes/masses and transforms checked. Each retains 74.401406957 kg steel and 0.809145269 kg N₂ across 32 routes.\n- Finer 2.5° construction: 5184 pieces, zero overlaps and 10240 joint probes. Approximation sagitta is separate from overlap tolerance; no directional material-budget convergence claim.\n- Six saved serial Geant4 geantino events pass conversion, observed-primary and actual passive wall/core/miter step audits. JSONL is the event evidence; empty passive ROOT outputs are diagnostics.\n- Unchanged native ECAL occupancy: 54016 samples/variant witness existing cooling-pipe continuation and closed vessel contacts. `fit_accepted=false`; no combined overlay, 400 mm shift or response claim.\n- 16 routing controls passed; author reported all 55 LAr controls passed. Separate final PhysVal, SysArch and nonauthor SoftEng reviews at `f4c15efeb3e0c62bbe5611b53df56b57fb7bc199` found no actionable issues for this bounded scope. Report replay and independent material/ray-step arithmetic agreed; reviewers did not rerun native jobs.\n\nSource/hash-bound compact results, environment and exact commands are in `docs/validation/lar-routing-dd4hep/`. Raw XML/ROOT/placement inventories, step JSONL and logs remain ignored. Node preflight fingerprint warning was reported; current DD4hep 1.38 / Geant4 11.4.3 / ROOT 6.40.04 and preinstalled nlohmann-json 3.12.0 were verified. No shared dependencies installed or changed.\n\nStacked on draft #142 (base `codex/lar-gap-hadron-options`) to keep proposal and implementation review separate. Paired work/role/tool records and six exact closed child-turn token observations are retained; the active coordinator turn is excluded, so usage coverage is incomplete. Draft only: sealed ports, proper daughter displacement, circuit/support/board interfaces and external integration remain open. No engineering acceptance or production adoption.\n",
-      "actor": "asalzburger",
-      "created_at": "2026-11-14T13:46:21Z"
+      "created_at": "2026-11-14T13:46:21Z",
+      "actor": "asalzburger"
     },
-    "comments": [],
+    "comments": [
+      {
+        "id": 5940207056,
+        "url": "https://github.com/asalzburger/nodd/pull/143#pullrequestreview-5940207056",
+        "body": "",
+        "actor": "asalzburger-review",
+        "created_at": "2026-11-17T14:24:46Z",
+        "updated_at": null,
+        "review": "APPROVED",
+        "in_reply_to_id": null,
+        "path": null,
+        "line": null
+      }
+    ],
     "issues": []
   },
   "derived": {
@@ -245,6 +258,11 @@
         "kind": "account"
       },
       {
+        "id": "github:asalzburger-review",
+        "name": "asalzburger-review",
+        "kind": "human"
+      },
+      {
         "id": "unknown:project-user",
         "name": "Project user (name unrecorded)",
         "kind": "human"
@@ -260,8 +278,8 @@
         ],
         "snapshot": null,
         "snapshot_sha256": null,
-        "record_sha256": "a7a560b40e3628db1d08c1f58bcf431dafe07fa9bcba554690e9b2e376c6c719",
-        "narrative_sha256": "fb9fa173cd55b4f985641a42f67e89c3e5da4fe4f96fd80ddc9f2a01f2462e70"
+        "record_sha256": "c871601399a5978abeb989c182a471f78893cfbff24df68e2f84aef2e7b8105d",
+        "narrative_sha256": "7253336e4d8dc0fb0f341efa326d25b61b09ba3fc9dacd4cf921cfd2da707a65"
       },
       {
         "session_id": "SESSION-2026-11-16-pr143-token-closeout",
@@ -295,7 +313,7 @@
         "record": "logs/codex/SESSION-2026-11-16-lar-stack-merge-prep.json",
         "scope": "canonical_session; shared PR references are not allocations",
         "status": "observed",
-        "usage_sha256": "7eb38b1f87f1884c45bf1e6a52d9db031934711541d1fc10a43b51f142d6b053",
+        "usage_sha256": "b70102e6df2ba3395e81a1ca3c055dcf72e0ddb0b75f248da865ef450d496332",
         "turns": [
           {
             "client_thread_id": "01a1d371-673b-7bd1-8bf1-82dcb8f4261b",
@@ -305,6 +323,11 @@
           {
             "client_thread_id": "01a1d371-673b-7bd1-8bf1-82dcb8f4261b",
             "turn_id": "01a1e4cf-c6e2-7ea2-a42d-d08f00b7469d",
+            "model": null
+          },
+          {
+            "client_thread_id": "01a1d197-9480-7751-af8c-0c21b576f5ac",
+            "turn_id": "01a1e4a8-0341-77a3-a47a-76b2c985f680",
             "model": null
           }
         ]
@@ -1095,6 +1118,21 @@
         "remote_input": null
       },
       {
+        "id": "github:https://github.com/asalzburger/nodd/pull/143#pullrequestreview-5940207056",
+        "type": "review",
+        "direction": "reaction",
+        "actor": "github:asalzburger-review",
+        "recipients": [],
+        "text": "APPROVED",
+        "source": "https://github.com/asalzburger/nodd/pull/143#pullrequestreview-5940207056",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [],
+        "timestamp": "2026-11-17T14:24:46Z",
+        "remote_input": null
+      },
+      {
         "id": "journal:SESSION-2026-11-16-lar-stack-merge-prep:outcome",
         "type": "response",
         "direction": "reaction",
@@ -1634,10 +1672,14 @@
       }
     ],
     "coverage": {
-      "github_captured_at": "2026-11-16T14:09:20.829Z",
+      "github_captured_at": "2026-11-19T13:36:58.650148Z",
       "prompts": "Available account-matched user-visible messages, public Codex inputs and curated journal excerpts. Historical full input coverage is unknown.",
       "recovered_visible_turns": 7,
       "unrecovered_account_turns": [
+        {
+          "thread_id": "01a1d197-9480-7751-af8c-0c21b576f5ac",
+          "turn_id": "01a1e4a8-0341-77a3-a47a-76b2c985f680"
+        },
         {
           "thread_id": "01a1d371-673b-7bd1-8bf1-82dcb8f4261b",
           "turn_id": "01a1e4b4-a580-7310-b9a4-4deb6da82053"
