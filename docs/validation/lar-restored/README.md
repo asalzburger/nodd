@@ -1,5 +1,7 @@
 # Restored1.8mm Pb LAr sampling prototype
 
+[LAr baseline / Si–W raw energy resolution versus eta and phi, 15 bins](../ecal-raw-angular/README.md).
+
 **DRAFT / isolated PROTOTYPE ·2026-11-18 ·DES026/032/033.** The user-directed
 variant restores1.8mm barrel Pb while allowing a larger outer radius. It retains
 50.18° inclination and all11normalized radial compartment boundaries. The strict
