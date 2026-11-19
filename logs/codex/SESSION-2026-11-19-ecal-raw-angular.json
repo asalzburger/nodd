@@ -4,8 +4,8 @@
   "title": "LAr baseline and Si-W raw widths versus eta and phi",
   "recorded_at": "2026-11-19T09:56:27Z",
   "started_at": null,
-  "ended_at": null,
-  "status": "open",
+  "ended_at": "2026-11-19T10:02:29Z",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
@@ -21,7 +21,10 @@
     "start_commit": "e9a0008c9851ea7c8a38ce08b402cd63756c9ca1",
     "branch": "codex/ecal-raw-angular-restored",
     "initial_changes": [],
-    "result_commits": [],
+    "result_commits": [
+      "f926f3812a074bae36d81b3c1f8faefc5fd6bb87",
+      "f2b8b8a8646d66da6e06341f56b508d6a8f61b36"
+    ],
     "changed_files": [
       "software/analysis/lar_response/raw_angular.py",
       "software/inventory.json",
@@ -34,7 +37,8 @@
       "docs/validation/ecal-raw-angular/figures/raw-energy-resolution.svg",
       "docs/validation/ecal-raw-angular/figures/render.json",
       "logs/codex/SESSION-2026-11-19-ecal-raw-angular.md",
-      "logs/codex/SESSION-2026-11-19-ecal-raw-angular.json"
+      "logs/codex/SESSION-2026-11-19-ecal-raw-angular.json",
+      "interactions/pr-0152.json"
     ]
   },
   "work": {
@@ -45,7 +49,8 @@
     ],
     "related_ids": [
       "DES-032",
-      "DES-033"
+      "DES-033",
+      "PR152"
     ]
   },
   "narrative": "logs/codex/SESSION-2026-11-19-ecal-raw-angular.md",
@@ -87,6 +92,18 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "No whitespace errors."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "301 session records validate."
+    },
+    {
+      "command": "python3 -B tools/interactions/ledger.py validate --pr 152",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "PR152 discussion snapshot and canonical session references validate; exact current-turn usage remains unobserved."
     }
   ]
 }
