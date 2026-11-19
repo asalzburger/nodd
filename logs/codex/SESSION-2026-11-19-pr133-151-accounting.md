@@ -28,3 +28,5 @@ Infrastructure accounting only; no design/ADR/geometry/physics changes, engineer
 Final validation and draft PR URL are recorded below when observed.
 
 Validation passed:305 session records;111tasks/54documents/24review rounds;130PR ledgers;593disjoint canonical project turns/3,379,733,598observed project tokens; token preview build under`_site/pr133-151-token-preview`; independent range arithmetic and136existing observations reverified; whitespace checks. The old dashboard build path is absent and was replaced by the repository's current project_records validator. An initial token preview path under build/ was rejected; the required _site/ path succeeded. No detector/runtime tests or simulations were necessary for this accounting-only change.
+
+Draft delivery: [PR153](https://github.com/asalzburger/nodd/pull/153), `codex/pr133-151-accounting` → `main`. Initial commitc939ec3e retains the completed report. The connector denied PR creation with403, so the authenticated GitHub CLI fallback created the verified draft. No ready-for-review or merge action was taken. The draft's own interaction record is added in the closeout commit.
