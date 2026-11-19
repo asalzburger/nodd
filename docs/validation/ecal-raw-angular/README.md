@@ -1,8 +1,10 @@
 # LAr baseline / Si–W raw energy resolution versus eta and phi
 
-2026-11-19. Fifteen equal signed-eta bins over −3…3 and fifteen equal full-phi
-bins over −π…π, shown side by side. LAr is solid; Si–W is dotted. Both use the
-project ECAL color `#cccc00`. This is a rebinning of retained, audited transports.
+2026-11-19. Fifteen equal signed-eta bins over −3…3 and fifteen equal sector-phase
+bins over **−15%…+15% of the Si–W sector width**, shown side by side. The user
+confirmed percentages rather than degrees. A sector is 22.5°, so the phi window
+is ±3.375° about each sector centre, pooling equivalent sectors. LAr is solid;
+Si–W is dotted. Both use the project ECAL color `#cccc00`.
 
 ![Raw energy resolution in fifteen bins](figures/raw-energy-resolution.png)
 
@@ -24,10 +26,16 @@ material, primary, ledger, receipt and readback identities are retained in the
 summary and linked original reports. No transport is rerun for this task.
 
 The plotted statistic is sample SD(R)/mean(R), with R=Eraw/Etrue and ddof=1.
-All generated events, including zeros and tails, remain. Lower bin edges are
-inclusive; upper edges are exclusive except the final edge. Each projection
-contains every event once; phi is not folded. The other angle and full energy
-spectrum are marginalized. These widths include angular response variation,
+All events within each declared angular window, including zeros and tails,
+remain. The eta panel retains all **10,000 events** and is unchanged from the
+original figure. The phi panel contains **3,009 matched events per model**;
+6,991 are outside the requested directional window. No response-based selection
+is applied. Lower bin edges are inclusive; upper edges are exclusive except the
+final edge. Phi is folded as `((phi + P/2) modulo P) − P/2`, P=π/8, then expressed
+as `100 * folded_phi/P`. The same Si–W reference coordinate is applied to both
+models; it is not LAr electrode symmetry. No reflection is imposed.
+The other angle and full energy spectrum are marginalized.
+These widths include angular response variation,
 losses and leakage; they are not intrinsic reconstructed resolution at fixed
 energy. No calibration or digitization is applied.
 
@@ -48,6 +56,7 @@ plot_python=/Users/salzburg/Documents/work/installed/acts-nodd/pyvenv/bin/python
 "$plot_python" -B software/analysis/lar_response/raw_angular.py analyze \
   --lar-run ../nodd-lar-compact-hadron/build/lar-restored/production12 \
   --siw-run ../nodd-ecal10k/build/ecal-staggering/production12 \
+  --sector-half-width-percent 15 \
   --output build/raw-angular/summary.json
 MPLCONFIGDIR="$PWD/build/raw-angular/mpl" XDG_CACHE_HOME="$PWD/build/raw-angular/cache" \
   "$plot_python" -B software/analysis/lar_response/raw_angular.py plot \
@@ -72,10 +81,17 @@ MPLCONFIGDIR="$PWD/build/raw-angular/mpl" XDG_CACHE_HOME="$PWD/build/raw-angular
   --summary docs/validation/ecal-raw-angular/summary.json --output build/raw-angular/replot
 "$plot_python" -B -m unittest discover \
   -s software/analysis/lar_response -p test_compare.py -v
+"$plot_python" -B -m unittest discover \
+  -s software/analysis/lar_response -p test_raw_angular.py -v
 ```
 
-The retained 60 bin means, sample SDs and widths were independently checked
-against the local ledgers using Python's standard-library `statistics` module;
-all populations sum to 10,000 and retain their original zero counts.
+All 30 updated phi-bin means, sample SDs, widths, counts and zeros were checked
+against the local ledgers using independent degree-based nearest-sector folding
+and Python's standard-library `statistics` module. Each phi projection sums to
+3,009 events. The eta bin records are exactly identical to the original figure.
 The complete bootstrap covariance is finite, symmetric and positive semidefinite
 to numerical precision. The exported PNG was visually inspected.
+
+The [original full-phi figure and statistics](https://github.com/asalzburger/nodd/tree/3f270c4fc14b2689ebe5bbf67c1c474fc15f3993/docs/validation/ecal-raw-angular)
+remain preserved in Git. Omitting `--sector-half-width-percent` reproduces the
+original full-phi analysis from the same local inputs.
