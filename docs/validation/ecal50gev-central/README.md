@@ -45,6 +45,20 @@ readbacks and measured disk forecast. Geometry and validated binary artifacts ar
 the same as the [restored LAr](../lar-restored/README.md) and
 [matched Si–W](../lar10k/README.md) controls.
 
+[Direction evidence](direction-controls.json) · [Per-layer ray intersections](direction-reproduced.json) ·
+[Reverified environment](environment.json) · [Specialist assessments](reviews.json).
+The reference ray check can be repeated without the native runtime:
+
+```sh
+python3 -B software/analysis/lar_response/central_direction.py \
+  --compact ../nodd-ecal10k/build/ecal-staggering/production-input/detector.xml \
+  --eta 0.1 --phi-deg 0.7 --output build/ecal50gev-repeat-direction.json
+```
+
+Adding `--scan` repeats the predeclared 0…8° geometry-only scan with 0.0001°
+spacing. This analytical rectangle/prism check is separate from native
+navigation and shower-response validation.
+
 ## Independence and uncertainty
 
 | Detector | Calibration events / seed | Evaluation events / seed |

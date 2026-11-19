@@ -1,0 +1,93 @@
+{
+  "scope": "Explicitly assigned fallback roles; no verified native profile loading, human signoff or detector acceptance. Final results review will be separately retained.",
+  "reports": [
+    {
+      "id": "ECAL50-CaloTech-direction",
+      "role": "CaloTech",
+      "assignment_mode": "read-only",
+      "input_revision": "077696b4da7556a31ad02d656dfa3c0141b07543",
+      "outcome": "Choosephi+0.7deg basedon geometry-only clearance;44/48active primary crossings;phi0only22/48. Not a global shower-response optimum or completely gapfree.",
+      "checks": [
+        "Exact staggeredcompactSHA256",
+        "Analytic origin-ray/rectangular-prism intersections including0.5mmsensor thickness",
+        "Geometry-only0..8degscan at0.0001degspacing"
+      ],
+      "evidence": "docs/validation/ecal50gev-central/direction-controls.json",
+      "files_changed": []
+    },
+    {
+      "id": "ECAL50-PhysVal-protocol",
+      "role": "PhysVal",
+      "assignment_mode": "read-only",
+      "input_revision": "077696b4da7556a31ad02d656dfa3c0141b07543",
+      "outcome": "Conditional independent-calibration visible-response diagnostic sound with explicit effective-f scope, rawSD/beam versus CV, no evaluation recentering and no per-event f smearing. Four disjoint production seeds adopted; detectors independently resampled.",
+      "checks": [
+        "Assigned source/ADR003 read",
+        "Independent standard-library algebra including zeros and tails"
+      ],
+      "native_execution_reviewed": false,
+      "files_changed": []
+    },
+    {
+      "id": "ECAL50-SoftEng-analysis",
+      "role": "SoftEng",
+      "assignment_mode": "write, isolated worktree",
+      "input_revision": "077696b4da7556a31ad02d656dfa3c0141b07543",
+      "outcome": "Implemented two owned analysis/testfiles, handed to coordinator withoutcommit; not an independent review of own implementation.",
+      "checks": [
+        "Seven synthetic analysis tests",
+        "Summary-only synthetic plot and visualinspection",
+        "Newfrozen input manifests and legacy nativeworkerfieldcompatibility"
+      ],
+      "owned_files": [
+        "software/analysis/lar_response/central_analyze.py",
+        "software/analysis/lar_response/test_central_analyze.py"
+      ],
+      "handoff_sha256": {
+        "central_analyze.py": "2bc8e574e5b1b48c52975b03ae69835bbf6d1c9ca3fc8103bd604046a31e64ac",
+        "test_central_analyze.py": "492f478ce2e149b16454e06c6a4baebe6e7f9d58a57149dd389f6f5cb0f96a4e"
+      }
+    },
+    {
+      "id": "ECAL50-PhysVal-implementation",
+      "role": "PhysVal",
+      "assignment_mode": "read-only",
+      "input_revisions": [
+        "e9f16dcd34df1af36ad9b458980f2d330e2c47b5",
+        "a20ae153d7cf70c9b593df16f390edbfd7a11760"
+      ],
+      "outcome": "No remaining material blocker in reviewed implementation. Final native data and figures are outside this source-only review.",
+      "findings": [
+        {
+          "issue": "CLI bootstrap count/seed could disagree with hashed frozen protocol",
+          "remediation_revision": "a20ae153d7cf70c9b593df16f390edbfd7a11760",
+          "status": "corrected and independently rechecked"
+        }
+      ],
+      "checks": [
+        "Eightanalysis tests pass",
+        "Nine scalar metrics independently matched statistics.mean/stdev with zero/tail/nonclosing-heldout fixture",
+        "Exact point/count/geometry/allfour distinctseeds crosschecked against protocol",
+        "Independent f refit/population resampling and CVinvariance/histogramflows/covariance definitions checked"
+      ],
+      "files_changed": []
+    },
+    {
+      "id": "ECAL50-CaloTech-reproduce-direction",
+      "role": "CaloTech",
+      "assignment_mode": "write, isolated worktree",
+      "input_revision": "a20ae153d7cf70c9b593df16f390edbfd7a11760",
+      "owned_files": [
+        "software/analysis/lar_response/central_direction.py"
+      ],
+      "outcome": "Retained the previously selected geometric point as a source/XML-hash-guarded pure-Python CLI; no new point selection or shower-response optimization.",
+      "checks": [
+        "Full-thickness phi0.7ray reproduces44/48 layers and22.111741904mmactivepath",
+        "phi0control22/48",
+        "Wrongcompacthashrejected",
+        "Optionalpredeclared0..8degscanreproduces0.7020degmidplanecriterion"
+      ],
+      "native_execution_reviewed": false
+    }
+  ]
+}
