@@ -6,6 +6,43 @@ selected restored 1.8 mm Pb LAr baseline with the physically staggered Si–W
 comparator. It uses 2,000 independent calibration events and 10,000 held-out
 evaluation events per detector. The earlier broad-spectrum sample is not reused.
 
+![Raw deposits, deposited-energy fraction and response-corrected fraction](figures/central-response-distributions.png)
+
+[Distribution PDF](figures/central-response-distributions.pdf) ·
+[Distribution SVG](figures/central-response-distributions.svg) ·
+[Compact statistics, histograms and covariance](summary.json).
+
+## Executed result
+
+All **24,000 production events** passed full saved-primary/hit readback:
+4,000 calibration and 20,000 evaluation events, with no disk abort or population
+reduction. Both models have **zero zero-response evaluation events**. The
+100-event pilots per detector are excluded from inference. Full ROOT production
+output totals 46,954,104,881 bytes and remains local/ignored.
+
+| Model | Mean raw S [GeV] | SD(S) [GeV] | Mean R=S/50 | SD(R) |
+| --- | ---: | ---: | ---: | ---: |
+| LAr restored | 8.05839 | 0.217191 | 0.161168 | 0.00434382 |
+| Si–W staggered | 0.782269 | 0.0251631 | 0.0156454 | 0.000503262 |
+
+| Model | Independent f | Held-out mean T | SD(T) [%], 95% interval | SD/mean [%], 95% interval |
+| --- | ---: | ---: | --- | --- |
+| LAr restored | 0.161232 | 0.999601 | **2.694 [2.639, 2.763]** | 2.695 [2.641, 2.764] |
+| Si–W staggered | 0.0156327 | 1.000811 | **3.219 [3.087, 3.405]** | 3.217 [3.085, 3.403] |
+
+The SD/mean values apply identically to all three transformations. The two
+held-out response means are not forced to one. The Si–W-minus-LAr difference
+in SD(T) is +0.525 percentage points, with pointwise 95% interval
+[+0.371, +0.711] percentage points, conditional on this one configuration/point.
+
+![Held-out corrected response comparison](figures/central-corrected-comparison.png)
+
+[Corrected-comparison PDF](figures/central-corrected-comparison.pdf) ·
+[Corrected-comparison SVG](figures/central-corrected-comparison.svg) ·
+[Execution/readback controls](execution-controls.json) ·
+[Independent scalar/histogram checks](independent-checks.json) ·
+[Source/render hashes](figures/render.json).
+
 ## Requested observables
 
 | Graph | Definition | Reported spread |
@@ -70,6 +107,17 @@ Event identity is the composite `(detector, population, transport_seed, event)`.
 The repeated primary four-vectors are intentionally identical; independent
 transport seeds distinguish the samples. Pilot seeds 705019/705029 are excluded
 from inference. Every evaluation event, including zeros and tails, is retained.
+
+The [native seed diagnostic](rng-controls.json) records 24,000 generated
+production events and 23,999 distinct logged internal event seeds. One pair
+within Si–W evaluation shares a seed and has identical saved response summaries;
+there is no logged seed overlap across calibration/evaluation or detector groups.
+A separate [post-hoc conservative cluster sensitivity](rng-sensitivity.json)
+estimates a relative increase below 0.0002% in the resolution-width standard
+error if that pair is treated as fully dependent. This is a first-order
+sensitivity, not a replacement confidence interval. All events and the frozen
+nominal bootstrap are retained. A realized finite-seed repeat does not itself
+prove dependent sampling; no general PRNG-independence claim is made.
 
 Pointwise 95% percentile intervals use 1,000 independent whole-event bootstrap
 replicates, seed 5019001. Each detector's calibration and evaluation populations
@@ -161,3 +209,16 @@ Full ROOT/events, compacts, verbose logs and caches remain ignored locally.
 Only compact bin counts/moments/flows, scalar inference, provenance, figures and
 the recipe are retained in Git. Replotting needs only the compact summary; native
 readback and independent event-level checks need the retained full runs.
+
+The final figures can be reproduced directly from the committed summary:
+
+```sh
+MPLCONFIGDIR="$PWD/build/ecal50gev-replot/mpl" \
+  "$plot_python" -B software/analysis/lar_response/central_analyze.py plot \
+  --summary docs/validation/ecal50gev-central/summary.json \
+  --output build/ecal50gev-replot/figures
+"$plot_python" -B -m unittest discover \
+  -s software/analysis/lar_response -p 'test_central_*.py' -v
+"$plot_python" -B -m unittest discover \
+  -s software/analysis/lar_response -p test_compare.py -v
+```
