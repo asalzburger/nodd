@@ -115,7 +115,10 @@ def plot(summary, output):
         fig.text(.08, .095, r'$R=E_{\rm raw}/E_{\rm true}$; resolution = sample SD$(R)$/mean$(R)$ · Error bars: pointwise 95% bootstrap intervals', fontsize=10)
         fig.text(.08, .04, 'All events, including zeros and tails; no calibration. Width includes response variation within each angular bin.', fontsize=9, color='#555555')
         for suffix in ('png', 'pdf', 'svg'):
-            fig.savefig(output / f'raw-energy-resolution.{suffix}', dpi=200, facecolor='white')
+            path = output / f'raw-energy-resolution.{suffix}'
+            fig.savefig(path, dpi=200, facecolor='white')
+            if suffix == 'svg':
+                path.write_text('\n'.join(line.rstrip() for line in path.read_text().splitlines()) + '\n')
         plt.close(fig)
     common.write(output / 'render.json', {'summary_sha256': common.sha(summary), 'plotter_sha256': common.sha(__file__),
                  'numpy_version': np.__version__, 'matplotlib_version': matplotlib.__version__,

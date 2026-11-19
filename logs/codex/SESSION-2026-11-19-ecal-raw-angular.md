@@ -46,6 +46,9 @@ native contract controls. Inventory refresh/check pass; whitespace check passes.
 Session validation and summary were run; exact current-turn usage is unknown.
 Sandboxed Git network initially failed DNS; authorized network fetch succeeded.
 Initial matplotlib import used a temporary cache; render uses explicit build/cache.
+The staged whitespace check exposed Matplotlib SVG trailing whitespace after the
+initial unstaged check passed. SVG export now strips trailing whitespace; the
+figure and source/render provenance were regenerated and checked before push.
 
 ## Changes and revision links
 
