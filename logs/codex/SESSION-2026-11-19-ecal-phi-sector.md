@@ -61,3 +61,13 @@ No client archives, hidden state or estimates are collected.
 This remains spectrum-averaged raw deposition width in the stated angular
 windows and ECAL-onlyB0configuration. No fixed-energy reconstructed resolution
 or interpretation of the common SiWphase as LAr symmetry is claimed.
+
+## Draft publication closeout
+
+Updated[PR152](https://github.com/asalzburger/nodd/pull/152) on the existing
+task branch with commit3d782850b6de4b931ab0a756743f3ed1ace3475c. The connector
+returned403on description update; authenticated ghfallback succeeded, following
+the already established standing publication instruction. Connector readback
+confirms the updated description, new head and draft status; no comments in the
+recorded snapshot.302session records validate. Current task input/output totals
+remain unknown, and historical totals are not allocated to this follow-up.
