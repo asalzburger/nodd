@@ -1,0 +1,125 @@
+{
+  "scope": "Explicit-fallback role assignments; no claim of verified native profile loading or human approval. Write ownership was confined to isolated analysis worktree files; main retained protocol/transport/control ownership.",
+  "assignments": [
+    {
+      "id": "ECAL50-CaloTech-reproduce-direction",
+      "role": "CaloTech",
+      "input_revision": "a20ae153d7cf70c9b593df16f390edbfd7a11760",
+      "inputs": [
+        "docs/validation/ecal50gev-central/protocol.json",
+        "docs/validation/ecal50gev-central/direction-controls.json",
+        "tools/calorimeter_hardware/barrel_export.py",
+        "tools/calorimeter_hardware/assembly_export.py",
+        "prototypes/calorimeter/BarrelCalorimeter.cpp"
+      ],
+      "mode": "write",
+      "writable_paths": [
+        "software/analysis/lar_response/central_direction.py"
+      ],
+      "task": "Retain the already performed analytical ray/prism direction check as a small reproducible pure-Python CLI, without selecting on shower results or changing geometry/point. Work/write only isolated ../nodd-ecal50gev-analysis file central_direction.py. Main central source/audited runs must stay untouched. CLI --compact PATH --eta0.1 --phi-deg0.7 --output PATH, optional scan0..8deg at0.0001deg if cheap. Verify exact frozen staggered XML hash, extract sensitive board rectangles/transforms as in your completed analysis, include full0.5mm sensor thickness, report full-layer intersections, axial misses, tangential/crossed minimumclearances and pathlengths plus source/compact/plotpoint identity. Reproduce phi0=22/48 andphi.7=44/48 as actual checks. Return code plus results/commands, no commits or additional files. No runtime imports or production simulation and no global response-optimum claim. Reuse your prior code rather than introduce a framework.",
+      "deliverable": "One owned reproducible direction-check Python file plus actual check results, to be copied/curated by coordinator.",
+      "completion": "CLI reproduces the existing geometry-only selection evidence on the exact retained compact; flags mismatched geometry; no detector/sample/point changes."
+    },
+    {
+      "input_revision": "077696b4da7556a31ad02d656dfa3c0141b07543",
+      "mode": "read-only",
+      "writable_paths": [],
+      "id": "ECAL50-CaloTech-direction",
+      "role": "CaloTech",
+      "inputs": [
+        "tools/calorimeter_hardware/barrel_export.py",
+        "docs/design/DES-031-siw-barrel-prototype.md",
+        "docs/validation/staggered-siw-drawing/README.md"
+      ],
+      "task": "Choose one fixed phi at eta=0.1 for 50GeV origin electrons, in a geometrically favourable region of the exact staggered SiW barrel used in prior comparison. Avoid sector seams and sensor/board/crack alignments across layers. Inspect frozen code and exact retained XML ../nodd-ecal10k/build/ecal-staggering/production-input/detector.xml, identify its d78ecea5... hash. Use geometry/ray evidence without selecting on new shower responses. Return recommended radians/degrees and per-layer clearance/crossing evidence, limits and reproducible geometry check. Do not edit files or run production simulation. Main is independently reverifying runtime.",
+      "deliverable": "Read-only cited recommendation to coordinator; coordinator retains it in session and protocol.",
+      "completion": "Give one justified phi or report physical blocker; name exact revision, extra artifacts/hashes, checks and caveats."
+    },
+    {
+      "id": "ECAL50-PhysVal-final-results",
+      "role": "PhysVal",
+      "input_revision": "6d4343d7ecdbc5753966cc0472efca80d22a6bdb",
+      "inputs": [
+        "docs/validation/ecal50gev-central/protocol.json",
+        "docs/validation/ecal50gev-central/summary.json",
+        "docs/validation/ecal50gev-central/README.md",
+        "docs/validation/ecal50gev-central/execution-controls.json",
+        "docs/validation/ecal50gev-central/independent-checks.json",
+        "docs/validation/ecal50gev-central/rng-controls.json",
+        "docs/validation/ecal50gev-central/rng-sensitivity.json",
+        "software/analysis/lar_response/central_analyze.py"
+      ],
+      "mode": "read-only",
+      "writable_paths": [],
+      "task": "Final independent scientific assessment of completed fixed50GeV eta0.1 phi0.7deg rawS,R=S/50,T=S/(50f) validation. All24000production events havePASS fullnative readbacks at build/ecal50gev/{calibration,evaluation}/{lar,siw}. Rehash compact ledgers/receipts againstreadbacks, independently verify key scalar/statistical results and all-events/zeros/tails denominators, calibration heldoutnonrecentering, confidenceinterval/covariance correctness asappropriate and renderedgraphs/claims. PureanalysischeckswithoutROOT; no simulation or rawROOTrehash required. Prior oneinternal-seedrepeat handled with frozen nominalbootstrap plus labelledposthoc analytic sensitivity as your earlierrecommendation; verifyreportdoesnotclaim allrealizedseedsdistinct. Sourceassumptionsreview donea20; focusnewactualdata/results/images. Read PNGs from figures/central-response-distributions.png and central-corrected-comparison.png; no trackedfiles edited. Return material findings/actualchecks early andcompletionlimitations, nothumanacceptance.",
+      "deliverable": "Final exact-revision report with actual independentlychecked values/intervals and any corrections/limitations to coordinator.",
+      "completion": "Resolve material findings on finalnumericalplots/report, name exactrevision/sourceartifacts andcommands; do not implyengineering/technology acceptance."
+    },
+    {
+      "id": "ECAL50-PhysVal-implementation",
+      "role": "PhysVal",
+      "input_revision": "e9f16dcd34df1af36ad9b458980f2d330e2c47b5",
+      "inputs": [
+        "docs/validation/ecal50gev-central/protocol.json",
+        "docs/validation/ecal50gev-central/README.md",
+        "software/analysis/lar_response/central_sample.py",
+        "software/analysis/lar_response/central_analyze.py",
+        "software/analysis/lar_response/test_central_analyze.py"
+      ],
+      "mode": "read-only",
+      "writable_paths": [],
+      "task": "Independently review the exact committed fixed50GeV analysis, source/population/seed/geometry guards, effective-f calibration and independent cal/eval/detector bootstrap, all-event histograms and SD(R)vsCVvsSD(T) definitions. Check protocol and actual analysis defaults agree and no false independence/calibration-improvement/optimal-direction claim. Native production ongoing; do not claim final performance or inspect own-authored code. Return material findings early and actual checks. Later results will get separate exact-revision handoff.",
+      "deliverable": "Independent implementation assessment to coordinator, with source locators, severity, commands and limitations.",
+      "completion": "State material blockers/corrections or absence within exact reviewed scope; no human acceptance/signoff."
+    },
+    {
+      "id": "ECAL50-PhysVal-native-seed-collision",
+      "role": "PhysVal",
+      "input_revision": "2eeadf4ff4a15da0f4d0da7a6b46f68a4c7c827f",
+      "inputs": [
+        "docs/validation/ecal50gev-central/protocol.json",
+        "software/analysis/lar_response/central_analyze.py",
+        "software/analysis/lar_response/test_central_analyze.py"
+      ],
+      "mode": "read-only",
+      "writable_paths": [],
+      "task": "Assess newly observed native RNG diagnostic, explicitly uncommitted artifact docs/validation/ecal50gev-central/rng-controls.json SHA256a1eb5245aedd9d91d3355a774709444db005f5843943bb1fbf0111c875b82f53. All4initialseeds differ, calibration/evaluation and detectors have no shared logged eventseeds exceptONE WITHIN SiW evaluation: event1920 and6331, initial705031,new2466863443. SiW10000evaluation fully audited; calibration2000fullyaudited and no sharedseeds with eval. All24000plannedproduction events have23999unique logged internal seeds. LArfulltransportcomplete/readbackrunning. Determine whether nominal all10000event metrics/bootstrap can remain with a disclosed expected finite-seed repeat, or whether a seed-cluster bootstrap sensitivity/amendment is needed. Do not remove events, select on shower energy, silently changeprotocol or authorimplementation. Inspect actualtwoSiWledger rows and quantitative influence if useful. Userasksrawsum,S/50,samplingresponse correction atfixedpoint; all-event pointestimates mustremain. Return a statistically defensible scope/uncertainty recommendation and materiality, not an automatic demandforresimulation. Exactsourcecontract uses initial independentseeds andwhole-eventbootstraps; distinguish independent random draws with replacement from realized deterministic identical shower histories.",
+      "deliverable": "Read-only technical recommendation with source/evidencehash, actualchecks and limitations, before final results inference.",
+      "completion": "Resolve how to report/calculate uncertainty honestly under this one within-evaluation native seed repeat; state any material blocker without silently approving scientific acceptance."
+    },
+    {
+      "input_revision": "077696b4da7556a31ad02d656dfa3c0141b07543",
+      "mode": "read-only",
+      "writable_paths": [],
+      "id": "ECAL50-PhysVal-protocol",
+      "role": "PhysVal",
+      "inputs": [
+        "docs/validation/lar-restored/protocol.md",
+        "docs/validation/lar-restored/reproduce.md",
+        "software/analysis/lar_response/compare.py",
+        "software/analysis/calorimeter_digitization/angular_sample.py"
+      ],
+      "task": "Independently assess protocol before simulation: both restored LAr and staggered SiW, single fixed direction eta0.1 and geometry-selected favourable phi, monoenergetic50GeV total-energy electrons at origin, ECAL-onlyB0. Plan 2000independent calibration primaries/model and10000held-out evaluation primaries/model; seed streams disjoint. Raw summed active ECAL Geant4 deposits S; show S[GeV], R=S/50, and T=S/(f*50) with independently estimated f=mean_cal(S/50). Explicit report sigma(S)/50, sigma(R), SD/mean and sigma(T), avoiding the claim constant scaling improves SD/mean. Review whether effective visible response fraction is an appropriate interpretation of user sampling-fraction request; limitations include containment/dead material, no digitization/total passive calorimeter edep. Assess bootstrap uncertainty including refitted independent f and validation of no shared events/seedstreams. Return recommendations and pitfalls without prescribing numerical performance. Do not author implementation.",
+      "deliverable": "Independent protocol review with severity, requirements-to-observables mapping, actual read-only checks and limitations to coordinator.",
+      "completion": "State if protocol is scientifically sound conditional diagnostic, any material blockers/corrections, and exact reviewed revision/source set. Remain available to review final code/results after a separate exact-revision handoff."
+    },
+    {
+      "id": "ECAL50-SoftEng-analysis",
+      "role": "SoftEng",
+      "input_revision": "077696b4da7556a31ad02d656dfa3c0141b07543",
+      "inputs": [
+        "software/analysis/lar_response/compare.py",
+        "software/analysis/lar_response/raw_angular.py",
+        "docs/validation/lar-restored/protocol.md"
+      ],
+      "mode": "write",
+      "writable_paths": [
+        "software/analysis/lar_response/central_analyze.py",
+        "software/analysis/lar_response/test_central_analyze.py"
+      ],
+      "task": "Implement pure NumPy analysis/replot of new fixed50GeV eta0.1 phi+0.7deg Geant4 active-energy samples for restoredLAr/staggeredSiW. Only own two named files in isolated worktree. CLI analyze --runs PATH --output PATH and plot --summary PATH --output PATH. Runs tree PATH/calibration/{lar,siw} and PATH/evaluation/{lar,siw}, each with receipt/readback/event-summary compatible compare.load_run. Ncal2000 and Neval10000, separate detector/population transport seeds: larcal705020,lareval705021,siwcal705030,siweval705031. Assert exact counts and primary tuples(E50,eta.1,phi radians.7), sample validation_point metadata and bound geometry hashes d78ece...SiW and2cfd...LAr; f=mean calibration response S/50 effective visible response fraction. Preserve all eval zeros/tails. Outputs: per-model S[GeV], R=S/50, T=S/(50*f) distributions; means, sampleSD, CV=SD/mean, pointwise95%bootstrap intervals; independent resampling of cal/eval and each detector, common f perreplicate (no per-event f noise),1000replicas fixedseed. Include raw SD(S)/50=SD(R), corrected SD(T), mean(T) heldout no recentering, exact invariance ofCV. Compact summary only, histogram edges/counts/flows and sufficient stats, calibration evidence/provenance/receipt library/source identities (portable paths; no full events), labelled covariance across reported scalar statistics if contrasts supported. Plot polished2rowsx3cols(LAr solid,SiW dotted) of three quantities with separate per-row ranges where needed; optional corrected overlay with commonbins supports directcompare. ECALcolor#cccc00. NoGaussianfit/tailcut/noisedigitization or claim true material sampling fraction. Label effective response f includescontainment/deadmaterial and constant scaling does not improveCV. Replot must run from compactsummary alone. Test meaningful algebra, uncertainty treatment/heldoutcal invariance, provenance/population rejection. No simulation, shared runtime/install changes or unrelated edits; do not commit, return files/checks to coordinator.",
+      "deliverable": "Two owned Python files plus command/test results and design notes. Report any interface assumptions promptly; main generates transport separately.",
+      "completion": "Analysis and replot CLI implemented/tested meaningfully, no eventpayload publication, all scope/independence constraints enforced; no claims of executed real-data results until handed newruns."
+    }
+  ]
+}

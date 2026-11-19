@@ -1,0 +1,238 @@
+{
+  "schema_version": 1,
+  "curated": {
+    "journal_links": [],
+    "agents": [],
+    "tools": [],
+    "events": []
+  },
+  "github": {
+    "captured_at": "2026-11-19T14:02:05Z",
+    "pull_request": {
+      "number": 154,
+      "url": "https://github.com/asalzburger/nodd/pull/154",
+      "title": "Calorimeter: validate central 50 GeV electron raw and sampling response",
+      "head": "codex/ecal50gev-central",
+      "head_sha": "ec5c7cfa08d844f54191e06a2dd0a0530b519fbe",
+      "state": "open",
+      "body": "Adds a **second validation set from dedicated single-electron simulation** at total energy **50 GeV, η=0.1, φ=+0.7°** for the selected restored LAr baseline and staggered Si–W. Each model has **2,000 independent calibration + 10,000 held-out evaluation events**; the previous broad-spectrum sample is not reused.\n\n![Raw deposits and corrected response](https://github.com/asalzburger/nodd/blob/codex/ecal50gev-central/docs/validation/ecal50gev-central/figures/central-response-distributions.png?raw=true)\n\nThe three columns show raw active Geant4 energy S, R=S/50, and T=S/(50f), with f=mean_cal(S/50). This is an effective visible response fraction including containment/dead-material losses. Evaluation is not recentered, and constant scaling leaves SD/mean unchanged. Raw sensitive barrel+endcap sums are used before digitization; passive energy is not separately scored.\n\n| Model | Mean S [GeV] | Independent f | SD(T) [%], pointwise 95% interval |\n| --- | ---: | ---: | --- |\n| LAr restored | 8.05839 | 0.161232 | 2.694 [2.639, 2.763] |\n| Si–W staggered | 0.782269 | 0.0156327 | 3.219 [3.087, 3.405] |\n\nThe favourable Si–W direction was selected from geometry before new showers: 10.55° from a sector boundary, at least 16.80 mm tangential active clearance, 44/48 reference-ray active crossings. Four small axial row gaps remain; no global response-optimum or completely gap-free claim. The same point is used for LAr.\n\nAll **24,000 production events** and **200 excluded pilot events** pass full native readback. Exact models/libraries, primaries, field/cuts/step policies, four initial seed streams and complete counts are bound. Independent source/results review reproduces 18 metrics, all six histograms, all 18 bootstrap intervals, covariance and contrasts; 14 tests pass. All six PNG/PDF/SVG exports reproduce byte-for-byte from the compact summary and were visually checked. Large ROOT/event/XML payloads remain local and ignored; only aggregates, code, figures, controls and exact reproduction commands are included.\n\nA native diagnostic found one repeated internal event seed within Si–W evaluation (23,999 distinct seeds among 24,000 generated events), with no cross-calibration/evaluation or detector sharing. All events and the frozen nominal bootstrap are retained. Separate post-hoc conservative first-order cluster sensitivity changes the width SE by less than 0.0002% relative; no resimulation or response-based selection.\n\n[Results, limits and reproduction](https://github.com/asalzburger/nodd/blob/codex/ecal50gev-central/docs/validation/ecal50gev-central/README.md). This is an ECAL-only B=0, fixed-point raw-deposition diagnostic; no electronics/full-detector or engineering acceptance.\n\nStacked on draft PR152 to keep this new set separate. Tracking: TASK-ECAL50GEV-CENTRAL; DES-030/031/032/033. Draft delivery follows the standing human instruction in AGENTS.md (2026-11-06); no ready-for-review action or merge.\n",
+      "actor": "asalzburger",
+      "created_at": "2026-11-19T14:01:32Z"
+    },
+    "comments": [],
+    "issues": []
+  },
+  "derived": {
+    "parties": [
+      {
+        "id": "agent:SESSION-2026-11-19-ecal50gev-central",
+        "name": "Codex desktop",
+        "kind": "agent"
+      },
+      {
+        "id": "github:asalzburger",
+        "name": "asalzburger",
+        "kind": "account"
+      },
+      {
+        "id": "unknown:project-user",
+        "name": "Project user (name unrecorded)",
+        "kind": "human"
+      }
+    ],
+    "journals": [
+      {
+        "session_id": "SESSION-2026-11-19-ecal50gev-central",
+        "record": "logs/codex/SESSION-2026-11-19-ecal50gev-central.json",
+        "attribution": [
+          "recorded_branch",
+          "explicit_PR_reference"
+        ],
+        "snapshot": null,
+        "snapshot_sha256": null,
+        "record_sha256": "e221699da3c74e30fe1edcf0fe9b2622b4441bba8054313d9da39af1bb2e3c8e",
+        "narrative_sha256": "3de90af6d13dc767954169ff398751d0dc567300fd66bcc8ab04e7c62960523c"
+      }
+    ],
+    "token_accounts": [
+      {
+        "id": "SESSION-2026-11-19-ecal50gev-central",
+        "record": "logs/codex/SESSION-2026-11-19-ecal50gev-central.json",
+        "scope": "canonical_session; shared PR references are not allocations",
+        "status": "unobserved",
+        "usage_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "turns": []
+      }
+    ],
+    "visible_sources": [],
+    "agents": [
+      {
+        "id": "agent:SESSION-2026-11-19-ecal50gev-central",
+        "name": "Codex desktop",
+        "role": "session_agent",
+        "thread_id": null,
+        "models": [],
+        "source": "logs/codex/SESSION-2026-11-19-ecal50gev-central.json",
+        "limitation": "Usage may include children; model/role is not assigned to every response."
+      },
+      {
+        "id": "agent:SESSION-2026-11-19-ecal50gev-central:CaloTech:8f385d89",
+        "name": "CaloTech",
+        "role": "reported_specialist_assignment",
+        "thread_id": null,
+        "models": [],
+        "source": "logs/codex/SESSION-2026-11-19-ecal50gev-central.md#assignments-and-handoffs",
+        "limitation": "Role contract is recorded; native profile loading and process identity are not inferred."
+      },
+      {
+        "id": "agent:SESSION-2026-11-19-ecal50gev-central:SoftEng:8f385d89",
+        "name": "SoftEng",
+        "role": "reported_specialist_assignment",
+        "thread_id": null,
+        "models": [],
+        "source": "logs/codex/SESSION-2026-11-19-ecal50gev-central.md#assignments-and-handoffs",
+        "limitation": "Role contract is recorded; native profile loading and process identity are not inferred."
+      },
+      {
+        "id": "agent:SESSION-2026-11-19-ecal50gev-central:PhysVal:8f385d89",
+        "name": "PhysVal",
+        "role": "reported_specialist_assignment",
+        "thread_id": null,
+        "models": [],
+        "source": "logs/codex/SESSION-2026-11-19-ecal50gev-central.md#assignments-and-handoffs",
+        "limitation": "Role contract is recorded; native profile loading and process identity are not inferred."
+      }
+    ],
+    "tools": {
+      "native_codex": [],
+      "codex_installed": [],
+      "instructed_software": [
+        {
+          "name": "Geant4 DDSim",
+          "category": "instructed_software",
+          "version": "DD4hep1.38/Geant411.4.3/ROOT6.40.04",
+          "calls": 6,
+          "source": "logs/codex/SESSION-2026-11-19-ecal50gev-central.json",
+          "evidence": "Sixnative transportreceipts:twoexcluded100eventpilotsandfourproductionruns;nativecountsnotclienttool-calltelemetry. Per-runresourcesretained,concurrentlanesnotadedicatedthroughputbenchmark.",
+          "token_account": "SESSION-2026-11-19-ecal50gev-central",
+          "provenance": "User-directed runtime: AGENTS.md#node-specific-software-workflows"
+        }
+      ],
+      "unresolved": []
+    },
+    "events": [
+      {
+        "id": "github:https://github.com/asalzburger/nodd/pull/154",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "github:asalzburger",
+        "recipients": [],
+        "text": "Adds a **second validation set from dedicated single-electron simulation** at total energy **50 GeV, η=0.1, φ=+0.7°** for the selected restored LAr baseline and staggered Si–W. Each model has **2,000 independent calibration + 10,000 held-out evaluation events**; the previous broad-spectrum sample is not reused.\n\n![Raw deposits and corrected response](https://github.com/asalzburger/nodd/blob/codex/ecal50gev-central/docs/validation/ecal50gev-central/figures/central-response-distributions.png?raw=true)\n\nThe three columns show raw active Geant4 energy S, R=S/50, and T=S/(50f), with f=mean_cal(S/50). This is an effective visible response fraction including containment/dead-material losses. Evaluation is not recentered, and constant scaling leaves SD/mean unchanged. Raw sensitive barrel+endcap sums are used before digitization; passive energy is not separately scored.\n\n| Model | Mean S [GeV] | Independent f | SD(T) [%], pointwise 95% interval |\n| --- | ---: | ---: | --- |\n| LAr restored | 8.05839 | 0.161232 | 2.694 [2.639, 2.763] |\n| Si–W staggered | 0.782269 | 0.0156327 | 3.219 [3.087, 3.405] |\n\nThe favourable Si–W direction was selected from geometry before new showers: 10.55° from a sector boundary, at least 16.80 mm tangential active clearance, 44/48 reference-ray active crossings. Four small axial row gaps remain; no global response-optimum or completely gap-free claim. The same point is used for LAr.\n\nAll **24,000 production events** and **200 excluded pilot events** pass full native readback. Exact models/libraries, primaries, field/cuts/step policies, four initial seed streams and complete counts are bound. Independent source/results review reproduces 18 metrics, all six histograms, all 18 bootstrap intervals, covariance and contrasts; 14 tests pass. All six PNG/PDF/SVG exports reproduce byte-for-byte from the compact summary and were visually checked. Large ROOT/event/XML payloads remain local and ignored; only aggregates, code, figures, controls and exact reproduction commands are included.\n\nA native diagnostic found one repeated internal event seed within Si–W evaluation (23,999 distinct seeds among 24,000 generated events), with no cross-calibration/evaluation or detector sharing. All events and the frozen nominal bootstrap are retained. Separate post-hoc conservative first-order cluster sensitivity changes the width SE by less than 0.0002% relative; no resimulation or response-based selection.\n\n[Results, limits and reproduction](https://github.com/asalzburger/nodd/blob/codex/ecal50gev-central/docs/validation/ecal50gev-central/README.md). This is an ECAL-only B=0, fixed-point raw-deposition diagnostic; no electronics/full-detector or engineering acceptance.\n\nStacked on draft PR152 to keep this new set separate. Tracking: TASK-ECAL50GEV-CENTRAL; DES-030/031/032/033. Draft delivery follows the standing human instruction in AGENTS.md (2026-11-06); no ready-for-review action or merge.\n",
+        "source": "https://github.com/asalzburger/nodd/pull/154",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [],
+        "timestamp": "2026-11-19T14:01:32Z",
+        "remote_input": null
+      },
+      {
+        "id": "journal:SESSION-2026-11-19-ecal50gev-central:8afc08d2b5a1aaeb",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "unknown:project-user",
+        "recipients": [
+          "agent:SESSION-2026-11-19-ecal50gev-central"
+        ],
+        "text": "User, paraphrase: a second set of validation graphs requiring dedicated simulation;\none single-electron central direction,50GeV andeta0.1, in a favourable SiWregion\naway from sector cracks; plot raw summed Geant4deposits, deposits/fullenergy and\nrelative response after accounting for the sampling fraction.\n\n",
+        "source": "logs/codex/SESSION-2026-11-19-ecal50gev-central.md#selected-conversation",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-19-ecal50gev-central"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-11-19-ecal50gev-central:b871447dbf99b0c6",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-11-19-ecal50gev-central",
+        "recipients": [],
+        "text": "Assistant, paraphrase: run both restoredLAr/staggeredSiW atone geometry-selected\npoint, sum rawactivebarrel+endcapdeposits, use2000independent calibration and10000\nheld-out evaluation events/model. Explain the effective response fraction f and\ninvariance ofSD/mean underconstant scaling before production.",
+        "source": "logs/codex/SESSION-2026-11-19-ecal50gev-central.md#selected-conversation",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-19-ecal50gev-central"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-11-19-ecal50gev-central:b2e43e2e91a29b1d",
+        "type": "prompt",
+        "direction": "action",
+        "actor": "agent:SESSION-2026-11-19-ecal50gev-central",
+        "recipients": [],
+        "text": "[Full bounded assignment records](../../docs/validation/ecal50gev-central/assignments.json)\nand [curated technical assessments](../../docs/validation/ecal50gev-central/reviews.json)\nretain IDs, explicitfallback roles, exactinput revisions/files, read/write modes,\nisolated ownedfiles, questions, deliverables, completion criteria and actualchecks.\nNo verifiednativeprofileloading or humanexpertapproval is claimed.\n\nCaloTech selectedphi+0.7degree geometrically and later retained its analytical\nreproduction CLI. Ateta0.1 this has44/48active reference-ray crossings, tangential\nclearance16.797942mm and10.55degree separation from a sector boundary;4axialrowgaps\nremain. Phi0wouldcross only22/48. No newshoweroutput was used to choose thepoint.\nSoftEng implemented analysis/tests in a disjoint isolatedworktree. Main owned\nprotocol, preparation, runtime, execution, integration and finalartifactQA.\nPhysVal independently assessed protocol, exactstatistical source, seedrepeat\nsensitivity and finalnumerical/visual evidence. See separate scopes in reviews.",
+        "source": "logs/codex/SESSION-2026-11-19-ecal50gev-central.md#assignments-and-handoffs",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [
+          "CaloTech",
+          "SoftEng",
+          "PhysVal"
+        ],
+        "token_accounts": [
+          "SESSION-2026-11-19-ecal50gev-central"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-11-19-ecal50gev-central:eeb8b99b4de59ba2",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-11-19-ecal50gev-central",
+        "recipients": [],
+        "text": "Dedicated origin electrons: totalE50GeV,eta0.1,phi0.7degree. Exactrestored1.8mmPbLAr\nand physicallystaggeredSiW ECAL-only compacts/materials and previouslyaudited\nnativebinaries reused byte-identically. B0,FTFP_BERT,0.7mmcuts,5mmactivecharged-step\ncap,12workers/process. Fourproductioninitial seeds705020/705021LAr and705030/705031\nSiW distinguish calibration/evaluation streams. Pilots705019/705029 excluded.\n\nAll24000productionevents and200pilotsevents passcomplete saved-primary/canonical-hit\nreadback, withoutdiskabort orcountreduction. ProductionROOT46,954,104,881bytes\nremains ignoredlocally. Both evaluationpopulations retain10000events, allzeros/tails;\nneither model haszero-responseevents. NoGaussianfit,digitization,tailcut or\nper-eventf smearing. Effectivef=independentmean_cal(S/50), includingcontainment and\ndeadmaterial; not a separatelyscored materialactive/passivefraction.\n\nLAr:meanrawS8.058386GeV,SD0.217191GeV,f0.1612320463,meanT0.9996010432;\nSD(T)2.694143%[2.639379,2.762528]. SiW:meanrawS0.782269GeV,SD0.0251631GeV,\nf0.0156327064,meanT1.0008111713;SD(T)3.219290%[3.087020,3.404650].\nIntervalsarepointwise95%bootstrap. SD/mean unchanged under1/f; evaluationnotrecentered.\nOnlythisfixed-point raw-deposition diagnostic is established, not engineering,\ngeneraltechnology superiority or fullreconstructed-detector precision.",
+        "source": "logs/codex/SESSION-2026-11-19-ecal50gev-central.md#decisions-and-outcomes",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-19-ecal50gev-central"
+        ],
+        "content_kind": "curated_excerpt; retain original qualifiers and speaker labels"
+      },
+      {
+        "id": "journal:SESSION-2026-11-19-ecal50gev-central:outcome",
+        "type": "response",
+        "direction": "reaction",
+        "actor": "agent:SESSION-2026-11-19-ecal50gev-central",
+        "recipients": [],
+        "text": "Dedicated central 50 GeV electron raw and sampling response — see the canonical narrative for outcomes and checks.",
+        "source": "logs/codex/SESSION-2026-11-19-ecal50gev-central.md",
+        "in_reply_to": null,
+        "model": null,
+        "agent_roles": [],
+        "token_accounts": [
+          "SESSION-2026-11-19-ecal50gev-central"
+        ],
+        "content_kind": "reference_summary"
+      }
+    ],
+    "coverage": {
+      "github_captured_at": "2026-11-19T14:02:05Z",
+      "prompts": "Available account-matched user-visible messages, public Codex inputs and curated journal excerpts. Historical full input coverage is unknown.",
+      "recovered_visible_turns": 0,
+      "unrecovered_account_turns": [],
+      "responses": "Public responses and recorded outcomes; no private model state or hidden reasoning.",
+      "token_accounting": "References only. Never sum accounts across PRs or assign a shared turn by text length.",
+      "unknowns": "Unrecorded names, models, tools, subagent identities and response links remain unknown; empty lists are not zero activity.",
+      "remote": "Snapshot, not live synchronization; deleted/edited history and emoji reactions are not recovered.",
+      "branch_only": "Pinned branch journal snapshots are references, not imported counters. Unretained or other-device inputs remain unknown."
+    }
+  }
+}
