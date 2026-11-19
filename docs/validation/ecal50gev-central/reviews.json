@@ -1,5 +1,5 @@
 {
-  "scope": "Explicitly assigned fallback roles; no verified native profile loading, human signoff or detector acceptance. Final results review will be separately retained.",
+  "scope": "Explicitly assigned fallback roles; no verified native profile loading, human signoff or detector acceptance. Final native-results assessment retained separately from source/protocol checks.",
   "reports": [
     {
       "id": "ECAL50-CaloTech-direction",
@@ -102,6 +102,48 @@
         "Post-hoc analytic first-order cluster sensitivity, not noisyreplacementbootstrap"
       ],
       "evidence": "docs/validation/ecal50gev-central/rng-sensitivity.json",
+      "files_changed": []
+    },
+    {
+      "id": "ECAL50-PhysVal-final-results",
+      "role": "PhysVal",
+      "assignment_mode": "read-only",
+      "input_revision": "6d4343d7ecdbc5753966cc0472efca80d22a6bdb",
+      "outcome": "No material finding on final fixed-point raw-deposition diagnostic. No general technology, engineering or reconstructed-detector acceptance.",
+      "independent_results": {
+        "lar": {
+          "raw_mean_GeV": 8.058386086261994,
+          "effective_response_fraction": 0.16123204634068702,
+          "corrected_mean": 0.999601043236087,
+          "corrected_sd_percent": 2.6941433849425094,
+          "corrected_sd_ci95_percent": [
+            2.639378978892718,
+            2.762527713725234
+          ]
+        },
+        "siw": {
+          "raw_mean_GeV": 0.7822693587136165,
+          "effective_response_fraction": 0.015632706370880153,
+          "corrected_mean": 1.0008111713411185,
+          "corrected_sd_percent": 3.2192895753927,
+          "corrected_sd_ci95_percent": [
+            3.0870199307893067,
+            3.404649828103052
+          ]
+        }
+      },
+      "checks": [
+        "All4receipts/ledgers rehashed againstPASSreadbacks andsummary",
+        "All24000populationidentities/fixedpoints/worker seeds checked",
+        "18metrics and6histograms/counts/flows independentlyrecomputed",
+        "All18bootstrapintervals,18x18covariance and2contrastintervals reproduced withseparatescalarresampler",
+        "BothPNGfigures visuallyinspected;6PNG/PDF/SVGfiles plus summary/plotterhashes checked against pinnedmanifest",
+        "Seedrepeat disclosure andposthoc sensitivityscope verified"
+      ],
+      "limitations": [
+        "RawROOT notrehashduring independentreview; fullhitvalidation inherited fromboundnative readbacks",
+        "Effectivefractionincludeslosses; no evaluationrecentering, no generalprecisionclaim"
+      ],
       "files_changed": []
     }
   ]
