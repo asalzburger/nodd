@@ -60,3 +60,12 @@ unchanged; no estimates or raw client history are retained.
 
 Spectrum-averaged raw response includes geometrical losses/leakage and within-bin
 variation. Periodic margins are display repetition, not independent measurements.
+
+## Draft publication closeout
+
+Updated[PR152](https://github.com/asalzburger/nodd/pull/152) with source commit
+1c34d47e127a75527cc11062cf5f3b7d3ffb8f7b. The previously verified connector
+write limitation required the established authenticated CLI fallback for the
+PRdescription. Connector readback confirms the new description/head and draft
+status; no comments in the captured snapshot.303session records validate.
+Exact task token totals remain unknown; historical owners are unchanged.
