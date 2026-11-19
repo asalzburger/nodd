@@ -1,49 +1,121 @@
-# SESSION-2026-11-19-ecal50gev-central — Dedicated central 50 GeV electron raw and sampling response
+# SESSION-2026-11-19-ecal50gev-central — Dedicated central electron response
 
 ## Scope and evidence
 
-State collection method, available context, limitations, related IDs and starting
-revision. Identify uncommitted user changes present before work.
+New bounded user task, separate branch codex/ecal50gev-central and worktree,
+starting clean at077696b4da7556a31ad02d656dfa3c0141b07543. Earlier angular plots
+and unrelated worktrees preserved. Protocol/primary producer frozen ate3feb05f;
+source-level statistical review/correction retained before final analysis. Exact
+commits, artifact/library/input hashes and run commands accompany the evidence.
+No new dependencies, detector geometry changes or design approval.
 
 ## Selected conversation
 
-Attribute requests to the user and outcomes to the assistant. Mark exact quotes
-and paraphrases explicitly. Include corrections and changes in direction.
-Exclude private model state, confidential content, and irrelevant system context.
+User, paraphrase: a second set of validation graphs requiring dedicated simulation;
+one single-electron central direction,50GeV andeta0.1, in a favourable SiWregion
+away from sector cracks; plot raw summed Geant4deposits, deposits/fullenergy and
+relative response after accounting for the sampling fraction.
+
+Assistant, paraphrase: run both restoredLAr/staggeredSiW atone geometry-selected
+point, sum rawactivebarrel+endcapdeposits, use2000independent calibration and10000
+held-out evaluation events/model. Explain the effective response fraction f and
+invariance ofSD/mean underconstant scaling before production.
+
+## Assignments and handoffs
+
+[Full bounded assignment records](../../docs/validation/ecal50gev-central/assignments.json)
+and [curated technical assessments](../../docs/validation/ecal50gev-central/reviews.json)
+retain IDs, explicitfallback roles, exactinput revisions/files, read/write modes,
+isolated ownedfiles, questions, deliverables, completion criteria and actualchecks.
+No verifiednativeprofileloading or humanexpertapproval is claimed.
+
+CaloTech selectedphi+0.7degree geometrically and later retained its analytical
+reproduction CLI. Ateta0.1 this has44/48active reference-ray crossings, tangential
+clearance16.797942mm and10.55degree separation from a sector boundary;4axialrowgaps
+remain. Phi0wouldcross only22/48. No newshoweroutput was used to choose thepoint.
+SoftEng implemented analysis/tests in a disjoint isolatedworktree. Main owned
+protocol, preparation, runtime, execution, integration and finalartifactQA.
+PhysVal independently assessed protocol, exactstatistical source, seedrepeat
+sensitivity and finalnumerical/visual evidence. See separate scopes in reviews.
 
 ## Decisions and outcomes
 
-State rationale, alternatives, consequences and what remains unresolved. Never
-convert implementation authorization into human design sign-off.
+Dedicated origin electrons: totalE50GeV,eta0.1,phi0.7degree. Exactrestored1.8mmPbLAr
+and physicallystaggeredSiW ECAL-only compacts/materials and previouslyaudited
+nativebinaries reused byte-identically. B0,FTFP_BERT,0.7mmcuts,5mmactivecharged-step
+cap,12workers/process. Fourproductioninitial seeds705020/705021LAr and705030/705031
+SiW distinguish calibration/evaluation streams. Pilots705019/705029 excluded.
 
-## Commands and validation
+All24000productionevents and200pilotsevents passcomplete saved-primary/canonical-hit
+readback, withoutdiskabort orcountreduction. ProductionROOT46,954,104,881bytes
+remains ignoredlocally. Both evaluationpopulations retain10000events, allzeros/tails;
+neither model haszero-responseevents. NoGaussianfit,digitization,tailcut or
+per-eventf smearing. Effectivef=independentmean_cal(S/50), includingcontainment and
+deadmaterial; not a separatelyscored materialactive/passivefraction.
 
-Record relevant commands, actual exits/results, failed attempts and remedies.
-Distinguish structural checks from detector acceptance.
+LAr:meanrawS8.058386GeV,SD0.217191GeV,f0.1612320463,meanT0.9996010432;
+SD(T)2.694143%[2.639379,2.762528]. SiW:meanrawS0.782269GeV,SD0.0251631GeV,
+f0.0156327064,meanT1.0008111713;SD(T)3.219290%[3.087020,3.404650].
+Intervalsarepointwise95%bootstrap. SD/mean unchanged under1/f; evaluationnotrecentered.
+Onlythisfixed-point raw-deposition diagnostic is established, not engineering,
+generaltechnology superiority or fullreconstructed-detector precision.
 
-## Changes and revision links
+## Commands and actual validation
 
-List changed files or refer to the paired JSON inventory. Result commits are
-recorded only once they exist; Git history locates this record's enclosing commit.
+- acts-spackpreflight warnedoldsetup/lockfingerprints changed; actualrun.shdoctor
+  reverifiedDD4hep1.38/Geant411.4.3/ROOT6.40.04,12datasets. ThreefrozenLAr libraries
+  load and allSiW/LAr binarySHAchecks pass. Sandboxsysctl/pswarnings retained and
+  distinguished from runtimeunavailability. No sharedinstallation modified.
+- central_sample.py generatednewfixed primaries on exact auditedmodels; oneprimary
+  generator test passes. Both100eventpilots/readbacks pass. Twicepilot-extrapolated
+  productionbytesplus30GiBreserve fit; fullsamplesretained. Exactcommands and hashes
+  are in protocol/README and executioncontrols. Source/session/analysis additions
+  made during transport do not modify monitorednativeproducers or librarybytes;
+  actualsource revisions/dirty-state metadata remain in native receipts.
+- lar_response/transport.py and angular_sample.py run the six nativejobs;
+  lar_response/transport.py audit and angular_analyze.py audit verify all saved
+  primaries/hits/workers. Allnative receipts exit0, nodiskabort. Nativeevent logs
+  contain noG4Exception/FATAL/ERROR/stuckmarkers in thefourproductionruns.
+- Centralanalysis8tests + primarygenerator1 + existingcomparison5:14tests pass.
+- Source review foundbootstrap CLI overrides could disagreewithfrozenprotocol;
+  a20ae153addsstrictcount/seedbinding and a regressiontest. PhysVal rechecked it.
+- Mainindependently recomputed18scalars,6histograms/counts/flows againstlocalledgers;
+  allmatch.18x18covariancefinite,symmetric,positive-semidefinite tonumericalprecision.
+- IndependentPhysValfinalreview at6d4343d7rehashedall4receipt/ledgerpairs; checked
+  all24000populationIDs/points/seeds,18metrics,6histograms and independently
+  reproduced18bootstrapintervals,fullcovariance andbothcontrasts. BothPNGs inspected,
+  all6exports/hashbindings verified. RawROOThitrechecking is inherited fromfull
+  nativeaudits, notclaimed repeatedbythe statisticalreviewer.
+- Replotfromcommittedcompactsummary reproducesall6PNG/PDF/SVGexports byte-for-byte.
+  Mainvisuallyinspected bothfigures. Softwareinventory andprojectrecord validators pass.
+  Session/interaction/whitespace/new-object-size checks performed at publicationcloseout.
+
+## Native seed diagnostic and response
+
+Allfourinitialproductionseeds differ.24,000generatedevents have23,999distinctlogged
+internaleventseeds: SiWevaluationevents1920/6331share one, withidenticalsavedresponse
+summaries. No cross-calibration/evaluation orcross-detectorseedoverlap wasobserved.
+All10000events remain andnominalprespecifiedevent-bootstrapinference isunchanged.
+PhysValassessed an explicitlypost-hoc conservative first-order fullydependent-pair
+sensitivity: resolution-widthSEchanges below0.0002%relative. This doesnotjustify
+resimulation ordroppingrows. It isnot a replacementCI orproof ofPRNGindependence.
+TheimmutableRNGdiagnostic hash andseparate sensitivityare retained. Rawhit-by-hit
+identityofthispair wasnotclaimed; the relevant savedsignal summarieswerecompared.
+
+## Changed artifacts and tracking
+
+Newprotocol/pointgenerator, analyticaldirectioncheck, compactinference/replot code
+andtests, figures/aggregatehistograms/covariance, runtime/direction/seed/execution
+controls, independentreview/assignmentrecords and reproductionREADME. FullROOT,
+eventledgers,exportedXML,verbose logs andcaches stayignored. See pairedJSONinventory.
+TASK-ECAL50GEV-CENTRAL operationallycompleted, DES030/031/032/033 validationreport
+linksupdated; theirlifecycle andsignoffstates unchanged. DedicateddraftPRrequired
+bythe standinghumanrepository instruction; no ready-for-review ormerge action.
 
 ## Token accounting
 
-Record the client-provided per-turn usage source and import command, or state why
-exact counters are unavailable. Report observed input/output sums and missing
-coverage from `session_log.py summary`; empty usage means unknown, not zero.
-Never copy raw client archives or private model state. Do not duplicate turns
-across tasks or add cached/reasoning subsets to the input/output totals.
-
-## Follow-up
-
-List remaining work, missing measurements and any human review needed.
-
-## Specialist assignments
-
-Explicit fallback profiles, not claimed native loading. Before dispatch, read-only assignments at source077696b4da7556a31ad02d656dfa3c0141b07543: ECAL50-CaloTech-direction chooses a favourable fixed phi from geometry, no shower-output optimization; ECAL50-PhysVal-protocol independently assesses observable/calibration/uncertainty definitions. Inputs and completion contracts are retained in ignored build/ecal50gev/assignments/{CaloTech,PhysVal}.json; full prepared prompts supply role mandates. No owned write files or child delegation. Coordinator implements and executes.
-
-ECAL50-SoftEng-analysis: explicit SoftEng fallback at077696b4da7556a31ad02d656dfa3c0141b07543; write ownership central_analyze.py/test_central_analyze.py only in isolated ../nodd-ecal50gev-analysis worktree. Implements compact statistics/replot and tests from exact new-run manifests, no simulation or detector changes. Main owns preparation/transport/protocol; full contract in ignored assignment JSON, prepared mandate supplied before dispatch.
-
-## Prospective protocol decisions
-
-Geometry-only CaloTech chooses eta0.1, phi+0.7degree; nearest sector seam10.55degree, minimum tangential active clearance16.797942mm,44/48layers crossed;4axialrow gaps remain. PhysVal preflight supports held-out effective visible-response fraction, with explicit SD/50 versus SD/mean labels and no claim constant scaling improvesCV. All four detector/population streams are independent: LAr calibration705020/evaluation705021; SiW calibration705030/evaluation705031. Pilots use705019/705029 and are excluded from inference. Composite event identity(detector,population,seed,event); identical primaryfourvectors are deliberate.2000calibration+10000evaluation/model, ECAL-onlyB0, origin50GeVtotal-energy electrons. All raw sensitive deposits and allzeros/tails retained. Runtime reverified after old setup/lock fingerprints changed: DD4hep1.38/Geant411.4.3/ROOT6.40.04;12datasets present and all3LAr libraries load successfully. Existing SiW/LAr libraries match original audited SHA256. No installation/shared environment change.
+Exactclientper-turnparent/child token counters andclientidentity areunavailable.
+Usageisempty andtaskobservedinput/outputtotals areunknown, notzero. Historical
+canonicalowners areunchanged. No estimates, rawclientarchives orprivate modelstate
+arecollected. The separate session summary isvalidatedand doesnotallocatehistorical
+projecttotals tothis task.
