@@ -16,8 +16,12 @@ AXES = {'eta': np.linspace(-3, 3, 16), 'phi': np.linspace(-np.pi, np.pi, 16)}
 LABELS = {'lar': 'LAr (restored baseline)', 'siw': 'Si–W (staggered)'}
 
 
-def coordinates(primaries, sector_half_width_percent=None):
+def coordinates(primaries, sector_half_width_percent=None, sector_padding_percent=None):
     """Select by direction only, folding the same SiW phase for both models."""
+    if sector_padding_percent is not None:
+        if sector_half_width_percent is not None or not 0 <= sector_padding_percent <= 50:
+            raise ValueError('Sector padding must be in [0, 50] percent and cannot accompany a restricted window')
+        sector_half_width_percent = 50
     axes = dict(AXES)
     coords = {'eta': primaries[:, 1], 'phi': primaries[:, 2]}
     phi = {'unit': 'rad', 'label': r'Azimuth $\phi$ [rad]', 'coordinate': 'full azimuth'}
@@ -32,6 +36,10 @@ def coordinates(primaries, sector_half_width_percent=None):
                'half_width_percent': sector_half_width_percent,
                'half_width_deg': float(np.degrees(common.PERIOD) * sector_half_width_percent / 100),
                'note': 'Si-W reference phase, not LAr electrode symmetry; equivalent sectors pooled without reflection'}
+        if sector_padding_percent is not None:
+            phi.update(padding_percent=sector_padding_percent,
+                       display_range_percent=[-50-sector_padding_percent, 50+sector_padding_percent],
+                       display_note='15 bins in one complete sector; margins repeat the same points periodically, without adding events or statistical bins')
     categories = {}
     for axis, edges in axes.items():
         keep = (coords[axis] >= edges[0]) & (coords[axis] <= edges[-1])
@@ -40,7 +48,7 @@ def coordinates(primaries, sector_half_width_percent=None):
     return axes, categories, phi
 
 
-def analyze(runs, output, sector_half_width_percent=None):
+def analyze(runs, output, sector_half_width_percent=None, sector_padding_percent=None):
     loaded = {name: common.load_run(path) for name, path in runs.items()}
     evidence = {}
     for name, (relative, key) in SOURCES.items():
@@ -66,7 +74,7 @@ def analyze(runs, output, sector_half_width_percent=None):
     for field in ('input_sha256', 'truth_sha256'):
         if evidence['lar']['input'][field] != evidence['siw']['input'][field]:
             raise ValueError('Primary input hashes differ')
-    axes, cats, phi = coordinates(base, sector_half_width_percent)
+    axes, cats, phi = coordinates(base, sector_half_width_percent, sector_padding_percent)
     responses = {name: entry[1][:, 4] for name, entry in loaded.items()}
     boot = {(name, axis): np.empty((1000, 15)) for name in SOURCES for axis in AXES}
     rng = np.random.default_rng(13001000)
@@ -119,6 +127,7 @@ def plot(summary, output):
                          'svg.fonttype': 'none', 'pdf.fonttype': 42}):
         fig, axes = plt.subplots(1, 2, figsize=(12, 4.8), sharey=True)
         fig.subplots_adjust(left=.08, right=.985, top=.77, bottom=.23, wspace=.13)
+        ymax = 0
         for ax, axis in zip(axes, AXES):
             for name, style in (('lar', '-'), ('siw', ':')):
                 proj = result['models'][name]['projections'][axis]
@@ -126,6 +135,11 @@ def plot(summary, output):
                 x = (edges[1:] + edges[:-1]) / 2
                 y = 100 * np.array([r['fractional_width'] for r in proj['bins']])
                 ci = 100 * np.array([r['width_ci95'] for r in proj['bins']])
+                ymax = max(ymax, float(ci.max()))
+                if axis == 'phi' and 'padding_percent' in result.get('phi_coordinate', {}):
+                    x = np.concatenate([x - 100, x, x + 100])
+                    y = np.tile(y, 3)
+                    ci = np.tile(ci, (3, 1))
                 ax.plot(x, y, color='#cccc00', linestyle=style, linewidth=2.7, label=LABELS[name])
                 ax.vlines(x, ci[:, 0], ci[:, 1], color='#cccc00', linewidth=1, alpha=.85)
             ax.set_xlim(edges[0], edges[-1])
@@ -133,8 +147,19 @@ def plot(summary, output):
             ax.set_xlabel(r'Pseudorapidity $\eta$' if axis == 'eta' else result.get('phi_coordinate', {}).get('label', r'Azimuth $\phi$ [rad]'))
             ax.grid(axis='y', alpha=.2)
             ax.set_axisbelow(True)
+        axes[0].set_ylim(0, 1.12 * ymax)
         axes[0].set_xticks(np.arange(-3, 4))
-        if 'half_width_percent' in result.get('phi_coordinate', {}):
+        if 'padding_percent' in result.get('phi_coordinate', {}):
+            phi = result['phi_coordinate']
+            low, high = phi['display_range_percent']
+            axes[1].set_xlim(low, high)
+            axes[1].set_xticks(sorted(set([low, -50, -25, 0, 25, 50, high])))
+            for boundary in (-50, 50):
+                axes[1].axvline(boundary, color='#777777', linestyle='--', linewidth=.8, zorder=0)
+            axes[1].axvspan(low, -50, color='#777777', alpha=.08, zorder=0)
+            axes[1].axvspan(50, high, color='#777777', alpha=.08, zorder=0)
+            axes[1].set_title(f"Full folded Si–W sector + {phi['padding_percent']:g}% on each side", fontsize=10, pad=10)
+        elif 'half_width_percent' in result.get('phi_coordinate', {}):
             half = result['phi_coordinate']['half_width_percent']
             axes[1].set_xticks(np.linspace(-half, half, 7))
             count = result['models']['lar']['projections']['phi']['selected_events']
@@ -143,10 +168,13 @@ def plot(summary, output):
             axes[1].set_xticks([-np.pi, -np.pi/2, 0, np.pi/2, np.pi], [r'$-\pi$', r'$-\pi/2$', '0', r'$\pi/2$', r'$\pi$'])
         axes[0].set_ylabel('Raw fractional energy resolution [%]')
         fig.suptitle('LAr and Si–W raw energy resolution', x=.08, y=.98, ha='left', fontsize=17, weight='bold')
-        fig.text(.08, .86, r'10,000 matched electrons · $E_{\rm true}=10$–$80$ GeV · ECAL only, $B=0$ · 15 bins', fontsize=11)
-        axes[1].legend(frameon=False, loc='upper right', handlelength=3.3)
+        fig.text(.08, .86, r'10,000 matched electrons · $E_{\rm true}=10$–$80$ GeV · ECAL only, $B=0$ · 15 bins per projection', fontsize=11)
+        axes[1].legend(frameon=False, loc='upper center' if 'padding_percent' in result.get('phi_coordinate', {}) else 'upper right', handlelength=3.3)
         fig.text(.08, .095, r'$R=E_{\rm raw}/E_{\rm true}$; resolution = sample SD$(R)$/mean$(R)$ · Error bars: pointwise 95% bootstrap intervals', fontsize=10)
-        fig.text(.08, .04, 'All events within the displayed angular windows, including zeros and tails; no calibration. η uses the full φ sample.', fontsize=9, color='#555555')
+        footer = ('All 10,000 events retained; no calibration. Shaded φ margins repeat the same sector periodically.'
+                  if 'padding_percent' in result.get('phi_coordinate', {}) else
+                  'All events within the displayed angular windows, including zeros and tails; no calibration. η uses the full φ sample.')
+        fig.text(.08, .04, footer, fontsize=9, color='#555555')
         for suffix in ('png', 'pdf', 'svg'):
             path = output / f'raw-energy-resolution.{suffix}'
             fig.savefig(path, dpi=200, facecolor='white')
@@ -164,15 +192,18 @@ def main():
     p = sub.add_parser('analyze')
     p.add_argument('--lar-run', type=Path, required=True)
     p.add_argument('--siw-run', type=Path, required=True)
-    p.add_argument('--sector-half-width-percent', type=float,
+    sector = p.add_mutually_exclusive_group()
+    sector.add_argument('--sector-half-width-percent', type=float,
                    help='Fold phi into the Si-W sector and restrict its central window; eta remains inclusive')
+    sector.add_argument('--sector-padding-percent', type=float,
+                        help='Fold all events into one full sector; repeat the curve in extra margins of this width on each side')
     p.add_argument('--output', type=Path, required=True)
     p = sub.add_parser('plot')
     p.add_argument('--summary', type=Path, required=True)
     p.add_argument('--output', type=Path, required=True)
     args = parser.parse_args()
     if args.command == 'analyze':
-        analyze({'lar': args.lar_run, 'siw': args.siw_run}, args.output, args.sector_half_width_percent)
+        analyze({'lar': args.lar_run, 'siw': args.siw_run}, args.output, args.sector_half_width_percent, args.sector_padding_percent)
     else:
         plot(args.summary, args.output)
 

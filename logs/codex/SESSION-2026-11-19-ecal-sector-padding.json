@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-11-19-ecal-sector-padding",
+  "title": "Show full folded Si-W sector with 15 percent margins",
+  "recorded_at": "2026-11-19T10:42:40Z",
+  "started_at": null,
+  "ended_at": "2026-11-19T10:44:25Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact current-turn client identity and input/output/cache/reasoning/total counters unavailable; usage remains empty.",
+    "Si-W folding is a common reference phase, not an LAr symmetry claim; margin points are correlated periodic display copies. Native transport/readback audits are inherited."
+  ],
+  "client": {
+    "name": "unspecified",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "f121349eb99cfb94b5e2ec4c6bc8c7c8d49733c8",
+    "branch": "codex/ecal-raw-angular-restored",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      "docs/software-inventory.md",
+      "docs/validation/ecal-raw-angular/README.md",
+      "docs/validation/ecal-raw-angular/figures/raw-energy-resolution.pdf",
+      "docs/validation/ecal-raw-angular/figures/raw-energy-resolution.png",
+      "docs/validation/ecal-raw-angular/figures/raw-energy-resolution.svg",
+      "docs/validation/ecal-raw-angular/figures/render.json",
+      "docs/validation/ecal-raw-angular/summary.json",
+      "interactions/pr-0152.json",
+      "logs/codex/SESSION-2026-11-19-ecal-sector-padding.json",
+      "logs/codex/SESSION-2026-11-19-ecal-sector-padding.md",
+      "software/analysis/lar_response/raw_angular.py",
+      "software/analysis/lar_response/test_raw_angular.py",
+      "software/inventory.json"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [
+      "ECAL",
+      "raw angular response plotting"
+    ],
+    "related_ids": [
+      "PR152",
+      "DES-032",
+      "DES-033"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-11-19-ecal-sector-padding.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "raw_angular.py analyze --sector-padding-percent 15 [same audited local runs]",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All10000unique events/model retained once in15full-sector bins; no exclusions."
+    },
+    {
+      "command": "Independent degree-based sector folding and statistics audit",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All30phi bin counts/means/SDs/widths/zeros agree. Eta bins exactly unchanged; covariance finite/symmetric/positive semidefinite."
+    },
+    {
+      "command": "python -B -m unittest discover -s software/analysis/lar_response -p test_raw_angular.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "3tests pass."
+    },
+    {
+      "command": "python -B -m unittest discover -s software/analysis/lar_response -p test_compare.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "5tests pass."
+    },
+    {
+      "command": "raw_angular.py plot [full-sector summary]",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "PNG/PDF/SVG rendered and PNG visually inspected; ±65percent display, boundary markers and correlated periodic margin copies; full seam peaks visible."
+    },
+    {
+      "command": "python3 -B tools/software_inventory/inventory.py check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "68components/102families/53reviewed inputs/12pins validate."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors."
+    }
+  ]
+}
