@@ -1,0 +1,114 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-11-19-ecal-phi-sector",
+  "title": "Restrict raw ECAL phi plot to a sector",
+  "recorded_at": "2026-11-19T10:35:59Z",
+  "started_at": null,
+  "ended_at": "2026-11-19T10:38:52Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact current-turn client identity and input/output/cache/reasoning/total counters unavailable; usage remains empty.",
+    "Same Si-W sector reference phase applied to both models; no LAr symmetry claim. Native transport/readback audits are inherited."
+  ],
+  "client": {
+    "name": "unspecified",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "3f270c4fc14b2689ebe5bbf67c1c474fc15f3993",
+    "branch": "codex/ecal-raw-angular-restored",
+    "initial_changes": [],
+    "result_commits": [
+      "3d782850b6de4b931ab0a756743f3ed1ace3475c"
+    ],
+    "changed_files": [
+      "docs/software-inventory.md",
+      "docs/validation/ecal-raw-angular/README.md",
+      "docs/validation/ecal-raw-angular/figures/raw-energy-resolution.pdf",
+      "docs/validation/ecal-raw-angular/figures/raw-energy-resolution.png",
+      "docs/validation/ecal-raw-angular/figures/raw-energy-resolution.svg",
+      "docs/validation/ecal-raw-angular/figures/render.json",
+      "docs/validation/ecal-raw-angular/summary.json",
+      "interactions/pr-0152.json",
+      "logs/codex/SESSION-2026-11-19-ecal-phi-sector.json",
+      "logs/codex/SESSION-2026-11-19-ecal-phi-sector.md",
+      "software/analysis/lar_response/raw_angular.py",
+      "software/analysis/lar_response/test_raw_angular.py",
+      "software/inventory.json"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [
+      "ECAL",
+      "raw angular response plotting"
+    ],
+    "related_ids": [
+      "PR152",
+      "DES-032",
+      "DES-033"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-11-19-ecal-phi-sector.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "raw_angular.py analyze --sector-half-width-percent 15 [same source-bound local runs]",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "3009 matched events selected per phi projection; eta all10000 and unchanged."
+    },
+    {
+      "command": "raw_angular.py plot [updated summary]",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "PNG/PDF/SVG rendered and PNG visually inspected."
+    },
+    {
+      "command": "Independent degree-based nearest-sector folding and standard-library statistics audit",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All30phi-bin means/SDs/widths/counts/zeros agree. Eta bins exactly equal original; covariance finite/symmetric/positive semidefinite."
+    },
+    {
+      "command": "python -B -m unittest discover -s software/analysis/lar_response -p test_raw_angular.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "2tests pass."
+    },
+    {
+      "command": "python -B -m unittest discover -s software/analysis/lar_response -p test_compare.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "5tests pass."
+    },
+    {
+      "command": "python3 -B tools/software_inventory/inventory.py check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "68components/102families/53reviewed inputs/12pins validate."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "302session records validate; current task usage remains unknown."
+    },
+    {
+      "command": "python3 -B tools/interactions/ledger.py validate --pr 152",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Current draft PR and canonical journal references validate."
+    }
+  ]
+}
