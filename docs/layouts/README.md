@@ -20,29 +20,37 @@ are separate from the retained first study and maintained detector union.
 | [LAYOUT-002 — selected baseline](LAYOUT-002-tracker-3t-lar.md) | Restored1.8mmPb/1248period barrel and650mm turbine endcaps | Maintained tracker+ECAL; standalone deep HCAL prototype; conditional solenoid |
 | [LAYOUT-001 — comparison](LAYOUT-001-tracker-3t-siw.md) | Retained Si–W | Explicit comparison export; historical FCAL context |
 
-[![Current tracker, solenoid allocation, selected LAr ECAL and DES046 HCAL](figures/LAYOUT-002-DES046-rz.png)](LAYOUT-002-tracker-3t-lar.md)
+[![Current tracker, solenoid allocation, merged 400 mm-gap LAr ECAL and DES046 HCAL](figures/LAYOUT-002-DES046-gap400-rz.png)](LAYOUT-002-tracker-3t-lar.md)
 
-The **20 November composite view** includes the 60-layer DES045/046 HCAL:
+The **20 November composite view** uses the **400 mm (40 cm) warm-envelope gap**
+from merged [PR151](https://github.com/asalzburger/nodd/pull/151), together with
+the 60-layer DES045/046 HCAL:
 barrel apothems 3.130–5.720 m and endcaps |z|=6.760–9.350 m. It combines
-current tracker sensitive bounds, regenerated selected ECAL envelopes and the
+current tracker sensitive bounds, regenerated 400 mm-gap ECAL envelopes and the
 separately validated HCAL prototype. The solenoid remains an allocation; no
 common native detector or engineering acceptance is implied. Sector-edge
 modules change transverse coverage, leaving these r–z bounds unchanged.
 
-[Current composite named inputs](LAYOUT-002-DES046.json) ·
-[SVG](figures/LAYOUT-002-DES046-rz.svg) · [PDF](figures/LAYOUT-002-DES046-rz.pdf)
+[Current composite named inputs](LAYOUT-002-DES046-gap400.json) ·
+[SVG](figures/LAYOUT-002-DES046-gap400-rz.svg) · [PDF](figures/LAYOUT-002-DES046-gap400-rz.pdf)
 
 ```sh
-python3 -B tools/hcal_response/draw_rz.py --capture \
-  --input docs/layouts/LAYOUT-002-DES046.json \
-  --output docs/layouts/figures/LAYOUT-002-DES046-rz.svg
-rsvg-convert docs/layouts/figures/LAYOUT-002-DES046-rz.svg \
-  -o docs/layouts/figures/LAYOUT-002-DES046-rz.png
-rsvg-convert -f pdf docs/layouts/figures/LAYOUT-002-DES046-rz.svg \
-  -o docs/layouts/figures/LAYOUT-002-DES046-rz.pdf
+python3 -B tools/hcal_response/draw_rz.py --capture --ecal-gap-mm 400 \
+  --input docs/layouts/LAYOUT-002-DES046-gap400.json \
+  --output docs/layouts/figures/LAYOUT-002-DES046-gap400-rz.svg
+rsvg-convert docs/layouts/figures/LAYOUT-002-DES046-gap400-rz.svg \
+  -o docs/layouts/figures/LAYOUT-002-DES046-gap400-rz.png
+rsvg-convert -f pdf docs/layouts/figures/LAYOUT-002-DES046-gap400-rz.svg \
+  -o docs/layouts/figures/LAYOUT-002-DES046-gap400-rz.pdf
 ```
 
-Omit `--capture` to replay the retained named inputs. The prior selected-ECAL
+Omit `--capture` to replay the retained named inputs. The earlier 1 m-gap/deep-HCAL
+[drawing](figures/LAYOUT-002-DES046-rz.png) and [inputs](LAYOUT-002-DES046.json)
+are preserved as the superseded drawing selection. PR151 was merged into the
+stacked restored-baseline branch on 18 November; its recipe left the default
+export manifest at 1 m, which caused that initial drawing mismatch. The current
+view explicitly chooses the merged 400 mm recipe; it does not rewrite the
+export manifest, historical response samples or HCAL placements. The prior selected-ECAL
 view with its older HCAL context remains [preserved](figures/LAYOUT-002-restored-rz.png).
 
 [Retained restored named inputs](LAYOUT-002-restored.json) ·
@@ -63,9 +71,9 @@ rsvg-convert docs/layouts/figures/LAYOUT-002-restored-rz.svg \
   -o docs/layouts/figures/LAYOUT-002-restored-rz.png
 ```
 
-## Separate 400 mm-gap prototype
+## Merged 400 mm-gap implementation and retained controls
 
-The [opt-in reduced-gap study](../validation/lar-gap400/README.md) moves the
+The [merged reduced-gap study](../validation/lar-gap400/README.md) moves the
 complete endcaps600mm toward the IP with unchanged sampling depth. It retains
 HCAL context and explicitly unconstructed side-egress reservations. The selected
 1m-gap baseline above is preserved. Physical ports/support clearances and the

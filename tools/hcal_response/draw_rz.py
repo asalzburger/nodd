@@ -22,8 +22,9 @@ def sha(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
-def capture():
-    context = ROOT/'docs/layouts/LAYOUT-002-restored.json'
+def capture(gap_mm=400):
+    context = ROOT/('docs/layouts/LAYOUT-002-gap400.json' if gap_mm == 400
+                   else 'docs/layouts/LAYOUT-002-restored.json')
     d = json.loads(context.read_text())
     for path, wanted in d['tracker']['matched_source_sha256'].items():
         if sha(ROOT/path) != wanted:
@@ -38,10 +39,17 @@ def capture():
     # older snapshot's source hashes are historical, not current-source claims.
     sys.path.insert(0, str(ROOT/'tools/lar_calorimeter'))
     import compact_prototype as lar
-    spec, b, e, services = lar.configs(lar.RESTORED_SPEC)
+    spec_path = ROOT/('tools/lar_calorimeter/gap400-prototype.json' if gap_mm == 400
+                     else 'tools/lar_calorimeter/restored-sampling.json')
+    spec, b, e, services = lar.configs(spec_path)
     selection = json.loads((ROOT/'detector/config/ecal-baseline.json').read_text())
-    if spec['id'] != d['source']['selection']['variant'] or spec['id'] != selection['variant']:
-        raise ValueError('Selected ECAL variant changed')
+    if (spec['id'] != d['source']['selection']['variant']
+            or sha(spec_path) != d['source']['selection']['variant_spec_sha256']):
+        raise ValueError('Retained ECAL variant specification changed')
+    baseline_selection = (d['source']['baseline_context']['selection'] if gap_mm == 400
+                          else d['source']['selection'])
+    if selection['variant'] != baseline_selection['variant']:
+        raise ValueError('Base ECAL selection changed')
     current = {}
     for name, config, build, augment in (
             ('barrel', b, lar.barrel_build, lar.barrel_services.augment),
@@ -71,17 +79,25 @@ def capture():
         sectors=c['sectors'], edge_core_half_strip_mm=receipt['edge_coverage']['core_plane_inactive_half_strip_mm'],
         outer_corner_radius_mm=c['barrel']['outer_apothem_mm']/math.cos(math.pi/c['sectors']))
     d['date'] = '2026-11-20'
-    d['status'] = 'Selected tracker/LAr working baseline plus isolated DES045/046 HCAL; DRAFT / PROTOTYPE'
+    d['status'] = ('Tracker and merged400mm-gap LAr variant plus isolated DES045/046 HCAL; DRAFT / PROTOTYPE'
+                   if gap_mm == 400 else
+                   'Selected tracker/LAr working baseline plus isolated DES045/046 HCAL; DRAFT / PROTOTYPE')
+    d['ecal_gap_mm'] = gap_mm
     d['source'] = dict(input_revision=subprocess.check_output(['git','rev-parse','HEAD'], cwd=ROOT, text=True).strip(),
         context_path=str(context.relative_to(ROOT)), context_sha256=sha(context),
         retained_context_provenance=d['source'],
         current_ecal_source_sha256={p:sha(ROOT/p) for p in sorted(set().union(
             *[set(v) for v in d['source']['geometry_source_sha256'].values()],
-            {'detector/config/ecal-baseline.json'}))},
+            {'detector/config/ecal-baseline.json',str(spec_path.relative_to(ROOT))}))},
+        active_ecal_variant=spec['id'], active_ecal_spec_path=str(spec_path.relative_to(ROOT)),
+        active_ecal_spec_sha256=sha(spec_path),
         hcal_receipt_path=str(receipt_path.relative_to(ROOT)), hcal_receipt_sha256=sha(receipt_path),
         hcal_source_revision=receipt['source_revision'], hcal_source_sha256=receipt['source_sha256'],
         renderer_sha256=sha(__file__))
-    d['scope'] = ('Composite envelope/sampling-stack schematic. Tracker sensitive group bounds; ECAL warm and sampling bounds; '
+    d['scope'] = ('Composite envelope/sampling-stack schematic. Tracker sensitive group bounds; '
+                  + ('merged400mm-gap LAr ECAL variant warm and sampling bounds; ' if gap_mm == 400
+                     else 'ECAL warm and sampling bounds; ')
+                  +
                   'conditional solenoid allocations; isolated validated HCAL prototype. Polygon radii are face apothems. '
                   'Individual module/sector gaps and tracker passives are unresolved in this view. '
                   'No common native detector, installed field or engineering acceptance. FCAL and muons omitted.')
@@ -90,6 +106,7 @@ def capture():
 
 def draw(d):
     b, e, h, m = (d[k] for k in ('barrel', 'endcaps', 'hcal', 'solenoid'))
+    gap400 = d['services']['front_gap_mm'] == 400
     scale, left, base = 84., 105., 730.
     x, y = lambda z:left+(z+10)*scale, lambda r:base-r*scale
     out = ['<svg xmlns="http://www.w3.org/2000/svg" width="1900" height="1130" viewBox="0 0 1900 1130">',
@@ -105,7 +122,8 @@ def draw(d):
     def pair(side, z0, z1, r0, r1, fill, stroke='none', dash=None):
         box(z0 if side>0 else -z1, z1 if side>0 else -z0, r0, r1, fill, stroke, dash)
     text(65,52,'nODD — tracker + solenoid + ECAL + HCAL',32,weight='bold')
-    text(65,89,'Current selected LAr ECAL and DES043 tracker • 60-layer HCAL with DES046 edge modules • 20 November 2026',21)
+    text(65,89,('Merged 400 mm-gap LAr ECAL and DES043 tracker • 60-layer DES046 HCAL • 20 November 2026' if gap400 else
+               'Current selected LAr ECAL and DES043 tracker • 60-layer HCAL with DES046 edge modules • 20 November 2026'),21)
     text(65,125,'Equal r–z scale • envelope and sampling-stack schematic • DRAFT / PROTOTYPE',20)
     for z in range(-10,11):
         out.append(f'<path d="M{x(z):.3f},{y(6.1):.3f} V{base:.3f}" stroke="#e4e8e4"/>')
@@ -143,6 +161,12 @@ def draw(d):
         zz=side*(h['endcap_front_mm']+h['endcap_back_mm'])/2000
         text(x(zz),y(4.6),'HCAL',23,'middle',weight='bold')
         text(x(zz),y(4.22),'endcap',20,'middle')
+    if gap400:
+        # The warm-envelope axial interval, not the sampling-edge interval.
+        a,z=b['warm_half_z_mm']/1000,e['warm_front_z_mm']/1000
+        yy=y(2.82)
+        out.append(f'<path d="M{x(a):.3f},{yy:.3f} H{x(z):.3f} M{x(a):.3f},{yy-6:.3f} V{yy+6:.3f} M{x(z):.3f},{yy-6:.3f} V{yy+6:.3f}" stroke="#25312e" fill="none"/>')
+        text(x((a+z)/2),yy-12,'400 mm',17,'middle')
     box(-m['vessel_half_length_m'],m['vessel_half_length_m'],m['vessel_inner_radius_m'],m['vessel_outer_radius_m'],'url(#magnet)',COLOURS['magnets'])
     box(-m['cold_half_length_m'],m['cold_half_length_m'],m['cold_inner_radius_m'],m['cold_outer_radius_m'],COLOURS['magnets'])
     box(-m['vessel_half_length_m'],m['vessel_half_length_m'],m['vessel_inner_radius_m'],m['assembly_outer_reservation_m'],'none',COLOURS['magnets'],'5 3')
@@ -163,7 +187,8 @@ def draw(d):
     text(65,936,'Polygon radii are face apothems; barrel corner reaches R 5.832 m. Steel: light orange; readout cassettes: dark orange.',19)
     text(65,973,'ECAL: pale yellow = warm package; yellow = sampling. Solenoid: hatched vessel, grey cold-mass allocation, dashed reservation.',19)
     text(65,1010,'DES046 narrows the barrel edge modules to leave 7.05 mm per side at the core plane; the global r–z outline is unchanged.',19)
-    text(65,1047,'Tracker: 46,682 sensitive planes; passive services and individual calorimeter module/sector gaps are unresolved here.',19)
+    text(65,1047,('ECAL warm gap 400 mm: |z| 4.100–4.500 m; endcaps |z| 4.500–5.660 m. External routes remain empty reservations.' if gap400 else
+                 'Tracker: 46,682 sensitive planes; passive services and individual calorimeter module/sector gaps are unresolved here.'),19)
     text(65,1084,'Composite view, not a common native detector. Installed magnet, support/services qualification, FCAL and muon integration remain open.',18)
     out.append('</svg>')
     return '\n'.join(out)+'\n'
@@ -174,9 +199,11 @@ if __name__ == '__main__':
     p.add_argument('--input',type=Path,required=True)
     p.add_argument('--output',type=Path,required=True)
     p.add_argument('--capture',action='store_true',help='Refresh named inputs from current source and validated HCAL receipt')
+    p.add_argument('--ecal-gap-mm',type=int,choices=(400,1000),default=400,
+                   help='ECAL warm-envelope gap for capture; default is the merged PR151 400mm variant')
     a=p.parse_args()
     if a.capture:
-        a.input.write_text(json.dumps(capture(),indent=2)+'\n')
+        a.input.write_text(json.dumps(capture(a.ecal_gap_mm),indent=2)+'\n')
     d=json.loads(a.input.read_text())
     a.output.parent.mkdir(parents=True,exist_ok=True)
     a.output.write_text(draw(d))

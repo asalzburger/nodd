@@ -58,7 +58,7 @@ The [restored LAr design is the human-selected EM working baseline](docs/design/
 **[Open the layout main page](docs/layouts/README.md)** for the selected LAr baseline and the Si–W comparison,
 its R–Z view and concise links to component decisions and pull requests.
 
-[![Current tracker, conditional solenoid, selected LAr ECAL and DES046 deep HCAL prototype](docs/layouts/figures/LAYOUT-002-DES046-rz.png)](docs/layouts/LAYOUT-002-tracker-3t-lar.md)
+[![Current tracker, conditional solenoid, merged 400 mm-gap LAr ECAL and DES046 deep HCAL prototype](docs/layouts/figures/LAYOUT-002-DES046-gap400-rz.png)](docs/layouts/LAYOUT-002-tracker-3t-lar.md)
 
 The selected candidate combines the maintained tracker with proposed solenoid
 and ECAL components. Open prototypes and remaining systems are identified on the

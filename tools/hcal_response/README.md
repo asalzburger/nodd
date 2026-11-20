@@ -1,7 +1,7 @@
 # Standalone HCAL with physical narrow sector-edge cassettes
 
-The [current combined r–z overview](../../docs/layouts/figures/LAYOUT-002-DES046-rz.png)
-shows tracker sensitive bounds, conditional solenoid, selected LAr ECAL and this
+The [current combined r–z overview](../../docs/layouts/figures/LAYOUT-002-DES046-gap400-rz.png)
+shows tracker sensitive bounds, conditional solenoid, merged 400 mm-gap LAr ECAL and this
 deep HCAL. [Named inputs and reproduction](../../docs/layouts/README.md) use
 `draw_rz.py`; `--capture` checks the HCAL validation hashes and reconstructs the
 selected ECAL envelopes including local services. Replaying its JSON requires
