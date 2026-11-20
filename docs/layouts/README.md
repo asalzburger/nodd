@@ -10,6 +10,11 @@ fits60 common-hardware sampling layers around the restored ECAL. Its
 [first pion protocol](../validation/hcal50/protocol.md) are separate from the
 maintained tracker+ECAL union and its retained drawing below.
 
+The [DES046 sector-edge amendment](../design/DES-046-hcal-sector-edge-coverage.md)
+adds narrow physical barrel cassettes and2mmguides within those same envelopes.
+Its [new pion protocol](../validation/hcal50-edge/protocol.md) and validation
+are separate from the retained first study and maintained detector union.
+
 | Option | EM selection | Current integration scope |
 | --- | --- | --- |
 | [LAYOUT-002 — selected baseline](LAYOUT-002-tracker-3t-lar.md) | Restored1.8mmPb/1248period barrel and650mm turbine endcaps | Maintained tracker+ECAL export; conditional magnet/HCAL context |

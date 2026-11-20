@@ -77,3 +77,6 @@ sector taper, edge guides, absorber ownership and retained service handoffs.
 HCAL-EDGE-SYS-IMPLEMENT grants SysArch native.py and direction.py only, after
 DES046 is written. This implementation is separate from its prior interface
 assessment and is not independently reviewed by its own author.
+
+HCAL-EDGE-CALO-REVIEW assesses physical implementation at2e516f04b1dcb51e2a374762060529de59511bf6; the reviewer
+authored the governing design, not the implementation. No human sign-off.

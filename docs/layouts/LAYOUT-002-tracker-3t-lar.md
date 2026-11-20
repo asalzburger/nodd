@@ -45,6 +45,13 @@ it is not inserted into the maintained tracker+ECAL compact.
 Outer service handoff5950mm, FCAL and outer magnet/muon interfaces require
 separate integration. DRAFT/PROTOTYPE; no engineering sign-off.
 
+[DES046](../design/DES-046-hcal-sector-edge-coverage.md) subsequently amends
+barrel sector-edge coverage with small physical cassettes and2mmguides.
+The global HCAL outline and this R–Z envelope context do not change; the
+[new standalone sample protocol](../validation/hcal50-edge/protocol.md)
+keeps the previous study as a dated control. Structural and external service
+qualification remain separate.
+
 ## Historical original LAr / FCAL context
 
 The following dated candidate and figures retain the original larger-radius
