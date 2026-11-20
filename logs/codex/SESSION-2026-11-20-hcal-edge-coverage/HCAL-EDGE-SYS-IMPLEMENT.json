@@ -1,0 +1,19 @@
+{
+  "id": "HCAL-EDGE-SYS-IMPLEMENT",
+  "role": "SysArch",
+  "input_revision": "b91b1d7969b94cccb4e0516e1c84246f4d2e2cd0",
+  "inputs": [
+    "tools/hcal_response/native.py",
+    "tools/hcal_response/model.py",
+    "tools/hcal_response/export.py"
+  ],
+  "mode": "write",
+  "writable_paths": [
+    "tools/hcal_response/native.py",
+    "tools/hcal_response/direction.py",
+    "tools/hcal_response/test_direction.py"
+  ],
+  "task": "Implement generic all-unit native ROOT validation in native.py and prospective geometry-only fixed-direction selector in direction.py after DES046 is written. Root owns model/export/edge_units/config, SoftEng owns C++/Audit/transport/analysis. New expected.units maps string unit IDs incl0 to original parts/channel_map/fixture sizes/explicit active front and centered anchors/active_volume_names. Channel_map records tile_center_mm and tile_size_mm; part cuts retain exact finite box-minus-recess shapes. Descriptor appends unit:8 at42, assigned exactly once by factory on compound active child. Validate every distinct physical compound/segmentation, subset counts, capacity/mass and exact transforms plus all reused mothers overlaps1e-5mm, full sensitive-context count and depth/rays. Selector follows current docs/validation/hcal50-edge/protocol.md full grid/ranking/9front offsets, exact analytic finite-solid ray intersection and steel-trapezoid clipping (or efficient equivalent), independent native winner+neighbour confirmation, source/hash/commit-bound immutable receipt with winner.eta and winner.phi_rad before any new showers. Record all candidate grid payload locally ignored; publish compact summary/receipt. Keep failures and exact seam. No full transport or new dependencies. You authored initial interface assessment; do not label your code independently reviewed.",
+  "deliverable": "Owned native audit/selector implementation and actual checks; coordinate unit API with root and receipt API with SoftEng. Return full interface review input and implementation limits separately.",
+  "completion": "Model-driven selection, source binding and native confirmation are complete or report concrete failures, before root launches new pion samples. No human sign-off."
+}

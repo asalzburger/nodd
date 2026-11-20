@@ -7,7 +7,7 @@ import math
 import subprocess
 import xml.etree.ElementTree as ET
 from pathlib import Path
-from model import ROOT, CONFIG, I, DESCRIPTOR, build, common, endcap_helpers, placements, sha, transform
+from model import ROOT, CONFIG, I, DESCRIPTOR, build, common, endcap_helpers, placements, sha, transform, barrel_row_units
 
 
 def write(path,node):
@@ -65,8 +65,9 @@ def place(parent,ref,xyz=(0,0,0),frame=I,**ids):
     return q
 
 
-def carrier(root,name,unit):
-    ca=template(root,name);ca.set('compound_tiles','true');shape(ca,'box',sx=380,sy=240,sz=12)
+def carrier(root,name,unit,uid=0):
+    ca=template(root,name);ca.set('compound_tiles','true');ca.set('unit',str(uid))
+    w,h,d=unit['fixture']['carrier_size_mm'];shape(ca,'box',sx=w,sy=h,sz=d)
     for p in unit['parts']:
         q=ET.SubElement(ca,'piece',name=p['name'],material=p['material'],role=p['role'])
         piece_shape(q,p);pos=p['center_mm'][:];pos[2]-=6;pose(q,pos,p['frame'])
@@ -76,7 +77,9 @@ def carrier(root,name,unit):
 
 def barrel(root,r,unit):
     c=r['config'];b=c['barrel'];n=c['sectors'];t=math.tan(math.pi/n);depth=r['depth']['total_mm'];a=b['front_apothem_mm'];zmid=a+depth/2
-    carrier(root,'BarrelCarrier',unit)
+    carrier(root,'BarrelCarrier',r['units']['0'])
+    for uid,u in sorted(r['units'].items(),key=lambda kv:int(kv[0])):
+        if uid!='0':carrier(root,f'BarrelEdgeU{uid}',u,int(uid))
     sector=template(root,'BarrelSector');trapezoid(sector,a,b['outer_apothem_mm'],b['half_z_mm'],depth,t,b['sector_half_seam_mm'])
     usable=b['half_z_mm']-b['end_flange_mm'];inset=b['sector_half_seam_mm']+b['edge_rail_mm']
     # Volumes must be defined before their parent to keep native graph construction deterministic.
@@ -85,11 +88,12 @@ def barrel(root,r,unit):
         li=layer['layer'];front=layer['steel_front_mm'];name=f'BarrelSteel{li}'
         steel=template(root,name,'Steel235');trapezoid(steel,front,front+c['steel_mm'],usable,c['steel_mm'],t,inset)
         place(sector,name,[0,0,front+c['steel_mm']/2-zmid])
-        cols=layer['columns_mm']
+        entries=barrel_row_units(layer)
         for row,y in enumerate(layer['rows_mm']):
-            for col,x in enumerate(cols):
-                place(sector,'BarrelCarrier',[x+layer['tangent_phase_mm'],y+layer['axial_phase_mm'],layer['carrier_front_mm']+6-zmid],
-                      layer=li,carrier=row*len(cols)+col)
+            for col,entry in enumerate(entries):
+                uid=entry['unit'];ref='BarrelCarrier' if uid==0 else f'BarrelEdgeU{uid}'
+                place(sector,ref,[entry['x'],y+layer['axial_phase_mm'],layer['carrier_front_mm']+6-zmid],
+                      layer=li,carrier=row*len(entries)+col)
     sampling=c['layers']*(c['steel_mm']+12+c['installation_gap_mm']);back=a+sampling
     for sign in (-1,1):
         name=f'BarrelRail{sign}';q=template(root,name,'Aluminium')
@@ -146,15 +150,18 @@ def endcaps(root,r,unit):
 
 
 def compact(report,out):
-    unit,_=common();doc=ET.Element('lccdd');ET.SubElement(doc,'info',name='StandaloneHCAL',title='DES045 physical segmented standalone HCAL',author='nODD',version='0.1',status='prototype')
+    unit,_=common();doc=ET.Element('lccdd');ET.SubElement(doc,'info',name='StandaloneHCAL',title='DES046 physical edge-filled standalone HCAL',author='nODD',version='0.2',status='prototype')
     ET.SubElement(ET.SubElement(doc,'includes'),'gdmlFile',ref='materials.xml');defs=ET.SubElement(doc,'define')
     for name,v in zip(('world_x','world_y','world_z'),report['config']['world_half_xyz_mm']):ET.SubElement(defs,'constant',name=name,value=f'{v}*mm')
     readouts=ET.SubElement(doc,'readouts');detectors=ET.SubElement(doc,'detectors')
     for system,name,ro,producer in ((13,'HCALBarrel','HCALBarrelHits',barrel),(14,'HCALEndcaps','HCALEndcapHits',endcaps)):
         readout=ET.SubElement(readouts,'readout',name=ro)
         table=[]
-        for tile in unit['channel_map']:
-            table += [tile['module'],tile['sensor'],tile['tile_center_mm'][0]+168,tile['tile_center_mm'][1]+87,tile['tile_center_mm'][2]-2]
+        selected=report['units'] if system==13 else {'0':report['units']['0']}
+        for uid,u in sorted(selected.items(),key=lambda kv:int(kv[0])):
+            anchor=u['active_offset_from_carrier_front_mm']
+            for tile in u['channel_map']:
+                table += [int(uid),tile['module'],tile['sensor']]+[v-a for v,a in zip(tile['tile_center_mm'],anchor)]+tile['tile_size_mm']
         ET.SubElement(readout,'segmentation',type='nODDHCALTileGrid',tile_table_mm=' '.join(format(v,'.17g') for v in table))
         ET.SubElement(readout,'id').text=DESCRIPTOR
         root=ET.SubElement(detectors,'detector',name=name,id=str(system),type='nODDHCALResponsePrototype',readout=ro)
@@ -166,23 +173,23 @@ def compact(report,out):
 def export(out):
     out=Path(out);out.mkdir(parents=True,exist_ok=True);report=build();unit,mat=common()
     write(out/'materials.xml',mat.root);doc=compact(report,out)
-    fields=['system','side','sector','layer','carrier','volume_id','x_mm','y_mm','z_mm']+[f'a{i}{j}' for i in range(3) for j in range(3)]
+    fields=['system','side','sector','layer','carrier','unit','volume_id','x_mm','y_mm','z_mm']+[f'a{i}{j}' for i in range(3) for j in range(3)]
     with (out/'placements.csv').open('w',newline='') as fp:
         writer=csv.DictWriter(fp,fieldnames=fields);writer.writeheader()
         for p in placements(report['config'],report['barrel_layers'],report['endcap_pattern']):
-            row={k:p[k] for k in fields[:6]};row.update(dict(zip(fields[6:9],(format(v,'.17g') for v in p['origin_mm']))))
+            row={k:p[k] for k in fields[:7]};row.update(dict(zip(fields[7:10],(format(v,'.17g') for v in p['origin_mm']))))
             row.update({f'a{i}{j}':format(p['frame'][i][j],'.17g') for i in range(3) for j in range(3)});writer.writerow(row)
     report['raw_sensitive_volumes']=report['counts']['carriers']
     report['active_offset_from_carrier_center_mm']=[-168,-87,-4]
     report['active_offset_from_carrier_front_mm']=[-168,-87,2]
-    report['sensitive_representation']='Exact disjoint union of72 original recessed cores per carrier, one raw sensitive volume;72 logical tile channels retained by custom segmentation; identity-left unions, final active frame anchored at original first core'
+    report['sensitive_representation']='Exact disjoint union of original/new physically backed recessed cores per unit, one raw sensitive volume; explicit unit-specific logical tile channels retained by custom segmentation; identity-left unions, final active frame anchored at original first core'
     report['template_counts']={d.get('name'):len(d.findall('template')) for d in doc.findall('detectors/detector')}
     report['source_sha256'].update({str(p.relative_to(ROOT)):sha(p) for p in (Path(__file__),ROOT/'prototypes/hcal_response/HCAL.cpp',ROOT/'prototypes/hcal_response/CMakeLists.txt')})
     report['execution']=dict(commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),dirty=bool(subprocess.check_output(['git','status','--porcelain'],cwd=ROOT,text=True)))
     report['export_sha256']={name:sha(out/name) for name in ('detector.xml','materials.xml','placements.csv')}
     report['placement_table']='placements.csv';report['placement_frame_convention']='aij CSV: row i is carrier-local basis i expressed in world coordinates; xyz is original carrier front-face origin'
     (out/'expected.json').write_text(json.dumps(report,indent=2)+'\n')
-    print(json.dumps(dict(output=str(out/'detector.xml'),counts=report['counts'],templates=report['template_counts'])))
+    print(json.dumps(dict(output=str(out/'detector.xml'),counts={k:v for k,v in report['counts'].items() if k!='physical_parts_per_unit'},units=len(report['units']),templates=report['template_counts'])))
     return report
 
 
