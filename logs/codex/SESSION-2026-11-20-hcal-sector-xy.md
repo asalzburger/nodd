@@ -17,3 +17,5 @@ Generator export-graph assertions pass for all60absorber layers, each selected c
 ## Publication and accounting
 
 A separate draft PR targets codex/hcal-restored-pion50, following the standing human instruction in AGENTS.md. ParentPR155 is related source work, not duplicated token ownership. Exact client token counters are unavailable; usage stays empty, not zero. Final validator results and draft URL are recorded below when observed. No human sign-off, ready-for-review action or merge is granted.
+
+Draft delivery: [PR156](https://github.com/asalzburger/nodd/pull/156), targeting the implemented HCAL branchPR155. Initial sourced drawing commitd4778f0fb961f89fb539662c93dbfbde97e40585. Source/render hashes, visible-section counts, visual layout, inventory, project/session/interaction/token validators and whitespace checks pass. Largest new blob is the1.394MB vectorPDF; no raw runs or geometry dumps are included. Exact task input/output token usage is unavailable. No native dependency activation or simulation rerun.
