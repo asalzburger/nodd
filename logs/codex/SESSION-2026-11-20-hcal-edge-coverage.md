@@ -104,3 +104,14 @@ Development geometric scan found eta0/phi−0.75deg; its nine sampled neighbours
 have minimum58/mean59.333active layers. This is a development diagnostic only;
 the immutable final receipt must be regenerated at the frozen source before
 showers. Source-bound ROOT checks match all nine layer sets and material paths.
+
+## Pre-run independent scientific assessment
+
+PhysVal review at a0b985be found a missing fail-closed link between the fixed
+direction receipt and the geometry being sampled. No new showers had started.
+Corrective sourceba946f56 requires selector/nativePASS, finite coordinates,
+exact expected/export/source/execution bindings, copied-artifact revalidation
+and runtime geometry-library identity. Fixed analysis also checks calibration
+freeze chronology. All14transport/statistics tests pass, including negative
+foreign/failed/NaN/corrupted/library/chronology cases. A new exact-commit
+PhysVal guard assignment checks the correction before production.
