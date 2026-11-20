@@ -3,6 +3,7 @@ import argparse
 import hashlib
 import json
 import math
+from datetime import datetime, timezone
 from pathlib import Path
 
 import numpy as np
@@ -55,6 +56,7 @@ def categories(rows):
 
 
 def analyze(args):
+    if args.bootstrap<2:raise ValueError('At least two bootstrap replicates required')
     run = args.run.resolve()
     proof = json.loads((run / 'readback.json').read_text())
     receipt = json.loads((run / 'receipt.json').read_text())
@@ -97,6 +99,8 @@ def analyze(args):
         for i in range(15):
             selected = cats[axis] == i
             entry = moments(response[selected])
+            raw=np.array([r['signal_GeV'] for r,k in zip(rows,selected) if k])
+            entry.update(mean_raw_energy_GeV=float(raw.mean()) if len(raw) else None,raw_energy_sample_sd_GeV=float(raw.std(ddof=1)) if len(raw)>1 else None)
             entry.update(low=float(edges[i]), high=float(edges[i + 1]),
                          histogram_counts=np.histogram(response[selected], hist_edges)[0].tolist())
             for key, draws in (('fractional_width', widths), ('mean_response', means)):
@@ -104,6 +108,9 @@ def analyze(args):
                 bad = int(np.count_nonzero(~np.isfinite(values)))
                 entry[key + '_undefined_bootstrap'] = bad
                 entry[key + '_ci95'] = list(map(float, np.quantile(values, [.025, .975]))) if not bad else None
+            j=a*15+i
+            entry['mean_raw_energy_ci95_GeV']=None if entry['mean_response_ci95'] is None else [50*x for x in entry['mean_response_ci95']]
+            entry['raw_energy_sample_sd_bootstrap']=interval(widths[:,j]*means[:,j]*50)
             bins.append(entry)
         if sum(b['events'] for b in bins) != 10000:
             raise ValueError('Angular projection lost events')
@@ -160,7 +167,7 @@ def analyze(args):
         world_escape=dict(mean_kinetic_GeV=float(escape.mean()),
                           quantiles_GeV=dict(zip(('q50', 'q90', 'q95', 'q99'), map(float, np.quantile(escape, [.5, .9, .95, .99])))),
                           interpretation='Kinetic energy crossing the outer world boundary; excludes rest energy and nuclear invisible energy; not a calorimetric balance'),
-        controls=dict(full_phi=controls),
+        controls=dict(full_phi=controls,eta_sign={str(sign):moments(response[np.array([r['eta']<0 for r in rows])==bool(sign)]) for sign in (0,1)}),
         width_covariance=dict(order=[f'{axis}:{i}' for axis in EDGES for i in range(15)], unit='fractional width squared',
                               matrix=np.cov(widths, rowvar=False).tolist() if np.all(np.isfinite(widths)) else None),
         evidence=dict(receipt_sha256=sha(run / 'receipt.json'), readback_sha256=sha(run / 'readback.json'),
@@ -169,6 +176,8 @@ def analyze(args):
                       sample=compact_sample, geometry=compact_geometry,
                       runtime_worker_threads=sorted(w['thread_id'] for w in workers),
                       runtime_steel_materials=runtime_materials))
+    if getattr(args,'baseline_run',None):
+        result['comparison']=paired_angular_comparison(rows,args.baseline_run,args.bootstrap,args.seed)
     out = args.output.resolve()
     out.mkdir(parents=True, exist_ok=False)
     save(out / 'summary.json', result)
@@ -218,6 +227,8 @@ def plot(result, out):
     plt.rcParams.update({'font.size': 10, 'axes.spines.top': False, 'axes.spines.right': False, 'savefig.dpi': 180})
     angular_plot(result, out, 'fractional_width', r'$\sigma(R)/\langle R\rangle$ [%]', 'raw-energy-resolution')
     angular_plot(result, out, 'mean_response', 'Mean raw response [%]', 'mean-response')
+    if result.get('comparison'):
+        comparison_plot(result,out)
     edges = np.array(result['histograms']['response_edges']) * 100
     for name, projection in result['projections'].items():
         fig, axes = plt.subplots(3, 5, figsize=(15, 8.4), layout='constrained')
@@ -254,15 +265,199 @@ def plot(result, out):
     save(out / 'render.json', {p.name: sha(p) for p in sorted(out.iterdir()) if p.suffix in ('.png', '.pdf', '.svg')})
 
 
+def audited_rows(run, count=None, role=None):
+    """Read compact ledgers only after checking their actual immutable receipts."""
+    run=Path(run).resolve();proof=json.loads((run/'readback.json').read_text());receipt=json.loads((run/'receipt.json').read_text())
+    if proof['status']!='PASS' or receipt['exit_code'] or proof['event_summary_sha256']!=sha(run/'event-summary.jsonl') or proof['receipt_sha256']!=sha(run/'receipt.json'):
+        raise ValueError('Complete unchanged saved-data readback required')
+    rows=sorted(map(json.loads,(run/'event-summary.jsonl').read_text().splitlines()),key=lambda r:r['event'])
+    if len(rows)!=proof['events'] or [r['event'] for r in rows]!=list(range(len(rows))) or (count is not None and len(rows)!=count):
+        raise ValueError('Required complete primary population differs')
+    sample=proof.get('sample') or {}
+    if role is not None and sample.get('sample_role','angular')!=role:raise ValueError('Sample role differs from protocol')
+    for row in rows:
+        if not math.isfinite(row['energy_GeV']) or abs(row['energy_GeV']-50)>1e-7 or not math.isfinite(row['signal_GeV']) or row['signal_GeV']<0 or not math.isfinite(row['response']) or not math.isclose(row['response'],row['signal_GeV']/row['energy_GeV'],rel_tol=1e-12,abs_tol=1e-14):
+            raise ValueError('Invalid fixed-energy raw response')
+    categories(rows)
+    return rows,proof,receipt,sample
+
+
+def projection_width_draws(rows,draws):
+    values=np.array([r['response'] for r in rows]);cats=categories(rows);output=np.full((len(draws),30),np.nan)
+    for b,selected in enumerate(draws):
+        sampled=values[selected]
+        for a,axis in enumerate(EDGES):
+            groups=cats[axis][selected];counts=np.bincount(groups,minlength=15);sums=np.bincount(groups,weights=sampled,minlength=15);squares=np.bincount(groups,weights=sampled**2,minlength=15)
+            means=np.divide(sums,counts,out=np.full(15,np.nan),where=counts>0)
+            variance=np.divide(squares-sums*means,counts-1,out=np.full(15,np.nan),where=counts>1)
+            output[b,a*15:(a+1)*15]=np.divide(np.sqrt(np.maximum(variance,0)),means,out=np.full(15,np.nan),where=means>0)
+    return output
+
+
+def interval(draws):
+    draws=np.asarray(draws,dtype=float);bad=int(np.count_nonzero(~np.isfinite(draws)))
+    return dict(ci95=None if bad else list(map(float,np.quantile(draws,[.025,.975]))),undefined_replicates=bad)
+
+
+def paired_angular_comparison(new_rows,baseline_run,replicates,seed):
+    old,proof,receipt,sample=audited_rows(baseline_run,10000,'angular')
+    if len(new_rows)!=len(old):raise ValueError('Matched angular populations differ')
+    for a,b in zip(new_rows,old):
+        if a['event']!=b['event'] or any(not math.isclose(a[k],b[k],rel_tol=0,abs_tol=1e-9) for k in ('energy_GeV','eta','phi')):
+            raise ValueError('Old/new primary identities or directions differ')
+    if replicates<2:raise ValueError('At least two bootstrap replicates required')
+    rng=np.random.default_rng(seed);draws=[rng.integers(len(old),size=len(old)) for _ in range(replicates)]
+    old_draws=projection_width_draws(old,draws);new_draws=projection_width_draws(new_rows,draws)
+    cats=categories(old);models={};differences={}
+    for a,axis in enumerate(EDGES):
+        models[axis]=[];differences[axis]=[]
+        for i in range(15):
+            keep=cats[axis]==i;before=moments([r['response'] for r,k in zip(old,keep) if k]);after=moments([r['response'] for r,k in zip(new_rows,keep) if k])
+            j=a*15+i;before['width_interval']=interval(old_draws[:,j]);after['width_interval']=interval(new_draws[:,j]);models[axis].append(dict(baseline=before,edge=after))
+            delta=None if before['fractional_width'] is None or after['fractional_width'] is None else after['fractional_width']-before['fractional_width']
+            differences[axis].append(dict(events=int(keep.sum()),edge_minus_baseline=delta,**interval(new_draws[:,j]-old_draws[:,j])))
+    combined=np.concatenate((old_draws,new_draws),axis=1)
+    return dict(status='PROTOTYPE',events=10000,models=models,width_differences=differences,
+        bootstrap=dict(replicates=replicates,seed=seed,resampling='Same whole-primary multiplicities across both geometries and both angular projections',intervals='pointwise95percent percentile'),
+        covariance=dict(order=[f'{model}:{axis}:{i}' for model in ('baseline','edge') for axis in EDGES for i in range(15)],unit='fractional width squared',matrix=np.cov(combined,rowvar=False).tolist() if np.all(np.isfinite(combined)) else None),
+        baseline_evidence=dict(receipt_sha256=sha(Path(baseline_run)/'receipt.json'),readback_sha256=sha(Path(baseline_run)/'readback.json'),ledger_sha256=proof['event_summary_sha256'],input_hashes=sample.get('hashes'),source_revision=receipt.get('source_revision')),
+        interpretation='Matched illumination; altered geometry changes shower histories. No angular response correction is trained.')
+
+
+def comparison_plot(result,out):
+    import matplotlib.pyplot as plt
+    comparison=result['comparison'];fig,axes=plt.subplots(1,2,figsize=(12.8,5.1),layout='constrained')
+    for axis,(name,projection) in zip(axes,result['projections'].items()):
+        x=np.array([(a+b)/2 for a,b in zip(projection['edges'][:-1],projection['edges'][1:])]);offsets=(-100,0,100) if name=='phi' else (0,)
+        for model,label,color,style in (('baseline','DES045 original','#d9a16a','--'),('edge','DES046 edge units',COLOR,'-')):
+            bins=[b[model] for b in comparison['models'][name]];y=np.array([np.nan if b['fractional_width'] is None else 100*b['fractional_width'] for b in bins])
+            lo=np.array([np.nan if b['width_interval']['ci95'] is None else 100*b['width_interval']['ci95'][0] for b in bins]);hi=np.array([np.nan if b['width_interval']['ci95'] is None else 100*b['width_interval']['ci95'][1] for b in bins])
+            for offset in offsets:axis.vlines(x+offset,lo,hi,color=color,alpha=.8)
+            axis.plot(np.concatenate([x+offset for offset in offsets]),np.tile(y,len(offsets)),marker='o',ls=style,color=color,label=label,markersize=4)
+        axis.set(xlim=(-65,65) if name=='phi' else(-3,3),ylim=(0,None),xlabel='Barrel sector phase [% of22.5deg]' if name=='phi' else 'Signed pseudorapidity eta',ylabel='Raw SD(r)/mean(r) [%]');axis.grid(alpha=.18)
+        if name=='phi':
+            for edge in(-50,50):axis.axvline(edge,color='#777777',ls=':',lw=.8)
+            for lo,hi in((-65,-50),(50,65)):axis.axvspan(lo,hi,color=COLOR,alpha=.05)
+    axes[0].legend(frameon=False);fig.suptitle('HCAL edge coverage · matched10,000 pi-minus ·50GeV',fontsize=15)
+    fig.supxlabel('All zeros/tails retained;95% matched whole-primary bootstrap intervals. Periodic margins repeat existing bins.',fontsize=9)
+    for ext in('png','pdf','svg'):save_figure(fig,Path(out)/f'raw-energy-resolution-comparison.{ext}')
+    plt.close(fig)
+
+
+def fixed_statistics(signal,energy,fs):
+    signal=np.asarray(signal,dtype=float);energy=np.asarray(energy,dtype=float)
+    if len(signal)<2 or energy.shape!=signal.shape or not np.all(np.isfinite(signal)) or np.any(signal<0) or not np.all(np.isfinite(energy)) or np.any(energy<=0) or not math.isfinite(fs) or fs<=0:
+        raise ValueError('Invalid inclusive fixed-direction sample or calibration factor')
+    fractional=signal/energy;corrected=signal/fs;delta=fractional/fs-1
+    arrays={'raw':signal,'fractional':fractional,'residual':delta};stats={'fs':float(fs)}
+    for name,values in arrays.items():
+        stats[name+'_mean']=float(values.mean());stats[name+'_sd']=float(values.std(ddof=1))
+        for q,value in zip(('q02','q16','q50','q84','q98'),np.quantile(values,[.02,.16,.50,.84,.98])):stats[name+'_'+q]=float(value)
+    cv=lambda a:None if a.mean()<=0 else float(a.std(ddof=1)/a.mean())
+    stats.update(raw_cv=cv(signal),fractional_cv=cv(fractional),corrected_cv=cv(corrected),corrected_mean_GeV=float(corrected.mean()),corrected_sd_GeV=float(corrected.std(ddof=1)),zero_response_fraction=float(np.count_nonzero(signal==0)/len(signal)))
+    defined=[stats[k] for k in ('raw_cv','fractional_cv','corrected_cv')]
+    if any(v is None for v in defined):
+        if not all(v is None for v in defined):raise ValueError('Scale-invariance definedness differs')
+    elif not np.allclose(defined,defined[0],rtol=1e-10,atol=1e-12):raise ValueError('Constant positive scale changed coefficient of variation')
+    if not math.isclose(stats['fractional_sd'],stats['raw_sd']/50,rel_tol=1e-10,abs_tol=1e-12) or not math.isclose(stats['residual_sd'],stats['raw_sd']/(fs*50),rel_tol=1e-10,abs_tol=1e-12):
+        raise ValueError('Fixed true-energy denominator identity failed')
+    return stats
+
+
+def cohort_evidence(run,proof,receipt,sample):
+    return dict(receipt_sha256=sha(Path(run)/'receipt.json'),readback_sha256=sha(Path(run)/'readback.json'),ledger_sha256=proof['event_summary_sha256'],sample_id=sample.get('sample_id'),role=sample.get('sample_role'),seed=receipt['seed'],direction=sample.get('fixed_direction'),geometry_hashes={k:sample.get('hashes',{}).get(k) for k in ('detector.xml','materials.xml','expected.json')},source_revision=receipt.get('source_revision'),producer_sha256=receipt.get('producer_sha256'))
+
+
+def calibrate(args):
+    if args.bootstrap<2:raise ValueError('At least two bootstrap replicates required')
+    rows,proof,receipt,sample=audited_rows(args.run,2000,'calibration')
+    if receipt['seed']!=202650102 or not sample.get('fixed_direction'):raise ValueError('Calibration must use independent declared fixed-direction cohort')
+    response=np.array([r['response'] for r in rows]);fs=float(response.mean())
+    if not math.isfinite(fs) or fs<=0:raise ValueError('Calibration response factor must be finite positive')
+    rng=np.random.default_rng(13001002);draws=np.array([response[rng.integers(len(rows),size=len(rows))].mean() for _ in range(args.bootstrap)])
+    result=dict(status='FROZEN / PROTOTYPE',frozen_at=datetime.now(timezone.utc).isoformat(),fs=fs,events=2000,
+        fs_standard_error=float(response.std(ddof=1)/math.sqrt(len(rows))),fs_bootstrap=interval(np.where(draws>0,draws,np.nan)),
+        bootstrap=dict(replicates=args.bootstrap,seed=13001002),
+        meaning='Effective50GeV pi-minus response factor at the prospectively selected direction; includes represented geometry/sampling/hadronic losses, not an intrinsic material sampling fraction',
+        evidence=cohort_evidence(args.run,proof,receipt,sample),analysis_sha256=sha(__file__))
+    output=Path(args.output).resolve()
+    if output.exists():raise ValueError('Refusing calibration receipt overwrite')
+    output.parent.mkdir(parents=True,exist_ok=True);save(output,result);print(json.dumps(result,indent=2))
+
+
+def fixed_analyze(args):
+    if args.bootstrap<2:raise ValueError('At least two bootstrap replicates required')
+    calibration=json.loads(Path(args.calibration).read_text());cal_rows,cp,cr,cs=audited_rows(args.calibration_run,2000,'calibration');rows,proof,receipt,sample=audited_rows(args.run,10000,'validation')
+    evidence=cohort_evidence(args.calibration_run,cp,cr,cs)
+    if calibration['status']!='FROZEN / PROTOTYPE' or evidence!=calibration['evidence'] or cr['seed']!=202650102 or receipt['seed']!=202650103 or cs.get('sample_id')==sample.get('sample_id'):
+        raise ValueError('Frozen calibration identity or independent validation cohort differs')
+    if not cs.get('fixed_direction') or cs['fixed_direction']!=sample.get('fixed_direction') or evidence['geometry_hashes']!=cohort_evidence(args.run,proof,receipt,sample)['geometry_hashes']:
+        raise ValueError('Fixed cohorts have different directions or geometries')
+    for population in(cal_rows,rows):
+        if any(abs(r['eta']-sample['fixed_direction']['eta'])>1e-9 or abs(r['phi']-sample['fixed_direction']['phi_rad'])>1e-9 for r in population):raise ValueError('Fixed cohort contains angular smearing')
+    signal=np.array([r['signal_GeV'] for r in rows]);energy=np.array([r['energy_GeV'] for r in rows]);cal=np.array([r['response'] for r in cal_rows]);fs=float(calibration['fs'])
+    if not math.isclose(fs,float(cal.mean()),rel_tol=1e-12,abs_tol=1e-15):raise ValueError('Frozen response factor differs from calibration population')
+    point=fixed_statistics(signal,energy,fs);keys=list(point);draws=np.full((args.bootstrap,len(keys)),np.nan)
+    vrng=np.random.default_rng(13001001);crng=np.random.default_rng(13001002)
+    for b in range(args.bootstrap):
+        vi=vrng.integers(len(rows),size=len(rows));ci=crng.integers(len(cal),size=len(cal));fb=float(cal[ci].mean())
+        if fb>0:
+            values=fixed_statistics(signal[vi],energy[vi],fb)
+            draws[b]=[np.nan if values[k] is None else values[k] for k in keys]
+    intervals={k:interval(draws[:,i]) for i,k in enumerate(keys)}
+    coords={'raw_energy':signal,'raw_fractional':signal/energy,'corrected_residual':signal/(fs*energy)-1};histograms={}
+    for name,values in coords.items():
+        lo=min(float(values.min()),0.);hi=max(float(values.max()),0.)
+        if hi<=lo:hi=lo+1e-6
+        edges=np.linspace(lo,hi+max(abs(hi),1)*1e-9,81);counts=np.histogram(values,edges)[0]
+        if int(counts.sum())!=len(rows):raise ValueError('Fixed histogram lost zeros/tails')
+        histograms[name]=dict(edges=edges.tolist(),counts=counts.tolist(),underflow=0,overflow=0,normalization='Unweighted inclusive primary counts')
+    layers=np.array([r['layer_energies_GeV'] for r in rows]);tail=np.array([r['terminal_six_fraction'] for r in rows]);escape=np.array([r['observer']['world_escape_kinetic_GeV'] for r in rows])
+    if layers.shape!=(10000,60) or not np.all(np.isfinite(layers)) or np.any(layers<0) or not np.allclose(layers.sum(axis=1),signal,rtol=1e-5,atol=1e-7) or not np.all(np.isfinite(tail)) or not np.all(np.isfinite(escape)) or np.any(escape<0):raise ValueError('Invalid fixed depth/escape control')
+    result=dict(status='PROTOTYPE',events=10000,calibration_events=2000,total_energy_GeV=50,direction=sample['fixed_direction'],statistics=point,intervals=intervals,histograms=histograms,
+        zero_response_events=int(np.count_nonzero(signal==0)),width_definitions=dict(raw_sd='SD(S)[GeV]',fractional_sd='SD(S/Etrue), denominator true50GeV',residual_sd='SD(S/(fs*Etrue)-1), denominator fs*true50GeV',coefficient_of_variation='SD(S)/mean(S), unchanged by constant positive sampling correction'),
+        bootstrap=dict(replicates=args.bootstrap,validation_seed=13001001,calibration_seed=13001002,resampling='Independent calibration and validation multiplicities; validation draw reused across all panels; refit fs per calibration replica',intervals='Pointwise95percent two-sample percentile intervals'),
+        covariance=dict(order=keys,matrix=np.cov(draws,rowvar=False).tolist() if np.all(np.isfinite(draws)) else None),
+        depth=dict(layer_mean_GeV=layers.mean(axis=0).tolist(),terminal_six_fraction_mean=float(tail.mean()),world_escape_kinetic_mean_GeV=float(escape.mean()),interpretation='Terminal activity/escaped kinetic energy are separate diagnostics, not complete containment or energy balance'),
+        calibration=dict(receipt=calibration,receipt_sha256=sha(args.calibration)),validation_evidence=cohort_evidence(args.run,proof,receipt,sample),analysis_sha256=sha(__file__),
+        scale_invariance='Verified for the point estimate and every defined bootstrap replica; correction changes scale and SD/Etrue, not coefficient of variation')
+    out=Path(args.output).resolve();out.mkdir(parents=True,exist_ok=False);save(out/'summary.json',result);fixed_plot(result,out/'figures')
+    print(json.dumps(dict(fs=fs,statistics=point),indent=2))
+
+
+def fixed_plot(result,out):
+    import matplotlib
+    matplotlib.use('Agg')
+    import matplotlib.pyplot as plt
+    out=Path(out);out.mkdir(parents=True,exist_ok=True);fig,axes=plt.subplots(1,3,figsize=(15,4.9),layout='constrained');stats=result['statistics']
+    panels=(('raw_energy','Raw sensitive energy [GeV]','raw',1.),('raw_fractional','Raw S/Etrue [%]','fractional',100.),('corrected_residual','Sampling-corrected relative residual [%]','residual',100.))
+    for axis,(name,label,key,factor) in zip(axes,panels):
+        h=result['histograms'][name];axis.stairs(h['counts'],np.array(h['edges'])*factor,color=COLOR,fill=True,alpha=.5);axis.set(xlabel=label,ylabel='Primaries / bin');axis.grid(alpha=.15)
+        ci=result['intervals'][key+'_sd']['ci95'];ci_text='undefined' if ci is None else f"[{factor*ci[0]:.3g},{factor*ci[1]:.3g}]"
+        text=f"mean={factor*stats[key+'_mean']:.4g}\nSD={factor*stats[key+'_sd']:.4g} {ci_text}\nzeros={result['zero_response_events']}/{result['events']}"
+        if key!='residual':text+=f"\nSD/mean={100*stats['raw_cv']:.3g}%" if stats['raw_cv'] is not None else '\nSD/mean undefined'
+        else:text+=f"\nEcorr SD/mean={100*stats['corrected_cv']:.3g}%" if stats['corrected_cv'] is not None else '\nEcorr SD/mean undefined';axis.axvline(0,color='#555555',ls=':',lw=1)
+        axis.text(.97,.97,text,transform=axis.transAxes,ha='right',va='top',fontsize=8.5)
+    d=result['direction'];fig.suptitle(f"HCAL fixed barrel direction ·50GeV pi-minus · eta={d['eta']:.5g}, phi={math.degrees(d['phi_rad']):.5g}deg",fontsize=14)
+    fig.supxlabel(f"Independent2000-primary calibration; frozen fs={stats['fs']:.6g}. Width intervals:95% two-sample bootstrap. Constant scaling does not improve SD/mean.",fontsize=9)
+    for ext in('png','pdf','svg'):save_figure(fig,out/f'fixed-direction-response.{ext}')
+    plt.close(fig)
+    save(out/'render.json',{p.name:sha(p) for p in sorted(out.iterdir()) if p.suffix in('.png','.pdf','.svg')})
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     sub = p.add_subparsers(dest='stage', required=True)
     a = sub.add_parser('analyze'); a.add_argument('--run', type=Path, required=True); a.add_argument('--output', type=Path, required=True)
-    a.add_argument('--bootstrap', type=int, default=1000); a.add_argument('--seed', type=int, default=13001000)
+    a.add_argument('--bootstrap', type=int, default=1000); a.add_argument('--seed', type=int, default=13001000);a.add_argument('--baseline-run',type=Path)
     a = sub.add_parser('plot'); a.add_argument('--summary', type=Path, required=True); a.add_argument('--output', type=Path, required=True)
+    a=sub.add_parser('calibrate');a.add_argument('--run',type=Path,required=True);a.add_argument('--output',type=Path,required=True);a.add_argument('--bootstrap',type=int,default=1000)
+    a=sub.add_parser('fixed-analyze');a.add_argument('--run',type=Path,required=True);a.add_argument('--calibration-run',type=Path,required=True);a.add_argument('--calibration',type=Path,required=True);a.add_argument('--output',type=Path,required=True);a.add_argument('--bootstrap',type=int,default=1000)
     args = p.parse_args()
-    if args.stage == 'analyze': analyze(args)
-    else: plot(json.loads(args.summary.read_text()), args.output)
+    if args.stage=='analyze':analyze(args)
+    elif args.stage=='calibrate':calibrate(args)
+    elif args.stage=='fixed-analyze':fixed_analyze(args)
+    else:plot(json.loads(args.summary.read_text()),args.output)
 
 
 if __name__ == '__main__':

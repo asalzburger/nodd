@@ -22,7 +22,9 @@ ROOT = Path(__file__).resolve().parents[3]
 COLLECTIONS = {"HCALBarrelHits": 13, "HCALEndcapHits": 14}
 MASS_GEV = 0.13957039
 ENERGY_GEV = 50.0
-ID_DESCRIPTOR = "system:8,side:2,sector:4,layer:6,carrier:12,module:2,sensor:6,x:-1,y:-1"
+LEGACY_DESCRIPTOR = "system:8,side:2,sector:4,layer:6,carrier:12,module:2,sensor:6,x:-1,y:-1"
+ID_DESCRIPTOR = LEGACY_DESCRIPTOR + ",unit:8"
+PARENT_MASK = ((1 << 32)-1) | (255 << 42)
 
 
 def sha(path):
@@ -45,9 +47,9 @@ def verify_hashes(directory, hashes):
 
 
 def decode_cell(cell):
-    if not isinstance(cell, int) or cell < 0 or cell >> 42:
+    if not isinstance(cell, int) or cell < 0 or cell >> 50:
         raise ValueError("Noncanonical HCAL cell ID")
-    fields = dict(system=cell & 255, side=(cell >> 8) & 3, sector=(cell >> 10) & 15,
+    fields = dict(unit=(cell >> 42) & 255, system=cell & 255, side=(cell >> 8) & 3, sector=(cell >> 10) & 15,
         layer=(cell >> 14) & 63, carrier=(cell >> 20) & 4095,
         module=(cell >> 32) & 3, sensor=(cell >> 34) & 63,
         x=-((cell >> 40) & 1), y=-((cell >> 41) & 1))
@@ -72,12 +74,44 @@ def sensitive_count(expected):
     return count
 
 
+def geometry_units(expected):
+    """Normalize modern unit families and the retained unit0 readback format."""
+    if "units" in expected:
+        return {int(key):value for key,value in expected["units"].items()}
+    return {0:dict(channel_map=expected["unit_tile_map"])}
+
+
+def compile_unit_centers(expected):
+    units=geometry_units(expected);result={}
+    if 0 not in units:raise ValueError("Original common unit0 is missing")
+    for uid,unit in units.items():
+        if not 0<=uid<=255 or not 1<=len(unit["channel_map"])<=72:raise ValueError("Physical unit capacity")
+        for row in unit["channel_map"]:
+            module,sensor=row["module"],row["sensor"];center=row["tile_center_mm"];size=row.get("tile_size_mm")
+            key=(uid,module,sensor)
+            if type(module)is not int or type(sensor)is not int or not 0<=module<2 or not 0<=sensor<36 or key in result or len(center)!=3 or not all(math.isfinite(x) for x in center):
+                raise ValueError("Invalid or duplicate physical channel")
+            if "units" in expected and (size is None or len(size)!=3 or not all(math.isfinite(x) and x>0 for x in size)):
+                raise ValueError("Explicit positive tile dimensions required")
+            result[key]=center
+    return result
+
+
+def checked_direction(eta, phi):
+    if eta is None or phi is None or not math.isfinite(eta) or not math.isfinite(phi):
+        raise ValueError("Fixed eta and phi must both be finite")
+    if not -3 <= eta <= 3 or not -math.pi <= phi < math.pi:
+        raise ValueError("Fixed direction outside the declared phase space")
+    return float(eta),float(phi)
+
+
 def prepare(args):
     geometry = args.geometry.resolve()
     expected = load(geometry / "expected.json")
     if "export_sha256" in expected:
         verify_hashes(geometry, expected["export_sha256"])
-    if expected["id_descriptor"] != ID_DESCRIPTOR:
+    if "units" in expected:compile_unit_centers(expected)
+    if expected["id_descriptor"] not in (ID_DESCRIPTOR,LEGACY_DESCRIPTOR):
         raise ValueError("Unexpected HCAL ID descriptor")
     tree = ET.parse(geometry / "detector.xml")
     roots = tree.findall("detectors/detector")
@@ -89,36 +123,76 @@ def prepare(args):
         raise ValueError("Unexpected HCAL readout names")
     if args.events <= 0:
         raise ValueError("Positive event population required")
+    role=getattr(args,"sample_role","angular")
+    eta=getattr(args,"fixed_eta",None);phi=getattr(args,"fixed_phi",None)
+    fixed=eta is not None or phi is not None
+    primary_sample=getattr(args,"primary_sample",None)
+    direction_receipt=getattr(args,"direction_receipt",None)
+    if fixed:
+        eta,phi=checked_direction(eta,phi)
+        if primary_sample is not None or role not in ("calibration","validation") or direction_receipt is None:
+            raise ValueError("Fixed sample requires its own calibration/validation role and frozen direction receipt")
+        if args.events!={"calibration":2000,"validation":10000}[role]:
+            raise ValueError("Fixed cohort population differs from the prospective protocol")
+        direction=load(direction_receipt)
+        winner=direction.get("winner",direction.get("direction",{}))
+        if abs(float(winner["eta"])-eta)>1e-12 or abs(float(winner["phi_rad"])-phi)>1e-12:
+            raise ValueError("Fixed input differs from the frozen geometry-selected winner")
+    elif role!="angular" or direction_receipt is not None:
+        raise ValueError("Angular sample must not carry a fixed-cohort role/direction")
+    old=None
+    if primary_sample is not None:
+        primary_sample=Path(primary_sample).resolve();old=load(primary_sample/"sample.json")
+        verify_hashes(primary_sample,old["hashes"])
+        if old["events"]!=args.events or old.get("pdg")!=-211 or old.get("energy_GeV")!=50.:
+            raise ValueError("Retained angular primary cohort differs")
     out = args.output.resolve(); out.mkdir(parents=True, exist_ok=False)
     names = ["detector.xml", "materials.xml", "expected.json", "placements.csv"]
     for name in names:
         shutil.copyfile(geometry / name, out / name)
-    rng = random.Random(args.input_seed)
+    if fixed:
+        shutil.copyfile(direction_receipt,out/"direction.json");names.append("direction.json")
     momentum = math.sqrt(ENERGY_GEV**2 - MASS_GEV**2)
-    with (out / "particles.HEPEvt").open("w") as events, (out / "truth-input.jsonl").open("w") as truth:
-        for i in range(args.events):
-            eta = rng.uniform(-3., 3.); phi = rng.uniform(-math.pi, math.pi)
-            p = [momentum*math.cos(phi)/math.cosh(eta), momentum*math.sin(phi)/math.cosh(eta), momentum*math.tanh(eta)]
-            events.write("1\n1 -211 0 0 " + " ".join(f"{x:.17g}" for x in p+[MASS_GEV]) + "\n")
-            truth.write(json.dumps(dict(event=i, energy_GeV=ENERGY_GEV, eta=eta, phi=phi,
-                momentum_GeV=p), separators=(",", ":")) + "\n")
+    if old is not None:
+        for name in ("particles.HEPEvt","truth-input.jsonl"):
+            shutil.copyfile(primary_sample/name,out/name)
+    else:
+        rng = random.Random(args.input_seed)
+        with (out / "particles.HEPEvt").open("w") as events, (out / "truth-input.jsonl").open("w") as truth:
+            for i in range(args.events):
+                event_eta,event_phi=(eta,phi) if fixed else (rng.uniform(-3.,3.),rng.uniform(-math.pi,math.pi))
+                p = [momentum*math.cos(event_phi)/math.cosh(event_eta),momentum*math.sin(event_phi)/math.cosh(event_eta),momentum*math.tanh(event_eta)]
+                events.write("1\n1 -211 0 0 " + " ".join(f"{x:.17g}" for x in p+[MASS_GEV]) + "\n")
+                truth.write(json.dumps(dict(event=i,energy_GeV=ENERGY_GEV,eta=event_eta,phi=event_phi,momentum_GeV=p),separators=(",", ":"))+"\n")
+    truth_rows=[json.loads(line) for line in (out/"truth-input.jsonl").read_text().splitlines()]
+    if len(truth_rows)!=args.events or [r["event"] for r in truth_rows]!=list(range(args.events)):
+        raise ValueError("Noncontiguous or incomplete input truth")
+    for row in truth_rows:
+        checked_direction(row["eta"],row["phi"])
+        if not math.isfinite(row["energy_GeV"]) or abs(row["energy_GeV"]-50)>1e-12:
+            raise ValueError("Primary cohort does not have fixed total energy50GeV")
     names += ["particles.HEPEvt", "truth-input.jsonl"]
-    manifest = dict(status="DRAFT / PROTOTYPE", events=args.events, input_seed=args.input_seed,
-        pdg=-211, mass_GeV=MASS_GEV, energy_GeV=ENERGY_GEV,
-        distributions=dict(total_energy_GeV=50., eta=[-3, 3], phi_rad=[-math.pi, math.pi], independent_uniform_angles=True),
+    manifest = dict(status="DRAFT / PROTOTYPE",events=args.events,input_seed=None if fixed else old["input_seed"] if old is not None else args.input_seed,
+        sample_id=getattr(args,"sample_id",None) or out.name,sample_role=role,
+        expected_transport_seed={"angular":202650001,"calibration":202650102,"validation":202650103}[role],
+        pdg=-211,mass_GeV=MASS_GEV,energy_GeV=ENERGY_GEV,
+        distributions=dict(total_energy_GeV=50.,eta=eta if fixed else [-3,3],phi_rad=phi if fixed else [-math.pi,math.pi],independent_uniform_angles=not fixed),
+        fixed_direction=dict(eta=eta,phi_rad=phi,direction_receipt_sha256=sha(out/"direction.json")) if fixed else None,
+        reused_primary_sample_sha256=sha(primary_sample/"sample.json") if old is not None else None,
         geometry_scope="HCAL barrel/endcaps only; no ECAL, tracker, beam pipe, solenoid/field or FCAL",
-        collections=COLLECTIONS, expected_raw_sensitive_ids=sensitive_count(expected),
-        source_revision=subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip(),
-        source_state=subprocess.check_output(["git", "status", "--porcelain"], cwd=ROOT, text=True).splitlines(),
-        geometry_manifest=expected, hashes={name: sha(out / name) for name in names},
-        producer_sha256=sha(__file__))
-    save(out / "sample.json", manifest)
-    print(f"Prepared {args.events} pi- primaries; Etotal=50 GeV; {manifest['expected_raw_sensitive_ids']:,} raw sensitive volumes")
+        collections=COLLECTIONS,expected_raw_sensitive_ids=sensitive_count(expected),
+        source_revision=subprocess.check_output(["git","rev-parse","HEAD"],cwd=ROOT,text=True).strip(),
+        source_state=subprocess.check_output(["git","status","--porcelain"],cwd=ROOT,text=True).splitlines(),
+        geometry_manifest=expected,hashes={name:sha(out/name) for name in names},producer_sha256=sha(__file__))
+    save(out/"sample.json",manifest)
+    print(f"Prepared {args.events} pi- primaries; role={role}; Etotal=50GeV; {manifest['expected_raw_sensitive_ids']:,} raw sensitive volumes")
 
 
 def run(args):
     sample = args.sample.resolve(); manifest = load(sample / "sample.json")
     verify_hashes(sample, manifest["hashes"])
+    if manifest.get("expected_transport_seed",args.seed)!=args.seed:
+        raise ValueError("Transport seed differs from the declared independent cohort")
     if args.skip < 0 or args.events <= 0 or args.threads <= 0 or args.events < args.threads:
         raise ValueError("Invalid run population/workers")
     if args.skip + args.events > manifest["events"]:
@@ -138,6 +212,7 @@ def run(args):
     out = args.output.resolve(); out.mkdir(parents=True, exist_ok=False); (out / "audit").mkdir()
     env = os.environ.copy()
     env.update(NODD_HCAL_AUDIT=str(out / "audit"), NODD_HCAL_MAX_STEP_MM=format(args.max_step_mm, ".17g"),
+        NODD_HCAL_EXPECTED_GEOMETRY=str(sample/"expected.json"),
         NODD_HCAL_GEOMETRY_LIBRARY=str(libs[0]), NODD_HCAL_AUDIT_LIBRARY=str(libs[1]), NODD_HCAL_EXPECTED_RAW_IDS=str(manifest["expected_raw_sensitive_ids"]))
     for name in ("DD4HEP_LIBRARY_PATH", "DYLD_LIBRARY_PATH", "LD_LIBRARY_PATH"):
         env[name] = os.pathsep.join([*(str(p.parent) for p in libs), env.get(name, "")])
@@ -211,7 +286,8 @@ def audit(args):
         raise ValueError("Incomplete/changed serial map initialization")
     converted_path = directory / "audit/converted-solids.json"
     converted = load(converted_path)
-    if converted["status"] != "PASS" or len(converted["solids"]) != 2 or any(r["mismatches"] or r["probes"] < 10000 for r in converted["solids"]) or receipt.get("converted_solids_sha256") != sha(converted_path):
+    expected_active={name for u in geometry_units(manifest["geometry_manifest"]).values() for name in (u.get("active_volume_names",{}).values() if isinstance(u.get("active_volume_names",{}),dict) else u.get("active_volume_names",[]))}
+    if converted["status"] != "PASS" or (expected_active and {v["volume"] for v in converted["solids"]}!=expected_active) or any(r["mismatches"] or r["probes"] < 10000 for r in converted["solids"]) or receipt.get("converted_solids_sha256") != sha(converted_path):
         raise ValueError("Converted sensitive solid membership gate failed/changed")
     workers = [load(p) for p in sorted((directory / "audit").glob("worker-*.json"))]
     tids = {w["thread_id"] for w in workers}
@@ -242,14 +318,14 @@ def audit(args):
         allowed_parents = {}
         for row in csv.DictReader(source):
             values = {key: int(row[key]) for key in ("system", "side", "sector", "layer", "carrier")}
-            parent = values["system"] | values["side"] << 8 | values["sector"] << 10 | values["layer"] << 14 | values["carrier"] << 20
+            parent = values["system"] | values["side"] << 8 | values["sector"] << 10 | values["layer"] << 14 | values["carrier"] << 20 | int(row.get("unit",0)) << 42
             if parent in allowed_parents:
                 raise ValueError("Duplicate geometry carrier parent")
             allowed_parents[parent] = ([float(row[k]) for k in ("x_mm", "y_mm", "z_mm")],
                 [[float(row[f"a{i}{j}"]) for j in range(3)] for i in range(3)])
     if len(allowed_parents) != manifest["expected_raw_sensitive_ids"]:
         raise ValueError("Placement-table/raw-volume population differs")
-    unit_centers = {(r["module"], r["sensor"]): r["tile_center_mm"] for r in manifest["geometry_manifest"]["unit_tile_map"]}
+    unit_centers = compile_unit_centers(manifest["geometry_manifest"])
     maximum_position_error_mm = 0.
     truth = [json.loads(line) for line in (sample / "truth-input.jsonl").read_text().splitlines()]
     output = directory / "event-summary.jsonl"
@@ -282,13 +358,15 @@ def audit(args):
                 for hit in frame.get(name):
                     cell = int(hit.getCellID()); deposit = float(hit.getEnergy())
                     fields = decode_cell(cell)
-                    if cell & ((1 << 32)-1) not in allowed_parents or cell in ids or fields["system"] != system or not math.isfinite(deposit) or deposit <= 0:
+                    if (fields["unit"],fields["module"],fields["sensor"]) not in unit_centers:
+                        raise ValueError("Saved cell is absent from its physical unit channel map")
+                    if cell & PARENT_MASK not in allowed_parents or cell in ids or fields["system"] != system or not math.isfinite(deposit) or deposit <= 0:
                         raise ValueError("Invalid saved HCAL hit")
                     position = hit.getPosition()
                     if not all(math.isfinite(x) for x in (position.x,position.y,position.z)):
                         raise ValueError("Nonfinite saved HCAL hit position")
-                    origin, basis = allowed_parents[cell & ((1 << 32)-1)]
-                    local = unit_centers[(fields["module"], fields["sensor"])]
+                    origin, basis = allowed_parents[cell & PARENT_MASK]
+                    local = unit_centers[(fields["unit"],fields["module"],fields["sensor"])]
                     expected_position = [origin[j] + sum(local[i]*basis[i][j] for i in range(3)) for j in range(3)]
                     position_error = max(abs(a-b) for a,b in zip((position.x,position.y,position.z),expected_position))
                     if position_error > .001:
@@ -357,6 +435,9 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__); sub = parser.add_subparsers(dest="stage", required=True)
     p = sub.add_parser("prepare"); p.add_argument("--geometry",type=Path,required=True); p.add_argument("--output",type=Path,required=True)
     p.add_argument("--events",type=int,default=10000); p.add_argument("--input-seed",type=int,default=20261120)
+    p.add_argument("--fixed-eta",type=float);p.add_argument("--fixed-phi",type=float)
+    p.add_argument("--primary-sample",type=Path);p.add_argument("--direction-receipt",type=Path)
+    p.add_argument("--sample-role",choices=("angular","calibration","validation"),default="angular");p.add_argument("--sample-id")
     p = sub.add_parser("run")
     for name in ("sample","output","geometry-library","audit-library"): p.add_argument("--"+name,type=Path,required=True)
     p.add_argument("--events",type=int,default=10000); p.add_argument("--skip",type=int,default=0); p.add_argument("--threads",type=int,default=12)

@@ -49,56 +49,91 @@ namespace {
 // catches Boolean importer transform losses which a ROOT-only audit cannot.
 nlohmann::json checkHCALConvertedSolids(const dd4hep::sim::Geant4Mapping& mapping) {
   using nlohmann::json;
-  json records=json::array();std::set<const G4LogicalVolume*> checked;
-  auto expected=[](double x,double y,double z) {
-    for(int module=0;module<2;++module)for(int row=0;row<6;++row)for(int col=0;col<6;++col) {
-      const double dx=x-((module?18.:-168.)+30.*col),dy=y-(-87.+30.*row),dz=z+4.;
-      if(std::abs(dx)<14.85 && std::abs(dy)<14.85 && std::abs(dz)<1.5 &&
-         !(dx*dx+dy*dy<3.5*3.5 && dz>0.4))return true;
-    }
-    return false;
+  const char* path=std::getenv("NODD_HCAL_EXPECTED_GEOMETRY");
+  if(!path)throw std::runtime_error("Bound expected-geometry manifest is missing");
+  std::ifstream input(path);json expectedManifest;input>>expectedManifest;
+  const auto& definitions=expectedManifest.at("units");
+  using Axes=std::array<std::array<double,3>,3>;
+  auto vector=[](const json& a){return G4ThreeVector(a.at(0).get<double>(),a.at(1).get<double>(),a.at(2).get<double>());};
+  auto axes=[](const json& a){Axes m{};for(int i=0;i<3;++i)for(int j=0;j<3;++j)m[i][j]=a.at(i).at(j).get<double>();return m;};
+  auto local=[](const G4ThreeVector& p,const G4ThreeVector& center,const Axes& m) {
+    auto q=p-center;return G4ThreeVector(m[0][0]*q.x()+m[0][1]*q.y()+m[0][2]*q.z(),m[1][0]*q.x()+m[1][1]*q.y()+m[1][2]*q.z(),m[2][0]*q.x()+m[2][1]*q.y()+m[2][2]*q.z());
   };
+  auto parent=[](const G4ThreeVector& p,const G4ThreeVector& center,const Axes& m) {
+    return center+G4ThreeVector(m[0][0]*p.x()+m[1][0]*p.y()+m[2][0]*p.z(),m[0][1]*p.x()+m[1][1]*p.y()+m[2][1]*p.z(),m[0][2]*p.x()+m[1][2]*p.y()+m[2][2]*p.z());
+  };
+  struct Cut {std::string kind;G4ThreeVector center,size;Axes frame;double rmin=0.,rmax=0.,length=0.;};
+  struct Core {G4ThreeVector center,size;Axes frame;std::vector<Cut> cuts;};
+  struct Unit {int id;G4ThreeVector size;std::vector<Core> cores;};
+  std::map<int,Unit> units;std::map<std::string,int> named;
+  for(auto it=definitions.begin();it!=definitions.end();++it) {
+    const int uid=std::stoi(it.key());const auto& source=it.value();
+    if(uid<0||uid>255)throw std::runtime_error("Expected unit outside identifier capacity");
+    Unit unit{uid,vector(source.at("fixture").at("carrier_size_mm")),{}};
+    for(const auto& part:source.at("parts"))if(part.at("role")=="sensitive") {
+      if(part.at("shape_kind")!="box"||part.at("material")!="PSHost")throw std::runtime_error("Expected HCAL core primitive/material changed");
+      const auto& d=part.at("dimensions_mm");Core core{vector(part.at("center_mm")),G4ThreeVector(d.at("sx"),d.at("sy"),d.at("sz")),axes(part.at("frame")),{}};
+      core.center.setZ(core.center.z()-unit.size.z()/2);
+      for(const auto& c:part.at("cuts")) {
+        Cut cut;cut.kind=c.at("kind");cut.center=vector(c.at("center_mm"));cut.frame=axes(c.at("frame"));const auto& q=c.at("dimensions_mm");
+        if(cut.kind=="tube") {cut.rmin=q.at("rmin");cut.rmax=q.at("rmax");cut.length=q.at("length");}
+        else if(cut.kind=="box")cut.size=G4ThreeVector(q.at("sx"),q.at("sy"),q.at("sz"));
+        else throw std::runtime_error("Unsupported expected sensitive cut");
+        core.cuts.push_back(cut);
+      }
+      unit.cores.push_back(core);
+    }
+    if(unit.cores.empty()||unit.cores.size()>72||unit.cores.size()!=source.at("channel_map").size())throw std::runtime_error("Expected physical unit channel inventory differs");
+    const auto& names=source.at("active_volume_names");
+    for(const auto& name:names)if(!named.emplace(name.get<std::string>(),uid).second)throw std::runtime_error("Duplicate expected sensitive volume name");
+    units.emplace(uid,std::move(unit));
+  }
+  json records=json::array();std::set<const G4LogicalVolume*> checked;std::set<std::string> observed;
   for(const auto& entry:mapping.data().g4Placements) {
     if(!entry.first.volume().isSensitive())continue;
-    auto* pv=entry.second;auto* lv=pv->GetLogicalVolume();
-    if(!checked.insert(lv).second)continue;
-    auto* solid=lv->GetSolid();const auto rotation=pv->GetObjectRotationValue();
-    const auto translation=pv->GetObjectTranslation();
-    const auto* native=entry.first.ptr()->GetMatrix();
-    for(int i=0;i<3;++i)
-      if(std::abs(translation[i]/CLHEP::mm-native->GetTranslation()[i]/dd4hep::mm)>1e-8)
-        throw std::runtime_error("Converted HCAL sensitive placement translation differs");
-    unsigned long probes=0,mismatches=0;json errors=json::array();
-    auto probe=[&](double x,double y,double z) {
-      const auto local=rotation.inverse()*(G4ThreeVector(x,y,z)*CLHEP::mm-translation);
-      const bool actual=solid->Inside(local)!=kOutside,want=expected(x,y,z);++probes;
-      if(actual!=want) {
-        ++mismatches;
-        if(errors.size()<12)errors.push_back({{"carrier_centered_point_mm",{x,y,z}},
-          {"G4_active_local_point_mm",{local.x()/CLHEP::mm,local.y()/CLHEP::mm,local.z()/CLHEP::mm}},
-          {"expected_inside",want},{"G4_inside",actual}});
+    auto* pv=entry.second;auto* lv=pv->GetLogicalVolume();if(!checked.insert(lv).second)continue;
+    const auto found=named.find(lv->GetName());if(found==named.end())throw std::runtime_error("Converted sensitive volume absent from declared physical units");
+    const auto& unit=units.at(found->second);observed.insert(found->first);
+    int placedUnit=-1,countUnit=0;
+    for(const auto& field:entry.first.volIDs())if(field.first=="unit"){placedUnit=field.second;++countUnit;}
+    if(countUnit!=1||placedUnit!=unit.id)throw std::runtime_error("Unit ID must occur once on its actual compound active child");
+    auto contains=[&](const G4ThreeVector& p) {
+      for(const auto& core:unit.cores) {
+        const auto q=local(p,core.center,core.frame);
+        if(std::abs(q.x())>=core.size.x()/2||std::abs(q.y())>=core.size.y()/2||std::abs(q.z())>=core.size.z()/2)continue;
+        bool removed=false;
+        for(const auto& cut:core.cuts) {
+          const auto c=local(q,cut.center,cut.frame);
+          if(cut.kind=="tube") {double r2=c.x()*c.x()+c.y()*c.y();removed=removed||(r2>=cut.rmin*cut.rmin&&r2<cut.rmax*cut.rmax&&std::abs(c.z())<cut.length/2);}
+          else removed=removed||(std::abs(c.x())<cut.size.x()/2&&std::abs(c.y())<cut.size.y()/2&&std::abs(c.z())<cut.size.z()/2);
+        }
+        if(!removed)return true;
       }
+      return false;
     };
-    for(int module=0;module<2;++module)for(int row=0;row<6;++row)for(int col=0;col<6;++col) {
-      const double x=(module?18.:-168.)+30.*col,y=-87.+30.*row,z=-4.;
-      for(double dz:{-1.499,-0.5,0.,0.3999,0.4001,1.499,1.5001})probe(x,y,z+dz);
-      for(double edge:{-14.8501,-14.8499,14.8499,14.8501}) {
-        probe(x+edge,y,z);probe(x,y+edge,z);
+    auto* solid=lv->GetSolid();const auto rotation=pv->GetObjectRotationValue();const auto translation=pv->GetObjectTranslation();const auto* native=entry.first.ptr()->GetMatrix();
+    for(int i=0;i<3;++i)if(std::abs(translation[i]/CLHEP::mm-native->GetTranslation()[i]/dd4hep::mm)>1e-8)throw std::runtime_error("Converted HCAL sensitive placement translation differs");
+    unsigned long probes=0,mismatches=0;json errors=json::array();
+    auto probe=[&](const G4ThreeVector& point) {
+      const auto active=rotation.inverse()*(point*CLHEP::mm-translation);const bool actual=solid->Inside(active)!=kOutside,want=contains(point);++probes;
+      if(actual!=want){++mismatches;if(errors.size()<12)errors.push_back({{"carrier_centered_point_mm",{point.x(),point.y(),point.z()}},{"G4_active_local_point_mm",{active.x()/CLHEP::mm,active.y()/CLHEP::mm,active.z()/CLHEP::mm}},{"expected_inside",want},{"G4_inside",actual}});}
+    };
+    const double eps=1e-4;
+    for(const auto& core:unit.cores) {
+      probe(core.center);
+      for(int axis=0;axis<3;++axis)for(int sign:{-1,1})for(double e:{-eps,eps}) {
+        G4ThreeVector q;q[axis]=sign*(core.size[axis]/2+e);probe(parent(q,core.center,core.frame));
       }
-      for(double radius:{3.4999,3.5001}) {
-        probe(x+radius,y,z+0.95);probe(x,y+radius,z+0.95);
+      for(const auto& cut:core.cuts)if(cut.kind=="tube") {
+        for(double radius:{0.,cut.rmax-eps,cut.rmax+eps})for(double z:{-cut.length/2-eps,-cut.length/2+eps,0.,cut.length/2-eps,cut.length/2+eps})
+          probe(parent(parent(G4ThreeVector(radius,0.,z),cut.center,cut.frame),core.center,core.frame));
       }
     }
-    // Board seam, reflector cracks, carrier service bay and non-core margins.
-    for(double x:{-190.,-184.,-183.,-153.,-3.,0.,3.,15.,183.,184.,190.})
-      for(double y:{-120.,-103.,-102.,-12.,78.,79.,90.,110.,120.})probe(x,y,-4.);
-    std::mt19937 engine(202650045);std::uniform_real_distribution<double> ux(-190.,190.),uy(-120.,120.),uz(-6.,0.);
-    for(int i=0;i<10000;++i)probe(ux(engine),uy(engine),uz(engine));
-    records.push_back({{"volume",std::string(lv->GetName())},{"probes",probes},
-      {"mismatches",mismatches},{"errors",errors},
-      {"active_translation_from_carrier_center_mm",{translation.x()/CLHEP::mm,translation.y()/CLHEP::mm,translation.z()/CLHEP::mm}}});
+    std::mt19937 engine(202650045+unit.id);std::uniform_real_distribution<double> ux(-unit.size.x()/2,unit.size.x()/2),uy(-unit.size.y()/2,unit.size.y()/2),uz(-unit.size.z()/2,unit.size.z()/2);
+    for(int i=0;i<10000;++i)probe(G4ThreeVector(ux(engine),uy(engine),uz(engine)));
+    records.push_back({{"volume",std::string(lv->GetName())},{"unit",unit.id},{"physical_cores",unit.cores.size()},{"probes",probes},{"mismatches",mismatches},{"errors",errors},{"active_translation_from_carrier_center_mm",{translation.x()/CLHEP::mm,translation.y()/CLHEP::mm,translation.z()/CLHEP::mm}}});
   }
-  if(checked.size()!=2)throw std::runtime_error("Expected both converted HCAL sensitive solids");
+  if(observed.size()!=named.size())throw std::runtime_error("Not all declared physical unit solids were converted");
   return records;
 }
 }
