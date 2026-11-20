@@ -129,6 +129,12 @@ def analyze(args):
         controls.append(dict(low=float(lo), high=float(hi), **moments(response[keep])))
     if sum(c['events'] for c in controls) != 10000:
         raise ValueError('Full-phi control lost primaries')
+    sample = proof.get('sample') or {}
+    geometry = sample.get('geometry_manifest') or {}
+    compact_sample = {k: v for k, v in sample.items() if k != 'geometry_manifest'}
+    compact_geometry = {k: geometry[k] for k in ('config', 'counts', 'depth', 'id_descriptor',
+                        'source_sha256', 'export_sha256', 'raw_sensitive_volumes',
+                        'sensitive_tiles', 'sensitive_representation', 'endcap_rotational_symmetry') if k in geometry}
     result = dict(status='PROTOTYPE', events=10000, particle='pi-', total_energy_GeV=50,
         observable='sample SD(R,ddof=1)/mean(R), R=sum(raw scintillator deposits)/primary total energy',
         interpretation='Fixed-energy raw visible-response width, including sampling fluctuations, angular variation, gaps and leakage; no calibration or digitization',
@@ -155,7 +161,7 @@ def analyze(args):
         evidence=dict(receipt_sha256=sha(run / 'receipt.json'), readback_sha256=sha(run / 'readback.json'),
                       ledger_sha256=sha(ledger), analysis_sha256=sha(__file__), receipt=receipt,
                       readback={k: v for k, v in proof.items() if k not in ('workers', 'sample')},
-                      sample=proof.get('sample')))
+                      sample=compact_sample, geometry=compact_geometry))
     out = args.output.resolve()
     out.mkdir(parents=True, exist_ok=False)
     save(out / 'summary.json', result)

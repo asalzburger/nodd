@@ -130,50 +130,55 @@ def trace(manager,dd4hep,eta,phi,max_length_mm):
 def check(args):
     import ROOT as R
     import dd4hep
-    R.gROOT.SetBatch(True);R.gRandom.SetSeed(45010);unit=float(dd4hep.mm)
-    directory=args.directory.resolve();expected=json.loads((directory/'expected.json').read_text());errors=[]
-    for name,digest in expected['export_sha256'].items():
-        if sha(directory/name)!=digest:raise ValueError('changed exported input '+name)
-    if R.gSystem.Load(str(args.library.resolve()))<0:raise RuntimeError('cannot load HCAL prototype library')
-    detector=dd4hep.Detector.getInstance();detector.fromXML(str(directory/'detector.xml'));manager=detector.manager()
-    volumes={str(v.GetName()):v for v in manager.GetListOfVolumes()};checks={}
-    for root,ro in (('HCALBarrel','HCALBarrelHits'),('HCALEndcaps','HCALEndcapHits')):
-        compound=next(v for name,v in volumes.items() if name==root+('BarrelCarrier' if root=='HCALBarrel' else 'EndcapCarrier')+'CompoundTiles')
-        checks[root]=compare_compound(R,dd4hep,compound,detector.readout(ro),unit)
-        errors.extend(root+': '+e for e in checks[root]['errors'])
-    # Count expanded sensitive contexts without expanding millions of passive paths.
-    @lru_cache(maxsize=None)
-    def expanded_sensitive(name):
-        v=volumes[name];return int(bool(dd4hep.Volume(v).isSensitive()))+sum(expanded_sensitive(str(v.GetNode(i).GetVolume().GetName())) for i in range(v.GetNdaughters()))
-    observed=expanded_sensitive(str(manager.GetTopVolume().GetName()))
-    if observed!=expected['raw_sensitive_volumes']:errors.append('native raw sensitive volume multiplicity')
-    shape=manager.GetTopVolume().GetShape()
-    world=[2*shape.GetDX()/unit,2*shape.GetDY()/unit,2*shape.GetDZ()/unit]
-    steel=detector.material('Steel235');nuclear=float(steel.intLength())/unit
-    overlaps=[];checked=[]
-    if not args.skip_overlaps:
-        # ROOT checks direct daughters of each distinct mother. Every reused
-        # placement belongs to one of these mothers; no repeated world traversal.
-        manager.GetListOfOverlaps().Clear()
-        for name,v in sorted(volumes.items()):
-            if v.GetNdaughters():
-                v.CheckOverlaps(1e-5*unit);checked.append(name)
-        overlaps=[dict(description=str(o.GetTitle()),penetration_mm=float(o.GetOverlap())/unit) for o in manager.GetListOfOverlaps()]
-        if overlaps:errors.append('native overlaps/extrusions '+str(len(overlaps)))
-    rays=[]
-    if not args.skip_rays:
-        for eta in (-3,-2.5,-2,-1.5,-1.2,-1,-.8,-.5,0,.5,.8,1,1.2,1.5,2,2.5,3):
-            for phi in (0,.123,math.pi/16,math.pi/4+.077):rays.append(trace(manager,dd4hep,eta,phi,19000))
-    report=dict(status='FAIL' if errors else 'PASS',errors=errors,
-        scope='Native logical-template construction,exact-core representation/cell mapping,expanded sensitive multiplicity,distinct-mother ROOT overlap tests and bounded combined-barrel/endcap IP material paths; no engineering acceptance',
-        execution=dict(commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),dirty=bool(subprocess.check_output(['git','status','--porcelain'],cwd=ROOT,text=True)),python=platform.python_version(),ROOT=R.gROOT.GetVersion(),library_sha256=sha(args.library),auditor_sha256=sha(__file__),expected_sha256=sha(directory/'expected.json'),compact_sha256=sha(directory/'detector.xml')),
-        compound_checks=checks,raw_sensitive_volumes=observed,logical_tile_channels=expected['sensitive_tiles'],
-        unique_logical_volumes=len(volumes),world_full_xyz_mm=world,Steel235_nuclear_interaction_length_mm=nuclear,
-        overlap_tolerance_mm=1e-5,overlap_scope='not run' if args.skip_overlaps else 'each distinct native direct-daughter mother once,includingworld',checked_mothers=checked,overlaps=overlaps,
-        material_rays=rays,material_ray_scope='not run' if args.skip_rays else '68 deterministic IP directions; no containment claim')
-    args.output.parent.mkdir(parents=True,exist_ok=True);args.output.write_text(json.dumps(report,indent=2,allow_nan=False)+'\n')
-    print(report['status'],observed,'raw sensitive contexts',len(rays),'material rays',len(overlaps),'overlaps')
-    return 1 if errors else 0
+    R.EnableImplicitMT(1)
+    try:
+        R.gROOT.SetBatch(True);R.gRandom.SetSeed(45010);unit=float(dd4hep.mm)
+        directory=args.directory.resolve();expected=json.loads((directory/'expected.json').read_text());errors=[]
+        for name,digest in expected['export_sha256'].items():
+            if sha(directory/name)!=digest:raise ValueError('changed exported input '+name)
+        if R.gSystem.Load(str(args.library.resolve()))<0:raise RuntimeError('cannot load HCAL prototype library')
+        detector=dd4hep.Detector.getInstance();detector.fromXML(str(directory/'detector.xml'));manager=detector.manager()
+        volumes={str(v.GetName()):v for v in manager.GetListOfVolumes()};checks={}
+        for root,ro in (('HCALBarrel','HCALBarrelHits'),('HCALEndcaps','HCALEndcapHits')):
+            compound=next(v for name,v in volumes.items() if name==root+('BarrelCarrier' if root=='HCALBarrel' else 'EndcapCarrier')+'CompoundTiles')
+            checks[root]=compare_compound(R,dd4hep,compound,detector.readout(ro),unit)
+            errors.extend(root+': '+e for e in checks[root]['errors'])
+        # Count expanded sensitive contexts without expanding millions of passive paths.
+        @lru_cache(maxsize=None)
+        def expanded_sensitive(name):
+            v=volumes[name];return int(bool(dd4hep.Volume(v).isSensitive()))+sum(expanded_sensitive(str(v.GetNode(i).GetVolume().GetName())) for i in range(v.GetNdaughters()))
+        observed=expanded_sensitive(str(manager.GetTopVolume().GetName()))
+        if observed!=expected['raw_sensitive_volumes']:errors.append('native raw sensitive volume multiplicity')
+        shape=manager.GetTopVolume().GetShape()
+        world=[2*shape.GetDX()/unit,2*shape.GetDY()/unit,2*shape.GetDZ()/unit]
+        steel=detector.material('Steel235');nuclear=float(steel.intLength())/unit
+        overlaps=[];checked=[]
+        if not args.skip_overlaps:
+            # ROOT checks direct daughters of each distinct mother. Every reused
+            # placement belongs to one of these mothers; no repeated world traversal.
+            manager.GetListOfOverlaps().Clear()
+            for name,v in sorted(volumes.items()):
+                if v.GetNdaughters():
+                    v.CheckOverlaps(1e-5*unit);checked.append(name)
+            overlaps=[dict(description=str(o.GetTitle()),penetration_mm=float(o.GetOverlap())/unit) for o in manager.GetListOfOverlaps()]
+            if overlaps:errors.append('native overlaps/extrusions '+str(len(overlaps)))
+        rays=[]
+        if not args.skip_rays:
+            for eta in (-3,-2.5,-2,-1.5,-1.2,-1,-.8,-.5,0,.5,.8,1,1.2,1.5,2,2.5,3):
+                for phi in (0,.123,math.pi/16,math.pi/4+.077):rays.append(trace(manager,dd4hep,eta,phi,19000))
+        report=dict(status='FAIL' if errors else 'PASS',errors=errors,
+            scope='Native logical-template construction,exact-core representation/cell mapping,expanded sensitive multiplicity,distinct-mother ROOT overlap tests and bounded combined-barrel/endcap IP material paths; no engineering acceptance',
+            execution=dict(commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),dirty=bool(subprocess.check_output(['git','status','--porcelain'],cwd=ROOT,text=True)),python=platform.python_version(),ROOT=R.gROOT.GetVersion(),library_sha256=sha(args.library),auditor_sha256=sha(__file__),expected_sha256=sha(directory/'expected.json'),compact_sha256=sha(directory/'detector.xml')),
+            compound_checks=checks,raw_sensitive_volumes=observed,logical_tile_channels=expected['sensitive_tiles'],
+            unique_logical_volumes=len(volumes),world_full_xyz_mm=world,Steel235_nuclear_interaction_length_mm=nuclear,
+            overlap_tolerance_mm=1e-5,overlap_scope='not run' if args.skip_overlaps else 'each distinct native direct-daughter mother once,includingworld',checked_mothers=checked,overlaps=overlaps,
+            material_rays=rays,material_ray_scope='not run' if args.skip_rays else '68 deterministic IP directions; no containment claim')
+        args.output.parent.mkdir(parents=True,exist_ok=True);args.output.write_text(json.dumps(report,indent=2,allow_nan=False)+'\n')
+        print(report['status'],observed,'raw sensitive contexts',len(rays),'material rays',len(overlaps),'overlaps')
+        return 1 if errors else 0
+    finally:
+        R.DisableImplicitMT()
+        dd4hep.Detector.destroyInstance()
 
 
 if __name__=='__main__':

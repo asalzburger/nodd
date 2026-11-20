@@ -18,6 +18,13 @@ def main():
     selected = json.loads((ROOT / 'detector/config/ecal-baseline.json').read_text())
     if selected['variant'] != 'LAR-RESTORED-SAMPLING-2026-11-18':
         raise ValueError('Envelope context requires the selected restored ECAL')
+    layout_path = ROOT / 'docs/layouts/LAYOUT-002-restored.json'
+    layout = json.loads(layout_path.read_text())
+    for path, key in ((ROOT / 'detector/config/ecal-baseline.json', 'selection_sha256'),
+                      (ROOT / selected['variant_spec'], 'variant_spec_sha256')):
+        if hashlib.sha256(path.read_bytes()).hexdigest() != layout['source']['selection'][key]:
+            raise ValueError('Named ECAL envelope provenance differs from the current selection')
+    eb, ee = layout['barrel'], layout['endcaps']
     spec = importlib.util.spec_from_file_location('hcal_unit_drawing', ROOT / 'tools/hcal_readout/readout.py')
     unit_module = importlib.util.module_from_spec(spec); spec.loader.exec_module(unit_module)
     unit, _ = unit_module.build(absorber=False)
@@ -28,15 +35,19 @@ def main():
     def rect(x, y, w, h, color, label=None, alpha=1, edge=None):
         axis.add_patch(Rectangle((x/1000, y/1000), w/1000, h/1000,
                                  facecolor=color, edgecolor=edge or color, alpha=alpha, label=label))
-    rect(-4100, 1700, 8200, 941.7, '#cccc00', 'Selected LAr ECAL context')
+    rect(-eb['warm_half_z_mm'], eb['inner_radius_mm'], 2*eb['warm_half_z_mm'],
+         eb['outer_radius_mm']-eb['inner_radius_mm'], '#cccc00', 'Selected LAr ECAL context')
     for sign in (-1, 1):
-        rect(5100 if sign > 0 else -6260, 301, 1160, 2648, '#cccc00')
+        rect(ee['warm_front_z_mm'] if sign > 0 else -ee['warm_back_z_mm'], ee['warm_inner_radius_mm'],
+             ee['warm_back_z_mm']-ee['warm_front_z_mm'], ee['warm_outer_radius_mm']-ee['warm_inner_radius_mm'], '#cccc00')
     rect(-b['half_z_mm'], b['front_apothem_mm'], 2*b['half_z_mm'], b['outer_apothem_mm']-b['front_apothem_mm'], '#cc6600', 'HCAL · 60 sampling layers')
     for sign in (-1, 1):
         rect(e['front_abs_z_mm'] if sign > 0 else -e['back_abs_z_mm'], e['inner_apothem_mm'],
              e['back_abs_z_mm']-e['front_abs_z_mm'], e['outer_apothem_mm']-e['inner_apothem_mm'], '#cc6600')
-        start = 6260 if sign > 0 else -6760
-        rect(start, 2949, 500, 2800, '#f5dfca', 'Rear service reservation' if sign > 0 else None, alpha=.8)
+        start = b['half_z_mm'] if sign > 0 else -e['front_abs_z_mm']
+        rect(start, ee['warm_outer_radius_mm'], e['front_abs_z_mm']-b['half_z_mm'],
+             e['outer_apothem_mm']-ee['warm_outer_radius_mm'], '#f5dfca',
+             'Rear service reservation' if sign > 0 else None, alpha=.8)
     axis.axhline(c['radial_handoff_mm']/1000, color='#777777', ls='--', lw=1, label='Proposed outer handoff reservation')
     axis.set(xlabel='z [m]', ylabel='Face-normal radius / apothem [m]', xlim=(-9.8, 9.8), ylim=(0, 6.3), title='Envelope fit around the restored ECAL')
     axis.text(0, 4.4, '60 × (30 mm steel + 12 mm carrier + 1 mm gap)\n+ 10 mm rear cover = 2590 mm', ha='center', color='white', fontsize=9)
@@ -61,7 +72,8 @@ def main():
         fig.savefig(path)
         if ext == 'svg': path.write_text('\n'.join(line.rstrip() for line in path.read_text().splitlines()) + '\n')
     plt.close(fig)
-    paths = [Path(__file__), config_path, ROOT / 'detector/config/ecal-baseline.json', ROOT / 'tools/hcal_readout/readout.py']
+    paths = [Path(__file__), config_path, layout_path, ROOT / selected['variant_spec'],
+             ROOT / 'detector/config/ecal-baseline.json', ROOT / 'tools/hcal_readout/readout.py']
     hashes = {str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest() for p in paths}
     (out / 'fit-provenance.json').write_text(json.dumps(dict(source_sha256=hashes, context='Restored warm envelopes from November18 selection; dimensioned face-normal RZ outline, not a native material scan'), indent=2)+'\n')
 
