@@ -13,7 +13,7 @@
     "Initial fetched main78bef505 was superseded for the relevant ECAL design by selected source077696b4; task branch now starts at that source."
   ],
   "client": {
-    "name": "unspecified",
+    "name": "Codex desktop",
     "version": null,
     "thread_id": null
   },
@@ -21,7 +21,11 @@
     "start_commit": "78bef505c4e623739da204ce92e3aa7bc6f931c5",
     "branch": "codex/hcal-restored-pion50",
     "initial_changes": [],
-    "result_commits": [],
+    "result_commits": [
+      "3790ef5453153ff67814ee91ddb13b80f8d72802",
+      "464dab316ac7d27d0c0f79ac89f6eb8960a703ca",
+      "8e0775cc46e27660791bb0f01fd42abafa5bf241"
+    ],
     "changed_files": []
   },
   "work": {
@@ -36,11 +40,55 @@
       "DES-036",
       "DES-037",
       "DES-038",
-      "TASK-HCAL-RESTORED-PION50"
+      "TASK-HCAL-RESTORED-PION50",
+      "PR-155"
     ]
   },
   "narrative": "logs/codex/SESSION-2026-11-20-hcal-pion50.md",
   "activities": [],
   "usage": [],
-  "checks": []
+  "checks": [
+    {
+      "command": "acts-spack preflight.py --require-sources",
+      "status": "FAIL",
+      "exit_code": 2,
+      "result": "Registry fingerprints changed and full source availability was unverified; actual runtime checks performed separately, no shared dependency changes."
+    },
+    {
+      "command": "Existing Spack activation/imports/package identity and geant4-config dataset checks",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "DD4hep1.38/3yd4hz3, Geant411.4.3/wfg55xi, DDG4 imports and all12dataset presence checks passed."
+    },
+    {
+      "command": "unittest tools/hcal_response and software/analysis/hcal_response",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Five geometry and seven transport/statistics contract tests passed."
+    },
+    {
+      "command": "Final serial24/MT24 run, readback and compare",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All24saved primaries and38786hits; exact per-cell ID/energy/global-position match; step/native residual2.22e-15GeV and native/saved4.87e-9GeV."
+    },
+    {
+      "command": "Full native-clean audit",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "292112contexts,21032064channels,68finite rays,zero overlaps at1e-5mm across16mothers; cleanROOTteardown. Earlier failed teardown retained locally."
+    },
+    {
+      "command": "Converted Geant4 core-region membership gate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "22934probes across both actual sensitive solids agree with original physical core/recess/gap regions."
+    },
+    {
+      "command": "project/session/software-inventory/interaction/token validators and token preview build",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Current local records validate; draft PR ledger created after number assignment. Exact active-task usage remains unknown."
+    }
+  ]
 }

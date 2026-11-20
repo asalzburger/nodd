@@ -1,42 +1,46 @@
-# SESSION-2026-11-20-hcal-pion50 — HCAL fit, depth and segmented 50 GeV pion response
+# SESSION-2026-11-20-hcal-pion50 — HCAL fit and first 50 GeV pion study
 
 ## Scope and evidence
 
-State collection method, available context, limitations, related IDs and starting
-revision. Identify uncommitted user changes present before work.
+Contemporaneous bounded task. Existing user checkouts were inspected read-only and preserved; a dedicated worktree was created. Initial fetched main was78bef505c4e623739da204ce92e3aa7bc6f931c5. The selected Nov18 restored ECAL and Nov19 plotting convention were instead at077696b4da7556a31ad02d656dfa3c0141b07543; the task branch starts there. Draft PR155 targets that latest ECAL branch. No human engineering sign-off or production acceptance is inferred.
 
 ## Selected conversation
 
-Attribute requests to the user and outcomes to the assistant. Mark exact quotes
-and paraphrases explicitly. Include corrections and changes in direction.
-Exclude private model state, confidential content, and irrelevant system context.
+User, exact: “Since the ECAL is done now, can you do the following:”
+
+- “adjust the HCAL around such that it fits nicely”
+- “make sure it is thick enough”
+- “make it realistic in terms of readout segmentation”
+- “run a first 10k pion sample at 50 GeV (w/o ECAL, Tracker, BField)”
+- “Plot similarly raw energy resolution plots”
+
+Assistant outcome so far: isolated60-layer HCAL fitted to restored ECAL envelopes, unchanged common hardware with72 individual tile addresses per carrier, ROOT/G4 native and exact serial/MT controls passed. The10000-pion production is running, with fixed50GeV total energy and uniform signed eta/full phi. Plots will use the latest15-bin signed-eta/folded-phi convention, including all zeros/tails, without calibration.
 
 ## Decisions and outcomes
 
-State rationale, alternatives, consequences and what remains unresolved. Never
-convert implementation authorization into human design sign-off.
+DES-045 documents the physical basis and unsigned choices before shower results. Sixty30mm steel layers give1800mm steel and2590mm full depth;48layers was the shallower alternative. The full common carrier geometry/materials stay unchanged. Exact disjoint-core unions preserve21,032,064 tile channels with292,112 sensitive contexts, avoiding millions of unnecessary volume-manager contexts on the measured64GiB host. Supported identity-left Boolean transforms and an explicit active anchor preserve ROOT/Geant4 agreement. Separate SysArch/CaloTech/PhysVal assignments and implementation/runtime SoftEng contributions are curated below; native role loading is not claimed.
+
+Nominal absorber depth exceeds8interaction lengths, but exact sector cracks and endcap seams remain adverse directions. ROOT Steel235 lambda171.928151mm and actual Geant4 lambda170.194699mm are distinct backend quantities. No all-angle or multi-TeV containment, optical/electronics response or calibrated resolution is claimed. The maintained tracker+ECAL exporter stays unchanged; outer-system and service integration remain open.
 
 ## Commands and validation
 
-Record relevant commands, actual exits/results, failed attempts and remedies.
-Distinguish structural checks from detector acceptance.
+Read AGENTS.md, PROJECT.md, DES035–038, selected ECAL inputs and current angular study. Applied acts-spack plus nodd-coordinate/design-evidence/review-validation skills. Spack preflight returned stale setup/lockfile and unavailable full-source warnings; actual activation/imports, installed package identity and all12Geant4 dataset presence checks then passed with DD4hep1.38 and Geant411.4.3. No shared dependencies were installed or changed.
+
+Relevant execution: tools/hcal_response/export.py; CMake prototypes/hcal_response and software/analysis/hcal_response under the existing software/env/run.sh; transport.py prepare/run/audit/compare; full native.py; analyze.py; draw_fit.py; project/session/inventory/interaction/token validators. Exact arguments and artifact bindings are in docs/validation/hcal50/reproduce.md, controls.json and native.json.
+
+Five geometry and seven transport/statistics tests passed. Final24-event serial/MT saved addresses/energies/positions match exactly. Converted G4 solids pass22934 membership probes; both maps cover292112 contexts. Clean full native process exit0, zero10nm overlaps across16distinct mothers,68finite IP material rays. Earlier factory-registration, Boolean-conversion/closure and native teardown failures are preserved below and in ignored local diagnostics. Checks were not relaxed.
+
+## Publication and review
+
+DraftPR155: https://github.com/asalzburger/nodd/pull/155 . The initial connector create was rejected by automatic approval because publication authorization/destination were considered unverified. The configured origin, remote AGENTS.md lines173–181 and original Nov6 human request were re-read from connected GitHub; retry passed approval review but the integration returned403. Authenticated gh fallback then created the verified draft. No bypass of an unresolved approval rejection, ready-for-review action or merge occurred. Initial token-site CI failed because the newly numbered PR ledger was not yet present; interactions/pr-0155.json is now captured/synchronized for the follow-up push.
 
 ## Changes and revision links
 
-List changed files or refer to the paired JSON inventory. Result commits are
-recorded only once they exist; Git history locates this record's enclosing commit.
+Implementation464dab316ac7d27d0c0f79ac89f6eb8960a703ca; clean native/controls and report8e0775cc46e27660791bb0f01fd42abafa5bf241. The paired JSON inventories task files and actual checks. Full ROOT/XML/CSV/event data and bulky logs remain ignored under build/hcal50; only plots, aggregate evidence and reproduction sources enter Git.
 
 ## Token accounting
 
-Record the client-provided per-turn usage source and import command, or state why
-exact counters are unavailable. Report observed input/output sums and missing
-coverage from `session_log.py summary`; empty usage means unknown, not zero.
-Never copy raw client archives or private model state. Do not duplicate turns
-across tasks or add cached/reasoning subsets to the input/output totals.
-
-## Follow-up
-
-List remaining work, missing measurements and any human review needed.
+Exact client per-turn token counters are not exposed for the coordinator or specialists. Usage remains empty, meaning unknown rather than zero. No estimates or private client-state recovery were used. Normal session/token validators and summaries run; their project-wide observed historical totals are not attributed to this task.
 
 ## Bounded specialist assignments
 

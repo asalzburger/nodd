@@ -28,7 +28,10 @@ addresses and positions. It does not replace the tiles with a continuous plane.
 
 The native material model gives Steel235 nuclear interaction length171.928151mm.
 The nominal1800mm steel stack therefore provides **10.46949 nuclear interaction
-lengths**. The finite face-centre ray confirms1800mm steel; the off-joint eta3,
+lengths** in ROOT. The actual Geant4 transport material has interaction length
+170.194699mm, corresponding to **10.57612 nuclear lengths** in1800mm steel.
+These backend material conventions are recorded separately. The finite ROOT
+face-centre ray confirms1800mm steel; the off-joint eta3,
 phi0.123ray gives10.52152steel lengths. These exceed the prospective8length
 nominal-depth screen. Total-material path sums additionally include real carrier
 and support material and must not be confused with steel-only depth.

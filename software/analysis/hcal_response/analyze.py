@@ -135,6 +135,11 @@ def analyze(args):
     compact_geometry = {k: geometry[k] for k in ('config', 'counts', 'depth', 'id_descriptor',
                         'source_sha256', 'export_sha256', 'raw_sensitive_volumes',
                         'sensitive_tiles', 'sensitive_representation', 'endcap_rotational_symmetry') if k in geometry}
+    workers = proof.get('workers') or []
+    steel_materials = {json.dumps(m, sort_keys=True) for w in workers for m in w.get('steel_materials', [])}
+    runtime_materials = [json.loads(m) for m in sorted(steel_materials)]
+    for material in runtime_materials:
+        material['nominal_1800mm_steel_nuclear_lengths'] = 1800 / material['nuclear_interaction_length_mm']
     result = dict(status='PROTOTYPE', events=10000, particle='pi-', total_energy_GeV=50,
         observable='sample SD(R,ddof=1)/mean(R), R=sum(raw scintillator deposits)/primary total energy',
         interpretation='Fixed-energy raw visible-response width, including sampling fluctuations, angular variation, gaps and leakage; no calibration or digitization',
@@ -161,7 +166,9 @@ def analyze(args):
         evidence=dict(receipt_sha256=sha(run / 'receipt.json'), readback_sha256=sha(run / 'readback.json'),
                       ledger_sha256=sha(ledger), analysis_sha256=sha(__file__), receipt=receipt,
                       readback={k: v for k, v in proof.items() if k not in ('workers', 'sample')},
-                      sample=compact_sample, geometry=compact_geometry))
+                      sample=compact_sample, geometry=compact_geometry,
+                      runtime_worker_threads=sorted(w['thread_id'] for w in workers),
+                      runtime_steel_materials=runtime_materials))
     out = args.output.resolve()
     out.mkdir(parents=True, exist_ok=False)
     save(out / 'summary.json', result)
