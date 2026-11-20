@@ -163,3 +163,28 @@ Separate PhysVal angular/calibration review at00d519f8 reproduced all30bins,
 MaximumCI discrepancy2.28e−14, covariance9.45e−18. It independently re-ranked
 all5551candidates and found no blocking finding. It did not repeat native
 geometry/fullROOT parsing and excluded fixed results from that assessment.
+
+HCAL-EDGE-PHYS-FIXED reviews final fixed/calibration evidence and renderer
+separation at a62d911dd5122d350ddff23d863a4e9c6ea5d737. Root ran all16
+geometry/direction and14transport/statistics tests; all30pass. Seven published
+PNGs replay byte-identically; five unchanged angular PNGs preserve original
+frozen output. PDFtimestamps/SVGgeneratedIDs are not asserted byte-stable.
+
+## Human request (selected exact text)
+
+> Ok, let's continue with the nODD HCAL and change the scintilator core such that it leaves only minimal gaps at the sector edges, thiw may need some smaler scintilator modules, but great.
+>
+> Then, redo the vs eta and vs phi (folded into one sector with windows outside as before) plots, and do a dedicated plot for a test sample into an optimal fixed barrel direction, where you can show the raw resolution, raw relative fractional resolution and raw relative resolution (corrected by the sampling fraction)
+
+## Independent final assessment
+
+PhysVal fixed-result review ata62d911d reproduces every point metric and all
+1000two-sample intervals/covariance entries exactly in a separate calculation;
+every replica preserves scale invariance. Complete cohort/histogram/chronology,
+geometry/source/library/readback/observer bindings and all7actualreplayPNG
+hashes pass. No blocking finding. The reviewer authored the prospective
+protocol, not implementation, and did not rerun native/fullROOT parsing.
+
+All16geometry/direction and14transport/statistics tests pass. The current
+source/render equivalence and local full datasets remain bound to the receipts.
+Only final publication/PR-ledger and canonical session closeout remain.
