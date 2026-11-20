@@ -3,6 +3,9 @@
 - Status: **DRAFT**; type: **PROTOTYPE**
 - Engineering sign-off and production acceptance pending.
 - Date: 2026-11-20.
+- Follow-up: [axial compaction feasibility screen](inputs/DES-046-axial-compaction-screen.md)
+  identifies a shorter candidate around the moved ECAL. It is a proposal only;
+  the validated geometry and response results below retain their original bounds.
 - Human direction: minimize barrel sector-edge gaps using smaller physical readout modules, then rerun the requested pion samples.
 - Governing input: `b91b1d7969b94cccb4e0516e1c84246f4d2e2cd0`; parents [DES045](DES-045-hcal-restored-ecal-pion50.md), [DES036](DES-036-hcal-common-readout-module.md) and [DES037](DES-037-hcal-barrel-common-module.md).
 - Integration owner: task coordinator; CaloTech supplies this physical contract, SoftEng implements it, SysArch assesses interfaces and PhysVal independently assesses the samples. No agent grants human sign-off.

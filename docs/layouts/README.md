@@ -31,6 +31,11 @@ separately validated HCAL prototype. The solenoid remains an allocation; no
 common native detector or engineering acceptance is implied. Sector-edge
 modules change transverse coverage, leaving these r–z bounds unchanged.
 
+The [axial compaction screen](../design/inputs/DES-046-axial-compaction-screen.md)
+finds a candidate saving1.04 m overall while retaining the current module-end
+allowance and500 mm service-exit window. It is not adopted in this drawing or
+the validated geometry; a smaller allowance could save1.16 m overall.
+
 [Current composite named inputs](LAYOUT-002-DES046-gap400.json) ·
 [SVG](figures/LAYOUT-002-DES046-gap400-rz.svg) · [PDF](figures/LAYOUT-002-DES046-gap400-rz.pdf)
 
