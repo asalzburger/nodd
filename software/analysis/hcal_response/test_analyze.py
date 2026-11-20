@@ -4,6 +4,7 @@ import argparse
 import json
 import tempfile
 from pathlib import Path
+from datetime import datetime,timezone,timedelta
 from unittest.mock import patch
 
 import numpy as np
@@ -69,20 +70,25 @@ class RawResponseContracts(unittest.TestCase):
         def fixture(run,n,role,seed,signals):
             run.mkdir();direction=dict(eta=.12,phi_rad=.03125,direction_receipt_sha256='TEST-direction')
             sample=dict(sample_role=role,sample_id='TEST-'+role,fixed_direction=direction,hashes={k:'TEST-same-'+k for k in ('detector.xml','materials.xml','expected.json')})
-            receipt=dict(exit_code=0,seed=seed,source_revision='TEST',producer_sha256={});analyze.save(run/'receipt.json',receipt)
+            receipt=dict(exit_code=0,seed=seed,source_revision='TEST',producer_sha256={},started_at=datetime.now(timezone.utc).isoformat());analyze.save(run/'receipt.json',receipt)
             rows=[]
             for i in range(n):
                 signal=signals[i%2];rows.append(dict(event=i,energy_GeV=50.,eta=.12,phi=.03125,signal_GeV=signal,response=signal/50,layer_energies_GeV=[signal]+[0.]*59,terminal_six_fraction=0.,observer=dict(world_escape_kinetic_GeV=0.)))
             (run/'event-summary.jsonl').write_text(''.join(json.dumps(r)+'\n' for r in rows));analyze.save(run/'readback.json',dict(status='PASS',events=n,event_summary_sha256=analyze.sha(run/'event-summary.jsonl'),receipt_sha256=analyze.sha(run/'receipt.json'),sample=sample))
         with tempfile.TemporaryDirectory() as tmp:
-            base=Path(tmp);cal=base/'cal';val=base/'val';fixture(cal,2000,'calibration',202650102,(.8,1.2));fixture(val,10000,'validation',202650103,(.9,1.3))
-            frozen=base/'frozen.json';analyze.calibrate(argparse.Namespace(run=cal,output=frozen,bootstrap=20))
+            base=Path(tmp);cal=base/'cal';val=base/'val';fixture(cal,2000,'calibration',202650102,(.8,1.2))
+            frozen=base/'frozen.json';analyze.calibrate(argparse.Namespace(run=cal,output=frozen,bootstrap=20));fixture(val,10000,'validation',202650103,(.9,1.3))
             with patch.object(analyze,'fixed_plot'):
                 analyze.fixed_analyze(argparse.Namespace(run=val,calibration_run=cal,calibration=frozen,output=base/'result',bootstrap=20))
             result=json.loads((base/'result/summary.json').read_text());self.assertAlmostEqual(result['statistics']['fs'],.02,places=14);self.assertAlmostEqual(result['statistics']['residual_mean'],.1,places=13)
             self.assertAlmostEqual(result['statistics']['raw_cv'],result['statistics']['corrected_cv'],places=14)
             for h in result['histograms'].values():self.assertEqual(sum(h['counts']),10000)
             self.assertEqual(result['bootstrap']['calibration_seed'],13001002);self.assertEqual(result['bootstrap']['validation_seed'],13001001)
+            receipt=json.loads((val/'receipt.json').read_text());receipt['started_at']=(datetime.fromisoformat(json.loads(frozen.read_text())['frozen_at'])-timedelta(seconds=1)).isoformat();analyze.save(val/'receipt.json',receipt)
+            proof=json.loads((val/'readback.json').read_text());proof['receipt_sha256']=analyze.sha(val/'receipt.json');analyze.save(val/'readback.json',proof)
+            with self.assertRaisesRegex(ValueError,'frozen before validation'):
+                analyze.fixed_analyze(argparse.Namespace(run=val,calibration_run=cal,calibration=frozen,output=base/'invalid-chronology',bootstrap=20))
+            self.assertFalse((base/'invalid-chronology').exists())
 
 
 if __name__ == '__main__': unittest.main()

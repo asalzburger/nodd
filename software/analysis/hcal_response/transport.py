@@ -105,9 +105,39 @@ def checked_direction(eta, phi):
     return float(eta),float(phi)
 
 
+def validate_direction_receipt(direction, expected, expected_sha256, eta, phi):
+    """Require the successful native-confirmed selector for this exact geometry."""
+    if not isinstance(direction,dict) or direction.get("status")!="PASS":
+        raise ValueError("Fixed direction selector did not pass")
+    native=direction.get("native_confirmation")
+    if not isinstance(native,dict) or native.get("status")!="PASS":
+        raise ValueError("Fixed direction lacks successful native confirmation")
+    rays=native.get("rays")
+    if not isinstance(rays,list) or len(rays)!=9 or any(not isinstance(r,dict) or r.get("errors")!=[] for r in rays):
+        raise ValueError("Native direction confirmation must contain nine successful rays")
+    if direction.get("expected_sha256")!=expected_sha256:
+        raise ValueError("Fixed direction receipt belongs to a different expected geometry")
+    exports=expected.get("export_sha256")
+    if not isinstance(exports,dict) or set(exports)!={"detector.xml","materials.xml","placements.csv"} or direction.get("geometry_export_sha256")!=exports:
+        raise ValueError("Fixed direction exported geometry binding differs")
+    if not isinstance(expected.get("source_sha256"),dict) or direction.get("geometry_source_sha256")!=expected["source_sha256"]:
+        raise ValueError("Fixed direction geometry source binding differs")
+    if not isinstance(expected.get("execution"),dict) or direction.get("geometry_execution")!=expected["execution"]:
+        raise ValueError("Fixed direction geometry execution identity differs")
+    winner=direction.get("winner")
+    if not isinstance(winner,dict):raise ValueError("Fixed direction winner is missing")
+    chosen_eta,chosen_phi=checked_direction(winner.get("eta"),winner.get("phi_rad"))
+    if abs(chosen_eta-eta)>1e-12 or abs(chosen_phi-phi)>1e-12:
+        raise ValueError("Fixed input differs from the frozen geometry-selected winner")
+    library=native.get("library_sha256")
+    if not isinstance(library,str) or len(library)!=64 or any(c not in "0123456789abcdef" for c in library):
+        raise ValueError("Native direction geometry library hash is missing")
+
+
 def prepare(args):
     geometry = args.geometry.resolve()
-    expected = load(geometry / "expected.json")
+    expected_bytes=(geometry/"expected.json").read_bytes()
+    expected=json.loads(expected_bytes);expected_digest=hashlib.sha256(expected_bytes).hexdigest()
     if "export_sha256" in expected:
         verify_hashes(geometry, expected["export_sha256"])
     if "units" in expected:compile_unit_centers(expected)
@@ -134,10 +164,8 @@ def prepare(args):
             raise ValueError("Fixed sample requires its own calibration/validation role and frozen direction receipt")
         if args.events!={"calibration":2000,"validation":10000}[role]:
             raise ValueError("Fixed cohort population differs from the prospective protocol")
-        direction=load(direction_receipt)
-        winner=direction.get("winner",direction.get("direction",{}))
-        if abs(float(winner["eta"])-eta)>1e-12 or abs(float(winner["phi_rad"])-phi)>1e-12:
-            raise ValueError("Fixed input differs from the frozen geometry-selected winner")
+        direction_bytes=Path(direction_receipt).read_bytes();direction=json.loads(direction_bytes)
+        validate_direction_receipt(direction,expected,expected_digest,eta,phi)
     elif role!="angular" or direction_receipt is not None:
         raise ValueError("Angular sample must not carry a fixed-cohort role/direction")
     old=None
@@ -151,7 +179,12 @@ def prepare(args):
     for name in names:
         shutil.copyfile(geometry / name, out / name)
     if fixed:
-        shutil.copyfile(direction_receipt,out/"direction.json");names.append("direction.json")
+        (out/"direction.json").write_bytes(direction_bytes);names.append("direction.json")
+        copied_expected=load(out/"expected.json")
+        validate_direction_receipt(load(out/"direction.json"),copied_expected,sha(out/"expected.json"),eta,phi)
+        verify_hashes(out,copied_expected["export_sha256"])
+        if sha(out/"expected.json")!=expected_digest:
+            raise ValueError("Geometry changed while preparing fixed sample")
     momentum = math.sqrt(ENERGY_GEV**2 - MASS_GEV**2)
     if old is not None:
         for name in ("particles.HEPEvt","truth-input.jsonl"):
@@ -206,6 +239,11 @@ def run(args):
         raise ValueError("Insufficient disk reserve")
     libs = [args.geometry_library.resolve(), args.audit_library.resolve()]
     library_hashes = {str(p): sha(p) for p in libs}
+    if manifest.get("fixed_direction"):
+        fixed=manifest["fixed_direction"];direction=load(sample/"direction.json")
+        validate_direction_receipt(direction,manifest["geometry_manifest"],sha(sample/"expected.json"),fixed["eta"],fixed["phi_rad"])
+        if direction["native_confirmation"]["library_sha256"]!=library_hashes[str(libs[0])]:
+            raise ValueError("Transport geometry library differs from native-confirmed fixed direction")
     executable = shutil.which("ddsim")
     if not executable:
         raise ValueError("DDSim unavailable")

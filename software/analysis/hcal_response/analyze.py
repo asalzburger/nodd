@@ -389,6 +389,12 @@ def fixed_analyze(args):
     if args.bootstrap<2:raise ValueError('At least two bootstrap replicates required')
     calibration=json.loads(Path(args.calibration).read_text());cal_rows,cp,cr,cs=audited_rows(args.calibration_run,2000,'calibration');rows,proof,receipt,sample=audited_rows(args.run,10000,'validation')
     evidence=cohort_evidence(args.calibration_run,cp,cr,cs)
+    try:
+        frozen=datetime.fromisoformat(calibration['frozen_at']);started=datetime.fromisoformat(receipt['started_at'])
+    except (KeyError,TypeError,ValueError) as error:
+        raise ValueError('Calibration/validation chronology is unverifiable') from error
+    if frozen.tzinfo is None or started.tzinfo is None or frozen>started:
+        raise ValueError('Calibration must be frozen before validation transport starts')
     if calibration['status']!='FROZEN / PROTOTYPE' or evidence!=calibration['evidence'] or cr['seed']!=202650102 or receipt['seed']!=202650103 or cs.get('sample_id')==sample.get('sample_id'):
         raise ValueError('Frozen calibration identity or independent validation cohort differs')
     if not cs.get('fixed_direction') or cs['fixed_direction']!=sample.get('fixed_direction') or evidence['geometry_hashes']!=cohort_evidence(args.run,proof,receipt,sample)['geometry_hashes']:

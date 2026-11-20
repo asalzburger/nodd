@@ -5,8 +5,10 @@ import math
 from pathlib import Path
 import tempfile
 import unittest
+from unittest.mock import patch
+import copy
 
-from transport import decode_cell, ID_DESCRIPTOR, MASS_GEV, prepare, sensitive_count, compile_unit_centers, checked_direction, PARENT_MASK
+from transport import decode_cell, ID_DESCRIPTOR, MASS_GEV, prepare, sensitive_count, compile_unit_centers, checked_direction, PARENT_MASK, sha, run
 
 
 def encode(**overrides):
@@ -73,7 +75,8 @@ class Contracts(unittest.TestCase):
             (geometry/'expected.json').write_text(json.dumps(dict(id_descriptor=ID_DESCRIPTOR,sensitive_tiles=144,raw_sensitive_volumes=2)))
             (geometry/'detector.xml').write_text('<lccdd><readouts/><detectors><detector id="13" name="HCALBarrel" readout="HCALBarrelHits"/><detector id="14" name="HCALEndcaps" readout="HCALEndcapHits"/></detectors></lccdd>')
             (geometry/'materials.xml').write_text('<materials/>');(geometry/'placements.csv').write_text('system,side,sector,layer,carrier,unit\n13,0,0,0,0,0\n14,1,0,0,0,0\n')
-            direction=base/'direction.json';direction.write_text(json.dumps(dict(winner=dict(eta=.12,phi_rad=.03125))))
+            expected=json.loads((geometry/'expected.json').read_text());expected.update(export_sha256={n:sha(geometry/n) for n in ('detector.xml','materials.xml','placements.csv')},source_sha256={'TEST-fixture':'0'*64},execution=dict(commit='TEST',dirty=False));(geometry/'expected.json').write_text(json.dumps(expected))
+            direction=base/'direction.json';direction.write_text(json.dumps(dict(status='PASS',winner=dict(eta=.12,phi_rad=.03125),native_confirmation=dict(status='PASS',rays=[dict(errors=[]) for _ in range(9)],library_sha256='0'*64),expected_sha256=sha(geometry/'expected.json'),geometry_export_sha256=expected['export_sha256'],geometry_source_sha256=expected['source_sha256'],geometry_execution=expected['execution'])))
             args=argparse.Namespace(geometry=geometry,output=base/'calibration',events=2000,input_seed=20261120,fixed_eta=.12,fixed_phi=.03125,sample_role='calibration',sample_id='TEST-calibration',direction_receipt=direction,primary_sample=None)
             prepare(args);manifest=json.loads((args.output/'sample.json').read_text());rows=[json.loads(l) for l in (args.output/'truth-input.jsonl').read_text().splitlines()]
             self.assertEqual(manifest['expected_transport_seed'],202650102);self.assertIsNone(manifest['input_seed'])
@@ -82,6 +85,43 @@ class Contracts(unittest.TestCase):
             args.output=base/'bad-direction';args.fixed_phi=.04
             with self.assertRaises(ValueError):prepare(args)
             self.assertFalse(args.output.exists())
+
+    def test_failed_foreign_nan_and_corrupted_copied_direction_receipts_fail_closed(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            base=Path(tmp);geometry=base/'geometry';geometry.mkdir()
+            (geometry/'detector.xml').write_text('<lccdd><readouts/><detectors><detector id="13" name="HCALBarrel" readout="HCALBarrelHits"/><detector id="14" name="HCALEndcaps" readout="HCALEndcapHits"/></detectors></lccdd>')
+            (geometry/'materials.xml').write_text('<materials/>');(geometry/'placements.csv').write_text('system,side,sector,layer,carrier,unit\n13,0,0,0,0,0\n14,1,0,0,0,0\n')
+            expected=dict(id_descriptor=ID_DESCRIPTOR,sensitive_tiles=144,raw_sensitive_volumes=2,export_sha256={n:sha(geometry/n) for n in ('detector.xml','materials.xml','placements.csv')},source_sha256={'TEST-fixture':'0'*64},execution=dict(commit='TEST',dirty=False))
+            (geometry/'expected.json').write_text(json.dumps(expected));lib=base/'geometry-library';lib.write_bytes(b'TEST geometry library');auditlib=base/'audit-library';auditlib.write_bytes(b'TEST audit library')
+            good=dict(status='PASS',winner=dict(eta=.12,phi_rad=.03125),native_confirmation=dict(status='PASS',rays=[dict(errors=[]) for _ in range(9)],library_sha256=sha(lib)),expected_sha256=sha(geometry/'expected.json'),geometry_export_sha256=expected['export_sha256'],geometry_source_sha256=expected['source_sha256'],geometry_execution=expected['execution'])
+            direction=base/'direction.json';args=argparse.Namespace(geometry=geometry,output=base/'unused',events=2000,input_seed=20261120,fixed_eta=.12,fixed_phi=.03125,sample_role='calibration',sample_id='TEST-calibration',direction_receipt=direction,primary_sample=None)
+            bad=[]
+            r=copy.deepcopy(good);r['status']='FAIL';bad.append(r)
+            r=copy.deepcopy(good);r['native_confirmation']['status']='FAIL';bad.append(r)
+            r=copy.deepcopy(good);r['native_confirmation']['rays'][0]['errors']=['TEST failed native ray'];bad.append(r)
+            r=copy.deepcopy(good);r['expected_sha256']='1'*64;bad.append(r)
+            r=copy.deepcopy(good);r['geometry_export_sha256']['detector.xml']='1'*64;bad.append(r)
+            r=copy.deepcopy(good);r['geometry_source_sha256']['TEST-fixture']='1'*64;bad.append(r)
+            r=copy.deepcopy(good);r['geometry_execution']['commit']='TEST-different';bad.append(r)
+            for key in ('eta','phi_rad'):
+                r=copy.deepcopy(good);r['winner'][key]=float('nan');bad.append(r)
+            for index,receipt in enumerate(bad):
+                args.output=base/f'failed-{index}';direction.write_text(json.dumps(receipt))
+                with self.subTest(index=index),self.assertRaises(ValueError):prepare(args)
+                self.assertFalse(args.output.exists())
+            direction.write_text(json.dumps(good));args.output=base/'corrupted-copy'
+            original=Path.write_bytes
+            def corrupted_copy(path,data):
+                if path.name=='direction.json':
+                    altered=json.loads(data);altered['status']='FAIL';data=json.dumps(altered).encode()
+                return original(path,data)
+            with patch('transport.Path.write_bytes',autospec=True,side_effect=corrupted_copy),self.assertRaises(ValueError):prepare(args)
+            self.assertFalse((args.output/'sample.json').exists())
+            args.output=base/'valid';prepare(args)
+            wrong=base/'wrong-library';wrong.write_bytes(b'TEST different geometry library')
+            launch=argparse.Namespace(sample=args.output,seed=202650102,skip=0,events=24,threads=1,max_step_mm=5.,reserve_gib=0.,geometry_library=wrong,audit_library=auditlib,output=base/'must-not-launch')
+            with self.assertRaisesRegex(ValueError,'geometry library differs'):run(launch)
+            self.assertFalse(launch.output.exists())
 
 
 if __name__ == '__main__': unittest.main()
