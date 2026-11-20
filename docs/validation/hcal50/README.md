@@ -17,6 +17,9 @@ passed for all 16,531,599 hits and every physical cell centre.
 [Longitudinal/inclusive controls](figures/depth-response-controls.png) ·
 [Bin statistics and covariance](summary.json).
 
+[Transverse x–y view of one HCAL barrel sector](barrel-xy/README.md) includes
+all 60 layers and a close-up of the first five layers, using the actual z = 0 cut.
+
 | Inclusive raw result, all primaries | Value |
 | --- | ---: |
 | Mean sensitive deposited energy | 0.486495 GeV |
