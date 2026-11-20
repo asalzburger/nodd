@@ -21,6 +21,12 @@ def save(path, value):
     Path(path).write_text(json.dumps(value, indent=2, allow_nan=False) + '\n')
 
 
+def save_figure(fig, path):
+    fig.savefig(path)
+    if Path(path).suffix == '.svg':
+        Path(path).write_text('\n'.join(line.rstrip() for line in Path(path).read_text().splitlines()) + '\n')
+
+
 def moments(values):
     values = np.asarray(values, dtype=float)
     if not len(values):
@@ -36,6 +42,8 @@ def moments(values):
 
 
 def categories(rows):
+    if any(not math.isfinite(r['eta']) or not math.isfinite(r['phi']) or not -math.pi <= r['phi'] < math.pi for r in rows):
+        raise ValueError('Nonfinite or out-of-range primary direction')
     coords = {'eta': np.array([r['eta'] for r in rows]),
               'phi': 100 * ((np.array([r['phi'] for r in rows]) + PERIOD / 2) % PERIOD - PERIOD / 2) / PERIOD}
     cats = {}
@@ -58,7 +66,7 @@ def analyze(args):
     rows = sorted((json.loads(line) for line in ledger.read_text().splitlines()), key=lambda r: r['event'])
     if len(rows) != 10000 or [r['event'] for r in rows] != list(range(10000)):
         raise ValueError('Require exactly the full 10000-primary population')
-    if any(abs(r['energy_GeV'] - 50) > 1e-7 for r in rows):
+    if any(not math.isfinite(r['energy_GeV']) or abs(r['energy_GeV'] - 50) > 1e-7 for r in rows):
         raise ValueError('Expected fixed total energy 50 GeV')
     response = np.array([r['response'] for r in rows])
     if not np.all(np.isfinite(response)) or np.any(response < 0):
@@ -112,11 +120,15 @@ def analyze(args):
     if not np.allclose(tail, expected_tail, rtol=1e-5, atol=1e-7):
         raise ValueError('Terminal layer fraction does not close')
     escape = np.array([r['observer']['world_escape_kinetic_GeV'] for r in rows])
+    if not np.all(np.isfinite(escape)) or np.any(escape < 0):
+        raise ValueError('Invalid world-escape kinetic energy')
     fullphi = np.array([r['phi'] for r in rows])
     controls = []
     for lo, hi in zip(np.linspace(-math.pi, math.pi, 17)[:-1], np.linspace(-math.pi, math.pi, 17)[1:]):
         keep = (fullphi >= lo) & (fullphi < hi)
         controls.append(dict(low=float(lo), high=float(hi), **moments(response[keep])))
+    if sum(c['events'] for c in controls) != 10000:
+        raise ValueError('Full-phi control lost primaries')
     result = dict(status='PROTOTYPE', events=10000, particle='pi-', total_energy_GeV=50,
         observable='sample SD(R,ddof=1)/mean(R), R=sum(raw scintillator deposits)/primary total energy',
         interpretation='Fixed-energy raw visible-response width, including sampling fluctuations, angular variation, gaps and leakage; no calibration or digitization',
@@ -163,7 +175,8 @@ def angular_plot(result, out, key, ylabel, filename):
         offsets = (-100, 0, 100) if name == 'phi' else (0,)
         for offset in offsets:
             axis.vlines(x + offset, lo, hi, color=COLOR, alpha=.85)
-            axis.plot(x + offset, y, 'o-', color=COLOR, markersize=4, linewidth=1.5)
+        axis.plot(np.concatenate([x + offset for offset in offsets]), np.tile(y, len(offsets)),
+                  'o-', color=COLOR, markersize=4, linewidth=1.5)
         axis.set(xlim=(-65, 65) if name == 'phi' else (-3, 3), ylim=(0, None),
                  xlabel=r'HCAL barrel sector phase [% of 22.5°]' if name == 'phi' else r'Signed pseudorapidity $\eta$',
                  ylabel=ylabel)
@@ -178,7 +191,7 @@ def angular_plot(result, out, key, ylabel, filename):
     fig.suptitle('nODD HCAL · 10,000 π⁻ · 50 GeV total energy', fontsize=15)
     fig.supxlabel('HCAL only · B = 0 · raw scintillator deposits · all zeros and tails included\n95% whole-primary bootstrap intervals; periodic margins repeat existing bins', fontsize=9)
     for ext in ('png', 'pdf', 'svg'):
-        fig.savefig(out / f'{filename}.{ext}')
+        save_figure(fig, out / f'{filename}.{ext}')
     plt.close(fig)
 
 
@@ -205,7 +218,7 @@ def plot(result, out):
         fig.supxlabel('Raw scintillator response R = Eraw / Etrue [%]')
         fig.supylabel('Primaries / bin')
         for ext in ('png', 'pdf', 'svg'):
-            fig.savefig(out / f'response-distributions-{name}.{ext}')
+            save_figure(fig, out / f'response-distributions-{name}.{ext}')
         plt.close(fig)
     fig, axes = plt.subplots(1, 2, figsize=(12.2, 4.7), layout='constrained')
     profile = result['longitudinal']
@@ -221,7 +234,7 @@ def plot(result, out):
     fig.suptitle('HCAL depth and inclusive-response controls · 50 GeV π⁻', fontsize=14)
     fig.supxlabel('Terminal-layer activity diagnoses rear shower tails; it does not directly measure containment.', fontsize=9)
     for ext in ('png', 'pdf', 'svg'):
-        fig.savefig(out / f'depth-response-controls.{ext}')
+        save_figure(fig, out / f'depth-response-controls.{ext}')
     plt.close(fig)
     save(out / 'render.json', {p.name: sha(p) for p in sorted(out.iterdir()) if p.suffix in ('.png', '.pdf', '.svg')})
 

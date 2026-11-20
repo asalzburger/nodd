@@ -1,5 +1,8 @@
 # DES-045 — Deep, segmented HCAL around the restored LAr ECAL
 
+- Status: **DRAFT**; type: **PROTOTYPE**
+- Date: 2026-11-20
+
 2026-11-20. **DRAFT / PROTOTYPE**, requested by the project user. No engineering
 sign-off or detector acceptance. Parents: DES-035–038 and the
 [November 18 ECAL selection](inputs/ECAL-baseline-selection-2026-11-18.md).
@@ -27,10 +30,14 @@ volume-manager context for every tile: compound the72 disjoint, unchanged core
 CSG solids into one sensitive union in each carrier. Keep their actual recesses,
 gaps, passive components and material. A custom segmentation maps carrier-local
 positions to the original module/sensor addresses and returns exact core centres.
+The sensitive-volume anchor is explicit; Boolean unions use identity left
+transforms and relative right transforms, preserving ROOT/Geant4 conversion.
 This changes the logical hierarchy only. Check all72 channel centres and union
 capacity against the original solids; optical boundary behavior is outside this
 raw-deposit model. A carrier context, rather than a tile context, supplies the
-coordinate transform. No sensitive material fills any gap.
+coordinate transform together with the explicit active-volume anchor.
+Check membership in both ROOT and the converted Geant4 solid. No sensitive
+material fills any gap.
 
 **NODD DESIGN CHOICE — depth:** increase 36 to **60 layers**, retaining 30 mm
 Steel235 per layer, the unchanged 12 mm carrier, 1 mm installation allowance and
@@ -63,7 +70,7 @@ service break and 300 mm endcap bore apothem. Amend the outer/rear HCAL bounds:
 | Barrel half-length | 6260 |
 | Barrel 16-gon maximum corner radius | 5832.061 |
 | Endcap inner / outer apothem | 300 / 5710 |
-| Endcap front / back | |z|=6760 / 9350 |
+| Endcap absolute-z front / back | 6760 / 9350 |
 | Outer service handoff reservation | R=5950 |
 
 **INFERENCE:** radial allocations are 488.3 mm outside the barrel and181 mm

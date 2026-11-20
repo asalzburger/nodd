@@ -4,6 +4,12 @@ The user selected the **restored LAr design as the EM working baseline on
 2026-11-18**. [Selection, dimensions and limits](../design/inputs/ECAL-baseline-selection-2026-11-18.md).
 Si–W remains available as a comparison; engineering sign-off is unchanged.
 
+The [November20 deep-HCAL proposal](../design/DES-045-hcal-restored-ecal-pion50.md)
+fits60 common-hardware sampling layers around the restored ECAL. Its
+[dimensioned view](../validation/hcal50/figures/hcal-fit-segmentation.png) and
+[first pion protocol](../validation/hcal50/protocol.md) are separate from the
+maintained tracker+ECAL union and its retained drawing below.
+
 | Option | EM selection | Current integration scope |
 | --- | --- | --- |
 | [LAYOUT-002 — selected baseline](LAYOUT-002-tracker-3t-lar.md) | Restored1.8mmPb/1248period barrel and650mm turbine endcaps | Maintained tracker+ECAL export; conditional magnet/HCAL context |
