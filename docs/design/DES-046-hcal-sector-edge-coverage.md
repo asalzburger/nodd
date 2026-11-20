@@ -1,6 +1,7 @@
 # DES-046 — HCAL barrel sector-edge coverage
 
-- Status: **DRAFT / PROTOTYPE**; engineering sign-off and production acceptance pending.
+- Status: **DRAFT**; type: **PROTOTYPE**
+- Engineering sign-off and production acceptance pending.
 - Date: 2026-11-20.
 - Human direction: minimize barrel sector-edge gaps using smaller physical readout modules, then rerun the requested pion samples.
 - Governing input: `b91b1d7969b94cccb4e0516e1c84246f4d2e2cd0`; parents [DES045](DES-045-hcal-restored-ecal-pion50.md), [DES036](DES-036-hcal-common-readout-module.md) and [DES037](DES-037-hcal-barrel-common-module.md).

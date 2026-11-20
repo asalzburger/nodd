@@ -80,3 +80,27 @@ assessment and is not independently reviewed by its own author.
 
 HCAL-EDGE-CALO-REVIEW assesses physical implementation at2e516f04b1dcb51e2a374762060529de59511bf6; the reviewer
 authored the governing design, not the implementation. No human sign-off.
+
+## Implementation and development checks
+
+Physical source2e516f04 passes8geometry tests. Both native C++ libraries
+compiled. Backend source4a85b7fa passes13transport/statistics contracts.
+SysArch's8finite-solid selector tests pass. Development native-v3 has379344
+contexts,102distinct sensitive solids,88finite rays and zero overlaps. Its
+complete native graph independently reproduces15material totals and
+8831.375605tonnes. A failed earlier audit is retained locally:8unit0probes
+lay exactly on CSG surfaces; explicit exact-surface native-leaf comparison
+now accompanies independent analytic non-boundary controls, with unchanged
+±1e-4mm boundary-neighbour probes and no relaxed physics/overlap tolerance.
+
+CaloTech reviewed physical implementation2e516f04 (design author, not code
+author): all100units' independent closed-form PSHost/Cu/Al/Ti/water volumes,
+sparse channels and3heat/flow scenarios match; maximum arithmetic discrepancy
+1.46e-10mm3. Local nominal heat2.125740MW and ideal water101.710kg/s do not
+qualify a plant, routing or mechanical load path. The guide-only material
+change is−50.074952tAl/+101.573222tsteel, before cassette repacking.
+
+Development geometric scan found eta0/phi−0.75deg; its nine sampled neighbours
+have minimum58/mean59.333active layers. This is a development diagnostic only;
+the immutable final receipt must be regenerated at the frozen source before
+showers. Source-bound ROOT checks match all nine layer sets and material paths.
