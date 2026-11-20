@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated": "2026-11-18",
+  "updated": "2026-11-20",
   "source_revision": "4497737721d35df1e8971d5d01e8a5727def14aa",
   "components": [
     {
@@ -1469,19 +1469,47 @@
         "https://github.com/asalzburger/nodd/pull/140",
         "https://github.com/asalzburger/nodd/pull/148"
       ]
+    },
+    {
+      "id": "VAL-HCAL-RESTORED",
+      "name": "Deep segmented HCAL geometry and 50GeV pion response",
+      "category": "validation",
+      "usage": "Standalone60-layer steel/scintillator HCAL around restored LAr envelopes; unchanged DES036 physical carrier; exact disjoint-core sensitive union; custom tile segmentation; native overlap/material/ray/ID audits; fixed50GeV pi-minus DDSim sample; independent sensitive-step/native/saved-hit energy closure; serial/MT controls; fifteen-bin angular raw widths with joint bootstrap covariance and longitudinal diagnostics.",
+      "integration": "Isolated local nODD DRAFT/PROTOTYPE Python/C++ source, outside maintained tracker+ECAL entry points. Existing DD4hep/Geant4/ROOT/EDM4hep/podio and NumPy/Matplotlib; no new external package or shared dependency changes.",
+      "version": "DES045 executed2026-11-20: frozen transport464dab316ac7d27d0c0f79ac89f6eb8960a703ca; DD4hep1.38/Geant411.4.3/ROOT6.40.04;10000event fullreadback. Raw response only, no engineering acceptance.",
+      "installation": "Use software/env/run.sh with the existing reverified environment. Export tools/hcal_response/export.py, CMake prototypes/hcal_response and software/analysis/hcal_response, then transport.py prepare/run/audit/compare and analyze.py analyze/plot. See docs/validation/hcal50/protocol.md and reproduction recipe.",
+      "paths": [
+        "tools/hcal_response",
+        "prototypes/hcal_response",
+        "software/analysis/hcal_response"
+      ],
+      "evidence": [
+        "docs/design/DES-045-hcal-restored-ecal-pion50.md",
+        "docs/validation/hcal50/protocol.md",
+        "docs/validation/hcal50/README.md",
+        "docs/validation/hcal50/reproduce.md",
+        "docs/validation/hcal50/controls.json",
+        "docs/validation/hcal50/native.json",
+        "docs/validation/hcal50/summary.json",
+        "docs/validation/hcal50/export-equivalence.json"
+      ],
+      "prs": [
+        "https://github.com/asalzburger/nodd/pull/155"
+      ]
     }
   ],
   "checked_inputs": {
     ".github/workflows/balanced-tdr.yml": "ee83bb70017806c93d8b295ec412b2ff5a09920277fcef0317c0642f368aa0d2",
     ".github/workflows/tdr.yml": "27d3f227c91821f7151917644fbe567863043a30ff36e5937843008ec5e38ce4",
     ".github/workflows/token-usage.yml": "02480c1c40fb9e12566d2acedfa58a74bf40b7a0404ac70e76d5aeea0ff52ce8",
-    ".github/workflows/validation.yml": "62710255605eb996aedb848af5ec40559d103f11957448db8963a7d8eb27d462",
+    ".github/workflows/validation.yml": "00ac85678817bf4b25f3a908dcb2be6b1a7f384e7d019c92cd4a090b3588e29d",
     ".gitmodules": "5f85441b511a41ed8bc20fcd6392378072fbdb8c8baf7bc4e629e30031062165",
     "CMakeLists.txt": "48072b61a7a639418b153c16e60dddcba65190dbef686fbcacadf7ed2cc5165e",
     "Makefile": "17c4d9f1ad84ffcd247d45d202e54fee08aeccf04f5350b2fabfe56ea092b84b",
     "detector/CMakeLists.txt": "8fe27c7def450856615c259ee6d12f4c31727f6a32a3566fb6c75f0e81c31825",
     "prototypes/calorimeter/CMakeLists.txt": "4d1898dd64b3a2346af1ac93924639d6348cbf439cabb1161f5b429f1b689099",
     "prototypes/hcal_readout/CMakeLists.txt": "68f4251b4ae9abf86fb2b1e412e5619a0858af6dd6e60277743a681861bc96a5",
+    "prototypes/hcal_response/CMakeLists.txt": "b7d9d606b76829e9663507a9909481304e529a91e81bec632e47199132233794",
     "prototypes/long_strip_barrel/CMakeLists.txt": "40d5cb05f7876e193ded6c52111184fe6d826574e0ac660db5dd7a137adfdc91",
     "prototypes/long_strip_endcap/CMakeLists.txt": "b05aec3118e37588133fb88fe12ab1f0c3cfabd69e449f07d91b2294cff63764",
     "prototypes/short_strip_barrel/CMakeLists.txt": "479f3c07069c82a4627e4ebfe2e9f90cacb7f03d6bda7017f1e572d62cb4ce2b",
@@ -1490,6 +1518,7 @@
     "skills/acts-spack/references/nodes.json": "ed25d7d91a1329b1aa3947b53d5466e08001bf522357f060d196c2eba77c7a92",
     "skills/acts-spack/scripts/smoke/CMakeLists.txt": "38e1e00161ae6ee94358fc992c78352e0b5c91b2c5534a56c4ce9e2f9412c2f5",
     "software/Makefile": "d0c2d3ad1b13c83a5cc6f840e3be0b77c75c5a4fb4b297735ec605ab6ead1876",
+    "software/analysis/hcal_response/CMakeLists.txt": "d04bf429fd25e0469eed034ef06ef8e73ea12e2216b9837ec7f8265cd630879c",
     "software/analysis/lar_response/CMakeLists.txt": "0c619f0ed052abfb5377d1164831561ab556954bb8baa2fcb125b8216cac10ea",
     "software/analysis/requirements-unrooted.in": "03a857d682f7489c3b70236679d4c170a3830f3be56b87c13b5b2571e816616e",
     "software/analysis/requirements-unrooted.txt": "c894a106f48600616ba6392acc625cc1658452675b7113bee3d2a9b434d79af5",

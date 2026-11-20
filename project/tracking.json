@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated": "2026-11-18",
+  "updated": "2026-11-20",
   "note": "Curated register. Stage B architecture is active. PR #4\u2019s envelope baseline has explicit human approval and is merged; its documents still declare DRAFT and no formal sign-off record exists. Role ownership does not imply active agents. Chore PRs and infrastructure chores are excluded from project progress. Pixel-module design dossier opened by human direction in parallel with architecture; final component-method gates remain pending.",
   "stages": [
     {
@@ -4480,6 +4480,54 @@
       "blocker": null,
       "disposition": "Authorized restored1.8mmPb/N1248/larger1772.8\u20132350mm annulus implemented as isolated prototype. Native0overlap and9088-ray minimum26.800197X0 pass; matched10000/12-worker transport/fullreadback complete. Held-out barrel width4.30\u21923.04%, original2.43%; partial recovery with positive residual. Calibration models and raw/heldout three-way controls retained. No maintained-layout, engineering or collider-performance acceptance.",
       "subsystem": "calorimetry and tracker-solenoid interfaces"
+    },
+    {
+      "id": "TASK-HCAL-RESTORED-PION50",
+      "title": "Fit deep segmented HCAL to restored ECAL and simulate50GeV pions",
+      "scope": "Isolated60-layer common-carrier HCAL around selected restored LAr envelopes; first10000pi-minus at50GeV total energy with no tracker,ECAL,field orFCAL; raw angular widths and depth diagnostics.",
+      "stage": "B",
+      "milestones": [
+        "M1"
+      ],
+      "workstream": "WS-CALO",
+      "role": "Calorimeter technician",
+      "owner": null,
+      "state": "completed",
+      "dependencies": [
+        "TASK-CALO-BASELINE-RESTORE",
+        "TASK-B-HCAL-COMMON-MODULE"
+      ],
+      "deliverables": [
+        "docs/design/DES-045-hcal-restored-ecal-pion50.md",
+        "docs/validation/hcal50/protocol.md",
+        "tools/hcal_response/README.md",
+        "software/analysis/hcal_response/README.md",
+        "docs/validation/hcal50/README.md",
+        "docs/validation/hcal50/reproduce.md",
+        "docs/validation/hcal50/native.json",
+        "docs/validation/hcal50/controls.json",
+        "docs/validation/hcal50/summary.json",
+        "docs/validation/hcal50/export-equivalence.json",
+        "docs/validation/hcal50/figures/raw-energy-resolution.png",
+        "docs/validation/hcal50/figures/mean-response.png",
+        "docs/validation/hcal50/figures/response-distributions-eta.png",
+        "docs/validation/hcal50/figures/response-distributions-phi.png",
+        "docs/validation/hcal50/figures/depth-response-controls.png"
+      ],
+      "evidence": [
+        "logs/codex/SESSION-2026-11-20-hcal-pion50.md"
+      ],
+      "documents": [
+        "DES-045",
+        "DES-036",
+        "DES-037",
+        "DES-038"
+      ],
+      "updated": "2026-11-20",
+      "next_action": "Review the published standalone prototype; address pointing cracks and outer service/FCAL/magnet/muon integration before full-detector or containment acceptance.",
+      "blocker": null,
+      "disposition": "Standalone60-layer HCAL and10000pi-minus50GeV transport/readback complete:16531599hits, all physical centers/IDs/energy closure pass. Inclusive raw width24.0287%,4zeros; nominal G4steel10.5761nuclear lengths, mean final-six fraction0.1795%. Fivegeometry/seventransport-analysis tests and0overlap native controls pass. Physical export unchanged by added70mm handoff guard. Independent numeric/bin/covariance checks pass; separate PhysVal review at93219f73 reproduced bins/bootstrap/source bindings with no blocking finding. No engineering acceptance.",
+      "subsystem": "hadronic calorimetry and ECAL/service interfaces"
     }
   ],
   "documents": [
@@ -4899,6 +4947,14 @@
       "validation_reports": [
         "docs/validation/issue117/validation-plan.md"
       ]
+    },
+    {
+      "id": "DES-045",
+      "path": "docs/design/DES-045-hcal-restored-ecal-pion50.md",
+      "validation_reports": [
+        "docs/validation/hcal50/protocol.md",
+        "docs/validation/hcal50/README.md"
+      ]
     }
   ],
   "evidence": [
@@ -5055,6 +5111,11 @@
     {
       "title": "Detailed SiW barrel native controls",
       "path": "docs/validation/DES-031/results.md",
+      "kind": "validation"
+    },
+    {
+      "title": "Standalone deep segmented HCAL native geometry and fixed-energy pion controls",
+      "path": "docs/validation/hcal50/README.md",
       "kind": "validation"
     }
   ],
@@ -6509,6 +6570,26 @@
       ],
       "category": "project",
       "scope": "User-requested isolated400mm-gap prototype above restored1m baselinePR150. Complete endcaps move600mm, sampling/material/mass/readout and fixedHCAL context retained. Conditional unconstructed side-egress/annular mixed-bundle reservations; prospective collar conflict preserved. NativeECAL/endcap zero10nm overlaps,405rays,46tests and exact24event1/12worker19568hit controls pass. No engineering/precision acceptance or baseline replacement. Independent SysArch/PhysVal review at9ec2558a plusfcbc6a91 found no material publication blocker; four closed specialist turns recorded once."
+    },
+    {
+      "id": "PR-155",
+      "number": 155,
+      "title": "Calorimeter: fit segmented HCAL and simulate 50 GeV pions",
+      "url": "https://github.com/asalzburger/nodd/pull/155",
+      "state": "open",
+      "head_revision": "93219f73165231f61ffae7b0e9a36b096c2c5948",
+      "merge_commit": null,
+      "merged_at": null,
+      "collected_at": "2026-11-20T13:28:59Z",
+      "task": "TASK-HCAL-RESTORED-PION50",
+      "documents": [
+        "DES-045",
+        "DES-036",
+        "DES-037",
+        "DES-038"
+      ],
+      "category": "project",
+      "scope": "DRAFT standalone60-layer HCAL and10000pi-minus50GeV study complete. Full16531599hit readback/physical centres/closure, native0overlaps, exactserialMTcontrols, raw15-bin widths/covariance and separate PhysVal review pass. Explicit seam/outer-system/engineering limits; stacked onPR152, no merge/sign-off."
     }
   ]
 }

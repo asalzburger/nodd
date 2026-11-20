@@ -27,6 +27,24 @@ The compact contains tracker+ECAL; magnet/HCAL context is not constructed.
 No field or combined-detector response is inferred. Calibration models retain
 ECAL-only identity guards; they are not automatically transferred to this union.
 
+## Deep segmented HCAL proposal — 2026-11-20
+
+[DES-045](../design/DES-045-hcal-restored-ecal-pion50.md) adapts the unchanged
+DES-036 common hardware to these restored ECAL envelopes. The isolated HCAL
+has60 sampling layers,30mm steel per layer and30mm tile pitch. Its barrel
+spans apothems3130–5720mm and |z|≤6260mm; endcaps span |z|6760–9350mm with
+300/5710mm bore/outer apothems. The500mm ECAL rear-service gap remains.
+This2590mm depth proposal supersedes the old1495.9mm outline for this study;
+it is not inserted into the maintained tracker+ECAL compact.
+
+![HCAL envelope and physical segmentation proposal](../validation/hcal50/figures/hcal-fit-segmentation.png)
+
+[Named physical inputs](../../tools/hcal_response/config.json) ·
+[Standalone export](../../tools/hcal_response/README.md) ·
+[50GeV pion protocol](../validation/hcal50/protocol.md).
+Outer service handoff5950mm, FCAL and outer magnet/muon interfaces require
+separate integration. DRAFT/PROTOTYPE; no engineering sign-off.
+
 ## Historical original LAr / FCAL context
 
 The following dated candidate and figures retain the original larger-radius
