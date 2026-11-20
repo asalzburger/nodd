@@ -188,3 +188,29 @@ protocol, not implementation, and did not rerun native/fullROOT parsing.
 All16geometry/direction and14transport/statistics tests pass. The current
 source/render equivalence and local full datasets remain bound to the receipts.
 Only final publication/PR-ledger and canonical session closeout remain.
+
+## Publication and closeout
+
+User, exact: “Amazing, please make a PR when done”. This explicitly authorized
+publication of the completed reviewable result. An initial automatic approval
+review had rejected PR creation for lack of that specific publication
+authorization; retry after the new request passed review but the GitHub
+integration returned403 Resource not accessible by integration. Authenticated
+gh fallback created draftPR157, subsequently verified open/draft at the exact
+pushed branch. No ready-for-review action, merge or raw-run upload occurred.
+
+Draft: https://github.com/asalzburger/nodd/pull/157, basecodex/hcal-barrel-sector-xy
+(PR156). Only curated source/plots/compact geometry/binwise evidence are pushed.
+The complete new-object audit found noROOT/NPZ/CSV/HEPEvt/JSONL payload;
+largest new blob is the1.741MB vector sectorPDF. Public PR/comments were
+refreshed through the connected GitHub read tools (no comments at capture).
+The individual interaction ledger preserves the selected human inputs and
+explicit role/tool provenance. Exact task/child token counters remain
+unavailable; usage is empty and no other task counters are reassigned.
+
+Final checks include306pairedsession records,112tasks/56design documents,
+software inventory69components/105families/55inputs/12pins,30narrowtests,
+allnative/transport/readback gates, independent assessments,7PNGbyte replays
+and a token-site preview build. Remote broad CI is observed separately after
+the final metadata push; no unobserved pass is claimed. Engineering approval
+and production integration remain open.
