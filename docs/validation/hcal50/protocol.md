@@ -9,7 +9,7 @@ Frozen2026-11-20 before transport. Governing proposal: DES-045. DRAFT/PROTOTYPE.
   No tracker, beam pipe, ECAL, FCAL, solenoid or magnetic field.
 - FTFP_BERT;0.7 mm range cuts;5 mm maximum charged step in active PSHost.
   Explicitly raw deposits without Birks/optical/electronics response.
-  Production12workers and event seeding; preserve exact runtime/configuration
+  Production12 workers and event seeding; preserve exact runtime/configuration
   hashes and declared transport seed in the receipt.
 - Principal `R=sum(saved raw scintillator-hit energy)/Etrue`, with width
   `sample SD(R,ddof=1)/mean(R)`. Include zeros and tails; missing output or
@@ -29,7 +29,7 @@ Frozen2026-11-20 before transport. Governing proposal: DES-045. DRAFT/PROTOTYPE.
   boundary, is a separate proxy; it is not complete calorimetric energy closure.
 - Depth screen: at least8 nuclear interaction lengths of actual absorber for
   nominal full-depth face-normal rays, separately reporting transition, sector
-  seam, edge and forward directions. Predeclared60layers; do not infer an
+  seam, edge and forward directions. Predeclared60 layers; do not infer an
   all-angle or high-energy containment guarantee.
 - Verify exact10000 unique saved IDs, primary energy/momentum/direction, finite
   deposits, canonical cell IDs, native worker population and input/library hashes.

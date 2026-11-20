@@ -25,14 +25,14 @@ The optional module test's reference absorber is omitted: regional plates own
 the steel once per layer. No uninterrupted sensitive plane substitutes for tiles.
 
 **NODD DESIGN CHOICE — transport hierarchy:** the full assembly has about21million
-logical tile channels. On the measured64GiB host, avoid a separate native
-volume-manager context for every tile: compound the72 disjoint, unchanged core
+logical tile channels. On the measured64 GiB host, avoid a separate native
+volume-manager context for every tile: compound the 72 disjoint, unchanged core
 CSG solids into one sensitive union in each carrier. Keep their actual recesses,
 gaps, passive components and material. A custom segmentation maps carrier-local
 positions to the original module/sensor addresses and returns exact core centres.
 The sensitive-volume anchor is explicit; Boolean unions use identity left
 transforms and relative right transforms, preserving ROOT/Geant4 conversion.
-This changes the logical hierarchy only. Check all72 channel centres and union
+This changes the logical hierarchy only. Check all 72 channel centres and union
 capacity against the original solids; optical boundary behavior is outside this
 raw-deposit model. A carrier context, rather than a tile context, supplies the
 coordinate transform together with the explicit active-volume anchor.
@@ -73,9 +73,9 @@ service break and 300 mm endcap bore apothem. Amend the outer/rear HCAL bounds:
 | Endcap absolute-z front / back | 6760 / 9350 |
 | Outer service handoff reservation | R=5950 |
 
-**INFERENCE:** radial allocations are 488.3 mm outside the barrel and181 mm
+**INFERENCE:** radial allocations are 488.3 mm outside the barrel and 181 mm
 outside the endcap cylinder. They include services. The retained R3029 mm
-external route plus50 mm radius and20 mm clearance leaves31 mm to the HCAL
+external route plus50 mm radius and 20 mm clearance leaves31 mm to the HCAL
 face. A5950 mm outer handoff leaves47.939 mm beyond corner+50+20; this is an
 allocation only, with no newly installed pipe. The older R4800 handoff is
 superseded for this proposal.
@@ -95,7 +95,7 @@ First validate deterministic export, layer/placement/identifier capacity,
 unchanged common materials, native construction and overlaps. Audit native
 material interaction lengths and finite rays, worker configuration, all primary
 and cell IDs, and accepted sensitive-step energy against native and saved hits.
-Run serial/MT controls and a pilot before the10k production sample.
+Run serial/MT controls and a pilot before the 10k production sample.
 
 Report raw visible response, width, distributions, longitudinal activity and
 terminal-layer fractions. Include all valid primaries, zeros and tails. A single

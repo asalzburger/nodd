@@ -31,6 +31,12 @@ class HCALGeometry(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'frozen'):validate_config(c)
         c=copy.deepcopy(self.r['config']);c['radial_handoff_mm']=5800
         with self.assertRaisesRegex(ValueError,'handoff'):validate_config(c)
+        c=copy.deepcopy(self.r['config'])
+        corner=c['barrel']['outer_apothem_mm']/math.cos(math.pi/c['sectors'])
+        c['radial_handoff_mm']=corner+69.9
+        with self.assertRaisesRegex(ValueError,'service clearance'):validate_config(c)
+        c['radial_handoff_mm']=corner+70
+        self.assertEqual(validate_config(c),2590)
 
     def test_all_carrier_ids_unique_and_capacity(self):
         ids=set();count=0

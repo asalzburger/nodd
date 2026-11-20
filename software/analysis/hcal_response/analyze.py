@@ -193,6 +193,8 @@ def angular_plot(result, out, key, ylabel, filename):
         axis.set(xlim=(-65, 65) if name == 'phi' else (-3, 3), ylim=(0, None),
                  xlabel=r'HCAL barrel sector phase [% of 22.5°]' if name == 'phi' else r'Signed pseudorapidity $\eta$',
                  ylabel=ylabel)
+        finite_upper = hi[np.isfinite(hi)]
+        if len(finite_upper): axis.set_ylim(0, max(float(finite_upper.max()) * 1.18, 1e-6))
         if name == 'phi':
             for start, end in ((-65, -50), (50, 65)):
                 axis.axvspan(start, end, color=COLOR, alpha=.06)
@@ -240,8 +242,8 @@ def plot(result, out):
     axes[0].set(xlabel='Sampling layer (front to back)', ylabel='Mean raw deposit per primary [GeV]', xlim=(.5, 60.5), ylim=(0, None))
     axes[1].stairs(result['histograms']['inclusive_counts'], edges, color=COLOR, fill=True, alpha=.55)
     stats = result['global_statistics']
-    axes[1].text(.97, .95, f"All {stats['events']:,} primaries\nMean Eraw = {50*stats['mean_response']:.3f} GeV\nSD / mean = {100*stats['fractional_width']:.2f}%\nZero response = {stats['zero_events']}\nMean terminal-six fraction = {100*profile['terminal_six_fraction_mean']:.2f}%",
-                 transform=axes[1].transAxes, va='top', ha='right', fontsize=9)
+    axes[1].text(.03, .97, f"All {stats['events']:,} primaries\nMean raw E: {50*stats['mean_response']:.3f} GeV\nSD / mean: {100*stats['fractional_width']:.2f}%\nZero response: {stats['zero_events']}\nFinal six layers: {100*profile['terminal_six_fraction_mean']:.2f}% mean",
+                 transform=axes[1].transAxes, va='top', ha='left', fontsize=9)
     axes[1].set(xlabel='Raw scintillator response [%]', ylabel='Primaries / bin')
     for axis in axes: axis.grid(alpha=.18)
     fig.suptitle('HCAL depth and inclusive-response controls · 50 GeV π⁻', fontsize=14)

@@ -239,15 +239,18 @@ def audit(args):
     if set(observed) != required_ids:
         raise ValueError("Incomplete observer event set")
     with (sample / "placements.csv").open(newline="") as source:
-        allowed_parents = set()
+        allowed_parents = {}
         for row in csv.DictReader(source):
             values = {key: int(row[key]) for key in ("system", "side", "sector", "layer", "carrier")}
             parent = values["system"] | values["side"] << 8 | values["sector"] << 10 | values["layer"] << 14 | values["carrier"] << 20
             if parent in allowed_parents:
                 raise ValueError("Duplicate geometry carrier parent")
-            allowed_parents.add(parent)
+            allowed_parents[parent] = ([float(row[k]) for k in ("x_mm", "y_mm", "z_mm")],
+                [[float(row[f"a{i}{j}"]) for j in range(3)] for i in range(3)])
     if len(allowed_parents) != manifest["expected_raw_sensitive_ids"]:
         raise ValueError("Placement-table/raw-volume population differs")
+    unit_centers = {(r["module"], r["sensor"]): r["tile_center_mm"] for r in manifest["geometry_manifest"]["unit_tile_map"]}
+    maximum_position_error_mm = 0.
     truth = [json.loads(line) for line in (sample / "truth-input.jsonl").read_text().splitlines()]
     output = directory / "event-summary.jsonl"
     if output.exists():
@@ -284,6 +287,13 @@ def audit(args):
                     position = hit.getPosition()
                     if not all(math.isfinite(x) for x in (position.x,position.y,position.z)):
                         raise ValueError("Nonfinite saved HCAL hit position")
+                    origin, basis = allowed_parents[cell & ((1 << 32)-1)]
+                    local = unit_centers[(fields["module"], fields["sensor"])]
+                    expected_position = [origin[j] + sum(local[i]*basis[i][j] for i in range(3)) for j in range(3)]
+                    position_error = max(abs(a-b) for a,b in zip((position.x,position.y,position.z),expected_position))
+                    if position_error > .001:
+                        raise ValueError("Saved global cell position differs from original physical tile center")
+                    maximum_position_error_mm = max(maximum_position_error_mm,position_error)
                     cell_records.append((cell, deposit, float(position.x), float(position.y), float(position.z)))
                     ids.add(cell); deposits.append(deposit); profile[fields["layer"]] += deposit
                 energies[name] = math.fsum(deposits); hitcounts[name] = len(ids); counts[name] += len(ids)
@@ -311,9 +321,13 @@ def audit(args):
     proof = dict(status="PASS", events=len(seen), event_ids=dict(min=min(seen),max=max(seen)),
         identity_order="Primary IDs checked; output ordering unrestricted", cells_by_collection=counts,
         maximum_input_errors=maximum_errors, maximum_energy_closure_GeV=max_closure,
+        maximum_saved_position_error_mm=maximum_position_error_mm, position_tolerance_mm=.001,
+        position_check="Every saved hit versus original physical tile center transformed by exported carrier world pose; tolerance covers persisted float32 rounding",
         compression=compression, root_sha256=sha(directory / "events.root"),
         event_summary_sha256=sha(output), receipt_sha256=sha(directory / "receipt.json"),
-        audit_sha256=sha(__file__), sample=manifest, workers=workers, maps_audit=maps, converted_solids_audit=converted,
+        audit_sha256=sha(__file__), transport_runner_sha256=receipt["runner_sha256"],
+        auditor_matches_launch_source=sha(__file__)==receipt["runner_sha256"],
+        sample=manifest, workers=workers, maps_audit=maps, converted_solids_audit=converted,
         worker_audit_sha256={p.name: sha(p) for p in sorted((directory / "audit").glob("worker-*.json"))},
         observer_sha256={p.name: sha(p) for p in observer_paths},
         leakage_scope="World-boundary escaped kinetic energy; not total-energy balance or local HCAL-boundary leakage")

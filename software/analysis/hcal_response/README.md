@@ -19,8 +19,10 @@ Run/audit first the 24-event serial and MT controls in fresh directories using
 `--sample`, `--output`, `--geometry-library`, and `--audit-library`; the latter
 is `build/hcal50/audit/libnODDHCALResponseAudit.dylib` on the tested macOS node
 (use the platform library suffix elsewhere). Serial maps are populated before
-worker creation. Producers, inputs, libraries and actual geometry artifacts are
-hashed before and after transport. Full native geometry/sample/ROOT/log/event
+worker creation. The actual converted Geant4 sensitive solids are checked at
+11,467 points each against the original tile box-minus-recess material domains,
+including edges, reflector gaps, board seams and service areas. Producers,
+inputs, libraries and actual geometry artifacts are hashed before and after transport. Full native geometry/sample/ROOT/log/event
 ledgers stay local under ignored `build/`.
 
 ```sh
@@ -35,7 +37,10 @@ sensitive PSHost volumes and requires closure against native calorimeter hit
 sums before writing an event receipt. Saved readback checks both collections,
 complete unique primaries, momentum/energy/direction, exact canonical IDs and
 parent placement membership, cell counts and energy closure against native hit
-sums. Closure tolerances allow double summation and persisted float rounding;
+sums. Every saved global position is compared with its original physical tile
+center transformed by the exported carrier pose; the 0.001 mm tolerance covers
+persisted float32 position rounding. The readback records its auditor source
+hash separately from the frozen transport launcher hash. Closure tolerances allow double summation and persisted float rounding;
 they do not hide missing/invalid deposits. The 60-bin longitudinal profile and
 last-six-layer fraction are recorded for every primary, including zero events.
 

@@ -72,8 +72,11 @@ def validate_config(c):
     if b['half_z_mm']>=e['front_abs_z_mm'] or e['outer_apothem_mm']>=b['outer_apothem_mm']:
         raise ValueError('barrel/endcap separation')
     corner=b['outer_apothem_mm']/math.cos(math.pi/c['sectors'])
-    if corner>=c['radial_handoff_mm']:
-        raise ValueError('outer corner violates radial handoff')
+    allowances=(c['handoff_service_radius_mm'],c['handoff_clearance_mm'])
+    if any(not math.isfinite(v) or v<0 for v in allowances):
+        raise ValueError('finite nonnegative radial handoff allowances')
+    if corner+sum(allowances)>c['radial_handoff_mm']+1e-8:
+        raise ValueError('outer corner and service clearance violate radial handoff')
     if min(c['world_half_xyz_mm'][:2])<=corner or c['world_half_xyz_mm'][2]<=e['back_abs_z_mm']:
         raise ValueError('world margin')
     if len(b['axial_phases_mm'])!=len(b['tangent_phases_mm']) or not b['axial_phases_mm']:

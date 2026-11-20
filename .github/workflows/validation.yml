@@ -32,6 +32,10 @@ jobs:
         run: python -I software/analysis/unrooted_smoke.py
       - name: Check matched LAr and Si-W response controls
         run: python -B -m unittest discover -s software/analysis/lar_response -p 'test_*.py' -v
+      - name: Check standalone HCAL response and replay raw-energy plots
+        run: |
+          python -B -m unittest discover -s software/analysis/hcal_response -p 'test_*.py' -v
+          python -B software/analysis/hcal_response/analyze.py plot --summary docs/validation/hcal50/summary.json --output build/hcal50-replay
       - name: Replot the retained Geant4 tracker material profiles
         run: >-
           python -B software/analysis/material_profiles/plot_profiles.py
@@ -117,6 +121,8 @@ jobs:
         run: python3 -B tools/project_records/validate.py
       - name: Test calorimeter hardware ownership and physical controls
         run: python3 -B -m unittest discover -s tools/calorimeter_hardware -p 'test_*.py' -v
+      - name: Test deep segmented HCAL fit and identifiers
+        run: python3 -B -m unittest discover -s tools/hcal_response -p 'test_*.py' -v
       - name: Test common-module HCAL endcap design controls
         run: python3 -B -m unittest discover -s tools/hcal_endcap -p 'test_*.py' -v
       - name: Test common-module HCAL barrel design controls

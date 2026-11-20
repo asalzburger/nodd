@@ -64,6 +64,10 @@ software/env/run.sh python3 -B software/analysis/hcal_response/transport.py audi
   --sample build/hcal50/sample --run build/hcal50/production12
 ```
 
+The production auditor adds an independent physical-centre check after
+transport. Its source hash differs from the frozen launch runner and is retained
+explicitly; geometry, transport policy and saved hits are unchanged.
+
 Every positive sensitive-step deposit must close to native hit sums during
 transport. Saved readback validates every primary, cell address, carrier parent,
 collection, position and layer/energy sum. It permits documented floating-point
@@ -88,5 +92,5 @@ python3 -B -m unittest discover -s tools/hcal_response -p 'test_*.py' -v
 Raw width, mean response, histograms, longitudinal statistics and covariance
 can be replotted from summary.json alone. Independent ID, geometry membership,
 worker and energy-closure checks require full native/run artifacts. The fixed
-energy is total energy, with pion mass0.13957039GeV explicitly included when
+energy is total energy, with pion mass0.13957039 GeV explicitly included when
 deriving the primary momentum.
