@@ -1,6 +1,10 @@
 # Reproduce HCAL barrel-edge and fixed-direction response
 
-Run from the task checkout at the recorded frozen source. Existing environment:
+Transport and statistical producers ran at frozen source7059bf6c. Use that
+source for an exact new simulation/statistics replay. The later compact replay
+wrapper is provided at this PR head and calls the same fixed-plot function.
+Use fresh output directories; receipts and sample/analysis stages refuse
+overwrite. Existing environment:
 DD4hep1.38/3yd4hz3, Geant411.4.3/wfg55xi, ROOT6.40.04, Python3.14.5;
 NumPy2.5.4/Matplotlib3.11.2 in the existing ACTS Python environment. The
 acts-spack registry fingerprints differed; actual imports/packages/dataset

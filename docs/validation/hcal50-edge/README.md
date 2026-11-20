@@ -26,13 +26,38 @@ reconstructed detector-resolution claims.
 | Sample SD / measured mean | 17.2406% |
 | Zero-response primaries, retained | 3 /10000 |
 
-The independent 10000-event fixed-direction transport has finished; its full
-saved-hit audit is running. No fixed-evaluation width is claimed yet. The
-separate 2000-event calibration passed full readback. Its frozen effective
-response factor is **fs=0.01279050527**, with 95% bootstrap interval
-[0.01274215206,0.01283810683]. This is direction/energy/geometry-specific and
-includes represented sampling/geometric/hadronic losses; it is not an
-independent material-only sampling-fraction measurement.
+The **independent 10000-event fixed-direction evaluation also passed full
+readback**. A separate 2000-event calibration had frozen **fs=0.01279050527**
+before validation transport started; its 95% interval is
+[0.01274215206,0.01283810683].
+
+![Fixed-direction raw and sampling-corrected response](fixed-figures/fixed-direction-response.png)
+
+[Fixed statistics, uncertainties and covariance](fixed-summary.json) ·
+[Fixed figure PDF](fixed-figures/fixed-direction-response.pdf).
+
+| Fixed-direction quantity, all10000primaries | Value |
+| --- | ---: |
+| Mean raw sensitive energy | 0.639114 GeV |
+| Raw energy SD | 0.061627 GeV |
+| Raw fractional SD, SD(S)/50 | 0.123254% |
+| Corrected relative SD, SD(S)/(fs×50) | 9.636377% |
+| Raw/corrected SD divided by its measured mean | 9.642584% |
+| Corrected mean energy / residual bias | 49.967811 GeV / -0.064379% |
+| Zero responses | 0 |
+
+The corrected relative width has a 95% two-sample interval
+[9.2282%,10.0968%].
+The scalar changes the response scale and SD/Etrue; it leaves SD/mean exactly
+unchanged. This fitted factor is direction/energy/geometry-specific and includes
+represented sampling/geometric/hadronic losses. It is not an independent
+material-only sampling-fraction measurement or a compensation model.
+
+Transport and statistical producers were frozen at7059bf6c. Later visual QA
+changes only two rendering functions: annotation placement, typography and
+figure DPI. [AST/source comparison](render-source-equivalence.json) separates
+this renderer revision from the unchanged statistical definitions. All
+published distributions keep every original histogram count and tail.
 
 ## Geometry change
 
@@ -121,3 +146,23 @@ crack. Escaped kinetic energy excludes rest mass and nuclear invisible losses.
 Physics-list/response-model/engineering systematics are outside bootstrap errors.
 The maintained tracker+ECAL detector is unchanged; no production or human
 engineering sign-off is inferred.
+
+## Observed execution integrity
+
+Angular, calibration and fixed-validation runs used12workers and completed
+from clean7059bf6c with unchanged producer/library hashes. Their transport
+receipts record700.50s,184.92s and703.28s wall respectively; complete ROOT
+payloads are9.259GB,1.868GB and9.309GB, all retained locally. The angular and
+fixed cohorts have17102894 and17433422saved hits. Every primary, cell ID,
+physical centre and accepted-sensitive-step/native/saved energy sum passed.
+Maximum step/native discrepancy is3.7748e−15GeV, native/saved1.3023e−8GeV and
+saved-layer7.9899e−9GeV; maximum saved-centre error is0.000244103mm, below0.001mm.
+These are observed finite persistence residuals, not exact float equality.
+
+Calibration fs froze at2026-11-20T15:14:33.568939+00:00; validation started
+at15:15:21.959400+00:00. All bootstrap replicates have defined values. A
+[separate empirical stream check](independent-stream-check.json) found no
+duplicate shower signatures between2000calibration and10000validation events,
+including nearby event-index offsets; distinct seeds and sample identities
+remain the prescribed independence design. This check is not a mathematical
+proof of random-stream independence.

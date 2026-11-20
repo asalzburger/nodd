@@ -329,17 +329,17 @@ def comparison_plot(result,out):
     comparison=result['comparison'];fig,axes=plt.subplots(1,2,figsize=(12.8,5.1),layout='constrained')
     for axis,(name,projection) in zip(axes,result['projections'].items()):
         x=np.array([(a+b)/2 for a,b in zip(projection['edges'][:-1],projection['edges'][1:])]);offsets=(-100,0,100) if name=='phi' else (0,)
-        for model,label,color,style in (('baseline','DES045 original','#d9a16a','--'),('edge','DES046 edge units',COLOR,'-')):
+        for model,label,color,style in (('baseline','Original HCAL (DES-045)','#d9a16a','--'),('edge','Edge modules (DES-046)',COLOR,'-')):
             bins=[b[model] for b in comparison['models'][name]];y=np.array([np.nan if b['fractional_width'] is None else 100*b['fractional_width'] for b in bins])
             lo=np.array([np.nan if b['width_interval']['ci95'] is None else 100*b['width_interval']['ci95'][0] for b in bins]);hi=np.array([np.nan if b['width_interval']['ci95'] is None else 100*b['width_interval']['ci95'][1] for b in bins])
             for offset in offsets:axis.vlines(x+offset,lo,hi,color=color,alpha=.8)
             axis.plot(np.concatenate([x+offset for offset in offsets]),np.tile(y,len(offsets)),marker='o',ls=style,color=color,label=label,markersize=4)
-        axis.set(xlim=(-65,65) if name=='phi' else(-3,3),ylim=(0,None),xlabel='Barrel sector phase [% of22.5deg]' if name=='phi' else 'Signed pseudorapidity eta',ylabel='Raw SD(r)/mean(r) [%]');axis.grid(alpha=.18)
+        axis.set(xlim=(-65,65) if name=='phi' else(-3,3),ylim=(0,None),xlabel='Barrel sector phase [% of 22.5°]' if name=='phi' else r'Signed pseudorapidity $\eta$',ylabel=r'Raw $\sigma(r)/\langle r\rangle$ [%]');axis.grid(alpha=.18)
         if name=='phi':
             for edge in(-50,50):axis.axvline(edge,color='#777777',ls=':',lw=.8)
             for lo,hi in((-65,-50),(50,65)):axis.axvspan(lo,hi,color=COLOR,alpha=.05)
-    axes[0].legend(frameon=False);fig.suptitle('HCAL edge coverage · matched10,000 pi-minus ·50GeV',fontsize=15)
-    fig.supxlabel('All zeros/tails retained;95% matched whole-primary bootstrap intervals. Periodic margins repeat existing bins.',fontsize=9)
+    axes[0].legend(frameon=False,loc='lower left');fig.suptitle('nODD HCAL · edge coverage · matched 10,000 π⁻ · 50 GeV',fontsize=15)
+    fig.supxlabel('HCAL only · B = 0 · all zeros and tails retained · 95% matched whole-primary bootstrap intervals\nPeriodic margins repeat existing bins without adding statistics.',fontsize=9)
     for ext in('png','pdf','svg'):save_figure(fig,Path(out)/f'raw-energy-resolution-comparison.{ext}')
     plt.close(fig)
 
@@ -435,17 +435,28 @@ def fixed_plot(result,out):
     import matplotlib
     matplotlib.use('Agg')
     import matplotlib.pyplot as plt
-    out=Path(out);out.mkdir(parents=True,exist_ok=True);fig,axes=plt.subplots(1,3,figsize=(15,4.9),layout='constrained');stats=result['statistics']
-    panels=(('raw_energy','Raw sensitive energy [GeV]','raw',1.),('raw_fractional','Raw S/Etrue [%]','fractional',100.),('corrected_residual','Sampling-corrected relative residual [%]','residual',100.))
-    for axis,(name,label,key,factor) in zip(axes,panels):
-        h=result['histograms'][name];axis.stairs(h['counts'],np.array(h['edges'])*factor,color=COLOR,fill=True,alpha=.5);axis.set(xlabel=label,ylabel='Primaries / bin');axis.grid(alpha=.15)
-        ci=result['intervals'][key+'_sd']['ci95'];ci_text='undefined' if ci is None else f"[{factor*ci[0]:.3g},{factor*ci[1]:.3g}]"
-        text=f"mean={factor*stats[key+'_mean']:.4g}\nSD={factor*stats[key+'_sd']:.4g} {ci_text}\nzeros={result['zero_response_events']}/{result['events']}"
-        if key!='residual':text+=f"\nSD/mean={100*stats['raw_cv']:.3g}%" if stats['raw_cv'] is not None else '\nSD/mean undefined'
-        else:text+=f"\nEcorr SD/mean={100*stats['corrected_cv']:.3g}%" if stats['corrected_cv'] is not None else '\nEcorr SD/mean undefined';axis.axvline(0,color='#555555',ls=':',lw=1)
-        axis.text(.97,.97,text,transform=axis.transAxes,ha='right',va='top',fontsize=8.5)
-    d=result['direction'];fig.suptitle(f"HCAL fixed barrel direction ·50GeV pi-minus · eta={d['eta']:.5g}, phi={math.degrees(d['phi_rad']):.5g}deg",fontsize=14)
-    fig.supxlabel(f"Independent2000-primary calibration; frozen fs={stats['fs']:.6g}. Width intervals:95% two-sample bootstrap. Constant scaling does not improve SD/mean.",fontsize=9)
+    out=Path(out);out.mkdir(parents=True,exist_ok=True)
+    plt.rcParams.update({'font.size':10,'axes.spines.top':False,'axes.spines.right':False,'savefig.dpi':180})
+    fig,axes=plt.subplots(1,3,figsize=(15,5.8),layout='constrained');stats=result['statistics']
+    panels=(('raw_energy','Raw deposited energy',r'$E_\mathrm{raw}$ [GeV]','raw',1.,' GeV'),
+            ('raw_fractional','Raw fractional response',r'$E_\mathrm{raw}/E_\mathrm{true}$ [%]','fractional',100.,'%'),
+            ('corrected_residual','Sampling-corrected residual',r'$E_\mathrm{raw}/(f_s E_\mathrm{true})-1$ [%]','residual',100.,'%'))
+    for axis,(name,title,label,key,factor,unit) in zip(axes,panels):
+        h=result['histograms'][name]
+        axis.stairs(h['counts'],np.array(h['edges'])*factor,color=COLOR,fill=True,alpha=.5)
+        axis.set(xlabel=label,ylabel='Primaries / bin',title=title);axis.grid(alpha=.15)
+        ci=result['intervals'][key+'_sd']['ci95']
+        ci_text='undefined' if ci is None else f"[{factor*ci[0]:.4g}, {factor*ci[1]:.4g}]{unit}"
+        text=f"Mean = {factor*stats[key+'_mean']:.4g}{unit}\nSD = {factor*stats[key+'_sd']:.4g}{unit}\n95% CI {ci_text}"
+        cv=stats['corrected_cv'] if key=='residual' else stats['raw_cv']
+        label_cv='SD(Ecorr) / mean(Ecorr)' if key=='residual' else 'SD / mean'
+        text+=f"\n{label_cv} = {100*cv:.3g}%" if cv is not None else '\nSD / mean undefined'
+        text+=f"\nN = {result['events']:,}; zeros = {result['zero_response_events']}"
+        if key=='residual':axis.axvline(0,color='#555555',ls=':',lw=1)
+        axis.text(.025,.97,text,transform=axis.transAxes,ha='left',va='top',fontsize=8.5)
+    d=result['direction']
+    fig.suptitle(f"nODD HCAL · 10,000 π⁻ · 50 GeV\nFixed barrel direction: η = {d['eta']:.5g}, φ = {math.degrees(d['phi_rad']):.5g}°",fontsize=14)
+    fig.supxlabel(f"Independent 2,000-event calibration · frozen fs = {stats['fs']:.7g} · 95% two-sample bootstrap intervals\nAll zeros and tails included · constant sampling scaling leaves SD / mean unchanged",fontsize=9)
     for ext in('png','pdf','svg'):save_figure(fig,out/f'fixed-direction-response.{ext}')
     plt.close(fig)
     save(out/'render.json',{p.name:sha(p) for p in sorted(out.iterdir()) if p.suffix in('.png','.pdf','.svg')})

@@ -137,3 +137,29 @@ is running. No fixed-validation width is claimed yet.
 
 Added replot_fixed.py as a thin CLI over the unchanged fixed_plot function;
 it consumes compact summaries only and changes no frozen scientific producer.
+
+HCAL-EDGE-PHYS-ANGULAR reviews committed angular/calibration evidence at
+00d519f8526596bcd2372ab48cb4ecad9679a8bf; fixed evaluation is still pending.
+
+## Fixed validation and visual QA
+
+All10000fixed primaries and17433422saved hits pass the complete readback.
+DDSim transport703.283884s,7488.904476CPU-seconds,2.655GBpeakRSS and9.309GB
+localROOT. Clean7059bf6c producer/library hashes remained unchanged. Raw mean
+0.6391135443GeV, SD0.0616270630GeV; raw SD/Etrue0.1232541261%, corrected
+relative SD9.636376628%, raw/corrected SD/mean9.642584416%, zero0.
+Corrected mean49.96781056GeV and residualbias−0.06437889% are held-out
+validation quantities; the factor was not refit. The95%two-sample corrected
+width interval is[9.22817914%,10.09677347%].
+
+Visual QA moved histogram annotations away from peaks and improved typography
+andDPI. Onlycomparison_plot/fixed_plotASTs differ from7059; every statistical,
+histogram,seed,calibration/bootstrap function remains unchanged. Published
+render-source-equivalence.json distinguishes the later renderer and frozen
+statistical producer. No simulation/selection/cuts/results were retuned.
+
+Separate PhysVal angular/calibration review at00d519f8 reproduced all30bins,
+1000matched draws,60×60covariance, source/input/readback hashes and fs.
+MaximumCI discrepancy2.28e−14, covariance9.45e−18. It independently re-ranked
+all5551candidates and found no blocking finding. It did not repeat native
+geometry/fullROOT parsing and excluded fixed results from that assessment.
