@@ -1,0 +1,151 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-11-09-reactive-agent-workflow",
+  "title": "Propose reactive reviewer task intake for issue 127",
+  "recorded_at": "2026-11-09T13:08:53Z",
+  "started_at": null,
+  "ended_at": "2026-11-09T13:15:24Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact client per-turn counters, client version and stable thread/turn IDs were not exposed; usage remains empty and unknown, not zero. The active turn is excluded.",
+    "Public history and repository source do not establish deployed configuration, host availability or consumed attempt history; private runner state was not inspected.",
+    "This is a documentation proposal. No reactive implementation, live latency measurement, dependency study, public status response or machine configuration change was performed.",
+    "Commit, push, draft PR creation and its individual interaction capture/verification are delegated to the configured host publisher, outside this sandboxed task."
+  ],
+  "client": {
+    "name": "Codex scheduled agent_task runner",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "61af5cd92cc651e9add100f8d9733f6e6c73d8bd",
+    "branch": "codex/agent-task-127-35570260965",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      "tools/agent_tasks/README.md",
+      "tools/agent_tasks/reactive-intake-proposal.md",
+      "logs/codex/SESSION-2026-11-09-reactive-agent-workflow.json",
+      "logs/codex/SESSION-2026-11-09-reactive-agent-workflow.md",
+      "logs/codex/SESSION-2026-11-09-reactive-agent-workflow/public-inputs.json"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [
+      "repository infrastructure",
+      "reviewer task intake proposal",
+      "human sign-off boundaries"
+    ],
+    "related_ids": [
+      "ISSUE-127",
+      "ADR-002",
+      "ADR-003",
+      "ADR-004"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-11-09-reactive-agent-workflow.md",
+  "activities": [
+    {
+      "kind": "skill",
+      "name": "nodd-coordinate",
+      "version": null,
+      "calls": 1,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Read .agents/skills/nodd-coordinate/SKILL.md; kept this focused, dependent infrastructure proposal with the main agent. No specialist dispatch or independent review claimed."
+    },
+    {
+      "kind": "tool",
+      "name": "functions.exec",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Native Codex orchestration of exposed exec_command/apply_patch/write_stdin operations for repository reads, documentation edits and validation. Counts and duration not measured."
+    },
+    {
+      "kind": "tool",
+      "name": "mcp__codex_apps__github_fetch; mcp__codex_apps__github_fetch_pr_comments; mcp__codex_apps__github_get_pr_info",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Connected GitHub read-only operations inspected PR118 comment, events, metadata and public discussion. Selected public evidence is in the session public-inputs.json; no mutations."
+    },
+    {
+      "kind": "tool",
+      "name": "web.run",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Reviewed official GitHub operational documentation while comparing transport options. The final proposal makes project operating recommendations; provider-specific protocol/API verification is deferred to implementation, with no new detector source or software capability claimed."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 -B -m unittest discover -s tools/agent_tasks -p 'test_*.py' -q",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "27 existing runner/publisher tests passed in 33.623 s with local Git and fake GitHub/Codex fixtures; no live workflow change was exercised."
+    },
+    {
+      "command": "python3 -B tools/software_inventory/inventory.py check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "56 components, 99 code families, 51 reviewed inputs and 4 software pins consistent; documentation-only proposal changes no installed software or integration."
+    },
+    {
+      "command": "python3 -B tools/interactions/ledger.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "108 existing PR interaction records valid; canonical usage unchanged. New draft PR number and interaction capture belong to the host publisher."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "441 disjoint recorded turns and 441 dated turns validated; observed project total 2,128,449,416 tokens. No task-specific usage inferred."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py build --output _site/agent-task-127-preview",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Token dashboard preview built successfully under ignored _site output; 441 disjoint dated turns, 2,128,449,416 observed project tokens."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "262 paired session records validated."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py summary --format json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "262 sessions, 172 with usage and 90 without. Observed project input 2,118,614,183 and output 9,835,233; current task usage remains empty and unknown, not zero."
+    },
+    {
+      "command": "Inline Python review of relative links, selected JSON evidence, original source-catalogue bytes, changed-file sizes and tools/project_records/check_update.py:check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "12 repository-relative links resolve; JSON parses; five changed files are ordinary files below 5 MiB; Infrastructure title/path policy passes; reference/manifest.yaml matches the input revision byte-for-byte."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors in tracked changes; new documents also inspected as UTF-8 text."
+    },
+    {
+      "command": "Live scheduler/webhook/status-writer/latency pilot and resumed calorimeter validation",
+      "status": "NOT RUN",
+      "exit_code": null,
+      "result": "Outside this bounded proposal request; new permissions and transport/deployment choices remain explicit human decisions. No scientific execution or human sign-off claimed."
+    }
+  ]
+}
