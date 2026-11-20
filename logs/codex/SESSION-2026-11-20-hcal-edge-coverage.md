@@ -115,3 +115,25 @@ and runtime geometry-library identity. Fixed analysis also checks calibration
 freeze chronology. All14transport/statistics tests pass, including negative
 foreign/failed/NaN/corrupted/library/chronology cases. A new exact-commit
 PhysVal guard assignment checks the correction before production.
+
+## Frozen production and first results
+
+At clean7059bf6c all native/material/ID/overlap and final geometric-direction
+gates passed, followed by exact saved-cell24-event serial/MT controls. Source,
+libraries, geometry and protocol were frozen before new showers. Angular
+10000events seed202650001 and fixed2000calibration seed202650102 launched
+from clean source. Calibration transport186.29s and full readback56.45s passed;
+fs0.012790505271365755 was frozen2026-11-20T15:14:33.568939+00:00 before
+launching independent10000fixed validation atseed202650103.
+
+Angular transport701.86s and full saved-hit audit250.31s passed:17102894
+saved hits, every10000primary, physical centre and energy closure verified.
+Inclusive raw mean0.519338GeV, SD0.089537GeV, SD/mean17.240555%,3zeros,
+versus original24.028696%. Folded edge-bin widths17.526%/16.992% replace
+approximately44%; all tails/zeros retained. New source includes steel/guide
+coverage and repacking as well as scintillator, so this does not isolate a
+scintillator-only causal effect. Fixed transport has exited0; full readback
+is running. No fixed-validation width is claimed yet.
+
+Added replot_fixed.py as a thin CLI over the unchanged fixed_plot function;
+it consumes compact summaries only and changes no frozen scientific producer.
