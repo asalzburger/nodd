@@ -4,8 +4,8 @@
   "title": "HCAL fit, depth and segmented 50 GeV pion response",
   "recorded_at": "2026-11-20T12:47:19Z",
   "started_at": null,
-  "ended_at": null,
-  "status": "open",
+  "ended_at": "2026-11-20T13:30:53Z",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
@@ -24,9 +24,67 @@
     "result_commits": [
       "3790ef5453153ff67814ee91ddb13b80f8d72802",
       "464dab316ac7d27d0c0f79ac89f6eb8960a703ca",
-      "8e0775cc46e27660791bb0f01fd42abafa5bf241"
+      "8e0775cc46e27660791bb0f01fd42abafa5bf241",
+      "a2db8187033ad2580106ab4df742d2f9db0bd572",
+      "93219f73165231f61ffae7b0e9a36b096c2c5948"
     ],
-    "changed_files": []
+    "changed_files": [
+      ".github/workflows/validation.yml",
+      "docs/design/DES-045-hcal-restored-ecal-pion50.md",
+      "docs/layouts/LAYOUT-002-tracker-3t-lar.md",
+      "docs/layouts/README.md",
+      "docs/software-inventory.md",
+      "docs/validation/hcal50/README.md",
+      "docs/validation/hcal50/controls.json",
+      "docs/validation/hcal50/draw_fit.py",
+      "docs/validation/hcal50/export-equivalence.json",
+      "docs/validation/hcal50/figures/depth-response-controls.pdf",
+      "docs/validation/hcal50/figures/depth-response-controls.png",
+      "docs/validation/hcal50/figures/depth-response-controls.svg",
+      "docs/validation/hcal50/figures/fit-provenance.json",
+      "docs/validation/hcal50/figures/hcal-fit-segmentation.pdf",
+      "docs/validation/hcal50/figures/hcal-fit-segmentation.png",
+      "docs/validation/hcal50/figures/hcal-fit-segmentation.svg",
+      "docs/validation/hcal50/figures/mean-response.pdf",
+      "docs/validation/hcal50/figures/mean-response.png",
+      "docs/validation/hcal50/figures/mean-response.svg",
+      "docs/validation/hcal50/figures/raw-energy-resolution.pdf",
+      "docs/validation/hcal50/figures/raw-energy-resolution.png",
+      "docs/validation/hcal50/figures/raw-energy-resolution.svg",
+      "docs/validation/hcal50/figures/render.json",
+      "docs/validation/hcal50/figures/response-distributions-eta.pdf",
+      "docs/validation/hcal50/figures/response-distributions-eta.png",
+      "docs/validation/hcal50/figures/response-distributions-eta.svg",
+      "docs/validation/hcal50/figures/response-distributions-phi.pdf",
+      "docs/validation/hcal50/figures/response-distributions-phi.png",
+      "docs/validation/hcal50/figures/response-distributions-phi.svg",
+      "docs/validation/hcal50/native.json",
+      "docs/validation/hcal50/protocol.md",
+      "docs/validation/hcal50/reproduce.md",
+      "docs/validation/hcal50/summary.json",
+      "interactions/pr-0155.json",
+      "logs/codex/SESSION-2026-11-20-hcal-pion50.json",
+      "logs/codex/SESSION-2026-11-20-hcal-pion50.md",
+      "project/tracking.json",
+      "prototypes/hcal_response/CMakeLists.txt",
+      "prototypes/hcal_response/HCAL.cpp",
+      "reference/manifest.yaml",
+      "software/analysis/hcal_response/Audit.cpp",
+      "software/analysis/hcal_response/CMakeLists.txt",
+      "software/analysis/hcal_response/README.md",
+      "software/analysis/hcal_response/analyze.py",
+      "software/analysis/hcal_response/steering.py",
+      "software/analysis/hcal_response/test_analyze.py",
+      "software/analysis/hcal_response/test_transport.py",
+      "software/analysis/hcal_response/transport.py",
+      "software/inventory.json",
+      "tools/hcal_response/README.md",
+      "tools/hcal_response/config.json",
+      "tools/hcal_response/export.py",
+      "tools/hcal_response/model.py",
+      "tools/hcal_response/native.py",
+      "tools/hcal_response/test_model.py"
+    ]
   },
   "work": {
     "milestone": "M1",
@@ -89,6 +147,36 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "Current local records validate; draft PR ledger created after number assignment. Exact active-task usage remains unknown."
+    },
+    {
+      "command": "10000-event HCAL-only pi-minus production and full saved-data readback",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "551.13s wall;16531599saved hits; all10000IDs,12workers, physical centres and energy closure pass. Max saved/native1.1551e-8GeV; centre0.00024414mm. Launch producers/libraries unchanged."
+    },
+    {
+      "command": "Independent bin/statistics/bootstrap/covariance verification and separate PhysVal review at93219f73",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All30angular bins/counts/zeros/histograms and jointbootstrap covariance reproduced. Rawwidth24.028696%,4zeros; separate technical assessment reports no blocking scientific finding. No human sign-off."
+    },
+    {
+      "command": "Replot committed aggregates and compare all five PNG hashes",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All five response PNGs replay byte-identically; source and render hashes bind final outputs."
+    },
+    {
+      "command": "Fresh handoff-guard export versus frozen transport geometry",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Detector XML, material definitions and all carrier poses are byte-identical after validation-only50+20mm handoff hardening."
+    },
+    {
+      "command": "Final session/project/inventory/interaction/token validation and token preview build",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "304paired sessions,110tasks/55documents,125PRledgers; software inventory69components/105families/55reviewed inputs/12pins. Token preview builds; this task has no exposed exact token counters. Remote broad CI pending at last snapshot, token-sitepassed."
     }
   ]
 }
