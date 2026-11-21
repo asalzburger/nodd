@@ -7,6 +7,29 @@
 Source examined: `8153129e07d92a17dccca6fa0226ae5142398941`.
 No detector configuration, exported/native geometry or response sample is changed.
 
+![Proposed compact HCAL with previous outline and service-exit reservation](../../layouts/figures/LAYOUT-002-HCAL-compact-proposal-rz.png)
+
+The21November drawing shows the80 mm-allowance candidate below. Solid orange is
+the proposed HCAL; dashed orange is the previous outline. Yellow hatching marks
+the relocated500 mm service-exit reservation. It is an envelope illustration,
+not a newly constructed/native-validated detector.
+[Named inputs](../../layouts/LAYOUT-002-HCAL-compact-proposal.json) ·
+[SVG](../../layouts/figures/LAYOUT-002-HCAL-compact-proposal-rz.svg) ·
+[PDF](../../layouts/figures/LAYOUT-002-HCAL-compact-proposal-rz.pdf)
+
+```sh
+python3 -B tools/hcal_response/draw_rz.py --capture --compact-hcal \
+  --input docs/layouts/LAYOUT-002-HCAL-compact-proposal.json \
+  --output docs/layouts/figures/LAYOUT-002-HCAL-compact-proposal-rz.svg
+rsvg-convert docs/layouts/figures/LAYOUT-002-HCAL-compact-proposal-rz.svg \
+  -o docs/layouts/figures/LAYOUT-002-HCAL-compact-proposal-rz.png
+rsvg-convert -f pdf docs/layouts/figures/LAYOUT-002-HCAL-compact-proposal-rz.svg \
+  -o docs/layouts/figures/LAYOUT-002-HCAL-compact-proposal-rz.pdf
+```
+
+Omit both capture flags to replay the named input. Source hashes bind the parent
+layout and screen; current geometry figures are preserved byte-identically.
+
 ## Space and a compact candidate
 
 **FACT about the current project model:** the complete ECAL warm endcap ends at

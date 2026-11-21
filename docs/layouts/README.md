@@ -35,6 +35,9 @@ The [axial compaction screen](../design/inputs/DES-046-axial-compaction-screen.m
 finds a candidate saving1.04 m overall while retaining the current module-end
 allowance and500 mm service-exit window. It is not adopted in this drawing or
 the validated geometry; a smaller allowance could save1.16 m overall.
+[Proposed compact r–z drawing](figures/LAYOUT-002-HCAL-compact-proposal-rz.png) ·
+[SVG](figures/LAYOUT-002-HCAL-compact-proposal-rz.svg) ·
+[Named proposal inputs](LAYOUT-002-HCAL-compact-proposal.json).
 
 [Current composite named inputs](LAYOUT-002-DES046-gap400.json) ·
 [SVG](figures/LAYOUT-002-DES046-gap400-rz.svg) · [PDF](figures/LAYOUT-002-DES046-gap400-rz.pdf)
