@@ -1,0 +1,133 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-11-20-detector-rz-des046",
+  "title": "Latest tracker solenoid ECAL HCAL R-Z view",
+  "recorded_at": "2026-11-20T19:02:37Z",
+  "started_at": null,
+  "ended_at": "2026-11-20T19:12:22Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact client version, persistent thread ID and per-turn token counters are unavailable; usage is empty and unknown, not zero.",
+    "This is a source-bound composite drawing, not a newly integrated native detector or an installed magnetic field.",
+    "The coordinator performed this small dependent drawing task sequentially; no new independent specialist review was commissioned."
+  ],
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "071041c9cbf991fefebafc4c5747090b5c100412",
+    "branch": "codex/hcal-edge-coverage",
+    "initial_changes": [],
+    "result_commits": [
+      "0d10b5e27f876a0127ba71effee7edab9603917b"
+    ],
+    "changed_files": [
+      "README.md",
+      "docs/layouts/LAYOUT-002-DES046-gap400.json",
+      "docs/layouts/LAYOUT-002-DES046.json",
+      "docs/layouts/LAYOUT-002-tracker-3t-lar.md",
+      "docs/layouts/README.md",
+      "docs/layouts/figures/LAYOUT-002-DES046-gap400-rz.pdf",
+      "docs/layouts/figures/LAYOUT-002-DES046-gap400-rz.png",
+      "docs/layouts/figures/LAYOUT-002-DES046-gap400-rz.svg",
+      "docs/layouts/figures/LAYOUT-002-DES046-rz.pdf",
+      "docs/layouts/figures/LAYOUT-002-DES046-rz.png",
+      "docs/layouts/figures/LAYOUT-002-DES046-rz.svg",
+      "docs/software-inventory.md",
+      "interactions/pr-0157.json",
+      "logs/codex/SESSION-2026-11-20-detector-rz-des046.json",
+      "logs/codex/SESSION-2026-11-20-detector-rz-des046.md",
+      "project/tracking.json",
+      "software/inventory.json",
+      "tools/hcal_response/README.md",
+      "tools/hcal_response/draw_rz.py"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [
+      "tracker",
+      "solenoid",
+      "ECAL",
+      "HCAL",
+      "layout drawing"
+    ],
+    "related_ids": [
+      "PR157",
+      "DES-026",
+      "DES-043",
+      "DES-045",
+      "DES-046",
+      "LAYOUT-002"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-11-20-detector-rz-des046.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 -B tools/hcal_response/draw_rz.py --capture --input docs/layouts/LAYOUT-002-DES046.json --output docs/layouts/figures/LAYOUT-002-DES046-rz.svg",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Current selected ECAL envelopes reconstructed including local services and agree with retained bounds; all DES043 tracker and validated HCAL source hashes match; barrel/endcap stack depth closes at2590mm."
+    },
+    {
+      "command": "rsvg-convert SVG to PNG and PDF; functions.view_image PNG inspection",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "PNG and single-page PDF rendered using existing librsvg2.62.3; plot is legible, fullHCAL fits, equal scales and source/scope labels checked visually."
+    },
+    {
+      "command": "draw_rz.py named-input replay, rsvg-convert replay and cmp SVG/PNG",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Published SVG and PNG replay byte-identically without native dependencies."
+    },
+    {
+      "command": "git fetch origin (escalated after sandbox DNS failure)",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Remote refs refreshed; current main78bef505 does not contain the selected restored/HCAL proposal. Drawing uses source-bound task branch071041c9 with selected ECAL and validated7059bf6c HCAL. No merge or geometry changes."
+    },
+    {
+      "command": "Python3.11 compile; SVG XML parse and bounds; independent expected dimension assertions",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Renderer syntax, complete canvas fit,46682tracker planes and60-layer3130/5720/6260mm barrel plus6760/9350mm endcaps pass."
+    },
+    {
+      "command": "session_log.py validate and summary; project_records/validate.py; software_inventory check; interactions/ledger.py validate; token_usage validate/build",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "307sessions,112tasks/56documents/24reviewrounds,69softwarecomponents/105families/55inputs/12pins and127PRledgers validate; token preview build succeeds. Current-taskusageempty/unobserved. Global579historicalturns are not current-taskusage."
+    },
+    {
+      "command": "git diff --check and new artifact review",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Whitespace clean. Only focused drawing/docs/metadata changed; largest new artifactPNG244712bytes; no event samples or native data added."
+    },
+    {
+      "command": "Connected GitHub PR151/150 metadata; git show PR151HEAD:gap400-prototype.json and SHA256 comparison",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "PR151 merged2026-11-18T14:59:50Z into stacked restored baseline branch;400mm recipe exactly matches source head0babd0cf. Default selector still1m, explaining prior drawing error."
+    },
+    {
+      "command": "draw_rz.py --capture --ecal-gap-mm400; PNG/PDF render and visual inspection; both variant replays",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Corrected warm endcaps4500\u20135660mm and marked400mm gap; HCAL unchanged. New400mm SVG/PNG and old1m SVG replay byte-identically."
+    },
+    {
+      "command": "Corrected-gap project/software/session/interaction validators, token preview and Python3.11/dimension checks",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All validators and preview pass after400mm correction. Both endcaps translate exactly600mm with unchanged local bounds/wheels, tracker, barrel, solenoid and HCAL; explicit400mm SVG label parses. No exact current-task token counters."
+    }
+  ]
+}

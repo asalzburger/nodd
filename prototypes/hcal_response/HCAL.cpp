@@ -16,6 +16,7 @@
 #include <stdexcept>
 #include <string>
 #include <vector>
+#include <tuple>
 namespace {
 using namespace dd4hep;
 using xml::Handle_t;
@@ -24,51 +25,58 @@ using dd4hep::DDSegmentation::CellID;
 using dd4hep::DDSegmentation::VolumeID;
 using dd4hep::DDSegmentation::Vector3D;
 class TileGrid : public dd4hep::DDSegmentation::Segmentation {
+  struct Tile {int module,sensor;Vector3D center,size;};
   std::vector<double> table;
   mutable std::once_flag initialized;
-  mutable std::array<Vector3D,72> centers;
+  mutable std::map<int,std::vector<Tile>> units;
   void initialize() const {
     std::call_once(initialized,[this] {
-      if(table.size()!=72*5)throw std::runtime_error("HCAL tile table requires72cells");
-      std::set<int> seen;
-      for(size_t i=0;i<table.size();i+=5) {
-        int module=int(table[i]),sensor=int(table[i+1]);
-        if(module<0||module>1||sensor<0||sensor>35||!seen.insert(module*36+sensor).second)throw std::runtime_error("HCAL invalid tile table ID");
-        centers[module*36+sensor]=Vector3D(table[i+2]*mm,table[i+3]*mm,table[i+4]*mm);
-        double ex=(module?186.:0.)+30.*(sensor%6),ey=30.*(sensor/6);
-        if(std::abs(table[i+2]-ex)>1e-9||std::abs(table[i+3]-ey)>1e-9||std::abs(table[i+4])>1e-9)throw std::runtime_error("HCAL tile table differs from frozen physical module");
+      if(table.empty()||table.size()%9)throw std::runtime_error("HCAL explicit table requires nine fields per cell");
+      std::set<std::tuple<int,int,int>> seen;
+      for(size_t i=0;i<table.size();i+=9) {
+        for(size_t j=0;j<9;++j)if(!std::isfinite(table[i+j]))throw std::runtime_error("HCAL nonfinite explicit cell table");
+        int unit=int(table[i]),module=int(table[i+1]),sensor=int(table[i+2]);
+        if(table[i]!=unit||table[i+1]!=module||table[i+2]!=sensor||unit<0||unit>255||module<0||module>1||sensor<0||sensor>35||!seen.emplace(unit,module,sensor).second)
+          throw std::runtime_error("HCAL invalid or duplicate explicit unit/module/sensor");
+        if(table[i+6]<=0||table[i+7]<=0||table[i+8]<=0)throw std::runtime_error("HCAL nonpositive core dimensions");
+        units[unit].push_back({module,sensor,Vector3D(table[i+3]*mm,table[i+4]*mm,table[i+5]*mm),Vector3D(table[i+6]*mm,table[i+7]*mm,table[i+8]*mm)});
       }
+      for(const auto& entry:units)if(entry.second.empty()||entry.second.size()>72)throw std::runtime_error("HCAL unit channel capacity");
     });
+  }
+  const Tile& lookup(const CellID& id) const {
+    initialize();int unit=int(_decoder->get(id,"unit")),module=int(_decoder->get(id,"module")),sensor=int(_decoder->get(id,"sensor"));
+    if(_decoder->get(id,"x")||_decoder->get(id,"y"))throw std::runtime_error("HCAL reserved x/y cell fields must be zero");
+    auto family=units.find(unit);
+    if(family!=units.end())for(const auto& tile:family->second)if(tile.module==module&&tile.sensor==sensor)return tile;
+    throw std::runtime_error("HCAL logical cell absent from physical unit");
   }
  public:
   explicit TileGrid(const BitFieldCoder* decoder):dd4hep::DDSegmentation::Segmentation(decoder) {
-    _type="nODDHCALTileGrid";_description="72exact physical recessed scintillator cells inside one compound sensitive carrier volume";
-    registerParameter("tile_table_mm","module,sensor,active-volume-local center x,y,z in mm",table,std::vector<double>{});
+    _type="nODDHCALTileGrid";_description="Explicit physical HCAL unit/core channel maps";
+    registerParameter("tile_table_mm","unit,module,sensor,active-local cx,cy,cz,sx,sy,sz in mm",table,std::vector<double>{});
   }
-  Vector3D position(const CellID& id) const override {
-    initialize();int module=int(_decoder->get(id,"module")),sensor=int(_decoder->get(id,"sensor"));
-    if(module<0||module>1||sensor<0||sensor>35||_decoder->get(id,"x")||_decoder->get(id,"y"))throw std::runtime_error("HCAL invalid logical cell");
-    return centers[module*36+sensor];
-  }
+  Vector3D position(const CellID& id) const override {return lookup(id).center;}
   CellID cellID(const Vector3D& local,const Vector3D&,const VolumeID& raw) const override {
-    initialize();int module=local.x()<168.*mm?0:1;
-    int col=int(std::llround((local.x()/mm-(module?186.:0.))/30.));
-    int row=int(std::llround((local.y()/mm)/30.));
-    if(col<0||col>=6||row<0||row>=6) {
-      std::ostringstream msg;msg<<std::setprecision(17)<<"HCAL hit outside physical tile field: active-local-mm="<<local.x()/mm<<","<<local.y()/mm<<","<<local.z()/mm<<" module="<<module<<" col="<<col<<" row="<<row<<" raw="<<raw;throw std::runtime_error(msg.str());
+    initialize();int unit=int(_decoder->get(raw,"unit"));auto family=units.find(unit);
+    if(family==units.end())throw std::runtime_error("HCAL unknown physical unit");
+    const Tile* selected=nullptr;
+    for(const auto& tile:family->second)
+      if(std::abs(local.x()-tile.center.x())<=tile.size.x()/2+1e-5*mm&&
+         std::abs(local.y()-tile.center.y())<=tile.size.y()/2+1e-5*mm&&
+         std::abs(local.z()-tile.center.z())<=tile.size.z()/2+1e-5*mm) {
+        if(selected)throw std::runtime_error("HCAL ambiguous physical tile address");selected=&tile;
+      }
+    if(!selected) {
+      std::ostringstream msg;msg<<std::setprecision(17)<<"HCAL hit in physical gap: unit="<<unit<<" active-local-mm="<<local.x()/mm<<","<<local.y()/mm<<","<<local.z()/mm<<" raw="<<raw;
+      throw std::runtime_error(msg.str());
     }
-    int sensor=row*6+col;auto center=centers[module*36+sensor];
-    if(std::abs(local.x()-center.x())>14.85001*mm||std::abs(local.y()-center.y())>14.85001*mm||std::abs(local.z()-center.z())>1.50001*mm) {
-      std::ostringstream msg;msg<<std::setprecision(17)<<"HCAL hit in a physical tile gap: active-local-mm="<<local.x()/mm<<","<<local.y()/mm<<","<<local.z()/mm<<" chosen-center-mm="<<center.x()/mm<<","<<center.y()/mm<<","<<center.z()/mm<<" module="<<module<<" sensor="<<sensor<<" raw="<<raw;throw std::runtime_error(msg.str());
-    }
-    CellID result=raw;_decoder->set(result,"module",module);_decoder->set(result,"sensor",sensor);_decoder->set(result,"x",0);_decoder->set(result,"y",0);return result;
+    CellID result=raw;_decoder->set(result,"module",selected->module);_decoder->set(result,"sensor",selected->sensor);_decoder->set(result,"x",0);_decoder->set(result,"y",0);return result;
   }
   VolumeID volumeID(const CellID& id) const override {
-    position(id);VolumeID result=id;
-    for(auto key:{"module","sensor","x","y"})_decoder->set(result,key,0);
-    return result;
+    lookup(id);VolumeID result=id;for(auto key:{"module","sensor","x","y"})_decoder->set(result,key,0);return result;
   }
-  std::vector<double> cellDimensions(const CellID&) const override {return {29.7*mm,29.7*mm,3.*mm};}
+  std::vector<double> cellDimensions(const CellID& id) const override {const auto& tile=lookup(id);return {tile.size.x(),tile.size.y(),tile.size.z()};}
 };
 
 double val(Handle_t h,const char* key) {
@@ -153,7 +161,8 @@ Ref_t createHCAL(Detector& detector,Handle_t h,SensitiveDetector sd) {
 
       }
     }
-    if(!tileIds.empty()&&tileIds.size()!=72)throw std::runtime_error("HCAL carrier must own exactly72tiles");
+    if(tileIds.size()>72)throw std::runtime_error("HCAL physical unit exceeds72cells");
+    if(t.hasAttr("tile_count")&&tileIds.size()!=size_t(t.attr<int>("tile_count")))throw std::runtime_error("HCAL declared unit cell count differs");
     if(!sensitiveLeaves.empty()) {
       // Pairwise reduction keeps boolean navigation depth logarithmic. Keep
       // every left transform identity: DDG4's native boolean conversion applies
@@ -171,7 +180,10 @@ Ref_t createHCAL(Detector& detector,Handle_t h,SensitiveDetector sd) {
         sensitiveLeaves=std::move(next);
       }
       Volume active(name+key+"CompoundTiles",sensitiveLeaves[0].first,detector.material("PSHost"));
-      active.setSensitiveDetector(sd);volume.placeVolume(active,sensitiveLeaves[0].second);
+      active.setSensitiveDetector(sd);
+      const int unit=t.hasAttr("unit")?t.attr<int>("unit"):0;
+      if(unit<0||unit>255)throw std::runtime_error("HCAL unit identifier capacity");
+      volume.placeVolume(active,sensitiveLeaves[0].second).addPhysVolID("unit",unit);
     }
     for(xml::Collection_t p(t,"place");p;++p) {
       auto child=make(p.attr<std::string>("ref"));auto placed=volume.placeVolume(child,pose(p));

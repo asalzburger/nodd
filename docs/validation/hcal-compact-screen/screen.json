@@ -1,0 +1,470 @@
+{
+  "status": "DRAFT / proposal screen; no geometry adoption or native transport",
+  "python_version": "3.14.6",
+  "input_revision": "8153129e07d92a17dccca6fa0226ae5142398941",
+  "generator_sha256": "89040d3d7a5be3873c6e38b26eb0d5aa35f2aecf0aa4f0b487d7a122cf6ed3c7",
+  "source_sha256": {
+    "detector/config/ecal-baseline.json": "d1b9eca383e2ac6768a568b383d246c593a7fd709fee48e2bb8bcd54a4b5fa18",
+    "detector/config/elements.json": "22f2968258a363e8bed8bda4aed741485579441926d850ef4b54bbf7aba66c90",
+    "docs/layouts/LAYOUT-002-DES046-gap400.json": "8af8f8f6b45d48c5446fe0fff36082fe5aa8f22358d518b7f1b71f853d99ee82",
+    "docs/validation/DES-036/budgets.json": "d5fbf51b2d23baef7e0fd89ab621e1e69ac5329844d6efb96927a1c5b55ef226",
+    "docs/validation/hcal50-edge/geometry.json": "345c8aa55e5da00d540a636b9aef6bb53d2b4a28bbc8dc9d5e81ae9012844ff8",
+    "prototypes/calorimeter/LArBarrel.cpp": "3a7f34faec16699ecc258c5851389319a2f3af0d896f6a73ae2c0abda893cc23",
+    "prototypes/calorimeter/LArEndcap.cpp": "edfd8a2aa8d8bfa75e7f676ecbc3e145d1251629b47ffbe6f955ae3f7b56599d",
+    "prototypes/hcal_response/CMakeLists.txt": "b7d9d606b76829e9663507a9909481304e529a91e81bec632e47199132233794",
+    "prototypes/hcal_response/HCAL.cpp": "5c88594f500215aee94b5056644cf31a288cbb9c831064ab826b733eec871f4b",
+    "tools/hcal_endcap/design.py": "10cd2f178af4abfb690071e0be7123b6da9d4cc9cd6c95abe26f2c3d7cf790e7",
+    "tools/hcal_readout/config.json": "0ff98a80f5398ce363ba52fdd3b34a939f9d6df767a78757d11bb9a2f858a1a8",
+    "tools/hcal_readout/readout.py": "ae6a72d09dcccf6f488d4f20784c874ab9392405365aebf6226be573085ebebe",
+    "tools/hcal_response/config.json": "d2433a2d5d661541da886d0d6696254d82817b4891d0e632c22be8918d0c65f2",
+    "tools/hcal_response/edge_units.py": "4e9e3ff6b1f32f7cb729ea3ac27bdf99961062ab803309ae59f99639d949319f",
+    "tools/hcal_response/export.py": "bb56edf7dba8aa5468844f9e4cc45aacf2bde9b34015c8c875f75d72b1ab4c87",
+    "tools/hcal_response/model.py": "73b37b99ff8107aa1eee10a5260b4871330c08100041689e99bb785bb18a242c",
+    "tools/lar_calorimeter/barrel.json": "cc72875d76f034109bf68045910eecdfebfa36a26e63376e206e9348e2a18f8c",
+    "tools/lar_calorimeter/barrel_export.py": "5fe68db27daa0b1f54da18b6800fbbb95da3e9486ce7b40210365d5e80f48bc2",
+    "tools/lar_calorimeter/barrel_geometry.py": "db5cd1a3386602505edf35cc43f8c5aae3bf3729fdfcb3dea72b1afc81d1a14d",
+    "tools/lar_calorimeter/barrel_services.py": "fe37842df6f9f76af6afbf10747e7e55fd9274324c828e5b21f29fbcbc8acb73",
+    "tools/lar_calorimeter/compact_prototype.py": "3614933c797c149ffe8a943e4f60237a4d05c0b74c0622988d68d22b9a33c2e3",
+    "tools/lar_calorimeter/endcap_export.py": "b72c944926da2b577280971f67e177b6c609e88bed2d6c44df5cf89f91f0c844",
+    "tools/lar_calorimeter/endcap_geometry.py": "125b2d7c4822a9108989939621b32eda3c3cbd52fbd9cc4e7aa4b581a192844f",
+    "tools/lar_calorimeter/endcap_services.py": "d47fa2ff03108655c39fbfba3449ac8bea5ed0994cee91a0c774ff682806e713",
+    "tools/lar_calorimeter/endcaps.json": "c1cfc81b343840fcc61e7c87984462347dc0ce97d2d8539d81ab3b6e8b1bf85a",
+    "tools/lar_calorimeter/gap400-prototype.json": "1950740f7bed57efd5418a979887cea4d0be9001d341b9f74ce118706da6ad9d",
+    "tools/lar_calorimeter/placement.py": "ccc8bbbe8ce8ab0276615586025701de45d47dc3615ab0544e0cd5f0b66b69c5",
+    "tools/lar_calorimeter/services.json": "4b8ad1c805e7fe9421a8edbb2ce05e0daf077fdd9088af4ef2d15edc319a76c8",
+    "tools/lar_calorimeter/services.py": "32f74b7fa7e6b06bcb2147c565f0392f1a1f6ff62386dd00ba88ab13209e667f",
+    "tools/pixel_barrel_dd4hep/materials.py": "1d11107f7dda39420ccbb8c328d32a9087ac51d9da69f9aa492f29fc8f673ca6"
+  },
+  "ecal_warm_back_mm": 5660,
+  "candidates": [
+    {
+      "name": "current",
+      "barrel_half_z_mm": 6260,
+      "endcap_front_mm": 6760,
+      "endcap_back_mm": 9350,
+      "overall_length_saved_mm": 0,
+      "barrel_rows": 47,
+      "barrel_carriers": 268464,
+      "barrel_tiles": 15173856,
+      "cassette_to_flange_mm": 80.0,
+      "rear_ecal_interval_mm": 1100,
+      "depth_mm": 2590,
+      "service_reservation": {
+        "status": "CONDITIONAL RESERVATION ONLY",
+        "external_route_constructed": false,
+        "side_neck_band_abs_z_mm": [
+          3000,
+          4000
+        ],
+        "radial_single_jacket_bounds_mm": [
+          2477.0,
+          3109.5
+        ],
+        "radial_exit_window_abs_z_mm": [
+          6260,
+          6760
+        ],
+        "endcap_to_hcal_axial_interval_mm": 1100,
+        "lanes": {
+          "ordinary": {
+            "inner_radius_mm": 2969.5,
+            "outer_radius_mm": 3109.5,
+            "angular_width_rad": 0.2303010363546636,
+            "area_mm2": 98000,
+            "angular_face_clearance_mm": 240.8556226153073
+          },
+          "utility": {
+            "inner_radius_mm": 2969.5,
+            "outer_radius_mm": 3109.5,
+            "angular_width_rad": 0.3619016285573285,
+            "area_mm2": 154000,
+            "angular_face_clearance_mm": 45.724711455154726
+          }
+        },
+        "ordinary_combined_area_mm2": 61302.29014857933,
+        "mixed_utility_station_area_mm2": {
+          "barrel": 139842.10648832415,
+          "endcap": 139842.10648832418
+        },
+        "utility_sector_assignment": {
+          "barrel": 0,
+          "endcap": 8
+        },
+        "limitations": [
+          "No native external pipe/cable/port material is constructed.",
+          "Neck band intersects populated boards/H-rings; no swept clearance, connected headers or pressure/vacuum port design.",
+          "Annular area and single-jacket bounds do not establish individual bundle packing or engineering fit."
+        ]
+      },
+      "largest_rear_bend_bound_mm": 490.0,
+      "coarse_full_depth_eta": [
+        0.9465784802694771,
+        1.2686808973949066
+      ],
+      "phi10_steel_paths": {
+        "0.8": {
+          "barrel_mm": 2444.52066505906,
+          "endcap_mm": 0.0,
+          "total_mm": 2444.52066505906
+        },
+        "0.9": {
+          "barrel_mm": 2619.3492952485085,
+          "endcap_mm": 0.0,
+          "total_mm": 2619.3492952485085
+        },
+        "0.94": {
+          "barrel_mm": 2651.5725343617664,
+          "endcap_mm": 0.0,
+          "total_mm": 2651.5725343617664
+        },
+        "1.0": {
+          "barrel_mm": 2303.321157089114,
+          "endcap_mm": 39.39105856497994,
+          "total_mm": 2342.712215654094
+        },
+        "1.1": {
+          "barrel_mm": 1743.24748776715,
+          "endcap_mm": 838.3193206964603,
+          "total_mm": 2581.5668084636104
+        },
+        "1.3": {
+          "barrel_mm": 690.9884432807353,
+          "endcap_mm": 2088.837906404177,
+          "total_mm": 2779.826349684912
+        }
+      },
+      "phi10_minimum_steel_eta_08_to_125_step_1e5": {
+        "steel_mm": 2321.351001693725,
+        "eta": 0.9966300000000001
+      }
+    },
+    {
+      "name": "exact_alignment",
+      "barrel_half_z_mm": 5660,
+      "endcap_front_mm": 6160,
+      "endcap_back_mm": 8750,
+      "overall_length_saved_mm": 1200,
+      "barrel_rows": 43,
+      "barrel_carriers": 245616,
+      "barrel_tiles": 13882464,
+      "cassette_to_flange_mm": 0.0,
+      "rear_ecal_interval_mm": 500,
+      "depth_mm": 2590,
+      "service_reservation": {
+        "status": "CONDITIONAL RESERVATION ONLY",
+        "external_route_constructed": false,
+        "side_neck_band_abs_z_mm": [
+          3000,
+          4000
+        ],
+        "radial_single_jacket_bounds_mm": [
+          2477.0,
+          3109.5
+        ],
+        "radial_exit_window_abs_z_mm": [
+          5660,
+          6160
+        ],
+        "endcap_to_hcal_axial_interval_mm": 500,
+        "lanes": {
+          "ordinary": {
+            "inner_radius_mm": 2969.5,
+            "outer_radius_mm": 3109.5,
+            "angular_width_rad": 0.2303010363546636,
+            "area_mm2": 98000,
+            "angular_face_clearance_mm": 240.8556226153073
+          },
+          "utility": {
+            "inner_radius_mm": 2969.5,
+            "outer_radius_mm": 3109.5,
+            "angular_width_rad": 0.3619016285573285,
+            "area_mm2": 154000,
+            "angular_face_clearance_mm": 45.724711455154726
+          }
+        },
+        "ordinary_combined_area_mm2": 61302.29014857933,
+        "mixed_utility_station_area_mm2": {
+          "barrel": 139842.10648832415,
+          "endcap": 139842.10648832418
+        },
+        "utility_sector_assignment": {
+          "barrel": 0,
+          "endcap": 8
+        },
+        "limitations": [
+          "No native external pipe/cable/port material is constructed.",
+          "Neck band intersects populated boards/H-rings; no swept clearance, connected headers or pressure/vacuum port design.",
+          "Annular area and single-jacket bounds do not establish individual bundle packing or engineering fit."
+        ]
+      },
+      "largest_rear_bend_bound_mm": 490.0,
+      "coarse_full_depth_eta": [
+        0.8739368984421535,
+        1.2126017802929914
+      ],
+      "phi10_steel_paths": {
+        "0.8": {
+          "barrel_mm": 2444.52066505906,
+          "endcap_mm": 0.0,
+          "total_mm": 2444.52066505906
+        },
+        "0.9": {
+          "barrel_mm": 2316.433219003684,
+          "endcap_mm": 0.0,
+          "total_mm": 2316.433219003684
+        },
+        "0.94": {
+          "barrel_mm": 2086.3687262299736,
+          "endcap_mm": 110.19943328541162,
+          "total_mm": 2196.568159515385
+        },
+        "1.0": {
+          "barrel_mm": 1747.4967665095708,
+          "endcap_mm": 588.3066709530726,
+          "total_mm": 2335.803437462643
+        },
+        "1.1": {
+          "barrel_mm": 1219.8658622228904,
+          "endcap_mm": 1360.4936002860147,
+          "total_mm": 2580.3594625089054
+        },
+        "1.3": {
+          "barrel_mm": 202.84629210467676,
+          "endcap_mm": 2088.837906404177,
+          "total_mm": 2291.6841985088536
+        }
+      },
+      "phi10_minimum_steel_eta_08_to_125_step_1e5": {
+        "steel_mm": 2160.6528493752307,
+        "eta": 0.92739
+      }
+    },
+    {
+      "name": "allowance20",
+      "barrel_half_z_mm": 5680,
+      "endcap_front_mm": 6180,
+      "endcap_back_mm": 8770,
+      "overall_length_saved_mm": 1160,
+      "barrel_rows": 43,
+      "barrel_carriers": 245616,
+      "barrel_tiles": 13882464,
+      "cassette_to_flange_mm": 20.0,
+      "rear_ecal_interval_mm": 520,
+      "depth_mm": 2590,
+      "service_reservation": {
+        "status": "CONDITIONAL RESERVATION ONLY",
+        "external_route_constructed": false,
+        "side_neck_band_abs_z_mm": [
+          3000,
+          4000
+        ],
+        "radial_single_jacket_bounds_mm": [
+          2477.0,
+          3109.5
+        ],
+        "radial_exit_window_abs_z_mm": [
+          5680,
+          6180
+        ],
+        "endcap_to_hcal_axial_interval_mm": 520,
+        "lanes": {
+          "ordinary": {
+            "inner_radius_mm": 2969.5,
+            "outer_radius_mm": 3109.5,
+            "angular_width_rad": 0.2303010363546636,
+            "area_mm2": 98000,
+            "angular_face_clearance_mm": 240.8556226153073
+          },
+          "utility": {
+            "inner_radius_mm": 2969.5,
+            "outer_radius_mm": 3109.5,
+            "angular_width_rad": 0.3619016285573285,
+            "area_mm2": 154000,
+            "angular_face_clearance_mm": 45.724711455154726
+          }
+        },
+        "ordinary_combined_area_mm2": 61302.29014857933,
+        "mixed_utility_station_area_mm2": {
+          "barrel": 139842.10648832415,
+          "endcap": 139842.10648832418
+        },
+        "utility_sector_assignment": {
+          "barrel": 0,
+          "endcap": 8
+        },
+        "limitations": [
+          "No native external pipe/cable/port material is constructed.",
+          "Neck band intersects populated boards/H-rings; no swept clearance, connected headers or pressure/vacuum port design.",
+          "Annular area and single-jacket bounds do not establish individual bundle packing or engineering fit."
+        ]
+      },
+      "largest_rear_bend_bound_mm": 490.0,
+      "coarse_full_depth_eta": [
+        0.876420129545183,
+        1.2145144375734103
+      ],
+      "phi10_steel_paths": {
+        "0.8": {
+          "barrel_mm": 2444.52066505906,
+          "endcap_mm": 0.0,
+          "total_mm": 2444.52066505906
+        },
+        "0.9": {
+          "barrel_mm": 2344.354564064283,
+          "endcap_mm": 0.0,
+          "total_mm": 2344.354564064283
+        },
+        "0.94": {
+          "barrel_mm": 2112.2696460170005,
+          "endcap_mm": 82.99677460542662,
+          "total_mm": 2195.266420622427
+        },
+        "1.0": {
+          "barrel_mm": 1773.7574722195582,
+          "endcap_mm": 562.045965243086,
+          "total_mm": 2335.803437462644
+        },
+        "1.1": {
+          "barrel_mm": 1238.95300277444,
+          "endcap_mm": 1349.1584257337772,
+          "total_mm": 2588.111428508217
+        },
+        "1.3": {
+          "barrel_mm": 226.05560217583454,
+          "endcap_mm": 2088.837906404177,
+          "total_mm": 2314.8935085800113
+        }
+      },
+      "phi10_minimum_steel_eta_08_to_125_step_1e5": {
+        "steel_mm": 2166.7089502935128,
+        "eta": 0.92976
+      }
+    },
+    {
+      "name": "preserve_allowance80",
+      "barrel_half_z_mm": 5740,
+      "endcap_front_mm": 6240,
+      "endcap_back_mm": 8830,
+      "overall_length_saved_mm": 1040,
+      "barrel_rows": 43,
+      "barrel_carriers": 245616,
+      "barrel_tiles": 13882464,
+      "cassette_to_flange_mm": 80.0,
+      "rear_ecal_interval_mm": 580,
+      "depth_mm": 2590,
+      "service_reservation": {
+        "status": "CONDITIONAL RESERVATION ONLY",
+        "external_route_constructed": false,
+        "side_neck_band_abs_z_mm": [
+          3000,
+          4000
+        ],
+        "radial_single_jacket_bounds_mm": [
+          2477.0,
+          3109.5
+        ],
+        "radial_exit_window_abs_z_mm": [
+          5740,
+          6240
+        ],
+        "endcap_to_hcal_axial_interval_mm": 580,
+        "lanes": {
+          "ordinary": {
+            "inner_radius_mm": 2969.5,
+            "outer_radius_mm": 3109.5,
+            "angular_width_rad": 0.2303010363546636,
+            "area_mm2": 98000,
+            "angular_face_clearance_mm": 240.8556226153073
+          },
+          "utility": {
+            "inner_radius_mm": 2969.5,
+            "outer_radius_mm": 3109.5,
+            "angular_width_rad": 0.3619016285573285,
+            "area_mm2": 154000,
+            "angular_face_clearance_mm": 45.724711455154726
+          }
+        },
+        "ordinary_combined_area_mm2": 61302.29014857933,
+        "mixed_utility_station_area_mm2": {
+          "barrel": 139842.10648832415,
+          "endcap": 139842.10648832418
+        },
+        "utility_sector_assignment": {
+          "barrel": 0,
+          "endcap": 8
+        },
+        "limitations": [
+          "No native external pipe/cable/port material is constructed.",
+          "Neck band intersects populated boards/H-rings; no swept clearance, connected headers or pressure/vacuum port design.",
+          "Annular area and single-jacket bounds do not establish individual bundle packing or engineering fit."
+        ]
+      },
+      "largest_rear_bend_bound_mm": 490.0,
+      "coarse_full_depth_eta": [
+        0.8838438284234654,
+        1.2202340753610732
+      ],
+      "phi10_steel_paths": {
+        "0.8": {
+          "barrel_mm": 2444.52066505906,
+          "endcap_mm": 0.0,
+          "total_mm": 2444.52066505906
+        },
+        "0.9": {
+          "barrel_mm": 2401.070187311134,
+          "endcap_mm": 0.0,
+          "total_mm": 2401.070187311134
+        },
+        "0.94": {
+          "barrel_mm": 2157.2115533790648,
+          "endcap_mm": 36.752254849452115,
+          "total_mm": 2193.963808228517
+        },
+        "1.0": {
+          "barrel_mm": 1832.1700825181176,
+          "endcap_mm": 512.0837613447393,
+          "total_mm": 2344.253843862857
+        },
+        "1.1": {
+          "barrel_mm": 1291.8808928028475,
+          "endcap_mm": 1293.035678999326,
+          "total_mm": 2584.916571802173
+        },
+        "1.3": {
+          "barrel_mm": 269.66638851947397,
+          "endcap_mm": 2088.837906404177,
+          "total_mm": 2358.504294923651
+        }
+      },
+      "phi10_minimum_steel_eta_08_to_125_step_1e5": {
+        "steel_mm": 2184.829901202904,
+        "eta": 0.93683
+      }
+    }
+  ],
+  "negative_checks": [
+    {
+      "name": "exit400",
+      "status": "rejected as expected",
+      "reason": "Axial service gap fails minimum bend allocation"
+    },
+    {
+      "name": "barrel_only_alignment",
+      "status": "rejected as expected",
+      "reason": "HCAL context does not retain the radial exit window"
+    }
+  ],
+  "rejected_barrel_only_alignment": {
+    "barrel_half_z_mm": 4100,
+    "endcap_front_mm": 4600,
+    "ecal_endcap_axial_envelope_overlap_mm": 1060,
+    "reason": "Full HCAL endcaps at4600mm intersect ECAL endcaps4500\u20135660mm at shared radii."
+  },
+  "limits": [
+    "Services are empty reservations; the490mm bend bound is not an installed route or engineering minimum.",
+    "Exact5660mm alignment has zero cassette/flange clearance;20mm is an unsigned new allowance;80mm preserves the current model allowance.",
+    "Phi10 steel paths use actual30mm plate intervals,20mm flange exclusion and310/5690mm endcap steel apothems; avoid seams; no active tiles or shower response.",
+    "Eta extrema are sampled at1e-5; not all-phi acceptance bounds. Endcap bore and forward/muon interfaces still need full validation.",
+    "Model checks/packing predictions do not replace native construction, material/ID/overlap/path checks or matched pion validation."
+  ]
+}

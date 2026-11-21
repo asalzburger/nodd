@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-11-20-hcal-compact-screen",
+  "title": "Screen HCAL axial compaction around merged 400 mm-gap ECAL",
+  "recorded_at": "2026-11-20T22:24:28Z",
+  "started_at": null,
+  "ended_at": "2026-11-20T22:32:42Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact client version, persistent parent/child thread IDs, execution model and turn counters were not exposed; usage remains unobserved.",
+    "Read-only source/packing/service/absorber screening, not native geometry or shower validation; no adoption or engineering approval."
+  ],
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "8153129e07d92a17dccca6fa0226ae5142398941",
+    "branch": "codex/hcal-edge-coverage",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      "docs/design/DES-046-hcal-sector-edge-coverage.md",
+      "docs/design/inputs/DES-046-axial-compaction-screen.md",
+      "docs/layouts/README.md",
+      "docs/software-inventory.md",
+      "docs/validation/hcal-compact-screen/screen.json",
+      "interactions/pr-0157.json",
+      "logs/codex/SESSION-2026-11-20-hcal-compact-screen.json",
+      "logs/codex/SESSION-2026-11-20-hcal-compact-screen.md",
+      "logs/codex/SESSION-2026-11-20-hcal-compact-screen/HCAL-COMPACT-PHYS-prompt.md",
+      "logs/codex/SESSION-2026-11-20-hcal-compact-screen/HCAL-COMPACT-PHYS.json",
+      "logs/codex/SESSION-2026-11-20-hcal-compact-screen/HCAL-COMPACT-SYS-prompt.md",
+      "logs/codex/SESSION-2026-11-20-hcal-compact-screen/HCAL-COMPACT-SYS.json",
+      "logs/codex/SESSION-2026-11-20-hcal-compact-screen/assessments.md",
+      "project/tracking.json",
+      "software/inventory.json",
+      "tools/hcal_response/compact_screen.py"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [
+      "HCAL",
+      "ECAL services",
+      "axial compaction",
+      "finite absorber paths"
+    ],
+    "related_ids": [
+      "PR157",
+      "TASK-HCAL-COMPACT-SCREEN",
+      "DES-046",
+      "DES-045",
+      "DES-032",
+      "DES-033"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-11-20-hcal-compact-screen.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "workflow.py prepare: HCAL-COMPACT-SYS and HCAL-COMPACT-PHYS",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Two exact8153129e read-only assignments with full explicit profiles and no write ownership; separate cited interface/physics results returned."
+    },
+    {
+      "command": "Coordinator numeric assertions reproducing separate SysArch/PhysVal assessments",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Service/packing candidates and finite phi10 steel points/minima independently assessed at8153129e; coordinator agrees within0.01mm reported rounding. No native/engineering/response acceptance."
+    },
+    {
+      "command": "python3 -B tools/hcal_response/compact_screen.py --output docs/validation/hcal-compact-screen/screen.json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All4in-memory candidate configs/packing and service reservations pass; declared45001point eta grid/phi10 steel paths produced;400mmexit and barrel-onlyalignment negative cases reject. Source hashes recorded."
+    },
+    {
+      "command": "Python3.11 syntax; independent numeric assertions; git diff geometry/transport source against8153129e",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Rows/clearances47/80,43/0,43/20,43/80;500mmwindows,490mmbend,2590mmdepth,1040/1160mmsavings and independent extrema pass. Actual detector/prototype/transport sources unchanged."
+    },
+    {
+      "command": "project/software/session/interaction validators; token preview build and session summary; git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "113tasks/56documents/24reviews,308sessions,69components/105families/55inputs/12pins and127PRledgers validate. Token preview and summary succeed; current parent/childusageunobserved. Initial task/stream role mismatch corrected toWS-ARCH. Whitespace clean."
+    }
+  ]
+}

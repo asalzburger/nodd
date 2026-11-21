@@ -5,25 +5,31 @@ The [selection record](../design/inputs/ECAL-baseline-selection-2026-11-18.md)
 identifies the restored PR148 model. Its updated barrel fits the retained
 tracker/solenoid reservation and keeps 1.8 mm Pb and ALLEGRO-style inclination.
 
-![Current restored LAr baseline](figures/LAYOUT-002-restored-rz.png)
+![Current tracker, solenoid allocation, merged 400 mm-gap LAr ECAL and deep HCAL prototype](figures/LAYOUT-002-DES046-gap400-rz.png)
 
 | Component | Current working selection | Scope |
 | --- | --- | --- |
 | Tracker | Maintained DES043, 46,682 sensitive planes | Included in maintained tracker+ECAL export |
 | LAr barrel | 1248 periods, 50.18°, sampling R1772.8–2350 mm; warm R1700–2641.7 mm, half-length4100 mm | Actual restored geometry and local services |
-| LAr endcaps | 650 mm sampling, three turbine wheels, warm R301–2949 mm, abs(z)=5100–6260 mm | Actual restored geometry and local services |
+| LAr endcaps | 650 mm sampling, three turbine wheels, warm R301–2949 mm, abs(z)=4500–5660 mm | Merged PR151 variant: 400 mm warm barrel/endcap gap; local services retained |
 | Solenoid | Conditional3T, 1640 mm outer assembly reservation +60 mm interface | Envelope context; not built in tracker+ECAL compact |
-| HCAL | Barrel front3130 mm/half-length6260 mm; endcap abs(z)=6760–8255.9 mm | Context only; physical regional adaptation pending |
+| HCAL | DES045/046: 60 layers; barrel apothems3130–5720 mm, half-length6260 mm; endcap abs(z)=6760–9350 mm, apothems300–5710 mm | Separately constructed and validated standalone prototype; not inserted into the maintained tracker+ECAL compact |
 | FCAL/collar | Historical DES039 proposal | Updated routing/clearance validation required; omitted from current view |
 
-[Current named input](LAYOUT-002-restored.json) · [SVG](figures/LAYOUT-002-restored-rz.svg) ·
+[Current composite named input](LAYOUT-002-DES046-gap400.json) · [SVG](figures/LAYOUT-002-DES046-gap400-rz.svg) · [PDF](figures/LAYOUT-002-DES046-gap400-rz.pdf) ·
 [Baseline export and validation recipe](../../tools/calorimeter_baselines/README.md) ·
 [Restored 10k controls/calibration](../validation/lar-restored/README.md) ·
 [Updated native sector comparison](../validation/sector-gap-restored/README.md)
 
-The current drawing uses physical ECAL envelopes and retained tracker sensitive
-bounds, with equal axial/radial scales. Tracker passives are omitted visually.
-The compact contains tracker+ECAL; magnet/HCAL context is not constructed.
+The current drawing explicitly uses the 400 mm-gap recipe merged in
+[PR151](https://github.com/asalzburger/nodd/pull/151), with both complete endcaps
+translated 600 mm toward the IP. The maintained default export manifest still
+points to the 1 m variant; the two recipes remain distinct. HCAL stays at its
+actual independently validated coordinates. The physical ECAL envelopes and retained tracker sensitive
+bounds use equal axial/radial scales. Tracker passives are omitted visually.
+The maintained compact contains tracker+ECAL. HCAL is independently constructed
+in its standalone prototype; the composite drawing does not imply a shared
+native detector. The solenoid remains an unconstructed allocation.
 No field or combined-detector response is inferred. Calibration models retain
 ECAL-only identity guards; they are not automatically transferred to this union.
 
@@ -33,7 +39,9 @@ ECAL-only identity guards; they are not automatically transferred to this union.
 DES-036 common hardware to these restored ECAL envelopes. The isolated HCAL
 has60 sampling layers,30mm steel per layer and30mm tile pitch. Its barrel
 spans apothems3130–5720mm and |z|≤6260mm; endcaps span |z|6760–9350mm with
-300/5710mm bore/outer apothems. The500mm ECAL rear-service gap remains.
+300/5710mm bore/outer apothems. For that original 1 m ECAL recipe the rear-service interval was500mm. With
+the merged400mm ECAL gap and unchanged HCAL coordinates, the ECAL rear to
+HCAL front interval is1100mm; the HCAL barrel/endcap exit window stays500mm.
 This2590mm depth proposal supersedes the old1495.9mm outline for this study;
 it is not inserted into the maintained tracker+ECAL compact.
 
@@ -44,6 +52,13 @@ it is not inserted into the maintained tracker+ECAL compact.
 [50GeV pion protocol](../validation/hcal50/protocol.md).
 Outer service handoff5950mm, FCAL and outer magnet/muon interfaces require
 separate integration. DRAFT/PROTOTYPE; no engineering sign-off.
+
+[DES046](../design/DES-046-hcal-sector-edge-coverage.md) subsequently amends
+barrel sector-edge coverage with small physical cassettes and2mmguides.
+The global HCAL outline and this R–Z envelope context do not change; the
+[new standalone sample protocol](../validation/hcal50-edge/protocol.md)
+keeps the previous study as a dated control. Structural and external service
+qualification remain separate.
 
 ## Historical original LAr / FCAL context
 
