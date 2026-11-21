@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-11-21-hcal-gap-services",
+  "title": "Annotate ECAL HCAL gap and service allocations in a second R-Z plot",
+  "recorded_at": "2026-11-21T11:24:08Z",
+  "started_at": null,
+  "ended_at": "2026-11-21T11:27:37Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact client version, persistent thread ID/model and per-turn counters unavailable; usage unobserved.",
+    "Source-derived routing requirements and unsigned placement inferences only; no installed routing, engineering fit or new native geometry validation."
+  ],
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "645cfc9dfd419450f0382bbd9ccd0adad8f9db8b",
+    "branch": "codex/hcal-edge-coverage",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      "docs/design/inputs/DES-046-axial-compaction-screen.md",
+      "docs/layouts/LAYOUT-002-HCAL-compact-services.json",
+      "docs/layouts/README.md",
+      "docs/layouts/figures/LAYOUT-002-HCAL-compact-services-rz.pdf",
+      "docs/layouts/figures/LAYOUT-002-HCAL-compact-services-rz.png",
+      "docs/layouts/figures/LAYOUT-002-HCAL-compact-services-rz.svg",
+      "docs/software-inventory.md",
+      "interactions/pr-0157.json",
+      "logs/codex/SESSION-2026-11-21-hcal-gap-services.json",
+      "logs/codex/SESSION-2026-11-21-hcal-gap-services.md",
+      "project/tracking.json",
+      "software/inventory.json",
+      "tools/hcal_response/draw_services_rz.py"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [
+      "ECAL HCAL service gaps",
+      "R-Z annotation",
+      "cryogenics",
+      "power/data",
+      "layout"
+    ],
+    "related_ids": [
+      "PR157",
+      "TASK-HCAL-COMPACT-SCREEN",
+      "DES-046",
+      "DES-032",
+      "DES-033"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-11-21-hcal-gap-services.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "draw_services_rz.py --capture and rsvg-convert PNG/PDF; view_image inspection",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Four source-checked gap bands/cards rendered; readable layout inspected. Original compact geometry retained."
+    },
+    {
+      "command": "Named SVG/PNG replay and cmp; Python3.11 syntax, gap arithmetic and XML primitive comparison",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Byte-identical replay;488.3/181/580=80+500/400mm and140mm+2x20.5mm verified; parent direct geometry primitives unchanged."
+    },
+    {
+      "command": "git diff --exit-code 645cfc9dfd419450f0382bbd9ccd0adad8f9db8b -- detector prototypes software/analysis tools/hcal_response/config.json tools/hcal_response/model.py tools/hcal_response/export.py tools/hcal_response/draw_rz.py tools/lar_calorimeter docs/layouts/figures/LAYOUT-002-HCAL-compact-proposal-rz.png docs/layouts/figures/LAYOUT-002-HCAL-compact-proposal-rz.svg",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Actual geometry/transport source and first plot are unchanged. No native execution needed for annotations."
+    },
+    {
+      "command": "Project/software/session/interaction validators, token preview/summary and git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "113tasks/56documents/24reviews,310sessions,69components/105families/55inputs/12pins and127PRledgers validate. Token preview/summary pass; currentusageunobserved. Final PNG visually inspected; whitespace clean."
+    }
+  ]
+}

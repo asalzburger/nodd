@@ -30,6 +30,45 @@ rsvg-convert -f pdf docs/layouts/figures/LAYOUT-002-HCAL-compact-proposal-rz.svg
 Omit both capture flags to replay the named input. Source hashes bind the parent
 layout and screen; current geometry figures are preserved byte-identically.
 
+### Annotated service-space view
+
+![ECAL HCAL gaps and the services they reserve space for](../../layouts/figures/LAYOUT-002-HCAL-compact-services-rz.png)
+
+The second plot distinguishes the488.3 mm barrel radial gap,181 mm endcap
+radial corridor,580 mm rear axial interval and separate400 mm ECAL break.
+The rear interval is80 mm layout offset plus the500 mm outward-exit reservation;
+these dimensions must not be added again. The140 mm endcap bus lane has20.5 mm
+nominal radial clearance to each envelope. Its cable/pipe content follows the
+ECAL services budget and is sectorized in phi; the r–z bands are projections of
+allocations, not rings of installed material.
+
+Cold boards, supports and local cooling are already inside the pale-yellow ECAL
+warm package. External side ports, jacketed cryogenic pipes, warm-water pipes,
+power/HV, control/grounding and data/fibre trays require connected route design.
+The dashed pre-end neck crosses the warm package and populated board/ring region;
+no wall opening or board clearance is implied. Connectors/access and outward
+bends use the rear interface reservation. HCAL external collectors/manifolds and
+shared supports remain unassigned; this plot does not allocate them silently to
+the ECAL bus. These are source-derived requirements and unsigned placement
+inferences, not newly constructed services or a physical packing qualification.
+
+[Annotated SVG](../../layouts/figures/LAYOUT-002-HCAL-compact-services-rz.svg) ·
+[PDF](../../layouts/figures/LAYOUT-002-HCAL-compact-services-rz.pdf) ·
+[Dimensions, labels and source hashes](../../layouts/LAYOUT-002-HCAL-compact-services.json)
+
+```sh
+python3 -B tools/hcal_response/draw_services_rz.py --capture \
+  --input docs/layouts/LAYOUT-002-HCAL-compact-services.json \
+  --output docs/layouts/figures/LAYOUT-002-HCAL-compact-services-rz.svg
+rsvg-convert docs/layouts/figures/LAYOUT-002-HCAL-compact-services-rz.svg \
+  -o docs/layouts/figures/LAYOUT-002-HCAL-compact-services-rz.png
+rsvg-convert -f pdf docs/layouts/figures/LAYOUT-002-HCAL-compact-services-rz.svg \
+  -o docs/layouts/figures/LAYOUT-002-HCAL-compact-services-rz.pdf
+```
+
+Omit `--capture` to replay. Parent geometry/render hashes are checked, and the
+first compact-proposal drawing remains unchanged.
+
 ## Space and a compact candidate
 
 **FACT about the current project model:** the complete ECAL warm endcap ends at

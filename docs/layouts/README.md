@@ -38,6 +38,9 @@ the validated geometry; a smaller allowance could save1.16 m overall.
 [Proposed compact r–z drawing](figures/LAYOUT-002-HCAL-compact-proposal-rz.png) ·
 [SVG](figures/LAYOUT-002-HCAL-compact-proposal-rz.svg) ·
 [Named proposal inputs](LAYOUT-002-HCAL-compact-proposal.json).
+[Second plot: gap/service annotations](figures/LAYOUT-002-HCAL-compact-services-rz.png) ·
+[Annotated SVG](figures/LAYOUT-002-HCAL-compact-services-rz.svg) ·
+[Service-space explanation and recipe](../design/inputs/DES-046-axial-compaction-screen.md#annotated-service-space-view).
 
 [Current composite named inputs](LAYOUT-002-DES046-gap400.json) ·
 [SVG](figures/LAYOUT-002-DES046-gap400-rz.svg) · [PDF](figures/LAYOUT-002-DES046-gap400-rz.pdf)
