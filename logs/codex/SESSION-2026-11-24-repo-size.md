@@ -123,5 +123,9 @@ usage and contributes no counters to those historical sums.
 
 ## Follow-up
 
-Review the draft infrastructure PR. No design approval or merge is requested.
+Draft [PR #158](https://github.com/asalzburger/nodd/pull/158) records this work.
+The connector creation request failed parameter validation; the CLI fallback
+required an escalated retry after sandbox network blocking. Connected GET
+verified the PR is open and draft, with no comments or reviews at capture.
+No design approval or merge is requested.
 Counts remain pinned to the stated source commit and exclude this task's files.

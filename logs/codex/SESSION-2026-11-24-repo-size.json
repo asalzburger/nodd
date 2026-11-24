@@ -4,7 +4,7 @@
   "title": "Measure nODD repository size at current main",
   "recorded_at": "2026-11-24T17:22:51Z",
   "started_at": null,
-  "ended_at": "2026-11-24T17:24:25Z",
+  "ended_at": "2026-11-24T17:29:15Z",
   "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
@@ -23,11 +23,14 @@
     "start_commit": "78bef505c4e623739da204ce92e3aa7bc6f931c5",
     "branch": "codex/repo-size-20261124",
     "initial_changes": [],
-    "result_commits": [],
+    "result_commits": [
+      "034c73604d6583fd3656c74b38ea2bd5b286adab"
+    ],
     "changed_files": [
       "logs/codex/SESSION-2026-11-24-repo-size.json",
       "logs/codex/SESSION-2026-11-24-repo-size.md",
-      "logs/evidence/SESSION-2026-11-24-repo-size/repo-size.json"
+      "logs/evidence/SESSION-2026-11-24-repo-size/repo-size.json",
+      "interactions/pr-0158.json"
     ]
   },
   "work": {
@@ -35,7 +38,9 @@
     "components": [
       "repository-size-investigation"
     ],
-    "related_ids": []
+    "related_ids": [
+      "PR-158"
+    ]
   },
   "narrative": "logs/codex/SESSION-2026-11-24-repo-size.md",
   "activities": [
@@ -95,6 +100,18 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "Build passed with 589 disjoint historical turns; generated output kept outside Git."
+    },
+    {
+      "command": "GitHub connector create_pull_request; gh pr create fallback",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Connector rejected repository parameter schema; first gh call was network-blocked in sandbox; escalated retry created draft PR https://github.com/asalzburger/nodd/pull/158. Connector GET independently verified draft=true and open state."
+    },
+    {
+      "command": "python3 -B tools/interactions/ledger.py capture --pr 158 --snapshot /private/tmp/nodd-size-pr-snapshot.json; python3 -B tools/interactions/ledger.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Captured sanitized connected-GitHub metadata, with no comments/reviews, and validated all 124 PR interaction records; canonical usage unchanged."
     }
   ]
 }
