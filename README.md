@@ -84,7 +84,7 @@ The [selection record](docs/design/inputs/DES-040-balanced-selection.json)
 records expert approval and implementation authorization. The design remains
 DRAFT, with service capacity, thermal qualification and coverage limits open.
 The [dated October 29 full-tracker TDR review source](docs/publication/tracker-baseline-2026-10-29/README.md)
-updates the pixel chapter and remains a frozen repository-owned review edition. The [current TDR publication receipt](docs/publication/short-strip-services-2026-11-03/README.md) records the integrated short-strip update published on Overleaf.
+updates the pixel chapter and remains a frozen repository-owned review edition. The [November 24 Tracker TDR refresh](docs/publication/tracker-baseline-2026-11-24/README.md) adds current material, crossing and truth-fit findings in a compact review edition. The [November 3 publication receipt](docs/publication/short-strip-services-2026-11-03/README.md) retains the latest separately authorized Overleaf revision.
 
 The [TDR outline](docs/publication/TDR-outline.md) and
 [publication plan](docs/publication/publication-plan.md) organize chapters,

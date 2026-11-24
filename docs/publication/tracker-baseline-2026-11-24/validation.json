@@ -1,0 +1,93 @@
+{
+  "id": "PUB-TRACKER-QA-2026-11-24",
+  "date": "2026-11-24",
+  "checks": [
+    {
+      "command": "python3 -B docs/publication/tracker-baseline-2026-11-24/review.py --output build/tracker-tdr-2026-11-24",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Overlay, geometry sources, evidence and three figure imports checked; pinned full report assembled."
+    },
+    {
+      "command": "python3 -B docs/tdr/scripts/tracker_snapshot.py --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "46,682 planes/54 groups and five current geometry figure hashes match."
+    },
+    {
+      "command": "build/tdr-plot-venv/bin/python -B -m unittest discover -s software/analysis/material_baseline_comparison -p 'test_artifacts.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "3 retained-evidence tests passed."
+    },
+    {
+      "command": "build/tdr-plot-venv/bin/python -B -m unittest discover -s software/analysis/hit_baseline_comparison -p 'test_retained.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "2 retained-evidence tests passed."
+    },
+    {
+      "command": "build/tdr-plot-venv/bin/python -B -m unittest discover -s software/analysis/fatras_baseline_comparison -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "8 analysis/native-contract tests passed; no native simulation was rerun."
+    },
+    {
+      "command": "latexmk -pdf -file-line-error -halt-on-error -interaction=nonstopmode main.tex tracker-review.tex",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Exact assembled source: 34-page full report and 30-page extract. No overfull boxes or undefined references; inherited font substitutions and two underfull-table warnings remain."
+    },
+    {
+      "command": "pdftoppm -scale-to 600 -png main.pdf; pdftoppm -f 31 -l 34 -scale-to 1500 -png main.pdf",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All 34 final pages visually inspected in three contact sheets; new findings pages and changed palette checked at 1500 px. No clipping or overlap."
+    },
+    {
+      "command": "python3 -B tools/software_inventory/inventory.py refresh; python3 -B tools/software_inventory/inventory.py check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "69 components, 104 families, 55 reviewed inputs, 12 software pins."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "111 tasks, 54 documents and 24 review rounds validated after fetching a referenced historical commit."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "305 paired session records validated."
+    }
+  ],
+  "compiler": {
+    "image": "ghcr.io/xu-cheng/texlive-alpine@sha256:c06416ebbc69c8e90e07d1f1a6f7a3f9b334e773daa3543ce879ea533317c3a7",
+    "platform": "linux/amd64",
+    "network": "none",
+    "pull": "never",
+    "latexmk": "4.88",
+    "texlive": "2026"
+  },
+  "local_outputs": {
+    "main.pdf": {
+      "pages": 34,
+      "sha256": "0e7e7b1adc0b20533ca495e56a6eedf2aadfb6b72450f7a760311a9a65e89a6e",
+      "committed": false
+    },
+    "tracker-review.pdf": {
+      "pages": 30,
+      "sha256": "516931393086d9381735c01ba72de7fecf595458b4b56b9e1e4c30b430633f87",
+      "committed": false
+    }
+  },
+  "native_simulation_rerun": false,
+  "earlier_attempts": [
+    "Sandbox DNS failures on repository/Overleaf fetch and pip were rerun with approved network escalation.",
+    "Default Python lacked plotting/analysis packages; installed pinned NumPy/Matplotlib plus awkward/uproot in task-local ignored venv. Initial Fatras tests could not import uproot; final 8-test suite passed after installation.",
+    "Inventory first rejected a docs script as a code-family path; it is now documented as evidence for the existing TDR tooling component.",
+    "Project validator initially lacked a historical reviewed commit; fetched that exact commit and reran successfully."
+  ]
+}

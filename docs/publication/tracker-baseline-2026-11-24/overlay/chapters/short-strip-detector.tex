@@ -1,0 +1,191 @@
+% !TeX root = ../main.tex
+\section{Short-strip detector}
+\label{sec:short-strips}
+The intermediate tracker uses rectangular two-coordinate strixel sensors in four
+azimuthally tilted barrel layers and six petal discs at each end. The selected
+working simulation model extends the short-strip endcap active coverage and
+uses a common redesigned module and power distribution. Fine local $u$ is
+transverse to the radial direction; coarse local $v$ follows $z$ in the barrel
+and points radially inward on the discs. These dimensions are nODD design
+choices. Electronics, thermal contacts and services remain engineering design
+allocations, with their qualification requirements stated below.
+
+\subsection{Sensor and redesigned module}
+\Cref{tab:short-module} specifies the sensitive element and its passive stack.
+The cell grid contains $640\times48=\num{30720}$ addresses per sensor. A
+\qty{0.5}{\milli\metre} guard surrounds the active rectangle; two
+\qty{3}{\milli\metre} flex ledges give an occupied outline of
+\qty{49}{\milli\metre} by \qty{103}{\milli\metre}.
+
+\begin{table}[!htbp]
+\centering\small
+\caption{Short-strip module representation. The readout tiles are logical
+footprint and heat-source allocations, not an identified qualified ASIC.}
+\label{tab:short-module}
+\begin{tabular}{@{}lp{87mm}@{}}\toprule
+Parameter & Selected representation\\\midrule
+Active silicon & $48\times96\times0.20\,\unit{\milli\metre^3}$\\
+Readout pitch & $75\,\unit{\micro\metre}\times2\,\unit{\milli\metre}$\\
+ASIC allocation & Two $23.4\times23.4\times0.15\,\unit{\milli\metre^3}$ tiles at $(u,v)=(0,\pm18)\,\unit{\milli\metre}$\\
+Interconnect & \qty{25}{\micro\metre} bump envelope and \qty{50}{\micro\metre} redistribution layer\\
+ASIC bond & \qty{50}{\micro\metre} adhesive; required cold conductivity $\geq1.2\,\unit{\watt\per\metre\per\kelvin}$\\
+Spreader & \qty{0.35}{\milli\metre} graphite; required $k_\parallel\geq400$, $k_\perp\geq10\,\unit{\watt\per\metre\per\kelvin}$\\
+Thermal isolation & \qty{0.10}{\milli\metre} electrically insulating TIM, required cold $k\geq1.2\,\unit{\watt\per\metre\per\kelvin}$\\
+Backing & \qty{0.20}{\milli\metre} CFRP, with explicit thermal windows\\
+Thermal contacts & Barrel: two $20\times64\,\unit{\milli\metre^2}$ lands at $u=\pm12\,\unit{\milli\metre}$; endcap: one central $16\times60\,\unit{\milli\metre^2}$ saddle\\
+Pipe interface & Direct conductive inserts and shaped pipe contacts; heat-flow path $\leq8\,\unit{\milli\metre}$, effective $k\geq100\,\unit{\watt\per\metre\per\kelvin}$\\\bottomrule
+\end{tabular}
+\end{table}
+
+The direct inserts pass through windows in the backing and cold structure to
+contact the titanium pipe; displaced backing, skin and core volumes are
+subtracted explicitly. The pipe's outer envelope is cut from the saddle, while
+coolant remains a separate volume. This represents a changed module and carrier
+interface. It requires new sensor-to-ASIC redistribution, electrical isolation,
+mounts and strain relief. The two tiles each allocate \num{15360} channels;
+that arithmetic establishes neither an available ASIC nor a feasible bump map.
+Readout power, longer-cell capacitance, noise, radiation lifetime and bonding
+must be demonstrated by a physical module design.
+
+\subsection{Tilted barrel and cold staves}
+The anchor radii are $260,340,480,660\,\unit{\milli\metre}$, with
+$44,56,80,108$ staves respectively. Each carries 28 sensors, giving 288 staves
+and \num{8064} sensors. Endpoint sensor centres are at
+$z=\pm\qty{1152}{\milli\metre}$, with \qty{85.333}{\milli\metre} row pitch
+and \qty{10.667}{\milli\metre} axial active overlap. Alternating rows are
+raised by \qty{1.5}{\milli\metre}; the active edges reach
+$|z|=\qty{1200}{\milli\metre}$. The complete stave has a common
+$+\qty{15}{\degree}$ azimuthal tilt.
+
+\begin{figure}[tbp]
+\centering\includegraphics[width=\linewidth]{short-strip-barrel}
+\caption{Short-strip barrel populations and an innermost cold-stack projection.
+Different longitudinal rows are superposed; the right panel is not a physical
+cut at one $z$. The sensor, cold structure, tubes and local services share the
+\qty{15}{\degree} tilt.}
+\label{fig:short-barrel}
+\end{figure}
+
+The \qty{52}{\milli\metre}-wide cold structure reaches
+$|z|=\qty{1210}{\milli\metre}$. Its sandwich contains a
+\qty{5}{\milli\metre} conductive carbon-foam core,
+\qty{0.10}{\milli\metre} adhesive and \qty{0.15}{\milli\metre} CFRP skins on
+each face. Nine CFRP bearing rings per layer are at
+$z=0,\pm250,\pm550,\pm850,\pm1150\,\unit{\milli\metre}$, each
+\qty{8}{\milli\metre} axially by \qty{3}{\milli\metre} radially.
+A \qty{2}{\milli\metre}-wide beveled web at $u=\qty{14.5}{\milli\metre}$
+joins a bare back-skin land to the ring tangent plane.
+
+\begin{figure}[tbp]
+\centering\includegraphics[width=\linewidth]{short-strip-stave}
+\caption{Short-strip cold-stack and bearing schedule. Top: explanatory local
+projection with direct thermal inserts, graphite spreader and insulated LV
+rails; thin films and window cuts are specified in the module table. Bottom:
+nine bearing stations and two independently served half-staves.}
+\label{fig:short-stave}
+\end{figure}
+
+Each signed half-stave has a separate titanium U-loop, with legs at
+$u=\pm\qty{12}{\milli\metre}$ and $w=-\qty{4.05}{\milli\metre}$.
+The tube outside diameter is \qty{2.5}{\milli\metre}, wall thickness
+\qty{0.14}{\milli\metre} and central return radius \qty{12}{\milli\metre}.
+Straight runs span $|z|=16$--$1210\,\unit{\milli\metre}$.
+Two backside copper rails have \qty{12}{\milli\metre} width per polarity and
+\qty{0.17}{\milli\metre} thickness on \qty{0.15}{\milli\metre} polyimide.
+HV, control and data retain separate patterned routing.
+
+The $52\times30\times8\,\unit{\milli\metre^3}$ end-board allocations lie at
+$z=\pm\qty{1230}{\milli\metre}$. Each half-stave uses one power/HV/control
+bundle and two optical groups for its 14 modules. Each end therefore presents
+288 power bundles, 576 optical groups and 288 cooling loops to twelve sector
+collectors spanning $r=244$--$781.5\,\unit{\milli\metre}$ and
+$|z|=1245$--$1310\,\unit{\milli\metre}$.
+
+\subsection{Endcap discs and two-loop petals}
+Six discs per end use the support datums in \cref{tab:strip-discs}. Twelve
+\qty{30}{\degree} petals partition each disc. Five rings at
+$289.5,381.25,473,564.75,656.5\,\unit{\milli\metre}$ carry
+$48,60,84,96,108$ sensors, respectively: 33 per petal, 396 per disc and
+\num{4752} in both endcaps. The sampled full-azimuth target annulus is
+$r=243.5$--$703\,\unit{\milli\metre}$. The finite active outer corner reaches
+\qty{704.909}{\milli\metre}, while the body corner reaches
+\qty{708.424}{\milli\metre}. The physical active gap to the fixed long-strip
+endcap is \qty{82.335}{\milli\metre}. These finite dimensions are distinct
+from the sampled target; neither establishes reconstruction efficiency.
+
+\begin{table}[!htbp]
+\centering\small
+\caption{Positive strip-disc support datums. Negative-end placements use the
+corresponding signed datums. Values are rounded for display.}
+\label{tab:strip-discs}
+\begin{tabular}{@{}rrr@{}}\toprule
+Disc & Short strips $|z|$ [mm] & Long strips $|z|$ [mm]\\\midrule
+\csname @@input\endcsname generated/strip-disc-rows.tex
+\bottomrule\end{tabular}
+\end{table}
+
+Alternating ring and azimuth elevations are $0,1.5,3,4.5\,\unit{\milli\metre}$.
+The cooled plate spans $r=236$--$710\,\unit{\milli\metre}$ with a
+\qty{0.6}{\milli\metre} inner seam gap. Its sandwich thicknesses match the
+barrel. Inner and outer CFRP frames occupy $r=236$--$250$ and
+$689$--$715\,\unit{\milli\metre}$; the outer frame retains
+\qty{26}{\milli\metre} radial width. Peripheral board mounts transfer load
+outside the outer sensor bodies. The $52\times20\times8\,\unit{\milli\metre^3}$
+board is centred at $r=\qty{695}{\milli\metre}$ and local
+$w=\qty{14}{\milli\metre}$, above the front fanout.
+
+\begin{figure}[tbp]
+\centering\includegraphics[width=\linewidth]{short-strip-endcap}
+\caption{Short-strip endcap plan and one petal, with module elevations projected.
+The inner and outer cooling circuits serve 16 and 17 modules. Blue and red
+curves distinguish their centrelines; the two backside service buses are shown
+schematically. Pipe contacts and local thermal windows are explicit in the
+simulation model.}
+\label{fig:short-endcap}
+\end{figure}
+
+Two independent loops per petal serve the inner three and outer two rings.
+Their circular legs span $3$--$27\,\unit{\degree}$; returns use
+\qty{10}{\milli\metre}-radius quarter-bends joined by radial straights.
+Four separate rim ports lie at $r=\qty{712}{\milli\metre}$.
+Tube diameters and walls match the barrel. Three protected 11-module power
+islands use \qty{4}{\milli\metre} copper width per polarity each, retaining
+\qty{24}{\milli\metre} total width and \qty{0.17}{\milli\metre} thickness.
+The front fan spans $r=690$--$781.5\,\unit{\milli\metre}$ and
+$w=20$--$100\,\unit{\milli\metre}$. Per end, the discs add 216 power bundles,
+216 optical groups and 144 loops. Combined short-strip totals per end are
+504 power bundles, 792 optical groups and 432 loops.
+
+\subsection{Power, cooling and material boundaries}
+Each finished power/HV/control bundle is allocated \qty{8}{\milli\metre}
+outer diameter with two \qty{10}{\milli\metre\squared} LV conductors, independent
+module HV pairs, control and shield. The protected distribution is
+\qty{12}{\volt}, with at most 14 modules per power feed and a
+\qty{11}{\volt} delivered-voltage bound. Optical groups retain the
+12-module limit and \qty{3.6}{\milli\metre} package diameter. The shared trunk
+occupies $r=717$--$781.5\,\unit{\milli\metre}$ for
+$|z|=1310$--$3500\,\unit{\milli\metre}$, with \qty{0.5}{\milli\metre}
+tray walls. The package dimensions require a manufacturable harness, grounding,
+insulation, protection and connector design; no traffic reduction follows
+merely from the cell-count reduction.
+
+The nominal/adverse electronic power budgets are 13.88/19.83 W per module,
+with 2 W sensor leakage and 5 W per physical end board. Coolant is required to
+remain at or below \qty{-35}{\celsius}. Nominal barrel/endcap flow is 4/5 g/s
+per leaf and adverse flow is 7 g/s. Bulk feed/return pairs retain 8/12 mm
+outside and 6/10 mm inside diameters. The complete conditional adverse thermal
+screen, including ASIC bonding, upstream sensor path and distributed leakage,
+has only \qty{0.333}{\kelvin} margin to the \qty{-20}{\celsius} sensor goal.
+Cold material/contact measurements, realistic power, pressure drop, dry-out,
+flow balancing and structural qualification remain necessary.
+
+Effective remote-service cells conserve the specified conductor and insulating
+volumes plus residual void. Explicit local constituents include sensor, guard,
+interconnect, readout fixtures, adhesives, graphite, TIM, backing, support,
+pipes and coolant. The changed-component mass proxy gives approximately
+\qty{114.6}{\kilogram} reduction when taking no cable-insulation saving and no
+ASIC mass-reduction credit. This scoped design ledger includes added silicon
+and support/contact allowances; it is not a measured tracker mass or a complete
+directional radiation-length map. Current material and truth-fit results are
+given in \cref{sec:tracker-evidence}; full reconstruction and engineering
+qualification remain separate.

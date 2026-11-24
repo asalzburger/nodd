@@ -1,0 +1,80 @@
+% !TeX root = ../main.tex
+\section{Current simulation findings}
+\label{sec:tracker-evidence}
+The integrated DD4hep geometry has \num{46682} unique sensitive planes and zero
+reported overlaps or extrusions at \qty{1e-5}{\milli\metre} tolerance. Constituent
+and transform audits, ACTS conversion into 54 signed groups and 120 volumes,
+JSON round-trip, 128 straight navigation probes and a three-geantino Geant4
+smoke test have been completed. These checks establish construction and bounded
+transport consistency; the following comparisons characterize the current
+geometry without implying hardware qualification.
+
+\subsection{Material and sensitive crossings}
+\Cref{fig:tracker-material-current} uses \num{100000} origin Geant4 geantinos
+and \num{100000} independent ACTS validation rays over $|\eta|<4$, with full
+azimuth. The equal-weight average of 80 signed-$\eta$ bin means is
+$1.208\,X_0$ and $0.297\,\lambda_I$: radiation length decreases by
+\qty{7.20}{\percent} and interaction length increases by \qty{2.89}{\percent}
+relative to the older complete baseline. Pixel layout and short strips change
+together, so these are whole-baseline differences.
+
+The current ACTS map uses 67 portals, \num{8650} bins and one azimuthal bin.
+Its largest binwise total differences from Geant4 are
+\qty{3.70}{\percent} in radiation length and \qty{3.87}{\percent} in interaction
+length. Integrated agreement does not validate material ordering or locality.
+A detected graphite-interface discrepancy between Geant4 and TGeo remains a
+geometry-conversion limitation; the plotted classification follows the audited
+Geant4 material. Ratio error bars include validation-ray sampling only.
+
+\begin{figure}[!htbp]
+\centering\includegraphics[width=\linewidth]{tracker-material-current}
+\caption{Current tracker material versus signed pseudorapidity. Solid and light
+component colors distinguish sensitive and passive material; black markers show
+the ACTS validation total and the dotted line the older Geant4 total. Each bin
+includes zero contributions.}
+\label{fig:tracker-material-current}
+\end{figure}
+
+Matched origin straight-ray samples give 14.934 mean distinct sensitive-volume
+crossings per ray, compared with 14.073 in the older baseline
+(\cref{fig:tracker-crossings-current}). Pixel chips, overlaps and both strip
+faces count separately. These geometric crossings include no detector response
+or reconstruction efficiency.
+
+\begin{figure}[!htbp]
+\centering\includegraphics[width=\linewidth]{tracker-crossings-current}
+\caption{Sensitive-volume crossings for \num{100000} matched Geant4 rays per
+baseline. Repeated steps in one placement count once; zero-crossing rays remain
+in the means. Black markers are component totals with sampling errors.}
+\label{fig:tracker-crossings-current}
+\end{figure}
+
+\clearpage
+\subsection{Truth-associated fits and reconstruction scope}
+Fatras compares \num{20000} matched single muons per baseline at each
+$\pt=1,5,10,100\,\unit{\giga\electronvolt}$, from the origin with uniform
+$\eta\in[-4,4]$, full azimuth and a constant \qty{3}{\tesla} field. Digital
+cell-centre response and independently trained frozen errors accompany each
+baseline. Ideal truth seeds and associations feed Kalman fits; this measures
+fit behavior rather than pattern recognition.
+
+\begin{figure}[!htbp]
+\centering\includegraphics[width=\linewidth]{tracker-fit-ratios-current}
+\caption{Current/older truth-fit core widths: central empirical
+\qty{68.27}{\percent} half-widths, with pointwise paired-bootstrap
+\qty{95}{\percent} intervals. Geometry, material and readout change together.
+Intervals omit model and calibration systematics.}
+\label{fig:tracker-fit-ratios-current}
+\end{figure}
+
+Changes are mixed (\cref{fig:tracker-fit-ratios-current}): central $d_0$ cores
+narrow while relative-$\pt$ cores widen. At \qty{100}{\giga\electronvolt} and
+$3.5\leq|\eta|\leq4$, 351 of \num{2529} current fits have wrong charge; the
+relative-$\pt$ core narrows but the untrimmed RMS grows substantially. Core
+widths therefore do not establish complete momentum performance.
+
+The approved measured-hit GBTS/CKF benchmark uses the earlier balanced
+\num{46250}-plane geometry, Gaussian response and transported effective material.
+It remains a reconstruction reference with that scope; current-geometry
+pattern recognition, realistic response and dense-event performance require
+separate validation.

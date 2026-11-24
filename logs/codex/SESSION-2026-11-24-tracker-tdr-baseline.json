@@ -1,0 +1,177 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-11-24-tracker-tdr-baseline",
+  "title": "Refresh the Tracker TDR against the current baseline",
+  "recorded_at": "2026-11-24T14:12:56Z",
+  "started_at": null,
+  "ended_at": null,
+  "status": "open",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Exact active-turn and specialist per-turn token counters, client version and stable thread/turn IDs are unavailable; usage remains empty and must not be interpreted as zero.",
+    "No native detector simulation was rerun; current retained studies and source hashes were audited.",
+    "Overleaf publication requires separate explicit authorization under the TDR README."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "78bef505c4e623739da204ce92e3aa7bc6f931c5",
+    "branch": "codex/tracker-tdr-current-baseline-20261124",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      "docs/publication/tracker-baseline-2026-11-24/README.md",
+      "docs/publication/tracker-baseline-2026-11-24/manifest.json",
+      "docs/publication/tracker-baseline-2026-11-24/overlay/README.md",
+      "docs/publication/tracker-baseline-2026-11-24/overlay/chapters/long-strip-detector.tex",
+      "docs/publication/tracker-baseline-2026-11-24/overlay/chapters/pixel-detector.tex",
+      "docs/publication/tracker-baseline-2026-11-24/overlay/chapters/short-strip-detector.tex",
+      "docs/publication/tracker-baseline-2026-11-24/overlay/chapters/tracker-evidence.tex",
+      "docs/publication/tracker-baseline-2026-11-24/overlay/chapters/tracker-overview.tex",
+      "docs/publication/tracker-baseline-2026-11-24/overlay/chapters/tracker-review.tex",
+      "docs/publication/tracker-baseline-2026-11-24/overlay/chapters/tracker.tex",
+      "docs/publication/tracker-baseline-2026-11-24/overlay/data/tracker-render-manifest.json",
+      "docs/publication/tracker-baseline-2026-11-24/overlay/figures/short-strip-barrel.pdf",
+      "docs/publication/tracker-baseline-2026-11-24/overlay/figures/short-strip-endcap.pdf",
+      "docs/publication/tracker-baseline-2026-11-24/overlay/figures/short-strip-stave.pdf",
+      "docs/publication/tracker-baseline-2026-11-24/overlay/figures/tracker-crossings-current.pdf",
+      "docs/publication/tracker-baseline-2026-11-24/overlay/figures/tracker-fit-ratios-current.pdf",
+      "docs/publication/tracker-baseline-2026-11-24/overlay/figures/tracker-layout.pdf",
+      "docs/publication/tracker-baseline-2026-11-24/overlay/figures/tracker-material-current.pdf",
+      "docs/publication/tracker-baseline-2026-11-24/overlay/figures/tracker-services.pdf",
+      "docs/publication/tracker-baseline-2026-11-24/overlay/main.tex",
+      "docs/publication/tracker-baseline-2026-11-24/overlay/scripts/tracker_figures.py",
+      "docs/publication/tracker-baseline-2026-11-24/overlay/tracker-review.tex",
+      "docs/publication/tracker-baseline-2026-11-24/review.py",
+      "docs/publication/tracker-baseline-2026-11-24/validation.json",
+      "logs/codex/SESSION-2026-11-24-tracker-tdr-baseline.json",
+      "logs/codex/SESSION-2026-11-24-tracker-tdr-baseline.md",
+      "logs/codex/SESSION-2026-11-24-tracker-tdr-baseline/PhysVal-assignment.json",
+      "logs/codex/SESSION-2026-11-24-tracker-tdr-baseline/PubDoc-assignment.json",
+      "README.md",
+      "docs/software-inventory.md",
+      "project/tracking.json",
+      "software/inventory.json"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [
+      "tracker",
+      "publication"
+    ],
+    "related_ids": [
+      "DES-025",
+      "DES-043",
+      "DES-041",
+      "ADR-003",
+      "TASK-TRK-TDR-REVIEW-BASELINE"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-11-24-tracker-tdr-baseline.md",
+  "activities": [
+    {
+      "kind": "skill",
+      "name": "nodd-coordinate",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Explicit PubDoc/PhysVal fallback contracts retained beside the journal."
+    },
+    {
+      "kind": "skill",
+      "name": "pdf",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "All final report pages rendered and visually checked."
+    },
+    {
+      "kind": "tool",
+      "name": "collaboration",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Read-only /root/pubdoc_audit and /root/physval_audit inspected exact input revisions."
+    },
+    {
+      "kind": "tool",
+      "name": "Git/Python/TeX/Poppler",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Commands, actual results and local output fingerprints retained in publication validation.json."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 -B docs/publication/tracker-baseline-2026-11-24/review.py --output build/tracker-tdr-2026-11-24",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Overlay, geometry sources, evidence and three figure imports checked; pinned full report assembled."
+    },
+    {
+      "command": "python3 -B docs/tdr/scripts/tracker_snapshot.py --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "46,682 planes/54 groups and five current geometry figure hashes match."
+    },
+    {
+      "command": "build/tdr-plot-venv/bin/python -B -m unittest discover -s software/analysis/material_baseline_comparison -p 'test_artifacts.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "3 retained-evidence tests passed."
+    },
+    {
+      "command": "build/tdr-plot-venv/bin/python -B -m unittest discover -s software/analysis/hit_baseline_comparison -p 'test_retained.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "2 retained-evidence tests passed."
+    },
+    {
+      "command": "build/tdr-plot-venv/bin/python -B -m unittest discover -s software/analysis/fatras_baseline_comparison -p 'test_*.py' -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "8 analysis/native-contract tests passed; no native simulation was rerun."
+    },
+    {
+      "command": "latexmk -pdf -file-line-error -halt-on-error -interaction=nonstopmode main.tex tracker-review.tex",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Exact assembled source: 34-page full report and 30-page extract. No overfull boxes or undefined references; inherited font substitutions and two underfull-table warnings remain."
+    },
+    {
+      "command": "pdftoppm -scale-to 600 -png main.pdf; pdftoppm -f 31 -l 34 -scale-to 1500 -png main.pdf",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All 34 final pages visually inspected in three contact sheets; new findings pages and changed palette checked at 1500 px. No clipping or overlap."
+    },
+    {
+      "command": "python3 -B tools/software_inventory/inventory.py refresh; python3 -B tools/software_inventory/inventory.py check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "69 components, 104 families, 55 reviewed inputs, 12 software pins."
+    },
+    {
+      "command": "python3 -B tools/project_records/validate.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "111 tasks, 54 documents and 24 review rounds validated after fetching a referenced historical commit."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "305 paired session records validated."
+    }
+  ]
+}
