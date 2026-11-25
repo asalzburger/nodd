@@ -1,0 +1,48 @@
+{
+  "session_id": "SESSION-2026-11-12-ecal-chain-readiness",
+  "title": "PR133–137 chain readiness, complete accounting and merged-state validation",
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": "01a1ca20-9aaa-72d1-9283-5591a6e73094"
+  },
+  "source_revision": "3ebafd340b0e084c5e42e57123de115e3f489244",
+  "source_record": "https://github.com/asalzburger/nodd/blob/3ebafd340b0e084c5e42e57123de115e3f489244/logs/codex/SESSION-2026-11-12-ecal-chain-readiness.json",
+  "source_narrative": "https://github.com/asalzburger/nodd/blob/3ebafd340b0e084c5e42e57123de115e3f489244/logs/codex/SESSION-2026-11-12-ecal-chain-readiness.md",
+  "record_sha256": "21e6e18c905aa8255e6ed5fde05a623bbdc7e77d970bf61149e605b2f9721f6f",
+  "narrative_sha256": "46c4bb4115036017b90e1833c66bbe01609432870c726cbc6996e5414b0b3df0",
+  "sections": [
+    [
+      "Independent audit and guard assignment",
+      "Audit atb2b7041b: existing mainjobs validate/build/deploycommittedwork andderive dailyworklabels automatically, butdo not collectactualmerge metadata/GitHublabels/newusage. MissingPR133tracking row andunobservedolderwork needcorrection. No newregistry or futuremergetimestamps. Minimumguard verifiesall5recordcoverages andpreservedhead/freeze/results ancestry, plushead→merge→checkedHEADwhenactualmergedstateisrecorded. Projectvalidator107tasks/54docs/24reviews passes; pinnedcanonicalledgerderivationspassall5; currentuntrackedchainjournalnecessitatessyncaftercloseout. No sourcewrites by initialreviewer.\n\n```json\n{\n  \"id\": \"ECAL-CHAIN-SOFTENG-GUARD\",\n  \"role\": \"SoftEng\",\n  \"input_revision\": \"b2b7041b045c0777c5e36176b4739336a41a97b5\",\n  \"inputs\": [\n    \"tools/project_records/validate.py\",\n    \"tools/project_records/fetch_evidence.py\",\n    \"project/tracking.json\",\n    \"docs/validation/ecal-highstat/frozen/manifest.json\",\n    \".github/workflows/validation.yml\",\n    \".github/workflows/token-usage.yml\"\n  ],\n  \"mode\": \"write\",\n  \"writable_paths\": [\n    \"tools/project_records/check_ecal_chain.py\",\n    \"tools/project_records/test_ecal_chain.py\"\n  ],\n  \"task\": \"Implement minimum read-only ECAL133\\u2013137 integrity check per audit. Use existing tracking/interaction/model manifests, no new registry/state/automation or remote calls. CLI --repo defaultroot, optional --output compactJSONreport under callerpath. Require all5PRtracking entries and interaction ledgers; orderedhead ancestry andallheads ancestors ofcheckedHEAD; modelmanifest freeze_commit andvalidated_results_commit ancestors ofHEAD; currentfrozen coefficient bytes identicaltoGitfreeze andcore file matchesfrozen coreSHA (also frozen blob ifappropriate). For entries recorded merged require head\\u2192merge\\u2192checkedHEAD; optional --require-merged strictpostmerge mode is useful but defaultmustworkbeforemerge andnotinventfuturestate. Include compact unique canonical workowner/title/observed-counter coverage if straightforward from existingledger references, avoiding duplicateaddition acrossPRreferences; existing fullusage/ledger validators remainseparate, no reinventingthem. Checkscript shouldpass after main adds missingPR133 row; currentb2sourceknownfailsmissing133bydesign. Meaningfulstandardlibrary syntheticGitfixtures testgoodchain andmissing/reordered/unreachable entries, lostfreeze, changedcoeff/core, detachedrecordedmerge; no native/Numpy/dataregeneration. Main owns .githubworkflow wiring/inventory/docs/logs/accounting/project/merges; touchonly2ownedsourcefiles, do notcommit/publish/merge/delegate. No detectoracceptanceclaims or globalequalitygate forhistoricalmilestones.\",\n  \"deliverable\": \"Two sourcefiles with focusedread-only guard and meaningfultests; actualtestcommands/results andlimitations.\",\n  \"completion\": \"Return once targetedtests pass andonlyownedfiles changed; no publication.\"\n}\n```"
+    ],
+    [
+      "Chain guard amendment assignment",
+      "ECAL-CHAIN-SOFTENG-ABSORBED; SoftEng; exact input ded14d2e4d726b566db3cd9e4939d73da799b6a3; read/write only tools/project_records/check_ecal_chain.py and test_ecal_chain.py; no further delegation or publication. Require forward ancestry OR explicit later-head→actual-later-merge→predecessor-head proof for a genuinely merged dependent; captured heads must belong to that merge.17 synthetic Git controls pass, including the absorption/corrective history and rejected missing/detached/incompatible merge evidence. Main integrates workflow, records and accounting separately.\n\nPre-review checks: project/session/ledger/token validators pass;37+19+20 accounting tests and both Node suites pass. Preview daily work labels reconcile exactly to12 contributing titles,51 turns and303597535observed tokens. Coefficients/core are byte-identical to their original frozen commits; no scientific data/code changes. Actual remaining-head CI will be observed after publication."
+    ]
+  ],
+  "activities": [],
+  "usage_sha256": "51bb13066e9d2602a4c85abcda6b465f1841b1299ad1629259f29dcfd24c7305",
+  "usage_refs": [
+    {
+      "client_thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
+      "turn_id": "01a1d0a0-0713-78d3-bbbf-c393e8aa5c24",
+      "model": null
+    },
+    {
+      "client_thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
+      "turn_id": "01a1d0a7-d52a-7943-95d2-1ba9af90c0f4",
+      "model": null
+    },
+    {
+      "client_thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
+      "turn_id": "01a1d0b5-9d58-7580-b188-e6cd1cf27627",
+      "model": null
+    },
+    {
+      "client_thread_id": "01a1cb19-3778-7923-bf3b-bd7349a594cd",
+      "turn_id": "01a1d0b8-ec91-73e3-a3ae-a5fd0c38fceb",
+      "model": null
+    }
+  ]
+}

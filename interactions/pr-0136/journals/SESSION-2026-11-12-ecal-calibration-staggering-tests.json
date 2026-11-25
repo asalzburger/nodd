@@ -1,0 +1,27 @@
+{
+  "session_id": "SESSION-2026-11-12-ecal-calibration-staggering-tests",
+  "title": "Held-out ECAL calibration and physical board staggering tests",
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": null
+  },
+  "source_revision": "7711e74efe4b3b6498f1639209f5883d3269eab4",
+  "source_record": "https://github.com/asalzburger/nodd/blob/7711e74efe4b3b6498f1639209f5883d3269eab4/logs/codex/SESSION-2026-11-12-ecal-calibration-staggering-tests.json",
+  "source_narrative": "https://github.com/asalzburger/nodd/blob/7711e74efe4b3b6498f1639209f5883d3269eab4/logs/codex/SESSION-2026-11-12-ecal-calibration-staggering-tests.md",
+  "record_sha256": "c9a5a531f9bb4e753f9b555d7158874776587245dc7b8159b6b9df6738a50aef",
+  "narrative_sha256": "d84966688bac35c384b38e7eb79d6d49dbf3420b9e4561b05bed8244fe8d5ed6",
+  "sections": [
+    [
+      "Scope and selected request",
+      "The user said: “Please go ahead with these tests.” This follows the proposed\nlocal-position calibration and independent module-phase tests in PR135. The\nbounded implementation uses identical retained 10,000 electron inputs and\n12 DDSim workers, with disk planning and a live guard. Starting revision:\n`3af5538faf884d0abce98b0956c0e6d4f45d4527`; clean dedicated branch\n`codex/ecal-calibration-staggering-tests`. Earlier samples remain unchanged.\nThe repository is the canonical record. This is an isolated PROTOTYPE under\nDES-030/DES-031; no human sign-off or production integration is inferred.\n\nThe coordinator applied `nodd-coordinate`, `nodd-design-evidence`,\n`nodd-review-validation` and the local ACTS Spack skill. Changed setup/lock\nfingerprints were disclosed before dependent work; the native runtime doctor\npassed. Existing dependencies were reused without modifying shared installs."
+    ],
+    [
+      "Decisions and outcomes",
+      "The physical four-phase board layout was frozen before response inspection.\nBarrel narrow edge boards preserve envelopes/ASIC capacity; short slabs use a\n24 mm quarter-phase to preserve rows/clearance. All area/material changes are\nexplicit. Native construction/IDs/electrodes/zero-overlap checks, 24-event pilot,\nfull 10k transport and all saved-primary/hit/12-worker audits pass. The original\nsector seams remain. Dense mask screening is geometry only.\n\nThe calibration protocol freezes observable-only features, five outer/three\ninner ID folds, training-only preprocessing, ridge candidates and gain bounds.\nSeparate `Model.infer(features, signal)` returns energy without truth inputs;\nheld-out truth changes leave inferred energy unchanged. No held-out retuning.\nThe first baseline fit improves global CV from 43.09% to 34.43%, while retaining\nmean Ecal/Etrue=0.9136 and 8.99% clipping. This scale bias is a reported limitation,\nnot removed by an evaluation-derived correction. Final paired analysis follows."
+    ]
+  ],
+  "activities": [],
+  "usage_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+  "usage_refs": []
+}
