@@ -32,11 +32,11 @@ The site shows all-project observed coverage, without estimating cost or billing
 A dashed extension only carries the known subtotal after the last observation;
 it does not claim no work occurred. Exact daily totals remain available in a table.
 
-The selected labels on the time axis come from `project/token-milestones.json`.
-Each retains an actual GitHub merge timestamp, full source revision and PR link.
-Markers describe delivered features/prototypes, not human design sign-off. Update
-this small curated list for major milestones; do not turn it into another task
-tracker. Canonical usage changes rebuild the curve automatically.
+The chart uses numbered daily work steps. Dedicated milestone lines, PR/date
+labels and their source list were removed by the 2026-11-25 human request.
+The historical `project/token-milestones.json` catalogue remains validated in
+the downloadable JSON for provenance; it does not affect the displayed date range
+or reserve chart space. Canonical usage changes rebuild the curve automatically.
 
 Each observed daily step also has a numbered work label. Hovering or focusing a
 step names its leading recorded session and daily increment; selecting it opens
@@ -44,7 +44,7 @@ the corresponding **Work behind each step** entry. Every day's full label is
 visible in that list, newest first. It expands to all canonical session
 contributions, exact observed input/output/combined subtotals and journal links.
 PR links are references to the session's recorded scope, not allocations to each
-PR. Merge milestones and recorded spending dates are independent evidence.
+PR. Session links describe recorded work without implying scientific sign-off.
 
 These labels derive automatically from the same unique turn owners and exact
 UTC completion dates used for the curve. A session spanning days contributes
@@ -67,7 +67,7 @@ must be under `_site/`. The exact allowlist includes the three HTML pages, their
 CSS/JS, `usage.json`, `interactions.json`, `statistics.json`, `.nojekyll` and one
 `interactions/pr-NNNN.json` payload per validated PR. Unexpected files, stale PR
 payloads and symlinks stop the build. Private PDFs and raw recovery inventories
-are not packaged. The token JSON contains aggregates, feature markers, per-step
+are not packaged. The token JSON contains aggregates, historical feature metadata, per-step
 canonical-session subtotals/titles/source paths and source metadata. It does not
 export raw client thread/turn IDs, tool arguments or recovery inventories.
 

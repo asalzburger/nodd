@@ -206,23 +206,32 @@ class UsageTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "unclosed"):
             build.collect(self.root)
 
-    def test_escaping_and_feature_evidence(self):
+    def test_historical_features_do_not_annotate_or_resize_the_chart(self):
         revision = subprocess.check_output(
             ["git", "-C", str(self.root), "rev-parse", "HEAD"], text=True
         ).strip()
         feature = {
             "id": "PR-999",
             "label": "<script>alert(1)</script>",
-            "at": "2026-09-16T15:00:00Z",
+            "at": "2027-09-16T15:00:00Z",
             "revision": revision,
             "url": build.REPOSITORY + "/pull/999",
         }
         manifest = self.root / "project/token-milestones.json"
         manifest.write_text(json.dumps({"schema_version": 1, "features": [feature]}))
-        build.build(self.root, self.root / "_site/test", "2026-10-12T10:00:00Z")
+        data = build.build(self.root, self.root / "_site/test", "2026-10-12T10:00:00Z")
         page = (self.root / "_site/test/index.html").read_text()
         self.assertNotIn("<script>alert", page)
-        self.assertIn("&lt;script&gt;", page)
+        self.assertNotIn("&lt;script&gt;", page)
+        for removed in ('milestone-line', 'feature-dot', 'feature-date', 'Feature milestone sources'):
+            self.assertNotIn(removed, page)
+        self.assertIn('class="step-number"', page)
+        self.assertIn('href="#usage-step-2026-09-16"', page)
+        self.assertEqual(data['features'], [feature])
+        for field in build.MODES:
+            with self.subTest(field=field):
+                self.assertEqual(build.chart(data, field, data['metadata']['built_at']),
+                                 build.chart({**data, 'features': []}, field, data['metadata']['built_at']))
         self.assertIn("2026-09-16", page)
         self.assertIn("aria-label", page)
         feature["url"] = "javascript:alert(1)"

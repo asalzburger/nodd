@@ -1,0 +1,120 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-11-25-token-step-numbers",
+  "title": "Remove milestone annotations from the token chart",
+  "recorded_at": "2026-11-25T14:29:15Z",
+  "started_at": null,
+  "ended_at": "2026-11-25T14:31:27Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Client version, actual conversation start, thread/turn IDs and exact finalized per-turn token counters were not exposed.",
+    "No browser-rendering pass is claimed; browser/computer surfaces were unavailable earlier in this connected session."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "3d66ba9f2eb57a8dc295e496770fe3a550c82d24",
+    "branch": "codex/token-step-numbers",
+    "initial_changes": [],
+    "result_commits": [
+      "3b155ceff3d30dfc4f34900156e0a69b7dd3dc00"
+    ],
+    "changed_files": [
+      "tools/token_usage/build.py",
+      "tools/token_usage/style.css",
+      "tools/token_usage/test_build.py",
+      "tools/token_usage/README.md",
+      "software/inventory.json",
+      "docs/software-inventory.md",
+      "logs/codex/SESSION-2026-11-25-token-step-numbers.json",
+      "logs/codex/SESSION-2026-11-25-token-step-numbers.md",
+      "interactions/pr-0160.json"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [
+      "Token chart numbered work steps",
+      "GitHub Pages milestone presentation"
+    ],
+    "related_ids": [
+      "PR160"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-11-25-token-step-numbers.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 -B -m unittest discover -s tools/token_usage -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "28 tests passed, including regression that historical milestone metadata neither annotates nor resizes any chart mode."
+    },
+    {
+      "command": "node tools/token_usage/test_app.js",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Chart controls, numbered-step selection and deep links passed."
+    },
+    {
+      "command": "node tools/token_usage/test_interactions.js",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Conversation/navigation checks passed."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "589 disjoint usage observations validated."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py build --output _site/pages",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Complete three-tab Pages site built."
+    },
+    {
+      "command": "Built SVG XML inspection",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All three chart modes have numbered work steps, no milestone annotation classes and a compact 1100 by 360 viewBox."
+    },
+    {
+      "command": "python3 -B tools/software_inventory/inventory.py refresh; python3 -B tools/software_inventory/inventory.py check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Reviewed generated inventory diff; 69 components and 104 source families validated."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py summary --format json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "589 observed turns; 205/307 canonical sessions with usage. This task has no exposed finalized counters."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "307 canonical session records validated."
+    },
+    {
+      "command": "python3 -B tools/interactions/ledger.py validate --pr 160 --base-ref 3d66ba9f2eb57a8dc295e496770fe3a550c82d24",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "PR160 record validated and all historical base PR ledgers retained."
+    }
+  ]
+}
