@@ -238,7 +238,8 @@ class UsageTests(unittest.TestCase):
         self.assertEqual(
             {p.name for p in first.iterdir()},
             {"index.html", "style.css", "app.js", "usage.json", ".nojekyll",
-             "interactions.html", "interactions.css", "interactions.js", "interactions.json"},
+             "interactions.html", "interactions.css", "interactions.js", "interactions.json",
+             "statistics.html", "statistics.css", "statistics.json"},
         )
         for path in first.iterdir():
             self.assertEqual(path.read_bytes(), (second / path.name).read_bytes())

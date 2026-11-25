@@ -1,0 +1,117 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-11-25-interaction-colors",
+  "title": "Distinct human and agent interaction colors",
+  "recorded_at": "2026-11-25T08:00:03Z",
+  "started_at": null,
+  "ended_at": "2026-11-25T08:03:23Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Client version, actual conversation start, stable thread/turn IDs and exact finalized token counters were not exposed.",
+    "Visual browser QA remained unavailable on the connected computer; no screenshot/rendering pass is claimed."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "dcb38b4269f87c527ea0c1fe433efe5c05478429",
+    "branch": "codex/interaction-statistics",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      "tools/token_usage/interactions.css",
+      "tools/token_usage/build.py",
+      "tools/token_usage/README.md",
+      "software/inventory.json",
+      "docs/software-inventory.md",
+      "interactions/pr-0159.json",
+      "logs/codex/SESSION-2026-11-25-interaction-colors.json",
+      "logs/codex/SESSION-2026-11-25-interaction-colors.md"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [
+      "Human and agent conversation colors",
+      "GitHub Pages interaction view"
+    ],
+    "related_ids": [
+      "PR159"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-11-25-interaction-colors.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "node tools/token_usage/test_interactions.js",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Conversation identity/navigation/safe-rendering suite passed."
+    },
+    {
+      "command": "node tools/token_usage/test_app.js",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Token chart suite passed."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/token_usage -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All 28 site tests passed."
+    },
+    {
+      "command": "Python sRGB relative-luminance contrast calculation",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Human/agent sender, avatar and body combinations all exceed 4.5:1; minimum 5.18:1."
+    },
+    {
+      "command": "python3 -B tools/software_inventory/inventory.py refresh; python3 -B tools/software_inventory/inventory.py check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Reviewed inventory diff; 69 components and 104 code families validated."
+    },
+    {
+      "command": "gh pr ready 159 --undo --repo asalzburger/nodd",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "PR159 converted to draft to follow the current repository contribution instructions; connector mutation lacked integration permission."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "306 canonical session records validated."
+    },
+    {
+      "command": "python3 -B tools/interactions/ledger.py validate --base-ref 78bef505c4e623739da204ce92e3aa7bc6f931c5",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "124 interaction ledgers validated; historical records retained."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py build --output _site/pages",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Complete three-tab Pages site built with the conversation legend and updated styles."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py summary --format json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "589 observed turns; 205/306 sessions with usage. This task has no exposed counters."
+    }
+  ]
+}

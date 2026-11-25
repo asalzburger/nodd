@@ -14,6 +14,7 @@ import sys
 from urllib.parse import quote
 
 import interactions as conversation_export
+import interaction_stats
 
 ROOT = Path(__file__).resolve().parents[2]
 FIELDS = (
@@ -368,7 +369,8 @@ def navigation(active):
     return '<nav class="site-tabs" aria-label="Views">' + ''.join(
         f'<a href="{url}"' + (' aria-current="page"' if name == active else '') + f'>{label}</a>'
         for name, label, url in (('usage', 'Token usage', './'),
-                                 ('interactions', 'Interactions', 'interactions.html'))
+                                 ('interactions', 'Interactions', 'interactions.html'),
+                                 ('statistics', 'Statistics', 'statistics.html'))
     ) + '</nav>'
 
 
@@ -440,11 +442,78 @@ def render_interactions(index):
 <section id="conversation-panel" class="conversation-panel" aria-labelledby="pr-title">
 <div id="interaction-status" role="status" aria-live="polite">Loading interaction records…</div>
 <div id="pr-detail" hidden><div class="pr-heading"><div><p id="pr-number" class="eyebrow"></p><h2 id="pr-title">Pull request</h2><div id="pr-coverage"></div></div><a id="pr-github" href="{REPOSITORY}">View PR</a></div>
-<div id="participants" class="participant-strip"></div><div class="conversation-controls"><label for="source-select">Conversation source</label><select id="source-select"></select></div>
+<div id="participants" class="participant-strip"></div>
+<div class="identity-legend" aria-label="Message color legend"><span class="identity-key identity-key--human">Human</span><span class="identity-key identity-key--agent">Agent</span><span class="identity-key">Publishing account / identity unrecorded</span></div>
+<div class="conversation-controls"><label for="source-select">Conversation source</label><select id="source-select"></select></div>
 <div id="conversation" role="feed" aria-label="PR interaction messages"></div>
 <details class="evidence-panel"><summary>Roles, tools & token references</summary><div id="pr-evidence"></div></details></div></section></div>
 <noscript><p>Enable JavaScript to navigate conversations, or <a href="{REPOSITORY}/tree/{revision}/interactions">read the canonical interaction records</a>.</p></noscript>
 <footer><p>Source <a href="{REPOSITORY}/commit/{revision}"><code>{revision[:12]}</code></a> · Built {escape(metadata['built_at'])}<br>{'Preview includes uncommitted changes.' if metadata['working_tree_dirty'] else 'Versioned source snapshot.'}</p><p><a href="interactions.json">Download PR index</a> · <a href="{REPOSITORY}/blob/{revision}/interactions/README.md">Sources & method</a></p></footer>
+</main></body></html>'''
+
+
+def render_statistics(data):
+    metadata, words, work = data['metadata'], data['words'], data['work']
+    people, counts, coverage = data['participants'], data['interactions'], data['coverage']
+    revision = metadata['source_commit']
+    cards = [
+        ('Human words', words['human'], 'Named and unnamed human speakers; ambiguous attribution excluded'),
+        ('Response words', words['responses'], f'{number(words["agent_response"])} agent · {number(words["published_response"])} publishing account'),
+        ('Interaction events', counts['message_events'], 'Unique recorded messages and GitHub discussion/review events'),
+        ('Agent threads', people['exposed_agent_threads'], 'Exposed thread IDs; observable proxy for instances'),
+        ('Bounded task sessions', work['canonical_sessions'], f'{work["session_states"].get("closed", 0)} closed · {work["session_states"].get("open", 0)} open'),
+        ('Named human accounts', people['named_human_account_count'], 'Account identities; distinct people remain unknown'),
+        ('PR records', work['pr_records'], 'All snapshots retained at this revision; capture state may be stale'),
+        ('Recorded tool calls', data['tools']['operation_calls'], f'Exposed operation metadata from {counts["visible_turns"]} unique visible turns'),
+    ]
+    metrics = ''.join(f'<article class="metric"><span>{escape(label)}</span><strong>{number(value)}</strong><small>{escape(note)}</small></article>'
+                      for label, value, note in cards)
+    source_rows = ''.join(
+        f'<tr><th scope="row">{escape(row["label"])}</th><td>{number(row["events"])}</td>'
+        + ''.join(f'<td>{number(row["words"][key])}</td>' for key in interaction_stats.BUCKETS) + '</tr>'
+        for row in data['sources'])
+    total = words['human'] + words['responses'] + words['agent_prompt'] + words['unresolved']
+    bars = ''.join(f'<div class="word-share"><span>{label}</span><meter aria-label="{label} words" min="0" max="{max(1, total)}" value="{words[key]}">{number(words[key])}</meter><strong>{number(words[key])}</strong></div>'
+                   for label, key in [('Human', 'human'), ('Agent response', 'agent_response'),
+                                      ('Published response', 'published_response'), ('Agent handoff', 'agent_prompt'),
+                                      ('Unresolved authorship', 'unresolved')])
+    people_list = ', '.join(escape(name) for name in people['named_human_accounts']) or 'None recorded'
+    publishing_list = ', '.join(escape(name) for name in people['publishing_accounts']) or 'None recorded'
+    limits = ''.join(f'<li>{escape(note)}</li>' for note in coverage['limitations'])
+    operations = ''.join(f'<tr><th scope="row">{escape(item["name"])}</th><td>{number(item["calls"])}</td><td>{number(item["failures"])}</td></tr>' for item in data['tools']['operations'])
+    return f'''<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="nODD recorded human and response words, interactions, task sessions and agent threads">
+<title>nODD · Interaction statistics</title><link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="interactions.css"><link rel="stylesheet" href="statistics.css"></head><body>
+<header><a class="brand" href="./">nODD<span> / resource ledger</span></a><a href="{REPOSITORY}">Repository</a></header>
+{navigation('statistics')}<main class="statistics-page"><section class="intro"><p class="eyebrow">THE RECORDED COLLABORATION</p>
+<h1>Interaction statistics</h1><p>Words, work and participants across the interaction evidence retained in Git.</p>
+<div class="chips"><span>Counted once by stable IDs</span><span>Historical coverage is partial</span><span>Source {revision[:12]}</span></div></section>
+<section class="metrics" aria-label="Recorded interaction totals">{metrics}</section>
+<section class="stats-panel"><h2>Who wrote the words?</h2><p>Headline counts use recorded messages and GitHub discussion. Response words combine agent and publishing-account responses. Agent handoffs and unresolved authorship stay separate.</p>{bars}
+<p>{coverage['ambiguous_primary_events']} inherited messages have conflicting human/agent attribution; their words are included under unresolved authorship. Numbers, code and URL components count as words in the retained text.</p></section>
+<section class="stats-panel"><h2>Counts by evidence source</h2><p>Journal excerpts and additional curated records can repeat or paraphrase messages. Their subtotals describe the retained records and are excluded from the headline word and interaction totals.</p>
+<div class="table-scroll"><table><caption>Unique text events and words by source and authorship</caption><thead><tr><th scope="col">Source</th><th scope="col">Events</th><th scope="col">Human words</th><th scope="col">Agent response</th><th scope="col">Published response</th><th scope="col">Agent handoff</th><th scope="col">Unresolved</th></tr></thead><tbody>{source_rows}</tbody></table></div></section>
+<div class="stats-columns"><section class="stats-panel"><h2>People and agent instances</h2><p><strong>{people['named_human_account_count']} named human accounts:</strong> {people_list}.</p>
+<p>Local human inputs also use {people['unnamed_human_placeholders']} unnamed speaker placeholder(s). The number of distinct humans is unknown: accounts may alias people, and an unnamed user is not assumed to be a reviewer.</p>
+<p><strong>{people['exposed_agent_threads']} exposed agent threads</strong>, including {people['exposed_child_threads']} referenced as children. A thread is the available instance proxy; physical processes are unknown. {people['unidentified_specialist_assignments']} reported specialist assignments lack thread IDs and are not added as instances.</p>
+<p><strong>Publishing account:</strong> {publishing_list}. Its operator remains unknown.</p></section>
+<section class="stats-panel"><h2>Tasks, turns and coverage</h2><dl class="stat-facts">
+<div><dt>Canonical bounded task sessions</dt><dd>{work['canonical_sessions']}</dd></div>
+<div><dt>Tracked scientific tasks (separate registry)</dt><dd>{number(work['tracked_tasks'])}</dd></div>
+<div><dt>Pinned branch-only session references</dt><dd>{work['pinned_branch_only_sessions']}</dd></div>
+<div><dt>Canonical observed usage turns</dt><dd>{counts['canonical_usage_turns']}</dd></div>
+<div><dt>Unique referenced account turns, including pinned branches</dt><dd>{counts['account_turns']}</dd></div>
+<div><dt>Unique retained visible-turn snapshots</dt><dd>{counts['visible_turns']}</dd></div>
+<div><dt>Account turns without visible snapshots</dt><dd>{coverage['account_turns_without_visible_snapshot']}</dd></div>
+<div><dt>Repeated event references removed</dt><dd>{number(counts['duplicate_references_removed'])}</dd></div>
+</dl><p>Session records, tracked tasks, PRs and turns are different units. They are not additive. Missing message history remains unknown.</p></section></div>
+<section class="stats-panel"><h2>CLI and tool activity</h2><p>{number(data['tools']['operation_calls'])} exposed operation calls across {counts['visible_turns']} unique visible turns. Per-turn metadata counts each operation once. Journal aggregates are not added to these counts. A command-execution wrapper does not reveal every executed program or its output.</p>
+<details><summary>Operation counts and reported failures</summary><div class="table-scroll"><table><thead><tr><th scope="col">Operation</th><th scope="col">Calls</th><th scope="col">Failures</th></tr></thead><tbody>{operations or '<tr><td colspan="3">No exposed operation metadata.</td></tr>'}</tbody></table></div></details></section>
+<section class="stats-panel"><h2>Scope and counting method</h2><p>{escape(data['scope'])}</p><p>GitHub snapshots were captured from {escape(coverage['earliest_github_capture'] or 'unknown')} to {escape(coverage['latest_github_capture'] or 'unknown')}. These are evidence capture times, not task or merge dates.</p>
+<details><summary>Definitions, exclusions and known limits</summary><ul class="stats-method">{limits}</ul></details><p><a href="statistics.json">Download statistics JSON</a> · <a href="interactions.html">Browse source conversations</a></p></section>
+<footer><p>Source <a href="{REPOSITORY}/commit/{revision}"><code>{revision[:12]}</code></a> · Built {escape(metadata['built_at'])}<br>{'Preview includes uncommitted changes.' if metadata['working_tree_dirty'] else 'Versioned source snapshot.'}</p><p><a href="{REPOSITORY}/blob/{revision}/tools/token_usage/README.md">Sources & method</a></p></footer>
 </main></body></html>'''
 
 
@@ -473,8 +542,10 @@ def build(root, output, built_at):
         "built_at": built_at,
     }
     interaction_index, interaction_details = conversation_export.collect(root, data['metadata'])
+    statistics = interaction_stats.collect(root, data['metadata'])
     allowed = {"index.html", "style.css", "app.js", "usage.json", ".nojekyll",
-               "interactions.html", "interactions.css", "interactions.js", "interactions.json"}
+               "interactions.html", "interactions.css", "interactions.js", "interactions.json",
+               "statistics.html", "statistics.css", "statistics.json"}
     allowed.update(interaction_details)
     if output.exists():
         require(
@@ -490,6 +561,8 @@ def build(root, output, built_at):
     output.mkdir(parents=True, exist_ok=True)
     (output / "index.html").write_text(render(data))
     (output / "interactions.html").write_text(render_interactions(interaction_index))
+    (output / "statistics.html").write_text(render_statistics(statistics))
+    (output / "statistics.json").write_text(json.dumps(statistics, indent=2, allow_nan=False) + '\n')
     (output / "interactions.json").write_text(json.dumps(interaction_index, indent=2, allow_nan=False) + '\n')
     for name, detail in interaction_details.items():
         path = output / name
@@ -499,7 +572,7 @@ def build(root, output, built_at):
         json.dumps(data, indent=2, allow_nan=False) + "\n"
     )
     (output / ".nojekyll").write_text("")
-    for name in ["style.css", "app.js", "interactions.css", "interactions.js"]:
+    for name in ["style.css", "app.js", "interactions.css", "interactions.js", "statistics.css"]:
         (output / name).write_bytes(Path(__file__).with_name(name).read_bytes())
     return data
 
