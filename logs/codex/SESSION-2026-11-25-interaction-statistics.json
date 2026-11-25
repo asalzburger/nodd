@@ -1,0 +1,120 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-11-25-interaction-statistics",
+  "title": "Merged interaction statistics and GitHub Pages tab",
+  "recorded_at": "2026-11-25T07:41:39Z",
+  "started_at": null,
+  "ended_at": null,
+  "status": "open",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Historical conversation coverage is partial; only retained repository evidence was counted.",
+    "Exact finalized client token counters, stable accounting IDs, client version and session thread ID were not exposed for this active task.",
+    "Browser rendering could not be inspected: no available connected/browser window surface."
+  ],
+  "client": {
+    "name": "Codex",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "78bef505c4e623739da204ce92e3aa7bc6f931c5",
+    "branch": "codex/interaction-statistics",
+    "initial_changes": [],
+    "result_commits": [],
+    "changed_files": [
+      "tools/token_usage/interaction_stats.py",
+      "tools/token_usage/statistics.css",
+      "tools/token_usage/test_interaction_stats.py",
+      "tools/token_usage/build.py",
+      "tools/token_usage/test_build.py",
+      "tools/token_usage/interactions.css",
+      "tools/token_usage/README.md",
+      "logs/codex/SESSION-2026-11-25-interaction-statistics.json",
+      "logs/codex/SESSION-2026-11-25-interaction-statistics.md"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [
+      "GitHub Pages statistics",
+      "Interaction word counts",
+      "Evidence deduplication"
+    ],
+    "related_ids": [
+      "ADR-004"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-11-25-interaction-statistics.md",
+  "activities": [],
+  "usage": [],
+  "checks": [
+    {
+      "command": "python3 -B -m unittest discover -s tools/token_usage -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "28 site tests passed."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tools/interactions -p test_*.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "19 interaction provenance tests passed."
+    },
+    {
+      "command": "node tools/token_usage/test_app.js",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Chart control suite passed."
+    },
+    {
+      "command": "node tools/token_usage/test_interactions.js",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "PR navigation and safe rendering suite passed."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "305 canonical session records validated."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py summary",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "589 observed turns; 205/305 sessions with usage; this task has no exposed finalized counters."
+    },
+    {
+      "command": "python3 -B tools/interactions/ledger.py validate --base-ref 78bef505c4e623739da204ce92e3aa7bc6f931c5",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "123 ledgers validated with historical record preservation."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "589 disjoint observed turns validated."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py build --output _site/pages",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Complete three-tab Pages site built."
+    },
+    {
+      "command": "curl -fL localhost preview statistics.html",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Approved request returned HTTP 200; browser rendering unavailable."
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "No whitespace errors."
+    }
+  ]
+}
