@@ -1,0 +1,117 @@
+{
+  "schema_version": 1,
+  "session_id": "SESSION-2026-11-24-repo-size",
+  "title": "Measure nODD repository size at current main",
+  "recorded_at": "2026-11-24T17:22:51Z",
+  "started_at": null,
+  "ended_at": "2026-11-24T17:29:15Z",
+  "status": "closed",
+  "collection": "contemporaneous",
+  "completeness": "partial",
+  "limitations": [
+    "Actual conversation start time and exact per-turn token counters were not exposed; usage remains empty rather than estimated.",
+    "Counts exclude the 13 pinned submodule contents, ignored artifacts, build products, and other worktrees.",
+    "Text lines include generated JSON and SVG, blank lines and comments; source totals are physical lines rather than language-aware executable-code counts.",
+    "Git disk usage depends on available branches, worktrees and object packing."
+  ],
+  "client": {
+    "name": "Codex desktop",
+    "version": null,
+    "thread_id": null
+  },
+  "git": {
+    "start_commit": "78bef505c4e623739da204ce92e3aa7bc6f931c5",
+    "branch": "codex/repo-size-20261124",
+    "initial_changes": [],
+    "result_commits": [
+      "034c73604d6583fd3656c74b38ea2bd5b286adab"
+    ],
+    "changed_files": [
+      "logs/codex/SESSION-2026-11-24-repo-size.json",
+      "logs/codex/SESSION-2026-11-24-repo-size.md",
+      "logs/evidence/SESSION-2026-11-24-repo-size/repo-size.json",
+      "interactions/pr-0158.json"
+    ]
+  },
+  "work": {
+    "milestone": "M0",
+    "components": [
+      "repository-size-investigation"
+    ],
+    "related_ids": [
+      "PR-158"
+    ]
+  },
+  "narrative": "logs/codex/SESSION-2026-11-24-repo-size.md",
+  "activities": [
+    {
+      "kind": "tool",
+      "name": "functions.exec / exec_command",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Read-only Git archive, ls-tree, disk usage and Python standard-library counting; isolated worktree and journal publication."
+    },
+    {
+      "kind": "tool",
+      "name": "GitHub connector",
+      "version": null,
+      "calls": null,
+      "failures": null,
+      "duration_seconds": null,
+      "evidence": "Read current main branch and repository size metadata from the connected GitHub service."
+    }
+  ],
+  "usage": [],
+  "checks": [
+    {
+      "command": "git archive 78bef505c4e623739da204ce92e3aa7bc6f931c5 with Python tarfile counting; independent git ls-tree -rlz cross-check",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Both paths counted 5298 tracked blobs totaling 601300442 bytes; 13 gitlinks excluded. Text physical lines: 7474487. Source and build-script physical lines: 107854."
+    },
+    {
+      "command": "git worktree add from parent workspace; retry in nODD main clone",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Initial invocation in the parent workspace could not resolve origin/main (exit 128); corrected working directory and created an isolated clean worktree at the exact measured commit."
+    },
+    {
+      "command": "Documented Python reproduction extracted from session Markdown and compared against repo-size.json",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All/text/binary/source file, byte and physical-line counts match retained measurements."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Validated all 305 session records."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py summary",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "305 sessions; 589 historical recorded turns with observed input 3319239723 and output 13881824. This task has no observed usage and is excluded from these sums."
+    },
+    {
+      "command": "python3 -B tools/token_usage/build.py build --output /private/tmp/nodd-repo-size-token-site",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Build passed with 589 disjoint historical turns; generated output kept outside Git."
+    },
+    {
+      "command": "GitHub connector create_pull_request; gh pr create fallback",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Connector rejected repository parameter schema; first gh call was network-blocked in sandbox; escalated retry created draft PR https://github.com/asalzburger/nodd/pull/158. Connector GET independently verified draft=true and open state."
+    },
+    {
+      "command": "python3 -B tools/interactions/ledger.py capture --pr 158 --snapshot /private/tmp/nodd-size-pr-snapshot.json; python3 -B tools/interactions/ledger.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Captured sanitized connected-GitHub metadata, with no comments/reviews, and validated all 124 PR interaction records; canonical usage unchanged."
+    }
+  ]
+}
