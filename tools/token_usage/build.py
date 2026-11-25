@@ -278,43 +278,16 @@ def chart(data, field, built_at):
     if not points:
         return '<p class="empty">No dated observations for this counter. Missing measurements are unknown.</p>'
     times = [utc(point["date"] + "T00:00:00Z").timestamp() for point in points]
-    end = max(
-        [utc(built_at).timestamp(), max(times)]
-        + [utc(feature["at"]).timestamp() for feature in data["features"]]
-    )
-    start = (
-        min(
-            [times[0]]
-            + [utc(feature["at"]).timestamp() for feature in data["features"]]
-        )
-        - 86400
-    )
+    end = max(utc(built_at).timestamp(), max(times))
+    start = times[0] - 86400
     span = max(86400, end - start)
     left, right, top, bottom = 84, 1044, 28, 308
     maximum = max(point["cumulative"][field] for point in points) or 1
     ylimit = maximum * 1.12
     x = lambda value: left + (right - left) * (value - start) / span
     y = lambda value: bottom - (bottom - top) * value / ylimit
-    labels = []
-    occupied = []
-    for index, feature in enumerate(data["features"], 1):
-        at = utc(feature["at"]).timestamp()
-        position = x(at)
-        width = min(192, max(118, len(feature["label"]) * 6.1))
-        begin = max(left, min(position - width / 2, right - width))
-        row = 0
-        while row < len(occupied) and any(
-            begin < stop + 14 and begin + width > other - 14
-            for other, stop in occupied[row]
-        ):
-            row += 1
-        if row == len(occupied):
-            occupied.append([])
-        occupied[row].append((begin, begin + width))
-        labels.append((feature, position, begin, row, index))
-    height = 402 + len(occupied) * 52
     parts = [
-        f'<svg viewBox="0 0 1100 {height}" role="group" aria-label="{MODES[field]} cumulative observed tokens, with work steps and feature milestones">'
+        f'<svg viewBox="0 0 1100 360" role="group" aria-label="{MODES[field]} cumulative observed tokens, with numbered work steps">'
     ]
     for tick in range(5):
         value = ylimit * tick / 4
@@ -328,14 +301,6 @@ def chart(data, field, built_at):
         label = datetime.fromtimestamp(at, timezone.utc).strftime("%d %b")
         parts.append(
             f'<text class="axis" x="{x(at):.2f}" y="338" text-anchor="middle">{label}</text>'
-        )
-    for feature, position, begin, row, index in labels:
-        label_y = 389 + row * 52
-        parts.append(
-            f'<line class="milestone-line" x1="{position:.2f}" x2="{position:.2f}" y1="{top}" y2="{label_y-18}"/>'
-        )
-        parts.append(
-            f'<a href="{escape(feature["url"],quote=True)}"><circle class="feature-dot" cx="{position:.2f}" cy="{bottom}" r="4"/><text class="feature" x="{begin:.2f}" y="{label_y}">{escape(feature["label"])}</text><text class="feature-date" x="{begin:.2f}" y="{label_y+17}">{utc(feature["at"]).strftime("%d %b")} · #{feature["id"].removeprefix("PR-")}</text></a>'
         )
     coordinates = [(x(times[0] - 86400), y(0))] + [
         (x(at), y(point["cumulative"][field])) for at, point in zip(times, points)
@@ -398,10 +363,6 @@ def render(data):
         f'<div data-chart="{field}" {"hidden" if index else ""}>{chart(data,field,metadata["built_at"])}</div>'
         for index, field in enumerate(MODES)
     )
-    feature_links = "".join(
-        f'<li><a href="{escape(feature["url"],quote=True)}">{escape(feature["label"])} · {utc(feature["at"]).date().isoformat()}</a></li>'
-        for feature in data["features"]
-    )
     rows = []
     for point in data["series"]:
         values = point["daily"]
@@ -411,15 +372,14 @@ def render(data):
         )
     timeline_end = data["series"][-1]["date"] if data["series"] else "unavailable"
     content = f"""<header><a class="brand" href="./">nODD<span> / resource ledger</span></a><a href="{REPOSITORY}">Repository ↗</a></header>{navigation('usage')}
-<main><section class="intro"><p class="eyebrow">PROJECT RESOURCES</p><h1>Cumulative token usage</h1><p>Recorded input and output over time, alongside major project features.</p><div class="chips"><span>{summary['usage_turns']} disjoint turn observations</span><span>Latest observations: {timeline_end} UTC</span><span>Coverage is partial</span></div></section>
+<main><section class="intro"><p class="eyebrow">PROJECT RESOURCES</p><h1>Cumulative token usage</h1><p>Recorded input and output over time, with numbered steps linking to the recorded work.</p><div class="chips"><span>{summary['usage_turns']} disjoint turn observations</span><span>Latest observations: {timeline_end} UTC</span><span>Coverage is partial</span></div></section>
 <section class="metrics" aria-label="Observed token totals">{''.join(cards)}</section>
-<section class="chart-panel"><div class="chart-heading"><div><p class="eyebrow">THE BUILD-UP</p><h2>Usage & recorded work</h2></div><div class="modes" aria-label="Token counter">{buttons}</div></div><p class="chart-note">Each numbered step links to the recorded work for that UTC day. Hover or focus for its label; select it for the session breakdown. Feature markers below show merge dates, not scientific sign-off.</p><div class="chart-shell">{charts}<div class="tooltip" role="status" hidden></div></div><div class="legend"><span class="solid">Observed cumulative counters · numbered work steps</span><span class="dashed">Known subtotal carried forward; new usage unmeasured</span></div></section>
+<section class="chart-panel"><div class="chart-heading"><div><p class="eyebrow">THE BUILD-UP</p><h2>Usage & recorded work</h2></div><div class="modes" aria-label="Token counter">{buttons}</div></div><p class="chart-note">Each numbered step links to the recorded work for that UTC day. Hover or focus for its label; select it for the session breakdown.</p><div class="chart-shell">{charts}<div class="tooltip" role="status" hidden></div></div><div class="legend"><span class="solid">Observed cumulative counters · numbered work steps</span><span class="dashed">Known subtotal carried forward; new usage unmeasured</span></div></section>
 <section class="work-panel" aria-labelledby="work-heading"><p class="eyebrow">WHERE THE TOKENS WENT</p><h2 id="work-heading">Work behind each step</h2><p class="work-note">Every recorded step has a label from its owning sessions, ordered by observed combined tokens. Expand a day for all contributions and source journals. Counts are observed input + output; missing measurements remain unknown.</p><div class="work-steps">{work_breakdown(data)}</div></section>
 <section class="accounting"><div><p class="eyebrow">COUNTED ONCE</p><h2>Input + output = total</h2><p>Cached input ({number(totals['cached_input_tokens']['sum'])}) and reasoning output ({number(totals['reasoning_output_tokens']['sum'])}) are already included in their parent counters.</p></div><div><p class="eyebrow">VISIBLE GAPS</p><h2>Observed, not complete</h2><p>Missing counters are unknown, never zero. {data['dated_turns']} of {summary['usage_turns']} observations have exact completion dates. {data['undated_turns']} undated observations stay outside the curve. This is a usage ledger, not a billing estimate.</p></div></section>
 <details class="daily"><summary>Daily observations and exact cumulative totals</summary><div class="table-scroll"><table><thead><tr><th scope="col">UTC date</th><th scope="col">Turns</th><th scope="col">Input</th><th scope="col">Output</th><th scope="col">Cumulative total</th></tr></thead><tbody>{''.join(rows) or '<tr><td colspan="5">No dated token observations.</td></tr>'}</tbody></table></div></details>
-<details class="daily"><summary>Feature milestone sources</summary><ul>{feature_links}</ul></details>
 <footer><p>Source <a href="{REPOSITORY}/commit/{metadata['source_commit']}"><code>{metadata['source_commit'][:12]}</code></a> · Built {metadata['built_at']}<br>{'Preview includes uncommitted changes.' if metadata['working_tree_dirty'] else 'Versioned source snapshot.'}</p><p><a href="usage.json">Download chart data</a> · <a href="{REPOSITORY}/tree/{metadata['source_commit']}/logs/usage">Accounting evidence</a> · <a href="{REPOSITORY}/blob/{metadata['source_commit']}/tools/token_usage/README.md">Method</a></p></footer></main>"""
-    return f'<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="nODD cumulative observed token usage and project feature milestones"><title>nODD · Token usage</title><link rel="stylesheet" href="style.css"><link rel="stylesheet" href="interactions.css"><script src="app.js" defer></script></head><body>{content}</body></html>'
+    return f'<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="nODD cumulative observed token usage and numbered work steps"><title>nODD · Token usage</title><link rel="stylesheet" href="style.css"><link rel="stylesheet" href="interactions.css"><script src="app.js" defer></script></head><body>{content}</body></html>'
 
 
 def render_interactions(index):
