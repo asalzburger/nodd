@@ -83,6 +83,18 @@ subsets were not added again.
 
 ## Follow-up
 
+Opened [Infrastructure PR #159](https://github.com/asalzburger/nodd/pull/159).
+The connector's create action returned FORBIDDEN because its integration lacked
+creation permission; the authenticated CLI created the PR successfully. Connector
+reads confirmed the open, non-draft main-targeting PR and an empty discussion/review
+timeline. Its selected public GitHub snapshot and canonical session links are
+retained in `interactions/pr-0159.json`. The implementation commit is
+`e6ffd0a76fd0d3f855895a99c4a956066d58c615`. The initial hosted token-site job
+failed because `interactions/pr-0159.json` could only be created after the PR
+number was assigned. This closeout adds that required ledger; the full 124-record
+validator, PR159/base-preservation validator, 305-session validator and complete
+site build passed locally afterward. The following push reruns hosted checks.
+
 Review and merge the Infrastructure PR to publish the new tab through the existing
 main-branch Pages workflow. Historical message coverage, distinct human identities,
 physical agent processes, complete CLI output and this active task's final token

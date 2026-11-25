@@ -4,8 +4,8 @@
   "title": "Merged interaction statistics and GitHub Pages tab",
   "recorded_at": "2026-11-25T07:41:39Z",
   "started_at": null,
-  "ended_at": null,
-  "status": "open",
+  "ended_at": "2026-11-25T07:56:14Z",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
@@ -22,7 +22,9 @@
     "start_commit": "78bef505c4e623739da204ce92e3aa7bc6f931c5",
     "branch": "codex/interaction-statistics",
     "initial_changes": [],
-    "result_commits": [],
+    "result_commits": [
+      "e6ffd0a76fd0d3f855895a99c4a956066d58c615"
+    ],
     "changed_files": [
       "tools/token_usage/interaction_stats.py",
       "tools/token_usage/statistics.css",
@@ -32,7 +34,8 @@
       "tools/token_usage/interactions.css",
       "tools/token_usage/README.md",
       "logs/codex/SESSION-2026-11-25-interaction-statistics.json",
-      "logs/codex/SESSION-2026-11-25-interaction-statistics.md"
+      "logs/codex/SESSION-2026-11-25-interaction-statistics.md",
+      "interactions/pr-0159.json"
     ]
   },
   "work": {
@@ -43,7 +46,8 @@
       "Evidence deduplication"
     ],
     "related_ids": [
-      "ADR-004"
+      "ADR-004",
+      "PR-159"
     ]
   },
   "narrative": "logs/codex/SESSION-2026-11-25-interaction-statistics.md",
@@ -115,6 +119,30 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "No whitespace errors."
+    },
+    {
+      "command": "GitHub connector create_pull_request, then gh pr create --body-file",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "Connector creation returned FORBIDDEN (integration permissions); authenticated CLI created PR159. Connector metadata verifies the open, non-draft PR targets main and was mergeable."
+    },
+    {
+      "command": "Initial hosted token-site job 139060396748",
+      "status": "FAIL",
+      "exit_code": 1,
+      "result": "Missing interactions/pr-0159.json before PR159 was assigned; this closeout adds the required canonical ledger."
+    },
+    {
+      "command": "python3 -B tools/interactions/ledger.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "All 124 PR ledgers validated after adding PR159; canonical usage unchanged."
+    },
+    {
+      "command": "python3 -B tools/interactions/ledger.py validate --pr 159 --base-ref 78bef505c4e623739da204ce92e3aa7bc6f931c5",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "PR159 synchronized and historical ledgers retained."
     }
   ]
 }
