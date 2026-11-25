@@ -79,6 +79,12 @@ individual PR payloads load on selection. `interactions.py` validates the
 parties, roles, tool names, account references and safe source links. It neither
 reads private client stores nor copies raw tool arguments or token counters.
 
+Human-associated messages and participant cards use blue; agent-associated ones
+use orange. The same speaker colors apply to comments, prompts, responses and
+reviews across all source views. A visible legend, party labels and avatar shapes
+retain the distinction without relying on color alone. Publishing accounts and
+unrecorded identities remain neutral gray; their operators are not inferred.
+
 Recorded visible messages, GitHub discussion and selected session notes appear
 in separate views. Turn start times describe the turn, not individual messages;
 upload references have no inferred timestamp. Journal excerpts may summarize

@@ -442,7 +442,9 @@ def render_interactions(index):
 <section id="conversation-panel" class="conversation-panel" aria-labelledby="pr-title">
 <div id="interaction-status" role="status" aria-live="polite">Loading interaction records…</div>
 <div id="pr-detail" hidden><div class="pr-heading"><div><p id="pr-number" class="eyebrow"></p><h2 id="pr-title">Pull request</h2><div id="pr-coverage"></div></div><a id="pr-github" href="{REPOSITORY}">View PR</a></div>
-<div id="participants" class="participant-strip"></div><div class="conversation-controls"><label for="source-select">Conversation source</label><select id="source-select"></select></div>
+<div id="participants" class="participant-strip"></div>
+<div class="identity-legend" aria-label="Message color legend"><span class="identity-key identity-key--human">Human</span><span class="identity-key identity-key--agent">Agent</span><span class="identity-key">Publishing account / identity unrecorded</span></div>
+<div class="conversation-controls"><label for="source-select">Conversation source</label><select id="source-select"></select></div>
 <div id="conversation" role="feed" aria-label="PR interaction messages"></div>
 <details class="evidence-panel"><summary>Roles, tools & token references</summary><div id="pr-evidence"></div></details></div></section></div>
 <noscript><p>Enable JavaScript to navigate conversations, or <a href="{REPOSITORY}/tree/{revision}/interactions">read the canonical interaction records</a>.</p></noscript>
