@@ -4,8 +4,8 @@
   "title": "Remove milestone annotations from the token chart",
   "recorded_at": "2026-11-25T14:29:15Z",
   "started_at": null,
-  "ended_at": null,
-  "status": "open",
+  "ended_at": "2026-11-25T14:31:27Z",
+  "status": "closed",
   "collection": "contemporaneous",
   "completeness": "partial",
   "limitations": [
@@ -21,7 +21,9 @@
     "start_commit": "3d66ba9f2eb57a8dc295e496770fe3a550c82d24",
     "branch": "codex/token-step-numbers",
     "initial_changes": [],
-    "result_commits": [],
+    "result_commits": [
+      "3b155ceff3d30dfc4f34900156e0a69b7dd3dc00"
+    ],
     "changed_files": [
       "tools/token_usage/build.py",
       "tools/token_usage/style.css",
@@ -30,7 +32,8 @@
       "software/inventory.json",
       "docs/software-inventory.md",
       "logs/codex/SESSION-2026-11-25-token-step-numbers.json",
-      "logs/codex/SESSION-2026-11-25-token-step-numbers.md"
+      "logs/codex/SESSION-2026-11-25-token-step-numbers.md",
+      "interactions/pr-0160.json"
     ]
   },
   "work": {
@@ -39,7 +42,9 @@
       "Token chart numbered work steps",
       "GitHub Pages milestone presentation"
     ],
-    "related_ids": []
+    "related_ids": [
+      "PR160"
+    ]
   },
   "narrative": "logs/codex/SESSION-2026-11-25-token-step-numbers.md",
   "activities": [],
@@ -98,6 +103,18 @@
       "status": "PASS",
       "exit_code": 0,
       "result": "No whitespace errors."
+    },
+    {
+      "command": "python3 -B tools/session_logging/session_log.py validate",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "307 canonical session records validated."
+    },
+    {
+      "command": "python3 -B tools/interactions/ledger.py validate --pr 160 --base-ref 3d66ba9f2eb57a8dc295e496770fe3a550c82d24",
+      "status": "PASS",
+      "exit_code": 0,
+      "result": "PR160 record validated and all historical base PR ledgers retained."
     }
   ]
 }

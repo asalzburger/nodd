@@ -38,6 +38,8 @@ PR and the existing main-branch Pages deployment workflow.
 - XML inspection of the three real built chart modes found numbered steps,
   no milestone annotation classes, and the compact viewBox in each.
 - Inventory refresh/check and whitespace checks passed; generated diffs reviewed.
+- Final canonical validator passed for 307 session records; PR160 interaction
+  validation and historical base-ledger preservation passed.
 - No browser-rendering pass is claimed; the connected browser/computer surfaces
   were unavailable earlier in this session. Existing static/interaction checks
   provide the verification recorded here.
@@ -46,8 +48,11 @@ PR and the existing main-branch Pages deployment workflow.
 
 The paired JSON lists renderer/styles, existing regression test, method guide,
 software inventory and this paired session. Generated site outputs remain ignored.
-Git history identifies the resulting commit. PR-specific provenance is recorded
-once the new draft PR number exists.
+Implementation commit: `3b155ceff3d30dfc4f34900156e0a69b7dd3dc00`.
+Opened [draft PR160](https://github.com/asalzburger/nodd/pull/160). Connector reads
+confirmed its open/draft state, main target and empty public discussion/review
+timeline. The selected public snapshot and canonical session references are
+retained in `interactions/pr-0160.json`.
 
 ## Token accounting
 
